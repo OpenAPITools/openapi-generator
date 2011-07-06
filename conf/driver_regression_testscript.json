@@ -1,0 +1,1538 @@
+{
+	"id":1,
+    "resources" : [
+	    {
+	        "id" : 1,
+	        "name" : "Authenticate user",
+	        "httpMethod" : "GET",
+	        "path" : "/account.{format}/authenticate/{username}",
+	        "suggestedMethodName" : "authenticate"
+	    },
+	    {
+	        "id" : 2,
+	        "name" : "API Token status",
+	        "httpMethod" : "GET",
+	        "path" : "/account.{format}/apiTokenStatus",
+	        "suggestedMethodName" : "getApiTokenStatus"
+	    },
+	    {
+	        "id" : 3,
+	        "name" : "Save authenticate",
+	        "httpMethod" : "POST",
+	        "path" : "/account.{format}/authenticate/{username}",
+	        "suggestedMethodName" : "authenticatePost"
+	    },
+	    {
+	        "id" : 4,
+	        "name" : "Get user",
+	        "httpMethod" : "GET",
+	        "path" : "/account.{format}/user",
+	        "suggestedMethodName" : "getLoggedInUser"
+	    },
+	    {
+	        "id" : 5,
+	        "name" : "Get word lists for user",
+	        "httpMethod" : "GET",
+	        "path" : "/account.{format}/wordLists",
+	        "suggestedMethodName" : "getWordListsForCurrentUser"
+	    },
+	    {
+	        "id" : 6,
+	        "name" : "Gets the examples for the word",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/examples",
+	        "suggestedMethodName" : "getExamples"
+	    },
+	    {
+	        "id" : 7,
+	        "name" : "Gets the word object for the given word string",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}",
+	        "suggestedMethodName" : "getWord"
+	    },
+	    {
+	        "id" : 9,
+	        "name" : "Gets the definitions for the words",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/definitions",
+	        "suggestedMethodName" : "getDefinitions"
+	    },
+	    {
+	        "id" : 10,
+	        "name" : "Gets the frequency for words",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/frequency",
+	        "suggestedMethodName" : "getWordFrequency"
+	    },
+	    {
+	        "id" : 11,
+	        "name" : "Gets the top example for word",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/topExample",
+	        "suggestedMethodName" : "getTopExample"
+	    },
+	    {
+	        "id" : 12,
+	        "name" : "Gets the related words",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/related",
+	        "suggestedMethodName" : "getRelatedWords"
+	    },
+	    {
+	        "id" : 13,
+	        "name" : "Gets the phases for word",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/phrases",
+	        "suggestedMethodName" : "getPhrases"
+	    },
+	    {
+	        "id" : 14,
+	        "name" : "Gets the syllable for word",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/hyphenation",
+	        "suggestedMethodName" : "getHyphenation"
+	    },
+	     {
+	        "id" : 15,
+	        "name" : "Gets the pronunciations for word",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/pronunciations",
+	        "suggestedMethodName" : "getTextPronunciations"
+	    },
+	    {
+	        "id" : 16,
+	        "name" : "Gets the audio file for word",
+	        "httpMethod" : "GET",
+	        "path" : "/word.{format}/{word}/audio",
+	        "suggestedMethodName" : "getAudio"
+	    },
+	    {
+	        "id" : 17,
+	        "name" : "Gets the random word",
+	        "httpMethod" : "GET",
+	        "path" : "/words.{format}/randomWords",
+	        "suggestedMethodName" : "getRandomWord"
+	    },
+	    {
+	        "id" : 18,
+	        "name" : "Gets the random words",
+	        "httpMethod" : "GET",
+	        "path" : "/words.{format}/randomWords",
+	        "suggestedMethodName" : "getRandomWords"
+	    },
+	    {
+	        "id" : 19,
+	        "name" : "Searches for a word",
+	        "httpMethod" : "GET",
+	        "path" : "/words.{format}/search",
+	        "suggestedMethodName" : "searchWords"
+	    },
+	    {
+	        "id" : 20,
+	        "name" : "Get word of the day",
+	        "httpMethod" : "GET",
+	        "path" : "/words.{format}/wordOfTheDay",
+	        "suggestedMethodName" : "getWordOfTheDay"
+	    },
+	    {
+	        "id" : 21,
+	        "name" : "Gets the word list by id",
+	        "httpMethod" : "GET",
+	        "path" : "/wordList.{format}/{wordListId}",
+	        "suggestedMethodName" : "getWordListById"
+	    },
+	    {
+	        "id" : 22,
+	        "name" : "Delete words from word list",
+	        "httpMethod" : "POST",
+	        "path" : "/wordList.{format}/{wordListId}/deleteWords",
+	        "suggestedMethodName" : "deleteWordsFromWordList"
+	    },
+	    {
+	        "id" : 23,
+	        "name" : "Get words from word list",
+	        "httpMethod" : "GET",
+	        "path" : "/wordList.{format}/{wordListId}/words",
+	        "suggestedMethodName" : "getWordListWords"
+	    },
+	    {
+	        "id" : 24,
+	        "name" : "Add words to word list",
+	        "httpMethod" : "POST",
+	        "path" : "/wordList.{format}/{wordListId}/words",
+	        "suggestedMethodName" : "addWordsToWordList"
+	    },
+	    {
+	        "id" : 25,
+	        "name" : "Update existing word list",
+	        "httpMethod" : "PUT",
+	        "path" : "/wordList.{format}/{wordListId}",
+	        "suggestedMethodName" : "updateWordList"
+	    },
+	    {
+	        "id" : 26,
+	        "name" : "Delete word list",
+	        "httpMethod" : "DELETE",
+	        "path" : "/wordList.{format}/{wordListId}",
+	        "suggestedMethodName" : "deleteWordList"
+	    },
+	    {
+	        "id" : 27,
+	        "name" : "Create word lists",
+	        "httpMethod" : "POST",
+	        "path" : "/wordLists.{format}",
+	        "suggestedMethodName" : "createWordList"
+	    },
+	    {
+	        "id" : 28,
+	        "name" : "get word lists",
+	        "httpMethod" : "GET",
+	        "path" : "/wordLists",
+	        "suggestedMethodName" : "getWordLists"
+	    }
+    ],
+    "testSuites" : [
+    	{
+	        "id" : 1,
+	        "name" : "Tests User account related APIs",
+	        "testCases" : [
+		        {
+		            "name" : "Authenticate User with valid user name and password and has valid word lists and token",
+		            "id" : 1,
+		            "resourceId" : 1,
+		            "input" : {
+		                "username" : "${data.userList[0].userName}",
+		                "password" : "${data.userList[0].password}"
+		            },
+		            "assertions" : [{
+		                "actualOutput" : "${output.data(1.1.1).token}",
+		                "condition" : "!=",
+		                "expectedOutput" : "NULL"
+		            },
+		            {
+		                "actualOutput" : "${output.data(1.1.1).userId}",
+		                "condition" : "!=",
+		                "expectedOutput" : "NULL"
+		            }
+		            ]
+		        },   
+		        {
+		            "name" : "Get API token status",
+		            "id" : 2,
+		            "resourceId" : 2,
+		            "assertions" : [{
+		                "actualOutput" : "${output.data(1.1.2).totalRequests}",
+		                "condition" : ">",
+		                "expectedOutput" : 0
+		            }
+		            ]
+		        },
+		        {
+		            "name" : "Get User",
+		            "id" : 3,
+		            "resourceId" : 4,
+		            "input" : {
+		                "authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [{
+		                "actualOutput" : "${output.data(1.1.3).email}",
+		                "condition" : "==",
+		                "expectedOutput" : "${data.userList[0].email}"
+		            }
+		            ]
+		        },
+		        {
+		            "name" : "Get Word Lists",
+		            "id" : 4,
+		            "resourceId" : 5,
+		            "input" : {
+		                "authToken" : "${output.data(1.1.1).token}",
+		                "skip" : "0",
+		                "limit" : "10"
+		            },
+		            "assertions" : [{
+		                "actualOutput" : "${output.data(1.1.4).size}",
+		                "condition" : ">",
+		                "expectedOutput" : 0
+		            }
+		            ]
+		        },
+		        {
+		            "name" : "Authenticate User with invalid password",
+		            "id" : 5,
+		            "resourceId" : 1,
+		            "input" : {
+		                "username" : "${data.userList[0].userName}",
+		                "password" : "Test"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.1.5).token}",
+			                "condition" : "==",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },   
+		        {
+		            "name" : "Authenticate User with invalid user name and password",
+		            "id" : 6,
+		            "resourceId" : 1,
+		            "input" : {
+		                "username" : "Test",
+		                "password" : "Test"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.1.6).token}",
+			                "condition" : "NULL",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },   
+		        {
+		            "name" : "Authenticate User who doesn't have any word lists ",
+		            "id" : 7,
+		            "resourceId" : 1,
+		            "input" : {
+		                "username" : "${data.userList[1].userName}",
+		                "password" : "${data.userList[1].password}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.1.7).token}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            },
+			            {
+			                "actualOutput" : "${output.data(1.1.7).userId}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },   
+		        {
+		            "name" : "Get Word Lists for user who doesn't have nay word lists",
+		            "id" : 8,
+		            "resourceId" : 5,
+		            "input" : {
+		                "authToken" : "${output.data(1.1.7).token}",
+		                "skip" : "0",
+		                "limit" : "10"
+		            },
+		            "assertions" : [{
+		                "actualOutput" : "${output.data(1.1.8).size}",
+		                "condition" : "==",
+		                "expectedOutput" : 0
+		            }
+		            ]
+		        }
+		    ]
+		},	        
+        {
+	        "id" : 2,
+	        "name" : "Word related APIs",
+	        "testCases" : [
+				{        
+		            "name" : "Get Word for valid input",
+		            "id" : 1,
+		            "resourceId" : 7,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.1)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+			        ]    
+	        	},
+				{        
+		            "name" : "Get Word for in-valid input",
+		            "id" : 2,
+		            "resourceId" : 7,
+		            "input" : {
+		                "word" : "${data.wordObjectList[2].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.2)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+			        ]    
+	        	},
+				{        
+		            "name" : "Get Word using canonical",
+		            "id" : 3,
+		            "resourceId" : 7,
+		            "input" : {
+		                "word" : "${data.wordObjectList[1].word}",
+		                "useCanonical":"true"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.3).word}",
+			                "condition" : "==",
+			                "expectedOutput" : "cat"
+			            }
+			        ]    
+	        	},
+				{        
+		            "name" : "Get Word examples with limit and skip input arguments",
+		            "id" : 4,
+		            "resourceId" : 6,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "skip" : "1",
+		                "limit" : "2"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.4).examples.size}",
+			                "condition" : "==",
+			                "expectedOutput" : 2
+			            }
+		            ]
+		        },
+				{        
+		            "name" : "Get Word examples for a word that doesn't exist",
+		            "id" : 5,
+		            "resourceId" : 6,
+		            "input" : {
+		                "word" : "${data.wordObjectList[2].word}",
+		                "skip" : "0",
+		                "limit" : "2"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.5).examples.size}",
+			                "condition" : "==",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        }, 		            
+				{        
+		            "name" : "Get definitions for a valid word",
+		            "id" : 6,
+		            "resourceId" : 9,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "skip" : "0",
+		                "limit" : "2"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.6).size}",
+			                "condition" : "==",
+			                "expectedOutput" : 2
+			            }
+		            ]
+		        },		        
+				{        
+		            "name" : "Get definitions for a invalid word",
+		            "id" : 7,
+		            "resourceId" : 9,
+		            "input" : {
+		                "word" : "${data.wordObjectList[2].word}",
+		                "skip" : "0",
+		                "limit" : "2"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.7).size}",
+			                "condition" : "==",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },		
+				{        
+		            "name" : "Get definitions with adjective",
+		            "id" : 8,
+		            "resourceId" : 9,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "skip" : "0",
+		                "limit" : "2",
+		                "partOfSpeech":"adjective"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.8).size}",
+			                "condition" : ">",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get definitions with affix",
+		            "id" : 9,
+		            "resourceId" : 9,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "skip" : "0",
+		                "limit" : "2",
+		                "partOfSpeech":"affix"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.9).size}",
+			                "condition" : "==",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get definitions from specific dictionary",
+		            "id" : 10,
+		            "resourceId" : 9,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "skip" : "0",
+		                "limit" : "2",
+		                "sourceDictionaries":"ahd-legacy"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.10).size}",
+			                "condition" : ">",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get definitions from from than one dictionaries",
+		            "id" : 11,
+		            "resourceId" : 9,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "skip" : "0",
+		                "limit" : "2",
+		                "sourceDictionaries":"century,ahd"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.11).size}",
+			                "condition" : ">",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },		        				        		        		        	                		        
+				{        
+		            "name" : "Get frequency for a word without any inputs other than word itself",
+		            "id" : 12,
+		            "resourceId" : 10,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.12).frequency.size}",
+			                "actualOutputWithOutputWrapper" : "${output.data(1.2.12).frequency.size}",
+			                "condition" : ">",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get frequency for a word with start and end year",
+		            "id" : 13,
+		            "resourceId" : 10,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "startYear":2009,
+		                "endYear":2011
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.13).frequency.size}",
+			                "actualOutputWithOutputWrapper" : "${output.data(1.2.13).frequency.size}",
+			                "condition" : "==",
+			                "expectedOutput" : 3
+			            }
+		            ]
+		        },			        	        
+				{        
+		            "name" : "Get frequency for a word with start year but no end year",
+		            "id" : 14,
+		            "resourceId" : 10,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "startYear":2008
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.14).frequency.size}",
+			                "actualOutputWithOutputWrapper" : "${output.data(1.2.14).frequency.size}",
+			                "condition" : ">=",
+			                "expectedOutput" : 4
+			            }
+		            ]
+		        },
+				{        
+		            "name" : "Get top example for a word",
+		            "id" : 15,
+		            "resourceId" : 11,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.15)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },		        			        	        
+				{        
+		            "name" : "Get top example for a word from specific content provider",
+		            "id" : 16,
+		            "resourceId" : 11,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "contentProvider":"wsj"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.16)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },
+				{        
+		            "name" : "Get top example for a word with canonical",
+		            "id" : 17,
+		            "resourceId" : 11,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "useCanonical":"true"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.17)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },		        		        			        	        
+				{        
+		            "name" : "Get top example for a word with wrong content provider",
+		            "id" : 18,
+		            "resourceId" : 11,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "contentProvider":"sdfsdfs"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.18)}",
+			                "condition" : "==",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },
+				{        
+		            "name" : "Get related word",
+		            "id" : 19,
+		            "resourceId" : 12,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.19).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "1"
+			            }
+		            ]
+		        },
+				{        
+		            "name" : "Get related words  for a specific relation",
+		            "id" : 20,
+		            "resourceId" : 12,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "type":"hyponym"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.20).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "1"
+			            },
+			            {
+			                "actualOutput" : "${output.data(1.2.20)[0].words.size}",
+			                "condition" : ">",
+			                "expectedOutput" : "2"
+			            }
+			            
+		            ]
+		        },	
+				{        
+		            "name" : "Get related words  for a specific relation with limit",
+		            "id" : 21,
+		            "resourceId" : 12,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "type":"hyponym",
+		                "limit":2
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.21).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "1"
+			            },
+			            {
+			                "actualOutput" : "${output.data(1.2.21)[0].words.size}",
+			                "condition" : "==",
+			                "expectedOutput" : "2"
+			            }
+			            
+		            ]
+		        },	
+				{        
+		            "name" : "Get related words  with parts of speech",
+		            "id" : 22,
+		            "resourceId" : 12,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "partOfSpeech":"verb",
+		                "limit":2
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.22).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "1"
+			            },
+			            {
+			                "actualOutput" : "${output.data(1.2.22)[0].words.size}",
+			                "condition" : "==",
+			                "expectedOutput" : "2"
+			            }
+			            
+		            ]
+		        },			        		        	
+				{        
+		            "name" : "Get related words  with source dictionary",
+		            "id" : 23,
+		            "resourceId" : 12,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "sourceDictionary":"wiktionary",
+		                "limit":2
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.23).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "1"
+			            },
+			            {
+			                "actualOutput" : "${output.data(1.2.23)[0].words.size}",
+			                "condition" : "==",
+			                "expectedOutput" : "2"
+			            }
+			            
+		            ]
+		        },			        		        	        			        	        		        			        	        
+				{        
+		            "name" : "Get related words  with source dictionary that doesn't exists",
+		            "id" : 24,
+		            "resourceId" : 12,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "sourceDictionary":"aef",
+		                "limit":2
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.24).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },	        		        	        			        	        		        			        	        
+				{        
+		            "name" : "Get phrases for a word",
+		            "id" : 25,
+		            "resourceId" : 13,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "limit":2
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.25).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "2"
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get phrases for a word with wlmi",
+		            "id" : 26,
+		            "resourceId" : 13,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}",
+		                "wlmi":"16"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.26).size}",
+			                "condition" : ">",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },
+				{        
+		            "name" : "Get hyphenation for a word that has only one syllable",
+		            "id" : 27,
+		            "resourceId" : 14,
+		            "input" : {
+		                "word" : "${data.wordObjectList[0].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.27).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "1"
+			            }
+		            ]
+		        },		        			        	                			        	        		        			        	        
+				{        
+		            "name" : "Get hyphenation for a word that has more than one syllable",
+		            "id" : 28,
+		            "resourceId" : 14,
+		            "input" : {
+		                "word" : "${data.wordObjectList[5].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.28).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "3"
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get hyphenation for a word that has more than one syllable from specific dictionary with no data",
+		            "id" : 29,
+		            "resourceId" : 14,
+		            "input" : {
+		                "word" : "${data.wordObjectList[3].word}",
+		                "sourceDictionary":"wordnet"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.29).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },			        	        			        	                			        	        		        			        	        
+				{        
+		            "name" : "Get hyphenation for a word that has more than one syllable from specific dictionary with data",
+		            "id" : 30,
+		            "resourceId" : 14,
+		            "input" : {
+		                "word" : "${data.wordObjectList[3].word}",
+		                "sourceDictionary":"wordnet"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.30).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get pronunciations for a word",
+		            "id" : 31,
+		            "resourceId" : 15,
+		            "input" : {
+		                "word" : "${data.wordObjectList[3].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.31).size}",
+			                "condition" : ">",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },			        		        	        			        	                			        	        		        			        	        
+				{        
+		            "name" : "Get pronunciations for a word that doesn't exist",
+		            "id" : 32,
+		            "resourceId" : 15,
+		            "input" : {
+		                "word" : "${data.wordObjectList[2].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.32).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },			        		        	        			        	                			        	        		        			        	        
+				{        
+		            "name" : "Get pronunciations for word with format that has value",
+		            "id" : 33,
+		            "resourceId" : 15,
+		            "input" : {
+		                "word" : "${data.wordObjectList[3].word}",
+		                "typeFormat":"ahd"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.33).size}",
+			                "condition" : ">",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },			        
+				{        
+		            "name" : "Get pronunciations for word with format that has no value",
+		            "id" : 34,
+		            "resourceId" : 15,
+		            "input" : {
+		                "word" : "${data.wordObjectList[3].word}",
+		                "typeFormat":"gcide-diacritical"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.34).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },	
+				{        
+		            "name" : "Get pronunciations for word from a source dictionary",
+		            "id" : 35,
+		            "resourceId" : 15,
+		            "input" : {
+		                "word" : "${data.wordObjectList[3].word}",
+		                "sourceDictionary":"century"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.35).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },			        		        
+				{        
+		            "name" : "Get audio for a word that has value",
+		            "id" : 36,
+		            "resourceId" : 16,
+		            "input" : {
+		                "word" : "${data.wordObjectList[3].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.36).size}",
+			                "condition" : ">",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },
+				{        
+		            "name" : "Get audio for a word that doesn't have value",
+		            "id" : 37,
+		            "resourceId" : 16,
+		            "input" : {
+		                "word" : "${data.wordObjectList[2].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.2.37).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        }   
+	        ]
+        },
+    	{
+	        "id" : 3,
+	        "name" : "Tests for words",
+	        "testCases" : [
+		        {
+		            "name" : "get random word without any input",
+		            "id" : 1,
+		            "resourceId" : 17,
+		            "input" : {
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.1)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random word with minimum and maximum corpus count",
+		            "id" : 2,
+		            "resourceId" : 17,
+		            "input" : {
+		            	"minCorpusCount":"1",
+		            	"maxCorpusCount":"100"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.2)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random word with minimum and maximum corpus count wuth no data",
+		            "id" : 3,
+		            "resourceId" : 17,
+		            "input" : {
+		            	"minCorpusCount":"1111111",
+		            	"maxCorpusCount":"1111111"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.3)}",
+			                "condition" : "==",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random word with minimum and maximum dictionary count",
+		            "id" : 4,
+		            "resourceId" : 17,
+		            "input" : {
+		            	"minDictionaryCount":"1",
+		            	"maxDictionaryCount":"100"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.4)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random word with min and maximum length",
+		            "id" : 5,
+		            "resourceId" : 17,
+		            "input" : {
+		            	"minLength":"3",
+		            	"maxLength":"5"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.4)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random words without any input",
+		            "id" : 6,
+		            "resourceId" : 18,
+		            "input" : {
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.6).size}",
+			                "condition" : ">",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random wordd with minimum and maximum corpus count",
+		            "id" : 7,
+		            "resourceId" : 18,
+		            "input" : {
+		            	"minCorpusCount":"1",
+		            	"maxCorpusCount":"100",
+		            	"limit":5
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.7).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "5"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random word with minimum and maximum corpus count wuth no data",
+		            "id" : 8,
+		            "resourceId" : 18,
+		            "input" : {
+		            	"minCorpusCount":"1",
+		            	"maxCorpusCount":"1"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.8).size}",
+			                "condition" : "==",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random word with minimum and maximum dictionary count",
+		            "id" : 9,
+		            "resourceId" : 18,
+		            "input" : {
+		            	"minDictionaryCount":"1",
+		            	"maxDictionaryCount":"100",
+		            	"limit":2
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.9).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "2"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get random word with min and maximum length",
+		            "id" : 10,
+		            "resourceId" : 18,
+		            "input" : {
+		            	"minLength":"3",
+		            	"maxLength":"5"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.10).size}",
+			                "condition" : "==",
+			                "expectedOutput" : 10
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "Search words with no input",
+		            "id" : 11,
+		            "resourceId" : 19,
+		            "input" : {
+		            	"query":"${data.wordObjectList[3].word}",
+		            	"maxLength":"5"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.11).size}",
+			                "condition" : ">",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Search words with min and max length less than input query",
+		            "id" : 12,
+		            "resourceId" : 19,
+		            "input" : {
+		            	"query":"${data.wordObjectList[3].word}",
+		            	"maxLength":"5"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.12).size}",
+			                "condition" : "==",
+			                "expectedOutput" : 1
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Search words with no matching",
+		            "id" : 13,
+		            "resourceId" : 19,
+		            "input" : {
+		            	"query":"${data.wordObjectList[2].word}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.13)[0].count}",
+			                "condition" : "==",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Search words with case sensitive off (default is on)",
+		            "id" : 14,
+		            "resourceId" : 19,
+		            "input" : {
+		            	"query":"${data.wordObjectList[4].word}",
+		            	"maxLength":"5"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.14)[0].count}",
+			                "condition" : "==",
+			                "expectedOutput" : 0
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Get word of the day with no inputs",
+		            "id" : 15,
+		            "resourceId" : 20,
+		            "input" : {
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.15)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Get word of the day by date",
+		            "id" : 16,
+		            "resourceId" : 20,
+		            "input" : {
+		            	"date":"2010-03-30"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.16)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Get word of the day by creator",
+		            "id" : 17,
+		            "resourceId" : 20,
+		            "input" : {
+		            	"creator":"drivertest1"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.17)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Get word of the day by category with no data",
+		            "id" : 18,
+		            "resourceId" : 20,
+		            "input" : {
+		            	"category":"100"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.18)}",
+			                "condition" : "==",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },		        		        
+		        {
+		            "name" : "Get word of the day by date and creator",
+		            "id" : 19,
+		            "resourceId" : 20,
+		            "input" : {
+		            	"date":"2010-04-29",
+		            	"creator":"drivertest1"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.3.19)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        }   
+		    ]
+		},
+    		{
+	        "id" : 4,
+	        "name" : "Tests for word list",
+	        "testCases" : [
+		        {
+		            "name" : "get word list by id with valid data",
+		            "id" : 1,
+		            "resourceId" : 21,
+		            "input" : {
+		            	"wordListId":"${data.wordListList[2].permalink}",
+				"authToken" : "${output.data(1.1.1).token}"	
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.1)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get word list by id with no data",
+		            "id" : 2,
+		            "resourceId" : 21,
+		            "input" : {
+		            	"wordListId":"sdfsdf",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.2)}",
+			                "condition" : "==",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "create word lists",
+		            "id" : 3,
+		            "resourceId" : 27,
+		            "input" : {
+		            	"postObject":"${data.wordListList[0]}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.3)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "NULL"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "create word lists with invalid input",
+		            "id" : 4,
+		            "resourceId" : 27,
+		            "input" : {
+		            	"postObject":"${data.wordListList[1]}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.4)}",
+			                "condition" : "==",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "add words to valid word list",
+		            "id" : 5,
+		            "resourceId" : 24,
+		            "input" : {
+		            	"wordListId":"${output.data(1.4.3).permalink}",
+		            	"postObject":"${data.stringValueList}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.5)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+			            
+		            ]
+		        },
+		        {
+		            "name" : "get words to from word list to make sure newly added word exists",
+		            "id" : 6,
+		            "resourceId" : 23,
+		            "input" : {
+		            	"wordListId":"${output.data(1.4.3).permalink}",
+		            	"sortBy":"createDate",
+		            	"sortOrder":"dsc",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.6).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "${data.stringValueList.size}"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "Add words to invalid word list",
+		            "id" : 7,
+		            "resourceId" : 24,
+		            "input" : {
+		            	"wordListId":"1",
+		            	"postObject":"${data.stringValueList}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.7)}",
+			                "condition" : "==",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "Update word list that exists",
+		            "id" : 8,
+		            "resourceId" : 25,
+		            "input" : {
+		            	"wordListId":"${{data.wordListList[2].permalink}",
+		            	"postObject":"${{data.wordListList[2]}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.8)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "delete words from word list with words exists in the list",
+		            "id" : 9,
+		            "resourceId" : 22,
+		            "input" : {
+		            	"wordListId":"${output.data(1.4.3).permalink}",
+		            	"postObject":"${data.stringValueList}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+		            ]
+		        },
+		        {
+		            "name" : "get words to from word list to make sure deleted words doesn't exists",
+		            "id" : 10,
+		            "resourceId" : 23,
+		            "input" : {
+		            	"wordListId":"${output.data(1.4.3).permalink}",
+		            	"sortBy":"createDate",
+		            	"sortOrder":"dsc",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.10).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "0"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "delete words from word list with words doesn't exists in the list",
+		            "id" : 11,
+		            "resourceId" : 22,
+		            "input" : {
+		            	"wordListId":"${output.data(1.4.3).permalink}",
+		            	"postObject":"${data.stringValueList}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+		            ]
+		        },
+		        {
+		            "name" : "get words from word list",
+		            "id" : 12,
+		            "resourceId" : 23,
+		            "input" : {
+		            	"wordListId":"${data.wordListList[2].permalink}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.12).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "11"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "get words from word list sort by date",
+		            "id" : 13,
+		            "resourceId" : 23,
+		            "input" : {
+		            	"wordListId":"${data.wordListList[2].permalink}",
+		            	"sortBy":"createDate",
+		            	"sortOrder":"dsc",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.13).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "11"
+			            },
+			            {
+			                "actualOutput" : "${output.data(1.4.13)[0].word}",
+			                "condition" : "==",
+			                "expectedOutput" : "end to end"
+			            }
+			            
+		            ]
+		        },
+		        {
+		            "name" : "get words from word list with limit and skip",
+		            "id" : 14,
+		            "resourceId" : 23,
+		            "input" : {
+		            	"wordListId":"${data.wordListList[2].permalink}",
+		            	"limit":"4",
+		            	"skip":"3",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.14).size}",
+			                "condition" : "==",
+			                "expectedOutput" : "4"
+			            }
+			            
+		            ]
+		        },
+		        {
+		            "name" : "delete word list with in-valid input ",
+		            "id" : 15,
+		            "resourceId" : 26,
+		            "input" : {
+		            	"wordListId":"xyz",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.15)}",
+			                "condition" : "==",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        },
+		        {
+		            "name" : "delete word list with valid input ",
+		            "id" : 16,
+		            "resourceId" : 26,
+		            "input" : {
+		            	"wordListId":"${output.data(1.4.3).permalink}",
+				"authToken" : "${output.data(1.1.1).token}"
+		            },
+		            "assertions" : [
+			            {
+			                "actualOutput" : "${output.data(1.4.16)}",
+			                "condition" : "!=",
+			                "expectedOutput" : "EXCEPTION"
+			            }
+		            ]
+		        }
+		    ]
+		}
+    ]
+}

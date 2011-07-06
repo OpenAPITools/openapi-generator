@@ -1,0 +1,30 @@
+<project name="wordnik-libs-gen" default="compile" basedir=".">
+	<property environment="env" />
+	<property name="version.identifier" value="1.0" />
+	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
+		<isset property="env.BUILD_COMMON" />
+	</condition>
+
+	<echo message="using build common dir: ${build.common.dir}"/>
+	<import file="${build.common.dir}/ant/ant-common.xml" />
+	<import file="${build.common.dir}/ant/ant-server.xml" />
+	<import file="${build.common.dir}/ant/ant-test.xml" />
+
+        <!-- generates the classes -->
+        <target name="generate-java" depends="compile" description="generates API and model classes for java language">
+                <delete>
+                  <fileset  dir="../java/src/main/java/com/wordnik/api"  includes="*.java"/>
+                  <fileset  dir="../java/src/main/java/com/wordnik/model"  includes="*.java"/>
+                </delete>
+                <java classname="com.wordnik.codegen.java.JavaLibCodeGen">
+                        <classpath>
+                              <pathelement location="build/main/java" />
+                              <fileset dir="lib">
+                                 <include name="**/*.jar"/>
+                              </fileset>
+                        </classpath>
+                </java>
+        </target>
+
+</project>
+

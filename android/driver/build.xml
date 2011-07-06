@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<project name="java-driver" xmlns:ivy="antlib:org.apache.ivy.ant" default="fastdist" basedir=".">
+
+	<property environment="env" />
+    <property name="version.identifier" value="4.04" />
+
+	<property name="application.description" value="Wordnik Android Driver"/>
+	<property name="application.name" value="android-driver"/>
+	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
+		<isset property="env.BUILD_COMMON" />
+	</condition>
+	<echo message="using build common dir: ${build.common.dir}"/>
+
+	<!-- cleans up the dist -->
+	<target name="dist.clean">
+		<delete quiet="true" dir="dist"/>
+		<delete quiet="true" file="dist.zip"/>
+	</target>
+
+	<!-- creates a distribution of the api server -->
+	<target name="dist" depends="compile">
+		<!-- make dist -->
+		<delete dir="dist"/>
+
+		<mkdir dir="dist"/>
+		<mkdir dir="dist/lib"/>
+		<mkdir dir="dist/logs"/>
+
+		<!-- copy all jars -->
+		<copy todir="dist/lib">
+			<fileset dir="lib">
+				<include name="*.jar"/>
+				<!-- skip the test jars -->
+				<exclude name="*-test-*.jar"/>
+			</fileset>
+			<fileset dir="build">
+				<include name="*.jar"/>
+			</fileset>
+		</copy>
+
+		<copy todir="dist/lib">
+			<fileset dir="lib/ext"/>
+		</copy>
+
+		<!-- unzip the text-data -->
+		<unzip dest="dist">
+			<fileset dir="lib">
+				<include name="wordnik-*.zip"/>
+			</fileset>
+		</unzip>
+
+		<mkdir dir="dist/conf"/>
+
+		<!-- clean up old dists -->
+		<delete quiet="true">
+			<fileset dir=".">
+				<include name="wordnik-java-*.zip"/>
+			</fileset>
+		</delete>
+
+		<zip destfile="${organization}-${release.module}-${release.version}.zip">
+			<zipfileset dir="dist" prefix="${release.module}-${release.version}" includes="**/*"/>
+		</zip>
+		<copy todir="build">
+			<fileset dir=".">
+				<include name="wordnik-*.zip"/>
+			</fileset>
+		</copy>
+	</target>
+
+    <target name="jar" depends="compile">
+        <delete dir="build/main/java/lib"/>
+        <mkdir dir="build/main/java/lib"/>
+
+        <copy todir="build/main/java/lib">
+            <fileset dir="lib/ext"/>
+        </copy>
+        <copy todir="build/main/java/lib">
+            <fileset dir="lib">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="build">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+
+        <jar basedir="build/main/java" file="import-logs.jar"/>
+
+        <delete dir="build/main/java/lib"/>
+    </target>
+
+    <import file="${build.common.dir}/ant/ant-common.xml" />
+    <import file="${build.common.dir}/ant/ant-test.xml" />
+
+</project>

@@ -1,0 +1,5 @@
+beta_server_url=http://beta.wordnik.com/v4/
+resource_list="word.json,words.json,wordList.json,wordLists.json,account.json"
+beta_regular_user_api_key="34e22e55423bcf5b10003af990b4ddb9b2382b325805f0f"
+beta_elevated_user_api_key="3a34e22e55423bcf5b10003af990b4ddb9b2382b325805f0f"
+beta_admin_user_api_key="3a34e22e55423bcf5b10003af990b4ddb9b2382b325805f0f"

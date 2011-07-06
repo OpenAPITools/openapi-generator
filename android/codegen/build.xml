@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project name="android-driver-codegen" xmlns:ivy="antlib:org.apache.ivy.ant" default="generate" basedir=".">
+	<property environment="env" />
+        <property name="version.identifier" value="4.04" />
+
+	<property name="application.description" value="Android driver code generation"/>
+	<property name="application.name" value="android-driver-codegen"/>
+	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
+		<isset property="env.BUILD_COMMON" />
+	</condition>
+	<echo message="using build common dir: ${build.common.dir}"/>
+
+    <!-- generates the driver classes -->
+	<target name="generate" description="generates API and model classes">
+        	
+	    <delete>
+		  <fileset  dir="../driver/src/main/java/com/wordnik/api"  includes="*.java"/>
+		  <fileset  dir="../driver/src/main/java/com/wordnik/model"  includes="*.java"/>
+		</delete>
+        <antcall target="compile"/>
+                <java classname="com.wordnik.codegen.DriverCodeGenerator">
+			<arg value="-r" />
+			<classpath>
+	                      <pathelement location="build/main/java" />
+       	                      <fileset dir="lib">
+                                 <include name="**/*.jar"/>
+                              </fileset>
+			</classpath>
+		</java>
+    </target>
+
+	<import file="${build.common.dir}/ant/ant-common.xml" />
+	<import file="${build.common.dir}/ant/ant-test.xml" />
+
+</project>

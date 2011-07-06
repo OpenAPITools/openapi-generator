@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project name="android-driver-test" xmlns:ivy="antlib:org.apache.ivy.ant" default="fastdist" basedir=".">
+
+	<property environment="env" />
+    <property name="version.identifier" value="4.04" />
+
+	<property name="application.description" value="Wordnik Android Driver test"/>
+	<property name="application.name" value="android-driver-test"/>
+	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
+		<isset property="env.BUILD_COMMON" />
+	</condition>
+	<echo message="using build common dir: ${build.common.dir}"/>
+
+	<!-- production api server smoke test -->
+	<target name="test.production" depends="test.compile" description="tests against beta server">
+		<junit printsummary="yes" fork="true">
+			<formatter type="xml" />
+			<classpath refid="classpath.test" />
+			<jvmarg value="-DconfigFile=${build.common.dir}/test-config/config.xml"/>
+			<jvmarg value="-DloggerPath=${build.common.dir}/test-config/log4j.properties"/>
+			<jvmarg value="-Xmx800m" />
+			<sysproperty key="rulePath"
+				file="dist/data" />
+			<batchtest todir="${reports.tests}">
+				<fileset dir="build/test/java"
+					includes="**/test/production/**/*Test.class"
+				/>
+			</batchtest>
+		</junit>
+	</target>
+
+    <import file="${build.common.dir}/ant/ant-common.xml" />
+    <import file="${build.common.dir}/ant/ant-test.xml" />
+
+</project>
