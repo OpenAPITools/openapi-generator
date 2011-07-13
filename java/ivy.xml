@@ -16,7 +16,7 @@
 
     <dependencies>
 
-        <dependency org="wordnik" name="wordnik-driver-gen" rev="1.0.+"/>
+        <dependency org="wordnik" name="wordnik-libs-gen" rev="1.0.+"/>
 
         <!-- jersey dependencies -->
         <dependency org="junit" name="junit" rev="4.4" conf="build->default"/>
