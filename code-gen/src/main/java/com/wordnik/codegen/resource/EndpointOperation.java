@@ -6,6 +6,7 @@ import com.wordnik.codegen.config.CodeGenConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * User: ramesh
@@ -32,16 +33,24 @@ public class EndpointOperation {
 
     private boolean open;
 
+    @Deprecated
     private List<Response> response;
+
+    private String responseClass;
 
     private List<Parameter> parameters;
     
     private boolean deprecated;
     
     private Method method;
-    
+
+    private List<String> tags;
+
+    @Deprecated
     private String suggestedName;
-    
+
+    private String nickname;
+
     
     //model object in case output is aggregation
     private Model outputModel;
@@ -86,6 +95,18 @@ public class EndpointOperation {
 		this.response = response;
 	}
 
+    public String getResponseClass() {
+        return responseClass;
+    }
+
+    public void setResponseClass(String responseClass) {
+        this.responseClass = responseClass;
+        this.setResponse(new ArrayList<Response>());
+        Response response = new Response();
+        response.setValueType(this.responseClass);
+        this.getResponse().add(response);
+    }
+
 	public List<Parameter> getParameters() {
 		return parameters;
 	}
@@ -106,9 +127,27 @@ public class EndpointOperation {
 		return suggestedName;
 	}
 
-	public void setSuggestedName(String suggestedName) {
-		this.suggestedName = suggestedName;
+    public void setSuggestedName(String suggestedName) {
+        this.suggestedName = suggestedName;
+    }
+
+    public void setNickname(String nickname) {
+		this.nickname = nickname;
+        this.suggestedName = nickname;
 	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
 
 	public Method generateMethod(Endpoint endPoint, Resource resource, CodeGenConfig config) {
 		if(method == null){
@@ -175,7 +214,7 @@ public class EndpointOperation {
 					if(!argNames.contains(parameter.getName())) {
 						argNames.add(parameter.getName());
 						Argument anArgument = new Argument();
-						anArgument.setAllowedValues(parameter.getAllowableValues());
+						anArgument.setAllowedValues(parameter.getAllowedValuesString());
 						//check if arguments has auth token
 						if(parameter.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
 								parameter.getName().equals(AUTH_TOKEN_PARAM_NAME)){
@@ -224,7 +263,7 @@ public class EndpointOperation {
 				for(Argument argument: method.getArguments()){
                     if(!argument.getName().equals("postObject") && !argument.getName().equals("authToken")){
                         Parameter aParameter = new Parameter();
-                        aParameter.setAllowableValues(argument.getAllowedValues());
+                        aParameter.setAllowedValues(argument.getAllowedValues());
                         aParameter.setDescription(argument.getDescription());
                         aParameter.setName(argument.getName());
                         aParameter.setParamType(argument.getDataType());
@@ -245,16 +284,18 @@ public class EndpointOperation {
 			
 			List<String> argumentDefinitions = new ArrayList<String>();
 			List<String> argumentNames = new ArrayList<String>();
-			for(Argument arg: method.getArguments()) {
-				if(!arg.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)){
-					argumentDefinitions.add(arg.getDataType() + " " + arg.getName());
-					argumentNames.add(arg.getName());
-				}
-			}
-			method.setArgumentDefinitions(argumentDefinitions);
-			method.setArgumentNames(argumentNames);
-			
-			//get method type
+            if (method.getArguments() != null && method.getArguments().size() > 0) {
+                for(Argument arg: method.getArguments()) {
+                    if(!arg.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)){
+                        argumentDefinitions.add(arg.getDataType() + " " + arg.getName());
+                        argumentNames.add(arg.getName());
+                    }
+                }
+                method.setArgumentDefinitions(argumentDefinitions);
+                method.setArgumentNames(argumentNames);
+            }
+
+            //get method type
 			method.setMethodType(this.getHttpMethod());
 			
 			//get return value

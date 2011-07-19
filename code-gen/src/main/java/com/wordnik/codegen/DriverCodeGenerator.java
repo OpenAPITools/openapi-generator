@@ -18,6 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: ramesh
@@ -46,8 +47,10 @@ public class DriverCodeGenerator {
      */
     public void generateCode()	{
     	//read resources and get their documentation
+        //TODO - temporary change until new API server is up
+        Boolean isNewApi = true;
         List<Resource> resources = this.readResourceDocumentation(
-                "http://beta.wordnik.com/v4/", "word.json,words.json,wordList.json,wordLists.json,account.json");
+                "http://swagr.api.wordnik.com/v4/", "word.json", isNewApi);//word.json,words.json,wordList.json,wordLists.json,
         StringTemplateGroup aTemplateGroup = new StringTemplateGroup("templates",config.getTemplateLocation());
         if(resources.size() > 0) {
         	generateVersionHelper(resources.get(0).getVersion(), aTemplateGroup);
@@ -62,7 +65,7 @@ public class DriverCodeGenerator {
      * Reads the documentation of the resources and constructs the resource object that can be used
      * for generating the driver related classes. The resource list string should be "," separated
      */
-    private List<Resource> readResourceDocumentation(String baseUrl, String resourceList) {
+    private List<Resource> readResourceDocumentation(String baseUrl, String resourceList, Boolean newApi) {
 
         List<Resource> resourceDocs = new ArrayList<Resource>();
 
@@ -82,8 +85,8 @@ public class DriverCodeGenerator {
         }
 
         //make connection to resource and get the documentation
+        Client apiClient = Client.create();
         for (String resourceURL : resourceURLs) {
-            Client apiClient = Client.create();
             WebResource aResource = apiClient.resource(resourceURL);
             ClientResponse clientResponse =  aResource.get(ClientResponse.class);
             String version = clientResponse.getHeaders().get(HEADER_NAME_API_VERSION).get(0);
@@ -91,7 +94,7 @@ public class DriverCodeGenerator {
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                Resource aResourceDoc = (Resource) mapper.readValue(response, Resource.class);
+                Resource aResourceDoc = deserializeResource(response, mapper, newApi);
                 aResourceDoc.setVersion(version);
                 resourceDocs.add(aResourceDoc);
             } catch (IOException ioe) {
@@ -101,7 +104,43 @@ public class DriverCodeGenerator {
         return resourceDocs;
 
     }
-    
+
+    private Resource deserializeResource(String response, ObjectMapper mapper, Boolean newApi) throws IOException {
+        Resource resource;
+        if(!newApi) {
+            resource = (Resource) mapper.readValue(response, Resource.class);
+        }
+        else{
+            ApiResource apiResource = mapper.readValue(response, ApiResource.class);
+            //convert apiResource to resource
+            resource = new Resource();
+            Model model;
+            List<Parameter> fields;
+            List<Model> models = new ArrayList<Model>();
+            Parameter field;
+            String modelName, propertyName;
+            ApiModelDefn modelDefn;
+            ApiPropertyDefn propertyDefn;
+            if (apiResource.getModels() != null) {
+                for (Map.Entry<String, ApiModelDefn> entry : apiResource.getModels().getModelList().entrySet()) {
+                    modelName = entry.getKey();
+                    modelDefn = entry.getValue();
+                    model = new Model();
+                    model.setName(modelName);
+                    model.setDescription(modelDefn.getDescription());
+
+                    model.setFields( modelDefn.getProperties().toFieldList( this.config ) );
+                    models.add( model );
+                    // ...
+                }
+            }
+            resource.setModels( models );
+            resource.setEndPoints( apiResource.getEndPoints() );
+        }
+
+        return resource;
+    }
+
     /**
      * Generates version file based on the version number received from the doc calls. This version file is used
      * while making the API calls to make sure Client and back end are compatible. 
@@ -241,6 +280,8 @@ public class DriverCodeGenerator {
     	
     	for(Resource resource : resources) {
     		List<Method> methods = new ArrayList<Method>();
+            List<String> imports = new ArrayList<String>();
+            imports.addAll(this.config.getDefaultServiceImports());
     		methods = resource.generateMethods(resource, config);
 	    	StringTemplate template = templateGroup.getInstanceOf(API_OBJECT_TEMPLATE);
             String className = resource.generateClassName(config);
@@ -250,6 +291,7 @@ public class DriverCodeGenerator {
                     filteredMethods.add(method);
                 }
             }
+	    	template.setAttribute("imports", imports);
 	    	template.setAttribute("resource", className);
 	    	template.setAttribute("methods", filteredMethods);
             template.setAttribute("extends", config.getCodeGenOverridingRules().getServiceExtendingClass(className));

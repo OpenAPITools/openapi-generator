@@ -3,6 +3,10 @@ package com.wordnik.codegen.resource;
 import com.wordnik.codegen.AttributeDefinition;
 import com.wordnik.codegen.config.DataTypeMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 /**
  * User: ramesh
  * Date: 3/31/11
@@ -20,7 +24,7 @@ public class Parameter {
 
     private boolean required = false;
 
-    private String allowableValues = null;
+    private List<String> allowableValues = null;
 
     private String paramType;
 
@@ -72,13 +76,33 @@ public class Parameter {
 		this.required = required;
 	}
 
-	public String getAllowableValues() {
+	public List<String> getAllowableValues() {
 		return allowableValues;
 	}
 
-	public void setAllowableValues(String allowableValues) {
+	public void setAllowableValues(List<String> allowableValues) {
 		this.allowableValues = allowableValues;
 	}
+
+    public String getAllowedValuesString() {
+        String result = "";
+        for(String allowedValue: this.allowableValues){
+            result += (allowedValue +",");
+        }
+
+        return result.substring(0, result.length());
+    }
+
+    public void setAllowedValues(String csvAlowedValue) {
+        List<String> allowedValues = new ArrayList<String>();
+        if (csvAlowedValue != null) {
+            StringTokenizer tokenizer = new StringTokenizer( csvAlowedValue, "," );
+            while(tokenizer.hasMoreTokens()){
+                tokenizer.nextToken(",");
+            }
+        }
+        this.setAllowableValues(allowedValues);
+    }
 
 	public String getParamType() {
 		return paramType;
@@ -138,8 +162,12 @@ public class Parameter {
 	    		
 	    	}else if (type.startsWith("Map[")) {
                 attributeDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapImports());
+                String keyClass, entryClass = "";
 	    		String entryType = type.substring(4, type.length()-1);
-	    		entryType =  dataTypeMapper.getObjectType(entryType, true);
+                keyClass = entryType.substring(0, entryType.indexOf(",") );
+                entryClass = entryType.substring(entryType.indexOf(",") + 1, entryType.length());
+	    		//entryType =  dataTypeMapper.getObjectType(entryType, true);
+	    		entryType =  dataTypeMapper.getObjectType(keyClass, true) + "," + dataTypeMapper.getObjectType(entryClass, true);
 	    		String returnType = dataTypeMapper.getMapReturnType(entryType);
 	    		attributeDefinition.setReturnType(returnType);
 	    		attributeDefinition.setInitialization("= " + dataTypeMapper.getMapInitialization(entryType));

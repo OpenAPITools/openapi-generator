@@ -53,7 +53,7 @@ public class JavaDataTypeMapper implements DataTypeMapper {
 
     public boolean isPrimitiveType(String type) {
     	if(type.equalsIgnoreCase("String") || type.equalsIgnoreCase("int") || type.equalsIgnoreCase("integer") ||
-    			type.equalsIgnoreCase("boolean") || type.equalsIgnoreCase("float") ){
+    			type.equalsIgnoreCase("boolean") || type.equalsIgnoreCase("float")|| type.equalsIgnoreCase("long") ){
     		return true;
     	}
     	return false;
