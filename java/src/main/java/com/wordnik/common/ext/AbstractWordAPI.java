@@ -6,7 +6,6 @@ import com.wordnik.exception.WordnikAPIException;
 import com.wordnik.exception.WordnikExceptionCodes;
 import com.wordnik.model.AudioFile;
 import com.wordnik.model.FrequencySummary;
-import com.wordnik.model.GetFrequencyOutput;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -89,7 +88,7 @@ public abstract class AbstractWordAPI extends WordnikAPI {
      *
      * @param endYear  Ending Year
      *
-     * @return GetFrequencyOutput {@link com.wordnik.model.GetFrequencyOutput}
+     * @return FrequencySummary {@link com.wordnik.model.FrequencySummary}
      * @throws WordnikAPIException 400 - Invalid word supplied. 404 - No results. 400 - Invalid word supplied. 404 - No results.
      */
      @MethodArgumentNames(value="word, useCanonical, startYear, endYear")

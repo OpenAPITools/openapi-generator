@@ -134,6 +134,8 @@ public class JavaDataTypeMapper implements DataTypeMapper {
     	}else if (type.startsWith("Map[")) {
     		classShortName = type.substring(4, type.length()-1);
     		classShortName =  getObjectType(classShortName, true);
+    	}else if (type.equals("ok")) {
+    		classShortName = "void";
     	}else{
     		classShortName =  getObjectType(type, true);
     	}
@@ -148,7 +150,7 @@ public class JavaDataTypeMapper implements DataTypeMapper {
 	 * @return
 	 */
     public String getReturnValueType(String type) {
-    	if(type.equalsIgnoreCase("void")){
+    	if(type.equalsIgnoreCase("void")|| type.equalsIgnoreCase("ok")){
     		return "void";
     	}
     	String classShortName = "";
