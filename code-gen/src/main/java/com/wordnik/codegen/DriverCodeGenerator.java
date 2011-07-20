@@ -105,6 +105,14 @@ public class DriverCodeGenerator {
 
     }
 
+    /**
+     * Deserializes the response and returns a Response object
+     * @param response
+     * @param mapper
+     * @param newApi
+     * @return
+     * @throws IOException
+     */
     private Resource deserializeResource(String response, ObjectMapper mapper, Boolean newApi) throws IOException {
         Resource resource;
         if(!newApi) {
@@ -115,12 +123,9 @@ public class DriverCodeGenerator {
             //convert apiResource to resource
             resource = new Resource();
             Model model;
-            List<Parameter> fields;
             List<Model> models = new ArrayList<Model>();
-            Parameter field;
-            String modelName, propertyName;
+            String modelName;
             ApiModelDefn modelDefn;
-            ApiPropertyDefn propertyDefn;
             if (apiResource.getModels() != null) {
                 for (Map.Entry<String, ApiModelDefn> entry : apiResource.getModels().getModelList().entrySet()) {
                     modelName = entry.getKey();
@@ -128,10 +133,8 @@ public class DriverCodeGenerator {
                     model = new Model();
                     model.setName(modelName);
                     model.setDescription(modelDefn.getDescription());
-
                     model.setFields( modelDefn.getProperties().toFieldList( this.config ) );
                     models.add( model );
-                    // ...
                 }
             }
             resource.setModels( models );
@@ -162,7 +165,7 @@ public class DriverCodeGenerator {
     	
     	for(Resource resource: resources) {
     		for(Model model : resource.getModels()){
-    			if(!generatedClassNames.contains(model.getName())){
+    			if(!generatedClassNames.contains(model.getName()) && !config.getCodeGenOverridingRules().isModelIgnored(model.getName())){
     				List<String> imports = new ArrayList<String>();
     				imports.addAll(this.config.getDefaultModelImports());
     				for(Parameter param : model.getFields()){

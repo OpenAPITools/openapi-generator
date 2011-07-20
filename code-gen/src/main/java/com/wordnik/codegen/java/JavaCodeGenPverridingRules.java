@@ -16,11 +16,14 @@ public class JavaCodeGenPverridingRules implements CodeGenOverridingRules {
 
     private Map<String, String> extendedClassNames = new HashMap<String, String>();
     private List<String> ignoreMethods = new ArrayList<String>();
+    private List<String> ignoreModels = new ArrayList<String>();
 
     public JavaCodeGenPverridingRules() {
         extendedClassNames.put("WordAPI","AbstractWordAPI");
         ignoreMethods.add("WordAPI.getWordFrequency");
         ignoreMethods.add("WordAPI.getAudio");
+        ignoreMethods.add("WordAPI.getWordStats");
+        ignoreModels.add("wordStats");
     }
 
     public String getServiceExtendingClass(String serviceName) {
@@ -32,6 +35,10 @@ public class JavaCodeGenPverridingRules implements CodeGenOverridingRules {
 
     public boolean isMethodIgnored(String serviceName, String methodName){
         return (ignoreMethods.contains(serviceName+"."+methodName));
+    }
+
+    public boolean isModelIgnored(String modelName) {
+        return ignoreModels.contains(modelName);
     }
 
 }

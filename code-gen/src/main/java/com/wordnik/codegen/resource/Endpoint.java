@@ -86,12 +86,36 @@ public class Endpoint {
 			methods = new ArrayList<Method>();
 			if(getOperations() != null) {
 				for(EndpointOperation operation: getOperations()) {
-					if(!operation.isDeprecated()) {
+					if(!operation.isDeprecated() && areModelsAvailable(operation.getParameters(), resource, config)) {
 						methods.add(operation.generateMethod(this, resource, config));
 					}
 				}
 			}
 		}
 		return methods;
-	}    
+	}
+
+    private boolean areModelsAvailable(List<Parameter> parameters, Resource resource, CodeGenConfig config) {
+        Boolean isParamSetAvailable = true;
+        if(parameters == null) return true;
+        for(Parameter parameter: parameters){
+            if (parameter.getParamType().equalsIgnoreCase(EndpointOperation.PARAM_TYPE_BODY) ){
+                isParamSetAvailable = false;
+                for(Model model : resource.getModels()){
+                    if(config.getDataTypeMapper().isPrimitiveType(parameter.getDataType())){
+                        isParamSetAvailable = true;
+                        break;
+                    }
+                    if(model.getName().equalsIgnoreCase(parameter.getDataType())){
+                        isParamSetAvailable = true;
+                        break;
+                    }
+                }
+                if(!isParamSetAvailable){
+                    return false;
+                }
+            }
+        }
+        return isParamSetAvailable;
+    }
 }

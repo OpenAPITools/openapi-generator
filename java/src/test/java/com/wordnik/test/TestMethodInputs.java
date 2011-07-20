@@ -1,7 +1,7 @@
 package com.wordnik.test;
 
 import com.wordnik.api.WordAPI;
-import com.wordnik.api.WordListAPI;
+//import com.wordnik.api.WordListAPI;
 import com.wordnik.exception.WordnikAPIException;
 import com.wordnik.model.WordList;
 import org.codehaus.jackson.JsonParser;

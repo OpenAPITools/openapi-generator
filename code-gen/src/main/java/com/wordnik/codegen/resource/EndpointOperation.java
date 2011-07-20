@@ -15,10 +15,10 @@ import java.util.StringTokenizer;
  */
 public class EndpointOperation {
 
-	private static String PARAM_TYPE_QUERY = "query";
-	private static String PARAM_TYPE_PATH = "path";
-	private static String PARAM_TYPE_BODY = "body";
-	private static String PARAM_TYPE_HEADER = "header";
+	public static String PARAM_TYPE_QUERY = "query";
+	public static String PARAM_TYPE_PATH = "path";
+	public static String PARAM_TYPE_BODY = "body";
+	public static String PARAM_TYPE_HEADER = "header";
 	private static String AUTH_TOKEN_PARAM_NAME = "auth_token";
 	private static String API_KEY_PARAM_NAME = "api_key";	
 	private static String FORMAT_PARAM_NAME = "format";	
