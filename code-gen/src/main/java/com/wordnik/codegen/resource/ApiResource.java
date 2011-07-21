@@ -1,5 +1,6 @@
 package com.wordnik.codegen.resource;
 
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -35,6 +36,13 @@ public class ApiResource implements Serializable
     @JsonProperty("id")
     private Object id;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonCreator
+    public ApiResource(@JsonProperty("models") ApiModelListWrapper models, @JsonProperty("apis") List<Endpoint> endPoints)
+    {
+      this.models = models;
+      this.endPoints = endPoints;
+    }
 
     @JsonProperty("apiVersion")
     public String getApiVersion() {

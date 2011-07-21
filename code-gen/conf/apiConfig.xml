@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<apiConfig>
+    <apiUrl>
+        http://swagr.api.wordnik.com/v4/
+    </apiUrl>
+    <apiKey>
+        myKey
+    </apiKey>
+    <apiListResource>
+        /list
+    </apiListResource>
+
+</apiConfig>
