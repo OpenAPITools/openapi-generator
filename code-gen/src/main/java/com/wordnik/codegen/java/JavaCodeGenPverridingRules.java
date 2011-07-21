@@ -33,6 +33,10 @@ public class JavaCodeGenPverridingRules implements CodeGenOverridingRules {
         return "WordnikAPI";
     }
 
+    public String getModelExtendingClass() {
+        return "WordnikObject";
+    }
+
     public boolean isMethodIgnored(String serviceName, String methodName){
         return (ignoreMethods.contains(serviceName+"."+methodName));
     }

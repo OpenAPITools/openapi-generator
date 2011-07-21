@@ -14,7 +14,7 @@ import $import$;
  * @author ramesh
  *
  */
-public class $className$ extends WordnikObject {
+public class $className$ extends $extends$ {
 
 	$fields:{ field |
 	 //$field.description$

@@ -19,6 +19,8 @@ public interface CodeGenOverridingRules {
 
     public String getServiceExtendingClass(String serviceName);
 
+    public String getModelExtendingClass();
+
     public boolean isMethodIgnored(String serviceName, String methodName);
 
     public boolean isModelIgnored(String modelName);

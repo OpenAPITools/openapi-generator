@@ -252,6 +252,7 @@ public class DriverCodeGenerator {
     		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
     		    	template.setAttribute("fields", model.getFields());
     		    	template.setAttribute("imports", imports);
+                    template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
     		    	template.setAttribute("className", model.getGenratedClassName());
     		    	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
                     writeFile(aFile, template.toString(), "Model class");
@@ -291,6 +292,7 @@ public class DriverCodeGenerator {
 	    		    		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
 	    		    		    	template.setAttribute("fields", model.getFields());
 	    		    		    	template.setAttribute("imports", imports);
+                                    template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
 	    		    		    	template.setAttribute("className", model.getGenratedClassName());
 	    		    		    	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
                                     writeFile(aFile, template.toString(), "Assemble class");
@@ -334,6 +336,7 @@ public class DriverCodeGenerator {
 
 		    		    		    	template.setAttribute("fields", model.getFields());
 		    		    		    	template.setAttribute("imports", imports);
+                                        template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
 		    		    		    	template.setAttribute("className", model.getGenratedClassName());
 		    		    		    	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
                                         writeFile(aFile, template.toString(), "Input model class");
@@ -414,6 +417,7 @@ public class DriverCodeGenerator {
     	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
     	template.setAttribute("fields", model.getFields());
     	template.setAttribute("imports", imports);
+        template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
     	template.setAttribute("className", model.getGenratedClassName());
     	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
         writeFile(aFile, template.toString(), "Wrapper class for test data file");
