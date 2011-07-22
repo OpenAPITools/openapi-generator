@@ -4,15 +4,15 @@ import com.wordnik.codegen.resource.Model;
 
 import java.util.List;
 
-public class Method {
+public class ResourceMethod {
 
 	private String description;
 
-	private List<Argument> arguments;
+	private List<MethodArgument> arguments;
 	
-	private List<Argument> queryParameters;	
+	private List<MethodArgument> queryParameters;
 	
-	private List<Argument> pathParameters;		
+	private List<MethodArgument> pathParameters;
 	
 	private String returnValue;
 	
@@ -45,27 +45,27 @@ public class Method {
 		this.description = description;
 	}
 
-	public List<Argument> getArguments() {
+	public List<MethodArgument> getArguments() {
 		return arguments;
 	}
 
-	public void setArguments(List<Argument> arguments) {
+	public void setArguments(List<MethodArgument> arguments) {
 		this.arguments = arguments;
 	}
 
-	public List<Argument> getQueryParameters() {
+	public List<MethodArgument> getQueryParameters() {
 		return queryParameters;
 	}
 
-	public void setQueryParameters(List<Argument> queryParameters) {
+	public void setQueryParameters(List<MethodArgument> queryParameters) {
 		this.queryParameters = queryParameters;
 	}
 
-	public List<Argument> getPathParameters() {
+	public List<MethodArgument> getPathParameters() {
 		return pathParameters;
 	}
 
-	public void setPathParameters(List<Argument> pathParameters) {
+	public void setPathParameters(List<MethodArgument> pathParameters) {
 		this.pathParameters = pathParameters;
 	}
 	

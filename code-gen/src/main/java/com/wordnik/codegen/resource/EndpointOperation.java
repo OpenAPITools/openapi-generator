@@ -1,12 +1,11 @@
 package com.wordnik.codegen.resource;
 
-import com.wordnik.codegen.Argument;
-import com.wordnik.codegen.Method;
+import com.wordnik.codegen.MethodArgument;
+import com.wordnik.codegen.ResourceMethod;
 import com.wordnik.codegen.config.CodeGenConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * User: ramesh
@@ -38,11 +37,11 @@ public class EndpointOperation {
 
     private String responseClass;
 
-    private List<Parameter> parameters;
+    private List<ModelField> parameters;
     
     private boolean deprecated;
     
-    private Method method;
+    private ResourceMethod method;
 
     private List<String> tags;
 
@@ -103,11 +102,11 @@ public class EndpointOperation {
         this.getResponse().add(response);
     }
 
-	public List<Parameter> getParameters() {
+	public List<ModelField> getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(List<Parameter> parameters) {
+	public void setParameters(List<ModelField> parameters) {
 		this.parameters = parameters;
 	}
 	
@@ -145,9 +144,9 @@ public class EndpointOperation {
     }
 
 
-	public Method generateMethod(Endpoint endPoint, Resource resource, CodeGenConfig config) {
+	public ResourceMethod generateMethod(Endpoint endPoint, Resource resource, CodeGenConfig config) {
 		if(method == null){
-			method = new Method();
+			method = new ResourceMethod();
 			//add method description
 			method.setDescription(this.getSummary() + "\n " + getNotes());
 			
@@ -199,49 +198,49 @@ public class EndpointOperation {
 			 */
 			List<String> argNames = new ArrayList<String>();
 			if(this.getParameters() != null) {
-				List<Argument> arguments = new ArrayList<Argument>();
-				List<Argument> queryParams= new ArrayList<Argument>();
-				List<Argument> pathParams= new ArrayList<Argument>();
+				List<MethodArgument> arguments = new ArrayList<MethodArgument>();
+				List<MethodArgument> queryParams= new ArrayList<MethodArgument>();
+				List<MethodArgument> pathParams= new ArrayList<MethodArgument>();
 				method.setArguments(arguments);
 				method.setQueryParameters(queryParams);
 				method.setPathParameters(pathParams);
 				
-				for(Parameter parameter: this.getParameters()){
-					if(!argNames.contains(parameter.getName())) {
-						argNames.add(parameter.getName());
-						Argument anArgument = new Argument();
-						anArgument.setAllowedValues(parameter.getAllowedValuesString());
+				for(ModelField modelField : this.getParameters()){
+					if(!argNames.contains(modelField.getName())) {
+						argNames.add(modelField.getName());
+						MethodArgument anArgument = new MethodArgument();
+						anArgument.setAllowedValues(modelField.getAllowedValuesString());
 						//check if arguments has auth token
-						if(parameter.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
-								parameter.getName().equals(AUTH_TOKEN_PARAM_NAME)){
+						if(modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
+								modelField.getName().equals(AUTH_TOKEN_PARAM_NAME)){
 							method.setAuthToken(true);
 							anArgument.setName(AUTH_TOKEN_ARGUMENT_NAME);
-							anArgument.setDataType(Argument.ARGUMENT_STRING);
-							anArgument.setDescription(parameter.getDescription());
+							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+							anArgument.setDescription(modelField.getDescription());
 							arguments.add(anArgument);
-						}else if(parameter.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
-								parameter.getName().equals(API_KEY_PARAM_NAME)){
+						}else if(modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
+								modelField.getName().equals(API_KEY_PARAM_NAME)){
 							//do nothing for API key parameter as all calls will automatically add API KEY to the http headers
-						}else if (parameter.getParamType().equalsIgnoreCase(PARAM_TYPE_PATH) && 
-								!parameter.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)) {
-							anArgument.setName(parameter.getName());
-							anArgument.setDataType(Argument.ARGUMENT_STRING);
-							anArgument.setDescription(parameter.getDescription());
+						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_PATH) &&
+								!modelField.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)) {
+							anArgument.setName(modelField.getName());
+							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+							anArgument.setDescription(modelField.getDescription());
 							arguments.add(anArgument);
 							pathParams.add(anArgument);
-						}else if (parameter.getParamType().equalsIgnoreCase(PARAM_TYPE_QUERY)) {
-							anArgument.setName(parameter.getName());
-							anArgument.setDataType(Argument.ARGUMENT_STRING);
-							anArgument.setDescription(parameter.getDescription());
+						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_QUERY)) {
+							anArgument.setName(modelField.getName());
+							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+							anArgument.setDescription(modelField.getDescription());
 							queryParams.add(anArgument);
 							arguments.add(anArgument);
-						}else if (parameter.getParamType().equalsIgnoreCase(PARAM_TYPE_BODY)) {
-							if(parameter.getName() == null) {
-								parameter.setName("postObject");
+						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_BODY)) {
+							if(modelField.getName() == null) {
+								modelField.setName("postObject");
 							}
-							anArgument.setName(parameter.getName());
-							anArgument.setDataType(config.getDataTypeMapper().getReturnValueType(parameter.getDataType()));
-							anArgument.setDescription(parameter.getDescription());
+							anArgument.setName(modelField.getName());
+							anArgument.setDataType(config.getDataTypeMapper().getReturnValueType(modelField.getDataType()));
+							anArgument.setDescription(modelField.getDescription());
 							arguments.add(anArgument);
                             method.setPostObject(true);
 						}
@@ -252,25 +251,25 @@ public class EndpointOperation {
 			
 			//check for number of arguments, if we have more than 4 then send the arguments as input object
 			if(method.getArguments() != null && method.getArguments().size() > 4){
-                List<Argument> arguments = new ArrayList<Argument>();
+                List<MethodArgument> arguments = new ArrayList<MethodArgument>();
 				Model modelforMethodInput = new Model();
 				modelforMethodInput.setName(inputobjectName);
-				List<Parameter> fields = new ArrayList<Parameter>();
-				for(Argument argument: method.getArguments()){
+				List<ModelField> fields = new ArrayList<ModelField>();
+				for(MethodArgument argument: method.getArguments()){
                     if(!argument.getName().equals("postObject") && !argument.getName().equals("authToken")){
-                        Parameter aParameter = new Parameter();
-                        aParameter.setAllowedValues(argument.getAllowedValues());
-                        aParameter.setDescription(argument.getDescription());
-                        aParameter.setName(argument.getName());
-                        aParameter.setParamType(argument.getDataType());
-                        fields.add(aParameter);
+                        ModelField aModelField = new ModelField();
+                        aModelField.setAllowedValues(argument.getAllowedValues());
+                        aModelField.setDescription(argument.getDescription());
+                        aModelField.setName(argument.getName());
+                        aModelField.setParamType(argument.getDataType());
+                        fields.add(aModelField);
                     }else{
                         arguments.add(argument);
                     }
 				}
 				modelforMethodInput.setFields(fields);
 				
-				Argument anArgument = new Argument();
+				MethodArgument anArgument = new MethodArgument();
 				anArgument.setDataType(inputobjectName);
 				anArgument.setName(config.getNameGenerator().convertToMethodNameFormat(inputobjectName));
 				arguments.add(anArgument);
@@ -281,7 +280,7 @@ public class EndpointOperation {
 			List<String> argumentDefinitions = new ArrayList<String>();
 			List<String> argumentNames = new ArrayList<String>();
             if (method.getArguments() != null && method.getArguments().size() > 0) {
-                for(Argument arg: method.getArguments()) {
+                for(MethodArgument arg: method.getArguments()) {
                     if(!arg.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)){
                         argumentDefinitions.add(arg.getDataType() + " " + arg.getName());
                         argumentNames.add(arg.getName());

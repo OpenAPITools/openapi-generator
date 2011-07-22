@@ -1,6 +1,6 @@
 package com.wordnik.codegen.resource;
 
-import com.wordnik.codegen.AttributeDefinition;
+import com.wordnik.codegen.FieldDefinition;
 import com.wordnik.codegen.config.DataTypeMapper;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
  * Date: 3/31/11
  * Time: 7:57 AM
  */
-public class Parameter {
+public class ModelField {
 	
     private String name;
 
@@ -34,7 +34,7 @@ public class Parameter {
 
     private String paramAccess;
 
-    private AttributeDefinition attributeDefinition;
+    private FieldDefinition fieldDefinition;
     
 	public String getName() {
 		return name;
@@ -136,32 +136,32 @@ public class Parameter {
         this.dataType = dataType;
     }
 
-    public AttributeDefinition getAttributeDefinition(){
-        return attributeDefinition;
+    public FieldDefinition getFieldDefinition(){
+        return fieldDefinition;
     }
 
-    public AttributeDefinition getAttributeDefinition(DataTypeMapper dataTypeMapper) {
-    	if(attributeDefinition == null) {
-    		attributeDefinition = new AttributeDefinition();
+    public FieldDefinition getFieldDefinition(DataTypeMapper dataTypeMapper) {
+    	if(fieldDefinition == null) {
+    		fieldDefinition = new FieldDefinition();
 	    	String type = paramType.trim();
 	    	if(type.contains("date")||type.contains("Date") ){
-	    		attributeDefinition.getImportDefinitions().add("java.util.Date");
+	    		fieldDefinition.getImportDefinitions().add("java.util.Date");
 	    	}
 	    	if(type.startsWith("List[")){
-	    		attributeDefinition.getImportDefinitions().addAll(dataTypeMapper.getListImports());
+	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getListImports());
 	    		String entryType = type.substring(5, type.length()-1);
 	    		entryType =  dataTypeMapper.getObjectType(entryType, true);
 	    		String returnType = dataTypeMapper.getListReturnType(entryType);
-	    		attributeDefinition.setReturnType(returnType);
-	    		attributeDefinition.setInitialization(" = " + dataTypeMapper.getListInitialization(entryType));
+	    		fieldDefinition.setReturnType(returnType);
+	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.getListInitialization(entryType));
 	    		if(this.getWrapperName() != null){
-	    			attributeDefinition.setName(this.getWrapperName());
+	    			fieldDefinition.setName(this.getWrapperName());
 	    		}else{
-	    			attributeDefinition.setName(this.getName());
+	    			fieldDefinition.setName(this.getName());
 	    		}
 	    		
 	    	}else if (type.startsWith("Map[")) {
-                attributeDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapImports());
+                fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapImports());
                 String keyClass, entryClass = "";
 	    		String entryType = type.substring(4, type.length()-1);
                 keyClass = entryType.substring(0, entryType.indexOf(",") );
@@ -169,20 +169,20 @@ public class Parameter {
 	    		//entryType =  dataTypeMapper.getObjectType(entryType, true);
 	    		entryType =  dataTypeMapper.getObjectType(keyClass, true) + "," + dataTypeMapper.getObjectType(entryClass, true);
 	    		String returnType = dataTypeMapper.getMapReturnType(entryType);
-	    		attributeDefinition.setReturnType(returnType);
-	    		attributeDefinition.setInitialization("= " + dataTypeMapper.getMapInitialization(entryType));
+	    		fieldDefinition.setReturnType(returnType);
+	    		fieldDefinition.setInitialization("= " + dataTypeMapper.getMapInitialization(entryType));
 	    		if(this.getWrapperName() != null){
-	    			attributeDefinition.setName(this.getWrapperName());
+	    			fieldDefinition.setName(this.getWrapperName());
 	    		}else{
-	    			attributeDefinition.setName(this.getName());
+	    			fieldDefinition.setName(this.getName());
 	    		}
 	    	}else{
-	    		attributeDefinition.setReturnType(dataTypeMapper.getObjectType(type, false));
-	    		attributeDefinition.setName(this.getName());
+	    		fieldDefinition.setReturnType(dataTypeMapper.getObjectType(type, false));
+	    		fieldDefinition.setName(this.getName());
 	    	}
 	    	
     	}
-    	return attributeDefinition;
+    	return fieldDefinition;
     }
     
 }

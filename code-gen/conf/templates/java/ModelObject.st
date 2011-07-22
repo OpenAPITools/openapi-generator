@@ -17,7 +17,7 @@ public class $className$ extends $extends$ {
 
 	$fields:{ field |
 	 //$field.description$
-	 private $field.attributeDefinition.returnType$ $field.attributeDefinition.name$ $field.attributeDefinition.initialization$;  
+	 private $field.fieldDefinition.returnType$ $field.fieldDefinition.name$ $field.fieldDefinition.initialization$;  
 	}$
 	
 	$fields:{ field |
@@ -26,12 +26,12 @@ public class $className$ extends $extends$ {
 	 @Required $endif$
 	 $if(field.allowableValues)$
 	 @AllowableValues(value="$field.allowableValues$")$endif$	 
-	 public $field.attributeDefinition.returnType$ get$field.attributeDefinition.NameForMethod$() {
-	 	return $field.attributeDefinition.name$;
+	 public $field.fieldDefinition.returnType$ get$field.fieldDefinition.NameForMethod$() {
+	 	return $field.fieldDefinition.name$;
 	 }  
 	 
-	 public void set$field.attributeDefinition.NameForMethod$($field.attributeDefinition.returnType$  $field.attributeDefinition.name$) {
-	 	this.$field.attributeDefinition.name$ = $field.attributeDefinition.name$;
+	 public void set$field.fieldDefinition.NameForMethod$($field.fieldDefinition.returnType$  $field.fieldDefinition.name$) {
+	 	this.$field.fieldDefinition.name$ = $field.fieldDefinition.name$;
 	 }
 	}$
 }

@@ -1,6 +1,6 @@
 package com.wordnik.codegen.resource;
 
-import com.wordnik.codegen.Method;
+import com.wordnik.codegen.ResourceMethod;
 import com.wordnik.codegen.config.CodeGenConfig;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class Endpoint {
 
     private List<EndpointOperation> operations;
 
-    private List<Method> methods;
+    private List<ResourceMethod> methods;
 
     private List<ErrorResponse> errorResponses;
     
@@ -81,9 +81,9 @@ public class Endpoint {
         }
     }
 
-    public List<Method> generateMethods(Resource resource, CodeGenConfig config) {
+    public List<ResourceMethod> generateMethods(Resource resource, CodeGenConfig config) {
 		if(methods == null){
-			methods = new ArrayList<Method>();
+			methods = new ArrayList<ResourceMethod>();
 			if(getOperations() != null) {
 				for(EndpointOperation operation: getOperations()) {
 					if(!operation.isDeprecated() && areModelsAvailable(operation.getParameters(), resource, config)) {
@@ -95,18 +95,18 @@ public class Endpoint {
 		return methods;
 	}
 
-    private boolean areModelsAvailable(List<Parameter> parameters, Resource resource, CodeGenConfig config) {
+    private boolean areModelsAvailable(List<ModelField> modelFields, Resource resource, CodeGenConfig config) {
         Boolean isParamSetAvailable = true;
-        if(parameters == null) return true;
-        for(Parameter parameter: parameters){
-            if (parameter.getParamType().equalsIgnoreCase(EndpointOperation.PARAM_TYPE_BODY) ){
+        if(modelFields == null) return true;
+        for(ModelField modelField : modelFields){
+            if (modelField.getParamType().equalsIgnoreCase(EndpointOperation.PARAM_TYPE_BODY) ){
                 isParamSetAvailable = false;
                 for(Model model : resource.getModels()){
-                    if(config.getDataTypeMapper().isPrimitiveType(parameter.getDataType())){
+                    if(config.getDataTypeMapper().isPrimitiveType(modelField.getDataType())){
                         isParamSetAvailable = true;
                         break;
                     }
-                    if(model.getName().equalsIgnoreCase(parameter.getDataType())){
+                    if(model.getName().equalsIgnoreCase(modelField.getDataType())){
                         isParamSetAvailable = true;
                         break;
                     }

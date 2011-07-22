@@ -19,7 +19,6 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User: ramesh
@@ -59,7 +58,7 @@ public class DriverCodeGenerator {
         List<Resource> resources = this.readResourceDocumentation(baseUrl);
         StringTemplateGroup aTemplateGroup = new StringTemplateGroup("templates",config.getTemplateLocation());
         if(resources.size() > 0) {
-        	generateVersionHelper(resources.get(0).getVersion(), aTemplateGroup);
+        	generateVersionHelper(resources.get(0).getApiVersion(), aTemplateGroup);
         }
         generateModelClasses(resources, aTemplateGroup);
         generateModelClassesForInput(resources, aTemplateGroup);
@@ -137,7 +136,7 @@ public class DriverCodeGenerator {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 Resource aResourceDoc = deserializeResource(response, mapper);
-                aResourceDoc.setVersion(version);
+                aResourceDoc.setApiVersion(version);
                 resourceDocs.add(aResourceDoc);
             } catch (IOException ioe) {
                 ioe.printStackTrace();
@@ -196,24 +195,8 @@ public class DriverCodeGenerator {
      * @throws IOException
      */
     private Resource deserializeResource(String response, ObjectMapper mapper) throws IOException {
-        Resource resource;
-
-        ApiResource apiResource = mapper.readValue(response, ApiResource.class);
-        resource = new Resource();
-        Model model;
-        List<Model> models = new ArrayList<Model>();
-        String modelName;
-        ApiModelDefn modelDefn;
-        if (apiResource.getModels() != null) {
-            for (Map.Entry<String, ApiModelDefn> entry : apiResource.getModels().getModelList().entrySet()) {
-                modelName = entry.getKey();
-                modelDefn = entry.getValue();
-                model = modelDefn.toModel(modelName, this.config);
-                models.add( model );
-            }
-        }
-        resource.setModels( models );
-        resource.setEndPoints( apiResource.getEndPoints() );
+        Resource resource = mapper.readValue(response, Resource.class);
+        resource.generateModelsFromWrapper(this.config);
         return resource;
     }
 
@@ -241,8 +224,8 @@ public class DriverCodeGenerator {
     			if(!generatedClassNames.contains(model.getName()) && !config.getCodeGenOverridingRules().isModelIgnored(model.getName())){
     				List<String> imports = new ArrayList<String>();
     				imports.addAll(this.config.getDefaultModelImports());
-    				for(Parameter param : model.getFields()){
-    					for(String importDef : param.getAttributeDefinition(config.getDataTypeMapper()).getImportDefinitions()){
+    				for(ModelField param : model.getFields()){
+    					for(String importDef : param.getFieldDefinition(config.getDataTypeMapper()).getImportDefinitions()){
     						if(!imports.contains(importDef)){
     							imports.add(importDef);
     						}
@@ -275,15 +258,15 @@ public class DriverCodeGenerator {
     			for(Endpoint endpoint : resource.getEndPoints()){
     				if(endpoint.getOperations() != null) {
     					for(EndpointOperation operation : endpoint.getOperations()){
-    						Method method = operation.generateMethod(endpoint, resource, config);
+    						ResourceMethod method = operation.generateMethod(endpoint, resource, config);
     						if(method.getInputModel() != null) {
 	    						Model model = method.getInputModel();
 	    						if(model != null){
 	    							if(!generatedClasses.contains(model.getName())) {
 		    		    				List<String> imports = new ArrayList<String>();
                                         imports.addAll(this.config.getDefaultModelImports());
-		    		    				for(Parameter param : model.getFields()){
-		    		    					for(String importDef : param.getAttributeDefinition(config.getDataTypeMapper()).getImportDefinitions()){
+		    		    				for(ModelField param : model.getFields()){
+		    		    					for(String importDef : param.getFieldDefinition(config.getDataTypeMapper()).getImportDefinitions()){
 		    		    						if(!imports.contains(importDef)){
 		    		    							imports.add(importDef);
 		    		    						}
@@ -316,14 +299,14 @@ public class DriverCodeGenerator {
     private void generateAPIClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
     	
     	for(Resource resource : resources) {
-    		List<Method> methods = new ArrayList<Method>();
+    		List<ResourceMethod> methods = new ArrayList<ResourceMethod>();
             List<String> imports = new ArrayList<String>();
             imports.addAll(this.config.getDefaultServiceImports());
     		methods = resource.generateMethods(resource, config);
 	    	StringTemplate template = templateGroup.getInstanceOf(API_OBJECT_TEMPLATE);
             String className = resource.generateClassName(config);
-            List<Method> filteredMethods = new ArrayList<Method>();
-            for(Method method:methods){
+            List<ResourceMethod> filteredMethods = new ArrayList<ResourceMethod>();
+            for(ResourceMethod method:methods){
                 if(!config.getCodeGenOverridingRules().isMethodIgnored(className, method.getName())){
                     filteredMethods.add(method);
                 }
@@ -346,26 +329,26 @@ public class DriverCodeGenerator {
     	Model model = new Model();
     	model.setName("TestData");
     	model.setDescription("Class used to store all the test data. This should not be used for any development");
-    	List<Parameter> parameters = new ArrayList<Parameter>();
-    	model.setFields(parameters);
+    	List<ModelField> modelFields = new ArrayList<ModelField>();
+    	model.setFields(modelFields);
     	for(String className : generatedClassNames){
-    		Parameter aParam = new Parameter();
+    		ModelField aParam = new ModelField();
     		aParam.setName(config.getNameGenerator().convertToMethodNameFormat(className)+"List");
     		aParam.setParamType(config.getDataTypeMapper().getListReturnType(className));
-    		parameters.add(aParam);
+    		modelFields.add(aParam);
     	}
 
         //add missing class from models
-        Parameter aParam = new Parameter();
+        ModelField aParam = new ModelField();
         aParam.setName("StringValueList");
         aParam.setParamType(config.getDataTypeMapper().getListReturnType("StringValue"));
-        parameters.add(aParam);
+        modelFields.add(aParam);
         
 		List<String> imports = new ArrayList<String>();
         imports.addAll(this.config.getDefaultModelImports());
         imports.addAll(this.config.getDataTypeMapper().getListImports());
-		for(Parameter param : model.getFields()){
-			for(String importDef : param.getAttributeDefinition(config.getDataTypeMapper()).getImportDefinitions()){
+		for(ModelField param : model.getFields()){
+			for(String importDef : param.getFieldDefinition(config.getDataTypeMapper()).getImportDefinitions()){
 				if(!imports.contains(importDef)){
 					imports.add(importDef);
 				}

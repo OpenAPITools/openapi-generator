@@ -1,12 +1,10 @@
 package com.wordnik.codegen.resource;
 
 import com.wordnik.codegen.config.CodeGenConfig;
-import com.wordnik.codegen.config.DataTypeMapper;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import javax.annotation.Generated;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,9 +27,9 @@ public class ApiPropertyListWrapper implements Serializable
         this.propertyList.put(name, value);
     }
 
-    public List<Parameter> toFieldList(CodeGenConfig config) {
-        List<Parameter> fields = new ArrayList<Parameter>();
-        Parameter field;
+    public List<ModelField> toFieldList(CodeGenConfig config) {
+        List<ModelField> fields = new ArrayList<ModelField>();
+        ModelField field;
 
         String propertyName;
         ApiPropertyDefn propertyDefn;
@@ -39,7 +37,7 @@ public class ApiPropertyListWrapper implements Serializable
             propertyName = propertyDefnEntry.getKey();
             propertyDefn = propertyDefnEntry.getValue();
 
-            field = new Parameter();
+            field = new ModelField();
             field.setName(propertyName);
             //TODO - need to handle this via the nameGenerator which will do this in case the propertyName is a key word in the language
             if(propertyName.equals("enum") || propertyName.equals("default")){

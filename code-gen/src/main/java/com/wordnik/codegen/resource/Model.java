@@ -17,7 +17,7 @@ public class Model {
     
     private String description;
 
-    private List<Parameter> fields;
+    private List<ModelField> fields;
 
 	public String getName() {
 		return name;
@@ -27,11 +27,11 @@ public class Model {
 		this.name = name;
 	}
 
-	public List<Parameter> getFields() {
+	public List<ModelField> getFields() {
 		return fields;
 	}
 
-	public void setFields(List<Parameter> fields) {
+	public void setFields(List<ModelField> fields) {
 		this.fields = fields;
 	}
 

@@ -2,7 +2,7 @@ package com.wordnik.codegen;
 
 import com.wordnik.codegen.config.CodeGenConfig;
 
-public class Argument {
+public class MethodArgument {
 	
 	public static String ARGUMENT_STRING = "String";
 	public static String ARGUMENT_INTEGER = "int";

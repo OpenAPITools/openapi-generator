@@ -3,7 +3,7 @@ package com.wordnik.codegen;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttributeDefinition {
+public class FieldDefinition {
 
 	private String returnType;
 	
