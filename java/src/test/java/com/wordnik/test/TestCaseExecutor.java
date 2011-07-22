@@ -6,8 +6,8 @@ import com.wordnik.codegen.DriverCodeGenerator;
 import com.wordnik.codegen.config.CodeGenConfig;
 import com.wordnik.codegen.java.JavaCodeGenConfig;
 import com.wordnik.codegen.resource.Resource;
-import com.wordnik.exception.WordnikAPIException;
-import com.wordnik.exception.WordnikExceptionCodes;
+import com.wordnik.exception.APIException;
+import com.wordnik.exception.APIExceptionCodes;
 import org.apache.commons.beanutils.BeanUtils;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -101,7 +101,7 @@ public class TestCaseExecutor {
                 System.out.println(APITestRunner.convertObjectToJSONString(output));
 
             }
-        }catch(WordnikAPIException e){
+        }catch(APIException e){
             StringWriter sWriter = new StringWriter();
             PrintWriter writer = new PrintWriter(sWriter);
             e.printStackTrace(writer);
@@ -121,7 +121,7 @@ public class TestCaseExecutor {
             e.printStackTrace();
             System.out.println("ERROR");
             try{
-                WordnikAPIException apiException = new WordnikAPIException(WordnikExceptionCodes.SYSTEM_EXCEPTION,
+                APIException apiException = new APIException(APIExceptionCodes.SYSTEM_EXCEPTION,
                         e.getMessage());
                 System.out.println(APITestRunner.convertObjectToJSONString(apiException));
             }catch(Exception ex){
@@ -156,7 +156,7 @@ public class TestCaseExecutor {
                 // post data or input wrapper object created by code generator. If it is wrpper object then use the
                 // individual query and path parameters to create the wrapper object.  If it is post data directly
                 // convert input JSON string to post data object
-                if(superclass != null && superclass.getSimpleName().equalsIgnoreCase("WordnikObject")){
+                if(superclass != null && superclass.getSimpleName().equalsIgnoreCase(config.getCodeGenOverridingRules().getModelExtendingClass())){
                     if(argNamesArray[i].trim().equals("postObject")){
                         argument = APITestRunner.convertJSONStringToObject(postData, argTypesArray[i]);
                     }else{

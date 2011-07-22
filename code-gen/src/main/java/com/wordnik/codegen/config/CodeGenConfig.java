@@ -11,33 +11,33 @@ import java.util.List;
  */
 public class CodeGenConfig {
 
-    private String templateLocation;
+    private String templateLocation; //lang config
 
-    private String classFileExtension;
+    private String classFileExtension; //lang config
 
-    private String modelClassLocation;
+    private String modelClassLocation; //output config
 
-    private String resourceClassLocation;
+    private String resourceClassLocation; //output config
 
     /**
      *  Default model imports that we need to include in all service classes. This is needed because some times,
      *  we may need to write custom classes and those classes will not be known to code generation. To import those
      *  classes in service classes we use this property
      */
-    private List<String> defaultModelImports;
+    private List<String> defaultModelImports;  //code gen helper config
 
     /**
      *  Default service imports that we need to include in all service classes. This is needed because some times,
      *  we may need to write custom classes ans those classes will not be known to code generation. To import those
      *  classes in service classes we use this property
      */
-    private List<String> defaultServiceImports;
+    private List<String> defaultServiceImports; //code gen helper config
 
-    private CodeGenOverridingRules codeGenOverridingRules;
+    private CodeGenOverridingRules codeGenOverridingRules; //code gen helper config
 
-    private DataTypeMapper dataTypeMapper;
+    private DataTypeMapper dataTypeMapper; //code gen helper
 
-    private ServiceAndMethodNameGenerator nameGenerator;
+    private ServiceAndMethodNameGenerator nameGenerator; //code gen helper
 
     public String getTemplateLocation() {
         return templateLocation;

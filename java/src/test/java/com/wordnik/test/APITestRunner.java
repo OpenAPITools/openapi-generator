@@ -10,7 +10,7 @@ import java.util.Map;
 import com.wordnik.codegen.config.CodeGenConfig;
 import com.wordnik.codegen.java.JavaCodeGenConfig;
 import com.wordnik.common.*;
-import com.wordnik.exception.WordnikAPIException;
+import com.wordnik.exception.APIException;
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -491,8 +491,8 @@ public class APITestRunner {
         if(status.equalsIgnoreCase("SUCCESS")||status.equalsIgnoreCase("OK") ) {
             return output.toString();
         }else{
-            WordnikAPIException exception = (WordnikAPIException)convertJSONStringToObject(output.toString(),
-                    WordnikAPIException.class);
+            APIException exception = (APIException)convertJSONStringToObject(output.toString(),
+                    APIException.class);
             throw exception;
         }
     }

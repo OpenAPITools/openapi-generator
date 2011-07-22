@@ -2,8 +2,8 @@ package com.wordnik.common.ext;
 
 import com.wordnik.annotations.MethodArgumentNames;
 import com.wordnik.common.WordnikAPI;
-import com.wordnik.exception.WordnikAPIException;
-import com.wordnik.exception.WordnikExceptionCodes;
+import com.wordnik.exception.APIException;
+import com.wordnik.exception.APIExceptionCodes;
 import com.wordnik.model.AudioFile;
 import com.wordnik.model.FrequencySummary;
 import org.codehaus.jackson.map.type.TypeFactory;
@@ -35,10 +35,10 @@ public abstract class AbstractWordAPI extends WordnikAPI {
      * @param limit  Maximum number of results to return
      *
      * @return GetAudioOutput {@link com.wordnik.model.AudioFile}
-     * @throws com.wordnik.exception.WordnikAPIException 400 - Invalid word supplied. 400 - Invalid word supplied.
+     * @throws com.wordnik.exception.APIException 400 - Invalid word supplied. 400 - Invalid word supplied.
      */
      @MethodArgumentNames(value="word, useCanonical, limit")
-    public static List<AudioFile> getAudio(String word, String useCanonical, String limit) throws WordnikAPIException {
+    public static List<AudioFile> getAudio(String word, String useCanonical, String limit) throws APIException {
 
 
         //parse inputs
@@ -70,7 +70,7 @@ public abstract class AbstractWordAPI extends WordnikAPI {
             List<AudioFile> responseObject = (List<AudioFile>)mapper.readValue(response, TypeFactory.type(ref));
             return responseObject;
         }catch(Exception e){
-            throw new WordnikAPIException(WordnikExceptionCodes.ERROR_CONVERTING_JSON_TO_JAVA, e.getMessage());
+            throw new APIException(APIExceptionCodes.ERROR_CONVERTING_JSON_TO_JAVA, e.getMessage());
             
         }
     }
@@ -89,11 +89,11 @@ public abstract class AbstractWordAPI extends WordnikAPI {
      * @param endYear  Ending Year
      *
      * @return FrequencySummary {@link com.wordnik.model.FrequencySummary}
-     * @throws WordnikAPIException 400 - Invalid word supplied. 404 - No results. 400 - Invalid word supplied. 404 - No results.
+     * @throws com.wordnik.exception.APIException 400 - Invalid word supplied. 404 - No results. 400 - Invalid word supplied. 404 - No results.
      */
      @MethodArgumentNames(value="word, useCanonical, startYear, endYear")
     public static FrequencySummary getWordFrequency(String word, String useCanonical, String startYear,
-                                                      String endYear) throws WordnikAPIException {
+                                                      String endYear) throws APIException {
 
 
         //parse inputs

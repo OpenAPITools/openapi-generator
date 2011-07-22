@@ -5,7 +5,7 @@ package com.wordnik.exception;
  * @author ramesh
  *
  */
-public interface WordnikExceptionCodes {
+public interface APIExceptionCodes {
 
     /**
      * System exception.

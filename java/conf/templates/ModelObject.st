@@ -1,6 +1,5 @@
 package com.wordnik.model;
 
-import com.wordnik.common.WordnikObject;
 import com.wordnik.annotations.AllowableValues;
 import com.wordnik.annotations.Required;
 
@@ -14,7 +13,7 @@ import $import$;
  * @author ramesh
  *
  */
-public class $className$ extends WordnikObject {
+public class $className$ extends $extends$ {
 
 	$fields:{ field |
 	 //$field.description$

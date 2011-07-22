@@ -1,13 +1,13 @@
 package com.wordnik.common;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.wordnik.exception.APIException;
+import com.wordnik.exception.APIExceptionCodes;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -18,8 +18,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.wordnik.exception.WordnikAPIException;
-import com.wordnik.exception.WordnikExceptionCodes;
 
 
 /**
@@ -112,10 +110,10 @@ public class WordnikAPI {
 	 * @param method - Method we should use for communicating to the back end. 
 	 * @param postObject - if the method is POST, provide the object that should be sent as part of post request.
 	 * @return JSON response of the API call. 
-	 * @throws WordnikAPIException if the call to API server fails. 
+	 * @throws com.wordnik.exception.APIException if the call to API server fails.
 	 */
 	protected static String invokeAPI(String authToken, String resourceURL, String method, Map<String,
-            String> queryParams, Object postObject) throws WordnikAPIException {
+            String> queryParams, Object postObject) throws APIException {
 
 
         Client apiClient = Client.create();
@@ -123,11 +121,11 @@ public class WordnikAPI {
         //check for app key and server values
         if(getApiKey() == null || getApiKey().length() == 0) {
         	String[] args = {getApiKey()};
-        	throw new WordnikAPIException(WordnikExceptionCodes.API_KEY_NOT_VALID, args);
+        	throw new APIException(APIExceptionCodes.API_KEY_NOT_VALID, args);
         }
         if(getApiServer() == null || getApiServer().length() == 0) {
         	String[] args = {getApiServer()};
-        	throw new WordnikAPIException(WordnikExceptionCodes.API_SERVER_NOT_VALID, args);
+        	throw new APIException(APIExceptionCodes.API_SERVER_NOT_VALID, args);
         }
         //initialize the logger if needed
         if(loggingEnabled) {
@@ -177,7 +175,7 @@ public class WordnikAPI {
 			return response;
         }else{
         	int responseCode = clientResponse.getClientResponseStatus().getStatusCode() ;
-        	throw new WordnikAPIException(responseCode, clientResponse.getEntity(String.class));
+        	throw new APIException(responseCode, clientResponse.getEntity(String.class));
         }
 	}
 	
@@ -187,14 +185,14 @@ public class WordnikAPI {
 	 * @param inputClassName
 	 * @return
 	 */
-	public static Object deserialize(String response, Class inputClassName) throws WordnikAPIException {
+	public static Object deserialize(String response, Class inputClassName) throws APIException {
         try {
             System.out.println("Input :::::" + response);
             Object responseObject = mapper.readValue(response, inputClassName);
             return responseObject;
         } catch (IOException ioe) {
         	String[] args = new String[]{response, inputClassName.toString()};
-            throw new WordnikAPIException(WordnikExceptionCodes.ERROR_CONVERTING_JSON_TO_JAVA, args, "Error in coversting response json value to java object : " + ioe.getMessage(), ioe);
+            throw new APIException(APIExceptionCodes.ERROR_CONVERTING_JSON_TO_JAVA, args, "Error in coversting response json value to java object : " + ioe.getMessage(), ioe);
         }
 	}
 
@@ -204,7 +202,7 @@ public class WordnikAPI {
 	 * @param input
 	 * @return
 	 */
-	public static String serialize(Object input) throws WordnikAPIException {
+	public static String serialize(Object input) throws APIException {
         try {
         	if(input != null) {
 	            return mapper.writeValueAsString(input);
@@ -212,7 +210,7 @@ public class WordnikAPI {
         		return "";
         	}
         } catch (IOException ioe) {
-            throw new WordnikAPIException(WordnikExceptionCodes.ERROR_CONVERTING_JAVA_TO_JSON, "Error in coverting input java to json : " + ioe.getMessage(), ioe);
+            throw new APIException(APIExceptionCodes.ERROR_CONVERTING_JAVA_TO_JSON, "Error in coverting input java to json : " + ioe.getMessage(), ioe);
         }
 	}	
 }

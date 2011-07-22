@@ -50,10 +50,6 @@ public class EndpointOperation {
     private String suggestedName;
 
     private String nickname;
-
-    
-    //model object in case output is aggregation
-    private Model outputModel;
     
 	public String getHttpMethod() {
 		return httpMethod;
@@ -301,14 +297,10 @@ public class EndpointOperation {
 			//get return value
 			//private String returnValue;
 			List<Response> response = this.getResponse();
-			if(response.size() > 1){
-				Model model = getModelObjectForAggregateObject(endPoint, config);
-				method.setReturnValue(model.getGenratedClassName());
-				method.setReturnClassName(model.getGenratedClassName());
-			}else if (response.size() == 1){
-				method.setReturnValue(config.getDataTypeMapper().getReturnValueType(response.get(0).getValueType()));
-				method.setReturnClassName(config.getDataTypeMapper().getReturnClassType(response.get(0).getValueType()));
-			}
+
+			method.setReturnValue(config.getDataTypeMapper().getReturnValueType(response.get(0).getValueType()));
+			method.setReturnClassName(config.getDataTypeMapper().getReturnClassType(response.get(0).getValueType()));
+
 			
 			//get description string for exception			
 			method.setExceptionDescription(calculateExceptionMessage());
@@ -332,48 +324,6 @@ public class EndpointOperation {
 			}
 		}
 		return errorMessage.toString();
-	}
-	
-	
-	/**
-	 * Returns the model object that can be used to generate the aggregate object
-	 * @return
-	 */
-	public Model getModelObjectForAggregateObject(Endpoint endpoint, CodeGenConfig config) {
-		if(this.getResponse() == null || this.getResponse().size() < 2){
-			return null;
-		}
-		if(outputModel == null){
-			outputModel = new Model();
-			String[] pathElements = endpoint.getPath().split("/");
-			StringBuilder aggregateObjectName = new StringBuilder();
-			if(pathElements != null && pathElements.length > 0){
-				for(String pathElement : pathElements){
-					if(pathElement!= null && pathElement.length() > 0 && !pathElement.contains("{")){
-						aggregateObjectName.append(config.getNameGenerator().convertToClassNameFormat(pathElement));
-					}
-				}
-			}
-			if(aggregateObjectName.length()==0){
-				return null;
-			}
-			outputModel.setName(config.getNameGenerator().convertToClassNameFormat(this.getHttpMethod().toLowerCase())+ aggregateObjectName + "Output");
-			outputModel.setDescription(this.getSummary());
-			List<Parameter> fields = new ArrayList<Parameter>();
-			for(Response response : getResponse()){
-				String valueType = response.getValueType();
-				Parameter aParameter = new Parameter();
-			    //private String name;
-				aParameter.setName(config.getNameGenerator().convertToMethodNameFormat(config.getDataTypeMapper().getReturnClassType(valueType)));
-			    //private String wrapperName;
-			    aParameter.setWrapperName(aParameter.getName());
-			   // private String paramType;
-				aParameter.setParamType(response.getValueType());
-				fields.add(aParameter);
-			}
-			outputModel.setFields(fields);
-		}
-		return outputModel;
 	}
 
 }

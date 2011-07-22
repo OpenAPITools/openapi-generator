@@ -1,6 +1,5 @@
 package com.wordnik.model;
 
-import com.wordnik.common.WordnikObject;
 import com.wordnik.annotations.AllowableValues;
 import com.wordnik.annotations.Required;
 

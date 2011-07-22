@@ -3,8 +3,8 @@ package com.wordnik.api;
 
 import com.wordnik.common.*;
 import com.wordnik.common.ext.*;
-import com.wordnik.exception.WordnikExceptionCodes;
-import com.wordnik.exception.WordnikAPIException;
+import com.wordnik.exception.APIExceptionCodes;
+import com.wordnik.exception.APIException;
 import com.wordnik.model.*;
 import java.util.*;
 import com.wordnik.annotations.MethodArgumentNames;
@@ -35,17 +35,17 @@ $endif$
 }$
 	 * 
 	 * @return $method.returnValue$ {@link $method.returnClassName$}
-	 * @throws WordnikAPIException $method.exceptionDescription$ 
+	 * @throws APIException $method.exceptionDescription$
 	 */
 $if(method.hasArguments)$
 	 @MethodArgumentNames(value="$method.argumentNames; separator=", "$") 
 $endif$
 
-	public static $method.returnValue$ $method.name$($method.argumentDefinitions; separator=", "$) throws WordnikAPIException {
+	public static $method.returnValue$ $method.name$($method.argumentDefinitions; separator=", "$) throws APIException {
 
 $if(method.authToken)$
 		if(authToken == null || authToken.length() == 0) {
-			throw new WordnikAPIException(WordnikExceptionCodes.AUTH_TOKEN_NOT_VALID);
+			throw new APIException(APIExceptionCodes.AUTH_TOKEN_NOT_VALID);
 		}
 $endif$
 		
@@ -114,7 +114,7 @@ $if(method.returnValueList)$
             return responseObject;
         } catch (IOException ioe) {
         	String[] args = new String[]{response, typeRef.toString()};
-            throw new WordnikAPIException(WordnikExceptionCodes.ERROR_CONVERTING_JSON_TO_JAVA, args, "Error in converting response json value to java object : " + ioe.getMessage(), ioe);
+            throw new APIException(APIExceptionCodes.ERROR_CONVERTING_JSON_TO_JAVA, args, "Error in converting response json value to java object : " + ioe.getMessage(), ioe);
         }		
 $endif$		
 $endif$		

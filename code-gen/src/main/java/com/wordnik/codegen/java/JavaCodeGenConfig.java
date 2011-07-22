@@ -21,6 +21,7 @@ public class JavaCodeGenConfig  extends CodeGenConfig {
         defaultModelImports.add("com.wordnik.common.WordListType");
         defaultModelImports.add("com.wordnik.common.StringValue");
         defaultModelImports.add("com.wordnik.common.Size");
+        defaultModelImports.add("com.wordnik.common.WordnikObject");
         List<String> defaultServiceImports = new ArrayList<String>();
         defaultServiceImports.add("com.wordnik.model.Long");
         this.setDefaultModelImports(defaultModelImports);

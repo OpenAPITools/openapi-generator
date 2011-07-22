@@ -2,7 +2,7 @@ package com.wordnik.test;
 
 import com.wordnik.api.WordAPI;
 //import com.wordnik.api.WordListAPI;
-import com.wordnik.exception.WordnikAPIException;
+import com.wordnik.exception.APIException;
 import com.wordnik.model.WordList;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.AnnotationIntrospector;
@@ -37,7 +37,7 @@ public class TestMethodInputs {
     @Test
     public void testExceptionDeserialize() throws Exception {
         String input = "{\"message\":\"No value specified for 'Date'\",\"code\":0}";
-        WordnikAPIException exception = (WordnikAPIException)APITestRunner.convertJSONStringToObject(input, WordnikAPIException.class);
+        APIException exception = (APIException)APITestRunner.convertJSONStringToObject(input, APIException.class);
         assert (exception != null);
     }
 

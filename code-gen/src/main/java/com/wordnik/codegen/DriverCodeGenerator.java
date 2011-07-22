@@ -62,8 +62,7 @@ public class DriverCodeGenerator {
         	generateVersionHelper(resources.get(0).getVersion(), aTemplateGroup);
         }
         generateModelClasses(resources, aTemplateGroup);
-        generateAssemblerClassesForOutput(resources, aTemplateGroup, config);
-        generateModelClassesForInput(resources, aTemplateGroup);      
+        generateModelClassesForInput(resources, aTemplateGroup);
         generateAPIClasses(resources, aTemplateGroup);
     }
 
@@ -264,48 +263,6 @@ public class DriverCodeGenerator {
     	generateWrapperClassForTestData(generatedClassNames, templateGroup);
     }    
 
-    /**
-     * Generates assembler classes if the API returns more than one objects. 
-     * @param resources
-     * @param templateGroup
-     */
-    private void generateAssemblerClassesForOutput(List<Resource> resources, StringTemplateGroup templateGroup,
-                                                   CodeGenConfig config) {
-    	List<String> generatedClasses = new ArrayList<String>();
-    	for(Resource resource : resources) {
-    		if(resource.getEndPoints() != null) {
-    			for(Endpoint endpoint : resource.getEndPoints()){
-    				if(endpoint.getOperations() != null) {
-    					for(EndpointOperation operation : endpoint.getOperations()){
-    						Model model = operation.getModelObjectForAggregateObject(endpoint, config);
-    						if(model != null){
-    							if(!generatedClasses.contains(model.getName())) {
-	    		    				List<String> imports = new ArrayList<String>();
-                                    imports.addAll(this.config.getDefaultModelImports());
-	    		    				for(Parameter param : model.getFields()){
-	    		    					for(String importDef : param.getAttributeDefinition(config.getDataTypeMapper()).getImportDefinitions()){
-	    		    						if(!imports.contains(importDef)){
-	    		    							imports.add(importDef);
-	    		    						}
-	    		    					}
-	    		    				}
-	    		    		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
-	    		    		    	template.setAttribute("fields", model.getFields());
-	    		    		    	template.setAttribute("imports", imports);
-                                    template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
-	    		    		    	template.setAttribute("className", model.getGenratedClassName());
-	    		    		    	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
-                                    writeFile(aFile, template.toString(), "Assemble class");
-	    		    		    	generatedClasses.add(model.getName());
-    							}    							
-    						}
-    					}
-    				}
-    			}
-    		}
-    	}
-    }
-    
     /**
      * Generates assembler classes if the API returns more than one objects. 
      * @param resources
