@@ -25,7 +25,7 @@ public class JavaServiceAndMethodNameGenerator implements ServiceAndMethodNameGe
      * @param input
      * @return
      */
-    public String convertToClassNameFormat(String input) {
+    public String applyClassNamingPolicy(String input) {
     	if(input != null && input.length() > 0) {
     		return input.substring(0,1).toUpperCase() + input.substring(1);
     	}else{
@@ -39,7 +39,7 @@ public class JavaServiceAndMethodNameGenerator implements ServiceAndMethodNameGe
      * @param input
      * @return
      */
-    public String convertToMethodNameFormat(String input) {
+    public String applyMethodNamingPolicy(String input) {
     	if(input != null && input.length() > 0) {
     		return input.substring(0,1).toLowerCase() + input.substring(1);
     	}else{
@@ -52,12 +52,12 @@ public class JavaServiceAndMethodNameGenerator implements ServiceAndMethodNameGe
          int index = resourcePath.indexOf(".");
          if(index >= 0) {
              String resourceName = resourcePath.substring(1,index);
-             className = convertToClassNameFormat(resourceName);
+             className = applyClassNamingPolicy(resourceName);
          }else{
              String[] paths = resourcePath.split("/");
              for(String path : paths) {
                  if(path != null && path.length() > 0) {
-                     className = convertToClassNameFormat(path);
+                     className = applyClassNamingPolicy(path);
                      break;
                  }
              }
@@ -92,7 +92,7 @@ public class JavaServiceAndMethodNameGenerator implements ServiceAndMethodNameGe
                 if(pathElement != null && pathElement.length() > 0) {
                     int position = pathElement.indexOf("{");
                     if(position < 0) {
-                        inputobjectName = inputobjectName + convertToClassNameFormat(pathElement) + Model.INPUT_OBJECT_SUFFIX;
+                        inputobjectName = inputobjectName + applyClassNamingPolicy(pathElement) + Model.INPUT_OBJECT_SUFFIX;
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class JavaServiceAndMethodNameGenerator implements ServiceAndMethodNameGe
      * @return
      */
     public String createGetterMethodName(String className, String attributeName) {
-        return className+".get"+convertToClassNameFormat(attributeName)+"()";
+        return className+".get"+ applyClassNamingPolicy(attributeName)+"()";
     }
 
 }

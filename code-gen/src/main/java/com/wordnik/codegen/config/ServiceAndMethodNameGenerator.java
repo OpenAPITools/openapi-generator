@@ -29,7 +29,7 @@ public interface ServiceAndMethodNameGenerator {
      * @param input
      * @return
      */
-    public String convertToClassNameFormat(String input);
+    public String applyClassNamingPolicy(String input);
 
     /**
      * Transform the input string into method naming convention format.
@@ -39,7 +39,7 @@ public interface ServiceAndMethodNameGenerator {
      * @param input
      * @return
      */
-    public String convertToMethodNameFormat(String input);
+    public String applyMethodNamingPolicy(String input);
 
     /**
      * Generates the name of service based on resource path.

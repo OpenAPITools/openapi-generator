@@ -271,7 +271,7 @@ public class EndpointOperation {
 				
 				MethodArgument anArgument = new MethodArgument();
 				anArgument.setDataType(inputobjectName);
-				anArgument.setName(config.getNameGenerator().convertToMethodNameFormat(inputobjectName));
+				anArgument.setName(config.getNameGenerator().applyMethodNamingPolicy(inputobjectName));
 				arguments.add(anArgument);
 				method.setArguments(arguments);
 				method.setInputModel(modelforMethodInput);

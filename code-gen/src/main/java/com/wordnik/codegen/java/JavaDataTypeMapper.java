@@ -74,38 +74,38 @@ public class JavaDataTypeMapper implements DataTypeMapper {
 	    		return primitiveValueMap.get(type);
 	    	}
     	}else{
-    		return nameGenerator.convertToClassNameFormat(type);
+    		return nameGenerator.applyClassNamingPolicy(type);
     	}
     }
 
-    public String getListReturnType(String typeClass) {
-        return "List<"+nameGenerator.convertToClassNameFormat(typeClass)+">";
+    public String getListReturnTypeSignature(String typeClass) {
+        return "List<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
     }
 
     public String getReturnTypeForVoidMethods() {
         return "void";
     }
 
-    public String getMapReturnType(String typeClass) {
-        return "Map<"+nameGenerator.convertToClassNameFormat(typeClass)+">";
+    public String getMapReturnTypeSignature(String typeClass) {
+        return "Map<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
     }
 
-    public String getListInitialization(String typeClass) {
-        return " new ArrayList<"+nameGenerator.convertToClassNameFormat(typeClass)+">()";
+    public String generateListInitialization(String typeClass) {
+        return " new ArrayList<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
     }
 
-    public String getMapInitialization(String typeClass) {
-        return " new HashMap<"+nameGenerator.convertToClassNameFormat(typeClass)+">()";
+    public String generateMapInitialization(String typeClass) {
+        return " new HashMap<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
     }
 
-    public List<String> getListImports() {
+    public List<String> getListImportPackages() {
         List<String> imports = new ArrayList<String>();
         imports.add("java.util.List");
         imports.add("java.util.ArrayList");
         return imports;
     }
 
-    public List<String> getMapImports() {
+    public List<String> getMapImportPackages() {
         List<String> imports = new ArrayList<String>();
         imports.add("java.util.Map");
         imports.add("java.util.HashMap");

@@ -333,20 +333,20 @@ public class DriverCodeGenerator {
     	model.setFields(modelFields);
     	for(String className : generatedClassNames){
     		ModelField aParam = new ModelField();
-    		aParam.setName(config.getNameGenerator().convertToMethodNameFormat(className)+"List");
-    		aParam.setParamType(config.getDataTypeMapper().getListReturnType(className));
+    		aParam.setName(config.getNameGenerator().applyMethodNamingPolicy(className)+"List");
+    		aParam.setParamType(config.getDataTypeMapper().getListReturnTypeSignature(className));
     		modelFields.add(aParam);
     	}
 
         //add missing class from models
         ModelField aParam = new ModelField();
         aParam.setName("StringValueList");
-        aParam.setParamType(config.getDataTypeMapper().getListReturnType("StringValue"));
+        aParam.setParamType(config.getDataTypeMapper().getListReturnTypeSignature("StringValue"));
         modelFields.add(aParam);
         
 		List<String> imports = new ArrayList<String>();
         imports.addAll(this.config.getDefaultModelImports());
-        imports.addAll(this.config.getDataTypeMapper().getListImports());
+        imports.addAll(this.config.getDataTypeMapper().getListImportPackages());
 		for(ModelField param : model.getFields()){
 			for(String importDef : param.getFieldDefinition(config.getDataTypeMapper()).getImportDefinitions()){
 				if(!imports.contains(importDef)){

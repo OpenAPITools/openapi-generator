@@ -195,7 +195,7 @@ public class TestCaseExecutor {
 			if(method.getName().startsWith("get")){
 				String methodName = method.getName();
 				String fieldName = methodName.substring(3);
-				fieldName = config.getNameGenerator().convertToMethodNameFormat(fieldName);
+				fieldName = config.getNameGenerator().applyMethodNamingPolicy(fieldName);
 				Object value = inputDefinitions.get(fieldName);
 				BeanUtils.setProperty(object, fieldName, value);
 			}

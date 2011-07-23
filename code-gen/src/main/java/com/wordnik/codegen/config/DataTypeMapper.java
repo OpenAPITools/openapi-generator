@@ -39,7 +39,7 @@ public interface DataTypeMapper {
      * @param typeClass of class that list object contains.
      * @return
      */
-    public String getListReturnType(String typeClass);
+    public String getListReturnTypeSignature(String typeClass);
 
     /**
      * Signature that should be used when returning map of given object type.
@@ -48,7 +48,7 @@ public interface DataTypeMapper {
      * @param typeClass of class that list object contains.
      * @return
      */
-    public String getMapReturnType(String typeClass);
+    public String getMapReturnTypeSignature(String typeClass);
 
     /**
      * Initialization need for list objects. Example. If it is java list the initialization will look as
@@ -60,7 +60,7 @@ public interface DataTypeMapper {
      * @param typeClass
      * @return
      */
-    public String getListInitialization(String typeClass);
+    public String generateListInitialization(String typeClass);
 
     /**
      * Initialization need for map objects. Example. If it is java list the initialization will look as
@@ -72,7 +72,7 @@ public interface DataTypeMapper {
      * @param typeClass
      * @return
      */
-    public String getMapInitialization(String typeClass);
+    public String generateMapInitialization(String typeClass);
 
     /**
      * Gets list of imports that needs to be included when used objects of type List.
@@ -86,7 +86,7 @@ public interface DataTypeMapper {
      * </Code>
      * @return
      */
-    public List<String> getListImports();
+    public List<String> getListImportPackages();
 
     /**
      * Gets list of imports that needs to be included when used objects of type Map.
@@ -100,7 +100,7 @@ public interface DataTypeMapper {
      * </Code>
      * @return
      */
-    public List<String> getMapImports();
+    public List<String> getMapImportPackages();
 
     /**
      * Gets list of imports that needs to be included when used objects of type Date.

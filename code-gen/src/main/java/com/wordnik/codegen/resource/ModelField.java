@@ -148,12 +148,12 @@ public class ModelField {
 	    		fieldDefinition.getImportDefinitions().add("java.util.Date");
 	    	}
 	    	if(type.startsWith("List[")){
-	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getListImports());
+	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getListImportPackages());
 	    		String entryType = type.substring(5, type.length()-1);
 	    		entryType =  dataTypeMapper.getObjectType(entryType, true);
-	    		String returnType = dataTypeMapper.getListReturnType(entryType);
+	    		String returnType = dataTypeMapper.getListReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);
-	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.getListInitialization(entryType));
+	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.generateListInitialization(entryType));
 	    		if(this.getWrapperName() != null){
 	    			fieldDefinition.setName(this.getWrapperName());
 	    		}else{
@@ -161,16 +161,16 @@ public class ModelField {
 	    		}
 	    		
 	    	}else if (type.startsWith("Map[")) {
-                fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapImports());
+                fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapImportPackages());
                 String keyClass, entryClass = "";
 	    		String entryType = type.substring(4, type.length()-1);
                 keyClass = entryType.substring(0, entryType.indexOf(",") );
                 entryClass = entryType.substring(entryType.indexOf(",") + 1, entryType.length());
 	    		//entryType =  dataTypeMapper.getObjectType(entryType, true);
 	    		entryType =  dataTypeMapper.getObjectType(keyClass, true) + "," + dataTypeMapper.getObjectType(entryClass, true);
-	    		String returnType = dataTypeMapper.getMapReturnType(entryType);
+	    		String returnType = dataTypeMapper.getMapReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);
-	    		fieldDefinition.setInitialization("= " + dataTypeMapper.getMapInitialization(entryType));
+	    		fieldDefinition.setInitialization("= " + dataTypeMapper.generateMapInitialization(entryType));
 	    		if(this.getWrapperName() != null){
 	    			fieldDefinition.setName(this.getWrapperName());
 	    		}else{

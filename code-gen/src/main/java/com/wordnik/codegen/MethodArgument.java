@@ -56,7 +56,7 @@ public class MethodArgument {
 	}
 
 	public void setInputModelClassArgument(String inputModelClass, CodeGenConfig config) {
-		this.inputModelClassArgument = config.getNameGenerator().convertToMethodNameFormat(inputModelClass);
+		this.inputModelClassArgument = config.getNameGenerator().applyMethodNamingPolicy(inputModelClass);
         if(name != null) {
             methodNameFromModelClass = config.getNameGenerator().createGetterMethodName(inputModelClassArgument, name);
         }

@@ -52,7 +52,7 @@ public class ApiPropertyListWrapper implements Serializable
                 if(propertyDefn.getItems().getAdditionalProperties().get("$ref") != null) {
                     arrayItemType = (String) propertyDefn.getItems().getAdditionalProperties().get("$ref");
                 }
-                field.setParamType("List[" + config.getNameGenerator().convertToClassNameFormat(arrayItemType) + "]");
+                field.setParamType("List[" + config.getNameGenerator().applyClassNamingPolicy(arrayItemType) + "]");
             }
             field.setDefaultValue(propertyDefn.getDefaultValue());
             field.setInternalDescription(propertyDefn.getNotes());
