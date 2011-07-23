@@ -11,41 +11,28 @@ import java.util.List;
  */
 public class CodeGenConfig {
 
-    private String templateLocation; //lang config
 
-    private String classFileExtension; //lang config
-
-    private String modelClassLocation; //output config
-
-    private String resourceClassLocation; //output config
+    private String classFileExtension;
 
     /**
      *  Default model imports that we need to include in all service classes. This is needed because some times,
      *  we may need to write custom classes and those classes will not be known to code generation. To import those
      *  classes in service classes we use this property
      */
-    private List<String> defaultModelImports;  //code gen helper config
+    private List<String> defaultModelImports;
 
     /**
      *  Default service imports that we need to include in all service classes. This is needed because some times,
      *  we may need to write custom classes ans those classes will not be known to code generation. To import those
      *  classes in service classes we use this property
      */
-    private List<String> defaultServiceImports; //code gen helper config
+    private List<String> defaultServiceImports;
 
-    private CodeGenOverridingRules codeGenOverridingRules; //code gen helper config
+    private CodeGenOverridingRules codeGenOverridingRules;
 
-    private DataTypeMapper dataTypeMapper; //code gen helper
+    private DataTypeMapper dataTypeMapper;
 
-    private ServiceAndMethodNameGenerator nameGenerator; //code gen helper
-
-    public String getTemplateLocation() {
-        return templateLocation;
-    }
-
-    public void setTemplateLocation(String templateLocation) {
-        this.templateLocation = templateLocation;
-    }
+    private ServiceAndMethodNameGenerator nameGenerator;
 
     public String getClassFileExtension() {
         return classFileExtension;
@@ -53,22 +40,6 @@ public class CodeGenConfig {
 
     public void setClassFileExtension(String classFileExtension) {
         this.classFileExtension = classFileExtension;
-    }
-
-    public String getModelClassLocation() {
-        return modelClassLocation;
-    }
-
-    public void setModelClassLocation(String modelClassLocation) {
-        this.modelClassLocation = modelClassLocation;
-    }
-
-    public String getResourceClassLocation() {
-        return resourceClassLocation;
-    }
-
-    public void setResourceClassLocation(String resourceClassLocation) {
-        this.resourceClassLocation = resourceClassLocation;
     }
 
     public List<String> getDefaultModelImports() {

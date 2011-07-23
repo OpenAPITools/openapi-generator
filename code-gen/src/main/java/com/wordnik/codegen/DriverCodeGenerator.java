@@ -4,6 +4,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.GenerationEnvironmentConfig;
 import com.wordnik.codegen.resource.*;
 import com.wordnik.exception.CodeGenerationException;
 
@@ -37,6 +38,7 @@ public class DriverCodeGenerator {
     private static final String API_LISTING_URL = "apiListResource";
 
     private CodeGenConfig config = null;
+    private GenerationEnvironmentConfig envConfig = null;
     private String baseUrl;
     private String apiKey;
     private String apiListResource;
@@ -49,6 +51,14 @@ public class DriverCodeGenerator {
         this.config = config;
     }
 
+    public GenerationEnvironmentConfig getEnvConfig() {
+        return envConfig;
+    }
+
+    public void setEnvConfig(GenerationEnvironmentConfig config) {
+        this.envConfig = config;
+    }
+
     /**
      * Generate classes needed for the model and API invocation
      */
@@ -56,7 +66,7 @@ public class DriverCodeGenerator {
         readApiConfig();
     	//read resources and get their documentation
         List<Resource> resources = this.readResourceDocumentation(baseUrl);
-        StringTemplateGroup aTemplateGroup = new StringTemplateGroup("templates",config.getTemplateLocation());
+        StringTemplateGroup aTemplateGroup = new StringTemplateGroup("templates",envConfig.getTemplateLocation());
         if(resources.size() > 0) {
         	generateVersionHelper(resources.get(0).getApiVersion(), aTemplateGroup);
         }
@@ -208,7 +218,7 @@ public class DriverCodeGenerator {
     private void generateVersionHelper(String version, StringTemplateGroup templateGroup) {
     	StringTemplate template = templateGroup.getInstanceOf(VERSION_OBJECT_TEMPLATE);
     	template.setAttribute("apiVersion", version);
-    	File aFile = new File(config.getResourceClassLocation() + config.getNameGenerator().getVersionCheckerClassName()
+    	File aFile = new File(envConfig.getResourceClassLocation() + config.getNameGenerator().getVersionCheckerClassName()
                 + config.getClassFileExtension());
         writeFile(aFile, template.toString(), "Version checker class");
     }
@@ -236,7 +246,7 @@ public class DriverCodeGenerator {
     		    	template.setAttribute("imports", imports);
                     template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
     		    	template.setAttribute("className", model.getGenratedClassName());
-    		    	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
+    		    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
                     writeFile(aFile, template.toString(), "Model class");
     				generatedClassNames.add(model.getName());
     			}
@@ -278,7 +288,7 @@ public class DriverCodeGenerator {
 		    		    		    	template.setAttribute("imports", imports);
                                         template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
 		    		    		    	template.setAttribute("className", model.getGenratedClassName());
-		    		    		    	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
+		    		    		    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
                                         writeFile(aFile, template.toString(), "Input model class");
 		    		    		    	generatedClasses.add(model.getName());
 	    							}    							
@@ -316,7 +326,7 @@ public class DriverCodeGenerator {
 	    	template.setAttribute("methods", filteredMethods);
             template.setAttribute("extends", config.getCodeGenOverridingRules().getServiceExtendingClass(className));
 
-	    	File aFile = new File(config.getResourceClassLocation()+ resource.generateClassName(config) +config.getClassFileExtension());
+	    	File aFile = new File(envConfig.getResourceClassLocation()+ resource.generateClassName(config) +config.getClassFileExtension());
             writeFile(aFile, template.toString(), "API CLasses");
     	}
     }
@@ -359,7 +369,7 @@ public class DriverCodeGenerator {
     	template.setAttribute("imports", imports);
         template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
     	template.setAttribute("className", model.getGenratedClassName());
-    	File aFile = new File(config.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
+    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
         writeFile(aFile, template.toString(), "Wrapper class for test data file");
     }
 

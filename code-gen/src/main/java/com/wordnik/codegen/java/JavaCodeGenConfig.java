@@ -14,9 +14,6 @@ public class JavaCodeGenConfig  extends CodeGenConfig {
 
     public JavaCodeGenConfig() {
         this.setClassFileExtension(".java");
-        this.setModelClassLocation("../java/src/main/java/com/wordnik/model/");
-        this.setResourceClassLocation("../java/src/main/java/com/wordnik/api/");
-        this.setTemplateLocation("conf/templates/java");
         List<String> defaultModelImports = new ArrayList<String>();
         defaultModelImports.add("com.wordnik.common.WordListType");
         defaultModelImports.add("com.wordnik.common.StringValue");

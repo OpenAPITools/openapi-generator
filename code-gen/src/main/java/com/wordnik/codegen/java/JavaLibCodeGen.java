@@ -16,5 +16,6 @@ public class JavaLibCodeGen extends DriverCodeGenerator {
     
     public JavaLibCodeGen(){
         this.setConfig(new JavaCodeGenConfig());
+        this.setEnvConfig(new JavaGenEnvConfig());
     }
 }
