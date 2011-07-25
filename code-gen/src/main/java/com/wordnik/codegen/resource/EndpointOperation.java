@@ -244,6 +244,11 @@ public class EndpointOperation {
 							arguments.add(anArgument);
                             method.setPostObject(true);
 						}
+
+                        if(modelField.isAllowMultiple() && config.getDataTypeMapper().isPrimitiveType(modelField.getDataType())){
+                            anArgument.setDataType(config.getDataTypeMapper().getListReturnTypeSignature(
+                                    config.getDataTypeMapper().getReturnValueType(modelField.getDataType())));
+                        }
                         anArgument.setInputModelClassArgument(inputobjectName, config);
 					}
 				}

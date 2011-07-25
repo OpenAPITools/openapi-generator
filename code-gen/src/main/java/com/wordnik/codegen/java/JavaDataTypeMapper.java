@@ -90,12 +90,20 @@ public class JavaDataTypeMapper implements DataTypeMapper {
         return "Map<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
     }
 
+    public String getSetReturnTypeSignature(String typeClass) {
+        return "Set<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
+    }
+
     public String generateListInitialization(String typeClass) {
         return " new ArrayList<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
     }
 
     public String generateMapInitialization(String typeClass) {
         return " new HashMap<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
+    }
+
+    public String generateSetInitialization(String typeClass) {
+        return " new HashSet<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
     }
 
     public List<String> getListImportPackages() {
@@ -111,6 +119,12 @@ public class JavaDataTypeMapper implements DataTypeMapper {
         imports.add("java.util.HashMap");
         return imports;
     }
+
+    public List<String> getSetImportPackages() {
+        List<String> imports = new ArrayList<String>();
+        imports.add("java.util.Set");
+        imports.add("java.util.HashSet");
+        return imports;    }
 
 
     public List<String> getDateImports() {
@@ -134,6 +148,9 @@ public class JavaDataTypeMapper implements DataTypeMapper {
     	}else if (type.startsWith("Map[")) {
     		classShortName = type.substring(4, type.length()-1);
     		classShortName =  getObjectType(classShortName, true);
+    	}else if (type.startsWith("Set[")) {
+    		classShortName = type.substring(4, type.length()-1);
+    		classShortName =  getObjectType(classShortName, true);
     	}else if (type.equals("ok")) {
     		classShortName = "void";
     	}else{
@@ -143,9 +160,10 @@ public class JavaDataTypeMapper implements DataTypeMapper {
     }
 
 	/**
-	 * Gets the short name of the class the class.
-	 * Input can be MAP, LIST or regular string. In case of map or list the class name will be class name
+	 * Gets the class of the expected return value for a type string. Examples of type Strings are int, User, List[User]
+	 * If the type string is a collection type like a map or list the string value returned would be the class
 	 * that map or list is returning.
+     *
 	 * @param type
 	 * @return
 	 */
@@ -159,7 +177,10 @@ public class JavaDataTypeMapper implements DataTypeMapper {
     		classShortName =  "List<"+getObjectType(classShortName, true)+">";
     	}else if (type.startsWith("Map[")) {
     		classShortName = type.substring(4, type.length()-1);
-    		classShortName =  "List<"+getObjectType(classShortName, true) +">";
+    		classShortName =  "Map<"+getObjectType(classShortName, true) +">";
+    	}else if (type.startsWith("Set[")) {
+    		classShortName = type.substring(4, type.length()-1);
+    		classShortName =  "Set<"+getObjectType(classShortName, true) +">";
     	}else{
     		classShortName =  getObjectType(type, true);
     	}

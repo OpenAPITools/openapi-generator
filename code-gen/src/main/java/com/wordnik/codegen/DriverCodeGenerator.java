@@ -32,11 +32,13 @@ public class DriverCodeGenerator {
 	private static String VERSION_OBJECT_TEMPLATE = "VersionChecker";
 	private static String MODEL_OBJECT_TEMPLATE = "ModelObject";
     private static String API_OBJECT_TEMPLATE = "ResourceObject";
-    public static final String API_CONFIG_LOCATION = "conf/apiConfig.xml";
+    private static final String ENUM_OBJECT_TEMPLATE = "EnumObject";
+    private static final String API_CONFIG_LOCATION = "conf/apiConfig.xml";
     private static final String API_URL_CONFIG = "apiUrl";
     private static final String API_KEY = "apiKey";
     private static final String API_LISTING_URL = "apiListResource";
 
+    private static final String PACKAGE_NAME = "packageName";
     private CodeGenConfig config = null;
     private GenerationEnvironmentConfig envConfig = null;
     private String baseUrl;
@@ -72,6 +74,7 @@ public class DriverCodeGenerator {
         }
         generateModelClasses(resources, aTemplateGroup);
         generateModelClassesForInput(resources, aTemplateGroup);
+        generateEnumForAllowedValues(resources, aTemplateGroup);
         generateAPIClasses(resources, aTemplateGroup);
     }
 
@@ -212,23 +215,24 @@ public class DriverCodeGenerator {
 
     /**
      * Generates version file based on the version number received from the doc calls. This version file is used
-     * while making the API calls to make sure Client and back end are compatible. 
+     * while making the API calls to make sure Client and back end are compatible.
      * @param version
      */
     private void generateVersionHelper(String version, StringTemplateGroup templateGroup) {
     	StringTemplate template = templateGroup.getInstanceOf(VERSION_OBJECT_TEMPLATE);
     	template.setAttribute("apiVersion", version);
+    	template.setAttribute(PACKAGE_NAME, config.getApiPackageName());
     	File aFile = new File(envConfig.getResourceClassLocation() + config.getNameGenerator().getVersionCheckerClassName()
                 + config.getClassFileExtension());
         writeFile(aFile, template.toString(), "Version checker class");
     }
-    
+
     /**
      * Generates model classes. If the class is already generated then ignores the same.
      */
     private void generateModelClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
     	List<String> generatedClassNames = new ArrayList();
-    	
+
     	for(Resource resource: resources) {
     		for(Model model : resource.getModels()){
     			if(!generatedClassNames.contains(model.getName()) && !config.getCodeGenOverridingRules().isModelIgnored(model.getName())){
@@ -244,20 +248,22 @@ public class DriverCodeGenerator {
     		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
     		    	template.setAttribute("fields", model.getFields());
     		    	template.setAttribute("imports", imports);
+                    template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
                     template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
     		    	template.setAttribute("className", model.getGenratedClassName());
+    		    	template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
     		    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
                     writeFile(aFile, template.toString(), "Model class");
     				generatedClassNames.add(model.getName());
     			}
     		}
     	}
-    	
+
     	generateWrapperClassForTestData(generatedClassNames, templateGroup);
-    }    
+    }
 
     /**
-     * Generates assembler classes if the API returns more than one objects. 
+     * Generates assembler classes if the API returns more than one objects.
      * @param resources
      * @param templateGroup
      */
@@ -287,11 +293,13 @@ public class DriverCodeGenerator {
 		    		    		    	template.setAttribute("fields", model.getFields());
 		    		    		    	template.setAttribute("imports", imports);
                                         template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
+                                        template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
 		    		    		    	template.setAttribute("className", model.getGenratedClassName());
+                                        template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
 		    		    		    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
                                         writeFile(aFile, template.toString(), "Input model class");
 		    		    		    	generatedClasses.add(model.getName());
-	    							}    							
+	    							}
 	    						}
     						}
     					}
@@ -299,15 +307,71 @@ public class DriverCodeGenerator {
     			}
     		}
     	}
-    }    
-    
+    }
+
     /**
-     * Generates one API class for each resource and each end point in the resource is translated as method. 
+     * Generates an Enum class for method params that have an allowed values list.
+     * @param resources
+     * @param templateGroup
+     */
+    private void generateEnumForAllowedValues(List<Resource> resources, StringTemplateGroup templateGroup) {
+        List<String> generatedEnums = new ArrayList<String>();
+        StringTemplate template;
+        String valuePrefix, valueSuffix = "";
+        String enumName;
+        for(Resource resource: resources) {
+            if(resource.getEndPoints() != null) {
+                for(Endpoint endpoint : resource.getEndPoints()){
+                    if(endpoint.getOperations() != null) {
+                        for(EndpointOperation operation : endpoint.getOperations()){
+                            //ResourceMethod method = operation.generateMethod(endpoint, resource, config);
+                            if(operation.getParameters() != null){
+                                for(ModelField operationParam : operation.getParameters()){
+                                    //skipping the case where there is just one item - TODO process case of allowableValue like '0 to 1000'
+                                    if(operationParam.getAllowableValues() != null && operationParam.getAllowableValues().size() > 1) {
+                                        if(!generatedEnums.contains(operationParam.getName())){
+                                            //generate enum
+                                            template = templateGroup.getInstanceOf(ENUM_OBJECT_TEMPLATE);
+                                            List<String> imports = new ArrayList<String>();
+                                            imports.addAll(this.config.getDefaultModelImports());
+                                            enumName = config.getNameGenerator().getEnumName(operationParam.getName());
+                                            template.setAttribute("className", enumName);
+                                            template.setAttribute("description", operationParam.getDescription());
+                                            template.setAttribute("enumValueType", config.getDataTypeMapper().getObjectType(operationParam.getDataType(), true));
+                                            for (String allowableValue : operationParam.getAllowableValues()) {
+                                                if(operationParam.getDataType().equalsIgnoreCase("string")){
+                                                    valuePrefix = valueSuffix = "\"";
+                                                }
+                                                else{
+                                                    valuePrefix = valueSuffix = "";
+                                                };
+                                                template.setAttribute("values.{name,value}",
+                                                        config.getNameGenerator().applyClassNamingPolicy(allowableValue.replaceAll("-","_")),
+                                                        config.getNameGenerator().applyMethodNamingPolicy(valuePrefix.concat(allowableValue).concat(valueSuffix)));
+                                            }
+                                            template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
+		    		    		    	    File aFile = new File(envConfig.getModelClassLocation()+enumName+config.getClassFileExtension());
+                                            writeFile(aFile, template.toString(), "Enum class");
+                                            generatedEnums.add(operationParam.getName());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Generates one API class for each resource and each end point in the resource is translated as method.
      * @param resources
      * @param templateGroup
      */
     private void generateAPIClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
-    	
+
     	for(Resource resource : resources) {
     		List<ResourceMethod> methods = new ArrayList<ResourceMethod>();
             List<String> imports = new ArrayList<String>();
@@ -322,6 +386,10 @@ public class DriverCodeGenerator {
                 }
             }
 	    	template.setAttribute("imports", imports);
+            template.setAttribute(PACKAGE_NAME, config.getApiPackageName());
+            template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
+            template.setAttribute("modelPackageName", config.getModelPackageName());
+            template.setAttribute("exceptionPackageName", config.getExceptionPackageName());
 	    	template.setAttribute("resource", className);
 	    	template.setAttribute("methods", filteredMethods);
             template.setAttribute("extends", config.getCodeGenOverridingRules().getServiceExtendingClass(className));
@@ -330,7 +398,7 @@ public class DriverCodeGenerator {
             writeFile(aFile, template.toString(), "API CLasses");
     	}
     }
-    
+
     /**
      * Creates a wrapper model class that contains all model classes as list of objects.
      * This class is used for storing test data
@@ -367,7 +435,9 @@ public class DriverCodeGenerator {
     	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
     	template.setAttribute("fields", model.getFields());
     	template.setAttribute("imports", imports);
+        template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
         template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
+        template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
     	template.setAttribute("className", model.getGenratedClassName());
     	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
         writeFile(aFile, template.toString(), "Wrapper class for test data file");

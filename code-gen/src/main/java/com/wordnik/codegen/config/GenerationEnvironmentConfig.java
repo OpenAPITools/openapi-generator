@@ -7,11 +7,11 @@ package com.wordnik.codegen.config;
  */
 public class GenerationEnvironmentConfig {
 
-    private String templateLocation; //lang config
+    private String templateLocation;
 
-    private String modelClassLocation; //output config
+    private String modelClassLocation;
 
-    private String resourceClassLocation; //output config
+    private String resourceClassLocation;
 
     public String getTemplateLocation() {
         return templateLocation;

@@ -35,7 +35,7 @@ public interface DataTypeMapper {
     /**
      * Signature that should be used when returning list of given object type.
      *
-     * Example: in java this output will look as <Code> List<User> </Code> for methods that returns list of user objects
+     * Example: in java this output will look as <Code> List<User> </Code> for methods that returns a list of user objects
      * @param typeClass of class that list object contains.
      * @return
      */
@@ -44,11 +44,20 @@ public interface DataTypeMapper {
     /**
      * Signature that should be used when returning map of given object type.
      *
-     * Example: in java this output will look as <Code> Map<User> </Code> for methods that returns list of user objects
+     * Example: in java this output will look as <Code> Map<User> </Code> for methods that returns maps
      * @param typeClass of class that list object contains.
      * @return
      */
     public String getMapReturnTypeSignature(String typeClass);
+
+    /**
+     * Signature that should be used when returning set of given object type.
+     *
+     * Example: in java this output will look as <Code> Set<User> </Code> for methods that returns a set of user objects
+     * @param typeClass of class that the set object contains.
+     * @return
+     */
+    public String getSetReturnTypeSignature(String typeClass);
 
     /**
      * Initialization need for list objects. Example. If it is java list the initialization will look as
@@ -63,7 +72,7 @@ public interface DataTypeMapper {
     public String generateListInitialization(String typeClass);
 
     /**
-     * Initialization need for map objects. Example. If it is java list the initialization will look as
+     * Initialization need for map objects. Example. If it is java map the initialization will look as
      *
      * <Code>
      *      new HashMap<ClassName>()
@@ -73,6 +82,18 @@ public interface DataTypeMapper {
      * @return
      */
     public String generateMapInitialization(String typeClass);
+
+    /**
+     * Initialization need for set objects. Example. If it is java set the initialization will look as
+     *
+     * <Code>
+     *      new HashSet<ClassName>()
+     * </Code>
+     *
+     * @param typeClass
+     * @return
+     */
+    public String generateSetInitialization(String typeClass);
 
     /**
      * Gets list of imports that needs to be included when used objects of type List.
@@ -101,6 +122,20 @@ public interface DataTypeMapper {
      * @return
      */
     public List<String> getMapImportPackages();
+
+    /**
+     * Gets list of imports that needs to be included when used objects of type Set.
+     *
+     * Example: in java while using sets we use an interface of <Code>Set</Code> and implementation of
+     * <Code>HashSet</Code>. SO the output will as follows:
+     * <Code>
+     *      List<String> imports = new ArrayList<String>();
+            imports.add("java.util.Set");
+            imports.add("java.util.HashSet");
+     * </Code>
+     * @return
+     */
+    public List<String> getSetImportPackages();
 
     /**
      * Gets list of imports that needs to be included when used objects of type Date.

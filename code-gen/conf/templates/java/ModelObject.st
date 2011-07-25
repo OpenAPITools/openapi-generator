@@ -1,7 +1,7 @@
-package com.wordnik.model;
+package $packageName$;
 
-import com.wordnik.annotations.AllowableValues;
-import com.wordnik.annotations.Required;
+import $annotationPackageName$.AllowableValues;
+import $annotationPackageName$.Required;
 
 $imports:{ import |
 import $import$;

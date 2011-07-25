@@ -52,7 +52,7 @@ public class WordnikAPI {
 	 * 					used while building the driver. This value should be provided while testing the APIs against 
 	 * 					test servers or if there is any changes in production server URLs.
 	 * @param enableLogging This will enable the logging using Jersey logging filter. Refer the following documentation 
-	 * 						for more details. {@link LoggingFilter}. Default output is sent to system.out. 
+	 * 						for more details. {@link LoggingFilter}. Default output is sent to system.out.
 	 * 						Create a logger ({@link Logger} class and set using setLogger method.
 	 */
 	public static void initialize(String apiKey, String apiServer, boolean enableLogging) {

@@ -3,14 +3,16 @@ package com.wordnik.api;
 
 import com.wordnik.common.*;
 import com.wordnik.common.ext.*;
-import com.wordnik.exception.APIExceptionCodes;
-import com.wordnik.exception.APIException;
 import com.wordnik.model.*;
-import java.util.*;
 import com.wordnik.annotations.MethodArgumentNames;
+import $exceptionPackageName$.APIExceptionCodes;
+import $exceptionPackageName$.APIException;
+
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+
+import java.util.*;
 import java.io.IOException;
 
 /**

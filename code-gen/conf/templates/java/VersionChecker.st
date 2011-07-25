@@ -1,4 +1,4 @@
-package com.wordnik.api;
+package $packageName$;
 
 /**
  * Maintains the compatible server version against which the drive is written

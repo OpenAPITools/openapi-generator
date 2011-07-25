@@ -28,6 +28,14 @@ public class CodeGenConfig {
      */
     private List<String> defaultServiceImports;
 
+    private String modelPackageName;
+
+    private String apiPackageName;
+
+    private String exceptionPackageName;
+
+    private String annotationPackageName;
+
     private CodeGenOverridingRules codeGenOverridingRules;
 
     private DataTypeMapper dataTypeMapper;
@@ -80,5 +88,37 @@ public class CodeGenConfig {
 
     public void setNameGenerator(ServiceAndMethodNameGenerator nameGenerator) {
         this.nameGenerator = nameGenerator;
+    }
+
+    public String getExceptionPackageName() {
+        return exceptionPackageName;
+    }
+
+    public void setExceptionPackageName(String exceptionPackageName) {
+        this.exceptionPackageName = exceptionPackageName;
+    }
+
+    public String getAnnotationPackageName() {
+        return annotationPackageName;
+    }
+
+    public void setAnnotationPackageName(String annotationPackageName) {
+        this.annotationPackageName = annotationPackageName;
+    }
+
+    public String getModelPackageName() {
+        return modelPackageName;
+    }
+
+    public void setModelPackageName(String modelPackageName) {
+        this.modelPackageName = modelPackageName;
+    }
+
+    public String getApiPackageName() {
+        return apiPackageName;
+    }
+
+    public void setApiPackageName(String apiPackageName) {
+        this.apiPackageName = apiPackageName;
     }
 }

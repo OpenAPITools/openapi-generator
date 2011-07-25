@@ -21,8 +21,14 @@ public class JavaCodeGenConfig  extends CodeGenConfig {
         defaultModelImports.add("com.wordnik.common.WordnikObject");
         List<String> defaultServiceImports = new ArrayList<String>();
         defaultServiceImports.add("com.wordnik.model.Long");
+        defaultServiceImports.add("com.wordnik.common.*");
+        defaultServiceImports.add("com.wordnik.common.ext.*");
         this.setDefaultModelImports(defaultModelImports);
         this.setDefaultServiceImports(defaultServiceImports);
+        this.setModelPackageName("com.wordnik.model");
+        this.setApiPackageName("com.wordnik.api");
+        this.setExceptionPackageName("com.wordnik.exception");
+        this.setAnnotationPackageName("com.wordnik.annotations");
         this.setCodeGenOverridingRules(new JavaCodeGenPverridingRules());
         this.setDataTypeMapper(new JavaDataTypeMapper());
         this.setNameGenerator(new JavaServiceAndMethodNameGenerator());

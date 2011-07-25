@@ -82,6 +82,16 @@ public interface ServiceAndMethodNameGenerator {
     public String getInputObjectName(String serviceName, String resourcePath);
 
     /**
+     * Generates a name for an enum for the param or field name.
+     *
+     * Example: for a param source the return could be SourceEnum
+     *
+     * @param input
+     * @return
+     */
+    public String getEnumName(String input);
+
+    /**
      * Gets the signature of the method that gets value for give attribute name.
      *
      * Example: If class name is user and attibute name is email the out in java language will be

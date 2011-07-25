@@ -24,6 +24,9 @@
                               </fileset>
                         </classpath>
                 </java>
+                <copy todir="../java/src/main/java/" overwrite="true">
+                    <fileset dir="../java/src/lang/java"/>
+                </copy>
         </target>
 
 </project>

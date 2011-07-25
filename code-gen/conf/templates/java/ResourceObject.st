@@ -1,16 +1,16 @@
-package com.wordnik.api;
+package $packageName$;
 
 
-import com.wordnik.common.*;
-import com.wordnik.common.ext.*;
-import com.wordnik.exception.APIExceptionCodes;
-import com.wordnik.exception.APIException;
-import com.wordnik.model.*;
-import java.util.*;
-import com.wordnik.annotations.MethodArgumentNames;
+import $annotationPackageName$.MethodArgumentNames;
+import $exceptionPackageName$.APIExceptionCodes;
+import $exceptionPackageName$.APIException;
+import $modelPackageName$.*;
+
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+
+import java.util.*;
 import java.io.IOException;
 
 $imports:{ import |
@@ -57,7 +57,7 @@ $endif$
 $if(!method.inputModel)$		
 $method.queryParameters:{ argument |
 		if( $argument.name$ != null) {
-		 	queryParams.put("$argument.name$", $argument.name$);
+		 	queryParams.put("$argument.name$", toPathValue($argument.name$));
 		}
 }$
 $method.pathParameters:{ argument |
@@ -119,7 +119,34 @@ $if(method.returnValueList)$
 $endif$		
 $endif$		
 	}
-	
-	
-}$	
+
+}$
+
+    /**
+     * Overloaded method for returning the path value
+     * For a string value an empty value is returned if the value is null
+     * @param value
+     * @return
+     */
+    private static String toPathValue(String value) {
+        return  value == null ? "" : value;
+    }
+
+    /**
+     * Overloaded method for returning a path value
+     * For a list of objects a comma separated string is returned
+     * @param objects
+     * @return
+     */
+    private static String toPathValue(List objects) {
+        StringBuilder out = new StringBuilder();
+        for(Object o: objects){
+            out.append(o.toString());
+            out.append(",");
+        }
+        if(out.indexOf(",") != -1) {
+            return out.substring(0, out.lastIndexOf(",") );
+        }
+        return out.toString();
+    }
 }

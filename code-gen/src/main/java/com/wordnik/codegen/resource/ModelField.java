@@ -24,6 +24,8 @@ public class ModelField {
 
     private boolean required = false;
 
+    private boolean allowMultiple = false;
+
     private List<String> allowableValues = null;
 
     private String paramType;
@@ -79,6 +81,14 @@ public class ModelField {
 	public List<String> getAllowableValues() {
 		return allowableValues;
 	}
+
+    public boolean isAllowMultiple() {
+        return allowMultiple;
+    }
+
+    public void setAllowMultiple(boolean allowMultiple) {
+        this.allowMultiple = allowMultiple;
+    }
 
 	public void setAllowableValues(List<String> allowableValues) {
 		this.allowableValues = allowableValues;
@@ -159,7 +169,20 @@ public class ModelField {
 	    		}else{
 	    			fieldDefinition.setName(this.getName());
 	    		}
-	    		
+
+	    	}else if(type.startsWith("Set[")){
+	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getSetImportPackages());
+	    		String entryType = type.substring(4, type.length()-1);
+	    		entryType =  dataTypeMapper.getObjectType(entryType, true);
+	    		String returnType = dataTypeMapper.getSetReturnTypeSignature(entryType);
+	    		fieldDefinition.setReturnType(returnType);
+	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.generateSetInitialization(entryType));
+	    		if(this.getWrapperName() != null){
+	    			fieldDefinition.setName(this.getWrapperName());
+	    		}else{
+	    			fieldDefinition.setName(this.getName());
+	    		}
+
 	    	}else if (type.startsWith("Map[")) {
                 fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapImportPackages());
                 String keyClass, entryClass = "";
@@ -180,9 +203,8 @@ public class ModelField {
 	    		fieldDefinition.setReturnType(dataTypeMapper.getObjectType(type, false));
 	    		fieldDefinition.setName(this.getName());
 	    	}
-	    	
+
     	}
     	return fieldDefinition;
     }
-    
 }
