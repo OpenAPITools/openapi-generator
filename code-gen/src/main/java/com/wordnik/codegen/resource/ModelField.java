@@ -99,8 +99,10 @@ public class ModelField {
         for(String allowedValue: this.allowableValues){
             result += (allowedValue +",");
         }
-
-        return result.substring(0, result.length());
+        if(result.length() == 0)
+            return null;
+        else
+            return result.substring(0, result.length() - 1);
     }
 
     public void setAllowedValues(String csvAlowedValue) {

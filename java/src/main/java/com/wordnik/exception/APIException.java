@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Exception that is thrown if there are any issues in invoking Wordnik API.
  * 
- * Each exception carries a code and message. Code can be either HTTP error response code {@link ClientResponse.Status}
+ * Each exception carries a code and message. Code can be either HTTP error response code {@link com.sun.jersey.api.client.ClientResponse.Status}
  * or The list of possible Wordnik exception code that are listed in the interface {@link APIExceptionCodes}.
  * User: ramesh
  * Date: 3/31/11

@@ -299,7 +299,6 @@ public class EndpointOperation {
 			method.setMethodType(this.getHttpMethod());
 			
 			//get return value
-			//private String returnValue;
 			List<Response> response = this.getResponse();
 
 			method.setReturnValue(config.getDataTypeMapper().getReturnValueType(response.get(0).getValueType()));
