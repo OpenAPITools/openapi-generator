@@ -96,8 +96,10 @@ public class ModelField {
 
     public String getAllowedValuesString() {
         String result = "";
-        for(String allowedValue: this.allowableValues){
-            result += (allowedValue +",");
+        if (this.allowableValues != null) {
+            for(String allowedValue: this.allowableValues){
+                result += (allowedValue +",");
+            }
         }
         if(result.length() == 0)
             return null;

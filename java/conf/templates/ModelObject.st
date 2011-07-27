@@ -15,17 +15,19 @@ import $import$;
  */
 public class $className$ extends $extends$ {
 
-	$fields:{ field |
-	 //$field.description$
-	 private $field.fieldDefinition.returnType$ $field.fieldDefinition.name$ $field.fieldDefinition.initialization$;  
-	}$
+$fields:{ field |
+     /**
+     * $field.description$
+     */
+	 private $field.fieldDefinition.returnType$ $field.fieldDefinition.name$ $field.fieldDefinition.initialization$;$\n$
+	 }$
 	
-	$fields:{ field |
-	 //$field.description$
-	 $if(field.required)$ 
-	 @Required $endif$
-	 $if(field.allowableValues)$
-	 @AllowableValues(value="$field.allowableValues$")$endif$	 
+$fields:{ field |
+	 /**
+	 * $field.description$
+	 * $if(field.required)$@Required$endif$
+	 * $if(field.allowedValuesString)$@AllowableValues(value="$field.allowableValues$")$endif$
+	 */
 	 public $field.fieldDefinition.returnType$ get$field.fieldDefinition.NameForMethod$() {
 	 	return $field.fieldDefinition.name$;
 	 }  
@@ -33,5 +35,5 @@ public class $className$ extends $extends$ {
 	 public void set$field.fieldDefinition.NameForMethod$($field.fieldDefinition.returnType$  $field.fieldDefinition.name$) {
 	 	this.$field.fieldDefinition.name$ = $field.fieldDefinition.name$;
 	 }
-	}$
+     }$
 }
