@@ -18,8 +18,9 @@ public class Resource {
 	
 	private String apiVersion;
 
+    //TODO rename the JSON property too after the sandbox var has been renamed
     @JsonProperty("swagrVersion")
-    private String swagrVersion;
+    private String swaggerVersion;
 
     @JsonProperty("apis")
     private List<Endpoint> endPoints = new ArrayList<Endpoint>();
@@ -35,7 +36,7 @@ public class Resource {
     private List<ResourceMethod> methods;
 
     @JsonCreator
-    public Resource() {//@JsonProperty("models") ApiModelListWrapper modelListWrapper, @JsonProperty("apis") List<Endpoint> endPoints)
+    public Resource() {
 
     }
     
@@ -47,14 +48,15 @@ public class Resource {
 		this.apiVersion = apiVersion;
 	}
 
+    //TODO rename the JSON property too after the sandbox var has been renamed
     @JsonProperty("swagrVersion")
-    public String getSwagrVersion() {
-        return swagrVersion;
+    public String getSwaggerVersion() {
+        return swaggerVersion;
     }
 
-    @JsonProperty("swagrVersion")
-    public void setSwagrVersion(String swagrVersion) {
-        this.swagrVersion = swagrVersion;
+    @JsonProperty("swaggerVersion")
+    public void setSwaggerVersion(String swaggerVersion) {
+        this.swaggerVersion = swaggerVersion;
     }
 
     @JsonProperty("apis")
