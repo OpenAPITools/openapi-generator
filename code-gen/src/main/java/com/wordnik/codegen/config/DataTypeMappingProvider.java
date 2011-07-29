@@ -10,7 +10,7 @@ import java.util.List;
  * Date: 5/27/11
  * Time: 7:39 AM
  */
-public interface DataTypeMapper {
+public interface DataTypeMappingProvider {
 
     /**
      * Checks nature of data type.

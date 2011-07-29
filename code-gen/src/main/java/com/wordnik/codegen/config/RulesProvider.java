@@ -15,11 +15,7 @@ import java.util.Map;
  * Date: 4/26/11
  * Time: 8:01 AM
  */
-public interface CodeGenOverridingRules {
-
-    public String getServiceExtendingClass(String serviceName);
-
-    public String getModelExtendingClass();
+public interface RulesProvider {
 
     public boolean isMethodIgnored(String serviceName, String methodName);
 

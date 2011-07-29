@@ -1,6 +1,6 @@
 package com.wordnik.codegen;
 
-import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 
 public class MethodArgument {
 	
@@ -55,10 +55,10 @@ public class MethodArgument {
 		return inputModelClassArgument;
 	}
 
-	public void setInputModelClassArgument(String inputModelClass, CodeGenConfig config) {
-		this.inputModelClassArgument = config.getNameGenerator().applyMethodNamingPolicy(inputModelClass);
+	public void setInputModelClassArgument(String inputModelClass, NamingPolicyProvider nameGenerator) {
+		this.inputModelClassArgument = nameGenerator.applyMethodNamingPolicy(inputModelClass);
         if(name != null) {
-            methodNameFromModelClass = config.getNameGenerator().createGetterMethodName(inputModelClassArgument, name);
+            methodNameFromModelClass = nameGenerator.createGetterMethodName(inputModelClassArgument, name);
         }
 	}
 

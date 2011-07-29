@@ -1,7 +1,8 @@
 package com.wordnik.codegen.config.java;
 
-import com.wordnik.codegen.config.DataTypeMapper;
-import com.wordnik.codegen.config.ServiceAndMethodNameGenerator;
+import com.wordnik.codegen.config.DataTypeMappingProvider;
+import com.wordnik.codegen.config.NamingPolicyProvider;
+import com.wordnik.codegen.config.common.CamelCaseNamingPolicyProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Map;
  * Date: 5/31/11
  * Time: 7:03 AM
  */
-public class JavaDataTypeMapper implements DataTypeMapper {
+public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
 
     public static Map<String, String> primitiveValueMap = new HashMap<String, String>();
     static{
@@ -49,7 +50,7 @@ public class JavaDataTypeMapper implements DataTypeMapper {
         primitiveObjectMap.put("date", "Date");
     }
 
-    private ServiceAndMethodNameGenerator nameGenerator = new JavaServiceAndMethodNameGenerator();
+    private NamingPolicyProvider nameGenerator = new CamelCaseNamingPolicyProvider();
 
     public boolean isPrimitiveType(String type) {
     	if(type.equalsIgnoreCase("String") || type.equalsIgnoreCase("int") || type.equalsIgnoreCase("integer") ||

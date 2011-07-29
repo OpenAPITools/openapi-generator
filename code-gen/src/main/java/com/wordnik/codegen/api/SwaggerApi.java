@@ -3,19 +3,15 @@ package com.wordnik.codegen.api;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.ApiConfiguration;
+import com.wordnik.codegen.config.DataTypeMappingProvider;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 import com.wordnik.codegen.resource.Endpoint;
 import com.wordnik.codegen.resource.Resource;
 import com.wordnik.exception.CodeGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,40 +33,22 @@ public class SwaggerApi {
     private String baseUrl;
     private String apiKey;
     private String apiListResource;
-    private CodeGenConfig codeGenConfig;
+    private ApiConfiguration apiConfiguration;
+    private final DataTypeMappingProvider dataTypeMappingProvider;
+    private final NamingPolicyProvider nameGenerator;
 
-    public SwaggerApi(CodeGenConfig driverCodeGenerator) {
-        codeGenConfig = driverCodeGenerator;
+    public SwaggerApi(ApiConfiguration apiConfiguration, DataTypeMappingProvider dataTypeMappingProvider, NamingPolicyProvider nameGenerator) {
+        this.apiConfiguration = apiConfiguration;
+        this.dataTypeMappingProvider = dataTypeMappingProvider;
+        this.nameGenerator = nameGenerator;
         readApiConfig();
 
     }
 
     public void readApiConfig() {
-        try {
-            FileInputStream fileInputStream = new FileInputStream(API_CONFIG_LOCATION);
-            XMLStreamReader xmlStreamReader = XMLInputFactory.newInstance().createXMLStreamReader(fileInputStream);
-            int eventType = xmlStreamReader.getEventType();
-            while(xmlStreamReader.hasNext()) {
-                eventType = xmlStreamReader.next();
-                if(eventType == XMLStreamConstants.START_ELEMENT &&
-                        xmlStreamReader.getLocalName().equals(API_URL_CONFIG)){
-                    baseUrl = xmlStreamReader.getElementText().trim();
-                }
-                if(eventType == XMLStreamConstants.START_ELEMENT &&
-                        xmlStreamReader.getLocalName().equals(API_KEY)){
-                    apiKey = xmlStreamReader.getElementText().trim();
-                }
-                if(eventType == XMLStreamConstants.START_ELEMENT &&
-                        xmlStreamReader.getLocalName().equals(API_LISTING_URL)){
-                    apiListResource = xmlStreamReader.getElementText().trim();
-                }
-            }
-            xmlStreamReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
+        baseUrl = apiConfiguration.getApiUrl();
+        apiKey = apiConfiguration.getApiKey();
+        apiListResource = apiConfiguration.getApiListResource();
     }
 
     /**
@@ -176,7 +154,7 @@ public class SwaggerApi {
      */
     private Resource deserializeResource(String response, ObjectMapper mapper) throws IOException {
         Resource resource = mapper.readValue(response, Resource.class);
-        resource.generateModelsFromWrapper(codeGenConfig);
+        resource.generateModelsFromWrapper(nameGenerator);
         return resource;
     }
 

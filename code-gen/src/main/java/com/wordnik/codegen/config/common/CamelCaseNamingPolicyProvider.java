@@ -1,7 +1,7 @@
-package com.wordnik.codegen.config.java;
+package com.wordnik.codegen.config.common;
 
 import com.wordnik.codegen.resource.Model;
-import com.wordnik.codegen.config.ServiceAndMethodNameGenerator;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 import com.wordnik.exception.CodeGenerationException;
 
 /**
@@ -9,7 +9,7 @@ import com.wordnik.exception.CodeGenerationException;
  * Date: 5/31/11
  * Time: 7:03 AM
  */
-public class JavaServiceAndMethodNameGenerator implements ServiceAndMethodNameGenerator {
+public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
 
     /**
      * gets the name of class that is responsible for tracking current library version

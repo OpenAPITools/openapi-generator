@@ -1,7 +1,7 @@
 package com.wordnik.codegen.resource;
 
 import com.wordnik.codegen.FieldDefinition;
-import com.wordnik.codegen.config.DataTypeMapper;
+import com.wordnik.codegen.config.DataTypeMappingProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,7 +154,7 @@ public class ModelField {
         return fieldDefinition;
     }
 
-    public FieldDefinition getFieldDefinition(DataTypeMapper dataTypeMapper) {
+    public FieldDefinition getFieldDefinition(DataTypeMappingProvider dataTypeMapper) {
     	if(fieldDefinition == null) {
     		fieldDefinition = new FieldDefinition();
 	    	String type = paramType.trim();

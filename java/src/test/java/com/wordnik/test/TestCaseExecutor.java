@@ -2,8 +2,11 @@ package com.wordnik.test;
 
 import com.wordnik.annotations.MethodArgumentNames;
 import com.wordnik.api.WordAPI;
-import com.wordnik.codegen.config.CodeGenConfig;
-import com.wordnik.codegen.config.java.JavaCodeGenConfig;
+import com.wordnik.codegen.config.ApiConfiguration;
+import com.wordnik.codegen.config.RulesProvider;
+import com.wordnik.codegen.config.java.JavaCodeGenRulesProvider;
+import com.wordnik.codegen.config.NamingPolicyProvider;
+import com.wordnik.codegen.config.common.CamelCaseNamingPolicyProvider;
 import com.wordnik.exception.APIException;
 import com.wordnik.exception.APIExceptionCodes;
 import org.apache.commons.beanutils.BeanUtils;
@@ -23,7 +26,9 @@ import java.util.Map;
  */
 public class TestCaseExecutor {
 
-    private CodeGenConfig config = new JavaCodeGenConfig();
+    public ApiConfiguration config = new ApiConfiguration();
+    private NamingPolicyProvider namingPolicyProvider = new CamelCaseNamingPolicyProvider();
+    private RulesProvider rulesProvider = new JavaCodeGenRulesProvider();
 
     /**
      * Follow the following argument pattern
@@ -41,6 +46,7 @@ public class TestCaseExecutor {
 	public static void main(String[] args) throws Exception {
 		WordAPI.initialize("c23b746d074135dc9500c0a61300a3cb7647e53ec2b9b658e", "http://beta.wordnik.com/v4/", false);
 		TestCaseExecutor runner = new TestCaseExecutor();
+        runner.config.setModelBaseClass("WordnikObject");
         String apiKey = args[0];
         String authToken = args[1];
         String resource = args[2];
@@ -67,7 +73,7 @@ public class TestCaseExecutor {
    private void executeTestCase(String resourceName, String httpMethod, String suggestedName, String apiKey,
                                  String authToken, Map<String, String> queryAndPathParameters, String postData) {
 
-        String className = config.getNameGenerator().getServiceName(resourceName);
+        String className = namingPolicyProvider.getServiceName(resourceName);
         String methodName = suggestedName;
 
         //3
@@ -154,7 +160,7 @@ public class TestCaseExecutor {
                 // post data or input wrapper object created by code generator. If it is wrpper object then use the
                 // individual query and path parameters to create the wrapper object.  If it is post data directly
                 // convert input JSON string to post data object
-                if(superclass != null && superclass.getSimpleName().equalsIgnoreCase(config.getCodeGenOverridingRules().getModelExtendingClass())){
+                if(superclass != null && superclass.getSimpleName().equalsIgnoreCase(config.getModelBaseClass())){
                     if(argNamesArray[i].trim().equals("postObject")){
                         argument = APITestRunner.convertJSONStringToObject(postData, argTypesArray[i]);
                     }else{
@@ -193,7 +199,7 @@ public class TestCaseExecutor {
 			if(method.getName().startsWith("get")){
 				String methodName = method.getName();
 				String fieldName = methodName.substring(3);
-				fieldName = config.getNameGenerator().applyMethodNamingPolicy(fieldName);
+				fieldName = namingPolicyProvider.applyMethodNamingPolicy(fieldName);
 				Object value = inputDefinitions.get(fieldName);
 				BeanUtils.setProperty(object, fieldName, value);
 			}

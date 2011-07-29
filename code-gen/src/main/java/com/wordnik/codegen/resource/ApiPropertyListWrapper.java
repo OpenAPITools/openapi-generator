@@ -1,6 +1,6 @@
 package com.wordnik.codegen.resource;
 
-import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -27,7 +27,7 @@ public class ApiPropertyListWrapper implements Serializable
         this.propertyList.put(name, value);
     }
 
-    public List<ModelField> toFieldList(CodeGenConfig config) {
+    public List<ModelField> toFieldList(NamingPolicyProvider nameGenerator) {
         List<ModelField> fields = new ArrayList<ModelField>();
         ModelField field;
 
@@ -52,7 +52,7 @@ public class ApiPropertyListWrapper implements Serializable
                 if(propertyDefn.getItems().getAdditionalProperties().get("$ref") != null) {
                     arrayItemType = (String) propertyDefn.getItems().getAdditionalProperties().get("$ref");
                 }
-                field.setParamType("List[" + config.getNameGenerator().applyClassNamingPolicy(arrayItemType) + "]");
+                field.setParamType("List[" + nameGenerator.applyClassNamingPolicy(arrayItemType) + "]");
             }
             field.setDefaultValue(propertyDefn.getDefaultValue());
             field.setInternalDescription(propertyDefn.getNotes());

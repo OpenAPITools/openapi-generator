@@ -1,8 +1,8 @@
 package com.wordnik.codegen;
 
 import com.wordnik.codegen.api.SwaggerApi;
-import com.wordnik.codegen.config.CodeGenConfig;
-import com.wordnik.codegen.config.GenerationEnvironmentConfig;
+import com.wordnik.codegen.config.*;
+import com.wordnik.codegen.config.ApiConfiguration;
 import com.wordnik.codegen.resource.*;
 import com.wordnik.exception.CodeGenerationException;
 import org.antlr.stringtemplate.StringTemplate;
@@ -28,35 +28,22 @@ public class DriverCodeGenerator {
     private static final String ENUM_OBJECT_TEMPLATE = "EnumObject";
 
     private static final String PACKAGE_NAME = "packageName";
-    private CodeGenConfig config = null;
-    private GenerationEnvironmentConfig envConfig = null;
+    private ApiConfiguration config = null;
+    private LanguageConfiguration languageConfig = null;
 
     private SwaggerApi apiMarshaller;
-
-    public CodeGenConfig getConfig() {
-        return config;
-    }
-
-    public void setConfig(CodeGenConfig config) {
-        this.config = config;
-    }
-
-    public GenerationEnvironmentConfig getEnvConfig() {
-        return envConfig;
-    }
-
-    public void setEnvConfig(GenerationEnvironmentConfig config) {
-        this.envConfig = config;
-    }
+    protected DataTypeMappingProvider dataTypeMappingProvider;
+    protected RulesProvider codeGenRulesProvider;
+    protected NamingPolicyProvider nameGenerator;
 
     /**
      * Generate classes needed for the model and API invocation
      */
     public void generateCode()	{
-        apiMarshaller = new SwaggerApi(this.config);
+        apiMarshaller = new SwaggerApi(this.config, this.getDataTypeMappingProvider(), this.getNameGenerator());
     	//read resources and get their documentation
         List<Resource> resources = apiMarshaller.readResourceDocumentation();
-        StringTemplateGroup aTemplateGroup = new StringTemplateGroup("templates",envConfig.getTemplateLocation());
+        StringTemplateGroup aTemplateGroup = new StringTemplateGroup("templates", languageConfig.getTemplateLocation());
         if(resources.size() > 0) {
         	generateVersionHelper(resources.get(0).getApiVersion(), aTemplateGroup);
         }
@@ -75,8 +62,8 @@ public class DriverCodeGenerator {
     	StringTemplate template = templateGroup.getInstanceOf(VERSION_OBJECT_TEMPLATE);
     	template.setAttribute("apiVersion", version);
     	template.setAttribute(PACKAGE_NAME, config.getApiPackageName());
-    	File aFile = new File(envConfig.getResourceClassLocation() + config.getNameGenerator().getVersionCheckerClassName()
-                + config.getClassFileExtension());
+    	File aFile = new File(languageConfig.getResourceClassLocation() + this.getNameGenerator().getVersionCheckerClassName()
+                + languageConfig.getClassFileExtension());
         writeFile(aFile, template.toString(), "Version checker class");
     }
 
@@ -88,11 +75,11 @@ public class DriverCodeGenerator {
 
     	for(Resource resource: resources) {
     		for(Model model : resource.getModels()){
-    			if(!generatedClassNames.contains(model.getName()) && !config.getCodeGenOverridingRules().isModelIgnored(model.getName())){
+    			if(!generatedClassNames.contains(model.getName()) && !this.getCodeGenRulesProvider().isModelIgnored(model.getName())){
     				List<String> imports = new ArrayList<String>();
     				imports.addAll(this.config.getDefaultModelImports());
     				for(ModelField param : model.getFields()){
-    					for(String importDef : param.getFieldDefinition(config.getDataTypeMapper()).getImportDefinitions()){
+    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider()).getImportDefinitions()){
     						if(!imports.contains(importDef)){
     							imports.add(importDef);
     						}
@@ -101,11 +88,11 @@ public class DriverCodeGenerator {
     		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
     		    	template.setAttribute("fields", model.getFields());
     		    	template.setAttribute("imports", imports);
-                    template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
-                    template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
+                    template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
+                    template.setAttribute("extends", config.getModelBaseClass());
     		    	template.setAttribute("className", model.getGenratedClassName());
     		    	template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
-    		    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
+    		    	File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
                     writeFile(aFile, template.toString(), "Model class");
     				generatedClassNames.add(model.getName());
     			}
@@ -127,7 +114,7 @@ public class DriverCodeGenerator {
     			for(Endpoint endpoint : resource.getEndPoints()){
     				if(endpoint.getOperations() != null) {
     					for(EndpointOperation operation : endpoint.getOperations()){
-    						ResourceMethod method = operation.generateMethod(endpoint, resource, config);
+    						ResourceMethod method = operation.generateMethod(endpoint, resource, dataTypeMappingProvider, nameGenerator);
     						if(method.getInputModel() != null) {
 	    						Model model = method.getInputModel();
 	    						if(model != null){
@@ -135,7 +122,7 @@ public class DriverCodeGenerator {
 		    		    				List<String> imports = new ArrayList<String>();
                                         imports.addAll(this.config.getDefaultModelImports());
 		    		    				for(ModelField param : model.getFields()){
-		    		    					for(String importDef : param.getFieldDefinition(config.getDataTypeMapper()).getImportDefinitions()){
+		    		    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider()).getImportDefinitions()){
 		    		    						if(!imports.contains(importDef)){
 		    		    							imports.add(importDef);
 		    		    						}
@@ -145,11 +132,11 @@ public class DriverCodeGenerator {
 
 		    		    		    	template.setAttribute("fields", model.getFields());
 		    		    		    	template.setAttribute("imports", imports);
-                                        template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
-                                        template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
+                                        template.setAttribute("extends", config.getModelBaseClass());
+                                        template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
 		    		    		    	template.setAttribute("className", model.getGenratedClassName());
                                         template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
-		    		    		    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
+		    		    		    	File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
                                         writeFile(aFile, template.toString(), "Input model class");
 		    		    		    	generatedClasses.add(model.getName());
 	    							}
@@ -187,10 +174,10 @@ public class DriverCodeGenerator {
                                             template = templateGroup.getInstanceOf(ENUM_OBJECT_TEMPLATE);
                                             List<String> imports = new ArrayList<String>();
                                             imports.addAll(this.config.getDefaultModelImports());
-                                            enumName = config.getNameGenerator().getEnumName(operationParam.getName());
+                                            enumName = this.getNameGenerator().getEnumName(operationParam.getName());
                                             template.setAttribute("className", enumName);
                                             template.setAttribute("description", operationParam.getDescription());
-                                            template.setAttribute("enumValueType", config.getDataTypeMapper().getObjectType(operationParam.getDataType(), true));
+                                            template.setAttribute("enumValueType", this.getDataTypeMappingProvider().getObjectType(operationParam.getDataType(), true));
                                             for (String allowableValue : operationParam.getAllowableValues()) {
                                                 if(operationParam.getDataType().equalsIgnoreCase("string")){
                                                     valuePrefix = valueSuffix = "\"";
@@ -199,11 +186,11 @@ public class DriverCodeGenerator {
                                                     valuePrefix = valueSuffix = "";
                                                 };
                                                 template.setAttribute("values.{name,value}",
-                                                        config.getNameGenerator().applyClassNamingPolicy(allowableValue.replaceAll("-","_")),
-                                                        config.getNameGenerator().applyMethodNamingPolicy(valuePrefix.concat(allowableValue).concat(valueSuffix)));
+                                                        this.getNameGenerator().applyClassNamingPolicy(allowableValue.replaceAll("-","_")),
+                                                        this.getNameGenerator().applyMethodNamingPolicy(valuePrefix.concat(allowableValue).concat(valueSuffix)));
                                             }
                                             template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
-		    		    		    	    File aFile = new File(envConfig.getModelClassLocation()+enumName+config.getClassFileExtension());
+		    		    		    	    File aFile = new File(languageConfig.getModelClassLocation() + enumName + languageConfig.getClassFileExtension());
                                             writeFile(aFile, template.toString(), "Enum class");
                                             generatedEnums.add(operationParam.getName());
                                         }
@@ -229,25 +216,25 @@ public class DriverCodeGenerator {
     		List<ResourceMethod> methods = new ArrayList<ResourceMethod>();
             List<String> imports = new ArrayList<String>();
             imports.addAll(this.config.getDefaultServiceImports());
-    		methods = resource.generateMethods(resource, config);
+    		methods = resource.generateMethods(resource, dataTypeMappingProvider, nameGenerator);
 	    	StringTemplate template = templateGroup.getInstanceOf(API_OBJECT_TEMPLATE);
-            String className = resource.generateClassName(config);
+            String className = resource.generateClassName(nameGenerator);
             List<ResourceMethod> filteredMethods = new ArrayList<ResourceMethod>();
             for(ResourceMethod method:methods){
-                if(!config.getCodeGenOverridingRules().isMethodIgnored(className, method.getName())){
+                if(!this.getCodeGenRulesProvider().isMethodIgnored(className, method.getName())){
                     filteredMethods.add(method);
                 }
             }
 	    	template.setAttribute("imports", imports);
             template.setAttribute(PACKAGE_NAME, config.getApiPackageName());
-            template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
+            template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
             template.setAttribute("modelPackageName", config.getModelPackageName());
-            template.setAttribute("exceptionPackageName", config.getExceptionPackageName());
+            template.setAttribute("exceptionPackageName", languageConfig.getExceptionPackageName());
 	    	template.setAttribute("resource", className);
 	    	template.setAttribute("methods", filteredMethods);
-            template.setAttribute("extends", config.getCodeGenOverridingRules().getServiceExtendingClass(className));
+            template.setAttribute("extends", config.getServiceBaseClass(className));
 
-	    	File aFile = new File(envConfig.getResourceClassLocation()+ resource.generateClassName(config) +config.getClassFileExtension());
+	    	File aFile = new File(languageConfig.getResourceClassLocation()+ resource.generateClassName(nameGenerator) +languageConfig.getClassFileExtension());
             writeFile(aFile, template.toString(), "API CLasses");
     	}
     }
@@ -264,22 +251,22 @@ public class DriverCodeGenerator {
     	model.setFields(modelFields);
     	for(String className : generatedClassNames){
     		ModelField aParam = new ModelField();
-    		aParam.setName(config.getNameGenerator().applyMethodNamingPolicy(className)+"List");
-    		aParam.setParamType(config.getDataTypeMapper().getListReturnTypeSignature(className));
+    		aParam.setName(this.getNameGenerator().applyMethodNamingPolicy(className)+"List");
+    		aParam.setParamType(this.getDataTypeMappingProvider().getListReturnTypeSignature(className));
     		modelFields.add(aParam);
     	}
 
         //add missing class from models
         ModelField aParam = new ModelField();
         aParam.setName("StringValueList");
-        aParam.setParamType(config.getDataTypeMapper().getListReturnTypeSignature("StringValue"));
+        aParam.setParamType(this.getDataTypeMappingProvider().getListReturnTypeSignature("StringValue"));
         modelFields.add(aParam);
         
 		List<String> imports = new ArrayList<String>();
         imports.addAll(this.config.getDefaultModelImports());
-        imports.addAll(this.config.getDataTypeMapper().getListImportPackages());
+        imports.addAll(this.getDataTypeMappingProvider().getListImportPackages());
 		for(ModelField param : model.getFields()){
-			for(String importDef : param.getFieldDefinition(config.getDataTypeMapper()).getImportDefinitions()){
+			for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider()).getImportDefinitions()){
 				if(!imports.contains(importDef)){
 					imports.add(importDef);
 				}
@@ -288,11 +275,11 @@ public class DriverCodeGenerator {
     	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
     	template.setAttribute("fields", model.getFields());
     	template.setAttribute("imports", imports);
-        template.setAttribute("annotationPackageName", config.getAnnotationPackageName());
-        template.setAttribute("extends", config.getCodeGenOverridingRules().getModelExtendingClass());
+        template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
+        template.setAttribute("extends", config.getModelBaseClass());
         template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
     	template.setAttribute("className", model.getGenratedClassName());
-    	File aFile = new File(envConfig.getModelClassLocation()+model.getGenratedClassName()+config.getClassFileExtension());
+    	File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
         writeFile(aFile, template.toString(), "Wrapper class for test data file");
     }
 
@@ -305,5 +292,45 @@ public class DriverCodeGenerator {
     	}catch(IOException ioe){
             throw new CodeGenerationException("Error generating " + classType + " : " + ioe.getMessage());
     	}
+    }
+
+    public ApiConfiguration getConfig() {
+        return config;
+    }
+
+    public void setApiConfig(ApiConfiguration config) {
+        this.config = config;
+    }
+
+    public LanguageConfiguration getLanguageConfig() {
+        return languageConfig;
+    }
+
+    public void setLanguageConfig(LanguageConfiguration config) {
+        this.languageConfig = config;
+    }
+
+    public void setDataTypeMappingProvider(DataTypeMappingProvider dataTypeMappingProvider) {
+        this.dataTypeMappingProvider = dataTypeMappingProvider;
+    }
+
+    public void setCodeGenRulesProvider(RulesProvider codeGenRulesProvider) {
+        this.codeGenRulesProvider = codeGenRulesProvider;
+    }
+
+    public void setNameGenerator(NamingPolicyProvider nameGenerator) {
+        this.nameGenerator = nameGenerator;
+    }
+
+    public DataTypeMappingProvider getDataTypeMappingProvider() {
+        return dataTypeMappingProvider;
+    }
+
+    public RulesProvider getCodeGenRulesProvider() {
+        return codeGenRulesProvider;
+    }
+
+    public NamingPolicyProvider getNameGenerator() {
+        return nameGenerator;
     }
 }

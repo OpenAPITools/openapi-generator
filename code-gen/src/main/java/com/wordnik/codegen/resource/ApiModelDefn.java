@@ -1,6 +1,6 @@
 package com.wordnik.codegen.resource;
 
-import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -43,11 +43,11 @@ public class ApiModelDefn {
         this.description = description;
     }
 
-    public Model toModel(String modelName, CodeGenConfig config) {
+    public Model toModel(String modelName, NamingPolicyProvider nameGenerator) {
         Model model = new Model();
         model.setName(modelName);
         model.setDescription(this.getDescription());
-        model.setFields( this.getProperties().toFieldList( config ) );
+        model.setFields( this.getProperties().toFieldList( nameGenerator ) );
         return model;
     }
 }

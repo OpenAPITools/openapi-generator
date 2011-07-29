@@ -1,7 +1,8 @@
 package com.wordnik.codegen.resource;
 
 import com.wordnik.codegen.ResourceMethod;
-import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.DataTypeMappingProvider;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -87,34 +88,34 @@ public class Resource {
 		this.models = models;
 	}*/
     
-	public String generateClassName(CodeGenConfig config) {
+	public String generateClassName(NamingPolicyProvider nameGenerator) {
 		if (generatedClassName == null) {
 			String endPointPath = endPoints.get(0).getPath();
-			generatedClassName = config.getNameGenerator().getServiceName(endPointPath);
+			generatedClassName = nameGenerator.getServiceName(endPointPath);
 		}	
 		return generatedClassName;
 	}
 	
-	public List<ResourceMethod> generateMethods(Resource resource, CodeGenConfig config) {
+	public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper, NamingPolicyProvider nameGenerator) {
 		if(methods == null){
 			methods = new ArrayList<ResourceMethod>();
 			if(getEndPoints() != null) {
 				for(Endpoint endpoint: getEndPoints()){
-					methods.addAll(endpoint.generateMethods(resource, config));
+					methods.addAll(endpoint.generateMethods(resource, dataTypeMapper, nameGenerator));
 				}
 			}
 		}
 		return methods;
 	}
 
-    public void generateModelsFromWrapper(CodeGenConfig config) {
+    public void generateModelsFromWrapper(NamingPolicyProvider nameGenerator) {
         String modelName;
         ApiModelDefn modelDefn;
         if (modelListWrapper != null) {
             for (Map.Entry<String, ApiModelDefn> entry : modelListWrapper.getModelList().entrySet()) {
                 modelName = entry.getKey();
                 modelDefn = entry.getValue();
-                models.add (modelDefn.toModel(modelName, config) );
+                models.add (modelDefn.toModel(modelName, nameGenerator) );
             }
         }
 

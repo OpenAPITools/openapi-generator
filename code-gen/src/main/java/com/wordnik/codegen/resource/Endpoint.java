@@ -1,7 +1,8 @@
 package com.wordnik.codegen.resource;
 
 import com.wordnik.codegen.ResourceMethod;
-import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.DataTypeMappingProvider;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,13 +82,13 @@ public class Endpoint {
         }
     }
 
-    public List<ResourceMethod> generateMethods(Resource resource, CodeGenConfig config) {
+    public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper, NamingPolicyProvider nameGenerator) {
 		if(methods == null){
 			methods = new ArrayList<ResourceMethod>();
 			if(getOperations() != null) {
 				for(EndpointOperation operation: getOperations()) {
-					if(!operation.isDeprecated() && areModelsAvailable(operation.getParameters(), resource, config)) {
-						methods.add(operation.generateMethod(this, resource, config));
+					if(!operation.isDeprecated() && areModelsAvailable(operation.getParameters(), resource, dataTypeMapper)) {
+						methods.add(operation.generateMethod(this, resource, dataTypeMapper, nameGenerator));
 					}
 				}
 			}
@@ -95,14 +96,14 @@ public class Endpoint {
 		return methods;
 	}
 
-    private boolean areModelsAvailable(List<ModelField> modelFields, Resource resource, CodeGenConfig config) {
+    private boolean areModelsAvailable(List<ModelField> modelFields, Resource resource, DataTypeMappingProvider dataTypeMapper) {
         Boolean isParamSetAvailable = true;
         if(modelFields == null) return true;
         for(ModelField modelField : modelFields){
             if (modelField.getParamType().equalsIgnoreCase(EndpointOperation.PARAM_TYPE_BODY) ){
                 isParamSetAvailable = false;
                 for(Model model : resource.getModels()){
-                    if(config.getDataTypeMapper().isPrimitiveType(modelField.getDataType())){
+                    if(dataTypeMapper.isPrimitiveType(modelField.getDataType())){
                         isParamSetAvailable = true;
                         break;
                     }

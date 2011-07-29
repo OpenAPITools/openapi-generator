@@ -1,40 +1,25 @@
 package com.wordnik.codegen.config.java;
 
-import com.wordnik.codegen.config.CodeGenOverridingRules;
+import com.wordnik.codegen.config.RulesProvider;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User: ramesh
  * Date: 5/31/11
  * Time: 7:04 AM
  */
-public class JavaCodeGenPverridingRules implements CodeGenOverridingRules {
+public class JavaCodeGenRulesProvider implements RulesProvider {
 
-    private Map<String, String> extendedClassNames = new HashMap<String, String>();
     private List<String> ignoreMethods = new ArrayList<String>();
     private List<String> ignoreModels = new ArrayList<String>();
 
-    public JavaCodeGenPverridingRules() {
-        extendedClassNames.put("WordAPI","AbstractWordAPI");
+    public JavaCodeGenRulesProvider() {
         ignoreMethods.add("WordAPI.getWordFrequency");
         ignoreMethods.add("WordAPI.getAudio");
         ignoreMethods.add("WordAPI.getWordStats");
         ignoreModels.add("wordStats");
-    }
-
-    public String getServiceExtendingClass(String serviceName) {
-        if(extendedClassNames.containsKey(serviceName)){
-            return extendedClassNames.get(serviceName);
-        }
-        return "WordnikAPI";
-    }
-
-    public String getModelExtendingClass() {
-        return "WordnikObject";
     }
 
     public boolean isMethodIgnored(String serviceName, String methodName){

@@ -2,7 +2,8 @@ package com.wordnik.codegen.resource;
 
 import com.wordnik.codegen.MethodArgument;
 import com.wordnik.codegen.ResourceMethod;
-import com.wordnik.codegen.config.CodeGenConfig;
+import com.wordnik.codegen.config.DataTypeMappingProvider;
+import com.wordnik.codegen.config.NamingPolicyProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +145,7 @@ public class EndpointOperation {
     }
 
 
-	public ResourceMethod generateMethod(Endpoint endPoint, Resource resource, CodeGenConfig config) {
+	public ResourceMethod generateMethod(Endpoint endPoint, Resource resource, DataTypeMappingProvider dataTypeMapper, NamingPolicyProvider nameGenerator) {
 		if(method == null){
 			method = new ResourceMethod();
 			//add method description
@@ -164,7 +165,7 @@ public class EndpointOperation {
 			 * 8. 
 			 */
 
-			String inputobjectName = config.getNameGenerator().getInputObjectName(resource.generateClassName(config), endPoint.getPath());
+			String inputobjectName = nameGenerator.getInputObjectName(resource.generateClassName(nameGenerator), endPoint.getPath());
 			
 			String[] pathElements = endPoint.getPath().split("/");
 			StringBuilder urlPath = new StringBuilder("");
@@ -187,7 +188,7 @@ public class EndpointOperation {
 				}
 			}
 			method.setResourcePath(endPoint.getPath());
-			method.setName(config.getNameGenerator().getMethodName(endPoint.getPath(), this.getSuggestedName()));
+			method.setName(nameGenerator.getMethodName(endPoint.getPath(), this.getSuggestedName()));
 			
 			//create method argument
 			/**
@@ -239,17 +240,17 @@ public class EndpointOperation {
 								modelField.setName("postObject");
 							}
 							anArgument.setName(modelField.getName());
-							anArgument.setDataType(config.getDataTypeMapper().getReturnValueType(modelField.getDataType()));
+							anArgument.setDataType(dataTypeMapper.getReturnValueType(modelField.getDataType()));
 							anArgument.setDescription(modelField.getDescription());
 							arguments.add(anArgument);
                             method.setPostObject(true);
 						}
 
-                        if(modelField.isAllowMultiple() && config.getDataTypeMapper().isPrimitiveType(modelField.getDataType())){
-                            anArgument.setDataType(config.getDataTypeMapper().getListReturnTypeSignature(
-                                    config.getDataTypeMapper().getReturnValueType(modelField.getDataType())));
+                        if(modelField.isAllowMultiple() && dataTypeMapper.isPrimitiveType(modelField.getDataType())){
+                            anArgument.setDataType(dataTypeMapper.getListReturnTypeSignature(
+                                    dataTypeMapper.getReturnValueType(modelField.getDataType())));
                         }
-                        anArgument.setInputModelClassArgument(inputobjectName, config);
+                        anArgument.setInputModelClassArgument(inputobjectName, nameGenerator);
 					}
 				}
 			}
@@ -276,7 +277,7 @@ public class EndpointOperation {
 				
 				MethodArgument anArgument = new MethodArgument();
 				anArgument.setDataType(inputobjectName);
-				anArgument.setName(config.getNameGenerator().applyMethodNamingPolicy(inputobjectName));
+				anArgument.setName(nameGenerator.applyMethodNamingPolicy(inputobjectName));
 				arguments.add(anArgument);
 				method.setArguments(arguments);
 				method.setInputModel(modelforMethodInput);
@@ -301,8 +302,8 @@ public class EndpointOperation {
 			//get return value
 			List<Response> response = this.getResponse();
 
-			method.setReturnValue(config.getDataTypeMapper().getReturnValueType(response.get(0).getValueType()));
-			method.setReturnClassName(config.getDataTypeMapper().getReturnClassType(response.get(0).getValueType()));
+			method.setReturnValue(dataTypeMapper.getReturnValueType(response.get(0).getValueType()));
+			method.setReturnClassName(dataTypeMapper.getReturnClassType(response.get(0).getValueType()));
 
 			
 			//get description string for exception			

@@ -1,14 +1,19 @@
 package com.wordnik.test;
 
-import java.io.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.wordnik.codegen.config.CodeGenConfig;
-import com.wordnik.codegen.config.java.JavaCodeGenConfig;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+
+import com.wordnik.codegen.config.ApiConfiguration;
+import com.wordnik.codegen.config.NamingPolicyProvider;
+import com.wordnik.codegen.config.common.CamelCaseNamingPolicyProvider;
 import com.wordnik.common.*;
 import com.wordnik.exception.APIException;
 import org.apache.commons.beanutils.MethodUtils;
@@ -67,7 +72,7 @@ public class APITestRunner {
         mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
 	}
 
-    private CodeGenConfig config = new JavaCodeGenConfig();
+    private NamingPolicyProvider namingPolicyProvider = new CamelCaseNamingPolicyProvider();
 
     /**
      * Follow the following argument pattern
@@ -194,7 +199,7 @@ public class APITestRunner {
                 //2
                 TestResource resource = resourceMap.get(testCase.getResourceId());
                 String path = resource.getPath();
-                String className = config.getNameGenerator().getServiceName(path);
+                String className = namingPolicyProvider.getServiceName(path);
                 String methodName = resource.getSuggestedMethodName();
 
                 //3

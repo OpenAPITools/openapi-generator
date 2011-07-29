@@ -8,7 +8,7 @@ package com.wordnik.codegen.config;
  * Date: 5/27/11
  * Time: 7:36 AM
  */
-public interface ServiceAndMethodNameGenerator {
+public interface NamingPolicyProvider {
 
     /**
      * Gets name of the version checker class. We need not provide extension for the class as that will be read
