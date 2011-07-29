@@ -1,4 +1,4 @@
-package com.wordnik.codegen.java;
+package com.wordnik.codegen.config.java;
 
 import com.wordnik.codegen.DriverCodeGenerator;
 import com.wordnik.exception.CodeGenerationException;

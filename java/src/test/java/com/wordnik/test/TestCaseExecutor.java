@@ -2,10 +2,8 @@ package com.wordnik.test;
 
 import com.wordnik.annotations.MethodArgumentNames;
 import com.wordnik.api.WordAPI;
-import com.wordnik.codegen.DriverCodeGenerator;
 import com.wordnik.codegen.config.CodeGenConfig;
-import com.wordnik.codegen.java.JavaCodeGenConfig;
-import com.wordnik.codegen.resource.Resource;
+import com.wordnik.codegen.config.java.JavaCodeGenConfig;
 import com.wordnik.exception.APIException;
 import com.wordnik.exception.APIExceptionCodes;
 import org.apache.commons.beanutils.BeanUtils;

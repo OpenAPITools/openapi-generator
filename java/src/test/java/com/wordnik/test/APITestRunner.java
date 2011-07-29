@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.wordnik.codegen.config.CodeGenConfig;
-import com.wordnik.codegen.java.JavaCodeGenConfig;
+import com.wordnik.codegen.config.java.JavaCodeGenConfig;
 import com.wordnik.common.*;
 import com.wordnik.exception.APIException;
 import org.apache.commons.beanutils.MethodUtils;
@@ -17,7 +17,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 
 import com.wordnik.api.WordAPI;
-import com.wordnik.codegen.resource.Resource;
 import com.wordnik.model.TestData;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.type.TypeFactory;

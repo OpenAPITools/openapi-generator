@@ -26,7 +26,7 @@
         <delete>
           <fileset  dir="${outputPath}"  includes="*.java"/>
         </delete>
-        <java classname="com.wordnik.codegen.java.JavaLibCodeGen">
+        <java classname="com.wordnik.codegen.config.java.JavaLibCodeGen">
             <classpath>
                   <pathelement location="build/main/java" />
                   <fileset dir="lib">
