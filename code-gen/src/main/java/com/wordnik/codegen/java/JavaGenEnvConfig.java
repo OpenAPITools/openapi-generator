@@ -1,6 +1,7 @@
 package com.wordnik.codegen.java;
 
 import com.wordnik.codegen.config.GenerationEnvironmentConfig;
+import com.wordnik.exception.CodeGenerationException;
 
 /**
  * User: deepakmichael
@@ -9,9 +10,15 @@ import com.wordnik.codegen.config.GenerationEnvironmentConfig;
  */
 public class JavaGenEnvConfig extends GenerationEnvironmentConfig{
 
-    public JavaGenEnvConfig() {
-        this.setModelClassLocation("../java/src/main/java/com/wordnik/model/");
-        this.setResourceClassLocation("../java/src/main/java/com/wordnik/api/");
+    public JavaGenEnvConfig(String outputPath) {
+        if(outputPath == null){
+            throw new CodeGenerationException("Error creating output path : Output path was null ");
+        }
+
+        outputPath = outputPath.endsWith("/") ? outputPath.substring(0, outputPath.lastIndexOf("/")) : outputPath;
+
+        this.setModelClassLocation(outputPath + "/model/");
+        this.setResourceClassLocation(outputPath + "/api/");
         this.setTemplateLocation("conf/templates/java");
     }
 }

@@ -1,20 +1,17 @@
 package com.wordnik.codegen;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import com.wordnik.codegen.api.SwaggerApi;
 import com.wordnik.codegen.config.CodeGenConfig;
 import com.wordnik.codegen.config.GenerationEnvironmentConfig;
 import com.wordnik.codegen.resource.*;
 import com.wordnik.exception.CodeGenerationException;
-
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.DeserializationConfig.Feature;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

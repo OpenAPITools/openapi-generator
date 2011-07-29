@@ -1,6 +1,7 @@
 package com.wordnik.codegen.java;
 
 import com.wordnik.codegen.DriverCodeGenerator;
+import com.wordnik.exception.CodeGenerationException;
 
 /**
  * User: ramesh
@@ -10,12 +11,17 @@ import com.wordnik.codegen.DriverCodeGenerator;
 public class JavaLibCodeGen extends DriverCodeGenerator {
 
     public static void main(String[] args) {
-        JavaLibCodeGen codeGenerator = new JavaLibCodeGen();
+        if(args.length < 1){
+            throw new CodeGenerationException("Invalid number of arguments passed: No command line argument was passed to the program for output path");
+        }
+
+        String outputPath = args[0];
+        JavaLibCodeGen codeGenerator = new JavaLibCodeGen(outputPath);
         codeGenerator.generateCode();
     }
     
-    public JavaLibCodeGen(){
+    public JavaLibCodeGen(String outputPath){
         this.setConfig(new JavaCodeGenConfig());
-        this.setEnvConfig(new JavaGenEnvConfig());
+        this.setEnvConfig(new JavaGenEnvConfig(outputPath));
     }
 }
