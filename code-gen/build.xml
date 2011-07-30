@@ -5,6 +5,11 @@
 		<isset property="env.BUILD_COMMON" />
 	</condition>
 
+        <mkdir dir="lib"/>
+        <mkdir dir="lib/ext"/>
+        <mkdir dir="build"/>
+	<mkdir dir="src/main/scala"/>
+
 	<echo message="using build common dir: ${build.common.dir}"/>
 	<import file="${build.common.dir}/ant/ant-common.xml" />
 	<import file="${build.common.dir}/ant/ant-server.xml" />
