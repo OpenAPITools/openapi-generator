@@ -3,6 +3,10 @@
 	<property environment="env" />
         <property name="version.identifier" value="4.04" />
 
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/ext"/>
+	<mkdir dir="build"/>
+
 	<!-- property name="application.description" value="Wordnik Java Driver"/>
 	<property name="application.name" value="java-driver"/ -->
 	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
