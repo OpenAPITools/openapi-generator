@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="wordnik-java-driver" xmlns:ivy="antlib:org.apache.ivy.ant" default="fastdist" basedir=".">
+	<property environment="env" />
+        <property name="version.identifier" value="4.04" />
+
+	<!-- property name="application.description" value="Wordnik Java Driver"/>
+	<property name="application.name" value="java-driver"/ -->
+	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
+		<isset property="env.BUILD_COMMON" />
+	</condition>
+	<echo message="using build common dir: ${build.common.dir}"/>
+
+    <target name="runtests" description="runs the test cases" depends="compile, test.compile">
+    <java classname="com.wordnik.test.APITestRunner">
+        <arg value="JAVA" />
+        <classpath>
+                      <pathelement location="build/main/java" />
+                      <pathelement location="build/test/java" />
+                          <fileset dir="lib">
+                             <include name="**/*.jar"/>
+                          </fileset>
+        </classpath>
+    </java>
+    </target>
+
+    <!-- Creating directories used in app structure if required-->
+    <mkdir dir="build/main"/>
+    <mkdir dir="build/test"/>
+    <mkdir dir="lib/ext"/>
+    <mkdir dir="bin"/>
+    <mkdir dir="src/main/scala"/>
+    <mkdir dir="src/main/java"/>
+    <mkdir dir="src/test/java"/>
+    <mkdir dir="src/test/scala"/>
+
+    <target name="merge.custom" description="Copying from the lang folder to merge with generated">
+        <copy todir="../java/src/main/java/" overwrite="true">
+            <fileset dir="../java/src/lang"/>
+        </copy>
+    </target>
+
+	<import file="${build.common.dir}/ant/ant-common.xml" />
+	<import file="${build.common.dir}/ant/ant-test.xml" />
+    <import file="${build.common.dir}/ant/ant-server.xml" />
+</project>

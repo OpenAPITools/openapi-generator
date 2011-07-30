@@ -71,7 +71,7 @@ public class JavaLibCodeGen extends DriverCodeGenerator {
         LanguageConfiguration javaConfiguration = new LanguageConfiguration();
         javaConfiguration.setClassFileExtension(".java");
         javaConfiguration.setOutputDirectory(outputPath);
-        javaConfiguration.setTemplateLocation("conf/templates/java");
+        javaConfiguration.setTemplateLocation("conf/java/templates");
         javaConfiguration.setExceptionPackageName("com.wordnik.exception");
         javaConfiguration.setAnnotationPackageName("com.wordnik.annotations");
         return javaConfiguration;

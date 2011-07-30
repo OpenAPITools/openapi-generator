@@ -13,15 +13,23 @@
     <condition property="outputPath.set">
         <and>
             <isset property="outputPath"/>
+            <isset property="apiServerRootDir"/>
         </and>
     </condition>
     <!-- generates the classes -->
-    <target name="generate-java" depends="compile" description="generates API and model classes for java language">
+    <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
         <fail unless="outputPath.set">
-            Must specify the parameter: outputPath eg. -DoutputPath=../java/src/main/java/com/wordnik/
+            Must specify the parameters: outputPath and apiServerRootDir eg. -DoutputPath=../../api-server-lib/java/src/main/java/com/wordnik/
+                -DapiServerRootDir=../../api-server-lib/java/
+                These are the output path of the Apis and the root directory that will be created for the api server (directory where structure is created)
         </fail>
+        <mkdir dir="${outputPath}/api"/>
+        <mkdir dir="${outputPath}/model"/>
         <echo>
             outputPath for Api = ${outputPath}
+        </echo>
+        <echo>
+            apiServerRootDir = ${apiServerRootDir}
         </echo>
         <delete>
           <fileset  dir="${outputPath}"  includes="*.java"/>
@@ -34,10 +42,9 @@
                   </fileset>
             </classpath>
             <arg value="${outputPath}"/>
-            <!--<arg value="../java/src/main/java/com/wordnik/"/>-->
         </java>
-        <copy todir="../java/src/main/java/" overwrite="true">
-            <fileset dir="../java/src/lang/java"/>
+        <copy todir="${apiServerRootDir}" overwrite="true">
+            <fileset dir="conf/java/structure"/>
         </copy>
     </target>
 

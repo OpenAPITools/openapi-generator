@@ -23,11 +23,6 @@ import java.util.List;
  */
 public class SwaggerApi {
 
-    private static final String API_CONFIG_LOCATION = "conf/apiConfig.xml";
-    private static final String API_URL_CONFIG = "apiUrl";
-    private static final String API_KEY = "apiKey";
-    private static final String API_LISTING_URL = "apiListResource";
-
     private static String HEADER_NAME_API_VERSION = "Wordnik-Api-Version";
 
     private String baseUrl;
@@ -117,7 +112,7 @@ public class SwaggerApi {
         Resource resourceApi;
         String apiResourceUrl = null;
         if(apiListResource == null){
-            throw new CodeGenerationException("apiListingUrl needs to be defined in the apiConfig.xml eg. /listingResourceNameHere");
+            throw new CodeGenerationException("apiListingUrl needs to be defined in api configuration object");
         }
         if(!apiListResource.endsWith(".json")){
             apiResourceUrl = trimResourceName( apiListResource.concat(".json") );
