@@ -110,7 +110,7 @@ public class WordnikAPI {
 	 * @param method - Method we should use for communicating to the back end. 
 	 * @param postObject - if the method is POST, provide the object that should be sent as part of post request.
 	 * @return JSON response of the API call. 
-	 * @throws com.wordnik.exception.APIException if the call to API server fails.
+	 * @throws com.wordnik.swagger.exception.APIException if the call to API server fails.
 	 */
 	protected static String invokeAPI(String authToken, String resourceURL, String method, Map<String,
             String> queryParams, Object postObject) throws APIException {
