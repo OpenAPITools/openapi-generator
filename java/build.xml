@@ -15,7 +15,7 @@
 	<echo message="using build common dir: ${build.common.dir}"/>
 
         <target name="runtests" description="runs the test cases" depends="compile, test.compile">
-		<java classname="com.wordnik.test.APITestRunner">
+		<java classname="com.wordnik.swagger.test.APITestRunner">
 			<arg value="JAVA" />
 			<classpath>
 	                      <pathelement location="build/main/java" />
