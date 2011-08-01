@@ -11,11 +11,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 
-import com.wordnik.codegen.config.ApiConfiguration;
-import com.wordnik.codegen.config.NamingPolicyProvider;
-import com.wordnik.codegen.config.common.CamelCaseNamingPolicyProvider;
+import com.wordnik.swagger.codegen.config.ApiConfiguration;
+import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
+import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
 import com.wordnik.common.*;
 import com.wordnik.exception.APIException;
+import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
+import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.jackson.map.ObjectMapper;

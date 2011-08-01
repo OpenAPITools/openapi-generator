@@ -2,13 +2,17 @@ package com.wordnik.test;
 
 import com.wordnik.annotations.MethodArgumentNames;
 import com.wordnik.api.WordAPI;
-import com.wordnik.codegen.config.ApiConfiguration;
-import com.wordnik.codegen.config.RulesProvider;
-import com.wordnik.codegen.config.java.JavaCodeGenRulesProvider;
-import com.wordnik.codegen.config.NamingPolicyProvider;
-import com.wordnik.codegen.config.common.CamelCaseNamingPolicyProvider;
+import com.wordnik.swagger.codegen.config.ApiConfiguration;
+import com.wordnik.swagger.codegen.config.*;
+import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
+import com.wordnik.swagger.codegen.config.java.JavaCodeGenRulesProvider;
+import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
 import com.wordnik.exception.APIException;
 import com.wordnik.exception.APIExceptionCodes;
+import com.wordnik.swagger.codegen.config.ApiConfiguration;
+import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
+import com.wordnik.swagger.codegen.config.RulesProvider;
+import com.wordnik.swagger.codegen.config.java.JavaCodeGenRulesProvider;
 import org.apache.commons.beanutils.BeanUtils;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -26,7 +30,7 @@ import java.util.Map;
  */
 public class TestCaseExecutor {
 
-    public ApiConfiguration config = new ApiConfiguration();
+    public ApiConfiguration config = new com.wordnik.swagger.codegen.config.ApiConfiguration();
     private NamingPolicyProvider namingPolicyProvider = new CamelCaseNamingPolicyProvider();
     private RulesProvider rulesProvider = new JavaCodeGenRulesProvider();
 
