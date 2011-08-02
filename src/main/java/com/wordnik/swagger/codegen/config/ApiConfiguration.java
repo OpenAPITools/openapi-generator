@@ -41,6 +41,24 @@ public class ApiConfiguration {
 
     }
 
+    public String getDefaultServiceBaseClass() {
+        return defaultServiceBaseClass;
+    }
+
+    public void setDefaultServiceBaseClass(String defaultServiceBaseClass) {
+        this.defaultServiceBaseClass = defaultServiceBaseClass;
+    }
+
+    public Map<String, String> getBaseClassNames() {
+
+        return baseClassNames;
+    }
+
+    public void setBaseClassNames(Map<String, String> baseClassNames) {
+        this.baseClassNames = baseClassNames;
+    }
+
+
     public void setServiceBaseClass(String defaultServiceBaseClass) {
         this.defaultServiceBaseClass = defaultServiceBaseClass;
     }

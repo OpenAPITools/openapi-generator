@@ -30,4 +30,20 @@ public class JavaCodeGenRulesProvider implements RulesProvider {
         return ignoreModels.contains(modelName);
     }
 
+    public List<String> getIgnoreMethods() {
+        return ignoreMethods;
+    }
+
+    public void setIgnoreMethods(List<String> ignoreMethods) {
+        this.ignoreMethods = ignoreMethods;
+    }
+
+    public List<String> getIgnoreModels() {
+        return ignoreModels;
+    }
+
+    public void setIgnoreModels(List<String> ignoreModels) {
+        this.ignoreModels = ignoreModels;
+    }
+
 }
