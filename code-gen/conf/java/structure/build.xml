@@ -3,24 +3,22 @@
 	<property environment="env" />
         <property name="version.identifier" value="4.04" />
 
-	<!-- property name="application.description" value="Wordnik Java Driver"/>
-	<property name="application.name" value="java-driver"/ -->
 	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
 		<isset property="env.BUILD_COMMON" />
 	</condition>
 	<echo message="using build common dir: ${build.common.dir}"/>
 
-    <target name="runtests" description="runs the test cases" depends="compile, test.compile">
-    <java classname="com.wordnik.swagger.test.APITestRunner">
-        <arg value="JAVA" />
-        <classpath>
-                      <pathelement location="build/main/java" />
-                      <pathelement location="build/test/java" />
-                          <fileset dir="lib">
-                             <include name="**/*.jar"/>
-                          </fileset>
-        </classpath>
-    </java>
+    <target name="run.tests" description="runs the test cases" depends="compile, test.compile">
+        <java classname="com.wordnik.swagger.test.APITestRunner">
+            <arg value="JAVA" />
+            <classpath>
+                          <pathelement location="build/main/java" />
+                          <pathelement location="build/test/java" />
+                              <fileset dir="lib">
+                                 <include name="**/*.jar"/>
+                              </fileset>
+            </classpath>
+        </java>
     </target>
 
     <!-- Creating directories used in app structure if required-->
@@ -32,6 +30,7 @@
     <mkdir dir="src/main/java"/>
     <mkdir dir="src/test/java"/>
     <mkdir dir="src/test/scala"/>
+    <mkdir dir="src/lang"/>
 
     <target name="merge.custom" description="Copying from the lang folder to merge with generated">
         <copy todir="../java/src/main/java/" overwrite="true">
