@@ -1,6 +1,6 @@
 package com.wordnik.swagger.codegen.config.java;
 
-import com.wordnik.swagger.codegen.DriverCodeGenerator;
+import com.wordnik.swagger.codegen.LibraryCodeGenerator;
 import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.config.LanguageConfiguration;
 import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
@@ -14,7 +14,7 @@ import java.util.List;
  * Date: 6/16/11
  * Time: 1:31 PM
  */
-public class JavaLibCodeGen extends DriverCodeGenerator {
+public class JavaLibCodeGen extends LibraryCodeGenerator {
 
     public static void main(String[] args) {
         if(args.length < 1){

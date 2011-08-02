@@ -20,7 +20,7 @@ import java.util.List;
  * Date: 3/30/11
  * Time: 6:59 PM
  */
-public class DriverCodeGenerator {
+public class LibraryCodeGenerator {
 	
 	private static String VERSION_OBJECT_TEMPLATE = "VersionChecker";
 	private static String MODEL_OBJECT_TEMPLATE = "ModelObject";
