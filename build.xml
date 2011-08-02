@@ -9,6 +9,8 @@
     <mkdir dir="lib/ext"/>
     <mkdir dir="build"/>
 	<mkdir dir="src/main/scala"/>
+	<mkdir dir="src/test/java"/>
+	<mkdir dir="src/test/scala"/>
 
 	<echo message="using build common dir: ${build.common.dir}"/>
 	<import file="${build.common.dir}/ant/ant-common.xml" />
@@ -17,7 +19,7 @@
 
     <condition property="outputPath.set">
         <and>
-            <isset property="outputPath"/>
+            <isset property="outputDir"/>
             <isset property="apiServerRootDir"/>
         </and>
     </condition>
@@ -25,20 +27,20 @@
     <!-- generates the classes -->
     <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
         <fail unless="outputPath.set">
-            Must specify the parameters: outputPath and apiServerRootDir eg. -DoutputPath=../../api-server-lib/java/src/main/java/com/wordnik/
+            Must specify the parameters: outputPath and apiServerRootDir eg. -DoutputDir=../../api-server-lib/java/src/main/java/com/wordnik/swagger
                 -DapiServerRootDir=../../api-server-lib/java/
                 These are the output path of the Apis and the root directory that will be created for the api server (directory where structure is created)
         </fail>
-        <mkdir dir="${outputPath}/api"/>
-        <mkdir dir="${outputPath}/model"/>
+        <mkdir dir="${outputDir}/api"/>
+        <mkdir dir="${outputDir}/model"/>
         <echo>
-            outputPath for Api = ${outputPath}
+            outputDir for Api = ${outputDir}
         </echo>
         <echo>
             apiServerRootDir = ${apiServerRootDir}
         </echo>
         <delete>
-          <fileset  dir="${outputPath}"  includes="*.java"/>
+          <fileset  dir="${outputDir}"  includes="*.java"/>
         </delete>
         <java classname="com.wordnik.swagger.codegen.config.java.JavaLibCodeGen">
             <classpath>
@@ -47,7 +49,9 @@
                      <include name="**/*.jar"/>
                   </fileset>
             </classpath>
-            <arg value="${outputPath}"/>
+            <arg value="${outputDir}"/>
+            <arg value="${apiServerRootDir}/config/apiConfiguration.json"/>
+            <arg value="${apiServerRootDir}/config/rulesProvider.json"/>
         </java>
         <copy todir="${apiServerRootDir}" overwrite="true">
             <fileset dir="conf/java/structure"/>
