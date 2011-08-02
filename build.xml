@@ -27,8 +27,8 @@
     <!-- generates the classes -->
     <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
         <fail unless="outputPath.set">
-            Must specify the parameters: outputPath and apiServerRootDir eg. -DoutputDir=../../api-server-lib/java/src/main/java/com/wordnik/swagger
-                -DapiServerRootDir=../../api-server-lib/java/
+            Must specify the parameters: outputPath and apiServerRootDir
+            eg. -DoutputDir=../api-server-lib/java/src/main/java/com/wordnik/swagger -DapiServerRootDir=../api-server-lib/java/
                 These are the output path of the Apis and the root directory that will be created for the api server (directory where structure is created)
         </fail>
         <mkdir dir="${outputDir}/api"/>
@@ -49,9 +49,7 @@
                      <include name="**/*.jar"/>
                   </fileset>
             </classpath>
-            <arg value="${outputDir}"/>
             <arg value="${apiServerRootDir}/config/apiConfiguration.json"/>
-            <arg value="${apiServerRootDir}/config/rulesProvider.json"/>
         </java>
         <copy todir="${apiServerRootDir}" overwrite="true">
             <fileset dir="conf/java/structure"/>
