@@ -17,7 +17,7 @@
 	<import file="${build.common.dir}/ant/ant-server.xml" />
 	<import file="${build.common.dir}/ant/ant-test.xml" />
 
-    <condition property="outputPath.set">
+    <condition property="apiConfiguration.set">
         <and>
             <isset property="apiConfiguration"/>
         </and>
@@ -25,7 +25,7 @@
     
     <!-- generates the classes -->
     <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
-        <fail unless="outputPath.set">
+        <fail unless="apiConfiguration.set">
             Must specify the parameter for apiConfiguration
             eg. -DapiConfiguration==../api-server-lib/java/config/apiConfiguration.json
         </fail>
