@@ -1,29 +1,133 @@
-<project name="wordnik-libs-gen" default="compile" basedir=".">
+<project name="wordnik-libs-gen" xmlns:ivy="antlib:org.apache.ivy.ant" default="compile" basedir=".">
 	<property environment="env" />
 	<property name="version.identifier" value="1.0" />
-	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
-		<isset property="env.BUILD_COMMON" />
-	</condition>
+    <property name="scala.home" value="${env.SCALA_HOME}" />
+    <property name="artifact.ext" value="jar" />
+    <property name="organization" value="wordnik" />
+    <property name="module" value="${ant.project.name}" />
+    <property name="release.module" value="${ant.project.name}" />
 
     <mkdir dir="lib"/>
     <mkdir dir="lib/ext"/>
     <mkdir dir="build"/>
 	<mkdir dir="src/main/scala"/>
 
-	<echo message="using build common dir: ${build.common.dir}"/>
-	<import file="${build.common.dir}/ant/ant-common.xml" />
-	<import file="${build.common.dir}/ant/ant-server.xml" />
-	<import file="${build.common.dir}/ant/ant-test.xml" />
-
-    <condition property="outputPath.set">
+   <condition property="outputPath.set">
         <and>
             <isset property="outputPath"/>
             <isset property="apiServerRootDir"/>
         </and>
-    </condition>
-    
+   </condition>
+
+   <condition property="ivy.home" value="${env.IVY_HOME}">
+        <isset property="env.IVY_HOME" />
+   </condition>
+
+   <ivy:settings file="ivysettings.xml" />
+
+   <target name="clean.cache">
+        <ivy:cleancache />
+   </target>
+
+   <taskdef resource="scala/tools/ant/antlib.xml">
+        <classpath>
+            <fileset dir="lib">
+                <include name="scala**.jar" />
+            </fileset>
+            <fileset dir="${scala.home}/lib">
+                <include name="scala**.jar" />
+            </fileset>
+        </classpath>
+   </taskdef>
+
+   <target name="resolve" description="retrieve dependencies with ivy">
+        <delete>
+            <fileset dir="lib">
+                <include name="*.jar" />
+                <include name="*.zip" />
+            </fileset>
+        </delete>
+        <ivy:retrieve pattern="${basedir}/lib/[artifact]-[revision].[ext]" conf="build" />
+   </target>
+
+   <target name="compile" description="builds the module without artifact resolution or cleaning">
+        <echo message="building ${release.module}-${version.identifier}.jar"/>
+        <delete quiet="true" file="build/${release.module}-*.jar" />
+        <mkdir dir="build" />
+        <mkdir dir="build/main" />
+        <mkdir dir="build/main/java" />
+        <scalac srcdir="src/main/java:src/main/scala" destdir="build/main/java">
+            <classpath>
+                <pathelement location="build/main/java" />
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+                <fileset dir="lib/ext">
+                    <include name="*.jar" />
+                </fileset>
+                <fileset dir="${scala.home}/lib"/>
+            </classpath>
+            <include name="**/*.scala" />
+            <include name="**/*.java" />
+        </scalac>
+        <javac srcdir="src/main/java:src/main/scala" debug="true" destdir="build/main/java">
+            <classpath>
+                <pathelement location="build/main/java" />
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+                <fileset dir="lib/ext">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+            <include name="**/*.java" />
+        </javac>
+
+       <jar jarfile="build/${release.module}-${version.identifier}.${artifact.ext}">
+              <fileset dir="build/main/java" />
+       </jar>
+   </target>
+
+   <target name="clean" description="cleans the project folder">
+        <mkdir dir="build" />
+        <echo message="deleting build files" />
+        <delete quiet="true">
+            <fileset dir="build">
+                <include name="*.jar" />
+                <include name="*.pom" />
+                <include name="*.xml" />
+                <include name="*.zip" />
+            </fileset>
+        </delete>
+
+        <delete dir="build/main" quiet="true" />
+        <delete dir="build/test" quiet="true" />
+
+        <echo message="deleting libs handled by ivy" />
+        <delete>
+            <fileset dir="lib">
+                <include name="*.jar" />
+                <include name="*.zip" />
+                <include name="*.pom" />
+            </fileset>
+        </delete>
+        <delete quiet="true" dir="dist"/>
+   </target>
+
+   <target name="deploy" depends="clean, resolve, compile">
+        <echo message="building pom file"/>
+		<property name="ivy.pom.version" value="${version.identifier}"/>
+		<ivy:makepom ivyfile="ivy.xml" pomfile="build/${release.module}-${version.identifier}.pom"/>
+
+		<echo message="publishing module ${module}" />
+		<ivy:publish resolver="local" organisation="${organization}" conf="source,test,build,pom,common" pubrevision="${version.identifier}" overwrite="true">
+			<artifacts pattern="build/[artifact]-[revision].[ext]" />
+		</ivy:publish>
+		<echo message="project ${module} published locally with version lib/${version.identifier}" />
+   </target>
+
     <!-- generates the classes -->
-    <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
+   <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
         <fail unless="outputPath.set">
             Must specify the parameters: outputPath and apiServerRootDir eg. -DoutputPath=../../api-server-lib/java/src/main/java/com/wordnik/
                 -DapiServerRootDir=../../api-server-lib/java/
@@ -52,7 +156,7 @@
         <copy todir="${apiServerRootDir}" overwrite="true">
             <fileset dir="conf/java/structure"/>
         </copy>
-    </target>
+   </target>
 
 </project>
 
