@@ -13,6 +13,10 @@ public class LanguageConfiguration {
 
     private String templateLocation;
 
+    private String structureLocation;
+
+    private String apiServerRootLocation;
+
     private String modelClassLocation;
 
     private String resourceClassLocation;
@@ -74,5 +78,19 @@ public class LanguageConfiguration {
     }
 
 
+    public String getStructureLocation() {
+        return structureLocation;
+    }
 
+    public void setStructureLocation(String structureLocation) {
+        this.structureLocation = structureLocation;
+    }
+
+    public String getApiServerRootLocation() {
+        return apiServerRootLocation;
+    }
+
+    public void setApiServerRootLocation(String apiServerRootLocation) {
+        this.apiServerRootLocation = apiServerRootLocation;
+    }
 }

@@ -16,10 +16,7 @@ public class JavaCodeGenRulesProvider implements RulesProvider {
     private List<String> ignoreModels = new ArrayList<String>();
 
     public JavaCodeGenRulesProvider() {
-        ignoreMethods.add("WordAPI.getWordFrequency");
-        ignoreMethods.add("WordAPI.getAudio");
-        ignoreMethods.add("WordAPI.getWordStats");
-        ignoreModels.add("wordStats");
+
     }
 
     public boolean isMethodIgnored(String serviceName, String methodName){

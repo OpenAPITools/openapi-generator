@@ -19,29 +19,19 @@
 
     <condition property="outputPath.set">
         <and>
-            <isset property="outputDir"/>
-            <isset property="apiServerRootDir"/>
+            <isset property="apiConfiguration"/>
         </and>
     </condition>
     
     <!-- generates the classes -->
     <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
         <fail unless="outputPath.set">
-            Must specify the parameters: outputPath and apiServerRootDir
-            eg. -DoutputDir=../api-server-lib/java/src/main/java/com/wordnik/swagger -DapiServerRootDir=../api-server-lib/java/
-                These are the output path of the Apis and the root directory that will be created for the api server (directory where structure is created)
+            Must specify the parameter for apiConfiguration
+            eg. -DapiConfiguration==../api-server-lib/java/config/apiConfiguration.json
         </fail>
-        <mkdir dir="${outputDir}/api"/>
-        <mkdir dir="${outputDir}/model"/>
         <echo>
-            outputDir for Api = ${outputDir}
+            apiConfiguration to be used : ${apiConfiguration}
         </echo>
-        <echo>
-            apiServerRootDir = ${apiServerRootDir}
-        </echo>
-        <delete>
-          <fileset  dir="${outputDir}"  includes="*.java"/>
-        </delete>
         <java classname="com.wordnik.swagger.codegen.config.java.JavaLibCodeGen">
             <classpath>
                   <pathelement location="build/main/java" />
@@ -49,11 +39,8 @@
                      <include name="**/*.jar"/>
                   </fileset>
             </classpath>
-            <arg value="${apiServerRootDir}/config/apiConfiguration.json"/>
+            <arg value="${apiConfiguration}"/>
         </java>
-        <copy todir="${apiServerRootDir}" overwrite="true">
-            <fileset dir="conf/java/structure"/>
-        </copy>
     </target>
 
 </project>
