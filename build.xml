@@ -1,9 +1,10 @@
-<project name="wordnik-libs-gen" default="compile" basedir=".">
+<project name="swagger-libs-gen" xmlns:ivy="antlib:org.apache.ivy.ant" default="compile" basedir=".">
 	<property environment="env" />
 	<property name="version.identifier" value="1.0" />
-	<condition property="build.common.dir" value="${env.BUILD_COMMON}">
-		<isset property="env.BUILD_COMMON" />
-	</condition>
+    <property name="artifact.ext" value="jar" />
+    <property name="organization" value="wordnik" />
+    <property name="module" value="${ant.project.name}" />
+    <property name="scala.home" value="${env.SCALA_HOME}" />
 
     <mkdir dir="lib"/>
     <mkdir dir="lib/ext"/>
@@ -12,17 +13,61 @@
 	<mkdir dir="src/test/java"/>
 	<mkdir dir="src/test/scala"/>
 
-	<echo message="using build common dir: ${build.common.dir}"/>
-	<import file="${build.common.dir}/ant/ant-common.xml" />
-	<import file="${build.common.dir}/ant/ant-server.xml" />
-	<import file="${build.common.dir}/ant/ant-test.xml" />
-
     <condition property="apiConfiguration.set">
         <and>
             <isset property="apiConfiguration"/>
         </and>
     </condition>
-    
+
+    <taskdef resource="scala/tools/ant/antlib.xml">
+        <classpath>
+            <fileset dir="lib">
+                <include name="scala**.jar" />
+            </fileset>
+            <fileset dir="${scala.home}/lib">
+                <include name="scala**.jar" />
+            </fileset>
+        </classpath>
+    </taskdef>
+
+    <target name="compile" description="builds the module without artifact resolution or cleaning">
+        <echo message="building ${module}-${version.identifier}.${artifact.ext}"/>
+        <delete quiet="true" file="build/${module}-*.jar" />
+        <mkdir dir="build" />
+        <mkdir dir="build/main" />
+        <mkdir dir="build/main/java" />
+        <scalac srcdir="src/main/java:src/main/scala" destdir="build/main/java">
+            <classpath>
+                <pathelement location="build/main/java" />
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+                <fileset dir="lib/ext">
+                    <include name="*.jar" />
+                </fileset>
+                <fileset dir="${scala.home}/lib"/>
+            </classpath>
+            <include name="**/*.scala" />
+            <include name="**/*.java" />
+        </scalac>
+        <javac srcdir="src/main/java:src/main/scala" debug="true" destdir="build/main/java">
+            <classpath>
+                <pathelement location="build/main/java" />
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+                <fileset dir="lib/ext">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+            <include name="**/*.java" />
+        </javac>
+
+        <jar jarfile="build/${module}-${version.identifier}.${artifact.ext}">
+               <fileset dir="build/main/java" />
+        </jar>
+    </target>
+
     <!-- generates the classes -->
     <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
         <fail unless="apiConfiguration.set">

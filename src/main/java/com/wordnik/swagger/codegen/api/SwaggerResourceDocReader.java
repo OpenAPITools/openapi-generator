@@ -71,8 +71,8 @@ public class SwaggerResourceDocReader {
         for (String resource : resources) {
             resource = trimResourceName(resource);
             if (!resource.equals(trimResourceName( apiListResource ))) {
-                if(!resource.endsWith(".json")){
-                    resource = resource.concat(".json");
+                if(resource.endsWith(".{format}")){
+                    resource = resource.replace(".{format}", ".json");
                 }
                 resourceURLs.add(baseUrl + resource);
             }
@@ -83,13 +83,11 @@ public class SwaggerResourceDocReader {
             WebResource aResource = apiClient.resource(resourceURL);
             aResource.header("api_key", apiKey);
             ClientResponse clientResponse =  aResource.header("api_key", apiKey).get(ClientResponse.class);
-            String version = clientResponse.getHeaders().get(HEADER_NAME_API_VERSION).get(0);//TODO - check if this is required
             String response = clientResponse.getEntity(String.class);
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.getDeserializationConfig().set(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 Resource aResourceDoc = deserializeResource(response, mapper);
-                aResourceDoc.setApiVersion(version);
                 resourceDocs.add(aResourceDoc);
             } catch (IOException ioe) {
                 ioe.printStackTrace();
@@ -111,14 +109,14 @@ public class SwaggerResourceDocReader {
         String resourceCsv = "";
         Resource resourceApi;
         String apiResourceUrl = null;
-        if(apiListResource == null){
-            throw new CodeGenerationException("apiListingUrl needs to be defined in api configuration object");
-        }
+
+        apiListResource = baseUrl + "resources.json";
+
         if(!apiListResource.endsWith(".json")){
             apiResourceUrl = trimResourceName( apiListResource.concat(".json") );
+        }else{
+            apiResourceUrl = trimResourceName( apiListResource);
         }
-
-        apiResourceUrl = baseUrl.concat(apiResourceUrl);
 
         WebResource aResource = apiClient.resource(apiResourceUrl);
         aResource.header("api_key", apiKey);
