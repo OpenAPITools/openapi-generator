@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-	<info organisation="wordnik" module="wordnik-libs-gen"/>
+	<info organisation="wordnik" module="swagger-libs-gen"/>
 	<configurations>
 		<conf name="build" visibility="public"/>
 		<conf name="test" visibility="public"/>
@@ -9,8 +9,8 @@
 	</configurations>
 
 	<publications>
-		<artifact name="wordnik-libs-gen" type="jar" conf="build" ext="jar"/>
-		<artifact name="wordnik-libs-gen" type="pom" conf="pom" ext="pom"/>
+		<artifact name="swagger-libs-gen" type="jar" conf="build" ext="jar"/>
+		<artifact name="swagger-libs-gen" type="pom" conf="pom" ext="pom"/>
 	</publications>
     
     <dependencies>
