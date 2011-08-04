@@ -4,6 +4,7 @@ import com.wordnik.swagger.codegen.api.SwaggerResourceDocReader;
 import com.wordnik.swagger.codegen.config.*;
 import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.resource.*;
+import com.wordnik.swagger.codegen.util.FileUtil;
 import com.wordnik.swagger.exception.CodeGenerationException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
@@ -72,6 +73,9 @@ public class LibraryCodeGenerator {
      */
     private void generateModelClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
     	List<String> generatedClassNames = new ArrayList();
+
+        //remove old generated files
+        FileUtil.cleanFiles(languageConfig.getModelClassLocation());
 
     	for(Resource resource: resources) {
     		for(Model model : resource.getModels()){
@@ -212,6 +216,9 @@ public class LibraryCodeGenerator {
      */
     private void generateAPIClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
 
+        //delete previously generated files
+        FileUtil.cleanFiles(languageConfig.getResourceClassLocation());
+
     	for(Resource resource : resources) {
     		List<ResourceMethod> methods = new ArrayList<ResourceMethod>();
             List<String> imports = new ArrayList<String>();
@@ -256,12 +263,6 @@ public class LibraryCodeGenerator {
     		modelFields.add(aParam);
     	}
 
-        //add missing class from models
-        ModelField aParam = new ModelField();
-        aParam.setName("StringValueList");
-        aParam.setParamType(this.getDataTypeMappingProvider().getListReturnTypeSignature("StringValue"));
-        modelFields.add(aParam);
-        
 		List<String> imports = new ArrayList<String>();
         imports.addAll(this.config.getDefaultModelImports());
         imports.addAll(this.getDataTypeMappingProvider().getListImportPackages());
@@ -293,7 +294,7 @@ public class LibraryCodeGenerator {
             throw new CodeGenerationException("Error generating " + classType + " : " + ioe.getMessage());
     	}
     }
-
+    
     public ApiConfiguration getConfig() {
         return config;
     }

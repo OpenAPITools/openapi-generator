@@ -27,6 +27,19 @@ public class FileUtil {
         return oFile.delete();
     }
 
+
+    /**
+     * Deleet all the files from the specified location
+     * @param directoryLocation
+     */
+    public static void cleanFiles(String directoryLocation) {
+       File fDir = new File(directoryLocation);
+       File[] files = fDir.listFiles();
+        for(File aFile : files) {
+            aFile.delete();
+        }
+    }
+
     // Clears the folder of the files with extension
     public static void clearFolder(String strFolder, final String strExt) {
         File fLogDir = new File(strFolder);
@@ -40,6 +53,7 @@ public class FileUtil {
             deleteFile(fLogs[i].getAbsolutePath());
         }
     }
+
 
     public static void copyDirectory(File srcPath, File dstPath) {
         if (srcPath.isDirectory()) {

@@ -1,7 +1,26 @@
+/**
+ *  Copyright 2011 Wordnik, Inc.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package com.wordnik.swagger.common;
 
 import java.io.IOException;
+import java.lang.String;
 import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -21,15 +40,18 @@ import com.sun.jersey.api.client.filter.LoggingFilter;
 
 
 /**
- * Provides way to initialize the communication with Wordnik API server. 
- * This is also a Base class for all API classes 
+ * Provides method to initialize the api server settings and also handles the logic related to invoking the API server
+ * along with serealizing and deserializing input and output responses.
+ *
+ * This is also a Base class for all API classes
+ *
  * @author ramesh
  *
  */
-public class WordnikAPI {
+public class APIInvoker {
 
 	private static String apiServer = "http://api.wordnik.com/v4";
-	private static String apiKey = "";
+	private static SecurityHandler securityHandler = null;
 	private static boolean loggingEnabled;
 	private static Logger logger = null;
 	
@@ -37,7 +59,7 @@ public class WordnikAPI {
 	protected static String GET = "GET";
 	protected static String PUT = "PUT";
 	protected static String DELETE = "DELETE";
-	protected static ObjectMapper mapper = new ObjectMapper();
+	public static ObjectMapper mapper = new ObjectMapper();
 	static{
         mapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.getSerializationConfig().set(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
@@ -47,7 +69,7 @@ public class WordnikAPI {
 
 	/**
 	 * Initializes the API communication with required inputs. 
-	 * @param apiKey provide the key provided as part of registration
+	 * @param securityHandler security handler responsible for populating necessary security invocation while making API server calls
 	 * @param apiServer Sets the URL for the API server. It is defaulted to the server 
 	 * 					used while building the driver. This value should be provided while testing the APIs against 
 	 * 					test servers or if there is any changes in production server URLs.
@@ -55,8 +77,8 @@ public class WordnikAPI {
 	 * 						for more details. {@link com.sun.jersey.api.client.filter.LoggingFilter}. Default output is sent to system.out.
 	 * 						Create a logger ({@link java.util.logging.Logger} class and set using setLogger method.
 	 */
-	public static void initialize(String apiKey, String apiServer, boolean enableLogging) {
-		setApiKey(apiKey);
+	public static void initialize(SecurityHandler securityHandler, String apiServer, boolean enableLogging) {
+		setSecurityHandler(securityHandler);
 		if(apiServer != null && apiServer.length() > 0) {
 			if(apiServer.substring(apiServer.length()-1).equals("/")){
 				apiServer = apiServer.substring(0, apiServer.length()-1);
@@ -79,12 +101,12 @@ public class WordnikAPI {
 	 * This value is set using initialize method. 
 	 * @return
 	 */
-	public static String getApiKey() {
-		return apiKey;
+	public static SecurityHandler setSecurityHandler() {
+		return securityHandler;
 	}
 
-	private static void setApiKey(String apiKey) {
-		WordnikAPI.apiKey = apiKey;
+	private static void setSecurityHandler(SecurityHandler aSecurityHandler) {
+		securityHandler = aSecurityHandler;
 	}
 
 	/**
@@ -95,38 +117,36 @@ public class WordnikAPI {
 		return apiServer;
 	}
 
-	private static void setApiServer(String server) {
-		WordnikAPI.apiServer = server;
+	public static void setApiServer(String server) {
+		apiServer = server;
 	}
 	
 	
 	
 	/**
 	 * Invokes the API and returns the response as json string.
-	 * This is an internal method called by individual APIs for communication. It sets the required HTTP headers
-	 * based on API key and auth token.   
-	 * @param authToken - token that is received as part of authentication call. This is only needed for the calls that are secure.
+     *
+	 * This is an internal method called by individual APIs for communication. It sets the required security information
+     * based ons ecuroty handler
+	 *
 	 * @param resourceURL - URL for the rest resource
 	 * @param method - Method we should use for communicating to the back end. 
 	 * @param postObject - if the method is POST, provide the object that should be sent as part of post request.
 	 * @return JSON response of the API call. 
 	 * @throws com.wordnik.swagger.exception.APIException if the call to API server fails.
 	 */
-	protected static String invokeAPI(String authToken, String resourceURL, String method, Map<String,
+	public static String invokeAPI(String resourceURL, String method, Map<String,
             String> queryParams, Object postObject) throws APIException {
 
 
         Client apiClient = Client.create();
         
-        //check for app key and server values
-        if(getApiKey() == null || getApiKey().length() == 0) {
-        	String[] args = {getApiKey()};
-        	throw new APIException(APIExceptionCodes.API_KEY_NOT_VALID, args);
-        }
+        //check for app server values
         if(getApiServer() == null || getApiServer().length() == 0) {
         	String[] args = {getApiServer()};
         	throw new APIException(APIExceptionCodes.API_SERVER_NOT_VALID, args);
         }
+
         //initialize the logger if needed
         if(loggingEnabled) {
         	if(logger == null) {
@@ -149,15 +169,19 @@ public class WordnikAPI {
 				i++;
 			}
 		}
+        Map<String, String> headerMap = new HashMap<String, String>();
+        if(securityHandler != null){
+            securityHandler.populateSecurityInfo(resourceURL, headerMap);
+        }
         WebResource aResource = apiClient.resource(resourceURL);
- //       aResource.queryParams(queryParams);
-        
+
+
         //set the required HTTP headers
         Builder builder = aResource.type("application/json");
-        builder.header("api_key", getApiKey());
-        if(authToken != null){
-        	builder.header("auth_token", authToken);
+        for(String key : headerMap.keySet()){
+            builder.header(key, headerMap.get(key));
         }
+        
         ClientResponse clientResponse = null;
         if(method.equals(GET)) {
         	clientResponse =  builder.get(ClientResponse.class);
@@ -187,7 +211,6 @@ public class WordnikAPI {
 	 */
 	public static Object deserialize(String response, Class inputClassName) throws APIException {
         try {
-            System.out.println("Input :::::" + response);
             Object responseObject = mapper.readValue(response, inputClassName);
             return responseObject;
         } catch (IOException ioe) {
@@ -212,5 +235,34 @@ public class WordnikAPI {
         } catch (IOException ioe) {
             throw new APIException(APIExceptionCodes.ERROR_CONVERTING_JAVA_TO_JSON, "Error in coverting input java to json : " + ioe.getMessage(), ioe);
         }
-	}	
+	}
+
+
+    /**
+     * Overloaded method for returning the path value
+     * For a string value an empty value is returned if the value is null
+     * @param value
+     * @return
+     */
+    public static String toPathValue(String value) {
+        return  value == null ? "" : value;
+    }
+
+    /**
+     * Overloaded method for returning a path value
+     * For a list of objects a comma separated string is returned
+     * @param objects
+     * @return
+     */
+    public static String toPathValue(List objects) {
+        StringBuilder out = new StringBuilder();
+        for(Object o: objects){
+            out.append(o.toString());
+            out.append(",");
+        }
+        if(out.indexOf(",") != -1) {
+            return out.substring(0, out.lastIndexOf(",") );
+        }
+        return out.toString();
+    }
 }
