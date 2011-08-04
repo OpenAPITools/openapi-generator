@@ -30,6 +30,17 @@
         </classpath>
     </taskdef>
 
+
+        <target name="resolve" description="retreive dependencies with ivy">
+                <delete>
+                        <fileset dir="lib">
+                                <include name="*.jar" />
+                                <include name="*.zip" />
+                        </fileset>
+                </delete>
+                <ivy:retrieve pattern="${basedir}/lib/[artifact]-[revision].[ext]" conf="build" />
+        </target>
+
     <target name="compile" description="builds the module without artifact resolution or cleaning">
         <echo message="building ${module}-${version.identifier}.${artifact.ext}"/>
         <delete quiet="true" file="build/${module}-*.jar" />
