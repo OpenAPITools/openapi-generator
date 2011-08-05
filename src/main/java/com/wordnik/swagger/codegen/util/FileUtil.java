@@ -63,8 +63,10 @@ public class FileUtil {
     public static void clearFolder(String directoryLocation) {
        File fDir = new File(directoryLocation);
        File[] files = fDir.listFiles();
-        for(File aFile : files) {
-            aFile.delete();
+        if(files != null){
+            for(File aFile : files) {
+                aFile.delete();
+            }
         }
     }
 
@@ -77,8 +79,10 @@ public class FileUtil {
             }
         });
 
-        for (int i = 0; i < fLogs.length; i++) {
-            deleteFile(fLogs[i].getAbsolutePath());
+        if (fLogs != null) {
+            for (int i = 0; i < fLogs.length; i++) {
+                deleteFile(fLogs[i].getAbsolutePath());
+            }
         }
     }
 
