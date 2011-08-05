@@ -27,6 +27,8 @@ import com.wordnik.swagger.exception.CodeGenerationException;
  */
 public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
 
+    public static String INPUT_OBJECT_SUFFIX = "Input";
+
     /**
      * gets the name of class that is responsible for tracking current library version
      * @return
@@ -36,7 +38,7 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
     }
 
     /**
-     * Converts the first character of the input into string.
+     * Converts the first character of the input into upper case .
      * Example: If the input is word, the return value will be Word
      * @param input
      * @return
@@ -45,13 +47,13 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
     	if(input != null && input.length() > 0) {
     		return input.substring(0,1).toUpperCase() + input.substring(1);
     	}else{
-    		throw new CodeGenerationException("Error converting input to first letter caps becuase of null input");
+    		throw new CodeGenerationException("Error converting input to first letter caps becuase of null or empty input");
     	}
     }
 
     /**
-     * Converts the first character of the input into string.
-     * Example: If the input is word, the return value will be Word
+     * Converts the first character of the input into lower case.
+     * Example: If the input is GetWord, the return value will be getWord
      * @param input
      * @return
      */
@@ -59,11 +61,21 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
     	if(input != null && input.length() > 0) {
     		return input.substring(0,1).toLowerCase() + input.substring(1);
     	}else{
-    		throw new CodeGenerationException("Error converting input to first letter to lower because of null input");
+    		throw new CodeGenerationException("Error converting input to first letter to lower because of null or empty input");
     	}
     }
 
-     public String getServiceName(String resourcePath) {
+
+    /**
+     * Generate name of the service from resource path.
+     *
+     * Example: if input is /user.json the generated name for this path will be UserAPI
+     * If the input is /user.json/{userId}, the service name will still be generated as UserAPI
+     *
+     * @param resourcePath
+     * @return
+     */
+    public String getServiceName(String resourcePath) {
          String className = null;
          int index = resourcePath.indexOf(".");
          if(index >= 0) {
@@ -79,7 +91,7 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
              }
          }
          return className+ "API";
-     }
+    }
 
     /**
      * Generates the name of service methods.
@@ -96,8 +108,22 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
     }
 
 
+    /**
+     * For input UserAPI and resource path /findUserById the suggested input object name will be: UserFindUserByIdInput
+     *
+     * If the input path is /{userId}/delete the sugegsted name will be UserDeleteInput. The path parameters are ignored
+     * in generating the input object name
+     *
+     * Note: Input objects are only created when the number of input arguments in a method exceeds certain number so <br/> that the method signatures are clean
+     *
+     * 
+     * @param serviceName
+     * @param resourcePath
+     * @return
+     */
     public String getInputObjectName(String serviceName, String resourcePath) {
 
+        //Since service name has API at the end remove that fromt he name
         String inputobjectName = serviceName.substring(0, serviceName.length() - 3);
 
         String[] pathElements = resourcePath.split("/");
@@ -108,7 +134,7 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
                 if(pathElement != null && pathElement.length() > 0) {
                     int position = pathElement.indexOf("{");
                     if(position < 0) {
-                        inputobjectName = inputobjectName + applyClassNamingPolicy(pathElement) + Model.INPUT_OBJECT_SUFFIX;
+                        inputobjectName = inputobjectName + applyClassNamingPolicy(pathElement) + INPUT_OBJECT_SUFFIX;
                     }
                 }
             }

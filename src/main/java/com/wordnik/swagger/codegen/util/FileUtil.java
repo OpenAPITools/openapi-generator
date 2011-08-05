@@ -27,6 +27,13 @@ import java.io.*;
  */
 public class FileUtil {
 
+    /**
+     * Creates directory if doesn't exists and also cleans the files of given type if directory already contains some
+     * files.
+     *
+     * @param classLocation
+     * @param fileExtension
+     */
     public static void createOutputDirectories(String classLocation, String fileExtension) {
         File outputLocation = new File(classLocation);
         outputLocation.mkdirs(); //make folder if necessary
@@ -35,6 +42,11 @@ public class FileUtil {
 
     }
 
+    /**
+     * Deletes a fingle file and returns false fi file doesn't exists
+     * @param sFilePath
+     * @return
+     */
     public static boolean deleteFile(String sFilePath) {
         File oFile = new File(sFilePath);
         if (!oFile.exists()) {
@@ -48,7 +60,7 @@ public class FileUtil {
      * Deleet all the files from the specified location
      * @param directoryLocation
      */
-    public static void cleanFiles(String directoryLocation) {
+    public static void clearFolder(String directoryLocation) {
        File fDir = new File(directoryLocation);
        File[] files = fDir.listFiles();
         for(File aFile : files) {

@@ -25,8 +25,6 @@ import java.util.List;
  */
 public class Model {
 
-	public static String INPUT_OBJECT_SUFFIX = "Input";
-	
     private String name;
     
     private String description;

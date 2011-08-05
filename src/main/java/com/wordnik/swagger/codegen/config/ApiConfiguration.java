@@ -29,11 +29,11 @@ import java.util.Map;
  */
 public class ApiConfiguration {
 
-    private Map<String, String> baseClassNames = new HashMap<String, String>();
+    private Map<String, String> serviceBaseClasses = new HashMap<String, String>();
 
     private String defaultServiceBaseClass = "Object";
 
-    private String modelBaseClass = "Object";
+    private String defaultModelBaseClass = "Object";
     /**
      *  Default model imports that we need to include in all service classes. This is needed because some times,
      *  we may need to write custom classes and those classes will not be known to code generation. To import those
@@ -57,26 +57,22 @@ public class ApiConfiguration {
 
     }
 
-    public String getDefaultServiceBaseClass() {
-        return defaultServiceBaseClass;
+    public Map<String, String> getServiceBaseClasses() {
+
+        return serviceBaseClasses;
     }
+
+    public void setServiceBaseClasses(Map<String, String> serviceBaseClasses) {
+        this.serviceBaseClasses = serviceBaseClasses;
+    }
+
 
     public void setDefaultServiceBaseClass(String defaultServiceBaseClass) {
         this.defaultServiceBaseClass = defaultServiceBaseClass;
     }
 
-    public Map<String, String> getBaseClassNames() {
-
-        return baseClassNames;
-    }
-
-    public void setBaseClassNames(Map<String, String> baseClassNames) {
-        this.baseClassNames = baseClassNames;
-    }
-
-
-    public void setServiceBaseClass(String defaultServiceBaseClass) {
-        this.defaultServiceBaseClass = defaultServiceBaseClass;
+    public String getDefaultServiceBaseClass() {
+        return this.defaultServiceBaseClass;
     }
 
     public void setServiceBaseClass(String serviceName, String className) {
@@ -88,22 +84,22 @@ public class ApiConfiguration {
             throw new CodeGenerationException("Error settting base class for service: class name was not provided");
         }
 
-        baseClassNames.put(serviceName, className);
+        serviceBaseClasses.put(serviceName, className);
     }
 
     public String getServiceBaseClass(String serviceName) {
-        if(baseClassNames.containsKey(serviceName)){
-            return baseClassNames.get(serviceName);
+        if(serviceBaseClasses.containsKey(serviceName)){
+            return serviceBaseClasses.get(serviceName);
         }
         return defaultServiceBaseClass;
     }
 
-    public String getModelBaseClass() {
-        return modelBaseClass;
+    public String getDefaultModelBaseClass() {
+        return defaultModelBaseClass;
     }
 
-    public void setModelBaseClass(String modelBaseClass) {
-        this.modelBaseClass = modelBaseClass;
+    public void setDefaultModelBaseClass(String defaultModelBaseClass) {
+        this.defaultModelBaseClass = defaultModelBaseClass;
     }
 
 

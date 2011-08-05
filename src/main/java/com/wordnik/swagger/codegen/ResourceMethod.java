@@ -22,6 +22,8 @@ import java.util.List;
 
 public class ResourceMethod {
 
+    private String title;
+
 	private String description;
 
 	private List<MethodArgument> arguments;
@@ -52,6 +54,14 @@ public class ResourceMethod {
 	
 	private Model inputModel;
 	
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
 	public String getDescription() {
 		return description;

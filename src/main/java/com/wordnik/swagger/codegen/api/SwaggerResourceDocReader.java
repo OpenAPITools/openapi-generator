@@ -96,6 +96,7 @@ public class SwaggerResourceDocReader {
 
         //make connection to resource and get the documentation
         for (String resourceURL : resourceURLs) {
+            resourceURL = resourceURL + "?api_key=" + apiKey;
             WebResource aResource = apiClient.resource(resourceURL);
             aResource.header("api_key", apiKey);
             ClientResponse clientResponse =  aResource.header("api_key", apiKey).get(ClientResponse.class);
@@ -133,7 +134,7 @@ public class SwaggerResourceDocReader {
         }else{
             apiResourceUrl = trimResourceName( apiListResource);
         }
-
+        apiResourceUrl = apiResourceUrl + "?api_key="+ apiKey;
         WebResource aResource = apiClient.resource(apiResourceUrl);
         aResource.header("api_key", apiKey);
         ClientResponse clientResponse =  aResource.header("api_key", apiKey).get(ClientResponse.class);

@@ -175,12 +175,12 @@ public class ModelField {
     		fieldDefinition = new FieldDefinition();
 	    	String type = paramType.trim();
 	    	if(type.contains("date")||type.contains("Date") ){
-	    		fieldDefinition.getImportDefinitions().add("java.util.Date");
+	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getDateIncludes());
 	    	}
 	    	if(type.startsWith("List[")){
-	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getListImportPackages());
+	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getListIncludes());
 	    		String entryType = type.substring(5, type.length()-1);
-	    		entryType =  dataTypeMapper.getObjectType(entryType, true);
+	    		entryType =  dataTypeMapper.getClassType(entryType, true);
 	    		String returnType = dataTypeMapper.getListReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);
 	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.generateListInitialization(entryType));
@@ -191,9 +191,9 @@ public class ModelField {
 	    		}
 
 	    	}else if(type.startsWith("Set[")){
-	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getSetImportPackages());
+	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getSetIncludes());
 	    		String entryType = type.substring(4, type.length()-1);
-	    		entryType =  dataTypeMapper.getObjectType(entryType, true);
+	    		entryType =  dataTypeMapper.getClassType(entryType, true);
 	    		String returnType = dataTypeMapper.getSetReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);
 	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.generateSetInitialization(entryType));
@@ -204,13 +204,13 @@ public class ModelField {
 	    		}
 
 	    	}else if (type.startsWith("Map[")) {
-                fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapImportPackages());
+                fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapIncludes());
                 String keyClass, entryClass = "";
 	    		String entryType = type.substring(4, type.length()-1);
                 keyClass = entryType.substring(0, entryType.indexOf(",") );
                 entryClass = entryType.substring(entryType.indexOf(",") + 1, entryType.length());
-	    		//entryType =  dataTypeMapper.getObjectType(entryType, true);
-	    		entryType =  dataTypeMapper.getObjectType(keyClass, true) + "," + dataTypeMapper.getObjectType(entryClass, true);
+	    		//entryType =  dataTypeMapper.getClassType(entryType, true);
+	    		entryType =  dataTypeMapper.getClassType(keyClass, true) + "," + dataTypeMapper.getClassType(entryClass, true);
 	    		String returnType = dataTypeMapper.getMapReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);
 	    		fieldDefinition.setInitialization("= " + dataTypeMapper.generateMapInitialization(entryType));
@@ -220,7 +220,7 @@ public class ModelField {
 	    			fieldDefinition.setName(this.getName());
 	    		}
 	    	}else{
-	    		fieldDefinition.setReturnType(dataTypeMapper.getObjectType(type, false));
+	    		fieldDefinition.setReturnType(dataTypeMapper.getClassType(type, false));
 	    		fieldDefinition.setName(this.getName());
 	    	}
 

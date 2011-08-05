@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.wordnik.swagger.codegen.config.java;
+package com.wordnik.swagger.codegen.config;
 
 import com.wordnik.swagger.codegen.config.RulesProvider;
 
@@ -26,12 +26,12 @@ import java.util.List;
  * Date: 5/31/11
  * Time: 7:04 AM
  */
-public class JavaCodeGenRulesProvider implements RulesProvider {
+public class CodeGenRulesProvider implements RulesProvider {
 
     private List<String> ignoreMethods = new ArrayList<String>();
     private List<String> ignoreModels = new ArrayList<String>();
 
-    public JavaCodeGenRulesProvider() {
+    public CodeGenRulesProvider() {
 
     }
 

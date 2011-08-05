@@ -31,7 +31,7 @@ public class LanguageConfiguration {
 
     private String structureLocation;
 
-    private String apiServerRootLocation;
+    private String libraryHome;
 
     private String modelClassLocation;
 
@@ -102,11 +102,11 @@ public class LanguageConfiguration {
         this.structureLocation = structureLocation;
     }
 
-    public String getApiServerRootLocation() {
-        return apiServerRootLocation;
+    public String getLibraryHome() {
+        return libraryHome;
     }
 
-    public void setApiServerRootLocation(String apiServerRootLocation) {
-        this.apiServerRootLocation = apiServerRootLocation;
+    public void setLibraryHome(String libraryHome) {
+        this.libraryHome = libraryHome;
     }
 }

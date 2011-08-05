@@ -76,31 +76,8 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
     	return false;
     }
 
-    /**
-     * If the data type is primitive and it is expecting object structure then return primitive objects
-     * else return primitive types
-     * @param type
-     * @param primitiveObject -- indicates if the object is primitive or not
-     * @return
-     */
-    public String getObjectType(String type, boolean primitiveObject) {
-    	if(isPrimitiveType(type)){
-	    	if(primitiveObject){
-	    		return primitiveObjectMap.get(type);
-	    	}else{
-	    		return primitiveValueMap.get(type);
-	    	}
-    	}else{
-    		return nameGenerator.applyClassNamingPolicy(type);
-    	}
-    }
-
     public String getListReturnTypeSignature(String typeClass) {
         return "List<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
-    }
-
-    public String getReturnTypeForVoidMethods() {
-        return "void";
     }
 
     public String getMapReturnTypeSignature(String typeClass) {
@@ -123,28 +100,28 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
         return " new HashSet<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
     }
 
-    public List<String> getListImportPackages() {
+    public List<String> getListIncludes() {
         List<String> imports = new ArrayList<String>();
         imports.add("java.util.List");
         imports.add("java.util.ArrayList");
         return imports;
     }
 
-    public List<String> getMapImportPackages() {
+    public List<String> getMapIncludes() {
         List<String> imports = new ArrayList<String>();
         imports.add("java.util.Map");
         imports.add("java.util.HashMap");
         return imports;
     }
 
-    public List<String> getSetImportPackages() {
+    public List<String> getSetIncludes() {
         List<String> imports = new ArrayList<String>();
         imports.add("java.util.Set");
         imports.add("java.util.HashSet");
         return imports;    }
 
 
-    public List<String> getDateImports() {
+    public List<String> getDateIncludes() {
         List<String> imports = new ArrayList<String>();
         imports.add("java.util.Date");
         return imports;
@@ -157,21 +134,21 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
 	 * @param type
 	 * @return
 	 */
-    public String getReturnClassType(String type) {
+    public String getGenericType(String type) {
     	String classShortName = "";
     	if(type.startsWith("List[")){
     		classShortName = type.substring(5, type.length()-1);
-    		classShortName =  getObjectType(classShortName, true);
+    		classShortName =  getClassType(classShortName, true);
     	}else if (type.startsWith("Map[")) {
     		classShortName = type.substring(4, type.length()-1);
-    		classShortName =  getObjectType(classShortName, true);
+    		classShortName =  getClassType(classShortName, true);
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
-    		classShortName =  getObjectType(classShortName, true);
-    	}else if (type.equals("ok")) {
+    		classShortName =  getClassType(classShortName, true);
+    	}else if (type.equalsIgnoreCase("ok")) {
     		classShortName = "void";
     	}else{
-    		classShortName =  getObjectType(type, true);
+    		classShortName =  getClassType(type, true);
     	}
     	return classShortName;
     }
@@ -184,23 +161,44 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
 	 * @param type
 	 * @return
 	 */
-    public String getReturnValueType(String type) {
+    public String getClassType(String type, boolean primitiveObject) {
     	if(type.equalsIgnoreCase("void")|| type.equalsIgnoreCase("ok")){
     		return "void";
     	}
     	String classShortName = "";
     	if(type.startsWith("List[")){
     		classShortName = type.substring(5, type.length()-1);
-    		classShortName =  "List<"+getObjectType(classShortName, true)+">";
+    		classShortName =  "List<"+ getClassName(classShortName, true)+">";
     	}else if (type.startsWith("Map[")) {
     		classShortName = type.substring(4, type.length()-1);
-    		classShortName =  "Map<"+getObjectType(classShortName, true) +">";
+    		classShortName =  "Map<"+ getClassName(classShortName, true) +">";
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
-    		classShortName =  "Set<"+getObjectType(classShortName, true) +">";
+    		classShortName =  "Set<"+ getClassName(classShortName, true) +">";
     	}else{
-    		classShortName =  getObjectType(type, true);
+    		classShortName =  getClassName(type, true);
     	}
     	return classShortName;
+    }
+
+
+    /**
+     * If the data type is primitive and it is expecting object structure then return primitive objects
+     * else return primitive types
+     * @param type
+     * @param primitiveObject -- indicates if the object is primitive or not
+     * @return
+     */
+    private String getClassName(String type, boolean primitiveObject) {
+    	if(isPrimitiveType(type)){
+	    	if(primitiveObject){
+	    		return primitiveObjectMap.get(type);
+	    	}else{
+	    		return primitiveValueMap.get(type);
+	    	}
+    	}else{
+
+    		return nameGenerator.applyClassNamingPolicy(type);
+    	}
     }
 }

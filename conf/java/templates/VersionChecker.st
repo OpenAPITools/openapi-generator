@@ -28,7 +28,7 @@ public class VersionChecker {
 	private String compatibleVersion = "$apiVersion$";
 	
 	/**
-	* Gets the version against which the driver code was written
+	* Gets the version against which the library code was written
 	*/
 	public String getCompatibleVersion() {
 		return compatibleVersion;

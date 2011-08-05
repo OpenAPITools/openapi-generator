@@ -46,14 +46,14 @@ public class $resource$ extends $extends$ {
 
 $methods:{ method |
 	/**
-	 * $method.description$
-$method.arguments:{ argument |
-	 * @param $argument.name$  $argument.description$
-    $if(argument.allowedValues)$
-	 *        Allowed values are - $argument.allowedValues$
-    $endif$
-}$
+	 * $method.title$
 	 *
+$if(method.description)$
+	 * $method.description$
+	 * $endif$
+     * $method.arguments:{ argument |@param $argument.name$  $argument.description$
+     * $if(argument.allowedValues)$
+	 *      Allowed values are - $argument.allowedValues$ $endif$ }$
 $if(!method.responseVoid)$
 	 * @return $method.returnValue$ {@link $method.returnClassName$} $endif$
 	 * @throws APIException $method.exceptionDescription$
@@ -62,7 +62,7 @@ $if(method.hasArguments)$
 	 @MethodArgumentNames(value="$method.argumentNames; separator=", "$") 
 $endif$
 
-	public static $method.returnValue$ $method.name$($method.argumentDefinitions; separator=", "$) throws APIException {
+	 public static $method.returnValue$ $method.name$($method.argumentDefinitions; separator=", "$) throws APIException {
 
 		//parse inputs
 		String  resourcePath = "$method.resourcePath$";
@@ -102,18 +102,17 @@ $if(!method.postObject)$
 		String response = APIInvoker.invokeAPI(resourcePath, method, queryParams, null);
 $endif$
 
-		//create output objects if the response has more than one object
 $if(!method.responseVoid)$
         if(response == null || response.length() == 0){
             return null;
         }
 $if(!method.returnValueList)$
+		//create output objects if the response has more than one object
 		$method.returnValue$ responseObject = ($method.returnValue$) APIInvoker.deserialize(response, $method.returnClassName$.class);
 		return responseObject;
 $endif$		
 $if(method.returnValueList)$
-        TypeReference<ArrayList<$method.returnClassName$>> typeRef = new TypeReference<ArrayList<$method.returnClassName$>>() {
-		};
+        TypeReference<ArrayList<$method.returnClassName$>> typeRef = new TypeReference<ArrayList<$method.returnClassName$>>() {};
         try {
             List<$method.returnClassName$> responseObject = (List<$method.returnClassName$>) APIInvoker.mapper.readValue(response, typeRef);
             return responseObject;
@@ -123,7 +122,7 @@ $if(method.returnValueList)$
         }		
 $endif$		
 $endif$		
-	}
+	 }
 
 }$
 

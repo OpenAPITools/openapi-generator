@@ -18,11 +18,15 @@ package com.wordnik.swagger.codegen;
 import com.wordnik.swagger.codegen.api.SwaggerResourceDocReader;
 import com.wordnik.swagger.codegen.config.*;
 import com.wordnik.swagger.codegen.config.ApiConfiguration;
+import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
+import com.wordnik.swagger.codegen.config.java.JavaDataTypeMappingProvider;
 import com.wordnik.swagger.codegen.resource.*;
 import com.wordnik.swagger.codegen.util.FileUtil;
 import com.wordnik.swagger.exception.CodeGenerationException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -51,6 +55,20 @@ public class LibraryCodeGenerator {
     protected DataTypeMappingProvider dataTypeMappingProvider;
     protected RulesProvider codeGenRulesProvider;
     protected NamingPolicyProvider nameGenerator;
+
+    public LibraryCodeGenerator(String configPath){
+
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        final File configFile = new File(configPath);
+        this.setApiConfig(readApiConfiguration(configPath, mapper, configFile));
+        this.setCodeGenRulesProvider(readRulesProviderConfig(configPath, mapper, configFile));
+        this.setLanguageConfig( initializeLangConfig(readLanguageConfiguration(configPath, mapper, configFile)) );
+
+        this.setDataTypeMappingProvider(new JavaDataTypeMappingProvider());
+        this.setNameGenerator(new CamelCaseNamingPolicyProvider());
+    }
 
     /**
      * Generate classes needed for the model and API invocation
@@ -90,7 +108,7 @@ public class LibraryCodeGenerator {
     	List<String> generatedClassNames = new ArrayList();
 
         //remove old generated files
-        FileUtil.cleanFiles(languageConfig.getModelClassLocation());
+        FileUtil.clearFolder(languageConfig.getModelClassLocation());
 
     	for(Resource resource: resources) {
     		for(Model model : resource.getModels()){
@@ -108,7 +126,7 @@ public class LibraryCodeGenerator {
     		    	template.setAttribute("fields", model.getFields());
     		    	template.setAttribute("imports", imports);
                     template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
-                    template.setAttribute("extends", config.getModelBaseClass());
+                    template.setAttribute("extends", config.getDefaultModelBaseClass());
     		    	template.setAttribute("className", model.getGenratedClassName());
     		    	template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
     		    	File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
@@ -151,7 +169,7 @@ public class LibraryCodeGenerator {
 
 		    		    		    	template.setAttribute("fields", model.getFields());
 		    		    		    	template.setAttribute("imports", imports);
-                                        template.setAttribute("extends", config.getModelBaseClass());
+                                        template.setAttribute("extends", config.getDefaultModelBaseClass());
                                         template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
 		    		    		    	template.setAttribute("className", model.getGenratedClassName());
                                         template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
@@ -196,7 +214,7 @@ public class LibraryCodeGenerator {
                                             enumName = this.getNameGenerator().getEnumName(operationParam.getName());
                                             template.setAttribute("className", enumName);
                                             template.setAttribute("description", operationParam.getDescription());
-                                            template.setAttribute("enumValueType", this.getDataTypeMappingProvider().getObjectType(operationParam.getDataType(), true));
+                                            template.setAttribute("enumValueType", this.getDataTypeMappingProvider().getClassType(operationParam.getDataType(), true));
                                             for (String allowableValue : operationParam.getAllowableValues()) {
                                                 if(operationParam.getDataType().equalsIgnoreCase("string")){
                                                     valuePrefix = valueSuffix = "\"";
@@ -232,32 +250,37 @@ public class LibraryCodeGenerator {
     private void generateAPIClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
 
         //delete previously generated files
-        FileUtil.cleanFiles(languageConfig.getResourceClassLocation());
+        FileUtil.clearFolder(languageConfig.getResourceClassLocation());
 
     	for(Resource resource : resources) {
-    		List<ResourceMethod> methods = new ArrayList<ResourceMethod>();
-            List<String> imports = new ArrayList<String>();
-            imports.addAll(this.config.getDefaultServiceImports());
-    		methods = resource.generateMethods(resource, dataTypeMappingProvider, nameGenerator);
-	    	StringTemplate template = templateGroup.getInstanceOf(API_OBJECT_TEMPLATE);
-            String className = resource.generateClassName(nameGenerator);
-            List<ResourceMethod> filteredMethods = new ArrayList<ResourceMethod>();
-            for(ResourceMethod method:methods){
-                if(!this.getCodeGenRulesProvider().isMethodIgnored(className, method.getName())){
-                    filteredMethods.add(method);
+            try{
+                List<ResourceMethod> methods = new ArrayList<ResourceMethod>();
+                List<String> imports = new ArrayList<String>();
+                imports.addAll(this.config.getDefaultServiceImports());
+                methods = resource.generateMethods(resource, dataTypeMappingProvider, nameGenerator);
+                StringTemplate template = templateGroup.getInstanceOf(API_OBJECT_TEMPLATE);
+                String className = resource.generateClassName(nameGenerator);
+                List<ResourceMethod> filteredMethods = new ArrayList<ResourceMethod>();
+                for(ResourceMethod method:methods){
+                    if(!this.getCodeGenRulesProvider().isMethodIgnored(className, method.getName())){
+                        filteredMethods.add(method);
+                    }
                 }
-            }
-	    	template.setAttribute("imports", imports);
-            template.setAttribute(PACKAGE_NAME, config.getApiPackageName());
-            template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
-            template.setAttribute("modelPackageName", config.getModelPackageName());
-            template.setAttribute("exceptionPackageName", languageConfig.getExceptionPackageName());
-	    	template.setAttribute("resource", className);
-	    	template.setAttribute("methods", filteredMethods);
-            template.setAttribute("extends", config.getServiceBaseClass(className));
+                template.setAttribute("imports", imports);
+                template.setAttribute(PACKAGE_NAME, config.getApiPackageName());
+                template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
+                template.setAttribute("modelPackageName", config.getModelPackageName());
+                template.setAttribute("exceptionPackageName", languageConfig.getExceptionPackageName());
+                template.setAttribute("resource", className);
+                template.setAttribute("methods", filteredMethods);
+                template.setAttribute("extends", config.getServiceBaseClass(className));
 
-	    	File aFile = new File(languageConfig.getResourceClassLocation()+ resource.generateClassName(nameGenerator) +languageConfig.getClassFileExtension());
-            writeFile(aFile, template.toString(), "API CLasses");
+                File aFile = new File(languageConfig.getResourceClassLocation()+ resource.generateClassName(nameGenerator) +languageConfig.getClassFileExtension());
+                writeFile(aFile, template.toString(), "API CLasses");
+            }catch(RuntimeException t){
+                System.out.println("Failed generating api class for the resource : " + resource.getResourcePath());
+                throw t;
+            }
     	}
     }
 
@@ -280,7 +303,7 @@ public class LibraryCodeGenerator {
 
 		List<String> imports = new ArrayList<String>();
         imports.addAll(this.config.getDefaultModelImports());
-        imports.addAll(this.getDataTypeMappingProvider().getListImportPackages());
+        imports.addAll(this.getDataTypeMappingProvider().getListIncludes());
 		for(ModelField param : model.getFields()){
 			for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider()).getImportDefinitions()){
 				if(!imports.contains(importDef)){
@@ -292,7 +315,7 @@ public class LibraryCodeGenerator {
     	template.setAttribute("fields", model.getFields());
     	template.setAttribute("imports", imports);
         template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
-        template.setAttribute("extends", config.getModelBaseClass());
+        template.setAttribute("extends", config.getDefaultModelBaseClass());
         template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
     	template.setAttribute("className", model.getGenratedClassName());
     	File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
@@ -349,4 +372,43 @@ public class LibraryCodeGenerator {
     public NamingPolicyProvider getNameGenerator() {
         return nameGenerator;
     }
+
+    protected CodeGenRulesProvider readRulesProviderConfig(String rulesProviderLocation, ObjectMapper mapper, File configFile) {
+        CodeGenRulesProvider codeGenRules = null;
+        try {
+            codeGenRules = mapper.readValue(configFile, CodeGenRulesProvider.class);
+        } catch (IOException e) {
+            throw new CodeGenerationException("Java codegen rules configuration could not be read from the location : " + rulesProviderLocation);
+        }
+
+        return codeGenRules;
+    }
+
+    protected ApiConfiguration readApiConfiguration(String apiConfigLocation, ObjectMapper mapper, File configFile) {
+        ApiConfiguration configuration = null;
+        try {
+            configuration = mapper.readValue(configFile, ApiConfiguration.class);
+        } catch (IOException e) {
+            throw new CodeGenerationException("Api configuration could not be read from the location : " + apiConfigLocation);
+        }
+
+        return configuration;
+    }
+
+    protected LanguageConfiguration readLanguageConfiguration(String langConfigLocation, ObjectMapper mapper, File configFile) {
+        LanguageConfiguration langConfig = null;
+        try {
+            langConfig = mapper.readValue(configFile, LanguageConfiguration.class);
+        } catch (IOException e) {
+            throw new CodeGenerationException("Language configuration value could not be read from the location : " + langConfigLocation);
+        }
+
+        return langConfig;
+    }
+
+    protected LanguageConfiguration initializeLangConfig(LanguageConfiguration configuration) {
+        return configuration;
+    }
+
+
 }

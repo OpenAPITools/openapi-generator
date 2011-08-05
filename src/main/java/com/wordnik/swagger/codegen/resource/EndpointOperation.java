@@ -49,9 +49,6 @@ public class EndpointOperation {
 
     private boolean open;
 
-    @Deprecated
-    private List<Response> response;
-
     private String responseClass;
 
     private List<ModelField> parameters;
@@ -62,11 +59,18 @@ public class EndpointOperation {
 
     private List<String> tags;
 
-    @Deprecated
-    private String suggestedName;
-
     private String nickname;
-    
+
+    private List<ErrorResponse> errorResponses;
+
+    public List<ErrorResponse> getErrorResponses() {
+        return errorResponses;
+    }
+
+    public void setErrorResponses(List<ErrorResponse> errorResponses) {
+        this.errorResponses = errorResponses;
+    }
+
 	public String getHttpMethod() {
 		return httpMethod;
 	}
@@ -99,25 +103,14 @@ public class EndpointOperation {
 		this.open = open;
 	}
 
-	public List<Response> getResponse() {
-		return response;
-	}
-
-	public void setResponse(List<Response> response) {
-		this.response = response;
-	}
-
     public String getResponseClass() {
         return responseClass;
     }
 
     public void setResponseClass(String responseClass) {
         this.responseClass = responseClass;
-        this.setResponse(new ArrayList<Response>());
-        Response response = new Response();
-        response.setValueType(this.responseClass);
-        this.getResponse().add(response);
     }
+
 
 	public List<ModelField> getParameters() {
 		return parameters;
@@ -134,18 +127,9 @@ public class EndpointOperation {
 	public void setDeprecated(boolean deprecated) {
 		this.deprecated = deprecated;
 	}
-	
-	public String getSuggestedName() {
-		return suggestedName;
-	}
-
-    public void setSuggestedName(String suggestedName) {
-        this.suggestedName = suggestedName;
-    }
 
     public void setNickname(String nickname) {
 		this.nickname = nickname;
-        this.suggestedName = nickname;
 	}
 
 	public String getNickname() {
@@ -165,8 +149,9 @@ public class EndpointOperation {
 		if(method == null){
 			method = new ResourceMethod();
 			//add method description
-			method.setDescription(this.getSummary() + "\n " + getNotes());
-			
+			method.setTitle(this.getSummary() );
+            method.setDescription(this.getNotes());
+
 			//add method name
 			//get resource path for making web service call
 			/**
@@ -204,7 +189,7 @@ public class EndpointOperation {
 				}
 			}
 			method.setResourcePath(endPoint.getPath());
-			method.setName(nameGenerator.getMethodName(endPoint.getPath(), this.getSuggestedName()));
+			method.setName(nameGenerator.getMethodName(endPoint.getPath(), this.getNickname()));
 			
 			//create method argument
 			/**
@@ -256,7 +241,7 @@ public class EndpointOperation {
 								modelField.setName("postObject");
 							}
 							anArgument.setName(modelField.getName());
-							anArgument.setDataType(dataTypeMapper.getReturnValueType(modelField.getDataType()));
+							anArgument.setDataType(dataTypeMapper.getClassType(modelField.getDataType(), false));
 							anArgument.setDescription(modelField.getDescription());
 							arguments.add(anArgument);
                             method.setPostObject(true);
@@ -264,7 +249,7 @@ public class EndpointOperation {
 
                         if(modelField.isAllowMultiple() && dataTypeMapper.isPrimitiveType(modelField.getDataType())){
                             anArgument.setDataType(dataTypeMapper.getListReturnTypeSignature(
-                                    dataTypeMapper.getReturnValueType(modelField.getDataType())));
+                                    dataTypeMapper.getClassType(modelField.getDataType(), false)));
                         }
                         anArgument.setInputModelClassArgument(inputobjectName, nameGenerator);
 					}
@@ -316,10 +301,8 @@ public class EndpointOperation {
 			method.setMethodType(this.getHttpMethod());
 			
 			//get return value
-			List<Response> response = this.getResponse();
-
-			method.setReturnValue(dataTypeMapper.getReturnValueType(response.get(0).getValueType()));
-			method.setReturnClassName(dataTypeMapper.getReturnClassType(response.get(0).getValueType()));
+			method.setReturnValue(dataTypeMapper.getClassType(responseClass, false));
+			method.setReturnClassName(dataTypeMapper.getGenericType(responseClass));
 
 			
 			//get description string for exception			
@@ -334,15 +317,11 @@ public class EndpointOperation {
 	 */
 	private String calculateExceptionMessage() {
 		StringBuilder errorMessage = new StringBuilder();
-		if(this.getResponse() != null) {
-			for(Response response: this.getResponse()) {
-				if(response.getErrorResponses() != null) {
-					for(ErrorResponse errorResponse : response.getErrorResponses()){
-						errorMessage.append(errorResponse.getCode() + " - " + errorResponse.getReason() +" ");
-					}
-				}
-			}
-		}
+        if(this.getErrorResponses() != null) {
+            for(ErrorResponse errorResponse : this.getErrorResponses()){
+                errorMessage.append(errorResponse.getCode() + " - " + errorResponse.getReason() +" ");
+            }
+        }
 		return errorMessage.toString();
 	}
 

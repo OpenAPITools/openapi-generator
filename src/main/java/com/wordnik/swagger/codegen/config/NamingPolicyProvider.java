@@ -17,7 +17,7 @@
 package com.wordnik.swagger.codegen.config;
 
 /**
- * Implementor of this class is responsible for generating the names for service classes and methods in
+ * Implementation of this class is responsible for generating the names for service classes and methods in
  * each of those service classes
  *
  * User: ramesh
@@ -110,7 +110,7 @@ public interface NamingPolicyProvider {
     /**
      * Gets the signature of the method that gets value for give attribute name.
      *
-     * Example: If class name is user and attibute name is email the out in java language will be
+     * Example: If class name is user and attribute name is email the out in java language will be
      *  <code>user.getEmail()</code>
      *
      * @param className

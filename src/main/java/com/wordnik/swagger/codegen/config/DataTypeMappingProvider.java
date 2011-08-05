@@ -19,7 +19,7 @@ package com.wordnik.swagger.codegen.config;
 import java.util.List;
 
 /**
- * Implementations of this class is responsible for generating mapping between rest data types and language
+ * Implementations of this class is responsible for generating mapping between resource documentation data types and language
  * specific data type
  * 
  * User: ramesh
@@ -39,14 +39,6 @@ public interface DataTypeMappingProvider {
      * @return
      */
     public boolean isPrimitiveType(String type);
-
-    /**
-     * provide the sttring that needs to be used when defining methods that returns no values
-     *
-     * Example: in java this value will be <code>void</code>
-     * @return
-     */
-    public String getReturnTypeForVoidMethods();
 
     /**
      * Signature that should be used when returning list of given object type.
@@ -112,10 +104,11 @@ public interface DataTypeMappingProvider {
     public String generateSetInitialization(String typeClass);
 
     /**
-     * Gets list of imports that needs to be included when used objects of type List.
+     * Gets list of items that needs to be included when referring list objects in model or resource classes.
      *
-     * Example: in java while using lists we use an interface of <Code>List</Code> and implementation of
-     * <Code>ArrayList</Code>. SO the output will as follows:
+     * Example: In java this information is used as java imports. In java while using lists we use an interface of
+     * <Code>List</Code> and implementation of <Code>ArrayList</Code>. So the the implementation of this method in java
+     * language will be:
      * <Code>
      *      List<String> imports = new ArrayList<String>();
             imports.add("java.util.List");
@@ -123,13 +116,14 @@ public interface DataTypeMappingProvider {
      * </Code>
      * @return
      */
-    public List<String> getListImportPackages();
+    public List<String> getListIncludes();
 
     /**
-     * Gets list of imports that needs to be included when used objects of type Map.
+     * Gets list of items that needs to be included when referring map objects in model or resource classes.
      *
-     * Example: in java while using maps we use an interface of <Code>Map</Code> and implementation of
-     * <Code>HashMap</Code>. SO the output will as follows:
+     * Example: In java this information is used as java imports. In java while using map we use an interface of
+     *  <Code>Map</Code> and implementation of <Code>HashMap</Code>. So the the implementation of this method in java
+     * language will be:
      * <Code>
      *      List<String> imports = new ArrayList<String>();
             imports.add("java.util.Map");
@@ -137,13 +131,14 @@ public interface DataTypeMappingProvider {
      * </Code>
      * @return
      */
-    public List<String> getMapImportPackages();
+    public List<String> getMapIncludes();
 
     /**
-     * Gets list of imports that needs to be included when used objects of type Set.
+     * Gets list of items that needs to be included when referring set objects in model or resource classes.
      *
      * Example: in java while using sets we use an interface of <Code>Set</Code> and implementation of
-     * <Code>HashSet</Code>. SO the output will as follows:
+     * <Code>HashSet</Code>. So the the implementation of this method in java
+     * language will be:
      * <Code>
      *      List<String> imports = new ArrayList<String>();
             imports.add("java.util.Set");
@@ -151,47 +146,39 @@ public interface DataTypeMappingProvider {
      * </Code>
      * @return
      */
-    public List<String> getSetImportPackages();
+    public List<String> getSetIncludes();
 
     /**
-     * Gets list of imports that needs to be included when used objects of type Date.
+     * Gets list of items that needs to be included when referring date objects in model or resource classes.
      *
-     * Example: in java while using Data we use <Codejava.util.Date</Code>. So the output will as follows:
+     * Example: in java while using Data we use <Code> java.util.Date</Code>. So the output will as follows:
      * <Code>
      *      List<String> imports = new ArrayList<String>();
             imports.add("java.util.Date");
      * </Code>
      * @return
      */
-    public List<String> getDateImports();
+    public List<String> getDateIncludes();
 
     /**
-     * Object type definition for a given input
+     * Class type definition for a given input.
+     *
+     * Example: In java language:  For inputs Integer and primitive true, the class type will be int, if primitiveObject is false
+     * the class type will be Integer. For inputs user the class type will be User as the input object is not primitive.
+     * for input List[user] the class type will be <Code> List<User> </Code> . For input Map[int, String] the equivalent java
+     * translation will be <Code> Map<Integer, String> </Code>
      *
      * @param type
-     * @param primitiveObject
+     * @param primitiveObject This argument used to indicate, if the given input type is primitive,
+     * should we return primitive types or primitive classes.
      * @return
      */
-    public String getObjectType(String type, boolean primitiveObject);
+    public String getClassType(String type, boolean primitiveObject);
 
     /**
-     * Gets the value of return type converted from web service response documentation.
+     * If the class contains generics then this will return type of generics object else returns same object
      *
-     * Example: If the resource documentation ays return type as List[User] the equivalent translation for java will be
-     *
-     * <Code> List<User ></Code>
-     *
-     * If the input is Map[int, String] the equivalent java translation will be <Code> Map<Integer, String> </Code>
-     * @param type
-     * @return
-     */
-    public String getReturnValueType(String type);
-
-    /**
-     * Gets the class of return values from web service response documentation. If the service returns list the class
-     * indicates type of object in the list
-     *
-     * Example: If the resource documentation ays return type as List[User] the equivalent translation for java will be
+     * Example: If the resource documentation says return type as List[User] the equivalent generic type for java will be
      *
      * <Code> User </Code>
      *
@@ -199,5 +186,5 @@ public interface DataTypeMappingProvider {
      * @param type
      * @return
      */
-    public String getReturnClassType(String type);
+    public String getGenericType(String type);
 }

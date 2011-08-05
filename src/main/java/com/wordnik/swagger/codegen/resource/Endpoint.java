@@ -40,8 +40,6 @@ public class Endpoint {
 
     private List<ResourceMethod> methods;
 
-    private List<ErrorResponse> errorResponses;
-    
 	public String getPath() {
 		return path;
 	}
@@ -72,36 +70,15 @@ public class Endpoint {
 
 	public void setOperations(List<EndpointOperation> operations) {
 		this.operations = operations;
-        setOperationResponses();
 	}
-
-	public List<ErrorResponse> getErrorResponses() {
-		return errorResponses;
-	}
-
-	public void setErrorResponses(List<ErrorResponse> errorResponses) {
-		this.errorResponses = errorResponses;
-        setOperationResponses();
-    }
-
-    private void setOperationResponses() {
-        if(this.errorResponses != null && this.operations != null && this.operations.size() > 0 ){
-            for(EndpointOperation operation: this.operations){
-                if(operation.getResponse() != null & operation.getResponse().size() > 0){
-                    for(Response response : operation.getResponse()){
-                        response.setErrorResponses(this.errorResponses);
-                    }
-                }
-            }
-        }
-    }
 
     public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper, NamingPolicyProvider nameGenerator) {
 		if(methods == null){
 			methods = new ArrayList<ResourceMethod>();
 			if(getOperations() != null) {
 				for(EndpointOperation operation: getOperations()) {
-					if(!operation.isDeprecated() && areModelsAvailable(operation.getParameters(), resource, dataTypeMapper)) {
+                    //Note: Currently we are generating methods for depricated APIs also, We should provide this deprecation info on generated APIs also. 
+					if(areModelsAvailable(operation.getParameters(), resource, dataTypeMapper)) {
 						methods.add(operation.generateMethod(this, resource, dataTypeMapper, nameGenerator));
 					}
 				}

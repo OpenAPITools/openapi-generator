@@ -39,6 +39,9 @@ public class Resource {
     @JsonProperty("swaggerVersion")
     private String swaggerVersion;
 
+    @JsonProperty("resourcePath")
+    private String resourcePath;
+
     @JsonProperty("apis")
     private List<Endpoint> endPoints = new ArrayList<Endpoint>();
 
@@ -65,7 +68,6 @@ public class Resource {
 		this.apiVersion = apiVersion;
 	}
 
-    //TODO rename the JSON property too after the sandbox var has been renamed
     @JsonProperty("swaggerVersion")
     public String getSwaggerVersion() {
         return swaggerVersion;
@@ -74,6 +76,16 @@ public class Resource {
     @JsonProperty("swaggerVersion")
     public void setSwaggerVersion(String swaggerVersion) {
         this.swaggerVersion = swaggerVersion;
+    }
+
+    @JsonProperty("resourcePath")
+    public String getResourcePath() {
+        return resourcePath;
+    }
+
+    @JsonProperty("resourcePath")
+    public void setResourcePath(String resourcePath) {
+        this.resourcePath = resourcePath;
     }
 
     @JsonProperty("apis")
