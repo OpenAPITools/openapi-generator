@@ -78,7 +78,7 @@ public class FileUtil {
                 return (strName.endsWith(strExt));
             }
         });
-        if(fLogs != null){
+        if (fLogs != null) {
             for (int i = 0; i < fLogs.length; i++) {
                 deleteFile(fLogs[i].getAbsolutePath());
             }
