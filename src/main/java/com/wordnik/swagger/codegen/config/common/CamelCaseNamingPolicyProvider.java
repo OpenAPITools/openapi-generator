@@ -16,9 +16,8 @@
 
 package com.wordnik.swagger.codegen.config.common;
 
-import com.wordnik.swagger.codegen.resource.Model;
+import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
-import com.wordnik.swagger.exception.CodeGenerationException;
 
 /**
  * User: ramesh
@@ -111,7 +110,7 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
     /**
      * For input UserAPI and resource path /findUserById the suggested input object name will be: UserFindUserByIdInput
      *
-     * If the input path is /{userId}/delete the sugegsted name will be UserDeleteInput. The path parameters are ignored
+     * If the input path is /{userId}/delete the suggested name will be UserDeleteInput. The path parameters are ignored
      * in generating the input object name
      *
      * Note: Input objects are only created when the number of input arguments in a method exceeds certain number so <br/> that the method signatures are clean
@@ -123,7 +122,7 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
      */
     public String getInputObjectName(String serviceName, String resourcePath) {
 
-        //Since service name has API at the end remove that fromt he name
+        //Since service name has API at the end remove that format he name
         String inputobjectName = serviceName.substring(0, serviceName.length() - 3);
 
         String[] pathElements = resourcePath.split("/");

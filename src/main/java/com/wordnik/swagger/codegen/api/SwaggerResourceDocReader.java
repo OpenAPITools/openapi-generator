@@ -20,11 +20,11 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.wordnik.swagger.codegen.config.DataTypeMappingProvider;
+import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 import com.wordnik.swagger.codegen.resource.Endpoint;
 import com.wordnik.swagger.codegen.resource.Resource;
 import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
-import com.wordnik.swagger.exception.CodeGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 

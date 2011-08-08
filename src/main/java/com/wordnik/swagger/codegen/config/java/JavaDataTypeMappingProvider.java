@@ -53,24 +53,29 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
     static{
         primitiveObjectMap.put("string", "String");
         primitiveObjectMap.put("String", "String");
+        primitiveObjectMap.put("java.lang.String", "String");
         primitiveObjectMap.put("int", "Integer");
         primitiveObjectMap.put("integer", "Integer");
         primitiveObjectMap.put("Integer", "Integer");
+        primitiveObjectMap.put("java.lang.Integer", "Integer");
         primitiveObjectMap.put("boolean", "Boolean");
         primitiveObjectMap.put("Boolean", "Boolean");
+        primitiveObjectMap.put("java.lang.Boolean", "Boolean");
         primitiveObjectMap.put("long", "Long");
         primitiveObjectMap.put("Long", "Long");
+        primitiveObjectMap.put("java.lang.Long", "Long");
         primitiveObjectMap.put("float", "Float");
         primitiveObjectMap.put("Float", "Float");
+        primitiveObjectMap.put("java.lang.Float", "Float");
         primitiveObjectMap.put("Date", "Date");
         primitiveObjectMap.put("date", "Date");
+        primitiveObjectMap.put("java.util.Date", "Date");
     }
 
     private NamingPolicyProvider nameGenerator = new CamelCaseNamingPolicyProvider();
 
     public boolean isPrimitiveType(String type) {
-    	if(type.equalsIgnoreCase("String") || type.equalsIgnoreCase("int") || type.equalsIgnoreCase("integer") ||
-    			type.equalsIgnoreCase("boolean") || type.equalsIgnoreCase("float")|| type.equalsIgnoreCase("long") ){
+    	if(primitiveObjectMap.containsKey(type)){
     		return true;
     	}
     	return false;

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.wordnik.swagger.common;
+package com.wordnik.swagger.runtime.common;
 
 import java.io.IOException;
 import java.lang.String;
@@ -25,8 +25,8 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.wordnik.swagger.exception.APIException;
-import com.wordnik.swagger.exception.APIExceptionCodes;
+import com.wordnik.swagger.runtime.exception.APIException;
+import com.wordnik.swagger.runtime.exception.APIExceptionCodes;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -131,9 +131,9 @@ public class APIInvoker {
 	 *
 	 * @param resourceURL - URL for the rest resource
 	 * @param method - Method we should use for communicating to the back end. 
-	 * @param postObject - if the method is POST, provide the object that should be sent as part of post request.
+	 * @param postData - if the method is POST, provide the object that should be sent as part of post request.
 	 * @return JSON response of the API call. 
-	 * @throws com.wordnik.swagger.exception.APIException if the call to API server fails.
+	 * @throws com.wordnik.swagger.runtime.exception.APIException if the call to API server fails.
 	 */
 	public static String invokeAPI(String resourceURL, String method, Map<String,
             String> queryParams, Object postData) throws APIException {
@@ -211,6 +211,7 @@ public class APIInvoker {
 	 */
 	public static Object deserialize(String response, Class inputClassName) throws APIException {
         try {
+            System.out.println("response: " + response + " , class name:" + inputClassName);
             Object responseObject = mapper.readValue(response, inputClassName);
             return responseObject;
         } catch (IOException ioe) {
@@ -264,5 +265,9 @@ public class APIInvoker {
             return out.substring(0, out.lastIndexOf(",") );
         }
         return out.toString();
+    }
+
+    public static boolean isLoggingEnable() {
+        return loggingEnabled;
     }
 }

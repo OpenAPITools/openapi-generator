@@ -10,7 +10,7 @@
 
 	<publications>
 		<artifact name="swagger-libs-gen" type="jar" conf="build" ext="jar"/>
-		<artifact name="swagger-libs-gen" type="pom" conf="pom" ext="pom"/>
+		<!-- artifact name="swagger-libs-gen" type="pom" conf="pom" ext="pom"/ -->
 	</publications>
     
     <dependencies>

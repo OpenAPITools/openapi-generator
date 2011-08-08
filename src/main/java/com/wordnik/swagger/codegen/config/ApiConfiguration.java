@@ -16,8 +16,9 @@
 
 package com.wordnik.swagger.codegen.config;
 
-import com.wordnik.swagger.exception.CodeGenerationException;
+import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,13 @@ public class ApiConfiguration {
      *  we may need to write custom classes and those classes will not be known to code generation. To import those
      *  classes in service classes we use this property
      */
-    private List<String> defaultModelImports;
+    private List<String> defaultModelImports = new ArrayList<String>();
     /**
      *  Default service imports that we need to include in all service classes. This is needed because some times,
      *  we may need to write custom classes ans those classes will not be known to code generation. To import those
      *  classes in service classes we use this property
      */
-    private List<String> defaultServiceImports;
+    private List<String> defaultServiceImports = new ArrayList<String>();
     private String modelPackageName;
     private String apiPackageName;
 

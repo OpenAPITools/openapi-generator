@@ -35,6 +35,8 @@ public class EndpointOperation {
 	public static String PARAM_TYPE_PATH = "path";
 	public static String PARAM_TYPE_BODY = "body";
 	public static String PARAM_TYPE_HEADER = "header";
+    public static String POST_PARAM_NAME = "postData";
+
 	private static String AUTH_TOKEN_PARAM_NAME = "auth_token";
 	private static String API_KEY_PARAM_NAME = "api_key";	
 	private static String FORMAT_PARAM_NAME = "format";	
@@ -238,7 +240,7 @@ public class EndpointOperation {
 							arguments.add(anArgument);
 						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_BODY)) {
 							if(modelField.getName() == null) {
-								modelField.setName("postObject");
+								modelField.setName(POST_PARAM_NAME);
 							}
 							anArgument.setName(modelField.getName());
 							anArgument.setDataType(dataTypeMapper.getClassType(modelField.getDataType(), false));
@@ -263,7 +265,7 @@ public class EndpointOperation {
 				modelforMethodInput.setName(inputobjectName);
 				List<ModelField> fields = new ArrayList<ModelField>();
 				for(MethodArgument argument: method.getArguments()){
-                    if(!argument.getName().equals("postObject") && !argument.getName().equals("authToken")){
+                    if(!argument.getName().equals(POST_PARAM_NAME) && !argument.getName().equals("authToken")){
                         ModelField aModelField = new ModelField();
                         aModelField.setAllowedValues(argument.getAllowedValues());
                         aModelField.setDescription(argument.getDescription());

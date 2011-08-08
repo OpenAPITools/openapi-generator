@@ -16,8 +16,7 @@
  
 package $packageName$;
 
-import $annotationPackageName$.AllowableValues;
-import $annotationPackageName$.Required;
+import com.wordnik.swagger.runtime.annotations.*;
 
 $imports:{ import |
 import $import$;

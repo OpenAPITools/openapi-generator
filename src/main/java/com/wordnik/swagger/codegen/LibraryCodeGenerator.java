@@ -20,9 +20,9 @@ import com.wordnik.swagger.codegen.config.*;
 import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
 import com.wordnik.swagger.codegen.config.java.JavaDataTypeMappingProvider;
+import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 import com.wordnik.swagger.codegen.resource.*;
 import com.wordnik.swagger.codegen.util.FileUtil;
-import com.wordnik.swagger.exception.CodeGenerationException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -65,6 +65,28 @@ public class LibraryCodeGenerator {
         this.setApiConfig(readApiConfiguration(configPath, mapper, configFile));
         this.setCodeGenRulesProvider(readRulesProviderConfig(configPath, mapper, configFile));
         this.setLanguageConfig( initializeLangConfig(readLanguageConfiguration(configPath, mapper, configFile)) );
+
+        this.setDataTypeMappingProvider(new JavaDataTypeMappingProvider());
+        this.setNameGenerator(new CamelCaseNamingPolicyProvider());
+    }
+
+    public LibraryCodeGenerator(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName, String classOutputDir, String libraryHome){
+
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ApiConfiguration aApiConfiguration = new ApiConfiguration();
+        aApiConfiguration.setApiKey(apiKey);
+        aApiConfiguration.setApiPackageName(apiPackageName);
+        aApiConfiguration.setModelPackageName(modelPackageName);
+        aApiConfiguration.setApiUrl(apiServerURL);
+        this.setApiConfig(aApiConfiguration);
+        CodeGenRulesProvider codeGenRules = new CodeGenRulesProvider();
+        this.setCodeGenRulesProvider(codeGenRules);
+        LanguageConfiguration aLanguageConfiguration = new LanguageConfiguration();
+        aLanguageConfiguration.setOutputDirectory(classOutputDir);
+        aLanguageConfiguration.setLibraryHome(libraryHome);
+        initializeLangConfig(aLanguageConfiguration);
+        this.setLanguageConfig(aLanguageConfiguration);
 
         this.setDataTypeMappingProvider(new JavaDataTypeMappingProvider());
         this.setNameGenerator(new CamelCaseNamingPolicyProvider());
@@ -324,6 +346,7 @@ public class LibraryCodeGenerator {
 
     private void writeFile(File aFile, String content, String classType){
     	try{
+            System.out.println("Writing to the file " + aFile.getAbsolutePath());
 	    	FileWriter aWriter = new FileWriter(aFile);
 	    	BufferedWriter bufWriter = new BufferedWriter(aWriter);
 	    	bufWriter.write(content);

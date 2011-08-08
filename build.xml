@@ -31,15 +31,15 @@
     </taskdef>
 
 
-        <target name="resolve" description="retreive dependencies with ivy">
-                <delete>
-                        <fileset dir="lib">
-                                <include name="*.jar" />
-                                <include name="*.zip" />
-                        </fileset>
-                </delete>
-                <ivy:retrieve pattern="${basedir}/lib/[artifact]-[revision].[ext]" conf="build" />
-        </target>
+    <target name="resolve" description="retreive dependencies with ivy">
+            <delete>
+                    <fileset dir="lib">
+                            <include name="*.jar" />
+                            <include name="*.zip" />
+                    </fileset>
+            </delete>
+            <ivy:retrieve pattern="${basedir}/lib/[artifact]-[revision].[ext]" conf="build" />
+    </target>
 
     <target name="compile" description="builds the module without artifact resolution or cleaning">
         <echo message="building ${module}-${version.identifier}.${artifact.ext}"/>
@@ -80,7 +80,7 @@
     </target>
 
     <!-- generates the classes -->
-    <target name="generate-java" depends="compile" description="generates APIs and model classes for java language">
+    <target name="generate-java" depends="resolve, compile" description="generates APIs and model classes for java language">
         <fail unless="apiConfiguration.set">
             Must specify the parameter for apiConfiguration
             eg. -DapiConfiguration==../api-server-lib/java/config/apiConfiguration.json
@@ -97,6 +97,22 @@
             </classpath>
             <arg value="${apiConfiguration}"/>
         </java>
+    </target>
+
+    <target name="deploy" depends="resolve, compile" description="builds and copies the artifact to the local ivy cache">
+        <echo message="building pom file" />
+        <property name="ivy.pom.version" value="${version.identifier}" />
+        <ivy:makepom ivyfile="ivy.xml" pomfile="build/${module}-${version.identifier}.pom" />
+
+        <echo message="publishing module ${module}" />
+        <ivy:publish resolver="local" organisation="${organization}" conf="source,test,build,pom,common" pubrevision="${version.identifier}" overwrite="true">
+            <artifacts pattern="build/[artifact]-[revision].[ext]" />
+        </ivy:publish>
+        <echo message="project ${module} published locally with version lib/${version.identifier}" />
+    </target>
+
+    <target name="dependency.tree" description="builds a graphml dependency diagram for viewing with yEd">
+        <ivy:report conf="build" graph="true" todir="." outputpattern="[artifact]-[revision].[ext]" />
     </target>
 
 </project>

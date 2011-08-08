@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen.util;
 
-import com.wordnik.swagger.exception.CodeGenerationException;
+import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 
 import java.io.*;
 
@@ -63,9 +63,11 @@ public class FileUtil {
     public static void clearFolder(String directoryLocation) {
        File fDir = new File(directoryLocation);
        File[] files = fDir.listFiles();
-        for(File aFile : files) {
-            aFile.delete();
-        }
+       if(files != null) {
+            for(File aFile : files) {
+                aFile.delete();
+            }
+       }
     }
 
     // Clears the folder of the files with extension
@@ -76,9 +78,10 @@ public class FileUtil {
                 return (strName.endsWith(strExt));
             }
         });
-
-        for (int i = 0; i < fLogs.length; i++) {
-            deleteFile(fLogs[i].getAbsolutePath());
+        if(fLogs != null){
+            for (int i = 0; i < fLogs.length; i++) {
+                deleteFile(fLogs[i].getAbsolutePath());
+            }
         }
     }
 
@@ -110,6 +113,7 @@ public class FileUtil {
                     in.close();
                     out.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
                     throw new CodeGenerationException("Copy directory operation failed");
                 }
             }

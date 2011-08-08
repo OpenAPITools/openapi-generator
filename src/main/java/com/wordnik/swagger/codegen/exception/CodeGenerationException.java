@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.wordnik.swagger.exception;
+package com.wordnik.swagger.codegen.exception;
 
 /**
  * Exception raised while generating code for java driver. 

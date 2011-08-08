@@ -17,17 +17,12 @@
 package com.wordnik.swagger.codegen.config.java;
 
 import com.wordnik.swagger.codegen.LibraryCodeGenerator;
-import com.wordnik.swagger.codegen.config.ApiConfiguration;
-import com.wordnik.swagger.codegen.config.CodeGenRulesProvider;
 import com.wordnik.swagger.codegen.config.LanguageConfiguration;
 import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
+import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 import com.wordnik.swagger.codegen.util.FileUtil;
-import com.wordnik.swagger.exception.CodeGenerationException;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * User: ramesh
@@ -40,9 +35,30 @@ public class JavaLibCodeGen extends LibraryCodeGenerator {
         if(args.length < 1){
             throw new CodeGenerationException("Invalid number of arguments passed: No command line argument was passed to the program for config json");
         }
-        String configPath = args[0];
-        JavaLibCodeGen codeGenerator = new JavaLibCodeGen(configPath);
-        codeGenerator.generateCode();
+        if(args.length == 1) {
+            String configPath = args[0];
+            JavaLibCodeGen codeGenerator = new JavaLibCodeGen(configPath);
+            codeGenerator.generateCode();
+        }
+        if(args.length == 6) {
+            String apiServerURL = args[0];
+            String apiKey = args[1];
+            String modelPackageName = args[2];
+            String apiPackageName = args[3];
+            String classOutputDir = args[4];
+            String libraryHome = args[5];
+            JavaLibCodeGen codeGenerator = new JavaLibCodeGen(apiServerURL, apiKey, modelPackageName,
+                    apiPackageName, classOutputDir, libraryHome);
+            codeGenerator.generateCode();
+        }
+
+    }
+
+    public JavaLibCodeGen(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
+                          String classOutputDir, String libraryHome){
+        super(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, libraryHome);
+        this.setDataTypeMappingProvider(new JavaDataTypeMappingProvider());
+        this.setNameGenerator(new CamelCaseNamingPolicyProvider());
     }
 
     public JavaLibCodeGen(String configPath){
@@ -62,10 +78,9 @@ public class JavaLibCodeGen extends LibraryCodeGenerator {
         //create ouput directories
         FileUtil.createOutputDirectories(javaConfiguration.getModelClassLocation(), javaConfiguration.getClassFileExtension());
         FileUtil.createOutputDirectories(javaConfiguration.getResourceClassLocation(), javaConfiguration.getClassFileExtension());
-        FileUtil.clearFolder(javaConfiguration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/common");
-        FileUtil.clearFolder(javaConfiguration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/exception");
-        FileUtil.clearFolder(javaConfiguration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/annotations");
-        FileUtil.copyDirectory(new File(javaConfiguration.getStructureLocation()), new File(javaConfiguration.getLibraryHome()));
+        FileUtil.clearFolder(javaConfiguration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/runtime");
+        FileUtil.createOutputDirectories(javaConfiguration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/runtime", "java");
+        FileUtil.copyDirectory(new File("src/main/java/com/wordnik/swagger/runtime"), new File(javaConfiguration.getLibraryHome()+"/src/main/java/com/wordnik/swagger/runtime"));
         return javaConfiguration;
     }
 

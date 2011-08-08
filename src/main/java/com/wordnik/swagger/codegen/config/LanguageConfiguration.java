@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen.config;
 
-import com.wordnik.swagger.exception.CodeGenerationException;
+import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 
 /**
  * User: deepakmichael

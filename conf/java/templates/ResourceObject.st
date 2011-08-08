@@ -17,17 +17,19 @@
  package $packageName$;
 
 
-import $annotationPackageName$.MethodArgumentNames;
-import $exceptionPackageName$.APIExceptionCodes;
-import $exceptionPackageName$.APIException;
+//import $annotationPackageName$.MethodArgumentNames;
+//import $exceptionPackageName$.APIExceptionCodes;
+//import $exceptionPackageName$.APIException;
+
+
 import $modelPackageName$.*;
 
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import com.wordnik.swagger.annotations.*;
-import com.wordnik.swagger.common.*;
-import com.wordnik.swagger.exception.*;
+import com.wordnik.swagger.runtime.annotations.*;
+import com.wordnik.swagger.runtime.common.*;
+import com.wordnik.swagger.runtime.exception.*;
 
 import java.util.*;
 import java.io.IOException;
@@ -95,7 +97,7 @@ $method.pathParameters:{ argument |
 $endif$	
 		//make the API Call
 $if(method.postObject)$
-		String response = APIInvoker.invokeAPI(resourcePath, method, queryParams, postObject);
+		String response = APIInvoker.invokeAPI(resourcePath, method, queryParams, postData);
 $endif$
 
 $if(!method.postObject)$
