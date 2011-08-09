@@ -145,7 +145,7 @@
 		                "assertions" : [
                             {
                                 "actualOutput" : "${output(1.3).username}",
-                                "condition" : "!=",
+                                "condition" : "==",
                                 "expectedOutput" : "${input.userList[0].username}"
                             }
 		                ]
@@ -240,7 +240,7 @@
 		                ]
                     },
                     {
-                        "name" : "PLace order",
+                        "name" : "Place order",
                         "id" : 2,
                         "resourceId" : 14,
                         "input" : {

@@ -80,7 +80,8 @@ public class APITestRunner {
      * Arg[4] --> test data class name (class to which test data file will be deserialized)
      * Arg[5] --> package where API classes are available
      * Arg[6] --> Language to execute test cases
-     * Arg[7] --> Optional test cases id. provide this if you need to execute only one test case
+     * Arg[7] --> Library location
+     * Arg[8] --> Optional test cases id. provide this if you need to execute only one test case
      *
      * @param args
      * @throws Exception
@@ -93,17 +94,19 @@ public class APITestRunner {
         String testDataLocation = args[3];
         String testDataClass = args[4];
         String apiPackageName = args[5];
-        String language = args[6];
+        String libraryLocation = args[6];
+        String language = args[7];
+
         String suiteId = "0";
-        if(args.length > 7){
-            suiteId = args[7];
+        if(args.length > 8){
+            suiteId = args[8];
         }
 
         ApiKeyAuthTokenBasedSecurityHandler securityHandler = new ApiKeyAuthTokenBasedSecurityHandler(apiKey, "");
         APIInvoker.initialize(securityHandler, apiServer, true);
 		APITestRunner runner = new APITestRunner();
         runner.initialize(testScriptLocation, testDataLocation, testDataClass);
-        runner.runTests(apiServer, apiPackageName, runner.getTestPackage(), language, new Integer(suiteId), apiPackageName, securityHandler);
+        runner.runTests(apiServer, apiPackageName, runner.getTestPackage(), language, new Integer(suiteId), apiPackageName, securityHandler, libraryLocation);
 	}
 
     public void initialize(String testScriptLocation, String testDataLocation, String testDataClass) throws Exception {
@@ -152,7 +155,8 @@ public class APITestRunner {
      * @param testPackage
      */
     private void runTests(String apiServer, String apiPackageName, TestPackage testPackage, String language, int suiteId,
-                          String libraryPackageName, ApiKeyAuthTokenBasedSecurityHandler securityHandler) throws Exception {
+                          String libraryPackageName, ApiKeyAuthTokenBasedSecurityHandler securityHandler,
+                          String libraryLocation) throws Exception {
         /**
          * Logic:
          *
@@ -231,7 +235,7 @@ public class APITestRunner {
                         String[] externalCommand = constructExternalCommand(apiServer, apiPackageName,
                                 securityHandler.getApiKey(), authToken,
                                 resource.getPath(), resource.getHttpMethod(), resource.getSuggestedMethodName(),
-                                queryPathParameters.toString(), postData, language);
+                                queryPathParameters.toString(), postData, language, libraryLocation);
                         //print the command
                         System.out.println("Test Case :" + testCasePath);
                         for(String arg : externalCommand){
@@ -502,11 +506,12 @@ public class APITestRunner {
      */
     private String[] constructExternalCommand(String apiServer, String apiPackageName, String apiKey, String authToken,
                         String resource, String httpMethod, String suggestedMethodName, String queryAndPathParams,
-                        String postData, String language) {
+                        String postData, String language, String libraryLocation) {
         List<String> command = new ArrayList<String>();
         if(language.equals(JAVA)){
-            command.add("./bin/runjava.sh");
+            command.add("./bin/runjavaTestCase.sh");
             command.add("com.wordnik.swagger.testframework.JavaTestCaseExecutor");
+            command.add( libraryLocation );
         }else if (language.equals(PYTHON)){
             command.add("../python/runtest.py ");
         }else if (language.equals(ANDROID)){

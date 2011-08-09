@@ -40,13 +40,15 @@ public class JavaLibCodeGen extends LibraryCodeGenerator {
             JavaLibCodeGen codeGenerator = new JavaLibCodeGen(configPath);
             codeGenerator.generateCode();
         }
-        if(args.length == 6) {
+        if(args.length == 4) {
             String apiServerURL = args[0];
             String apiKey = args[1];
-            String modelPackageName = args[2];
-            String apiPackageName = args[3];
-            String classOutputDir = args[4];
-            String libraryHome = args[5];
+            String packageName = args[2];
+            String libraryHome = args[3];
+
+            String modelPackageName = packageName+".model";
+            String apiPackageName = packageName+".api";
+            String classOutputDir = libraryHome + "/src/main/java/" + packageName.replace(".","/");
             JavaLibCodeGen codeGenerator = new JavaLibCodeGen(apiServerURL, apiKey, modelPackageName,
                     apiPackageName, classOutputDir, libraryHome);
             codeGenerator.generateCode();

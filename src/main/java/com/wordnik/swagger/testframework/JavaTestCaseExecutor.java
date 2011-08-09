@@ -38,24 +38,24 @@ public class JavaTestCaseExecutor {
 
 
 		JavaTestCaseExecutor runner = new JavaTestCaseExecutor();
-        String apiServer = args[0];
-        String servicePackageName = args[1];
-        String apiKey = args[2];
-        String authToken = args[3];
-        String resource = args[4];
-        String httpMethod = args[5];
-        String suggestedMethodName = args[6];
+        String apiServer = args[1];
+        String servicePackageName = args[2];
+        String apiKey = args[3];
+        String authToken = args[4];
+        String resource = args[5];
+        String httpMethod = args[6];
+        String suggestedMethodName = args[7];
         Map<String, String> queryAndPathParameters = new HashMap<String, String>();
         String postData = null;
-        if(args.length > 7 && args[7].length() > 0){
-            String[] qpTuple = args[7].split("~");
+        if(args.length > 8 && args[8].length() > 0){
+            String[] qpTuple = args[8].split("~");
             for(String tuple: qpTuple){
                 String[] nameValue = tuple.split("=");
                 queryAndPathParameters.put(nameValue[0], nameValue[1]);
             }
         }
-        if(args.length > 8 ){
-            postData = args[8];
+        if(args.length > 9 ){
+            postData = args[9];
         }
         queryAndPathParameters.put("authToken", authToken);
 

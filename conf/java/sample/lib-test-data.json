@@ -1,12 +1,12 @@
 {
   "userList":[
   	{
-  		"userName":"testuser1",
+  		"username":"testuser1",
   		"password":"password1",
   		"email":"test1@dummy.com"
   	},
   	{
-  		"userName":"testuser2",
+  		"username":"testuser2",
   		"password":"password2",
   		"email":"test2@dummy.com"
   	}
