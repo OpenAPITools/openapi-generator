@@ -264,7 +264,7 @@ public class APITestRunner {
                     boolean asserted = false;
                     if(testCase.getAssertions() != null) {
                         for(Assertion assertion : testCase.getAssertions()){
-                            if(assertion.getExpectedOutput().equalsIgnoreCase("Exception")){
+                            if(assertion.getCondition().equals("==") && assertion.getExpectedOutput().equalsIgnoreCase("Exception")){
                                 testStatus.logStatus(testCase, testCasePath, true);
                                 asserted = true;
                             }

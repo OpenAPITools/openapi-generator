@@ -211,9 +211,20 @@ public class APIInvoker {
 	 */
 	public static Object deserialize(String response, Class inputClassName) throws APIException {
         try {
-            System.out.println("response: " + response + " , class name:" + inputClassName);
-            Object responseObject = mapper.readValue(response, inputClassName);
-            return responseObject;
+            if(inputClassName.isAssignableFrom(String.class)){
+                return response;
+            } else if (inputClassName.isAssignableFrom(Integer.class)){
+                return new Integer(response);
+            } else if (inputClassName.isAssignableFrom(Boolean.class)){
+                return new Boolean(response);
+            } else if (inputClassName.isAssignableFrom(Long.class)){
+                return new Long(response);
+            } else if (inputClassName.isAssignableFrom(Double.class)){
+                return new Double(response);
+            } else{
+                Object responseObject = mapper.readValue(response, inputClassName);
+                return responseObject;
+            }
         } catch (IOException ioe) {
         	String[] args = new String[]{response, inputClassName.toString()};
             throw new APIException(APIExceptionCodes.ERROR_CONVERTING_JSON_TO_JAVA, args, "Error in coversting response json value to java object : " + ioe.getMessage(), ioe);
