@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -158,7 +159,22 @@ public class JavaTestCaseExecutor {
                 }else if (argNamesArray[i].trim().equals(APITestRunner.POST_PARAM_NAME)){
                     argument = APITestRunner.convertJSONStringToObject(postData, argTypesArray[i]);
                 }else{
-                    argument = APITestRunner.convertJSONStringToObject(queryAndPathParameters.get(argNamesArray[i].trim()), argTypesArray[i]);
+                    //some times input can be list of primitives for supporting multivalued values. however test case sends the input as comma separated values
+                    //so we need to convert comma separated string into JSON list format
+                    if(List.class.isAssignableFrom(argTypesArray[i]) && !queryAndPathParameters.get(argNamesArray[i].trim()).startsWith("[")){
+                        String listInput= "[";
+                        int x = 0;
+                        String[] values = queryAndPathParameters.get(argNamesArray[i].trim()).split(",");
+                        for(String value : values){
+                            if(x > 0){listInput = listInput + ",";}
+                            listInput = listInput + "\""+ value + "\"";
+                            x++;
+                        }
+                        listInput = listInput + "]";
+                        argument = APITestRunner.convertJSONStringToObject(listInput, argTypesArray[i]);
+                    }else{
+                        argument = APITestRunner.convertJSONStringToObject(queryAndPathParameters.get(argNamesArray[i].trim()), argTypesArray[i]);
+                    }
                 }
                 arguments[i] = argument;
             }
