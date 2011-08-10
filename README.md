@@ -61,11 +61,12 @@ There are two components in the test framework:
 
 <li>- Test Data
 
+
 #### Test script details
 
 Test script is written in JSON structure. The JSON consists of following elements:
 
-1. Resources.  This is a list of resources considered in the test. Each resource object consists of following properties:
+##### Resources.  This is a list of resources considered in the test. Each resource object consists of following properties:
 
 <li>- id: a unique test script ID
 
@@ -73,11 +74,11 @@ Test script is written in JSON structure. The JSON consists of following element
 
 <li>- httpMethod: HTTP method used in invoking this resource
 
-<li> -path: path of the resource
+<li>- path: path of the resource
 
 <li>- suggested method name: By default this refers to method name of the API in resource classes
 
-2. Test suites.  This is a logical way of grouping related test cases. Each test suite consists of following properties:
+##### Test suites.  This is a logical way of grouping related test cases. Each test suite consists of following properties:
 
 <li>- id: unique id of the test script, displayed in the test report
 
