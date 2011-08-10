@@ -30,7 +30,7 @@ ant
 This will create the swagger-codegen library in your build folder.  
 
 
-### To build a client library
+### To build client source files
 
 <pre>
 ./bin/generate-java-lib.sh {server-url} {api_key} {output-package} {output-dir}
@@ -38,7 +38,7 @@ This will create the swagger-codegen library in your build folder.
 
 for example:
 <pre>
-./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.sample.petstore generated
+./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver.model generated-files
 </pre>
 
 To build a client library for a different programming language, refer to the <pre>conf/java/templates</pre> folder for
@@ -55,7 +55,46 @@ The testing framework helps you to test Swagger generated client libraries using
 scripts can be used to test client libraries in different languages.  The framework can be used for client and server
 regression testing.
 
-There are two components in the test framework:
+For Example, first build the client library from the sample app:
+<pre>
+./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver generated-files
+</pre>
+
+Use the sample build script to build a jar from the client files:
+<pre>
+cp conf/java/sample/*.xml ./generated-files
+
+cd generated-files
+
+ant
+</pre>
+
+This creates a complete client library jar.  You can now run the tests:
+
+<pre>
+./bin/test-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key conf/java/sample/lib-test-script.json conf/java/sample/lib-test-data.json com.foo.mydriver.model.TestData com.foo.mydriver.api generated-files/build/swagger-sample-java-lib-1.0.jar
+Summary -->  Total Test Cases: 9 Failed Test Cases: 0
+Details: 
+1.1 : Create User :  passed  
+ 
+1.2 : Login User :  passed  
+ 
+1.3 : Find user by name :  passed  
+ 
+1.4 : Delete user by name :  passed  
+ 
+2.1 : Add pet :  passed  
+ 
+2.2 : Find pet by id :  passed  
+ 
+2.3 : Find pet by status :  passed  
+ 
+3.1 : Find order by id :  passed  
+ 
+3.2 : Place order :  passed 
+</pre>
+
+In detail, there are two components in the test framework:
 
 <li>- Test Script
 
