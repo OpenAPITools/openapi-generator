@@ -46,7 +46,7 @@ The main class for the generator is at src/main/java/com/wordnik/swagger/codegen
 The code-gen uses the antlr string template library for generating the output files, please look at
 http://www.stringtemplate.org for details on the antlr framework.
 
-Wordnik team is working on generating libraries for Ruby, ActionScript 3, Android, PHP and JavaScript. They will be released to open source in coming weeks.   
+The Wordnik team is working on generating libraries for Ruby, ActionScript 3, Android, PHP and JavaScript, which will be open-sourced in the coming weeks
 
 ### The Swagger client test framework
 
