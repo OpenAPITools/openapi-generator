@@ -30,7 +30,7 @@ ant
 This will create the swagger-codegen library in your build folder.  
 
 
-### To build client source files
+### To build java client source files
 
 <pre>
 ./bin/generate-java-lib.sh {server-url} {api_key} {output-package} {output-dir}
@@ -41,13 +41,12 @@ for example:
 ./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver.model generated-files
 </pre>
 
-To build a client library for a different programming language, refer to the <pre>conf/java/templates</pre> folder for
-sample code templates.  The code-gen uses the antlr string template library for generating the output files, please look at
+The main class for the generator is at src/main/java/com/wordnik/swagger/codegen/config/java/JavaLibCodeGen.java
+
+The code-gen uses the antlr string template library for generating the output files, please look at
 http://www.stringtemplate.org for details on the antlr framework.
 
-The files in the <pre>conf/structure</pre> folder are copied by default to the destination directory.
-
-The main class for the generator is at src/main/java/com/wordnik/swagger/codegen/config/java/JavaLibCodeGen.java
+Wordnik team is working on generating libraries for Ruby, ActionScript 3, Android, PHP and JavaScript. They will be released to open source in coming weeks.   
 
 ### The Swagger client test framework
 
