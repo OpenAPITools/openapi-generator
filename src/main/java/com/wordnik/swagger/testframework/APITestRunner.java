@@ -105,6 +105,10 @@ public class APITestRunner {
 	public static void main(String[] args) throws Exception {
 
         String apiServer = args[0];
+        if(!apiServer.endsWith("/")){
+            apiServer = apiServer + "/";
+        }
+
         String apiKey = args[1];
         String testScriptLocation = args[2];
         String testDataLocation = args[3];

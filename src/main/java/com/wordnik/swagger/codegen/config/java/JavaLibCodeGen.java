@@ -42,10 +42,15 @@ public class JavaLibCodeGen extends LibraryCodeGenerator {
         }
         if(args.length == 4) {
             String apiServerURL = args[0];
+            if(!apiServerURL.endsWith("/")){
+                apiServerURL = apiServerURL + "/";
+            }
             String apiKey = args[1];
             String packageName = args[2];
             String libraryHome = args[3];
-
+            if(libraryHome.endsWith("/")){
+                libraryHome = libraryHome.substring(0, libraryHome.length()-1);
+            }
             String modelPackageName = packageName+".model";
             String apiPackageName = packageName+".api";
             String classOutputDir = libraryHome + "/src/main/java/" + packageName.replace(".","/");

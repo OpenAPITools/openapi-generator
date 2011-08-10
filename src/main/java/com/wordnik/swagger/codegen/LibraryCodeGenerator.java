@@ -70,7 +70,8 @@ public class LibraryCodeGenerator {
         this.setNameGenerator(new CamelCaseNamingPolicyProvider());
     }
 
-    public LibraryCodeGenerator(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName, String classOutputDir, String libraryHome){
+    public LibraryCodeGenerator(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
+                                String classOutputDir, String libraryHome){
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
