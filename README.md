@@ -72,7 +72,10 @@ ant
 This creates a complete client library jar.  You can now run the tests:
 
 <pre>
-./bin/test-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key conf/java/sample/lib-test-script.json conf/java/sample/lib-test-data.json com.foo.mydriver.model.TestData com.foo.mydriver.api generated-files/build/swagger-sample-java-lib-1.0.jar
+./bin/test-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key conf/java/sample/lib-test-script.json \
+    conf/java/sample/lib-test-data.json com.foo.mydriver.model.TestData com.foo.mydriver.api \
+    generated-files/build/swagger-sample-java-lib-1.0.jar
+
 Summary -->  Total Test Cases: 9 Failed Test Cases: 0
 Details: 
 1.1 : Create User :  passed  
