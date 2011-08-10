@@ -30,6 +30,27 @@
         </classpath>
     </taskdef>
 
+	<target name="clean" description="cleans the project folder">
+		<mkdir dir="build" />
+		<echo message="deleting build files" />
+		<delete quiet="true">
+			<fileset dir="build">
+				<include name="*.jar" />
+				<include name="*.xml" />
+			</fileset>
+		</delete>
+
+		<delete dir="build/main" quiet="true" />
+
+		<!-- libraries handled by ivy -->
+		<echo message="deleting libs handled by ivy" />
+		<delete>
+			<fileset dir="lib">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+		</delete>
+	</target>
 
     <target name="resolve" description="retreive dependencies with ivy">
             <delete>
@@ -41,7 +62,7 @@
             <ivy:retrieve pattern="${basedir}/lib/[artifact]-[revision].[ext]" conf="build" />
     </target>
 
-    <target name="compile" description="builds the module without artifact resolution or cleaning">
+    <target name="compile" depends="resolve" description="builds the module">
         <echo message="building ${module}-${version.identifier}.${artifact.ext}"/>
         <delete quiet="true" file="build/${module}-*.jar" />
         <mkdir dir="build" />
