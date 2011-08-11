@@ -2,6 +2,8 @@
 out/
 *.ipr
 *.iws
+classpath.txt
 version.properties
 lib/*
 build/*
+generated-files/*
