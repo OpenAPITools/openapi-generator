@@ -4,6 +4,8 @@ out/
 *.iws
 classpath.txt
 version.properties
+.project
+.classpath
 lib/*
 build/*
 generated-files/*
