@@ -187,4 +187,14 @@ public interface DataTypeMappingProvider {
      * @return
      */
     public String getGenericType(String type);
+
+    /**
+     * Returns the syntax for defintion of an object of type and name
+     *
+     * @param argumentType
+     * @param argumentName
+     * @return
+     */
+    public String getArgumentDefinition(String argumentType, String argumentName);
+
 }

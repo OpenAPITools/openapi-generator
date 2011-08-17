@@ -291,7 +291,7 @@ public class EndpointOperation {
             if (method.getArguments() != null && method.getArguments().size() > 0) {
                 for(MethodArgument arg: method.getArguments()) {
                     if(!arg.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)){
-                        argumentDefinitions.add(arg.getDataType() + " " + arg.getName());
+                        argumentDefinitions.add( dataTypeMapper.getArgumentDefinition(arg.getDataType(), arg.getName()) );
                         argumentNames.add(arg.getName());
                     }
                 }
@@ -306,7 +306,21 @@ public class EndpointOperation {
 			method.setReturnValue(dataTypeMapper.getClassType(responseClass, false));
 			method.setReturnClassName(dataTypeMapper.getGenericType(responseClass));
 
-			
+            //if this is a list return type
+            if(method.getReturnClassName().equals(dataTypeMapper.getListReturnTypeSignature(responseClass))){
+                String returnValueTypeName = method.getReturnValue();
+                Model outputWrapperModel = new Model();
+                outputWrapperModel.setName(nameGenerator.getOutputWrapperName(returnValueTypeName));
+                List<ModelField> fields = new ArrayList<ModelField>();
+                ModelField aModelField = new ModelField();
+                aModelField.setName(nameGenerator.applyMethodNamingPolicy(returnValueTypeName));
+                aModelField.setParamType(responseClass);
+                fields.add(aModelField);
+                outputWrapperModel.setFields(fields);
+                method.setOutputWrapperModel(outputWrapperModel);
+                //method.setReturnClassName(outputWrapperModel.getName());
+            }
+
 			//get description string for exception			
 			method.setExceptionDescription(calculateExceptionMessage());
 		}

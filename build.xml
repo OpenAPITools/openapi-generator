@@ -104,12 +104,32 @@
     <target name="generate-java" depends="resolve, compile" description="generates APIs and model classes for java language">
         <fail unless="apiConfiguration.set">
             Must specify the parameter for apiConfiguration
-            eg. -DapiConfiguration==../api-server-lib/java/config/apiConfiguration.json
+            eg. -DapiConfiguration=../api-server-lib/java/config/apiConfiguration.json
         </fail>
         <echo>
             apiConfiguration to be used : ${apiConfiguration}
         </echo>
         <java classname="com.wordnik.swagger.codegen.config.java.JavaLibCodeGen">
+            <classpath>
+                  <pathelement location="build/main/java" />
+                  <fileset dir="lib">
+                     <include name="**/*.jar"/>
+                  </fileset>
+            </classpath>
+            <arg value="${apiConfiguration}"/>
+        </java>
+    </target>
+
+    <!-- generates the classes -->
+    <target name="generate-as3" depends="resolve, compile" description="generates APIs and model classes for java language">
+        <fail unless="apiConfiguration.set">
+            Must specify the parameter for apiConfiguration
+            eg. -DapiConfiguration=../api-server-lib/as3/config/apiConfiguration.json
+        </fail>
+        <echo>
+            apiConfiguration to be used : ${apiConfiguration}
+        </echo>
+        <java classname="com.wordnik.swagger.codegen.config.as3.As3LibCodeGen">
             <classpath>
                   <pathelement location="build/main/java" />
                   <fileset dir="lib">

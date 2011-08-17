@@ -28,6 +28,8 @@ public class FieldDefinition {
 	private String initialization;
 	
 	private List<String> importDefinitions = new ArrayList<String>();
+
+    private String collectionItemType;
 	
 	public String getReturnType() {
 		return returnType;
@@ -61,5 +63,11 @@ public class FieldDefinition {
         return name.substring(0,1).toUpperCase() + name.substring(1);
     }
 
+    public void setCollectionItemType(String collectionItemType) {
+        this.collectionItemType = collectionItemType;
+    }
 
+    public String getCollectionItemType() {
+        return collectionItemType;
+    }
 }

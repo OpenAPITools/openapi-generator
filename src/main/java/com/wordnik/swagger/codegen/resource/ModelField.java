@@ -17,7 +17,9 @@
 package com.wordnik.swagger.codegen.resource;
 
 import com.wordnik.swagger.codegen.FieldDefinition;
+import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.config.DataTypeMappingProvider;
+import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,7 +172,7 @@ public class ModelField {
         return fieldDefinition;
     }
 
-    public FieldDefinition getFieldDefinition(DataTypeMappingProvider dataTypeMapper) {
+    public FieldDefinition getFieldDefinition(DataTypeMappingProvider dataTypeMapper, ApiConfiguration config, NamingPolicyProvider nameGenerator) {
     	if(fieldDefinition == null) {
     		fieldDefinition = new FieldDefinition();
 	    	String type = paramType.trim();
@@ -180,6 +182,11 @@ public class ModelField {
 	    	if(type.startsWith("List[")){
 	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getListIncludes());
 	    		String entryType = type.substring(5, type.length()-1);
+                if (dataTypeMapper.isPrimitiveType(entryType)) {
+                    fieldDefinition.setCollectionItemType(entryType);
+                } else {
+                    fieldDefinition.setCollectionItemType(config.getModelPackageName() + "." + nameGenerator.applyClassNamingPolicy(entryType));
+                }
 	    		entryType =  dataTypeMapper.getClassType(entryType, true);
 	    		String returnType = dataTypeMapper.getListReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);

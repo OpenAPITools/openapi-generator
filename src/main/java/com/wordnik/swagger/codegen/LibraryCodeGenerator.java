@@ -106,7 +106,13 @@ public class LibraryCodeGenerator {
         }
         generateModelClasses(resources, aTemplateGroup);
         generateModelClassesForInput(resources, aTemplateGroup);
-        generateEnumForAllowedValues(resources, aTemplateGroup);
+        if(languageConfig.isGenerateHelperEnums()){
+            generateEnumForAllowedValues(resources, aTemplateGroup);
+        }
+
+        if(languageConfig.isGenerateOutputWrappers()) {
+            generateOutputWrappers(resources, aTemplateGroup);
+        }
         generateAPIClasses(resources, aTemplateGroup);
     }
 
@@ -139,7 +145,7 @@ public class LibraryCodeGenerator {
     				List<String> imports = new ArrayList<String>();
     				imports.addAll(this.config.getDefaultModelImports());
     				for(ModelField param : model.getFields()){
-    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider()).getImportDefinitions()){
+    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
     						if(!imports.contains(importDef)){
     							imports.add(importDef);
     						}
@@ -182,7 +188,7 @@ public class LibraryCodeGenerator {
 		    		    				List<String> imports = new ArrayList<String>();
                                         imports.addAll(this.config.getDefaultModelImports());
 		    		    				for(ModelField param : model.getFields()){
-		    		    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider()).getImportDefinitions()){
+		    		    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
 		    		    						if(!imports.contains(importDef)){
 		    		    							imports.add(importDef);
 		    		    						}
@@ -265,6 +271,57 @@ public class LibraryCodeGenerator {
         }
     }
 
+    private void generateOutputWrappers(List<Resource> resources, StringTemplateGroup templateGroup) {
+        List<String> generatedClasses = new ArrayList<String>();
+        StringTemplate template;
+
+        for(Resource resource: resources) {
+            if(resource.getEndPoints() != null) {
+                for(Endpoint endpoint : resource.getEndPoints()){
+                    if(endpoint.getOperations() != null) {
+                        for(EndpointOperation operation : endpoint.getOperations()){
+                            ResourceMethod method = operation.generateMethod(endpoint, resource, dataTypeMappingProvider, nameGenerator);
+                            if(codeGenRulesProvider.isModelIgnored( nameGenerator.applyMethodNamingPolicy( method.getReturnClassName() ))){
+                                continue;
+                            }
+                            if(method.getOutputWrapperModel() != null) {
+                                Model model = method.getOutputWrapperModel();
+                                method.setReturnClassName(model.getName());
+                                if(model != null){
+                                    if(!generatedClasses.contains(model.getName())) {
+                                        List<String> imports = new ArrayList<String>();
+                                        imports.addAll(this.config.getDefaultModelImports());
+                                        for(ModelField param : model.getFields()){
+                                            for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
+                                                if(!imports.contains(importDef)){
+                                                    imports.add(importDef);
+                                                }
+                                            }
+                                        }
+                                        template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
+
+                                        template.setAttribute("fields", model.getFields());
+                                        template.setAttribute("imports", imports);
+                                        template.setAttribute("extends", config.getDefaultModelBaseClass());
+                                        template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
+                                        template.setAttribute("className", model.getGenratedClassName());
+                                        template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
+                                        File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
+                                        writeFile(aFile, template.toString(), "Output wrapper model class");
+                                        generatedClasses.add(model.getName());
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
     /**
      * Generates one API class for each resource and each end point in the resource is translated as method.
      * @param resources
@@ -328,7 +385,7 @@ public class LibraryCodeGenerator {
         imports.addAll(this.config.getDefaultModelImports());
         imports.addAll(this.getDataTypeMappingProvider().getListIncludes());
 		for(ModelField param : model.getFields()){
-			for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider()).getImportDefinitions()){
+			for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
 				if(!imports.contains(importDef)){
 					imports.add(importDef);
 				}

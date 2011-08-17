@@ -53,7 +53,8 @@ public class ResourceMethod {
 	private boolean postObject;
 	
 	private Model inputModel;
-	
+
+    private Model outputWrapperModel;
 
     public String getTitle() {
         return title;
@@ -200,4 +201,12 @@ public class ResourceMethod {
 		}
 		return false;
 	}
+
+    public void setOutputWrapperModel(Model outputWrapperModel) {
+        this.outputWrapperModel = outputWrapperModel;
+    }
+
+    public Model getOutputWrapperModel() {
+        return outputWrapperModel;
+    }
 }

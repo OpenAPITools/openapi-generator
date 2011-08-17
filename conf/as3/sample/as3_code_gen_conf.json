@@ -1,0 +1,30 @@
+{
+    "apiUrl":"http://swagr.api.wordnik.com/v4/",
+
+    "apiKey":"special-key",
+
+    "defaultServiceBaseClass":"SwaggerApi",
+
+    "defaultModelBaseClass":"Object",
+
+    "serviceBaseClasses":{},
+
+    "defaultModelImports":[],
+
+    "defaultServiceImports":["mx.rpc.AsyncToken","mx.utils.UIDUtil",
+        "flash.utils.Dictionary","flash.events.EventDispatcher",
+        "com.wordnik.swagger.common.ApiUserCredentials","com.wordnik.swagger.event.Response",
+        "com.wordnik.swagger.common.SwaggerApi"],
+
+    "modelPackageName":"com.wordnik.swagger.model",
+
+    "apiPackageName":"com.wordnik.swagger.api",
+
+    "ignoreMethods":["WordAPI.getWordFrequency","WordAPI.getAudio","WordAPI.getWordStats","WordAPI.getFlickrImages"],
+
+    "ignoreModels":["wordStats","photo","sizes"],
+
+    "outputDirectory":"../api-server-temp/as3ApiSDK/src/main/as3/com/wordnik/swagger/",
+
+    "libraryHome":"../api-server-temp/as3ApiSDK"
+}

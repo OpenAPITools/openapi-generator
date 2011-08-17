@@ -158,7 +158,18 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
     	return classShortName;
     }
 
-	/**
+    /**
+     * Returns the syntax for defintion of an object of type and name
+     *
+     * @param argumentType
+     * @param argumentName
+     * @return
+     */
+    public String getArgumentDefinition(String argumentType, String argumentName) {
+        return argumentType + " " + argumentName;
+    }
+
+    /**
 	 * Gets the class of the expected return value for a type string. Examples of type Strings are int, User, List[User]
 	 * If the type string is a collection type like a map or list the string value returned would be the class
 	 * that map or list is returning.

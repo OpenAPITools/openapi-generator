@@ -98,6 +98,18 @@ public interface NamingPolicyProvider {
     public String getInputObjectName(String serviceName, String resourcePath);
 
     /**
+     * Generate the name of the wrapper class used as a wrapper for a list of items returned by a service
+     *
+     * Example: get definitions API returns a list of definition objects as the result. This will be wrapped by an
+     * object. The object's name will be determined by invoking this service.
+     * eg. DefinitionList for a wrapper of 'definition's
+     *
+     * @param wrapperItemName
+     * @return
+     */
+    public String getOutputWrapperName(String wrapperItemName);
+
+    /**
      * Generates a name for an enum for the param or field name.
      *
      * Example: for a param source the return could be SourceEnum

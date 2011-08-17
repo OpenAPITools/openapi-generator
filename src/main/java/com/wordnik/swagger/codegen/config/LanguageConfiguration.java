@@ -41,6 +41,10 @@ public class LanguageConfiguration {
 
     private String annotationPackageName;
 
+    private boolean generateHelperEnums = true;
+
+    private boolean generateOutputWrappers = false;
+
     public String getClassFileExtension() {
         return classFileExtension;
     }
@@ -108,5 +112,21 @@ public class LanguageConfiguration {
 
     public void setLibraryHome(String libraryHome) {
         this.libraryHome = libraryHome;
+    }
+
+    public void setGenerateHelperEnums(boolean generateHelperEnums) {
+        this.generateHelperEnums = generateHelperEnums;
+    }
+
+    public boolean isGenerateHelperEnums() {
+        return generateHelperEnums;
+    }
+
+    public void setGenerateOutputWrappers(boolean generateOutputWrappers) {
+        this.generateOutputWrappers = generateOutputWrappers;
+    }
+
+    public boolean isGenerateOutputWrappers() {
+        return generateOutputWrappers;
     }
 }
