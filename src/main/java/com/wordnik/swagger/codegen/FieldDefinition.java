@@ -30,7 +30,9 @@ public class FieldDefinition {
 	private List<String> importDefinitions = new ArrayList<String>();
 
     private String collectionItemType;
-	
+
+    private String collectionItemName;
+
 	public String getReturnType() {
 		return returnType;
 	}
@@ -69,5 +71,13 @@ public class FieldDefinition {
 
     public String getCollectionItemType() {
         return collectionItemType;
+    }
+
+    public String getCollectionItemName() {
+        return collectionItemName;
+    }
+
+    public void setCollectionItemName(String collectionItemName) {
+        this.collectionItemName = collectionItemName;
     }
 }

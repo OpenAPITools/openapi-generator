@@ -184,8 +184,10 @@ public class ModelField {
 	    		String entryType = type.substring(5, type.length()-1);
                 if (dataTypeMapper.isPrimitiveType(entryType)) {
                     fieldDefinition.setCollectionItemType(entryType);
+                    fieldDefinition.setCollectionItemName(entryType);
                 } else {
                     fieldDefinition.setCollectionItemType(config.getModelPackageName() + "." + nameGenerator.applyClassNamingPolicy(entryType));
+                    fieldDefinition.setCollectionItemName(nameGenerator.applyMethodNamingPolicy(entryType));
                 }
 	    		entryType =  dataTypeMapper.getClassType(entryType, true);
 	    		String returnType = dataTypeMapper.getListReturnTypeSignature(entryType);
