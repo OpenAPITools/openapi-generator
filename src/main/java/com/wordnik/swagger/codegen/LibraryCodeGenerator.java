@@ -46,6 +46,7 @@ public class LibraryCodeGenerator {
 	private static String MODEL_OBJECT_TEMPLATE = "ModelObject";
     private static String API_OBJECT_TEMPLATE = "ResourceObject";
     private static final String ENUM_OBJECT_TEMPLATE = "EnumObject";
+    private static final String WRAPPER_OBJECT_TEMPLATE = "WrapperObject";
 
     private static final String PACKAGE_NAME = "packageName";
     private ApiConfiguration config = null;
@@ -273,7 +274,11 @@ public class LibraryCodeGenerator {
 
     private void generateOutputWrappers(List<Resource> resources, StringTemplateGroup templateGroup) {
         List<String> generatedClasses = new ArrayList<String>();
-        StringTemplate template;
+        StringTemplate template = templateGroup.getInstanceOf(WRAPPER_OBJECT_TEMPLATE);
+        if(template == null){
+            System.out.println("WrapperObject template not found to generate output wrappers");
+            return;
+        }
 
         for(Resource resource: resources) {
             if(resource.getEndPoints() != null) {
@@ -298,7 +303,7 @@ public class LibraryCodeGenerator {
                                                 }
                                             }
                                         }
-                                        template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
+                                        template = templateGroup.getInstanceOf(WRAPPER_OBJECT_TEMPLATE);
 
                                         template.setAttribute("fields", model.getFields());
                                         template.setAttribute("imports", imports);
