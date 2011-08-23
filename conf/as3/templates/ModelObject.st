@@ -22,8 +22,7 @@ import $import$;
 $if(!field.fieldDefinition.collectionItemType)$
      [XmlElement(name="$field.fieldDefinition.name$")]$endif$
 $if(field.fieldDefinition.collectionItemType)$
-     [XmlElementWrapper(name="$field.fieldDefinition.name$")]
-     [XmlElements(name="$field.fieldDefinition.collectionItemName$", type="$field.fieldDefinition.collectionItemType$")]$endif$
+     [XmlElements(name="$field.fieldDefinition.name$", type="$field.fieldDefinition.collectionItemType$")]$endif$
      public var $field.fieldDefinition.name$: $field.fieldDefinition.returnType$ $field.fieldDefinition.initialization$;$\r$}$
 
     }
