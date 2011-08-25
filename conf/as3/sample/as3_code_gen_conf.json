@@ -1,5 +1,5 @@
 {
-    "apiUrl":"http://swagr.api.wordnik.com/v4/",
+    "apiUrl":"http://localhost:8002/api/",
 
     "apiKey":"special-key",
 
@@ -20,11 +20,11 @@
 
     "apiPackageName":"com.wordnik.swagger.api",
 
-    "ignoreMethods":["WordAPI.getWordFrequency","WordAPI.getAudio","WordAPI.getWordStats","WordAPI.getFlickrImages"],
+    "ignoreMethods":[],
 
-    "ignoreModels":["wordStats","photo","sizes"],
+    "ignoreModels":[],
 
-    "outputDirectory":"../api-server-temp/as3ApiSDK/src/main/as3/com/wordnik/swagger/",
+    "outputDirectory":"../swagger-sample-app/sdk-libs/src/main/as3/com/wordnik/swagger/",
 
-    "libraryHome":"../api-server-temp/as3ApiSDK"
+    "libraryHome":"../swagger-sample-app/sdk-libs"
 }
