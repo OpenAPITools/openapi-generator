@@ -153,6 +153,7 @@ public class LibraryCodeGenerator {
     					}
     				}
     		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
+    		    	template.setAttribute("model", model);
     		    	template.setAttribute("fields", model.getFields());
     		    	template.setAttribute("imports", imports);
                     template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());

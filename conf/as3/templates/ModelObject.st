@@ -10,6 +10,7 @@ import $import$;
      * @author deepak
      *
      */
+    [XmlRootNode(name="$model.name$")]
     public class $className$ extends $extends$ {
 
     $fields:{ field |
