@@ -41,9 +41,9 @@ public class LanguageConfiguration {
 
     private String annotationPackageName;
 
-    private boolean generateHelperEnums = true;
+    private boolean isHelperEnumRequired = true;
 
-    private boolean generateOutputWrappers = false;
+    private boolean isOutputWrapperRequired = false;
 
     public String getClassFileExtension() {
         return classFileExtension;
@@ -114,19 +114,19 @@ public class LanguageConfiguration {
         this.libraryHome = libraryHome;
     }
 
-    public void setGenerateHelperEnums(boolean generateHelperEnums) {
-        this.generateHelperEnums = generateHelperEnums;
+    public void setHelperEnumRequired(boolean helperEnumRequired) {
+        this.isHelperEnumRequired = helperEnumRequired;
     }
 
-    public boolean isGenerateHelperEnums() {
-        return generateHelperEnums;
+    public boolean isHelperEnumRequired() {
+        return isHelperEnumRequired;
     }
 
-    public void setGenerateOutputWrappers(boolean generateOutputWrappers) {
-        this.generateOutputWrappers = generateOutputWrappers;
+    public void setOutputWrapperRequired(boolean outputWrapperRequired) {
+        this.isOutputWrapperRequired = outputWrapperRequired;
     }
 
-    public boolean isGenerateOutputWrappers() {
-        return generateOutputWrappers;
+    public boolean isOutputWrapperRequired() {
+        return isOutputWrapperRequired;
     }
 }

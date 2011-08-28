@@ -6,7 +6,8 @@ package com.wordnik.swagger.common
 	import com.wordnik.swagger.event.ApiClientEvent;
 	import com.wordnik.swagger.event.Response;
 	import com.wordnik.swagger.common.ApiUserCredentials;
-	
+	import com.wordnik.swagger.model.LibraryReferences;
+
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	import flash.utils.describeType;
@@ -35,7 +36,8 @@ package com.wordnik.swagger.common
 		private var _apiPath: String = "/v4";
 		
 		public var _apiEventNotifier:EventDispatcher;
-		
+		public var _apiLibraryReferences:LibraryReferences;
+
 		private static const DELETE_DATA_DUMMY:String = "dummyDataRequiredForDeleteOverride";
 		private static const X_HTTP_OVERRIDE_KEY:String = "X-HTTP-Method-Override";
 		private static const CONTENT_TYPE_HEADER_KEY:String = "Content-Type";

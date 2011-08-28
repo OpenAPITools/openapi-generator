@@ -2,11 +2,17 @@ package com.wordnik.swagger.codegen.config.as3;
 
 import com.wordnik.swagger.codegen.LibraryCodeGenerator;
 import com.wordnik.swagger.codegen.config.LanguageConfiguration;
-import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
 import com.wordnik.swagger.codegen.exception.CodeGenerationException;
+import com.wordnik.swagger.codegen.resource.Model;
+import com.wordnik.swagger.codegen.resource.ModelField;
+import com.wordnik.swagger.codegen.resource.Resource;
 import com.wordnik.swagger.codegen.util.FileUtil;
+import org.antlr.stringtemplate.StringTemplate;
+import org.antlr.stringtemplate.StringTemplateGroup;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: deepakmichael
@@ -14,6 +20,8 @@ import java.io.File;
  * Time: 5:02 PM
  */
 public class As3LibCodeGen extends LibraryCodeGenerator{
+    protected static final String MANIFEST_OBJECT_TEMPLATE = "ReferencesObject";
+
     public static void main(String[] args) {
         if(args.length < 1){
             throw new CodeGenerationException("Invalid number of arguments passed: No command line argument was passed to the program for config json");
@@ -68,18 +76,56 @@ public class As3LibCodeGen extends LibraryCodeGenerator{
         //create ouput directories
         FileUtil.createOutputDirectories(as3Configuration.getModelClassLocation(), as3Configuration.getClassFileExtension());
         FileUtil.createOutputDirectories(as3Configuration.getResourceClassLocation(), as3Configuration.getClassFileExtension());
-/*
-        FileUtil.clearFolder(as3Configuration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/runtime");
-        FileUtil.createOutputDirectories(as3Configuration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/runtime", "as");
-*/
         FileUtil.clearFolder(as3Configuration.getLibraryHome() + "/src/main/as3/com/wordnik/swagger/common");
         FileUtil.clearFolder(as3Configuration.getLibraryHome() + "/src/main/as3/com/wordnik/swagger/exception");
         FileUtil.clearFolder(as3Configuration.getLibraryHome() + "/src/main/as3/com/wordnik/swagger/event");
         FileUtil.copyDirectory(new File(as3Configuration.getStructureLocation()), new File(as3Configuration.getLibraryHome()));
 
-        as3Configuration.setGenerateHelperEnums(false);
-        as3Configuration.setGenerateOutputWrappers(true);
+        as3Configuration.setHelperEnumRequired(false);
+        as3Configuration.setOutputWrapperRequired(true);
         return as3Configuration;
     }
 
+    protected void generateMiscClasses(List<Resource> resources, StringTemplateGroup aTemplateGroup) {
+        generateReferencesObject(resources, aTemplateGroup);
+    }
+
+    private void generateReferencesObject(List<Resource> resources, StringTemplateGroup templateGroup) {
+        StringTemplate template = templateGroup.getInstanceOf(MANIFEST_OBJECT_TEMPLATE);
+        if(template == null){
+            System.out.println("WrapperObject template not found to generate output wrappers");
+            return;
+        }
+        Model referencesModel = new Model();
+        List<ModelField> refFields = new ArrayList<ModelField>();
+        ModelField refModelField;
+        for(Resource resource: resources) {
+            for(Model model : resource.getModels()){
+
+                for(ModelField modelField : model.getFields()){
+                    final String collectionItemType = modelField.getFieldDefinition().getCollectionItemType();
+                    if(collectionItemType != null){
+                        refModelField = new ModelField();
+                        refModelField.setName(modelField.getName());
+                        refModelField.setParamType(collectionItemType);
+                        refFields.add(refModelField);
+                    }
+                }
+            }
+        }
+        List<String> imports = new ArrayList<String>();
+        imports.addAll(this.config.getDefaultModelImports());
+        referencesModel.setFields(refFields);
+        referencesModel.setName("LibraryReferences");
+        template = templateGroup.getInstanceOf(MANIFEST_OBJECT_TEMPLATE);
+        template.setAttribute("model", referencesModel);
+        template.setAttribute("fields", referencesModel.getFields());
+        template.setAttribute("imports", imports);
+        template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
+        template.setAttribute("extends", config.getDefaultModelBaseClass());
+        template.setAttribute("className", referencesModel.getGenratedClassName());
+        template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
+        File aFile = new File(languageConfig.getModelClassLocation()+referencesModel.getGenratedClassName()+languageConfig.getClassFileExtension());
+        writeFile(aFile, template.toString(), "Model class");
+    }
 }

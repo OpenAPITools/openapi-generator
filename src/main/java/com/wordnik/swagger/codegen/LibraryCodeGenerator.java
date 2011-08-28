@@ -48,9 +48,9 @@ public class LibraryCodeGenerator {
     private static final String ENUM_OBJECT_TEMPLATE = "EnumObject";
     private static final String WRAPPER_OBJECT_TEMPLATE = "WrapperObject";
 
-    private static final String PACKAGE_NAME = "packageName";
-    private ApiConfiguration config = null;
-    private LanguageConfiguration languageConfig = null;
+    protected static final String PACKAGE_NAME = "packageName";
+    protected ApiConfiguration config = null;
+    protected LanguageConfiguration languageConfig = null;
 
     private SwaggerResourceDocReader apiMarshaller;
     protected DataTypeMappingProvider dataTypeMappingProvider;
@@ -107,14 +107,15 @@ public class LibraryCodeGenerator {
         }
         generateModelClasses(resources, aTemplateGroup);
         generateModelClassesForInput(resources, aTemplateGroup);
-        if(languageConfig.isGenerateHelperEnums()){
+        if(languageConfig.isHelperEnumRequired()){
             generateEnumForAllowedValues(resources, aTemplateGroup);
         }
 
-        if(languageConfig.isGenerateOutputWrappers()) {
+        if(languageConfig.isOutputWrapperRequired()) {
             generateOutputWrappers(resources, aTemplateGroup);
         }
         generateAPIClasses(resources, aTemplateGroup);
+        generateMiscClasses(resources, aTemplateGroup);
     }
 
     /**
@@ -324,8 +325,6 @@ public class LibraryCodeGenerator {
                 }
             }
         }
-
-
     }
 
     /**
@@ -408,7 +407,16 @@ public class LibraryCodeGenerator {
         writeFile(aFile, template.toString(), "Wrapper class for test data file");
     }
 
-    private void writeFile(File aFile, String content, String classType){
+    /**
+     * Override this method in the derived classes to generate language specific classes
+     * @param resources
+     * @param aTemplateGroup
+     */
+    protected void generateMiscClasses(List<Resource> resources, StringTemplateGroup aTemplateGroup) {
+        //nothing here in the base class
+    }
+
+    protected void writeFile(File aFile, String content, String classType){
     	try{
             System.out.println("Writing to the file " + aFile.getAbsolutePath());
 	    	FileWriter aWriter = new FileWriter(aFile);
@@ -496,6 +504,5 @@ public class LibraryCodeGenerator {
     protected LanguageConfiguration initializeLangConfig(LanguageConfiguration configuration) {
         return configuration;
     }
-
 
 }
