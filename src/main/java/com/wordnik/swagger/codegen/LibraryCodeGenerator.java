@@ -22,7 +22,6 @@ import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
 import com.wordnik.swagger.codegen.config.java.JavaDataTypeMappingProvider;
 import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 import com.wordnik.swagger.codegen.resource.*;
-import com.wordnik.swagger.codegen.util.FileUtil;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -107,7 +106,7 @@ public class LibraryCodeGenerator {
         }
         generateModelClasses(resources, aTemplateGroup);
         generateModelClassesForInput(resources, aTemplateGroup);
-        if(languageConfig.isHelperEnumRequired()){
+        if(languageConfig.isModelEnumRequired()){
             generateEnumForAllowedValues(resources, aTemplateGroup);
         }
 
@@ -137,9 +136,6 @@ public class LibraryCodeGenerator {
      */
     private void generateModelClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
     	List<String> generatedClassNames = new ArrayList();
-
-        //remove old generated files
-        FileUtil.clearFolder(languageConfig.getModelClassLocation());
 
     	for(Resource resource: resources) {
     		for(Model model : resource.getModels()){
@@ -291,8 +287,8 @@ public class LibraryCodeGenerator {
                             if(codeGenRulesProvider.isModelIgnored( nameGenerator.applyMethodNamingPolicy( method.getReturnClassName() ))){
                                 continue;
                             }
-                            if(method.getOutputWrapperModel() != null) {
-                                Model model = method.getOutputWrapperModel();
+                            if(method.getListWrapperModel() != null) {
+                                Model model = method.getListWrapperModel();
                                 method.setReturnClassName(model.getName());
                                 if(model != null){
                                     if(!generatedClasses.contains(model.getName())) {
@@ -314,7 +310,7 @@ public class LibraryCodeGenerator {
                                         template.setAttribute("className", model.getGenratedClassName());
                                         template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
                                         File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
-                                        writeFile(aFile, template.toString(), "Output wrapper model class");
+                                        writeFile(aFile, template.toString(), "List wrapper model class");
                                         generatedClasses.add(model.getName());
                                     }
                                 }
@@ -333,9 +329,6 @@ public class LibraryCodeGenerator {
      * @param templateGroup
      */
     private void generateAPIClasses(List<Resource> resources, StringTemplateGroup templateGroup) {
-
-        //delete previously generated files
-        FileUtil.clearFolder(languageConfig.getResourceClassLocation());
 
     	for(Resource resource : resources) {
             try{

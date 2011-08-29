@@ -11,10 +11,7 @@
 
     "defaultModelImports":[],
 
-    "defaultServiceImports":["mx.rpc.AsyncToken","mx.utils.UIDUtil",
-        "flash.utils.Dictionary","flash.events.EventDispatcher",
-        "com.wordnik.swagger.common.ApiUserCredentials","com.wordnik.swagger.event.Response",
-        "com.wordnik.swagger.common.SwaggerApi"],
+    "defaultServiceImports":[],
 
     "modelPackageName":"com.wordnik.swagger.model",
 

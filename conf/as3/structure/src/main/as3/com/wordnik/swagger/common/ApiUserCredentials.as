@@ -1,24 +1,24 @@
 package com.wordnik.swagger.common {
 
 /**
- * Wordnik Api account credentials. The info is used to authenticate with the Wordnik API and perform
- * account-specific user actions
+ * Api account credentials.
+ *
  */
 public class ApiUserCredentials {
     /**
-     * All requests must be signed with your Wordnik API key
+     * An apitoken that is passed along with the requests
      */
     public var apiToken:String;
     /**
-     * A valid auth_token which is necessary for certain operations - currently, user accounts and list-related CRUD operations
+     * A valid auth_token which could be necessary for certain operations
      */
     public var authToken:String;
     /**
-     * The userId which is required for certain operations - currently, get user lists
+     * The userId which could be required for certain operations
      */
     public var userId:Number;
     /**
-     * The host name for the Wordnik Rest API eg. api.wordnik.com
+     * The host name for the Rest API eg. api.companyName.com
      */
     public var hostName:String;
 	
@@ -36,9 +36,9 @@ public class ApiUserCredentials {
 
     /**
      * Constructor of ApiUserCredentials
-     * @param apiToken All requests must be signed with your Wordnik API key
-     * @param authToken A valid auth_token which is necessary for certain operations - currently, user accounts and list-related CRUD operations
-     * @param hostName The host name for the Wordnik Rest API eg. api.wordnik.com
+     * @param apiToken An apitoken that is passed along with the requests
+     * @param authToken A valid auth_token which could necessary for certain operations
+     * @param hostName The host name for the Rest API eg. api.companyName.com
      * @param userId The userId which is required for certain operations - currently, get user lists
      */
     public function ApiUserCredentials(apiToken: String, authToken: String = null, hostName: String = null, userId: Number = -1, 

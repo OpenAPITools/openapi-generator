@@ -5,7 +5,7 @@ import flash.events.Event;
 
 /**
  * Event dispatched by the SDK to communicate success events and failure events.
- * If a custom dispatcher has been assigned by the consumer on the WordnikClient then the dispatcher dispatches
+ * If a custom dispatcher has been assigned by the consumer on the generated client then the dispatcher dispatches
  * the ApiClientEvent to indicate success or failure of the invocation using the Response
  */
 public class ApiClientEvent extends Event{

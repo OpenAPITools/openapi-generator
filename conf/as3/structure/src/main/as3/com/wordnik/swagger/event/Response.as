@@ -1,8 +1,8 @@
 package com.wordnik.swagger.event {
 
 /**
- * Response contains info on the result of a Wordnik API invocation.
- * A completion listener will expect this WNResult object as a parameter. 
+ * Response contains info on the result of an API invocation.
+ * A completion listener will expect this Response object.
  */
 public class Response {
 

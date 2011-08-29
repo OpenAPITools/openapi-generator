@@ -103,7 +103,7 @@
             <keep-as3-metadata name="XmlRootNode"/>
             <keep-as3-metadata name="XmlElement"/>
             <keep-as3-metadata name="XmlElements"/>
-			
+
 			<!-- include our Class packages into the build (com folder) -->
 			<include-sources dir="${sourcepath}" includes="*" />
 	

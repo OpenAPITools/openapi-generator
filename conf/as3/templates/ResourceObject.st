@@ -4,7 +4,14 @@ package $packageName$ {
 import $exceptionPackageName$.ApiErrorCodes;
 import $exceptionPackageName$.ApiError;
 import $modelPackageName$.*;
+import com.wordnik.swagger.common.ApiUserCredentials;
+import com.wordnik.swagger.event.Response;
+import com.wordnik.swagger.common.SwaggerApi;
 
+import mx.rpc.AsyncToken;
+import mx.utils.UIDUtil;
+import flash.utils.Dictionary;
+import flash.events.EventDispatcher;
 
 $imports:{ import |
 import $import$;
@@ -16,6 +23,9 @@ import $import$;
      *
      */
     public class $resource$ extends $extends$ {
+
+$methods:{ method |
+        public var event_$method.name$: String = "$method.name$";$\r$}$
 
 		/**
 		 * Constructor for the $resource$ api client

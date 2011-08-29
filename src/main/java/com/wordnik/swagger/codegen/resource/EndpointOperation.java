@@ -309,16 +309,15 @@ public class EndpointOperation {
             //if this is a list return type
             if(method.getReturnClassName().equals(dataTypeMapper.getListReturnTypeSignature(responseClass))){
                 String returnValueTypeName = method.getReturnValue();
-                Model outputWrapperModel = new Model();
-                outputWrapperModel.setName(nameGenerator.getOutputWrapperName(returnValueTypeName));
+                Model listWrapperModel = new Model();
+                listWrapperModel.setName(nameGenerator.getListWrapperName(returnValueTypeName));
                 List<ModelField> fields = new ArrayList<ModelField>();
                 ModelField aModelField = new ModelField();
                 aModelField.setName(nameGenerator.applyMethodNamingPolicy(returnValueTypeName));
                 aModelField.setParamType(responseClass);
                 fields.add(aModelField);
-                outputWrapperModel.setFields(fields);
-                method.setOutputWrapperModel(outputWrapperModel);
-                //method.setReturnClassName(outputWrapperModel.getName());
+                listWrapperModel.setFields(fields);
+                method.setListWrapperModel(listWrapperModel);
             }
 
 			//get description string for exception			

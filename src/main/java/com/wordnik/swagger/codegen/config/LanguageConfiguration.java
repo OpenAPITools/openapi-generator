@@ -41,7 +41,7 @@ public class LanguageConfiguration {
 
     private String annotationPackageName;
 
-    private boolean isHelperEnumRequired = true;
+    private boolean isModelEnumRequired = true;
 
     private boolean isOutputWrapperRequired = false;
 
@@ -114,12 +114,12 @@ public class LanguageConfiguration {
         this.libraryHome = libraryHome;
     }
 
-    public void setHelperEnumRequired(boolean helperEnumRequired) {
-        this.isHelperEnumRequired = helperEnumRequired;
+    public void setModelEnumRequired(boolean modelEnumRequired) {
+        this.isModelEnumRequired = modelEnumRequired;
     }
 
-    public boolean isHelperEnumRequired() {
-        return isHelperEnumRequired;
+    public boolean isModelEnumRequired() {
+        return isModelEnumRequired;
     }
 
     public void setOutputWrapperRequired(boolean outputWrapperRequired) {

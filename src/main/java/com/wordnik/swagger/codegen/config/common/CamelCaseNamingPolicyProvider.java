@@ -151,8 +151,8 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
      * @param wrapperItemName
      * @return
      */
-    public String getOutputWrapperName(String wrapperItemName) {
-        return applyClassNamingPolicy(wrapperItemName) + "Wrapper";
+    public String getListWrapperName(String wrapperItemName) {
+        return applyClassNamingPolicy(wrapperItemName) + "List";
     }
 
     /**

@@ -14,7 +14,7 @@ internal class ApiUrlHelper {
     private static const HTTP_URL_PREFIX:String = "http://";
 
     internal static function appendTokenInfo(restUrl:String, requestHeader: Object, credentials: ApiUserCredentials): String {
-        //wordnik credentials presence validated on client initialization and not here
+        //checks for the presence api credentials on client initialization and not repeated here
         if(restUrl.indexOf("?") == -1){
             restUrl += ( "?" + API_URL_KEY + "=" + credentials.apiToken );
         }

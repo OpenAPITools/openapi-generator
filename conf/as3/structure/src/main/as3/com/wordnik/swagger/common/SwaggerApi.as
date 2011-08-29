@@ -14,15 +14,8 @@ package com.wordnik.swagger.common
 		protected var _apiEventNotifier:EventDispatcher;
 		protected var _apiInvoker: ApiInvoker;
 		
-		protected var apiProxyServerUrl:String = "http://apihost.wordnik.com/";
-		protected var _baseUrl: String = "http://beta.wordnik.com/api/";
 		protected var _useProxyServer: Boolean = true;
-		protected var proxyHostName:String = "api.wordnik.com";
-		
-		protected static const DELETE_DATA_DUMMY:String = "dummyDataRequiredForDeleteOverride";
-		protected static const X_HTTP_OVERRIDE_KEY:String = "X-HTTP-Method-Override";
-		protected static const CONTENT_TYPE_HEADER_KEY:String = "Content-Type";
-		
+
 		
 		/**
 		 * Constructor for the api client

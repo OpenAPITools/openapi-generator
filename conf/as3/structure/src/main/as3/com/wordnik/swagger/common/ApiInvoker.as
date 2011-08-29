@@ -29,11 +29,11 @@ package com.wordnik.swagger.common
 	{
 		
 		private var _apiUsageCredentials:ApiUserCredentials;
-		internal var _apiProxyServerUrl:String = "http://apihost.wordnik.com/";
-		private var _baseUrl: String = "http://beta.wordnik.com/api/";
+		internal var _apiProxyServerUrl:String = "";
+		private var _baseUrl: String = "";
 		internal var _useProxyServer: Boolean = true;
-		private var _proxyHostName:String = "api.wordnik.com";
-		private var _apiPath: String = "/v4";
+		private var _proxyHostName:String = "";
+		private var _apiPath: String = "";
 		
 		public var _apiEventNotifier:EventDispatcher;
 		public var _apiLibraryReferences:LibraryReferences;

@@ -54,7 +54,7 @@ public class ResourceMethod {
 	
 	private Model inputModel;
 
-    private Model outputWrapperModel;
+    private Model listWrapperModel;
 
     public String getTitle() {
         return title;
@@ -202,11 +202,11 @@ public class ResourceMethod {
 		return false;
 	}
 
-    public void setOutputWrapperModel(Model outputWrapperModel) {
-        this.outputWrapperModel = outputWrapperModel;
+    public void setListWrapperModel(Model listWrapperModel) {
+        this.listWrapperModel = listWrapperModel;
     }
 
-    public Model getOutputWrapperModel() {
-        return outputWrapperModel;
+    public Model getListWrapperModel() {
+        return listWrapperModel;
     }
 }

@@ -107,7 +107,7 @@ public interface NamingPolicyProvider {
      * @param wrapperItemName
      * @return
      */
-    public String getOutputWrapperName(String wrapperItemName);
+    public String getListWrapperName(String wrapperItemName);
 
     /**
      * Generates a name for an enum for the param or field name.
