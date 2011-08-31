@@ -121,7 +121,7 @@
     </target>
 
     <!-- generates the classes -->
-    <target name="generate-as3" depends="resolve, compile" description="generates APIs and model classes for java language">
+    <target name="generate-as3" depends="resolve, compile" description="generates APIs and model classes for Actionscript 3">
         <fail unless="apiConfiguration.set">
             Must specify the parameter for apiConfiguration
             eg. -DapiConfiguration=../api-server-lib/as3/config/apiConfiguration.json

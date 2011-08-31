@@ -16,6 +16,12 @@ You need the following installed and available in your $PATH:
 
 <li>- Scala 2.x or greater (http://www.scala-lang.org/downloads)
 
+You also need to set an environment variable for SCALA_HOME:
+
+<pre>
+export SCALA_HOME={PATH_TO_YOUR_SCALA_DEPLOYMENT}
+</pre>
+
 ### To build the codegen library
 If you don't have the Apache Ivy dependency manager installed, run this build script:
 
