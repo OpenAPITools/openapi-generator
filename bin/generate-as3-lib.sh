@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ $# -ne 4 ]
 then
-    echo "Error in $0 - Invalid Argument Count"
+    echo "Error in $0 - Invalid Argument Count "
     echo "Syntax: $0 location_of_service api_key package_name library_root"
     exit
 fi
