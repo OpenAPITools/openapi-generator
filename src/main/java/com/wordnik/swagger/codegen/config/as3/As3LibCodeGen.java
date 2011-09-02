@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class As3LibCodeGen extends LibraryCodeGenerator{
     protected static final String MANIFEST_OBJECT_TEMPLATE = "ReferencesObject";
+    private static final String DEFAULT_SERVICE_BASE_CLASS = "SwaggerApi";
 
     public static void main(String[] args) {
         if(args.length < 1){
@@ -47,6 +48,7 @@ public class As3LibCodeGen extends LibraryCodeGenerator{
             String classOutputDir = libraryHome + "/src/main/as3/" + packageName.replace(".","/");
             As3LibCodeGen codeGenerator = new As3LibCodeGen(apiServerURL, apiKey, modelPackageName,
                     apiPackageName, classOutputDir, libraryHome);
+            codeGenerator.getConfig().setDefaultServiceBaseClass(DEFAULT_SERVICE_BASE_CLASS);
             codeGenerator.generateCode();
         }
 
