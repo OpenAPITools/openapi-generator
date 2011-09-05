@@ -55,6 +55,16 @@ public class ResourceMethod {
 	private Model inputModel;
 
     private Model listWrapperModel;
+    
+    private boolean hasResponseValue;
+    
+	public boolean isHasResponseValue(){
+    	return hasResponseValue;
+    }
+    
+    public void setHasResponseValue(boolean hasResponseValue){
+    	this.hasResponseValue = hasResponseValue;
+    }
 
     public String getTitle() {
         return title;

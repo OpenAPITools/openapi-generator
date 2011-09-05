@@ -104,6 +104,17 @@ public interface DataTypeMappingProvider {
     public String generateSetInitialization(String typeClass);
 
     /**
+     * Sets variable initialization.
+     *
+     * Example: In scala initializing a variable with an unknown value will be:
+     * <Code>
+     *      var age:String = _
+     * </Code>
+     * @return
+     */
+    public String generateVariableInitialization(String typeClass);
+   
+    /**
      * Gets list of items that needs to be included when referring list objects in model or resource classes.
      *
      * Example: In java this information is used as java imports. In java while using lists we use an interface of

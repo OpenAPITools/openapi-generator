@@ -182,4 +182,9 @@ public class As3DataTypeMappingProvider implements DataTypeMappingProvider {
     	}
     	return classShortName;
     }
+    
+	@Override
+	public String generateVariableInitialization(String typeClass) {
+		return "";
+	}
 }

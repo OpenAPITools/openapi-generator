@@ -229,10 +229,10 @@ public class ModelField {
 	    			fieldDefinition.setName(this.getName());
 	    		}
 	    	}else{
+	    		fieldDefinition.setInitialization(dataTypeMapper.generateVariableInitialization(type));
 	    		fieldDefinition.setReturnType(dataTypeMapper.getClassType(type, false));
 	    		fieldDefinition.setName(this.getName());
 	    	}
-
     	}
     	return fieldDefinition;
     }

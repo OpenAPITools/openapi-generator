@@ -217,4 +217,9 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
     		return nameGenerator.applyClassNamingPolicy(type);
     	}
     }
+
+	@Override
+	public String generateVariableInitialization(String typeClass) {
+		return "";
+	}
 }
