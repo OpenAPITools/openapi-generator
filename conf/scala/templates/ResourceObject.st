@@ -105,6 +105,7 @@ $else$
 	$endif$
 $endif$
 $if(!method.responseVoid)$
+
 $if(method.hasResponseValue)$
         if(null == response || response.length() == 0){
             null
