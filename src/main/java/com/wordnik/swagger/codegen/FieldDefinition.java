@@ -33,11 +33,47 @@ public class FieldDefinition {
 
     private String collectionItemName;
 
+    private boolean hasListResponse;
+    private boolean hasMapResponse;
+    private boolean hasSetResponse;
+    
+    
+	public boolean isHasListResponse() {
+		return hasListResponse;
+	}
+
+	public void setHasListResponse(boolean hasListResponse) {
+		this.hasListResponse = hasListResponse;
+	}
+
+	public boolean isHasMapResponse() {
+		return hasMapResponse;
+	}
+
+	public void setHasMapResponse(boolean hasMapResponse) {
+		this.hasMapResponse = hasMapResponse;
+	}
+
+	public boolean isHasSetResponse() {
+		return hasSetResponse;
+	}
+
+	public void setHasSetResponse(boolean hasSetResponse) {
+		this.hasSetResponse = hasSetResponse;
+	}
+
 	public String getReturnType() {
 		return returnType;
 	}
 	
 	public void setReturnType(String returnType) {
+		if(returnType.startsWith("List")){
+		    hasListResponse = true;
+		}else if(returnType.startsWith("Set")){
+			hasSetResponse = true;
+		}else if(returnType.startsWith("Map")){
+			hasMapResponse = true;
+		}
 		this.returnType = returnType;
 	}
 	

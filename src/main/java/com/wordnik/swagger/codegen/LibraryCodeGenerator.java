@@ -19,7 +19,6 @@ import com.wordnik.swagger.codegen.api.SwaggerResourceDocReader;
 import com.wordnik.swagger.codegen.config.*;
 import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.config.common.CamelCaseNamingPolicyProvider;
-import com.wordnik.swagger.codegen.config.java.JavaDataTypeMappingProvider;
 import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 import com.wordnik.swagger.codegen.resource.*;
 import org.antlr.stringtemplate.StringTemplate;
@@ -55,9 +54,14 @@ public class LibraryCodeGenerator {
     protected DataTypeMappingProvider dataTypeMappingProvider;
     protected RulesProvider codeGenRulesProvider;
     protected NamingPolicyProvider nameGenerator;
+    
+    public LibraryCodeGenerator(){}
 
     public LibraryCodeGenerator(String configPath){
-
+    	initializeWithConfigPath(configPath);
+    }
+    
+    protected void initializeWithConfigPath(String configPath){
         final ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -65,14 +69,15 @@ public class LibraryCodeGenerator {
         this.setApiConfig(readApiConfiguration(configPath, mapper, configFile));
         this.setCodeGenRulesProvider(readRulesProviderConfig(configPath, mapper, configFile));
         this.setLanguageConfig( initializeLangConfig(readLanguageConfiguration(configPath, mapper, configFile)) );
-
-        this.setDataTypeMappingProvider(new JavaDataTypeMappingProvider());
-        this.setNameGenerator(new CamelCaseNamingPolicyProvider());
     }
 
     public LibraryCodeGenerator(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
                                 String classOutputDir, String libraryHome){
-
+        initialize(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, libraryHome);
+    }
+    
+    protected void initialize(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
+                                String classOutputDir, String libraryHome){
         final ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         ApiConfiguration aApiConfiguration = new ApiConfiguration();
@@ -88,11 +93,8 @@ public class LibraryCodeGenerator {
         aLanguageConfiguration.setLibraryHome(libraryHome);
         initializeLangConfig(aLanguageConfiguration);
         this.setLanguageConfig(aLanguageConfiguration);
-
-        this.setDataTypeMappingProvider(new JavaDataTypeMappingProvider());
-        this.setNameGenerator(new CamelCaseNamingPolicyProvider());
     }
-
+    
     /**
      * Generate classes needed for the model and API invocation
      */
@@ -354,7 +356,7 @@ public class LibraryCodeGenerator {
                 template.setAttribute("extends", config.getServiceBaseClass(className));
 
                 File aFile = new File(languageConfig.getResourceClassLocation()+ resource.generateClassName(nameGenerator) +languageConfig.getClassFileExtension());
-                writeFile(aFile, template.toString(), "API CLasses");
+                writeFile(aFile, template.toString(), "API Classes");
             }catch(RuntimeException t){
                 System.out.println("Failed generating api class for the resource : " + resource.getResourcePath());
                 throw t;

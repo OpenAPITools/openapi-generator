@@ -303,6 +303,13 @@ public class EndpointOperation {
 			method.setMethodType(this.getHttpMethod());
 			
 			//get return value
+			String returnType = dataTypeMapper.getClassType(responseClass, false);
+			if("".equals(returnType)){
+				method.setHasResponseValue(false);
+			}
+			else{
+				method.setHasResponseValue(true);
+			}
 			method.setReturnValue(dataTypeMapper.getClassType(responseClass, false));
 			method.setReturnClassName(dataTypeMapper.getGenericType(responseClass));
 
