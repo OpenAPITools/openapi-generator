@@ -81,7 +81,7 @@ $endif$
 $if(method.inputModel)$        
 $method.queryParameters:{ argument |
         if(null != $argument.inputModelClassArgument$ && null != $argument.methodNameFromModelClass$ ) {
-             queryParams += "$argument.name$" -> $argument.methodNameFromModelClass$)
+             queryParams += "$argument.name$" -> $argument.methodNameFromModelClass$
         }
 }$
 $method.pathParameters:{ argument |
