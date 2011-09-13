@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,7 @@ public class APITestRunner {
 	private static String CONDITION_LESSER = "<";
 	private static String CONDITION_GREATER_EQUAL = ">=";
 	private static String CONDITION_LESSER_EQUAL = "<=";
-	
+
 	private TestOutput testCaseOutput = new TestOutput();
 	private TestStatus testStatus = new TestStatus();
 	private Object testData = null;
@@ -123,6 +125,13 @@ public class APITestRunner {
         }
 
         ApiKeyAuthTokenBasedSecurityHandler securityHandler = new ApiKeyAuthTokenBasedSecurityHandler(apiKey, "");
+        if(language.equals(AS3)){
+            DateFormat myDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+            mapper.getSerializationConfig().setDateFormat(myDateFormat);
+            mapper.getDeserializationConfig().setDateFormat(myDateFormat);
+            APIInvoker.mapper.getSerializationConfig().setDateFormat(myDateFormat);
+            APIInvoker.mapper.getDeserializationConfig().setDateFormat(myDateFormat);
+        }
         APIInvoker.initialize(securityHandler, apiServer, true);
 		APITestRunner runner = new APITestRunner();
         runner.initialize(testScriptLocation, testDataLocation, testDataClass);
@@ -537,6 +546,20 @@ public class APITestRunner {
         }else if (language.equals(ANDROID)){
             command.add("../android/driver-test/bin/runandroid.sh");
             command.add("com.wordnik.swagger.testframework.JavaTestCaseExecutor");
+        }else if (language.equals(AS3)){
+            command.add("./bin/runas3TestCase.sh");
+            command.add("com.wordnik.swagger.testframework.AS3TestCaseExecutor");
+
+            if(postData == null){
+                postData = "\"\"";
+            }
+            else{
+                postData = "\"" + postData + "\"";
+            }
+
+            if(queryAndPathParams == null || queryAndPathParams.equals("")){
+                queryAndPathParams = "\"\"";
+            }
         }
 
         command.addAll(getCommandInputs(apiServer, apiPackageName, apiKey, authToken, resource, httpMethod,

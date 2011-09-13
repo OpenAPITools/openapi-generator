@@ -5,11 +5,15 @@
     <!-- import our build properties file -->
     <property file="./build.properties"/>
 	<property environment="env"/>
-	<property name="FLEX_HOME" value="${env.SDK_HOME}"/>
+	<property name="FLEX_HOME" value="${FLEX4_SDK_HOME}"/>
+	<property name="FLEX4_HOME" value="${FLEX4_SDK_HOME}"/>
 
+    <!--<property name="flexunit.swc" value="../lib/ext/flexunit-4.1.0_RC2-28-flex_3.5.0.12683.swc" />
+    <property name="flexunit-uilistener.swc" value="../lib/ext/flexunit-uilistener-4.1.0_RC2-28-flex_3.5.0.12683.swc" />
+    <property name="flexunit-cilistener.swc" value="../lib/ext/flexunit-cilistener-4.1.0_RC2-28-flex_3.5.0.12683.swc" />-->
 
     <!-- Flex Ant Tasks used to perform compc and mxml compiling more info at http://labs.adobe.com/wiki/index.php/Flex_Ant_Tasks -->
-    <taskdef resource="flexTasks.tasks" classpath="${env.SDK_HOME}/ant/lib/flexTasks.jar"/>
+    <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
 
     <target name="setup" description="perform an setup operations"/>
 
@@ -127,5 +131,52 @@
 	  	
 	  	<zip destfile="sample-as3-sdk.zip" basedir="${basedir}/dist" />
 	</target>
+
+    <!-- Compiles and creates a test app that can be run using the adl - AIR Debug Launcher from command line
+        Note: For the output file to be executed an xml file is needed which points to this output swf - this is not
+        generated here
+    -->
+    <target name="compile-test" depends="buildSWC">
+        <property name="FLEX_HOME" value="${FLEX4_SDK_HOME}"/>
+        <mxmlc
+            static-rsls="false"
+            fork="true"
+            maxmemory="512m"
+            file="${testsourcepath}/AirExecutorApp.mxml"
+            output="${basedir}/${liboutputfolder}/AirExecutorApp.swf"
+            warnings="false"
+            configname="air"
+            locale="en_US">
+            <load-config filename="${FLEX4_HOME}/frameworks/air-config.xml"/>
+            <source-path path-element="${FLEX_HOME}/frameworks"/>
+
+            <compiler.debug>true</compiler.debug>
+
+
+            <source-path path-element="${testsourcepath}" />
+            <!--<source-path path-element="${APP_ROOT}/locale/{locale}" />-->
+
+            <library-path dir="${FLEX_HOME}/frameworks/libs" append="true">
+                <include name="*.swc" />
+            </library-path>
+            <library-path dir="${FLEX_HOME}/frameworks/libs/air" append="true">
+                <include name="*.swc" />
+            </library-path>
+            <library-path dir="${FLEX_HOME}/frameworks/locale" append="true">
+                <include name="{locale}" />
+            </library-path>
+            <library-path dir="${basedir}/${libpath}" append="true">
+                <include name="*.swc" />
+            </library-path>
+            <library-path dir="${basedir}/${liboutputfolder}" append="true">
+                <include name="*.swc" />
+            </library-path>
+            <library-path dir="${basedir}/${libpath}/ext" append="true">
+                <include name="*.swc" />
+            </library-path>
+
+            <verbose-stacktraces>true</verbose-stacktraces>
+        </mxmlc>
+    </target>
 
 </project>

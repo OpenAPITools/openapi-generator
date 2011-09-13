@@ -1,5 +1,7 @@
 package $packageName$ {
 
+import com.wordnik.swagger.api.*;
+
 $imports:{ import |
 import $import$;
 }$
