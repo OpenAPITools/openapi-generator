@@ -310,6 +310,7 @@ public class EndpointOperation {
 			else{
 				method.setHasResponseValue(true);
 			}
+            method.setReturnValueFromOperationJson(responseClass);
 			method.setReturnValue(dataTypeMapper.getClassType(responseClass, false));
 			method.setReturnClassName(dataTypeMapper.getGenericType(responseClass));
 

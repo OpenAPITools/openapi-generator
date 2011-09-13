@@ -31,7 +31,9 @@ public class ResourceMethod {
 	private List<MethodArgument> queryParameters;
 	
 	private List<MethodArgument> pathParameters;
-	
+
+    private String returnValueFromOperationJson;
+
 	private String returnValue;
 	
 	private String returnClassName;
@@ -112,6 +114,14 @@ public class ResourceMethod {
 
 	public void setReturnValue(String returnValue) {
 		this.returnValue = returnValue;
+	}
+
+	public String getReturnValueFromOperationJson() {
+		return returnValueFromOperationJson;
+	}
+
+	public void setReturnValueFromOperationJson(String returnValue) {
+		this.returnValueFromOperationJson = returnValue;
 	}
 
 	public String getReturnClassName() {
@@ -206,7 +216,7 @@ public class ResourceMethod {
 	}
 	
 	public boolean isReturnValueList() {
-		if(this.getReturnValue().startsWith("List")){
+		if(this.getReturnValueFromOperationJson().startsWith("List")){
 			return true;
 		}
 		return false;
