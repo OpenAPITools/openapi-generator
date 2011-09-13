@@ -46,7 +46,7 @@ This will create the swagger-codegen library in your build folder.
 
 for example:
 <pre>
-./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver.model generated-files
+./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver generated-files
 </pre>
 
 The main class for the generator is at src/main/java/com/wordnik/swagger/codegen/config/java/JavaLibCodeGen.java
