@@ -310,6 +310,7 @@ public class EndpointOperation {
 			else{
 				method.setHasResponseValue(true);
 			}
+            //set the original response name, this is used in identifying if the respone is single valued or multi valued
             method.setReturnValueFromOperationJson(responseClass);
 			method.setReturnValue(dataTypeMapper.getClassType(responseClass, false));
 			method.setReturnClassName(dataTypeMapper.getGenericType(responseClass));

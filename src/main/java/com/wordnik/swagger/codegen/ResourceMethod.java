@@ -32,6 +32,7 @@ public class ResourceMethod {
 	
 	private List<MethodArgument> pathParameters;
 
+    //set the original response name, this is used in identifying if the respone is single valued or multi valued
     private String returnValueFromOperationJson;
 
 	private String returnValue;
