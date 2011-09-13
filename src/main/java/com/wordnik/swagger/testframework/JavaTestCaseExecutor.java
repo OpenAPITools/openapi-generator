@@ -77,7 +77,7 @@ public class JavaTestCaseExecutor {
         queryAndPathParameters.put("authToken", authToken);
 
         ApiKeyAuthTokenBasedSecurityHandler securityHandler = new ApiKeyAuthTokenBasedSecurityHandler(apiKey, authToken);
-        APIInvoker.initialize(securityHandler, apiServer, true);
+        APIInvoker aAPIInvoker = APIInvoker.initialize(securityHandler, apiServer, true);
 
         runner.executeTestCase(resource, servicePackageName, suggestedMethodName, queryAndPathParameters, postData);
 

@@ -46,6 +46,8 @@ import $import$;
  */
 public class $resource$ extends $extends$ {
 
+    private static APIInvoker apiInvoker = null;
+
 $methods:{ method |
 	/**
 	 * $method.title$
@@ -97,11 +99,11 @@ $method.pathParameters:{ argument |
 $endif$	
 		//make the API Call
 $if(method.postObject)$
-		String response = APIInvoker.invokeAPI(resourcePath, method, queryParams, postData);
+		String response = getApiInvoker().invokeAPI(resourcePath, method, queryParams, postData);
 $endif$
 
 $if(!method.postObject)$
-		String response = APIInvoker.invokeAPI(resourcePath, method, queryParams, null);
+		String response = getApiInvoker().invokeAPI(resourcePath, method, queryParams, null);
 $endif$
 
 $if(!method.responseVoid)$
@@ -110,13 +112,13 @@ $if(!method.responseVoid)$
         }
 $if(!method.returnValueList)$
 		//create output objects if the response has more than one object
-		$method.returnValue$ responseObject = ($method.returnValue$) APIInvoker.deserialize(response, $method.returnClassName$.class);
+		$method.returnValue$ responseObject = ($method.returnValue$) getApiInvoker().deserialize(response, $method.returnClassName$.class);
 		return responseObject;
 $endif$		
 $if(method.returnValueList)$
         TypeReference<ArrayList<$method.returnClassName$>> typeRef = new TypeReference<ArrayList<$method.returnClassName$>>() {};
         try {
-            List<$method.returnClassName$> responseObject = (List<$method.returnClassName$>) APIInvoker.mapper.readValue(response, typeRef);
+            List<$method.returnClassName$> responseObject = (List<$method.returnClassName$>) getApiInvoker().mapper.readValue(response, typeRef);
             return responseObject;
         } catch (IOException ioe) {
         	String[] args = new String[]{response, typeRef.toString()};
@@ -127,5 +129,16 @@ $endif$
 	 }
 
 }$
+
+    public static APIInvoker getApiInvoker() {
+        if(apiInvoker == null){
+            apiInvoker = APIInvoker.getApiInvoker();
+        }
+        return apiInvoker;
+    }
+
+    public static void setApiInvoker(APIInvoker invoker) {
+        apiInvoker = invoker;
+    }
 
 }

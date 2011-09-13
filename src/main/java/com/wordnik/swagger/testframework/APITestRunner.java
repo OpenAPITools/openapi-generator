@@ -112,7 +112,8 @@ public class APITestRunner {
         String apiKey = args[1];
         String testScriptLocation = args[2];
         String testDataLocation = args[3];
-        String testDataClass = args[4];
+        String testDataClass = args[4].trim();
+        System.out.println("class"+testDataClass+"test");
         String apiPackageName = args[5];
         String libraryLocation = args[6];
         String language = args[7];
@@ -123,7 +124,7 @@ public class APITestRunner {
         }
 
         ApiKeyAuthTokenBasedSecurityHandler securityHandler = new ApiKeyAuthTokenBasedSecurityHandler(apiKey, "");
-        APIInvoker.initialize(securityHandler, apiServer, true);
+        APIInvoker aAPIInvoker = APIInvoker.initialize(securityHandler, apiServer, true);
 		APITestRunner runner = new APITestRunner();
         runner.initialize(testScriptLocation, testDataLocation, testDataClass);
         runner.runTests(apiServer, apiPackageName, runner.getTestPackage(), language, new Integer(suiteId), apiPackageName, securityHandler, libraryLocation);

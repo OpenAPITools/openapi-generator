@@ -50,11 +50,13 @@ import com.sun.jersey.api.client.filter.LoggingFilter;
  */
 public class APIInvoker {
 
-	private static String apiServer = "http://api.wordnik.com/v4";
-	private static SecurityHandler securityHandler = null;
-	private static boolean loggingEnabled;
-	private static Logger logger = null;
-	
+	private String apiServer = "http://api.wordnik.com/v4";
+	private SecurityHandler securityHandler = null;
+	private boolean loggingEnabled;
+	private Logger logger = null;
+	private static APIInvoker apiInvoker = null;
+
+
 	protected static String POST = "POST";
 	protected static String GET = "GET";
 	protected static String PUT = "PUT";
@@ -77,22 +79,33 @@ public class APIInvoker {
 	 * 						for more details. {@link com.sun.jersey.api.client.filter.LoggingFilter}. Default output is sent to system.out.
 	 * 						Create a logger ({@link java.util.logging.Logger} class and set using setLogger method.
 	 */
-	public static void initialize(SecurityHandler securityHandler, String apiServer, boolean enableLogging) {
-		setSecurityHandler(securityHandler);
+	public static APIInvoker initialize(SecurityHandler securityHandler, String apiServer, boolean enableLogging) {
+        APIInvoker invoker = new APIInvoker();
+		invoker.setSecurityHandler(securityHandler);
 		if(apiServer != null && apiServer.length() > 0) {
 			if(apiServer.substring(apiServer.length()-1).equals("/")){
 				apiServer = apiServer.substring(0, apiServer.length()-1);
 			}
-			setApiServer(apiServer);
+			invoker.setApiServer(apiServer);
 		}
-		loggingEnabled = enableLogging;
+		invoker.setLoggingEnable(enableLogging);
+        apiInvoker = invoker;
+        return invoker;
 	}
-	
+
+    /**
+     * Returns lst initialized API invoker
+     * @return
+     */
+    public static APIInvoker getApiInvoker(){
+        return apiInvoker;
+    }
+
 	/**
 	 * Set the logger instance used for Jersey logging. 
 	 * @param aLogger
 	 */
-	public static void setLogger(Logger aLogger) {
+	public void setLogger(Logger aLogger) {
 		logger = aLogger; 
 	}
 	
@@ -101,11 +114,11 @@ public class APIInvoker {
 	 * This value is set using initialize method. 
 	 * @return
 	 */
-	public static SecurityHandler setSecurityHandler() {
+	public SecurityHandler setSecurityHandler() {
 		return securityHandler;
 	}
 
-	private static void setSecurityHandler(SecurityHandler aSecurityHandler) {
+	private void setSecurityHandler(SecurityHandler aSecurityHandler) {
 		securityHandler = aSecurityHandler;
 	}
 
@@ -113,11 +126,11 @@ public class APIInvoker {
 	 * Sets the URL for the API server. It is defaulted to the server used while building the driver.
 	 * @return 
 	 */
-	private static String getApiServer() {
+	private String getApiServer() {
 		return apiServer;
 	}
 
-	public static void setApiServer(String server) {
+	public void setApiServer(String server) {
 		apiServer = server;
 	}
 	
@@ -135,7 +148,7 @@ public class APIInvoker {
 	 * @return JSON response of the API call. 
 	 * @throws com.wordnik.swagger.runtime.exception.APIException if the call to API server fails.
 	 */
-	public static String invokeAPI(String resourceURL, String method, Map<String,
+	public String invokeAPI(String resourceURL, String method, Map<String,
             String> queryParams, Object postData) throws APIException {
 
 
@@ -278,7 +291,12 @@ public class APIInvoker {
         return out.toString();
     }
 
-    public static boolean isLoggingEnable() {
+    public boolean isLoggingEnable() {
         return loggingEnabled;
     }
+
+    public void setLoggingEnable(boolean enabled) {
+        loggingEnabled = enabled;
+    }
+
 }
