@@ -1,6 +1,7 @@
 package test
 {
 	import com.adobe.serialization.json.JSON;
+    import com.adobe.utils.DateUtil;
     import com.wordnik.swagger.common.ApiInvoker;
 	import com.wordnik.swagger.common.ApiUserCredentials;
 	import com.wordnik.swagger.common.SwaggerApi;
@@ -281,9 +282,8 @@ package test
 					}
 					
 					if(property.@type == "Date"){
-						var dateValue:Date = new Date();
-						dateValue.setTime( Date.parse( obj[property.@name] ) );
-						returnObject[property.@name] = dateValue;	
+                        var dateValue:Date = DateUtil.parseW3CDTF( obj[property.@name] );
+                        returnObject[property.@name] = dateValue;
 					}
 					
 					if( !isPrimitiveType( property.@type )){

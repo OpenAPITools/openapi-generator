@@ -144,8 +144,7 @@ public class AS3TestCaseExecutor {
         else{
             mapper.writeValue(System.out, o.get("errorMessage"));
         }
-        //from.delete();
-        //System.out.println("SUCCESS");
+        from.delete();
     }
 
     /**

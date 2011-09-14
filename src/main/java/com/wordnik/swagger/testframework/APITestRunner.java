@@ -33,8 +33,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,13 +123,6 @@ public class APITestRunner {
         }
 
         ApiKeyAuthTokenBasedSecurityHandler securityHandler = new ApiKeyAuthTokenBasedSecurityHandler(apiKey, "");
-        if(language.equals(AS3)){
-            DateFormat myDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
-            mapper.getSerializationConfig().setDateFormat(myDateFormat);
-            mapper.getDeserializationConfig().setDateFormat(myDateFormat);
-            APIInvoker.mapper.getSerializationConfig().setDateFormat(myDateFormat);
-            APIInvoker.mapper.getDeserializationConfig().setDateFormat(myDateFormat);
-        }
         APIInvoker.initialize(securityHandler, apiServer, true);
 		APITestRunner runner = new APITestRunner();
         runner.initialize(testScriptLocation, testDataLocation, testDataClass);
@@ -555,10 +546,6 @@ public class APITestRunner {
             }
             else{
                 postData = "\"" + postData + "\"";
-            }
-
-            if(queryAndPathParams == null || queryAndPathParams.equals("")){
-                queryAndPathParams = "\"\"";
             }
         }
 
