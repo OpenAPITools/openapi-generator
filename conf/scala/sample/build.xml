@@ -36,6 +36,12 @@
 	<!-- this is the output module -->
 	<property name="module" value="${ant.project.name}" />
 
+    <target name="jar" description="creates jar file " depends="build.all">
+	 <jar jarfile="build/${release.module}-${release.version}.${artifact.ext}">
+            <fileset dir="build/main/java" />
+        </jar>
+     </target>
+	
 	<target name="build.all" depends="clean, resolve, fastcompile" description="builds the module (default target)" />
 
 	<target name="clean" description="cleans the project folder">
@@ -62,15 +68,6 @@
 		</delete>
 	</target>
 
-	<!-- copies ONLY the swagger-sample jar to dist-->
-	<target name="fastdist" depends="fastcompile">
-		<copy todir="dist/lib">
-			<fileset dir="build">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-	</target>
-
 	<!-- copies all dependencies into the lib folder -->
 	<target name="resolve" description="retreive dependencies with ivy">
 		<ivy:retrieve pattern="${basedir}/lib/[artifact]-[revision].[ext]" conf="build" />
@@ -94,7 +91,6 @@
 			</classpath>
 		</javac>
 
-
         <scalac srcdir="src/main/java:src/main/scala" destdir="build/main/java">
             <classpath>
                 <pathelement location="build/main/java" />
@@ -115,14 +111,7 @@
 		</jar>
 	</target>
 
-	<!-- cleans up the dist -->
-	<target name="dist.clean" description="cleans the distribution folder">
-		<delete quiet="true" dir="dist" />
-		<delete quiet="true" file="dist.zip" />
-	</target>
-
 	<target name="dependency.tree" description="builds a graphml dependency diagram for viewing with yEd">
 		<ivy:report conf="build" graph="true" todir="." outputpattern="[artifact]-[revision].[ext]" />
 	</target>
-
 </project>
