@@ -24,25 +24,15 @@ import com.wordnik.swagger.codegen.exception.CodeGenerationException;
  * Time: 8:01 AM
  */
 public class LanguageConfiguration {
-
     private String classFileExtension;
-
     private String templateLocation;
-
     private String structureLocation;
-
     private String libraryHome;
-
     private String modelClassLocation;
-
     private String resourceClassLocation;
-
     private String exceptionPackageName;
-
     private String annotationPackageName;
-
     private boolean isModelEnumRequired = true;
-
     private boolean isOutputWrapperRequired = false;
 
     public String getClassFileExtension() {
@@ -129,4 +119,17 @@ public class LanguageConfiguration {
     public boolean isOutputWrapperRequired() {
         return isOutputWrapperRequired;
     }
+
+	@Override
+	public String toString() {
+		return "LanguageConfiguration [classFileExtension="
+				+ classFileExtension + ", templateLocation=" + templateLocation
+				+ ", structureLocation=" + structureLocation + ", libraryHome="
+				+ libraryHome + ", modelClassLocation=" + modelClassLocation
+				+ ", resourceClassLocation=" + resourceClassLocation
+				+ ", exceptionPackageName=" + exceptionPackageName
+				+ ", annotationPackageName=" + annotationPackageName
+				+ ", isModelEnumRequired=" + isModelEnumRequired
+				+ ", isOutputWrapperRequired=" + isOutputWrapperRequired + "]";
+	}
 }

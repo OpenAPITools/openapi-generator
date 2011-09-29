@@ -21,44 +21,25 @@ import com.wordnik.swagger.codegen.resource.Model;
 import java.util.List;
 
 public class ResourceMethod {
-
     private String title;
-
 	private String description;
-
 	private List<MethodArgument> arguments;
-	
 	private List<MethodArgument> queryParameters;
-	
 	private List<MethodArgument> pathParameters;
-
-    //set the original response name, this is used in identifying if the respone is single valued or multi valued
+    //set the original response name, this is used in identifying if the response is single valued or multi valued
     private String returnValueFromOperationJson;
-
 	private String returnValue;
-	
 	private String returnClassName;
-	
 	private String exceptionDescription;
-	
 	private List<String> argumentDefinitions;
-	
 	private List<String> argumentNames;	
-	
 	private String name;
-	
 	private boolean authToken;
-	
 	private String resourcePath;
-	
 	private String methodType;
-	
 	private boolean postObject;
-	
 	private Model inputModel;
-
     private Model listWrapperModel;
-    
     private boolean hasResponseValue;
     
 	public boolean isHasResponseValue(){

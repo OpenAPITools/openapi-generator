@@ -24,11 +24,8 @@ import java.util.List;
  * Time: 8:31 AM
  */
 public class Model {
-
     private String name;
-    
     private String description;
-
     private List<ModelField> fields;
 
 	public String getName() {

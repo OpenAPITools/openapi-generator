@@ -93,15 +93,15 @@ $endif$
         //make the API Call
 $if(method.hasResponseValue)$
 	$if(method.postObject)$
-        val response = APIInvoker.invokeAPI(resourcePath, method, queryParams, postData)
+        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData)
 	$else$
-        val response = APIInvoker.invokeAPI(resourcePath, method, queryParams, null)
+        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null)
 	$endif$
 $else$
 	$if(method.postObject)$
-        APIInvoker.invokeAPI(resourcePath, method, queryParams, postData)
+        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData)
 	$else$
-        APIInvoker.invokeAPI(resourcePath, method, queryParams, null)
+        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null)
 	$endif$
 $endif$
 $if(!method.responseVoid)$

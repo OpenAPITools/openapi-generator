@@ -59,12 +59,12 @@ class ScalaLibCodeGen(
   libraryHome: String,
   configPath: String) extends LibraryCodeGenerator {
 
+  this.reservedWordMapper = new ScalaReservedWordMapper
   if (null != configPath) {
     initializeWithConfigPath(configPath)
     this.setDataTypeMappingProvider(new ScalaDataTypeMappingProvider())
     this.setNameGenerator(new CamelCaseNamingPolicyProvider())
-  }
-  else{
+  } else {
     initialize(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, libraryHome)
     setDataTypeMappingProvider(new ScalaDataTypeMappingProvider())
     setNameGenerator(new CamelCaseNamingPolicyProvider())

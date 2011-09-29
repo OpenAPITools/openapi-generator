@@ -20,17 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FieldDefinition {
-
 	private String returnType;
-	
 	private String name;
-	
 	private String initialization;
-	
 	private List<String> importDefinitions = new ArrayList<String>();
-
     private String collectionItemType;
-
     private String collectionItemName;
 
     private boolean hasListResponse;
@@ -80,7 +74,7 @@ public class FieldDefinition {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}

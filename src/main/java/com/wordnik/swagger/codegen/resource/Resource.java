@@ -32,10 +32,8 @@ import java.util.Map;
  * Time: 7:01 PM
  */
 public class Resource {
-	
 	private String apiVersion;
 
-    //TODO rename the JSON property too after the sandbox var has been renamed
     @JsonProperty("swaggerVersion")
     private String swaggerVersion;
 
@@ -48,11 +46,8 @@ public class Resource {
     @JsonProperty("models")
     private ApiModelListWrapper modelListWrapper;
 
-    
     private List<Model> models = new ArrayList<Model>();    
-
     private String generatedClassName;
-    
     private List<ResourceMethod> methods;
 
     @JsonCreator
@@ -117,13 +112,13 @@ public class Resource {
 	}*/
     
 	public String generateClassName(NamingPolicyProvider nameGenerator) {
-		if (generatedClassName == null) {
+		if (generatedClassName == null && endPoints.size() > 0) {
 			String endPointPath = endPoints.get(0).getPath();
 			generatedClassName = nameGenerator.getServiceName(endPointPath);
-		}	
+		}
 		return generatedClassName;
 	}
-	
+
 	public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper, NamingPolicyProvider nameGenerator) {
 		if(methods == null){
 			methods = new ArrayList<ResourceMethod>();
@@ -146,7 +141,5 @@ public class Resource {
                 models.add (modelDefn.toModel(modelName, nameGenerator) );
             }
         }
-
     }
-	
 }
