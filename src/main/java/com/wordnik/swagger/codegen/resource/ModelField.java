@@ -31,29 +31,17 @@ import java.util.StringTokenizer;
  * Time: 7:57 AM
  */
 public class ModelField {
-	
     private String name;
-
     private String wrapperName;
-    
     private String description = "";
-
     private String defaultValue;
-
     private boolean required = false;
-
     private boolean allowMultiple = false;
-
     private List<String> allowableValues = null;
-
     private String paramType;
-
     private String dataType;
-
     private String internalDescription;
-
     private String paramAccess;
-
     private FieldDefinition fieldDefinition;
     
 	public String getName() {
