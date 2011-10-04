@@ -52,15 +52,30 @@ public class LanguageConfiguration {
     }
 
     public void setOutputDirectory(String outputDirectory) {
-
         if(outputDirectory == null || outputDirectory.length() == 0){
             throw new CodeGenerationException("Error creating output path : Output path was null ");
         }
         outputDirectory = outputDirectory.endsWith("/") ? outputDirectory.substring(0, outputDirectory.lastIndexOf("/")) : outputDirectory;
 
-
         this.modelClassLocation = outputDirectory + "/model/";
         this.resourceClassLocation = outputDirectory + "/api/";
+    }
+
+    public void setOutputDirectory(String outputDirectory, String modelDirectory, String resourceDirectory){
+        if(outputDirectory == null || outputDirectory.length() == 0){
+            throw new CodeGenerationException("Error creating output path : Output path was null ");
+        }
+        outputDirectory = outputDirectory.endsWith("/") ? outputDirectory.substring(0, outputDirectory.lastIndexOf("/")) : outputDirectory;
+
+        //	add leading + trailing slashes
+        if(!modelDirectory.startsWith("/")) modelDirectory = "/" + modelDirectory;
+        if(!modelDirectory.endsWith("/")) modelDirectory = modelDirectory + "/";
+
+        if(!resourceDirectory.startsWith("/")) resourceDirectory = "/" + resourceDirectory;
+        if(!resourceDirectory.endsWith("/")) resourceDirectory = resourceDirectory + "/";
+
+        this.modelClassLocation = outputDirectory + modelDirectory;
+        this.resourceClassLocation = outputDirectory + resourceDirectory;
     }
 
     public String getModelClassLocation() {
