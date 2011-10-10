@@ -24,15 +24,29 @@ public class MethodArgument {
 	public static String ARGUMENT_OBJECT = "Object";
 	
 	private String name;
-	
 	private String description;
-	
 	private String dataType;
-	
 	private String allowedValues;
-
 	private String inputModelClassArgument;
     private String methodNameFromModelClass;
+    private String defaultValue;
+    private boolean required;
+
+    public String getDefaultValue(){
+    	return defaultValue;
+    }
+    
+    public void setDefaultValue(String defaultValue){
+    	this.defaultValue = defaultValue;
+    }
+
+    public boolean isRequired() {
+    	return required;
+    }
+
+    public void setRequired(boolean required){
+    	this.required = required;
+    }
 
 	public String getName() {
 		return name;

@@ -30,7 +30,6 @@ import java.util.List;
  * Time: 7:54 AM
  */
 public class EndpointOperation {
-
 	public static String PARAM_TYPE_QUERY = "query";
 	public static String PARAM_TYPE_PATH = "path";
 	public static String PARAM_TYPE_BODY = "body";
@@ -41,7 +40,9 @@ public class EndpointOperation {
 	private static String API_KEY_PARAM_NAME = "api_key";	
 	private static String FORMAT_PARAM_NAME = "format";	
 	
-	private static String AUTH_TOKEN_ARGUMENT_NAME = "authToken";	
+	private static String AUTH_TOKEN_ARGUMENT_NAME = "authToken";
+	
+	private static int ARG_COUNT_FOR_INPUT_MODEL = 4;
 	
     private String httpMethod;
 
@@ -64,6 +65,14 @@ public class EndpointOperation {
     private String nickname;
 
     private List<ErrorResponse> errorResponses;
+    
+    public static int getArgCountForInputModel(){
+    	return ARG_COUNT_FOR_INPUT_MODEL;
+    }
+    
+    public static void setArgCountForInputModel(int argCount){
+    	ARG_COUNT_FOR_INPUT_MODEL = argCount;
+    }
 
     public List<ErrorResponse> getErrorResponses() {
         return errorResponses;
@@ -221,6 +230,8 @@ public class EndpointOperation {
 							anArgument.setName(AUTH_TOKEN_ARGUMENT_NAME);
 							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
 							anArgument.setDescription(modelField.getDescription());
+							anArgument.setRequired(modelField.isRequired());
+							anArgument.setDefaultValue(modelField.getDefaultValue());
 							arguments.add(anArgument);
 						}else if(modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
 								modelField.getName().equals(API_KEY_PARAM_NAME)){
@@ -230,12 +241,16 @@ public class EndpointOperation {
 							anArgument.setName(modelField.getName());
 							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
 							anArgument.setDescription(modelField.getDescription());
+							anArgument.setRequired(true);	//	always true
+							anArgument.setDefaultValue(modelField.getDefaultValue());
 							arguments.add(anArgument);
 							pathParams.add(anArgument);
 						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_QUERY)) {
 							anArgument.setName(modelField.getName());
 							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
 							anArgument.setDescription(modelField.getDescription());
+							anArgument.setRequired(modelField.isRequired());
+							anArgument.setDefaultValue(modelField.getDefaultValue());
 							queryParams.add(anArgument);
 							arguments.add(anArgument);
 						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_BODY)) {
@@ -245,6 +260,8 @@ public class EndpointOperation {
 							anArgument.setName(modelField.getName());
 							anArgument.setDataType(dataTypeMapper.getClassType(modelField.getDataType(), false));
 							anArgument.setDescription(modelField.getDescription());
+							anArgument.setRequired(modelField.isRequired());
+							anArgument.setDefaultValue(modelField.getDefaultValue());
 							arguments.add(anArgument);
                             method.setPostObject(true);
 						}
@@ -259,7 +276,7 @@ public class EndpointOperation {
 			}
 			
 			//check for number of arguments, if we have more than 4 then send the arguments as input object
-			if(method.getArguments() != null && method.getArguments().size() > 4){
+			if(method.getArguments() != null && method.getArguments().size() > ARG_COUNT_FOR_INPUT_MODEL){
                 List<MethodArgument> arguments = new ArrayList<MethodArgument>();
 				Model modelforMethodInput = new Model();
 				modelforMethodInput.setName(inputobjectName);
