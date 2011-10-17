@@ -268,8 +268,12 @@ public class LibraryCodeGenerator {
                                                 else{
                                                     valuePrefix = valueSuffix = "";
                                                 };
+                                                String namePrefix = "";
+                                                if(isNameStartsWithInteger(allowableValue) && !canEnumNameStartsWithNumber()){
+                                                    namePrefix = "ENUM_";
+                                                }
                                                 template.setAttribute("values.{name,value}",
-                                                        this.getNameGenerator().applyClassNamingPolicy(allowableValue.replaceAll("-","_")),
+                                                        namePrefix+this.getNameGenerator().applyClassNamingPolicy(allowableValue.replaceAll("-","_")),
                                                         this.getNameGenerator().applyMethodNamingPolicy(valuePrefix.concat(allowableValue).concat(valueSuffix)));
                                             }
                                             template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
@@ -286,6 +290,15 @@ public class LibraryCodeGenerator {
             }
 
         }
+    }
+
+    private boolean isNameStartsWithInteger(String name) {
+        for(int i=0; i <= 9 ; i++){
+            if(name.startsWith(i+"")){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void generateOutputWrappers(List<Resource> resources, StringTemplateGroup templateGroup) {
@@ -480,6 +493,14 @@ public class LibraryCodeGenerator {
 
     public NamingPolicyProvider getNameGenerator() {
         return nameGenerator;
+    }
+
+    /**
+     * In java enum names can't start with number so if the enums are numbers then we prefix them with ENUM_
+     * @return
+     */
+    protected boolean canEnumNameStartsWithNumber() {
+        return true;
     }
 
     protected CodeGenRulesProvider readRulesProviderConfig(String rulesProviderLocation, ObjectMapper mapper, File configFile) {

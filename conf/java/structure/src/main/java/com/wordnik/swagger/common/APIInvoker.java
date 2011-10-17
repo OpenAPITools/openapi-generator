@@ -131,16 +131,16 @@ public class APIInvoker {
 	 *
 	 * @param resourceURL - URL for the rest resource
 	 * @param method - Method we should use for communicating to the back end. 
-	 * @param postObject - if the method is POST, provide the object that should be sent as part of post request.
-	 * @return JSON response of the API call. 
-	 * @throws com.wordnik.swagger.exception.APIException if the call to API server fails.
+	 * @param postData - if the method is POST, provide the object that should be sent as part of post request.
+	 * @return JSON response of the API call.
+	 * @throws com.wordnik.swagger.runtime.exception.APIException if the call to API server fails.
 	 */
-	public static String invokeAPI(String resourceURL, String method, Map<String,
-            String> queryParams, Object postData) throws APIException {
+	public String invokeAPI(String resourceURL, String method, Map<String,
+            String> queryParams, Object postData, Map<String, String> headerParams) throws APIException {
 
 
         Client apiClient = Client.create();
-        
+
         //check for app server values
         if(getApiServer() == null || getApiServer().length() == 0) {
         	String[] args = {getApiServer()};
@@ -155,7 +155,7 @@ public class APIInvoker {
         		apiClient.addFilter(new LoggingFilter(logger));
         	}
         }
-        
+
         //make the communication
 		resourceURL = getApiServer() + resourceURL;
 		if(queryParams.keySet().size() > 0){
@@ -181,7 +181,12 @@ public class APIInvoker {
         for(String key : headerMap.keySet()){
             builder.header(key, headerMap.get(key));
         }
-        
+        if(headerParams != null){
+            for(String key : headerParams.keySet()){
+                builder.header(key, headerParams.get(key));
+            }
+        }
+
         ClientResponse clientResponse = null;
         if(method.equals(GET)) {
         	clientResponse =  builder.get(ClientResponse.class);

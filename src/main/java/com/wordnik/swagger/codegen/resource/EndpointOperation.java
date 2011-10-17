@@ -214,10 +214,13 @@ public class EndpointOperation {
 				List<MethodArgument> arguments = new ArrayList<MethodArgument>();
 				List<MethodArgument> queryParams= new ArrayList<MethodArgument>();
 				List<MethodArgument> pathParams= new ArrayList<MethodArgument>();
+                List<MethodArgument> headerParams= new ArrayList<MethodArgument>();
+
 				method.setArguments(arguments);
 				method.setQueryParameters(queryParams);
 				method.setPathParameters(pathParams);
-				
+                method.setHeaderParameters(headerParams);
+
 				for(ModelField modelField : this.getParameters()){
 					if(!argNames.contains(modelField.getName())) {
 						argNames.add(modelField.getName());
@@ -233,9 +236,14 @@ public class EndpointOperation {
 							anArgument.setRequired(modelField.isRequired());
 							anArgument.setDefaultValue(modelField.getDefaultValue());
 							arguments.add(anArgument);
+                            headerParams.add(anArgument);
 						}else if(modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
 								modelField.getName().equals(API_KEY_PARAM_NAME)){
-							//do nothing for API key parameter as all calls will automatically add API KEY to the http headers
+                            anArgument.setName(API_KEY_PARAM_NAME);
+                            anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+                            anArgument.setRequired(true);
+                            arguments.add(anArgument);
+                            headerParams.add(anArgument);
 						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_PATH) &&
 								!modelField.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)) {
 							anArgument.setName(modelField.getName());

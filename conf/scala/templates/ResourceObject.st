@@ -66,10 +66,17 @@ $endif$
         var resourcePath = "$method.resourcePath$".replace("{format}","json")
         val method = "$method.methodType$";
         var queryParams = new HashMap[String, String]
+        var headerParams = new HashMap[String, String]
+
 $if(!method.inputModel)$
 $method.queryParameters:{ argument |
         if(null != $argument.name$) {
              queryParams += "$argument.name$" -> APIInvoker.toPathValue($argument.name$)
+        }
+}$
+$method.headerParameters:{ argument |
+        if(null != $argument.name$) {
+             headerParams += "$argument.name$" -> APIInvoker.toPathValue($argument.name$)
         }
 }$
 $method.pathParameters:{ argument |
@@ -84,6 +91,11 @@ $method.queryParameters:{ argument |
              queryParams += "$argument.name$" -> $argument.methodNameFromModelClass$
         }
 }$
+$method.headerParameters:{ argument |
+        if(null != $argument.inputModelClassArgument$ && null != $argument.methodNameFromModelClass$ ) {
+             headerParams += "$argument.name$" -> $argument.methodNameFromModelClass$
+        }
+}$
 $method.pathParameters:{ argument |
         if(null != $argument.inputModelClassArgument$ && null != $argument.methodNameFromModelClass$ ) {
              resourcePath = resourcePath.replace("{$argument.name$}", $argument.methodNameFromModelClass$)    
@@ -93,15 +105,15 @@ $endif$
         //make the API Call
 $if(method.hasResponseValue)$
 	$if(method.postObject)$
-        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData)
+        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData, headerParams)
 	$else$
-        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null)
+        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
 	$endif$
 $else$
 	$if(method.postObject)$
-        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData)
+        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData, headerParams)
 	$else$
-        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null)
+        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
 	$endif$
 $endif$
 $if(!method.responseVoid)$

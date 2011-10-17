@@ -30,7 +30,7 @@ public enum $className$ {
 
     $values: { value | $value.name$($value.value$)};separator=", "$;
 
-    final $enumValueType$ value;
+    private $enumValueType$ value;
 
     $className$($enumValueType$ value) {
         this.value = value;
@@ -40,7 +40,7 @@ public enum $className$ {
         return value;
     }
 
-    @Override public String toString() {
+   @Override public String toString() {
         return String.valueOf(this.getValue());
     }
-};
+}

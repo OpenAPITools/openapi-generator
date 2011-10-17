@@ -149,7 +149,7 @@ public class APIInvoker {
 	 * @throws com.wordnik.swagger.runtime.exception.APIException if the call to API server fails.
 	 */
 	public String invokeAPI(String resourceURL, String method, Map<String,
-            String> queryParams, Object postData) throws APIException {
+            String> queryParams, Object postData, Map<String, String> headerParams) throws APIException {
 
 
         Client apiClient = Client.create();
@@ -194,7 +194,12 @@ public class APIInvoker {
         for(String key : headerMap.keySet()){
             builder.header(key, headerMap.get(key));
         }
-        
+        if(headerParams != null){
+            for(String key : headerParams.keySet()){
+                builder.header(key, headerParams.get(key));
+            }
+        }
+
         ClientResponse clientResponse = null;
         if(method.equals(GET)) {
         	clientResponse =  builder.get(ClientResponse.class);

@@ -26,6 +26,7 @@ public class ResourceMethod {
 	private List<MethodArgument> arguments;
 	private List<MethodArgument> queryParameters;
 	private List<MethodArgument> pathParameters;
+    private List<MethodArgument> headerParameters;
     //set the original response name, this is used in identifying if the response is single valued or multi valued
     private String returnValueFromOperationJson;
 	private String returnValue;
@@ -89,7 +90,16 @@ public class ResourceMethod {
 	public void setPathParameters(List<MethodArgument> pathParameters) {
 		this.pathParameters = pathParameters;
 	}
-	
+
+    public List<MethodArgument> getHeaderParameters() {
+        return headerParameters;
+    }
+
+    public void setHeaderParameters(List<MethodArgument> headerParameters) {
+        this.headerParameters = headerParameters;
+    }
+
+
 	public String getReturnValue() {
 		return returnValue;
 	}

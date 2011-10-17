@@ -17,11 +17,6 @@
  package $packageName$;
 
 
-//import $annotationPackageName$.MethodArgumentNames;
-//import $exceptionPackageName$.APIExceptionCodes;
-//import $exceptionPackageName$.APIException;
-
-
 import $modelPackageName$.*;
 
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
@@ -32,6 +27,7 @@ import com.wordnik.swagger.runtime.common.*;
 import com.wordnik.swagger.runtime.exception.*;
 
 import java.util.*;
+import java.lang.Long;
 import java.io.IOException;
 
 $imports:{ import |
@@ -73,7 +69,8 @@ $endif$
 		resourcePath = resourcePath.replace("{format}","json");
 		String method = "$method.methodType$";
 		Map<String, String> queryParams = new HashMap<String, String>();
-$if(!method.inputModel)$		
+		Map<String, String> headerParams = new HashMap<String, String>();
+$if(!method.inputModel)$
 $method.queryParameters:{ argument |
 		if( $argument.name$ != null) {
 		 	queryParams.put("$argument.name$", APIInvoker.toPathValue($argument.name$));
@@ -84,6 +81,12 @@ $method.pathParameters:{ argument |
 			resourcePath = resourcePath.replace("{$argument.name$}", $argument.name$);
 		}
 }$
+$method.headerParameters:{ argument |
+		if( $argument.name$ != null) {
+		 	headerParams.put("$argument.name$", APIInvoker.toPathValue($argument.name$));
+		}
+}$
+
 $endif$		
 $if(method.inputModel)$		
 $method.queryParameters:{ argument |
@@ -96,14 +99,19 @@ $method.pathParameters:{ argument |
 		 	resourcePath = resourcePath.replace("{$argument.name$}", $argument.methodNameFromModelClass$);	
 		}
 }$
+$method.headerParameters:{ argument |
+		if( $argument.inputModelClassArgument$ != null && $argument.methodNameFromModelClass$ != null) {
+		 	headerParams.put("$argument.name$", $argument.methodNameFromModelClass$);
+		}
+}$
 $endif$	
 		//make the API Call
 $if(method.postObject)$
-		String response = getApiInvoker().invokeAPI(resourcePath, method, queryParams, postData);
+		String response = getApiInvoker().invokeAPI(resourcePath, method, queryParams, postData, headerParams);
 $endif$
 
 $if(!method.postObject)$
-		String response = getApiInvoker().invokeAPI(resourcePath, method, queryParams, null);
+		String response = getApiInvoker().invokeAPI(resourcePath, method, queryParams, null, headerParams);
 $endif$
 
 $if(!method.responseVoid)$

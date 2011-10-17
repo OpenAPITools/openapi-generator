@@ -93,4 +93,10 @@ public class JavaLibCodeGen extends LibraryCodeGenerator {
         return javaConfiguration;
     }
 
+    @Override
+    protected boolean canEnumNameStartsWithNumber() {
+        return false;
+    }
+
+
 }
