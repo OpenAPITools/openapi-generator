@@ -251,7 +251,7 @@ public class LibraryCodeGenerator {
                             if(operation.getParameters() != null){
                                 for(ModelField operationParam : operation.getParameters()){
                                     //skipping the case where there is just one item - TODO process case of allowableValue like '0 to 1000'
-                                    if(operationParam.getAllowableValues() != null && operationParam.getAllowableValues().size() > 1) {
+                                    if(operationParam.getAllowableValues() != null && operationParam.getAllowableValues().getClass().isAssignableFrom(AllowableListValues.class)) {
                                         if(!generatedEnums.contains(operationParam.getName())){
                                             //generate enum
                                             template = templateGroup.getInstanceOf(ENUM_OBJECT_TEMPLATE);
@@ -261,7 +261,7 @@ public class LibraryCodeGenerator {
                                             template.setAttribute("className", enumName);
                                             template.setAttribute("description", operationParam.getDescription());
                                             template.setAttribute("enumValueType", this.getDataTypeMappingProvider().getClassType(operationParam.getDataType(), true));
-                                            for (String allowableValue : operationParam.getAllowableValues()) {
+                                            for (String allowableValue : ((AllowableListValues)operationParam.getAllowableValues()).getValues()) {
                                                 if(operationParam.getDataType().equalsIgnoreCase("string")){
                                                     valuePrefix = valueSuffix = "\"";
                                                 }

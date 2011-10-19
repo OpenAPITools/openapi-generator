@@ -35,15 +35,14 @@ import java.util.Map;
     "items",
     "description",
     "name",
-    "enum",
+    "allowableValues",
     "properties",
     "required",
     "notes",
     "access",
     "type"
 })
-public class    ApiPropertyDefn implements Serializable
-{
+public class ApiPropertyDefn implements Serializable {
 
     @JsonProperty("id")
     private String id;
@@ -55,8 +54,8 @@ public class    ApiPropertyDefn implements Serializable
     private String description;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("enum")
-    private List<Object> possibleValues = new ArrayList<Object>();
+    @JsonProperty("allowableValues")
+    private AllowableValues allowableValues = null;
     @JsonProperty("properties")
     private ApiPropertyListWrapper properties;
     @JsonProperty("required")
@@ -119,14 +118,14 @@ public class    ApiPropertyDefn implements Serializable
         this.name = name;
     }
 
-    @JsonProperty("enum")
-    public List<Object> getPossibleValues() {
-        return possibleValues;
+    @JsonProperty("allowableValues")
+    public AllowableValues getAllowableValues() {
+        return allowableValues;
     }
 
-    @JsonProperty("enum")
-    public void setEnum(List<Object> possibleValues) {
-        this.possibleValues = possibleValues;
+    @JsonProperty("allowableValues")
+    public void setAllowableValues(AllowableValues possibleValues) {
+        this.allowableValues = possibleValues;
     }
 
     @JsonProperty("properties")

@@ -21,10 +21,6 @@ import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.config.DataTypeMappingProvider;
 import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 /**
  * User: ramesh
  * Date: 3/31/11
@@ -37,7 +33,7 @@ public class ModelField {
     private String defaultValue;
     private boolean required = false;
     private boolean allowMultiple = false;
-    private List<String> allowableValues = null;
+    private AllowableValues allowableValues = null;
     private String paramType;
     private String dataType;
     private String internalDescription;
@@ -84,7 +80,7 @@ public class ModelField {
 		this.required = required;
 	}
 
-	public List<String> getAllowableValues() {
+	public AllowableValues getAllowableValues() {
 		return allowableValues;
 	}
 
@@ -96,32 +92,20 @@ public class ModelField {
         this.allowMultiple = allowMultiple;
     }
 
-	public void setAllowableValues(List<String> allowableValues) {
+	public void setAllowableValues(AllowableValues allowableValues) {
 		this.allowableValues = allowableValues;
 	}
 
     public String getAllowedValuesString() {
-        String result = "";
-        if (this.allowableValues != null) {
-            for(String allowedValue: this.allowableValues){
-                result += (allowedValue +",");
-            }
-        }
-        if(result.length() == 0)
+        if(this.allowableValues != null){
+            return this.allowableValues.toString();
+        }else{
             return null;
-        else
-            return result.substring(0, result.length() - 1);
+        }
     }
 
     public void setAllowedValues(String csvAlowedValue) {
-        List<String> allowedValues = new ArrayList<String>();
-        if (csvAlowedValue != null) {
-            StringTokenizer tokenizer = new StringTokenizer( csvAlowedValue, "," );
-            while(tokenizer.hasMoreTokens()){
-                tokenizer.nextToken(",");
-            }
-        }
-        this.setAllowableValues(allowedValues);
+        this.setAllowableValues(AllowableValues.ConvertAllowableValuesStringToObject(csvAlowedValue));
     }
 
 	public String getParamType() {
