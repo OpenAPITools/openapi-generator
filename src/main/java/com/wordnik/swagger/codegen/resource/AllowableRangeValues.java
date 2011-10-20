@@ -25,11 +25,9 @@ public class AllowableRangeValues extends AllowableValues {
 
     private String valueType = "RANGE";
 
-    private boolean inclusive = true;
+    private float min;
 
-    private String min;
-
-    private String max;
+    private float max;
 
     public String getValueType() {
         return valueType;
@@ -39,37 +37,25 @@ public class AllowableRangeValues extends AllowableValues {
         this.valueType = valueType;
     }
 
-    public String getMin() {
+    public float getMin() {
         return min;
     }
 
-    public void setMin(String minValue) {
+    public void setMin(float minValue) {
         this.min = minValue;
     }
 
-    public String getMax() {
+    public float getMax() {
         return max;
     }
 
-    public void setMax(String maxValue) {
+    public void setMax(float maxValue) {
         this.max = maxValue;
-    }
-
-    public boolean isInclusive() {
-        return inclusive;
-    }
-
-    public void setInclusive(boolean inclusive) {
-        this.inclusive = inclusive;
     }
 
     @Override
     public String toString() {
-        if(inclusive){
-            return "range(" + min + "," + max + ")";
-        }else{
-            return "rangeExclusive(" + min + "," + max + ")";
-        }
+       return "range[" + min + "," + max + "]";
     }
 
 }

@@ -42,18 +42,12 @@ public abstract class AllowableValues {
 
     public static AllowableValues ConvertAllowableValuesStringToObject(String data) {
          if(data != null){
-            if(data.toLowerCase().startsWith("range")){
+            if(data.toLowerCase().startsWith("range[")){
                 AllowableRangeValues av = new AllowableRangeValues();
                 String[] values = null;
-                if(data.toLowerCase().startsWith("rangeexclusive")){
-                    values = data.substring(15, data.length()-1).split(",");
-                    av.setInclusive(false);
-                }else{
-                    values = data.substring(6, data.length()-1).split(",");
-                    av.setInclusive(true);
-                }
-                av.setMin(values[0]);
-                av.setMin(values[1]);
+                values = data.substring(6, data.length()-1).split(",");
+                av.setMin(new Float(values[0]));
+                av.setMin(new Float(values[1]));
                 return av;
             }else{
                 List<String> allowedValues = new ArrayList<String>();
