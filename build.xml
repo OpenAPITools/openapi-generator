@@ -1,6 +1,6 @@
 <project name="swagger-libs-gen" xmlns:ivy="antlib:org.apache.ivy.ant" default="compile" basedir=".">
 	<property environment="env" />
-	<property name="version.identifier" value="1.0" />
+	<property name="version.identifier" value="1.1-SHAPSHOT.121026" />
     <property name="artifact.ext" value="jar" />
     <property name="organization" value="wordnik" />
     <property name="module" value="${ant.project.name}" />
