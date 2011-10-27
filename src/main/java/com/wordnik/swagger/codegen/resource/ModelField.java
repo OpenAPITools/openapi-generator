@@ -150,6 +150,7 @@ public class ModelField {
 	    	String type = paramType.trim();
 	    	if(type.contains("date")||type.contains("Date") ){
 	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getDateIncludes());
+                fieldDefinition.setHasDateResponse(true);
 	    	}
 	    	if(type.startsWith("List[")){
 	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getListIncludes());
@@ -158,10 +159,13 @@ public class ModelField {
                     fieldDefinition.setCollectionItemType(entryType);
                     fieldDefinition.setCollectionItemName(entryType);
                 } else {
-                    fieldDefinition.setCollectionItemType(config.getModelPackageName() + "." + nameGenerator.applyClassNamingPolicy(entryType));
+                    final String collectionItemType = config.getModelPackageName().length() == 0 ? nameGenerator.applyClassNamingPolicy(entryType) : config.getModelPackageName() + "." + nameGenerator.applyClassNamingPolicy(entryType);
+                    fieldDefinition.setCollectionItemType(collectionItemType);
                     fieldDefinition.setCollectionItemName(nameGenerator.applyMethodNamingPolicy(entryType));
                 }
 	    		entryType =  dataTypeMapper.getClassType(entryType, true);
+                fieldDefinition.setHasPrimitiveType(dataTypeMapper.isPrimitiveType(entryType));
+                fieldDefinition.setHasListResponse(true);
 	    		String returnType = dataTypeMapper.getListReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);
 	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.generateListInitialization(entryType));
@@ -175,6 +179,8 @@ public class ModelField {
 	    		fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getSetIncludes());
 	    		String entryType = type.substring(4, type.length()-1);
 	    		entryType =  dataTypeMapper.getClassType(entryType, true);
+                fieldDefinition.setHasPrimitiveType(dataTypeMapper.isPrimitiveType(entryType));
+                fieldDefinition.setHasSetResponse(true);
 	    		String returnType = dataTypeMapper.getSetReturnTypeSignature(entryType);
 	    		fieldDefinition.setReturnType(returnType);
 	    		fieldDefinition.setInitialization(" = " + dataTypeMapper.generateSetInitialization(entryType));
@@ -190,6 +196,8 @@ public class ModelField {
 	    		String entryType = type.substring(4, type.length()-1);
                 keyClass = entryType.substring(0, entryType.indexOf(",") );
                 entryClass = entryType.substring(entryType.indexOf(",") + 1, entryType.length());
+                fieldDefinition.setHasPrimitiveType(dataTypeMapper.isPrimitiveType(entryClass));
+                fieldDefinition.setHasMapResponse(true);
 	    		//entryType =  dataTypeMapper.getClassType(entryType, true);
 	    		entryType =  dataTypeMapper.getClassType(keyClass, true) + "," + dataTypeMapper.getClassType(entryClass, true);
 	    		String returnType = dataTypeMapper.getMapReturnTypeSignature(entryType);
@@ -204,6 +212,7 @@ public class ModelField {
 	    		fieldDefinition.setInitialization(dataTypeMapper.generateVariableInitialization(type));
 	    		fieldDefinition.setReturnType(dataTypeMapper.getClassType(type, false));
 	    		fieldDefinition.setName(this.getName());
+                fieldDefinition.setHasPrimitiveType(dataTypeMapper.isPrimitiveType(fieldDefinition.getReturnType()));
 	    	}
     	}
     	return fieldDefinition;

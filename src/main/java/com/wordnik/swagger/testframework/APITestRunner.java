@@ -59,7 +59,7 @@ public class APITestRunner {
 	private static String CONDITION_LESSER = "<";
 	private static String CONDITION_GREATER_EQUAL = ">=";
 	private static String CONDITION_LESSER_EQUAL = "<=";
-	
+
 	private TestOutput testCaseOutput = new TestOutput();
 	private TestStatus testStatus = new TestStatus();
 	private Object testData = null;
@@ -538,6 +538,16 @@ public class APITestRunner {
         }else if (language.equals(ANDROID)){
             command.add("../android/driver-test/bin/runandroid.sh");
             command.add("com.wordnik.swagger.testframework.JavaTestCaseExecutor");
+        }else if (language.equals(AS3)){
+            command.add("./bin/runas3TestCase.sh");
+            command.add("com.wordnik.swagger.testframework.AS3TestCaseExecutor");
+
+            if(postData == null){
+                postData = "\"\"";
+            }
+            else{
+                postData = "\"" + postData + "\"";
+            }
         }
 
         command.addAll(getCommandInputs(apiServer, apiPackageName, apiKey, authToken, resource, httpMethod,

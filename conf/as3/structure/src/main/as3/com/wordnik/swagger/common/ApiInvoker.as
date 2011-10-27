@@ -151,7 +151,21 @@ package com.wordnik.swagger.common
 				var context:ASAXBContext = ASAXBContext.newInstance(resultType);
 				var unmarshaller:Unmarshaller = context.createUnmarshaller();
 				var resultXML: XML = new XML(event.result);
-				resultObject = unmarshaller.unmarshal(resultXML);
+                try{
+                    resultObject = unmarshaller.unmarshal(resultXML);
+                }
+                catch(error: TypeError){
+                    var errorResponse: Response = new Response(false, null, "Could not unmarshall response");
+                    if (_apiEventNotifier != null) { //dispatch event via assigned dispatcher
+                        var failureEvent: ApiClientEvent = new ApiClientEvent(event.token.completionEventType);
+                        failureEvent.response = errorResponse;
+                        _apiEventNotifier.dispatchEvent(failureEvent);
+                    }
+                }
+
+                if(resultObject is ListWrapper){
+                    resultObject = ListWrapper(resultObject).getList();
+                }
 				
 			}
 			var response : Response = new Response(true, resultObject);

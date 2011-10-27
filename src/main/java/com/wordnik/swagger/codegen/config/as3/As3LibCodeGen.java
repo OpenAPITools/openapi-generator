@@ -117,6 +117,11 @@ public class As3LibCodeGen extends LibraryCodeGenerator{
                     }
                 }
             }
+
+            refModelField = new ModelField();
+            refModelField.setName( nameGenerator.applyMethodNamingPolicy( resource.generateClassName(nameGenerator) ) );
+            refModelField.setParamType( resource.generateClassName(nameGenerator) );
+            refFields.add(refModelField);
         }
         List<String> imports = new ArrayList<String>();
         imports.addAll(this.config.getDefaultModelImports());

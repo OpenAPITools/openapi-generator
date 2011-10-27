@@ -1,5 +1,6 @@
 package $packageName$ {
 
+import com.wordnik.swagger.common.ListWrapper;
 $imports:{ import |
 import $import$;
 }$
@@ -10,10 +11,9 @@ import $import$;
      * @author deepak
      *
      */
-    public class $className$ extends $extends$ {
+    public class $className$ extends $extends$ implements ListWrapper{
 
     $fields:{ field |
-
     /**
      * $field.description$
      * $if(field.required)$@Required$endif$
@@ -23,7 +23,15 @@ $if(!field.fieldDefinition.collectionItemType)$
      [XmlElement(name="$field.fieldDefinition.name$")]$endif$
 $if(field.fieldDefinition.collectionItemType)$
      [XmlElements(name="$field.fieldDefinition.collectionItemName$", type="$field.fieldDefinition.collectionItemType$")]$endif$
-     public var $field.fieldDefinition.name$: $field.fieldDefinition.returnType$ $field.fieldDefinition.initialization$;$\r$}$
+     public var $field.fieldDefinition.name$: $field.fieldDefinition.returnType$ $field.fieldDefinition.initialization$;}$
 
+   $fields:{ field |
+    /**
+     * Returns the list being wrapped by this wrapper class. There will be a single list item attribute in this class.
+     */
+$if(field.fieldDefinition.collectionItemType)$
+     public function getList(): $field.fieldDefinition.returnType${
+        return $field.fieldDefinition.name$;
+     }$endif$}$
     }
 }

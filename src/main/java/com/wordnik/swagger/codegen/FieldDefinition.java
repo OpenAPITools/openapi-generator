@@ -30,8 +30,10 @@ public class FieldDefinition {
     private boolean hasListResponse;
     private boolean hasMapResponse;
     private boolean hasSetResponse;
-    
-    
+    private boolean hasDateResponse;
+
+    private boolean hasPrimitiveType;
+
 	public boolean isHasListResponse() {
 		return hasListResponse;
 	}
@@ -56,7 +58,15 @@ public class FieldDefinition {
 		this.hasSetResponse = hasSetResponse;
 	}
 
-	public String getReturnType() {
+    public boolean isHasPrimitiveType() {
+        return hasPrimitiveType;
+    }
+
+    public void setHasPrimitiveType(boolean hasPrimitiveType) {
+        this.hasPrimitiveType = hasPrimitiveType;
+    }
+
+    public String getReturnType() {
 		return returnType;
 	}
 	
@@ -109,5 +119,13 @@ public class FieldDefinition {
 
     public void setCollectionItemName(String collectionItemName) {
         this.collectionItemName = collectionItemName;
+    }
+
+    public boolean isHasDateResponse() {
+        return hasDateResponse;
+    }
+
+    public void setHasDateResponse(boolean hasDateResponse) {
+        this.hasDateResponse = hasDateResponse;
     }
 }
