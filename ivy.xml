@@ -24,6 +24,9 @@
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.8.0" conf="build->default" />
 		<dependency org="org.antlr" name="stringtemplate" rev="3.2" conf="build->default" />
 
+        <dependency org="org.slf4j" name="slf4j-simple" rev="1.5.8" conf="build->default"/>
+        <dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="build->default"/>
+
 		<!-- jackson jars -->
 		<dependency org="org.codehaus.jackson" name="jackson-jaxrs" rev="1.7.7" conf="build->default" />
 		<dependency org="org.codehaus.jackson" name="jackson-xc" rev="1.7.7" conf="build->default" />
