@@ -49,6 +49,27 @@ for example:
 ./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver generated-files
 </pre>
 
+### Other languages
+#### scala
+<pre>
+./bin/generate-scala-lib.sh http://petstore.swagger.wordnik.com/api "" "client" "generated-files"
+</pre>
+
+#### javascript
+<pre>
+./bin/generate-js-lib.sh http://petstore.swagger.wordnik.com/api "" "" "generated-files"
+</pre>
+
+#### actionscript
+<pre>
+./bin/generate-as3-lib.sh http://petstore.swagger.wordnik.com/api "" "client" "generated-files"
+</pre>
+
+#### PHP
+<pre>
+./bin/generate-php-lib.sh http://petstore.swagger.wordnik.com/api "" "client" "generated-files"
+</pre>
+
 The main class for the generator is at src/main/java/com/wordnik/swagger/codegen/config/java/JavaLibCodeGen.java
 
 The code-gen uses the antlr string template library for generating the output files, please look at
