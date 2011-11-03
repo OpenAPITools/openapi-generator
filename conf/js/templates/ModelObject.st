@@ -41,6 +41,7 @@ $else$
          this.$field.fieldDefinition.name$ = new $field.fieldDefinition.returnType$(); this.$field.fieldDefinition.name$.parse(data.$field.fieldDefinition.name$);
      $endif$
 $endif$
+
 }$
     }
 

@@ -3,8 +3,8 @@
 
 <head>
     <title>Swagger Javascript Lib Sandbox</title>
-    <script src="src/main/js/lib/jquery-1.6.4.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="src/main/js/api-lib.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/jquery-1.6.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="api-lib.js" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript" charset="utf-8">
 		function log(s) {
@@ -39,7 +39,7 @@
 			UserAPI.deleteUser("vito");
 		}
 
-		ApiInvoker.init("http://localhost:8002/api/", false);
+		ApiInvoker.init("http://localhost:8002/api/", null, null, false);
 
 		ApiInvoker.addListener(PetAPI.event_getPetById, logResponse);
 		ApiInvoker.addListener(StoreAPI.event_getOrderById, logResponse);

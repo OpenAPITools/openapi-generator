@@ -1,18 +1,35 @@
 var ApiInvoker = new function() {
     this.apiServer = null,
+    this.authToken = null,
+    this.apiKey = null,
     this.loggingEnabled = false,
+    this.requestHeader = new Object(),
 
             this.trace = function(obj) {
                 if (this.loggingEnabled && window.console) console.log(obj);
             },
 
-            this.init = function(apiServer, loggingEnabled) {
+            this.error = function(obj) {
+                if (window.console) console.log(obj);
+            },
+
+            this.init = function(apiServer, apiKey, authToken, loggingEnabled) {
                 if (apiServer != null && apiServer.length > 0) {
                     if (apiServer.substring(apiServer.length - 1) == ("/")) {
                         apiServer = apiServer.substring(0, apiServer.length - 1);
                     }
                     this.apiServer = apiServer;
+                    this.apiKey = apiKey;
+                    this.authToken = authToken;
                     this.loggingEnabled = (loggingEnabled === null) ? false : loggingEnabled;
+
+                    if(this.apiKey)
+                        this.requestHeader.api_key = this.apiKey;
+
+                    if(this.authToken)
+                        this.requestHeader.auth_token = this.authToken;
+
+                    this.trace(this.requestHeader);
                 }
             },
 
@@ -35,6 +52,10 @@ var ApiInvoker = new function() {
                 // create queryParam
                 var counter = 0;
                 var symbol = 0;
+                for (var headerKey in this.requestHeader) {
+                    queryParams[headerKey] = this.requestHeader[headerKey]
+                }
+
                 for (var paramName in queryParams) {
                     var paramValue = queryParams[paramName];
                     symbol = "&";
@@ -56,10 +77,16 @@ var ApiInvoker = new function() {
                             function(response) {
                                 ApiInvoker.fire(completionEvent, returnType, requestId, response, callback);
                             }, responseDataType).complete(this.showCompleteStatus).error(this.showErrorStatus);
-//                    $.getJSON(callURL,
-//                            function(response) {
-//                                ApiInvoker.fire(completionEvent, returnType, requestId, response);
-//                            }).complete(this.showCompleteStatus).error(this.showErrorStatus);
+//                    $.ajax({
+//                        url: callURL,
+//                        data: JSON.stringify(postObject),
+//                        type: "GET",
+//                        dataType: "json",
+//                        contentType: "application/json",
+//                        success: function(response) {
+//                            ApiInvoker.fire(completionEvent, returnType, requestId, response, callback);
+//                        }
+//                    }).complete(this.showCompleteStatus).error(this.showErrorStatus);
                 } else if (method == "POST") {
                     this.trace("sending post");
                     this.trace(JSON.stringify(postObject));
@@ -69,6 +96,7 @@ var ApiInvoker = new function() {
                         type: "POST",
                         dataType: "json",
                         contentType: "application/json",
+                        headers: this.requestHeader,
                         success: function(response) {
                             ApiInvoker.fire(completionEvent, returnType, requestId, response, callback);
                         }
@@ -173,9 +201,11 @@ var ApiInvoker = new function() {
 
             this.showErrorStatus = function(data) {
                 ApiInvoker.trace(data);
-                if (data.status != 200)
-                    ApiInvoker.trace(data.status);
-                ApiInvoker.showStatus(data);
+                if (data.status != 200) {
+                    ApiInvoker.error("ERROR - " + data.status + ": " + data.statusText + " / " + data.responseText);
+                } else {
+                    ApiInvoker.showStatus(data);
+                }
             },
 
             this.showCompleteStatus = function(data) {

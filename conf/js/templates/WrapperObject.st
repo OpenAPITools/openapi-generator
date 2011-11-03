@@ -21,5 +21,13 @@
 $if(field.fieldDefinition.collectionItemType)$
      this.getList = function() {
         return this.$field.fieldDefinition.name$;
-     }$endif$}$
+     }
+
+     this.parse = function(data) {
+        if(data) {
+            this.$field.fieldDefinition.name$ = $field.fieldDefinition.collectionItemType$Object.parseArray(data);
+        }
+     }
+
+     $endif$}$
     }

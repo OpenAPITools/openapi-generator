@@ -27,20 +27,20 @@ public class JSLibCodeGen extends LibraryCodeGenerator {
 
             libraryHome = codeGenerator.getLanguageConfig().getLibraryHome();
         }
-        if (args.length == 4) {
+        if (args.length == 3) {
             String apiServerURL = args[0];
             if (!apiServerURL.endsWith("/")) {
                 apiServerURL = apiServerURL + "/";
             }
             String apiKey = args[1];
             String packageName = args[2];
-            libraryHome = args[3];
+            libraryHome = args[2];
             if (libraryHome.endsWith("/")) {
                 libraryHome = libraryHome.substring(0, libraryHome.length() - 1);
             }
-            String modelPackageName = packageName + ".model";
-            String apiPackageName = packageName + ".api";
-            String classOutputDir = libraryHome + "/src/main/js/" + packageName.replace(".", "/");
+            String modelPackageName = "";
+            String apiPackageName = "";
+            String classOutputDir = libraryHome + "/src/main/js/";
             JSLibCodeGen codeGenerator = new JSLibCodeGen(apiServerURL, apiKey, modelPackageName,
                     apiPackageName, classOutputDir, libraryHome);
             codeGenerator.getConfig().setDefaultServiceBaseClass(DEFAULT_SERVICE_BASE_CLASS);
@@ -49,7 +49,7 @@ public class JSLibCodeGen extends LibraryCodeGenerator {
 
         try {
             if (libraryHome != null) {
-                concatinateFiles(libraryHome + "/src/main/js/api-lib.js", libraryHome + "/src/main/js/");
+                concatinateFiles(libraryHome + "/api-lib.js", libraryHome + "/src/main/js/");
             }
         } catch (IOException e) {
             System.out.println("Unable to combine files");
