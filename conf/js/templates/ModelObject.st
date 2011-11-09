@@ -53,7 +53,7 @@ var $className$Object = new function() {
         var responseArray = new Array();
 
         if(arrayData != null && arrayData.length > 0) {
-            for(i = 0; i < arrayData.length; i++) {
+            for(var i = 0; i < arrayData.length; i++) {
                 var o = new $className$();
                 o.parse(arrayData[i]);
                 responseArray.push(o);
