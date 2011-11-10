@@ -22,7 +22,9 @@ import com.wordnik.swagger.codegen.config.DataTypeMappingProvider;
 import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: ramesh
@@ -41,7 +43,8 @@ public class EndpointOperation {
 	private static String FORMAT_PARAM_NAME = "format";	
 	
 	private static String AUTH_TOKEN_ARGUMENT_NAME = "authToken";
-	
+    private static Map<String, String> alreadyGeneratedModels = new HashMap<String, String>();
+
 	private static int ARG_COUNT_FOR_INPUT_MODEL = 4;
 	
     private String httpMethod;
@@ -282,15 +285,24 @@ public class EndpointOperation {
 					}
 				}
 			}
-			
+
+            //check if input model with the given name is already generated for some other path
+            boolean inputModelAlreadyGenerated = false;
+            if(alreadyGeneratedModels.containsKey(inputobjectName)){
+                if(!alreadyGeneratedModels.get(inputobjectName).equals(endPoint.getPath())){
+                    inputModelAlreadyGenerated = true;
+                }
+            }
+
 			//check for number of arguments, if we have more than 4 then send the arguments as input object
-			if(method.getArguments() != null && method.getArguments().size() > ARG_COUNT_FOR_INPUT_MODEL){
+			if(method.getArguments() != null && method.getArguments().size() > ARG_COUNT_FOR_INPUT_MODEL &&
+                    !inputModelAlreadyGenerated){
                 List<MethodArgument> arguments = new ArrayList<MethodArgument>();
 				Model modelforMethodInput = new Model();
 				modelforMethodInput.setName(inputobjectName);
 				List<ModelField> fields = new ArrayList<ModelField>();
 				for(MethodArgument argument: method.getArguments()){
-                    if(!argument.getName().equals(POST_PARAM_NAME) && !argument.getName().equals("authToken")){
+                    if(!argument.getName().equals(POST_PARAM_NAME)){
                         ModelField aModelField = new ModelField();
                         aModelField.setAllowedValues(argument.getAllowedValues());
                         aModelField.setDescription(argument.getDescription());
@@ -309,6 +321,7 @@ public class EndpointOperation {
 				arguments.add(anArgument);
 				method.setArguments(arguments);
 				method.setInputModel(modelforMethodInput);
+                alreadyGeneratedModels.put(inputobjectName, endPoint.getPath());
 			}
 			
 			List<String> argumentDefinitions = new ArrayList<String>();

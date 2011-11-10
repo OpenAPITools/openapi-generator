@@ -91,7 +91,7 @@ $endif$
 $if(method.inputModel)$		
 $method.queryParameters:{ argument |
 		if( $argument.inputModelClassArgument$ != null && $argument.methodNameFromModelClass$ != null) {
-		 	queryParams.put("$argument.name$", $argument.methodNameFromModelClass$);
+		 	queryParams.put("$argument.name$", APIInvoker.toPathValue($argument.methodNameFromModelClass$));
 		}
 }$
 $method.pathParameters:{ argument |
@@ -101,7 +101,7 @@ $method.pathParameters:{ argument |
 }$
 $method.headerParameters:{ argument |
 		if( $argument.inputModelClassArgument$ != null && $argument.methodNameFromModelClass$ != null) {
-		 	headerParams.put("$argument.name$", $argument.methodNameFromModelClass$);
+		 	headerParams.put("$argument.name$", APIInvoker.toPathValue($argument.methodNameFromModelClass$));
 		}
 }$
 $endif$	

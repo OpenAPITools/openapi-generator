@@ -44,7 +44,10 @@ public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
      */
     public String applyClassNamingPolicy(String input) {
     	if(input != null && input.length() > 0) {
-    		return input.substring(0,1).toUpperCase() + input.substring(1);
+    		String output = input.substring(0,1).toUpperCase() + input.substring(1);
+            //class name can't have . so if dot exists remove the same
+            output = output.replace(".","");
+            return output;
     	}else{
     		throw new CodeGenerationException("Error converting input to first letter caps becuase of null or empty input");
     	}

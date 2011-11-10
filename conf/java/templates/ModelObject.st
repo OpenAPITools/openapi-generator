@@ -17,6 +17,7 @@
 package $packageName$;
 
 import com.wordnik.swagger.runtime.annotations.*;
+import java.util.List;
 
 $imports:{ import |
 import $import$;

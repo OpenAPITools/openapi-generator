@@ -88,12 +88,12 @@ $endif$
 $if(method.inputModel)$        
 $method.queryParameters:{ argument |
         if(null != $argument.inputModelClassArgument$ && null != $argument.methodNameFromModelClass$ ) {
-             queryParams += "$argument.name$" -> $argument.methodNameFromModelClass$
+             queryParams += "$argument.name$" -> APIInvoker.toPathValue($argument.methodNameFromModelClass$)
         }
 }$
 $method.headerParameters:{ argument |
         if(null != $argument.inputModelClassArgument$ && null != $argument.methodNameFromModelClass$ ) {
-             headerParams += "$argument.name$" -> $argument.methodNameFromModelClass$
+             headerParams += "$argument.name$" -> APIInvoker.toPathValue($argument.methodNameFromModelClass$)
         }
 }$
 $method.pathParameters:{ argument |
