@@ -76,26 +76,26 @@ $endif$
 $if(!method.responseVoid)$
             returnType = $method.returnClassName$;
 $endif$
-
+            var ajaxRequest = null;
 $if(method.postObject)$
 $if(method.authToken)$
-            ApiInvoker.invokeAPI(authToken, resourcePath, method, queryParams, postData, eventName, requestId, returnType, callback);
+            ajaxRequest = ApiInvoker.invokeAPI(authToken, resourcePath, method, queryParams, postData, eventName, requestId, returnType, callback);
 $endif$
 $if(!method.authToken)$
-            ApiInvoker.invokeAPI(null, resourcePath, method, queryParams, postData, eventName, requestId, returnType, callback);
+            ajaxRequest = ApiInvoker.invokeAPI(null, resourcePath, method, queryParams, postData, eventName, requestId, returnType, callback);
 $endif$
 $endif$
 
 $if(!method.postObject)$
 $if(method.authToken)$
-            ApiInvoker.invokeAPI(authToken, resourcePath, method, queryParams, null, eventName, requestId, returnType, callback);
+            ajaxRequest = ApiInvoker.invokeAPI(authToken, resourcePath, method, queryParams, null, eventName, requestId, returnType, callback);
 $endif$
 $if(!method.authToken)$
-            ApiInvoker.invokeAPI(null, resourcePath, method, queryParams, null, eventName, requestId, returnType, callback);
+            ajaxRequest = ApiInvoker.invokeAPI(null, resourcePath, method, queryParams, null, eventName, requestId, returnType, callback);
 $endif$
 $endif$
 
-            return requestId;
+            return {"requestId":requestId, "ajaxRequest":ajaxRequest};
         }
 }$
     }

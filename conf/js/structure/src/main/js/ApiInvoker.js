@@ -71,26 +71,26 @@ var ApiInvoker = new function() {
 
                 this.trace("callURL = " + callURL);
                 this.trace("responseDataType = " + responseDataType);
-
+                var ajaxRequest = null;
                 if (method == "GET") {
-                    $.get(callURL, postObject,
-                            function(response) {
-                                ApiInvoker.fire(completionEvent, returnType, requestId, response, callback);
-                            }, responseDataType).complete(this.showCompleteStatus).error(this.showErrorStatus);
-//                    $.ajax({
-//                        url: callURL,
-//                        data: JSON.stringify(postObject),
-//                        type: "GET",
-//                        dataType: "json",
-//                        contentType: "application/json",
-//                        success: function(response) {
-//                            ApiInvoker.fire(completionEvent, returnType, requestId, response, callback);
-//                        }
-//                    }).complete(this.showCompleteStatus).error(this.showErrorStatus);
+                    // $.get(callURL, postObject,
+                    //         function(response) {
+                    //             ApiInvoker.fire(completionEvent, returnType, requestId, response, callback);
+                    //         }, responseDataType).complete(this.showCompleteStatus).error(this.showErrorStatus);
+                   ajaxRequest =  $.ajax({
+                       url: callURL,
+                       data: JSON.stringify(postObject),
+                       type: "GET",
+                       dataType: "jsonp",
+                       contentType: "application/json",
+                       success: function(response) {
+                           ApiInvoker.fire(completionEvent, returnType, requestId, response, callback);
+                       }
+                   }).complete(this.showCompleteStatus).error(this.showErrorStatus);
                 } else if (method == "POST") {
                     this.trace("sending post");
                     this.trace(JSON.stringify(postObject));
-                    $.ajax({
+                    ajaxRequest =  $.ajax({
                         url: callURL,
                         data: JSON.stringify(postObject),
                         type: "POST",
@@ -102,7 +102,7 @@ var ApiInvoker = new function() {
                         }
                     }).complete(this.showCompleteStatus).error(this.showErrorStatus);
                 } else if (method == "PUT") {
-                    $.ajax({
+                    ajaxRequest = $.ajax({
                         url: callURL,
                         data: JSON.stringify(postObject),
                         type: "PUT",
@@ -113,7 +113,7 @@ var ApiInvoker = new function() {
                         }
                     }).complete(this.showCompleteStatus).error(this.showErrorStatus);
                 } else if (method == "DELETE") {
-                    $.ajax({
+                    ajaxRequest = $.ajax({
                         url: callURL,
                         data: JSON.stringify(postObject),
                         type: "DELETE",
@@ -125,7 +125,7 @@ var ApiInvoker = new function() {
                     }).complete(this.showCompleteStatus).error(this.showErrorStatus);
                 }
 
-
+                return ajaxRequest;
             },
 
             this.guid = function() {
