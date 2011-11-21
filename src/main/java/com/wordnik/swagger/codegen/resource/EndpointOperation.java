@@ -42,7 +42,7 @@ public class EndpointOperation {
 	private static String API_KEY_PARAM_NAME = "api_key";	
 	private static String FORMAT_PARAM_NAME = "format";	
 	
-	private static String AUTH_TOKEN_ARGUMENT_NAME = "authToken";
+	private static String AUTH_TOKEN_ARGUMENT_NAME = "auth_token";
     private static Map<String, String> alreadyGeneratedModels = new HashMap<String, String>();
 
 	private static int ARG_COUNT_FOR_INPUT_MODEL = 4;

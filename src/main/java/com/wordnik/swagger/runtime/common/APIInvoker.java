@@ -52,10 +52,10 @@ public class APIInvoker {
 
 	private String apiServer = "http://api.wordnik.com/v4";
 	private SecurityHandler securityHandler = null;
-	private boolean loggingEnabled;
-	private Logger logger = null;
+	private static boolean loggingEnabled;
+	private static Logger logger = null;
 	private static APIInvoker apiInvoker = null;
-
+    private static Client apiClient = null;
 
 	protected static String POST = "POST";
 	protected static String GET = "GET";
@@ -67,6 +67,7 @@ public class APIInvoker {
         mapper.getSerializationConfig().set(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
         mapper.configure(SerializationConfig.Feature.WRITE_NULL_PROPERTIES, false);
         mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+        apiClient = Client.create();
 	}
 
 	/**
@@ -89,6 +90,14 @@ public class APIInvoker {
 			invoker.setApiServer(apiServer);
 		}
 		invoker.setLoggingEnable(enableLogging);
+        //initialize the logger if needed
+        if(loggingEnabled) {
+        	if(logger == null) {
+        		apiClient.addFilter(new LoggingFilter());
+        	}else{
+        		apiClient.addFilter(new LoggingFilter(logger));
+        	}
+        }
         apiInvoker = invoker;
         return invoker;
 	}
@@ -152,23 +161,12 @@ public class APIInvoker {
             String> queryParams, Object postData, Map<String, String> headerParams) throws APIException {
 
 
-        Client apiClient = Client.create();
-        
         //check for app server values
         if(getApiServer() == null || getApiServer().length() == 0) {
         	String[] args = {getApiServer()};
         	throw new APIException(APIExceptionCodes.API_SERVER_NOT_VALID, args);
         }
 
-        //initialize the logger if needed
-        if(loggingEnabled) {
-        	if(logger == null) {
-        		apiClient.addFilter(new LoggingFilter());
-        	}else{
-        		apiClient.addFilter(new LoggingFilter(logger));
-        	}
-        }
-        
         //make the communication
 		resourceURL = getApiServer() + resourceURL;
 		if(queryParams.keySet().size() > 0){
