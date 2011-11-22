@@ -30,7 +30,6 @@ import java.io.File;
  * Time: 11:00 PM
  */
 public class PHPLibCodeGen extends LibraryCodeGenerator {
-	String outputBasePath;
 
     public static void main(String[] args) {
         if(args.length < 1){
@@ -50,19 +49,21 @@ public class PHPLibCodeGen extends LibraryCodeGenerator {
             String packageName = args[2];
             String libraryHome = args[3];
             if(libraryHome.endsWith("/")){
-                libraryHome = libraryHome.substring(0, libraryHome.length()-1) + packageName;
+                libraryHome = libraryHome.substring(0, libraryHome.length()-1);
             }
             String modelPackageName = packageName+".model";
             String apiPackageName = packageName+".api";
-            String classOutputDir = libraryHome + "/src/main/php/" + packageName.replace(".","/");
-            PHPLibCodeGen codeGenerator = new PHPLibCodeGen(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, libraryHome);
+            String classOutputDir = libraryHome + packageName.replace(".","/");
+            PHPLibCodeGen codeGenerator = new PHPLibCodeGen(apiServerURL, apiKey, modelPackageName,
+                    apiPackageName, classOutputDir, libraryHome);
             codeGenerator.generateCode();
         }
+
     }
 
-    public PHPLibCodeGen(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName, String classOutputDir, String libraryHome){
+    public PHPLibCodeGen(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
+                          String classOutputDir, String libraryHome){
         super(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, libraryHome);
-        this.outputBasePath = classOutputDir;
         this.setDataTypeMappingProvider(new PHPDataTypeMappingProvider());
         this.setNameGenerator(new CamelCaseNamingPolicyProvider());
     }
@@ -86,8 +87,8 @@ public class PHPLibCodeGen extends LibraryCodeGenerator {
         FileUtil.createOutputDirectories(PHPConfiguration.getResourceClassLocation(), PHPConfiguration.getClassFileExtension());
         FileUtil.clearFolder(PHPConfiguration.getModelClassLocation());
         FileUtil.clearFolder(PHPConfiguration.getResourceClassLocation());
-
-        FileUtil.copyDirectory(new File(PHPConfiguration.getStructureLocation()), new File(PHPConfiguration.getLibraryHome() + "/src/main/php"));
+        FileUtil.copyDirectory(new File(PHPConfiguration.getStructureLocation()), new File(PHPConfiguration.getResourceClassLocation()));
         return PHPConfiguration;
     }
+
 }
