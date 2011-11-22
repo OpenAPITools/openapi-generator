@@ -71,14 +71,17 @@ class APIClient:
 
         return data
 
-    def serialize(self, obj):
-        """
+    def toPathValue(self, obj):
+        """Serialize a list to a CSV string, if necessary.
         Args:
             obj -- data object to be serialized
         Returns:
             string -- json serialization of object
         """
-        return json.dumps(obj)
+        if type(obj) == list:
+            return ','.join(obj)
+        else:
+            return obj
 
     def deserialize(self, obj, objClass):
         """Derialize a JSON string into an object.
