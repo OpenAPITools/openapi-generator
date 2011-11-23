@@ -51,28 +51,27 @@ $if(!method.responseVoid)$
         \$queryParams = array();
         \$headerParams = array();
     
-$if(method.authToken)$
-    if(\$authToken == null || strlen(\$authToken) == 0) {
-      throw new Exception('missing authToken');
-    }
-    \$headerParams['auth_token'] = \$authToken;
-$endif$
-    
-
 $if(!method.inputModel)$		
 $method.queryParameters:{ argument |
-		\$queryParams['$argument.name$'] = \$$argument.name$;
+    if(\$$argument.name$ != null) {
+		\$queryParams['$argument.name$'] = \$this->apiClient->toPathValue(\$$argument.name$);
+	}
 }$
 $method.pathParameters:{ argument |
 		if(\$$argument.name$ != null) {
 			\$resourcePath = str_replace("{$argument.name$}", \$$argument.name$, \$resourcePath);
 		}
 }$
+$method.headerParameters:{ argument |
+		if(\$$argument.name$ != null) {
+		 	\$headerParams['$argument.name$'] = \$this->apiClient->toPathValue(\$$argument.name$);
+		}
+}$
 $endif$	
 $if(method.inputModel)$		
 $method.queryParameters:{ argument |
 		if(\$$argument.inputModelClassArgument$ != null && \$$argument.inputModelClassArgument$->$argument.name$ != null) {
-		 	\$queryParams["$argument.name$"] =  \$$argument.inputModelClassArgument$->$argument.name$;
+		 	\$queryParams["$argument.name$"] = \$this->apiClient->toPathValue(\$$argument.inputModelClassArgument$->$argument.name$);
 		}
 }$
 $method.pathParameters:{ argument |
@@ -80,7 +79,13 @@ $method.pathParameters:{ argument |
 		 	\$resourcePath = str_replace("{$argument.name$}", \$$argument.inputModelClassArgument$->$argument.name$, \$resourcePath);	
 		}
 }$
+$method.headerParameters:{ argument |
+		if(\$$argument.inputModelClassArgument$ != null && \$$argument.inputModelClassArgument$->$argument.name$ != null) {
+		 	\$headerParams['$argument.name$'] = \$this->apiClient->toPathValue(\$$argument.inputModelClassArgument$->$argument.name$);
+		}
+}$
 $endif$	
+
 		//make the API Call
 $if(method.postObject)$
 		\$response = \$this->apiClient->callAPI(\$resourcePath, \$method, \$queryParams, \$postData, \$headerParams);

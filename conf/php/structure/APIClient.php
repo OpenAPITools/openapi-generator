@@ -50,14 +50,21 @@ class APIClient {
 
 		$headers = array();
 		$headers[] = "Content-type: application/json";
-		$headers[] = "api_key: " . $this->apiKey;
 
+        # Allow API key from $headerParams to override default
+        $added_api_key = False;
 		if ($headerParams != null) {
 			foreach ($headerParams as $key => $val) {
 				$headers[] = "$key: $val";
+				if ($key == 'api_key') {
+				    $added_api_key = True;
+				}
 			}
 		}
-
+		if (! $added_api_key) {
+		    $headers[] = "api_key: " . $this->apiKey;    
+		}		
+		
 		if (is_object($postData) or is_array($postData)) {
 			$postData = json_encode($postData);
 		}
@@ -117,13 +124,17 @@ class APIClient {
 
 
 	/**
-	 * Serialize the object to a string of JSON
-	 *
-	 * @param object $object an object to be serialized to JSON
-	 * @return string the serialized JSON
+	 * Take value and turn it into a string suitable for inclusion in 
+	 * the path or the header
+	 * @param object $object an object to be serialized to a string
+	 * @return string the serialized object
 	 */
-	public static function serialize($object) {
-		return json_encode($object);
+	public static function toPathValue($object) {
+        if (is_array($object)) {
+            return implode(',', $object);
+        } else {
+            return $object;
+        }
 	}
 
 
