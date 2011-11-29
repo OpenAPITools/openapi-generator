@@ -53,7 +53,7 @@ public class PHPLibCodeGen extends LibraryCodeGenerator {
             }
             String modelPackageName = packageName+".model";
             String apiPackageName = packageName+".api";
-            String classOutputDir = libraryHome + packageName.replace(".","/");
+            String classOutputDir = libraryHome + '/' + packageName.replace(".","/");
             PHPLibCodeGen codeGenerator = new PHPLibCodeGen(apiServerURL, apiKey, modelPackageName,
                     apiPackageName, classOutputDir, libraryHome);
             codeGenerator.generateCode();
