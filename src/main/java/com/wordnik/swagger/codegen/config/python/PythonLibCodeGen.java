@@ -53,7 +53,7 @@ public class PythonLibCodeGen extends LibraryCodeGenerator {
             }
             String modelPackageName = packageName+".model";
             String apiPackageName = packageName+".api";
-            String classOutputDir = libraryHome + packageName.replace(".","/");
+            String classOutputDir = libraryHome + '/' + packageName.replace(".","/");
             PythonLibCodeGen codeGenerator = new PythonLibCodeGen(apiServerURL, apiKey, modelPackageName,
                     apiPackageName, classOutputDir, libraryHome);
             codeGenerator.generateCode();
