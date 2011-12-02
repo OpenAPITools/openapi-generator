@@ -49,24 +49,24 @@ $if(method.authToken)$
 $if(!method.inputModel)$
 $method.queryParameters:{ argument |
             if( $argument.name$ != null) {
-                queryParams["$argument.name$"] = ApiInvoker.toPathValue($argument.name$);
+                queryParams["$argument.name$"] = encodeURIComponent(ApiInvoker.toPathValue($argument.name$));
             }
 }$
 $method.pathParameters:{ argument |
             if( $argument.name$ != null) {
-                resourcePath = resourcePath.replace("{$argument.name$}", $argument.name$);
+                resourcePath = resourcePath.replace("{$argument.name$}", encodeURIComponent($argument.name$));
             }
 }$
 $endif$
 $if(method.inputModel)$
 $method.queryParameters:{ argument |
             if( $argument.inputModelClassArgument$ != null && $argument.methodNameFromModelClass$ != null) {
-                queryParams["$argument.name$"] = $argument.methodNameFromModelClass$;
+                queryParams["$argument.name$"] = encodeURIComponent($argument.methodNameFromModelClass$);
             }
 }$
 $method.pathParameters:{ argument |
             if( $argument.inputModelClassArgument$ != null && $argument.methodNameFromModelClass$ != null) {
-                resourcePath = resourcePath.replace("{$argument.name$}", $argument.methodNameFromModelClass$);
+                resourcePath = resourcePath.replace("{$argument.name$}", encodeURIComponent($argument.methodNameFromModelClass$));
             }
 }$
 $endif$
