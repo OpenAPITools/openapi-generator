@@ -18,6 +18,7 @@ package com.wordnik.swagger.codegen.resource;
 
 import com.wordnik.swagger.codegen.ResourceMethod;
 import com.wordnik.swagger.codegen.config.DataTypeMappingProvider;
+import com.wordnik.swagger.codegen.config.LanguageConfiguration;
 import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -119,12 +120,25 @@ public class Resource {
 		return generatedClassName;
 	}
 
-	public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper, NamingPolicyProvider nameGenerator) {
+	public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper,
+                                                NamingPolicyProvider nameGenerator, LanguageConfiguration languageConfig) {
 		if(methods == null){
 			methods = new ArrayList<ResourceMethod>();
+            List<ResourceMethod> newMethods = new ArrayList<ResourceMethod>();
+            List<String> endPointMethodNames = new ArrayList<String>();
 			if(getEndPoints() != null) {
 				for(Endpoint endpoint: getEndPoints()){
-					methods.addAll(endpoint.generateMethods(resource, dataTypeMapper, nameGenerator));
+                    newMethods = endpoint.generateMethods(resource, dataTypeMapper, nameGenerator, languageConfig);
+
+                    if (!languageConfig.isMethodOverloadingSupported()) {
+                        for(ResourceMethod newMethod: newMethods){
+                            if(endPointMethodNames.contains( newMethod.getName() )) {
+                                endpoint.handleOverloadedMethod(newMethod, endPointMethodNames);
+                            }
+                            endPointMethodNames.add(newMethod.getName());
+                        }
+                    }
+                    methods.addAll(newMethods);
 				}
 			}
 		}

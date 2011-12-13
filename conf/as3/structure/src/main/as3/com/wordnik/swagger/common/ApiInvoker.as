@@ -53,7 +53,7 @@ package com.wordnik.swagger.common
 			_apiEventNotifier = eventNotifier;
 		}
 		
-		public function invokeAPI(authToken: String , resourceURL: String, method: String, queryParams: Dictionary, postObject: Object): AsyncToken {
+		public function invokeAPI(resourceURL: String, method: String, queryParams: Dictionary, postObject: Object, headerParams: Dictionary): AsyncToken {
 			//make the communication
 			if(_useProxyServer) {
 				resourceURL = resourceURL = _apiProxyServerUrl + resourceURL; 

@@ -34,6 +34,7 @@ public class LanguageConfiguration {
     private String annotationPackageName;
     private boolean isModelEnumRequired = true;
     private boolean isOutputWrapperRequired = false;
+    private boolean isMethodOverloadingSupported = true;
 
     public String getClassFileExtension() {
         return classFileExtension;
@@ -147,4 +148,12 @@ public class LanguageConfiguration {
 				+ ", isModelEnumRequired=" + isModelEnumRequired
 				+ ", isOutputWrapperRequired=" + isOutputWrapperRequired + "]";
 	}
+
+    public boolean isMethodOverloadingSupported() {
+        return isMethodOverloadingSupported;
+    }
+
+    public void setMethodOverloadingSupported(boolean methodOverloadingSupported) {
+        isMethodOverloadingSupported = methodOverloadingSupported;
+    }
 }

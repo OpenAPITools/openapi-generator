@@ -88,6 +88,7 @@ public class As3LibCodeGen extends LibraryCodeGenerator{
 
         as3Configuration.setModelEnumRequired(false);
         as3Configuration.setOutputWrapperRequired(true);
+        as3Configuration.setMethodOverloadingSupported(false);
         return as3Configuration;
     }
 
@@ -108,12 +109,14 @@ public class As3LibCodeGen extends LibraryCodeGenerator{
             for(Model model : resource.getModels()){
 
                 for(ModelField modelField : model.getFields()){
-                    final String collectionItemType = modelField.getFieldDefinition().getCollectionItemType();
-                    if(collectionItemType != null){
-                        refModelField = new ModelField();
-                        refModelField.setName(modelField.getName());
-                        refModelField.setParamType(collectionItemType);
-                        refFields.add(refModelField);
+                    if (modelField.getFieldDefinition() != null) {
+                        final String collectionItemType = modelField.getFieldDefinition().getCollectionItemType();
+                        if(collectionItemType != null){
+                            refModelField = new ModelField();
+                            refModelField.setName(modelField.getName() + model.getName());
+                            refModelField.setParamType(collectionItemType);
+                            refFields.add(refModelField);
+                        }
                     }
                 }
             }

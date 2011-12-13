@@ -366,7 +366,7 @@ public class LibraryCodeGenerator {
                 List<ResourceMethod> methods = new ArrayList<ResourceMethod>();
                 List<String> imports = new ArrayList<String>();
                 imports.addAll(this.config.getDefaultServiceImports());
-                methods = resource.generateMethods(resource, dataTypeMappingProvider, nameGenerator);
+                methods = resource.generateMethods(resource, dataTypeMappingProvider, nameGenerator, languageConfig);
                 StringTemplate template = templateGroup.getInstanceOf(API_OBJECT_TEMPLATE);
                 String className = resource.generateClassName(nameGenerator);
 
