@@ -54,7 +54,7 @@ $if(method.hasArguments)$
         public function $method.name$($method.argumentDefinitions; separator=", "$): String {
 
 $if(method.authToken)$
-            if(authToken == null || authToken.length == 0) {
+            if(_apiUsageCredentials == null || _apiUsageCredentials.authToken == null || _apiUsageCredentials.authToken.length == 0) {
                 throw new ApiError(ApiErrorCodes.AUTH_TOKEN_NOT_VALID);
             }$endif$
             var requestId: String = getUniqueId();
@@ -63,6 +63,7 @@ $if(method.authToken)$
             resourcePath = resourcePath.replace("{format}","xml");
             var method: String = "$method.methodType$";
             var queryParams:Dictionary = new Dictionary();
+            var headerParams:Dictionary = new Dictionary();
 $if(!method.inputModel)$
 $method.queryParameters:{ argument |
             if( $argument.name$ != null) {
@@ -73,6 +74,11 @@ $method.pathParameters:{ argument |
             if( $argument.name$ != null) {
                 resourcePath = resourcePath.replace("{$argument.name$}", $argument.name$);
             }
+}$
+$method.headerParameters:{ argument |
+		if( $argument.name$ != null) {
+            headerParams["$argument.name$"] = toPathValue($argument.name$);
+		}
 }$
 $endif$
 $if(method.inputModel)$
@@ -86,23 +92,28 @@ $method.pathParameters:{ argument |
                 resourcePath = resourcePath.replace("{$argument.name$}", $argument.methodNameFromModelClass$);
             }
 }$
+$method.headerParameters:{ argument |
+		if( $argument.inputModelClassArgument$ != null && $argument.methodNameFromModelClass$ != null) {
+            headerParams["$argument.name$"] = $argument.methodNameFromModelClass$;
+		}
+}$
 $endif$
             //make the API Call
 $if(method.postObject)$
 $if(method.authToken)$
-            var token:AsyncToken = getApiInvoker().invokeAPI(authToken, resourcePath, method, queryParams, postData);
+            var token:AsyncToken = getApiInvoker().invokeAPI(resourcePath, method, queryParams, postData, headerParams);
 $endif$
 $if(!method.authToken)$
-            var token:AsyncToken = getApiInvoker().invokeAPI(null, resourcePath, method, queryParams, postData);
+            var token:AsyncToken = getApiInvoker().invokeAPI(resourcePath, method, queryParams, postData, headerParams);
 $endif$
 $endif$
 
 $if(!method.postObject)$
 $if(method.authToken)$
-            var token:AsyncToken = getApiInvoker().invokeAPI(authToken, resourcePath, method, queryParams, null);
+            var token:AsyncToken = getApiInvoker().invokeAPI(resourcePath, method, queryParams, null, headerParams);
 $endif$
 $if(!method.authToken)$
-            var token:AsyncToken = getApiInvoker().invokeAPI(null, resourcePath, method, queryParams, null);
+            var token:AsyncToken = getApiInvoker().invokeAPI(resourcePath, method, queryParams, null, headerParams);
 $endif$
 $endif$
 

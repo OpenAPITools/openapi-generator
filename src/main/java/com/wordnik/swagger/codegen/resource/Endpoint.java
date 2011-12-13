@@ -18,6 +18,7 @@ package com.wordnik.swagger.codegen.resource;
 
 import com.wordnik.swagger.codegen.ResourceMethod;
 import com.wordnik.swagger.codegen.config.DataTypeMappingProvider;
+import com.wordnik.swagger.codegen.config.LanguageConfiguration;
 import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
 
 import java.util.ArrayList;
@@ -72,20 +73,52 @@ public class Endpoint {
 		this.operations = operations;
 	}
 
-    public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper, NamingPolicyProvider nameGenerator) {
+    public List<ResourceMethod> generateMethods(Resource resource, DataTypeMappingProvider dataTypeMapper,
+                                                NamingPolicyProvider nameGenerator, LanguageConfiguration languageConfig) {
 		if(methods == null){
 			methods = new ArrayList<ResourceMethod>();
+            ResourceMethod newMethod;
+            List<String> endPointMethodNames = new ArrayList<String>();
 			if(getOperations() != null) {
 				for(EndpointOperation operation: getOperations()) {
                     //Note: Currently we are generating methods for depricated APIs also, We should provide this deprecation info on generated APIs also. 
 					if(areModelsAvailable(operation.getParameters(), resource, dataTypeMapper)) {
-						methods.add(operation.generateMethod(this, resource, dataTypeMapper, nameGenerator));
+                        newMethod = operation.generateMethod(this, resource, dataTypeMapper, nameGenerator);
+                        if (!endPointMethodNames.contains(newMethod.getName())) {
+                            methods.add(newMethod);
+                        }
+                        else{
+                            //handleOverloadingSupport
+                            if(!languageConfig.isMethodOverloadingSupported()){
+                                handleOverloadedMethod(newMethod, endPointMethodNames);
+                            }
+                        }
+                        endPointMethodNames.add(newMethod.getName());
 					}
 				}
 			}
 		}
 		return methods;
 	}
+
+    void handleOverloadedMethod(ResourceMethod method, List<String> methods) {
+        //handleOverloadingSupport
+        int counter = 1;
+        String newMethodName;
+        boolean generatedNewName = false;
+        do{
+            newMethodName = method.getName() + counter;
+            if (!methods.contains(newMethodName)){
+                method.setName(newMethodName);
+                generatedNewName = true;
+            }
+            System.out.println("Handling overloaded method for " + method.getName());
+            counter++;
+
+        }while (!generatedNewName);
+        System.out.println("Handling overloaded method : New method name - " + method.getName());
+
+    }
 
     private boolean areModelsAvailable(List<ModelField> modelFields, Resource resource, DataTypeMappingProvider dataTypeMapper) {
         Boolean isParamSetAvailable = true;
