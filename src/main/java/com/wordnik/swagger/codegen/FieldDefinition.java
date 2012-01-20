@@ -31,6 +31,7 @@ public class FieldDefinition {
     private boolean hasMapResponse;
     private boolean hasSetResponse;
     private boolean hasDateResponse;
+    private boolean hasArrayResponse;
 
     private boolean hasPrimitiveType;
 
@@ -58,6 +59,14 @@ public class FieldDefinition {
 		this.hasSetResponse = hasSetResponse;
 	}
 
+    public boolean isHasArrayResponse() {
+        return hasArrayResponse;
+    }
+
+    public void setHasArrayResponse(boolean hasArrayResponse) {
+        this.hasArrayResponse = hasArrayResponse;
+    }
+
     public boolean isHasPrimitiveType() {
         return hasPrimitiveType;
     }
@@ -77,7 +86,9 @@ public class FieldDefinition {
 			hasSetResponse = true;
 		}else if(returnType.startsWith("Map")){
 			hasMapResponse = true;
-		}
+		}else if(returnType.startsWith("Array")){
+            hasArrayResponse = true;
+        }
 		this.returnType = returnType;
 	}
 	

@@ -32,6 +32,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: ramesh
@@ -54,7 +56,9 @@ public class LibraryCodeGenerator {
     protected DataTypeMappingProvider dataTypeMappingProvider;
     protected RulesProvider codeGenRulesProvider;
     protected NamingPolicyProvider nameGenerator;
-    
+
+    Logger logger = LoggerFactory.getLogger(LibraryCodeGenerator.class);
+
     public LibraryCodeGenerator(){}
 
     public LibraryCodeGenerator(String configPath){
@@ -159,24 +163,28 @@ public class LibraryCodeGenerator {
     			if(!generatedClassNames.contains(model.getName()) && !this.getCodeGenRulesProvider().isModelIgnored(model.getName())){
     				List<String> imports = new ArrayList<String>();
     				imports.addAll(this.config.getDefaultModelImports());
-    				for(ModelField param : model.getFields()){
-    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
-    						if(!imports.contains(importDef)){
-    							imports.add(importDef);
-    						}
-    					}
-    				}
-    		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
-    		    	template.setAttribute("model", model);
-    		    	template.setAttribute("fields", model.getFields());
-    		    	template.setAttribute("imports", imports);
-                    template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
-                    template.setAttribute("extends", config.getDefaultModelBaseClass());
-    		    	template.setAttribute("className", model.getGenratedClassName());
-    		    	template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
-    		    	File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
-                    writeFile(aFile, template.toString(), "Model class");
-    				generatedClassNames.add(model.getName());
+                    if(null == model.getFields() || model.getFields().size() == 0){
+                        logger.warn("Model " + model.getName() + " doesn't have any properties");
+                    } else {
+                        for(ModelField param : model.getFields()){
+                            for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
+                                if(!imports.contains(importDef)){
+                                    imports.add(importDef);
+                                }
+                            }
+                        }
+                        StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
+                        template.setAttribute("model", model);
+                        template.setAttribute("fields", model.getFields());
+                        template.setAttribute("imports", imports);
+                        template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());
+                        template.setAttribute("extends", config.getDefaultModelBaseClass());
+                        template.setAttribute("className", model.getGenratedClassName());
+                        template.setAttribute(PACKAGE_NAME, config.getModelPackageName());
+                        File aFile = new File(languageConfig.getModelClassLocation()+model.getGenratedClassName()+languageConfig.getClassFileExtension());
+                        writeFile(aFile, template.toString(), "Model class");
+                        generatedClassNames.add(model.getName());
+                    }
     			}
     		}
     	}

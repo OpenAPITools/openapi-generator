@@ -49,6 +49,9 @@ public class PythonDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveValueMap.put("date", "str");
         primitiveValueMap.put("Double", "float");
         primitiveValueMap.put("double", "float");
+        primitiveValueMap.put("Byte", "byte");
+        primitiveValueMap.put("byte", "byte");
+
     }
 
     public static Map<String, String> primitiveObjectMap = new HashMap<String, String>();
@@ -75,6 +78,8 @@ public class PythonDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveObjectMap.put("Date", "str");
         primitiveObjectMap.put("date", "str");
         primitiveObjectMap.put("java.util.Date", "str");
+        primitiveObjectMap.put("byte", "Byte");
+
     }
 
     private NamingPolicyProvider nameGenerator = new CamelCaseNamingPolicyProvider();
@@ -102,12 +107,20 @@ public class PythonDataTypeMappingProvider implements DataTypeMappingProvider {
         return "set<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
     }
 
+    public String getArrayReturnTypeSignature(String typeClass) {
+        return getListReturnTypeSignature(typeClass);
+    }
+
     public String generateListInitialization(String typeClass) {
         return " list()";
     }
 
     public String generateMapInitialization(String typeClass) {
         return " dict()";
+    }
+
+    public String generateArrayInitialization(String typeClass) {
+        return " list()";
     }
 
     public String generateSetInitialization(String typeClass) {
@@ -152,7 +165,10 @@ public class PythonDataTypeMappingProvider implements DataTypeMappingProvider {
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
     		classShortName =  getClassType(classShortName, true);
-    	}else if (type.equalsIgnoreCase("ok")) {
+    	}else if (type.startsWith("Array[")) {
+            classShortName = type.substring(6, type.length()-1);
+            classShortName =  getClassType(classShortName, true);
+        }else if (type.equalsIgnoreCase("ok")) {
     		classShortName = "void";
     	}else{
     		classShortName =  getClassType(type, true);
@@ -193,7 +209,10 @@ public class PythonDataTypeMappingProvider implements DataTypeMappingProvider {
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
     		classShortName =  "set<"+ getClassName(classShortName, true) +">";
-    	}else{
+    	}else if (type.startsWith("Array[")) {
+            classShortName = type.substring(6, type.length()-1);
+            classShortName =  "list<"+ getClassName(classShortName, true) +">";
+        }else{
     		classShortName =  getClassName(type, true);
     	}
     	return classShortName;

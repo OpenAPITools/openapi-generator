@@ -57,6 +57,7 @@ object RubyDataTypeMappingProvider {
     "java.lang.Float" -> "Float",
     "Date" -> "Date",
     "date" -> "Date",
+    "byte" -> "Byte",
     "java.util.Date" -> "Date")
 }
 
@@ -71,6 +72,10 @@ class RubyDataTypeMappingProvider extends DataTypeMappingProvider {
   }
 
   def getListReturnTypeSignature(typeClass: String): String = {
+    return "List[" + nameGenerator.applyClassNamingPolicy(typeClass) + "]";
+  }
+
+  def getArrayReturnTypeSignature(typeClass: String): String = {
     return "List[" + nameGenerator.applyClassNamingPolicy(typeClass) + "]";
   }
 
@@ -94,6 +99,10 @@ class RubyDataTypeMappingProvider extends DataTypeMappingProvider {
 
   def generateSetInitialization(typeClass: String): String = {
     return " new HashSet[" + nameGenerator.applyClassNamingPolicy(typeClass) + "]";
+  }
+
+  def generateArrayInitialization(typeClass: String): String = {
+    return generateListInitialization(typeClass)
   }
 
   def getListIncludes(): java.util.List[String] = {
@@ -129,6 +138,9 @@ class RubyDataTypeMappingProvider extends DataTypeMappingProvider {
       classShortName = getClassType(classShortName, true)
     } else if (inputType.startsWith("Set[")) {
       classShortName = inputType.substring(4, inputType.length() - 1)
+      classShortName = getClassType(classShortName, true)
+    } else if (inputType.startsWith("Array[")) {
+      classShortName = inputType.substring(6, inputType.length() - 1)
       classShortName = getClassType(classShortName, true)
     } else if (inputType.equalsIgnoreCase("ok")) {
       classShortName = ""
@@ -171,7 +183,11 @@ class RubyDataTypeMappingProvider extends DataTypeMappingProvider {
       } else if (input.startsWith("Set[")) {
         classShortName = input.substring(4, input.length() - 1);
         classShortName = "Set[" + getClassName(classShortName, true) + "]";
-      } else {
+      }else if (input.startsWith("Array[")) {
+        classShortName = input.substring(6, input.length() - 1);
+        classShortName = "List[" + getClassName(classShortName, true) + "]";
+      }
+      else {
         classShortName = getClassName(input, true);
       }
       classShortName

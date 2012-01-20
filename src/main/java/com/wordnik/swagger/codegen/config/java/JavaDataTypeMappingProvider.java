@@ -47,6 +47,8 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveValueMap.put("Float", "float");
         primitiveValueMap.put("Date", "Date");
         primitiveValueMap.put("date", "Date");
+        primitiveValueMap.put("Byte", "byte");
+
     }
 
     public static Map<String, String> primitiveObjectMap = new HashMap<String, String>();
@@ -70,6 +72,8 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveObjectMap.put("Date", "Date");
         primitiveObjectMap.put("date", "Date");
         primitiveObjectMap.put("java.util.Date", "Date");
+        primitiveObjectMap.put("byte", "byte");
+
     }
 
     private NamingPolicyProvider nameGenerator = new CamelCaseNamingPolicyProvider();
@@ -93,6 +97,10 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
         return "Set<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
     }
 
+    public String getArrayReturnTypeSignature(String typeClass) {
+        return nameGenerator.applyClassNamingPolicy(typeClass)+"[]";
+    }
+
     public String generateListInitialization(String typeClass) {
         return " new ArrayList<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
     }
@@ -103,6 +111,10 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
 
     public String generateSetInitialization(String typeClass) {
         return " new HashSet<"+nameGenerator.applyClassNamingPolicy(typeClass)+">()";
+    }
+
+    public String generateArrayInitialization(String typeClass) {
+        return " null";
     }
 
     public List<String> getListIncludes() {
@@ -150,7 +162,10 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
     		classShortName =  getClassType(classShortName, true);
-    	}else if (type.equalsIgnoreCase("ok")) {
+    	}else if (type.startsWith("Array[")) {
+            classShortName = type.substring(6, type.length()-1);
+            classShortName =  getClassType(classShortName, true);
+        }else if (type.equalsIgnoreCase("ok")) {
     		classShortName = "void";
     	}else{
     		classShortName =  getClassType(type, true);
@@ -191,7 +206,10 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
     		classShortName =  "Set<"+ getClassName(classShortName, true) +">";
-    	}else{
+    	}else if (type.startsWith("Array[")) {
+            classShortName = type.substring(6, type.length()-1);
+            classShortName =  getClassName(classShortName, true) +"[]";
+        }else{
     		classShortName =  getClassName(type, true);
     	}
     	return classShortName;

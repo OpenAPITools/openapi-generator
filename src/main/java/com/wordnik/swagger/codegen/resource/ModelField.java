@@ -190,7 +190,22 @@ public class ModelField {
 	    			fieldDefinition.setName(this.getName());
 	    		}
 
-	    	}else if (type.startsWith("Map[")) {
+	    	}else if(type.startsWith("Array[")){
+                fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getSetIncludes());
+                String entryType = type.substring(6, type.length()-1);
+                entryType =  dataTypeMapper.getClassType(entryType, true);
+                fieldDefinition.setHasPrimitiveType(dataTypeMapper.isPrimitiveType(entryType));
+                fieldDefinition.setHasArrayResponse(true);
+                String returnType = dataTypeMapper.getArrayReturnTypeSignature(entryType);
+                fieldDefinition.setReturnType(returnType);
+                fieldDefinition.setInitialization(" = " + dataTypeMapper.generateArrayInitialization(entryType));
+                if(this.getWrapperName() != null){
+                    fieldDefinition.setName(this.getWrapperName());
+                }else{
+                    fieldDefinition.setName(this.getName());
+                }
+
+            }else if (type.startsWith("Map[")) {
                 fieldDefinition.getImportDefinitions().addAll(dataTypeMapper.getMapIncludes());
                 String keyClass, entryClass = "";
 	    		String entryType = type.substring(4, type.length()-1);

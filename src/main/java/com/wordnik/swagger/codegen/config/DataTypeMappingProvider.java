@@ -67,6 +67,17 @@ public interface DataTypeMappingProvider {
      */
     public String getSetReturnTypeSignature(String typeClass);
 
+
+    /**
+     * Signature that should be used when returning array of given object type.
+     *
+     * Example: in java this output will look as <Code> Array<User> </Code> for methods that returns a set of user objects
+     * @param typeClass of class that the set object contains.
+     * @return
+     */
+    public String getArrayReturnTypeSignature(String typeClass);
+
+
     /**
      * Initialization need for list objects. Example. If it is java list the initialization will look as
      *
@@ -102,6 +113,18 @@ public interface DataTypeMappingProvider {
      * @return
      */
     public String generateSetInitialization(String typeClass);
+
+    /**
+     * Initialization need for Array objects. Example. If it is Java Array initialization will look as
+     *
+     * <Code>
+     *      new ObjectName[]()
+     * </Code>
+     *
+     * @param typeClass
+     * @return
+     */
+    public String generateArrayInitialization(String typeClass);
 
     /**
      * Sets variable initialization.
@@ -145,18 +168,18 @@ public interface DataTypeMappingProvider {
     public List<String> getMapIncludes();
 
     /**
-     * Gets list of items that needs to be included when referring set objects in model or resource classes.
+     * Gets list of to needs to be included when referring set objects in model or resource classes.
      *
-     * Example: in java while using sets we use an interface of <Code>Set</Code> and implementation of
-     * <Code>HashSet</Code>. So the the implementation of this method in java
+     * Example: in java while using sets we use an interface of <Code>Array</Code> and implementation of
+     * <Code>Arry</Code>. So the the implementation of this method in java
      * language will be:
      * <Code>
      *      List<String> imports = new ArrayList<String>();
-            imports.add("java.util.Set");
-            imports.add("java.util.HashSet");
+     imports.add("java.lang.Array");
      * </Code>
      * @return
      */
+
     public List<String> getSetIncludes();
 
     /**

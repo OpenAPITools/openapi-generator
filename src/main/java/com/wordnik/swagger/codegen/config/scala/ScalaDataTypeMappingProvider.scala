@@ -37,7 +37,9 @@ object ScalaDataTypeMappingProvider {
     "float" -> "float",
     "Float" -> "float",
     "Date" -> "Date",
-    "date" -> "Date")
+    "date" -> "Date",
+    "byte" -> "Byte",
+     "Byte" -> "Byte")
 
   val primitiveObjectMap = Map("string" -> "String",
     "String" -> "String",
@@ -57,6 +59,7 @@ object ScalaDataTypeMappingProvider {
     "java.lang.Float" -> "Float",
     "Date" -> "Date",
     "date" -> "Date",
+    "byte" -> "Byte",
     "java.util.Date" -> "Date")
 }
 
@@ -81,7 +84,11 @@ class ScalaDataTypeMappingProvider extends DataTypeMappingProvider {
   def getSetReturnTypeSignature(typeClass: String): String = {
     return "Set[" + nameGenerator.applyClassNamingPolicy(typeClass) + "]";
   }
-  
+
+  def getArrayReturnTypeSignature(typeClass: String): String = {
+    return "Array["+nameGenerator.applyClassNamingPolicy(typeClass) + "]";
+  }
+
   def generateVariableInitialization(typeClass:String):String = "=_"
 
   def generateListInitialization(typeClass: String): String = {
@@ -94,6 +101,10 @@ class ScalaDataTypeMappingProvider extends DataTypeMappingProvider {
 
   def generateSetInitialization(typeClass: String): String = {
     return " new HashSet[" + nameGenerator.applyClassNamingPolicy(typeClass) + "]";
+  }
+
+  def generateArrayInitialization(typeClass: String): String = {
+    return " null ";
   }
 
   def getListIncludes(): java.util.List[String] = {
@@ -130,7 +141,10 @@ class ScalaDataTypeMappingProvider extends DataTypeMappingProvider {
     } else if (inputType.startsWith("Set[")) {
       classShortName = inputType.substring(4, inputType.length() - 1)
       classShortName = getClassType(classShortName, true)
-    } else if (inputType.equalsIgnoreCase("ok")) {
+    }else if (inputType.startsWith("Array[")) {
+      classShortName = inputType.substring(6, inputType.length() - 1)
+      classShortName = getClassType(classShortName, true)
+    }else if (inputType.equalsIgnoreCase("ok")) {
       classShortName = ""
     } else {
       classShortName = getClassType(inputType, true)
@@ -171,6 +185,9 @@ class ScalaDataTypeMappingProvider extends DataTypeMappingProvider {
       } else if (input.startsWith("Set[")) {
         classShortName = input.substring(4, input.length() - 1);
         classShortName = "Set[" + getClassName(classShortName, true) + "]";
+      } else if (input.startsWith("Array[")) {
+        classShortName = input.substring(6, input.length() - 1);
+        classShortName = getClassName(classShortName, true) + "[]";
       } else {
         classShortName = getClassName(input, true);
       }

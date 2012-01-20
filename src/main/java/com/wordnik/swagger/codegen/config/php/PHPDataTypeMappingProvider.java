@@ -49,6 +49,9 @@ public class PHPDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveValueMap.put("date", "string");
         primitiveValueMap.put("Double", "float");
         primitiveValueMap.put("double", "float");
+        primitiveValueMap.put("byte", "byte");
+        primitiveValueMap.put("Byte", "byte");
+
     }
 
     public static Map<String, String> primitiveObjectMap = new HashMap<String, String>();
@@ -75,6 +78,8 @@ public class PHPDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveObjectMap.put("Date", "string");
         primitiveObjectMap.put("date", "string");
         primitiveObjectMap.put("java.util.Date", "string");
+        primitiveObjectMap.put("Byte", "byte");
+
     }
 
     private NamingPolicyProvider nameGenerator = new CamelCaseNamingPolicyProvider();
@@ -102,6 +107,10 @@ public class PHPDataTypeMappingProvider implements DataTypeMappingProvider {
         return "array<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
     }
 
+    public String getArrayReturnTypeSignature(String typeClass) {
+        return "array<"+nameGenerator.applyClassNamingPolicy(typeClass)+">";
+    }
+
     public String generateListInitialization(String typeClass) {
         return " array()";
     }
@@ -111,6 +120,10 @@ public class PHPDataTypeMappingProvider implements DataTypeMappingProvider {
     }
 
     public String generateSetInitialization(String typeClass) {
+        return " array()";
+    }
+
+    public String generateArrayInitialization(String typeClass) {
         return " array()";
     }
 

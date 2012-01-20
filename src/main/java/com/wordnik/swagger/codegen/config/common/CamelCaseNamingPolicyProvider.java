@@ -27,7 +27,6 @@ import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
 public class CamelCaseNamingPolicyProvider implements NamingPolicyProvider {
 
     public static String INPUT_OBJECT_SUFFIX = "Input";
-
     /**
      * gets the name of class that is responsible for tracking current library version
      * @return

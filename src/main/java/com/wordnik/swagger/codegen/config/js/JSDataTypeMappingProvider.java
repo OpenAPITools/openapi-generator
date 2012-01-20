@@ -33,6 +33,8 @@ public class JSDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveValueMap.put("Float", "Number");
         primitiveValueMap.put("Date", "Date");
         primitiveValueMap.put("date", "Date");
+        primitiveValueMap.put("byte", "byte");
+
     }
 
     public static Map<String, String> primitiveObjectMap = new HashMap<String, String>();
@@ -52,6 +54,8 @@ public class JSDataTypeMappingProvider implements DataTypeMappingProvider {
         primitiveObjectMap.put("Float", "Number");
         primitiveObjectMap.put("Date", "Date");
         primitiveObjectMap.put("date", "Date");
+        primitiveObjectMap.put("byte", "Byte");
+
     }
 
     private NamingPolicyProvider nameGenerator = new CamelCaseNamingPolicyProvider();
@@ -99,6 +103,11 @@ public class JSDataTypeMappingProvider implements DataTypeMappingProvider {
         return "Array";
     }
 
+    public String getArrayReturnTypeSignature(String typeClass) {
+        return "Array";
+    }
+
+
     public String generateListInitialization(String typeClass) {
         return " new Array()";
     }
@@ -108,6 +117,10 @@ public class JSDataTypeMappingProvider implements DataTypeMappingProvider {
     }
 
     public String generateSetInitialization(String typeClass) {
+        return " new Array()";
+    }
+
+    public String generateArrayInitialization(String typeClass) {
         return " new Array()";
     }
 
@@ -149,7 +162,10 @@ public class JSDataTypeMappingProvider implements DataTypeMappingProvider {
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
     		classShortName =  getObjectType(classShortName, true);
-    	}else if (type.equals("ok")) {
+    	}else if (type.startsWith("Array[")) {
+            classShortName = type.substring(6, type.length()-1);
+            classShortName =  getObjectType(classShortName, true);
+        }else if (type.equals("ok")) {
     		classShortName = "void";
     	}else{
     		classShortName =  getObjectType(type, true);
@@ -174,7 +190,7 @@ public class JSDataTypeMappingProvider implements DataTypeMappingProvider {
     		return "void";
     	}
     	String classShortName = "";
-    	if(type.startsWith("List[") || type.startsWith("Map[") || type.startsWith("Set[")){
+    	if(type.startsWith("List[") || type.startsWith("Map[") || type.startsWith("Set[") || type.startsWith("Array[")){
     		classShortName = "Array";
     	}else{
     		classShortName =  getObjectType(type, true);
