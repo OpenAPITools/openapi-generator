@@ -164,6 +164,21 @@
                                 "expectedOutput" : "EXCEPTION"
                             }
 		                ]
+                    },
+                    {
+                        "name" : "Find user by name  with special characters",
+                        "id" : 5,
+                        "resourceId" : 9,
+                        "input" : {
+                            "username":"${input.userList[2].username}"
+                        },
+		                "assertions" : [
+                            {
+                                "actualOutput" : "${output(1.5).username}",
+                                "condition" : "==",
+                                "expectedOutput" : "${input.userList[2].username}"
+                            }
+		                ]
                     }
 
 

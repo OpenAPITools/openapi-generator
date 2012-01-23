@@ -9,6 +9,11 @@
   		"username":"testuser2",
   		"password":"password2",
   		"email":"test2@dummy.com"
+  	},
+  	{
+  		"username":"user?10",
+  		"password":"password2",
+  		"email":"test2@dummy.com"
   	}
   ],
   "petList":[

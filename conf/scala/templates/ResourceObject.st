@@ -81,7 +81,7 @@ $method.headerParameters:{ argument |
 }$
 $method.pathParameters:{ argument |
         if(null != $argument.name$) {
-            resourcePath = resourcePath.replace("{$argument.name$}", $argument.name$)
+            resourcePath = resourcePath.replace("{$argument.name$}", APIInvoker.toPathValue($argument.name$))
         }
 }$
 $endif$        
@@ -98,7 +98,7 @@ $method.headerParameters:{ argument |
 }$
 $method.pathParameters:{ argument |
         if(null != $argument.inputModelClassArgument$ && null != $argument.methodNameFromModelClass$ ) {
-             resourcePath = resourcePath.replace("{$argument.name$}", $argument.methodNameFromModelClass$)    
+             resourcePath = resourcePath.replace("{$argument.name$}", APIInvoker.toPathValue($argument.methodNameFromModelClass$))
         }
 }$
 $endif$    

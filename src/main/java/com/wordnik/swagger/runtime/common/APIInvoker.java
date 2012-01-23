@@ -17,7 +17,9 @@
 package com.wordnik.swagger.runtime.common;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.String;
+import java.net.URLEncoder;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
@@ -273,7 +275,8 @@ public class APIInvoker {
      * @return
      */
     public static String toPathValue(String value) {
-        return  value == null ? "" : value;
+        value = (value == null) ? "" : value;
+        return encode(value);
     }
 
     /**
@@ -284,14 +287,23 @@ public class APIInvoker {
      */
     public static String toPathValue(List objects) {
         StringBuilder out = new StringBuilder();
+        String output = "";
         for(Object o: objects){
             out.append(o.toString());
             out.append(",");
         }
         if(out.indexOf(",") != -1) {
-            return out.substring(0, out.lastIndexOf(",") );
+            output = out.substring(0, out.lastIndexOf(",") );
         }
-        return out.toString();
+        return encode(output);
+    }
+
+    private static String encode(String value){
+        try{
+            return URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20");
+        }catch(UnsupportedEncodingException uee){
+            throw new RuntimeException(uee.getMessage());
+        }
     }
 
     public boolean isLoggingEnable() {

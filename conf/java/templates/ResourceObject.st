@@ -78,7 +78,7 @@ $method.queryParameters:{ argument |
 }$
 $method.pathParameters:{ argument |
 		if( $argument.name$ != null) {
-			resourcePath = resourcePath.replace("{$argument.name$}", $argument.name$);
+			resourcePath = resourcePath.replace("{$argument.name$}", APIInvoker.toPathValue($argument.name$));
 		}
 }$
 $method.headerParameters:{ argument |
@@ -96,7 +96,7 @@ $method.queryParameters:{ argument |
 }$
 $method.pathParameters:{ argument |
 		if( $argument.inputModelClassArgument$ != null && $argument.methodNameFromModelClass$ != null) {
-		 	resourcePath = resourcePath.replace("{$argument.name$}", $argument.methodNameFromModelClass$);	
+		 	resourcePath = resourcePath.replace("{$argument.name$}", APIInvoker.toPathValue($argument.methodNameFromModelClass$));
 		}
 }$
 $method.headerParameters:{ argument |
