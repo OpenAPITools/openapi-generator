@@ -81,8 +81,9 @@ public class Endpoint {
             List<String> endPointMethodNames = new ArrayList<String>();
 			if(getOperations() != null) {
 				for(EndpointOperation operation: getOperations()) {
-                    //Note: Currently we are generating methods for depricated APIs also, We should provide this deprecation info on generated APIs also. 
+                    //Note: Currently we are generating methods for depricated APIs also, We should provide this deprecation info on generated APIs also.
 					if(areModelsAvailable(operation.getParameters(), resource, dataTypeMapper)) {
+
                         newMethod = operation.generateMethod(this, resource, dataTypeMapper, nameGenerator);
                         if (!endPointMethodNames.contains(newMethod.getName())) {
                             methods.add(newMethod);
@@ -94,7 +95,10 @@ public class Endpoint {
                             }
                         }
                         endPointMethodNames.add(newMethod.getName());
-					}
+					}else{
+                        System.out.println("Method not generated for resource " + resource.getResourcePath() + " and method " +
+                                operation.getNickname() + " because of un-available model objects specified in the post " );
+                    }
 				}
 			}
 		}
@@ -127,13 +131,24 @@ public class Endpoint {
             if (modelField.getParamType().equalsIgnoreCase(EndpointOperation.PARAM_TYPE_BODY) ){
                 isParamSetAvailable = false;
                 for(Model model : resource.getModels()){
-                    if(dataTypeMapper.isPrimitiveType(modelField.getDataType())){
-                        isParamSetAvailable = true;
-                        break;
-                    }
-                    if(model.getName().equalsIgnoreCase(modelField.getDataType())){
-                        isParamSetAvailable = true;
-                        break;
+                    if(modelField.getValueTypeInternal() != null) {
+                        if(dataTypeMapper.isPrimitiveType(modelField.getValueTypeInternal())){
+                            isParamSetAvailable = true;
+                            break;
+                        }
+                        if(model.getName().equalsIgnoreCase(modelField.getValueTypeInternal())){
+                            isParamSetAvailable = true;
+                            break;
+                        }
+                    }else{
+                        if(dataTypeMapper.isPrimitiveType(modelField.getDataType())){
+                            isParamSetAvailable = true;
+                            break;
+                        }
+                        if(model.getName().equalsIgnoreCase(modelField.getDataType())){
+                            isParamSetAvailable = true;
+                            break;
+                        }
                     }
                 }
                 if(!isParamSetAvailable){

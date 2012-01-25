@@ -173,7 +173,10 @@ public class JavaTestCaseExecutor {
                 }else if(datatypeMppingProvider.isPrimitiveType(argTypesArray[i].getName())){
                     argument = queryAndPathParameters.get(argNamesArray[i].trim());
                 }else if (argNamesArray[i].trim().equals(APITestRunner.POST_PARAM_NAME)){
-                    argument = APITestRunner.convertJSONStringToObject(postData, argTypesArray[i]);
+                    String input = postData;
+                    if(postData.startsWith("\"") && postData.endsWith("\"")){input = postData.substring(1, postData.length()-1);}
+                    input = input.replaceAll("\\\\\"","\"");
+                    argument = APITestRunner.convertJSONStringToObject(input, argTypesArray[i]);
                 }else{
                     //some times input can be list of primitives for supporting multivalued values. however test case sends the input as comma separated values
                     //so we need to convert comma separated string into JSON list format
