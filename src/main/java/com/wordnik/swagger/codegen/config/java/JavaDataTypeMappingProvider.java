@@ -199,13 +199,14 @@ public class JavaDataTypeMappingProvider implements DataTypeMappingProvider {
     	String classShortName = "";
     	if(type.startsWith("List[")){
     		classShortName = type.substring(5, type.length()-1);
-    		classShortName =  "List<"+ getClassName(classShortName, true)+">";
+    		classShortName =  "List<"+ getClassType(classShortName, true)+">";
     	}else if (type.startsWith("Map[")) {
     		classShortName = type.substring(4, type.length()-1);
-    		classShortName =  "Map<"+ getClassName(classShortName, true) +">";
+            String[] mapTypes = classShortName.split(",");
+    		classShortName =  "Map<"+ getClassType(mapTypes[0], true) + "," + getClassType(mapTypes[1], true) +">";
     	}else if (type.startsWith("Set[")) {
     		classShortName = type.substring(4, type.length()-1);
-    		classShortName =  "Set<"+ getClassName(classShortName, true) +">";
+    		classShortName =  "Set<"+ getClassType(classShortName, true) +">";
     	}else if (type.startsWith("Array[")) {
             classShortName = type.substring(6, type.length()-1);
             classShortName =  getClassName(classShortName, true) +"[]";

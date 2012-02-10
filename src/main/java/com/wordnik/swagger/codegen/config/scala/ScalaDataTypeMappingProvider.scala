@@ -178,13 +178,14 @@ class ScalaDataTypeMappingProvider extends DataTypeMappingProvider {
       var classShortName = ""
       if (input.startsWith("List[")) {
         classShortName = input.substring(5, input.length() - 1);
-        classShortName = "List[" + getClassName(classShortName, true) + "]";
+        classShortName = "List[" + getClassType(classShortName, true) + "]";
       } else if (input.startsWith("Map[")) {
         classShortName = input.substring(4, input.length() - 1);
-        classShortName = "Map[" + getClassName(classShortName, true) + "]";
+        val mapTypes:Array[String] = classShortName.split(",");
+        classShortName = "Map[" +  getClassType(mapTypes(0), true) + "," + getClassType(mapTypes(1), true) + "]";
       } else if (input.startsWith("Set[")) {
         classShortName = input.substring(4, input.length() - 1);
-        classShortName = "Set[" + getClassName(classShortName, true) + "]";
+        classShortName = "Set[" + getClassType(classShortName, true) + "]";
       } else if (input.startsWith("Array[")) {
         classShortName = input.substring(6, input.length() - 1);
         classShortName = "Array["+getClassName(classShortName, true) + "]";

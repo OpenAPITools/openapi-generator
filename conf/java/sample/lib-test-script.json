@@ -97,7 +97,21 @@
 	        "httpMethod" : "POST",
 	        "path" : "/store.{format}/order",
 	        "suggestedMethodName" : "placeOrder"
-	    }
+	    },
+        {
+            "id" : 15,
+            "name" : "Get users with array input",
+            "httpMethod" : "POST",
+            "path" : "/user.{format}/usersWithArray",
+            "suggestedMethodName" : "getUserByNamesArray"
+        },
+        {
+            "id" : 16,
+            "name" : "get users with list",
+            "httpMethod" : "POST",
+            "path" : "/user.{format}/usersWithList",
+            "suggestedMethodName" : "getUserByNamesList"
+        }
 	],
     "testSuites" : [
         	{
@@ -179,7 +193,38 @@
                                 "expectedOutput" : "${input.userList[2].username}"
                             }
 		                ]
+                    },
+                    {
+                         "name" : "Find users with array of user names",
+                         "id" : 6,
+                         "resourceId" : 15,
+                         "input" : {
+                             "postData":"[\"testuser1\", \"testuser2\"]"
+                         },
+                        "assertions" : [
+                             {
+                                "actualOutput" : "${output(1.6).size}",
+                                "condition" : "==",
+                                "expectedOutput" : "2"
+                             }
+                        ]
+                    },
+                    {
+                          "name" : "Find users with list of user names",
+                          "id" : 7,
+                          "resourceId" : 16,
+                          "input" : {
+                              "postData":"[\"testuser1\", \"testuser2\"]"
+                          },
+                         "assertions" : [
+                              {
+                                 "actualOutput" : "${output(1.7).size}",
+                                 "condition" : "==",
+                                 "expectedOutput" : "2"
+                              }
+                         ]
                     }
+
 
 
     	        ]
