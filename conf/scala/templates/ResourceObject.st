@@ -109,7 +109,7 @@ $if(method.hasResponseValue)$
 	$if(method.postObject)$
         val response = apiInvoker.invokeAPI(resourcePath, method, queryParams, postData, headerParams)
 	$else$
-        val response = apiInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
+        val response = apiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
 	$endif$
 $else$
 	$if(method.postObject)$
