@@ -2,7 +2,7 @@
 	<property environment="env" />
 	<property name="version.identifier" value="1.1-SHAPSHOT.121026" />
     <property name="artifact.ext" value="jar" />
-    <property name="organization" value="wordnik" />
+    <property name="organization" value="com.wordnik" />
     <property name="module" value="${ant.project.name}" />
     <property name="scala.home" value="${env.SCALA_HOME}" />
 

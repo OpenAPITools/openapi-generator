@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-	<info organisation="wordnik" module="swagger-libs-gen" />
+	<info organisation="com.wordnik" module="swagger-libs-gen" />
 	<configurations>
 		<conf name="build" visibility="public" />
 		<conf name="test" visibility="public" />

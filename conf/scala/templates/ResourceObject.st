@@ -41,6 +41,8 @@ import $import$
  */
 object $resource$ {
 
+    var apiInvoker:APIInvoker = null;
+
 $methods:{ method |
     /**
      * $method.title$
@@ -105,22 +107,22 @@ $endif$
         //make the API Call
 $if(method.hasResponseValue)$
 	$if(method.postObject)$
-        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData, headerParams)
+        val response = apiInvoker.invokeAPI(resourcePath, method, queryParams, postData, headerParams)
 	$else$
-        val response = APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
+        val response = apiInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
 	$endif$
 $else$
 	$if(method.postObject)$
-        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, postData, headerParams)
+        apiInvoker.invokeAPI(resourcePath, method, queryParams, postData, headerParams)
 	$else$
-        APIInvoker.getApiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
+        apiInvoker.invokeAPI(resourcePath, method, queryParams, null, headerParams)
 	$endif$
 $endif$
 $if(!method.responseVoid)$
 
 $if(method.hasResponseValue)$
         if(null == response || response.length() == 0){
-            null
+            return null
         }
 $endif$
 $if(!method.returnValueList)$
@@ -146,4 +148,15 @@ $endif$
 $endif$        
      }
 }$
+
+    def  getApiInvoker():APIInvoker = {
+        if(null == apiInvoker){
+            apiInvoker = APIInvoker.getApiInvoker();
+        }
+        return apiInvoker;
+    }
+
+    def setApiInvoker(invoker:APIInvoker) = {
+        apiInvoker = invoker;
+    }
 }
