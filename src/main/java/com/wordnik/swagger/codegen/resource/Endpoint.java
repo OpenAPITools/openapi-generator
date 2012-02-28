@@ -136,7 +136,7 @@ public class Endpoint {
                             isParamSetAvailable = true;
                             break;
                         }
-                        if(model.getName().equalsIgnoreCase(modelField.getValueTypeInternal())){
+                        if(modelField.getValueTypeInternal().endsWith(model.getName())){
                             isParamSetAvailable = true;
                             break;
                         }
