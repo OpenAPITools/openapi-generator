@@ -126,9 +126,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -156,7 +154,10 @@
           </execution>
         </executions>
       </plugin>
-        <plugin>
+    </plugins>
+  </build>
+  <pluginManagement>
+          <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <configuration>
@@ -164,8 +165,7 @@
             <goals>sign</goals>
           </configuration>
         </plugin>
-    </plugins>
-  </build>
+  </pluginManagement>
   <profiles>
     <profile>
       <id>release-profile</id>
