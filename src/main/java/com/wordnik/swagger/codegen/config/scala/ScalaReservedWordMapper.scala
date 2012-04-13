@@ -19,7 +19,7 @@ package com.wordnik.swagger.codegen.config.scala
 import com.wordnik.swagger.codegen.config.ReservedWordMapper
 
 object ScalaKeywordMapper {
-  val reservedWords = Array("type", "case")
+  val reservedWords = Array("type", "case", "object","match")
 }
 
 class ScalaReservedWordMapper extends ReservedWordMapper {
@@ -29,4 +29,12 @@ class ScalaReservedWordMapper extends ReservedWordMapper {
       case false => input
     }
   }
+
+  override def retranslate(input: String): String = {
+    (input.startsWith("`") && input.endsWith("`")) match {
+      case true =>  input.substring(1, input.length()-1)
+      case false => input
+    }
+  }
+
 }

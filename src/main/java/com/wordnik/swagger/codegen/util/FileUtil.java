@@ -19,6 +19,13 @@ package com.wordnik.swagger.codegen.util;
 import com.wordnik.swagger.codegen.exception.CodeGenerationException;
 
 import java.io.*;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * User: deepakmichael
@@ -119,4 +126,79 @@ public class FileUtil {
             }
         }
     }
+
+    public static void copyDirectoryFromUrl(final URL originUrl, final File destination) {
+        try {
+            final URLConnection urlConnection = originUrl.openConnection();
+            if (urlConnection instanceof JarURLConnection) {
+                FileUtil.copyJarResourcesRecursively(destination,
+                        (JarURLConnection) urlConnection);
+            } else {
+                FileUtil.copyDirectory(new File(originUrl.getPath()),
+                        destination);
+            }
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean copyJarResourcesRecursively(final File destDir,
+                                                      final JarURLConnection jarConnection) throws IOException {
+
+        final JarFile jarFile = jarConnection.getJarFile();
+
+        for (final Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements();) {
+            final JarEntry entry = e.nextElement();
+            if (entry.getName().startsWith(jarConnection.getEntryName())) {
+                final String filename = StringUtils.removeStart(entry.getName(), //
+                        jarConnection.getEntryName());
+
+                final File f = new File(destDir, filename);
+                if (!entry.isDirectory()) {
+                    final InputStream entryInputStream = jarFile.getInputStream(entry);
+                    if(!FileUtil.copyStream(entryInputStream, f)){
+                        return false;
+                    }
+                    entryInputStream.close();
+                } else {
+                    if (!FileUtil.ensureDirectoryExists(f)) {
+                        throw new IOException("Could not create directory: "
+                                + f.getAbsolutePath());
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean copyStream(final InputStream is, final File f) {
+        try {
+            return FileUtil.copyStream(is, new FileOutputStream(f));
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean copyStream(final InputStream is, final OutputStream os) {
+        try {
+            final byte[] buf = new byte[1024];
+
+            int len = 0;
+            while ((len = is.read(buf)) > 0) {
+                os.write(buf, 0, len);
+            }
+            is.close();
+            os.close();
+            return true;
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean ensureDirectoryExists(final File f) {
+        return f.exists() || f.mkdir();
+    }
+
 }

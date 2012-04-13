@@ -96,14 +96,11 @@ public class SwaggerResourceDocReader {
 
         //make connection to resource and get the documentation
         for (String resourceURL : resourceURLs) {
-            resourceURL = resourceURL + "?api_key=" + apiKey;
-            WebResource aResource = apiClient.resource(resourceURL);
-            aResource.header("api_key", apiKey);
-            ClientResponse clientResponse =  aResource.header("api_key", apiKey).get(ClientResponse.class);
+            ClientResponse clientResponse = buildClientResponse(apiClient, resourceURL);
             String response = clientResponse.getEntity(String.class);
             try {
                 ObjectMapper mapper = new ObjectMapper();
-                mapper.getDeserializationConfig().set(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 Resource aResourceDoc = deserializeResource(response, mapper);
                 resourceDocs.add(aResourceDoc);
             } catch (IOException ioe) {
@@ -113,6 +110,21 @@ public class SwaggerResourceDocReader {
         }
         return resourceDocs;
 
+    }
+
+    private ClientResponse buildClientResponse(Client apiClient, String url) {
+        if(null != apiKey && apiKey.length() > 0){
+            url = url + "?api_key="+ apiKey;
+        }
+        WebResource aResource = apiClient.resource(url);
+        ClientResponse clientResponse = null;
+        if(null != apiKey && apiKey.length() > 0){
+            aResource.header("api_key", apiKey);
+            clientResponse =  aResource.header("api_key", apiKey).get(ClientResponse.class);
+        }else{
+            clientResponse =  aResource.get(ClientResponse.class);
+        }
+        return clientResponse;
     }
 
     private String trimResourceName(String resource) {
@@ -134,14 +146,12 @@ public class SwaggerResourceDocReader {
         }else{
             apiResourceUrl = trimResourceName( apiListResource);
         }
-        apiResourceUrl = apiResourceUrl + "?api_key="+ apiKey;
-        WebResource aResource = apiClient.resource(apiResourceUrl);
-        aResource.header("api_key", apiKey);
-        ClientResponse clientResponse =  aResource.header("api_key", apiKey).get(ClientResponse.class);
+
+        ClientResponse clientResponse = buildClientResponse(apiClient, apiResourceUrl);
         String response = clientResponse.getEntity(String.class);
         try {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.getDeserializationConfig().set(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             resourceApi = deserializeResource(response, mapper);
 
             for(Endpoint api: resourceApi.getEndPoints()){
@@ -149,6 +159,7 @@ public class SwaggerResourceDocReader {
             }
         }
         catch (IOException ex) {
+            ex.printStackTrace();
             throw new CodeGenerationException("Error in coverting resource listing json documentation to java object");
 
         }

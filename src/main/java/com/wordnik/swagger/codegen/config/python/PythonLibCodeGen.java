@@ -87,7 +87,8 @@ public class PythonLibCodeGen extends LibraryCodeGenerator {
         FileUtil.createOutputDirectories(PythonConfiguration.getResourceClassLocation(), PythonConfiguration.getClassFileExtension());
         FileUtil.clearFolder(PythonConfiguration.getModelClassLocation());
         FileUtil.clearFolder(PythonConfiguration.getResourceClassLocation());
-        FileUtil.copyDirectory(new File(PythonConfiguration.getStructureLocation()), new File(PythonConfiguration.getResourceClassLocation()));
+        FileUtil.copyDirectoryFromUrl(this.getClass().getClassLoader().getResource(PythonConfiguration.getStructureLocation()), new File(PythonConfiguration.getResourceClassLocation()));
+
         File initFile = new File(PythonConfiguration.getResourceClassLocation() + "__init__.py");
         File newInitFile = new File(PythonConfiguration.getModelClassLocation() + "__init__.py");
         initFile.renameTo(newInitFile);

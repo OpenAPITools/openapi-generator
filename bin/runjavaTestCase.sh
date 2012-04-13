@@ -1,12 +1,13 @@
 #!/bin/bash
 echo "" > classpath.txt
-for file in `ls lib`;
-        do echo -n 'lib/' >> classpath.txt;
+echo "" > classpath.txt
+for file in `ls target/lib`;
+        do echo -n 'target/lib/' >> classpath.txt;
         echo -n $file >> classpath.txt;
         echo -n ':' >> classpath.txt;
 done
-for file in `ls build`;
-	do echo -n 'build/' >> classpath.txt;
+for file in `ls target/*.jar`;
+	do echo -n '' >> classpath.txt;
 	echo -n $file >> classpath.txt;
 	echo -n ':' >> classpath.txt;
 done

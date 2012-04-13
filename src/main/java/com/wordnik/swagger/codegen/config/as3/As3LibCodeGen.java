@@ -84,7 +84,7 @@ public class As3LibCodeGen extends LibraryCodeGenerator{
         FileUtil.clearFolder(as3Configuration.getLibraryHome() + "/src/main/as3/com/wordnik/swagger/common");
         FileUtil.clearFolder(as3Configuration.getLibraryHome() + "/src/main/as3/com/wordnik/swagger/exception");
         FileUtil.clearFolder(as3Configuration.getLibraryHome() + "/src/main/as3/com/wordnik/swagger/event");
-        FileUtil.copyDirectory(new File(as3Configuration.getStructureLocation()), new File(as3Configuration.getLibraryHome()));
+        FileUtil.copyDirectoryFromUrl(this.getClass().getClassLoader().getResource(as3Configuration.getStructureLocation()), new File(as3Configuration.getLibraryHome()));
 
         as3Configuration.setModelEnumRequired(false);
         as3Configuration.setOutputWrapperRequired(true);

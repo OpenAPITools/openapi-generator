@@ -22,6 +22,7 @@ import java.util.List;
 public class FieldDefinition {
 	private String returnType;
 	private String name;
+    private String originalName;
 	private String initialization;
 	private List<String> importDefinitions = new ArrayList<String>();
     private String collectionItemType;
@@ -91,7 +92,15 @@ public class FieldDefinition {
         }
 		this.returnType = returnType;
 	}
-	
+
+    public String getOriginalName() {
+        return originalName;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
+    }
+
 	public String getName() {
 		return name;
 	}
@@ -113,7 +122,7 @@ public class FieldDefinition {
 	}
 
     public String getNameForMethod() {
-        return name.substring(0,1).toUpperCase() + name.substring(1);
+        return originalName.substring(0,1).toUpperCase() + originalName.substring(1);
     }
 
     public void setCollectionItemType(String collectionItemType) {

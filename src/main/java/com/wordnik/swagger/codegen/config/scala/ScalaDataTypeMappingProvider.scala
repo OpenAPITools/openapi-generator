@@ -61,9 +61,12 @@ object ScalaDataTypeMappingProvider {
     "date" -> "Date",
     "byte" -> "Byte",
     "java.util.Date" -> "Date")
+  val reservedWordMapper = new ScalaReservedWordMapper
 }
 
 class ScalaDataTypeMappingProvider extends DataTypeMappingProvider {
+  import ScalaDataTypeMappingProvider._
+
   val nameGenerator = new CamelCaseNamingPolicyProvider()
 
   def isPrimitiveType(input: String): Boolean = {
@@ -160,7 +163,7 @@ class ScalaDataTypeMappingProvider extends DataTypeMappingProvider {
    * @return
    */
   def getArgumentDefinition(argumentType: String, argumentName: String): String = {
-    argumentName + ":" + argumentType 
+    reservedWordMapper.translate(argumentName) + ":" + argumentType
   }
 
   /**

@@ -131,24 +131,13 @@ public class Endpoint {
             if (modelField.getParamType().equalsIgnoreCase(EndpointOperation.PARAM_TYPE_BODY) ){
                 isParamSetAvailable = false;
                 for(Model model : resource.getModels()){
-                    if(modelField.getValueTypeInternal() != null) {
-                        if(dataTypeMapper.isPrimitiveType(modelField.getValueTypeInternal())){
-                            isParamSetAvailable = true;
-                            break;
-                        }
-                        if(model.getName().equalsIgnoreCase(modelField.getValueTypeInternal())){
-                            isParamSetAvailable = true;
-                            break;
-                        }
-                    }else{
-                        if(dataTypeMapper.isPrimitiveType(modelField.getDataType())){
-                            isParamSetAvailable = true;
-                            break;
-                        }
-                        if(model.getName().equalsIgnoreCase(modelField.getDataType())){
-                            isParamSetAvailable = true;
-                            break;
-                        }
+                    if(dataTypeMapper.isPrimitiveType(modelField.getGenericType())){
+                        isParamSetAvailable = true;
+                        break;
+                    }
+                    if(model.getName().equalsIgnoreCase(modelField.getGenericType())){
+                        isParamSetAvailable = true;
+                        break;
                     }
                 }
                 if(!isParamSetAvailable){

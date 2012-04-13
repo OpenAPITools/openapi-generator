@@ -92,8 +92,7 @@ class RubyLibCodeGen (
     FileUtil.clearFolder(config.getResourceClassLocation());
     FileUtil.clearFolder(config.getLibraryHome() + "/src/main/ruby/com/wordnik/swagger/runtime");
     FileUtil.createOutputDirectories(config.getLibraryHome() + "/src/main/ruby/lib", "ruby");
-    FileUtil.copyDirectory(new File(config.getStructureLocation()), new File(classOutputDir));
-
+    FileUtil.copyDirectoryFromUrl(this.getClass.getClassLoader.getResource(config.getStructureLocation()), new File(classOutputDir));
     config
   }
 }

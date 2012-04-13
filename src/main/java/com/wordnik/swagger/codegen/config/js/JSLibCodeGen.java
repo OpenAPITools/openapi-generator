@@ -123,7 +123,7 @@ public class JSLibCodeGen extends LibraryCodeGenerator {
         FileUtil.clearFolder(jsConfiguration.getLibraryHome() + "/src/main/js/com/wordnik/swagger/common");
         FileUtil.clearFolder(jsConfiguration.getLibraryHome() + "/src/main/js/com/wordnik/swagger/exception");
         FileUtil.clearFolder(jsConfiguration.getLibraryHome() + "/src/main/js/com/wordnik/swagger/event");
-        FileUtil.copyDirectory(new File(jsConfiguration.getStructureLocation()), new File(jsConfiguration.getLibraryHome()));
+        FileUtil.copyDirectoryFromUrl(this.getClass().getClassLoader().getResource(jsConfiguration.getStructureLocation()), new File(jsConfiguration.getLibraryHome()));
 
         jsConfiguration.setModelEnumRequired(false);
         jsConfiguration.setOutputWrapperRequired(true);

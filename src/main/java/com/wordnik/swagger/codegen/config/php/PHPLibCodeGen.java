@@ -87,7 +87,8 @@ public class PHPLibCodeGen extends LibraryCodeGenerator {
         FileUtil.createOutputDirectories(PHPConfiguration.getResourceClassLocation(), PHPConfiguration.getClassFileExtension());
         FileUtil.clearFolder(PHPConfiguration.getModelClassLocation());
         FileUtil.clearFolder(PHPConfiguration.getResourceClassLocation());
-        FileUtil.copyDirectory(new File(PHPConfiguration.getStructureLocation()), new File(PHPConfiguration.getResourceClassLocation()));
+        FileUtil.copyDirectoryFromUrl(this.getClass().getClassLoader().getResource(PHPConfiguration.getStructureLocation()), new File(PHPConfiguration.getResourceClassLocation()));
+
         return PHPConfiguration;
     }
 

@@ -21,6 +21,7 @@ import com.wordnik.swagger.codegen.config.ApiConfiguration;
 import com.wordnik.swagger.codegen.config.DataTypeMappingProvider;
 import com.wordnik.swagger.codegen.config.NamingPolicyProvider;
 
+import com.wordnik.swagger.codegen.config.ReservedWordMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,7 @@ public class ModelField {
     private String internalDescription;
     private String paramAccess;
     private String valueTypeInternal;
+    private String genericType;
     private FieldDefinition fieldDefinition;
 
     Logger logger = LoggerFactory.getLogger(ModelField.class);
@@ -155,12 +157,29 @@ public class ModelField {
         this.valueTypeInternal = valueTypeInternal;
     }
 
+    public String getGenericType() {
+        if(genericType == null){
+            if(dataType.startsWith("List[")){
+                genericType = dataType.substring(5, dataType.length()-1);
+            } else if(dataType.startsWith("Set[")){
+                genericType = dataType.substring(4, dataType.length()-1);
+            } else if(dataType.startsWith("Array[")){
+                genericType = dataType.substring(6, dataType.length()-1);
+            } else if(dataType.startsWith("Map[")){
+                genericType = dataType.substring(4, dataType.length()-1);
+            } else {
+                genericType = dataType;
+            }
+        }
+        return genericType;
+    }
+
 
     public FieldDefinition getFieldDefinition(){
         return fieldDefinition;
     }
 
-    public FieldDefinition getFieldDefinition(DataTypeMappingProvider dataTypeMapper, ApiConfiguration config, NamingPolicyProvider nameGenerator) {
+    public FieldDefinition getFieldDefinition(DataTypeMappingProvider dataTypeMapper, ApiConfiguration config, NamingPolicyProvider nameGenerator, ReservedWordMapper reservedWordMapper) {
         try{
             if(fieldDefinition == null) {
                 fieldDefinition = new FieldDefinition();
@@ -247,6 +266,7 @@ public class ModelField {
                     fieldDefinition.setHasPrimitiveType(dataTypeMapper.isPrimitiveType(fieldDefinition.getReturnType()));
                 }
             }
+            fieldDefinition.setOriginalName(reservedWordMapper.retranslate(fieldDefinition.getName()));
             return fieldDefinition;
         }catch(RuntimeException t){
             logger.error("Error generating field definition for object " + this.getName() + " data type " + this.getDataType());

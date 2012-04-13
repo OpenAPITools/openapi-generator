@@ -28,4 +28,11 @@ public class DefaultReservedWordMapper implements ReservedWordMapper {
 		//	does nothing
 		return input;
 	}
+
+    @Override
+    public String retranslate(String input) {
+        //	does nothing
+        return input;
+    }
+
 }

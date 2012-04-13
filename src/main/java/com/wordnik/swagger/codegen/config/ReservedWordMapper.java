@@ -17,5 +17,8 @@
 package com.wordnik.swagger.codegen.config;
 
 public interface ReservedWordMapper {
+
 	public String translate(String input);
+
+    public String retranslate(String input);
 }

@@ -23,31 +23,12 @@ export SCALA_HOME={PATH_TO_YOUR_SCALA_DEPLOYMENT}
 </pre>
 
 ### To build the codegen library
-If you don't have the Apache Ivy dependency manager installed, run this build script:
 
-<pre>
-ant -f install-ivy
-</pre>
+You can build the client with the following:
 
-This will copy the ivy ant lib into your antlib directory.  Now you can build the artifact:
-
-<pre>
-ant
-</pre>
-
-This will create the swagger-codegen library in your build folder.  
-
-
-### To build java client source files
-
-<pre>
-./bin/generate-java-lib.sh {server-url} {api_key} {output-package} {output-dir}
-</pre>
-
-for example:
-<pre>
-./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver generated-files
-</pre>
+````
+mvn package
+````
 
 ### Other languages
 #### scala

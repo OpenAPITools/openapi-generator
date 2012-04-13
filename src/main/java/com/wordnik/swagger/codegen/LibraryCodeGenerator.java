@@ -106,7 +106,7 @@ public class LibraryCodeGenerator {
     	//read resources and get their documentation
         List<Resource> resources = apiMarshaller.readResourceDocumentation();
         preprocess(resources);
-        StringTemplateGroup aTemplateGroup = new StringTemplateGroup("templates", languageConfig.getTemplateLocation());
+        StringTemplateGroup aTemplateGroup = new StringTemplateGroup(languageConfig.getTemplateLocation());
         if(resources.size() > 0) {
         	generateVersionHelper(resources.get(0).getApiVersion(), aTemplateGroup);
         }
@@ -144,7 +144,7 @@ public class LibraryCodeGenerator {
      * @param version
      */
     private void generateVersionHelper(String version, StringTemplateGroup templateGroup) {
-    	StringTemplate template = templateGroup.getInstanceOf(VERSION_OBJECT_TEMPLATE);
+    	StringTemplate template = templateGroup.getInstanceOf(languageConfig.getTemplateLocation()+"/"+VERSION_OBJECT_TEMPLATE);
     	template.setAttribute("apiVersion", version);
     	template.setAttribute(PACKAGE_NAME, config.getApiPackageName());
     	File aFile = new File(languageConfig.getResourceClassLocation() + this.getNameGenerator().getVersionCheckerClassName()
@@ -167,13 +167,14 @@ public class LibraryCodeGenerator {
                         logger.warn("Model " + model.getName() + " doesn't have any properties");
                     } else {
                         for(ModelField param : model.getFields()){
-                            for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
+                            param.setName(reservedWordMapper.translate(param.getName()));
+                            for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator, reservedWordMapper).getImportDefinitions()){
                                 if(!imports.contains(importDef)){
                                     imports.add(importDef);
                                 }
                             }
                         }
-                        StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
+                        StringTemplate template = templateGroup.getInstanceOf(languageConfig.getTemplateLocation()+"/"+MODEL_OBJECT_TEMPLATE);
                         template.setAttribute("model", model);
                         template.setAttribute("fields", model.getFields());
                         template.setAttribute("imports", imports);
@@ -213,13 +214,13 @@ public class LibraryCodeGenerator {
                                         imports.addAll(this.config.getDefaultModelImports());
 		    		    				for(ModelField param : model.getFields()){
 		    		    					param.setName(reservedWordMapper.translate(param.getName()));
-		    		    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
+		    		    					for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator, reservedWordMapper).getImportDefinitions()){
 		    		    						if(!imports.contains(importDef)){
 		    		    							imports.add(importDef);
 		    		    						}
 		    		    					}
 		    		    				}
-		    		    		    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
+		    		    		    	StringTemplate template = templateGroup.getInstanceOf(languageConfig.getTemplateLocation()+"/"+MODEL_OBJECT_TEMPLATE);
 
 		    		    		    	template.setAttribute("fields", model.getFields());
 		    		    		    	template.setAttribute("imports", imports);
@@ -262,7 +263,7 @@ public class LibraryCodeGenerator {
                                     if(operationParam.getAllowableValues() != null && operationParam.getAllowableValues().getClass().isAssignableFrom(AllowableListValues.class)) {
                                         if(!generatedEnums.contains(operationParam.getName())){
                                             //generate enum
-                                            template = templateGroup.getInstanceOf(ENUM_OBJECT_TEMPLATE);
+                                            template = templateGroup.getInstanceOf(languageConfig.getTemplateLocation()+"/"+ENUM_OBJECT_TEMPLATE);
                                             List<String> imports = new ArrayList<String>();
                                             imports.addAll(this.config.getDefaultModelImports());
                                             enumName = this.getNameGenerator().getEnumName(operationParam.getName());
@@ -277,7 +278,7 @@ public class LibraryCodeGenerator {
                                                     valuePrefix = valueSuffix = "";
                                                 };
                                                 String namePrefix = "";
-                                                if(isNameStartsWithInteger(allowableValue) && !canEnumNameStartsWithNumber()){
+                                                if((isNameStartsWithInteger(allowableValue) && !canEnumNameStartsWithNumber()) || isEnumNumber(allowableValue) ){
                                                     namePrefix = "ENUM_";
                                                 }
                                                 template.setAttribute("values.{name,value}",
@@ -309,9 +310,18 @@ public class LibraryCodeGenerator {
         return false;
     }
 
+    private boolean isEnumNumber(String name) {
+        try{
+            new Integer(name);
+            return true;
+        }catch(Throwable t){
+            return false;
+        }
+    }
+    
     private void generateOutputWrappers(List<Resource> resources, StringTemplateGroup templateGroup) {
         List<String> generatedClasses = new ArrayList<String>();
-        StringTemplate template = templateGroup.getInstanceOf(WRAPPER_OBJECT_TEMPLATE);
+        StringTemplate template = templateGroup.getInstanceOf(languageConfig.getTemplateLocation()+"/"+WRAPPER_OBJECT_TEMPLATE);
         if(template == null){
             System.out.println("WrapperObject template not found to generate output wrappers");
             return;
@@ -334,7 +344,8 @@ public class LibraryCodeGenerator {
                                         List<String> imports = new ArrayList<String>();
                                         imports.addAll(this.config.getDefaultModelImports());
                                         for(ModelField param : model.getFields()){
-                                            for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
+                                            param.setName(reservedWordMapper.translate(param.getName()));
+                                            for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator, reservedWordMapper).getImportDefinitions()){
                                                 if(!imports.contains(importDef)){
                                                     imports.add(importDef);
                                                 }
@@ -375,12 +386,17 @@ public class LibraryCodeGenerator {
                 List<String> imports = new ArrayList<String>();
                 imports.addAll(this.config.getDefaultServiceImports());
                 methods = resource.generateMethods(resource, dataTypeMappingProvider, nameGenerator, languageConfig);
-                StringTemplate template = templateGroup.getInstanceOf(API_OBJECT_TEMPLATE);
+                StringTemplate template = templateGroup.getInstanceOf(languageConfig.getTemplateLocation()+"/"+API_OBJECT_TEMPLATE);
                 String className = resource.generateClassName(nameGenerator);
 
                 if(className != null){
 	                List<ResourceMethod> filteredMethods = new ArrayList<ResourceMethod>();
 	                for(ResourceMethod method:methods){
+                        if(method.getArguments() != null){
+                            for(MethodArgument methodArg: method.getArguments()){
+                                methodArg.setName(reservedWordMapper.translate(methodArg.getName()));
+                            }
+                        }
 	                    if(!this.getCodeGenRulesProvider().isMethodIgnored(className, method.getName())){
 	                        filteredMethods.add(method);
 	                    }
@@ -425,13 +441,13 @@ public class LibraryCodeGenerator {
         imports.addAll(this.config.getDefaultModelImports());
         imports.addAll(this.getDataTypeMappingProvider().getListIncludes());
 		for(ModelField param : model.getFields()){
-			for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator).getImportDefinitions()){
+			for(String importDef : param.getFieldDefinition(this.getDataTypeMappingProvider(), config, nameGenerator, reservedWordMapper).getImportDefinitions()){
 				if(!imports.contains(importDef)){
 					imports.add(importDef);
 				}
 			}
 		}
-    	StringTemplate template = templateGroup.getInstanceOf(MODEL_OBJECT_TEMPLATE);
+    	StringTemplate template = templateGroup.getInstanceOf(languageConfig.getTemplateLocation()+"/"+MODEL_OBJECT_TEMPLATE);
     	template.setAttribute("fields", model.getFields());
     	template.setAttribute("imports", imports);
         template.setAttribute("annotationPackageName", languageConfig.getAnnotationPackageName());

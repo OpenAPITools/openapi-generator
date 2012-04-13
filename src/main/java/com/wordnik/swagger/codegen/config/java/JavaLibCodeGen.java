@@ -89,7 +89,12 @@ public class JavaLibCodeGen extends LibraryCodeGenerator {
         FileUtil.clearFolder(javaConfiguration.getResourceClassLocation());
         FileUtil.clearFolder(javaConfiguration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/runtime");
         FileUtil.createOutputDirectories(javaConfiguration.getLibraryHome() + "/src/main/java/com/wordnik/swagger/runtime", "java");
-        FileUtil.copyDirectory(new File("src/main/java/com/wordnik/swagger/runtime"), new File(javaConfiguration.getLibraryHome()+"/src/main/java/com/wordnik/swagger/runtime"));
+        try{
+            FileUtil.copyDirectoryFromUrl(this.getClass().getClassLoader().getResource("conf/java/structure/src/main/java"), new File(javaConfiguration.getLibraryHome() + "/src/main/java"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+         
         return javaConfiguration;
     }
 

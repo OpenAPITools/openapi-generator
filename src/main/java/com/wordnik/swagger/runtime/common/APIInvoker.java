@@ -29,6 +29,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.wordnik.swagger.runtime.exception.APIException;
 import com.wordnik.swagger.runtime.exception.APIExceptionCodes;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -65,10 +66,10 @@ public class APIInvoker {
 	protected static String DELETE = "DELETE";
 	public static ObjectMapper mapper = new ObjectMapper();
 	static{
-        mapper.getDeserializationConfig().set(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.getSerializationConfig().set(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(SerializationConfig.Feature.WRITE_NULL_PROPERTIES, false);
         mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
         apiClient = Client.create();
 	}
 
@@ -93,7 +94,7 @@ public class APIInvoker {
 		}
 		invoker.setLoggingEnable(enableLogging);
         //initialize the logger if needed
-        if(loggingEnabled) {
+        if(loggingEnabled && apiInvoker == null) {
         	if(logger == null) {
         		apiClient.addFilter(new LoggingFilter());
         	}else{
@@ -258,9 +259,13 @@ public class APIInvoker {
 	public static String serialize(Object input) throws APIException {
         try {
         	if(input != null) {
-	            return mapper.writeValueAsString(input);
+		    if (input instanceof String) {
+			return (String)input;
+		    } else {
+			return mapper.writeValueAsString(input);
+		    }
         	}else{
-        		return "";
+        		return "{}";
         	}
         } catch (IOException ioe) {
             throw new APIException(APIExceptionCodes.ERROR_CONVERTING_JAVA_TO_JSON, "Error in coverting input java to json : " + ioe.getMessage(), ioe);
