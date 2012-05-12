@@ -56,7 +56,7 @@ mvn package
 ./bin/generate-python-lib.sh http://petstore.swagger.wordnik.com/api "" "client" "generated-files"
 </pre>
 
-#### C#
+#### C&#35;
 <pre>
 bin\generate-csharp-lib.cmd http://petstore.swagger.wordnik.com/api "your_api_key" "PetStore" "generated-files"
 </pre>
