@@ -34,7 +34,7 @@ public class CSharpDataTypeMappingProvider implements DataTypeMappingProvider {
   private static final Map<String, String> _primitiveValueMap;
   private static final Map<String, String> _primitiveObjectMap;
   
-  private NamingPolicyProvider _nameGenerator = new CamelCaseNamingPolicyProvider();
+  private NamingPolicyProvider _nameGenerator = new CSharpNamingPolicyProvider();
 
   static {
     _primitiveValueMap = new HashMap<String, String>();

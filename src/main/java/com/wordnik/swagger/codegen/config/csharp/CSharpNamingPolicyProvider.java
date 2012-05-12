@@ -45,6 +45,10 @@ public class CSharpNamingPolicyProvider implements NamingPolicyProvider {
   @Override
   public String applyClassNamingPolicy(String input) {
     if (input != null && input.length() > 0) {
+      if ("string".equalsIgnoreCase(input)) {
+        return "string";
+      }
+      
       String output = input.substring(0, 1).toUpperCase() + input.substring(1);
       // class name can't have . so if dot exists remove the same
       output = output.replace(".", "");
