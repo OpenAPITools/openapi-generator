@@ -11,3 +11,7 @@ build/*
 generated-files/*
 *.swp
 *.swo
+
+/target
+/generated-files
+/nbactions.xml

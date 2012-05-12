@@ -75,12 +75,17 @@ public class LibraryCodeGenerator {
     }
 
     public LibraryCodeGenerator(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
+                                String classOutputDir, String modelDirectory, String resourceDirectory, String libraryHome){
+        initialize(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, modelDirectory, resourceDirectory, libraryHome);
+    }
+    
+    public LibraryCodeGenerator(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
                                 String classOutputDir, String libraryHome){
-        initialize(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, libraryHome);
+        this(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, "model", "api", libraryHome);
     }
     
     protected void initialize(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
-                                String classOutputDir, String libraryHome){
+                                String classOutputDir, String modelDirectory, String resourceDirectory, String libraryHome){
         final ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         ApiConfiguration aApiConfiguration = new ApiConfiguration();
@@ -92,12 +97,16 @@ public class LibraryCodeGenerator {
         CodeGenRulesProvider codeGenRules = new CodeGenRulesProvider();
         this.setCodeGenRulesProvider(codeGenRules);
         LanguageConfiguration aLanguageConfiguration = new LanguageConfiguration();
-        aLanguageConfiguration.setOutputDirectory(classOutputDir);
+        aLanguageConfiguration.setOutputDirectory(classOutputDir, modelDirectory, resourceDirectory);
         aLanguageConfiguration.setLibraryHome(libraryHome);
         initializeLangConfig(aLanguageConfiguration);
         this.setLanguageConfig(aLanguageConfiguration);
     }
     
+    protected void initialize(String apiServerURL, String apiKey, String modelPackageName, String apiPackageName,
+                                String classOutputDir, String libraryHome){
+      initialize(apiServerURL, apiKey, modelPackageName, apiPackageName, classOutputDir, "model", "api", libraryHome);
+    }
     /**
      * Generate classes needed for the model and API invocation
      */
@@ -107,6 +116,7 @@ public class LibraryCodeGenerator {
         List<Resource> resources = apiMarshaller.readResourceDocumentation();
         preprocess(resources);
         StringTemplateGroup aTemplateGroup = new StringTemplateGroup(languageConfig.getTemplateLocation());
+        aTemplateGroup.registerRenderer(String.class, new StringRenderer());
         if(resources.size() > 0) {
         	generateVersionHelper(resources.get(0).getApiVersion(), aTemplateGroup);
         }

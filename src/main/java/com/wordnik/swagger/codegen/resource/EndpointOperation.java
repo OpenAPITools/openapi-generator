@@ -234,7 +234,7 @@ public class EndpointOperation {
 								modelField.getName().equals(AUTH_TOKEN_PARAM_NAME)){
 							method.setAuthToken(true);
 							anArgument.setName(AUTH_TOKEN_ARGUMENT_NAME);
-							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+							anArgument.setDataType(dataTypeMapper.getClassType(MethodArgument.ARGUMENT_STRING, true));
 							anArgument.setDescription(modelField.getDescription());
 							anArgument.setRequired(modelField.isRequired());
 							anArgument.setDefaultValue(modelField.getDefaultValue());
@@ -243,14 +243,14 @@ public class EndpointOperation {
 						}else if(modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_HEADER) &&
 								modelField.getName().equals(API_KEY_PARAM_NAME)){
                             anArgument.setName(API_KEY_PARAM_NAME);
-                            anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+                            anArgument.setDataType(dataTypeMapper.getClassType(MethodArgument.ARGUMENT_STRING, true));
                             anArgument.setRequired(true);
                             arguments.add(anArgument);
                             headerParams.add(anArgument);
 						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_PATH) &&
 								!modelField.getName().equalsIgnoreCase(FORMAT_PARAM_NAME)) {
 							anArgument.setName(modelField.getName());
-							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+							anArgument.setDataType(dataTypeMapper.getClassType(MethodArgument.ARGUMENT_STRING, true));
 							anArgument.setDescription(modelField.getDescription());
 							anArgument.setRequired(true);	//	always true
 							anArgument.setDefaultValue(modelField.getDefaultValue());
@@ -258,7 +258,7 @@ public class EndpointOperation {
 							pathParams.add(anArgument);
 						}else if (modelField.getParamType().equalsIgnoreCase(PARAM_TYPE_QUERY)) {
 							anArgument.setName(modelField.getName());
-							anArgument.setDataType(MethodArgument.ARGUMENT_STRING);
+							anArgument.setDataType(dataTypeMapper.getClassType(MethodArgument.ARGUMENT_STRING, true));
 							anArgument.setDescription(modelField.getDescription());
 							anArgument.setRequired(modelField.isRequired());
 							anArgument.setDefaultValue(modelField.getDefaultValue());
