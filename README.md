@@ -56,6 +56,11 @@ mvn package
 ./bin/generate-python-lib.sh http://petstore.swagger.wordnik.com/api "" "client" "generated-files"
 </pre>
 
+#### C&#35;
+<pre>
+bin\generate-csharp-lib.cmd http://petstore.swagger.wordnik.com/api "your_api_key" "PetStore" "generated-files"
+</pre>
+
 The main class for the generator is at src/main/java/com/wordnik/swagger/codegen/config/java/JavaLibCodeGen.java
 
 The code-gen uses the antlr string template library for generating the output files, please look at
