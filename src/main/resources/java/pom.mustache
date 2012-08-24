@@ -2,14 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wordnik</groupId>
-	<artifactId>swagger-codegen_2.9.1</artifactId>
+	<artifactId>swagger-client</artifactId>
 	<packaging>jar</packaging>
-	<name>swagger-codegen</name>
-	<version>1.2-SNAPSHOT</version>
+	<name>swagger-client</name>
+	<version>1.0</version>
 	<scm>
-		<connection>scm:git:git@github.com:wordnik/swagger-codegen-2.git</connection>
-		<developerConnection>scm:git:git@github.com:wordnik/swagger-codegen-2.git</developerConnection>
-		<url>https://github.com/wordnik/swagger-codegen-2</url>
+		<connection>scm:git:git@github.com:wordnik/swagger-mustache.git</connection>
+		<developerConnection>scm:git:git@github.com:wordnik/swagger-mustache.git</developerConnection>
+		<url>https://github.com/wordnik/swagger-mustache</url>
 	</scm>
 	<prerequisites>
 		<maven>2.2.0</maven>
@@ -27,8 +27,6 @@
 			<url>http://maven-mongodb-plugin.googlecode.com/svn/maven/repo</url>
 			<layout>default</layout>
 		</pluginRepository>
-
-
 	</pluginRepositories>
 
 	<build>
@@ -162,27 +160,22 @@
 		</plugins>
 	</reporting>
 	<dependencies>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey-version}</version>
+      <scope>compile</scope>
+    </dependency>
+	  <dependency>
+		  <groupId>org.scala-lang</groupId>
+		  <artifactId>scala-library</artifactId>
+		  <version>${scala-version}</version>
+		  <scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.wordnik</groupId>
 			<artifactId>swagger-core_2.9.1</artifactId>
 			<version>${swagger-core-version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.fusesource.scalate</groupId>
-			<artifactId>scalate-wikitext</artifactId>
-			<version>1.5.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fusesource.scalate</groupId>
-			<artifactId>scalate-page</artifactId>
-			<version>1.5.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>${scala-version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -217,11 +210,15 @@
 			<url>https://ci.aws.wordnik.com/artifactory/remote-repos/</url>
 		</repository>
 	</repositories>
+
 	<properties>
-		<swagger-core-version>1.02-SNAPSHOT</swagger-core-version>
+    <jersey-version>1.7</jersey-version>
+    <swagger-core-version>1.02-SNAPSHOT</swagger-core-version>
 		<scala-version>2.9.1-1</scala-version>
 		<junit-version>4.8.1</junit-version>
 		<maven-plugin.version>1.0.0</maven-plugin.version>
+		<scala-test-version>1.6.1</scala-test-version>
+		<junit-version>4.8.1</junit-version>
 		<scala-test-version>1.6.1</scala-test-version>
 	</properties>
 </project>

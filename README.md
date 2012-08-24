@@ -23,12 +23,31 @@ export SCALA_HOME={PATH_TO_YOUR_SCALA_DEPLOYMENT}
 </pre>
 
 ### To build the codegen library
+If you don't have the Apache Ivy dependency manager installed, run this build script:
 
-You can build the client with the following:
+<pre>
+ant -f install-ivy
+</pre>
 
-````
-mvn package
-````
+This will copy the ivy ant lib into your antlib directory.  Now you can build the artifact:
+
+<pre>
+ant
+</pre>
+
+This will create the swagger-codegen library in your build folder.  
+
+
+### To build java client source files
+
+<pre>
+./bin/generate-java-lib.sh {server-url} {api_key} {output-package} {output-dir}
+</pre>
+
+for example:
+<pre>
+./bin/generate-java-lib.sh http://petstore.swagger.wordnik.com/api/ special-key com.foo.mydriver generated-files
+</pre>
 
 ### Other languages
 #### scala
@@ -54,11 +73,6 @@ mvn package
 #### Python
 <pre>
 ./bin/generate-python-lib.sh http://petstore.swagger.wordnik.com/api "" "client" "generated-files"
-</pre>
-
-#### C&#35;
-<pre>
-bin\generate-csharp-lib.cmd http://petstore.swagger.wordnik.com/api "your_api_key" "PetStore" "generated-files"
 </pre>
 
 The main class for the generator is at src/main/java/com/wordnik/swagger/codegen/config/java/JavaLibCodeGen.java
@@ -193,18 +207,3 @@ Sample: "Summary -->  Total Test Cases: 9 Failed Test Cases: 0"
 In detail section each test case and its status (passed/failed) are reported. Failures include an exception trace.  Test case path is 
 combination of test suite id and test case id separated by "."
      
-
-License
--------
-
-Copyright 2011-2012 Wordnik, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at [apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.

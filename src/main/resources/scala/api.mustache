@@ -1,0 +1,55 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import com.wordnik.client.ApiInvoker
+import com.wordnik.client.ApiException
+import scala.collection.mutable.HashMap
+
+{{#operations}}
+class {{classname}} {
+  var basePath: String = "{{basePath}}"
+  var apiInvoker = ApiInvoker
+  
+  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
+
+  {{#operation}}
+  def {{nickname}} ({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
+    // create path and map variables
+    val path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escapeString({{paramName}}))
+
+    {{/pathParams}}
+    
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    {{#requiredParamCount}}
+    // verify required params are set
+    (Set({{/requiredParamCount}}{{#requiredParams}} {{baseName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size match {
+       case {{requiredParamCount}} => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    {{/requiredParamCount}}
+
+    {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/queryParams}}
+    
+    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}
+    {{/headerParams}}
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}, headerParams.toMap) match {
+        case s: String =>
+          {{#returnType}} Some(ApiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
+        {{/returnType}} 
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  {{/operation}}
+}
+{{/operations}}
