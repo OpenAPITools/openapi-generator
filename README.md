@@ -1,10 +1,9 @@
 # Swagger Client Code-Generator
 
 ## Overview
-This is a project to build the Swagger code-gen library which can be used to automatically
-generate client libraries from a Swagger-compliant server.  You can find out more about both 
-the spec and the framework at http://swagger.wordnik.com.  For more information about Wordnik's 
-APIs, please visit http://developer.wordnik.com.  
+This is the swagger codegen project, which allows generation of client libraries automatically from a 
+Swagger-compliant server.  You can find out more about both the spec and the framework at 
+http://swagger.wordnik.com.  For more information about Wordnik's APIs, please visit http://developer.wordnik.com.  
 
 ### Prerequisites
 You need the following installed and available in your $PATH:
@@ -61,6 +60,9 @@ import com.wordnik.swagger.core._
 object MyCodegen extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)
 
+  // location of templates
+  override def templateDir = "scala"
+
   // where to write generated code
   override def destinationDir = "client/scala/src/main/scala"
 
@@ -88,6 +90,14 @@ Now you can generate your client like this:
 ```
 
 w00t!  Thanks to the scala interpretor, you didn't even need to recompile.
+
+### Modifying the client library format
+Don't like the default swagger client syntax?  Want a different language supported?  No problem!  Swagger codegen
+processes mustache templates with the [scalate](http://scalate.fusesource.org/) engine.  You can modify our templates or
+make your own.
+
+You can look at src/main/resources/${your-language} for examples.  To make your own templates, create your own files
+and override the `templateDir` in your script to point to the right place.  It actually is that easy.
 
 ### Where is Javascript???
 See our [javascript library](http://github.com/wordnik/swagger.js)--it's completely dynamic and doesn't require
