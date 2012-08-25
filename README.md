@@ -51,7 +51,7 @@ to the code generator like this:
 
 <pre>
 -DfileMap=/path/to/files
-</per>
+</pre>
 
 Or for example:
 <pre>
