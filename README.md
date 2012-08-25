@@ -96,7 +96,7 @@ Don't like the default swagger client syntax?  Want a different language support
 processes mustache templates with the [scalate](http://scalate.fusesource.org/) engine.  You can modify our templates or
 make your own.
 
-You can look at src/main/resources/${your-language} for examples.  To make your own templates, create your own files
+You can look at `src/main/resources/${your-language}` for examples.  To make your own templates, create your own files
 and override the `templateDir` in your script to point to the right place.  It actually is that easy.
 
 ### Where is Javascript???
