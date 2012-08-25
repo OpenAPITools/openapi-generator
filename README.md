@@ -24,7 +24,7 @@ You can build a client against Wordnik's [petstore](http://petstore.swagger.word
 ./bin/scala-petstore.sh
 ```
 
-This will run the script in `src/main/scala/ScalaPetstoreCodegen.scala` and create the client.  You can then
+This will run the script in [src/main/scala/ScalaPetstoreCodegen.scala](https://github.com/wordnik/swagger-codegen/blob/master/src/main/scala/ScalaPetstoreCodegen.scala) and create the client.  You can then
 compile and run the client, as well as unit tests against it:
 
 ```
@@ -32,7 +32,7 @@ cd samples/petstore/scala
 mvn package
 ```
 
-Other languages have samples, too:
+Other languages have petstore samples, too:
 ```
 ./bin/flash-petstore.sh
 ./bin/java-petstore.sh
@@ -40,7 +40,7 @@ Other languages have samples, too:
 ./bin/python-petstore.sh
 ```
 
-### Generating your own libraries
+### Generating libraries from your server
 It's just as easy--you can either run the default generators:
 
 ```
@@ -54,7 +54,7 @@ script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://githu
 
 For example, create `src/main/scala/MyCodegen.scala` with these contents:
 
-```
+```scala
 import com.wordnik.swagger.codegen.BasicScalaGenerator
 import com.wordnik.swagger.core._
 
@@ -93,8 +93,7 @@ w00t!  Thanks to the scala interpretor, you didn't even need to recompile.
 See our [javascript library](http://github.com/wordnik/swagger.js)--it's completely dynamic and doesn't require
 static code generation.
 
-
-#### Generating a client from flat files
+#### Generating a client from flat files (i.e. no remote server calls)
 If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
 to the code generator like this:
 
@@ -107,7 +106,8 @@ Or for example:
 ./bin/java-petstore-filemap.sh
 ```
 
-Which simple passes `-DfileMap=src/test/resources/petstore` as an argument 
+Which simple passes `-DfileMap=src/test/resources/petstore` as an argument.  Great for creating libraries on your
+ci server... or while coding on an airplane.
 
 ### Validating your swagger spec
 You can use the validation tool to see that your server is creating a proper spec file.  If you want to learn
