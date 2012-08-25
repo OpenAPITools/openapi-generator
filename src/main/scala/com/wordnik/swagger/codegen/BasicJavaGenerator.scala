@@ -14,15 +14,15 @@
  *  limitations under the License.
  */
 
-import com.wordnik.swagger.codegen.BasicGenerator
+package com.wordnik.swagger.codegen
 
 import com.wordnik.swagger.core._
 
-object JavaCodegen extends JavaCodegen {
+object BasicJavaGenerator extends BasicJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
 }
 
-class JavaCodegen extends BasicGenerator {
+class BasicJavaGenerator extends BasicGenerator {
   override def defaultIncludes = Set(
     "double",
     "int",
@@ -32,13 +32,17 @@ class JavaCodegen extends BasicGenerator {
     "boolean")
 
   override def typeMapping = Map(
-    "Int" -> "int",
-    "string" -> "String")
+    "string" -> "String",
+    "int" -> "Integer",
+    "float" -> "Float",
+    "long" -> "Long",
+    "double" -> "Double",
+    "object" -> "Object")
 
   override def packageName = "com.wordnik.client"
 
   // location of templates
-  override def templateDir = "src/main/resources/java"
+  override def templateDir = "javaTemplates"
 
   // template used for models
   modelTemplateFiles += "model.mustache" -> ".java"
@@ -57,10 +61,10 @@ class JavaCodegen extends BasicGenerator {
     "List" -> "java.util.List")
 
   // package for models
-  override def modelPackage = Some("com.wordnik.javaPetstore.model")
+  override def modelPackage = Some("com.wordnik.model")
 
   // package for api classes
-  override def apiPackage = Some("com.wordnik.javaPetstore.api")
+  override def apiPackage = Some("com.wordnik.api")
 
   // file suffix
   override def fileSuffix = ".java"
@@ -69,14 +73,14 @@ class JavaCodegen extends BasicGenerator {
   override def processResponseClass(responseClass: String): Option[String] = {
     responseClass match {
       case "void" => None
-      case e: String => Some(e.replaceAll("\\[", "<").replaceAll("\\]", ">"))
+      case e: String => Some(typeMapping.getOrElse(e, e.replaceAll("\\[", "<").replaceAll("\\]", ">")))
     }
   }
 
   override def processResponseDeclaration(responseClass: String): Option[String] = {
     responseClass match {
       case "void" => None
-      case e: String => Some(e.replaceAll("\\[", "<").replaceAll("\\]", ">"))
+      case e: String => Some(typeMapping.getOrElse(e, e.replaceAll("\\[", "<").replaceAll("\\]", ">")))
     }
   }
 
@@ -86,11 +90,11 @@ class JavaCodegen extends BasicGenerator {
       case n: Int => {
         if (dt.substring(0, n) == "Array") {
           "List" + dt.substring(n).replaceAll("\\[", "<").replaceAll("\\]", ">")
-        } else dt + dt.substring(1).replaceAll("\\[", "<").replaceAll("\\]", ">")
+        } 
+        else dt.replaceAll("\\[", "<").replaceAll("\\]", ">")
       }
       case _ => dt
     }
-    println("mapping: ", declaredType, typeMapping.getOrElse(declaredType, declaredType))
     typeMapping.getOrElse(declaredType, declaredType)
   }
 

@@ -43,7 +43,11 @@ public class ApiInvoker {
         return response;
       }
       else if(String.class.equals(cls)) {
-        return json;
+        if(json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1) {
+          return json.substring(1, json.length() - 2);
+        }
+        else 
+          return json;
       }
       else {
         return JsonUtil.getJsonMapper().readValue(json, cls);

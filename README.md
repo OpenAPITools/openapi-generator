@@ -42,6 +42,21 @@ cd samples/petstore/scala
 mvn package
 </pre>
 
+Do the same for `java` by running `./bin/java-petstore.sh`
+
+
+#### Generating a client from flat files
+If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
+to the code generator like this:
+
+<pre>
+-DfileMap=/path/to/files
+</per>
+
+Or for example:
+
+
+
 License
 -------
 
