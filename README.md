@@ -54,7 +54,11 @@ to the code generator like this:
 </per>
 
 Or for example:
+<pre>
+./bin/java-petstore-filemap.sh
+</pre>
 
+Which simple passes `-DfileMap=src/test/resources/petstore` as an argument 
 
 
 License
