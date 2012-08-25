@@ -32,7 +32,66 @@ cd samples/petstore/scala
 mvn package
 ```
 
-Do the same for `java` by running `./bin/java-petstore.sh`
+Other languages have samples, too:
+```
+./bin/flash-petstore.sh
+./bin/java-petstore.sh
+./bin/php-petstore.sh
+./bin/python-petstore.sh
+```
+
+### Generating your own libraries
+It's just as easy--you can either run the default generators:
+
+```
+./bin/runscala.sh com.wordnik.swagger.codegen.BasicScalaGenerator http://petstore.swagger.wordnik.com/api/resources.json special-key
+```
+
+Replace `Scala` with `Flash`, `PHP`, `Python`, `Java`.
+
+You will probably want to override some of the defaults--like packages, etc.  For doing this, just create a scala
+script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://github.com/wordnik/swagger-codegen/blob/master/src/main/scala/ScalaPetstoreCodegen.scala) as an example:
+
+For example, create `src/main/scala/MyCodegen.scala` with these contents:
+
+```
+import com.wordnik.swagger.codegen.BasicScalaGenerator
+import com.wordnik.swagger.core._
+
+object MyCodegen extends BasicScalaGenerator {
+  def main(args: Array[String]) = generateClient(args)
+
+  // where to write generated code
+  override def destinationDir = "client/scala/src/main/scala"
+
+  // api invoker package
+  override def packageName = "com.myapi.client"
+
+  // package for models
+  override def modelPackage = Some("com.myapi.client.model")
+
+  // package for api classes
+  override def apiPackage = Some("com.myapi.client.api")
+
+  // supporting classes
+  override def supportingFiles = List(
+    ("apiInvoker.mustache", destinationDir + java.io.File.separator + packageName.replaceAll("\\.", java.io.File.separator), "ApiInvoker.scala"),
+    ("pom.mustache", destinationDir, "pom.xml")
+  )
+}
+```
+
+Now you can generate your client like this:
+
+```
+./bin/runscala.sh src/main/scala/MyCodegen.scala http://my.api.com/resources.json super-secret-key
+```
+
+w00t!  Thanks to the scala interpretor, you didn't even need to recompile.
+
+### Where is Javascript???
+See our [javascript library](http://github.com/wordnik/swagger.js)--it's completely dynamic and doesn't require
+static code generation.
 
 
 #### Generating a client from flat files
@@ -49,7 +108,6 @@ Or for example:
 ```
 
 Which simple passes `-DfileMap=src/test/resources/petstore` as an argument 
-
 
 ### Validating your swagger spec
 You can use the validation tool to see that your server is creating a proper spec file.  If you want to learn
