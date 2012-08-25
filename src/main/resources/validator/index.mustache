@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Swagger Spec Validator</title>
+
+    <style>
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, font, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            font-weight: inherit;
+            font-style: inherit;
+            font-size: 100%;
+            font-family: inherit;
+            vertical-align: baseline;
+        }
+
+        ol, ul {
+            list-style: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Droid Sans", sans-serif;
+            font-weight: bold;
+        }
+
+
+
+        body {
+            font-family: "Droid Sans", sans-serif;
+            font-size: 0.9em;
+        }
+
+        #header {
+            background-color: #83ad00;
+            overflow: hidden;
+            -moz-box-shadow: #dddddd 0 2px 5px 3px;
+            -webkit-box-shadow: #dddddd 0 2px 5px 3px;
+            -o-box-shadow: #dddddd 0 2px 5px 3px;
+            box-shadow: #dddddd 0 2px 5px 3px;
+        }
+
+        #header .container {
+            margin: 0px auto;
+            padding: 0px;
+            position: relative;
+            width: 960px;
+        }
+
+        #header .container h1#logo {
+            display: block;
+            clear: none;
+            float: left;
+            font-size: 1.6em;
+            margin: 0 0 0 0px;
+            padding: 0;
+        }
+
+        #header .container h1#logo a {
+            display: block;
+            clear: none;
+            float: left;
+            padding: 20px 0 20px 60px;
+            background: transparent url('http://swagger.wordnik.com/images/logo.png') no-repeat left center;
+            color: white;
+            text-decoration: none;
+        }
+
+        #header .container h1#logo a span {
+            display: block;
+            clear: none;
+            float: left;
+            padding: 0;
+            margin: 0;
+        }
+
+        #header .container h1#logo a span.light {
+            color: #c6ff14;
+            color: #666666;
+        }
+
+        #header .container ul#nav {
+            float: none;
+            clear: both;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            display: block;
+            float: right;
+            clear: none;
+            padding: 20px 0 0 0;
+        }
+
+        #header .container ul#nav li {
+            float: left;
+            clear: none;
+            margin: 0;
+            padding: 2px 10px;
+            border-right: 1px solid #dddddd;
+        }
+
+        #header .container ul#nav li:first-child, #header .container ul#nav li.last {
+            padding-left: 0;
+        }
+
+        #header .container ul#nav li:last-child, #header .container ul#nav li.last {
+            padding-right: 0;
+            border-right: none;
+        }
+
+        #header .container ul#nav li {
+            border-color: #9bbd32;
+            border: none;
+        }
+
+        #header .container ul#nav li:first-child, #header .container ul#nav li:last-child {
+            padding: 0 10px;
+        }
+
+        #header .container ul#nav li a {
+            display: block;
+            padding: 8px 10px 8px 10px;
+            color: #999999;
+            text-decoration: none;
+            background-color: none;
+            color: white;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -o-border-radius: 4px;
+            -ms-border-radius: 4px;
+            -khtml-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+        #header .container ul#nav li a:active, #header .container ul#nav li a.active, #header .container ul#nav li a:hover {
+            background-color: #547f00;
+            color: white;
+        }
+
+        #content {
+            width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        #content .head-info{
+            font-size: 1.2em;
+        }
+
+        #content .api-info {
+            font-size: 1.0em;
+            color: #666;
+        }
+
+        #content #validation-results {
+            margin-top: 20px;
+            width: 100%;
+
+        }
+
+        table#validation-results {
+            border-width: 1px;
+            border-spacing: 0px;
+            border-style: solid;
+            border-color: gray;
+            background-color: white;
+        }
+        table#validation-results th {
+            border-width: 1px;
+            padding: 10px;
+            border-style: solid;
+            border-color: gray;
+            background-color: #fff;
+            text-align: left;
+            font-weight: bold;;
+        }
+        table#validation-results td {
+            border-width: 1px;
+            padding: 10px;
+            border-style: solid;
+            border-color: gray;
+        }
+        table#validation-results tr:nth-child(even) {
+            background-color: rgb(240, 240, 230);
+        }
+        table#validation-results tr:nth-child(odd) {
+            background-color: rgb(250, 250, 240);
+        }
+
+    </style>
+
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="header">
+    <div class="container">
+        <h1 id="logo">
+            <a href="http://swagger.wordnik.com/">swagger spec validator</a>
+        </h1>
+        <ul id="nav">
+            <li class="first odd"><a href="http://swagger.wordnik.com/">Home</a></li>
+            <li class="even"><a href="http://swagger.wordnik.com/spec">Specification</a></li>
+            <li class="odd"><a href="http://swagger.wordnik.com//downloads">Downloads</a></li>
+            <li class="last even"><a href="http://petstore.swagger.wordnik.com/">Demo →</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div id="content">
+    <div class="head-info">
+        <div style="float: left;">
+            Validation Results
+        </div>
+        <div style="float: right;">
+            {{host}}
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <hr>
+
+    <div class="api-info">base path: {{basePath}}</div>
+    <div class="api-info">api version: {{apiVersion}}</div>
+    <div class="api-info">swagger version: {{swaggerVersion}}</div>
+
+    <table id="validation-results">
+        <thead>
+        <tr>
+            <th>Level</th>
+            <th>Type</th>
+            <th>Element</th>
+            <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#messages}}
+        <tr>
+            <td>{{level}}</td>
+            <td>{{elementType}}</td>
+            <td>{{elementId}}</td>
+            <td>{{message}}</td>
+        </tr>
+        {{/messages}}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

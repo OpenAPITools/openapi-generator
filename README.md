@@ -17,30 +17,20 @@ You need the following installed and available in your $PATH:
 
 You also need to add the scala binary to your PATH.
 
-### To build the codegen library
-
-This will create the swagger-codegen library in your build folder.  
-
-<pre>
-mvn package
-</pre>
-
-
 ### To generate a sample client library
 You can build a client against Wordnik's [petstore](http://petstore.swagger.wordnik.com) API as follows:
 
-<pre>
+```
 ./bin/scala-petstore.sh
-</pre>
+```
 
 This will run the script in `src/main/scala/ScalaPetstoreCodegen.scala` and create the client.  You can then
 compile and run the client, as well as unit tests against it:
 
-<pre>
+```
 cd samples/petstore/scala
-
 mvn package
-</pre>
+```
 
 Do the same for `java` by running `./bin/java-petstore.sh`
 
@@ -49,17 +39,40 @@ Do the same for `java` by running `./bin/java-petstore.sh`
 If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
 to the code generator like this:
 
-<pre>
+```
 -DfileMap=/path/to/files
-</pre>
+```
 
 Or for example:
-<pre>
+```
 ./bin/java-petstore-filemap.sh
-</pre>
+```
 
 Which simple passes `-DfileMap=src/test/resources/petstore` as an argument 
 
+
+### Validating your swagger spec
+You can use the validation tool to see that your server is creating a proper spec file.  If you want to learn
+more about the spec file and format, please see [swagger-core](https://github.com/wordnik/swagger-core/wiki).  This
+tool will read the server and generate a report of any violations of the spec.  If there are violations, the
+client codegen and ui may not work correctly.
+
+To validate an api and write output to ./swagger-errors.html:
+
+```
+./bin/validate.sh http://petstore.swagger.wordnik.com/api/resources.json "" ./swagger-errors.html
+```
+
+### To build the codegen library
+
+This will create the swagger-codegen library from source.  
+
+```
+mvn package
+```
+
+Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to
+either repackage the library OR modify your codegen script to use a file path!
 
 License
 -------
