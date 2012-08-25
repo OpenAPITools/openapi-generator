@@ -23,15 +23,26 @@ object ApiInvoker {
 
   def deserialize(json: String, containerType: String, cls: Class[_]) = {
     if (cls == classOf[String]) {
-      json
+      json match {
+        case s: String => {
+          if (s.startsWith("\"") && s.endsWith("\"") && s.length > 1) s.substring(1, s.length - 2)
+          else s
+        }
+        case _ => null
+      }
     } else {
       containerType match {
         case "List" => {
-          val typeInfo = org.codehaus.jackson.map.`type`.TypeFactory.collectionType(classOf[java.util.List[_]], cls)
+          val typeInfo = JsonUtil.getJsonMapper.getTypeFactory().constructCollectionType(classOf[java.util.List[_]], cls)
           val response = JsonUtil.getJsonMapper.readValue(json, typeInfo).asInstanceOf[java.util.List[_]]
           response.asScala.toList
         }
-        case _ => JsonUtil.getJsonMapper.readValue(json, cls)
+        case _ => {
+          json match {
+            case e: String if ("\"\"" == e) => null
+            case _ => JsonUtil.getJsonMapper.readValue(json, cls)
+          }
+        }
       }
     }
   }
@@ -39,11 +50,10 @@ object ApiInvoker {
   def serialize(obj: AnyRef): String = {
     if (obj != null) {
       obj match {
-        case e:List[_] => JsonUtil.getJsonMapper.writeValueAsString(obj.asInstanceOf[List[_]].asJava)
+        case e: List[_] => JsonUtil.getJsonMapper.writeValueAsString(obj.asInstanceOf[List[_]].asJava)
         case _ => JsonUtil.getJsonMapper.writeValueAsString(obj)
       }
-    }
-    else null
+    } else null
   }
 
   def invokeApi(host: String, path: String, method: String, queryParams: Map[String, String], body: AnyRef, headerParams: Map[String, String]) = {
