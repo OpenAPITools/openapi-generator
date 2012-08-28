@@ -105,7 +105,7 @@ class BasicPHPGenerator extends BasicGenerator {
     "Double" -> "float",
     "Array" -> "array",
     "Boolean" -> "bool",
-    "Date" -> "string",
+    "Date" -> "DateTime",
     "string" -> "string"
     )
 
