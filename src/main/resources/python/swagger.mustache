@@ -41,11 +41,8 @@ class ApiClient:
             headers['Cookie'] = self.cookie
 
         data = None
-        # What can safely be JSON serialized?
-        safeToDump = [str, int, float, bool]
 
         if queryParams:
-            # Need to remove None values, these should not be sent
             sentQueryParams = {}
             for param, value in queryParams.iteritems():
                 if value != None:
@@ -53,31 +50,27 @@ class ApiClient:
             url = url + '?' + urllib.urlencode(sentQueryParams)
 
         if method in ['POST', 'PUT', 'DELETE']:
-            data = postData
-            if data:
+
+            if postData:
                 headers['Content-type'] = 'application/json'
-                if type(postData) == list:
-                    # Could be a list of objects
-                    if type(postData[0]) in safeToDump:
-                        data = json.dumps(postData)
-                    else:
-                        data = json.dumps([datum.__dict__ for datum in postData])
-                elif type(postData) not in safeToDump:
-                    data = json.dumps(postData.__dict__)
-        else:
+                data = self.sanitizeForSerialization(postData)
+                data = json.dumps(data)
+
+        elif method != 'GET':
             raise Exception('Method ' + method + ' is not recognized.')
 
-        request = MethodRequest(method=method, url=url, headers=headers, data=data)
+        request = MethodRequest(method=method, url=url, headers=headers,
+                                data=data)
 
         # Make the request
         response = urllib2.urlopen(request)
         if 'Set-Cookie' in response.headers:
-            self.cookie = response.headers['Set-Cookie']  
+            self.cookie = response.headers['Set-Cookie']
         string = response.read()
 
         try:
             data = json.loads(string)
-        except ValueError: # PUT requests don't return anything
+        except ValueError:  # PUT requests don't return anything
             data = None
 
         return data
@@ -93,6 +86,35 @@ class ApiClient:
             return ','.join(obj)
         else:
             return obj
+
+    def sanitizeForSerialization(self, obj):
+        """Dump an object into JSON for POSTing."""
+        print 'obj:', obj
+        print 'type:', type(obj)
+
+        if not obj:
+            return None
+        if type(obj) in [str, int, long, float, bool]:
+            return obj
+        elif type(obj) == list:
+            return [self.sanitizeForSerialization(subObj) for subObj in obj]
+        else:
+            if type(obj) == dict:
+                objDict = obj
+            else:
+                objDict = obj.__dict__
+            return {key: self.sanitizeForSerialization(val)
+                    for (key, val) in objDict.iteritems()
+                    if key != 'swaggerTypes'}
+
+        if type(postData) == list:
+            # Could be a list of objects
+            if type(postData[0]) in safeToDump:
+                data = json.dumps(postData)
+            else:
+                data = json.dumps([datum.__dict__ for datum in postData])
+        elif type(postData) not in safeToDump:
+            data = json.dumps(postData.__dict__)
 
     def deserialize(self, obj, objClass):
         """Derialize a JSON string into an object.
@@ -141,9 +163,12 @@ class ApiClient:
                     match = re.match('list\[(.*)\]', attrType)
                     subClass = match.group(1)
                     subValues = []
-
-                    for subValue in value:
-                        subValues.append(self.deserialize(subValue, subClass))
+                    if not value:
+                        setattr(instance, attr, None)
+                    else:
+                        for subValue in value:
+                            subValues.append(self.deserialize(subValue,
+                                                              subClass))
                     setattr(instance, attr, subValues)
                 else:
                     setattr(instance, attr, self.deserialize(value,
