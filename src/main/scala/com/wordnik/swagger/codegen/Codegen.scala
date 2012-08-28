@@ -177,7 +177,7 @@ class Codegen(config: CodegenConfig) {
     imports.toSet
   }
 
-  def stringify(v: DocumentationAllowableValues) = {
+  def allowableValuesToString(v: DocumentationAllowableValues) = {
     v match {
       case av: DocumentationAllowableListValues => {
         av.getValueType + av.getValues.mkString("[", ",", "]")
@@ -209,7 +209,7 @@ class Codegen(config: CodegenConfig) {
         params += "allowMultiple" -> param.allowMultiple.toString
 
         param.allowableValues match {
-          case a: DocumentationAllowableValues => params += "allowableValues" -> stringify(a)
+          case a: DocumentationAllowableValues => params += "allowableValues" -> allowableValuesToString(a)
           case _ =>
         }
 
