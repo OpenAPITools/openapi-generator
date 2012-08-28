@@ -2,8 +2,8 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-import com.wordnik.client.ApiInvoker
-import com.wordnik.client.ApiException
+import {{invokerPackage}}.ApiInvoker
+import {{invokerPackage}}.ApiException
 import scala.collection.mutable.HashMap
 
 {{#operations}}

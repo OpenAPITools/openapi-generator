@@ -1,4 +1,4 @@
-package com.wordnik.petstore
+package com.wordnik.client
 
 import com.wordnik.swagger.core.util.JsonUtil
 import com.sun.jersey.api.client.Client
