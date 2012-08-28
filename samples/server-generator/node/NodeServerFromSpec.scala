@@ -40,6 +40,7 @@ object NodeServerGenerator extends BasicScalaGenerator {
   // supporting classes
   override def supportingFiles = List(
     ("package.json", outputFolder, "package.json"),
+    ("README.mustache", outputFolder, "README.md"),
     ("main.mustache", destinationDir, "main.js"),
     ("models.mustache", destinationDir, "models.js"),
     ("Common/node/paramTypes.js", destinationDir + "/Common/node", "paramTypes.js"),

@@ -1,0 +1,17 @@
+{
+    "name": "sample-app",
+    "description": "Wordnik node.js server generator",
+    "version": "1.0.0",
+    "homepage": "https://github.com/wordnik/swagger-codegen",
+    "main": "./Common/node/swagger.js",
+    "directories": {
+        "lib": "./Common/node"
+    },
+    "engines": {
+        "node": ">= 0.8.x"
+    },
+    "dependencies": {
+        "connect": ">= 1.8.x",
+        "express": "3.x"
+    }
+}
