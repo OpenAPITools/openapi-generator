@@ -17,7 +17,6 @@
 package com.wordnik.swagger.codegen
 
 import com.wordnik.swagger.core._
-
 import com.wordnik.swagger.codegen.util.{ CoreUtils, ScalaJsonUtil }
 import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
@@ -29,11 +28,12 @@ import org.fusesource.scalate.support.ScalaCompiler
 
 import java.io.File
 import java.io.FileWriter
+import java.io.InputStream
 
+import org.apache.commons.io.FileUtils
 import scala.io.Source
 import scala.collection.mutable.{ HashMap, ListBuffer, HashSet }
 import scala.collection.JavaConversions._
-import org.apache.commons.io.FileUtils
 
 object Codegen {
   val templates = new HashMap[String, (TemplateEngine, Template)]
@@ -121,9 +121,16 @@ class Codegen(config: CodegenConfig) {
     val engineData = Codegen.templates.getOrElse(templateFile, {
       val engine = new TemplateEngine(Some(rootDir))
       val srcName = config.templateDir + File.separator + templateFile
-      val srcStream = getClass.getClassLoader.getResourceAsStream(srcName)
-      if (srcStream == null)
-        throw new Exception("Missing template: " + srcName)
+      val srcStream = {
+        getClass.getClassLoader.getResourceAsStream(srcName) match {
+          case is: java.io.InputStream => is
+          case _ => {
+            val f = new java.io.File(srcName)
+            if (!f.exists) throw new Exception("Missing template: " + srcName)
+            else new java.io.FileInputStream(f)
+          }
+        }
+      }
       println("pre-compile")
       val template = engine.compile(
         TemplateSource.fromText(config.templateDir + File.separator + templateFile,
@@ -170,12 +177,25 @@ class Codegen(config: CodegenConfig) {
     imports.toSet
   }
 
+  def stringify(v: DocumentationAllowableValues) = {
+    v match {
+      case av: DocumentationAllowableListValues => {
+        av.getValueType + av.getValues.mkString("[", ",", "]")
+      }
+      case av: DocumentationAllowableRangeValues => {
+        av.getValueType + "[" + av.getMin() + "," + av.getMax() + "]"
+      }
+      case _ => "unsupported"
+    }
+  }
+
   def apiToMap(path: String, op: DocumentationOperation): Map[String, AnyRef] = {
     var bodyParam: Option[String] = None
 
     var queryParams = new ListBuffer[AnyRef]
     val pathParams = new ListBuffer[AnyRef]
     val headerParams = new ListBuffer[AnyRef]
+    val bodyParams = new ListBuffer[AnyRef]
     var paramList = new ListBuffer[HashMap[String, AnyRef]]
 
     if (op.getParameters != null) {
@@ -186,6 +206,13 @@ class Codegen(config: CodegenConfig) {
         params += "dataType" -> config.toDeclaredType(param.dataType)
         params += "description" -> param.description
         params += "hasMore" -> "true"
+        params += "allowMultiple" -> param.allowMultiple.toString
+
+        param.allowableValues match {
+          case a: DocumentationAllowableValues => params += "allowableValues" -> stringify(a)
+          case _ =>
+        }
+
         if (!param.required) {
           params += "optional" -> "true"
         }
@@ -198,6 +225,7 @@ class Codegen(config: CodegenConfig) {
               case _ =>
             }
             bodyParam = Some("body")
+            bodyParams += params.clone
           }
           case "path" => {
             params += "paramName" -> config.toVarName(param.name)
@@ -241,6 +269,11 @@ class Codegen(config: CodegenConfig) {
       case _ => queryParams.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
     }
 
+    pathParams.size match {
+      case 0 =>
+      case _ => pathParams.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+    }
+
     val sp = {
       val lb = new ListBuffer[AnyRef]
       paramList.foreach(i => {
@@ -276,6 +309,7 @@ class Codegen(config: CodegenConfig) {
         "deprecated" -> op.deprecated,
         "bodyParam" -> bodyParam,
         "allParams" -> sp,
+        "bodyParams" -> bodyParams,
         "pathParams" -> pathParams,
         "queryParams" -> queryParams,
         "headerParams" -> headerParams,
@@ -394,13 +428,50 @@ class Codegen(config: CodegenConfig) {
     data.toMap
   }
 
-  def writeSupportingClasses = {
+  /**
+   * gets an input stream from resource or file
+   */
+  def getInputStream(path: String): InputStream = {
+    getClass.getClassLoader.getResourceAsStream(path) match {
+      case is: InputStream => is
+      case _ => new java.io.FileInputStream(path)
+    }
+  }
+
+  def writeSupportingClasses(apis: Map[(String, String), scala.collection.mutable.ListBuffer[(String, com.wordnik.swagger.core.DocumentationOperation)]], models: Map[String, DocumentationSchema]) = {
     val rootDir = new java.io.File(".")
     val engine = new TemplateEngine(Some(rootDir))
 
-    val data: HashMap[String, String] =
+    val apiList = new ListBuffer[Map[String, AnyRef]]
+
+    apis.foreach(a => {
+      apiList += Map(
+        "name" -> a._1._2,
+        "basePath" -> a._1._1,
+        "operations" -> {
+          (for (t <- a._2) yield { Map("operation" -> t._2, "path" -> t._1) }).toList
+        })
+    })
+
+    val modelList = new ListBuffer[HashMap[String, AnyRef]]
+
+    models.foreach(m => {
+      modelList += HashMap(
+        "modelName" -> m._1,
+        "model" -> m._2,
+        "modelJson" -> ScalaJsonUtil.getJsonMapper.writeValueAsString(m._2),
+        "hasMore" -> "true")
+    })
+    modelList.size match {
+      case 0 =>
+      case _ => modelList.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+    }
+
+    val data: HashMap[String, AnyRef] =
       HashMap(
-        "package" -> config.packageName)
+        "package" -> config.packageName,
+        "apis" -> apiList,
+        "models" -> modelList)
 
     config.supportingFiles.map(file => {
       val srcTemplate = file._1
@@ -414,12 +485,12 @@ class Codegen(config: CodegenConfig) {
       if (srcTemplate.endsWith(".mustache")) {
         val output = {
           val resourceName = config.templateDir + File.separator + srcTemplate
-          val resourceStream = getClass.getClassLoader.getResourceAsStream(resourceName)
-          if (resourceStream == null)
+          val is = getInputStream(resourceName)
+          if (is == null)
             throw new Exception("Resource not found: " + resourceName)
           val template = engine.compile(
             TemplateSource.fromText(resourceName,
-              Source.fromInputStream(resourceStream).mkString))
+              Source.fromInputStream(is).mkString))
           engine.layout(resourceName, template, data.toMap)
         }
         val fw = new FileWriter(outputFilename, false)
@@ -427,8 +498,13 @@ class Codegen(config: CodegenConfig) {
         fw.close()
         println("wrote " + outputFilename)
       } else {
-        val is = getClass.getClassLoader
-          .getResourceAsStream(config.templateDir + File.separator + srcTemplate)
+        val is = getInputStream(config.templateDir + File.separator + srcTemplate)
+        println("copying file " + config.templateDir + File.separator + srcTemplate + " to " + outputFilename)
+        val outputFile = new File(outputFilename)
+        val parentDir = new File(outputFile.getParent)
+        if (parentDir != null && !parentDir.exists) {
+          println("making directory: " + parentDir.toString + ": " + parentDir.mkdirs)
+        }
         FileUtils.copyInputStreamToFile(is, new File(outputFilename))
         println("copied " + outputFilename)
         is.close

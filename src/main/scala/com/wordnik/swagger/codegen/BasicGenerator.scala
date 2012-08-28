@@ -96,7 +96,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       val map = new HashMap[String, AnyRef]
       map += "basePath" -> basePath
       map += "package" -> apiPackage
-      map += "invokerPackage" -> Some(packageName)
+      map += "invokerPackage" -> invokerPackage
       map += "apis" -> Map(className -> operationList.toList)
       map += "models" -> None
       map += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator))
@@ -113,7 +113,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       map += "apis" -> None
       map += "models" -> List((name, schema))
       map += "package" -> modelPackage
-      map += "invokerPackage" -> Some(packageName)
+      map += "invokerPackage" -> invokerPackage
       map += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator))
       map += "newline" -> "\n"
       modelBundleList += map.toMap
@@ -122,7 +122,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         generateAndWrite(map.toMap, file)
       }
     }
-    codegen.writeSupportingClasses
+    codegen.writeSupportingClasses(apiMap.toMap, allModels.toMap)
   }
 
   def apiNameFromPath(apiPath: String) = makeApiNameFromPath(apiPath)
