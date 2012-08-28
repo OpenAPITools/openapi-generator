@@ -71,8 +71,9 @@ class {{classname}}(object):
 
         {{#pathParams}}
         if ('{{paramName}}' in params):
+            replacement = str(self.apiClient.toPathValue(params['{{paramName}}']))
             resourcePath = resourcePath.replace('{' + '{{baseName}}' + '}',
-                                                self.apiClient.toPathValue(params['{{paramName}}']))
+                                                replacement)
         {{/pathParams}}
 
         postData = (params['body'] if 'body' in params else None)
