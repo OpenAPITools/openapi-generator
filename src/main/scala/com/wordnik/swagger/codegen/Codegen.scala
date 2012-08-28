@@ -142,7 +142,7 @@ class Codegen(config: CodegenConfig) {
 
     val engine = engineData._1
     val template = engineData._2
-
+    
     var data = Map[String, AnyRef](
       "package" -> bundle("package"),
       "invokerPackage" -> bundle("invokerPackage"),

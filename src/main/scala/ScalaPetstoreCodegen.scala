@@ -21,7 +21,8 @@ import com.wordnik.swagger.core._
 object ScalaPetstoreCodegen extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)
 
-  override def packageName = "com.wordnik.petstore"
+  // package for api invoker, error files
+  override def invokerPackage: Option[String] = Some("com.wordnik.client")
     
   // where to write generated code
   override def destinationDir = "samples/petstore/scala/src/main/scala"

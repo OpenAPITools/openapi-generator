@@ -39,6 +39,9 @@ class BasicScalaGenerator extends BasicGenerator {
     "double" -> "Double",
     "object" -> "Any")
     
+  // package for api invoker, error files
+  override def invokerPackage: Option[String] = Some("com.wordnik.client")
+    
   // template used for models
   modelTemplateFiles += "model.mustache" -> ".scala"
 
