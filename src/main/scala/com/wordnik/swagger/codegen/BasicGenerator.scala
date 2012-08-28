@@ -109,17 +109,19 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
 
     val modelBundleList = new ListBuffer[Map[String, AnyRef]]
     for ((name, schema) <- allModels) {
-      val map = new HashMap[String, AnyRef]
-      map += "apis" -> None
-      map += "models" -> List((name, schema))
-      map += "package" -> modelPackage
-      map += "invokerPackage" -> invokerPackage
-      map += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator))
-      map += "newline" -> "\n"
-      modelBundleList += map.toMap
-      for ((file, suffix) <- modelTemplateFiles) {
-        map += "filename" -> (name + suffix)
-        generateAndWrite(map.toMap, file)
+      if(!defaultIncludes.contains(name)){
+	      val map = new HashMap[String, AnyRef]
+	      map += "apis" -> None
+	      map += "models" -> List((name, schema))
+	      map += "package" -> modelPackage
+	      map += "invokerPackage" -> invokerPackage
+	      map += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator))
+	      map += "newline" -> "\n"
+	      modelBundleList += map.toMap
+	      for ((file, suffix) <- modelTemplateFiles) {
+	        map += "filename" -> (name + suffix)
+	        generateAndWrite(map.toMap, file)
+	      }
       }
     }
     codegen.writeSupportingClasses(apiMap.toMap, allModels.toMap)
