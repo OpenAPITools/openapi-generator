@@ -101,6 +101,7 @@ class BasicPHPGenerator extends BasicGenerator {
     "Int" -> "int",
     "Float" -> "float",
     "Long" -> "int",
+    "long" -> "int",
     "Double" -> "float",
     "Array" -> "array",
     "Boolean" -> "bool",
