@@ -148,6 +148,10 @@ class APIClient {
 	 */
 	public static function deserialize($object, $class) {
 
+		if (gettype($object) == "NULL") {
+	      	return $object;
+	     }
+
     if (substr($class, 0, 6) == 'array[') {
       $sub_class = substr($class, 6, -1);
       $sub_objects = array();
