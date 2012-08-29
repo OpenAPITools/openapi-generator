@@ -23,8 +23,8 @@ exports.getPetById = {
     "summary" : "Find pet by ID",
     "method": "GET",
     "params" : [].concat([param.path("petId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
-    "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "responseClass" : "Pet",
+    "errorResponses" : [swe.invalid('id'), swe.notFound('Pet')],
     "nickname" : "getPetById"
   },
   'action': function (req,res) {
@@ -44,7 +44,7 @@ exports.addPet = {
     "params" : [].concat([]).concat([]).concat([param.post("Pet", "Pet object that needs to be added to the store", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "addPet"
   },
   'action': function (req,res) {
@@ -64,7 +64,7 @@ exports.updatePet = {
     "params" : [].concat([]).concat([]).concat([param.post("Pet", "Pet object that needs to be updated in the store", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "updatePet"
   },
   'action': function (req,res) {
@@ -81,9 +81,9 @@ exports.findPetsByStatus = {
     "notes" : "Multiple status values can be provided with comma seperated strings",
     "summary" : "Finds Pets by status",
     "method": "GET",
-    "params" : [param.query("status", "Status values that need to be considered for filter", "String", true, true, "LIST[available,pending,sold]", "available")].concat([]).concat([]).concat([]),
-    "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "params" : [param.query("status", "Status values that need to be considered for filter", "string", true, true, "LIST[available,pending,sold]", "available")].concat([]).concat([]).concat([]),
+    "responseClass" : "List[Pet]",
+    "errorResponses" : [swe.invalid('id'), swe.notFound('List[Pet]')],
     "nickname" : "findPetsByStatus"
   },
   'action': function (req,res) {
@@ -100,9 +100,9 @@ exports.findPetsByTags = {
     "notes" : "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.",
     "summary" : "Finds Pets by tags",
     "method": "GET",
-    "params" : [param.query("tags", "Tags to filter by", "String", true, true, "")].concat([]).concat([]).concat([]),
-    "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "params" : [param.query("tags", "Tags to filter by", "string", true, true, "")].concat([]).concat([]).concat([]),
+    "responseClass" : "List[Pet]",
+    "errorResponses" : [swe.invalid('id'), swe.notFound('List[Pet]')],
     "nickname" : "findPetsByTags"
   },
   'action': function (req,res) {

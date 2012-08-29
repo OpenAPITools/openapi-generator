@@ -23,8 +23,8 @@ exports.getOrderById = {
     "summary" : "Find purchase order by ID",
     "method": "GET",
     "params" : [].concat([param.path("orderId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
-    "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "responseClass" : "Order",
+    "errorResponses" : [swe.invalid('id'), swe.notFound('Order')],
     "nickname" : "getOrderById"
   },
   'action': function (req,res) {
@@ -43,7 +43,7 @@ exports.deleteOrder = {
     "method": "DELETE",
     "params" : [].concat([param.path("orderId", "ID of the order that needs to be deleted")]).concat([]).concat([]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "deleteOrder"
   },
   'action': function (req,res) {
@@ -63,7 +63,7 @@ exports.placeOrder = {
     "params" : [].concat([]).concat([]).concat([param.post("Order", "order placed for purchasing the pet", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "placeOrder"
   },
   'action': function (req,res) {

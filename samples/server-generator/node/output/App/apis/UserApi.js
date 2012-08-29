@@ -25,7 +25,7 @@ exports.createUsersWithArrayInput = {
     "params" : [].concat([]).concat([]).concat([param.post("Array[User]", "List of user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "createUsersWithArrayInput"
   },
   'action': function (req,res) {
@@ -45,7 +45,7 @@ exports.createUser = {
     "params" : [].concat([]).concat([]).concat([param.post("User", "Created user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "createUser"
   },
   'action': function (req,res) {
@@ -65,7 +65,7 @@ exports.createUsersWithListInput = {
     "params" : [].concat([]).concat([]).concat([param.post("List[User]", "List of user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "createUsersWithListInput"
   },
   'action': function (req,res) {
@@ -85,7 +85,7 @@ exports.updateUser = {
     "params" : [].concat([param.path("username", "name that need to be deleted")]).concat([]).concat([param.post("User", "Updated user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "updateUser"
   },
   'action': function (req,res) {
@@ -107,7 +107,7 @@ exports.deleteUser = {
     "method": "DELETE",
     "params" : [].concat([param.path("username", "The name that needs to be deleted")]).concat([]).concat([]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "deleteUser"
   },
   'action': function (req,res) {
@@ -125,8 +125,8 @@ exports.getUserByName = {
     "summary" : "Get user by user name",
     "method": "GET",
     "params" : [].concat([param.path("username", "The name that needs to be fetched. Use user1 for testing.")]).concat([]).concat([]),
-    "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "responseClass" : "User",
+    "errorResponses" : [swe.invalid('id'), swe.notFound('User')],
     "nickname" : "getUserByName"
   },
   'action': function (req,res) {
@@ -143,9 +143,9 @@ exports.loginUser = {
     "notes" : "",
     "summary" : "Logs user into the system",
     "method": "GET",
-    "params" : [param.query("username", "The user name for login", "String", true, false, ""),param.query("password", "The password for login in clear text", "String", true, false, "")].concat([]).concat([]).concat([]),
-    "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "params" : [param.query("username", "The user name for login", "string", true, false, ""),param.query("password", "The password for login in clear text", "string", true, false, "")].concat([]).concat([]).concat([]),
+    "responseClass" : "String",
+    "errorResponses" : [swe.invalid('id'), swe.notFound('String')],
     "nickname" : "loginUser"
   },
   'action': function (req,res) {
@@ -167,7 +167,7 @@ exports.logoutUser = {
     "method": "GET",
     "params" : [].concat([]).concat([]).concat([]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
     "nickname" : "logoutUser"
   },
   'action': function (req,res) {

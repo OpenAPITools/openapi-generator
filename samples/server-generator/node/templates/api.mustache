@@ -25,16 +25,16 @@ exports.{{nickname}} = {
     "summary" : "{{{summary}}}",
     "method": "{{httpMethod}}",
     "params" : [{{#queryParams}}
-      param.query("{{paramName}}", "{{description}}", "{{dataType}}", {{required}}, {{allowMultiple}}, "{{{allowableValues}}}"{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}}){{#hasMore}},{{/hasMore}}
+      param.query("{{paramName}}", "{{description}}", "{{swaggerDataType}}", {{required}}, {{allowMultiple}}, "{{{allowableValues}}}"{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}}){{#hasMore}},{{/hasMore}}
     {{/queryParams}}].concat([{{#pathParams}}
       param.path("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
     {{/pathParams}}]).concat([{{#headerParams}}
       param.header("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
     {{/headerParams}}]).concat([{{#bodyParams}}
-      param.post("{{dataType}}", "{{description}}", {{required}})
+      param.post("{{swaggerDataType}}", "{{description}}", {{required}})
     {{/bodyParams}}]),
-    "responseClass" : "{{responseClass}}",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('pet')],
+    "responseClass" : "{{returnType}}",
+    "errorResponses" : [swe.invalid('id'), swe.notFound('{{returnType}}')],
     "nickname" : "{{nickname}}"
   },
   'action': function (req,res) {
