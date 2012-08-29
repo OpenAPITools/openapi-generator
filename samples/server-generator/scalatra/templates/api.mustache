@@ -8,7 +8,7 @@ import org.scalatra.swagger._
 
 import scala.collection.JavaConverters._
 
-class {{name}} (implicit val swagger: Swagger) extends ScalatraServlet with SwaggerBase with SwaggerSupport {
+class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet with SwaggerBase with SwaggerSupport {
   protected def buildFullUrl(path: String) = "{{basePath}}/%s" format path
 
   {{#operations}}
@@ -17,34 +17,34 @@ class {{name}} (implicit val swagger: Swagger) extends ScalatraServlet with Swag
     summary("{{{summary}}}"),
     nickname("{{nickname}}"),
     responseClass("{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}"),
-    endpoint("{TBD}"),
+    endpoint("{{basePart}}"),
     notes("{{{notes}}}"),
     parameters(
       {{#allParams}}
-      {{#queryParam}}
+      {{#queryParameter}}
       Parameter("{{paramName}}", "{{{description}}}",
         paramType = ParamType.Query,
         required = {{required}},
         allowMultiple = {{allowMultiple}},
-        {{#allowableValues}}allowableValues = "{{{allowableValues}}}",{{/allowableValues}}
+        {{#allowableValues}}allowableValues = AllowableValues("{{{allowableValues}}}"),{{/allowableValues}}
         defaultValue = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}},
         dataType = DataType("{{dataType}}"))
-      {{/queryParam}}
-      {{#pathParam}}
+      {{/queryParameter}}
+      {{#pathParameter}}
       Parameter("{{paramName}}", "{{{description}}}",
         dataType = DataType.String,
         paramType = ParamType.Path)
-      {{/pathParam}}
-      {{#headerParam}}
+      {{/pathParameter}}
+      {{#headerParameter}}
       Parameter("{{paramName}}", "{{{description}}}",
         dataType = DataType("{{dataType}}"),
         paramType = ParamType.Header)
-      {{/headerParam}}
-      {{#bodyParam}}
+      {{/headerParameter}}
+      {{#bodyParameter}}
       Parameter("{{paramName}}", "{{{description}}}",
         dataType = DataType("{{dataType}}"),
         paramType = ParamType.Body)
-      {{/bodyParam}}
+      {{/bodyParameter}}
       {{#hasMore}},{{/hasMore}}{{newline}}
       {{/allParams}}
       )) {

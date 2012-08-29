@@ -31,7 +31,7 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
   override def destinationDir = outputFolder + "/src/main/scala"
 
   override def modelPackage = Some("com.wordnik.client.model")
-  
+
   // template used for apis
   apiTemplateFiles ++= Map("api.mustache" -> ".scala")
 
@@ -44,23 +44,26 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
     ("README.mustache", outputFolder, "README.md"),
     ("build.sbt", outputFolder, "build.sbt"),
     ("JsonUtil.scala", destinationDir, "JsonUtil.scala"),
+    ("ServletApp.mustache", destinationDir, "ServletApp.scala"),
     ("project/build.properties", outputFolder, "project/build.properties"),
     ("project/plugins.sbt", outputFolder, "project/plugins.sbt"))
 
-  def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
+  override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
     val mutable = scala.collection.mutable.Map() ++ m
 
     mutable.map(k => {
       k._1 match {
         // the scalatra templates like lower-case httpMethods
         case e: String if (e == "httpMethod") => mutable += "httpMethod" -> k._2.toString.toLowerCase
-        // convert path into ruby-ish syntax (i.e. /pet.{format}/{petId} => /:petId
+
+        // convert path into ruby-ish syntax without basePart (i.e. /pet.{format}/{petId} => /:petId
         case e: String if (e == "path") => {
           val path = {
             val arr = k._2.toString.split("/")
-            if (arr.length >= 2)
+            if (arr.length >= 2) {
+              mutable += "basePart" -> k._2
               "/" + arr.slice(2, arr.length).mkString("", "/", "")
-            else
+            } else
               k._2.toString
           }
           // rip out the root path
