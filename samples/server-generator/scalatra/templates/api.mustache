@@ -1,6 +1,5 @@
 package {{package}}
 
-import json.JsonUtil
 import com.wordnik.swagger.core.ApiPropertiesReader
 {{#imports}}import {{import}}
 {{/imports}}
@@ -12,23 +11,17 @@ import scala.collection.JavaConverters._
 class {{name}} (implicit val swagger: Swagger) extends ScalatraServlet with SwaggerBase with SwaggerSupport {
   protected def buildFullUrl(path: String) = "{{basePath}}/%s" format path
 
-//  val data = new PetData
-  val m = JsonUtil.mapper
-
-//  models = Map(swaggerToModel(classOf[Pet]))
-
   {{#operations}}
   {{#operation}}
   {{httpMethod}}("{{path}}",
     summary("{{{summary}}}"),
     nickname("{{nickname}}"),
     responseClass("{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}"),
-    endpoint("{NOT SURE}"),
+    endpoint("{TBD}"),
     notes("{{{notes}}}"),
     parameters(
       {{#allParams}}
       {{#queryParam}}
-      // it's a query param
       Parameter("{{paramName}}", "{{{description}}}",
         paramType = ParamType.Query,
         required = {{required}},
@@ -38,19 +31,16 @@ class {{name}} (implicit val swagger: Swagger) extends ScalatraServlet with Swag
         dataType = DataType("{{dataType}}"))
       {{/queryParam}}
       {{#pathParam}}
-      // it's a path param
       Parameter("{{paramName}}", "{{{description}}}",
         dataType = DataType.String,
         paramType = ParamType.Path)
       {{/pathParam}}
       {{#headerParam}}
-      // it's a header param
       Parameter("{{paramName}}", "{{{description}}}",
         dataType = DataType("{{dataType}}"),
         paramType = ParamType.Header)
       {{/headerParam}}
       {{#bodyParam}}
-      // it's a body param
       Parameter("{{paramName}}", "{{{description}}}",
         dataType = DataType("{{dataType}}"),
         paramType = ParamType.Body)
