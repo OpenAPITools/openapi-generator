@@ -146,6 +146,7 @@ class Codegen(config: CodegenConfig) {
     var data = Map[String, AnyRef](
       "name" -> bundle("name"),
       "package" -> bundle("package"),
+      "className" -> bundle("className"),
       "invokerPackage" -> bundle("invokerPackage"),
       "imports" -> imports,
       "operations" -> f,
@@ -192,7 +193,6 @@ class Codegen(config: CodegenConfig) {
 
   def apiToMap(path: String, op: DocumentationOperation): Map[String, AnyRef] = {
     var bodyParam: Option[String] = None
-
     var queryParams = new ListBuffer[AnyRef]
     val pathParams = new ListBuffer[AnyRef]
     val headerParams = new ListBuffer[AnyRef]
@@ -202,10 +202,11 @@ class Codegen(config: CodegenConfig) {
     if (op.getParameters != null) {
       op.getParameters.foreach(param => {
         val params = new HashMap[String, AnyRef]
-        params += (param.paramType + "Param") -> "true"
+        params += (param.paramType + "Parameter") -> "true"
         params += "type" -> param.paramType
         params += "defaultValue" -> config.toDefaultValue(param.dataType, param.defaultValue)
         params += "dataType" -> config.toDeclaredType(param.dataType)
+        params += "swaggerDataType" -> param.dataType
         params += "description" -> param.description
         params += "hasMore" -> "true"
         params += "allowMultiple" -> param.allowMultiple.toString
@@ -448,6 +449,7 @@ class Codegen(config: CodegenConfig) {
     apis.foreach(a => {
       apiList += Map(
         "name" -> a._1._2,
+        "className" -> config.toApiName(a._1._2),
         "basePath" -> a._1._1,
         "operations" -> {
           (for (t <- a._2) yield { Map("operation" -> t._2, "path" -> t._1) }).toList
@@ -472,6 +474,7 @@ class Codegen(config: CodegenConfig) {
       HashMap(
         "package" -> config.packageName,
         "modelPackage" -> config.modelPackage,
+        "apiPackage" -> config.apiPackage,
         "apis" -> apiList,
         "models" -> modelList)
 

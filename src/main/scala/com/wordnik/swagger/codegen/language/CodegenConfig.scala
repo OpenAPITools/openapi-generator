@@ -41,6 +41,7 @@ abstract class CodegenConfig {
   def modelPackage: Option[String] = None
   def escapeReservedWord(word: String) = word
 
+  def toApiName(name: String): String
   def apiNameFromPath(apiPath: String): String
 
   // only process these apis (by name)

@@ -37,8 +37,17 @@ trait PathUtil {
     }
   }
 
-  def makeApiNameFromPath(apiPath: String) = {
-    val name = apiPath.split("/")(1).split("\\.")(0).replaceAll("/", "")
+  def toApiName(name: String) = {
     name.charAt(0).toUpperCase + name.substring(1) + "Api"
+  }
+
+  def nameFromPath(apiPath: String) = {
+    apiPath.split("/")(1).split("\\.")(0).replaceAll("/", "")
+  }
+
+  def apiNameFromPath(apiPath: String) = toApiName(nameFromPath(apiPath))
+
+  def resourceNameFromFullPath(apiPath: String) = {
+    apiPath.split("/")(1).split("\\.")(0).replaceAll("/", "")
   }
 }
