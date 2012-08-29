@@ -131,4 +131,7 @@ abstract class CodegenConfig {
       case _ => "_"
     }
   }
+
+  def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef]
+  def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef]
 }

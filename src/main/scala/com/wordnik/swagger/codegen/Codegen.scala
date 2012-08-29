@@ -142,8 +142,9 @@ class Codegen(config: CodegenConfig) {
 
     val engine = engineData._1
     val template = engineData._2
-    
+
     var data = Map[String, AnyRef](
+      "name" -> bundle("name"),
       "package" -> bundle("package"),
       "invokerPackage" -> bundle("invokerPackage"),
       "imports" -> imports,
@@ -201,6 +202,7 @@ class Codegen(config: CodegenConfig) {
     if (op.getParameters != null) {
       op.getParameters.foreach(param => {
         val params = new HashMap[String, AnyRef]
+        params += (param.paramType + "Param") -> "true"
         params += "type" -> param.paramType
         params += "defaultValue" -> config.toDefaultValue(param.dataType, param.defaultValue)
         params += "dataType" -> config.toDeclaredType(param.dataType)
@@ -344,8 +346,7 @@ class Codegen(config: CodegenConfig) {
         }
       }
     }
-
-    properties.toMap
+    config.processApiMap(properties.toMap)
   }
 
   def modelToMap(className: String, model: DocumentationSchema): Map[String, AnyRef] = {
@@ -425,7 +426,7 @@ class Codegen(config: CodegenConfig) {
     }
     data += "vars" -> l
     data += "imports" -> imports.toSet
-    data.toMap
+    config.processModelMap(data.toMap)
   }
 
   /**
@@ -470,8 +471,11 @@ class Codegen(config: CodegenConfig) {
     val data: HashMap[String, AnyRef] =
       HashMap(
         "package" -> config.packageName,
+        "modelPackage" -> config.modelPackage,
         "apis" -> apiList,
         "models" -> modelList)
+
+//    println(com.wordnik.swagger.codegen.util.ScalaJsonUtil.getJsonMapper.writeValueAsString(data))
 
     config.supportingFiles.map(file => {
       val srcTemplate = file._1
