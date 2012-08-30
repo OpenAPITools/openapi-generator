@@ -7,11 +7,11 @@ development both ways.  This is an example of generating a server for `node.js`.
 ### Prerequisites
 You need the following installed and available in your $PATH:
 
-<li>- node (http://nodejs.org)
+<li>- sbt 0.12 (http://www.scala-sbt.org/)
 
 <li>- Scala 2.9.1 [available here](http://www.scala-lang.org)
 
-You also need to add the scala binary to your PATH.
+You also need to add both the sbt and scala binary to your PATH.
 
 ### Generating a server
 You first need to build the `swagger-codegen` project--this is done by running this command at the root of the swagger-codegen project:
@@ -29,21 +29,21 @@ You can now generate a server from any valid[**](https://github.com/wordnik/swag
 After executing this script, you will have an output directory with the server-generated files:
 
 ```
-$ find samples/server-generator/scalatra/output -type f
-samples/server-generator/scalatra/output/build.sbt
-samples/server-generator/scalatra/output/project/build.properties
-samples/server-generator/scalatra/output/project/plugins.sbt
-samples/server-generator/scalatra/output/README.md
-samples/server-generator/scalatra/output/src/main/scala/apis/PetApi.scala
-samples/server-generator/scalatra/output/src/main/scala/apis/StoreApi.scala
-samples/server-generator/scalatra/output/src/main/scala/apis/UserApi.scala
-samples/server-generator/scalatra/output/src/main/scala/com/wordnik/client/model/Category.scala
-samples/server-generator/scalatra/output/src/main/scala/com/wordnik/client/model/Order.scala
-samples/server-generator/scalatra/output/src/main/scala/com/wordnik/client/model/Pet.scala
-samples/server-generator/scalatra/output/src/main/scala/com/wordnik/client/model/Tag.scala
-samples/server-generator/scalatra/output/src/main/scala/com/wordnik/client/model/User.scala
-samples/server-generator/scalatra/output/src/main/scala/JsonUtil.scala
-samples/server-generator/scalatra/output/src/main/scala/ServletApp.scala
+$ cd samples/server-generator/scalatra/output
+$ find  -type f
+./project/build.properties
+./project/plugins.sbt
+./README.md
+./src/main/scala/apis/PetApi.scala
+./src/main/scala/apis/StoreApi.scala
+./src/main/scala/apis/UserApi.scala
+./src/main/scala/com/wordnik/client/model/Category.scala
+./src/main/scala/com/wordnik/client/model/Order.scala
+./src/main/scala/com/wordnik/client/model/Pet.scala
+./src/main/scala/com/wordnik/client/model/Tag.scala
+./src/main/scala/com/wordnik/client/model/User.scala
+./src/main/scala/JsonUtil.scala
+./src/main/scala/ServletApp.scala
 
 ```
 
