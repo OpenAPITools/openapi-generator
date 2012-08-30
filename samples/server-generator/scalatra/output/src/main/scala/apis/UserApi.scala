@@ -14,7 +14,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Creates list of users with given input array"),
     nickname("createUsersWithArrayInput"),
     responseClass("void"),
-    endpoint("/user.{format}/createWithArray"),
+    endpoint("createWithArray"),
     notes(""),
     parameters(
       Parameter("body", "List of user object",
@@ -28,7 +28,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Create user"),
     nickname("createUser"),
     responseClass("void"),
-    endpoint("/user.{format}"),
+    endpoint(""),
     notes("This can only be done by the logged in user."),
     parameters(
       Parameter("body", "Created user object",
@@ -42,7 +42,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Creates list of users with given list input"),
     nickname("createUsersWithListInput"),
     responseClass("void"),
-    endpoint("/user.{format}/createWithList"),
+    endpoint("createWithList"),
     notes(""),
     parameters(
       Parameter("body", "List of user object",
@@ -56,7 +56,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Updated user"),
     nickname("updateUser"),
     responseClass("void"),
-    endpoint("/user.{format}/{username}"),
+    endpoint("{username}"),
     notes("This can only be done by the logged in user."),
     parameters(
       Parameter("username", "name that need to be deleted",
@@ -74,7 +74,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Delete user"),
     nickname("deleteUser"),
     responseClass("void"),
-    endpoint("/user.{format}/{username}"),
+    endpoint("{username}"),
     notes("This can only be done by the logged in user."),
     parameters(
       Parameter("username", "The name that needs to be deleted",
@@ -88,7 +88,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Get user by user name"),
     nickname("getUserByName"),
     responseClass("User"),
-    endpoint("/user.{format}/{username}"),
+    endpoint("{username}"),
     notes(""),
     parameters(
       Parameter("username", "The name that needs to be fetched. Use user1 for testing.",
@@ -102,7 +102,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Logs user into the system"),
     nickname("loginUser"),
     responseClass("String"),
-    endpoint("/user.{format}/login"),
+    endpoint("login"),
     notes(""),
     parameters(
       Parameter("username", "The user name for login",
@@ -126,7 +126,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagg
     summary("Logs out current logged in user session"),
     nickname("logoutUser"),
     responseClass("void"),
-    endpoint("/user.{format}/logout"),
+    endpoint("logout"),
     notes(""),
     parameters(
       )) {

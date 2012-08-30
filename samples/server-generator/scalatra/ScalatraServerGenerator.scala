@@ -61,7 +61,7 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
           val path = {
             val arr = k._2.toString.split("/")
             if (arr.length >= 2) {
-              mutable += "basePart" -> k._2
+              mutable += "basePart" -> (arr.slice(2, arr.length).mkString("", "/", ""))
               "/" + arr.slice(2, arr.length).mkString("", "/", "")
             } else
               k._2.toString

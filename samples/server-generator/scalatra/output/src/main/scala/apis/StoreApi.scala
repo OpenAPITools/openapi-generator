@@ -14,7 +14,7 @@ class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet with Swag
     summary("Find purchase order by ID"),
     nickname("getOrderById"),
     responseClass("Order"),
-    endpoint("/store.{format}/order/{orderId}"),
+    endpoint("order/{orderId}"),
     notes("For valid response try integer IDs with value <= 5. Anything above 5 or nonintegers will generate API errors"),
     parameters(
       Parameter("orderId", "ID of pet that needs to be fetched",
@@ -28,7 +28,7 @@ class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet with Swag
     summary("Delete purchase order by ID"),
     nickname("deleteOrder"),
     responseClass("void"),
-    endpoint("/store.{format}/order/{orderId}"),
+    endpoint("order/{orderId}"),
     notes("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"),
     parameters(
       Parameter("orderId", "ID of the order that needs to be deleted",
@@ -42,7 +42,7 @@ class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet with Swag
     summary("Place an order for a pet"),
     nickname("placeOrder"),
     responseClass("void"),
-    endpoint("/store.{format}/order"),
+    endpoint("order"),
     notes(""),
     parameters(
       Parameter("body", "order placed for purchasing the pet",

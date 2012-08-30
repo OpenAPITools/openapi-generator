@@ -14,7 +14,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagge
     summary("Find pet by ID"),
     nickname("getPetById"),
     responseClass("Pet"),
-    endpoint("/pet.{format}/{petId}"),
+    endpoint("{petId}"),
     notes("Returns a pet based on ID"),
     parameters(
       Parameter("petId", "ID of pet that needs to be fetched",
@@ -28,7 +28,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagge
     summary("Add a new pet to the store"),
     nickname("addPet"),
     responseClass("void"),
-    endpoint("/pet.{format}"),
+    endpoint(""),
     notes(""),
     parameters(
       Parameter("body", "Pet object that needs to be added to the store",
@@ -42,7 +42,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagge
     summary("Update an existing pet"),
     nickname("updatePet"),
     responseClass("void"),
-    endpoint("/pet.{format}"),
+    endpoint(""),
     notes(""),
     parameters(
       Parameter("body", "Pet object that needs to be updated in the store",
@@ -56,7 +56,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagge
     summary("Finds Pets by status"),
     nickname("findPetsByStatus"),
     responseClass("List[Pet]"),
-    endpoint("/pet.{format}/findByStatus"),
+    endpoint("findByStatus"),
     notes("Multiple status values can be provided with comma seperated strings"),
     parameters(
       Parameter("status", "Status values that need to be considered for filter",
@@ -73,7 +73,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with Swagge
     summary("Finds Pets by tags"),
     nickname("findPetsByTags"),
     responseClass("List[Pet]"),
-    endpoint("/pet.{format}/findByTags"),
+    endpoint("findByTags"),
     notes("Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing."),
     parameters(
       Parameter("tags", "Tags to filter by",
