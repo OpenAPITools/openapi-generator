@@ -1,0 +1,21 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+import scala.reflect.BeanProperty
+
+{{#model}}
+case class {{classname}} (
+  {{#vars}}
+
+  {{#notes}}/* {{notes}} */
+  {{/notes}}
+  {{#description}}/* {{description}} */
+  {{/description}}
+  var {{name}}: {{datatype}}{{#hasMore}},{{newline}}  {{/hasMore}}
+  {{/vars}}
+)
+{{/model}}
+{{/models}}

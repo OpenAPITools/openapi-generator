@@ -8,7 +8,7 @@ object JavaPetstoreCodegen extends BasicJavaGenerator {
   override def packageName = "com.wordnik.petstore"
 
   // location of templates
-  override def templateDir = "javaTemplates/"
+  override def templateDir = "Java"
 
   // where to write generated code
   override def destinationDir = "samples/petstore/java/src/main/java"

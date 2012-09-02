@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2011 Wordnik, Inc.
+Copyright 2012 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

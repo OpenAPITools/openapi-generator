@@ -135,10 +135,12 @@ object CoreUtils {
       model._2.properties.foreach(prop => {
         val subObject = prop._2
         if (containers.contains(subObject.getType)) {
-          if (subObject.items.ref != null)
-            subNames += subObject.items.ref
-          else
-            subNames += subObject.items.getType
+          if (subObject.items != null) {
+            if (subObject.items.ref != null)
+              subNames += subObject.items.ref
+            else
+              subNames += subObject.items.getType
+          }
         } else subNames += subObject.getType
       })
     })

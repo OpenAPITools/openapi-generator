@@ -42,7 +42,7 @@ class BasicJavaGenerator extends BasicGenerator {
   override def packageName = "com.wordnik.client"
 
   // location of templates
-  override def templateDir = "javaTemplates"
+  override def templateDir = "Java"
 
   // template used for models
   modelTemplateFiles += "model.mustache" -> ".java"

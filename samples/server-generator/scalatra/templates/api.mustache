@@ -1,0 +1,55 @@
+package {{package}}
+
+import com.wordnik.swagger.core.ApiPropertiesReader
+{{#imports}}import {{import}}
+{{/imports}}
+import org.scalatra.ScalatraServlet
+import org.scalatra.swagger._
+
+import scala.collection.JavaConverters._
+
+class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet with SwaggerBase with SwaggerSupport {
+  protected def buildFullUrl(path: String) = "{{basePath}}/%s" format path
+
+  {{#operations}}
+  {{#operation}}
+  {{httpMethod}}("{{path}}",
+    summary("{{{summary}}}"),
+    nickname("{{nickname}}"),
+    responseClass("{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}"),
+    endpoint("{{basePart}}"),
+    notes("{{{notes}}}"),
+    parameters(
+      {{#allParams}}
+      {{#queryParameter}}
+      Parameter("{{paramName}}", "{{{description}}}",
+        paramType = ParamType.Query,
+        required = {{required}},
+        allowMultiple = {{allowMultiple}},
+        {{#allowableValues}}allowableValues = AllowableValues("{{{allowableValues}}}"),{{/allowableValues}}
+        defaultValue = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}},
+        dataType = DataType("{{dataType}}"))
+      {{/queryParameter}}
+      {{#pathParameter}}
+      Parameter("{{paramName}}", "{{{description}}}",
+        dataType = DataType.String,
+        paramType = ParamType.Path)
+      {{/pathParameter}}
+      {{#headerParameter}}
+      Parameter("{{paramName}}", "{{{description}}}",
+        dataType = DataType("{{dataType}}"),
+        paramType = ParamType.Header)
+      {{/headerParameter}}
+      {{#bodyParameter}}
+      Parameter("{{paramName}}", "{{{description}}}",
+        dataType = DataType("{{dataType}}"),
+        paramType = ParamType.Body)
+      {{/bodyParameter}}
+      {{#hasMore}},{{/hasMore}}{{newline}}
+      {{/allParams}}
+      )) {
+  }
+
+  {{/operation}}
+  {{/operations}}
+}

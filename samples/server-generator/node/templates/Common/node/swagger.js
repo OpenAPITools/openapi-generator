@@ -310,10 +310,7 @@ function resourceListing(request, response) {
     r.apis.push({"path": "/" + key, "description": "none"}); 
   }
 
-    response.header('Access-Control-Allow-Origin', "*");
-    response.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-    response.header("Access-Control-Allow-Headers", "Content-Type");
-    response.header("Content-Type", "application/json; charset=utf-8");
+  writeHeaders(response);
 
   response.write(JSON.stringify(r));
   response.end();
@@ -361,11 +358,7 @@ function addMethod(app, callback, spec) {
   var currentMethod = spec.method.toLowerCase();
   if (allowedMethods.indexOf(currentMethod)>-1) {
     app[currentMethod](fullPath, function(req,res) {
-        res.header('Access-Control-Allow-Origin', "*");
-        res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        res.header("Access-Control-Allow-Headers", "Content-Type");
-        
-        res.header("Content-Type", "application/json; charset=utf-8");
+      writeHeaders(res);
 
       if (!canAccessResource(req, req.url.substr(1).split('?')[0].replace('.json', '.*'), req.method)) {
         res.send(JSON.stringify({"description":"forbidden", "code":403}), 403);
@@ -455,6 +448,13 @@ function addModels(models) {
 
 function wrap(callback, req, resp){
   callback(req,resp);
+}
+
+function writeHeaders(response) {
+	response.header('Access-Control-Allow-Origin', "*");
+	response.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+	response.header("Access-Control-Allow-Headers", "Content-Type");
+	response.header("Content-Type", "application/json; charset=utf-8");
 }
 
 function appendToApi(rootResource, api, spec) {

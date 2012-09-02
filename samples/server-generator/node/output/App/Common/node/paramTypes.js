@@ -26,7 +26,7 @@ exports.path = function(name, description, dataType, allowableValues) {
   return {
     "name" : name,
     "description" : description,
-    "dataType" : dataType,
+    "dataType" : dataType = "string",
     "required" : true,
     "allowMultiple" : false,
     "allowableValues" : createEnum(allowableValues),

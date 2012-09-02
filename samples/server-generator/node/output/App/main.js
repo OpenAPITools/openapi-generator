@@ -9,26 +9,26 @@ app.use(express.bodyParser());
 swagger.setAppHandler(app);  
 
 // resources for the demo
-var UserApi = require("./apis/UserApi.js");
-var StoreApi = require("./apis/StoreApi.js");
-var PetApi = require("./apis/PetApi.js");
+var petApi = require("./apis/PetApi.js");
+var storeApi = require("./apis/StoreApi.js");
+var userApi = require("./apis/UserApi.js");
 swagger.addModels(models)
-  .addPOST(UserApi.createUsersWithArrayInput)
-  .addPOST(UserApi.createUser)
-  .addPOST(UserApi.createUsersWithListInput)
-  .addPUT(UserApi.updateUser)
-  .addDELETE(UserApi.deleteUser)
-  .addGET(UserApi.getUserByName)
-  .addGET(UserApi.loginUser)
-  .addGET(UserApi.logoutUser)
-  .addGET(StoreApi.getOrderById)
-  .addDELETE(StoreApi.deleteOrder)
-  .addPOST(StoreApi.placeOrder)
-  .addGET(PetApi.getPetById)
-  .addPOST(PetApi.addPet)
-  .addPUT(PetApi.updatePet)
-  .addGET(PetApi.findPetsByStatus)
-  .addGET(PetApi.findPetsByTags)
+  .addGET(petApi.getPetById)
+  .addPOST(petApi.addPet)
+  .addPUT(petApi.updatePet)
+  .addGET(petApi.findPetsByStatus)
+  .addGET(petApi.findPetsByTags)
+  .addGET(storeApi.getOrderById)
+  .addDELETE(storeApi.deleteOrder)
+  .addPOST(storeApi.placeOrder)
+  .addPOST(userApi.createUsersWithArrayInput)
+  .addPOST(userApi.createUser)
+  .addPOST(userApi.createUsersWithListInput)
+  .addPUT(userApi.updateUser)
+  .addDELETE(userApi.deleteUser)
+  .addGET(userApi.getUserByName)
+  .addGET(userApi.loginUser)
+  .addGET(userApi.logoutUser)
   ;
 
 // configures the app

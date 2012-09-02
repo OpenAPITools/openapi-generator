@@ -263,7 +263,7 @@ class SwaggerSpecValidator(private val doc: Documentation,
                     case Some(updatedName) => {
                       if (!p.dataType.equals(updatedName)) {
                         //                      LOGGER.finest("--> updated " + dataType + " to " + updatedName)
-                        !!(p, OPERATION_PARAM, format("%s.%s(body: %s)", makeApiNameFromPath(api.getPath()), op.nickname, p.dataType), format("Invalid data type %s. Best guess: %s", p.dataType, updatedName))
+                        !!(p, OPERATION_PARAM, format("%s.%s(body: %s)", apiNameFromPath(api.getPath()), op.nickname, p.dataType), format("Invalid data type %s. Best guess: %s", p.dataType, updatedName))
                         if (fix) p.dataType = updatedName
                       }
                     }
@@ -274,7 +274,7 @@ class SwaggerSpecValidator(private val doc: Documentation,
                   getUpdatedType(validModelNames, dataType) match {
                     case Some(updatedName) => {
                       //                      LOGGER.finest("--> updated " + dataType + " to " + updatedName)
-                      !!(p, OPERATION_PARAM, format("%s.%s(path_%s: %s)", makeApiNameFromPath(api.getPath()), op.nickname, p.name, p.dataType), format("Invalid data type %s. Best guess: %s", p.dataType, updatedName))
+                      !!(p, OPERATION_PARAM, format("%s.%s(path_%s: %s)", apiNameFromPath(api.getPath()), op.nickname, p.name, p.dataType), format("Invalid data type %s. Best guess: %s", p.dataType, updatedName))
                       if (fix) p.dataType = updatedName
                     }
                     case _ => // leave it alone
@@ -284,7 +284,7 @@ class SwaggerSpecValidator(private val doc: Documentation,
                   getUpdatedType(validModelNames, dataType) match {
                     case Some(updatedName) => {
                       //                      LOGGER.finest("--> updated " + dataType + " to " + updatedName)
-                      !!(p, OPERATION_PARAM, format("%s.%s(query_%s: %s)", makeApiNameFromPath(api.getPath()), op.nickname, p.name, p.dataType), format("Invalid %s. Best guess: %s", p.dataType, updatedName))
+                      !!(p, OPERATION_PARAM, format("%s.%s(query_%s: %s)", apiNameFromPath(api.getPath()), op.nickname, p.name, p.dataType), format("Invalid %s. Best guess: %s", p.dataType, updatedName))
                       if (fix) p.dataType = updatedName
                     }
                     case _ => // leave it alone
@@ -316,7 +316,7 @@ class SwaggerSpecValidator(private val doc: Documentation,
                 case Some(updatedName) => {
                   if (!responseClass.equals(updatedName)) {
                     LOGGER.finest("--> updated " + responseClass + " to " + updatedName)
-                    !!(op, OPERATION, format("%s.%s(): %s", makeApiNameFromPath(api.getPath()), op.nickname, op.responseClass), format("Invalid response class. Best guess: %s", updatedName))
+                    !!(op, OPERATION, format("%s.%s(): %s", apiNameFromPath(api.getPath()), op.nickname, op.responseClass), format("Invalid response class. Best guess: %s", updatedName))
                     if (fix) op.responseClass = updatedName
                   }
                 }

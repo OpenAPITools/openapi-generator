@@ -34,12 +34,14 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   def templateDir = "src/main/resources/scala"
   def destinationDir = "generated-code/src/main/scala"
   def fileSuffix = ".scala"
+  def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
+  def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
 
   override def modelPackage: Option[String] = Some("com.wordnik.client.model")
   override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
   var codegen = new Codegen(this)
-  def m = JsonUtil.getJsonMapper
+  def json = ScalaJsonUtil.getJsonMapper
 
   def generateClient(args: Array[String]) = {
     if (args.length == 0) {
@@ -52,8 +54,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     }
     val doc = {
       try {
-        val json = ResourceExtractor.extractListing(getResourcePath(host), apiKey)
-        m.readValue(json, classOf[Documentation])
+        val jsonString = ResourceExtractor.extractListing(getResourcePath(host), apiKey)
+        json.readValue(jsonString, classOf[Documentation])
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
@@ -89,43 +91,51 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     })
 
     val apiMap = groupApisToFiles(operations.toList)
-
     for ((identifier, operationList) <- apiMap) {
       val basePath = identifier._1
-      val className = identifier._2
-      val map = new HashMap[String, AnyRef]
-      map += "basePath" -> basePath
-      map += "package" -> apiPackage
-      map += "invokerPackage" -> invokerPackage
-      map += "apis" -> Map(className -> operationList.toList)
-      map += "models" -> None
-      map += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator))
-      map += "newline" -> "\n"
+      val name = identifier._2
+      val className = toApiName(name)
+
+      val m = new HashMap[String, AnyRef]
+      m += "name" -> name
+      m += "className" -> className
+      m += "basePath" -> basePath
+      m += "package" -> apiPackage
+      m += "invokerPackage" -> invokerPackage
+      m += "apis" -> Map(className -> operationList.toList)
+      m += "models" -> None
+      m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator))
+      m += "newline" -> "\n"
+
+//      println(json.writeValueAsString(m))
+
       for ((file, suffix) <- apiTemplateFiles) {
-        map += "filename" -> (className + suffix)
-        generateAndWrite(map.toMap, file)
+        m += "filename" -> (className + suffix)
+        generateAndWrite(m.toMap, file)
       }
     }
 
     val modelBundleList = new ListBuffer[Map[String, AnyRef]]
     for ((name, schema) <- allModels) {
-      val map = new HashMap[String, AnyRef]
-      map += "apis" -> None
-      map += "models" -> List((name, schema))
-      map += "package" -> modelPackage
-      map += "invokerPackage" -> invokerPackage
-      map += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator))
-      map += "newline" -> "\n"
-      modelBundleList += map.toMap
-      for ((file, suffix) <- modelTemplateFiles) {
-        map += "filename" -> (name + suffix)
-        generateAndWrite(map.toMap, file)
+      if (!defaultIncludes.contains(name)) {
+        val m = new HashMap[String, AnyRef]
+        m += "name" -> name
+        m += "className" -> name
+        m += "apis" -> None
+        m += "models" -> List((name, schema))
+        m += "package" -> modelPackage
+        m += "invokerPackage" -> invokerPackage
+        m += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator))
+        m += "newline" -> "\n"
+        modelBundleList += m.toMap
+        for ((file, suffix) <- modelTemplateFiles) {
+          m += "filename" -> (name + suffix)
+          generateAndWrite(m.toMap, file)
+        }
       }
     }
     codegen.writeSupportingClasses(apiMap.toMap, allModels.toMap)
   }
-
-  def apiNameFromPath(apiPath: String) = makeApiNameFromPath(apiPath)
 
   def generateAndWrite(bundle: Map[String, AnyRef], templateFile: String) = {
     val output = codegen.generateSource(bundle, templateFile)
@@ -142,7 +152,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   def groupApisToFiles(operations: List[(String /*basePath*/ , String /*apiPath*/ , DocumentationOperation /* operation*/ )]): Map[(String, String), ListBuffer[(String, DocumentationOperation)]] = {
     val opMap = new HashMap[(String, String), ListBuffer[(String, DocumentationOperation)]]
     for ((basePath, apiPath, operation) <- operations) {
-      val className = apiNameFromPath(apiPath)
+      val className = resourceNameFromFullPath(apiPath)
       val listToAddTo = opMap.getOrElse((basePath, className), {
         val l = new ListBuffer[(String, DocumentationOperation)]
         opMap += (basePath, className) -> l

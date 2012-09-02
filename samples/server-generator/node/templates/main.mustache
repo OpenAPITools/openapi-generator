@@ -10,13 +10,13 @@ swagger.setAppHandler(app);
 
 // resources for the demo
 {{#apis}}
-var {{name}} = require("./apis/{{name}}.js");
+var {{name}}Api = require("./apis/{{className}}.js");
 {{/apis}}
 
 swagger.addModels(models)
   {{#apis}}
   {{#operations}}
-  {{#operation}}.add{{httpMethod}}({{name}}.{{nickname}}){{/operation}}{{newline}}
+  {{#operation}}.add{{httpMethod}}({{name}}Api.{{nickname}}){{/operation}}{{newline}}
   {{/operations}}
   {{/apis}};
 
