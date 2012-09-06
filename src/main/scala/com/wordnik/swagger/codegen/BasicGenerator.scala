@@ -107,8 +107,6 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator))
       m += "newline" -> "\n"
 
-//      println(json.writeValueAsString(m))
-
       for ((file, suffix) <- apiTemplateFiles) {
         m += "filename" -> (className + suffix)
         generateAndWrite(m.toMap, file)
