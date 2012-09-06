@@ -14,16 +14,19 @@
  *  limitations under the License.
  */
 
-import com.wordnik.swagger.codegen.BasicScalaGenerator
-
+import com.wordnik.swagger.codegen.BasicRubyGenerator
 import com.wordnik.swagger.core._
 
 import java.io.File
 
 import scala.collection.mutable.{ HashMap, ListBuffer }
 
-object SinatraServerGenerator extends BasicScalaGenerator {
+object SinatraServerGenerator extends BasicRubyGenerator {
   def main(args: Array[String]) = generateClient(args)
+
+  override def toApiName(name: String): String = {
+    name + "_api"
+  }
 
   override def templateDir = "samples/server-generator/sinatra/templates"
 
@@ -45,8 +48,8 @@ object SinatraServerGenerator extends BasicScalaGenerator {
   override def supportingFiles = List(
     ("README.md", outputFolder, "README.md"),
     ("config.ru", outputFolder, "config.ru"),
-    ("MyApp.rb", outputFolder, "MyApp.rb"),
-    ("lib/Swaggering.rb", outputFolder + File.separator + "lib", "Swaggering.rb"))
+    ("my_app.mustache", outputFolder, "my_app.rb"),
+    ("lib/swaggering.rb", outputFolder + File.separator + "lib", "swaggering.rb"))
 
   override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
     val mutable = scala.collection.mutable.Map() ++ m
