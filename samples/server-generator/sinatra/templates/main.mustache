@@ -1,0 +1,42 @@
+require 'json'
+require './lib/swaggering'
+require 'sinatra/cross_origin'
+
+configure do
+  
+end
+
+
+# only need to extend if you want special configuration!
+class MyApp < Swaggering
+  self.configure do |config|
+    config.api_version = '0.2' 
+  end
+end
+
+# add all your routes
+{{#apis}}
+{{#operations}}
+MyApp.add_route('{{httpMethod}}', '{{path}}', {
+  "resourcePath" => "{{resourcePath}}",
+  "summary" => "{{{summary}}}",
+  "nickname" => "{{nickname}}", 
+  "responseClass" => "{{responseClass}}", 
+  "endpoint" => "{{name}}", 
+  "notes" => "{{{notes}}}",
+  "parameters" => [{
+    "name" => "status", 
+    "description" => "Status values that need to be considered for filter",
+    "dataType" => "string",
+    "paramType" => "path",
+    "allowMultiple" => true,
+    "allowableValues" => "LIST[available,pending,sold]",
+    "defaultValue" => "available"}]}) do
+  cross_origin
+  # the guts live here
+
+  {"message" => "yes, it worked"}.to_json
+end
+
+{{/operations}}
+{{/apis}}
