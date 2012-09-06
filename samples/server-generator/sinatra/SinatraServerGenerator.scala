@@ -48,6 +48,7 @@ object SinatraServerGenerator extends BasicRubyGenerator {
   override def supportingFiles = List(
     ("README.md", outputFolder, "README.md"),
     ("config.ru", outputFolder, "config.ru"),
+    ("Gemfile", outputFolder, "Gemfile"),
     ("my_app.mustache", outputFolder, "my_app.rb"),
     ("lib/swaggering.rb", outputFolder + File.separator + "lib", "swaggering.rb"))
 
