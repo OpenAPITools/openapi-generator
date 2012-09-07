@@ -17,7 +17,7 @@ sinatra-cross_origin
 This sample was generated with the [swagger-codegen](https://github.com/wordnik/swagger-codegen) project.
 
 ```
-rackup -p 4567 examples/config.ru
+rackup -p 4567
 ```
 
 In your [swagger ui](https://github.com/wordnik/swagger-ui), put in the following URL:
