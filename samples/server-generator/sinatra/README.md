@@ -58,7 +58,7 @@ Take a look at the sample templates here:
 
 <li> - Generator for your api classes: [api.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/sinatra/templates/api.mustache)
 
-<li> - The main class to run your server: [my_app.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/my_app.mustache)
+<li> - The main class to run your server: [my_app.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/sinatra/templates/my_app.mustache)
 
 
 Sound easy?  It is!
