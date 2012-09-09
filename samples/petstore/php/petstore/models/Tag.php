@@ -24,12 +24,12 @@
 class Tag {
 
   static $swaggerTypes = array(
-      'id' => 'long',
+      'id' => 'int',
       'name' => 'string'
 
     );
 
-  public $id; // long
+  public $id; // int
   public $name; // string
   }
 

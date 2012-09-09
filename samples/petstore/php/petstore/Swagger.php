@@ -148,6 +148,10 @@ class APIClient {
 	 */
 	public static function deserialize($object, $class) {
 
+		if (gettype($object) == "NULL") {
+	      	return $object;
+	     }
+
     if (substr($class, 0, 6) == 'array[') {
       $sub_class = substr($class, 6, -1);
       $sub_objects = array();
@@ -156,6 +160,8 @@ class APIClient {
                                     			 $sub_class);
       }
       return $sub_objects;
+    } elseif ($class == 'DateTime') {
+      		return new DateTime($object);
 		} elseif (in_array($class, array('string', 'int', 'float', 'bool'))) {
 			settype($object, $class);
 			return $object;

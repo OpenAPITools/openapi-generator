@@ -24,21 +24,21 @@
 class Order {
 
   static $swaggerTypes = array(
-      'id' => 'long',
-      'petId' => 'long',
+      'id' => 'int',
+      'petId' => 'int',
       'status' => 'string',
       'quantity' => 'int',
-      'shipDate' => 'string'
+      'shipDate' => 'DateTime'
 
     );
 
-  public $id; // long
-  public $petId; // long
+  public $id; // int
+  public $petId; // int
   /**
   * Order Status
   */
   public $status; // string
   public $quantity; // int
-  public $shipDate; // string
+  public $shipDate; // DateTime
   }
 
