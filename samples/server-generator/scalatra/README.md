@@ -47,7 +47,7 @@ $ find  -type f
 
 ```
 
-To run the server, cd to the `samples/server-generator/node/output` folder and run:
+To run the server, cd to the `samples/server-generator/scalatra/output` folder and run:
 
 ```
 sbt run
@@ -67,7 +67,7 @@ Take a look at the sample templates here:
 
 <li> - Generator for your models: [model.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/scalatra/templates/model.mustache)
 
-<li> - The main class to run your server: [ServletApp.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/ServletApp.mustache)
+<li> - The main class to run your server: [ServletApp.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/scalatra/templates/ServletApp.mustache)
 
 
 Sound easy?  It is!
