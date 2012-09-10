@@ -55,8 +55,9 @@ class StoreApi(object):
         headerParams = {}
 
         if ('orderId' in params):
+            replacement = str(self.apiClient.toPathValue(params['orderId']))
             resourcePath = resourcePath.replace('{' + 'orderId' + '}',
-                                                self.apiClient.toPathValue(params['orderId']))
+                                                replacement)
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
@@ -95,8 +96,9 @@ class StoreApi(object):
         headerParams = {}
 
         if ('orderId' in params):
+            replacement = str(self.apiClient.toPathValue(params['orderId']))
             resourcePath = resourcePath.replace('{' + 'orderId' + '}',
-                                                self.apiClient.toPathValue(params['orderId']))
+                                                replacement)
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,

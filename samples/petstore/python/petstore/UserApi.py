@@ -152,8 +152,9 @@ class UserApi(object):
         headerParams = {}
 
         if ('username' in params):
+            replacement = str(self.apiClient.toPathValue(params['username']))
             resourcePath = resourcePath.replace('{' + 'username' + '}',
-                                                self.apiClient.toPathValue(params['username']))
+                                                replacement)
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
@@ -187,8 +188,9 @@ class UserApi(object):
         headerParams = {}
 
         if ('username' in params):
+            replacement = str(self.apiClient.toPathValue(params['username']))
             resourcePath = resourcePath.replace('{' + 'username' + '}',
-                                                self.apiClient.toPathValue(params['username']))
+                                                replacement)
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
@@ -222,8 +224,9 @@ class UserApi(object):
         headerParams = {}
 
         if ('username' in params):
+            replacement = str(self.apiClient.toPathValue(params['username']))
             resourcePath = resourcePath.replace('{' + 'username' + '}',
-                                                self.apiClient.toPathValue(params['username']))
+                                                replacement)
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,

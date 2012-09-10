@@ -55,8 +55,9 @@ class PetApi(object):
         headerParams = {}
 
         if ('petId' in params):
+            replacement = str(self.apiClient.toPathValue(params['petId']))
             resourcePath = resourcePath.replace('{' + 'petId' + '}',
-                                                self.apiClient.toPathValue(params['petId']))
+                                                replacement)
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,

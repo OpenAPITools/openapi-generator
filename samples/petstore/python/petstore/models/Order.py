@@ -25,7 +25,7 @@ class Order:
             'petId': 'long',
             'status': 'str',
             'quantity': 'int',
-            'shipDate': 'str'
+            'shipDate': 'datetime'
 
         }
 
@@ -35,5 +35,5 @@ class Order:
         #Order Status
         self.status = None # str
         self.quantity = None # int
-        self.shipDate = None # str
+        self.shipDate = None # datetime
         
