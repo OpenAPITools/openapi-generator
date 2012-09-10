@@ -9,9 +9,12 @@ version.properties
 lib/*
 build/*
 generated-files/*
+generated-code/*
 *.swp
 *.swo
 
 /target
 /generated-files
 /nbactions.xml
+*.pyc
+__pycache__
