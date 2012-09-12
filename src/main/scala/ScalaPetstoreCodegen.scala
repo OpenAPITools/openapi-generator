@@ -22,7 +22,7 @@ object ScalaPetstoreCodegen extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)
 
   // package for api invoker, error files
-  override def invokerPackage: Option[String] = Some("com.wordnik.client")
+  override def invokerPackage = Some("com.wordnik.client")
     
   // where to write generated code
   override def destinationDir = "samples/petstore/scala/src/main/scala"
