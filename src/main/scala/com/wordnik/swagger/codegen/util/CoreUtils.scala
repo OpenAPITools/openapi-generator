@@ -122,7 +122,6 @@ object CoreUtils {
       for ((name, m) <- sd.getModels) modelObjects += name -> m
 
     // extract all base model names, strip away Containers like List[] and primitives
-
     val baseNames = (for (modelName <- (modelNames.toList -- primitives))
       yield (extractBasePartFromType(modelName))).toSet
 
@@ -136,15 +135,31 @@ object CoreUtils {
         val subObject = prop._2
         if (containers.contains(subObject.getType)) {
           if (subObject.items != null) {
-            if (subObject.items.ref != null)
+            if (subObject.items.ref != null) {
               subNames += subObject.items.ref
-            else
+            } else {
               subNames += subObject.items.getType
+            }
           }
         } else subNames += subObject.getType
       })
     })
-
+    
+    // look inside submodels
+    modelObjects.filter(obj => subNames.contains(obj._1)).foreach(model => {
+      model._2.properties.foreach(prop => {
+        val subObject = prop._2
+        if (containers.contains(subObject.getType)) {
+          if (subObject.items != null) {
+            if (subObject.items.ref != null) {
+              subNames += subObject.items.ref
+            } else {
+              subNames += subObject.items.getType
+            }
+          }
+        } else subNames += subObject.getType
+      })
+    })
     val subModels = modelObjects.filter(obj => subNames.contains(obj._1))
     val allModels = requiredModels ++ subModels
     allModels.filter(m => primitives.contains(m._1) == false).toMap
