@@ -35,7 +35,6 @@ abstract class BasicFlashCodegen extends BasicGenerator {
   // where to write generated code
   override def destinationDir = "src/test/flash"
 
-
   // import/require statements for specific datatypes
   override def importMapping = Map()
 
