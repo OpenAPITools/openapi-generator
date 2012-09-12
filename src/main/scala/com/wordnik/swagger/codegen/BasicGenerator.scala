@@ -37,6 +37,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
   def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
 
+  override def invokerPackage: Option[String] = Some("com.wordnik.client.common")
   override def modelPackage: Option[String] = Some("com.wordnik.client.model")
   override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
@@ -89,7 +90,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         allModels ++= CoreUtils.extractModels(subDoc)
       }
     })
-
+    
     val apiMap = groupApisToFiles(operations.toList)
     for ((identifier, operationList) <- apiMap) {
       val basePath = identifier._1
