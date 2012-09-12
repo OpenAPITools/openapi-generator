@@ -34,11 +34,12 @@ abstract class CodegenConfig {
   // optional configs
   def invokerPackage: Option[String] = None
   def apiPackage: Option[String] = None
+  def modelPackage: Option[String] = None
+
   def reservedWords: Set[String] = Set()
 
   // swagger primitive types
   def importMapping: Map[String, String] = Map()
-  def modelPackage: Option[String] = None
   def escapeReservedWord(word: String) = word
 
   def toApiName(name: String): String
