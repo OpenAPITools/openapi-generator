@@ -32,7 +32,6 @@ object ApiExtractor {
     for (api <- apis) yield {
       val json = basePath.startsWith("http") match {
         case true => {
-          println("api.path: " + api.path)
           println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
           Source.fromURL((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")).mkString
         }
