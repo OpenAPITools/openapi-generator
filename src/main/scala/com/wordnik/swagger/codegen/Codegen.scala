@@ -335,9 +335,9 @@ class Codegen(config: CodegenConfig) {
       case n: Int => {
         val ComplexTypeMatcher = ".*\\[(.*)\\].*".r
         val ComplexTypeMatcher(basePart) = op.responseClass
-        properties += "returnType" -> config.processResponseDeclaration(op.responseClass)
+        properties += "returnType" -> config.processResponseDeclaration(op.responseClass.replaceAll(basePart, config.processResponseClass(basePart).get))
         properties += "returnContainer" -> (op.responseClass.substring(0, n))
-        properties += "returnBaseType" -> Some(basePart)
+        properties += "returnBaseType" -> Some(config.processResponseClass(basePart))
         properties += "returnTypeIsPrimitive" -> {
           (config.languageSpecificPrimitives.contains(basePart) || primitives.contains(basePart)) match {
             case true => Some("true")
@@ -369,8 +369,12 @@ class Codegen(config: CodegenConfig) {
       if (propertyDocSchema.items != null) {
         // import the container
         imports += Map("import" -> dt)
-        if (propertyDocSchema.items.ref != null) baseType = propertyDocSchema.items.ref
-        else if (propertyDocSchema.items.getType != null) baseType = propertyDocSchema.items.getType
+        if (propertyDocSchema.items.ref != null) {
+          baseType = propertyDocSchema.items.ref
+        }
+        else if (propertyDocSchema.items.getType != null) {
+          baseType = propertyDocSchema.items.getType
+        }
       }
       baseType = config.typeMapping.contains(baseType) match {
         case true => config.typeMapping(baseType)
@@ -412,7 +416,6 @@ class Codegen(config: CodegenConfig) {
           "isContainer" -> isContainer,
           "isNotContainer" -> isNotContainer,
           "hasMore" -> "true")
-
       (config.languageSpecificPrimitives.contains(baseType) || primitives.contains(baseType)) match {
         case true => properties += "isPrimitiveType" -> "true"
         case _ => properties += "complexType" -> baseType
