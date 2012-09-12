@@ -131,7 +131,6 @@ class Codegen(config: CodegenConfig) {
           }
         }
       }
-      println("pre-compile")
       val template = engine.compile(
         TemplateSource.fromText(config.templateDir + File.separator + templateFile,
           Source.fromInputStream(srcStream).mkString))
@@ -472,6 +471,7 @@ class Codegen(config: CodegenConfig) {
 
     val data: HashMap[String, AnyRef] =
       HashMap(
+        "invokerPackage" -> config.invokerPackage,
         "package" -> config.packageName,
         "modelPackage" -> config.modelPackage,
         "apiPackage" -> config.apiPackage,

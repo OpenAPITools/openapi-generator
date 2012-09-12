@@ -24,7 +24,7 @@ object BasicScalaGenerator extends BasicScalaGenerator {
 
 class BasicScalaGenerator extends BasicGenerator {
   override def defaultIncludes = Set("Int",
-    "String", 
+    "String",
     "Long",
     "Float",
     "Double",
@@ -38,10 +38,7 @@ class BasicScalaGenerator extends BasicGenerator {
     "long" -> "Long",
     "double" -> "Double",
     "object" -> "Any")
-    
-  // package for api invoker, error files
-  override def invokerPackage: Option[String] = Some("com.wordnik.client")
-    
+
   // template used for models
   modelTemplateFiles += "model.mustache" -> ".scala"
 
@@ -78,12 +75,11 @@ class BasicScalaGenerator extends BasicGenerator {
     val datatype = (obj.getType.charAt(0).toUpperCase + obj.getType.substring(1)) match {
       case "Array" => {
         "java.util.List[%s]" format toDeclaredType(
-	  if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
-	)
+          if (obj.items.ref != null) obj.items.ref
+          else obj.items.getType)
       }
       case e: String => e
-    } 
+    }
     (datatype, toDefaultValue(datatype, obj))
   }
 
