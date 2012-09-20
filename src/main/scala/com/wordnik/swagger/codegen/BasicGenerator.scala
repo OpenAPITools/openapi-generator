@@ -34,8 +34,6 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   def templateDir = "src/main/resources/scala"
   def destinationDir = "generated-code/src/main/scala"
   def fileSuffix = ".scala"
-  def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
-  def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
 
   override def invokerPackage: Option[String] = Some("com.wordnik.client.common")
   override def modelPackage: Option[String] = Some("com.wordnik.client.model")
@@ -75,7 +73,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
 
     val allModels = new HashMap[String, DocumentationSchema]
     val operations = new ListBuffer[(String, String, DocumentationOperation)]
-
+    
     subDocs.foreach(subDoc => {
       val basePath = subDoc.basePath
       val resourcePath = subDoc.resourcePath
