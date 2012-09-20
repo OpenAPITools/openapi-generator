@@ -28,7 +28,7 @@ import Source._
 object ApiExtractor {
   def m = JsonUtil.getJsonMapper
 
-  def extractApiDocs(basePath: String, apis: List[DocumentationEndPoint], apiKey: Option[String]): List[Documentation] = {
+  def extractApiDocs(basePath: String, apis: List[DocumentationEndPoint], apiKey: Option[String] = None): List[Documentation] = {
     for (api <- apis) yield {
       val json = basePath.startsWith("http") match {
         case true => {
