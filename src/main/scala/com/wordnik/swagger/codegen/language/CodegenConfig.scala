@@ -21,9 +21,17 @@ import com.wordnik.swagger.core._
 import scala.collection.mutable.{ HashMap, HashSet }
 
 abstract class CodegenConfig {
+  /*
+   * abstract methods
+   */
   def packageName: String
   def templateDir: String
   def destinationDir: String
+  def toApiName(name: String): String
+  def apiNameFromPath(apiPath: String): String
+  def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
+  def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
+
   val apiTemplateFiles = new HashMap[String, String]()
   val modelTemplateFiles = new HashMap[String, String]()
 
@@ -41,9 +49,6 @@ abstract class CodegenConfig {
   // swagger primitive types
   def importMapping: Map[String, String] = Map()
   def escapeReservedWord(word: String) = word
-
-  def toApiName(name: String): String
-  def apiNameFromPath(apiPath: String): String
 
   // only process these apis (by name)
   val apisToProcess = new HashSet[String]
@@ -133,7 +138,4 @@ abstract class CodegenConfig {
       case _ => "_"
     }
   }
-
-  def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef]
-  def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef]
 }
