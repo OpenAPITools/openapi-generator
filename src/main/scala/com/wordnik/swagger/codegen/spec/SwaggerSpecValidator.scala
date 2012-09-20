@@ -62,20 +62,22 @@ class SwaggerSpecValidator(private val doc: Documentation,
   def validateResponseModels(subDocs: List[Documentation]) = {
     val validModelNames = CoreUtils.extractAllModels(subDocs).map(m => m._1).toSet
     val requiredModels = new HashSet[String]
-    subDocs.foreach(subDoc => {
-      subDoc.getApis.foreach(api => {
-        api.getOperations.foreach(op => {
-          requiredModels += {
-            val responseClass = op.responseClass
-            responseClass.indexOf("[") match {
-              case i: Int if (i > 0) => {
-                CoreUtils.extractBasePartFromType(responseClass)
+     subDocs.foreach(subDoc => {
+       if (subDoc.getApis != null) {
+	subDoc.getApis.foreach(api => {
+          api.getOperations.foreach(op => {
+            requiredModels += {
+              val responseClass = op.responseClass
+              responseClass.indexOf("[") match {
+		case i: Int if (i > 0) => {
+                  CoreUtils.extractBasePartFromType(responseClass)
+		}
+		case _ => responseClass
               }
-              case _ => responseClass
             }
-          }
-        })
-      })
+          })
+	})
+      }
     })
 
     val missingModels = requiredModels.toSet -- (validModelNames ++ primitives)
