@@ -1,5 +1,5 @@
 import com.wordnik.swagger.core.util.JsonUtil
-import com.wordnik.swagger.core.Documentation
+import com.wordnik.swagger.core.{Documentation, DocumentationSchema}
 
 import com.wordnik.swagger.codegen.BasicScalaGenerator
 import com.wordnik.swagger.codegen.util._
@@ -85,7 +85,12 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    * types
    */
   it should "convert to a declared type" in {
-  	config.toDeclaredType("int") should be ("Int")
+  	config.toDeclaredType("string") should be ("String")
+    config.toDeclaredType("int") should be ("Int")
+    config.toDeclaredType("float") should be ("Float")
+    config.toDeclaredType("long") should be ("Long")
+    config.toDeclaredType("double") should be ("Double")
+    config.toDeclaredType("object") should be ("Any")
   }
 
   /*
@@ -102,4 +107,80 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
   it should "quote a reserved var name" in {
   	config.toVarName("package") should be ("`package`")
   }
+
+  /*
+   * support list declarations with string inner value and the correct default value
+   */
+   it should "create a declaration with a List of strings" in {
+      val model = new DocumentationSchema
+      model.name = "arrayOfStrings"
+      model.setType("Array")
+      model.items = new DocumentationSchema
+      model.items.setType("string")
+
+      val m = config.toDeclaration(model)
+      m._1 should be ("java.util.List[String]")
+      m._2 should be ("_")
+   }
+
+  /*
+   * support list declarations with int inner value and the correct default value
+   */
+   it should "create a declaration with a List of ints" in {
+      val model = new DocumentationSchema
+      model.name = "arrayOfInts"
+      model.setType("Array")
+      model.items = new DocumentationSchema
+      model.items.setType("int")
+
+      val m = config.toDeclaration(model)
+      m._1 should be ("java.util.List[Int]")
+      m._2 should be ("0")
+   }
+
+  /*
+   * support list declarations with float inner value and the correct default value
+   */
+   it should "create a declaration with a List of floats" in {
+      val model = new DocumentationSchema
+      model.name = "arrayOfFloats"
+      model.setType("Array")
+      model.items = new DocumentationSchema
+      model.items.setType("float")
+
+      val m = config.toDeclaration(model)
+      m._1 should be ("java.util.List[Float]")
+      m._2 should be ("0f")
+   }
+
+  /*
+   * support list declarations with double inner value and the correct default value
+   */
+   it should "create a declaration with a List of doubles" in {
+      val model = new DocumentationSchema
+      model.name = "arrayOfDoubles"
+      model.setType("Array")
+      model.items = new DocumentationSchema
+      model.items.setType("double")
+
+      val m = config.toDeclaration(model)
+      m._1 should be ("java.util.List[Double]")
+      m._2 should be ("0.0")
+   }
+
+
+  /*
+   * support list declarations with complex inner value and the correct default value
+   */
+   it should "create a declaration with a List of complex objects" in {
+      val model = new DocumentationSchema
+      model.name = "arrayOfFloats"
+      model.setType("Array")
+      model.items = new DocumentationSchema
+      model.items.setType("User")
+
+      val m = config.toDeclaration(model)
+      m._1 should be ("java.util.List[User]")
+      m._2 should be ("_")
+   }
 }
