@@ -442,7 +442,7 @@ class Codegen(config: CodegenConfig) {
     }
   }
 
-  def writeSupportingClasses(apis: Map[(String, String), scala.collection.mutable.ListBuffer[(String, com.wordnik.swagger.core.DocumentationOperation)]], models: Map[String, DocumentationSchema]) = {
+  def writeSupportingClasses(apis: Map[(String, String), List[(String, com.wordnik.swagger.core.DocumentationOperation)]], models: Map[String, DocumentationSchema]) = {
     val rootDir = new java.io.File(".")
     val engine = new TemplateEngine(Some(rootDir))
 

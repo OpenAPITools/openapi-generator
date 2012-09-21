@@ -50,4 +50,27 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
 	orderApi.getParameters.size should be (1)
 	orderApi.getErrorResponses.size should be (1)
   }
+
+  it should "verify ops are grouped by path correctly" in {
+    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
+    val subDocs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
+    val allModels = new HashMap[String, DocumentationSchema]()
+
+    implicit val basePath = "http://localhost:8080/api"
+    val generator = new SampleGenerator
+    val ops = generator.extractOperations(subDocs, allModels)
+    val apiMap = generator.groupApisToFiles(ops)
+
+    // verify all apis are there
+    (apiMap.keys.map(m => m._2).toSet & Set("user", "pet", "store")).size should be (3)
+
+    // inspect the store apis
+    val orderApis = apiMap("http://petstore.swagger.wordnik.com/api","store").groupBy(_._1).toMap
+    val orderOperations = orderApis("/store.{format}/order/{orderId}").map(m => m._2)
+
+    // 2 operations
+    orderOperations.size should be (2)
+    (orderOperations.map(m => m.httpMethod).toSet & Set("GET", "DELETE")).size should be (2)
+    (orderOperations.map(m => m.nickname).toSet & Set("getOrderById", "deleteOrder")).size should be (2)
+  }
 }

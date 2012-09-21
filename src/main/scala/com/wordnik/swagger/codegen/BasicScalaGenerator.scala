@@ -81,7 +81,7 @@ class BasicScalaGenerator extends BasicGenerator {
         val e = "java.util.List[%s]" format toDeclaredType(inner)
         (e, toDefaultValue(inner, obj))
       }
-      case e: String => (e, toDefaultValue(e, obj))
+      case e: String => (toDeclaredType(e), toDefaultValue(e, obj))
     }
   }
 
