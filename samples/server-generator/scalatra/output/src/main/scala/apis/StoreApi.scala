@@ -15,6 +15,7 @@ class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet with Type
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "StoreApi"
+  override protected val applicationName = Some("store")
 
   def swaggerToModel(cls: Class[_]) = {
     val docObj = ApiPropertiesReader.read(cls)
