@@ -123,10 +123,11 @@ abstract class CodegenConfig {
     } else None
   }
 
-  def toDefaultValue(properCase: String, obj: DocumentationSchema) = {
-    properCase match {
+  def toDefaultValue(dataType: String, obj: DocumentationSchema) = {
+    dataType match {
       case "int" => "0"
       case "long" => "0L"
+      case "float" => "0f"
       case "double" => "0.0"
       case e: String if (Set("List").contains(e)) => {
         val inner = {

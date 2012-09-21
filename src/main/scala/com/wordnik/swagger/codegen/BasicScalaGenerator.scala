@@ -72,15 +72,17 @@ class BasicScalaGenerator extends BasicGenerator {
   }
 
   override def toDeclaration(obj: DocumentationSchema): (String, String) = {
-    val datatype = (obj.getType.charAt(0).toUpperCase + obj.getType.substring(1)) match {
+    obj.getType match {
       case "Array" => {
-        "java.util.List[%s]" format toDeclaredType(
+        val inner = {
           if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType)
+          else obj.items.getType
+        }
+        val e = "java.util.List[%s]" format toDeclaredType(inner)
+        (e, toDefaultValue(inner, obj))
       }
-      case e: String => e
+      case e: String => (e, toDefaultValue(e, obj))
     }
-    (datatype, toDefaultValue(datatype, obj))
   }
 
   // escape keywords

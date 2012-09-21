@@ -39,8 +39,6 @@ class BasicJavaGenerator extends BasicGenerator {
     "double" -> "Double",
     "object" -> "Object")
 
-  override def packageName = "com.wordnik.client"
-
   // location of templates
   override def templateDir = "Java"
 
@@ -53,6 +51,14 @@ class BasicJavaGenerator extends BasicGenerator {
   // where to write generated code
   override def destinationDir = "src/test/java"
 
+  override def reservedWords = Set("abstract", "continue", "for", "new", "switch", "assert", 
+      "default", "if", "package", "synchronized", "boolean", "do", "goto", "private", 
+      "this", "break", "double", "implements", "protected", "throw", "byte", "else", 
+      "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", 
+      "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", 
+      "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", 
+      "native", "super", "while")
+
   // import/require statements for specific datatypes
   override def importMapping = Map(
     "Date" -> "java.util.Date",
@@ -61,10 +67,10 @@ class BasicJavaGenerator extends BasicGenerator {
     "List" -> "java.util.List")
 
   // package for models
-  override def modelPackage = Some("com.wordnik.model")
+  override def modelPackage = Some("com.wordnik.client.model")
 
   // package for api classes
-  override def apiPackage = Some("com.wordnik.api")
+  override def apiPackage = Some("com.wordnik.client.api")
 
   // file suffix
   override def fileSuffix = ".java"
@@ -123,8 +129,8 @@ class BasicJavaGenerator extends BasicGenerator {
   }
 
   // default values
-  override def toDefaultValue(properCase: String, obj: DocumentationSchema) = {
-    properCase match {
+  override def toDefaultValue(dataType: String, obj: DocumentationSchema) = {
+    dataType match {
       case "boolean" => "false"
       case "int" => "0"
       case "long" => "0L"
@@ -139,5 +145,11 @@ class BasicJavaGenerator extends BasicGenerator {
       }
       case _ => "null"
     }
+  }
+
+  override def escapeReservedWord(word: String) = {
+    if (reservedWords.contains(word)) 
+      throw new Exception("reserved word " + "\"" + word + "\" not allowed")
+    else word
   }
 }

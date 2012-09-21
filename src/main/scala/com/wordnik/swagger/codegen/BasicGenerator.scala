@@ -42,6 +42,24 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   var codegen = new Codegen(this)
   def json = ScalaJsonUtil.getJsonMapper
 
+  def extractOperations(subDocs:List[Documentation], allModels: HashMap[String, DocumentationSchema] )(implicit basePath:String) = {
+    val output = new ListBuffer[(String, String, DocumentationOperation)]
+    subDocs.foreach(subDoc => {
+      val basePath = subDoc.basePath
+      val resourcePath = subDoc.resourcePath
+      if (subDoc.getApis != null) {
+        subDoc.getApis.foreach(api => {
+          for ((apiPath, operation) <- ApiExtractor.extractOperations(basePath, api)) {
+            output += Tuple3(basePath, apiPath, operation)
+          }
+        })
+        output.map(op => processOperation(op._2, op._3))
+        allModels ++= CoreUtils.extractModels(subDoc)
+      }
+    })
+    output.toList
+  }
+
   def generateClient(args: Array[String]) = {
     if (args.length == 0) {
       throw new RuntimeException("Need url to resources.json as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
@@ -60,7 +78,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       }
     }
 
-    val basePath = getBasePath(doc.basePath)
+    implicit val basePath = getBasePath(doc.basePath)
 
     val apis = doc.getApis
     if (apis == null)
@@ -72,24 +90,10 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     new SwaggerSpecValidator(doc, subDocs).validate()
 
     val allModels = new HashMap[String, DocumentationSchema]
-    val operations = new ListBuffer[(String, String, DocumentationOperation)]
-    
-    subDocs.foreach(subDoc => {
-      val basePath = subDoc.basePath
-      val resourcePath = subDoc.resourcePath
-      if (subDoc.getApis != null) {
-        subDoc.getApis.foreach(api => {
-          for ((apiPath, operation) <- ApiExtractor.extractOperations(doc.basePath, api)) {
-            operations += Tuple3(basePath, apiPath, operation)
-          }
-        })
 
-        operations.map(op => processOperation(op._2, op._3))
-        allModels ++= CoreUtils.extractModels(subDoc)
-      }
-    })
+    val operations = extractOperations(subDocs, allModels)
     
-    val apiMap = groupApisToFiles(operations.toList)
+    val apiMap = groupApisToFiles(operations)
     for ((identifier, operationList) <- apiMap) {
       val basePath = identifier._1
       val name = identifier._2
