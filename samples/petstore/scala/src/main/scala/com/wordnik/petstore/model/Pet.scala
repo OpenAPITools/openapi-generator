@@ -5,7 +5,7 @@ import com.wordnik.petstore.model.Tag
 import scala.reflect.BeanProperty
 
 class Pet {
-  @BeanProperty var id: Long = _
+  @BeanProperty var id: Long = 0L
   @BeanProperty var tags: java.util.List[Tag] = _
   @BeanProperty var category: Category = _
   /* pet status in the store */

@@ -3,7 +3,7 @@ package com.wordnik.petstore.model
 import scala.reflect.BeanProperty
 
 class Category {
-  @BeanProperty var id: Long = _
+  @BeanProperty var id: Long = 0L
   @BeanProperty var name: String = _
   override def toString: String = {
     val sb = new StringBuilder

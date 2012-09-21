@@ -4,11 +4,11 @@ import java.util.Date
 import scala.reflect.BeanProperty
 
 class Order {
-  @BeanProperty var id: Long = _
-  @BeanProperty var petId: Long = _
+  @BeanProperty var id: Long = 0L
+  @BeanProperty var petId: Long = 0L
   /* Order Status */
   @BeanProperty var status: String = _
-  @BeanProperty var quantity: Int = _
+  @BeanProperty var quantity: Int = 0
   @BeanProperty var shipDate: Date = _
   override def toString: String = {
     val sb = new StringBuilder

@@ -3,13 +3,13 @@ package com.wordnik.petstore.model
 import scala.reflect.BeanProperty
 
 class User {
-  @BeanProperty var id: Long = _
+  @BeanProperty var id: Long = 0L
   @BeanProperty var lastName: String = _
   @BeanProperty var username: String = _
   @BeanProperty var phone: String = _
   @BeanProperty var email: String = _
   /* User Status */
-  @BeanProperty var userStatus: Int = _
+  @BeanProperty var userStatus: Int = 0
   @BeanProperty var firstName: String = _
   @BeanProperty var password: String = _
   override def toString: String = {
