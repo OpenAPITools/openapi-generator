@@ -1,14 +1,34 @@
 package apis
 
-import com.wordnik.swagger.core.ApiPropertiesReader
 import com.wordnik.client.model.User
-import org.scalatra.ScalatraServlet
+import com.wordnik.swagger.core.ApiPropertiesReader
+import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
+import org.scalatra.json._
+
+import scala.collection.JavaConverters._
+import org.json4s.{ DefaultFormats, Formats }
 
 import scala.collection.JavaConverters._
 
-class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with SwaggerBase with SwaggerSupport {
-  protected def buildFullUrl(path: String) = "http://petstore.swagger.wordnik.com/api/%s" format path
+class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedParamSupport with JacksonJsonSupport with JValueResult with SwaggerSupport {
+  protected implicit val jsonFormats: Formats = DefaultFormats
+
+  protected val applicationDescription: String = "UserApi"
+
+  def swaggerToModel(cls: Class[_]) = {
+    val docObj = ApiPropertiesReader.read(cls)
+    val name = docObj.getName
+    val fields = for (field <- docObj.getFields.asScala.filter(d => d.paramType != null))
+      yield (field.name -> ModelField(field.name, field.notes, DataType(field.paramType)))
+
+    Model(name, name, fields.toMap)
+  }
+
+  before() {
+    contentType = formats("json")
+    response.headers += ("Access-Control-Allow-Origin" -> "*")
+  }
 
   post("/createWithArray",
     summary("Creates list of users with given input array"),

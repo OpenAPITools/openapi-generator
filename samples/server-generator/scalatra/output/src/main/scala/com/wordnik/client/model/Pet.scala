@@ -5,11 +5,11 @@ import com.wordnik.client.model.Tag
 import scala.reflect.BeanProperty
 
 case class Pet (
-  var id: Long,
-  var tags: java.util.List[Tag],
-  var category: Category,
+  id: Long,
+  tags: java.util.List[Tag],
+  category: Category,
   /* pet status in the store */
-  var status: String,
-  var name: String,
-  var photoUrls: java.util.List[String])
+  status: String,
+  name: String,
+  photoUrls: java.util.List[String])
 

@@ -43,7 +43,8 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
   override def supportingFiles = List(
     ("README.mustache", outputFolder, "README.md"),
     ("build.sbt", outputFolder, "build.sbt"),
-    ("JsonUtil.scala", destinationDir, "JsonUtil.scala"),
+    ("web.xml", outputFolder + "/src/main/webapp/WEB-INF", "web.xml"),
+    ("Bootstrap.mustache", destinationDir, "ScalatraBootstrap.scala"),
     ("ServletApp.mustache", destinationDir, "ServletApp.scala"),
     ("project/build.properties", outputFolder, "project/build.properties"),
     ("project/plugins.sbt", outputFolder, "project/plugins.sbt"))

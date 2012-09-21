@@ -4,10 +4,10 @@ import java.util.Date
 import scala.reflect.BeanProperty
 
 case class Order (
-  var id: Long,
-  var petId: Long,
+  id: Long,
+  petId: Long,
   /* Order Status */
-  var status: String,
-  var quantity: Int,
-  var shipDate: Date)
+  status: String,
+  quantity: Int,
+  shipDate: Date)
 

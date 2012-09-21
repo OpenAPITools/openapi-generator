@@ -1,0 +1,20 @@
+import {{apiPackage}}._
+import com.wordnik.swagger.app.{ResourcesApp, SwaggerApp}
+import javax.servlet.ServletContext
+import org.scalatra.LifeCycle
+
+class ScalatraBootstrap extends LifeCycle {
+  implicit val swagger = new SwaggerApp
+
+  override def init(context: ServletContext) {
+    try {
+      {{#apis}}
+      context mount (new {{className}}, "/{{name}}/*")
+      {{/apis}}
+
+      context mount (new ResourcesApp, "/*")
+    } catch {
+      case e: Throwable => e.printStackTrace()
+    }
+  }
+}
