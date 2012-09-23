@@ -11,7 +11,7 @@ object JavaPetstoreCodegen extends BasicJavaGenerator {
   override def templateDir = "Java"
 
   // where to write generated code
-  override def destinationDir = "samples/petstore/java/src/main/java"
+  override def destinationDir = "samples/client/petstore/java/src/main/java"
 
   // package for models
   override def modelPackage = Some("com.wordnik.petstore.model")
@@ -22,7 +22,7 @@ object JavaPetstoreCodegen extends BasicJavaGenerator {
   // supporting classes
   override def supportingFiles =
     List(
-      ("apiInvoker.mustache", "samples/petstore/java/src/main/java/com/wordnik/client", "ApiInvoker.java"),
-      ("apiException.mustache", "samples/petstore/java/src/main/java/com/wordnik/client", "ApiException.java"),
-      ("pom.mustache", "samples/petstore/java", "pom.xml"))
+      ("apiInvoker.mustache", "samples/client/petstore/java/src/main/java/com/wordnik/client", "ApiInvoker.java"),
+      ("apiException.mustache", "samples/client/petstore/java/src/main/java/com/wordnik/client", "ApiException.java"),
+      ("pom.mustache", "samples/client/petstore/java", "pom.xml"))
 }

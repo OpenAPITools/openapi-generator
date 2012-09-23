@@ -2,7 +2,10 @@ package com.wordnik.client;
 
 import com.wordnik.swagger.core.util.JsonUtil;
 
-import org.codehaus.jackson.type.JavaType;
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -38,7 +41,7 @@ public class ApiInvoker {
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
     try{
       if("List".equals(containerType)) {
-        JavaType typeInfo = org.codehaus.jackson.map.type.TypeFactory.collectionType(List.class, cls);
+        JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
         List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
         return response;
       }
