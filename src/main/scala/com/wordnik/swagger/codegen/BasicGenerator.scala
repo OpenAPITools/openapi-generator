@@ -97,6 +97,10 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
 
     modelFiles.map(m => {
       val filename = m._1
+
+      val file = new java.io.File(filename)
+      file.getParentFile().mkdirs
+
       val fw = new FileWriter(filename, false)
       fw.write(m._2 + "\n")
       fw.close()
@@ -108,6 +112,10 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
 
     apiFiles.map(m => {
       val filename = m._1
+
+      val file = new java.io.File(filename)
+      file.getParentFile().mkdirs
+
       val fw = new FileWriter(filename, false)
       fw.write(m._2 + "\n")
       fw.close()

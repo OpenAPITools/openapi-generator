@@ -138,7 +138,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       model.items.setType("string")
 
       val m = config.toDeclaration(model)
-      m._1 should be ("java.util.List[String]")
+      m._1 should be ("List[String]")
       m._2 should be ("_")
    }
 
@@ -153,7 +153,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       model.items.setType("int")
 
       val m = config.toDeclaration(model)
-      m._1 should be ("java.util.List[Int]")
+      m._1 should be ("List[Int]")
       m._2 should be ("0")
    }
 
@@ -168,7 +168,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       model.items.setType("float")
 
       val m = config.toDeclaration(model)
-      m._1 should be ("java.util.List[Float]")
+      m._1 should be ("List[Float]")
       m._2 should be ("0f")
    }
 
@@ -183,7 +183,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       model.items.setType("double")
 
       val m = config.toDeclaration(model)
-      m._1 should be ("java.util.List[Double]")
+      m._1 should be ("List[Double]")
       m._2 should be ("0.0")
    }
 
@@ -199,7 +199,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       model.items.setType("User")
 
       val m = config.toDeclaration(model)
-      m._1 should be ("java.util.List[User]")
+      m._1 should be ("List[User]")
       m._2 should be ("_")
    }
 }

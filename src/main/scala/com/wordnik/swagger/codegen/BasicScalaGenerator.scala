@@ -23,7 +23,8 @@ object BasicScalaGenerator extends BasicScalaGenerator {
 }
 
 class BasicScalaGenerator extends BasicGenerator {
-  override def defaultIncludes = Set("Int",
+  override def defaultIncludes = Set(
+    "Int",
     "String",
     "Long",
     "Float",
@@ -78,7 +79,7 @@ class BasicScalaGenerator extends BasicGenerator {
           if (obj.items.ref != null) obj.items.ref
           else obj.items.getType
         }
-        val e = "java.util.List[%s]" format toDeclaredType(inner)
+        val e = "List[%s]" format toDeclaredType(inner)
         (e, toDefaultValue(inner, obj))
       }
       case e: String => (toDeclaredType(e), toDefaultValue(e, obj))
