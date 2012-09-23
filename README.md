@@ -23,11 +23,11 @@ You can build a client against Wordnik's [petstore](http://petstore.swagger.word
 ./bin/scala-petstore.sh
 ```
 
-This will run the script in [src/main/scala/ScalaPetstoreCodegen.scala](https://github.com/wordnik/swagger-codegen/blob/master/src/main/scala/ScalaPetstoreCodegen.scala) and create the client.  You can then
+This will run the script in [samples/client/petstore/ScalaPetstoreCodegen.scala](https://github.com/wordnik/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) and create the client.  You can then
 compile and run the client, as well as unit tests against it:
 
 ```
-cd samples/petstore/scala
+cd samples/client/petstore/scala
 mvn package
 ```
 
@@ -49,7 +49,7 @@ It's just as easy--you can either run the default generators:
 Replace `Scala` with `Flash`, `PHP`, `Python`, `Java`.
 
 You will probably want to override some of the defaults--like packages, etc.  For doing this, just create a scala
-script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://github.com/wordnik/swagger-codegen/blob/master/src/main/scala/ScalaPetstoreCodegen.scala) as an example:
+script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://github.com/wordnik/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) as an example:
 
 For example, create `src/main/scala/MyCodegen.scala` with these contents:
 
