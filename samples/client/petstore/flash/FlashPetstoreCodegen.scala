@@ -5,7 +5,7 @@ object FlashPetstoreCodegen extends BasicFlashCodegen {
 
   override def packageName = "com.wordnik.client"
 
-  override def destinationRoot = "samples/petstore/flash"
+  override def destinationRoot = "samples/client/petstore/flash"
 
   // where to write generated code
   override def destinationDir = destinationRoot + "/src/main/flex"
