@@ -25,17 +25,17 @@ object ScalaPetstoreCodegen extends BasicScalaGenerator {
   override def invokerPackage = Some("com.wordnik.client")
     
   // where to write generated code
-  override def destinationDir = "samples/petstore/scala/src/main/scala"
+  override def destinationDir = "samples/client/petstore/scala/src/main/scala"
 
   // package for models
   override def modelPackage = Some("com.wordnik.petstore.model")
 
   // package for api classes
   override def apiPackage = Some("com.wordnik.petstore.api")
-  
+
   // supporting classes
   override def supportingFiles = List(
-    ("apiInvoker.mustache", "samples/petstore/scala/src/main/scala/com/wordnik/client", "ApiInvoker.scala"),
-    ("pom.mustache", "samples/petstore/scala", "pom.xml")
+    ("apiInvoker.mustache", "samples/client/petstore/scala/src/main/scala/com/wordnik/client", "ApiInvoker.scala"),
+    ("pom.mustache", "samples/client/petstore/scala", "pom.xml")
   )
 }

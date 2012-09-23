@@ -47,15 +47,15 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "create a user" in {
-    val user = new User
-    user.id = 1002
-    user.username = "johnny"
-    user.password = "XXXXXXXXXXX"
-    user.email = "johnny@fail.com"
-    user.firstName = "Johnny"
-    user.lastName = "Rocket"
-    user.phone = "408-867-5309"
-    user.userStatus = 1
+    val user = User(
+      1002,
+      "Rocket",
+      "johnny",
+      "408-867-5309",
+      "johnny@fail.com",
+      1,
+      "Johnny",
+      "XXXXXXXXXXX")
 
     api.createUser(user)
 
@@ -70,16 +70,15 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
 
   it should "create 2 users" in {
     val userArray = (for (i <- (1 to 2)) yield {
-      val user = new User
-      user.id = 2000 + i
-      user.username = "johnny-" + i
-      user.password = "XXXXXXXXXXX"
-      user.email = "johnny-" + i + "@fail.com"
-      user.firstName = "Johnny"
-      user.lastName = "Rocket-" + i
-      user.phone = "408-867-5309"
-      user.userStatus = 1
-      user
+      User(
+        2000 + i,
+        "Rocket-" + i,
+        "johnny-" + i,
+        "408-867-5309",
+        "johnny-" + i + "@fail.com",
+        1,
+        "Johnny",
+        "XXXXXXXXXXX")
     }).toArray
     api.createUsersWithArrayInput(userArray)
     
@@ -96,16 +95,15 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
   
   it should "create 3 users" in {
     val userList = (for (i <- (1 to 3)) yield {
-      val user = new User
-      user.id = 3000 + i
-      user.username = "fred-" + i
-      user.password = "XXXXXXXXXXX"
-      user.email = "fred-" + i + "@fail.com"
-      user.firstName = "Johnny"
-      user.lastName = "Rocket-" + i
-      user.phone = "408-867-5309"
-      user.userStatus = 1
-      user
+      User(
+        3000 + i,
+        "Rocket-" + i,
+        "fred-" + i,
+        "408-867-5309",
+        "fred-" + i + "@fail.com",
+        1,
+        "Johnny",
+        "XXXXXXXXXXX")
     }).toList
     api.createUsersWithListInput(userList)
 
@@ -121,15 +119,15 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "update a user" in {
-    val user = new User
-    user.id = 4000
-    user.username = "tony"
-    user.password = "XXXXXXXXXXX"
-    user.email = "tony@fail.com"
-    user.firstName = "Tony"
-    user.lastName = "Tiger"
-    user.phone = "408-867-5309"
-    user.userStatus = 1
+    val user = User(
+      4000,
+      "Tiger",
+      "tony",
+      "408-867-5309",
+      "tony@fail.com",
+      1,
+      "Tony",
+      "XXXXXXXXXXX")
 
     api.createUser(user)
 
@@ -140,9 +138,10 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
       }
       case None =>
     }
-    user.email = "tony@succeed.com"
 
-    api.updateUser("tony", user)
+    val updatedUser = user.copy(email="tony@succeed.com")
+
+    api.updateUser("tony", updatedUser)
     api.getUserByName("tony") match {
       case Some(user) => {
         user.email should be ("tony@succeed.com")

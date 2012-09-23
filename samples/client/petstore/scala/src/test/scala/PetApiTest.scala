@@ -7,7 +7,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
 import scala.collection.mutable.{ ListBuffer, HashMap }
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import scala.reflect.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
@@ -26,22 +26,13 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "add a new pet" in {
-    val pet = new Pet
-    pet.id = 1000
-
-    pet.tags = (for (i <- (1 to 5)) yield {
-      val tag = new Tag
-      tag.id = i; tag.name = "tag-" + i; tag
-    }).toList
-    pet.status = "lost"
-    pet.category = {
-      val category = new Category; category.id = 1; category.name = "sold"
-      category
-    }
-    pet.name = "dragon"
-    pet.photoUrls = (for (i <- (1 to 10)) yield {
-      "http://foo.com/photo/" + i
-    }).toList
+    val pet = Pet(
+      1000,
+      (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
+      Category(1, "sold"),
+      "lost",
+      "dragon",
+      (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList)
 
     api.addPet(pet)
     api.getPetById("1000") match {
@@ -59,11 +50,14 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "update a pet" in {
-    val pet = new Pet
-    pet.id = 1000
+    val pet = Pet(
+      1000,
+      (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
+      Category(1, "sold"),
+      "confused",
+      "programmer",
+      (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList)
 
-    pet.name = "programmer"
-    pet.status = "confused"
     api.addPet(pet)
 
     api.getPetById("1000") match {
@@ -73,8 +67,8 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
       }
       case None => fail("didn't find pet created")
     }
-    pet.status = "fulfilled"
-    api.updatePet(pet)
+    val updatedPet = pet.copy(status="fulfilled")
+    api.updatePet(updatedPet)
     api.getPetById("1000") match {
       case Some(pet) => {
         pet.name should be("programmer")
@@ -97,14 +91,13 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
     println("finding by tags")
     api.findPetsByTags("tag1,tag2") match {
       case Some(pets) => {
-/*        pets.foreach(pet => {
+        pets.foreach(pet => {
           val tags = (for (tag <- pet.tags) yield tag.name).toSet
-          println("checking tags " + tags)
-          if ((tags & Set("tag1", "tag2")).size == 0) fail("unexpected tags in " + tags)
+          if ((tags & Set("tag1", "tag2")).size == 0) 
+            fail("unexpected tags in " + tags)
         })
-*/
       }
-      case None => //fail("didn't find pets by tag")
+      case None => fail("didn't find pets by tag")
     }
   }
 }

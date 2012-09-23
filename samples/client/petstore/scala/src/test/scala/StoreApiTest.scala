@@ -32,11 +32,12 @@ class StoreApiTest extends FlatSpec with ShouldMatchers {
 
   it should "place an order" in {
     val now = new java.util.Date
-    val order = new Order
-    order.id = 1000
-    order.petId = 10
-    order.quantity = 101
-    order.shipDate = now
+    val order = Order (
+      1000,
+      10,
+      "pending",
+      101,
+      now)
 
     api.placeOrder(order)
 
@@ -53,11 +54,12 @@ class StoreApiTest extends FlatSpec with ShouldMatchers {
 
   it should "delete an order" in {
     val now = new java.util.Date
-    val order = new Order
-    order.id = 1001
-    order.petId = 10
-    order.quantity = 101
-    order.shipDate = now
+    val order = Order(
+      1001,
+      10,
+      "pending",
+      101,
+      now)
 
     api.placeOrder(order)
 

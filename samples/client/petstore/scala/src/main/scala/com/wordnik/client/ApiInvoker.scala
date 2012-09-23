@@ -1,6 +1,5 @@
 package com.wordnik.client
 
-import com.wordnik.swagger.core.util.JsonUtil
 import com.sun.jersey.api.client.Client
 import com.sun.jersey.api.client.ClientResponse
 import com.sun.jersey.api.client.config.ClientConfig
@@ -13,7 +12,27 @@ import javax.ws.rs.core.MediaType
 import scala.collection.JavaConverters._
 import scala.collection.mutable.HashMap
 
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.fasterxml.jackson.core.JsonGenerator.Feature
+import com.fasterxml.jackson.databind._
+import com.fasterxml.jackson.annotation._
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+
+object ScalaJsonUtil {
+  def getJsonMapper = {
+    val mapper = new ObjectMapper()
+    mapper.registerModule(new DefaultScalaModule())
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT)
+    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+    mapper
+  }
+}
+
 object ApiInvoker {
+  val mapper = ScalaJsonUtil.getJsonMapper
   val defaultHeaders: HashMap[String, String] = HashMap()
   val hostMap: HashMap[String, Client] = HashMap()
 
@@ -33,14 +52,14 @@ object ApiInvoker {
     } else {
       containerType match {
         case "List" => {
-          val typeInfo = JsonUtil.getJsonMapper.getTypeFactory().constructCollectionType(classOf[java.util.List[_]], cls)
-          val response = JsonUtil.getJsonMapper.readValue(json, typeInfo).asInstanceOf[java.util.List[_]]
+          val typeInfo = mapper.getTypeFactory().constructCollectionType(classOf[java.util.List[_]], cls)
+          val response = mapper.readValue(json, typeInfo).asInstanceOf[java.util.List[_]]
           response.asScala.toList
         }
         case _ => {
           json match {
             case e: String if ("\"\"" == e) => null
-            case _ => JsonUtil.getJsonMapper.readValue(json, cls)
+            case _ => mapper.readValue(json, cls)
           }
         }
       }
@@ -50,8 +69,8 @@ object ApiInvoker {
   def serialize(obj: AnyRef): String = {
     if (obj != null) {
       obj match {
-        case e: List[_] => JsonUtil.getJsonMapper.writeValueAsString(obj.asInstanceOf[List[_]].asJava)
-        case _ => JsonUtil.getJsonMapper.writeValueAsString(obj)
+        case e: List[_] => mapper.writeValueAsString(obj.asInstanceOf[List[_]].asJava)
+        case _ => mapper.writeValueAsString(obj)
       }
     } else null
   }
@@ -115,3 +134,4 @@ class ApiException extends Exception {
     this()
   }
 }
+
