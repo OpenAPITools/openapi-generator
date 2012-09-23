@@ -7,25 +7,14 @@ package {{package}}
 import scala.reflect.BeanProperty
 
 {{#model}}
-class {{classname}} {
+case class {{classname}} (
   {{#vars}}
 
   {{#notes}}/* {{notes}} */
   {{/notes}}
   {{#description}}/* {{description}} */
   {{/description}}
-  @BeanProperty var {{name}}: {{datatype}} = {{defaultValue}}
-  {{/vars}}
-  
-  override def toString: String = {
-    val sb = new StringBuilder
-    sb.append("class {{classname}} {\n")
-    {{#vars}}
-    sb.append("  {{name}}: ").append({{name}}).append("\n")
-    {{/vars}}
-    sb.append("}\n")
-    sb.toString
-  }
-}
+  {{name}}: {{datatype}}{{#hasMore}},{{newline}}  {{/hasMore}}
+  {{/vars}})
 {{/model}}
 {{/models}}

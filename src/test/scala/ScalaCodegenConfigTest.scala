@@ -94,6 +94,25 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
   }
 
   /*
+   * declarations are used in models, and types need to be
+   * mapped appropriately
+   */
+  it should "convert a string a declaration" in {
+    val expected = Map("string" -> ("String", "_"),
+      "int" -> ("Int", "0"),
+      "float" -> ("Float", "0f"),
+      "long" -> ("Long", "0L"),
+      "double" -> ("Double", "0.0"),
+      "object" -> ("Any", "_"))
+    expected.map(e => {
+      val model = new DocumentationSchema
+      model.name = "simple_" + e._1
+      model.setType(e._1)
+      config.toDeclaration(model) should be (e._2)
+    })
+  }
+
+  /*
    * codegen should honor special imports to avoid generating
    * classes
    */

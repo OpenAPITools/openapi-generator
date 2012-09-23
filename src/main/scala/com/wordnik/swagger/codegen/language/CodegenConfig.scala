@@ -106,7 +106,6 @@ abstract class CodegenConfig {
   }
 
   def toDefaultValue(datatype: String, defaultValue: String): Option[String] = {
-
     if (defaultValue != "" && defaultValue != null) {
       toDeclaredType(datatype) match {
         case "int" => Some(defaultValue)

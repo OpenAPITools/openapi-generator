@@ -16,7 +16,16 @@ import scala.reflect.BeanProperty
 class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
   val json = ScalaJsonUtil.getJsonMapper
 
-  class SampleGenerator extends BasicGenerator
+  class SampleGenerator extends BasicGenerator {
+  	modelTemplateFiles += "model.mustache" -> ".test"
+  	override def typeMapping = Map(
+	    "string" -> "String",
+	    "int" -> "Int",
+	    "float" -> "Float",
+	    "long" -> "Long",
+	    "double" -> "Double",
+	    "object" -> "Any")
+  }
 
   behavior of "BasicGenerator"
 
@@ -72,5 +81,80 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
     orderOperations.size should be (2)
     (orderOperations.map(m => m.httpMethod).toSet & Set("GET", "DELETE")).size should be (2)
     (orderOperations.map(m => m.nickname).toSet & Set("getOrderById", "deleteOrder")).size should be (2)
+  }
+
+  it should "create a model map" in {
+  	implicit val basePath = "http://localhost:8080/api"
+    val generator = new SampleGenerator
+    val model = getSampleModel
+
+    val bundle = generator.prepareModelBundle(Map(model.id -> model)).head
+
+    // inspect properties
+    bundle("name") should be ("SampleObject")
+    bundle("className") should be ("SampleObject")
+    bundle("invokerPackage") should be (Some("com.wordnik.client.common"))
+    bundle("package") should be (Some("com.wordnik.client.model"))
+
+    // inspect models
+    val modelList = bundle("models").asInstanceOf[List[(String, DocumentationSchema)]]
+    modelList.size should be (1)
+    modelList.head._1 should be ("SampleObject")
+    modelList.head._2.getClass should be (classOf[DocumentationSchema])
+  }
+
+  it should "create a model file" in {
+  	implicit val basePath = "http://localhost:8080/api"
+    val generator = new SampleGenerator
+
+    val model = getSampleModel
+    val bundle = generator.prepareModelBundle(Map(model.id -> model))
+    val modelFile = generator.bundleToSource(bundle, generator.modelTemplateFiles.toMap).head
+    // modelFile._1 should be ("SampleObject.test")
+
+    val fileContents = modelFile._2
+    fileContents.indexOf("case class SampleObject") should not be (-1)
+    fileContents.indexOf("longValue: Long") should not be (-1)
+    fileContents.indexOf("intValue: Int") should not be (-1)
+    fileContents.indexOf("doubleValue: Double") should not be (-1)
+    fileContents.indexOf("stringValue: String") should not be (-1)
+    fileContents.indexOf("floatValue: Float") should not be (-1)
+  }
+
+  def getSampleModel = {
+    val model = new DocumentationSchema
+    model.id = "SampleObject"
+    model.name = "SampleObject"
+    model.properties = {
+      val list = new HashMap[String, DocumentationSchema]
+
+      val stringProperty = new DocumentationSchema
+      stringProperty.name = "stringValue"
+      stringProperty.setType("string")
+      list += "stringValue" -> stringProperty
+
+      val intProperty = new DocumentationSchema
+      intProperty.name = "intValue"
+      intProperty.setType("int")
+      list += "intValue" -> intProperty
+
+      val longProperty = new DocumentationSchema
+      longProperty.name = "longValue"
+      longProperty.setType("long")
+      list += "longValue" -> longProperty
+
+      val floatProperty = new DocumentationSchema
+      floatProperty.name = "floatValue"
+      floatProperty.setType("float")
+      list += "floatValue" -> floatProperty
+
+      val doubleProperty = new DocumentationSchema
+      doubleProperty.name = "doubleValue"
+      doubleProperty.setType("double")
+      list += "doubleValue" -> doubleProperty
+
+      list.asJava
+    }
+    model
   }
 }

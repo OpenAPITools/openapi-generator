@@ -92,15 +92,36 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val operations = extractOperations(subDocs, allModels)
     val apiMap = groupApisToFiles(operations)
 
-    processApiMap(apiMap)
-    processModelMap(allModels)
+    val modelBundle = prepareModelBundle(allModels.toMap)
+    val modelFiles = bundleToSource(modelBundle, modelTemplateFiles.toMap)
+
+    modelFiles.map(m => {
+      val filename = m._1
+      val fw = new FileWriter(filename, false)
+      fw.write(m._2 + "\n")
+      fw.close()
+      println("wrote model " + filename)
+    })
+
+    val apiBundle = prepareApiBundle(apiMap.toMap)
+    val apiFiles = bundleToSource(apiBundle, apiTemplateFiles.toMap)
+
+    apiFiles.map(m => {
+      val filename = m._1
+      val fw = new FileWriter(filename, false)
+      fw.write(m._2 + "\n")
+      fw.close()
+      println("wrote api " + filename)
+    })
 
     codegen.writeSupportingClasses(apiMap.toMap, allModels.toMap)
   }
 
-  def processModelMap(models: HashMap[String, DocumentationSchema]) = {
-    val modelBundleList = new ListBuffer[Map[String, AnyRef]]
-    for ((name, schema) <- models) {
+  /**
+   * creates a map of models and properties needed to write source
+   */
+  def prepareModelBundle(models: Map[String, DocumentationSchema]): List[Map[String, AnyRef]] = {
+    (for ((name, schema) <- models) yield {
       if (!defaultIncludes.contains(name)) {
         val m = new HashMap[String, AnyRef]
         m += "name" -> name
@@ -111,23 +132,21 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         m += "invokerPackage" -> invokerPackage
         m += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator))
         m += "newline" -> "\n"
-        modelBundleList += m.toMap
-        for ((file, suffix) <- modelTemplateFiles) {
-          m += "filename" -> (name + suffix)
-          generateAndWrite(m.toMap, file)
-        }
+
+        Some(m.toMap)
       }
-    }
+      else None
+    }).flatten.toList
   }
 
-  def processApiMap(apiMap: Map[(String, String), List[(String, DocumentationOperation)]] ) = {
-    for ((identifier, operationList) <- apiMap) {
+  def prepareApiBundle(apiMap: Map[(String, String), List[(String, DocumentationOperation)]] ): List[Map[String, AnyRef]] = {
+    (for ((identifier, operationList) <- apiMap) yield {
       val basePath = identifier._1
       val name = identifier._2
       val className = toApiName(name)
 
       val m = new HashMap[String, AnyRef]
-      m += "name" -> name
+      m += "name" -> toApiName(name)
       m += "className" -> className
       m += "basePath" -> basePath
       m += "package" -> apiPackage
@@ -137,11 +156,21 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator))
       m += "newline" -> "\n"
 
-      for ((file, suffix) <- apiTemplateFiles) {
-        m += "filename" -> (className + suffix)
-        generateAndWrite(m.toMap, file)
+      Some(m.toMap)
+    }).flatten.toList
+  }
+
+  /**
+   * turns a bundle into source files with output file name
+   */
+  def bundleToSource(bundle:List[Map[String, AnyRef]], templates: Map[String, String]): List[(String, String)] = {
+    val output = new ListBuffer[(String, String)]
+    bundle.foreach(m => {
+      for ((file, suffix) <- templates) {
+        output += Tuple2(m("outputDirectory").toString + File.separator + m("name").toString + suffix, codegen.generateSource(m, file))
       }
-    }
+    })
+    output.toList
   }
 
   def generateAndWrite(bundle: Map[String, AnyRef], templateFile: String) = {

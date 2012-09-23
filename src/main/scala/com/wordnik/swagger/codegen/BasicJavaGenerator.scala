@@ -31,6 +31,13 @@ class BasicJavaGenerator extends BasicGenerator {
     "String",
     "boolean")
 
+  /**
+   * We are using java objects instead of primitives to avoid showing default
+   * primitive values when the API returns missing data.  For instance, having a
+   * {"count":0} != count is unknown.  You can change this to use primitives if you
+   * desire, but update the default values as well or they'll be set to null in 
+   * variable declarations.
+   */
   override def typeMapping = Map(
     "string" -> "String",
     "int" -> "Integer",
@@ -94,9 +101,8 @@ class BasicJavaGenerator extends BasicGenerator {
     val declaredType = dt.indexOf("[") match {
       case -1 => dt
       case n: Int => {
-        if (dt.substring(0, n) == "Array") {
+        if (dt.substring(0, n) == "Array")
           "List" + dt.substring(n).replaceAll("\\[", "<").replaceAll("\\]", ">")
-        } 
         else dt.replaceAll("\\[", "<").replaceAll("\\]", ">")
       }
       case _ => dt
@@ -128,14 +134,17 @@ class BasicJavaGenerator extends BasicGenerator {
     (declaredType, defaultValue)
   }
 
-  // default values
+  /**
+   * we are defaulting to null values since the codegen uses java objects instead of primitives
+   * If you change to primitives, you can put in the appropriate values (0.0f, etc).
+   */
   override def toDefaultValue(dataType: String, obj: DocumentationSchema) = {
     dataType match {
-      case "boolean" => "false"
-      case "int" => "0"
-      case "long" => "0L"
-      case "float" => "0.0f"
-      case "double" => "0.0"
+      case "Boolean" => "null"
+      case "Integer" => "null"
+      case "Long" => "null"
+      case "Float" => "null"
+      case "Double" => "null"
       case "List" => {
         val inner = {
           if (obj.items.ref != null) obj.items.ref
