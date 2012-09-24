@@ -31,7 +31,7 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
       case None =>
     }
   }
-
+  
   it should "authenticate a user" in {
     api.loginUser("user1", "XXXXXXXXXXX") match {
       case Some(status) => status.startsWith("logged in user session") match {
