@@ -187,7 +187,6 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       m._2 should be ("0.0")
    }
 
-
   /*
    * support list declarations with complex inner value and the correct default value
    */
