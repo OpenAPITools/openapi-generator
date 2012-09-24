@@ -7,7 +7,7 @@ import java.io.File
 object PythonPetstoreCodegen extends BasicPythonGenerator {
   def main(args: Array[String]) = generateClient(args)
 
-  override def destinationDir = "samples/petstore/python"
+  override def destinationDir = "samples/client/petstore/python"
 
   override def supportingFiles = List(
     ("__init__.mustache", destinationDir, "__init__.py"),
