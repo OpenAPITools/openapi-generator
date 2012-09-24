@@ -67,7 +67,7 @@ object MyCodegen extends BasicScalaGenerator {
   override def destinationDir = "client/scala/src/main/scala"
 
   // api invoker package
-  override def packageName = "com.myapi.client"
+  override def invokerPackage = "com.myapi.client"
 
   // package for models
   override def modelPackage = Some("com.myapi.client.model")
