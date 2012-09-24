@@ -18,3 +18,8 @@ generated-code/*
 /nbactions.xml
 *.pyc
 __pycache__
+samples/server-generator/scalatra/output
+samples/server-generator/node/output/node_modules
+samples/server-generator/scalatra/target
+samples/server-generator/scalatra/output/.history
+
