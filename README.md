@@ -8,11 +8,11 @@ http://swagger.wordnik.com.  For more information about Wordnik's APIs, please v
 ### Prerequisites
 You need the following installed and available in your $PATH:
 
-<li>- Java 1.6 or greater (http://java.oracle.com)
+* [Java 1.6](http://java.oracle.com)
 
-<li>- Apache maven 3.0.3 or greater (http://maven.apache.org/)
+* [Apache maven 3.0.3 or greater](http://maven.apache.org/)
 
-<li>- Scala 2.9.1 [available here](http://www.scala-lang.org)
+* [Scala](http://www.scala-lang.org)
 
 You also need to add the scala binary to your PATH.
 
