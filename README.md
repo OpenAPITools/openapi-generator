@@ -142,6 +142,17 @@ mvn package
 Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to
 either repackage the library OR modify your codegen script to use a file path!
 
+
+### To build a server stub
+
+You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
+
+* [javascript node.js Server generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/node)
+
+* [ruby sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/sinatra)
+
+* [scala sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
+
 License
 -------
 
