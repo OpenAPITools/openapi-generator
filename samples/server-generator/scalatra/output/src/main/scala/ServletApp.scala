@@ -2,7 +2,6 @@ package com.wordnik.swagger.app
 
 import com.wordnik.swagger.core.SwaggerSpec
 import org.scalatra.swagger.{JacksonSwaggerBase, Swagger}
-
 import org.scalatra.ScalatraServlet
 import org.json4s.{DefaultFormats, Formats}
 

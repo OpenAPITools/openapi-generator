@@ -15,7 +15,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "UserApi"
-  override protected val applicationName = Some("user")
+  override protected val applicationName: Option[String] = Some("user")
 
   def swaggerToModel(cls: Class[_]) = {
     val docObj = ApiPropertiesReader.read(cls)

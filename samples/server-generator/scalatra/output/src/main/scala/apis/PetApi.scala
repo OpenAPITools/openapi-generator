@@ -15,7 +15,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedP
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "PetApi"
-  override protected val applicationName = Some("pet")
+  override protected val applicationName: Option[String] = Some("pet")
 
   def swaggerToModel(cls: Class[_]) = {
     val docObj = ApiPropertiesReader.read(cls)
