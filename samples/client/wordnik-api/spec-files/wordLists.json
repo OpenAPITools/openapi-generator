@@ -1,0 +1,93 @@
+{
+  "resourcePath":"/wordLists",
+  "apis":[
+    {
+      "path":"/wordLists.{format}",
+      "description":"",
+      "operations":[
+        {
+          "parameters":[
+            {
+              "description":"WordList to create",
+              "required":false,
+              "dataType":"WordList",
+              "valueTypeInternal":"com.wordnik.community.entity.WordList",
+              "allowMultiple":false,
+              "paramType":"body"
+            },
+            {
+              "name":"auth_token",
+              "description":"The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"header"
+            }
+          ],
+          "summary":"Creates a WordList.",
+          "httpMethod":"POST",
+          "errorResponses":[
+            {
+              "reason":"Invalid WordList supplied or mandatory fields are missing",
+              "code":400
+            },
+            {
+              "reason":"Not authenticated",
+              "code":403
+            },
+            {
+              "reason":"WordList owner not found",
+              "code":404
+            }
+          ],
+          "nickname":"createWordList",
+          "responseClass":"WordList"
+        }
+      ]
+    }
+  ],
+  "apiVersion":"4.0",
+  "swaggerVersion":"1.0",
+  "basePath":"http://api.wordnik.com/v4",
+  "models":{
+    "WordList":{
+      "properties":{
+        "updatedAt":{
+          "type":"Date"
+        },
+        "id":{
+          "type":"long",
+          "required":true
+        },
+        "username":{
+          "type":"string"
+        },
+        "permalink":{
+          "type":"string"
+        },
+        "lastActivityAt":{
+          "type":"Date"
+        },
+        "createdAt":{
+          "type":"Date"
+        },
+        "description":{
+          "type":"string"
+        },
+        "userId":{
+          "type":"long"
+        },
+        "name":{
+          "type":"string"
+        },
+        "numberWordsInList":{
+          "type":"long"
+        },
+        "type":{
+          "type":"string"
+        }
+      },
+      "id":"WordList"
+    }
+  }
+}

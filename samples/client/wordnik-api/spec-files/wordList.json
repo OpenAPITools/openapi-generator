@@ -1,0 +1,406 @@
+{
+  "resourcePath":"/wordList",
+  "apis":[
+    {
+      "path":"/wordList.{format}/{permalink}",
+      "description":"",
+      "operations":[
+        {
+          "parameters":[
+            {
+              "name":"permalink",
+              "description":"permalink of WordList to update",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"path"
+            },
+            {
+              "description":"Updated WordList",
+              "required":false,
+              "dataType":"WordList",
+              "valueTypeInternal":"com.wordnik.community.entity.WordList",
+              "allowMultiple":false,
+              "paramType":"body"
+            },
+            {
+              "name":"auth_token",
+              "description":"The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"header"
+            }
+          ],
+          "summary":"Updates an existing WordList",
+          "httpMethod":"PUT",
+          "errorResponses":[
+            {
+              "reason":"Invalid ID supplied",
+              "code":400
+            },
+            {
+              "reason":"Not Authorized to update WordList",
+              "code":403
+            },
+            {
+              "reason":"WordList not found",
+              "code":404
+            }
+          ],
+          "nickname":"updateWordList",
+          "responseClass":"void"
+        },
+        {
+          "parameters":[
+            {
+              "name":"permalink",
+              "description":"ID of WordList to delete",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"path"
+            },
+            {
+              "name":"auth_token",
+              "description":"The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"header"
+            }
+          ],
+          "summary":"Deletes an existing WordList",
+          "httpMethod":"DELETE",
+          "errorResponses":[
+            {
+              "reason":"Invalid ID supplied",
+              "code":400
+            },
+            {
+              "reason":"Not Authorized to delete WordList",
+              "code":403
+            },
+            {
+              "reason":"WordList not found",
+              "code":404
+            }
+          ],
+          "nickname":"deleteWordList",
+          "responseClass":"void"
+        },
+        {
+          "parameters":[
+            {
+              "name":"permalink",
+              "description":"permalink of WordList to fetch",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"path"
+            },
+            {
+              "name":"auth_token",
+              "description":"The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"header"
+            }
+          ],
+          "summary":"Fetches a WordList by ID",
+          "httpMethod":"GET",
+          "errorResponses":[
+            {
+              "reason":"Invalid ID supplied",
+              "code":400
+            },
+            {
+              "reason":"Not Authorized to access WordList",
+              "code":403
+            },
+            {
+              "reason":"WordList not found",
+              "code":404
+            }
+          ],
+          "nickname":"getWordListByPermalink",
+          "responseClass":"WordList"
+        }
+      ]
+    },
+    {
+      "path":"/wordList.{format}/{permalink}/words",
+      "description":"",
+      "operations":[
+        {
+          "parameters":[
+            {
+              "name":"permalink",
+              "description":"permalink of WordList to user",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"path"
+            },
+            {
+              "description":"Array of words to add to WordList",
+              "required":false,
+              "dataType":"Array[StringValue]",
+              "valueTypeInternal":"com.wordnik.resource.StringValue",
+              "allowMultiple":false,
+              "paramType":"body"
+            },
+            {
+              "name":"auth_token",
+              "description":"The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"header"
+            }
+          ],
+          "summary":"Adds words to a WordList",
+          "httpMethod":"POST",
+          "errorResponses":[
+            {
+              "reason":"Invalid permalink supplied",
+              "code":400
+            },
+            {
+              "reason":"Not Authorized to access WordList",
+              "code":403
+            },
+            {
+              "reason":"WordList not found",
+              "code":404
+            }
+          ],
+          "nickname":"addWordsToWordList",
+          "responseClass":"void"
+        },
+        {
+          "parameters":[
+            {
+              "name":"permalink",
+              "description":"ID of WordList to use",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"path"
+            },
+            {
+              "name":"sortBy",
+              "defaultValue":"createDate",
+              "description":"Field to sort by",
+              "required":false,
+              "allowableValues":{
+                "valueType":"LIST",
+                "values":[
+                  "createDate",
+                  "alpha"
+                ],
+                "valueType":"LIST"
+              },
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"query"
+            },
+            {
+              "name":"sortOrder",
+              "defaultValue":"desc",
+              "description":"Direction to sort",
+              "required":false,
+              "allowableValues":{
+                "valueType":"LIST",
+                "values":[
+                  "asc",
+                  "desc"
+                ],
+                "valueType":"LIST"
+              },
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"query"
+            },
+            {
+              "name":"skip",
+              "defaultValue":"0",
+              "description":"Results to skip",
+              "required":false,
+              "dataType":"int",
+              "allowMultiple":false,
+              "paramType":"query"
+            },
+            {
+              "name":"limit",
+              "defaultValue":"100",
+              "description":"Maximum number of results to return",
+              "required":false,
+              "dataType":"int",
+              "allowMultiple":false,
+              "paramType":"query"
+            },
+            {
+              "name":"auth_token",
+              "description":"The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"header"
+            }
+          ],
+          "summary":"Fetches words in a WordList",
+          "httpMethod":"GET",
+          "errorResponses":[
+            {
+              "reason":"Invalid ID supplied",
+              "code":400
+            },
+            {
+              "reason":"Not Authorized to access WordList",
+              "code":403
+            },
+            {
+              "reason":"WordList not found",
+              "code":404
+            }
+          ],
+          "nickname":"getWordListWords",
+          "responseClass":"List[WordListWord]"
+        }
+      ]
+    },
+    {
+      "path":"/wordList.{format}/{permalink}/deleteWords",
+      "description":"",
+      "operations":[
+        {
+          "parameters":[
+            {
+              "name":"permalink",
+              "description":"permalink of WordList to use",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"path"
+            },
+            {
+              "description":"Words to remove from WordList",
+              "required":false,
+              "dataType":"Array[StringValue]",
+              "valueTypeInternal":"com.wordnik.resource.StringValue",
+              "allowMultiple":false,
+              "paramType":"body"
+            },
+            {
+              "name":"auth_token",
+              "description":"The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)",
+              "required":true,
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"header"
+            }
+          ],
+          "summary":"Removes words from a WordList",
+          "httpMethod":"POST",
+          "errorResponses":[
+            {
+              "reason":"Invalid permalink supplied",
+              "code":400
+            },
+            {
+              "reason":"Not Authorized to modify WordList",
+              "code":403
+            },
+            {
+              "reason":"WordList not found",
+              "code":404
+            }
+          ],
+          "nickname":"deleteWordsFromWordList",
+          "responseClass":"void"
+        }
+      ]
+    }
+  ],
+  "apiVersion":"4.0",
+  "swaggerVersion":"1.0",
+  "basePath":"http://api.wordnik.com/v4",
+  "models":{
+    "WordList":{
+      "properties":{
+        "updatedAt":{
+          "type":"Date"
+        },
+        "id":{
+          "type":"long",
+          "required":true
+        },
+        "username":{
+          "type":"string"
+        },
+        "permalink":{
+          "type":"string"
+        },
+        "lastActivityAt":{
+          "type":"Date"
+        },
+        "createdAt":{
+          "type":"Date"
+        },
+        "description":{
+          "type":"string"
+        },
+        "userId":{
+          "type":"long"
+        },
+        "name":{
+          "type":"string"
+        },
+        "numberWordsInList":{
+          "type":"long"
+        },
+        "type":{
+          "type":"string"
+        }
+      },
+      "id":"WordList"
+    },
+    "WordListWord":{
+      "properties":{
+        "id":{
+          "type":"long",
+          "required":true
+        },
+        "username":{
+          "type":"string"
+        },
+        "createdAt":{
+          "type":"Date"
+        },
+        "numberCommentsOnWord":{
+          "type":"long"
+        },
+        "userId":{
+          "type":"long"
+        },
+        "word":{
+          "type":"string"
+        },
+        "numberLists":{
+          "type":"long"
+        }
+      },
+      "id":"WordListWord"
+    },
+    "StringValue":{
+      "properties":{
+        "word":{
+          "type":"string"
+        }
+      },
+      "id":"StringValue"
+    }
+  }
+}

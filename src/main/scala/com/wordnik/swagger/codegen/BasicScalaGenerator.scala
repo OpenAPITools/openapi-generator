@@ -33,6 +33,7 @@ class BasicScalaGenerator extends BasicGenerator {
     "Any")
 
   override def typeMapping = Map(
+    "boolean" -> "Boolean",
     "string" -> "String",
     "int" -> "Int",
     "float" -> "Float",

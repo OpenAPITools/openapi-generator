@@ -69,6 +69,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    * types
    */
   it should "convert to a declared type" in {
+    config.toDeclaredType("boolean") should be ("Boolean")
   	config.toDeclaredType("string") should be ("String")
     config.toDeclaredType("int") should be ("Int")
     config.toDeclaredType("float") should be ("Float")

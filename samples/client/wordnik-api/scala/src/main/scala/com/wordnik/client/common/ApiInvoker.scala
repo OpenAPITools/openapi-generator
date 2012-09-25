@@ -1,4 +1,4 @@
-package {{invokerPackage}}
+package com.wordnik.client.common
 
 import com.sun.jersey.api.client.Client
 import com.sun.jersey.api.client.ClientResponse
@@ -134,3 +134,4 @@ class ApiException extends Exception {
     this()
   }
 }
+
