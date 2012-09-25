@@ -8,11 +8,11 @@ http://swagger.wordnik.com.  For more information about Wordnik's APIs, please v
 ### Prerequisites
 You need the following installed and available in your $PATH:
 
-<li>- Java 1.6 or greater (http://java.oracle.com)
+* [Java 1.6](http://java.oracle.com)
 
-<li>- Apache maven 3.0.3 or greater (http://maven.apache.org/)
+* [Apache maven 3.0.3 or greater](http://maven.apache.org/)
 
-<li>- Scala 2.9.1 [available here](http://www.scala-lang.org)
+* [Scala](http://www.scala-lang.org)
 
 You also need to add the scala binary to your PATH.
 
@@ -67,7 +67,7 @@ object MyCodegen extends BasicScalaGenerator {
   override def destinationDir = "client/scala/src/main/scala"
 
   // api invoker package
-  override def packageName = "com.myapi.client"
+  override def invokerPackage = "com.myapi.client"
 
   // package for models
   override def modelPackage = Some("com.myapi.client.model")
@@ -141,6 +141,17 @@ mvn package
 
 Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to
 either repackage the library OR modify your codegen script to use a file path!
+
+
+### To build a server stub
+
+You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
+
+* [javascript node.js Server generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/node)
+
+* [ruby sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/sinatra)
+
+* [scala sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
 
 License
 -------
