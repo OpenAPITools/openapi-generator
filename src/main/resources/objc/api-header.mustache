@@ -1,0 +1,29 @@
+#import <Foundation/Foundation.h>
+#import "NIKApiInvoker.h"
+{{#imports}}#import "{{import}}.h"
+{{/imports}}
+{{newline}}
+
+{{#operations}}
+@interface {{classname}}: NSObject {
+
+@private
+    NSOperationQueue *_queue;
+    NIKApiInvoker * _api;
+}
+@property(nonatomic, readonly) NSOperationQueue* queue;
+@property(nonatomic, readonly) NIKApiInvoker* api;
+
+-(void) addHeader:(NSString*) value
+           forKey:(NSString*)key;
+
+{{#operation}}
+-(void) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}{{/hasMore}}{{/allParams}}{{newline}}
+        {{#returnBaseType}}completionHandler:(void (^)({{returnType}}, NSError *))completionBlock;{{/returnBaseType}}
+        {{^returnBaseType}}completionHandler:(void (^)(NSError *))completionBlock;{{/returnBaseType}}
+
+{{newline}}
+{{/operation}}
+
+{{/operations}}
+@end

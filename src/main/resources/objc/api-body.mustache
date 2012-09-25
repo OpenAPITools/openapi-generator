@@ -1,0 +1,225 @@
+{{#operations}}
+#import "{{classname}}.h"
+{{#imports}}#import "{{import}}.h"
+{{/imports}}
+{{newline}}
+
+
+@implementation {{classname}}
+static NSString * basePath = @"{{basePath}}";
+
+@synthesize queue = _queue;
+@synthesize api = _api;
+
+- (id) init {
+    self = [super init];
+    _queue = [[NSOperationQueue alloc] init];
+    _api = [[NIKApiInvoker alloc] init];
+
+    return self;
+}
+
+-(void) addHeader:(NSString*) value
+           forKey:(NSString*)key {
+    [_api addHeader:value forKey:key];
+}
+
+{{#operation}}
+-(void) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}{{/hasMore}}{{/allParams}}{{newline}}
+        {{#returnBaseType}}completionHandler:(void (^)({{returnType}}, NSError *))completionBlock{{/returnBaseType}}
+        {{^returnBaseType}}completionHandler:(void (^)(NSError *))completionBlock{{/returnBaseType}} {
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@{{path}}", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
+
+    {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [_api escapeString:{{paramName}}]];
+    {{/pathParams}}
+
+		NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    {{#queryParams}}if({{paramName}} != nil)
+        [queryParams setValue:{{paramName}} forKey:@"{{baseName}}"];
+    {{/queryParams}}
+		NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    {{#headerParams}}if({{paramName}} != nil)
+        [headerParams setValue:{{paramName}} forKey:@"{{baseName}}"];
+    {{/headerParams}}
+
+    id bodyDictionary = nil;
+		{{#bodyParam}}
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(NIKSwaggerObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(NIKSwaggerObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
+    {{/bodyParam}}
+    
+    {{#requiredParamCount}}
+    {{#requiredParams}}
+    if({{paramName}} == nil) {
+        // error
+    }
+    {{/requiredParams}}
+    {{/requiredParamCount}}
+
+    {{#returnTypeIsPrimitive}}
+    [_api stringWithCompletionBlock: requestUrl 
+                             method: @"{{httpMethod}}" 
+                        queryParams: queryParams 
+                               body: bodyDictionary 
+                       headerParams: headerParams
+                  completionHandler: ^(NSString *data, NSError *error) {
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}
+    [_api dictionaryWithCompletionBlock: requestUrl 
+                                 method: @"{{httpMethod}}" 
+                            queryParams: queryParams 
+                                   body: bodyDictionary 
+                           headerParams: headerParams
+                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    {{/returnTypeIsPrimitive}}
+        if (error) {
+            {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
+            {{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
+            return;
+        }
+        
+        {{#returnBaseType}}
+        {{#returnContainer}}
+        if([data isKindOfClass:[NSArray class]]){
+            NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[data count]];
+            for (NSDictionary* dict in (NSArray*)data) {
+                {{{returnBaseType}}}* d = [[{{{returnBaseType}}} alloc]initWithValues: dict];
+                [objs addObject:d];
+            }
+            completionBlock(objs, nil);
+        }
+        {{/returnContainer}}
+        {{#returnSimpleType}}
+        {{#returnTypeIsPrimitive}}{{#returnBaseType}}completionBlock( [[{{returnBaseType}} alloc]initWithString: data], nil);{{/returnBaseType}}
+        {{/returnTypeIsPrimitive}}
+
+        {{^returnTypeIsPrimitive}}
+        {{#returnBaseType}}completionBlock( [[{{returnBaseType}} alloc]initWithValues: data], nil);{{/returnBaseType}}
+        {{/returnTypeIsPrimitive}}
+        {{/returnSimpleType}}
+        {{/returnBaseType}}
+        
+        {{^returnBaseType}}completionBlock(nil);{{/returnBaseType}}{{newline}}
+    }];
+{{newline}}
+}
+
+{{/operation}}
+
+{{#operation}}
+-(void) {{nickname}}AsJsonWithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}{{/hasMore}}{{/allParams}}{{newline}}
+        {{#returnBaseType}}completionHandler:(void (^)(NSString*, NSError *))completionBlock{{/returnBaseType}}
+        {{^returnBaseType}}completionHandler:(void (^)(NSError *))completionBlock{{/returnBaseType}} {
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@{{path}}", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
+
+    {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [_api escapeString:{{paramName}}]];
+    {{/pathParams}}
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    {{#queryParams}}if({{paramName}} != nil)
+        [queryParams setValue:{{paramName}} forKey:@"{{baseName}}"];
+    {{/queryParams}}
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    {{#headerParams}}if({{paramName}} != nil)
+        [headerParams setValue:{{paramName}} forKey:@"{{baseName}}"];
+    {{/headerParams}}
+
+    id bodyDictionary = nil;
+    {{#bodyParam}}
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(NIKSwaggerObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(NIKSwaggerObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
+    {{/bodyParam}}
+    
+    {{#requiredParamCount}}
+    {{#requiredParams}}
+    if({{paramName}} == nil) {
+        // error
+    }
+    {{/requiredParams}}
+    {{/requiredParamCount}}
+
+    [_api dictionaryWithCompletionBlock: requestUrl 
+                                 method: @"{{httpMethod}}" 
+                            queryParams: queryParams 
+                                   body: bodyDictionary 
+                           headerParams: headerParams
+                      completionHandler: ^(NSDictionary *data, NSError *error) {
+        if (error) {
+            {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
+            {{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
+            return;
+        }
+
+        {{#returnBaseType}}
+            NSData * responseData = nil;
+            if([data isKindOfClass:[NSDictionary class]]){
+                responseData = [NSJSONSerialization dataWithJSONObject:data
+                                                               options:kNilOptions error:&error];
+            }
+            else if ([data isKindOfClass:[NSArray class]]){
+                responseData = [NSJSONSerialization dataWithJSONObject:data
+                                                               options:kNilOptions error:&error];
+            }
+            NSString * json = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
+            completionBlock(json, nil);
+        {{/returnBaseType}}
+
+        {{^returnBaseType}}completionBlock(nil);{{/returnBaseType}}{{newline}}
+    }];
+{{newline}}
+}
+
+{{/operation}}
+{{newline}}
+{{/operations}}
+@end

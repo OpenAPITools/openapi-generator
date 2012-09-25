@@ -1,0 +1,92 @@
+{{#models}}
+{{#model}}
+#import "NIKDate.h"
+#import "{{classname}}.h"
+
+@implementation {{classname}}
+
+@synthesize raw = _raw;
+
+{{#vars}}
+@synthesize {{name}} = _{{name}};
+{{/vars}}
+
+- (id) {{#vars}}{{name}}: ({{datatype}}) {{name}}
+       {{/vars}}
+       {
+          {{#vars}}_{{name}} = {{name}};
+          {{/vars}}
+
+	        return self;
+       }
+
+- (id) initWithValues: (NSDictionary*)dict
+{
+    {{#vars}}
+    {{#isPrimitiveType}}
+    _{{name}} = [dict objectForKey:@"{{baseName}}"];
+    {{/isPrimitiveType}}
+    {{#complexType}}
+    id {{name}}_dict = [dict objectForKey:@"{{name}}"];
+    {{#isContainer}}
+    if([{{name}}_dict isKindOfClass:[NSArray class]]) {
+        if([(NSArray*){{name}}_dict count] > 0) {
+            NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*){{name}}_dict count]];
+            for (NSDictionary* dict in (NSArray*){{name}}_dict) {
+                {{{complexType}}}* d = [[{{{complexType}}} alloc]initWithValues:dict];
+                [objs addObject:d];
+            }
+            _{{{name}}} = [[NSArray alloc] initWithArray:objs];
+        }
+	  }
+    else if([{{name}}_dict isKindOfClass:[NSDictionary class]] && [(NSDictionary*){{name}}_dict count] > 0) {
+        _{{name}} = [[{{complexType}} alloc]initWithValues:(NSDictionary*){{name}}_dict];
+    }
+    {{/isContainer}}
+    {{#isNotContainer}}
+        _{{name}} = [[{{complexType}} alloc]initWithValues:{{name}}_dict];
+    {{/isNotContainer}}
+    {{/complexType}}
+    {{/vars}}
+
+    self.raw = [[NSDictionary alloc] initWithDictionary:dict];
+    return self;
+}
+
+-(NSDictionary*) asDictionary {
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    {{#vars}}
+    {{#complexType}}
+    if(_{{name}} != nil){
+        if([_{{name}} isKindOfClass:[NSArray class]]){
+            NSMutableArray * array = [[NSMutableArray alloc] init];
+            for( {{complexType}} * {{name}} in (NSArray*)_{{name}}) {
+                [array addObject:[(NIKSwaggerObject*){{name}} asDictionary]];
+            }
+            [dict setObject:array forKey:@"{{baseName}}"];
+        }
+        else if(_{{name}} && [_{{name}} isKindOfClass:[NIKDate class]]) {
+            NSString * dateString = [(NIKDate*)_{{name}} toString];
+            if(dateString){
+                [dict setObject:dateString forKey:@"{{name}}"];   
+            }
+        }
+    }
+    else {
+    {{/complexType}}
+        if(_{{name}} != nil) [dict setObject:{{#complexType}}[(NIKSwaggerObject*){{/complexType}}_{{name}} {{#complexType}}asDictionary]{{/complexType}} forKey:@"{{baseName}}"];
+    {{#complexType}}
+    }
+    {{/complexType}}
+    {{/vars}}
+
+    NSDictionary* output = [dict copy];
+    return output;
+}
+
+-(NSDictionary*) asRaw {
+    return _raw;
+}
+{{/model}}
+@end
+{{/models}}

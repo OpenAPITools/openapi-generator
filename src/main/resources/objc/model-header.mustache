@@ -1,0 +1,31 @@
+#import <Foundation/Foundation.h>
+#import "NIKSwaggerObject.h"
+{{#imports}}#import "{{import}}.h"
+{{/imports}}
+{{newline}}
+{{#models}}
+{{#model}}
+
+@interface {{classname}} : NIKSwaggerObject {
+@private
+    NSDictionary* raw;
+    {{#vars}}
+    {{datatype}} _{{name}}; //{{baseType}}
+    {{/vars}}
+}
+
+@property(nonatomic) NSDictionary* raw;
+{{newline}}
+{{#vars}}
+@property(nonatomic) {{datatype}} {{name}};
+{{/vars}}
+- (id) {{#vars}}{{name}}: ({{datatype}}) {{name}}{{#hasMore}}{{newline}}     {{/hasMore}}{{^hasMore}};{{/hasMore}}
+       {{/vars}}
+{{newline}}
+- (id) initWithValues: (NSDictionary*)dict;
+- (NSDictionary*) asDictionary;
+- (NSDictionary*) asRaw;
+{{newline}}
+@end
+{{/model}}
+{{/models}}
