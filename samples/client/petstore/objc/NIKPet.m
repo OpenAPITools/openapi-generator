@@ -40,7 +40,7 @@
             }
             _tags = [[NSArray alloc] initWithArray:objs];
         }
-	  }
+      }
     else if([tags_dict isKindOfClass:[NSDictionary class]] && [(NSDictionary*)tags_dict count] > 0) {
         _tags = [[NIKTag alloc]initWithValues:(NSDictionary*)tags_dict];
     }

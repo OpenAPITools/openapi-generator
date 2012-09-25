@@ -35,7 +35,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(orderId == nil) {
+        if(orderId == nil) {
         // error
     }
     [_api dictionaryWithCompletionBlock: requestUrl 
@@ -66,7 +66,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(orderId == nil) {
+        if(orderId == nil) {
         // error
     }
     [_api stringWithCompletionBlock: requestUrl 
@@ -96,7 +96,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(body != nil && [body isKindOfClass:[NSArray class]]){
+        if(body != nil && [body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
         for (id dict in (NSArray*)body) {
             if([dict respondsToSelector:@selector(asDictionary)]) {

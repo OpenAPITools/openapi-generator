@@ -38,17 +38,17 @@ static NSString * basePath = @"{{basePath}}";
     {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [_api escapeString:{{paramName}}]];
     {{/pathParams}}
 
-		NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     {{#queryParams}}if({{paramName}} != nil)
         [queryParams setValue:{{paramName}} forKey:@"{{baseName}}"];
     {{/queryParams}}
-		NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     {{#headerParams}}if({{paramName}} != nil)
         [headerParams setValue:{{paramName}} forKey:@"{{baseName}}"];
     {{/headerParams}}
 
     id bodyDictionary = nil;
-		{{#bodyParam}}
+        {{#bodyParam}}
     if(body != nil && [body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
         for (id dict in (NSArray*)body) {

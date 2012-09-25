@@ -35,7 +35,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(petId == nil) {
+        if(petId == nil) {
         // error
     }
     [_api dictionaryWithCompletionBlock: requestUrl 
@@ -65,7 +65,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(body != nil && [body isKindOfClass:[NSArray class]]){
+        if(body != nil && [body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
         for (id dict in (NSArray*)body) {
             if([dict respondsToSelector:@selector(asDictionary)]) {
@@ -117,7 +117,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(body != nil && [body isKindOfClass:[NSArray class]]){
+        if(body != nil && [body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
         for (id dict in (NSArray*)body) {
             if([dict respondsToSelector:@selector(asDictionary)]) {
@@ -171,7 +171,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         [queryParams setValue:status forKey:@"status"];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(status == nil) {
+        if(status == nil) {
         // error
     }
     [_api dictionaryWithCompletionBlock: requestUrl 
@@ -211,7 +211,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         [queryParams setValue:tags forKey:@"tags"];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-		if(tags == nil) {
+        if(tags == nil) {
         // error
     }
     [_api dictionaryWithCompletionBlock: requestUrl 

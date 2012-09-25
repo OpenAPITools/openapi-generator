@@ -17,7 +17,7 @@
           {{#vars}}_{{name}} = {{name}};
           {{/vars}}
 
-	        return self;
+            return self;
        }
 
 - (id) initWithValues: (NSDictionary*)dict
@@ -38,7 +38,7 @@
             }
             _{{{name}}} = [[NSArray alloc] initWithArray:objs];
         }
-	  }
+      }
     else if([{{name}}_dict isKindOfClass:[NSDictionary class]] && [(NSDictionary*){{name}}_dict count] > 0) {
         _{{name}} = [[{{complexType}} alloc]initWithValues:(NSDictionary*){{name}}_dict];
     }
