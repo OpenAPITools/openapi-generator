@@ -320,11 +320,11 @@ class Codegen(config: CodegenConfig) {
         "deprecated" -> op.deprecated,
         "bodyParam" -> bodyParam,
         "allParams" -> sp,
-        "bodyParams" -> bodyParams,
-        "pathParams" -> pathParams,
-        "queryParams" -> queryParams,
-        "headerParams" -> headerParams,
-        "requiredParams" -> requiredParams,
+        "bodyParams" -> bodyParams.toList,
+        "pathParams" -> pathParams.toList,
+        "queryParams" -> queryParams.toList,
+        "headerParams" -> headerParams.toList,
+        "requiredParams" -> requiredParams.toList,
         "httpMethod" -> op.httpMethod.toUpperCase,
         op.httpMethod.toLowerCase -> "true")
     if (requiredParams.size > 0) properties += "requiredParamCount" -> requiredParams.size.toString
@@ -346,7 +346,7 @@ class Codegen(config: CodegenConfig) {
         val ComplexTypeMatcher(basePart) = op.responseClass
         properties += "returnType" -> config.processResponseDeclaration(op.responseClass.replaceAll(basePart, config.processResponseClass(basePart).get))
         properties += "returnContainer" -> (op.responseClass.substring(0, n))
-        properties += "returnBaseType" -> Some(config.processResponseClass(basePart))
+        properties += "returnBaseType" -> config.processResponseClass(basePart)
         properties += "returnTypeIsPrimitive" -> {
           (config.languageSpecificPrimitives.contains(basePart) || primitives.contains(basePart)) match {
             case true => Some("true")

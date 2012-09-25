@@ -18,21 +18,21 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
   val json = ScalaJsonUtil.getJsonMapper
 
   class SampleCodegenConfig extends CodegenConfig with PathUtil {
-  	override def packageName = "com.test"
-  	override def templateDir = "src/test/resources/sampleConfigTemplates"
-  	override def destinationDir = {
-		val tmpFile = java.io.File.createTempFile("test",".tmp")
-		tmpFile.delete; tmpFile.mkdir
-		tmpFile.deleteOnExit
-		tmpFile.toString
-  	}
-  	override def escapeReservedWord(word: String) = "`" + word + "`"
-  	override def typeMapping = Map("int" -> "integer")
-  	override def invokerPackage = Some("com.wordnik.something")
-  	override def apiPackage = Some("com.wordnik.api")
-  	override def modelPackage = Some("com.wordnik.models")
-  	override def reservedWords = Set("special")
-  	override def importMapping = super.importMapping ++ Map("User" -> "com.mypackage.User")
+    override def packageName = "com.test"
+    override def templateDir = "src/test/resources/sampleConfigTemplates"
+    override def destinationDir = {
+      val tmpFile = java.io.File.createTempFile("test",".tmp")
+      tmpFile.delete; tmpFile.mkdir
+      tmpFile.deleteOnExit
+      tmpFile.toString
+    }
+    override def escapeReservedWord(word: String) = "`" + word + "`"
+    override def typeMapping = Map("int" -> "integer")
+    override def invokerPackage = Some("com.wordnik.something")
+    override def apiPackage = Some("com.wordnik.api")
+    override def modelPackage = Some("com.wordnik.models")
+    override def reservedWords = Set("special")
+    override def importMapping = super.importMapping ++ Map("User" -> "com.mypackage.User")
   }
 
   val config = new SampleCodegenConfig
@@ -42,7 +42,7 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * We will take an api in the spec and create an API name from it
    */
   it should "convert an api name" in {
-  	config.toApiName("fun") should be ("FunApi")
+    config.toApiName("fun") should be ("FunApi")
   }
 
   /*
@@ -50,7 +50,7 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * i.e. /foo will follow rules to become FooApi
   */
   it should "convert a path" in {
-  	config.apiNameFromPath("/foo/bar/cats/dogs") should be ("FooApi")
+    config.apiNameFromPath("/foo/bar/cats/dogs") should be ("FooApi")
   }
 
   behavior of "CodegenConfig"
@@ -59,7 +59,7 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * for the template generator
    */
   it should "process a response declaration" in {
-  	config.processResponseDeclaration("void") should be (None)
+    config.processResponseDeclaration("void") should be (None)
   }
 
   /*
@@ -67,7 +67,7 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * unchanged
    */
   it should "process an unchanged response" in {
-  	config.processResponseDeclaration("string") should be (Some("string"))
+    config.processResponseDeclaration("string") should be (Some("string"))
   }
 
   /*
@@ -75,28 +75,28 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * from a method should be translated
    */
   it should "process an mapped response type" in {
-  	config.processResponseDeclaration("int") should be (Some("integer"))
+    config.processResponseDeclaration("int") should be (Some("integer"))
   }
 
   /*
    * returns the invoker package from the config
    */
   it should "get the invoker package" in {
-  	config.invokerPackage should be (Some("com.wordnik.something"))
+    config.invokerPackage should be (Some("com.wordnik.something"))
   }
 
   /*
    * returns the api package
    */
   it should "get the api package" in {
-  	config.apiPackage should be (Some("com.wordnik.api"))
+    config.apiPackage should be (Some("com.wordnik.api"))
   }
 
   /*
    * returns the model package
    */
   it should "get the model package" in {
-  	config.modelPackage should be (Some("com.wordnik.models"))
+    config.modelPackage should be (Some("com.wordnik.models"))
   }
 
   /*
@@ -104,7 +104,7 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * types
    */
   it should "convert to a declared type" in {
-  	config.toDeclaredType("int") should be ("integer")
+    config.toDeclaredType("int") should be ("integer")
   }
 
   /*
@@ -112,7 +112,7 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * classes
    */
   it should "honor the import mapping" in {
-  	config.importMapping("User") should be ("com.mypackage.User")
+    config.importMapping("User") should be ("com.mypackage.User")
   }
 
   /*
@@ -120,6 +120,6 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
    * either by quoting or manipulating them with a prefix/suffix
    */
   it should "quote a reserved var name" in {
-  	config.toVarName("special") should be ("`special`")
+    config.toVarName("special") should be ("`special`")
   }
 }

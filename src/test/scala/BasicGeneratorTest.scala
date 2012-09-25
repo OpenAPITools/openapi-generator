@@ -38,26 +38,26 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
     val generator = new SampleGenerator
     val ops = generator.extractOperations(subDocs, allModels)
 
-	allModels.size should be (5)
-	ops.size should be (16)
+  	allModels.size should be (5)
+  	ops.size should be (16)
 
-	val operations = ops.map(op => (op._2, op._3)).toMap
+  	val operations = ops.map(op => (op._2, op._3)).toMap
 
-	(operations.keys.toSet & 
-	Set("/pet.{format}/findByTags", "/user.{format}/createWithArray", "/user.{format}/createWithList", 
-		"/store.{format}/order", "/user.{format}", "/pet.{format}/findByStatus", "/user.{format}/{username}",
-		"/user.{format}/logout", "/user.{format}/login", "/pet.{format}/{petId}", "/store.{format}/order/{orderId}", 
-		"/pet.{format}")).size should be (12)
+  	(operations.keys.toSet & 
+  	Set("/pet.{format}/findByTags", "/user.{format}/createWithArray", "/user.{format}/createWithList", 
+  		"/store.{format}/order", "/user.{format}", "/pet.{format}/findByStatus", "/user.{format}/{username}",
+  		"/user.{format}/logout", "/user.{format}/login", "/pet.{format}/{petId}", "/store.{format}/order/{orderId}", 
+  		"/pet.{format}")).size should be (12)
 
-	// pick apart the /store/order api
-	val orderApi = operations("/store.{format}/order")
+  	// pick apart the /store/order api
+  	val orderApi = operations("/store.{format}/order")
 
-	orderApi.httpMethod should be ("POST")
-	orderApi.summary should be ("Place an order for a pet")
-	orderApi.responseClass should be ("void")
-	orderApi.nickname should be ("placeOrder")
-	orderApi.getParameters.size should be (1)
-	orderApi.getErrorResponses.size should be (1)
+  	orderApi.httpMethod should be ("POST")
+  	orderApi.summary should be ("Place an order for a pet")
+  	orderApi.responseClass should be ("void")
+  	orderApi.nickname should be ("placeOrder")
+  	orderApi.getParameters.size should be (1)
+  	orderApi.getErrorResponses.size should be (1)
   }
 
   it should "verify ops are grouped by path correctly" in {
