@@ -37,6 +37,10 @@ trait PathUtil {
     }
   }
 
+  def toModelName(name: String) = {
+    name.charAt(0).toUpperCase + name.substring(1)
+  }
+
   def toApiName(name: String) = {
     name.charAt(0).toUpperCase + name.substring(1) + "Api"
   }

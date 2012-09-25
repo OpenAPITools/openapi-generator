@@ -27,6 +27,7 @@ abstract class CodegenConfig {
   def packageName: String
   def templateDir: String
   def destinationDir: String
+  def toModelName(name: String): String
   def toApiName(name: String): String
   def apiNameFromPath(apiPath: String): String
   def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m

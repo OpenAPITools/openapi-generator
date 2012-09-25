@@ -132,8 +132,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     (for ((name, schema) <- models) yield {
       if (!defaultIncludes.contains(name)) {
         val m = new HashMap[String, AnyRef]
-        m += "name" -> name
-        m += "className" -> name
+        m += "name" -> toModelName(name)
+        m += "className" -> (name)
         m += "apis" -> None
         m += "models" -> List((name, schema))
         m += "package" -> modelPackage

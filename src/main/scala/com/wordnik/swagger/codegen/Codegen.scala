@@ -95,26 +95,32 @@ class Codegen(config: CodegenConfig) {
       case None => ""
     }
     // do the mapping before removing primitives!
-    allImports.foreach(i => includedModels.contains(i) match {
-      case false => {
-        config.importMapping.containsKey(i) match {
-          case true => imports += Map("import" -> config.importMapping(i))
-          case false =>
+    allImports.foreach(i => {
+      val model = config.toModelName(i)
+      includedModels.contains(model) match {
+        case false => {
+          config.importMapping.containsKey(model) match {
+            case true => imports += Map("import" -> config.importMapping(model))
+            case false =>
+          }
         }
+        case true =>
       }
-      case true =>
     })
     allImports --= config.defaultIncludes
     allImports --= primitives
     allImports --= containers
-    allImports.foreach(i => includedModels.contains(i) match {
-      case false => {
-        config.importMapping.containsKey(i) match {
-          case true =>
-          case false => imports += Map("import" -> (importScope + i))
+    allImports.foreach(i => {
+      val model = config.toModelName(i)
+      includedModels.contains(model) match {
+        case false => {
+          config.importMapping.containsKey(model) match {
+            case true =>
+            case false => imports += Map("import" -> (importScope + model))
+          }
         }
+        case true => // no need to add the model
       }
-      case true => // no need to add the model
     })
 
     val rootDir = new java.io.File(".")
@@ -152,8 +158,11 @@ class Codegen(config: CodegenConfig) {
       "models" -> modelData,
       "basePath" -> bundle.getOrElse("basePath", ""))
 
+    // println(m.writeValueAsString(modelData))
+
     var output = engine.layout(config.templateDir + File.separator + templateFile, template, data.toMap)
-    //a shutdown method will be added to scalate in an upcoming release
+
+    //  a shutdown method will be added to scalate in an upcoming release
     engine.compiler.asInstanceOf[ScalaCompiler].compiler.askShutdown
     output
   }
@@ -168,8 +177,8 @@ class Codegen(config: CodegenConfig) {
         case true => config.importMapping(modelName)
         case false => {
           config.modelPackage match {
-            case Some(p) => p + "." + modelName
-            case None => modelName
+            case Some(p) => p + "." + config.toModelName(modelName)
+            case None => config.toModelName(modelName)
           }
         }
       })
@@ -352,7 +361,7 @@ class Codegen(config: CodegenConfig) {
   def modelToMap(className: String, model: DocumentationSchema): Map[String, AnyRef] = {
     val data: HashMap[String, AnyRef] =
       HashMap(
-        "classname" -> className,
+        "classname" -> config.toModelName(className),
         "classVarName" -> config.toVarName(className), // suggested name of object created from this class
         "modelPackage" -> config.modelPackage,
         "newline" -> "\n")
@@ -378,7 +387,14 @@ class Codegen(config: CodegenConfig) {
       }
       baseType = config.typeMapping.contains(baseType) match {
         case true => config.typeMapping(baseType)
-        case false => imports += Map("import" -> config.typeMapping.getOrElse(baseType, baseType)); baseType
+        case false => {
+          imports += Map("import" -> config.typeMapping.getOrElse(baseType, baseType))
+          baseType
+        }
+      }
+      (config.defaultIncludes ++ config.languageSpecificPrimitives).toSet.contains(baseType) match {
+        case true =>
+        case _ => imports += Map("import" -> baseType)
       }
 
       val isList = (if (isListType(propertyDocSchema.getType)) true else None)
@@ -418,7 +434,7 @@ class Codegen(config: CodegenConfig) {
           "hasMore" -> "true")
       (config.languageSpecificPrimitives.contains(baseType) || primitives.contains(baseType)) match {
         case true => properties += "isPrimitiveType" -> "true"
-        case _ => properties += "complexType" -> baseType
+        case _ => properties += "complexType" -> config.toModelName(baseType)
       }
 
       l += properties
@@ -480,8 +496,6 @@ class Codegen(config: CodegenConfig) {
         "apiPackage" -> config.apiPackage,
         "apis" -> apiList,
         "models" -> modelList)
-
-//    println(com.wordnik.swagger.codegen.util.ScalaJsonUtil.getJsonMapper.writeValueAsString(data))
 
     config.supportingFiles.map(file => {
       val srcTemplate = file._1
