@@ -35,8 +35,10 @@ Other languages have petstore samples, too:
 ```
 ./bin/flash-petstore.sh
 ./bin/java-petstore.sh
+./bin/objc-petstore.sh
 ./bin/php-petstore.sh
 ./bin/python-petstore.sh
+./bin/python3-petstore.sh
 ```
 
 ### Generating libraries from your server
