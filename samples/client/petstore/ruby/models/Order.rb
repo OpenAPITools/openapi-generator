@@ -16,73 +16,28 @@ class Order
       if Order.attribute_map["id".to_sym] != nil
         name = "id".to_sym
         value = attributes["id"]
-
-	      if value.is_a?(Array)
-	        array = Array.new
-	        value.each do |arrayValue|
-	          array.push arrayValue
-	        end
-	        send("#{name}=", array) if self.respond_to?(name)
-	      else
-	        send("#{name}=", value) if self.respond_to?(name)
+        send("#{name}=", value) if self.respond_to?(name)
 	      end
-	    end
       if Order.attribute_map["pet_id".to_sym] != nil
         name = "pet_id".to_sym
         value = attributes["petId"]
-
-	      if value.is_a?(Array)
-	        array = Array.new
-	        value.each do |arrayValue|
-	          array.push arrayValue
-	        end
-	        send("#{name}=", array) if self.respond_to?(name)
-	      else
-	        send("#{name}=", value) if self.respond_to?(name)
+        send("#{name}=", value) if self.respond_to?(name)
 	      end
-	    end
       if Order.attribute_map["status".to_sym] != nil
         name = "status".to_sym
         value = attributes["status"]
-
-	      if value.is_a?(Array)
-	        array = Array.new
-	        value.each do |arrayValue|
-	          array.push arrayValue
-	        end
-	        send("#{name}=", array) if self.respond_to?(name)
-	      else
-	        send("#{name}=", value) if self.respond_to?(name)
+        send("#{name}=", value) if self.respond_to?(name)
 	      end
-	    end
       if Order.attribute_map["quantity".to_sym] != nil
         name = "quantity".to_sym
         value = attributes["quantity"]
-
-	      if value.is_a?(Array)
-	        array = Array.new
-	        value.each do |arrayValue|
-	          array.push arrayValue
-	        end
-	        send("#{name}=", array) if self.respond_to?(name)
-	      else
-	        send("#{name}=", value) if self.respond_to?(name)
+        send("#{name}=", value) if self.respond_to?(name)
 	      end
-	    end
       if Order.attribute_map["ship_date".to_sym] != nil
         name = "ship_date".to_sym
         value = attributes["shipDate"]
-
-	      if value.is_a?(Array)
-	        array = Array.new
-	        value.each do |arrayValue|
-	          array.push Date.new(arrayValue)
-	        end
-	        send("#{name}=", array) if self.respond_to?(name)
-	      else
-	        send("#{name}=", value) if self.respond_to?(name)
+        send("#{name}=", value) if self.respond_to?(name)
 	      end
-	    end
       end
   end
 
