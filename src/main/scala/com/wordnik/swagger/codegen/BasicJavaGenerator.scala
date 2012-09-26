@@ -29,7 +29,11 @@ class BasicJavaGenerator extends BasicGenerator {
     "long",
     "float",
     "String",
-    "boolean")
+    "boolean",
+    "Double",
+    "Integer",
+    "Long",
+    "Float")
 
   /**
    * We are using java objects instead of primitives to avoid showing default
