@@ -47,7 +47,7 @@
             else {
                 value = [NSString stringWithFormat:@"%@", [queryParams valueForKey:key]];
             }
-            [requestUrl appendFormat:[NSString stringWithFormat:@"%@%@=%@", separator,
+            [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
                                       [self escapeString:key], value]];
             counter += 1;
         }
@@ -84,7 +84,7 @@
         else {
             data = [body dataUsingEncoding:NSUTF8StringEncoding];
         }
-        NSString *postLength = [NSString stringWithFormat:@"%d", [data length]];
+        NSString *postLength = [NSString stringWithFormat:@"%ld", [data length]];
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
         [request setHTTPBody:data];
         
@@ -96,8 +96,7 @@
     
     [NSURLConnection sendAsynchronousRequest:request queue:_queue completionHandler:
      ^(NSURLResponse *response, NSData *data, NSError *error) {
-         int statusCode = [(NSHTTPURLResponse*)response statusCode];
-         NSString* jsonData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+         long statusCode = [(NSHTTPURLResponse*)response statusCode];
          
          if (error) {
              completionBlock(nil, error);
