@@ -35,7 +35,7 @@ object ScalaPetstoreCodegen extends BasicScalaGenerator {
 
   // supporting classes
   override def supportingFiles = List(
-    ("apiInvoker.mustache", "samples/client/petstore/scala/src/main/scala/com/wordnik/client", "ApiInvoker.scala"),
+    ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replaceAll("\\.", java.io.File.separator) + java.io.File.separator, "ApiInvoker.scala"),
     ("pom.mustache", "samples/client/petstore/scala", "pom.xml")
   )
 }
