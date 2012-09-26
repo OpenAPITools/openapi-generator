@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EA07F4BE16134F27006A2112 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA07F4BD16134F27006A2112 /* Foundation.framework */; };
+		EA07F4C116134F27006A2112 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F4C016134F27006A2112 /* main.m */; };
+		EA07F4C516134F27006A2112 /* PetstoreClient.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EA07F4C416134F27006A2112 /* PetstoreClient.1 */; };
+		EA07F5001613521A006A2112 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA07F4FE1613521A006A2112 /* InfoPlist.strings */; };
+		EA07F50A161355BC006A2112 /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F509161355BC006A2112 /* PetApiTest.m */; };
+		EA07F5221613569A006A2112 /* NIKApiInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50D1613569A006A2112 /* NIKApiInvoker.m */; };
+		EA07F5231613569A006A2112 /* NIKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50F1613569A006A2112 /* NIKCategory.m */; };
+		EA07F5241613569A006A2112 /* NIKDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5111613569A006A2112 /* NIKDate.m */; };
+		EA07F5251613569A006A2112 /* NIKOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5131613569A006A2112 /* NIKOrder.m */; };
+		EA07F5261613569A006A2112 /* NIKPet.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5151613569A006A2112 /* NIKPet.m */; };
+		EA07F5271613569A006A2112 /* NIKPetApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5171613569A006A2112 /* NIKPetApi.m */; };
+		EA07F5281613569A006A2112 /* NIKStoreApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5191613569A006A2112 /* NIKStoreApi.m */; };
+		EA07F5291613569A006A2112 /* NIKSwaggerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51B1613569A006A2112 /* NIKSwaggerObject.m */; };
+		EA07F52A1613569A006A2112 /* NIKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51D1613569A006A2112 /* NIKTag.m */; };
+		EA07F52B1613569A006A2112 /* NIKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51F1613569A006A2112 /* NIKUser.m */; };
+		EA07F52C1613569A006A2112 /* NIKUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5211613569A006A2112 /* NIKUserApi.m */; };
+		EA07F5311613580E006A2112 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA07F5301613580E006A2112 /* SenTestingKit.framework */; };
+		EA07F53316135819006A2112 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA07F53216135819006A2112 /* Cocoa.framework */; };
+		EA07F53516135916006A2112 /* NIKApiInvoker.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50C1613569A006A2112 /* NIKApiInvoker.h */; };
+		EA07F53616135916006A2112 /* NIKApiInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50D1613569A006A2112 /* NIKApiInvoker.m */; };
+		EA07F53716135916006A2112 /* NIKCategory.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50E1613569A006A2112 /* NIKCategory.h */; };
+		EA07F53816135916006A2112 /* NIKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50F1613569A006A2112 /* NIKCategory.m */; };
+		EA07F53916135916006A2112 /* NIKDate.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5101613569A006A2112 /* NIKDate.h */; };
+		EA07F53A16135916006A2112 /* NIKDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5111613569A006A2112 /* NIKDate.m */; };
+		EA07F53B16135916006A2112 /* NIKOrder.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5121613569A006A2112 /* NIKOrder.h */; };
+		EA07F53C16135916006A2112 /* NIKOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5131613569A006A2112 /* NIKOrder.m */; };
+		EA07F53D16135916006A2112 /* NIKPet.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5141613569A006A2112 /* NIKPet.h */; };
+		EA07F53E16135916006A2112 /* NIKPet.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5151613569A006A2112 /* NIKPet.m */; };
+		EA07F53F16135916006A2112 /* NIKPetApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5161613569A006A2112 /* NIKPetApi.h */; };
+		EA07F54016135916006A2112 /* NIKPetApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5171613569A006A2112 /* NIKPetApi.m */; };
+		EA07F54116135916006A2112 /* NIKStoreApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5181613569A006A2112 /* NIKStoreApi.h */; };
+		EA07F54216135916006A2112 /* NIKStoreApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5191613569A006A2112 /* NIKStoreApi.m */; };
+		EA07F54316135916006A2112 /* NIKSwaggerObject.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51A1613569A006A2112 /* NIKSwaggerObject.h */; };
+		EA07F54416135916006A2112 /* NIKSwaggerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51B1613569A006A2112 /* NIKSwaggerObject.m */; };
+		EA07F54516135916006A2112 /* NIKTag.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51C1613569A006A2112 /* NIKTag.h */; };
+		EA07F54616135916006A2112 /* NIKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51D1613569A006A2112 /* NIKTag.m */; };
+		EA07F54716135916006A2112 /* NIKUser.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51E1613569A006A2112 /* NIKUser.h */; };
+		EA07F54816135916006A2112 /* NIKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51F1613569A006A2112 /* NIKUser.m */; };
+		EA07F54916135916006A2112 /* NIKUserApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5201613569A006A2112 /* NIKUserApi.h */; };
+		EA07F54A16135916006A2112 /* NIKUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5211613569A006A2112 /* NIKUserApi.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EA07F52E161357A5006A2112 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA07F4B016134F27006A2112 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA07F4B816134F27006A2112;
+			remoteInfo = PetstoreClient;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EA07F4B716134F27006A2112 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				EA07F4C516134F27006A2112 /* PetstoreClient.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EA07F4B916134F27006A2112 /* PetstoreClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PetstoreClient; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA07F4BD16134F27006A2112 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EA07F4C016134F27006A2112 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EA07F4C316134F27006A2112 /* PetstoreClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetstoreClient-Prefix.pch"; sourceTree = "<group>"; };
+		EA07F4C416134F27006A2112 /* PetstoreClient.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PetstoreClient.1; sourceTree = "<group>"; };
+		EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetstoreClientTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA07F4F31613521A006A2112 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		EA07F4F51613521A006A2112 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		EA07F4F81613521A006A2112 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		EA07F4F91613521A006A2112 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		EA07F4FA1613521A006A2112 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EA07F4FD1613521A006A2112 /* PetstoreClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PetstoreClientTests-Info.plist"; sourceTree = "<group>"; };
+		EA07F4FF1613521A006A2112 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EA07F5041613521A006A2112 /* PetstoreClientTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetstoreClientTests-Prefix.pch"; sourceTree = "<group>"; };
+		EA07F508161355BC006A2112 /* PetApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PetApiTest.h; path = ../../tests/PetApiTest.h; sourceTree = "<group>"; };
+		EA07F509161355BC006A2112 /* PetApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PetApiTest.m; path = ../../tests/PetApiTest.m; sourceTree = "<group>"; };
+		EA07F50C1613569A006A2112 /* NIKApiInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKApiInvoker.h; path = ../client/NIKApiInvoker.h; sourceTree = "<group>"; };
+		EA07F50D1613569A006A2112 /* NIKApiInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKApiInvoker.m; path = ../client/NIKApiInvoker.m; sourceTree = "<group>"; };
+		EA07F50E1613569A006A2112 /* NIKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKCategory.h; path = ../client/NIKCategory.h; sourceTree = "<group>"; };
+		EA07F50F1613569A006A2112 /* NIKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKCategory.m; path = ../client/NIKCategory.m; sourceTree = "<group>"; };
+		EA07F5101613569A006A2112 /* NIKDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKDate.h; path = ../client/NIKDate.h; sourceTree = "<group>"; };
+		EA07F5111613569A006A2112 /* NIKDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKDate.m; path = ../client/NIKDate.m; sourceTree = "<group>"; };
+		EA07F5121613569A006A2112 /* NIKOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKOrder.h; path = ../client/NIKOrder.h; sourceTree = "<group>"; };
+		EA07F5131613569A006A2112 /* NIKOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKOrder.m; path = ../client/NIKOrder.m; sourceTree = "<group>"; };
+		EA07F5141613569A006A2112 /* NIKPet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKPet.h; path = ../client/NIKPet.h; sourceTree = "<group>"; };
+		EA07F5151613569A006A2112 /* NIKPet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKPet.m; path = ../client/NIKPet.m; sourceTree = "<group>"; };
+		EA07F5161613569A006A2112 /* NIKPetApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKPetApi.h; path = ../client/NIKPetApi.h; sourceTree = "<group>"; };
+		EA07F5171613569A006A2112 /* NIKPetApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKPetApi.m; path = ../client/NIKPetApi.m; sourceTree = "<group>"; };
+		EA07F5181613569A006A2112 /* NIKStoreApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKStoreApi.h; path = ../client/NIKStoreApi.h; sourceTree = "<group>"; };
+		EA07F5191613569A006A2112 /* NIKStoreApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKStoreApi.m; path = ../client/NIKStoreApi.m; sourceTree = "<group>"; };
+		EA07F51A1613569A006A2112 /* NIKSwaggerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKSwaggerObject.h; path = ../client/NIKSwaggerObject.h; sourceTree = "<group>"; };
+		EA07F51B1613569A006A2112 /* NIKSwaggerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKSwaggerObject.m; path = ../client/NIKSwaggerObject.m; sourceTree = "<group>"; };
+		EA07F51C1613569A006A2112 /* NIKTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKTag.h; path = ../client/NIKTag.h; sourceTree = "<group>"; };
+		EA07F51D1613569A006A2112 /* NIKTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKTag.m; path = ../client/NIKTag.m; sourceTree = "<group>"; };
+		EA07F51E1613569A006A2112 /* NIKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKUser.h; path = ../client/NIKUser.h; sourceTree = "<group>"; };
+		EA07F51F1613569A006A2112 /* NIKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKUser.m; path = ../client/NIKUser.m; sourceTree = "<group>"; };
+		EA07F5201613569A006A2112 /* NIKUserApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKUserApi.h; path = ../client/NIKUserApi.h; sourceTree = "<group>"; };
+		EA07F5211613569A006A2112 /* NIKUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKUserApi.m; path = ../client/NIKUserApi.m; sourceTree = "<group>"; };
+		EA07F5301613580E006A2112 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		EA07F53216135819006A2112 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EA07F4B616134F27006A2112 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA07F4BE16134F27006A2112 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA07F4EE1613521A006A2112 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA07F53316135819006A2112 /* Cocoa.framework in Frameworks */,
+				EA07F5311613580E006A2112 /* SenTestingKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EA07F4AE16134F27006A2112 = {
+			isa = PBXGroup;
+			children = (
+				EA07F53216135819006A2112 /* Cocoa.framework */,
+				EA07F5301613580E006A2112 /* SenTestingKit.framework */,
+				EA07F52D1613569E006A2112 /* Generated Client */,
+				EA07F4BF16134F27006A2112 /* PetstoreClient */,
+				EA07F4FB1613521A006A2112 /* PetstoreClientTests */,
+				EA07F4BC16134F27006A2112 /* Frameworks */,
+				EA07F4BA16134F27006A2112 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EA07F4BA16134F27006A2112 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F4B916134F27006A2112 /* PetstoreClient */,
+				EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA07F4BC16134F27006A2112 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F4BD16134F27006A2112 /* Foundation.framework */,
+				EA07F4F31613521A006A2112 /* SenTestingKit.framework */,
+				EA07F4F51613521A006A2112 /* Cocoa.framework */,
+				EA07F4F71613521A006A2112 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA07F4BF16134F27006A2112 /* PetstoreClient */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F4C016134F27006A2112 /* main.m */,
+				EA07F4C416134F27006A2112 /* PetstoreClient.1 */,
+				EA07F4C216134F27006A2112 /* Supporting Files */,
+			);
+			path = PetstoreClient;
+			sourceTree = "<group>";
+		};
+		EA07F4C216134F27006A2112 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F4C316134F27006A2112 /* PetstoreClient-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EA07F4F71613521A006A2112 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F4F81613521A006A2112 /* AppKit.framework */,
+				EA07F4F91613521A006A2112 /* CoreData.framework */,
+				EA07F4FA1613521A006A2112 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		EA07F4FB1613521A006A2112 /* PetstoreClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F508161355BC006A2112 /* PetApiTest.h */,
+				EA07F509161355BC006A2112 /* PetApiTest.m */,
+				EA07F4FC1613521A006A2112 /* Supporting Files */,
+			);
+			path = PetstoreClientTests;
+			sourceTree = "<group>";
+		};
+		EA07F4FC1613521A006A2112 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F4FD1613521A006A2112 /* PetstoreClientTests-Info.plist */,
+				EA07F4FE1613521A006A2112 /* InfoPlist.strings */,
+				EA07F5041613521A006A2112 /* PetstoreClientTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EA07F52D1613569E006A2112 /* Generated Client */ = {
+			isa = PBXGroup;
+			children = (
+				EA07F50C1613569A006A2112 /* NIKApiInvoker.h */,
+				EA07F50D1613569A006A2112 /* NIKApiInvoker.m */,
+				EA07F50E1613569A006A2112 /* NIKCategory.h */,
+				EA07F50F1613569A006A2112 /* NIKCategory.m */,
+				EA07F5101613569A006A2112 /* NIKDate.h */,
+				EA07F5111613569A006A2112 /* NIKDate.m */,
+				EA07F5121613569A006A2112 /* NIKOrder.h */,
+				EA07F5131613569A006A2112 /* NIKOrder.m */,
+				EA07F5141613569A006A2112 /* NIKPet.h */,
+				EA07F5151613569A006A2112 /* NIKPet.m */,
+				EA07F5161613569A006A2112 /* NIKPetApi.h */,
+				EA07F5171613569A006A2112 /* NIKPetApi.m */,
+				EA07F5181613569A006A2112 /* NIKStoreApi.h */,
+				EA07F5191613569A006A2112 /* NIKStoreApi.m */,
+				EA07F51A1613569A006A2112 /* NIKSwaggerObject.h */,
+				EA07F51B1613569A006A2112 /* NIKSwaggerObject.m */,
+				EA07F51C1613569A006A2112 /* NIKTag.h */,
+				EA07F51D1613569A006A2112 /* NIKTag.m */,
+				EA07F51E1613569A006A2112 /* NIKUser.h */,
+				EA07F51F1613569A006A2112 /* NIKUser.m */,
+				EA07F5201613569A006A2112 /* NIKUserApi.h */,
+				EA07F5211613569A006A2112 /* NIKUserApi.m */,
+			);
+			name = "Generated Client";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EA07F4B816134F27006A2112 /* PetstoreClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA07F4C816134F27006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClient" */;
+			buildPhases = (
+				EA07F4B516134F27006A2112 /* Sources */,
+				EA07F4B616134F27006A2112 /* Frameworks */,
+				EA07F4B716134F27006A2112 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PetstoreClient;
+			productName = PetstoreClient;
+			productReference = EA07F4B916134F27006A2112 /* PetstoreClient */;
+			productType = "com.apple.product-type.tool";
+		};
+		EA07F4F11613521A006A2112 /* PetstoreClientTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA07F5051613521A006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClientTests" */;
+			buildPhases = (
+				EA07F4ED1613521A006A2112 /* Sources */,
+				EA07F4EE1613521A006A2112 /* Frameworks */,
+				EA07F4EF1613521A006A2112 /* Resources */,
+				EA07F4F01613521A006A2112 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA07F52F161357A5006A2112 /* PBXTargetDependency */,
+			);
+			name = PetstoreClientTests;
+			productName = PetstoreClientTests;
+			productReference = EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EA07F4B016134F27006A2112 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Tony Tam";
+			};
+			buildConfigurationList = EA07F4B316134F27006A2112 /* Build configuration list for PBXProject "PetstoreClient" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EA07F4AE16134F27006A2112;
+			productRefGroup = EA07F4BA16134F27006A2112 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EA07F4B816134F27006A2112 /* PetstoreClient */,
+				EA07F4F11613521A006A2112 /* PetstoreClientTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EA07F4EF1613521A006A2112 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA07F5001613521A006A2112 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EA07F4F01613521A006A2112 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EA07F4B516134F27006A2112 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA07F4C116134F27006A2112 /* main.m in Sources */,
+				EA07F5221613569A006A2112 /* NIKApiInvoker.m in Sources */,
+				EA07F5231613569A006A2112 /* NIKCategory.m in Sources */,
+				EA07F5241613569A006A2112 /* NIKDate.m in Sources */,
+				EA07F5251613569A006A2112 /* NIKOrder.m in Sources */,
+				EA07F5261613569A006A2112 /* NIKPet.m in Sources */,
+				EA07F5271613569A006A2112 /* NIKPetApi.m in Sources */,
+				EA07F5281613569A006A2112 /* NIKStoreApi.m in Sources */,
+				EA07F5291613569A006A2112 /* NIKSwaggerObject.m in Sources */,
+				EA07F52A1613569A006A2112 /* NIKTag.m in Sources */,
+				EA07F52B1613569A006A2112 /* NIKUser.m in Sources */,
+				EA07F52C1613569A006A2112 /* NIKUserApi.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA07F4ED1613521A006A2112 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA07F53516135916006A2112 /* NIKApiInvoker.h in Sources */,
+				EA07F53616135916006A2112 /* NIKApiInvoker.m in Sources */,
+				EA07F53716135916006A2112 /* NIKCategory.h in Sources */,
+				EA07F53816135916006A2112 /* NIKCategory.m in Sources */,
+				EA07F53916135916006A2112 /* NIKDate.h in Sources */,
+				EA07F53A16135916006A2112 /* NIKDate.m in Sources */,
+				EA07F53B16135916006A2112 /* NIKOrder.h in Sources */,
+				EA07F53C16135916006A2112 /* NIKOrder.m in Sources */,
+				EA07F53D16135916006A2112 /* NIKPet.h in Sources */,
+				EA07F53E16135916006A2112 /* NIKPet.m in Sources */,
+				EA07F53F16135916006A2112 /* NIKPetApi.h in Sources */,
+				EA07F54016135916006A2112 /* NIKPetApi.m in Sources */,
+				EA07F54116135916006A2112 /* NIKStoreApi.h in Sources */,
+				EA07F54216135916006A2112 /* NIKStoreApi.m in Sources */,
+				EA07F54316135916006A2112 /* NIKSwaggerObject.h in Sources */,
+				EA07F54416135916006A2112 /* NIKSwaggerObject.m in Sources */,
+				EA07F54516135916006A2112 /* NIKTag.h in Sources */,
+				EA07F54616135916006A2112 /* NIKTag.m in Sources */,
+				EA07F54716135916006A2112 /* NIKUser.h in Sources */,
+				EA07F54816135916006A2112 /* NIKUser.m in Sources */,
+				EA07F54916135916006A2112 /* NIKUserApi.h in Sources */,
+				EA07F54A16135916006A2112 /* NIKUserApi.m in Sources */,
+				EA07F50A161355BC006A2112 /* PetApiTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EA07F52F161357A5006A2112 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA07F4B816134F27006A2112 /* PetstoreClient */;
+			targetProxy = EA07F52E161357A5006A2112 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EA07F4FE1613521A006A2112 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA07F4FF1613521A006A2112 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EA07F4C616134F27006A2112 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EA07F4C716134F27006A2112 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		EA07F4C916134F27006A2112 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EA07F4CA16134F27006A2112 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		EA07F5061613521A006A2112 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PetstoreClientTests/PetstoreClientTests-Prefix.pch";
+				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		EA07F5071613521A006A2112 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PetstoreClientTests/PetstoreClientTests-Prefix.pch";
+				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EA07F4B316134F27006A2112 /* Build configuration list for PBXProject "PetstoreClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA07F4C616134F27006A2112 /* Debug */,
+				EA07F4C716134F27006A2112 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA07F4C816134F27006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA07F4C916134F27006A2112 /* Debug */,
+				EA07F4CA16134F27006A2112 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EA07F5051613521A006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClientTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA07F5061613521A006A2112 /* Debug */,
+				EA07F5071613521A006A2112 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EA07F4B016134F27006A2112 /* Project object */;
+}

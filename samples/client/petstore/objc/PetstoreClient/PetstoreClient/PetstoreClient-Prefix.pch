@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'PetstoreClient' target in the 'PetstoreClient' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

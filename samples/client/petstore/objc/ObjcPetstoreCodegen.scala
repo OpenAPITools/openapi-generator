@@ -6,7 +6,7 @@ object ObjcPetstoreCodegen extends BasicObjcGenerator {
   def main(args: Array[String]) = generateClient(args)
 
   // where to write generated code
-  override def destinationDir = "samples/client/petstore/objc"
+  override def destinationDir = "samples/client/petstore/objc/client"
 
   // supporting classes
   override def supportingFiles =
