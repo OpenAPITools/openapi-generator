@@ -31,11 +31,10 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   it should "fetch a word" in {
     api.getWord("cat") match {
       case Some(word) => {
-        println(word)
         word.word should be("cat")
         word should not be (null)
       }
-      case None => println("didn't find word cat")
+      case None => fail("didn't find word cat")
     }
   }
 
@@ -62,7 +61,7 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "fetch definitions for a word" in {
-    api.getDefinitions("cat", 10, null, null) match {
+    api.getDefinitions("cat", null, null, 10) match {
       case Some(definitions) => {
         definitions.size should be(10)
       }
@@ -71,7 +70,7 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "fetch examples for a word" in {
-    api.getExamples("cat", 0, 5) match {
+    api.getExamples("cat", "false", "false", 0, 5) match {
       case Some(examples) => {
         examples.examples.size should be(5)
       }
@@ -89,7 +88,7 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "get text pronunciations for a word" in {
-    api.getTextPronunciations("cat", null, null, 2) match {
+    api.getTextPronunciations("cat", null, null, null, 2) match {
       case Some(prons) => {
         prons.size should be(2)
       }
@@ -98,16 +97,16 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "get hyphenation for a word" in {
-    api.getHyphenation("catalog", null, 1) match {
+    api.getHyphenation("catalog", null, null) match {
       case Some(hyphenation) => {
-        hyphenation.size should be(1)
+        hyphenation.size should be(3)
       }
       case None => fail("didn't find hyphenation for catalog")
     }
   }
 
   it should "get word frequency for a word" in {
-    api.getWordFrequency("cat",0, 2012) match {
+    api.getWordFrequency("cat") match {
       case Some(frequency) => {
         frequency.totalCount should not be (0)
       }
@@ -125,7 +124,7 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "get related words" in {
-    api.getRelatedWords("cat", null, 10) match {
+    api.getRelatedWords("cat", null, null) match {
       case Some(relateds) => {
         var count = 0
         relateds.foreach(related =>{
@@ -137,7 +136,7 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "get audio for a word" in {
-    api.getAudio("cat", 2) match {
+    api.getAudio("cat", "true", 2) match {
       case Some(audio) => {
         audio.size should be(2)
       }

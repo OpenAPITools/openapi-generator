@@ -110,7 +110,7 @@ class WordListApi {
       case ex: ApiException => throw ex
     }
   }
-  def getWordListWords (permalink: String, skip: Int, limit: Int, auth_token: String, sortBy: String= "createDate", sortOrder: String= "desc") : Option[List[WordListWord]]= {
+  def getWordListWords (permalink: String, auth_token: String, sortBy: String= "createDate", sortOrder: String= "desc", skip: Int= 0, limit: Int= 100) : Option[List[WordListWord]]= {
     // create path and map variables
     val path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escapeString(permalink))
 

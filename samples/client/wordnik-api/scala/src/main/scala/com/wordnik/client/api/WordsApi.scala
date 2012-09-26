@@ -14,7 +14,7 @@ class WordsApi {
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
-  def searchWords (query: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Int, maxCorpusCount: Int, minDictionaryCount: Int, maxDictionaryCount: Int, minLength: Int, maxLength: Int, skip: Int, limit: Int, caseSensitive: String= "true") : Option[WordSearchResults]= {
+  def searchWords (query: String, includePartOfSpeech: String, excludePartOfSpeech: String, caseSensitive: String= "true", minCorpusCount: Int= 5, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 1, maxLength: Int= -1, skip: Int= 0, limit: Int= 10) : Option[WordSearchResults]= {
     // create path and map variables
     val path = "/words.{format}/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}",apiInvoker.escapeString(query))
 
@@ -67,7 +67,7 @@ class WordsApi {
       case ex: ApiException => throw ex
     }
   }
-  def reverseDictionary (query: String, findSenseForWord: String, includeSourceDictionaries: String, excludeSourceDictionaries: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Int, maxCorpusCount: Int, minLength: Int, maxLength: Int, expandTerms: String, sortBy: String, sortOrder: String, limit: Int, includeTags: String= "false", skip: String= "0") : Option[DefinitionSearchResults]= {
+  def reverseDictionary (query: String, findSenseForWord: String, includeSourceDictionaries: String, excludeSourceDictionaries: String, includePartOfSpeech: String, excludePartOfSpeech: String, expandTerms: String, sortBy: String, sortOrder: String, minCorpusCount: Int= 5, maxCorpusCount: Int= -1, minLength: Int= 1, maxLength: Int= -1, includeTags: String= "false", skip: String= "0", limit: Int= 10) : Option[DefinitionSearchResults]= {
     // create path and map variables
     val path = "/words.{format}/reverseDictionary".replaceAll("\\{format\\}","json")// query params
     val queryParams = new HashMap[String, String]
@@ -105,7 +105,7 @@ class WordsApi {
       case ex: ApiException => throw ex
     }
   }
-  def getRandomWords (includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Int, maxCorpusCount: Int, minDictionaryCount: Int, maxDictionaryCount: Int, minLength: Int, maxLength: Int, sortBy: String, sortOrder: String, limit: Int, hasDictionaryDef: String= "true") : Option[List[WordObject]]= {
+  def getRandomWords (includePartOfSpeech: String, excludePartOfSpeech: String, sortBy: String, sortOrder: String, hasDictionaryDef: String= "true", minCorpusCount: Int= 0, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 5, maxLength: Int= -1, limit: Int= 10) : Option[List[WordObject]]= {
     // create path and map variables
     val path = "/words.{format}/randomWords".replaceAll("\\{format\\}","json")// query params
     val queryParams = new HashMap[String, String]
@@ -134,7 +134,7 @@ class WordsApi {
       case ex: ApiException => throw ex
     }
   }
-  def getRandomWord (includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Int, maxCorpusCount: Int, minDictionaryCount: Int, maxDictionaryCount: Int, minLength: Int, maxLength: Int, hasDictionaryDef: String= "true") : Option[WordObject]= {
+  def getRandomWord (includePartOfSpeech: String, excludePartOfSpeech: String, hasDictionaryDef: String= "true", minCorpusCount: Int= 0, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 5, maxLength: Int= -1) : Option[WordObject]= {
     // create path and map variables
     val path = "/words.{format}/randomWord".replaceAll("\\{format\\}","json")// query params
     val queryParams = new HashMap[String, String]

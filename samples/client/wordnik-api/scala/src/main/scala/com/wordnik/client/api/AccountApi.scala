@@ -63,7 +63,7 @@ class AccountApi {
       case ex: ApiException => throw ex
     }
   }
-  def getWordListsForLoggedInUser (auth_token: String, skip: Int, limit: Int) : Option[List[WordList]]= {
+  def getWordListsForLoggedInUser (auth_token: String, skip: Int= 0, limit: Int= 50) : Option[List[WordList]]= {
     // create path and map variables
     val path = "/account.{format}/wordLists".replaceAll("\\{format\\}","json")// query params
     val queryParams = new HashMap[String, String]

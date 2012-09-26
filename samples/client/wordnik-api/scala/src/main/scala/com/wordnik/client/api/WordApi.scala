@@ -20,7 +20,7 @@ class WordApi {
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
-  def getExamples (word: String, skip: Int, limit: Int, includeDuplicates: String= "false", useCanonical: String= "false") : Option[ExampleSearchResults]= {
+  def getExamples (word: String, includeDuplicates: String= "false", useCanonical: String= "false", skip: Int= 0, limit: Int= 5) : Option[ExampleSearchResults]= {
     // create path and map variables
     val path = "/word.{format}/{word}/examples".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
@@ -74,7 +74,7 @@ class WordApi {
       case ex: ApiException => throw ex
     }
   }
-  def getDefinitions (word: String, limit: Int, partOfSpeech: String, sourceDictionaries: String, includeRelated: String= "false", useCanonical: String= "false", includeTags: String= "false") : Option[List[Definition]]= {
+  def getDefinitions (word: String, partOfSpeech: String, sourceDictionaries: String, limit: Int= 200, includeRelated: String= "false", useCanonical: String= "false", includeTags: String= "false") : Option[List[Definition]]= {
     // create path and map variables
     val path = "/word.{format}/{word}/definitions".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
@@ -129,7 +129,7 @@ class WordApi {
       case ex: ApiException => throw ex
     }
   }
-  def getRelatedWords (word: String, relationshipTypes: String, limitPerRelationshipType: Int, useCanonical: String= "false") : Option[List[Related]]= {
+  def getRelatedWords (word: String, relationshipTypes: String, useCanonical: String= "false", limitPerRelationshipType: Int= 10) : Option[List[Related]]= {
     // create path and map variables
     val path = "/word.{format}/{word}/relatedWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
@@ -156,7 +156,7 @@ class WordApi {
       case ex: ApiException => throw ex
     }
   }
-  def getTextPronunciations (word: String, sourceDictionary: String, typeFormat: String, limit: Int, useCanonical: String= "false") : Option[List[TextPron]]= {
+  def getTextPronunciations (word: String, sourceDictionary: String, typeFormat: String, useCanonical: String= "false", limit: Int= 50) : Option[List[TextPron]]= {
     // create path and map variables
     val path = "/word.{format}/{word}/pronunciations".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
@@ -184,7 +184,7 @@ class WordApi {
       case ex: ApiException => throw ex
     }
   }
-  def getHyphenation (word: String, sourceDictionary: String, limit: Int, useCanonical: String= "false") : Option[List[Syllable]]= {
+  def getHyphenation (word: String, sourceDictionary: String, useCanonical: String= "false", limit: Int= 50) : Option[List[Syllable]]= {
     // create path and map variables
     val path = "/word.{format}/{word}/hyphenation".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
@@ -211,7 +211,7 @@ class WordApi {
       case ex: ApiException => throw ex
     }
   }
-  def getWordFrequency (word: String, startYear: Int, endYear: Int, useCanonical: String= "false") : Option[FrequencySummary]= {
+  def getWordFrequency (word: String, useCanonical: String= "false", startYear: Int= 1800, endYear: Int= 2012) : Option[FrequencySummary]= {
     // create path and map variables
     val path = "/word.{format}/{word}/frequency".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
@@ -238,7 +238,7 @@ class WordApi {
       case ex: ApiException => throw ex
     }
   }
-  def getPhrases (word: String, limit: Int, wlmi: Int, useCanonical: String= "false") : Option[List[Bigram]]= {
+  def getPhrases (word: String, limit: Int= 5, wlmi: Int= 0, useCanonical: String= "false") : Option[List[Bigram]]= {
     // create path and map variables
     val path = "/word.{format}/{word}/phrases".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
@@ -290,7 +290,7 @@ class WordApi {
       case ex: ApiException => throw ex
     }
   }
-  def getAudio (word: String, limit: Int, useCanonical: String= "false") : Option[List[AudioFile]]= {
+  def getAudio (word: String, useCanonical: String= "false", limit: Int= 50) : Option[List[AudioFile]]= {
     // create path and map variables
     val path = "/word.{format}/{word}/audio".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escapeString(word))
 
