@@ -77,9 +77,6 @@
 		EA07F4C316134F27006A2112 /* PetstoreClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetstoreClient-Prefix.pch"; sourceTree = "<group>"; };
 		EA07F4C416134F27006A2112 /* PetstoreClient.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PetstoreClient.1; sourceTree = "<group>"; };
 		EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetstoreClientTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA07F4F81613521A006A2112 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		EA07F4F91613521A006A2112 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		EA07F4FA1613521A006A2112 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EA07F50C1613569A006A2112 /* NIKApiInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKApiInvoker.h; path = ../client/NIKApiInvoker.h; sourceTree = "<group>"; };
 		EA07F50D1613569A006A2112 /* NIKApiInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKApiInvoker.m; path = ../client/NIKApiInvoker.m; sourceTree = "<group>"; };
 		EA07F50E1613569A006A2112 /* NIKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKCategory.h; path = ../client/NIKCategory.h; sourceTree = "<group>"; };
@@ -181,9 +178,6 @@
 		EA07F4F71613521A006A2112 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA07F4F81613521A006A2112 /* AppKit.framework */,
-				EA07F4F91613521A006A2112 /* CoreData.framework */,
-				EA07F4FA1613521A006A2112 /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
