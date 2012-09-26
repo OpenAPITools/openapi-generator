@@ -1,0 +1,4 @@
+--colour
+--format progress
+--loadby mtime
+--reverse

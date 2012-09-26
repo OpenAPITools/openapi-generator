@@ -1,0 +1,53 @@
+PATH
+  remote: .
+  specs:
+    swagger (4.06.08)
+      addressable (>= 2.2.4)
+      json (>= 1.4.6)
+      typhoeus (>= 0.2.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    ZenTest (4.7.0)
+    addressable (2.2.8)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-fsevent (0.2.8)
+      sys-uname
+    autotest-growl (0.2.16)
+    autotest-rails-pure (4.1.2)
+    crack (0.3.1)
+    diff-lcs (1.1.3)
+    ffi (1.0.11)
+    json (1.7.0)
+    mime-types (1.18)
+    rspec (2.9.0)
+      rspec-core (~> 2.9.0)
+      rspec-expectations (~> 2.9.0)
+      rspec-mocks (~> 2.9.0)
+    rspec-core (2.9.0)
+    rspec-expectations (2.9.1)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.9.0)
+    sys-uname (0.9.0)
+      ffi (>= 1.0.0)
+    typhoeus (0.3.3)
+      mime-types
+    vcr (2.1.1)
+    webmock (1.8.6)
+      addressable (>= 2.2.7)
+      crack (>= 0.1.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  autotest
+  autotest-fsevent
+  autotest-growl
+  autotest-rails-pure
+  rspec (>= 2.5.0)
+  swagger!
+  vcr (>= 1.5.1)
+  webmock (>= 1.6.2)
