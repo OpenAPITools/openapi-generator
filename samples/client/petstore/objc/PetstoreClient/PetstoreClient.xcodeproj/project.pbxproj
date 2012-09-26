@@ -45,6 +45,8 @@
 		EA07F54816135916006A2112 /* NIKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51F1613569A006A2112 /* NIKUser.m */; };
 		EA07F54916135916006A2112 /* NIKUserApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5201613569A006A2112 /* NIKUserApi.h */; };
 		EA07F54A16135916006A2112 /* NIKUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5211613569A006A2112 /* NIKUserApi.m */; };
+		EAE96DE616138695004AB97C /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA81837816137FD500341A6E /* PetApiTest.m */; };
+		EAE96DE716138695004AB97C /* PetApiTest.h in Sources */ = {isa = PBXBuildFile; fileRef = EA81837916137FD500341A6E /* PetApiTest.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -336,6 +338,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAE96DE616138695004AB97C /* PetApiTest.m in Sources */,
+				EAE96DE716138695004AB97C /* PetApiTest.h in Sources */,
 				EA07F53516135916006A2112 /* NIKApiInvoker.h in Sources */,
 				EA07F53616135916006A2112 /* NIKApiInvoker.m in Sources */,
 				EA07F53716135916006A2112 /* NIKCategory.h in Sources */,
