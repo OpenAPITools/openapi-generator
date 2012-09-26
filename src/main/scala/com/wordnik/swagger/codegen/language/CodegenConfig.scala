@@ -106,15 +106,15 @@ abstract class CodegenConfig {
     }
   }
 
-  def toDefaultValue(datatype: String, defaultValue: String): Option[String] = {
-    if (defaultValue != "" && defaultValue != null) {
-      toDeclaredType(datatype) match {
-        case "int" => Some(defaultValue)
-        case "long" => Some(defaultValue)
-        case "double" => Some(defaultValue)
+  def toDefaultValue(datatype: String, v: String): Option[String] = {
+    if (v != "" && v != null) {
+      datatype match {
+        case "int" => Some(v)
+        case "long" => Some(v)
+        case "double" => Some(v)
         case x if x == "string" || x == "String" => {
-          defaultValue match {
-            case e: String => Some("\"" + defaultValue + "\"")
+          v match {
+            case e: String => Some("\"" + v + "\"")
             case _ => None
           }
         }
