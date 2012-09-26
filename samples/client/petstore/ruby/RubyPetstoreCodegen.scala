@@ -13,7 +13,7 @@ object RubyPetstoreCodegen extends BasicRubyGenerator {
   override def destinationDir = "samples/client/petstore/ruby"
 
   override def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
-  	println(json.writeValueAsString(m))
+  	// println(json.writeValueAsString(m))
   	m
   }
 }
