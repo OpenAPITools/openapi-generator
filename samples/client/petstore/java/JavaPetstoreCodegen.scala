@@ -5,13 +5,14 @@ import com.wordnik.swagger.core._
 object JavaPetstoreCodegen extends BasicJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
 
-  override def packageName = "com.wordnik.petstore"
-
   // location of templates
   override def templateDir = "Java"
 
   // where to write generated code
   override def destinationDir = "samples/client/petstore/java/src/main/java"
+
+  // package for api invoker, error files
+  override def invokerPackage = Some("com.wordnik.client")
 
   // package for models
   override def modelPackage = Some("com.wordnik.petstore.model")
@@ -22,7 +23,7 @@ object JavaPetstoreCodegen extends BasicJavaGenerator {
   // supporting classes
   override def supportingFiles =
     List(
-      ("apiInvoker.mustache", "samples/client/petstore/java/src/main/java/com/wordnik/client", "ApiInvoker.java"),
-      ("apiException.mustache", "samples/client/petstore/java/src/main/java/com/wordnik/client", "ApiException.java"),
+      ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replaceAll("\\.", java.io.File.separator) + java.io.File.separator, "ApiInvoker.java"),
+      ("apiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replaceAll("\\.", java.io.File.separator) + java.io.File.separator, "ApiException.java"),
       ("pom.mustache", "samples/client/petstore/java", "pom.xml"))
 }
