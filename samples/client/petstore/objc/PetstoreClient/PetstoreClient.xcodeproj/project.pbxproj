@@ -10,8 +10,6 @@
 		EA07F4BE16134F27006A2112 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA07F4BD16134F27006A2112 /* Foundation.framework */; };
 		EA07F4C116134F27006A2112 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F4C016134F27006A2112 /* main.m */; };
 		EA07F4C516134F27006A2112 /* PetstoreClient.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EA07F4C416134F27006A2112 /* PetstoreClient.1 */; };
-		EA07F5001613521A006A2112 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA07F4FE1613521A006A2112 /* InfoPlist.strings */; };
-		EA07F50A161355BC006A2112 /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F509161355BC006A2112 /* PetApiTest.m */; };
 		EA07F5221613569A006A2112 /* NIKApiInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50D1613569A006A2112 /* NIKApiInvoker.m */; };
 		EA07F5231613569A006A2112 /* NIKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F50F1613569A006A2112 /* NIKCategory.m */; };
 		EA07F5241613569A006A2112 /* NIKDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5111613569A006A2112 /* NIKDate.m */; };
@@ -79,16 +77,9 @@
 		EA07F4C316134F27006A2112 /* PetstoreClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetstoreClient-Prefix.pch"; sourceTree = "<group>"; };
 		EA07F4C416134F27006A2112 /* PetstoreClient.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PetstoreClient.1; sourceTree = "<group>"; };
 		EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetstoreClientTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA07F4F31613521A006A2112 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		EA07F4F51613521A006A2112 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		EA07F4F81613521A006A2112 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		EA07F4F91613521A006A2112 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		EA07F4FA1613521A006A2112 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		EA07F4FD1613521A006A2112 /* PetstoreClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PetstoreClientTests-Info.plist"; sourceTree = "<group>"; };
-		EA07F4FF1613521A006A2112 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		EA07F5041613521A006A2112 /* PetstoreClientTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetstoreClientTests-Prefix.pch"; sourceTree = "<group>"; };
-		EA07F508161355BC006A2112 /* PetApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PetApiTest.h; path = ../../tests/PetApiTest.h; sourceTree = "<group>"; };
-		EA07F509161355BC006A2112 /* PetApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PetApiTest.m; path = ../../tests/PetApiTest.m; sourceTree = "<group>"; };
 		EA07F50C1613569A006A2112 /* NIKApiInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKApiInvoker.h; path = ../client/NIKApiInvoker.h; sourceTree = "<group>"; };
 		EA07F50D1613569A006A2112 /* NIKApiInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKApiInvoker.m; path = ../client/NIKApiInvoker.m; sourceTree = "<group>"; };
 		EA07F50E1613569A006A2112 /* NIKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKCategory.h; path = ../client/NIKCategory.h; sourceTree = "<group>"; };
@@ -113,6 +104,8 @@
 		EA07F5211613569A006A2112 /* NIKUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKUserApi.m; path = ../client/NIKUserApi.m; sourceTree = "<group>"; };
 		EA07F5301613580E006A2112 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		EA07F53216135819006A2112 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		EA81837816137FD500341A6E /* PetApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PetApiTest.m; path = ../tests/PetApiTest.m; sourceTree = "<group>"; };
+		EA81837916137FD500341A6E /* PetApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PetApiTest.h; path = ../tests/PetApiTest.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,11 +132,9 @@
 		EA07F4AE16134F27006A2112 = {
 			isa = PBXGroup;
 			children = (
-				EA07F53216135819006A2112 /* Cocoa.framework */,
-				EA07F5301613580E006A2112 /* SenTestingKit.framework */,
+				EA81837C1613809300341A6E /* Tests */,
 				EA07F52D1613569E006A2112 /* Generated Client */,
 				EA07F4BF16134F27006A2112 /* PetstoreClient */,
-				EA07F4FB1613521A006A2112 /* PetstoreClientTests */,
 				EA07F4BC16134F27006A2112 /* Frameworks */,
 				EA07F4BA16134F27006A2112 /* Products */,
 			);
@@ -161,9 +152,9 @@
 		EA07F4BC16134F27006A2112 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA07F53216135819006A2112 /* Cocoa.framework */,
+				EA07F5301613580E006A2112 /* SenTestingKit.framework */,
 				EA07F4BD16134F27006A2112 /* Foundation.framework */,
-				EA07F4F31613521A006A2112 /* SenTestingKit.framework */,
-				EA07F4F51613521A006A2112 /* Cocoa.framework */,
 				EA07F4F71613521A006A2112 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -197,26 +188,6 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		EA07F4FB1613521A006A2112 /* PetstoreClientTests */ = {
-			isa = PBXGroup;
-			children = (
-				EA07F508161355BC006A2112 /* PetApiTest.h */,
-				EA07F509161355BC006A2112 /* PetApiTest.m */,
-				EA07F4FC1613521A006A2112 /* Supporting Files */,
-			);
-			path = PetstoreClientTests;
-			sourceTree = "<group>";
-		};
-		EA07F4FC1613521A006A2112 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EA07F4FD1613521A006A2112 /* PetstoreClientTests-Info.plist */,
-				EA07F4FE1613521A006A2112 /* InfoPlist.strings */,
-				EA07F5041613521A006A2112 /* PetstoreClientTests-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		EA07F52D1613569E006A2112 /* Generated Client */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +215,15 @@
 				EA07F5211613569A006A2112 /* NIKUserApi.m */,
 			);
 			name = "Generated Client";
+			sourceTree = "<group>";
+		};
+		EA81837C1613809300341A6E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				EA81837816137FD500341A6E /* PetApiTest.m */,
+				EA81837916137FD500341A6E /* PetApiTest.h */,
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,7 +297,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA07F5001613521A006A2112 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +364,6 @@
 				EA07F54816135916006A2112 /* NIKUser.m in Sources */,
 				EA07F54916135916006A2112 /* NIKUserApi.h in Sources */,
 				EA07F54A16135916006A2112 /* NIKUserApi.m in Sources */,
-				EA07F50A161355BC006A2112 /* PetApiTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,17 +376,6 @@
 			targetProxy = EA07F52E161357A5006A2112 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		EA07F4FE1613521A006A2112 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EA07F4FF1613521A006A2112 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		EA07F4C616134F27006A2112 /* Debug */ = {
@@ -493,12 +460,13 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-					"\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(SDKROOT)/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PetstoreClientTests/PetstoreClientTests-Prefix.pch";
-				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
+				GCC_PREFIX_HEADER = "../tests/PetstoreClientTests-Prefix.pch";
+				INFOPLIST_FILE = "../tests/PetstoreClientTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -509,12 +477,13 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-					"\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(SDKROOT)/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PetstoreClientTests/PetstoreClientTests-Prefix.pch";
-				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
+				GCC_PREFIX_HEADER = "../tests/PetstoreClientTests-Prefix.pch";
+				INFOPLIST_FILE = "../tests/PetstoreClientTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -539,6 +508,7 @@
 				EA07F4CA16134F27006A2112 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EA07F5051613521A006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClientTests" */ = {
 			isa = XCConfigurationList;
@@ -547,6 +517,7 @@
 				EA07F5071613521A006A2112 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
