@@ -5,15 +5,6 @@ import com.wordnik.swagger.core._
 object ObjcPetstoreCodegen extends BasicObjcGenerator {
   def main(args: Array[String]) = generateClient(args)
 
-  // template used for models
-  modelTemplateFiles += "model-header.mustache" -> ".h"
-  modelTemplateFiles += "model-body.mustache" -> ".m"
-
-  // template used for apis
-  apiTemplateFiles += "api-header.mustache" -> ".h"
-  apiTemplateFiles += "api-body.mustache" -> ".m"
-
-
   // where to write generated code
   override def destinationDir = "samples/client/petstore/objc"
 
