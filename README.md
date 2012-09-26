@@ -39,6 +39,7 @@ Other languages have petstore samples, too:
 ./bin/php-petstore.sh
 ./bin/python-petstore.sh
 ./bin/python3-petstore.sh
+./bin/ruby-petstore.sh
 ```
 
 ### Generating libraries from your server
@@ -48,7 +49,7 @@ It's just as easy--you can either run the default generators:
 ./bin/runscala.sh com.wordnik.swagger.codegen.BasicScalaGenerator http://petstore.swagger.wordnik.com/api/resources.json special-key
 ```
 
-Replace `Scala` with `Flash`, `PHP`, `Python`, `Java`.
+Replace `Scala` with `Flash`, `Java`, `Objc`, `PHP`, `Python`, `Python3`, `Ruby`.
 
 You will probably want to override some of the defaults--like packages, etc.  For doing this, just create a scala
 script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://github.com/wordnik/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) as an example:
