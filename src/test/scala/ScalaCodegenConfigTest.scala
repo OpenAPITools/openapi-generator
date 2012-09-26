@@ -1,7 +1,7 @@
 import com.wordnik.swagger.core.util.JsonUtil
 import com.wordnik.swagger.core.{Documentation, DocumentationSchema}
 
-import com.wordnik.swagger.codegen.BasicScalaGenerator
+import com.wordnik.swagger.codegen.{BasicScalaGenerator, Codegen}
 import com.wordnik.swagger.codegen.util._
 import com.wordnik.swagger.codegen.language._
 import com.wordnik.swagger.codegen.PathUtil
@@ -11,8 +11,8 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
+import scala.collection.mutable.HashMap
 import scala.collection.JavaConverters._
-import scala.reflect.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
@@ -186,4 +186,106 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       m._1 should be ("List[User]")
       m._2 should be ("_")
    }
+
+  it should "verify an api map with query params" in {
+    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
+
+    val subDocs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
+    val codegen = new Codegen(config)
+    val petApi = subDocs.filter(doc => doc.getResourcePath == "/pet").head
+
+    val endpoint = petApi.getApis().asScala.filter(api => api.path == "/pet.{format}/findByTags").head
+    val operation = endpoint.getOperations.asScala.filter(op => op.httpMethod == "GET").head
+    val m = codegen.apiToMap("http://my.api.com/api", operation)
+
+    m("path") should be ("http://my.api.com/api")
+    m("bodyParams").asInstanceOf[List[_]].size should be (0)
+    m("httpMethod") should be ("GET")
+
+    // Pet => NIKPet
+    m("returnBaseType") should be (Some("Pet"))
+    m("returnType") should be (Some("List[Pet]"))
+    m("returnTypeIsPrimitive") should be (None)
+    m("pathParams").asInstanceOf[List[_]].size should be (0)
+    m("returnContainer") should be ("List")
+    m("requiredParamCount") should be ("1")
+
+    val queryParams = m("queryParams").asInstanceOf[List[_]]
+    queryParams.size should be (1)
+
+    val queryParam = queryParams.head.asInstanceOf[HashMap[String, _]]
+    queryParam("type") should be ("query")
+    queryParam("dataType") should be ("String")
+    queryParam("required") should be ("true")
+    queryParam("paramName") should be ("tags")
+    queryParam("swaggerDataType") should be ("string")
+    queryParam("allowMultiple") should be ("true")
+    queryParam("defaultValue") should be (None)
+  }
+
+  it should "verify an api map with query params with default values" in {
+    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
+
+    val subDocs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
+    val codegen = new Codegen(config)
+    val petApi = subDocs.filter(doc => doc.getResourcePath == "/pet").head
+
+    val endpoint = petApi.getApis().asScala.filter(api => api.path == "/pet.{format}/findByStatus").head
+    val operation = endpoint.getOperations.asScala.filter(op => op.httpMethod == "GET").head
+    val m = codegen.apiToMap("http://my.api.com/api", operation)
+
+    m("path") should be ("http://my.api.com/api")
+    m("bodyParams").asInstanceOf[List[_]].size should be (0)
+    m("httpMethod") should be ("GET")
+
+    // Pet => NIKPet
+    m("returnBaseType") should be (Some("Pet"))
+    m("returnType") should be (Some("List[Pet]"))
+    m("returnTypeIsPrimitive") should be (None)
+    m("pathParams").asInstanceOf[List[_]].size should be (0)
+    m("returnContainer") should be ("List")
+    m("requiredParamCount") should be ("1")
+
+    val queryParams = m("queryParams").asInstanceOf[List[_]]
+    queryParams.size should be (1)
+
+    val queryParam = queryParams.head.asInstanceOf[HashMap[String, _]]
+    queryParam("type") should be ("query")
+    queryParam("dataType") should be ("String")
+    queryParam("required") should be ("true")
+    queryParam("paramName") should be ("status")
+    queryParam("swaggerDataType") should be ("string")
+    queryParam("allowMultiple") should be ("true")
+    queryParam("defaultValue") should be (Some("\"available\""))
+    queryParam("allowableValues") should be ("LIST[available,pending,sold]")
+  }
+
+  it should "create an api file" in {
+    val codegen = new Codegen(config)
+    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
+
+    val subDocs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
+    val petApi = subDocs.filter(doc => doc.getResourcePath == "/pet").head
+
+    val endpoint = petApi.getApis().asScala.filter(api => api.path == "/pet.{format}/findByTags").head
+    val operation = endpoint.getOperations.asScala.filter(op => op.httpMethod == "GET").head
+    val m = codegen.apiToMap("http://my.api.com/api", operation)
+
+    implicit val basePath = "http://localhost:8080/api"
+
+    val allModels = new HashMap[String, DocumentationSchema]
+    val operations = config.extractOperations(subDocs, allModels)
+
+    val apiMap = config.groupApisToFiles(operations).filter(m => m._1 == ("http://petstore.swagger.wordnik.com/api","pet")).toMap
+    val bundle = config.prepareApiBundle(apiMap)
+    val files = config.bundleToSource(bundle, config.apiTemplateFiles.toMap)
+    
+    files.size should be (1)
+    val file = files.head
+
+    // verify the filename is set
+    file._1.indexOf("""PetApi.scala""") should not be (-1)
+    // verify the default value for status exists
+    file._2.indexOf("""(status: String= "available")""") should not be (-1)
+  }
 }
