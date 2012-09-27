@@ -5,8 +5,6 @@
 
 @implementation {{classname}}
 
-@synthesize raw = _raw;
-
 {{#vars}}
 @synthesize {{name}} = _{{name}};
 {{/vars}}
@@ -23,6 +21,7 @@
 - (id) initWithValues: (NSDictionary*)dict
 {
     {{#vars}}
+
     {{#isPrimitiveType}}
     _{{name}} = [dict objectForKey:@"{{baseName}}"];
     {{/isPrimitiveType}}
@@ -38,9 +37,6 @@
             }
             _{{{name}}} = [[NSArray alloc] initWithArray:objs];
         }
-      }
-    else if([{{name}}_dict isKindOfClass:[NSDictionary class]] && [(NSDictionary*){{name}}_dict count] > 0) {
-        _{{name}} = [[{{complexType}} alloc]initWithValues:(NSDictionary*){{name}}_dict];
     }
     {{/isContainer}}
     {{#isNotContainer}}
@@ -49,7 +45,6 @@
     {{/complexType}}
     {{/vars}}
 
-    self.raw = [[NSDictionary alloc] initWithDictionary:dict];
     return self;
 }
 
@@ -84,9 +79,6 @@
     return output;
 }
 
--(NSDictionary*) asRaw {
-    return _raw;
-}
 {{/model}}
 @end
 {{/models}}

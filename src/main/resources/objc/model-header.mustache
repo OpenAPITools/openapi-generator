@@ -8,13 +8,11 @@
 
 @interface {{classname}} : NIKSwaggerObject {
 @private
-    NSDictionary* raw;
     {{#vars}}
     {{datatype}} _{{name}}; //{{baseType}}
     {{/vars}}
 }
 
-@property(nonatomic) NSDictionary* raw;
 {{newline}}
 {{#vars}}
 @property(nonatomic) {{datatype}} {{name}};
@@ -24,7 +22,6 @@
 {{newline}}
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
-- (NSDictionary*) asRaw;
 {{newline}}
 @end
 {{/model}}

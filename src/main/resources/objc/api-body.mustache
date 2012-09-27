@@ -25,6 +25,13 @@ static NSString * basePath = @"{{basePath}}";
 }
 
 {{#operation}}
+/**
+ * 
+ * returnTypeIsPrimitive: {{returnTypeIsPrimitive}}
+ * returnBaseType: {{returnBaseType}}
+ * returnContainer: {{returnContainer}}
+ * 
+ **/
 -(void) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}{{/hasMore}}{{/allParams}}{{newline}}
         {{#returnBaseType}}completionHandler:(void (^)({{returnType}}, NSError *))completionBlock{{/returnBaseType}}
         {{^returnBaseType}}completionHandler:(void (^)(NSError *))completionBlock{{/returnBaseType}} {
@@ -81,22 +88,13 @@ static NSString * basePath = @"{{basePath}}";
     {{/requiredParams}}
     {{/requiredParamCount}}
 
-    {{#returnTypeIsPrimitive}}
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"{{httpMethod}}" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
-    {{/returnTypeIsPrimitive}}
-    {{^returnTypeIsPrimitive}}
+    {{#returnContainer}}
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"{{httpMethod}}" 
                             queryParams: queryParams 
                                    body: bodyDictionary 
                            headerParams: headerParams
                       completionHandler: ^(NSDictionary *data, NSError *error) {
-    {{/returnTypeIsPrimitive}}
         if (error) {
             {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
             {{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
@@ -104,16 +102,19 @@ static NSString * basePath = @"{{basePath}}";
         }
         
         {{#returnBaseType}}
-        {{#returnContainer}}
         if([data isKindOfClass:[NSArray class]]){
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[data count]];
             for (NSDictionary* dict in (NSArray*)data) {
+                {{#returnTypeIsPrimitive}}
+                {{returnBaseType}}* d = [[{{returnBaseType}} alloc]initWithString: data];
+                {{/returnTypeIsPrimitive}}
+                {{^returnTypeIsPrimitive}}
                 {{{returnBaseType}}}* d = [[{{{returnBaseType}}} alloc]initWithValues: dict];
+                {{/returnTypeIsPrimitive}}
                 [objs addObject:d];
             }
             completionBlock(objs, nil);
         }
-        {{/returnContainer}}
         {{#returnSimpleType}}
         {{#returnTypeIsPrimitive}}{{#returnBaseType}}completionBlock( [[{{returnBaseType}} alloc]initWithString: data], nil);{{/returnBaseType}}
         {{/returnTypeIsPrimitive}}
@@ -123,9 +124,67 @@ static NSString * basePath = @"{{basePath}}";
         {{/returnTypeIsPrimitive}}
         {{/returnSimpleType}}
         {{/returnBaseType}}
-        
-        {{^returnBaseType}}completionBlock(nil);{{/returnBaseType}}{{newline}}
     }];
+    {{/returnContainer}}
+
+    {{#returnSimpleType}}
+    {{#returnTypeIsPrimitive}}
+    {{#returnBaseType}}
+    [_api stringWithCompletionBlock: requestUrl 
+                             method: @"{{httpMethod}}" 
+                        queryParams: queryParams 
+                               body: bodyDictionary 
+                       headerParams: headerParams
+                  completionHandler: ^(NSString *data, NSError *error) {
+        if (error) {
+            completionBlock(nil, error);
+            return;
+        }
+        
+        completionBlock( [[{{returnBaseType}} alloc]initWithString: data], nil);
+    }];
+    {{/returnBaseType}}
+    {{^returnBaseType}}
+    [_api stringWithCompletionBlock: requestUrl 
+                             method: @"{{httpMethod}}" 
+                        queryParams: queryParams 
+                               body: bodyDictionary 
+                       headerParams: headerParams
+                  completionHandler: ^(NSString *data, NSError *error) {
+        if (error) {
+            completionBlock(error);
+            return;
+        }
+        completionBlock(nil);
+    }];
+    {{/returnBaseType}}
+    {{/returnTypeIsPrimitive}}
+    {{#returnBaseType}}
+    [_api dictionaryWithCompletionBlock: requestUrl 
+                                 method: @"{{httpMethod}}" 
+                            queryParams: queryParams 
+                                   body: bodyDictionary 
+                           headerParams: headerParams
+                      completionHandler: ^(NSDictionary *data, NSError *error) {
+        if (error) {
+            {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
+            {{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
+            return;
+        }
+        
+        {{#returnBaseType}}
+        {{#returnSimpleType}}
+        {{#returnTypeIsPrimitive}}{{#returnBaseType}}completionBlock( [[{{returnBaseType}} alloc]initWithString: data], nil);{{/returnBaseType}}
+        {{/returnTypeIsPrimitive}}
+
+        {{^returnTypeIsPrimitive}}
+        {{#returnBaseType}}completionBlock( [[{{returnBaseType}} alloc]initWithValues: data], nil);{{/returnBaseType}}
+        {{/returnTypeIsPrimitive}}
+        {{/returnSimpleType}}
+        {{/returnBaseType}}
+    }];
+    {{/returnBaseType}}
+    {{/returnSimpleType}}
 {{newline}}
 }
 
