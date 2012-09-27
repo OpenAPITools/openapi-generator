@@ -133,6 +133,9 @@
 		EA5A0338161403F4003B3E41 /* NIKWordSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5A02A01613AC66003B3E41 /* NIKWordSearchResult.m */; };
 		EA5A0339161403F4003B3E41 /* NIKWordSearchResults.h in Sources */ = {isa = PBXBuildFile; fileRef = EA5A02A11613AC66003B3E41 /* NIKWordSearchResults.h */; };
 		EA5A033A161403F4003B3E41 /* NIKWordSearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5A02A21613AC66003B3E41 /* NIKWordSearchResults.m */; };
+		EA8DAC3216149DA600817A86 /* AccountApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8DAC3116149DA600817A86 /* AccountApiTest.m */; };
+		EA8DAC3516149E4B00817A86 /* WordsApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8DAC3416149E4B00817A86 /* WordsApiTest.m */; };
+		EA8DAC381614D15F00817A86 /* WordListApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8DAC371614D15F00817A86 /* WordListApiTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -244,6 +247,12 @@
 		EA5A02CE1613AD47003B3E41 /* WordnikApiClientTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WordnikApiClientTests-Prefix.pch"; path = "../tests/WordnikApiClientTests-Prefix.pch"; sourceTree = "<group>"; };
 		EA5A02E41614017E003B3E41 /* WordApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WordApiTest.h; path = ../tests/WordApiTest.h; sourceTree = "<group>"; };
 		EA5A02E51614017E003B3E41 /* WordApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WordApiTest.m; path = ../tests/WordApiTest.m; sourceTree = "<group>"; };
+		EA8DAC3016149DA600817A86 /* AccountApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountApiTest.h; path = ../tests/AccountApiTest.h; sourceTree = "<group>"; };
+		EA8DAC3116149DA600817A86 /* AccountApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountApiTest.m; path = ../tests/AccountApiTest.m; sourceTree = "<group>"; };
+		EA8DAC3316149E4B00817A86 /* WordsApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WordsApiTest.h; path = ../tests/WordsApiTest.h; sourceTree = "<group>"; };
+		EA8DAC3416149E4B00817A86 /* WordsApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WordsApiTest.m; path = ../tests/WordsApiTest.m; sourceTree = "<group>"; };
+		EA8DAC361614D15F00817A86 /* WordListApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WordListApiTest.h; path = ../tests/WordListApiTest.h; sourceTree = "<group>"; };
+		EA8DAC371614D15F00817A86 /* WordListApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WordListApiTest.m; path = ../tests/WordListApiTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,6 +342,12 @@
 				EA5A02CE1613AD47003B3E41 /* WordnikApiClientTests-Prefix.pch */,
 				EA5A02E41614017E003B3E41 /* WordApiTest.h */,
 				EA5A02E51614017E003B3E41 /* WordApiTest.m */,
+				EA8DAC3016149DA600817A86 /* AccountApiTest.h */,
+				EA8DAC3116149DA600817A86 /* AccountApiTest.m */,
+				EA8DAC3316149E4B00817A86 /* WordsApiTest.h */,
+				EA8DAC3416149E4B00817A86 /* WordsApiTest.m */,
+				EA8DAC361614D15F00817A86 /* WordListApiTest.h */,
+				EA8DAC371614D15F00817A86 /* WordListApiTest.m */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -649,6 +664,9 @@
 				EA5A0339161403F4003B3E41 /* NIKWordSearchResults.h in Sources */,
 				EA5A033A161403F4003B3E41 /* NIKWordSearchResults.m in Sources */,
 				EA5A02E61614017E003B3E41 /* WordApiTest.m in Sources */,
+				EA8DAC3216149DA600817A86 /* AccountApiTest.m in Sources */,
+				EA8DAC3516149E4B00817A86 /* WordsApiTest.m in Sources */,
+				EA8DAC381614D15F00817A86 /* WordListApiTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
