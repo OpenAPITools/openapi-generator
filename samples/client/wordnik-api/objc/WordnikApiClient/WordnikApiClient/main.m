@@ -1,75 +1,36 @@
 #import <Foundation/Foundation.h>
 #import "NIKWordApi.h"
 
-int main(int argc, const char * argv[])
-{
+int main(int argc, const char * argv[]) {
+    static bool done = false;
     @autoreleasepool {
-        static bool done = false;
-        
         NIKWordApi * api = [[NIKWordApi alloc] init];
-        [api addHeader:@"a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5" forKey:@"api_key"];
-
-        static NIKWordObject* word = nil;
-        static NSError * gError = nil;
-        [api getWordWithCompletionBlock:@"cat" useCanonical:@"true" includeSuggestions:@"true" completionHandler:^(NIKWordObject *output, NSError *error) {
-            if(error) {
-                gError = error;
+        [api addHeader:@"YOUR_API_KEY" forKey:@"api_key"];
+        [api getDefinitionsWithCompletionBlock:@"Hello World"
+                                  partOfSpeech:nil
+                            sourceDictionaries:nil
+                                         limit:nil
+                                includeRelated:nil
+                                  useCanonical:nil
+                                   includeTags:nil
+                             completionHandler:^(NSArray * definitions, NSError * error) {
+            if(error){
+                done = true;
+                NSLog(@"failed to get results, did you forget to update the api_key?");
             }
-            if(output == nil){
-                NSLog(@"failed to fetch pet");
+            else if(!definitions) {
+                done = true;
+                NSLog(@"no results!  Did you put in an invalid word?");
             }
             else {
-                word = [[NIKWordObject alloc] initWithValues:[output asDictionary]];
+                for(NIKDefinition * def in definitions ){
+                    NSLog(@"%@", [def asDictionary]);
+                }
+                done = true;
             }
         }];
         
-        NSDate * loopUntil = [NSDate dateWithTimeIntervalSinceNow:10];
-        while(!done && [loopUntil timeIntervalSinceNow] > 0){
-            if(gError){
-                NSLog(@"got error %@", gError);
-                done = true;
-            }
-            if(word){
-                NSLog(@"word: %@", [word asDictionary]);
-                done = true;
-            }
-        }
+        while(!done){}
     }
-
     return 0;
 }
-
-void etys() {
-    static bool done = false;
-    
-    NIKWordApi * api = [[NIKWordApi alloc] init];
-    [api addHeader:@"a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5" forKey:@"api_key"];
-    
-    static NSArray* etys = nil;
-    static NSError * gError = nil;
-    
-    [api getEtymologiesWithCompletionBlock:@"catalog" useCanonical:@"false" completionHandler:^(NSArray *output, NSError *error) {
-        if(error) {
-            gError = error;
-        }
-        if(output == nil){
-            NSLog(@"failed to fetch pet");
-        }
-        else {
-            etys = [[NSArray alloc] initWithArray:output];
-        }
-    }];
-    
-    NSDate * loopUntil = [NSDate dateWithTimeIntervalSinceNow:10];
-    while(!done && [loopUntil timeIntervalSinceNow] > 0){
-        if(gError){
-            NSLog(@"got error %@", gError);
-            done = true;
-        }
-        if(etys){
-            NSLog(@"etys: %@", etys);
-            done = true;
-        }
-    }
-}
-
