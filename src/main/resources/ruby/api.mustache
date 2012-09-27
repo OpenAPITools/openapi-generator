@@ -11,10 +11,7 @@ class {{classname}}
 
   {{#operation}}
   def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}},{{/allParams}} opts={})
-    query_param_keys = [
-      {{#queryParams}}:{{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}{{newline}}{{/hasMore}}
-      {{/queryParams}}
-    ]
+    query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
 
     {{#requiredParamCount}}
     
@@ -25,11 +22,7 @@ class {{classname}}
     {{/requiredParamCount}}
     
     # set default values and merge with input
-    options = {
-	    {{#allParams}}:{{{paramName}}} => {{paramName}}{{#hasMore}},
-	    {{/hasMore}}
-	    {{/allParams}}
-    }.merge(opts)
+    options = { {{#allParams}}:{{{paramName}}} => {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} }.merge(opts)
 
     #resource path
     path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', escapeString({{paramName}}))
@@ -79,9 +72,9 @@ class {{classname}}
     {{^returnType}}
     Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     {{/returnType}}
-{{newline}}
+  {{newline}}
   end
-{{newline}}
-  {{/operation}}
+
+{{/operation}}
 end
 {{/operations}}
