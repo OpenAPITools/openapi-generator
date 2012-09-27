@@ -3,12 +3,10 @@
 
 @interface NIKCategory : NIKSwaggerObject {
 @private
-    NSDictionary* raw;
     NSNumber* __id; //NSNumber
     NSString* _name; //NSString
     }
 
-@property(nonatomic) NSDictionary* raw;
 
 
 @property(nonatomic) NSNumber* _id;
@@ -18,7 +16,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
-- (NSDictionary*) asRaw;
 
 
 @end

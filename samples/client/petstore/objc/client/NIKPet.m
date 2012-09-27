@@ -3,8 +3,6 @@
 
 @implementation NIKPet
 
-@synthesize raw = _raw;
-
 @synthesize _id = __id;
 @synthesize tags = _tags;
 @synthesize category = _category;
@@ -29,7 +27,9 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
+    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
+    /* isContainer: true, baseType: Tag, complexType: NIKTag */
     id tags_dict = [dict objectForKey:@"tags"];
     if([tags_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)tags_dict count] > 0) {
@@ -40,16 +40,16 @@
             }
             _tags = [[NSArray alloc] initWithArray:objs];
         }
-      }
-    else if([tags_dict isKindOfClass:[NSDictionary class]] && [(NSDictionary*)tags_dict count] > 0) {
-        _tags = [[NIKTag alloc]initWithValues:(NSDictionary*)tags_dict];
     }
+    /* isContainer: , baseType: Category, complexType: NIKCategory */
     id category_dict = [dict objectForKey:@"category"];
     _category = [[NIKCategory alloc]initWithValues:category_dict];
+    /* isContainer: , baseType: NSString, complexType:  */
     _status = [dict objectForKey:@"status"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _name = [dict objectForKey:@"name"];
+    /* isContainer: true, baseType: NSString, complexType:  */
     _photoUrls = [dict objectForKey:@"photoUrls"];
-    self.raw = [[NSDictionary alloc] initWithDictionary:dict];
     return self;
 }
 
@@ -99,8 +99,5 @@
     return output;
 }
 
--(NSDictionary*) asRaw {
-    return _raw;
-}
 @end
 

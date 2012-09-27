@@ -3,8 +3,6 @@
 
 @implementation NIKTag
 
-@synthesize raw = _raw;
-
 @synthesize _id = __id;
 @synthesize name = _name;
 - (id) _id: (NSNumber*) _id
@@ -17,9 +15,10 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
+    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _name = [dict objectForKey:@"name"];
-    self.raw = [[NSDictionary alloc] initWithDictionary:dict];
     return self;
 }
 
@@ -31,8 +30,5 @@
     return output;
 }
 
--(NSDictionary*) asRaw {
-    return _raw;
-}
 @end
 

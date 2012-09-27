@@ -3,8 +3,6 @@
 
 @implementation NIKUser
 
-@synthesize raw = _raw;
-
 @synthesize _id = __id;
 @synthesize lastName = _lastName;
 @synthesize username = _username;
@@ -35,15 +33,22 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
+    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _lastName = [dict objectForKey:@"lastName"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _username = [dict objectForKey:@"username"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _phone = [dict objectForKey:@"phone"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _email = [dict objectForKey:@"email"];
+    /* isContainer: , baseType: NSNumber, complexType:  */
     _userStatus = [dict objectForKey:@"userStatus"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _firstName = [dict objectForKey:@"firstName"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _password = [dict objectForKey:@"password"];
-    self.raw = [[NSDictionary alloc] initWithDictionary:dict];
     return self;
 }
 
@@ -61,8 +66,5 @@
     return output;
 }
 
--(NSDictionary*) asRaw {
-    return _raw;
-}
 @end
 

@@ -4,7 +4,6 @@
 
 @interface NIKOrder : NIKSwaggerObject {
 @private
-    NSDictionary* raw;
     NSNumber* __id; //NSNumber
     NSNumber* _petId; //NSNumber
     NSString* _status; //NSString
@@ -12,7 +11,6 @@
     NIKDate* _shipDate; //NIKDate
     }
 
-@property(nonatomic) NSDictionary* raw;
 
 
 @property(nonatomic) NSNumber* _id;
@@ -28,7 +26,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
-- (NSDictionary*) asRaw;
 
 
 @end

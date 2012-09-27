@@ -22,6 +22,13 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     [_api addHeader:value forKey:key];
 }
 
+/**
+ * 
+ * returnTypeIsPrimitive: 
+ * returnBaseType: NIKPet
+ * returnContainer: 
+ * 
+ **/
 -(void) getPetByIdWithCompletionBlock :(NSString*) petId 
         completionHandler:(void (^)(NIKPet*, NSError *))completionBlock{
 
@@ -38,21 +45,28 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(petId == nil) {
         // error
     }
+    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
                                    body: bodyDictionary 
                            headerParams: headerParams
                       completionHandler: ^(NSDictionary *data, NSError *error) {
-    if (error) {
+        if (error) {
             completionBlock(nil, error);return;
         }
         
-        completionBlock( [[NIKPet alloc]initWithValues: data], nil);
-    }];
-
+        completionBlock( [[NIKPet alloc]initWithValues: data], nil);}];
+    
 }
 
+/**
+ * 
+ * returnTypeIsPrimitive: true
+ * returnBaseType: 
+ * returnContainer: 
+ * 
+ **/
 -(void) addPetWithCompletionBlock :(NIKPet*) body 
         completionHandler:(void (^)(NSError *))completionBlock{
 
@@ -90,21 +104,29 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
+    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 
                                body: bodyDictionary 
                        headerParams: headerParams
                   completionHandler: ^(NSString *data, NSError *error) {
-    if (error) {
-            completionBlock(error);return;
+        if (error) {
+            completionBlock(error);
+            return;
         }
-        
         completionBlock(nil);
     }];
-
+    
 }
 
+/**
+ * 
+ * returnTypeIsPrimitive: true
+ * returnBaseType: 
+ * returnContainer: 
+ * 
+ **/
 -(void) updatePetWithCompletionBlock :(NIKPet*) body 
         completionHandler:(void (^)(NSError *))completionBlock{
 
@@ -142,21 +164,29 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
+    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"PUT" 
                         queryParams: queryParams 
                                body: bodyDictionary 
                        headerParams: headerParams
                   completionHandler: ^(NSString *data, NSError *error) {
-    if (error) {
-            completionBlock(error);return;
+        if (error) {
+            completionBlock(error);
+            return;
         }
-        
         completionBlock(nil);
     }];
-
+    
 }
 
+/**
+ * 
+ * returnTypeIsPrimitive: 
+ * returnBaseType: NIKPet
+ * returnContainer: List
+ * 
+ **/
 -(void) findPetsByStatusWithCompletionBlock :(NSString*) status 
         completionHandler:(void (^)(NSArray*, NSError *))completionBlock{
 
@@ -174,13 +204,14 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(status == nil) {
         // error
     }
+    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
                                    body: bodyDictionary 
                            headerParams: headerParams
                       completionHandler: ^(NSDictionary *data, NSError *error) {
-    if (error) {
+        if (error) {
             completionBlock(nil, error);return;
         }
         
@@ -192,11 +223,17 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             }
             completionBlock(objs, nil);
         }
-        
-    }];
-
+        }];
+    
 }
 
+/**
+ * 
+ * returnTypeIsPrimitive: 
+ * returnBaseType: NIKPet
+ * returnContainer: List
+ * 
+ **/
 -(void) findPetsByTagsWithCompletionBlock :(NSString*) tags 
         completionHandler:(void (^)(NSArray*, NSError *))completionBlock{
 
@@ -214,13 +251,14 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(tags == nil) {
         // error
     }
+    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
                                    body: bodyDictionary 
                            headerParams: headerParams
                       completionHandler: ^(NSDictionary *data, NSError *error) {
-    if (error) {
+        if (error) {
             completionBlock(nil, error);return;
         }
         
@@ -232,9 +270,8 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             }
             completionBlock(objs, nil);
         }
-        
-    }];
-
+        }];
+    
 }
 
 -(void) getPetByIdAsJsonWithCompletionBlock :(NSString*) petId 

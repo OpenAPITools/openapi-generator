@@ -3,8 +3,6 @@
 
 @implementation NIKOrder
 
-@synthesize raw = _raw;
-
 @synthesize _id = __id;
 @synthesize petId = _petId;
 @synthesize status = _status;
@@ -26,13 +24,17 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
+    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
+    /* isContainer: , baseType: NSNumber, complexType:  */
     _petId = [dict objectForKey:@"petId"];
+    /* isContainer: , baseType: NSString, complexType:  */
     _status = [dict objectForKey:@"status"];
+    /* isContainer: , baseType: NSNumber, complexType:  */
     _quantity = [dict objectForKey:@"quantity"];
+    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id shipDate_dict = [dict objectForKey:@"shipDate"];
     _shipDate = [[NIKDate alloc]initWithValues:shipDate_dict];
-    self.raw = [[NSDictionary alloc] initWithDictionary:dict];
     return self;
 }
 
@@ -64,8 +66,5 @@
     return output;
 }
 
--(NSDictionary*) asRaw {
-    return _raw;
-}
 @end
 

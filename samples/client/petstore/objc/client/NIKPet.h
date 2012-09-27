@@ -5,7 +5,6 @@
 
 @interface NIKPet : NIKSwaggerObject {
 @private
-    NSDictionary* raw;
     NSNumber* __id; //NSNumber
     NSArray* _tags; //Tag
     NIKCategory* _category; //Category
@@ -14,7 +13,6 @@
     NSArray* _photoUrls; //NSString
     }
 
-@property(nonatomic) NSDictionary* raw;
 
 
 @property(nonatomic) NSNumber* _id;
@@ -32,7 +30,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
-- (NSDictionary*) asRaw;
 
 
 @end

@@ -3,7 +3,6 @@
 
 @interface NIKUser : NIKSwaggerObject {
 @private
-    NSDictionary* raw;
     NSNumber* __id; //NSNumber
     NSString* _lastName; //NSString
     NSString* _username; //NSString
@@ -14,7 +13,6 @@
     NSString* _password; //NSString
     }
 
-@property(nonatomic) NSDictionary* raw;
 
 
 @property(nonatomic) NSNumber* _id;
@@ -36,7 +34,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
-- (NSDictionary*) asRaw;
 
 
 @end
