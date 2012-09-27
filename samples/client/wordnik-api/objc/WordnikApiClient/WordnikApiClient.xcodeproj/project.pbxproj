@@ -242,8 +242,6 @@
 		EA5A02A21613AC66003B3E41 /* NIKWordSearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKWordSearchResults.m; path = ../client/NIKWordSearchResults.m; sourceTree = "<group>"; };
 		EA5A02CD1613AD47003B3E41 /* WordnikApiClientTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "WordnikApiClientTests-Info.plist"; path = "../tests/WordnikApiClientTests-Info.plist"; sourceTree = "<group>"; };
 		EA5A02CE1613AD47003B3E41 /* WordnikApiClientTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WordnikApiClientTests-Prefix.pch"; path = "../tests/WordnikApiClientTests-Prefix.pch"; sourceTree = "<group>"; };
-		EA5A02CF1613AD47003B3E41 /* WordnikApiClientTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WordnikApiClientTests.h; path = ../tests/WordnikApiClientTests.h; sourceTree = "<group>"; };
-		EA5A02D01613AD47003B3E41 /* WordnikApiClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WordnikApiClientTests.m; path = ../tests/WordnikApiClientTests.m; sourceTree = "<group>"; };
 		EA5A02E41614017E003B3E41 /* WordApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WordApiTest.h; path = ../tests/WordApiTest.h; sourceTree = "<group>"; };
 		EA5A02E51614017E003B3E41 /* WordApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WordApiTest.m; path = ../tests/WordApiTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -333,8 +331,6 @@
 			children = (
 				EA5A02CD1613AD47003B3E41 /* WordnikApiClientTests-Info.plist */,
 				EA5A02CE1613AD47003B3E41 /* WordnikApiClientTests-Prefix.pch */,
-				EA5A02CF1613AD47003B3E41 /* WordnikApiClientTests.h */,
-				EA5A02D01613AD47003B3E41 /* WordnikApiClientTests.m */,
 				EA5A02E41614017E003B3E41 /* WordApiTest.h */,
 				EA5A02E51614017E003B3E41 /* WordApiTest.m */,
 			);
