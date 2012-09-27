@@ -8,10 +8,10 @@ This library is built using the Wordnik [Swagger](http://swagger.wordnik.com) cl
 can re-generate this library by running ./bin/objc-wordnik-api.sh from the swagger-codegen project
 
 ## Usage
-There is a simple hello world example here: (WordnikApiClient/main.m)
+There is a simple hello world example here: (https://github.com/wordnik/swagger-codegen/blob/master/samples/client/wordnik-api/objc/WordnikApiClient/WordnikApiClient/main.m)
 
 It is recommended that you review the OCUnit tests to see how to use the library.  They live under the 
-[Tests](tests) directory and require that you enter your API_KEY, as well as a username
+[Tests](https://github.com/wordnik/swagger-codegen/tree/master/samples/client/wordnik-api/objc/tests) directory and require that you enter your API_KEY, as well as a username
 and password to authenticate with.  To do this:
 
 * Choose "Product/Manage Schemes"
