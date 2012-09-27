@@ -66,7 +66,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 
@@ -126,7 +125,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 
@@ -186,7 +184,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 
@@ -250,7 +247,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"PUT" 
                         queryParams: queryParams 
@@ -289,7 +285,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(username == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"DELETE" 
                         queryParams: queryParams 
@@ -328,7 +323,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(username == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -372,8 +366,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(password == nil) {
         // error
     }
-    // not a return container
-    // not an array, need to get json string as response
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"GET" 
                         queryParams: queryParams 
@@ -420,8 +412,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-        // not a return container
-    [_api stringWithCompletionBlock: requestUrl 
+        [_api stringWithCompletionBlock: requestUrl 
                              method: @"GET" 
                         queryParams: queryParams 
                                body: bodyDictionary 

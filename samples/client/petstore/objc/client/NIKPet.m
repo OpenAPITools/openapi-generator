@@ -27,9 +27,7 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: true, baseType: Tag, complexType: NIKTag */
     id tags_dict = [dict objectForKey:@"tags"];
     if([tags_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)tags_dict count] > 0) {
@@ -41,14 +39,10 @@
             _tags = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: Category, complexType: NIKCategory */
     id category_dict = [dict objectForKey:@"category"];
     _category = [[NIKCategory alloc]initWithValues:category_dict];
-    /* isContainer: , baseType: NSString, complexType:  */
     _status = [dict objectForKey:@"status"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _name = [dict objectForKey:@"name"];
-    /* isContainer: true, baseType: NSString, complexType:  */
     _photoUrls = [dict objectForKey:@"photoUrls"];
     return self;
 }

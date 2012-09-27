@@ -45,7 +45,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(orderId == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -83,7 +82,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(orderId == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"DELETE" 
                         queryParams: queryParams 
@@ -143,7 +141,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 

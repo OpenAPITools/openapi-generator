@@ -24,15 +24,10 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _petId = [dict objectForKey:@"petId"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _status = [dict objectForKey:@"status"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _quantity = [dict objectForKey:@"quantity"];
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id shipDate_dict = [dict objectForKey:@"shipDate"];
     _shipDate = [[NIKDate alloc]initWithValues:shipDate_dict];
     return self;

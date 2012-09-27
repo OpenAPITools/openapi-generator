@@ -45,7 +45,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(petId == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -104,7 +103,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 
@@ -164,7 +162,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"PUT" 
                         queryParams: queryParams 
@@ -204,7 +201,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(status == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -251,7 +247,6 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(tags == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
