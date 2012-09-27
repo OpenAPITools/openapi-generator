@@ -27,11 +27,8 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _hasScoredWords = [dict objectForKey:@"hasScoredWords"];
-    /* isContainer: true, baseType: ScoredWord, complexType: NIKScoredWord */
     id scoredWords_dict = [dict objectForKey:@"scoredWords"];
     if([scoredWords_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)scoredWords_dict count] > 0) {
@@ -43,11 +40,8 @@
             _scoredWords = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NSString, complexType:  */
     _display = [dict objectForKey:@"display"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _rating = [dict objectForKey:@"rating"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _documentMetadataId = [dict objectForKey:@"documentMetadataId"];
     return self;
 }

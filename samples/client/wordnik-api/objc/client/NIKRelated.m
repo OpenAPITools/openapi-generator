@@ -30,19 +30,12 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _label1 = [dict objectForKey:@"label1"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _label2 = [dict objectForKey:@"label2"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _relationshipType = [dict objectForKey:@"relationshipType"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _label3 = [dict objectForKey:@"label3"];
-    /* isContainer: true, baseType: NSString, complexType:  */
     _words = [dict objectForKey:@"words"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _label4 = [dict objectForKey:@"label4"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _gram = [dict objectForKey:@"gram"];
     return self;
 }

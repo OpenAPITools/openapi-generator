@@ -24,15 +24,10 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _unknownYearCount = [dict objectForKey:@"unknownYearCount"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _totalCount = [dict objectForKey:@"totalCount"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _frequencyString = [dict objectForKey:@"frequencyString"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
-    /* isContainer: true, baseType: Frequency, complexType: NIKFrequency */
     id frequency_dict = [dict objectForKey:@"frequency"];
     if([frequency_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)frequency_dict count] > 0) {

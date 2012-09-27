@@ -42,27 +42,16 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _position = [dict objectForKey:@"position"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _lemma = [dict objectForKey:@"lemma"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _docTermCount = [dict objectForKey:@"docTermCount"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _wordType = [dict objectForKey:@"wordType"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _score = [dict objectForKey:@"score"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _sentenceId = [dict objectForKey:@"sentenceId"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _stopword = [dict objectForKey:@"stopword"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _baseWordScore = [dict objectForKey:@"baseWordScore"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _partOfSpeech = [dict objectForKey:@"partOfSpeech"];
     return self;
 }

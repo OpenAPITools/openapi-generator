@@ -27,17 +27,11 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _originalWord = [dict objectForKey:@"originalWord"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
-    /* isContainer: true, baseType: NSString, complexType:  */
     _suggestions = [dict objectForKey:@"suggestions"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _canonicalForm = [dict objectForKey:@"canonicalForm"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _vulgar = [dict objectForKey:@"vulgar"];
     return self;
 }

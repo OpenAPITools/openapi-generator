@@ -21,13 +21,9 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _noteType = [dict objectForKey:@"noteType"];
-    /* isContainer: true, baseType: NSString, complexType:  */
     _appliesTo = [dict objectForKey:@"appliesTo"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _value = [dict objectForKey:@"value"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _pos = [dict objectForKey:@"pos"];
     return self;
 }

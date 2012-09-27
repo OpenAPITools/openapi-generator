@@ -74,7 +74,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(auth_token == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"PUT" 
                         queryParams: queryParams 
@@ -118,7 +117,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(auth_token == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"DELETE" 
                         queryParams: queryParams 
@@ -162,7 +160,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(auth_token == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -227,7 +224,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(auth_token == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 
@@ -279,7 +275,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(auth_token == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -352,7 +347,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(auth_token == nil) {
         // error
     }
-    // not a return container
     [_api stringWithCompletionBlock: requestUrl 
                              method: @"POST" 
                         queryParams: queryParams 

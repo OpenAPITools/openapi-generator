@@ -15,7 +15,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: true, baseType: FacetValue, complexType: NIKFacetValue */
     id facetValues_dict = [dict objectForKey:@"facetValues"];
     if([facetValues_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)facetValues_dict count] > 0) {
@@ -27,7 +26,6 @@
             _facetValues = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NSString, complexType:  */
     _name = [dict objectForKey:@"name"];
     return self;
 }

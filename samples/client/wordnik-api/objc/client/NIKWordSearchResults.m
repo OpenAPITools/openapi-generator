@@ -15,9 +15,7 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _totalResults = [dict objectForKey:@"totalResults"];
-    /* isContainer: true, baseType: WordSearchResult, complexType: NIKWordSearchResult */
     id searchResults_dict = [dict objectForKey:@"searchResults"];
     if([searchResults_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)searchResults_dict count] > 0) {

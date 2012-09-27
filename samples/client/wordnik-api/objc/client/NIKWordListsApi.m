@@ -68,7 +68,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(auth_token == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"POST" 
                             queryParams: queryParams 

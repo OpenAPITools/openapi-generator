@@ -21,13 +21,9 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _text = [dict objectForKey:@"text"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _source = [dict objectForKey:@"source"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _note = [dict objectForKey:@"note"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _partOfSpeech = [dict objectForKey:@"partOfSpeech"];
     return self;
 }

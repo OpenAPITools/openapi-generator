@@ -15,9 +15,7 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _text = [dict objectForKey:@"text"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _type = [dict objectForKey:@"type"];
     return self;
 }

@@ -62,7 +62,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -104,7 +103,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -154,7 +152,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -202,7 +199,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -246,7 +242,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -300,7 +295,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -352,7 +346,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -404,7 +397,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -448,7 +440,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -496,7 +487,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -515,7 +505,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
             }
             completionBlock(objs, nil);
         }
-        // it's a primitive type in the response
         }];
     
 }
@@ -547,7 +536,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(word == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 

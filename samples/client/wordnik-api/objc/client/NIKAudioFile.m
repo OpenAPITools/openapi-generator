@@ -51,34 +51,20 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _attributionUrl = [dict objectForKey:@"attributionUrl"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _commentCount = [dict objectForKey:@"commentCount"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _voteCount = [dict objectForKey:@"voteCount"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _fileUrl = [dict objectForKey:@"fileUrl"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _audioType = [dict objectForKey:@"audioType"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _duration = [dict objectForKey:@"duration"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _attributionText = [dict objectForKey:@"attributionText"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _createdBy = [dict objectForKey:@"createdBy"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _description = [dict objectForKey:@"description"];
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id createdAt_dict = [dict objectForKey:@"createdAt"];
     _createdAt = [[NIKDate alloc]initWithValues:createdAt_dict];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _voteWeightedAverage = [dict objectForKey:@"voteWeightedAverage"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _voteAverage = [dict objectForKey:@"voteAverage"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
     return self;
 }

@@ -30,20 +30,13 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _username = [dict objectForKey:@"username"];
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id createdAt_dict = [dict objectForKey:@"createdAt"];
     _createdAt = [[NIKDate alloc]initWithValues:createdAt_dict];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _userId = [dict objectForKey:@"userId"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _numberCommentsOnWord = [dict objectForKey:@"numberCommentsOnWord"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _numberLists = [dict objectForKey:@"numberLists"];
     return self;
 }

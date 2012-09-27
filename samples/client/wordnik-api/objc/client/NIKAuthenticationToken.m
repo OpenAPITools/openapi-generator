@@ -18,11 +18,8 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _token = [dict objectForKey:@"token"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _userId = [dict objectForKey:@"userId"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _userSignature = [dict objectForKey:@"userSignature"];
     return self;
 }

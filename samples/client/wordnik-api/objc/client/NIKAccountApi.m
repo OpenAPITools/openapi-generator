@@ -53,7 +53,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(password == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -116,7 +115,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(body == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"POST" 
                             queryParams: queryParams 
@@ -159,7 +157,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(auth_token == nil) {
         // error
     }
-    // it's a returnContainer
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -203,8 +200,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(api_key != nil)
         [headerParams setValue:api_key forKey:@"api_key"];
     id bodyDictionary = nil;
-        // not a return container
-    [_api dictionaryWithCompletionBlock: requestUrl 
+        [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
                                    body: bodyDictionary 
@@ -242,7 +238,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(auth_token == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 

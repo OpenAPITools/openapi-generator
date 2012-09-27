@@ -15,7 +15,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: true, baseType: Facet, complexType: NIKFacet */
     id facets_dict = [dict objectForKey:@"facets"];
     if([facets_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)facets_dict count] > 0) {
@@ -27,7 +26,6 @@
             _facets = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: true, baseType: Example, complexType: NIKExample */
     id examples_dict = [dict objectForKey:@"examples"];
     if([examples_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)examples_dict count] > 0) {

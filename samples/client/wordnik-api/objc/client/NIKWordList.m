@@ -42,30 +42,19 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id updatedAt_dict = [dict objectForKey:@"updatedAt"];
     _updatedAt = [[NIKDate alloc]initWithValues:updatedAt_dict];
-    /* isContainer: , baseType: NSString, complexType:  */
     _username = [dict objectForKey:@"username"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _permalink = [dict objectForKey:@"permalink"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _description = [dict objectForKey:@"description"];
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id createdAt_dict = [dict objectForKey:@"createdAt"];
     _createdAt = [[NIKDate alloc]initWithValues:createdAt_dict];
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id lastActivityAt_dict = [dict objectForKey:@"lastActivityAt"];
     _lastActivityAt = [[NIKDate alloc]initWithValues:lastActivityAt_dict];
-    /* isContainer: , baseType: NSString, complexType:  */
     _name = [dict objectForKey:@"name"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _userId = [dict objectForKey:@"userId"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _numberWordsInList = [dict objectForKey:@"numberWordsInList"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _type = [dict objectForKey:@"type"];
     return self;
 }

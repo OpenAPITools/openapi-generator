@@ -45,32 +45,20 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _text = [dict objectForKey:@"text"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _title = [dict objectForKey:@"title"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _exampleId = [dict objectForKey:@"exampleId"];
-    /* isContainer: , baseType: ScoredWord, complexType: NIKScoredWord */
     id score_dict = [dict objectForKey:@"score"];
     _score = [[NIKScoredWord alloc]initWithValues:score_dict];
-    /* isContainer: , baseType: Sentence, complexType: NIKSentence */
     id sentence_dict = [dict objectForKey:@"sentence"];
     _sentence = [[NIKSentence alloc]initWithValues:sentence_dict];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _year = [dict objectForKey:@"year"];
-    /* isContainer: , baseType: ContentProvider, complexType: NIKContentProvider */
     id provider_dict = [dict objectForKey:@"provider"];
     _provider = [[NIKContentProvider alloc]initWithValues:provider_dict];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _rating = [dict objectForKey:@"rating"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _url = [dict objectForKey:@"url"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _documentId = [dict objectForKey:@"documentId"];
     return self;
 }

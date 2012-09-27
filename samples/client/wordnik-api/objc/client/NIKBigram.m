@@ -24,15 +24,10 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _count = [dict objectForKey:@"count"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _gram2 = [dict objectForKey:@"gram2"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _gram1 = [dict objectForKey:@"gram1"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _wlmi = [dict objectForKey:@"wlmi"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _mi = [dict objectForKey:@"mi"];
     return self;
 }

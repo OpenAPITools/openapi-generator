@@ -18,11 +18,8 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _count = [dict objectForKey:@"count"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _lexicality = [dict objectForKey:@"lexicality"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
     return self;
 }

@@ -70,7 +70,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(query == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -106,8 +105,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         [queryParams setValue:date forKey:@"date"];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-        // not a return container
-    [_api dictionaryWithCompletionBlock: requestUrl 
+        [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
                                    body: bodyDictionary 
@@ -175,7 +173,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         if(query == nil) {
         // error
     }
-    // not a return container
     [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
@@ -233,8 +230,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         [queryParams setValue:limit forKey:@"limit"];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-        // it's a returnContainer
-    [_api dictionaryWithCompletionBlock: requestUrl 
+        [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
                                    body: bodyDictionary 
@@ -293,8 +289,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
         [queryParams setValue:maxLength forKey:@"maxLength"];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-        // not a return container
-    [_api dictionaryWithCompletionBlock: requestUrl 
+        [_api dictionaryWithCompletionBlock: requestUrl 
                                  method: @"GET" 
                             queryParams: queryParams 
                                    body: bodyDictionary 

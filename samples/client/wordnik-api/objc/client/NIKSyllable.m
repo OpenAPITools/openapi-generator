@@ -18,11 +18,8 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _text = [dict objectForKey:@"text"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _seq = [dict objectForKey:@"seq"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _type = [dict objectForKey:@"type"];
     return self;
 }

@@ -33,21 +33,13 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _username = [dict objectForKey:@"username"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _status = [dict objectForKey:@"status"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _email = [dict objectForKey:@"email"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _faceBookId = [dict objectForKey:@"faceBookId"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _userName = [dict objectForKey:@"userName"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _displayName = [dict objectForKey:@"displayName"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _password = [dict objectForKey:@"password"];
     return self;
 }

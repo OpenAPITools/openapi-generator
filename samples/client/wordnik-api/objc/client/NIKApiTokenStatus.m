@@ -27,17 +27,11 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _valid = [dict objectForKey:@"valid"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _token = [dict objectForKey:@"token"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _resetsInMillis = [dict objectForKey:@"resetsInMillis"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _remainingCalls = [dict objectForKey:@"remainingCalls"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _expiresInMillis = [dict objectForKey:@"expiresInMillis"];
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _totalRequests = [dict objectForKey:@"totalRequests"];
     return self;
 }

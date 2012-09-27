@@ -15,9 +15,7 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _cite = [dict objectForKey:@"cite"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _source = [dict objectForKey:@"source"];
     return self;
 }

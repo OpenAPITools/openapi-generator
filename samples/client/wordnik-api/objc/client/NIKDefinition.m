@@ -57,13 +57,9 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSString, complexType:  */
     _extendedText = [dict objectForKey:@"extendedText"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _text = [dict objectForKey:@"text"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _sourceDictionary = [dict objectForKey:@"sourceDictionary"];
-    /* isContainer: true, baseType: Citation, complexType: NIKCitation */
     id citations_dict = [dict objectForKey:@"citations"];
     if([citations_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)citations_dict count] > 0) {
@@ -75,7 +71,6 @@
             _citations = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: true, baseType: Label, complexType: NIKLabel */
     id labels_dict = [dict objectForKey:@"labels"];
     if([labels_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)labels_dict count] > 0) {
@@ -87,9 +82,7 @@
             _labels = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _score = [dict objectForKey:@"score"];
-    /* isContainer: true, baseType: ExampleUsage, complexType: NIKExampleUsage */
     id exampleUses_dict = [dict objectForKey:@"exampleUses"];
     if([exampleUses_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)exampleUses_dict count] > 0) {
@@ -101,13 +94,9 @@
             _exampleUses = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NSString, complexType:  */
     _attributionUrl = [dict objectForKey:@"attributionUrl"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _seqString = [dict objectForKey:@"seqString"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _attributionText = [dict objectForKey:@"attributionText"];
-    /* isContainer: true, baseType: Related, complexType: NIKRelated */
     id relatedWords_dict = [dict objectForKey:@"relatedWords"];
     if([relatedWords_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)relatedWords_dict count] > 0) {
@@ -119,11 +108,8 @@
             _relatedWords = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NSString, complexType:  */
     _sequence = [dict objectForKey:@"sequence"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
-    /* isContainer: true, baseType: TextPron, complexType: NIKTextPron */
     id textProns_dict = [dict objectForKey:@"textProns"];
     if([textProns_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)textProns_dict count] > 0) {
@@ -135,7 +121,6 @@
             _textProns = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: true, baseType: Note, complexType: NIKNote */
     id notes_dict = [dict objectForKey:@"notes"];
     if([notes_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)notes_dict count] > 0) {
@@ -147,7 +132,6 @@
             _notes = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NSString, complexType:  */
     _partOfSpeech = [dict objectForKey:@"partOfSpeech"];
     return self;
 }

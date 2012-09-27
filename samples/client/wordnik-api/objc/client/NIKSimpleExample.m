@@ -21,13 +21,9 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _text = [dict objectForKey:@"text"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _title = [dict objectForKey:@"title"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _url = [dict objectForKey:@"url"];
     return self;
 }

@@ -45,25 +45,16 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: , baseType: NSNumber, complexType:  */
     __id = [dict objectForKey:@"id"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _parentId = [dict objectForKey:@"parentId"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _category = [dict objectForKey:@"category"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _createdBy = [dict objectForKey:@"createdBy"];
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id createdAt_dict = [dict objectForKey:@"createdAt"];
     _createdAt = [[NIKDate alloc]initWithValues:createdAt_dict];
-    /* isContainer: , baseType: ContentProvider, complexType: NIKContentProvider */
     id contentProvider_dict = [dict objectForKey:@"contentProvider"];
     _contentProvider = [[NIKContentProvider alloc]initWithValues:contentProvider_dict];
-    /* isContainer: , baseType: NSString, complexType:  */
     _word = [dict objectForKey:@"word"];
-    /* isContainer: , baseType: NSString, complexType:  */
     _htmlExtra = [dict objectForKey:@"htmlExtra"];
-    /* isContainer: true, baseType: SimpleDefinition, complexType: NIKSimpleDefinition */
     id definitions_dict = [dict objectForKey:@"definitions"];
     if([definitions_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)definitions_dict count] > 0) {
@@ -75,7 +66,6 @@
             _definitions = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: true, baseType: SimpleExample, complexType: NIKSimpleExample */
     id examples_dict = [dict objectForKey:@"examples"];
     if([examples_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)examples_dict count] > 0) {
@@ -87,10 +77,8 @@
             _examples = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NIKDate, complexType: NIKDate */
     id publishDate_dict = [dict objectForKey:@"publishDate"];
     _publishDate = [[NIKDate alloc]initWithValues:publishDate_dict];
-    /* isContainer: , baseType: NSString, complexType:  */
     _note = [dict objectForKey:@"note"];
     return self;
 }

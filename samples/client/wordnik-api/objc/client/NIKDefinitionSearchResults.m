@@ -15,7 +15,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    /* isContainer: true, baseType: Definition, complexType: NIKDefinition */
     id results_dict = [dict objectForKey:@"results"];
     if([results_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)results_dict count] > 0) {
@@ -27,7 +26,6 @@
             _results = [[NSArray alloc] initWithArray:objs];
         }
     }
-    /* isContainer: , baseType: NSNumber, complexType:  */
     _totalResults = [dict objectForKey:@"totalResults"];
     return self;
 }
