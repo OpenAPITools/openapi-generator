@@ -16,8 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicPHPGenerator
 
-import com.wordnik.swagger.core._
-
 import java.io.File
 
 object PHPPetstoreCodegen extends BasicPHPGenerator {

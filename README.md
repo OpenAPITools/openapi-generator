@@ -58,7 +58,6 @@ For example, create `src/main/scala/MyCodegen.scala` with these contents:
 
 ```scala
 import com.wordnik.swagger.codegen.BasicScalaGenerator
-import com.wordnik.swagger.core._
 
 object MyCodegen extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)

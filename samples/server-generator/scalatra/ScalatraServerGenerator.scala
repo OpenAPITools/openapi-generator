@@ -16,8 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicScalaGenerator
 
-import com.wordnik.swagger.core._
-
 import scala.collection.mutable.{ HashMap, ListBuffer }
 
 object ScalatraServerGenerator extends BasicScalaGenerator {

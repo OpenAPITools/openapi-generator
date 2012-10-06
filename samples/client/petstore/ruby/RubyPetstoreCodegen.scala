@@ -16,7 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicRubyGenerator
 
-import com.wordnik.swagger.core._
 import com.wordnik.swagger.codegen.util.ScalaJsonUtil
 
 object RubyPetstoreCodegen extends BasicRubyGenerator {

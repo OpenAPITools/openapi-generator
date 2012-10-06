@@ -16,8 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicScalaGenerator
 
-import com.wordnik.swagger.core._
-
 object ScalaPetstoreCodegen extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)
 

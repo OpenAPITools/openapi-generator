@@ -16,8 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicObjcGenerator
 
-import com.wordnik.swagger.core._
-
 object ObjcPetstoreCodegen extends BasicObjcGenerator {
   def main(args: Array[String]) = generateClient(args)
 

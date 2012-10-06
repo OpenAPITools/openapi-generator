@@ -16,8 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicPython3Generator
 
-import com.wordnik.swagger.core._
-
 import java.io.File
 
 object Python3PetstoreCodegen extends BasicPython3Generator {
