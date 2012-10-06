@@ -19,70 +19,70 @@ package com.wordnik.swagger.model
 import com.fasterxml.jackson.annotation.{JsonProperty, JsonIgnore}
 
 case class ResourceListing(
-	apiVersion: String, 
-	swaggerVersion: String, 
-	basePath: String,
-	apis: List[ApiListingReference] = List())
+  apiVersion: String, 
+  swaggerVersion: String, 
+  basePath: String,
+  apis: List[ApiListingReference] = List())
 
 case class ApiListingReference(path:String, description: String)
 
 case object Any extends AllowableValues
 case class AllowableListValues (values: List[String] = List(), valueType: String = "LIST") extends AllowableValues
-case class AllowableRangeValues(min: Int, max: Int) extends AllowableValues
+case class AllowableRangeValues(min: String, max: String) extends AllowableValues
 
 // using java.util.Map because Jackon 2 isn't deserializing ListMap correctly, and ordered
 // insertion is required
 case class Model(
-	var id: String,
-	var name: String,
+  var id: String,
+  var name: String,
   var properties: java.util.Map[String, ModelProperty],
   description: Option[String] = None)
 
 case class ModelProperty(
-	var `type`: String,
-	required: Boolean = false,
-	description: Option[String] = None,
-	allowableValues: AllowableValues = Any,
-	var items: Option[ModelRef] = None)
+  var `type`: String,
+  required: Boolean = false,
+  description: Option[String] = None,
+  allowableValues: AllowableValues = Any,
+  var items: Option[ModelRef] = None)
 
 case class ModelRef(
-	@JsonProperty("$ref") ref: String = null,
-	`type`: String = null)
+  @JsonProperty("$ref") ref: String = null,
+  `type`: String = null)
 
 case class ApiListing (
-	apiVersion: String,
-	swaggerVersion: String,
-	basePath: String,
-	var resourcePath: String,
-	apis: List[ApiDescription] = List(),
-	models: Map[String, Model] = Map())
+  apiVersion: String,
+  swaggerVersion: String,
+  basePath: String,
+  var resourcePath: String,
+  apis: List[ApiDescription] = List(),
+  models: Map[String, Model] = Map())
 
 case class ApiDescription (
-	path: String,
-	description: String,
-	operations: List[Operation] = List())
+  path: String,
+  description: String,
+  operations: List[Operation] = List())
 
 case class Operation (
-	httpMethod: String,
-	summary: String,
-	notes: String,
-	var responseClass: String,
-	nickname: String,
-	parameters: List[Parameter] = List.empty,
-	errorResponses: List[ErrorResponse] = List.empty,
-	`deprecated`: Option[String] = None)
+  httpMethod: String,
+  summary: String,
+  notes: String,
+  var responseClass: String,
+  nickname: String,
+  parameters: List[Parameter] = List.empty,
+  errorResponses: List[ErrorResponse] = List.empty,
+  `deprecated`: Option[String] = None)
 
 case class Parameter (
-	name: String,
-	description: String,
-	defaultValue: String,
-	required: Boolean,
-	allowMultiple: Boolean,
-	var dataType: String,
-	allowableValues: AllowableValues = Any,
-	paramType: String)
+  name: String,
+  description: String,
+  defaultValue: String,
+  required: Boolean,
+  allowMultiple: Boolean,
+  var dataType: String,
+  allowableValues: AllowableValues = Any,
+  paramType: String)
 
 case class ErrorResponse (
-	code: Int,
-	reason: String)
+  code: Int,
+  reason: String)
 

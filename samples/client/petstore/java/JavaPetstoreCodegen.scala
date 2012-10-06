@@ -16,8 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicJavaGenerator
 
-import com.wordnik.swagger.core._
-
 object JavaPetstoreCodegen extends BasicJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
 
