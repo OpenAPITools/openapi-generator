@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKAudioFile.h"
 
 @implementation NIKAudioFile

@@ -10,9 +10,7 @@ package {{package}}
 case class {{classname}} (
   {{#vars}}
 
-  {{#notes}}/* {{notes}} */
-  {{/notes}}
-  {{#description}}/* {{description}} */
+  {{#description}}/* {{{description}}} */
   {{/description}}
   {{name}}: {{datatype}}{{#hasMore}},{{newline}}  {{/hasMore}}
   {{/vars}})

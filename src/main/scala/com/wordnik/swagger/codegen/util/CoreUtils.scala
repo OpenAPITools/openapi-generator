@@ -16,8 +16,7 @@
 
 package com.wordnik.swagger.codegen.util
 
-import com.wordnik.swagger.core._
-import com.wordnik.swagger.core.util.JsonUtil
+import com.wordnik.swagger.model._
 
 import scala.collection.mutable.{ HashSet, ListBuffer, HashMap }
 import scala.collection.JavaConversions._
@@ -26,23 +25,21 @@ import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 import scala.io.Source
 
 object CoreUtils {
-  def m = JsonUtil.getJsonMapper
-
-  def extractAllModels(docs: List[Documentation]): Map[String, DocumentationSchema] = {
-    val modelObjects = new HashMap[String, DocumentationSchema]
-    docs.foreach(sd => {
-      for ((nm, model) <- extractModels(sd)) modelObjects += nm -> model
-      if (sd.getModels != null) sd.getModels.foreach(sm => modelObjects += sm._1 -> sm._2)
+  def extractAllModels2(apis: List[ApiListing]): Map[String, Model] = {
+    val modelObjects = new HashMap[String, Model]
+    apis.foreach(api => {
+      for ((nm, model) <- extractApiModels(api)) modelObjects += nm -> model
+      if (api.models != null) api.models.foreach(model => modelObjects += model._1 -> model._2)
     })
     modelObjects.toMap
   }
 
-  def extractModelNames(op: DocumentationOperation): Set[String] = {
+  def extractModelNames(op: Operation): Set[String] = {
     val modelNames = new HashSet[String]
     modelNames += op.responseClass
     // POST, PUT, DELETE body
-    if (op.getParameters != null) {
-      op.getParameters.filter(p => p.paramType == "body")
+    if (op.parameters != null) {
+      op.parameters.filter(p => p.paramType == "body")
         .foreach(p => modelNames += p.dataType)
     }
     val baseNames = (for (modelName <- (modelNames.toList))
@@ -50,13 +47,13 @@ object CoreUtils {
     baseNames.toSet
   }
 
-  def extractModelNames(modelObjects: Map[String, DocumentationSchema], ep: DocumentationOperation): Set[String] = {
+  def extractModelNames2(modelObjects: Map[String, Model], ep: Operation): Set[String] = {
     val modelNames = new HashSet[String]
 
     modelNames += ep.responseClass
     // POST, PUT, DELETE body
-    if (ep.getParameters != null)
-      ep.getParameters.filter(p => p.paramType == "body")
+    if (ep.parameters != null)
+      ep.parameters.filter(p => p.paramType == "body")
         .foreach(p => modelNames += p.dataType)
 
     val baseNames = (for (modelName <- (modelNames.toList))
@@ -72,12 +69,18 @@ object CoreUtils {
       subNames += model._1
       model._2.properties.foreach(prop => {
         val subObject = prop._2
-        if (containers.contains(subObject.getType)) {
-          if (subObject.items.ref != null)
-            subNames += subObject.items.ref
-          else
-            subNames += subObject.items.getType
-        } else subNames += subObject.getType
+        if (containers.contains(subObject.`type`)) {
+          subObject.items match {
+            case Some(item) => {
+              if(item.ref != null)
+                subNames += item.ref
+              else
+                subNames += item.`type`
+            }
+            case None => 
+          }
+        }
+        else subNames += subObject.`type`
       })
     })
     subNames.toSet
@@ -91,24 +94,22 @@ object CoreUtils {
     }
   }
 
-  def extractModels(sd: Documentation): Map[String, DocumentationSchema] = {
+  def extractApiModels(sd: ApiListing): Map[String, Model] = {
     val modelNames = new HashSet[String]
-    val modelObjects = new HashMap[String, DocumentationSchema]
+    val modelObjects = new HashMap[String, Model]
     // return types
-    if (sd.getApis != null) {
-      sd.getApis.foreach(api => {
-        if (api.getOperations != null)
-          api.getOperations.foreach(op => {
-            modelNames += op.responseClass
-            // POST, PUT, DELETE body
-            if (op.getParameters != null)
-              op.getParameters.filter(p => p.paramType == "body")
-                .foreach(p => modelNames += p.dataType)
-          })
+    sd.apis.foreach(api => {
+      if (api.operations != null)
+        api.operations.foreach(op => {
+          modelNames += op.responseClass
+          // POST, PUT, DELETE body
+          if(op.parameters != null)
+            op.parameters.filter(p => p.paramType == "body")
+              .foreach(p => modelNames += p.dataType)
       })
-    }
-    if (sd.getModels != null)
-      for ((name, m) <- sd.getModels) modelObjects += name -> m
+    })
+    for ((name, m) <- sd.models) 
+      modelObjects += name -> m
 
     // extract all base model names, strip away Containers like List[] and primitives
     val baseNames = (for (modelName <- (modelNames.toList -- primitives))
@@ -122,15 +123,18 @@ object CoreUtils {
     requiredModels.map(model => {
       model._2.properties.foreach(prop => {
         val subObject = prop._2
-        if (containers.contains(subObject.getType)) {
-          if (subObject.items != null) {
-            if (subObject.items.ref != null) {
-              subNames += subObject.items.ref
-            } else {
-              subNames += subObject.items.getType
+        if (containers.contains(subObject.`type`)) {
+          subObject.items match {
+            case Some(subItem) => {
+              if (subItem.ref != null) {
+                subNames += subItem.ref
+              } else {
+                subNames += subItem.`type`
+              }
             }
+            case _ =>
           }
-        } else subNames += subObject.getType
+        } else subNames += subObject.`type`
       })
     })
     
@@ -138,15 +142,18 @@ object CoreUtils {
     modelObjects.filter(obj => subNames.contains(obj._1)).foreach(model => {
       model._2.properties.foreach(prop => {
         val subObject = prop._2
-        if (containers.contains(subObject.getType)) {
-          if (subObject.items != null) {
-            if (subObject.items.ref != null) {
-              subNames += subObject.items.ref
-            } else {
-              subNames += subObject.items.getType
+        if (containers.contains(subObject.`type`)) {
+          subObject.items match {
+            case Some(subItem) => {
+              if (subItem.ref != null) {
+                subNames += subItem.ref
+              } else {
+                subNames += subItem.`type`
+              }
             }
+            case _ =>
           }
-        } else subNames += subObject.getType
+        } else subNames += subObject.`type`
       })
     })
     val subModels = modelObjects.filter(obj => subNames.contains(obj._1))

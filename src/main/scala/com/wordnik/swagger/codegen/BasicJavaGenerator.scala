@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 object BasicJavaGenerator extends BasicJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
@@ -30,6 +30,7 @@ class BasicJavaGenerator extends BasicGenerator {
     "float",
     "String",
     "boolean",
+    "Boolean",
     "Double",
     "Integer",
     "Long",
@@ -43,6 +44,7 @@ class BasicJavaGenerator extends BasicGenerator {
    * variable declarations.
    */
   override def typeMapping = Map(
+    "boolean" -> "Boolean",
     "string" -> "String",
     "int" -> "Integer",
     "float" -> "Float",
@@ -114,13 +116,11 @@ class BasicJavaGenerator extends BasicGenerator {
     typeMapping.getOrElse(declaredType, declaredType)
   }
 
-  override def toDeclaration(obj: DocumentationSchema) = {
-    var declaredType = toDeclaredType(obj.getType)
+  override def toDeclaration(obj: ModelProperty) = {
+    var declaredType = toDeclaredType(obj.`type`)
 
     declaredType match {
-      case "Array" => {
-        declaredType = "List"
-      }
+      case "Array" => declaredType = "List"
       case e: String => e
     }
 
@@ -128,8 +128,15 @@ class BasicJavaGenerator extends BasicGenerator {
     declaredType match {
       case "List" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
         declaredType += "<" + toDeclaredType(inner) + ">"
       }
@@ -142,7 +149,7 @@ class BasicJavaGenerator extends BasicGenerator {
    * we are defaulting to null values since the codegen uses java objects instead of primitives
    * If you change to primitives, you can put in the appropriate values (0.0f, etc).
    */
-  override def toDefaultValue(dataType: String, obj: DocumentationSchema) = {
+  override def toDefaultValue(dataType: String, obj: ModelProperty) = {
     dataType match {
       case "Boolean" => "null"
       case "Integer" => "null"
@@ -151,8 +158,15 @@ class BasicJavaGenerator extends BasicGenerator {
       case "Double" => "null"
       case "List" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
         "new ArrayList<" + toDeclaredType(inner) + ">" + "()"
       }

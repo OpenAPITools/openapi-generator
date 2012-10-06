@@ -1,7 +1,21 @@
-import com.wordnik.swagger.core.util.JsonUtil
-import com.wordnik.swagger.codegen.util._
+/**
+ *  Copyright 2012 Wordnik, Inc.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
-import com.wordnik.swagger.core.Documentation
+import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.util._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -17,11 +31,9 @@ class ResourceExtractorTest extends FlatSpec with ShouldMatchers {
 
   behavior of "ResourceExtractor"
   it should "get 3 apis from a resource listing" in {
-  	// todo: change to return documentation object
-    val jsonString = ResourceExtractor.extractListing("src/test/resources/petstore/resources.json")
-    val resourceListing = json.readValue(jsonString, classOf[Documentation])
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
     resourceListing should not be(null)
-    resourceListing.getApis.size should be (3)
+    resourceListing.apis.size should be (3)
   }
 }
 
@@ -31,26 +43,26 @@ class ApiExtractorTest extends FlatSpec with ShouldMatchers {
 
   behavior of "ApiExtractor"
   it should "verify the deserialization of the store api" in {
-    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
-    val docs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
+    val docs = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
     val m = docs.map(t => (t.resourcePath, t)).toMap
     val storeApi = m("/store")
 
     storeApi should not be (null)
-    storeApi.getApis.size should be (2)
+    storeApi.apis.size should be (2)
 
-    val f = storeApi.getApis.asScala.map(m => (m.path, m)).toMap
+    val f = storeApi.apis.map(m => (m.path, m)).toMap
     (f.keys.toSet & Set("/store.{format}/order/{orderId}","/store.{format}/order")).size should be (2)
 
     val storeOps = f("/store.{format}/order/{orderId}")
-    val ops = storeOps.getOperations.asScala.map(o => (o.nickname, o)).toMap
+    val ops = storeOps.operations.map(o => (o.nickname, o)).toMap
     val getOrderById = ops("getOrderById")
 
     getOrderById should not be null
 
     getOrderById.httpMethod should be ("GET")
-    getOrderById.getParameters.size should be (1)
-    getOrderById.getErrorResponses.size should be (2)
+    getOrderById.parameters.size should be (1)
+    getOrderById.errorResponses.size should be (2)
   }
 }
 
@@ -62,22 +74,22 @@ class CoreUtilsTest extends FlatSpec with ShouldMatchers {
   behavior of "CoreUtils"
 
   it should "verify models are extracted" in {
-    val jsonString = ResourceExtractor.extractListing("src/test/resources/petstore/resources.json")
-    val resourceListing = json.readValue(jsonString, classOf[Documentation])
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
 
-    val apis = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
-
-    val cu = CoreUtils.extractAllModels(apis)
+    val cu = CoreUtils.extractAllModels2(apis)
     cu.size should be (5)
 
     (cu.keys.toSet & Set("User", "Tag", "Pet", "Category", "Order")).size should be (5)
   }
 
   it should "verify operation names" in {
-    val jsonString = ResourceExtractor.extractListing("src/test/resources/petstore/pet.json")
-    val petApi = json.readValue(jsonString, classOf[Documentation])
-    val eps = petApi.getApis.asScala.map(api => (api.path, api)).toMap
-    val ops = eps("/pet.{format}").getOperations.asScala.map(ep => (ep.nickname, ep)).toMap
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+
+    val petApi = apis.filter(api => api.resourcePath == "/pet").head
+    val eps = petApi.apis.map(api => (api.path, api)).toMap
+    val ops = eps("/pet.{format}").operations.map(ep => (ep.nickname, ep)).toMap
 
     ops.size should be (2)
 

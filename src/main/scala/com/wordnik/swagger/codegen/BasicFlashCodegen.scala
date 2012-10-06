@@ -16,17 +16,14 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 abstract class BasicFlashCodegen extends BasicGenerator {
   override def defaultIncludes = Set(
     "Date",
-    "double",
-    "int",
-    "long",
-    "float",
     "String",
-    "boolean")
+    "Boolean",
+    "Number")
 
   override def typeMapping = Map(
     "boolean" -> "Boolean",
@@ -110,8 +107,8 @@ abstract class BasicFlashCodegen extends BasicGenerator {
     typeMapping.getOrElse(declaredType, declaredType)
   }
 
-  override def toDeclaration(obj: DocumentationSchema) = {
-    var declaredType = toDeclaredType(obj.getType)
+  override def toDeclaration(obj: ModelProperty) = {
+    var declaredType = toDeclaredType(obj.`type`)
 
     declaredType match {
       case "Array" => {
@@ -131,9 +128,8 @@ abstract class BasicFlashCodegen extends BasicGenerator {
     (declaredType, defaultValue)
   }
 
-  // default values
-  override def toDefaultValue(properCase: String, obj: DocumentationSchema) = {
-    properCase match {
+  override def toDefaultValue(dataType: String, obj: ModelProperty) = {
+    dataType match {
       case "Boolean" => "false"
       case "Number" => "0.0"
       case "List" => "new Array()"

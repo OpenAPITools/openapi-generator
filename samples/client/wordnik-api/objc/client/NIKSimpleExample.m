@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKSimpleExample.h"
 
 @implementation NIKSimpleExample

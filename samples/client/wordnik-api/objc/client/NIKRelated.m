@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKRelated.h"
 
 @implementation NIKRelated

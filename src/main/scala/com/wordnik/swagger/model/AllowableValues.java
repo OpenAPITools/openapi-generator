@@ -14,19 +14,21 @@
  *  limitations under the License.
  */
 
-import com.wordnik.swagger.codegen.BasicPythonGenerator
+package com.wordnik.swagger.model;
 
-import com.wordnik.swagger.core._
+import javax.xml.bind.annotation.*;
 
-import java.io.File
+import com.fasterxml.jackson.annotation.*;
 
-object PythonPetstoreCodegen extends BasicPythonGenerator {
-  def main(args: Array[String]) = generateClient(args)
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.*;
 
-  override def destinationDir = "samples/client/petstore/python"
-
-  override def supportingFiles = List(
-    ("__init__.mustache", destinationDir, "__init__.py"),
-    ("swagger.mustache", destinationDir + File.separator + apiPackage.getOrElse(""), "swagger.py"),
-    ("__init__.mustache", destinationDir + File.separator + modelPackage.getOrElse(""), "__init__.py"))
-}
+/**
+ * forgive me lord, for I used Java
+ * @SeeAlso https://issues.scala-lang.org/browse/SI-5165
+ **/
+@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="valueType")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value=AllowableListValues.class, name="LIST"),
+    @JsonSubTypes.Type(value=AllowableRangeValues.class, name="RANGE")
+})  
+public abstract class AllowableValues {}

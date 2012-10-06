@@ -134,7 +134,7 @@ class PetApi(object):
 
         
         
-    def findPetsByStatus(self, status, **kwargs):
+    def findPetsByStatus(self, status= None, **kwargs):
         """Finds Pets by status
 
         Args:

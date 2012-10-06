@@ -16,7 +16,7 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet with
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "{{className}}"
-  override protected val applicationName: Option[String] = Some("{{name}}")
+  override protected val applicationName: Option[String] = Some("{{baseName}}")
 
   def swaggerToModel(cls: Class[_]) = {
     val docObj = ApiPropertiesReader.read(cls)

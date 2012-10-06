@@ -17,9 +17,8 @@
 package com.wordnik.swagger.codegen.spec
 
 import com.wordnik.swagger.codegen.util.{CoreUtils, ApiExtractor, ResourceExtractor}
-import com.wordnik.swagger.core.Documentation
 import com.wordnik.swagger.codegen.PathUtil
-import com.wordnik.swagger.core.util.JsonUtil
+
 import scala.collection.JavaConversions._
 
 object Validator extends PathUtil {
@@ -39,18 +38,16 @@ object Validator extends PathUtil {
     }
     val doc = {
       try {
-        val json = ResourceExtractor.extractListing(getResourcePath(host), apiKey)
-
-        JsonUtil.getJsonMapper.readValue(json, classOf[Documentation])
+        ResourceExtractor.fetchListing(getResourcePath(host), apiKey)
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
     }
 
     val basePath = getBasePath(doc.basePath)
-    val subDocs = ApiExtractor.extractApiDocs(basePath, doc.getApis().toList, apiKey)
+    val apis = ApiExtractor.fetchApiListings(basePath, doc.apis, apiKey)
 
-    val swaggerSpecValidator = new SwaggerSpecValidator(doc, subDocs, false)
+    val swaggerSpecValidator = new SwaggerSpecValidator(doc, apis, false)
     swaggerSpecValidator.validate()
     swaggerSpecValidator.generateReport(host, outputFilename)
 

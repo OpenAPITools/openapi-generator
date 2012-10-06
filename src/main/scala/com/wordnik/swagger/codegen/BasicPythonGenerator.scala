@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 import java.io.File
 
@@ -41,7 +41,7 @@ class BasicPythonGenerator extends BasicGenerator {
   override def modelPackage = Some("models")
 
   // package for apis
-  override def apiPackage = Some("")
+  override def apiPackage = None
 
   // file suffix
   override def fileSuffix = ".py"
@@ -106,7 +106,7 @@ class BasicPythonGenerator extends BasicGenerator {
     "Boolean" -> "bool",
     "Date" -> "datetime",
     "string" -> "str"
-    )
+  )
 
   override def toDeclaredType(dt: String): String = {
     val declaredType = typeMapping.getOrElse(dt, dt)
@@ -118,28 +118,37 @@ class BasicPythonGenerator extends BasicGenerator {
           case false => "list[" + innerType + "]"
         }
       }
-      case _ => declaredType
+      case _ => {
+        declaredType
+      }
     }
   }
 
-  override def toDeclaration(obj: DocumentationSchema) = {
-    var declaredType = toDeclaredType(obj.getType)
+  override def toDeclaration(obj: ModelProperty) = {
+    var declaredType = toDeclaredType(obj.`type`)
 
     declaredType match {
-      case "Array" => {
-        declaredType = "list"
+      case "Array" => declaredType = "list"
+      case e: String => {
+        e
       }
-      case e: String => e
     }
 
     val defaultValue = toDefaultValue(declaredType, obj)
     declaredType match {
       case "list" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else toDeclaredType(obj.items.getType)
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
-        declaredType += "[" + inner + "]"
+        declaredType += "[" + toDeclaredType(inner) + "]"
         "list"
       }
       case _ =>
@@ -153,8 +162,8 @@ class BasicPythonGenerator extends BasicGenerator {
   // supporting classes
   override def supportingFiles = List(
     ("__init__.mustache", destinationDir, "__init__.py"),
-    ("swagger.mustache", destinationDir + File.separator + apiPackage.get,
+    ("swagger.mustache", destinationDir + File.separator + apiPackage.getOrElse(""),
      "swagger.py"),
     ("__init__.mustache", destinationDir + File.separator +
-     modelPackage.get, "__init__.py"))
+     modelPackage.getOrElse(""), "__init__.py"))
 }

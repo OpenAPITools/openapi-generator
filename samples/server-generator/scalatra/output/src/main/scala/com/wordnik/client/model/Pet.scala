@@ -6,10 +6,10 @@ import scala.reflect.BeanProperty
 
 case class Pet (
   id: Long,
-  tags: java.util.List[Tag],
+  tags: List[Tag],
   category: Category,
   /* pet status in the store */
   status: String,
   name: String,
-  photoUrls: java.util.List[String])
+  photoUrls: List[String])
 

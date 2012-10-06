@@ -16,39 +16,41 @@
 
 package com.wordnik.swagger.codegen.util
 
-import com.wordnik.swagger.core.util.JsonUtil
-
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 import scala.io._
-import scala.collection.JavaConversions._
 import scala.collection.mutable.{ ListBuffer, HashMap, HashSet }
-import Source._
 
 object ApiExtractor {
-  def m = JsonUtil.getJsonMapper
+  def json = ScalaJsonUtil.getJsonMapper
 
-  def extractApiDocs(basePath: String, apis: List[DocumentationEndPoint], apiKey: Option[String] = None): List[Documentation] = {
+  def fetchApiListings(basePath: String, apis: List[ApiListingReference], apiKey: Option[String] = None): List[ApiListing] = {
     for (api <- apis) yield {
-      val json = basePath.startsWith("http") match {
+      val str = basePath.startsWith("http") match {
         case true => {
           println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
           Source.fromURL((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")).mkString
         }
         case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
       }
-      val out = m.readValue(json, classOf[Documentation])
-      out
+      json.readValue(str, classOf[ApiListing])
     }
   }
 
-  def extractOperations(basePath: String, api: DocumentationEndPoint): List[(String, DocumentationOperation)] = {
-    (for(op <- api.getOperations.toList) yield (api.path, op)).toList
+  def extractApiOperations(basePath: String, references: List[ApiListingReference], apiKey: Option[String] = None) = {
+    for (api <- references) yield {
+      val str = basePath.startsWith("http") match {
+        case true => {
+          println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
+          Source.fromURL((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")).mkString
+        }
+        case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
+      }
+      json.readValue(str, classOf[ApiListing])
+    }
   }
 
-  def getOperations(path: String, op: List[DocumentationOperation]): Map[String, DocumentationOperation] = {
-    val opMap = new HashMap[String, DocumentationOperation]
-    op.foreach(operation => opMap += path -> operation)
-    opMap.toMap
+  def extractApiOperations(basePath: String, apiDescription: ApiDescription): List[(String, Operation)] = {
+    (for(op <- apiDescription.operations) yield (apiDescription.path, op)).toList
   }
 }

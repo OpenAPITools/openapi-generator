@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen.language
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 import scala.collection.mutable.{ HashMap, HashSet }
 
@@ -29,6 +29,8 @@ abstract class CodegenConfig {
   def destinationDir: String
   def toModelName(name: String): String
   def toApiName(name: String): String
+  def toModelFilename(name: String) = name
+  def toApiFilename(name: String) = toApiName(name)
   def apiNameFromPath(apiPath: String): String
   def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
   def processModelMap(m: Map[String, AnyRef]): Map[String, AnyRef] = m
@@ -61,9 +63,12 @@ abstract class CodegenConfig {
   def toMethodName(name: String): String = name
 
   // override if you want to do something special on processing
-  def processOperation(apiPath: String, op: DocumentationOperation) = {}
+  // def processOperation(apiPath: String, op: DocumentationOperation) = {}
+  def processOperation(apiPath: String, op: Operation) = {}
+
   def processResponseClass(responseClass: String): Option[String] = Some(responseClass)
 
+  def processApiOperation(apiPath: String, op: Operation) = {}
   def processResponseDeclaration(responseClass: String): Option[String] = {
     responseClass match {
       case "void" => None
@@ -74,9 +79,9 @@ abstract class CodegenConfig {
   def supportingFiles = List(): List[(String, String, String)]
 
   // mapping for datatypes
-  def toDeclaration(obj: DocumentationSchema) = {
-    var declaredType = toDeclaredType(obj.getType)
-    val defaultValue = toDefaultValue(declaredType, obj)
+  def toDeclaration(property: ModelProperty) = {
+    var declaredType = toDeclaredType(property.`type`)
+    val defaultValue = toDefaultValue(declaredType, property)
     (declaredType, defaultValue)
   }
 
@@ -123,7 +128,7 @@ abstract class CodegenConfig {
     } else None
   }
 
-  def toDefaultValue(dataType: String, obj: DocumentationSchema) = {
+  def toDefaultValue(dataType: String, obj: ModelProperty) = {
     dataType match {
       case "int" => "0"
       case "long" => "0L"
@@ -131,8 +136,15 @@ abstract class CodegenConfig {
       case "double" => "0.0"
       case e: String if (Set("List").contains(e)) => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
         "new java.util.ArrayList[" + toDeclaredType(inner) + "]" + "()"
       }

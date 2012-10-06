@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKStringValue.h"
 
 @implementation NIKStringValue

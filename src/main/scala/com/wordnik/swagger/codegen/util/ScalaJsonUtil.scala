@@ -31,6 +31,8 @@ object ScalaJsonUtil {
     mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false)
+    mapper.configure(SerializationFeature.INDENT_OUTPUT, true)
     mapper
   }
 }

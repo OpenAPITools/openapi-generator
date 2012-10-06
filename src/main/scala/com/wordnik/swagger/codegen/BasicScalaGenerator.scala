@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 object BasicScalaGenerator extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)
@@ -73,12 +73,19 @@ class BasicScalaGenerator extends BasicGenerator {
     }
   }
 
-  override def toDeclaration(obj: DocumentationSchema): (String, String) = {
-    obj.getType match {
+  override def toDeclaration(obj: ModelProperty): (String, String) = {
+    obj.`type` match {
       case "Array" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
         val e = "List[%s]" format toDeclaredType(inner)
         (e, toDefaultValue(inner, obj))

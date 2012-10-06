@@ -1,10 +1,23 @@
-import com.wordnik.swagger.core.util.JsonUtil
-import com.wordnik.swagger.core.{Documentation, DocumentationSchema}
+/**
+ *  Copyright 2012 Wordnik, Inc.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
-import com.wordnik.swagger.codegen.{BasicScalaGenerator, Codegen}
+import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.{BasicScalaGenerator, Codegen, PathUtil}
 import com.wordnik.swagger.codegen.util._
 import com.wordnik.swagger.codegen.language._
-import com.wordnik.swagger.codegen.PathUtil
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -12,7 +25,6 @@ import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
 import scala.collection.mutable.HashMap
-import scala.collection.JavaConverters._
 
 @RunWith(classOf[JUnitRunner])
 class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
@@ -90,9 +102,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       "double" -> ("Double", "0.0"),
       "object" -> ("Any", "_"))
     expected.map(e => {
-      val model = new DocumentationSchema
-      model.name = "simple_" + e._1
-      model.setType(e._1)
+      val model = ModelProperty(e._1)
       config.toDeclaration(model) should be (e._2)
     })
   }
@@ -116,13 +126,10 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with string inner value and the correct default value
    */
    it should "create a declaration with a List of strings" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfStrings"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("string")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "string")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List[String]")
       m._2 should be ("_")
    }
@@ -131,13 +138,10 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with int inner value and the correct default value
    */
    it should "create a declaration with a List of ints" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfInts"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("int")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "int")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List[Int]")
       m._2 should be ("0")
    }
@@ -146,13 +150,10 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with float inner value and the correct default value
    */
    it should "create a declaration with a List of floats" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfFloats"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("float")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "float")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List[Float]")
       m._2 should be ("0f")
    }
@@ -161,13 +162,10 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with double inner value and the correct default value
    */
    it should "create a declaration with a List of doubles" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfDoubles"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("double")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "double")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List[Double]")
       m._2 should be ("0.0")
    }
@@ -176,26 +174,22 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with complex inner value and the correct default value
    */
    it should "create a declaration with a List of complex objects" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfFloats"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("User")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "User")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List[User]")
       m._2 should be ("_")
    }
 
   it should "verify an api map with query params" in {
-    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
-
-    val subDocs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json", None)
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
     val codegen = new Codegen(config)
-    val petApi = subDocs.filter(doc => doc.getResourcePath == "/pet").head
+    val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
-    val endpoint = petApi.getApis().asScala.filter(api => api.path == "/pet.{format}/findByTags").head
-    val operation = endpoint.getOperations.asScala.filter(op => op.httpMethod == "GET").head
+    val endpoint = petApi.apis.filter(api => api.path == "/pet.{format}/findByTags").head
+    val operation = endpoint.operations.filter(op => op.httpMethod == "GET").head
     val m = codegen.apiToMap("http://my.api.com/api", operation)
 
     m("path") should be ("http://my.api.com/api")
@@ -224,22 +218,24 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "verify an api map with query params with default values" in {
-    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
-
-    val subDocs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json", None)
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
     val codegen = new Codegen(config)
-    val petApi = subDocs.filter(doc => doc.getResourcePath == "/pet").head
+    val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
-    val endpoint = petApi.getApis().asScala.filter(api => api.path == "/pet.{format}/findByStatus").head
-    val operation = endpoint.getOperations.asScala.filter(op => op.httpMethod == "GET").head
+    val endpoint = petApi.apis.filter(api => api.path == "/pet.{format}/findByStatus").head
+    val operation = endpoint.operations.filter(op => op.httpMethod == "GET").head
     val m = codegen.apiToMap("http://my.api.com/api", operation)
 
     m("path") should be ("http://my.api.com/api")
     m("bodyParams").asInstanceOf[List[_]].size should be (0)
     m("httpMethod") should be ("GET")
 
-    // Pet => NIKPet
+    // Pet => Pet
     m("returnBaseType") should be (Some("Pet"))
+
+    // problem here
+    println("the operation has response class " + operation.responseClass)
     m("returnType") should be (Some("List[Pet]"))
     m("returnTypeIsPrimitive") should be (None)
     m("pathParams").asInstanceOf[List[_]].size should be (0)
@@ -261,27 +257,26 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "create an api file" in {
+    implicit val basePath = "http://localhost:8080/api"
     val codegen = new Codegen(config)
-    val resourceListing = json.readValue(ResourceExtractor.extractListing("src/test/resources/petstore/resources.json", None), classOf[Documentation])
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json", None)
 
-    val subDocs = ApiExtractor.extractApiDocs("src/test/resources/petstore", resourceListing.getApis.asScala.toList)
-    val petApi = subDocs.filter(doc => doc.getResourcePath == "/pet").head
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+    val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
-    val endpoint = petApi.getApis().asScala.filter(api => api.path == "/pet.{format}/findByTags").head
-    val operation = endpoint.getOperations.asScala.filter(op => op.httpMethod == "GET").head
+    val endpoint = petApi.apis.filter(api => api.path == "/pet.{format}/findByTags").head
+    val operation = endpoint.operations.filter(op => op.httpMethod == "GET").head
     val m = codegen.apiToMap("http://my.api.com/api", operation)
 
-    implicit val basePath = "http://localhost:8080/api"
+    val allModels = new HashMap[String, Model]
+    val operations = config.extractApiOperations(List(petApi), allModels)
 
-    val allModels = new HashMap[String, DocumentationSchema]
-    val operations = config.extractOperations(subDocs, allModels)
-
-    val apiMap = config.groupApisToFiles(operations).filter(m => m._1 == ("http://petstore.swagger.wordnik.com/api","pet")).toMap
+    val apiMap = config.groupOperationsToFiles(operations)
     val bundle = config.prepareApiBundle(apiMap)
-    val files = config.bundleToSource(bundle, config.apiTemplateFiles.toMap)
-    
-    files.size should be (1)
-    val file = files.head
+    val apiFiles = config.bundleToSource(bundle, config.apiTemplateFiles.toMap)
+
+    apiFiles.size should be (1)
+    val file = apiFiles.head
 
     // verify the filename is set
     file._1.indexOf("""PetApi.scala""") should not be (-1)

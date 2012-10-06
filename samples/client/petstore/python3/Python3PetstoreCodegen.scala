@@ -27,6 +27,6 @@ object Python3PetstoreCodegen extends BasicPython3Generator {
 
   override def supportingFiles = List(
     ("__init__.mustache", destinationDir, "__init__.py"),
-    ("swagger.mustache", destinationDir + File.separator + apiPackage.get, "swagger.py"),
-    ("__init__.mustache", destinationDir + File.separator + modelPackage.get, "__init__.py"))
+    ("swagger.mustache", destinationDir + File.separator + apiPackage.getOrElse(""), "swagger.py"),
+    ("__init__.mustache", destinationDir + File.separator + modelPackage.getOrElse(""), "__init__.py"))
 }

@@ -16,13 +16,18 @@
 
 package com.wordnik.swagger.codegen.util
 
+import com.wordnik.swagger.model._
+
 import scala.io.Source
 
 object ResourceExtractor {
-  def extractListing(path: String, apiKey: Option[String] = None) = {
-	path.startsWith("http") match {
-	  case true => Source.fromURL(path + apiKey.getOrElse("")).mkString
-	  case false => Source.fromFile(path).mkString
+	def json = ScalaJsonUtil.getJsonMapper
+
+	def fetchListing(path: String, apiKey: Option[String] = None): ResourceListing = {
+		val str = path.startsWith("http") match {
+			case true => Source.fromURL(path + apiKey.getOrElse("")).mkString
+			case false => Source.fromFile(path).mkString
+		}
+		json.readValue(str, classOf[ResourceListing])
 	}
-  }
 }

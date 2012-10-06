@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKWordOfTheDay.h"
 
 @implementation NIKWordOfTheDay

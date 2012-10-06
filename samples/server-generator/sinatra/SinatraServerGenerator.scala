@@ -24,9 +24,11 @@ import scala.collection.mutable.{ HashMap, ListBuffer }
 object SinatraServerGenerator extends BasicRubyGenerator {
   def main(args: Array[String]) = generateClient(args)
 
-  override def toApiName(name: String): String = {
-    name + "_api"
-  }
+  override def toApiName(name: String): String = name + "_api"
+
+  // undo the ruby-ish conversions in the BasicRubyGenerator
+  override def toVarName(name: String): String = name
+  override def toMethodName(name: String): String = name
 
   override def templateDir = "samples/server-generator/sinatra/templates"
 
@@ -57,7 +59,7 @@ object SinatraServerGenerator extends BasicRubyGenerator {
 
     mutable.map(k => {
       k._1 match {
-        // the scalatra templates like lower-case httpMethods
+        // the sinatra templates like lower-case httpMethods
         case e: String if (e == "httpMethod") => mutable += "httpMethod" -> k._2.toString.toLowerCase
 
         // convert path into ruby-ish syntax without basePart (i.e. /pet.{format}/{petId} => /:petId

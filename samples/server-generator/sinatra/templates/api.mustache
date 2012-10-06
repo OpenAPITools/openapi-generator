@@ -4,7 +4,7 @@ require 'json'
 {{#operation}}
 
 MyApp.add_route('{{httpMethod}}', '{{path}}', {
-  "resourcePath" => "/{{name}}",
+  "resourcePath" => "/{{baseName}}",
   "summary" => "{{{summary}}}",
   "nickname" => "{{nickname}}", 
   "responseClass" => "{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}", 

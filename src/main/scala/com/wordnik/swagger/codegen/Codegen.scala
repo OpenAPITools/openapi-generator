@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 import com.wordnik.swagger.codegen.util.{ CoreUtils, ScalaJsonUtil }
 import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
@@ -26,11 +26,10 @@ import org.fusesource.scalate.layout.DefaultLayoutStrategy
 import org.fusesource.scalate.mustache._
 import org.fusesource.scalate.support.ScalaCompiler
 
-import java.io.File
-import java.io.FileWriter
-import java.io.InputStream
+import java.io.{ File, FileWriter, InputStream }
 
 import org.apache.commons.io.FileUtils
+
 import scala.io.Source
 import scala.collection.mutable.{ HashMap, ListBuffer, HashSet }
 import scala.collection.JavaConversions._
@@ -40,15 +39,16 @@ object Codegen {
 }
 
 class Codegen(config: CodegenConfig) {
-  val m = ScalaJsonUtil.getJsonMapper
+  val json = ScalaJsonUtil.getJsonMapper
 
   def generateSource(bundle: Map[String, AnyRef], templateFile: String): String = {
     val allImports = new HashSet[String]
     val includedModels = new HashSet[String]
     val modelList = new ListBuffer[Map[String, AnyRef]]
     val models = bundle("models")
+
     models match {
-      case e: List[Tuple2[String, DocumentationSchema]] => {
+      case e: List[Tuple2[String, Model]] => {
         e.foreach(m => {
           includedModels += m._1
           val modelMap = modelToMap(m._1, m._2)
@@ -65,10 +65,9 @@ class Codegen(config: CodegenConfig) {
     val modelData = Map[String, AnyRef]("model" -> modelList.toList)
     val operationList = new ListBuffer[Map[String, AnyRef]]
     val classNameToOperationList = new HashMap[String, ListBuffer[AnyRef]]
-
     val apis = bundle("apis")
     apis match {
-      case a: Map[String, List[(String, DocumentationOperation)]] => {
+      case a: Map[String, List[(String, Operation)]] => {
         a.map(op => {
           val classname = op._1
           val ops = op._2
@@ -100,7 +99,10 @@ class Codegen(config: CodegenConfig) {
       includedModels.contains(model) match {
         case false => {
           config.importMapping.containsKey(model) match {
-            case true => imports += Map("import" -> config.importMapping(model))
+            case true => {
+              if(!imports.flatten.map(m => m._2).toSet.contains(config.importMapping(model)))
+                imports += Map("import" -> config.importMapping(model))
+            }
             case false =>
           }
         }
@@ -116,7 +118,11 @@ class Codegen(config: CodegenConfig) {
         case false => {
           config.importMapping.containsKey(model) match {
             case true =>
-            case false => imports += Map("import" -> (importScope + model))
+            case false => {
+              if(!imports.flatten.map(m => m._2).toSet.contains(importScope + model)){
+                imports += Map("import" -> (importScope + model))
+              }
+            }
           }
         }
         case true => // no need to add the model
@@ -151,15 +157,13 @@ class Codegen(config: CodegenConfig) {
     var data = Map[String, AnyRef](
       "name" -> bundle("name"),
       "package" -> bundle("package"),
+      "baseName" -> bundle.getOrElse("baseName", None),
       "className" -> bundle("className"),
       "invokerPackage" -> bundle("invokerPackage"),
       "imports" -> imports,
       "operations" -> f,
       "models" -> modelData,
       "basePath" -> bundle.getOrElse("basePath", ""))
-
-    // println(m.writeValueAsString(modelData))
-
     var output = engine.layout(config.templateDir + File.separator + templateFile, template, data.toMap)
 
     //  a shutdown method will be added to scalate in an upcoming release
@@ -167,39 +171,19 @@ class Codegen(config: CodegenConfig) {
     output
   }
 
-  def extractImportsFromApi(operation: Tuple2[String, DocumentationOperation]) = {
-    val imports = new ListBuffer[AnyRef]
-    val modelNames = CoreUtils.extractModelNames(operation._2)
-
-    modelNames.foreach(modelName => {
-      // apply mapings, packages for generated code
-      val qualifiedModel = (config.importMapping.contains(modelName) match {
-        case true => config.importMapping(modelName)
-        case false => {
-          config.modelPackage match {
-            case Some(p) => p + "." + config.toModelName(modelName)
-            case None => config.toModelName(modelName)
-          }
-        }
-      })
-      imports += Map("import" -> qualifiedModel)
-    })
-    imports.toSet
-  }
-
-  def allowableValuesToString(v: DocumentationAllowableValues) = {
+  def allowableValuesToString(v: AllowableValues) = {
     v match {
-      case av: DocumentationAllowableListValues => {
-        av.getValueType + av.getValues.mkString("[", ",", "]")
+      case av: AllowableListValues => {
+        av.values.mkString("LIST[", ",", "]")
       }
-      case av: DocumentationAllowableRangeValues => {
-        av.getValueType + "[" + av.getMin() + "," + av.getMax() + "]"
+      case av: AllowableRangeValues => {
+        "RANGE[" + av.min + "," + av.max + "]"
       }
       case _ => "unsupported"
     }
   }
 
-  def apiToMap(path: String, op: DocumentationOperation): Map[String, AnyRef] = {
+  def apiToMap(path: String, operation: Operation): Map[String, AnyRef] = {
     var bodyParam: Option[String] = None
     var queryParams = new ListBuffer[AnyRef]
     val pathParams = new ListBuffer[AnyRef]
@@ -207,8 +191,8 @@ class Codegen(config: CodegenConfig) {
     val bodyParams = new ListBuffer[AnyRef]
     var paramList = new ListBuffer[HashMap[String, AnyRef]]
 
-    if (op.getParameters != null) {
-      op.getParameters.foreach(param => {
+    if (operation.parameters != null) {
+      operation.parameters.foreach(param => {
         val params = new HashMap[String, AnyRef]
         params += (param.paramType + "Parameter") -> "true"
         params += "type" -> param.paramType
@@ -220,7 +204,7 @@ class Codegen(config: CodegenConfig) {
         params += "allowMultiple" -> param.allowMultiple.toString
 
         param.allowableValues match {
-          case a: DocumentationAllowableValues => params += "allowableValues" -> allowableValuesToString(a)
+          case a: AllowableValues => params += "allowableValues" -> allowableValuesToString(a)
           case _ =>
         }
 
@@ -314,10 +298,10 @@ class Codegen(config: CodegenConfig) {
     val properties =
       HashMap[String, AnyRef](
         "path" -> path,
-        "nickname" -> config.toMethodName(op.nickname),
-        "summary" -> op.summary,
-        "notes" -> op.notes,
-        "deprecated" -> op.deprecated,
+        "nickname" -> config.toMethodName(operation.nickname),
+        "summary" -> operation.summary,
+        "notes" -> operation.notes,
+        "deprecated" -> operation.`deprecated`,
         "bodyParam" -> bodyParam,
         "allParams" -> sp,
         "bodyParams" -> bodyParams.toList,
@@ -325,12 +309,12 @@ class Codegen(config: CodegenConfig) {
         "queryParams" -> queryParams.toList,
         "headerParams" -> headerParams.toList,
         "requiredParams" -> requiredParams.toList,
-        "httpMethod" -> op.httpMethod.toUpperCase,
-        op.httpMethod.toLowerCase -> "true")
+        "httpMethod" -> operation.httpMethod.toUpperCase,
+        operation.httpMethod.toLowerCase -> "true")
     if (requiredParams.size > 0) properties += "requiredParamCount" -> requiredParams.size.toString
-    op.responseClass.indexOf("[") match {
+    operation.responseClass.indexOf("[") match {
       case -1 => {
-        val baseType = op.responseClass
+        val baseType = operation.responseClass
         properties += "returnType" -> config.processResponseDeclaration(baseType)
         properties += "returnBaseType" -> config.processResponseClass(baseType)
         properties += "returnSimpleType" -> "true"
@@ -343,9 +327,10 @@ class Codegen(config: CodegenConfig) {
       }
       case n: Int => {
         val ComplexTypeMatcher = ".*\\[(.*)\\].*".r
-        val ComplexTypeMatcher(basePart) = op.responseClass
-        properties += "returnType" -> config.processResponseDeclaration(op.responseClass.replaceAll(basePart, config.processResponseClass(basePart).get))
-        properties += "returnContainer" -> (op.responseClass.substring(0, n))
+        val ComplexTypeMatcher(basePart) = operation.responseClass
+
+        properties += "returnType" -> config.processResponseDeclaration(operation.responseClass.replaceAll(basePart, config.processResponseClass(basePart).get))
+        properties += "returnContainer" -> (operation.responseClass.substring(0, n))
         properties += "returnBaseType" -> config.processResponseClass(basePart)
         properties += "returnTypeIsPrimitive" -> {
           (config.languageSpecificPrimitives.contains(basePart) || primitives.contains(basePart)) match {
@@ -358,7 +343,7 @@ class Codegen(config: CodegenConfig) {
     config.processApiMap(properties.toMap)
   }
 
-  def modelToMap(className: String, model: DocumentationSchema): Map[String, AnyRef] = {
+  def modelToMap(className: String, model: Model): Map[String, AnyRef] = {
     val data: HashMap[String, AnyRef] =
       HashMap(
         "classname" -> config.toModelName(className),
@@ -371,18 +356,21 @@ class Codegen(config: CodegenConfig) {
     val imports = new HashSet[AnyRef]
     model.properties.map(prop => {
       val propertyDocSchema = prop._2
-      val dt = propertyDocSchema.getType
+      val dt = propertyDocSchema.`type`
 
       var baseType = dt
       // import the object inside the container
       if (propertyDocSchema.items != null) {
         // import the container
         imports += Map("import" -> dt)
-        if (propertyDocSchema.items.ref != null) {
-          baseType = propertyDocSchema.items.ref
-        }
-        else if (propertyDocSchema.items.getType != null) {
-          baseType = propertyDocSchema.items.getType
+        propertyDocSchema.items match {
+          case Some(items) => {
+            if(items.ref != null)
+              baseType = items.ref
+            else if (items.`type` != null)
+              baseType = items.`type`
+          }
+          case _ =>
         }
       }
       baseType = config.typeMapping.contains(baseType) match {
@@ -397,10 +385,10 @@ class Codegen(config: CodegenConfig) {
         case _ => imports += Map("import" -> baseType)
       }
 
-      val isList = (if (isListType(propertyDocSchema.getType)) true else None)
-      val isMap = (if (isMapType(propertyDocSchema.getType)) true else None)
-      val isNotContainer = if (!isListType(propertyDocSchema.getType) && !isMapType(propertyDocSchema.getType)) true else None
-      val isContainer = if (isListType(propertyDocSchema.getType) || isMapType(propertyDocSchema.getType)) true else None
+      val isList = (if (isListType(propertyDocSchema.`type`)) true else None)
+      val isMap = (if (isMapType(propertyDocSchema.`type`)) true else None)
+      val isNotContainer = if (!isListType(propertyDocSchema.`type`) && !isMapType(propertyDocSchema.`type`)) true else None
+      val isContainer = if (isListType(propertyDocSchema.`type`) || isMapType(propertyDocSchema.`type`)) true else None
 
       val properties =
         HashMap(
@@ -423,7 +411,7 @@ class Codegen(config: CodegenConfig) {
           "datatype" -> config.toDeclaration(propertyDocSchema)._1,
           "defaultValue" -> config.toDeclaration(propertyDocSchema)._2,
           "description" -> propertyDocSchema.description,
-          "notes" -> propertyDocSchema.notes,
+          "notes" -> propertyDocSchema.description,
           "required" -> propertyDocSchema.required.toString,
           "getter" -> config.toGetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
           "setter" -> config.toSetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
@@ -458,7 +446,7 @@ class Codegen(config: CodegenConfig) {
     }
   }
 
-  def writeSupportingClasses(apis: Map[(String, String), List[(String, com.wordnik.swagger.core.DocumentationOperation)]], models: Map[String, DocumentationSchema]) = {
+  def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model]) = {
     val rootDir = new java.io.File(".")
     val engine = new TemplateEngine(Some(rootDir))
 
@@ -476,11 +464,16 @@ class Codegen(config: CodegenConfig) {
 
     val modelList = new ListBuffer[HashMap[String, AnyRef]]
 
+    val nonScalaMapper = JsonUtil.getJsonMapper
     models.foreach(m => {
+      val str = json.writeValueAsString(m._2)
+      val jsonObj = nonScalaMapper.readValue(str, classOf[AnyRef])
+      val modelJson = nonScalaMapper.writeValueAsString(jsonObj)
+
       modelList += HashMap(
         "modelName" -> m._1,
         "model" -> m._2,
-        "modelJson" -> ScalaJsonUtil.getJsonMapper.writeValueAsString(m._2),
+        "modelJson" -> modelJson,
         "hasMore" -> "true")
     })
     modelList.size match {
@@ -523,7 +516,6 @@ class Codegen(config: CodegenConfig) {
         println("wrote " + outputFilename)
       } else {
         val is = getInputStream(config.templateDir + File.separator + srcTemplate)
-        println("copying file " + config.templateDir + File.separator + srcTemplate + " to " + outputFilename)
         val outputFile = new File(outputFilename)
         val parentDir = new File(outputFile.getParent)
         if (parentDir != null && !parentDir.exists) {
@@ -555,5 +547,25 @@ class Codegen(config: CodegenConfig) {
         }
         case _ => false
       }
+  }
+}
+
+import com.fasterxml.jackson.core.JsonGenerator.Feature
+import com.fasterxml.jackson.databind._
+import com.fasterxml.jackson.annotation._
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+
+
+object JsonUtil {
+  def getJsonMapper = {
+    val mapper = new ObjectMapper()
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT)
+    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false)
+    mapper.configure(SerializationFeature.INDENT_OUTPUT, true)
+    mapper
   }
 }

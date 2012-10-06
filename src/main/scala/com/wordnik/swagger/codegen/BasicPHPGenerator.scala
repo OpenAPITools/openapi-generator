@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 import java.io.File
 
@@ -123,13 +123,11 @@ class BasicPHPGenerator extends BasicGenerator {
     }
   }
 
-  override def toDeclaration(obj: DocumentationSchema) = {
-    var declaredType = toDeclaredType(obj.getType)
+  override def toDeclaration(obj: ModelProperty) = {
+    var declaredType = toDeclaredType(obj.`type`)
 
     declaredType match {
-      case "Array" => {
-        declaredType = "array"
-      }
+      case "Array" => declaredType = "array"
       case e: String => e
     }
 
@@ -137,8 +135,15 @@ class BasicPHPGenerator extends BasicGenerator {
     declaredType match {
       case "array" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else toDeclaredType(obj.items.getType)
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
         declaredType += "[" + inner + "]"
         "array"

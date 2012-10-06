@@ -16,8 +16,6 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
-
 import java.io.File
 
 object BasicPython3Generator extends BasicPython3Generator {

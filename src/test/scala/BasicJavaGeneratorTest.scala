@@ -1,23 +1,34 @@
-import com.wordnik.swagger.core.util.JsonUtil
-import com.wordnik.swagger.core.{Documentation, DocumentationSchema}
+/**
+ *  Copyright 2012 Wordnik, Inc.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
-import com.wordnik.swagger.codegen.BasicJavaGenerator
+import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.{BasicJavaGenerator, PathUtil}
 import com.wordnik.swagger.codegen.util._
 import com.wordnik.swagger.codegen.language._
-import com.wordnik.swagger.codegen.PathUtil
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
-import scala.collection.JavaConverters._
 import scala.reflect.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
   val json = ScalaJsonUtil.getJsonMapper
-
   val config = new BasicJavaGenerator
 
   behavior of "BasicJavaGenerator"
@@ -90,9 +101,7 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
       "double" -> ("Double", "null"),
       "object" -> ("Object", "null"))
     expected.map(e => {
-      val model = new DocumentationSchema
-      model.name = "simple_" + e._1
-      model.setType(e._1)
+      val model = ModelProperty(e._1)
       config.toDeclaration(model) should be (e._2)
     })
   }
@@ -119,13 +128,10 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with string inner value and the correct default value
    */
    it should "create a declaration with a List of strings" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfStrings"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("string")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "string")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List<String>")
       m._2 should be ("new ArrayList<String>()")
    }
@@ -134,13 +140,10 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with int inner value and the correct default value
    */
    it should "create a declaration with a List of ints" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfInts"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("int")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "int")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List<Integer>")
       m._2 should be ("new ArrayList<Integer>()")
    }
@@ -149,13 +152,10 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with float inner value and the correct default value
    */
    it should "create a declaration with a List of floats" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfFloats"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("float")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "float")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List<Float>")
       m._2 should be ("new ArrayList<Float>()")
    }
@@ -164,13 +164,10 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with double inner value and the correct default value
    */
    it should "create a declaration with a List of doubles" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfDoubles"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("double")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "double")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List<Double>")
       m._2 should be ("new ArrayList<Double>()")
    }
@@ -179,13 +176,10 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
    * support list declarations with complex inner value and the correct default value
    */
    it should "create a declaration with a List of complex objects" in {
-      val model = new DocumentationSchema
-      model.name = "arrayOfFloats"
-      model.setType("Array")
-      model.items = new DocumentationSchema
-      model.items.setType("User")
-
-      val m = config.toDeclaration(model)
+      val property = ModelProperty(
+        "Array", 
+        items=Some(ModelRef(`type`= "User")))
+      val m = config.toDeclaration(property)
       m._1 should be ("List<User>")
       m._2 should be ("new ArrayList<User>()")
    }

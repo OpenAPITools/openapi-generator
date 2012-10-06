@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 object BasicObjcGenerator extends BasicObjcGenerator {
   def main(args: Array[String]) = generateClient(args)
@@ -58,6 +58,8 @@ class BasicObjcGenerator extends BasicGenerator {
 
   override def importMapping = Map(
     "Date" -> "NIKDate")
+
+  override def toModelFilename(name: String) = "NIK" + name
 
   // naming for the models
   override def toModelName(name: String) = {
@@ -135,8 +137,8 @@ class BasicObjcGenerator extends BasicGenerator {
     }
   }
 
-  override def toDeclaration(obj: DocumentationSchema) = {
-    var declaredType = toDeclaredType(obj.getType)
+  override def toDeclaration(obj: ModelProperty) = {
+    var declaredType = toDeclaredType(obj.`type`)
     declaredType match {
       case "Array" => {
         declaredType = "List"
@@ -148,8 +150,15 @@ class BasicObjcGenerator extends BasicGenerator {
     declaredType match {
       case "List" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
         declaredType += "<" + inner + ">"
         "NSArray"
@@ -161,8 +170,7 @@ class BasicObjcGenerator extends BasicGenerator {
 
   override def escapeReservedWord(word: String) = "_" + word
 
-  // default values
-  override def toDefaultValue(properCase: String, obj: DocumentationSchema) = {
+  override def toDefaultValue(properCase: String, obj: ModelProperty) = {
     properCase match {
       case "boolean" => "false"
       case "int" => "0"
@@ -171,8 +179,15 @@ class BasicObjcGenerator extends BasicGenerator {
       case "double" => "0.0"
       case "List" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }
         }
         "new ArrayList<" + inner + ">" + "()"
       }

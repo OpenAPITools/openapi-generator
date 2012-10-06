@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKUser.h"
 
 @implementation NIKUser

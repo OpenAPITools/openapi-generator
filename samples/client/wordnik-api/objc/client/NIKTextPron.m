@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKTextPron.h"
 
 @implementation NIKTextPron

@@ -16,10 +16,6 @@
 
 package com.wordnik.swagger.codegen
 
-/**
- * @since 7/6/12 9:06 AM
- *
- */
 trait PathUtil {
   def getResourcePath(host: String) = {
     System.getProperty("fileMap") match {

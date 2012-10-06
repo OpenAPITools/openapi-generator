@@ -7,7 +7,7 @@ class MyApp < Swaggering
   end
 end
 
-require './lib/pet_api.rb'
 require './lib/store_api.rb'
+require './lib/pet_api.rb'
 require './lib/user_api.rb'
 

@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.core._
+import com.wordnik.swagger.model._
 
 import java.io.File
 
@@ -58,6 +58,9 @@ class BasicRubyGenerator extends BasicGenerator {
     }
   }
 
+  override def toModelFilename(name: String) = name.toLowerCase
+  override def toApiFilename(name: String) = name.toLowerCase + "_api"
+
   override def toVarName(name: String): String = toUnderscore(name)
 
   override def toMethodName(name: String): String = toUnderscore(name)
@@ -71,8 +74,8 @@ class BasicRubyGenerator extends BasicGenerator {
     sb.toString
   }
 
-  override def toDeclaration(obj: DocumentationSchema) = {
-    var datatype = obj.getType.charAt(0).toUpperCase + obj.getType.substring(1)
+  override def toDeclaration(obj: ModelProperty) = {
+    var datatype = obj.`type`.charAt(0).toUpperCase + obj.`type`.substring(1)
 
     datatype match {
       case "Array" => datatype = "List"
@@ -83,9 +86,15 @@ class BasicRubyGenerator extends BasicGenerator {
     datatype match {
       case "List" => {
         val inner = {
-          if (obj.items.ref != null) obj.items.ref
-          else obj.items.getType
-        }
+          obj.items match {
+            case Some(items) => {
+              if(items.ref != null) 
+                items.ref
+              else
+                items.`type`
+            }
+            case _ => throw new Exception("no inner type defined")
+          }        }
         datatype = "java.util.List[" + inner + "]"
       }
       case _ =>

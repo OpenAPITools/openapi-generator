@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKExampleSearchResults.h"
 
 @implementation NIKExampleSearchResults

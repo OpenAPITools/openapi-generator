@@ -1,4 +1,3 @@
-#import "NIKDate.h"
 #import "NIKCitation.h"
 
 @implementation NIKCitation
