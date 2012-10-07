@@ -491,7 +491,7 @@ class Codegen(config: CodegenConfig) {
         "models" -> modelList)
 
     config.supportingFiles.map(file => {
-      val srcTemplate = file._1
+      val supportingFile = file._1
       val outputDir = file._2
       val destFile = file._3
 
@@ -499,9 +499,9 @@ class Codegen(config: CodegenConfig) {
       val outputFolder = new File(outputFilename).getParent
       new File(outputFolder).mkdirs
 
-      if (srcTemplate.endsWith(".mustache")) {
+      if (supportingFile.endsWith(".mustache")) {
         val output = {
-          val resourceName = config.templateDir + File.separator + srcTemplate
+          val resourceName = config.templateDir + File.separator + supportingFile
           val is = getInputStream(resourceName)
           if (is == null)
             throw new Exception("Resource not found: " + resourceName)
@@ -515,15 +515,22 @@ class Codegen(config: CodegenConfig) {
         fw.close()
         println("wrote " + outputFilename)
       } else {
-        val is = getInputStream(config.templateDir + File.separator + srcTemplate)
-        val outputFile = new File(outputFilename)
-        val parentDir = new File(outputFile.getParent)
-        if (parentDir != null && !parentDir.exists) {
-          println("making directory: " + parentDir.toString + ": " + parentDir.mkdirs)
+        val file = new File(config.templateDir + File.separator + supportingFile)
+        if(file.isDirectory()) {
+          // copy the whole directory
+          FileUtils.copyDirectory(file, new File(outputDir))
+          println("copied directory " + supportingFile)
+        } else {
+          val is = getInputStream(config.templateDir + File.separator + supportingFile)
+          val outputFile = new File(outputFilename)
+          val parentDir = new File(outputFile.getParent)
+          if (parentDir != null && !parentDir.exists) {
+            println("making directory: " + parentDir.toString + ": " + parentDir.mkdirs)
+          }
+          FileUtils.copyInputStreamToFile(is, new File(outputFilename))
+          println("copied " + outputFilename)
+          is.close
         }
-        FileUtils.copyInputStreamToFile(is, new File(outputFilename))
-        println("copied " + outputFilename)
-        is.close
       }
     })
     //a shutdown method will be added to scalate in an upcoming release
