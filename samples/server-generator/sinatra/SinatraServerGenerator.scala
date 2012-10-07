@@ -15,7 +15,6 @@
  */
 
 import com.wordnik.swagger.codegen.BasicRubyGenerator
-import com.wordnik.swagger.core._
 
 import java.io.File
 
