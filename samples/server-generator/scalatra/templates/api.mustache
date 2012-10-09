@@ -3,16 +3,20 @@ package {{package}}
 {{#imports}}import {{import}}
 {{/imports}}
 import com.wordnik.swagger.core.ApiPropertiesReader
+
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
-import org.scalatra.json._
+import org.json4s._
+import org.json4s.JsonDSL._
+import org.scalatra.json.{JValueResult, NativeJsonSupport}
 
 import scala.collection.JavaConverters._
-import org.json4s.{ DefaultFormats, Formats }
 
-import scala.collection.JavaConverters._
-
-class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet with TypedParamSupport with JacksonJsonSupport with JValueResult with SwaggerSupport {
+class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet 
+      with TypedParamSupport 
+      with NativeJsonSupport 
+      with JValueResult 
+      with SwaggerSupport  {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "{{className}}"
@@ -31,9 +35,9 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet with
     contentType = formats("json")
     response.headers += ("Access-Control-Allow-Origin" -> "*")
   }
-
-  {{#operations}}
-  {{#operation}}
+{{#operations}}
+{{#operation}}
+  {{newline}}
   {{httpMethod}}("{{path}}",
     summary("{{{summary}}}"),
     nickname("{{nickname}}"),
@@ -43,34 +47,40 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet with
     parameters(
       {{#allParams}}
       {{#queryParameter}}
-      Parameter("{{paramName}}", "{{{description}}}",
+      Parameter(name = "{{paramName}}", 
+        description = "{{{description}}}",
         paramType = ParamType.Query,
         required = {{required}},
         allowMultiple = {{allowMultiple}},
-        {{#allowableValues}}allowableValues = AllowableValues("{{{allowableValues}}}"),{{/allowableValues}}
+        {{#allowableValues}}allowableValues = {{{allowableValues}}},{{newline}}{{/allowableValues}}
         defaultValue = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}},
         dataType = DataType("{{dataType}}"))
       {{/queryParameter}}
       {{#pathParameter}}
-      Parameter("{{paramName}}", "{{{description}}}",
+      Parameter(name = "{{paramName}}", 
+        description = "{{{description}}}",
         dataType = DataType.String,
+        {{#allowableValues}}allowableValues = {{{allowableValues}}},{{newline}}{{/allowableValues}}
+        defaultValue = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}},
         paramType = ParamType.Path)
       {{/pathParameter}}
       {{#headerParameter}}
-      Parameter("{{paramName}}", "{{{description}}}",
+      Parameter(name = "{{paramName}}",
+        description = "{{{description}}}",
         dataType = DataType("{{dataType}}"),
         paramType = ParamType.Header)
       {{/headerParameter}}
       {{#bodyParameter}}
-      Parameter("{{paramName}}", "{{{description}}}",
+      Parameter(name = "{{paramName}}",
+        description = "{{{description}}}",
         dataType = DataType("{{dataType}}"),
         paramType = ParamType.Body)
-      {{/bodyParameter}}
-      {{#hasMore}},{{/hasMore}}{{newline}}
-      {{/allParams}}
-      )) {
-  }
+      {{/bodyParameter}}{{#hasMore}},{{/hasMore}}
+    {{/allParams}}
+    )) {
 
-  {{/operation}}
-  {{/operations}}
+    // do something
+  }
+{{/operation}}
+{{/operations}}
 }

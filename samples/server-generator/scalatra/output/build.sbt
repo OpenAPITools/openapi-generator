@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "org.scalatra"                 % "scalatra-swagger"       % "2.2.0-SNAPSHOT",
   "org.scalatra"                 % "scalatra-json"          % "2.2.0-SNAPSHOT",
   "org.json4s"                  %% "json4s-jackson"         % "3.0.0-SNAPSHOT",
-  "com.wordnik"                  % "swagger-core_2.9.1"     % "1.1-SNAPSHOT",
+  "com.wordnik"                  % "swagger-core_2.9.1"     % "1.1.1-SNAPSHOT",
   "ch.qos.logback"               % "logback-classic"        % "1.0.6" % "runtime",
   "org.eclipse.jetty"            % "jetty-webapp"           % "8.1.5.v20120716"     % "container",
   "org.eclipse.jetty.orbit"      % "javax.servlet"          % "3.0.0.v201112011016" % "container;provided;test" artifacts (Artifact("javax.servlet", "jar", "jar")))

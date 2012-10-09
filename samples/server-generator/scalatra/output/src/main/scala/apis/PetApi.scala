@@ -2,16 +2,20 @@ package apis
 
 import com.wordnik.client.model.Pet
 import com.wordnik.swagger.core.ApiPropertiesReader
+
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
-import org.scalatra.json._
+import org.json4s._
+import org.json4s.JsonDSL._
+import org.scalatra.json.{JValueResult, NativeJsonSupport}
 
 import scala.collection.JavaConverters._
-import org.json4s.{ DefaultFormats, Formats }
 
-import scala.collection.JavaConverters._
-
-class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedParamSupport with JacksonJsonSupport with JValueResult with SwaggerSupport {
+class PetApi (implicit val swagger: Swagger) extends ScalatraServlet 
+      with TypedParamSupport 
+      with NativeJsonSupport 
+      with JValueResult 
+      with SwaggerSupport  {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "PetApi"
@@ -38,11 +42,14 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedP
     endpoint("{petId}"),
     notes("Returns a pet based on ID"),
     parameters(
-      Parameter("petId", "ID of pet that needs to be fetched",
+      Parameter(name = "petId", 
+        description = "ID of pet that needs to be fetched",
         dataType = DataType.String,
+        defaultValue = None,
         paramType = ParamType.Path)
-      
       )) {
+
+    // do something
   }
 
   post("/",
@@ -52,11 +59,13 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedP
     endpoint(""),
     notes(""),
     parameters(
-      Parameter("body", "Pet object that needs to be added to the store",
+      Parameter(name = "body",
+        description = "Pet object that needs to be added to the store",
         dataType = DataType("Pet"),
         paramType = ParamType.Body)
-      
       )) {
+
+    // do something
   }
 
   put("/",
@@ -66,11 +75,13 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedP
     endpoint(""),
     notes(""),
     parameters(
-      Parameter("body", "Pet object that needs to be updated in the store",
+      Parameter(name = "body",
+        description = "Pet object that needs to be updated in the store",
         dataType = DataType("Pet"),
         paramType = ParamType.Body)
-      
       )) {
+
+    // do something
   }
 
   get("/findByStatus",
@@ -80,14 +91,16 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedP
     endpoint("findByStatus"),
     notes("Multiple status values can be provided with comma seperated strings"),
     parameters(
-      Parameter("status", "Status values that need to be considered for filter",
+      Parameter(name = "status", 
+        description = "Status values that need to be considered for filter",
         paramType = ParamType.Query,
         required = true,
         allowMultiple = true,
-        allowableValues = AllowableValues("LIST[available,pending,sold]"),defaultValue = Some("available"),
+        allowableValues = AllowableValues("available","pending","sold"),defaultValue = Some("available"),
         dataType = DataType("String"))
-      
       )) {
+
+    // do something
   }
 
   get("/findByTags",
@@ -97,14 +110,15 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedP
     endpoint("findByTags"),
     notes("Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing."),
     parameters(
-      Parameter("tags", "Tags to filter by",
+      Parameter(name = "tags", 
+        description = "Tags to filter by",
         paramType = ParamType.Query,
         required = true,
         allowMultiple = true,
         defaultValue = None,
         dataType = DataType("String"))
-      
       )) {
-  }
 
+    // do something
   }
+}

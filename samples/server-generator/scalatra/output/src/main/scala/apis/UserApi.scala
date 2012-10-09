@@ -2,16 +2,20 @@ package apis
 
 import com.wordnik.client.model.User
 import com.wordnik.swagger.core.ApiPropertiesReader
+
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
-import org.scalatra.json._
+import org.json4s._
+import org.json4s.JsonDSL._
+import org.scalatra.json.{JValueResult, NativeJsonSupport}
 
 import scala.collection.JavaConverters._
-import org.json4s.{ DefaultFormats, Formats }
 
-import scala.collection.JavaConverters._
-
-class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with TypedParamSupport with JacksonJsonSupport with JValueResult with SwaggerSupport {
+class UserApi (implicit val swagger: Swagger) extends ScalatraServlet 
+      with TypedParamSupport 
+      with NativeJsonSupport 
+      with JValueResult 
+      with SwaggerSupport  {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "UserApi"
@@ -38,11 +42,13 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     endpoint("createWithArray"),
     notes(""),
     parameters(
-      Parameter("body", "List of user object",
+      Parameter(name = "body",
+        description = "List of user object",
         dataType = DataType("Array[User]"),
         paramType = ParamType.Body)
-      
       )) {
+
+    // do something
   }
 
   post("/",
@@ -52,11 +58,13 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     endpoint(""),
     notes("This can only be done by the logged in user."),
     parameters(
-      Parameter("body", "Created user object",
+      Parameter(name = "body",
+        description = "Created user object",
         dataType = DataType("User"),
         paramType = ParamType.Body)
-      
       )) {
+
+    // do something
   }
 
   post("/createWithList",
@@ -66,11 +74,13 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     endpoint("createWithList"),
     notes(""),
     parameters(
-      Parameter("body", "List of user object",
+      Parameter(name = "body",
+        description = "List of user object",
         dataType = DataType("List[User]"),
         paramType = ParamType.Body)
-      
       )) {
+
+    // do something
   }
 
   put("/:username",
@@ -80,15 +90,18 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     endpoint("{username}"),
     notes("This can only be done by the logged in user."),
     parameters(
-      Parameter("username", "name that need to be deleted",
+      Parameter(name = "username", 
+        description = "name that need to be deleted",
         dataType = DataType.String,
+        defaultValue = None,
         paramType = ParamType.Path)
-      ,
-      Parameter("body", "Updated user object",
+      ,Parameter(name = "body",
+        description = "Updated user object",
         dataType = DataType("User"),
         paramType = ParamType.Body)
-      
       )) {
+
+    // do something
   }
 
   delete("/:username",
@@ -98,11 +111,14 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     endpoint("{username}"),
     notes("This can only be done by the logged in user."),
     parameters(
-      Parameter("username", "The name that needs to be deleted",
+      Parameter(name = "username", 
+        description = "The name that needs to be deleted",
         dataType = DataType.String,
+        defaultValue = None,
         paramType = ParamType.Path)
-      
       )) {
+
+    // do something
   }
 
   get("/:username",
@@ -112,11 +128,14 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     endpoint("{username}"),
     notes(""),
     parameters(
-      Parameter("username", "The name that needs to be fetched. Use user1 for testing.",
+      Parameter(name = "username", 
+        description = "The name that needs to be fetched. Use user1 for testing.",
         dataType = DataType.String,
+        defaultValue = None,
         paramType = ParamType.Path)
-      
       )) {
+
+    // do something
   }
 
   get("/login",
@@ -126,21 +145,23 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     endpoint("login"),
     notes(""),
     parameters(
-      Parameter("username", "The user name for login",
+      Parameter(name = "username", 
+        description = "The user name for login",
         paramType = ParamType.Query,
         required = true,
         allowMultiple = false,
         defaultValue = None,
         dataType = DataType("String"))
-      ,
-      Parameter("password", "The password for login in clear text",
+      ,Parameter(name = "password", 
+        description = "The password for login in clear text",
         paramType = ParamType.Query,
         required = true,
         allowMultiple = false,
         defaultValue = None,
         dataType = DataType("String"))
-      
       )) {
+
+    // do something
   }
 
   get("/logout",
@@ -151,6 +172,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet with Typed
     notes(""),
     parameters(
       )) {
-  }
 
+    // do something
   }
+}
