@@ -109,11 +109,13 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     apiListings.foreach(apiDescription => {
       val basePath = apiDescription.basePath
       val resourcePath = apiDescription.resourcePath
-      apiDescription.apis.foreach(api => {
-        for ((apiPath, operation) <- ApiExtractor.extractApiOperations(basePath, api)) {
-          output += Tuple3(basePath, apiPath, operation)
-        }
-      })
+      if(apiDescription.apis != null) {
+        apiDescription.apis.foreach(api => {
+          for ((apiPath, operation) <- ApiExtractor.extractApiOperations(basePath, api)) {
+            output += Tuple3(basePath, apiPath, operation)
+          }
+        })
+      }
       output.map(op => processApiOperation(op._2, op._3))
       allModels ++= CoreUtils.extractApiModels(apiDescription)
     })

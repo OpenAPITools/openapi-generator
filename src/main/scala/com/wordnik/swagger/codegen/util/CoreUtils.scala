@@ -98,18 +98,21 @@ object CoreUtils {
     val modelNames = new HashSet[String]
     val modelObjects = new HashMap[String, Model]
     // return types
-    sd.apis.foreach(api => {
-      if (api.operations != null)
-        api.operations.foreach(op => {
-          modelNames += op.responseClass
-          // POST, PUT, DELETE body
-          if(op.parameters != null)
-            op.parameters.filter(p => p.paramType == "body")
-              .foreach(p => modelNames += p.dataType)
+    if(sd.apis != null){
+      sd.apis.foreach(api => {
+        if (api.operations != null)
+          api.operations.foreach(op => {
+            modelNames += op.responseClass
+            // POST, PUT, DELETE body
+            if(op.parameters != null)
+              op.parameters.filter(p => p.paramType == "body")
+                .foreach(p => modelNames += p.dataType)
+        })
       })
-    })
-    for ((name, m) <- sd.models) 
-      modelObjects += name -> m
+    }
+    if(sd.models != null)
+      for ((name, m) <- sd.models) 
+        modelObjects += name -> m
 
     // extract all base model names, strip away Containers like List[] and primitives
     val baseNames = (for (modelName <- (modelNames.toList -- primitives))
