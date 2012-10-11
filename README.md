@@ -1,4 +1,4 @@
-# Swagger Client Code-Generator
+# Swagger Code Generator
 
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a 
