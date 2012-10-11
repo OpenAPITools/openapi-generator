@@ -54,6 +54,7 @@ class BasicObjcGenerator extends BasicGenerator {
     "long" -> "NSNumber",
     "double" -> "NSNumber",
     "Array" -> "NSArray",
+    "List" -> "NSArray",
     "object" -> "NSObject")
 
   override def importMapping = Map(

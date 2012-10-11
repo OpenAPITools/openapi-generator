@@ -18,10 +18,13 @@ package com.wordnik.swagger.codegen.util
 
 import com.wordnik.swagger.model._
 
+import java.net.URL
+import java.io.InputStream
+
 import scala.io._
 import scala.collection.mutable.{ ListBuffer, HashMap, HashSet }
 
-object ApiExtractor {
+object ApiExtractor extends RemoteUrl {
   def json = ScalaJsonUtil.getJsonMapper
 
   def fetchApiListings(basePath: String, apis: List[ApiListingReference], apiKey: Option[String] = None): List[ApiListing] = {
@@ -29,7 +32,7 @@ object ApiExtractor {
       val str = basePath.startsWith("http") match {
         case true => {
           println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
-          Source.fromURL((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")).mkString
+          urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
         }
         case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
       }
@@ -42,7 +45,7 @@ object ApiExtractor {
       val str = basePath.startsWith("http") match {
         case true => {
           println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
-          Source.fromURL((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")).mkString
+          urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
         }
         case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
       }
