@@ -153,7 +153,7 @@ You can also use the codegen to generate a server for a couple different framewo
 
 * [ruby sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/sinatra)
 
-* [scala sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
+* [scala scalatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
 
 License
 -------
