@@ -16,6 +16,12 @@ You need the following installed and available in your $PATH:
 
 You also need to add the scala binary to your PATH.
 
+After cloning the project, you need to build it from source with this command:
+
+```
+mvn package
+```
+
 ### To generate a sample client library
 You can build a client against Wordnik's [petstore](http://petstore.swagger.wordnik.com) API as follows:
 
