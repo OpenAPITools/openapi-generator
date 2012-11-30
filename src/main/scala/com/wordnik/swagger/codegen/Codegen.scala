@@ -455,6 +455,7 @@ class Codegen(config: CodegenConfig) {
     apis.foreach(a => {
       apiList += Map(
         "name" -> a._1._2,
+        "filename" -> config.toApiFilename(a._1._2),
         "className" -> config.toApiName(a._1._2),
         "basePath" -> a._1._1,
         "operations" -> {
