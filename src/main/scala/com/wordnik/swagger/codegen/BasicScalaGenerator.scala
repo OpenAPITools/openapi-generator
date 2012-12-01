@@ -99,6 +99,6 @@ class BasicScalaGenerator extends BasicGenerator {
 
   // supporting classes
   override def supportingFiles = List(
-    ("apiInvoker.mustache", destinationDir + "com/wordnik/client", "ApiInvoker.scala"),
+    ("apiInvoker.mustache", destinationDir + "/com/wordnik/client", "ApiInvoker.scala"),
     ("pom.mustache", "generated-code/scala", "pom.xml"))
 }
