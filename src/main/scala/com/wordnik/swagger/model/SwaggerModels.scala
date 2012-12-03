@@ -26,9 +26,10 @@ case class ResourceListing(
 
 case class ApiListingReference(path:String, description: String)
 
-case object Any extends AllowableValues
-case class AllowableListValues (values: List[String] = List(), valueType: String = "LIST") extends AllowableValues
-case class AllowableRangeValues(min: String, max: String) extends AllowableValues
+abstract class AllowableValuesFoo
+case object Any extends AllowableValuesFoo
+case class AllowableListValues (values: List[String] = List(), valueType: String = "LIST") extends AllowableValuesFoo
+case class AllowableRangeValues(min: String, max: String) extends AllowableValuesFoo
 
 // using java.util.Map because Jackon 2 isn't deserializing ListMap correctly, and ordered
 // insertion is required
@@ -42,7 +43,7 @@ case class ModelProperty(
   var `type`: String,
   required: Boolean = false,
   description: Option[String] = None,
-  allowableValues: AllowableValues = Any,
+  allowableValues: AllowableValuesFoo = Any,
   var items: Option[ModelRef] = None)
 
 case class ModelRef(
@@ -79,7 +80,7 @@ case class Parameter (
   required: Boolean,
   allowMultiple: Boolean,
   var dataType: String,
-  allowableValues: AllowableValues = Any,
+  allowableValues: AllowableValuesFoo = Any,
   paramType: String)
 
 case class ErrorResponse (
