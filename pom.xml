@@ -232,6 +232,18 @@
       <version>2.0.0</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-jackson_2.9.1</artifactId>
+      <version>${json4s-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-native_2.9.1</artifactId>
+      <version>${json4s-version}</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <properties>
     <jackson-version>2.0.4</jackson-version>
@@ -240,5 +252,6 @@
     <junit-version>4.8.1</junit-version>
     <maven-plugin.version>1.0.0</maven-plugin.version>
     <scala-test-version>1.6.1</scala-test-version>
+    <json4s-version>3.0.0</json4s-version>
   </properties>
 </project>
