@@ -39,7 +39,7 @@ class ModelRefSerializationTest extends FlatSpec with ShouldMatchers {
 
 @RunWith(classOf[JUnitRunner])
 class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
-  implicit val formats = DefaultFormats + new AllowableValuesSerializer + new ModelPropertySerializer
+  implicit val formats = DefaultFormats + new AllowableValuesSerializer + new ModelPropertySerializer + new ModelRefSerializer
 
   it should "deserialize a model property with allowable values and ref" in {
     val jsonString = """
@@ -68,7 +68,7 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
           case _ => fail("expected allowable values")
         }
         p.items match {
-          case e: ModelRef => {
+          case Some(e: ModelRef) => {
             e.ref should be ("Foo")
             e.`type` should be ("Bar")
           }
