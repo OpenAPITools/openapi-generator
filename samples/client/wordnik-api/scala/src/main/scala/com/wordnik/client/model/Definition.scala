@@ -20,7 +20,7 @@ case class Definition (
   relatedWords: List[Related],
   sequence: String,
   word: String,
-  textProns: List[TextPron],
   notes: List[Note],
+  textProns: List[TextPron],
   partOfSpeech: String)
 

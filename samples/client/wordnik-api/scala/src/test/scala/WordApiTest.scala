@@ -25,7 +25,7 @@ class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   it should "verify the word apis" in {
     val json = Source.fromURL("http://api.wordnik.com/v4/word.json").mkString
     val doc = JsonUtil.getJsonMapper.readValue(json, classOf[Documentation])
-    assert(doc.getApis.size === 11)
+    assert(doc.getApis.size === 12)
   }
 
   it should "fetch a word" in {

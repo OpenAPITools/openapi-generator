@@ -3,14 +3,14 @@ package com.wordnik.client.model
 import java.util.Date
 case class WordList (
   id: Long,
-  updatedAt: Date,
-  username: String,
   permalink: String,
-  description: String,
-  createdAt: Date,
-  lastActivityAt: Date,
   name: String,
+  createdAt: Date,
+  updatedAt: Date,
+  lastActivityAt: Date,
+  username: String,
   userId: Long,
+  description: String,
   numberWordsInList: Long,
   `type`: String)
 

@@ -3,8 +3,8 @@ package com.wordnik.client.model
 case class User (
   id: Long,
   username: String,
-  status: Int,
   email: String,
+  status: Int,
   faceBookId: String,
   userName: String,
   displayName: String,

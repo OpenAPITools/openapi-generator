@@ -5,15 +5,15 @@ import com.wordnik.client.model.ScoredWord
 import com.wordnik.client.model.ContentProvider
 case class Example (
   id: Long,
-  text: String,
-  title: String,
   exampleId: Long,
+  title: String,
+  text: String,
   score: ScoredWord,
   sentence: Sentence,
-  year: Int,
-  provider: ContentProvider,
   word: String,
+  provider: ContentProvider,
+  year: Int,
   rating: Float,
-  url: String,
-  documentId: Long)
+  documentId: Long,
+  url: String)
 

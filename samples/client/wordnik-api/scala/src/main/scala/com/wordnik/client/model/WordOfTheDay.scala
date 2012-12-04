@@ -11,10 +11,10 @@ case class WordOfTheDay (
   createdBy: String,
   createdAt: Date,
   contentProvider: ContentProvider,
-  word: String,
   htmlExtra: String,
+  word: String,
   definitions: List[SimpleDefinition],
   examples: List[SimpleExample],
-  publishDate: Date,
-  note: String)
+  note: String,
+  publishDate: Date)
 

@@ -24,17 +24,17 @@ class WordListApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   val wordListsApi = new WordListsApi
 
   val wordList = WordList(
-      0, 
-      new java.util.Date, 
-      null, 
-      null,
-      "some words I want to play with",
-      null,
-      null,
-      "my test list",
-      0,
-      0,
-      "PUBLIC")
+      0,    //  id
+      null, //  permalink
+      "my test list", // name
+      new java.util.Date, //created at
+      null,   // updated at
+      null,   //  lastActivityAt
+      null,   //  username
+      0,      //  user id
+      "some words I want to play with", // description
+      0,      //  words in list
+      "PUBLIC") //  type
 
   var sampleList = wordListsApi.createWordList(wordList, auth.token) match {
     case Some(wl) => wl

@@ -1,14 +1,14 @@
 package com.wordnik.client.model
 
 case class ScoredWord (
-  id: Long,
   position: Int,
-  lemma: String,
+  id: Long,
   docTermCount: Int,
+  lemma: String,
   wordType: String,
   score: Float,
-  word: String,
   sentenceId: Long,
+  word: String,
   stopword: Boolean,
   baseWordScore: Double,
   partOfSpeech: String)

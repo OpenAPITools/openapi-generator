@@ -2,10 +2,10 @@ package com.wordnik.client.model
 
 case class Related (
   label1: String,
-  label2: String,
   relationshipType: String,
+  label2: String,
   label3: String,
   words: List[String],
-  label4: String,
-  gram: String)
+  gram: String,
+  label4: String)
 
