@@ -262,32 +262,32 @@
     },
     "WordList":{
       "properties":{
-        "updatedAt":{
-          "type":"Date"
-        },
         "id":{
           "type":"long",
-          "required":true
-        },
-        "username":{
-          "type":"string"
+          "required":false
         },
         "permalink":{
           "type":"string"
         },
-        "lastActivityAt":{
-          "type":"Date"
+        "name":{
+          "type":"string"
         },
         "createdAt":{
           "type":"Date"
         },
-        "description":{
+        "updatedAt":{
+          "type":"Date"
+        },
+        "lastActivityAt":{
+          "type":"Date"
+        },
+        "username":{
           "type":"string"
         },
         "userId":{
           "type":"long"
         },
-        "name":{
+        "description":{
           "type":"string"
         },
         "numberWordsInList":{
@@ -298,6 +298,33 @@
         }
       },
       "id":"WordList"
+    },
+    "WordListWord":{
+      "properties":{
+        "id":{
+          "type":"long",
+          "required":true
+        },
+        "word":{
+          "type":"string"
+        },
+        "username":{
+          "type":"string"
+        },
+        "userId":{
+          "type":"long"
+        },
+        "createdAt":{
+          "type":"Date"
+        },
+        "numberCommentsOnWord":{
+          "type":"long"
+        },
+        "numberLists":{
+          "type":"long"
+        }
+      },
+      "id":"WordListWord"
     }
   }
 }
