@@ -21,8 +21,8 @@ class Pet:
 
     def __init__(self):
         self.swaggerTypes = {
-            'id': 'int',
             'tags': 'list[Tag]',
+            'id': 'int',
             'category': 'Category',
             'status': 'str',
             'name': 'str',
@@ -31,8 +31,8 @@ class Pet:
         }
 
 
-        self.id = None # int
         self.tags = None # list[Tag]
+        self.id = None # int
         self.category = None # Category
         #pet status in the store
         self.status = None # str

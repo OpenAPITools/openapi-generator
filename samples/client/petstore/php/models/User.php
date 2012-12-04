@@ -26,8 +26,8 @@ class User {
   static $swaggerTypes = array(
       'id' => 'int',
       'lastName' => 'string',
-      'username' => 'string',
       'phone' => 'string',
+      'username' => 'string',
       'email' => 'string',
       'userStatus' => 'int',
       'firstName' => 'string',
@@ -37,8 +37,8 @@ class User {
 
   public $id; // int
   public $lastName; // string
-  public $username; // string
   public $phone; // string
+  public $username; // string
   public $email; // string
   /**
   * User Status

@@ -23,8 +23,8 @@ class User:
         self.swaggerTypes = {
             'id': 'int',
             'lastName': 'str',
-            'username': 'str',
             'phone': 'str',
+            'username': 'str',
             'email': 'str',
             'userStatus': 'int',
             'firstName': 'str',
@@ -35,8 +35,8 @@ class User:
 
         self.id = None # int
         self.lastName = None # str
-        self.username = None # str
         self.phone = None # str
+        self.username = None # str
         self.email = None # str
         #User Status
         self.userStatus = None # int

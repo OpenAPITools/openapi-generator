@@ -24,23 +24,23 @@
 class Pet {
 
   static $swaggerTypes = array(
+      'tags' => 'array[Some(Tag)]',
       'id' => 'int',
-      'tags' => 'array[Tag]',
       'category' => 'Category',
       'status' => 'string',
       'name' => 'string',
-      'photoUrls' => 'array[string]'
+      'photoUrls' => 'array[None]'
 
     );
 
+  public $tags; // array[Some(Tag)]
   public $id; // int
-  public $tags; // array[Tag]
   public $category; // Category
   /**
   * pet status in the store
   */
   public $status; // string
   public $name; // string
-  public $photoUrls; // array[string]
+  public $photoUrls; // array[None]
   }
 

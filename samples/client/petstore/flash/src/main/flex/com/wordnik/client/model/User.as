@@ -8,11 +8,11 @@ package com.wordnik.client.model {
     [XmlElement(name="lastName")]
         public var lastName: String = null;
 
-    [XmlElement(name="username")]
-        public var username: String = null;
-
     [XmlElement(name="phone")]
         public var phone: String = null;
+
+    [XmlElement(name="username")]
+        public var username: String = null;
 
     [XmlElement(name="email")]
         public var email: String = null;
@@ -31,8 +31,8 @@ package com.wordnik.client.model {
             var str: String = "User: ";
             str += " (id: " + id + ")";
             str += " (lastName: " + lastName + ")";
-            str += " (username: " + username + ")";
             str += " (phone: " + phone + ")";
+            str += " (username: " + username + ")";
             str += " (email: " + email + ")";
             str += " (userStatus: " + userStatus + ")";
             str += " (firstName: " + firstName + ")";

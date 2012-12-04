@@ -4,14 +4,14 @@ import com.wordnik.client.model.Category;
 import com.wordnik.client.model.Tag;
 [XmlRootNode(name="Pet")]
     public class Pet {
-    [XmlElement(name="id")]
-        public var id: Number = 0.0;
-
     // This declaration below of _tags_obj_class is to force flash compiler to include this class
         private var _tags_obj_class: com.wordnik.client.model.Tag = null;
         [XmlElementWrapper(name="tags")]
         [XmlElements(name="tag", type="com.wordnik.client.model.Tag")]
         public var tags: Array = new Array();
+
+    [XmlElement(name="id")]
+        public var id: Number = 0.0;
 
     [XmlElement(name="category")]
         public var category: Category = null;
@@ -31,8 +31,8 @@ import com.wordnik.client.model.Tag;
 
     public function toString(): String {
             var str: String = "Pet: ";
-            str += " (id: " + id + ")";
             str += " (tags: " + tags + ")";
+            str += " (id: " + id + ")";
             str += " (category: " + category + ")";
             str += " (status: " + status + ")";
             str += " (name: " + name + ")";
