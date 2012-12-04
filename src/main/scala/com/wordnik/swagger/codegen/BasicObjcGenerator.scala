@@ -116,6 +116,25 @@ class BasicObjcGenerator extends BasicGenerator {
     }
   }
 
+  override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
+    val mutable = scala.collection.mutable.Map() ++ m
+    mutable += "newline" -> "\n"
+
+    mutable.map(k => {
+      k._1 match {
+        case e: String if (e == "allParams") => {
+          val sp = (mutable(e)).asInstanceOf[List[_]]
+          sp.size match {
+            case i: Int if(i > 0) => mutable += "hasParams" -> "true"
+            case _ =>
+          }
+        }
+        case _ =>
+      }
+    })
+    mutable.toMap
+  }
+
   override def processResponseDeclaration(responseClass: String): Option[String] = {
     processResponseClass(responseClass) match {
       case Some("void") => Some("void")
