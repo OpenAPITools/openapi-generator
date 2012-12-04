@@ -1,16 +1,16 @@
+import com.wordnik.swagger.model._
+
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.{read, write}
-
-import com.wordnik.swagger.model._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
-import scala.collection.JavaConverters._
+import scala.collection.mutable.LinkedHashMap
 
 @RunWith(classOf[JUnitRunner])
 class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
@@ -328,6 +328,12 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
           "type":"string",
           "required":false,
           "description":"name"
+        },
+        "tags": {
+          "type":"Array",
+          "items": {
+            "type":"string"
+          }
         }
       },
       "description":"nice model"
@@ -339,9 +345,9 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
         model.id should be ("Foo")
         model.name should be ("Bar")
         model.properties should not be (null)
-        model.properties.size should be (2)
+        model.properties.size should be (3)
         model.description should be (Some("nice model"))
-        model.properties.asScala("id") match {
+        model.properties("id") match {
           case e: ModelProperty => {
             e.`type` should be ("string")
             e.required should be (true)
@@ -349,11 +355,23 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
           }
           case _ => fail("missing property id")
         }
-        model.properties.asScala("name") match {
+        model.properties("name") match {
           case e: ModelProperty => {
             e.`type` should be ("string")
             e.required should be (false)
             e.description should be (Some("name"))
+          }
+          case _ => fail("missing property name")
+        }
+
+        model.properties("tags") match {
+          case e: ModelProperty => {
+            e.`type` should be ("Array")
+            e.required should be (false)
+            e.items match {
+              case Some(items) => items.`type` should be ("string")
+              case _ => fail("didn't find ref for Array")
+            }
           }
           case _ => fail("missing property name")
         }
@@ -363,7 +381,7 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a model" in {
-    val ref = Model("Foo", "Bar", (Map("s" -> ModelProperty("string", true, Some("a string")))).asJava)
+    val ref = Model("Foo", "Bar", (LinkedHashMap("s" -> ModelProperty("string", true, Some("a string")))))
     write(ref) should be ("""{"id":"Foo","name":"Bar","properties":{"s":{"type":"string","required":true,"description":"a string"}}}""")
   }
 }
@@ -382,7 +400,7 @@ class ModelRefSerializationTest extends FlatSpec with ShouldMatchers {
     val json = parse(jsonString)
     json.extract[ModelRef] match {
       case p: ModelRef => {
-        p.ref should be ("Foo")
+        p.ref should be (Some("Foo"))
         p.`type` should be ("Bar")
       }
       case _ => fail("expected type ModelRef")
@@ -390,8 +408,8 @@ class ModelRefSerializationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a model ref" in {
-    val ref = ModelRef("Foo", "Bar")
-    write(ref) should be ("""{"$ref":"Foo","type":"Bar"}""")
+    val ref = ModelRef("Foo", Some("Bar"))
+    write(ref) should be ("""{"type":"Foo","$ref":"Bar"}""")
   }
 }
 
@@ -410,8 +428,8 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
         "values":["1","2","3"]
       },
       "items":{
-        "$ref":"Foo",
-        "type":"Bar"
+        "type":"Foo",
+        "$ref":"Bar"
       }
     }
     """
@@ -427,8 +445,8 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
         }
         p.items match {
           case Some(e: ModelRef) => {
-            e.ref should be ("Foo")
-            e.`type` should be ("Bar")
+            e.`type` should be ("Foo")
+            e.ref should be (Some("Bar"))
           }
           case _ => fail("expected type ModelProperty")
         }
@@ -438,8 +456,8 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a model property with allowable values and ref" in {
-    val p = ModelProperty("string", false, Some("nice"), AllowableListValues(List("a","b")),Some(ModelRef("Foo","Bar")))
-    write(p) should be ("""{"type":"string","required":false,"description":"nice","allowableValues":{"valueType":"LIST","values":["a","b"]},"items":{"$ref":"Foo","type":"Bar"}}""")
+    val p = ModelProperty("string", false, Some("nice"), AllowableListValues(List("a","b")),Some(ModelRef("Foo",Some("Bar"))))
+    write(p) should be ("""{"type":"string","required":false,"description":"nice","allowableValues":{"valueType":"LIST","values":["a","b"]},"items":{"type":"Foo","$ref":"Bar"}}""")
   }
 
   it should "deserialize a model property with allowable values" in {
@@ -511,7 +529,7 @@ class AllowableValuesSerializersTest extends FlatSpec with ShouldMatchers {
     }
     """
     val json = parse(allowableValuesListString)
-    json.extract[AllowableValuesFoo] match {
+    json.extract[AllowableValues] match {
       case avl: AllowableListValues => {
         avl.valueType should be ("LIST")
         avl.values should be (List("1","2","3"))        
@@ -533,7 +551,7 @@ class AllowableValuesSerializersTest extends FlatSpec with ShouldMatchers {
     }
     """
     val json = parse(allowableValuesRangeString)
-    json.extract[AllowableValuesFoo] match {
+    json.extract[AllowableValues] match {
       case avr: AllowableRangeValues => {
         avr.min should be ("abc")
         avr.max should be ("3")        

@@ -115,8 +115,7 @@
                   "available",
                   "pending",
                   "sold"
-                ],
-                "valueType":"LIST"
+                ]
               },
               "required":true,
               "allowMultiple":true,
@@ -197,8 +196,7 @@
               "available",
               "pending",
               "sold"
-            ],
-            "valueType":"LIST"
+            ]
           },
           "description":"pet status in the store",
           "type":"string"

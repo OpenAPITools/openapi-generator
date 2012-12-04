@@ -182,13 +182,13 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
           // process the sub object
           subObject.items match {
             case Some(item) => {
-              getUpdatedType(validModelNames, item.ref) match {
+              getUpdatedType(validModelNames, item.ref.get) match {
                 case Some(updatedType) => {
                   if (!item.ref.equals(updatedType)) {
                     !!(model, MODEL_PROPERTY, format("%s->%s: %s", model.id, subObjectName, subObject.`type`), format("Invalid ref (%s). Best guess: %s", item.ref, updatedType))
                     LOGGER.finest("updated subObject.items.ref " + item.ref + " to " + updatedType)
                     if (fix) {
-                      subObject.items = Some(ModelRef(ref = updatedType))
+                      subObject.items = Some(ModelRef(null, Some(updatedType)))
                     }
                   }
                 }
@@ -202,12 +202,12 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
           if (subObject.items != null && subObject.items != None && subObject.items.get.ref != null){
             subObject.items match {
               case Some(item) => {
-                getUpdatedType(validModelNames, item.ref) match {
+                getUpdatedType(validModelNames, item.ref.get) match {
                   case Some(updatedType) => {
                     if (!item.ref.equals(updatedType)) {
                       !!(model, MODEL_PROPERTY, format("%s->%s: %s", model.id, subObjectName, subObject.`type`), format("Invalid ref (%s). Best guess: %s", item.ref, updatedType))
                       LOGGER.finest("updated subObject.items.ref " + item.ref + " to " + updatedType)
-                      if (fix) subObject.items = Some(ModelRef(ref = updatedType))
+                      if (fix) subObject.items = Some(ModelRef(null, Some(updatedType)))
                     }
                   }
                   case None => {

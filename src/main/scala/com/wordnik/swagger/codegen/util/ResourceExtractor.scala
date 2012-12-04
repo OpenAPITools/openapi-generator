@@ -18,16 +18,19 @@ package com.wordnik.swagger.codegen.util
 
 import com.wordnik.swagger.model._
 
+import org.json4s.jackson.JsonMethods._
+import org.json4s.native.Serialization.read
+
 import scala.io._
 
 object ResourceExtractor extends RemoteUrl {
-	def json = ScalaJsonUtil.getJsonMapper
+  implicit val formats = SwaggerSerializers.formats
 
 	def fetchListing(path: String, apiKey: Option[String] = None): ResourceListing = {
-		val str = path.startsWith("http") match {
+		val json = path.startsWith("http") match {
 			case true => urlToString(path + apiKey.getOrElse(""))
 			case false => Source.fromFile(path).mkString
 		}
-		json.readValue(str, classOf[ResourceListing])
+		parse(json).extract[ResourceListing]
 	}
 }

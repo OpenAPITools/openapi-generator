@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.model
 
-import com.fasterxml.jackson.annotation.{JsonProperty, JsonIgnore}
+import scala.collection.mutable.LinkedHashMap
 
 case class ResourceListing(
   apiVersion: String, 
@@ -26,29 +26,27 @@ case class ResourceListing(
 
 case class ApiListingReference(path:String, description: String)
 
-trait AllowableValuesFoo
-case object Any extends AllowableValues with AllowableValuesFoo
-case class AllowableListValues (values: List[String] = List(), valueType: String = "LIST") extends AllowableValues with AllowableValuesFoo
-case class AllowableRangeValues(min: String, max: String) extends AllowableValues with AllowableValuesFoo
+trait AllowableValues
+case object Any extends AllowableValues
+case class AllowableListValues (values: List[String] = List(), valueType: String = "LIST") extends AllowableValues
+case class AllowableRangeValues(min: String, max: String) extends AllowableValues
 
-// using java.util.Map because Jackon 2 isn't deserializing ListMap correctly, and ordered
-// insertion is required
 case class Model(
   var id: String,
   var name: String,
-  var properties: java.util.Map[String, ModelProperty],
+  var properties: LinkedHashMap[String, ModelProperty],
   description: Option[String] = None)
 
 case class ModelProperty(
   var `type`: String,
   required: Boolean = false,
   description: Option[String] = None,
-  allowableValues: AllowableValuesFoo = Any,
+  allowableValues: AllowableValues = Any,
   var items: Option[ModelRef] = None)
 
 case class ModelRef(
-  @JsonProperty("$ref") ref: String = null,
-  `type`: String = null)
+  `type`: String,
+  ref: Option[String] = None)
 
 case class ApiListing (
   apiVersion: String,
@@ -80,7 +78,7 @@ case class Parameter (
   required: Boolean,
   allowMultiple: Boolean,
   var dataType: String,
-  allowableValues: AllowableValuesFoo = Any,
+  allowableValues: AllowableValues = Any,
   paramType: String)
 
 case class ErrorResponse (

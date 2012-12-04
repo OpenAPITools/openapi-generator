@@ -71,12 +71,7 @@ object CoreUtils {
         val subObject = prop._2
         if (containers.contains(subObject.`type`)) {
           subObject.items match {
-            case Some(item) => {
-              if(item.ref != null)
-                subNames += item.ref
-              else
-                subNames += item.`type`
-            }
+            case Some(item) => subNames += item.ref.getOrElse(item.`type`)
             case None => 
           }
         }
@@ -129,11 +124,9 @@ object CoreUtils {
         if (containers.contains(subObject.`type`)) {
           subObject.items match {
             case Some(subItem) => {
-              if (subItem.ref != null) {
-                subNames += subItem.ref
-              } else {
-                subNames += subItem.`type`
-              }
+              val sn = subItem.ref.getOrElse(subItem.`type`)
+              if(sn != null)
+                subNames += sn
             }
             case _ =>
           }
@@ -148,11 +141,9 @@ object CoreUtils {
         if (containers.contains(subObject.`type`)) {
           subObject.items match {
             case Some(subItem) => {
-              if (subItem.ref != null) {
-                subNames += subItem.ref
-              } else {
-                subNames += subItem.`type`
-              }
+              val sn = subItem.ref.getOrElse(subItem.`type`)
+              if(sn != null)
+                subNames += sn
             }
             case _ =>
           }

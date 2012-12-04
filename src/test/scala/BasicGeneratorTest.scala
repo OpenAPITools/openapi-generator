@@ -23,9 +23,7 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
-import scala.collection.JavaConverters._
-import scala.collection.mutable.HashMap
-import scala.collection.immutable.ListMap
+import scala.collection.mutable.{LinkedHashMap, HashMap}
 
 @RunWith(classOf[JUnitRunner])
 class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
@@ -46,12 +44,14 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
 
   it should "get operations" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
+
     val subDocs = ApiExtractor.fetchApiListings("src/test/resources/petstore", resourceListing.apis)
-    val allModels = new HashMap[String, Model]()
+    val allModels = new HashMap[String, Model]
 
     implicit val basePath = "http://localhost:8080/api"
     val generator = new SampleGenerator
     val ops = generator.extractApiOperations(subDocs, allModels)
+
     allModels.size should be (5)
     ops.size should be (16)
 
@@ -138,12 +138,12 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
     Model(
       "SampleObject",
       "SampleObject",
-      Map(
+      LinkedHashMap(
         "stringValue" -> ModelProperty("string"),
         "intValue" -> ModelProperty("int"),
         "longValue" -> ModelProperty("long"),
         "floatValue" -> ModelProperty("float"),
-        "doubleValue" -> ModelProperty("double")).asJava,
+        "doubleValue" -> ModelProperty("double")),
       Some("a sample object"))
   }
 }

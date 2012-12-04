@@ -15,7 +15,7 @@
  */
 
 import com.wordnik.swagger.model._
-import com.wordnik.swagger.codegen.util._
+import com.wordnik.swagger.codegen.util.{ResourceExtractor, ApiExtractor, CoreUtils}
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -27,8 +27,6 @@ import scala.reflect.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class ResourceExtractorTest extends FlatSpec with ShouldMatchers {
-  val json = ScalaJsonUtil.getJsonMapper
-
   behavior of "ResourceExtractor"
   it should "get 3 apis from a resource listing" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
@@ -39,12 +37,11 @@ class ResourceExtractorTest extends FlatSpec with ShouldMatchers {
 
 @RunWith(classOf[JUnitRunner])
 class ApiExtractorTest extends FlatSpec with ShouldMatchers {
-  val json = ScalaJsonUtil.getJsonMapper
-
   behavior of "ApiExtractor"
   it should "verify the deserialization of the store api" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
     val docs = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+
     val m = docs.map(t => (t.resourcePath, t)).toMap
     val storeApi = m("/store")
 
@@ -68,7 +65,6 @@ class ApiExtractorTest extends FlatSpec with ShouldMatchers {
 
 @RunWith(classOf[JUnitRunner])
 class CoreUtilsTest extends FlatSpec with ShouldMatchers {
-  val json = ScalaJsonUtil.getJsonMapper
   sys.props += "fileMap" -> "src/test/resources/petstore"
 
   behavior of "CoreUtils"

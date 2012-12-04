@@ -138,8 +138,8 @@ abstract class CodegenConfig {
         val inner = {
           obj.items match {
             case Some(items) => {
-              if(items.ref != null) 
-                items.ref
+              if(items.ref != None) 
+                items.ref.get
               else
                 items.`type`
             }

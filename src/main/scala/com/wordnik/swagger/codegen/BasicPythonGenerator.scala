@@ -139,12 +139,7 @@ class BasicPythonGenerator extends BasicGenerator {
       case "list" => {
         val inner = {
           obj.items match {
-            case Some(items) => {
-              if(items.ref != null) 
-                items.ref
-              else
-                items.`type`
-            }
+            case Some(items) => items.ref.getOrElse(items.`type`)
             case _ => throw new Exception("no inner type defined")
           }
         }
