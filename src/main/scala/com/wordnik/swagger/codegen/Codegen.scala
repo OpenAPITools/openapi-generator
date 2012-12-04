@@ -367,10 +367,7 @@ class Codegen(config: CodegenConfig) {
         // import the container
         imports += Map("import" -> dt)
         propertyDocSchema.items match {
-          case Some(items) => {
-            println(items)
-            baseType = items.ref.getOrElse(items.`type`)
-          }
+          case Some(items) => baseType = items.ref.getOrElse(items.`type`)
           case _ =>
         }
       }
