@@ -235,7 +235,12 @@ object SwaggerSerializers {
         required = ((json \ "required").extractOrElse(false)),
         description = (json \ "description").extractOpt[String],
         allowableValues = (json \ "allowableValues").extract[AllowableValues],
-        items = (json \ "items").extractOpt[ModelRef]
+        items = {
+          (json \ "items").extractOpt[ModelRef] match {
+            case Some(e: ModelRef) if(e.`type` != null || e.ref != None) => Some(e)
+            case _ => None
+          }
+        }
       )
     }, {
     case x: ModelProperty =>
