@@ -314,7 +314,7 @@
                     if([[tag name] isEqualToString:@"tag1"] || [[tag name] isEqualToString:@"tag2"])
                         hasTag = true;
                 }
-                STAssertEquals(hasTag, true, @"didn't find tag in pet");
+                if(!hasTag) STFail(@"failed to find tag in pet");
             }
             done = true;
         }

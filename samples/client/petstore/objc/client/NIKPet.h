@@ -3,17 +3,7 @@
 #import "NIKCategory.h"
 #import "NIKTag.h"
 
-@interface NIKPet : NIKSwaggerObject {
-@private
-    NSArray* _tags; //Tag
-    NSNumber* __id; //NSNumber
-    NIKCategory* _category; //Category
-    NSString* _status; //NSString
-    NSString* _name; //NSString
-    NSArray* _photoUrls; //NSString
-    }
-
-
+@interface NIKPet : NIKSwaggerObject
 
 @property(nonatomic) NSArray* tags;
 @property(nonatomic) NSNumber* _id;

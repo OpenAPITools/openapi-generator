@@ -9,10 +9,20 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 @synthesize queue = _queue;
 @synthesize api = _api;
 
-- (id) init {
++(NIKStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
+    static NIKStoreApi* singletonAPI = nil;
+
+    if (singletonAPI == nil) {
+        singletonAPI = [[NIKStoreApi alloc] init];
+        [singletonAPI addHeader:headerValue forKey:key];
+    }
+    return singletonAPI;
+}
+
+-(id) init {
     self = [super init];
     _queue = [[NSOperationQueue alloc] init];
-    _api = [[NIKApiInvoker alloc] init];
+    _api = [NIKApiInvoker sharedInstance];
 
     return self;
 }
@@ -22,15 +32,8 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     [_api addHeader:value forKey:key];
 }
 
-/**
- * 
- * returnTypeIsPrimitive: 
- * returnBaseType: NIKOrder
- * returnContainer: 
- * 
- **/
--(void) getOrderByIdWithCompletionBlock :(NSString*) orderId 
-        completionHandler:(void (^)(NIKOrder*, NSError *))completionBlock{
+-(void) getOrderByIdWithCompletionBlock:(NSString*) orderId
+        completionHandler: (void (^)(NIKOrder* output, NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
 
@@ -45,29 +48,23 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(orderId == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
-        
+
         completionBlock( [[NIKOrder alloc]initWithValues: data], nil);}];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) deleteOrderWithCompletionBlock :(NSString*) orderId 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) deleteOrderWithCompletionBlock:(NSString*) orderId
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
 
@@ -82,12 +79,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(orderId == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"DELETE" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"DELETE" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -95,17 +92,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) placeOrderWithCompletionBlock :(NIKOrder*) body 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) placeOrderWithCompletionBlock:(NIKOrder*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order", basePath];
 
@@ -141,12 +132,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"POST" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"POST" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -154,9 +145,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
 -(void) getOrderByIdAsJsonWithCompletionBlock :(NSString*) orderId 
+
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
@@ -172,12 +165,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(orderId == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -194,11 +187,14 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             NSString * json = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
             completionBlock(json, nil);
         
+
     }];
+
 
 }
 
 -(void) deleteOrderAsJsonWithCompletionBlock :(NSString*) orderId 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
@@ -214,22 +210,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(orderId == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"DELETE" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"DELETE" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
 -(void) placeOrderAsJsonWithCompletionBlock :(NIKOrder*) body 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order", basePath];
@@ -266,18 +265,20 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"POST" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"POST" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 

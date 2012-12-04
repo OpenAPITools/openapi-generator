@@ -9,10 +9,20 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 @synthesize queue = _queue;
 @synthesize api = _api;
 
-- (id) init {
++(NIKPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
+    static NIKPetApi* singletonAPI = nil;
+
+    if (singletonAPI == nil) {
+        singletonAPI = [[NIKPetApi alloc] init];
+        [singletonAPI addHeader:headerValue forKey:key];
+    }
+    return singletonAPI;
+}
+
+-(id) init {
     self = [super init];
     _queue = [[NSOperationQueue alloc] init];
-    _api = [[NIKApiInvoker alloc] init];
+    _api = [NIKApiInvoker sharedInstance];
 
     return self;
 }
@@ -22,15 +32,8 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     [_api addHeader:value forKey:key];
 }
 
-/**
- * 
- * returnTypeIsPrimitive: 
- * returnBaseType: NIKPet
- * returnContainer: 
- * 
- **/
--(void) getPetByIdWithCompletionBlock :(NSString*) petId 
-        completionHandler:(void (^)(NIKPet*, NSError *))completionBlock{
+-(void) getPetByIdWithCompletionBlock:(NSString*) petId
+        completionHandler: (void (^)(NIKPet* output, NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/{petId}", basePath];
 
@@ -45,29 +48,23 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(petId == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
-        
+
         completionBlock( [[NIKPet alloc]initWithValues: data], nil);}];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) addPetWithCompletionBlock :(NIKPet*) body 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) addPetWithCompletionBlock:(NIKPet*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
 
@@ -103,12 +100,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"POST" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"POST" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -116,17 +113,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) updatePetWithCompletionBlock :(NIKPet*) body 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) updatePetWithCompletionBlock:(NIKPet*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
 
@@ -162,12 +153,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"PUT" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"PUT" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -175,17 +166,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: 
- * returnBaseType: NIKPet
- * returnContainer: List
- * 
- **/
--(void) findPetsByStatusWithCompletionBlock :(NSString*) status 
-        completionHandler:(void (^)(NSArray*, NSError *))completionBlock{
+-(void) findPetsByStatusWithCompletionBlock:(NSString*) status
+        completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByStatus", basePath];
 
@@ -195,18 +180,18 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(status != nil)
-        [queryParams setValue:status forKey:@"status"];
+        queryParams[@"status"] = status;
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(status == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary: requestUrl 
+              method: @"GET" 
+         queryParams: queryParams 
+                body: bodyDictionary 
+        headerParams: headerParams
+     completionBlock: ^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -221,17 +206,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         }
         }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: 
- * returnBaseType: NIKPet
- * returnContainer: List
- * 
- **/
--(void) findPetsByTagsWithCompletionBlock :(NSString*) tags 
-        completionHandler:(void (^)(NSArray*, NSError *))completionBlock{
+-(void) findPetsByTagsWithCompletionBlock:(NSString*) tags
+        completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByTags", basePath];
 
@@ -241,18 +220,18 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(tags != nil)
-        [queryParams setValue:tags forKey:@"tags"];
+        queryParams[@"tags"] = tags;
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(tags == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary: requestUrl 
+              method: @"GET" 
+         queryParams: queryParams 
+                body: bodyDictionary 
+        headerParams: headerParams
+     completionBlock: ^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -267,9 +246,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         }
         }];
     
+
 }
 
 -(void) getPetByIdAsJsonWithCompletionBlock :(NSString*) petId 
+
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/{petId}", basePath];
@@ -285,12 +266,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(petId == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -307,11 +288,14 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             NSString * json = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
             completionBlock(json, nil);
         
+
     }];
+
 
 }
 
 -(void) addPetAsJsonWithCompletionBlock :(NIKPet*) body 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
@@ -348,22 +332,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"POST" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"POST" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
 -(void) updatePetAsJsonWithCompletionBlock :(NIKPet*) body 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
@@ -400,22 +387,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"PUT" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"PUT" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
 -(void) findPetsByStatusAsJsonWithCompletionBlock :(NSString*) status 
+
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByStatus", basePath];
@@ -426,18 +416,18 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(status != nil)
-        [queryParams setValue:status forKey:@"status"];
+        queryParams[@"status"] = status;
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
     if(status == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -454,11 +444,14 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             NSString * json = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
             completionBlock(json, nil);
         
+
     }];
+
 
 }
 
 -(void) findPetsByTagsAsJsonWithCompletionBlock :(NSString*) tags 
+
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByTags", basePath];
@@ -469,18 +462,18 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(tags != nil)
-        [queryParams setValue:tags forKey:@"tags"];
+        queryParams[@"tags"] = tags;
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
     if(tags == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -497,7 +490,9 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             NSString * json = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
             completionBlock(json, nil);
         
+
     }];
+
 
 }
 

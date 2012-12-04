@@ -3,47 +3,55 @@
 
 @implementation NIKPet
 
-@synthesize tags = _tags;
-@synthesize _id = __id;
-@synthesize category = _category;
-@synthesize status = _status;
-@synthesize name = _name;
-@synthesize photoUrls = _photoUrls;
-- (id) tags: (NSArray*) tags
-       _id: (NSNumber*) _id
-       category: (NIKCategory*) category
-       status: (NSString*) status
-       name: (NSString*) name
-       photoUrls: (NSArray*) photoUrls
-       {
-          _tags = tags;
-          __id = _id;
-          _category = category;
-          _status = status;
-          _name = name;
-          _photoUrls = photoUrls;
-          return self;
-       }
-
-- (id) initWithValues: (NSDictionary*)dict
+-(id)tags: (NSArray*) tags
+    _id: (NSNumber*) _id
+    category: (NIKCategory*) category
+    status: (NSString*) status
+    name: (NSString*) name
+    photoUrls: (NSArray*) photoUrls
 {
-    id tags_dict = [dict objectForKey:@"tags"];
-    if([tags_dict isKindOfClass:[NSArray class]]) {
-        if([(NSArray*)tags_dict count] > 0) {
+  _tags = tags;
+  __id = _id;
+  _category = category;
+  _status = status;
+  _name = name;
+  _photoUrls = photoUrls;
+  return self;
+}
+
+-(id) initWithValues:(NSDictionary*)dict
+{
+    self = [super init];
+    if(self) {
+        id tags_dict = dict[@"tags"];
+        if([tags_dict isKindOfClass:[NSArray class]]) {
+
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)tags_dict count]];
-            for (NSDictionary* dict in (NSArray*)tags_dict) {
-                NIKTag* d = [[NIKTag alloc]initWithValues:dict];
-                [objs addObject:d];
+
+            if([(NSArray*)tags_dict count] > 0) {
+                for (NSDictionary* dict in (NSArray*)tags_dict) {
+                    NIKTag* d = [[NIKTag alloc] initWithValues:dict];
+                    [objs addObject:d];
+                }
+                
+                _tags = [[NSArray alloc] initWithArray:objs];
             }
-            _tags = [[NSArray alloc] initWithArray:objs];
+            else {
+                _tags = [[NSArray alloc] init];
+            }
         }
+        else {
+            _tags = [[NSArray alloc] init];
+        }
+        __id = dict[@"id"]; 
+        id category_dict = dict[@"category"];
+        _category = [[NIKCategory alloc]initWithValues:category_dict];
+        _status = dict[@"status"]; 
+        _name = dict[@"name"]; 
+        _photoUrls = dict[@"photoUrls"]; 
+        
+
     }
-    __id = [dict objectForKey:@"id"];
-    id category_dict = [dict objectForKey:@"category"];
-    _category = [[NIKCategory alloc]initWithValues:category_dict];
-    _status = [dict objectForKey:@"status"];
-    _name = [dict objectForKey:@"name"];
-    _photoUrls = [dict objectForKey:@"photoUrls"];
     return self;
 }
 
@@ -52,43 +60,43 @@
     if(_tags != nil){
         if([_tags isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
-            for( NIKTag * tags in (NSArray*)_tags) {
+            for( NIKTag *tags in (NSArray*)_tags) {
                 [array addObject:[(NIKSwaggerObject*)tags asDictionary]];
             }
-            [dict setObject:array forKey:@"tags"];
+            dict[@"tags"] = array;
         }
         else if(_tags && [_tags isKindOfClass:[NIKDate class]]) {
             NSString * dateString = [(NIKDate*)_tags toString];
             if(dateString){
-                [dict setObject:dateString forKey:@"tags"];   
+                dict[@"tags"] = dateString;
             }
         }
     }
     else {
-    if(_tags != nil) [dict setObject:[(NIKSwaggerObject*)_tags asDictionary]forKey:@"tags"];
+    if(_tags != nil) dict[@"tags"] = [(NIKSwaggerObject*)_tags asDictionary];
     }
-    if(__id != nil) [dict setObject:__id forKey:@"id"];
+    if(__id != nil) dict[@"id"] = __id ;
     if(_category != nil){
         if([_category isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
-            for( NIKCategory * category in (NSArray*)_category) {
+            for( NIKCategory *category in (NSArray*)_category) {
                 [array addObject:[(NIKSwaggerObject*)category asDictionary]];
             }
-            [dict setObject:array forKey:@"category"];
+            dict[@"category"] = array;
         }
         else if(_category && [_category isKindOfClass:[NIKDate class]]) {
             NSString * dateString = [(NIKDate*)_category toString];
             if(dateString){
-                [dict setObject:dateString forKey:@"category"];   
+                dict[@"category"] = dateString;
             }
         }
     }
     else {
-    if(_category != nil) [dict setObject:[(NIKSwaggerObject*)_category asDictionary]forKey:@"category"];
+    if(_category != nil) dict[@"category"] = [(NIKSwaggerObject*)_category asDictionary];
     }
-    if(_status != nil) [dict setObject:_status forKey:@"status"];
-    if(_name != nil) [dict setObject:_name forKey:@"name"];
-    if(_photoUrls != nil) [dict setObject:_photoUrls forKey:@"photoUrls"];
+    if(_status != nil) dict[@"status"] = _status ;
+    if(_name != nil) dict[@"name"] = _name ;
+    if(_photoUrls != nil) dict[@"photoUrls"] = _photoUrls ;
     NSDictionary* output = [dict copy];
     return output;
 }

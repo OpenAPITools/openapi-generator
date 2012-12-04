@@ -3,27 +3,30 @@
 
 @implementation NIKTag
 
-@synthesize _id = __id;
-@synthesize name = _name;
-- (id) _id: (NSNumber*) _id
-       name: (NSString*) name
-       {
-          __id = _id;
-          _name = name;
-          return self;
-       }
-
-- (id) initWithValues: (NSDictionary*)dict
+-(id)_id: (NSNumber*) _id
+    name: (NSString*) name
 {
-    __id = [dict objectForKey:@"id"];
-    _name = [dict objectForKey:@"name"];
+  __id = _id;
+  _name = name;
+  return self;
+}
+
+-(id) initWithValues:(NSDictionary*)dict
+{
+    self = [super init];
+    if(self) {
+        __id = dict[@"id"]; 
+        _name = dict[@"name"]; 
+        
+
+    }
     return self;
 }
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    if(__id != nil) [dict setObject:__id forKey:@"id"];
-    if(_name != nil) [dict setObject:_name forKey:@"name"];
+    if(__id != nil) dict[@"id"] = __id ;
+    if(_name != nil) dict[@"name"] = _name ;
     NSDictionary* output = [dict copy];
     return output;
 }

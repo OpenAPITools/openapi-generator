@@ -9,10 +9,20 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 @synthesize queue = _queue;
 @synthesize api = _api;
 
-- (id) init {
++(NIKUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
+    static NIKUserApi* singletonAPI = nil;
+
+    if (singletonAPI == nil) {
+        singletonAPI = [[NIKUserApi alloc] init];
+        [singletonAPI addHeader:headerValue forKey:key];
+    }
+    return singletonAPI;
+}
+
+-(id) init {
     self = [super init];
     _queue = [[NSOperationQueue alloc] init];
-    _api = [[NIKApiInvoker alloc] init];
+    _api = [NIKApiInvoker sharedInstance];
 
     return self;
 }
@@ -22,15 +32,8 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     [_api addHeader:value forKey:key];
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) createUsersWithArrayInputWithCompletionBlock :(NSArray*) body 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) createUsersWithArrayInputWithCompletionBlock:(NSArray*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithArray", basePath];
 
@@ -66,12 +69,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"POST" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"POST" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -79,17 +82,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) createUserWithCompletionBlock :(NIKUser*) body 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) createUserWithCompletionBlock:(NIKUser*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}", basePath];
 
@@ -125,12 +122,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"POST" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"POST" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -138,17 +135,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) createUsersWithListInputWithCompletionBlock :(NSArray*) body 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) createUsersWithListInputWithCompletionBlock:(NSArray*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithList", basePath];
 
@@ -184,12 +175,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"POST" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"POST" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -197,17 +188,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) updateUserWithCompletionBlock :(NSString*) username body:(NIKUser*) body 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) updateUserWithCompletionBlock:(NSString*) username
+        body:(NIKUser*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
 
@@ -247,12 +233,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"PUT" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"PUT" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -260,17 +246,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) deleteUserWithCompletionBlock :(NSString*) username 
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) deleteUserWithCompletionBlock:(NSString*) username
+        completionHandler: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
 
@@ -285,12 +265,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(username == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"DELETE" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"DELETE" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -298,17 +278,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: 
- * returnBaseType: NIKUser
- * returnContainer: 
- * 
- **/
--(void) getUserByNameWithCompletionBlock :(NSString*) username 
-        completionHandler:(void (^)(NIKUser*, NSError *))completionBlock{
+-(void) getUserByNameWithCompletionBlock:(NSString*) username
+        completionHandler: (void (^)(NIKUser* output, NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
 
@@ -323,29 +297,24 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if(username == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
-        
+
         completionBlock( [[NIKUser alloc]initWithValues: data], nil);}];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: NSString
- * returnContainer: 
- * 
- **/
--(void) loginUserWithCompletionBlock :(NSString*) username password:(NSString*) password 
-        completionHandler:(void (^)(NSString*, NSError *))completionBlock{
+-(void) loginUserWithCompletionBlock:(NSString*) username
+        password:(NSString*) password
+        completionHandler: (void (^)(NSString* output, NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/login", basePath];
 
@@ -355,9 +324,9 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(username != nil)
-        [queryParams setValue:username forKey:@"username"];
+        queryParams[@"username"] = username;
     if(password != nil)
-        [queryParams setValue:password forKey:@"password"];
+        queryParams[@"password"] = password;
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(username == nil) {
@@ -366,12 +335,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(password == nil) {
         // error
     }
-    [_api stringWithCompletionBlock: requestUrl 
-                             method: @"GET" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"GET" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);
             return;
@@ -379,29 +348,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         
         completionBlock( [[NSString alloc]initWithString: data], nil);
     }];
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
-        if (error) {
-            completionBlock(nil, error);return;
-        }
-        
-        completionBlock( [[NSString alloc]initWithString: data], nil);}];
     
+
 }
 
-/**
- * 
- * returnTypeIsPrimitive: true
- * returnBaseType: 
- * returnContainer: 
- * 
- **/
--(void) logoutUserWithCompletionBlock :
-        completionHandler:(void (^)(NSError *))completionBlock{
+-(void) logoutUserWithCompletionBlock: (void (^)(NSError* error))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/logout", basePath];
 
@@ -412,12 +363,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-        [_api stringWithCompletionBlock: requestUrl 
-                             method: @"GET" 
-                        queryParams: queryParams 
-                               body: bodyDictionary 
-                       headerParams: headerParams
-                  completionHandler: ^(NSString *data, NSError *error) {
+        [_api stringWithCompletionBlock:requestUrl 
+                             method:@"GET" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                    completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
             return;
@@ -425,9 +376,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         completionBlock(nil);
     }];
     
+
 }
 
 -(void) createUsersWithArrayInputAsJsonWithCompletionBlock :(NSArray*) body 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithArray", basePath];
@@ -464,22 +417,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"POST" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"POST" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
 -(void) createUserAsJsonWithCompletionBlock :(NIKUser*) body 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}", basePath];
@@ -516,22 +472,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"POST" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"POST" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
 -(void) createUsersWithListInputAsJsonWithCompletionBlock :(NSArray*) body 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithList", basePath];
@@ -568,22 +527,26 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"POST" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"POST" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
--(void) updateUserAsJsonWithCompletionBlock :(NSString*) username body:(NIKUser*) body 
+-(void) updateUserAsJsonWithCompletionBlock :(NSString*) username 
+body:(NIKUser*) body 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
@@ -624,22 +587,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(body == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"PUT" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"PUT" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
 -(void) deleteUserAsJsonWithCompletionBlock :(NSString*) username 
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
@@ -655,22 +621,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(username == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"DELETE" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"DELETE" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 
 -(void) getUserByNameAsJsonWithCompletionBlock :(NSString*) username 
+
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
@@ -686,12 +655,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(username == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -708,11 +677,15 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             NSString * json = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
             completionBlock(json, nil);
         
+
     }];
+
 
 }
 
--(void) loginUserAsJsonWithCompletionBlock :(NSString*) username password:(NSString*) password 
+-(void) loginUserAsJsonWithCompletionBlock :(NSString*) username 
+password:(NSString*) password 
+
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/login", basePath];
@@ -723,9 +696,9 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(username != nil)
-        [queryParams setValue:username forKey:@"username"];
+        queryParams[@"username"] = username;
     if(password != nil)
-        [queryParams setValue:password forKey:@"password"];
+        queryParams[@"password"] = password;
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
     if(username == nil) {
@@ -734,12 +707,12 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if(password == nil) {
         // error
     }
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
         }
@@ -756,11 +729,14 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             NSString * json = [[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding];
             completionBlock(json, nil);
         
+
     }];
+
 
 }
 
 -(void) logoutUserAsJsonWithCompletionBlock :
+
         completionHandler:(void (^)(NSError *))completionBlock{
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/logout", basePath];
@@ -772,18 +748,20 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
-    [_api dictionaryWithCompletionBlock: requestUrl 
-                                 method: @"GET" 
-                            queryParams: queryParams 
-                                   body: bodyDictionary 
-                           headerParams: headerParams
-                      completionHandler: ^(NSDictionary *data, NSError *error) {
+    [_api dictionary:requestUrl 
+              method:@"GET" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+     completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
         }
 
         completionBlock(nil);
+
     }];
+
 
 }
 

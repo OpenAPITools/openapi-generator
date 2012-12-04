@@ -1,19 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "NIKSwaggerObject.h"
 
-@interface NIKUser : NIKSwaggerObject {
-@private
-    NSNumber* __id; //NSNumber
-    NSString* _lastName; //NSString
-    NSString* _phone; //NSString
-    NSString* _username; //NSString
-    NSString* _email; //NSString
-    NSNumber* _userStatus; //NSNumber
-    NSString* _firstName; //NSString
-    NSString* _password; //NSString
-    }
-
-
+@interface NIKUser : NIKSwaggerObject
 
 @property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSString* lastName;

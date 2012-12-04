@@ -1,13 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "NIKSwaggerObject.h"
 
-@interface NIKTag : NIKSwaggerObject {
-@private
-    NSNumber* __id; //NSNumber
-    NSString* _name; //NSString
-    }
-
-
+@interface NIKTag : NIKSwaggerObject
 
 @property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSString* name;

@@ -8,25 +8,31 @@
 }
 @property(nonatomic, readonly) NSOperationQueue* queue;
 @property(nonatomic, readonly) NSMutableDictionary * defaultHeaders;
+@property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
+
++ (NIKApiInvoker*)sharedInstance;
+
+- (void)updateLoadCountWithDelta:(NSInteger)countDelta;
+- (void)startLoad;
+- (void)stopLoad;
 
 
--(void) addHeader:(NSString*) value
-           forKey:(NSString*)key;
+-(void) addHeader:(NSString*)value forKey:(NSString*)key;
 
 -(NSString*) escapeString:(NSString*) string;
 
--(id) dictionaryWithCompletionBlock:(NSString*) path
-                             method:(NSString*) method
-                        queryParams:(NSDictionary*) queryParams
-                               body:(id)body
-                       headerParams:(NSDictionary*) headerParams
-                  completionHandler:(void (^)(NSDictionary*, NSError *))completionBlock;
+-(void) dictionary:(NSString*) path
+            method:(NSString*) method
+       queryParams:(NSDictionary*) queryParams
+              body:(id)body
+      headerParams:(NSDictionary*) headerParams
+   completionBlock:(void (^)(NSDictionary*, NSError *))completionBlock;
 
--(id) stringWithCompletionBlock:(NSString*) path
-                         method:(NSString*) method
-                    queryParams:(NSDictionary*) queryParams
-                           body:(id)body
-                   headerParams:(NSDictionary*) headerParams
-              completionHandler:(void (^)(NSString*, NSError *))completionBlock;
+-(void) stringWithCompletionBlock:(NSString*) path
+                           method:(NSString*) method
+                      queryParams:(NSDictionary*) queryParams
+                             body:(id)body
+                     headerParams:(NSDictionary*) headerParams
+                  completionBlock:(void (^)(NSString*, NSError *))completionBlock;
 
 @end

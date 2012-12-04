@@ -2,16 +2,7 @@
 #import "NIKSwaggerObject.h"
 #import "NIKDate.h"
 
-@interface NIKOrder : NIKSwaggerObject {
-@private
-    NSNumber* __id; //NSNumber
-    NSNumber* _petId; //NSNumber
-    NSString* _status; //NSString
-    NSNumber* _quantity; //NSNumber
-    NIKDate* _shipDate; //NIKDate
-    }
-
-
+@interface NIKOrder : NIKSwaggerObject
 
 @property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSNumber* petId;
