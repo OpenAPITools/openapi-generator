@@ -14,13 +14,24 @@
 @property(nonatomic, readonly) NSOperationQueue* queue;
 @property(nonatomic, readonly) NIKApiInvoker* api;
 
--(void) addHeader:(NSString*) value
-           forKey:(NSString*)key;
+-(void) addHeader:(NSString*)value forKey:(NSString*)key;
 
 {{#operation}}
--(void) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}{{/hasMore}}{{/allParams}}{{newline}}
-        {{#returnBaseType}}completionHandler:(void (^)({{returnType}}, NSError *))completionBlock;{{/returnBaseType}}
-        {{^returnBaseType}}completionHandler:(void (^)(NSError *))completionBlock;{{/returnBaseType}}
+/**
+
+ {{{summary}}}
+ {{#notes}}
+ {{{notes}}}
+ {{/notes}}
+
+ {{#allParams}}
+ @param {{paramName}} {{description}}
+ {{/allParams}}
+
+ */
+-(void) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}        {{/hasMore}}{{/allParams}}
+        {{#returnBaseType}}{{#hasParams}}{{newline}}        completionHandler: {{/hasParams}}(void (^)({{returnType}} output, NSError* error))completionBlock;{{/returnBaseType}}
+        {{^returnBaseType}}{{#hasParams}}{{newline}}        completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock;{{/returnBaseType}}
 
 {{newline}}
 {{/operation}}
