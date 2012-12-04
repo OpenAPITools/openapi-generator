@@ -16,8 +16,6 @@
 
 import com.wordnik.swagger.codegen.BasicRubyGenerator
 
-import com.wordnik.swagger.codegen.util.ScalaJsonUtil
-
 object RubyPetstoreCodegen extends BasicRubyGenerator {
   def main(args: Array[String]) = generateClient(args)
   
