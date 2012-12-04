@@ -21,8 +21,8 @@ public class Definition {
   private List<Related> relatedWords = new ArrayList<Related>();
   private String sequence = null;
   private String word = null;
-  private List<TextPron> textProns = new ArrayList<TextPron>();
   private List<Note> notes = new ArrayList<Note>();
+  private List<TextPron> textProns = new ArrayList<TextPron>();
   private String partOfSpeech = null;
   public String getExtendedText() {
     return extendedText;
@@ -115,18 +115,18 @@ public class Definition {
     this.word = word;
   }
 
-  public List<TextPron> getTextProns() {
-    return textProns;
-  }
-  public void setTextProns(List<TextPron> textProns) {
-    this.textProns = textProns;
-  }
-
   public List<Note> getNotes() {
     return notes;
   }
   public void setNotes(List<Note> notes) {
     this.notes = notes;
+  }
+
+  public List<TextPron> getTextProns() {
+    return textProns;
+  }
+  public void setTextProns(List<TextPron> textProns) {
+    this.textProns = textProns;
   }
 
   public String getPartOfSpeech() {
@@ -153,8 +153,8 @@ public class Definition {
     sb.append("  relatedWords: ").append(relatedWords).append("\n");
     sb.append("  sequence: ").append(sequence).append("\n");
     sb.append("  word: ").append(word).append("\n");
-    sb.append("  textProns: ").append(textProns).append("\n");
     sb.append("  notes: ").append(notes).append("\n");
+    sb.append("  textProns: ").append(textProns).append("\n");
     sb.append("  partOfSpeech: ").append(partOfSpeech).append("\n");
     sb.append("}\n");
     return sb.toString();

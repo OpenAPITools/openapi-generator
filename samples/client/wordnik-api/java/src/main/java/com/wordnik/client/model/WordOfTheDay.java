@@ -12,12 +12,12 @@ public class WordOfTheDay {
   private String createdBy = null;
   private Date createdAt = null;
   private ContentProvider contentProvider = null;
-  private String word = null;
   private String htmlExtra = null;
+  private String word = null;
   private List<SimpleDefinition> definitions = new ArrayList<SimpleDefinition>();
   private List<SimpleExample> examples = new ArrayList<SimpleExample>();
-  private Date publishDate = null;
   private String note = null;
+  private Date publishDate = null;
   public Long getId() {
     return id;
   }
@@ -60,18 +60,18 @@ public class WordOfTheDay {
     this.contentProvider = contentProvider;
   }
 
-  public String getWord() {
-    return word;
-  }
-  public void setWord(String word) {
-    this.word = word;
-  }
-
   public String getHtmlExtra() {
     return htmlExtra;
   }
   public void setHtmlExtra(String htmlExtra) {
     this.htmlExtra = htmlExtra;
+  }
+
+  public String getWord() {
+    return word;
+  }
+  public void setWord(String word) {
+    this.word = word;
   }
 
   public List<SimpleDefinition> getDefinitions() {
@@ -88,18 +88,18 @@ public class WordOfTheDay {
     this.examples = examples;
   }
 
-  public Date getPublishDate() {
-    return publishDate;
-  }
-  public void setPublishDate(Date publishDate) {
-    this.publishDate = publishDate;
-  }
-
   public String getNote() {
     return note;
   }
   public void setNote(String note) {
     this.note = note;
+  }
+
+  public Date getPublishDate() {
+    return publishDate;
+  }
+  public void setPublishDate(Date publishDate) {
+    this.publishDate = publishDate;
   }
 
   @Override
@@ -112,12 +112,12 @@ public class WordOfTheDay {
     sb.append("  createdBy: ").append(createdBy).append("\n");
     sb.append("  createdAt: ").append(createdAt).append("\n");
     sb.append("  contentProvider: ").append(contentProvider).append("\n");
-    sb.append("  word: ").append(word).append("\n");
     sb.append("  htmlExtra: ").append(htmlExtra).append("\n");
+    sb.append("  word: ").append(word).append("\n");
     sb.append("  definitions: ").append(definitions).append("\n");
     sb.append("  examples: ").append(examples).append("\n");
-    sb.append("  publishDate: ").append(publishDate).append("\n");
     sb.append("  note: ").append(note).append("\n");
+    sb.append("  publishDate: ").append(publishDate).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

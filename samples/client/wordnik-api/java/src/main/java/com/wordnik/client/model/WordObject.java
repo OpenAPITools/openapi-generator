@@ -3,8 +3,8 @@ package com.wordnik.client.model;
 import java.util.*;
 public class WordObject {
   private Long id = null;
-  private String originalWord = null;
   private String word = null;
+  private String originalWord = null;
   private List<String> suggestions = new ArrayList<String>();
   private String canonicalForm = null;
   private String vulgar = null;
@@ -15,18 +15,18 @@ public class WordObject {
     this.id = id;
   }
 
-  public String getOriginalWord() {
-    return originalWord;
-  }
-  public void setOriginalWord(String originalWord) {
-    this.originalWord = originalWord;
-  }
-
   public String getWord() {
     return word;
   }
   public void setWord(String word) {
     this.word = word;
+  }
+
+  public String getOriginalWord() {
+    return originalWord;
+  }
+  public void setOriginalWord(String originalWord) {
+    this.originalWord = originalWord;
   }
 
   public List<String> getSuggestions() {
@@ -55,8 +55,8 @@ public class WordObject {
     StringBuilder sb = new StringBuilder();
     sb.append("class WordObject {\n");
     sb.append("  id: ").append(id).append("\n");
-    sb.append("  originalWord: ").append(originalWord).append("\n");
     sb.append("  word: ").append(word).append("\n");
+    sb.append("  originalWord: ").append(originalWord).append("\n");
     sb.append("  suggestions: ").append(suggestions).append("\n");
     sb.append("  canonicalForm: ").append(canonicalForm).append("\n");
     sb.append("  vulgar: ").append(vulgar).append("\n");

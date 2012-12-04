@@ -5,8 +5,8 @@ public class WordListWord {
   private Long id = null;
   private String username = null;
   private Date createdAt = null;
-  private Long userId = null;
   private Long numberCommentsOnWord = null;
+  private Long userId = null;
   private String word = null;
   private Long numberLists = null;
   public Long getId() {
@@ -30,18 +30,18 @@ public class WordListWord {
     this.createdAt = createdAt;
   }
 
-  public Long getUserId() {
-    return userId;
-  }
-  public void setUserId(Long userId) {
-    this.userId = userId;
-  }
-
   public Long getNumberCommentsOnWord() {
     return numberCommentsOnWord;
   }
   public void setNumberCommentsOnWord(Long numberCommentsOnWord) {
     this.numberCommentsOnWord = numberCommentsOnWord;
+  }
+
+  public Long getUserId() {
+    return userId;
+  }
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   public String getWord() {
@@ -65,8 +65,8 @@ public class WordListWord {
     sb.append("  id: ").append(id).append("\n");
     sb.append("  username: ").append(username).append("\n");
     sb.append("  createdAt: ").append(createdAt).append("\n");
-    sb.append("  userId: ").append(userId).append("\n");
     sb.append("  numberCommentsOnWord: ").append(numberCommentsOnWord).append("\n");
+    sb.append("  userId: ").append(userId).append("\n");
     sb.append("  word: ").append(word).append("\n");
     sb.append("  numberLists: ").append(numberLists).append("\n");
     sb.append("}\n");

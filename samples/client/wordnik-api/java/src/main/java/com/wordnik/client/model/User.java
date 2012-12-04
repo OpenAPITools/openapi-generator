@@ -3,8 +3,8 @@ package com.wordnik.client.model;
 public class User {
   private Long id = null;
   private String username = null;
-  private Integer status = null;
   private String email = null;
+  private Integer status = null;
   private String faceBookId = null;
   private String userName = null;
   private String displayName = null;
@@ -23,18 +23,18 @@ public class User {
     this.username = username;
   }
 
-  public Integer getStatus() {
-    return status;
-  }
-  public void setStatus(Integer status) {
-    this.status = status;
-  }
-
   public String getEmail() {
     return email;
   }
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public Integer getStatus() {
+    return status;
+  }
+  public void setStatus(Integer status) {
+    this.status = status;
   }
 
   public String getFaceBookId() {
@@ -71,8 +71,8 @@ public class User {
     sb.append("class User {\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  username: ").append(username).append("\n");
-    sb.append("  status: ").append(status).append("\n");
     sb.append("  email: ").append(email).append("\n");
+    sb.append("  status: ").append(status).append("\n");
     sb.append("  faceBookId: ").append(faceBookId).append("\n");
     sb.append("  userName: ").append(userName).append("\n");
     sb.append("  displayName: ").append(displayName).append("\n");

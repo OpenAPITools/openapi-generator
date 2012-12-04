@@ -2,29 +2,29 @@ package com.wordnik.client.model;
 
 import java.util.Date;
 public class WordList {
-  private Long id = null;
   private Date updatedAt = null;
+  private Long id = null;
   private String username = null;
   private String permalink = null;
-  private String description = null;
-  private Date createdAt = null;
   private Date lastActivityAt = null;
-  private String name = null;
+  private Date createdAt = null;
+  private String description = null;
   private Long userId = null;
+  private String name = null;
   private Long numberWordsInList = null;
   private String type = null;
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public Date getUpdatedAt() {
     return updatedAt;
   }
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getUsername() {
@@ -41,11 +41,11 @@ public class WordList {
     this.permalink = permalink;
   }
 
-  public String getDescription() {
-    return description;
+  public Date getLastActivityAt() {
+    return lastActivityAt;
   }
-  public void setDescription(String description) {
-    this.description = description;
+  public void setLastActivityAt(Date lastActivityAt) {
+    this.lastActivityAt = lastActivityAt;
   }
 
   public Date getCreatedAt() {
@@ -55,18 +55,11 @@ public class WordList {
     this.createdAt = createdAt;
   }
 
-  public Date getLastActivityAt() {
-    return lastActivityAt;
+  public String getDescription() {
+    return description;
   }
-  public void setLastActivityAt(Date lastActivityAt) {
-    this.lastActivityAt = lastActivityAt;
-  }
-
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Long getUserId() {
@@ -74,6 +67,13 @@ public class WordList {
   }
   public void setUserId(Long userId) {
     this.userId = userId;
+  }
+
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Long getNumberWordsInList() {
@@ -94,15 +94,15 @@ public class WordList {
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class WordList {\n");
-    sb.append("  id: ").append(id).append("\n");
     sb.append("  updatedAt: ").append(updatedAt).append("\n");
+    sb.append("  id: ").append(id).append("\n");
     sb.append("  username: ").append(username).append("\n");
     sb.append("  permalink: ").append(permalink).append("\n");
-    sb.append("  description: ").append(description).append("\n");
-    sb.append("  createdAt: ").append(createdAt).append("\n");
     sb.append("  lastActivityAt: ").append(lastActivityAt).append("\n");
-    sb.append("  name: ").append(name).append("\n");
+    sb.append("  createdAt: ").append(createdAt).append("\n");
+    sb.append("  description: ").append(description).append("\n");
     sb.append("  userId: ").append(userId).append("\n");
+    sb.append("  name: ").append(name).append("\n");
     sb.append("  numberWordsInList: ").append(numberWordsInList).append("\n");
     sb.append("  type: ").append(type).append("\n");
     sb.append("}\n");
