@@ -50,8 +50,8 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
     val user = User(
       1002,
       "Rocket",
-      "johnny",
       "408-867-5309",
+      "johnny",
       "johnny@fail.com",
       1,
       "Johnny",
@@ -73,8 +73,8 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
       User(
         2000 + i,
         "Rocket-" + i,
-        "johnny-" + i,
         "408-867-5309",
+        "johnny-" + i,
         "johnny-" + i + "@fail.com",
         1,
         "Johnny",
@@ -98,8 +98,8 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
       User(
         3000 + i,
         "Rocket-" + i,
-        "fred-" + i,
         "408-867-5309",
+        "fred-" + i,
         "fred-" + i + "@fail.com",
         1,
         "Johnny",
@@ -122,8 +122,8 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
     val user = User(
       4000,
       "Tiger",
-      "tony",
       "408-867-5309",
+      "tony",
       "tony@fail.com",
       1,
       "Tony",

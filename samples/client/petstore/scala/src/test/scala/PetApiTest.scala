@@ -27,8 +27,8 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
 
   it should "add a new pet" in {
     val pet = Pet(
-      1000,
       (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
+      1000,
       Category(1, "sold"),
       "lost",
       "dragon",
@@ -51,8 +51,8 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
 
   it should "update a pet" in {
     val pet = Pet(
-      1000,
       (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
+      1000,
       Category(1, "sold"),
       "confused",
       "programmer",
