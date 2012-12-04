@@ -1,19 +1,6 @@
 #!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo "" > classpath.txt
-for file in `ls target/lib`;
-        do echo -n 'target/lib/' >> classpath.txt;
-        echo -n $file >> classpath.txt;
-        echo -n ':' >> classpath.txt;
-done
-
-for file in `ls target/*.jar`;
-        do echo -n '' >> classpath.txt;
-        echo -n $file >> classpath.txt;
-        echo -n ':' >> classpath.txt;
-done
-export CLASSPATH=$(cat classpath.txt)
-
-
-export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-scala $WORDNIK_OPTS $JAVA_CONFIG_OPTIONS -cp $CLASSPATH "$@" samples/client/petstore/ruby/RubyPetstoreCodegen.scala http://petstore.swagger.wordnik.com/api/api-docs.json special-key
+export CLASSPATH="$DIR/../target/lib/*:$DIR/../target/*"
+export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
+JAVA_OPTS=$JAVA_OPTS scala -cp $CLASSPATH "$@" samples/client/petstore/ruby/RubyPetstoreCodegen.scala http://petstore.swagger.wordnik.com/api/api-docs.json special-key
