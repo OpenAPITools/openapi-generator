@@ -26,10 +26,10 @@ case class ResourceListing(
 
 case class ApiListingReference(path:String, description: String)
 
-abstract class AllowableValuesFoo
-case object Any extends AllowableValuesFoo
-case class AllowableListValues (values: List[String] = List(), valueType: String = "LIST") extends AllowableValuesFoo
-case class AllowableRangeValues(min: String, max: String) extends AllowableValuesFoo
+trait AllowableValuesFoo
+case object Any extends AllowableValues with AllowableValuesFoo
+case class AllowableListValues (values: List[String] = List(), valueType: String = "LIST") extends AllowableValues with AllowableValuesFoo
+case class AllowableRangeValues(min: String, max: String) extends AllowableValues with AllowableValuesFoo
 
 // using java.util.Map because Jackon 2 isn't deserializing ListMap correctly, and ordered
 // insertion is required
