@@ -5,8 +5,8 @@
 
 @interface NIKPet : NIKSwaggerObject {
 @private
-    NSNumber* __id; //NSNumber
     NSArray* _tags; //Tag
+    NSNumber* __id; //NSNumber
     NIKCategory* _category; //Category
     NSString* _status; //NSString
     NSString* _name; //NSString
@@ -15,14 +15,14 @@
 
 
 
-@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSArray* tags;
+@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NIKCategory* category;
 @property(nonatomic) NSString* status;
 @property(nonatomic) NSString* name;
 @property(nonatomic) NSArray* photoUrls;
-- (id) _id: (NSNumber*) _id
-     tags: (NSArray*) tags
+- (id) tags: (NSArray*) tags
+     _id: (NSNumber*) _id
      category: (NIKCategory*) category
      status: (NSString*) status
      name: (NSString*) name

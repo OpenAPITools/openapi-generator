@@ -3,21 +3,21 @@
 
 @implementation NIKPet
 
-@synthesize _id = __id;
 @synthesize tags = _tags;
+@synthesize _id = __id;
 @synthesize category = _category;
 @synthesize status = _status;
 @synthesize name = _name;
 @synthesize photoUrls = _photoUrls;
-- (id) _id: (NSNumber*) _id
-       tags: (NSArray*) tags
+- (id) tags: (NSArray*) tags
+       _id: (NSNumber*) _id
        category: (NIKCategory*) category
        status: (NSString*) status
        name: (NSString*) name
        photoUrls: (NSArray*) photoUrls
        {
-          __id = _id;
           _tags = tags;
+          __id = _id;
           _category = category;
           _status = status;
           _name = name;
@@ -27,7 +27,6 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    __id = [dict objectForKey:@"id"];
     id tags_dict = [dict objectForKey:@"tags"];
     if([tags_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)tags_dict count] > 0) {
@@ -39,6 +38,7 @@
             _tags = [[NSArray alloc] initWithArray:objs];
         }
     }
+    __id = [dict objectForKey:@"id"];
     id category_dict = [dict objectForKey:@"category"];
     _category = [[NIKCategory alloc]initWithValues:category_dict];
     _status = [dict objectForKey:@"status"];
@@ -49,7 +49,6 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_tags != nil){
         if([_tags isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
@@ -68,6 +67,7 @@
     else {
     if(_tags != nil) [dict setObject:[(NIKSwaggerObject*)_tags asDictionary]forKey:@"tags"];
     }
+    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_category != nil){
         if([_category isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
