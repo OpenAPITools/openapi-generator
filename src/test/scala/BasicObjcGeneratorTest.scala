@@ -28,8 +28,6 @@ import scala.collection.mutable.HashMap
 
 @RunWith(classOf[JUnitRunner])
 class BasicObjcGeneratorTest extends FlatSpec with ShouldMatchers {
-  val json = ScalaJsonUtil.getJsonMapper
-
   val config = new BasicObjcGenerator
 
   behavior of "BasicObjcGenerator"

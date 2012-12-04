@@ -17,9 +17,12 @@
 package com.wordnik.swagger.codegen
 
 import com.wordnik.swagger.model._
-import com.wordnik.swagger.codegen.util.{ CoreUtils, ScalaJsonUtil }
+import com.wordnik.swagger.codegen.util.CoreUtils
 import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
+
+import org.json4s.jackson.JsonMethods._
+import org.json4s.native.Serialization.write
 
 import org.fusesource.scalate._
 import org.fusesource.scalate.layout.DefaultLayoutStrategy
@@ -39,7 +42,7 @@ object Codegen {
 }
 
 class Codegen(config: CodegenConfig) {
-  val json = ScalaJsonUtil.getJsonMapper
+  implicit val formats = SwaggerSerializers.formats
 
   def generateSource(bundle: Map[String, AnyRef], templateFile: String): String = {
     val allImports = new HashSet[String]
@@ -461,17 +464,14 @@ class Codegen(config: CodegenConfig) {
 
     val modelList = new ListBuffer[HashMap[String, AnyRef]]
 
-    val nonScalaMapper = JsonUtil.getJsonMapper
     models.foreach(m => {
-      val str = json.writeValueAsString(m._2)
-      val jsonObj = nonScalaMapper.readValue(str, classOf[AnyRef])
-      val modelJson = nonScalaMapper.writeValueAsString(jsonObj)
+      val json = write(m._2)
 
       modelList += HashMap(
         "modelName" -> m._1,
         "model" -> m._2,
         "filename" -> config.toModelFilename(m._1),
-        "modelJson" -> modelJson,
+        "modelJson" -> json,
         "hasMore" -> "true")
     })
     modelList.size match {
@@ -552,25 +552,5 @@ class Codegen(config: CodegenConfig) {
         }
         case _ => false
       }
-  }
-}
-
-import com.fasterxml.jackson.core.JsonGenerator.Feature
-import com.fasterxml.jackson.databind._
-import com.fasterxml.jackson.annotation._
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-
-
-object JsonUtil {
-  def getJsonMapper = {
-    val mapper = new ObjectMapper()
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT)
-    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false)
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true)
-    mapper
   }
 }

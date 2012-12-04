@@ -28,7 +28,6 @@ import scala.reflect.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
-  val json = ScalaJsonUtil.getJsonMapper
   val config = new BasicJavaGenerator
 
   behavior of "BasicJavaGenerator"

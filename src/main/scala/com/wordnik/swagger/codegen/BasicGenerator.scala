@@ -40,7 +40,6 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
   var codegen = new Codegen(this)
-  def json = ScalaJsonUtil.getJsonMapper
 
   def generateClient(args: Array[String]) = {
     if (args.length == 0) {

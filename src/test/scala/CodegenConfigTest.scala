@@ -27,8 +27,6 @@ import scala.reflect.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class CodegenConfigTest extends FlatSpec with ShouldMatchers {
-  val json = ScalaJsonUtil.getJsonMapper
-
   class SampleCodegenConfig extends CodegenConfig with PathUtil {
     override def packageName = "com.test"
     override def templateDir = "src/test/resources/sampleConfigTemplates"

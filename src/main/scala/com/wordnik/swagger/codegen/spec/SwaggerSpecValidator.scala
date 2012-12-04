@@ -17,7 +17,6 @@
 package com.wordnik.swagger.codegen.spec
 
 import com.wordnik.swagger.model._
-import com.wordnik.swagger.codegen.util.ScalaJsonUtil
 import com.wordnik.swagger.codegen.PathUtil
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 import com.wordnik.swagger.codegen.util.CoreUtils
@@ -38,9 +37,7 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
   private val apis: List[ApiListing],
   private val fix: Boolean = true) extends PathUtil {
 
-
   import ValidationMessage._
-  val json = ScalaJsonUtil.getJsonMapper
 
   private val validationMessages = ListBuffer.empty[ValidationMessage]
 
@@ -231,7 +228,7 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
                     }
                   }
                   case None => {
-                    println("nothing found for " + json.writeValueAsString(subObject))
+                    println("nothing found for " + subObject)
                     !!(model, MODEL_PROPERTY, format("%s->%s: %s", model.id, subObjectName, subObject.`type`), format("Invalid ref (%s).", item.ref))
                     LOGGER.finest("didn't know what to do with " + item.ref)
                   }

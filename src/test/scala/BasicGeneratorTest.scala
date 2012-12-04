@@ -27,8 +27,6 @@ import scala.collection.mutable.{LinkedHashMap, HashMap}
 
 @RunWith(classOf[JUnitRunner])
 class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
-  val json = ScalaJsonUtil.getJsonMapper
-
   class SampleGenerator extends BasicGenerator {
   	modelTemplateFiles += "model.mustache" -> ".test"
   	override def typeMapping = Map(
