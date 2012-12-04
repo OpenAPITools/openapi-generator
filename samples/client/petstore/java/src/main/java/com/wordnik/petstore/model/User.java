@@ -3,8 +3,8 @@ package com.wordnik.petstore.model;
 public class User {
   private Long id = null;
   private String lastName = null;
-  private String username = null;
   private String phone = null;
+  private String username = null;
   private String email = null;
   /* User Status */
   private Integer userStatus = null;
@@ -24,18 +24,18 @@ public class User {
     this.lastName = lastName;
   }
 
-  public String getUsername() {
-    return username;
-  }
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
   public String getPhone() {
     return phone;
   }
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getEmail() {
@@ -72,8 +72,8 @@ public class User {
     sb.append("class User {\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  lastName: ").append(lastName).append("\n");
-    sb.append("  username: ").append(username).append("\n");
     sb.append("  phone: ").append(phone).append("\n");
+    sb.append("  username: ").append(username).append("\n");
     sb.append("  email: ").append(email).append("\n");
     sb.append("  userStatus: ").append(userStatus).append("\n");
     sb.append("  firstName: ").append(firstName).append("\n");
