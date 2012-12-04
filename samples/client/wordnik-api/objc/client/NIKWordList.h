@@ -4,41 +4,41 @@
 
 @interface NIKWordList : NIKSwaggerObject {
 @private
-    NSNumber* __id; //NSNumber
     NIKDate* _updatedAt; //NIKDate
+    NSNumber* __id; //NSNumber
     NSString* _username; //NSString
     NSString* _permalink; //NSString
-    NSString* _description; //NSString
-    NIKDate* _createdAt; //NIKDate
     NIKDate* _lastActivityAt; //NIKDate
-    NSString* _name; //NSString
+    NIKDate* _createdAt; //NIKDate
+    NSString* _description; //NSString
     NSNumber* _userId; //NSNumber
+    NSString* _name; //NSString
     NSNumber* _numberWordsInList; //NSNumber
     NSString* _type; //NSString
     }
 
 
 
-@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NIKDate* updatedAt;
+@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSString* username;
 @property(nonatomic) NSString* permalink;
-@property(nonatomic) NSString* description;
-@property(nonatomic) NIKDate* createdAt;
 @property(nonatomic) NIKDate* lastActivityAt;
-@property(nonatomic) NSString* name;
+@property(nonatomic) NIKDate* createdAt;
+@property(nonatomic) NSString* description;
 @property(nonatomic) NSNumber* userId;
+@property(nonatomic) NSString* name;
 @property(nonatomic) NSNumber* numberWordsInList;
 @property(nonatomic) NSString* type;
-- (id) _id: (NSNumber*) _id
-     updatedAt: (NIKDate*) updatedAt
+- (id) updatedAt: (NIKDate*) updatedAt
+     _id: (NSNumber*) _id
      username: (NSString*) username
      permalink: (NSString*) permalink
-     description: (NSString*) description
-     createdAt: (NIKDate*) createdAt
      lastActivityAt: (NIKDate*) lastActivityAt
-     name: (NSString*) name
+     createdAt: (NIKDate*) createdAt
+     description: (NSString*) description
      userId: (NSNumber*) userId
+     name: (NSString*) name
      numberWordsInList: (NSNumber*) numberWordsInList
      type: (NSString*) type;
 

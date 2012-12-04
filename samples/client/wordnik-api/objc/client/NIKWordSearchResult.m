@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKWordSearchResult.h"
 
 @implementation NIKWordSearchResult

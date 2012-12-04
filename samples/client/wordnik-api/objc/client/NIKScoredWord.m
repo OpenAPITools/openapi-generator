@@ -1,38 +1,39 @@
+#import "NIKDate.h"
 #import "NIKScoredWord.h"
 
 @implementation NIKScoredWord
 
-@synthesize _id = __id;
 @synthesize position = _position;
-@synthesize lemma = _lemma;
+@synthesize _id = __id;
 @synthesize docTermCount = _docTermCount;
+@synthesize lemma = _lemma;
 @synthesize wordType = _wordType;
 @synthesize score = _score;
-@synthesize word = _word;
 @synthesize sentenceId = _sentenceId;
+@synthesize word = _word;
 @synthesize stopword = _stopword;
 @synthesize baseWordScore = _baseWordScore;
 @synthesize partOfSpeech = _partOfSpeech;
-- (id) _id: (NSNumber*) _id
-       position: (NSNumber*) position
-       lemma: (NSString*) lemma
+- (id) position: (NSNumber*) position
+       _id: (NSNumber*) _id
        docTermCount: (NSNumber*) docTermCount
+       lemma: (NSString*) lemma
        wordType: (NSString*) wordType
        score: (NSNumber*) score
-       word: (NSString*) word
        sentenceId: (NSNumber*) sentenceId
+       word: (NSString*) word
        stopword: (NSNumber*) stopword
        baseWordScore: (NSNumber*) baseWordScore
        partOfSpeech: (NSString*) partOfSpeech
        {
-          __id = _id;
           _position = position;
-          _lemma = lemma;
+          __id = _id;
           _docTermCount = docTermCount;
+          _lemma = lemma;
           _wordType = wordType;
           _score = score;
-          _word = word;
           _sentenceId = sentenceId;
+          _word = word;
           _stopword = stopword;
           _baseWordScore = baseWordScore;
           _partOfSpeech = partOfSpeech;
@@ -41,14 +42,14 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    __id = [dict objectForKey:@"id"];
     _position = [dict objectForKey:@"position"];
-    _lemma = [dict objectForKey:@"lemma"];
+    __id = [dict objectForKey:@"id"];
     _docTermCount = [dict objectForKey:@"docTermCount"];
+    _lemma = [dict objectForKey:@"lemma"];
     _wordType = [dict objectForKey:@"wordType"];
     _score = [dict objectForKey:@"score"];
-    _word = [dict objectForKey:@"word"];
     _sentenceId = [dict objectForKey:@"sentenceId"];
+    _word = [dict objectForKey:@"word"];
     _stopword = [dict objectForKey:@"stopword"];
     _baseWordScore = [dict objectForKey:@"baseWordScore"];
     _partOfSpeech = [dict objectForKey:@"partOfSpeech"];
@@ -57,14 +58,14 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_position != nil) [dict setObject:_position forKey:@"position"];
-    if(_lemma != nil) [dict setObject:_lemma forKey:@"lemma"];
+    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_docTermCount != nil) [dict setObject:_docTermCount forKey:@"docTermCount"];
+    if(_lemma != nil) [dict setObject:_lemma forKey:@"lemma"];
     if(_wordType != nil) [dict setObject:_wordType forKey:@"wordType"];
     if(_score != nil) [dict setObject:_score forKey:@"score"];
-    if(_word != nil) [dict setObject:_word forKey:@"word"];
     if(_sentenceId != nil) [dict setObject:_sentenceId forKey:@"sentenceId"];
+    if(_word != nil) [dict setObject:_word forKey:@"word"];
     if(_stopword != nil) [dict setObject:_stopword forKey:@"stopword"];
     if(_baseWordScore != nil) [dict setObject:_baseWordScore forKey:@"baseWordScore"];
     if(_partOfSpeech != nil) [dict setObject:_partOfSpeech forKey:@"partOfSpeech"];

@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKWordOfTheDay.h"
 
 @implementation NIKWordOfTheDay
@@ -8,24 +9,24 @@
 @synthesize createdBy = _createdBy;
 @synthesize createdAt = _createdAt;
 @synthesize contentProvider = _contentProvider;
-@synthesize word = _word;
 @synthesize htmlExtra = _htmlExtra;
+@synthesize word = _word;
 @synthesize definitions = _definitions;
 @synthesize examples = _examples;
-@synthesize publishDate = _publishDate;
 @synthesize note = _note;
+@synthesize publishDate = _publishDate;
 - (id) _id: (NSNumber*) _id
        parentId: (NSString*) parentId
        category: (NSString*) category
        createdBy: (NSString*) createdBy
        createdAt: (NIKDate*) createdAt
        contentProvider: (NIKContentProvider*) contentProvider
-       word: (NSString*) word
        htmlExtra: (NSString*) htmlExtra
+       word: (NSString*) word
        definitions: (NSArray*) definitions
        examples: (NSArray*) examples
-       publishDate: (NIKDate*) publishDate
        note: (NSString*) note
+       publishDate: (NIKDate*) publishDate
        {
           __id = _id;
           _parentId = parentId;
@@ -33,12 +34,12 @@
           _createdBy = createdBy;
           _createdAt = createdAt;
           _contentProvider = contentProvider;
-          _word = word;
           _htmlExtra = htmlExtra;
+          _word = word;
           _definitions = definitions;
           _examples = examples;
-          _publishDate = publishDate;
           _note = note;
+          _publishDate = publishDate;
           return self;
        }
 
@@ -52,8 +53,8 @@
     _createdAt = [[NIKDate alloc]initWithValues:createdAt_dict];
     id contentProvider_dict = [dict objectForKey:@"contentProvider"];
     _contentProvider = [[NIKContentProvider alloc]initWithValues:contentProvider_dict];
-    _word = [dict objectForKey:@"word"];
     _htmlExtra = [dict objectForKey:@"htmlExtra"];
+    _word = [dict objectForKey:@"word"];
     id definitions_dict = [dict objectForKey:@"definitions"];
     if([definitions_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)definitions_dict count] > 0) {
@@ -76,9 +77,9 @@
             _examples = [[NSArray alloc] initWithArray:objs];
         }
     }
+    _note = [dict objectForKey:@"note"];
     id publishDate_dict = [dict objectForKey:@"publishDate"];
     _publishDate = [[NIKDate alloc]initWithValues:publishDate_dict];
-    _note = [dict objectForKey:@"note"];
     return self;
 }
 
@@ -124,8 +125,8 @@
     else {
     if(_contentProvider != nil) [dict setObject:[(NIKSwaggerObject*)_contentProvider asDictionary]forKey:@"contentProvider"];
     }
-    if(_word != nil) [dict setObject:_word forKey:@"word"];
     if(_htmlExtra != nil) [dict setObject:_htmlExtra forKey:@"htmlExtra"];
+    if(_word != nil) [dict setObject:_word forKey:@"word"];
     if(_definitions != nil){
         if([_definitions isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
@@ -162,6 +163,7 @@
     else {
     if(_examples != nil) [dict setObject:[(NIKSwaggerObject*)_examples asDictionary]forKey:@"examples"];
     }
+    if(_note != nil) [dict setObject:_note forKey:@"note"];
     if(_publishDate != nil){
         if([_publishDate isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
@@ -180,7 +182,6 @@
     else {
     if(_publishDate != nil) [dict setObject:[(NIKSwaggerObject*)_publishDate asDictionary]forKey:@"publishDate"];
     }
-    if(_note != nil) [dict setObject:_note forKey:@"note"];
     NSDictionary* output = [dict copy];
     return output;
 }

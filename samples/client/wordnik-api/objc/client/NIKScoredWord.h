@@ -3,14 +3,14 @@
 
 @interface NIKScoredWord : NIKSwaggerObject {
 @private
-    NSNumber* __id; //NSNumber
     NSNumber* _position; //NSNumber
-    NSString* _lemma; //NSString
+    NSNumber* __id; //NSNumber
     NSNumber* _docTermCount; //NSNumber
+    NSString* _lemma; //NSString
     NSString* _wordType; //NSString
     NSNumber* _score; //NSNumber
-    NSString* _word; //NSString
     NSNumber* _sentenceId; //NSNumber
+    NSString* _word; //NSString
     NSNumber* _stopword; //NSNumber
     NSNumber* _baseWordScore; //NSNumber
     NSString* _partOfSpeech; //NSString
@@ -18,25 +18,25 @@
 
 
 
-@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSNumber* position;
-@property(nonatomic) NSString* lemma;
+@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSNumber* docTermCount;
+@property(nonatomic) NSString* lemma;
 @property(nonatomic) NSString* wordType;
 @property(nonatomic) NSNumber* score;
-@property(nonatomic) NSString* word;
 @property(nonatomic) NSNumber* sentenceId;
+@property(nonatomic) NSString* word;
 @property(nonatomic) NSNumber* stopword;
 @property(nonatomic) NSNumber* baseWordScore;
 @property(nonatomic) NSString* partOfSpeech;
-- (id) _id: (NSNumber*) _id
-     position: (NSNumber*) position
-     lemma: (NSString*) lemma
+- (id) position: (NSNumber*) position
+     _id: (NSNumber*) _id
      docTermCount: (NSNumber*) docTermCount
+     lemma: (NSString*) lemma
      wordType: (NSString*) wordType
      score: (NSNumber*) score
-     word: (NSString*) word
      sentenceId: (NSNumber*) sentenceId
+     word: (NSString*) word
      stopword: (NSNumber*) stopword
      baseWordScore: (NSNumber*) baseWordScore
      partOfSpeech: (NSString*) partOfSpeech;

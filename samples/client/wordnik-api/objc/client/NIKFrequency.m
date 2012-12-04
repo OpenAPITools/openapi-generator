@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKFrequency.h"
 
 @implementation NIKFrequency

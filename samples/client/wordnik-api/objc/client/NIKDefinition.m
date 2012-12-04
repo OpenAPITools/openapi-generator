@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKDefinition.h"
 
 @implementation NIKDefinition
@@ -15,8 +16,8 @@
 @synthesize relatedWords = _relatedWords;
 @synthesize sequence = _sequence;
 @synthesize word = _word;
-@synthesize textProns = _textProns;
 @synthesize notes = _notes;
+@synthesize textProns = _textProns;
 @synthesize partOfSpeech = _partOfSpeech;
 - (id) extendedText: (NSString*) extendedText
        text: (NSString*) text
@@ -31,8 +32,8 @@
        relatedWords: (NSArray*) relatedWords
        sequence: (NSString*) sequence
        word: (NSString*) word
-       textProns: (NSArray*) textProns
        notes: (NSArray*) notes
+       textProns: (NSArray*) textProns
        partOfSpeech: (NSString*) partOfSpeech
        {
           _extendedText = extendedText;
@@ -48,8 +49,8 @@
           _relatedWords = relatedWords;
           _sequence = sequence;
           _word = word;
-          _textProns = textProns;
           _notes = notes;
+          _textProns = textProns;
           _partOfSpeech = partOfSpeech;
           return self;
        }
@@ -109,17 +110,6 @@
     }
     _sequence = [dict objectForKey:@"sequence"];
     _word = [dict objectForKey:@"word"];
-    id textProns_dict = [dict objectForKey:@"textProns"];
-    if([textProns_dict isKindOfClass:[NSArray class]]) {
-        if([(NSArray*)textProns_dict count] > 0) {
-            NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)textProns_dict count]];
-            for (NSDictionary* dict in (NSArray*)textProns_dict) {
-                NIKTextPron* d = [[NIKTextPron alloc]initWithValues:dict];
-                [objs addObject:d];
-            }
-            _textProns = [[NSArray alloc] initWithArray:objs];
-        }
-    }
     id notes_dict = [dict objectForKey:@"notes"];
     if([notes_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)notes_dict count] > 0) {
@@ -129,6 +119,17 @@
                 [objs addObject:d];
             }
             _notes = [[NSArray alloc] initWithArray:objs];
+        }
+    }
+    id textProns_dict = [dict objectForKey:@"textProns"];
+    if([textProns_dict isKindOfClass:[NSArray class]]) {
+        if([(NSArray*)textProns_dict count] > 0) {
+            NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)textProns_dict count]];
+            for (NSDictionary* dict in (NSArray*)textProns_dict) {
+                NIKTextPron* d = [[NIKTextPron alloc]initWithValues:dict];
+                [objs addObject:d];
+            }
+            _textProns = [[NSArray alloc] initWithArray:objs];
         }
     }
     _partOfSpeech = [dict objectForKey:@"partOfSpeech"];
@@ -218,24 +219,6 @@
     }
     if(_sequence != nil) [dict setObject:_sequence forKey:@"sequence"];
     if(_word != nil) [dict setObject:_word forKey:@"word"];
-    if(_textProns != nil){
-        if([_textProns isKindOfClass:[NSArray class]]){
-            NSMutableArray * array = [[NSMutableArray alloc] init];
-            for( NIKTextPron * textProns in (NSArray*)_textProns) {
-                [array addObject:[(NIKSwaggerObject*)textProns asDictionary]];
-            }
-            [dict setObject:array forKey:@"textProns"];
-        }
-        else if(_textProns && [_textProns isKindOfClass:[NIKDate class]]) {
-            NSString * dateString = [(NIKDate*)_textProns toString];
-            if(dateString){
-                [dict setObject:dateString forKey:@"textProns"];   
-            }
-        }
-    }
-    else {
-    if(_textProns != nil) [dict setObject:[(NIKSwaggerObject*)_textProns asDictionary]forKey:@"textProns"];
-    }
     if(_notes != nil){
         if([_notes isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
@@ -253,6 +236,24 @@
     }
     else {
     if(_notes != nil) [dict setObject:[(NIKSwaggerObject*)_notes asDictionary]forKey:@"notes"];
+    }
+    if(_textProns != nil){
+        if([_textProns isKindOfClass:[NSArray class]]){
+            NSMutableArray * array = [[NSMutableArray alloc] init];
+            for( NIKTextPron * textProns in (NSArray*)_textProns) {
+                [array addObject:[(NIKSwaggerObject*)textProns asDictionary]];
+            }
+            [dict setObject:array forKey:@"textProns"];
+        }
+        else if(_textProns && [_textProns isKindOfClass:[NIKDate class]]) {
+            NSString * dateString = [(NIKDate*)_textProns toString];
+            if(dateString){
+                [dict setObject:dateString forKey:@"textProns"];   
+            }
+        }
+    }
+    else {
+    if(_textProns != nil) [dict setObject:[(NIKSwaggerObject*)_textProns asDictionary]forKey:@"textProns"];
     }
     if(_partOfSpeech != nil) [dict setObject:_partOfSpeech forKey:@"partOfSpeech"];
     NSDictionary* output = [dict copy];

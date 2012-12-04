@@ -1,39 +1,40 @@
+#import "NIKDate.h"
 #import "NIKWordList.h"
 
 @implementation NIKWordList
 
-@synthesize _id = __id;
 @synthesize updatedAt = _updatedAt;
+@synthesize _id = __id;
 @synthesize username = _username;
 @synthesize permalink = _permalink;
-@synthesize description = _description;
-@synthesize createdAt = _createdAt;
 @synthesize lastActivityAt = _lastActivityAt;
-@synthesize name = _name;
+@synthesize createdAt = _createdAt;
+@synthesize description = _description;
 @synthesize userId = _userId;
+@synthesize name = _name;
 @synthesize numberWordsInList = _numberWordsInList;
 @synthesize type = _type;
-- (id) _id: (NSNumber*) _id
-       updatedAt: (NIKDate*) updatedAt
+- (id) updatedAt: (NIKDate*) updatedAt
+       _id: (NSNumber*) _id
        username: (NSString*) username
        permalink: (NSString*) permalink
-       description: (NSString*) description
-       createdAt: (NIKDate*) createdAt
        lastActivityAt: (NIKDate*) lastActivityAt
-       name: (NSString*) name
+       createdAt: (NIKDate*) createdAt
+       description: (NSString*) description
        userId: (NSNumber*) userId
+       name: (NSString*) name
        numberWordsInList: (NSNumber*) numberWordsInList
        type: (NSString*) type
        {
-          __id = _id;
           _updatedAt = updatedAt;
+          __id = _id;
           _username = username;
           _permalink = permalink;
-          _description = description;
-          _createdAt = createdAt;
           _lastActivityAt = lastActivityAt;
-          _name = name;
+          _createdAt = createdAt;
+          _description = description;
           _userId = userId;
+          _name = name;
           _numberWordsInList = numberWordsInList;
           _type = type;
           return self;
@@ -41,18 +42,18 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    __id = [dict objectForKey:@"id"];
     id updatedAt_dict = [dict objectForKey:@"updatedAt"];
     _updatedAt = [[NIKDate alloc]initWithValues:updatedAt_dict];
+    __id = [dict objectForKey:@"id"];
     _username = [dict objectForKey:@"username"];
     _permalink = [dict objectForKey:@"permalink"];
-    _description = [dict objectForKey:@"description"];
-    id createdAt_dict = [dict objectForKey:@"createdAt"];
-    _createdAt = [[NIKDate alloc]initWithValues:createdAt_dict];
     id lastActivityAt_dict = [dict objectForKey:@"lastActivityAt"];
     _lastActivityAt = [[NIKDate alloc]initWithValues:lastActivityAt_dict];
-    _name = [dict objectForKey:@"name"];
+    id createdAt_dict = [dict objectForKey:@"createdAt"];
+    _createdAt = [[NIKDate alloc]initWithValues:createdAt_dict];
+    _description = [dict objectForKey:@"description"];
     _userId = [dict objectForKey:@"userId"];
+    _name = [dict objectForKey:@"name"];
     _numberWordsInList = [dict objectForKey:@"numberWordsInList"];
     _type = [dict objectForKey:@"type"];
     return self;
@@ -60,7 +61,6 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_updatedAt != nil){
         if([_updatedAt isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
@@ -79,27 +79,9 @@
     else {
     if(_updatedAt != nil) [dict setObject:[(NIKSwaggerObject*)_updatedAt asDictionary]forKey:@"updatedAt"];
     }
+    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_username != nil) [dict setObject:_username forKey:@"username"];
     if(_permalink != nil) [dict setObject:_permalink forKey:@"permalink"];
-    if(_description != nil) [dict setObject:_description forKey:@"description"];
-    if(_createdAt != nil){
-        if([_createdAt isKindOfClass:[NSArray class]]){
-            NSMutableArray * array = [[NSMutableArray alloc] init];
-            for( NIKDate * createdAt in (NSArray*)_createdAt) {
-                [array addObject:[(NIKSwaggerObject*)createdAt asDictionary]];
-            }
-            [dict setObject:array forKey:@"createdAt"];
-        }
-        else if(_createdAt && [_createdAt isKindOfClass:[NIKDate class]]) {
-            NSString * dateString = [(NIKDate*)_createdAt toString];
-            if(dateString){
-                [dict setObject:dateString forKey:@"createdAt"];   
-            }
-        }
-    }
-    else {
-    if(_createdAt != nil) [dict setObject:[(NIKSwaggerObject*)_createdAt asDictionary]forKey:@"createdAt"];
-    }
     if(_lastActivityAt != nil){
         if([_lastActivityAt isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
@@ -118,8 +100,27 @@
     else {
     if(_lastActivityAt != nil) [dict setObject:[(NIKSwaggerObject*)_lastActivityAt asDictionary]forKey:@"lastActivityAt"];
     }
-    if(_name != nil) [dict setObject:_name forKey:@"name"];
+    if(_createdAt != nil){
+        if([_createdAt isKindOfClass:[NSArray class]]){
+            NSMutableArray * array = [[NSMutableArray alloc] init];
+            for( NIKDate * createdAt in (NSArray*)_createdAt) {
+                [array addObject:[(NIKSwaggerObject*)createdAt asDictionary]];
+            }
+            [dict setObject:array forKey:@"createdAt"];
+        }
+        else if(_createdAt && [_createdAt isKindOfClass:[NIKDate class]]) {
+            NSString * dateString = [(NIKDate*)_createdAt toString];
+            if(dateString){
+                [dict setObject:dateString forKey:@"createdAt"];   
+            }
+        }
+    }
+    else {
+    if(_createdAt != nil) [dict setObject:[(NIKSwaggerObject*)_createdAt asDictionary]forKey:@"createdAt"];
+    }
+    if(_description != nil) [dict setObject:_description forKey:@"description"];
     if(_userId != nil) [dict setObject:_userId forKey:@"userId"];
+    if(_name != nil) [dict setObject:_name forKey:@"name"];
     if(_numberWordsInList != nil) [dict setObject:_numberWordsInList forKey:@"numberWordsInList"];
     if(_type != nil) [dict setObject:_type forKey:@"type"];
     NSDictionary* output = [dict copy];

@@ -1,22 +1,23 @@
+#import "NIKDate.h"
 #import "NIKSentence.h"
 
 @implementation NIKSentence
 
-@synthesize _id = __id;
 @synthesize hasScoredWords = _hasScoredWords;
+@synthesize _id = __id;
 @synthesize scoredWords = _scoredWords;
 @synthesize display = _display;
 @synthesize rating = _rating;
 @synthesize documentMetadataId = _documentMetadataId;
-- (id) _id: (NSNumber*) _id
-       hasScoredWords: (NSNumber*) hasScoredWords
+- (id) hasScoredWords: (NSNumber*) hasScoredWords
+       _id: (NSNumber*) _id
        scoredWords: (NSArray*) scoredWords
        display: (NSString*) display
        rating: (NSNumber*) rating
        documentMetadataId: (NSNumber*) documentMetadataId
        {
-          __id = _id;
           _hasScoredWords = hasScoredWords;
+          __id = _id;
           _scoredWords = scoredWords;
           _display = display;
           _rating = rating;
@@ -26,8 +27,8 @@
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    __id = [dict objectForKey:@"id"];
     _hasScoredWords = [dict objectForKey:@"hasScoredWords"];
+    __id = [dict objectForKey:@"id"];
     id scoredWords_dict = [dict objectForKey:@"scoredWords"];
     if([scoredWords_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)scoredWords_dict count] > 0) {
@@ -47,8 +48,8 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_hasScoredWords != nil) [dict setObject:_hasScoredWords forKey:@"hasScoredWords"];
+    if(__id != nil) [dict setObject:__id forKey:@"id"];
     if(_scoredWords != nil){
         if([_scoredWords isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];

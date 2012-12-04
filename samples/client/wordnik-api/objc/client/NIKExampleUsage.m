@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKExampleUsage.h"
 
 @implementation NIKExampleUsage

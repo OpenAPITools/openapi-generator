@@ -4,8 +4,8 @@
 
 @interface NIKSentence : NIKSwaggerObject {
 @private
-    NSNumber* __id; //NSNumber
     NSNumber* _hasScoredWords; //NSNumber
+    NSNumber* __id; //NSNumber
     NSArray* _scoredWords; //ScoredWord
     NSString* _display; //NSString
     NSNumber* _rating; //NSNumber
@@ -14,14 +14,14 @@
 
 
 
-@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSNumber* hasScoredWords;
+@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSArray* scoredWords;
 @property(nonatomic) NSString* display;
 @property(nonatomic) NSNumber* rating;
 @property(nonatomic) NSNumber* documentMetadataId;
-- (id) _id: (NSNumber*) _id
-     hasScoredWords: (NSNumber*) hasScoredWords
+- (id) hasScoredWords: (NSNumber*) hasScoredWords
+     _id: (NSNumber*) _id
      scoredWords: (NSArray*) scoredWords
      display: (NSString*) display
      rating: (NSNumber*) rating

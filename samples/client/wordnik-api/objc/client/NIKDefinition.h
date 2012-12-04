@@ -22,8 +22,8 @@
     NSArray* _relatedWords; //Related
     NSString* _sequence; //NSString
     NSString* _word; //NSString
-    NSArray* _textProns; //TextPron
     NSArray* _notes; //Note
+    NSArray* _textProns; //TextPron
     NSString* _partOfSpeech; //NSString
     }
 
@@ -42,8 +42,8 @@
 @property(nonatomic) NSArray* relatedWords;
 @property(nonatomic) NSString* sequence;
 @property(nonatomic) NSString* word;
-@property(nonatomic) NSArray* textProns;
 @property(nonatomic) NSArray* notes;
+@property(nonatomic) NSArray* textProns;
 @property(nonatomic) NSString* partOfSpeech;
 - (id) extendedText: (NSString*) extendedText
      text: (NSString*) text
@@ -58,8 +58,8 @@
      relatedWords: (NSArray*) relatedWords
      sequence: (NSString*) sequence
      word: (NSString*) word
-     textProns: (NSArray*) textProns
      notes: (NSArray*) notes
+     textProns: (NSArray*) textProns
      partOfSpeech: (NSString*) partOfSpeech;
 
 - (id) initWithValues: (NSDictionary*)dict;

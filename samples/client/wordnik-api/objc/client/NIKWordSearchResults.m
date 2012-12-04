@@ -1,20 +1,20 @@
+#import "NIKDate.h"
 #import "NIKWordSearchResults.h"
 
 @implementation NIKWordSearchResults
 
-@synthesize totalResults = _totalResults;
 @synthesize searchResults = _searchResults;
-- (id) totalResults: (NSNumber*) totalResults
-       searchResults: (NSArray*) searchResults
+@synthesize totalResults = _totalResults;
+- (id) searchResults: (NSArray*) searchResults
+       totalResults: (NSNumber*) totalResults
        {
-          _totalResults = totalResults;
           _searchResults = searchResults;
+          _totalResults = totalResults;
           return self;
        }
 
 - (id) initWithValues: (NSDictionary*)dict
 {
-    _totalResults = [dict objectForKey:@"totalResults"];
     id searchResults_dict = [dict objectForKey:@"searchResults"];
     if([searchResults_dict isKindOfClass:[NSArray class]]) {
         if([(NSArray*)searchResults_dict count] > 0) {
@@ -26,12 +26,12 @@
             _searchResults = [[NSArray alloc] initWithArray:objs];
         }
     }
+    _totalResults = [dict objectForKey:@"totalResults"];
     return self;
 }
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    if(_totalResults != nil) [dict setObject:_totalResults forKey:@"totalResults"];
     if(_searchResults != nil){
         if([_searchResults isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
@@ -50,6 +50,7 @@
     else {
     if(_searchResults != nil) [dict setObject:[(NIKSwaggerObject*)_searchResults asDictionary]forKey:@"searchResults"];
     }
+    if(_totalResults != nil) [dict setObject:_totalResults forKey:@"totalResults"];
     NSDictionary* output = [dict copy];
     return output;
 }

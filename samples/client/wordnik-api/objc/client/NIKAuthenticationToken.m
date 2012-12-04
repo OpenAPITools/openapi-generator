@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKAuthenticationToken.h"
 
 @implementation NIKAuthenticationToken

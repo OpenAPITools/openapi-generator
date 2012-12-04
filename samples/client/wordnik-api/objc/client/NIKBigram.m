@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKBigram.h"
 
 @implementation NIKBigram

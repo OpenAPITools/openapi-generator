@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKApiTokenStatus.h"
 
 @implementation NIKApiTokenStatus

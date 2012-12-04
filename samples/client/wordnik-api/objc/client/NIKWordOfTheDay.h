@@ -13,12 +13,12 @@
     NSString* _createdBy; //NSString
     NIKDate* _createdAt; //NIKDate
     NIKContentProvider* _contentProvider; //ContentProvider
-    NSString* _word; //NSString
     NSString* _htmlExtra; //NSString
+    NSString* _word; //NSString
     NSArray* _definitions; //SimpleDefinition
     NSArray* _examples; //SimpleExample
-    NIKDate* _publishDate; //NIKDate
     NSString* _note; //NSString
+    NIKDate* _publishDate; //NIKDate
     }
 
 
@@ -29,24 +29,24 @@
 @property(nonatomic) NSString* createdBy;
 @property(nonatomic) NIKDate* createdAt;
 @property(nonatomic) NIKContentProvider* contentProvider;
-@property(nonatomic) NSString* word;
 @property(nonatomic) NSString* htmlExtra;
+@property(nonatomic) NSString* word;
 @property(nonatomic) NSArray* definitions;
 @property(nonatomic) NSArray* examples;
-@property(nonatomic) NIKDate* publishDate;
 @property(nonatomic) NSString* note;
+@property(nonatomic) NIKDate* publishDate;
 - (id) _id: (NSNumber*) _id
      parentId: (NSString*) parentId
      category: (NSString*) category
      createdBy: (NSString*) createdBy
      createdAt: (NIKDate*) createdAt
      contentProvider: (NIKContentProvider*) contentProvider
-     word: (NSString*) word
      htmlExtra: (NSString*) htmlExtra
+     word: (NSString*) word
      definitions: (NSArray*) definitions
      examples: (NSArray*) examples
-     publishDate: (NIKDate*) publishDate
-     note: (NSString*) note;
+     note: (NSString*) note
+     publishDate: (NIKDate*) publishDate;
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

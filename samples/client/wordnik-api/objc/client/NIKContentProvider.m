@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKContentProvider.h"
 
 @implementation NIKContentProvider

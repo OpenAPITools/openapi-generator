@@ -1,3 +1,4 @@
+#import "NIKDate.h"
 #import "NIKNote.h"
 
 @implementation NIKNote
