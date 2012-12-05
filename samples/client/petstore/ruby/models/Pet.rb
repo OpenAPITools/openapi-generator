@@ -1,10 +1,10 @@
 class Pet
-  attr_accessor :id, :tags, :category, :status, :name, :photo_urls
+  attr_accessor :tags, :id, :category, :status, :name, :photo_urls
 
   # :internal => :external
   def self.attribute_map
   {
-      :id => :id, :tags => :tags, :category => :category, :status => :status, :name => :name, :photo_urls => :photoUrls
+      :tags => :tags, :id => :id, :category => :category, :status => :status, :name => :name, :photo_urls => :photoUrls
 
   }
   end
@@ -13,11 +13,6 @@ class Pet
     # Morph attribute keys into undescored rubyish style
     if attributes.to_s != ""
 
-      if Pet.attribute_map["id".to_sym] != nil
-        name = "id".to_sym
-        value = attributes["id"]
-        send("#{name}=", value) if self.respond_to?(name)
-	      end
       if Pet.attribute_map["tags".to_sym] != nil
         name = "tags".to_sym
         value = attributes["tags"]
@@ -29,6 +24,11 @@ class Pet
 	        send("#{name}=", array) if self.respond_to?(name)
 	      end
         end
+      if Pet.attribute_map["id".to_sym] != nil
+        name = "id".to_sym
+        value = attributes["id"]
+        send("#{name}=", value) if self.respond_to?(name)
+	      end
       if Pet.attribute_map["category".to_sym] != nil
         name = "category".to_sym
         value = attributes["category"]

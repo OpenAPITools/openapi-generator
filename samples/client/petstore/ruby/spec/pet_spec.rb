@@ -45,6 +45,7 @@ describe "Pet" do
 
     it "should create a pet" do 
       pet = Pet.new({:id => 100, :name => "Gorilla"})
+      raise pet.inspect
       Pet_api.add_pet(pet)
 
       pet = Pet_api.get_pet_by_id(100)

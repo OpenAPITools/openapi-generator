@@ -1,10 +1,10 @@
 class User
-  attr_accessor :id, :last_name, :username, :phone, :email, :user_status, :first_name, :password
+  attr_accessor :id, :last_name, :phone, :username, :email, :user_status, :first_name, :password
 
   # :internal => :external
   def self.attribute_map
   {
-      :id => :id, :last_name => :lastName, :username => :username, :phone => :phone, :email => :email, :user_status => :userStatus, :first_name => :firstName, :password => :password
+      :id => :id, :last_name => :lastName, :phone => :phone, :username => :username, :email => :email, :user_status => :userStatus, :first_name => :firstName, :password => :password
 
   }
   end
@@ -23,14 +23,14 @@ class User
         value = attributes["lastName"]
         send("#{name}=", value) if self.respond_to?(name)
 	      end
-      if User.attribute_map["username".to_sym] != nil
-        name = "username".to_sym
-        value = attributes["username"]
-        send("#{name}=", value) if self.respond_to?(name)
-	      end
       if User.attribute_map["phone".to_sym] != nil
         name = "phone".to_sym
         value = attributes["phone"]
+        send("#{name}=", value) if self.respond_to?(name)
+	      end
+      if User.attribute_map["username".to_sym] != nil
+        name = "username".to_sym
+        value = attributes["username"]
         send("#{name}=", value) if self.respond_to?(name)
 	      end
       if User.attribute_map["email".to_sym] != nil
