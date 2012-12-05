@@ -103,8 +103,9 @@ class Codegen(config: CodegenConfig) {
         case false => {
           config.importMapping.containsKey(model) match {
             case true => {
-              if(!imports.flatten.map(m => m._2).toSet.contains(config.importMapping(model)))
+              if(!imports.flatten.map(m => m._2).toSet.contains(config.importMapping(model))) {
                 imports += Map("import" -> config.importMapping(model))
+              }
             }
             case false =>
           }
@@ -157,6 +158,17 @@ class Codegen(config: CodegenConfig) {
     val engine = engineData._1
     val template = engineData._2
 
+    val requiredModels = {
+      for(i <- allImports) yield {
+        HashMap("name" -> i, "hasMore" -> "true")
+      }
+    }.toList
+
+    requiredModels.size match {
+      case i if (i > 0) => requiredModels.last += "hasMore" -> "false"
+      case _ =>
+    }
+
     var data = Map[String, AnyRef](
       "name" -> bundle("name"),
       "package" -> bundle("package"),
@@ -164,6 +176,7 @@ class Codegen(config: CodegenConfig) {
       "className" -> bundle("className"),
       "invokerPackage" -> bundle("invokerPackage"),
       "imports" -> imports,
+      "requiredModels" -> requiredModels,
       "operations" -> f,
       "models" -> modelData,
       "basePath" -> bundle.getOrElse("basePath", ""))
@@ -177,12 +190,12 @@ class Codegen(config: CodegenConfig) {
   def allowableValuesToString(v: AllowableValues) = {
     v match {
       case av: AllowableListValues => {
-        av.values.mkString("LIST[", ",", "]")
+        Some(av.values.mkString("LIST[", ",", "]"))
       }
       case av: AllowableRangeValues => {
-        "RANGE[" + av.min + "," + av.max + "]"
+        Some("RANGE[" + av.min + "," + av.max + "]")
       }
-      case _ => "unsupported"
+      case _ => None
     }
   }
 
