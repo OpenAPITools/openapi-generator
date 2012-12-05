@@ -5,7 +5,7 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.{read, write}
 
-import scala.collection.mutable.LinkedHashMap
+import scala.collection.mutable.{ListBuffer, LinkedHashMap}
 
 object SwaggerSerializers {
   implicit val formats = DefaultFormats + 
@@ -283,8 +283,20 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       json \ "valueType" match {
-        case JString(x) if x.equalsIgnoreCase("list") =>
-          AllowableListValues((json \ "values").extract[List[String]])
+        case JString(x) if x.equalsIgnoreCase("list") => {
+          val output = new ListBuffer[String]
+          val properties = (json \ "values") match {
+            case JArray(entries) => entries.map {
+              case e:JInt => output += e.num.toString
+              case e:JBool => output += e.value.toString
+              case e:JString => output += e.s
+              case e:JDouble => output += e.num.toString
+              case _ =>
+            }
+            case _ =>
+          }
+          AllowableListValues(output.toList)
+        }
         case JString(x) if x.equalsIgnoreCase("range") =>
           AllowableRangeValues((json \ "min").extract[String], (json \ "max").extract[String])
         case _ => Any
