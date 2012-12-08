@@ -167,6 +167,24 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
         p.path should be ("/foo/bar")
         p.description should be ("the description")
         p.operations.size should be (1)
+        p.operations.foreach(op => {
+          op.httpMethod should be ("GET")
+          op.summary should be ("the summary")
+          op.notes should be ("the notes")
+          op.responseClass should be ("string")
+          op.nickname should be ("getMeSomeStrings")
+          op.parameters.size should be (1)
+
+          op.parameters.foreach(m => {
+            m.name should be ("id")
+            m.description should be ("the id")
+            m.defaultValue should be ("-1")
+            m.required should be (false)
+            m.allowMultiple should be (true)
+            m.dataType should be ("string")
+            m.paramType should be ("query")
+          })
+        })
       }
       case _ => fail("wrong type returned, should be ApiDescription")
     }
@@ -227,6 +245,16 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
         op.responseClass should be ("string")
         op.nickname should be ("getMeSomeStrings")
         op.parameters.size should be (1)
+
+        op.parameters.foreach(m => {
+          m.name should be ("id")
+          m.description should be ("the id")
+          m.defaultValue should be ("-1")
+          m.required should be (false)
+          m.allowMultiple should be (true)
+          m.dataType should be ("string")
+          m.paramType should be ("query")
+        })
       }
       case _ => fail("wrong type returned, should be Operation")
     }
@@ -275,6 +303,40 @@ class ErrorResponseSerializersTest extends FlatSpec with ShouldMatchers {
 @RunWith(classOf[JUnitRunner])
 class ParameterSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
+
+  it should "deserialize another param" in {
+    val jsonString = """
+            {
+              "name":"includeDuplicates",
+              "defaultValue":"false",
+              "description":"Show duplicate examples from different sources",
+              "required":"false",
+              "allowableValues":{
+                "values":[
+                  false,
+                  true
+                ],
+                "valueType":"LIST"
+              },
+              "dataType":"string",
+              "allowMultiple":false,
+              "paramType":"query"
+            }
+    """
+    val json = parse(jsonString)
+    json.extract[Parameter] match {
+      case p: Parameter => {
+        p.name should be ("includeDuplicates")
+        p.description should be ("Show duplicate examples from different sources")
+        p.defaultValue should be ("false")
+        p.required should be (false)
+        p.allowMultiple should be (false)
+        p.dataType should be ("string")
+        p.paramType should be ("query")
+      }
+      case _ => fail("wrong type returned, should be Parameter")
+    }
+  }
 
   it should "deserialize a parameter" in {
     val jsonString = """

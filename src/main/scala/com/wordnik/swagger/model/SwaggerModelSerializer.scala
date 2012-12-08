@@ -167,8 +167,18 @@ object SwaggerSerializers {
       Parameter(
         (json \ "name").extractOrElse(""),
         (json \ "description").extract[String],
-        (json \ "defaultValue").extractOrElse(""),
-        (json \ "required").extractOrElse(false),
+        (json \ "defaultValue") match {
+          case e:JInt => e.num.toString
+          case e:JBool => e.value.toString
+          case e:JString => e.s
+          case e:JDouble => e.num.toString
+          case _ => ""
+        },
+        (json \ "required") match {
+          case e:JString => e.s.toBoolean
+          case e:JBool => e.value
+          case _ => false
+        },
         (json \ "allowMultiple").extractOrElse(false),
         (json \ "dataType").extract[String],
         (json \ "allowableValues").extract[AllowableValues],
@@ -232,7 +242,11 @@ object SwaggerSerializers {
       implicit val fmts: Formats = formats
       ModelProperty(
         `type` = (json \ "type").extractOrElse(""),
-        required = ((json \ "required").extractOrElse(false)),
+        (json \ "required") match {
+          case e:JString => e.s.toBoolean
+          case e:JBool => e.value
+          case _ => false
+        },
         description = (json \ "description").extractOpt[String],
         allowableValues = (json \ "allowableValues").extract[AllowableValues],
         items = {

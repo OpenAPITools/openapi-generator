@@ -251,7 +251,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     queryParam("swaggerDataType") should be ("string")
     queryParam("allowMultiple") should be ("true")
     queryParam("defaultValue") should be (Some("\"available\""))
-    queryParam("allowableValues") should be ("LIST[available,pending,sold]")
+    queryParam("allowableValues") should be (Some("LIST[available,pending,sold]"))
   }
 
   it should "create an api file" in {
