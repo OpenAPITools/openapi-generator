@@ -12,7 +12,7 @@ You need the following installed and available in your $PATH:
 
 * [Apache maven 3.0.3 or greater](http://maven.apache.org/)
 
-* [Scala](http://www.scala-lang.org)
+* [Scala 2.9.1](http://www.scala-lang.org)
 
 You also need to add the scala binary to your PATH.
 
