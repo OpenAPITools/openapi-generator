@@ -28,7 +28,7 @@ object SwaggerSerializers {
         (json \ "apiVersion").extract[String],
         (json \ "swaggerVersion").extract[String],
         (json \ "basePath").extract[String],
-        (json \ "resourcePath").extract[String],
+        (json \ "resourcePath").extractOrElse(""),
         (json \ "apis").extract[List[ApiDescription]],
         (json \ "models").extract[Map[String, Model]]
       )
@@ -118,7 +118,7 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       ErrorResponse(
-        (json \ "code").extract[Int],
+        (json \ "code").extract[String].toInt,
         (json \ "reason").extract[String]
       )
     }, {
