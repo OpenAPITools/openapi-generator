@@ -38,7 +38,10 @@ trait PathUtil {
   }
 
   def toApiName(name: String) = {
-    name.charAt(0).toUpperCase + name.substring(1) + "Api"
+    name.replaceAll("\\{","").replaceAll("\\}", "") match {
+      case s: String if(s.length > 0) => s.charAt(0).toUpperCase + s.substring(1) + "Api"
+      case _ => "Api"
+    }
   }
 
   def nameFromPath(apiPath: String) = {
