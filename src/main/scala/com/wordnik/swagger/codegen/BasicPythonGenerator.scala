@@ -100,10 +100,14 @@ class BasicPythonGenerator extends BasicGenerator {
     "String" -> "str",
     "Int" -> "int",
     "Float" -> "float",
+    "float" -> "float",
     "Long" -> "long",
+    "long" -> "long",
     "Double" -> "float",
+    "double" -> "float",
     "Array" -> "list",
     "Boolean" -> "bool",
+    "boolean" -> "bool",
     "Date" -> "datetime",
     "string" -> "str"
   )
