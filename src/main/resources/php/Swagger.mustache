@@ -67,7 +67,7 @@ class APIClient {
 		}
 
 		if (is_object($postData) or is_array($postData)) {
-			$postData = json_encode($postData);
+			$postData = json_encode(self::sanitizeForSerialization($postData));
 		}
 
 		$url = $this->apiServer . $resourcePath;
@@ -119,10 +119,21 @@ class APIClient {
 				$response_info['http_code']);
 		}
 
+
 		return $data;
 	}
 
-
+	/**
+	 * Build a JSON POST object
+	 */
+	public static function sanitizeForSerialization($postData) {
+		foreach ($postData as $key => $value) {
+			if (is_a($value, "DateTime")) {
+				$postData->{$key} = $value->format(DateTime::ISO8601);
+			}
+		}
+		return $postData;
+	}
 
 	/**
 	 * Take value and turn it into a string suitable for inclusion in
@@ -132,15 +143,15 @@ class APIClient {
 	 */
 	public static function toPathValue($object) {
         if (is_array($object)) {
-            return implode(',', $object);
+            return rawurlencode(implode(',', $object));
         } else {
-            return $object;
+            return rawurlencode($object);
         }
 	}
 
 
 	/**
-	 * Derialize a JSON string into an object
+	 * Deserialize a JSON string into an object
 	 *
 	 * @param object $object object or primitive to be deserialized
 	 * @param string $class class name is passed as a string
@@ -178,17 +189,14 @@ class APIClient {
 			if (! property_exists($class, $true_property)) {
 				if (substr($property, -1) == 's') {
 					$true_property = substr($property, 0, -1);
-					if (! property_exists($class, $true_property)) {
-						trigger_error("class $class has no property $property"
-							. " or $true_property", E_USER_WARNING);
-					}
-				} else {
-					trigger_error("class $class has no property $property",
-						E_USER_WARNING);
 				}
 			}
 
-			$type = $classVars['swaggerTypes'][$true_property];
+			if (array_key_exists($true_property, $classVars['swaggerTypes'])) {
+				$type = $classVars['swaggerTypes'][$true_property];
+			} else {
+				$type = 'string';
+			}
 			if (in_array($type, array('string', 'int', 'float', 'bool'))) {
 				settype($value, $type);
 				$instance->{$true_property} = $value;
@@ -209,3 +217,4 @@ class APIClient {
 
 
 ?>
+

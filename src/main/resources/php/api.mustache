@@ -26,22 +26,6 @@ class {{classname}} {
 	  $this->apiClient = $apiClient;
 	}
 
-  {{#queryParams}}
-  if ('{{paramName}}' in params):
-      queryParams['{{paramName}}'] = self.apiClient.toPathValue(params['{{paramName}}'])
-  {{/queryParams}}
-
-  {{#headerParams}}
-  if ('{{paramName}}' in params):
-      headerParams['{{paramName}}'] = params['{{paramName}}']
-  {{/headerParams}}
-
-  {{#pathParams}}
-  if ('{{paramName}}' in params):
-      resourcePath = resourcePath.replace('{' + '{{baseName}}' + '}', self.apiClient.toPathValue(params['{{paramName}}']))
-  {{/pathParams}}
-
-
   {{#operation}}
 	/**
 	 * {{nickname}}
@@ -77,7 +61,7 @@ class {{classname}} {
       {{#pathParams}}
   		if(${{paramName}} != null) {
   			$resourcePath = str_replace("{" . "{{paramName}}" . "}",
-  			                            ${{paramName}}, $resourcePath);
+  			                            $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
   		}
   		{{/pathParams}}
 
