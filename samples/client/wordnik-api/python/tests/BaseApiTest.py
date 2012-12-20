@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 """Unit tests for Python Wordnik API client.
 
-Requires you to set four environment varibales:
-    WN_APIKEY       your API key
-    WN_APIURL       the API base url
-    WN_USERNAME     the username of a user
-    WN_PASSWORD     the user's password
+Requires you to set three environment varibales:
+    API_KEY      your API key
+    USER_NAME    the username of a user
+    PASSWORD     the user's password
 
 Run all tests:
 
