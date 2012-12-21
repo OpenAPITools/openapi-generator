@@ -107,12 +107,12 @@ class WordsApi(object):
         """Returns a specific WordOfTheDay
 
         Args:
-            datetime, str: Fetches by date in yyyy-MM-dd (optional)
+            date, str: Fetches by date in yyyy-MM-dd (optional)
             
         Returns: WordOfTheDay
         """
 
-        allParams = ['datetime']
+        allParams = ['date']
 
         params = locals()
         for (key, val) in params['kwargs'].items():
@@ -128,8 +128,8 @@ class WordsApi(object):
         queryParams = {}
         headerParams = {}
 
-        if ('datetime' in params):
-            queryParams['datetime'] = self.apiClient.toPathValue(params['datetime'])
+        if ('date' in params):
+            queryParams['date'] = self.apiClient.toPathValue(params['date'])
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,

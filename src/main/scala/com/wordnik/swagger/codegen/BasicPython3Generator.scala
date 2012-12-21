@@ -32,21 +32,14 @@ class BasicPython3Generator extends BasicPythonGenerator {
 
   // Python3 erases int/long distinction
   override def typeMapping = Map(
-    "String" -> "str",
     "string" -> "str",
-    "Int" -> "int",
     "int" -> "int",
-    "Float" -> "float",
     "float" -> "float",
-    "Long" -> "int",
     "long" -> "int",
-    "Double" -> "float",
     "double" -> "float",
     "Array" -> "list",
     "array" -> "list",
-    "Boolean" -> "bool",
     "boolean" -> "bool",
-    "Date" -> "datetime",
-    "date" -> "datetime"
+    "Date" -> "datetime"
     )
 }

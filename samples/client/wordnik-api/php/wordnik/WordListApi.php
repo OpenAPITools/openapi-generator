@@ -140,7 +140,7 @@ class WordListApi {
 	 * addWordsToWordList
 	 * Adds words to a WordList
    * permalink, string: permalink of WordList to user (required)
-   * body, array[string]: Array of words to add to WordList (optional)
+   * body, array[StringValue]: Array of words to add to WordList (optional)
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
    * @return 
 	 */
@@ -233,7 +233,7 @@ class WordListApi {
 	 * deleteWordsFromWordList
 	 * Removes words from a WordList
    * permalink, string: permalink of WordList to use (required)
-   * body, array[string]: Words to remove from WordList (optional)
+   * body, array[StringValue]: Words to remove from WordList (optional)
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
    * @return 
 	 */

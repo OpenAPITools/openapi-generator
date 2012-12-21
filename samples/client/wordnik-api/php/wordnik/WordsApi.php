@@ -110,11 +110,11 @@ class WordsApi {
   /**
 	 * getWordOfTheDay
 	 * Returns a specific WordOfTheDay
-   * DateTime, string: Fetches by date in yyyy-MM-dd (optional)
+   * date, string: Fetches by date in yyyy-MM-dd (optional)
    * @return WordOfTheDay
 	 */
 
-   public function getWordOfTheDay($DateTime=null) {
+   public function getWordOfTheDay($date=null) {
 
   		//parse inputs
   		$resourcePath = "/words.{format}/wordOfTheDay";
@@ -123,8 +123,8 @@ class WordsApi {
       $queryParams = array();
       $headerParams = array();
 
-      if($DateTime != null) {
-  		  $queryParams['DateTime'] = $this->apiClient->toPathValue($DateTime);
+      if($date != null) {
+  		  $queryParams['date'] = $this->apiClient->toPathValue($date);
   		}
   		//make the API Call
       if (! isset($body)) {

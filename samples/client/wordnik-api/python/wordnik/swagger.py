@@ -201,3 +201,4 @@ class MethodRequest(urllib2.Request):
     def get_method(self):
         return getattr(self, 'method', urllib2.Request.get_method(self))
 
+

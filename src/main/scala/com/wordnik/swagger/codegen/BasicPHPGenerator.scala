@@ -97,25 +97,15 @@ class BasicPHPGenerator extends BasicGenerator {
     }
   }
   override def typeMapping = Map(
-    "String" -> "string",
     "string" -> "string",
-    "Str" -> "string",
     "str" -> "string",
-    "StringValue" -> "string",
-    "Int" -> "int",
     "int" -> "int",
-    "Float" -> "float",
     "float" -> "float",
-    "Long" -> "int",
     "long" -> "int",
-    "Double" -> "float",
     "double" -> "float",
     "Array" -> "array",
-    "array" -> "array",
-    "Boolean" -> "bool",
     "boolean" -> "bool",
-    "Date" -> "DateTime",
-    "date" -> "DateTime"
+    "Date" -> "DateTime"
     )
 
   override def toDeclaredType(dt: String): String = {
