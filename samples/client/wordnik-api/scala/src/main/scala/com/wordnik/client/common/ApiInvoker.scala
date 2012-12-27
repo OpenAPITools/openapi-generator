@@ -41,7 +41,8 @@ object ApiInvoker {
   }
 
   def deserialize(json: String, containerType: String, cls: Class[_]) = {
-    if (cls == classOf[String]) {
+    println("deserializing " + json)
+    if (cls == classOf[String] && containerType == null) {
       json match {
         case s: String => {
           if (s.startsWith("\"") && s.endsWith("\"") && s.length > 1) s.substring(1, s.length - 2)
