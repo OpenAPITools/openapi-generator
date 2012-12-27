@@ -9,13 +9,6 @@
   <prerequisites>
     <maven>2.2.0</maven>
   </prerequisites>
-  <distributionManagement>
-    <repository>
-      <id>com.wordnik</id>
-      <name>wordnik-ci-aws</name>
-      <url>https://ci.aws.wordnik.com/artifactory/m2-snapshots/</url>
-    </repository>
-  </distributionManagement>
   <pluginRepositories>
     <pluginRepository>
       <id>scala-tools.org</id>
