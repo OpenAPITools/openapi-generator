@@ -41,7 +41,6 @@ object ApiInvoker {
   }
 
   def deserialize(json: String, containerType: String, cls: Class[_]) = {
-    println("deserializing " + json)
     if (cls == classOf[String] && containerType == null) {
       json match {
         case s: String => {
