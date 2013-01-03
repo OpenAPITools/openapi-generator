@@ -505,7 +505,7 @@ class Codegen(config: CodegenConfig) {
       val outputDir = file._2
       val destFile = file._3
 
-      val outputFilename = outputDir.replaceAll("\\.", File.separator) + File.separator + destFile
+      val outputFilename = outputDir + File.separator + destFile
       val outputFolder = new File(outputFilename).getParent
       new File(outputFolder).mkdirs
 
