@@ -1,7 +1,6 @@
-var sw = require("../Common/node/swagger.js");
-var param = require("../Common/node/paramTypes.js");
+var swagger = require("swagger-node-express");
 var url = require("url");
-var swe = sw.errors;
+var errors = swagger.errors;
 
 /* add model includes */
 
@@ -22,15 +21,15 @@ exports.createUsersWithArrayInput = {
     "notes" : "",
     "summary" : "Creates list of users with given input array",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([param.post("Array[User]", "List of user object", true)
+    "params" : [].concat([]).concat([]).concat([swagger.postParam("Array[User]", "List of user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "createUsersWithArrayInput"
   },
   'action': function (req,res) {
     if (!req.params.body) {
-      throw swe.invalid('body');
+      throw errors.invalid('body');
     }
     writeResponse(res, {message: "how about implementing createUsersWithArrayInput as a POST method?"});    
   }
@@ -42,15 +41,15 @@ exports.createUser = {
     "notes" : "This can only be done by the logged in user.",
     "summary" : "Create user",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([param.post("User", "Created user object", true)
+    "params" : [].concat([]).concat([]).concat([swagger.postParam("User", "Created user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "createUser"
   },
   'action': function (req,res) {
     if (!req.params.body) {
-      throw swe.invalid('body');
+      throw errors.invalid('body');
     }
     writeResponse(res, {message: "how about implementing createUser as a POST method?"});    
   }
@@ -62,15 +61,15 @@ exports.createUsersWithListInput = {
     "notes" : "",
     "summary" : "Creates list of users with given list input",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([param.post("List[User]", "List of user object", true)
+    "params" : [].concat([]).concat([]).concat([swagger.postParam("List[User]", "List of user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "createUsersWithListInput"
   },
   'action': function (req,res) {
     if (!req.params.body) {
-      throw swe.invalid('body');
+      throw errors.invalid('body');
     }
     writeResponse(res, {message: "how about implementing createUsersWithListInput as a POST method?"});    
   }
@@ -82,18 +81,18 @@ exports.updateUser = {
     "notes" : "This can only be done by the logged in user.",
     "summary" : "Updated user",
     "method": "PUT",
-    "params" : [].concat([param.path("username", "name that need to be deleted")]).concat([]).concat([param.post("User", "Updated user object", true)
+    "params" : [].concat([swagger.pathParam("username", "name that need to be deleted")]).concat([]).concat([swagger.postParam("User", "Updated user object", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "updateUser"
   },
   'action': function (req,res) {
     if (!req.params.username) {
-      throw swe.invalid('username');
+      throw errors.invalid('username');
     }
     if (!req.params.body) {
-      throw swe.invalid('body');
+      throw errors.invalid('body');
     }
     writeResponse(res, {message: "how about implementing updateUser as a PUT method?"});    
   }
@@ -105,14 +104,14 @@ exports.deleteUser = {
     "notes" : "This can only be done by the logged in user.",
     "summary" : "Delete user",
     "method": "DELETE",
-    "params" : [].concat([param.path("username", "The name that needs to be deleted")]).concat([]).concat([]),
+    "params" : [].concat([swagger.pathParam("username", "The name that needs to be deleted")]).concat([]).concat([]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "deleteUser"
   },
   'action': function (req,res) {
     if (!req.params.username) {
-      throw swe.invalid('username');
+      throw errors.invalid('username');
     }
     writeResponse(res, {message: "how about implementing deleteUser as a DELETE method?"});    
   }
@@ -124,14 +123,14 @@ exports.getUserByName = {
     "notes" : "",
     "summary" : "Get user by user name",
     "method": "GET",
-    "params" : [].concat([param.path("username", "The name that needs to be fetched. Use user1 for testing.")]).concat([]).concat([]),
+    "params" : [].concat([swagger.pathParam("username", "The name that needs to be fetched. Use user1 for testing.")]).concat([]).concat([]),
     "responseClass" : "User",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('User')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('User')],
     "nickname" : "getUserByName"
   },
   'action': function (req,res) {
     if (!req.params.username) {
-      throw swe.invalid('username');
+      throw errors.invalid('username');
     }
     writeResponse(res, {message: "how about implementing getUserByName as a GET method?"});    
   }
@@ -143,17 +142,17 @@ exports.loginUser = {
     "notes" : "",
     "summary" : "Logs user into the system",
     "method": "GET",
-    "params" : [param.query("username", "The user name for login", "string", true, false, ""),param.query("password", "The password for login in clear text", "string", true, false, "")].concat([]).concat([]).concat([]),
+    "params" : [swagger.queryParam("username", "The user name for login", "string", true, false, ""),swagger.queryParam("password", "The password for login in clear text", "string", true, false, "")].concat([]).concat([]).concat([]),
     "responseClass" : "String",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('String')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('String')],
     "nickname" : "loginUser"
   },
   'action': function (req,res) {
     if (!req.params.username) {
-      throw swe.invalid('username');
+      throw errors.invalid('username');
     }
     if (!req.params.password) {
-      throw swe.invalid('password');
+      throw errors.invalid('password');
     }
     writeResponse(res, {message: "how about implementing loginUser as a GET method?"});    
   }
@@ -167,7 +166,7 @@ exports.logoutUser = {
     "method": "GET",
     "params" : [].concat([]).concat([]).concat([]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "logoutUser"
   },
   'action': function (req,res) {

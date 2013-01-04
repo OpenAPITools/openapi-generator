@@ -1,7 +1,6 @@
-var sw = require("../Common/node/swagger.js");
-var param = require("../Common/node/paramTypes.js");
+var swagger = require("swagger-node-express");
 var url = require("url");
-var swe = sw.errors;
+var errors = swagger.errors;
 
 /* add model includes */
 
@@ -22,14 +21,14 @@ exports.getPetById = {
     "notes" : "Returns a pet based on ID",
     "summary" : "Find pet by ID",
     "method": "GET",
-    "params" : [].concat([param.path("petId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
+    "params" : [].concat([swagger.pathParam("petId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
     "responseClass" : "Pet",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('Pet')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('Pet')],
     "nickname" : "getPetById"
   },
   'action': function (req,res) {
     if (!req.params.petId) {
-      throw swe.invalid('petId');
+      throw errors.invalid('petId');
     }
     writeResponse(res, {message: "how about implementing getPetById as a GET method?"});    
   }
@@ -41,15 +40,15 @@ exports.addPet = {
     "notes" : "",
     "summary" : "Add a new pet to the store",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([param.post("Pet", "Pet object that needs to be added to the store", true)
+    "params" : [].concat([]).concat([]).concat([swagger.postParam("Pet", "Pet object that needs to be added to the store", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "addPet"
   },
   'action': function (req,res) {
     if (!req.params.body) {
-      throw swe.invalid('body');
+      throw errors.invalid('body');
     }
     writeResponse(res, {message: "how about implementing addPet as a POST method?"});    
   }
@@ -61,15 +60,15 @@ exports.updatePet = {
     "notes" : "",
     "summary" : "Update an existing pet",
     "method": "PUT",
-    "params" : [].concat([]).concat([]).concat([param.post("Pet", "Pet object that needs to be updated in the store", true)
+    "params" : [].concat([]).concat([]).concat([swagger.postParam("Pet", "Pet object that needs to be updated in the store", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "updatePet"
   },
   'action': function (req,res) {
     if (!req.params.body) {
-      throw swe.invalid('body');
+      throw errors.invalid('body');
     }
     writeResponse(res, {message: "how about implementing updatePet as a PUT method?"});    
   }
@@ -81,14 +80,14 @@ exports.findPetsByStatus = {
     "notes" : "Multiple status values can be provided with comma seperated strings",
     "summary" : "Finds Pets by status",
     "method": "GET",
-    "params" : [param.query("status", "Status values that need to be considered for filter", "string", true, true, "LIST[available,pending,sold]", "available")].concat([]).concat([]).concat([]),
+    "params" : [swagger.queryParam("status", "Status values that need to be considered for filter", "string", true, true, "", "available")].concat([]).concat([]).concat([]),
     "responseClass" : "List[Pet]",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('List[Pet]')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('List[Pet]')],
     "nickname" : "findPetsByStatus"
   },
   'action': function (req,res) {
     if (!req.params.status) {
-      throw swe.invalid('status');
+      throw errors.invalid('status');
     }
     writeResponse(res, {message: "how about implementing findPetsByStatus as a GET method?"});    
   }
@@ -100,14 +99,14 @@ exports.findPetsByTags = {
     "notes" : "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.",
     "summary" : "Finds Pets by tags",
     "method": "GET",
-    "params" : [param.query("tags", "Tags to filter by", "string", true, true, "")].concat([]).concat([]).concat([]),
+    "params" : [swagger.queryParam("tags", "Tags to filter by", "string", true, true, "")].concat([]).concat([]).concat([]),
     "responseClass" : "List[Pet]",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('List[Pet]')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('List[Pet]')],
     "nickname" : "findPetsByTags"
   },
   'action': function (req,res) {
     if (!req.params.tags) {
-      throw swe.invalid('tags');
+      throw errors.invalid('tags');
     }
     writeResponse(res, {message: "how about implementing findPetsByTags as a GET method?"});    
   }

@@ -1,7 +1,6 @@
-var sw = require("../Common/node/swagger.js");
-var param = require("../Common/node/paramTypes.js");
+var swagger = require("swagger-node-express");
 var url = require("url");
-var swe = sw.errors;
+var errors = swagger.errors;
 
 /* add model includes */
 
@@ -22,14 +21,14 @@ exports.getOrderById = {
     "notes" : "For valid response try integer IDs with value <= 5. Anything above 5 or nonintegers will generate API errors",
     "summary" : "Find purchase order by ID",
     "method": "GET",
-    "params" : [].concat([param.path("orderId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
+    "params" : [].concat([swagger.pathParam("orderId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
     "responseClass" : "Order",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('Order')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('Order')],
     "nickname" : "getOrderById"
   },
   'action': function (req,res) {
     if (!req.params.orderId) {
-      throw swe.invalid('orderId');
+      throw errors.invalid('orderId');
     }
     writeResponse(res, {message: "how about implementing getOrderById as a GET method?"});    
   }
@@ -41,14 +40,14 @@ exports.deleteOrder = {
     "notes" : "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
     "summary" : "Delete purchase order by ID",
     "method": "DELETE",
-    "params" : [].concat([param.path("orderId", "ID of the order that needs to be deleted")]).concat([]).concat([]),
+    "params" : [].concat([swagger.pathParam("orderId", "ID of the order that needs to be deleted")]).concat([]).concat([]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "deleteOrder"
   },
   'action': function (req,res) {
     if (!req.params.orderId) {
-      throw swe.invalid('orderId');
+      throw errors.invalid('orderId');
     }
     writeResponse(res, {message: "how about implementing deleteOrder as a DELETE method?"});    
   }
@@ -60,15 +59,15 @@ exports.placeOrder = {
     "notes" : "",
     "summary" : "Place an order for a pet",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([param.post("Order", "order placed for purchasing the pet", true)
+    "params" : [].concat([]).concat([]).concat([swagger.postParam("Order", "order placed for purchasing the pet", true)
     ]),
     "responseClass" : "",
-    "errorResponses" : [swe.invalid('id'), swe.notFound('')],
+    "errorResponses" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "placeOrder"
   },
   'action': function (req,res) {
     if (!req.params.body) {
-      throw swe.invalid('body');
+      throw errors.invalid('body');
     }
     writeResponse(res, {message: "how about implementing placeOrder as a POST method?"});    
   }
