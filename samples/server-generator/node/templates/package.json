@@ -11,6 +11,7 @@
         "node": ">= 0.8.x"
     },
     "dependencies": {
+        "swagger-node-express": ">= 1.2.x",
         "connect": ">= 1.8.x",
         "express": "3.x"
     }

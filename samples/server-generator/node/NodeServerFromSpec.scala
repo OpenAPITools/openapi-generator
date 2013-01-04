@@ -40,8 +40,5 @@ object NodeServerGenerator extends BasicScalaGenerator {
     ("package.json", outputFolder, "package.json"),
     ("README.mustache", outputFolder, "README.md"),
     ("main.mustache", destinationDir, "main.js"),
-    ("models.mustache", destinationDir, "models.js"),
-    ("Common/node/paramTypes.js", destinationDir + "/Common/node", "paramTypes.js"),
-    ("Common/node/randomizer.js", destinationDir + "/Common/node", "randomizer.js"),
-    ("Common/node/swagger.js", destinationDir + "/Common/node", "swagger.js"))
+    ("models.mustache", destinationDir, "models.js"))
 }

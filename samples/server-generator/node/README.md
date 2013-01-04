@@ -23,7 +23,7 @@ mvn package
 You can now generate a server from any valid[**](https://github.com/wordnik/swagger-codegen/blob/master/README.md#validating-your-swagger-spec) swagger spec:
 
 ```
-./bin/runscala.sh samples/server-generator/node/NodeServerFromSpec.scala http://petstore.swagger.wordnik.com/api/resources.json special-key
+./bin/runscala.sh samples/server-generator/node/NodeServerFromSpec.scala http://petstore.swagger.wordnik.com/api/api-docs.json special-key
 ```
 
 After executing this script, you will have an output directory with the server-generated files:
@@ -88,21 +88,18 @@ object NodeServerGenerator extends BasicScalaGenerator {
     ("package.json", outputFolder, "package.json"),
     ("README.json", outputFolder, "README.md"),
     ("main.mustache", destinationDir, "main.js"),
-    ("models.mustache", destinationDir, "models.js"),
-    ("Common/node/paramTypes.js", destinationDir + "/Common/node", "paramTypes.js"),
-    ("Common/node/randomizer.js", destinationDir + "/Common/node", "randomizer.js"),
-    ("Common/node/swagger.js", destinationDir + "/Common/node", "swagger.js"))
+    ("models.mustache", destinationDir, "models.js"))
 }
 ```
 
 Don't like the templates?  Don't worry, we're not offended!  They're [mustache](http://mustache.github.com/) templates and are easy to modify.
 Take a look at the sample templates here:
 
-<li> - Generator for your api classes: [api.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/api.mustache)
+<li> Generator for your api classes: [api.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/api.mustache)
 
-<li> - Generator for your models: [models.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/models.mustache)
+<li> Generator for your models: [models.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/models.mustache)
 
-<li> - The main class to run your server: [main.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/main.mustache)
+<li> The main class to run your server: [main.mustache](https://github.com/wordnik/swagger-codegen/blob/master/samples/server-generator/node/templates/main.mustache)
 
 
 Sound easy?  It is!
