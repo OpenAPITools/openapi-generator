@@ -23,3 +23,7 @@ samples/server-generator/node/output/node_modules
 samples/server-generator/scalatra/target
 samples/server-generator/scalatra/output/.history
 
+target
+.idea
+.lib
+atlassian-ide-plugin.xml

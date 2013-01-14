@@ -19,7 +19,7 @@ package com.wordnik.swagger.codegen.util
 import com.wordnik.swagger.model._
 
 import org.json4s.jackson.JsonMethods._
-import org.json4s.native.Serialization.read
+import org.json4s.jackson.Serialization.read
 
 import java.net.URL
 import java.io.InputStream

@@ -110,7 +110,7 @@ object CoreUtils {
         modelObjects += name -> m
 
     // extract all base model names, strip away Containers like List[] and primitives
-    val baseNames = (for (modelName <- (modelNames.toList -- primitives))
+    val baseNames = (for (modelName <- (modelNames.toList filterNot primitives.contains))
       yield (extractBasePartFromType(modelName))).toSet
 
     // get complex models from base

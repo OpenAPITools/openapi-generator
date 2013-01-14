@@ -223,12 +223,12 @@
     <dependency>
       <groupId>org.fusesource.scalate</groupId>
       <artifactId>scalate-wikitext</artifactId>
-      <version>1.5.3</version>
+      <version>1.6.1</version>
     </dependency>
     <dependency>
       <groupId>org.fusesource.scalate</groupId>
       <artifactId>scalate-page</artifactId>
-      <version>1.5.3</version>
+      <version>1.6.1</version>
     </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>

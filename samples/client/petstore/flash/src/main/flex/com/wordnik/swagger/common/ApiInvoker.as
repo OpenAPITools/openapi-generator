@@ -238,7 +238,7 @@ public class ApiInvoker extends EventDispatcher
         var qualifiedClassName:String=objDescriptor.@name;
         qualifiedClassName=qualifiedClassName.replace("::",".");
         var className: String = qualifiedClassName.substring(qualifiedClassName.lastIndexOf(".") + 1);
-        className = className.charAt().toLowerCase() + className.substring(1);
+        className = className().toLowerCase() + className.substring(1);
         writer.xml.setName(className);
 
         for each(property in objDescriptor.elements("variable")){

@@ -96,14 +96,14 @@ abstract class CodegenConfig {
       case "boolean" => "is"
       case _ => "get"
     }
-    base + name.charAt(0).toUpperCase + name.substring(1)
+    base + name(0).toUpper + name.substring(1)
   }
 
   def toSetter(name: String, datatype: String) = {
     val base = datatype match {
       case _ => "set"
     }
-    base + name.charAt(0).toUpperCase + name.substring(1)
+    base + name(0).toUpper + name.substring(1)
   }
 
   def toVarName(name: String): String = {

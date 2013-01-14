@@ -27,7 +27,7 @@ object BasicRubyGenerator extends BasicRubyGenerator {
 class BasicRubyGenerator extends BasicGenerator {
 
   override def toApiName(name: String) = {
-    name.charAt(0).toUpperCase + name.substring(1) + "_api"
+    name(0).toUpper + name.substring(1) + "_api"
   }
 
   override def apiPackage = Some("lib")
@@ -68,14 +68,14 @@ class BasicRubyGenerator extends BasicGenerator {
   def toUnderscore(name: String): String = {
     val sb = new StringBuilder
     for ((char) <- super.toVarName(name)) {
-      if (char.isUpperCase) sb.append("_").append(char.toLowerCase)
+      if (char.isUpper) sb.append("_").append(char.toLower)
       else sb.append(char)
     }
     sb.toString
   }
 
   override def toDeclaration(obj: ModelProperty) = {
-    var datatype = obj.`type`.charAt(0).toUpperCase + obj.`type`.substring(1)
+    var datatype = obj.`type`(0).toUpper + obj.`type`.substring(1)
 
     datatype match {
       case "Array" => datatype = "List"

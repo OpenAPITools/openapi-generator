@@ -22,7 +22,7 @@ import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 
 import org.json4s.jackson.JsonMethods._
-import org.json4s.native.Serialization.write
+import org.json4s.jackson.Serialization.write
 
 import org.fusesource.scalate._
 import org.fusesource.scalate.layout.DefaultLayoutStrategy
@@ -183,7 +183,7 @@ class Codegen(config: CodegenConfig) {
     var output = engine.layout(config.templateDir + File.separator + templateFile, template, data.toMap)
 
     //  a shutdown method will be added to scalate in an upcoming release
-    engine.compiler.asInstanceOf[ScalaCompiler].compiler.askShutdown
+    engine.compiler.shutdown
     output
   }
 
@@ -306,7 +306,7 @@ class Codegen(config: CodegenConfig) {
     paramList.size match {
       case 0 =>
       case _ => {
-        sp.first.asInstanceOf[HashMap[String, String]] -= "secondaryParam"
+        sp.head.asInstanceOf[HashMap[String, String]] -= "secondaryParam"
         sp.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
       }
     }
@@ -544,7 +544,7 @@ class Codegen(config: CodegenConfig) {
       }
     })
     //a shutdown method will be added to scalate in an upcoming release
-    engine.compiler.asInstanceOf[ScalaCompiler].compiler.askShutdown
+    engine.compiler.shutdown()
   }
 
   protected def isListType(dt: String) = isCollectionType(dt, "List") || isCollectionType(dt, "Array")

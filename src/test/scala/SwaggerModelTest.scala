@@ -17,7 +17,7 @@
 import com.wordnik.swagger.model._
 
 import org.json4s.jackson.JsonMethods._
-import org.json4s.native.Serialization.read
+import org.json4s.jackson.Serialization.read
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
