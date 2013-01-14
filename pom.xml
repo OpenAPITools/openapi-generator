@@ -222,12 +222,12 @@
     </dependency>
     <dependency>
       <groupId>org.fusesource.scalate</groupId>
-      <artifactId>scalate-wikitext</artifactId>
+      <artifactId>scalate-wikitext_2.9</artifactId>
       <version>1.6.1</version>
     </dependency>
     <dependency>
       <groupId>org.fusesource.scalate</groupId>
-      <artifactId>scalate-page</artifactId>
+      <artifactId>scalate-page_2.9</artifactId>
       <version>1.6.1</version>
     </dependency>
     <dependency>
