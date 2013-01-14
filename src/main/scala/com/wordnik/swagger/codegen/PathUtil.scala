@@ -34,12 +34,12 @@ trait PathUtil {
   }
 
   def toModelName(name: String) = {
-    name.charAt(0).toUpperCase + name.substring(1)
+    name(0).toUpper + name.substring(1)
   }
 
   def toApiName(name: String) = {
     name.replaceAll("\\{","").replaceAll("\\}", "") match {
-      case s: String if(s.length > 0) => s.charAt(0).toUpperCase + s.substring(1) + "Api"
+      case s: String if(s.length > 0) => s(0).toUpper + s.substring(1) + "Api"
       case _ => "Api"
     }
   }

@@ -70,13 +70,13 @@ class BasicObjcGenerator extends BasicGenerator {
       defaultIncludes ++ 
       languageSpecificPrimitives
     ).toSet.contains(name) match {
-      case true => name.charAt(0).toUpperCase + name.substring(1)
-      case _ => "NIK" + name.charAt(0).toUpperCase + name.substring(1)
+      case true => name(0).toUpper + name.substring(1)
+      case _ => "NIK" + name(0).toUpper + name.substring(1)
     }
   }
 
   // naming for the apis
-  override def toApiName(name: String) = "NIK" + name.charAt(0).toUpperCase + name.substring(1) + "Api"
+  override def toApiName(name: String) = "NIK" + name(0).toUpper + name.substring(1) + "Api"
 
   // location of templates
   override def templateDir = "src/main/resources/objc"
