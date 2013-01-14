@@ -60,6 +60,8 @@ publishTo <<= (version) { version: String =>
     Some("Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases")
 }
 
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
 homepage := Some(new URL("https://github.com/json4s/json4s"))
 
 startYear := Some(2009)
