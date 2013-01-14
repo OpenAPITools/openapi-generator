@@ -22,7 +22,7 @@ import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 
 import org.json4s.jackson.JsonMethods._
-import org.json4s.native.Serialization.write
+import org.json4s.jackson.Serialization.write
 
 import org.fusesource.scalate._
 import org.fusesource.scalate.layout.DefaultLayoutStrategy

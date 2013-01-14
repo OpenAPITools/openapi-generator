@@ -3,7 +3,7 @@ import com.wordnik.swagger.model._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
-import org.json4s.native.Serialization.{read, write}
+import org.json4s.jackson.Serialization.{read, write}
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
