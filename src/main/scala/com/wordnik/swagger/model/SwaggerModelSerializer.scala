@@ -1,5 +1,7 @@
 package com.wordnik.swagger.model
 
+import com.wordnik.swagger.codegen.spec.ValidationMessage
+
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
@@ -8,6 +10,8 @@ import org.json4s.jackson.Serialization.{read, write}
 import scala.collection.mutable.{ListBuffer, LinkedHashMap}
 
 object SwaggerSerializers {
+  import ValidationMessage._
+
   implicit val formats = DefaultFormats + 
     new ModelSerializer + 
     new ModelPropertySerializer +
@@ -21,14 +25,33 @@ object SwaggerSerializers {
     new ResourceListingSerializer +
     new ApiListingSerializer
 
+  val validationMessages = ListBuffer.empty[ValidationMessage]
+
+  def !!(element: AnyRef, elementType: String, elementId: String, message: String, level: String = ERROR) {
+    val msg = new ValidationMessage(element, elementType, elementId, message, level)
+    validationMessages += msg
+  }
+
   class ApiListingSerializer extends CustomSerializer[ApiListing](formats => ({
     case json =>
       implicit val fmts: Formats = formats
       ApiListing(
-        (json \ "apiVersion").extract[String],
-        (json \ "swaggerVersion").extract[String],
-        (json \ "basePath").extract[String],
-        (json \ "resourcePath").extractOrElse(""),
+        (json \ "apiVersion").extractOrElse({
+          !!(json, RESOURCE, "apiVersion", "missing required field", ERROR)
+          ""
+        }),
+        (json \ "swaggerVersion").extractOrElse({
+          !!(json, RESOURCE, "swaggerVersion", "missing required field", ERROR)
+          ""
+        }),
+        (json \ "basePath").extractOrElse({
+          !!(json, RESOURCE, "basePath", "missing required field", ERROR)
+          ""
+        }),
+        (json \ "resourcePath").extractOrElse({
+          !!(json, RESOURCE, "resourcePath", "missing recommended field", WARNING)
+          ""
+        }),
         (json \ "apis").extract[List[ApiDescription]],
         (json \ "models").extract[Map[String, Model]]
       )
@@ -57,9 +80,18 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       ResourceListing(
-        (json \ "apiVersion").extract[String],
-        (json \ "swaggerVersion").extract[String],
-        (json \ "basePath").extract[String],
+        (json \ "apiVersion").extractOrElse({
+          !!(json, RESOURCE_LISTING, "apiVersion", "missing required field", ERROR)
+          ""
+        }),
+        (json \ "swaggerVersion").extractOrElse({
+          !!(json, RESOURCE_LISTING, "swaggerVersion", "missing required field", ERROR)
+          ""
+        }),
+        (json \ "basePath").extractOrElse({
+          !!(json, RESOURCE_LISTING, "basePath", "missing required field", ERROR)
+          ""
+        }),
         (json \ "apis").extract[List[ApiListingReference]]
       )
     }, {
@@ -81,7 +113,10 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       ApiListingReference(
-        (json \ "path").extract[String],
+        (json \ "path").extractOrElse({
+          !!(json, RESOURCE, "path", "missing required field", ERROR)
+          ""
+        }),
         (json \ "description").extractOrElse("")
       )
     }, {
@@ -96,7 +131,10 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       ApiDescription(
-        (json \ "path").extract[String],
+        (json \ "path").extractOrElse({
+          !!(json, RESOURCE_LISTING, "path", "missing required field", ERROR)
+          ""
+        }),
         (json \ "description").extractOrElse(""),
         (json \ "operations").extract[List[Operation]]
       )
@@ -118,8 +156,14 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       ErrorResponse(
-        (json \ "code").extract[String].toInt,
-        (json \ "reason").extract[String]
+        (json \ "code").extractOrElse({
+          !!(json, ERROR, "code", "missing required field", ERROR)
+          0
+        }),
+        (json \ "reason").extractOrElse({
+          !!(json, ERROR, "reason", "missing required field", ERROR)
+          ""
+        })
       )
     }, {
       case x: ErrorResponse =>
@@ -218,7 +262,10 @@ object SwaggerSerializers {
       }
 
       Model(
-        (json \ "id").extract[String],
+        (json \ "id").extractOrElse({
+          !!(json, MODEL, "id", "missing required field", ERROR)
+          ""
+        }),
         (json \ "name").extractOrElse(""),
         output,
         (json \ "description").extractOpt[String]
