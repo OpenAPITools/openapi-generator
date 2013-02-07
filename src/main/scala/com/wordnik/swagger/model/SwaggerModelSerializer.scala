@@ -287,10 +287,7 @@ object SwaggerSerializers {
           !!(json, MODEL, "id", "missing required field", ERROR)
           ""
         }),
-        (json \ "name").extractOrElse({
-          !!(json, MODEL, "name", "missing required field", ERROR)
-          ""
-        }),
+        (json \ "name").extractOrElse(""),
         output,
         (json \ "description").extractOpt[String]
       )
