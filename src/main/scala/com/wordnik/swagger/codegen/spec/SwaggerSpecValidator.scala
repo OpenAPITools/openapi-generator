@@ -409,7 +409,7 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
     }
   }
 
-  private def !!(element: AnyRef, elementType: String, elementId: String, message: String, level: String = ERROR) {
+  def !!(element: AnyRef, elementType: String, elementId: String, message: String, level: String = ERROR) {
     validationMessages += new ValidationMessage(element, elementType, elementId, message, level)
   }
 
