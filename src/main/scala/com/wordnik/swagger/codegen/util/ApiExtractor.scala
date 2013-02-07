@@ -31,16 +31,25 @@ object ApiExtractor extends RemoteUrl {
   implicit val formats = SwaggerSerializers.formats
 
   def fetchApiListings(basePath: String, apis: List[ApiListingReference], apiKey: Option[String] = None): List[ApiListing] = {
-    for (api <- apis) yield {
-      val json = basePath.startsWith("http") match {
-        case true => {
-          println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
-          urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
-        }
-        case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
-      }
-      parse(json).extract[ApiListing]
-    }
+    (for (api <- apis) yield {
+          try{
+            val json = basePath.startsWith("http") match {
+              case true => {
+                println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
+                urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
+              }
+              case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
+            }
+            Some(parse(json).extract[ApiListing])
+          }
+          catch {
+            case e:java.io.FileNotFoundException => {
+              println("WARNING!  Unable to read API " + basePath + api.path)
+              None
+            }
+            case _ => None
+          }
+        }).flatten.toList
   }
 
   def extractApiOperations(basePath: String, references: List[ApiListingReference], apiKey: Option[String] = None) = {
