@@ -177,11 +177,20 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       Operation(
-        (json \ "httpMethod").extract[String],
+        (json \ "httpMethod").extractOrElse({
+          !!(json, OPERATION, "httpMethod", "missing required field", ERROR)
+          ""
+        }),
         (json \ "summary").extract[String],
         (json \ "notes").extractOrElse(""),
-        (json \ "responseClass").extract[String],
-        (json \ "nickname").extract[String],
+        (json \ "responseClass").extractOrElse({
+          !!(json, OPERATION, "responseClass", "missing required field", ERROR)
+          ""
+        }),
+        (json \ "nickname").extractOrElse({
+          !!(json, OPERATION, "nickname", "missing required field", ERROR)
+          ""
+        }),
         (json \ "parameters").extract[List[Parameter]],
         (json \ "errorResponses").extract[List[ErrorResponse]],
         (json \ "deprecated").extractOpt[String]
@@ -209,8 +218,14 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       Parameter(
-        (json \ "name").extractOrElse(""),
-        (json \ "description").extract[String],
+        (json \ "name").extractOrElse({
+          !!(json, OPERATION_PARAM, "reason", "missing parameter name", ERROR)
+          ""
+        }),
+        (json \ "description").extractOrElse({
+          !!(json, OPERATION_PARAM, "description", "missing recommended field", WARNING)
+          ""
+        }),
         (json \ "defaultValue") match {
           case e:JInt => e.num.toString
           case e:JBool => e.value.toString
@@ -224,9 +239,15 @@ object SwaggerSerializers {
           case _ => false
         },
         (json \ "allowMultiple").extractOrElse(false),
-        (json \ "dataType").extract[String],
+        (json \ "dataType").extractOrElse({
+          !!(json, OPERATION_PARAM, "dataType", "missing required field", ERROR)
+          ""
+        }),
         (json \ "allowableValues").extract[AllowableValues],
-        (json \ "paramType").extract[String]
+        (json \ "paramType").extractOrElse({
+          !!(json, OPERATION_PARAM, "paramType", "missing required field", ERROR)
+          ""
+        })
       )
     }, {
       case x: Parameter =>
@@ -266,7 +287,10 @@ object SwaggerSerializers {
           !!(json, MODEL, "id", "missing required field", ERROR)
           ""
         }),
-        (json \ "name").extractOrElse(""),
+        (json \ "name").extractOrElse({
+          !!(json, MODEL, "name", "missing required field", ERROR)
+          ""
+        }),
         output,
         (json \ "description").extractOpt[String]
       )
