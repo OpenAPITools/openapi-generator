@@ -48,13 +48,13 @@ class {{classname}} {
 
       {{#queryParams}}
   		if(${{paramName}} != null) {
-  		  $queryParams['{{paramName}}'] = $this->apiClient->toPathValue(${{paramName}});
+  		  $queryParams['{{paramName}}'] = $this->apiClient->toQueryValue(${{paramName}});
   		}
   		{{/queryParams}}
 
       {{#headerParams}}
   		if(${{paramName}} != null) {
-  		 	$headerParams['{{paramName}}'] = $this->apiClient->toPathValue(${{paramName}});
+  		 	$headerParams['{{paramName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
   		}
       {{/headerParams}}
 

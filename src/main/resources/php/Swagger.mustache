@@ -137,18 +137,39 @@ class APIClient {
 
 	/**
 	 * Take value and turn it into a string suitable for inclusion in
-	 * the path or the header
+	 * the path, by url-encoding.
+	 * @param string $value a string which will be part of the path
+	 * @return string the serialized object
+	 */
+	public static function toPathValue($value) {
+  		return rawurlencode($value);
+	}
+
+	/**
+	 * Take value and turn it into a string suitable for inclusion in
+	 * the query, by imploding comma-separated if it's an object.
+	 * If it's a string, pass through unchanged. It will be url-encoded
+	 * later.
 	 * @param object $object an object to be serialized to a string
 	 * @return string the serialized object
 	 */
-	public static function toPathValue($object) {
+	public static function toQueryValue($object) {
         if (is_array($object)) {
-            return rawurlencode(implode(',', $object));
+            return implode(',', $object);
         } else {
-            return rawurlencode($object);
+            return $object;
         }
 	}
 
+	/**
+	 * Just pass through the header value for now. Placeholder in case we
+	 * find out we need to do something with header values.
+	 * @param string $value a string which will be part of the header
+	 * @return string the header string
+	 */
+	public static function toHeaderValue($value) {
+  		return $value;
+	}
 
 	/**
 	 * Deserialize a JSON string into an object
@@ -217,4 +238,5 @@ class APIClient {
 
 
 ?>
+
 
