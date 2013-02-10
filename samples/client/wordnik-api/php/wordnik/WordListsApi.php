@@ -43,7 +43,7 @@ class WordListsApi {
       $headerParams = array();
 
       if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       //make the API Call
       if (! isset($body)) {

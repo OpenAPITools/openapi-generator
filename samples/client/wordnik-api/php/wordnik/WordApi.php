@@ -46,16 +46,16 @@ class WordApi {
       $headerParams = array();
 
       if($includeDuplicates != null) {
-  		  $queryParams['includeDuplicates'] = $this->apiClient->toPathValue($includeDuplicates);
+  		  $queryParams['includeDuplicates'] = $this->apiClient->toQueryValue($includeDuplicates);
   		}
   		if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($skip != null) {
-  		  $queryParams['skip'] = $this->apiClient->toPathValue($skip);
+  		  $queryParams['skip'] = $this->apiClient->toQueryValue($skip);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -98,10 +98,10 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($includeSuggestions != null) {
-  		  $queryParams['includeSuggestions'] = $this->apiClient->toPathValue($includeSuggestions);
+  		  $queryParams['includeSuggestions'] = $this->apiClient->toQueryValue($includeSuggestions);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -148,22 +148,22 @@ class WordApi {
       $headerParams = array();
 
       if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($partOfSpeech != null) {
-  		  $queryParams['partOfSpeech'] = $this->apiClient->toPathValue($partOfSpeech);
+  		  $queryParams['partOfSpeech'] = $this->apiClient->toQueryValue($partOfSpeech);
   		}
   		if($includeRelated != null) {
-  		  $queryParams['includeRelated'] = $this->apiClient->toPathValue($includeRelated);
+  		  $queryParams['includeRelated'] = $this->apiClient->toQueryValue($includeRelated);
   		}
   		if($sourceDictionaries != null) {
-  		  $queryParams['sourceDictionaries'] = $this->apiClient->toPathValue($sourceDictionaries);
+  		  $queryParams['sourceDictionaries'] = $this->apiClient->toQueryValue($sourceDictionaries);
   		}
   		if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($includeTags != null) {
-  		  $queryParams['includeTags'] = $this->apiClient->toPathValue($includeTags);
+  		  $queryParams['includeTags'] = $this->apiClient->toQueryValue($includeTags);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -205,7 +205,7 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -249,13 +249,13 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($relationshipTypes != null) {
-  		  $queryParams['relationshipTypes'] = $this->apiClient->toPathValue($relationshipTypes);
+  		  $queryParams['relationshipTypes'] = $this->apiClient->toQueryValue($relationshipTypes);
   		}
   		if($limitPerRelationshipType != null) {
-  		  $queryParams['limitPerRelationshipType'] = $this->apiClient->toPathValue($limitPerRelationshipType);
+  		  $queryParams['limitPerRelationshipType'] = $this->apiClient->toQueryValue($limitPerRelationshipType);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -300,16 +300,16 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($sourceDictionary != null) {
-  		  $queryParams['sourceDictionary'] = $this->apiClient->toPathValue($sourceDictionary);
+  		  $queryParams['sourceDictionary'] = $this->apiClient->toQueryValue($sourceDictionary);
   		}
   		if($typeFormat != null) {
-  		  $queryParams['typeFormat'] = $this->apiClient->toPathValue($typeFormat);
+  		  $queryParams['typeFormat'] = $this->apiClient->toQueryValue($typeFormat);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -353,13 +353,13 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($sourceDictionary != null) {
-  		  $queryParams['sourceDictionary'] = $this->apiClient->toPathValue($sourceDictionary);
+  		  $queryParams['sourceDictionary'] = $this->apiClient->toQueryValue($sourceDictionary);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -403,13 +403,13 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($startYear != null) {
-  		  $queryParams['startYear'] = $this->apiClient->toPathValue($startYear);
+  		  $queryParams['startYear'] = $this->apiClient->toQueryValue($startYear);
   		}
   		if($endYear != null) {
-  		  $queryParams['endYear'] = $this->apiClient->toPathValue($endYear);
+  		  $queryParams['endYear'] = $this->apiClient->toQueryValue($endYear);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -453,13 +453,13 @@ class WordApi {
       $headerParams = array();
 
       if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($wlmi != null) {
-  		  $queryParams['wlmi'] = $this->apiClient->toPathValue($wlmi);
+  		  $queryParams['wlmi'] = $this->apiClient->toQueryValue($wlmi);
   		}
   		if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -501,7 +501,7 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -544,10 +544,10 @@ class WordApi {
       $headerParams = array();
 
       if($useCanonical != null) {
-  		  $queryParams['useCanonical'] = $this->apiClient->toPathValue($useCanonical);
+  		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",

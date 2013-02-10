@@ -43,7 +43,7 @@ class AccountApi {
       $headerParams = array();
 
       if($password != null) {
-  		  $queryParams['password'] = $this->apiClient->toPathValue($password);
+  		  $queryParams['password'] = $this->apiClient->toQueryValue($password);
   		}
   		if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
@@ -125,13 +125,13 @@ class AccountApi {
       $headerParams = array();
 
       if($skip != null) {
-  		  $queryParams['skip'] = $this->apiClient->toPathValue($skip);
+  		  $queryParams['skip'] = $this->apiClient->toQueryValue($skip);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       //make the API Call
       if (! isset($body)) {
@@ -168,7 +168,7 @@ class AccountApi {
       $headerParams = array();
 
       if($api_key != null) {
-  		 	$headerParams['api_key'] = $this->apiClient->toPathValue($api_key);
+  		 	$headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
   		}
       //make the API Call
       if (! isset($body)) {
@@ -205,7 +205,7 @@ class AccountApi {
       $headerParams = array();
 
       if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       //make the API Call
       if (! isset($body)) {

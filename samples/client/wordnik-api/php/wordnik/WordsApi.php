@@ -53,37 +53,37 @@ class WordsApi {
       $headerParams = array();
 
       if($caseSensitive != null) {
-  		  $queryParams['caseSensitive'] = $this->apiClient->toPathValue($caseSensitive);
+  		  $queryParams['caseSensitive'] = $this->apiClient->toQueryValue($caseSensitive);
   		}
   		if($includePartOfSpeech != null) {
-  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toPathValue($includePartOfSpeech);
+  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toQueryValue($includePartOfSpeech);
   		}
   		if($excludePartOfSpeech != null) {
-  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toPathValue($excludePartOfSpeech);
+  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toQueryValue($excludePartOfSpeech);
   		}
   		if($minCorpusCount != null) {
-  		  $queryParams['minCorpusCount'] = $this->apiClient->toPathValue($minCorpusCount);
+  		  $queryParams['minCorpusCount'] = $this->apiClient->toQueryValue($minCorpusCount);
   		}
   		if($maxCorpusCount != null) {
-  		  $queryParams['maxCorpusCount'] = $this->apiClient->toPathValue($maxCorpusCount);
+  		  $queryParams['maxCorpusCount'] = $this->apiClient->toQueryValue($maxCorpusCount);
   		}
   		if($minDictionaryCount != null) {
-  		  $queryParams['minDictionaryCount'] = $this->apiClient->toPathValue($minDictionaryCount);
+  		  $queryParams['minDictionaryCount'] = $this->apiClient->toQueryValue($minDictionaryCount);
   		}
   		if($maxDictionaryCount != null) {
-  		  $queryParams['maxDictionaryCount'] = $this->apiClient->toPathValue($maxDictionaryCount);
+  		  $queryParams['maxDictionaryCount'] = $this->apiClient->toQueryValue($maxDictionaryCount);
   		}
   		if($minLength != null) {
-  		  $queryParams['minLength'] = $this->apiClient->toPathValue($minLength);
+  		  $queryParams['minLength'] = $this->apiClient->toQueryValue($minLength);
   		}
   		if($maxLength != null) {
-  		  $queryParams['maxLength'] = $this->apiClient->toPathValue($maxLength);
+  		  $queryParams['maxLength'] = $this->apiClient->toQueryValue($maxLength);
   		}
   		if($skip != null) {
-  		  $queryParams['skip'] = $this->apiClient->toPathValue($skip);
+  		  $queryParams['skip'] = $this->apiClient->toQueryValue($skip);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($query != null) {
   			$resourcePath = str_replace("{" . "query" . "}",
@@ -124,7 +124,7 @@ class WordsApi {
       $headerParams = array();
 
       if($date != null) {
-  		  $queryParams['date'] = $this->apiClient->toPathValue($date);
+  		  $queryParams['date'] = $this->apiClient->toQueryValue($date);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -176,52 +176,52 @@ class WordsApi {
       $headerParams = array();
 
       if($query != null) {
-  		  $queryParams['query'] = $this->apiClient->toPathValue($query);
+  		  $queryParams['query'] = $this->apiClient->toQueryValue($query);
   		}
   		if($findSenseForWord != null) {
-  		  $queryParams['findSenseForWord'] = $this->apiClient->toPathValue($findSenseForWord);
+  		  $queryParams['findSenseForWord'] = $this->apiClient->toQueryValue($findSenseForWord);
   		}
   		if($includeSourceDictionaries != null) {
-  		  $queryParams['includeSourceDictionaries'] = $this->apiClient->toPathValue($includeSourceDictionaries);
+  		  $queryParams['includeSourceDictionaries'] = $this->apiClient->toQueryValue($includeSourceDictionaries);
   		}
   		if($excludeSourceDictionaries != null) {
-  		  $queryParams['excludeSourceDictionaries'] = $this->apiClient->toPathValue($excludeSourceDictionaries);
+  		  $queryParams['excludeSourceDictionaries'] = $this->apiClient->toQueryValue($excludeSourceDictionaries);
   		}
   		if($includePartOfSpeech != null) {
-  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toPathValue($includePartOfSpeech);
+  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toQueryValue($includePartOfSpeech);
   		}
   		if($excludePartOfSpeech != null) {
-  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toPathValue($excludePartOfSpeech);
+  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toQueryValue($excludePartOfSpeech);
   		}
   		if($minCorpusCount != null) {
-  		  $queryParams['minCorpusCount'] = $this->apiClient->toPathValue($minCorpusCount);
+  		  $queryParams['minCorpusCount'] = $this->apiClient->toQueryValue($minCorpusCount);
   		}
   		if($maxCorpusCount != null) {
-  		  $queryParams['maxCorpusCount'] = $this->apiClient->toPathValue($maxCorpusCount);
+  		  $queryParams['maxCorpusCount'] = $this->apiClient->toQueryValue($maxCorpusCount);
   		}
   		if($minLength != null) {
-  		  $queryParams['minLength'] = $this->apiClient->toPathValue($minLength);
+  		  $queryParams['minLength'] = $this->apiClient->toQueryValue($minLength);
   		}
   		if($maxLength != null) {
-  		  $queryParams['maxLength'] = $this->apiClient->toPathValue($maxLength);
+  		  $queryParams['maxLength'] = $this->apiClient->toQueryValue($maxLength);
   		}
   		if($expandTerms != null) {
-  		  $queryParams['expandTerms'] = $this->apiClient->toPathValue($expandTerms);
+  		  $queryParams['expandTerms'] = $this->apiClient->toQueryValue($expandTerms);
   		}
   		if($includeTags != null) {
-  		  $queryParams['includeTags'] = $this->apiClient->toPathValue($includeTags);
+  		  $queryParams['includeTags'] = $this->apiClient->toQueryValue($includeTags);
   		}
   		if($sortBy != null) {
-  		  $queryParams['sortBy'] = $this->apiClient->toPathValue($sortBy);
+  		  $queryParams['sortBy'] = $this->apiClient->toQueryValue($sortBy);
   		}
   		if($sortOrder != null) {
-  		  $queryParams['sortOrder'] = $this->apiClient->toPathValue($sortOrder);
+  		  $queryParams['sortOrder'] = $this->apiClient->toQueryValue($sortOrder);
   		}
   		if($skip != null) {
-  		  $queryParams['skip'] = $this->apiClient->toPathValue($skip);
+  		  $queryParams['skip'] = $this->apiClient->toQueryValue($skip);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -269,40 +269,40 @@ class WordsApi {
       $headerParams = array();
 
       if($hasDictionaryDef != null) {
-  		  $queryParams['hasDictionaryDef'] = $this->apiClient->toPathValue($hasDictionaryDef);
+  		  $queryParams['hasDictionaryDef'] = $this->apiClient->toQueryValue($hasDictionaryDef);
   		}
   		if($includePartOfSpeech != null) {
-  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toPathValue($includePartOfSpeech);
+  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toQueryValue($includePartOfSpeech);
   		}
   		if($excludePartOfSpeech != null) {
-  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toPathValue($excludePartOfSpeech);
+  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toQueryValue($excludePartOfSpeech);
   		}
   		if($minCorpusCount != null) {
-  		  $queryParams['minCorpusCount'] = $this->apiClient->toPathValue($minCorpusCount);
+  		  $queryParams['minCorpusCount'] = $this->apiClient->toQueryValue($minCorpusCount);
   		}
   		if($maxCorpusCount != null) {
-  		  $queryParams['maxCorpusCount'] = $this->apiClient->toPathValue($maxCorpusCount);
+  		  $queryParams['maxCorpusCount'] = $this->apiClient->toQueryValue($maxCorpusCount);
   		}
   		if($minDictionaryCount != null) {
-  		  $queryParams['minDictionaryCount'] = $this->apiClient->toPathValue($minDictionaryCount);
+  		  $queryParams['minDictionaryCount'] = $this->apiClient->toQueryValue($minDictionaryCount);
   		}
   		if($maxDictionaryCount != null) {
-  		  $queryParams['maxDictionaryCount'] = $this->apiClient->toPathValue($maxDictionaryCount);
+  		  $queryParams['maxDictionaryCount'] = $this->apiClient->toQueryValue($maxDictionaryCount);
   		}
   		if($minLength != null) {
-  		  $queryParams['minLength'] = $this->apiClient->toPathValue($minLength);
+  		  $queryParams['minLength'] = $this->apiClient->toQueryValue($minLength);
   		}
   		if($maxLength != null) {
-  		  $queryParams['maxLength'] = $this->apiClient->toPathValue($maxLength);
+  		  $queryParams['maxLength'] = $this->apiClient->toQueryValue($maxLength);
   		}
   		if($sortBy != null) {
-  		  $queryParams['sortBy'] = $this->apiClient->toPathValue($sortBy);
+  		  $queryParams['sortBy'] = $this->apiClient->toQueryValue($sortBy);
   		}
   		if($sortOrder != null) {
-  		  $queryParams['sortOrder'] = $this->apiClient->toPathValue($sortOrder);
+  		  $queryParams['sortOrder'] = $this->apiClient->toQueryValue($sortOrder);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -347,31 +347,31 @@ class WordsApi {
       $headerParams = array();
 
       if($hasDictionaryDef != null) {
-  		  $queryParams['hasDictionaryDef'] = $this->apiClient->toPathValue($hasDictionaryDef);
+  		  $queryParams['hasDictionaryDef'] = $this->apiClient->toQueryValue($hasDictionaryDef);
   		}
   		if($includePartOfSpeech != null) {
-  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toPathValue($includePartOfSpeech);
+  		  $queryParams['includePartOfSpeech'] = $this->apiClient->toQueryValue($includePartOfSpeech);
   		}
   		if($excludePartOfSpeech != null) {
-  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toPathValue($excludePartOfSpeech);
+  		  $queryParams['excludePartOfSpeech'] = $this->apiClient->toQueryValue($excludePartOfSpeech);
   		}
   		if($minCorpusCount != null) {
-  		  $queryParams['minCorpusCount'] = $this->apiClient->toPathValue($minCorpusCount);
+  		  $queryParams['minCorpusCount'] = $this->apiClient->toQueryValue($minCorpusCount);
   		}
   		if($maxCorpusCount != null) {
-  		  $queryParams['maxCorpusCount'] = $this->apiClient->toPathValue($maxCorpusCount);
+  		  $queryParams['maxCorpusCount'] = $this->apiClient->toQueryValue($maxCorpusCount);
   		}
   		if($minDictionaryCount != null) {
-  		  $queryParams['minDictionaryCount'] = $this->apiClient->toPathValue($minDictionaryCount);
+  		  $queryParams['minDictionaryCount'] = $this->apiClient->toQueryValue($minDictionaryCount);
   		}
   		if($maxDictionaryCount != null) {
-  		  $queryParams['maxDictionaryCount'] = $this->apiClient->toPathValue($maxDictionaryCount);
+  		  $queryParams['maxDictionaryCount'] = $this->apiClient->toQueryValue($maxDictionaryCount);
   		}
   		if($minLength != null) {
-  		  $queryParams['minLength'] = $this->apiClient->toPathValue($minLength);
+  		  $queryParams['minLength'] = $this->apiClient->toQueryValue($minLength);
   		}
   		if($maxLength != null) {
-  		  $queryParams['maxLength'] = $this->apiClient->toPathValue($maxLength);
+  		  $queryParams['maxLength'] = $this->apiClient->toQueryValue($maxLength);
   		}
   		//make the API Call
       if (! isset($body)) {

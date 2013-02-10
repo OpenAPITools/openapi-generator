@@ -44,7 +44,7 @@ class WordListApi {
       $headerParams = array();
 
       if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       if($permalink != null) {
   			$resourcePath = str_replace("{" . "permalink" . "}",
@@ -78,7 +78,7 @@ class WordListApi {
       $headerParams = array();
 
       if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       if($permalink != null) {
   			$resourcePath = str_replace("{" . "permalink" . "}",
@@ -112,7 +112,7 @@ class WordListApi {
       $headerParams = array();
 
       if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       if($permalink != null) {
   			$resourcePath = str_replace("{" . "permalink" . "}",
@@ -155,7 +155,7 @@ class WordListApi {
       $headerParams = array();
 
       if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       if($permalink != null) {
   			$resourcePath = str_replace("{" . "permalink" . "}",
@@ -193,19 +193,19 @@ class WordListApi {
       $headerParams = array();
 
       if($sortBy != null) {
-  		  $queryParams['sortBy'] = $this->apiClient->toPathValue($sortBy);
+  		  $queryParams['sortBy'] = $this->apiClient->toQueryValue($sortBy);
   		}
   		if($sortOrder != null) {
-  		  $queryParams['sortOrder'] = $this->apiClient->toPathValue($sortOrder);
+  		  $queryParams['sortOrder'] = $this->apiClient->toQueryValue($sortOrder);
   		}
   		if($skip != null) {
-  		  $queryParams['skip'] = $this->apiClient->toPathValue($skip);
+  		  $queryParams['skip'] = $this->apiClient->toQueryValue($skip);
   		}
   		if($limit != null) {
-  		  $queryParams['limit'] = $this->apiClient->toPathValue($limit);
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       if($permalink != null) {
   			$resourcePath = str_replace("{" . "permalink" . "}",
@@ -248,7 +248,7 @@ class WordListApi {
       $headerParams = array();
 
       if($auth_token != null) {
-  		 	$headerParams['auth_token'] = $this->apiClient->toPathValue($auth_token);
+  		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
   		}
       if($permalink != null) {
   			$resourcePath = str_replace("{" . "permalink" . "}",
