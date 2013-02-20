@@ -4,7 +4,7 @@
 # Author: Paul Phillips <paulp@typesafe.com>
 
 # todo - make this dynamic
-declare -r sbt_release_version=0.12.2-RC2
+declare -r sbt_release_version=0.12.2
 declare -r sbt_snapshot_version=0.13.0-SNAPSHOT
 
 unset sbt_jar sbt_dir sbt_create sbt_snapshot sbt_launch_dir
@@ -13,8 +13,8 @@ unset verbose debug quiet noshare trace_level log_level
 
 for arg in "$@"; do
   case $arg in
-    -q|-quiet)  quiet=1 ;;
-            *)          ;;
+    -q|-quiet)  quiet=true ;;
+            *)             ;;
   esac
 done
 
@@ -57,7 +57,7 @@ sbt_version () {
 }
 
 echoerr () {
-  [[ -z $quiet ]] && echo 1>&2 "$@"
+  [[ -z $quiet ]] && echo "$@" >&2
 }
 vlog () {
   [[ $verbose || $debug ]] && echoerr "$@"
@@ -106,7 +106,7 @@ make_url () {
 }
 
 declare -r default_jvm_opts="-Dfile.encoding=UTF8"
-declare -r default_sbt_opts="-XX:+CMSClassUnloadingEnabled"
+declare -r default_sbt_opts="-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC"
 declare -r default_sbt_mem=1536
 declare -r default_trace_level=15
 declare -r noshare_opts="-Dsbt.global.base=project/.sbtboot -Dsbt.boot.directory=project/.boot -Dsbt.ivy.home=project/.ivy"
@@ -127,7 +127,6 @@ declare sbt_universal_launcher="$script_dir/lib/sbt-launch.jar"
 declare sbt_mem=$default_sbt_mem
 declare sbt_jar=$sbt_universal_launcher
 declare trace_level=$default_trace_level
-declare log_level=Info
 
 # pull -J and -D options to give to java.
 declare -a residual_args
@@ -341,15 +340,15 @@ process_args ()
   while [[ $# -gt 0 ]]; do
     case "$1" in
        -h|-help) usage; exit 1 ;;
-    -v|-verbose) verbose=1 && shift ;;
-      -d|-debug) debug=1 && log_level=Debug && shift ;;
-      -q|-quiet) quiet=1 && log_level=Error && shift ;;
+    -v|-verbose) verbose=true && log_level=Info && shift ;;
+      -d|-debug) debug=true && log_level=Debug && shift ;;
+      -q|-quiet) quiet=true && log_level=Error && shift ;;
 
          -trace) require_arg integer "$1" "$2" && trace_level=$2 && shift 2 ;;
            -ivy) require_arg path "$1" "$2" && addJava "-Dsbt.ivy.home=$2" && shift 2 ;;
            -mem) require_arg integer "$1" "$2" && sbt_mem="$2" && shift 2 ;;
      -no-colors) addJava "-Dsbt.log.noformat=true" && shift ;;
-      -no-share) noshare=1 && shift ;;
+      -no-share) noshare=true && shift ;;
       -sbt-boot) require_arg path "$1" "$2" && addJava "-Dsbt.boot.directory=$2" && shift 2 ;;
        -sbt-dir) require_arg path "$1" "$2" && sbt_dir="$2" && shift 2 ;;
      -debug-inc) addJava "-Dxsbt.inc.debug=true" && shift ;;
@@ -451,6 +450,7 @@ fi
 
 # -shell \
 # "set every traceLevel := $trace_level" \
+[[ -n $log_level ]] && logLevalArg="set logLevel in Global := Level.$log_level"
 
 # run sbt
 execRunner "$java_cmd" \
@@ -458,6 +458,6 @@ execRunner "$java_cmd" \
   $(get_jvm_opts) \
   ${java_args[@]} \
   -jar "$sbt_jar" \
-  "set logLevel in Global := Level.$log_level" \
+  "$logLevalArg" \
   "${sbt_commands[@]}" \
   "${residual_args[@]}"
