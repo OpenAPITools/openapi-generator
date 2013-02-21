@@ -77,7 +77,7 @@ class BasicJavaGenerator extends BasicGenerator {
     "Date" -> "java.util.Date",
     "Array" -> "java.util.*",
     "ArrayList" -> "java.util.*",
-    "List" -> "java.util.List")
+    "List" -> "java.util.*")
 
   // package for models
   override def modelPackage = Some("com.wordnik.client.model")
