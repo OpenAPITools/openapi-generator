@@ -97,16 +97,15 @@ class BasicPHPGenerator extends BasicGenerator {
     }
   }
   override def typeMapping = Map(
-    "String" -> "string",
-    "Int" -> "int",
-    "Float" -> "float",
-    "Long" -> "int",
+    "string" -> "string",
+    "str" -> "string",
+    "int" -> "int",
+    "float" -> "float",
     "long" -> "int",
-    "Double" -> "float",
+    "double" -> "float",
     "Array" -> "array",
-    "Boolean" -> "bool",
-    "Date" -> "DateTime",
-    "string" -> "string"
+    "boolean" -> "bool",
+    "Date" -> "DateTime"
     )
 
   override def toDeclaredType(dt: String): String = {
@@ -128,7 +127,9 @@ class BasicPHPGenerator extends BasicGenerator {
 
     declaredType match {
       case "Array" => declaredType = "array"
-      case e: String => e
+      case e: String => {
+        e
+      }
     }
 
     val defaultValue = toDefaultValue(declaredType, obj)
@@ -136,16 +137,11 @@ class BasicPHPGenerator extends BasicGenerator {
       case "array" => {
         val inner = {
           obj.items match {
-            case Some(items) => {
-              if(items.ref != null) 
-                items.ref
-              else
-                items.`type`
-            }
+            case Some(items) => items.ref.getOrElse(items.`type`)
             case _ => throw new Exception("no inner type defined")
           }
         }
-        declaredType += "[" + inner + "]"
+        declaredType += "[" + toDeclaredType(inner) + "]"
         "array"
       }
       case _ =>

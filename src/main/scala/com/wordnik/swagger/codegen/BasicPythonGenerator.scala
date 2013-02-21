@@ -97,15 +97,13 @@ class BasicPythonGenerator extends BasicGenerator {
     }
   }
   override def typeMapping = Map(
-    "String" -> "str",
-    "Int" -> "int",
-    "Float" -> "float",
-    "Long" -> "long",
-    "Double" -> "float",
+    "float" -> "float",
+    "long" -> "long",
+    "double" -> "float",
     "Array" -> "list",
-    "Boolean" -> "bool",
-    "Date" -> "datetime",
-    "string" -> "str"
+    "boolean" -> "bool",
+    "string" -> "str",
+    "Date" -> "datetime"
   )
 
   override def toDeclaredType(dt: String): String = {

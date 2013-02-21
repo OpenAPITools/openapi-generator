@@ -794,6 +794,39 @@
           "notes":"The metadata includes a time-expiring fileUrl which allows reading the audio file directly from the API.  Currently only audio pronunciations from the American Heritage Dictionary in mp3 format are supported."
         }
       ]
+    },
+    {
+      "path": "/word.{format}/{word}/scrabbleScore",
+      "description": "",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "name": "word",
+              "description": "Word to get scrabble score for.",
+              "required": true,
+              "dataType": "string",
+              "allowMultiple": false,
+              "paramType": "path"
+            }
+          ],
+          "summary": "Returns the Scrabble score for a word",
+          "httpMethod": "GET",
+          "responseTypeInternal": "com.wordnik.system.model.ScrabbleScoreResult",
+          "errorResponses": [
+            {
+              "reason": "Invalid word supplied.",
+              "code": 400
+            },
+            {
+              "reason": "No scrabble score found.",
+              "code": 404
+            }
+          ],
+          "nickname": "getScrabbleScore",
+          "responseClass": "ScrabbleScoreResult"
+        }
+      ]
     }
   ],
   "apiVersion":"4.0",
@@ -1309,6 +1342,15 @@
         }
       },
       "id":"TextPron"
+    },
+    "ScrabbleScoreResult":{
+      "properties":{
+        "value":{
+          "type":"int"
+        }
+      },
+      "id":"ScrabbleScoreResult"
     }
+
   }
 }
