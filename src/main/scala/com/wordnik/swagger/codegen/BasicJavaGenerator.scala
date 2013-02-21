@@ -111,7 +111,6 @@ class BasicJavaGenerator extends BasicGenerator {
           "List" + dt.substring(n).replaceAll("\\[", "<").replaceAll("\\]", ">")
         else dt.replaceAll("\\[", "<").replaceAll("\\]", ">")
       }
-      case _ => dt
     }
     typeMapping.getOrElse(declaredType, declaredType)
   }

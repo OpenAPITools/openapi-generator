@@ -147,7 +147,6 @@ class BasicObjcGenerator extends BasicGenerator {
     val declaredType = dt.indexOf("[") match {
       case -1 => dt
       case n: Int => "NSArray"
-      case _ => dt
     }
     val t = typeMapping.getOrElse(declaredType, declaredType)
 

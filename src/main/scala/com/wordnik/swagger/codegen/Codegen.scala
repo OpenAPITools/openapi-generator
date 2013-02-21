@@ -562,7 +562,6 @@ class Codegen(config: CodegenConfig) {
             true
           } else false
         }
-        case _ => false
       }
   }
 }

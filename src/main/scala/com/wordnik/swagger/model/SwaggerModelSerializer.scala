@@ -219,7 +219,7 @@ object SwaggerSerializers {
       implicit val fmts: Formats = formats
       Parameter(
         (json \ "name").extractOrElse({
-          !!(json, OPERATION_PARAM, "reason", "missing parameter name", ERROR)
+          !!(json, OPERATION_PARAM, "reason", "missing parameter name", WARNING)
           ""
         }),
         (json \ "description").extractOrElse({

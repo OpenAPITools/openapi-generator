@@ -47,7 +47,7 @@ object ApiExtractor extends RemoteUrl {
               println("WARNING!  Unable to read API " + basePath + api.path)
               None
             }
-            case _ => None
+            case _ : Throwable=> None
           }
         }).flatten.toList
   }

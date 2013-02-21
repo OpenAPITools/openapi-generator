@@ -72,7 +72,10 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         SwaggerSerializers.validationMessages.foreach(msg => {
           println(msg)
         })
-        exit(0)
+        Option(System.getProperty("skipErrors")) match {
+          case Some(str) => println("**** ignoring errors and continuing")
+          case None => sys.exit(0)
+        }
       }
       case 0 =>
     }

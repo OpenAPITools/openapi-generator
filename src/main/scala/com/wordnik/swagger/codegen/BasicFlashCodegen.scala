@@ -102,7 +102,6 @@ abstract class BasicFlashCodegen extends BasicGenerator {
           "Array"
         } else dt
       }
-      case _ => dt
     }
     typeMapping.getOrElse(declaredType, declaredType)
   }
