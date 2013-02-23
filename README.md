@@ -19,7 +19,7 @@ You also need to add the scala binary to your PATH.
 After cloning the project, you need to build it from source with this command:
 
 ```
-mvn package
+./sbt assembly
 ```
 
 ### To generate a sample client library
@@ -139,17 +139,24 @@ To validate an api and write output to ./swagger-errors.html:
 ./bin/validate.sh http://petstore.swagger.wordnik.com/api/resources.json "" ./swagger-errors.html
 ```
 
-### To build the codegen library
-
-This will create the swagger-codegen library from source.  
+### Generating static api documentation
+If you need to make static pages or don't want the sandbox of the swagger-ui, you can use the codegen to build them.  Remember, the engine is just using mustache templates--the output format is your call.
 
 ```
-mvn package
+./bin/static-docs.sh
 ```
 
-Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to
-either repackage the library OR modify your codegen script to use a file path!
+Will produce the output here:
 
+```
+https://github.com/wordnik/swagger-codegen/tree/master/samples/docs/sd
+```
+
+which is based on these templates:
+
+```
+https://github.com/wordnik/swagger-codegen/tree/master/src/main/resources/swagger-static
+```
 
 ### To build a server stub
 
@@ -160,6 +167,17 @@ You can also use the codegen to generate a server for a couple different framewo
 * [ruby sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/sinatra)
 
 * [scala scalatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
+
+### To build the codegen library
+
+This will create the swagger-codegen library from source.  
+
+```
+./sbt assembly
+```
+
+Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to
+either repackage the library OR modify your codegen script to use a file path!
 
 License
 -------
