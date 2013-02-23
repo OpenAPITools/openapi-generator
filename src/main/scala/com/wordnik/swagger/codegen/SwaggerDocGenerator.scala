@@ -23,8 +23,8 @@ object SwaggerDocGenerator extends BasicGenerator {
 
   override def templateDir = "src/main/resources/swagger-static"
 
-  val outputFolder = "swaggerdoc"
-    
+  val outputFolder = "samples/docs/swagger-static-docs"
+
   // where to write generated code
   override def destinationDir = outputFolder + "/sd"
 
