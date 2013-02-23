@@ -215,7 +215,7 @@
       "id":"User",
       "properties":{
         "id":{
-          "type":"Long"
+          "type":"long"
         },
         "lastName":{
           "type":"string"
