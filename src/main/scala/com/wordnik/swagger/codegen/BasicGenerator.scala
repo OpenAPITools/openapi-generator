@@ -22,6 +22,7 @@ import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.spec.SwaggerSpecValidator
 import com.wordnik.swagger.model._
 import com.wordnik.swagger.model.SwaggerSerializers
+import com.wordnik.swagger.codegen.spec.ValidationMessage
 
 import java.io.{ File, FileWriter }
 
@@ -66,7 +67,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       throw new Exception("No APIs specified by resource")
     val apis = ApiExtractor.fetchApiListings(basePath, apiReferences, apiKey)
 
-    SwaggerSerializers.validationMessages.size match {
+    SwaggerSerializers.validationMessages.filter(_.level == ValidationMessage.ERROR).size match {
       case i: Int if i > 0 => {
         println("********* Failed to read swagger json!")
         SwaggerSerializers.validationMessages.foreach(msg => {
