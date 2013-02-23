@@ -29,7 +29,6 @@ libraryDependencies <+= scalaVersion {
     "org.fusesource.scalate" %% "scalate-wikitext" % "1.6.1"
 }
 
-
 libraryDependencies <+= scalaVersion {
   case v if v.startsWith("2.9") => 
     "org.fusesource.scalate" % "scalate-page_2.9" % "1.6.1"
@@ -62,7 +61,9 @@ publishTo <<= (version) { version: String =>
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
-homepage := Some(new URL("https://github.com/json4s/json4s"))
+homepage := Some(new URL("https://github.com/wordnik/swagger-codegen"))
+
+parallelExecution in Test := false
 
 startYear := Some(2009)
 
