@@ -481,7 +481,7 @@ class Codegen(config: CodegenConfig) {
 
       modelList += HashMap(
         "modelName" -> m._1,
-        "model" -> m._2,
+        "model" -> modelToMap(m._1, m._2),
         "filename" -> config.toModelFilename(m._1),
         "modelJson" -> json,
         "hasMore" -> "true")
