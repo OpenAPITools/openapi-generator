@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-responsive.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+  <title>REST API v1.1 Resources | Twitter Developers</title>
+</head>
+<body>
+  <div class="header">
+		<div class="top-bar">
+      <h1 id="logo"><a class="logo" href="/"><span>Swagger</span><span class="light">API Docs</span></a></h1>
+	  </div>
+	</div>
+
+  <div class="main_content">
+	  <h1></h1>
+	  <a name="createUsersWithArrayInput"></a>
+	  <h2>createUsersWithArrayInput</h2>
+	  <h3>POST: /user.{format}/createWithArray</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <tr>
+	      <td>body<br/>required</td>
+	      <td>body</td>
+	      <td>Array[User]*</td>
+	      <td>-</td>
+	      <td>List of user object<br/><div id="UserApi_createUsersWithArrayInput" class="operation expandable"></div></td>
+	    </tr>
+	    <!-- path params -->
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="createUser"></a>
+	  <h2>createUser</h2>
+	  <h3>POST: /user.{format}</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <tr>
+	      <td>body<br/>required</td>
+	      <td>body</td>
+	      <td>User*</td>
+	      <td>-</td>
+	      <td>Created user object<br/><div id="UserApi_createUser" class="operation expandable">This can only be done by the logged in user.</div></td>
+	    </tr>
+	    <!-- path params -->
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="createUsersWithListInput"></a>
+	  <h2>createUsersWithListInput</h2>
+	  <h3>POST: /user.{format}/createWithList</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <tr>
+	      <td>body<br/>required</td>
+	      <td>body</td>
+	      <td>List[User]*</td>
+	      <td>-</td>
+	      <td>List of user object<br/><div id="UserApi_createUsersWithListInput" class="operation expandable"></div></td>
+	    </tr>
+	    <!-- path params -->
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="updateUser"></a>
+	  <h2>updateUser</h2>
+	  <h3>PUT: /user.{format}/{username}</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <tr>
+	      <td>body<br/>required</td>
+	      <td>body</td>
+	      <td>User*</td>
+	      <td>-</td>
+	      <td>Updated user object<br/><div id="UserApi_updateUser" class="operation expandable">This can only be done by the logged in user.</div></td>
+	    </tr>
+	    <!-- path params -->
+	    <tr>
+	      <td>username<br/>required</td>
+	      <td>path</td>
+	      <td>string*</td>
+	      <td>-</td>
+	      <td>name that need to be deleted<br/><div id="UserApi_updateUser" class="operation expandable">This can only be done by the logged in user.</div></td>
+	    </tr>
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="deleteUser"></a>
+	  <h2>deleteUser</h2>
+	  <h3>DELETE: /user.{format}/{username}</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <!-- path params -->
+	    <tr>
+	      <td>username<br/>required</td>
+	      <td>path</td>
+	      <td>string*</td>
+	      <td>-</td>
+	      <td>The name that needs to be deleted<br/><div id="UserApi_deleteUser" class="operation expandable">This can only be done by the logged in user.</div></td>
+	    </tr>
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="getUserByName"></a>
+	  <h2>getUserByName</h2>
+	  <h3>GET: /user.{format}/{username}</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <!-- path params -->
+	    <tr>
+	      <td>username<br/>required</td>
+	      <td>path</td>
+	      <td>string*</td>
+	      <td>User</td>
+	      <td>The name that needs to be fetched. Use user1 for testing.<br/><div id="UserApi_getUserByName" class="operation expandable"></div></td>
+	    </tr>
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="loginUser"></a>
+	  <h2>loginUser</h2>
+	  <h3>GET: /user.{format}/login</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <!-- path params -->
+	    <!-- query params -->
+	    <tr>
+	      <td>username<br/>required</td>
+	      <td>query</td>
+	      <td>string*</td>
+	      <td>string</td>
+	      <td>The user name for login<br/><div id="UserApi_loginUser" class="operation expandable"></div></td>
+	    </tr>
+	    <tr>
+	      <td>password<br/>required</td>
+	      <td>query</td>
+	      <td>string*</td>
+	      <td>string</td>
+	      <td>The password for login in clear text<br/><div id="UserApi_loginUser" class="operation expandable"></div></td>
+	    </tr>
+	    <!-- header params -->
+	    </table>
+	  <a name="logoutUser"></a>
+	  <h2>logoutUser</h2>
+	  <h3>GET: /user.{format}/logout</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <!-- path params -->
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  </div>
+</body>
+</html>

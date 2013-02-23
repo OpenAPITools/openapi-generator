@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-responsive.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+  <title>REST API v1.1 Resources | Twitter Developers</title>
+</head>
+<body>
+  <div class="header">
+    <div class="top-bar">
+      <h1 id="logo"><a class="logo" href="/"><span>Swagger</span><span class="light">API Docs</span></a></h1>
+    </div>
+  </div>
+  <div class="main_content">
+    <h1>API Documentation</h1>
+    <h2>StoreApi</h2>
+    <table>
+      <tr>
+        <th class="column_header_name">Name</th>
+        <th class="column_header_path">Resource</th>
+        <th class="column_header_notes">Notes</th>
+      </tr>
+      <tr>
+        <td><a href="operations/StoreApi.html#getOrderById">getOrderById</a></td>
+        <td>/store.{format}/order/{orderId}</td>
+        <td>Find purchase order by ID<div id="StoreApi_getOrderById" class="operation expandable">For valid response try integer IDs with value &lt;= 5. Anything above 5 or nonintegers will generate API errors</div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/StoreApi.html#deleteOrder">deleteOrder</a></td>
+        <td>/store.{format}/order/{orderId}</td>
+        <td>Delete purchase order by ID<div id="StoreApi_deleteOrder" class="operation expandable">For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors</div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/StoreApi.html#placeOrder">placeOrder</a></td>
+        <td>/store.{format}/order</td>
+        <td>Place an order for a pet<div id="StoreApi_placeOrder" class="operation expandable"></div></td>
+      </tr>
+      </table>
+    <h2>PetApi</h2>
+    <table>
+      <tr>
+        <th class="column_header_name">Name</th>
+        <th class="column_header_path">Resource</th>
+        <th class="column_header_notes">Notes</th>
+      </tr>
+      <tr>
+        <td><a href="operations/PetApi.html#getPetById">getPetById</a></td>
+        <td>/pet.{format}/{petId}</td>
+        <td>Find pet by ID<div id="PetApi_getPetById" class="operation expandable">Returns a pet based on ID</div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/PetApi.html#addPet">addPet</a></td>
+        <td>/pet.{format}</td>
+        <td>Add a new pet to the store<div id="PetApi_addPet" class="operation expandable"></div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/PetApi.html#updatePet">updatePet</a></td>
+        <td>/pet.{format}</td>
+        <td>Update an existing pet<div id="PetApi_updatePet" class="operation expandable"></div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/PetApi.html#findPetsByStatus">findPetsByStatus</a></td>
+        <td>/pet.{format}/findByStatus</td>
+        <td>Finds Pets by status<div id="PetApi_findPetsByStatus" class="operation expandable">Multiple status values can be provided with comma seperated strings</div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/PetApi.html#findPetsByTags">findPetsByTags</a></td>
+        <td>/pet.{format}/findByTags</td>
+        <td>Finds Pets by tags<div id="PetApi_findPetsByTags" class="operation expandable">Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.</div></td>
+      </tr>
+      </table>
+    <h2>UserApi</h2>
+    <table>
+      <tr>
+        <th class="column_header_name">Name</th>
+        <th class="column_header_path">Resource</th>
+        <th class="column_header_notes">Notes</th>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#createUsersWithArrayInput">createUsersWithArrayInput</a></td>
+        <td>/user.{format}/createWithArray</td>
+        <td>Creates list of users with given input array<div id="UserApi_createUsersWithArrayInput" class="operation expandable"></div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#createUser">createUser</a></td>
+        <td>/user.{format}</td>
+        <td>Create user<div id="UserApi_createUser" class="operation expandable">This can only be done by the logged in user.</div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#createUsersWithListInput">createUsersWithListInput</a></td>
+        <td>/user.{format}/createWithList</td>
+        <td>Creates list of users with given list input<div id="UserApi_createUsersWithListInput" class="operation expandable"></div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#updateUser">updateUser</a></td>
+        <td>/user.{format}/{username}</td>
+        <td>Updated user<div id="UserApi_updateUser" class="operation expandable">This can only be done by the logged in user.</div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#deleteUser">deleteUser</a></td>
+        <td>/user.{format}/{username}</td>
+        <td>Delete user<div id="UserApi_deleteUser" class="operation expandable">This can only be done by the logged in user.</div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#getUserByName">getUserByName</a></td>
+        <td>/user.{format}/{username}</td>
+        <td>Get user by user name<div id="UserApi_getUserByName" class="operation expandable"></div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#loginUser">loginUser</a></td>
+        <td>/user.{format}/login</td>
+        <td>Logs user into the system<div id="UserApi_loginUser" class="operation expandable"></div></td>
+      </tr>
+      <tr>
+        <td><a href="operations/UserApi.html#logoutUser">logoutUser</a></td>
+        <td>/user.{format}/logout</td>
+        <td>Logs out current logged in user session<div id="UserApi_logoutUser" class="operation expandable"></div></td>
+      </tr>
+      </table>
+    </div>
+</body>
+</html>

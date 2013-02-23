@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-responsive.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+  <title>REST API v1.1 Resources | Twitter Developers</title>
+</head>
+<body>
+  <div class="header">
+		<div class="top-bar">
+      <h1 id="logo"><a class="logo" href="/"><span>Swagger</span><span class="light">API Docs</span></a></h1>
+	  </div>
+	</div>
+
+  <div class="main_content">
+	  <h1></h1>
+	  <a name="getOrderById"></a>
+	  <h2>getOrderById</h2>
+	  <h3>GET: /store.{format}/order/{orderId}</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <!-- path params -->
+	    <tr>
+	      <td>orderId<br/>required</td>
+	      <td>path</td>
+	      <td>string*</td>
+	      <td>Order</td>
+	      <td>ID of pet that needs to be fetched<br/><div id="StoreApi_getOrderById" class="operation expandable">For valid response try integer IDs with value &lt;= 5. Anything above 5 or nonintegers will generate API errors</div></td>
+	    </tr>
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="deleteOrder"></a>
+	  <h2>deleteOrder</h2>
+	  <h3>DELETE: /store.{format}/order/{orderId}</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <!-- path params -->
+	    <tr>
+	      <td>orderId<br/>required</td>
+	      <td>path</td>
+	      <td>string*</td>
+	      <td>-</td>
+	      <td>ID of the order that needs to be deleted<br/><div id="StoreApi_deleteOrder" class="operation expandable">For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors</div></td>
+	    </tr>
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  <a name="placeOrder"></a>
+	  <h2>placeOrder</h2>
+	  <h3>POST: /store.{format}/order</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    <tr>
+	      <td>body<br/>required</td>
+	      <td>body</td>
+	      <td>Order*</td>
+	      <td>-</td>
+	      <td>order placed for purchasing the pet<br/><div id="StoreApi_placeOrder" class="operation expandable"></div></td>
+	    </tr>
+	    <!-- path params -->
+	    <!-- query params -->
+	    <!-- header params -->
+	    </table>
+	  </div>
+</body>
+</html>
