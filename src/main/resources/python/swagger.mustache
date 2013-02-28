@@ -164,6 +164,8 @@ class ApiClient:
                         value = attrType(value)
                     except UnicodeEncodeError:
                         value = unicode(value)
+                    except TypeError:
+                        value = value
                     setattr(instance, attr, value)
                 elif (attrType == 'datetime'):
                     setattr(instance, attr, datetime.datetime.strptime(value[:-5],
