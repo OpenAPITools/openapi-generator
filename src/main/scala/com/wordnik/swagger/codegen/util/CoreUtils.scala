@@ -118,40 +118,47 @@ object CoreUtils {
 
     val subNames = new HashSet[String]
     // look inside top-level models
-    requiredModels.map(model => {
-      model._2.properties.foreach(prop => {
-        val subObject = prop._2
-        if (containers.contains(subObject.`type`)) {
-          subObject.items match {
-            case Some(subItem) => {
-              val sn = subItem.ref.getOrElse(subItem.`type`)
-              if(sn != null)
-                subNames += sn
-            }
-            case _ =>
-          }
-        } else subNames += subObject.`type`
-      })
-    })
-    
-    // look inside submodels
-    modelObjects.filter(obj => subNames.contains(obj._1)).foreach(model => {
-      model._2.properties.foreach(prop => {
-        val subObject = prop._2
-        if (containers.contains(subObject.`type`)) {
-          subObject.items match {
-            case Some(subItem) => {
-              val sn = subItem.ref.getOrElse(subItem.`type`)
-              if(sn != null)
-                subNames += sn
-            }
-            case _ =>
-          }
-        } else subNames += subObject.`type`
-      })
-    })
+    recurseModels(requiredModels.toMap, modelObjects.toMap, subNames)
+
     val subModels = modelObjects.filter(obj => subNames.contains(obj._1))
     val allModels = requiredModels ++ subModels
     allModels.filter(m => primitives.contains(m._1) == false).toMap
+  }
+
+  def recurseModels(requiredModels: Map[String, Model], allModels: Map[String, Model], subNames: HashSet[String]) = {
+    requiredModels.map(m => recurseModel(m._2, allModels, subNames))
+  }
+
+  def recurseModel(model: Model, allModels: Map[String, Model], subNames: HashSet[String]): Unit = {
+    model.properties.foreach(prop => {
+      val subObject = prop._2
+      val propertyName = containers.contains(subObject.`type`) match {
+        case true => subObject.items match {
+          case Some(subItem) => {
+            Option(subItem.ref.getOrElse(subItem.`type`)) match {
+              case Some(sn) => Some(sn)
+              case _ => None
+            }
+          }
+          case _ => None
+        }
+        case false => Some(subObject.`type`)
+      }
+      propertyName match {
+        case Some(property) => subNames.contains(property) match {
+          case false => {
+            allModels.containsKey(property) match {
+              case true => {
+                recurseModel(allModels(property), allModels, subNames)
+              }
+              case false =>
+            }
+            subNames += property
+          }
+          case true =>
+        }
+        case None =>
+      }
+    })
   }
 }
