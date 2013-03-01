@@ -43,17 +43,22 @@ class CoreUtilsTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "find required models" in {
-  	val apis = CoreUtilsTest.sampleApis
-
+  	val apis = CoreUtilsTest.sampleApis1
   	val models = CoreUtils.extractApiModels(apis.head)
   	models.size should be (5)
+  }
+
+  it should "find required models from a nested list" in {
+    val apis = CoreUtilsTest.sampleApis2
+    val models = CoreUtils.extractApiModels(apis.head)
+    models.size should be (5)
   }
 }
 
 object CoreUtilsTest {
   implicit val formats = SwaggerSerializers.formats
 
-	def sampleApis = {
+	def sampleApis1 = {
 		parse("""
 [
   {
@@ -86,6 +91,20 @@ object CoreUtilsTest {
       }
     ],
     "models": {
+      "MysteryList": {
+        "id": "MysteryList",
+        "properties": {
+          "id": {
+            "type": "long"
+          },
+          "mysteries": {
+            "items":{
+              "$ref":"Mystery1"
+            },
+            "type":"Array"
+          }
+        }
+      },
       "DeepMystery": {
         "id": "DeepMystery",
         "properties": {
@@ -146,4 +165,101 @@ object CoreUtilsTest {
 ]
 				""").extract[List[ApiListing]]
 	}
+
+  def sampleApis2 = {
+    parse("""
+[
+  {
+    "apiVersion": "0.2",
+    "swaggerVersion": "1.1",
+    "basePath": "http://api.helloreverb.com/api",
+    "resourcePath": "/mysteries",
+    "apis": [
+      {
+        "path": "/mysteries.{format}/{petId}",
+        "description": "As the name suggests",
+        "operations": [
+          {
+            "httpMethod": "GET",
+            "summary": "You find amazing htings here",
+            "responseClass": "MysteryList",
+            "nickname": "getMysteryById",
+            "parameters": [
+              {
+                "name": "id",
+                "description": "ID of mystery",
+                "paramType": "path",
+                "required": true,
+                "allowMultiple": false,
+                "dataType": "string"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "models": {
+      "MysteryList": {
+        "id": "MysteryList",
+        "properties": {
+          "id": {
+            "type": "long"
+          },
+          "mystery1": {
+            "type":"Mystery1"
+          }
+        }
+      },
+      "Mystery1": {
+        "id": "Mystery1",
+        "properties": {
+          "mystery2": {
+            "type": "Mystery2"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Mystery2": {
+        "id": "Mystery2",
+        "properties": {
+          "mystery3List": {
+            "items": {
+              "$ref": "Mystery3"
+            },
+            "type": "List"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Mystery3": {
+        "id": "Mystery3",
+        "properties": {
+          "mystery4": {
+            "type": "Mystery4"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Mystery4": {
+        "id": "Mystery4",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+]
+        """).extract[List[ApiListing]]
+  }
 }
