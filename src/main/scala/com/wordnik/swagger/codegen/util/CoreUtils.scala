@@ -25,7 +25,7 @@ import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 import scala.io.Source
 
 object CoreUtils {
-  def extractAllModels2(apis: List[ApiListing]): Map[String, Model] = {
+  def extractAllModels(apis: List[ApiListing]): Map[String, Model] = {
     val modelObjects = new HashMap[String, Model]
     apis.foreach(api => {
       for ((nm, model) <- extractApiModels(api)) modelObjects += nm -> model

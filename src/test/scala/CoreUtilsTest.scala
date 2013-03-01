@@ -23,7 +23,7 @@ class CoreUtilsTest extends FlatSpec with ShouldMatchers {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
     val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
 
-    val cu = CoreUtils.extractAllModels2(apis)
+    val cu = CoreUtils.extractAllModels(apis)
     cu.size should be (5)
 
     (cu.keys.toSet & Set("User", "Tag", "Pet", "Category", "Order")).size should be (5)
