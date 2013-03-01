@@ -59,7 +59,6 @@ class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
     """
     parse(jsonString).extract[ResourceListing] match {
       case e: ResourceListing => {
-        println(e)
         e.apis.size should be (2)
       }
       case _ => fail("didn't parse the underlying apis")

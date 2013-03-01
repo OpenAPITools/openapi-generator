@@ -55,14 +55,14 @@ class BasicJavaGenerator extends BasicGenerator {
   // location of templates
   override def templateDir = "Java"
 
+  // where to write generated code
+  override def destinationDir = "generated-code/java/src/main/java"
+
   // template used for models
   modelTemplateFiles += "model.mustache" -> ".java"
 
   // template used for models
   apiTemplateFiles += "api.mustache" -> ".java"
-
-  // where to write generated code
-  override def destinationDir = "src/test/java"
 
   override def reservedWords = Set("abstract", "continue", "for", "new", "switch", "assert", 
       "default", "if", "package", "synchronized", "boolean", "do", "goto", "private", 
@@ -168,4 +168,12 @@ class BasicJavaGenerator extends BasicGenerator {
       throw new Exception("reserved word " + "\"" + word + "\" not allowed")
     else word
   }
+
+  // supporting classes
+  // supporting classes
+  override def supportingFiles =
+    List(
+      ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replaceAll("\\.", java.io.File.separator) + java.io.File.separator, "ApiInvoker.java"),
+      ("apiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replaceAll("\\.", java.io.File.separator) + java.io.File.separator, "ApiException.java"),
+      ("pom.mustache", "generated-code/java", "pom.xml"))
 }
