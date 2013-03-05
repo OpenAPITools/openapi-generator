@@ -44,12 +44,7 @@ class ApiClient:
 
         data = None
 
-        if method in ['GET']:
-
-            #Options to add statements later on and for compatibility
-            pass
-
-        elif queryParams:
+        if queryParams:
             # Need to remove None values, these should not be sent
             sentQueryParams = {}
             for param, value in queryParams.items():
@@ -57,7 +52,12 @@ class ApiClient:
                     sentQueryParams[param] = value
             url = url + '?' + urllib.urlencode(sentQueryParams)
 
-        if method in ['POST', 'PUT', 'DELETE']:
+        if method in ['GET']:
+
+            #Options to add statements later on and for compatibility
+            pass
+
+        elif method in ['POST', 'PUT', 'DELETE']:
 
             if postData:
                 headers['Content-type'] = 'application/json'
