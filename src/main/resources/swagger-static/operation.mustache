@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-responsive.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+  <title>REST API v1.1 Resources | Twitter Developers</title>
+</head>
+<body>
+  <div class="header">
+		<div class="top-bar">
+      <h1 id="logo"><a class="logo" href="/"><span>Swagger</span><span class="light">API Docs</span></a></h1>
+	  </div>
+	</div>
+
+  <div class="main_content">
+	  <h1>{{classname}}</h1>
+	  {{#operations}}
+	  {{#operation}}
+	  <a name="{{nickname}}"></a>
+	  <h2>{{nickname}}</h2>
+	  <h3>{{httpMethod}}: {{path}}</h3>
+	  <table>
+	    <tr>
+	      <th class="column_header_name">parameter</th>
+	      <th class="column_header_param_type">param type</th>
+	      <th class="column_header_data_type">data type</th>
+	      <th class="column_header_return_type">response type</th>
+	      <th class="column_header_notes">Description</th>
+	    </tr>
+	    <!-- body params -->
+	    {{#bodyParams}}
+	    <tr>
+	      <td>{{paramName}}<br/>{{#required}}required{{/required}}{{^required}}optional{{/required}}</td>
+	      <td>body</td>
+	      <td>{{swaggerDataType}}{{#allowMultiple}}*{{/allowMultiple}}</td>
+	      <td>{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}-{{/returnType}}</td>
+	      <td>{{description}}{{#notes}}<br/><div id="{{className}}_{{nickname}}" class="operation expandable">{{notes}}</div>{{/notes}}</td>
+	    </tr>
+	    {{/bodyParams}}
+
+	    <!-- path params -->
+	    {{#pathParams}}
+	    <tr>
+	      <td>{{paramName}}<br/>{{#required}}required{{/required}}{{^required}}optional{{/required}}</td>
+	      <td>path</td>
+	      <td>{{swaggerDataType}}{{#allowMultiple}}*{{/allowMultiple}}</td>
+	      <td>{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}-{{/returnType}}</td>
+	      <td>{{description}}{{#notes}}<br/><div id="{{className}}_{{nickname}}" class="operation expandable">{{notes}}</div>{{/notes}}</td>
+	    </tr>
+	    {{/pathParams}}
+
+	    <!-- query params -->
+	    {{#queryParams}}
+	    <tr>
+	      <td>{{paramName}}<br/>{{#required}}required{{/required}}{{^required}}optional{{/required}}</td>
+	      <td>query</td>
+	      <td>{{swaggerDataType}}{{#allowMultiple}}*{{/allowMultiple}}</td>
+	      <td>{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}-{{/returnType}}</td>
+	      <td>{{description}}{{#notes}}<br/><div id="{{className}}_{{nickname}}" class="operation expandable">{{notes}}</div>{{/notes}}</td>
+	    </tr>
+	    {{/queryParams}}
+
+	    <!-- header params -->
+	    {{#headerParams}}
+	    <tr>
+	      <td>{{paramName}}<br/>{{#required}}required{{/required}}{{^required}}optional{{/required}}</td>
+	      <td>header</td>
+	      <td>{{swaggerDataType}}{{#allowMultiple}}*{{/allowMultiple}}</td>
+	      <td>{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}-{{/returnType}}</td>
+	      <td>{{description}}{{#notes}}<br/><div id="{{className}}_{{nickname}}" class="operation expandable">{{notes}}</div>{{/notes}}</td>
+	    </tr>
+	    {{/headerParams}}
+	  </table>
+	  {{/operation}}
+	  {{/operations}}
+	</div>
+</body>
+</html>
