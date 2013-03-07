@@ -98,7 +98,7 @@ class ApiClient:
     def sanitizeForSerialization(self, obj):
         """Dump an object into JSON for POSTing."""
 
-        if not obj:
+        if type(obj) == type(None):
             return None
         elif type(obj) in [str, int, long, float, bool]:
             return obj
