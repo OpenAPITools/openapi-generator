@@ -233,7 +233,6 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     m("returnBaseType") should be (Some("Pet"))
 
     // problem here
-    println("the operation has response class " + operation.responseClass)
     m("returnType") should be (Some("List[Pet]"))
     m("returnTypeIsPrimitive") should be (None)
     m("pathParams").asInstanceOf[List[_]].size should be (0)

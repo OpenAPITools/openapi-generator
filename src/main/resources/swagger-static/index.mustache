@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-responsive.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+  <title>REST API v1.1 Resources | Twitter Developers</title>
+</head>
+<body>
+  <div class="header">
+    <div class="top-bar">
+      <h1 id="logo"><a class="logo" href="/"><span>Swagger</span><span class="light">API Docs</span></a></h1>
+    </div>
+  </div>
+  <div class="main_content">
+    <h1>API Documentation</h1>
+    {{#apis}}
+    <h2>{{className}}</h2>
+    <table>
+      <tr>
+        <th class="column_header_name">Name</th>
+        <th class="column_header_path">Resource</th>
+        <th class="column_header_notes">Notes</th>
+      </tr>
+      {{#operations}}
+      {{#operation}}
+      <tr>
+        <td><a href="operations/{{{className}}}.html#{{{nickname}}}">{{{nickname}}}</a></td>
+        <td>{{path}}</td>
+        <td>{{{summary}}}{{#notes}}<div id="{{className}}_{{nickname}}" class="operation expandable">{{notes}}</div>{{/notes}}</td>
+      </tr>
+      {{/operation}}
+      {{/operations}}
+    </table>
+    {{/apis}}
+  </div>
+</body>
+</html>

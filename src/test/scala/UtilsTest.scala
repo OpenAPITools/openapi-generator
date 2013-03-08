@@ -62,33 +62,3 @@ class ApiExtractorTest extends FlatSpec with ShouldMatchers {
     getOrderById.errorResponses.size should be (2)
   }
 }
-
-@RunWith(classOf[JUnitRunner])
-class CoreUtilsTest extends FlatSpec with ShouldMatchers {
-  sys.props += "fileMap" -> "src/test/resources/petstore"
-
-  behavior of "CoreUtils"
-
-  it should "verify models are extracted" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
-
-    val cu = CoreUtils.extractAllModels2(apis)
-    cu.size should be (5)
-
-    (cu.keys.toSet & Set("User", "Tag", "Pet", "Category", "Order")).size should be (5)
-  }
-
-  it should "verify operation names" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
-
-    val petApi = apis.filter(api => api.resourcePath == "/pet").head
-    val eps = petApi.apis.map(api => (api.path, api)).toMap
-    val ops = eps("/pet.{format}").operations.map(ep => (ep.nickname, ep)).toMap
-
-    ops.size should be (2)
-
-    (ops.keys.toSet & Set("addPet", "updatePet")).size should be (2)
-  }
-}

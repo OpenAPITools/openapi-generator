@@ -25,11 +25,11 @@ import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 import scala.io.Source
 
 object CoreUtils {
-  def extractAllModels2(apis: List[ApiListing]): Map[String, Model] = {
+  def extractAllModels(apis: List[ApiListing]): Map[String, Model] = {
     val modelObjects = new HashMap[String, Model]
     apis.foreach(api => {
       for ((nm, model) <- extractApiModels(api)) modelObjects += nm -> model
-      if (api.models != null) api.models.foreach(model => modelObjects += model._1 -> model._2)
+      api.models.foreach(model => modelObjects += model._1 -> model._2)
     })
     modelObjects.toMap
   }
@@ -38,47 +38,11 @@ object CoreUtils {
     val modelNames = new HashSet[String]
     modelNames += op.responseClass
     // POST, PUT, DELETE body
-    if (op.parameters != null) {
-      op.parameters.filter(p => p.paramType == "body")
-        .foreach(p => modelNames += p.dataType)
-    }
+    op.parameters.filter(p => p.paramType == "body")
+      .foreach(p => modelNames += p.dataType)
     val baseNames = (for (modelName <- (modelNames.toList))
       yield (extractBasePartFromType(modelName))).toSet
     baseNames.toSet
-  }
-
-  def extractModelNames2(modelObjects: Map[String, Model], ep: Operation): Set[String] = {
-    val modelNames = new HashSet[String]
-
-    modelNames += ep.responseClass
-    // POST, PUT, DELETE body
-    if (ep.parameters != null)
-      ep.parameters.filter(p => p.paramType == "body")
-        .foreach(p => modelNames += p.dataType)
-
-    val baseNames = (for (modelName <- (modelNames.toList))
-      yield (extractBasePartFromType(modelName))).toSet
-
-    // get complex models from base
-    val requiredModels = modelObjects.filter(obj => baseNames.contains(obj._1))
-
-    val subNames = new HashSet[String]
-    // look inside top-level models
-    requiredModels.map(model => {
-      // add top level model
-      subNames += model._1
-      model._2.properties.foreach(prop => {
-        val subObject = prop._2
-        if (containers.contains(subObject.`type`)) {
-          subObject.items match {
-            case Some(item) => subNames += item.ref.getOrElse(item.`type`)
-            case None => 
-          }
-        }
-        else subNames += subObject.`type`
-      })
-    })
-    subNames.toSet
   }
 
   def extractBasePartFromType(datatype: String): String = {
@@ -93,21 +57,16 @@ object CoreUtils {
     val modelNames = new HashSet[String]
     val modelObjects = new HashMap[String, Model]
     // return types
-    if(sd.apis != null){
-      sd.apis.foreach(api => {
-        if (api.operations != null)
-          api.operations.foreach(op => {
-            modelNames += op.responseClass
-            // POST, PUT, DELETE body
-            if(op.parameters != null)
-              op.parameters.filter(p => p.paramType == "body")
-                .foreach(p => modelNames += p.dataType)
-        })
+    sd.apis.foreach(api => 
+      api.operations.foreach(op => {
+        modelNames += op.responseClass
+        // POST, PUT, DELETE body
+        op.parameters.filter(p => p.paramType == "body")
+          .foreach(p => modelNames += p.dataType)
       })
-    }
-    if(sd.models != null)
-      for ((name, m) <- sd.models) 
-        modelObjects += name -> m
+    )
+    for ((name, m) <- sd.models) 
+      modelObjects += name -> m
 
     // extract all base model names, strip away Containers like List[] and primitives
     val baseNames = (for (modelName <- (modelNames.toList filterNot primitives.contains))
@@ -118,40 +77,47 @@ object CoreUtils {
 
     val subNames = new HashSet[String]
     // look inside top-level models
-    requiredModels.map(model => {
-      model._2.properties.foreach(prop => {
-        val subObject = prop._2
-        if (containers.contains(subObject.`type`)) {
-          subObject.items match {
-            case Some(subItem) => {
-              val sn = subItem.ref.getOrElse(subItem.`type`)
-              if(sn != null)
-                subNames += sn
-            }
-            case _ =>
-          }
-        } else subNames += subObject.`type`
-      })
-    })
-    
-    // look inside submodels
-    modelObjects.filter(obj => subNames.contains(obj._1)).foreach(model => {
-      model._2.properties.foreach(prop => {
-        val subObject = prop._2
-        if (containers.contains(subObject.`type`)) {
-          subObject.items match {
-            case Some(subItem) => {
-              val sn = subItem.ref.getOrElse(subItem.`type`)
-              if(sn != null)
-                subNames += sn
-            }
-            case _ =>
-          }
-        } else subNames += subObject.`type`
-      })
-    })
+    recurseModels(requiredModels.toMap, modelObjects.toMap, subNames)
+
     val subModels = modelObjects.filter(obj => subNames.contains(obj._1))
     val allModels = requiredModels ++ subModels
     allModels.filter(m => primitives.contains(m._1) == false).toMap
+  }
+
+  def recurseModels(requiredModels: Map[String, Model], allModels: Map[String, Model], subNames: HashSet[String]) = {
+    requiredModels.map(m => recurseModel(m._2, allModels, subNames))
+  }
+
+  def recurseModel(model: Model, allModels: Map[String, Model], subNames: HashSet[String]): Unit = {
+    model.properties.foreach(prop => {
+      val subObject = prop._2
+      val propertyName = containers.contains(subObject.`type`) match {
+        case true => subObject.items match {
+          case Some(subItem) => {
+            Option(subItem.ref.getOrElse(subItem.`type`)) match {
+              case Some(sn) => Some(sn)
+              case _ => None
+            }
+          }
+          case _ => None
+        }
+        case false => Some(subObject.`type`)
+      }
+      propertyName match {
+        case Some(property) => subNames.contains(property) match {
+          case false => {
+            allModels.containsKey(property) match {
+              case true => {
+                recurseModel(allModels(property), allModels, subNames)
+              }
+              case false =>
+            }
+            subNames += property
+          }
+          case true =>
+        }
+        case None =>
+      }
+    })
   }
 }

@@ -62,7 +62,7 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
   }
 
   def validateResponseModels(subDocs: List[ApiListing]) = {
-    val validModelNames = CoreUtils.extractAllModels2(subDocs).map(m => m._1).toSet
+    val validModelNames = CoreUtils.extractAllModels(subDocs).map(m => m._1).toSet
     val requiredModels = new HashSet[String]
      subDocs.foreach(subDoc => {
        if (subDoc.apis != null) {
