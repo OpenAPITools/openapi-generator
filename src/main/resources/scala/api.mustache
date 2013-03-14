@@ -4,6 +4,9 @@ package {{package}}
 {{/imports}}
 import {{invokerPackage}}.ApiInvoker
 import {{invokerPackage}}.ApiException
+
+import java.io.File
+
 import scala.collection.mutable.HashMap
 
 {{#operations}}
@@ -19,7 +22,16 @@ class {{classname}} {
     val path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escapeString({{paramName}}))
 
     {{/pathParams}}
-    
+
+    {{newline}}
+    val contentType = {
+      {{#bodyParam}}if({{bodyParam}} != null && {{bodyParam}}.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      {{/bodyParam}}
+      {{^bodyParam}}"application/json"{{/bodyParam}}
+    }
+
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
@@ -39,7 +51,7 @@ class {{classname}} {
     {{/headerParams}}
 
     try {
-      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}, headerParams.toMap, contentType) match {
         case s: String =>
           {{#returnType}} Some(ApiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
         {{/returnType}} 
