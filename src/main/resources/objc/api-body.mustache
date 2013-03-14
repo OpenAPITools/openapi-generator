@@ -1,5 +1,6 @@
 {{#operations}}
 #import "{{classname}}.h"
+#import "NIKFile.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 {{newline}}
@@ -48,6 +49,9 @@ static NSString * basePath = @"{{basePath}}";
     {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [_api escapeString:{{paramName}}]];
     {{/pathParams}}
 
+    NSString* contentType = @"application/json";
+
+
         NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     {{#queryParams}}if({{paramName}} != nil)
         queryParams[@"{{baseName}}"] = {{paramName}};
@@ -77,6 +81,10 @@ static NSString * basePath = @"{{basePath}}";
     else if([body isKindOfClass:[NSString class]]) {
         bodyDictionary = body;
     }
+    else if([body isKindOfClass: [NIKFile class]]) {
+        contentType = @"form-data";
+        bodyDictionary = body;
+    }
     else{
         NSLog(@"don't know what to do with %@", body);
     }
@@ -97,6 +105,7 @@ static NSString * basePath = @"{{basePath}}";
          queryParams: queryParams 
                 body: bodyDictionary 
         headerParams: headerParams
+         contentType: contentType
      completionBlock: ^(NSDictionary *data, NSError *error) {
         if (error) {
             {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
@@ -138,6 +147,7 @@ static NSString * basePath = @"{{basePath}}";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);
@@ -153,6 +163,7 @@ static NSString * basePath = @"{{basePath}}";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
@@ -169,6 +180,7 @@ static NSString * basePath = @"{{basePath}}";
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
@@ -201,6 +213,8 @@ static NSString * basePath = @"{{basePath}}";
 
     {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [_api escapeString:{{paramName}}]];
     {{/pathParams}}
+
+    NSString* contentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     {{#queryParams}}if({{paramName}} != nil)
@@ -250,6 +264,7 @@ static NSString * basePath = @"{{basePath}}";
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
