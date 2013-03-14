@@ -45,6 +45,9 @@
 		EA07F54816135916006A2112 /* NIKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F51F1613569A006A2112 /* NIKUser.m */; };
 		EA07F54916135916006A2112 /* NIKUserApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5201613569A006A2112 /* NIKUserApi.h */; };
 		EA07F54A16135916006A2112 /* NIKUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F5211613569A006A2112 /* NIKUserApi.m */; };
+		EA4F4D3816F1A90A00F24B35 /* NIKFile.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4F4D3716F1A90A00F24B35 /* NIKFile.m */; };
+		EA4F4D3916F1A92E00F24B35 /* NIKFile.h in Sources */ = {isa = PBXBuildFile; fileRef = EA4F4D3616F1A90A00F24B35 /* NIKFile.h */; };
+		EA4F4D3A16F1A92E00F24B35 /* NIKFile.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4F4D3716F1A90A00F24B35 /* NIKFile.m */; };
 		EA5A034416141443003B3E41 /* UserApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5A034316141443003B3E41 /* UserApiTest.m */; };
 		EAE96DE616138695004AB97C /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA81837816137FD500341A6E /* PetApiTest.m */; };
 		EAE96DE716138695004AB97C /* PetApiTest.h in Sources */ = {isa = PBXBuildFile; fileRef = EA81837916137FD500341A6E /* PetApiTest.h */; };
@@ -104,6 +107,8 @@
 		EA07F5211613569A006A2112 /* NIKUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKUserApi.m; path = ../client/NIKUserApi.m; sourceTree = "<group>"; };
 		EA07F5301613580E006A2112 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		EA07F53216135819006A2112 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		EA4F4D3616F1A90A00F24B35 /* NIKFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKFile.h; path = ../client/NIKFile.h; sourceTree = "<group>"; };
+		EA4F4D3716F1A90A00F24B35 /* NIKFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKFile.m; path = ../client/NIKFile.m; sourceTree = "<group>"; };
 		EA5A034216141443003B3E41 /* UserApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserApiTest.h; path = ../tests/UserApiTest.h; sourceTree = "<group>"; };
 		EA5A034316141443003B3E41 /* UserApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserApiTest.m; path = ../tests/UserApiTest.m; sourceTree = "<group>"; };
 		EA81837816137FD500341A6E /* PetApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PetApiTest.m; path = ../tests/PetApiTest.m; sourceTree = "<group>"; };
@@ -134,6 +139,8 @@
 		EA07F4AE16134F27006A2112 = {
 			isa = PBXGroup;
 			children = (
+				EA4F4D3616F1A90A00F24B35 /* NIKFile.h */,
+				EA4F4D3716F1A90A00F24B35 /* NIKFile.m */,
 				EA81837C1613809300341A6E /* Tests */,
 				EA07F52D1613569E006A2112 /* Generated Client */,
 				EA07F4BF16134F27006A2112 /* PetstoreClient */,
@@ -336,6 +343,7 @@
 				EA07F52A1613569A006A2112 /* NIKTag.m in Sources */,
 				EA07F52B1613569A006A2112 /* NIKUser.m in Sources */,
 				EA07F52C1613569A006A2112 /* NIKUserApi.m in Sources */,
+				EA4F4D3816F1A90A00F24B35 /* NIKFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +351,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA4F4D3916F1A92E00F24B35 /* NIKFile.h in Sources */,
+				EA4F4D3A16F1A92E00F24B35 /* NIKFile.m in Sources */,
 				EAE96DE616138695004AB97C /* PetApiTest.m in Sources */,
 				EAE96DE716138695004AB97C /* PetApiTest.h in Sources */,
 				EA07F53516135916006A2112 /* NIKApiInvoker.h in Sources */,

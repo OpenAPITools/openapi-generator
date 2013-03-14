@@ -10,4 +10,3 @@
 - (id) initWithValues: (NSString*)input;
 -(NSString*) toString;
 @end
-

@@ -1,4 +1,5 @@
 #import "NIKApiInvoker.h"
+#import "NIKFile.h"
 
 @implementation NIKApiInvoker
 
@@ -58,12 +59,13 @@ static NSInteger __LoadingObjectsCount = 0;
                                                                                  kCFStringEncodingUTF8));
 }
 
--(void) dictionary:(NSString*) path
-            method:(NSString*) method
-       queryParams:(NSDictionary*) queryParams
-              body:(id) body
-      headerParams:(NSDictionary*) headerParams
-   completionBlock:(void (^)(NSDictionary*, NSError *))completionBlock
+-(void) dictionary: (NSString*) path
+            method: (NSString*) method
+       queryParams: (NSDictionary*) queryParams
+              body: (id) body
+      headerParams: (NSDictionary*) headerParams
+       contentType: (NSString*) contentType
+   completionBlock: (void (^)(NSDictionary*, NSError *))completionBlock
 {
     NSMutableString * requestUrl = [NSMutableString stringWithFormat:@"%@", path];
     NSString * separator = nil;
@@ -111,6 +113,21 @@ static NSInteger __LoadingObjectsCount = 0;
             data = [NSJSONSerialization dataWithJSONObject:body
                                                    options:kNilOptions error:&error];
         }
+        else if ([body isKindOfClass:[NIKFile class]]){
+            NIKFile * file = (NIKFile*) body;
+
+            NSString *boundary = @"Fo0+BAr";
+            contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+
+            // add the body
+            NSMutableData *postBody = [NSMutableData data];
+            [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[@"Content-Disposition: form-data; name= \"some_name\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"image_file\"; filename=\"%@\"\r\n", file] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", file.mimeType] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData: file.data];
+            [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        }
         else if ([body isKindOfClass:[NSArray class]]){
             data = [NSJSONSerialization dataWithJSONObject:body
                                                    options:kNilOptions error:&error];
@@ -122,7 +139,7 @@ static NSInteger __LoadingObjectsCount = 0;
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
         [request setHTTPBody:data];
         
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
     }
     
     // Handle caching on GET requests
@@ -174,12 +191,13 @@ static NSInteger __LoadingObjectsCount = 0;
      }];
 }
 
--(void) stringWithCompletionBlock:(NSString*) path
-                           method:(NSString*) method
-                      queryParams:(NSDictionary*) queryParams
-                             body:(id) body
-                     headerParams:(NSDictionary*) headerParams
-                  completionBlock:(void (^)(NSString*, NSError *))completionBlock
+-(void) stringWithCompletionBlock: (NSString*) path
+                           method: (NSString*) method
+                      queryParams: (NSDictionary*) queryParams
+                             body: (id) body
+                     headerParams: (NSDictionary*) headerParams
+                      contentType: (NSString*) contentType
+                  completionBlock: (void (^)(NSString*, NSError *))completionBlock
 {
     NSMutableString * requestUrl = [NSMutableString stringWithFormat:@"%@", path];
     NSString * separator = nil;
@@ -227,6 +245,21 @@ static NSInteger __LoadingObjectsCount = 0;
             data = [NSJSONSerialization dataWithJSONObject:body
                                                    options:kNilOptions error:&error];
         }
+        else if ([body isKindOfClass:[NIKFile class]]){
+            NIKFile * file = (NIKFile*) body;
+            
+            NSString *boundary = @"Fo0+BAr";
+            contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+            
+            // add the body
+            NSMutableData *postBody = [NSMutableData data];
+            [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[@"Content-Disposition: form-data; name= \"some_name\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"image_file\"; filename=\"%@\"\r\n", file] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", file.mimeType] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData: file.data];
+            [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        }
         else if ([body isKindOfClass:[NSArray class]]){
             data = [NSJSONSerialization dataWithJSONObject:body
                                                    options:kNilOptions error:&error];
@@ -238,7 +271,7 @@ static NSInteger __LoadingObjectsCount = 0;
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
         [request setHTTPBody:data];
         
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
     }
     
     
