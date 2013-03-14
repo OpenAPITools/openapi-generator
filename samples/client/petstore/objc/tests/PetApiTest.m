@@ -1,4 +1,5 @@
 #import "PetApiTest.h"
+#import "NIKFile.h"
 
 @implementation PetApiTest
 

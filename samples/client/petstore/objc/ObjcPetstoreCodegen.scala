@@ -32,6 +32,8 @@ object ObjcPetstoreCodegen extends BasicObjcGenerator {
       ("NIKSwaggerObject.m", destinationDir, "NIKSwaggerObject.m"),
       ("NIKApiInvoker.h", destinationDir, "NIKApiInvoker.h"),
       ("NIKApiInvoker.m", destinationDir, "NIKApiInvoker.m"),
+      ("NIKFile.h", destinationDir, "NIKFile.h"),
+      ("NIKFile.m", destinationDir, "NIKFile.m"),
       ("NIKDate.h", destinationDir, "NIKDate.h"),
       ("NIKDate.m", destinationDir, "NIKDate.m"))
 }

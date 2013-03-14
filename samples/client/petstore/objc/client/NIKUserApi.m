@@ -1,4 +1,5 @@
 #import "NIKUserApi.h"
+#import "NIKFile.h"
 #import "NIKUser.h"
 
 
@@ -41,7 +42,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(body != nil && [body isKindOfClass:[NSArray class]]){
@@ -62,6 +66,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     else if([body isKindOfClass:[NSString class]]) {
         bodyDictionary = body;
     }
+    else if([body isKindOfClass: [NIKFile class]]) {
+        contentType = @"form-data";
+        bodyDictionary = body;
+    }
     else{
         NSLog(@"don't know what to do with %@", body);
     }
@@ -74,6 +82,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
@@ -94,7 +103,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(body != nil && [body isKindOfClass:[NSArray class]]){
@@ -115,6 +127,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     else if([body isKindOfClass:[NSString class]]) {
         bodyDictionary = body;
     }
+    else if([body isKindOfClass: [NIKFile class]]) {
+        contentType = @"form-data";
+        bodyDictionary = body;
+    }
     else{
         NSLog(@"don't know what to do with %@", body);
     }
@@ -127,6 +143,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
@@ -147,7 +164,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(body != nil && [body isKindOfClass:[NSArray class]]){
@@ -168,6 +188,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     else if([body isKindOfClass:[NSString class]]) {
         bodyDictionary = body;
     }
+    else if([body isKindOfClass: [NIKFile class]]) {
+        contentType = @"form-data";
+        bodyDictionary = body;
+    }
     else{
         NSLog(@"don't know what to do with %@", body);
     }
@@ -180,6 +204,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
@@ -202,7 +227,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [_api escapeString:username]];
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(body != nil && [body isKindOfClass:[NSArray class]]){
@@ -223,6 +251,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     else if([body isKindOfClass:[NSString class]]) {
         bodyDictionary = body;
     }
+    else if([body isKindOfClass: [NIKFile class]]) {
+        contentType = @"form-data";
+        bodyDictionary = body;
+    }
     else{
         NSLog(@"don't know what to do with %@", body);
     }
@@ -238,6 +270,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
@@ -259,7 +292,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [_api escapeString:username]];
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(username == nil) {
@@ -270,6 +306,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
@@ -291,7 +328,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [_api escapeString:username]];
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         if(username == nil) {
@@ -302,6 +342,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
@@ -322,7 +363,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(username != nil)
         queryParams[@"username"] = username;
     if(password != nil)
@@ -340,6 +384,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);
@@ -360,7 +405,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
         [_api stringWithCompletionBlock:requestUrl 
@@ -368,6 +416,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
                         queryParams:queryParams 
                                body:bodyDictionary 
                        headerParams:headerParams
+                        contentType:contentType
                     completionBlock:^(NSString *data, NSError *error) {
         if (error) {
             completionBlock(error);
@@ -388,6 +437,8 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
+
+    NSString* contentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
@@ -422,6 +473,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
@@ -444,6 +496,8 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
 
+    NSString* contentType = @"application/json";
+
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
@@ -477,6 +531,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
@@ -499,6 +554,8 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
 
+    NSString* contentType = @"application/json";
+
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
@@ -532,6 +589,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
@@ -556,6 +614,8 @@ body:(NIKUser*) body
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [_api escapeString:username]];
+    NSString* contentType = @"application/json";
+
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
@@ -592,6 +652,7 @@ body:(NIKUser*) body
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
@@ -615,6 +676,8 @@ body:(NIKUser*) body
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [_api escapeString:username]];
+    NSString* contentType = @"application/json";
+
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
@@ -626,6 +689,7 @@ body:(NIKUser*) body
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;
@@ -649,6 +713,8 @@ body:(NIKUser*) body
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
 
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [_api escapeString:username]];
+    NSString* contentType = @"application/json";
+
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
@@ -660,6 +726,7 @@ body:(NIKUser*) body
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
@@ -694,6 +761,8 @@ password:(NSString*) password
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
 
+    NSString* contentType = @"application/json";
+
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(username != nil)
         queryParams[@"username"] = username;
@@ -712,6 +781,7 @@ password:(NSString*) password
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(nil, error);return;
@@ -745,6 +815,8 @@ password:(NSString*) password
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
 
+    NSString* contentType = @"application/json";
+
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     id bodyDictionary = nil;
@@ -753,6 +825,7 @@ password:(NSString*) password
          queryParams:queryParams 
                 body:bodyDictionary 
         headerParams:headerParams
+         contentType:contentType
      completionBlock:^(NSDictionary *data, NSError *error) {
         if (error) {
             completionBlock(error);return;

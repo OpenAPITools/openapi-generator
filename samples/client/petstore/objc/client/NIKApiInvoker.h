@@ -21,18 +21,20 @@
 
 -(NSString*) escapeString:(NSString*) string;
 
--(void) dictionary:(NSString*) path
-            method:(NSString*) method
-       queryParams:(NSDictionary*) queryParams
-              body:(id)body
-      headerParams:(NSDictionary*) headerParams
-   completionBlock:(void (^)(NSDictionary*, NSError *))completionBlock;
+-(void) dictionary: (NSString*) path
+            method: (NSString*) method
+       queryParams: (NSDictionary*) queryParams
+              body: (id)body
+      headerParams: (NSDictionary*) headerParams
+       contentType: contentType
+   completionBlock: (void (^)(NSDictionary*, NSError *))completionBlock;
 
--(void) stringWithCompletionBlock:(NSString*) path
-                           method:(NSString*) method
-                      queryParams:(NSDictionary*) queryParams
-                             body:(id)body
-                     headerParams:(NSDictionary*) headerParams
-                  completionBlock:(void (^)(NSString*, NSError *))completionBlock;
+-(void) stringWithCompletionBlock: (NSString*) path
+                           method: (NSString*) method
+                      queryParams: (NSDictionary*) queryParams
+                             body: (id)body
+                     headerParams: (NSDictionary*) headerParams
+                      contentType: contentType
+                  completionBlock: (void (^)(NSString*, NSError *))completionBlock;
 
 @end
