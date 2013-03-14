@@ -39,6 +39,7 @@ class BasicScalaGenerator extends BasicGenerator {
     "float" -> "Float",
     "long" -> "Long",
     "double" -> "Double",
+    "file" -> "File",
     "object" -> "Any")
 
   // template used for models
@@ -57,7 +58,10 @@ class BasicScalaGenerator extends BasicGenerator {
   override def reservedWords = Set("type", "package", "match", "object")
 
   // import/require statements for specific datatypes
-  override def importMapping = Map("Date" -> "java.util.Date")
+  override def importMapping = Map(
+    "Date" -> "java.util.Date",
+    "File" -> "java.io.File"
+  )
 
   // package for models
   override def modelPackage = Some("com.wordnik.client.model")
