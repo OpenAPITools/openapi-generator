@@ -12,11 +12,6 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>scala-tools.org</id>
-      <name>Scala-Tools Maven2 Repository</name>
-      <url>http://scala-tools.org/repo-releases</url>
-    </pluginRepository>
-    <pluginRepository>
       <id>maven-mongodb-plugin-repo</id>
       <name>maven mongodb plugin repository</name>
       <url>http://maven-mongodb-plugin.googlecode.com/svn/maven/repo</url>
@@ -158,6 +153,12 @@
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-client</artifactId>
+      <version>${jersey-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey.contribs</groupId>
+      <artifactId>jersey-multipart</artifactId>
       <version>${jersey-version}</version>
       <scope>compile</scope>
     </dependency>
