@@ -29,7 +29,9 @@ object CoreUtils {
     val modelObjects = new HashMap[String, Model]
     apis.foreach(api => {
       for ((nm, model) <- extractApiModels(api)) modelObjects += nm -> model
-      api.models.foreach(model => modelObjects += model._1 -> model._2)
+      if(api.models.isDefined) {
+	api.models.get.foreach(model => modelObjects += model._1 -> model._2)
+      }
     })
     modelObjects.toMap
   }
@@ -65,8 +67,9 @@ object CoreUtils {
           .foreach(p => modelNames += p.dataType)
       })
     )
-    for ((name, m) <- sd.models) 
-      modelObjects += name -> m
+    if(sd.models.isDefined)
+      for ((name, m) <- sd.models.get)
+        modelObjects += name -> m
 
     // extract all base model names, strip away Containers like List[] and primitives
     val baseNames = (for (modelName <- (modelNames.toList filterNot primitives.contains))
