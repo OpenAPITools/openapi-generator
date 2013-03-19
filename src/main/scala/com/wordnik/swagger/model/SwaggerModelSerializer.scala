@@ -53,7 +53,7 @@ object SwaggerSerializers {
           ""
         }),
         (json \ "apis").extract[List[ApiDescription]],
-        (json \ "models").extract[Map[String, Model]]
+        (json \ "models").extractOpt[Map[String, Model]]
       )
     }, {
       case x: ApiListing =>

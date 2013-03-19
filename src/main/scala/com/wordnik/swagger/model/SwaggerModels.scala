@@ -54,7 +54,7 @@ case class ApiListing (
   basePath: String,
   var resourcePath: String,
   apis: List[ApiDescription] = List(),
-  models: Map[String, Model] = Map())
+  models: Option[Map[String, Model]] = None)
 
 case class ApiDescription (
   path: String,
