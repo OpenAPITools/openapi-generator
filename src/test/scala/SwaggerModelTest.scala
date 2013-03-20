@@ -57,7 +57,8 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 		apiListing.basePath should be ("http://petstore.swagger.wordnik.com/api")
 		apiListing.resourcePath should be ("/pet")
 		apiListing.apis.size should be (4)
-		apiListing.models.size should be (3)
+		apiListing.models.isDefined should be (true)
+		apiListing.models.get.size should be (3)
 
 		val apiMap = apiListing.apis.map(api => (api.path, api)).toMap
 		val petBaseApi = apiMap("/pet.{format}/{petId}")
@@ -115,7 +116,9 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
     val json = Source.fromFile("src/test/resources/petstore/pet.json").mkString
     val apiListing = parse(json).extract[ApiListing]
 
-    val models = apiListing.models
+    val modelsOpt = apiListing.models
+    modelsOpt.isDefined should be (true)
+    val models = modelsOpt.get
     models.size should be (3)
     val pet = models("Pet")
 
@@ -134,7 +137,9 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
  		val json = Source.fromFile("src/test/resources/petstore/pet.json").mkString
 		val apiListing = parse(json).extract[ApiListing]
 
-		val models = apiListing.models
+		val modelsOpt = apiListing.models
+		modelsOpt.isDefined should be (true)
+ 		val models = modelsOpt.get
 		models.size should be (3)
 
 		val pet = models("Pet")
