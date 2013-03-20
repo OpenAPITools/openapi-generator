@@ -49,10 +49,13 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
     apis.foreach(api => {
       fixSubDoc(api)
 
-      if (api.models != null) {
-        fixReturnModels(api.models.toMap, apis)
-        fixInputDataTypes(api.models.toMap, apis)
-        fixModels(api.models.toMap)
+      api.models match { 
+       case Some(models) => {
+          fixReturnModels(models.toMap, apis)
+          fixInputDataTypes(models.toMap, apis)
+	  fixModels(models.toMap)
+	}
+	case None => LOGGER.warning("no models found for listing  " + api.basePath)
       }
     })
 
