@@ -25,7 +25,7 @@ public class WordListApi {
 
   public void updateWordList (String permalink, WordList body, String auth_token) throws ApiException {
     // create path and map variables
-    String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink));
+    String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -55,7 +55,7 @@ public class WordListApi {
   }
   public void deleteWordList (String permalink, String auth_token) throws ApiException {
     // create path and map variables
-    String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink));
+    String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -85,7 +85,7 @@ public class WordListApi {
   }
   public WordList getWordListByPermalink (String permalink, String auth_token) throws ApiException {
     // create path and map variables
-    String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink));
+    String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -115,7 +115,7 @@ public class WordListApi {
   }
   public void addWordsToWordList (String permalink, List<StringValue> body, String auth_token) throws ApiException {
     // create path and map variables
-    String path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink));
+    String path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -145,7 +145,7 @@ public class WordListApi {
   }
   public List<WordListWord> getWordListWords (String permalink, String auth_token, String sortBy, String sortOrder, Integer skip, Integer limit) throws ApiException {
     // create path and map variables
-    String path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink));
+    String path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -183,7 +183,7 @@ public class WordListApi {
   }
   public void deleteWordsFromWordList (String permalink, List<StringValue> body, String auth_token) throws ApiException {
     // create path and map variables
-    String path = "/wordList.{format}/{permalink}/deleteWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink));
+    String path = "/wordList.{format}/{permalink}/deleteWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();

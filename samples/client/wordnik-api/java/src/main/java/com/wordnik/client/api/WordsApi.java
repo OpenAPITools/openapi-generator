@@ -26,7 +26,7 @@ public class WordsApi {
 
   public WordSearchResults searchWords (String query, String includePartOfSpeech, String excludePartOfSpeech, String caseSensitive, Integer minCorpusCount, Integer maxCorpusCount, Integer minDictionaryCount, Integer maxDictionaryCount, Integer minLength, Integer maxLength, Integer skip, Integer limit) throws ApiException {
     // create path and map variables
-    String path = "/words.{format}/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}", apiInvoker.escapeString(query));
+    String path = "/words.{format}/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}", apiInvoker.escapeString(query.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
