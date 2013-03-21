@@ -50,12 +50,13 @@ $ find  -type f
 To run the server, cd to the `samples/server-generator/scalatra/output` folder and run:
 
 ```
-sbt run
+sbt
+
+> container:start
 ```
 
-You can now load the swagger-ui against `http://localhost:8002/api/resources.json`.  Of course this isn't a fully
+You can now load the swagger-ui against `http://localhost:8080/resources.json`.  Of course this isn't a fully
 runnable server!  You have to add the logic in the apis/*.scala files.  But that's the easy part.
-
 
 ### Making it your own
 Running the sample is easy, but how about making your own server?  Easy!  Just modify the `samples/server-generator/scalatra/ScalatraServerGenerator.scala` file.
