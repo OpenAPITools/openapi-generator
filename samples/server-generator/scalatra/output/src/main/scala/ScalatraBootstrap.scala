@@ -8,8 +8,8 @@ class ScalatraBootstrap extends LifeCycle {
 
   override def init(context: ServletContext) {
     try {
-      context mount (new StoreApi, "/store/*")
       context mount (new PetApi, "/pet/*")
+      context mount (new StoreApi, "/store/*")
       context mount (new UserApi, "/user/*")
       context mount (new ResourcesApp, "/*")
     } catch {
