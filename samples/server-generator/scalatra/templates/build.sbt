@@ -3,13 +3,13 @@ import com.github.siasia.PluginKeys._
 
 assemblySettings
 
-organization := "org.eatbacon"
+organization := "com.wordnik"
 
 seq(webSettings :_*)
 
 mainClass in assembly := Some("JettyMain")
 
-name := "sfth"
+name := "scalatra-sample"
 
 version := "0.1.0-SNAPSHOT"
 
