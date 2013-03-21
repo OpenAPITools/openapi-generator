@@ -50,7 +50,7 @@ public class Test {
       }
     }
     catch (ApiException e) {
-
+      e.printStackTrace();
     }
   }  
 }
