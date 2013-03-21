@@ -42,6 +42,7 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
     ("README.mustache", outputFolder, "README.md"),
     ("build.sbt", outputFolder, "build.sbt"),
     ("web.xml", outputFolder + "/src/main/webapp/WEB-INF", "web.xml"),
+    ("JettyMain.scala", outputFolder + "/src/main/scala", "JettyMain.scala"),
     ("Bootstrap.mustache", destinationDir, "ScalatraBootstrap.scala"),
     ("ServletApp.mustache", destinationDir, "ServletApp.scala"),
     ("project/build.properties", outputFolder, "project/build.properties"),

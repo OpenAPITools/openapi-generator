@@ -7,15 +7,13 @@ import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
-import org.scalatra.json.{JValueResult, NativeJsonSupport}
+import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
 
 import scala.collection.JavaConverters._
 
 class PetApi (implicit val swagger: Swagger) extends ScalatraServlet 
-      with TypedParamSupport 
-      with NativeJsonSupport 
-      with JValueResult 
-      with SwaggerSupport  {
+    with JacksonJsonSupport
+    with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "PetApi"
@@ -96,7 +94,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
         paramType = ParamType.Query,
         required = true,
         allowMultiple = true,
-        allowableValues = AllowableValues("available","pending","sold"),defaultValue = Some("available"),
+        defaultValue = Some("available"),
         dataType = DataType("String"))
       )) {
 

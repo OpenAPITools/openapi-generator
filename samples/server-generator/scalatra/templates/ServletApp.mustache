@@ -6,8 +6,6 @@ import org.scalatra.ScalatraServlet
 import org.json4s.{DefaultFormats, Formats}
 
 class ResourcesApp(implicit val swagger: Swagger) extends ScalatraServlet with JacksonSwaggerBase {
-  protected implicit val jsonFormats: Formats = DefaultFormats
-
   before() {
     response.headers += ("Access-Control-Allow-Origin" -> "*")
   }
