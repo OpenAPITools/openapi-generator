@@ -26,7 +26,7 @@ public class AccountApi {
 
   public AuthenticationToken authenticate (String username, String password) throws ApiException {
     // create path and map variables
-    String path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username));
+    String path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -57,7 +57,7 @@ public class AccountApi {
   }
   public AuthenticationToken authenticatePost (String username, String body) throws ApiException {
     // create path and map variables
-    String path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username));
+    String path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();

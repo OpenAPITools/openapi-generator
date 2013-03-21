@@ -36,12 +36,11 @@ object Test {
     val api = new WordApi
     api.addHeader("api_key", key)
     api.getDefinitions("cat", null, null, 10).flatten.foreach(definition => {
-    	println(definition)
+      println(definition)
     })
   }
 }
 ```
-
 
 This project was built with the following minimum requirements:
 
