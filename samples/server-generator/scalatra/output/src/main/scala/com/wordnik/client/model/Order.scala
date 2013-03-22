@@ -1,13 +1,16 @@
 package com.wordnik.client.model
 
 import java.util.Date
-import scala.reflect.BeanProperty
-
 case class Order (
-  id: Long,
-  petId: Long,
-  /* Order Status */
-  status: String,
-  quantity: Int,
-  shipDate: Date)
+  id: Option[Long],
+
+  petId: Option[Long],
+
+  status: Option[String],// Order Status
+
+  quantity: Option[Int],
+
+  shipDate: Option[Date]
+
+  )
 

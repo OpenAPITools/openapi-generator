@@ -18,7 +18,7 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet
 
   protected val applicationDescription: String = "UserApi"
   override protected val applicationName: Option[String] = Some("user")
-
+/*
   def swaggerToModel(cls: Class[_]) = {
     val docObj = ApiPropertiesReader.read(cls)
     val name = docObj.getName
@@ -27,150 +27,123 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet
 
     Model(name, name, fields.toMap)
   }
-
+*/
   before() {
     contentType = formats("json")
     response.headers += ("Access-Control-Allow-Origin" -> "*")
   }
 
-  post("/createWithArray",
-    summary("Creates list of users with given input array"),
-    nickname("createUsersWithArrayInput"),
-    responseClass("void"),
-    endpoint("createWithArray"),
-    notes(""),
-    parameters(
-      Parameter(name = "body",
-        description = "List of user object",
-        dataType = DataType("Array[User]"),
-        paramType = ParamType.Body)
-      )) {
 
-    // do something
+  val createUsersWithArrayInputOperation = (apiOperation[Unit]("createUsersWithArrayInput")
+      summary "Creates list of users with given input array"
+      parameters(
+        bodyParam[List[User]]("body").description(""))
+  )
+  
+
+  post("/createWithArray",operation(createUsersWithArrayInputOperation)) {
+    val body = parsedBody.extract[List[User]]
+    println(body)
   }
 
-  post("/",
-    summary("Create user"),
-    nickname("createUser"),
-    responseClass("void"),
-    endpoint(""),
-    notes("This can only be done by the logged in user."),
-    parameters(
-      Parameter(name = "body",
-        description = "Created user object",
-        dataType = DataType("User"),
-        paramType = ParamType.Body)
-      )) {
 
-    // do something
+
+  val createUserOperation = (apiOperation[Unit]("createUser")
+      summary "Create user"
+      parameters(
+        bodyParam[User]("body").description(""))
+  )
+  
+
+  post("/",operation(createUserOperation)) {
+    val body = parsedBody.extract[User]
+    println(body)
   }
 
-  post("/createWithList",
-    summary("Creates list of users with given list input"),
-    nickname("createUsersWithListInput"),
-    responseClass("void"),
-    endpoint("createWithList"),
-    notes(""),
-    parameters(
-      Parameter(name = "body",
-        description = "List of user object",
-        dataType = DataType("List[User]"),
-        paramType = ParamType.Body)
-      )) {
 
-    // do something
+
+  val createUsersWithListInputOperation = (apiOperation[Unit]("createUsersWithListInput")
+      summary "Creates list of users with given list input"
+      parameters(
+        bodyParam[List[User]]("body").description(""))
+  )
+  
+
+  post("/createWithList",operation(createUsersWithListInputOperation)) {
+    val body = parsedBody.extract[List[User]]
+    println(body)
   }
 
-  put("/:username",
-    summary("Updated user"),
-    nickname("updateUser"),
-    responseClass("void"),
-    endpoint("{username}"),
-    notes("This can only be done by the logged in user."),
-    parameters(
-      Parameter(name = "username", 
-        description = "name that need to be deleted",
-        dataType = DataType.String,
-        defaultValue = None,
-        paramType = ParamType.Path)
-      ,Parameter(name = "body",
-        description = "Updated user object",
-        dataType = DataType("User"),
-        paramType = ParamType.Body)
-      )) {
 
-    // do something
+
+  val updateUserOperation = (apiOperation[Unit]("updateUser")
+      summary "Updated user"
+      parameters(
+        pathParam[String]("username").description(""),bodyParam[User]("body").description(""))
+  )
+  
+
+  put("/:username",operation(updateUserOperation)) {
+    val username = params.getOrElse("username", halt(400))
+    println(username)
+  val body = parsedBody.extract[User]
+    println(body)
   }
 
-  delete("/:username",
-    summary("Delete user"),
-    nickname("deleteUser"),
-    responseClass("void"),
-    endpoint("{username}"),
-    notes("This can only be done by the logged in user."),
-    parameters(
-      Parameter(name = "username", 
-        description = "The name that needs to be deleted",
-        dataType = DataType.String,
-        defaultValue = None,
-        paramType = ParamType.Path)
-      )) {
 
-    // do something
+
+  val deleteUserOperation = (apiOperation[Unit]("deleteUser")
+      summary "Delete user"
+      parameters(
+        pathParam[String]("username").description(""))
+  )
+  
+
+  delete("/:username",operation(deleteUserOperation)) {
+    val username = params.getOrElse("username", halt(400))
+    println(username)
   }
 
-  get("/:username",
-    summary("Get user by user name"),
-    nickname("getUserByName"),
-    responseClass("User"),
-    endpoint("{username}"),
-    notes(""),
-    parameters(
-      Parameter(name = "username", 
-        description = "The name that needs to be fetched. Use user1 for testing.",
-        dataType = DataType.String,
-        defaultValue = None,
-        paramType = ParamType.Path)
-      )) {
 
-    // do something
+
+  val getUserByNameOperation = (apiOperation[User]("getUserByName")
+      summary "Get user by user name"
+      parameters(
+        pathParam[String]("username").description(""))
+  )
+  
+
+  get("/:username",operation(getUserByNameOperation)) {
+    val username = params.getOrElse("username", halt(400))
+    println(username)
   }
 
-  get("/login",
-    summary("Logs user into the system"),
-    nickname("loginUser"),
-    responseClass("String"),
-    endpoint("login"),
-    notes(""),
-    parameters(
-      Parameter(name = "username", 
-        description = "The user name for login",
-        paramType = ParamType.Query,
-        required = true,
-        allowMultiple = false,
-        defaultValue = None,
-        dataType = DataType("String"))
-      ,Parameter(name = "password", 
-        description = "The password for login in clear text",
-        paramType = ParamType.Query,
-        required = true,
-        allowMultiple = false,
-        defaultValue = None,
-        dataType = DataType("String"))
-      )) {
 
-    // do something
+
+  val loginUserOperation = (apiOperation[String]("loginUser")
+      summary "Logs user into the system"
+      parameters(
+        queryParam[String]("username").description(""),queryParam[String]("password").description(""))
+  )
+  
+
+  get("/login",operation(loginUserOperation)) {
+    val username = params.getAs[String]("username")
+    println(username)
+  val password = params.getAs[String]("password")
+    println(password)
   }
 
-  get("/logout",
-    summary("Logs out current logged in user session"),
-    nickname("logoutUser"),
-    responseClass("void"),
-    endpoint("logout"),
-    notes(""),
-    parameters(
-      )) {
 
-    // do something
-  }
+
+  val logoutUserOperation = (apiOperation[Unit]("logoutUser")
+      summary "Logs out current logged in user session"
+      parameters(
+        )
+  )
+  
+
+  get("/logout",operation(logoutUserOperation)) {
+    }
+
 }

@@ -12,7 +12,7 @@ class ScalatraBootstrap extends LifeCycle {
       context mount (new {{className}}, "/{{name}}/*")
       {{/apis}}
 
-      context mount (new ResourcesApp, "/*")
+      context mount (new ResourcesApp, "/api-docs/*")
     } catch {
       case e: Throwable => e.printStackTrace()
     }
