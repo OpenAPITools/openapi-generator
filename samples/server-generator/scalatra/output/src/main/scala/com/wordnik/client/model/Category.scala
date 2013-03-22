@@ -1,8 +1,9 @@
 package com.wordnik.client.model
 
-import scala.reflect.BeanProperty
-
 case class Category (
-  id: Long,
-  name: String)
+  id: Option[Long],
+
+  name: Option[String]
+
+  )
 

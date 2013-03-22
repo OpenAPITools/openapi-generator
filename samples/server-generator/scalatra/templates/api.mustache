@@ -19,7 +19,7 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet
 
   protected val applicationDescription: String = "{{className}}"
   override protected val applicationName: Option[String] = Some("{{baseName}}")
-
+/*
   def swaggerToModel(cls: Class[_]) = {
     val docObj = ApiPropertiesReader.read(cls)
     val name = docObj.getName
@@ -28,7 +28,7 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet
 
     Model(name, name, fields.toMap)
   }
-
+*/
   before() {
     contentType = formats("json")
     response.headers += ("Access-Control-Allow-Origin" -> "*")
@@ -36,49 +36,49 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet
 {{#operations}}
 {{#operation}}
   {{newline}}
-  {{httpMethod}}("{{path}}",
-    summary("{{{summary}}}"),
-    nickname("{{nickname}}"),
-    responseClass("{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}"),
-    endpoint("{{basePart}}"),
-    notes("{{{notes}}}"),
-    parameters(
-      {{#allParams}}
-      {{#queryParameter}}
-      Parameter(name = "{{paramName}}", 
-        description = "{{{description}}}",
-        paramType = ParamType.Query,
-        required = {{required}},
-        allowMultiple = {{allowMultiple}},
-        {{#allowableValues}}allowableValues = {{{allowableValues}}},{{newline}}{{/allowableValues}}
-        defaultValue = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}},
-        dataType = DataType("{{dataType}}"))
-      {{/queryParameter}}
-      {{#pathParameter}}
-      Parameter(name = "{{paramName}}", 
-        description = "{{{description}}}",
-        dataType = DataType.String,
-        {{#allowableValues}}allowableValues = {{{allowableValues}}},{{newline}}{{/allowableValues}}
-        defaultValue = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}},
-        paramType = ParamType.Path)
-      {{/pathParameter}}
-      {{#headerParameter}}
-      Parameter(name = "{{paramName}}",
-        description = "{{{description}}}",
-        dataType = DataType("{{dataType}}"),
-        paramType = ParamType.Header)
-      {{/headerParameter}}
-      {{#bodyParameter}}
-      Parameter(name = "{{paramName}}",
-        description = "{{{description}}}",
-        dataType = DataType("{{dataType}}"),
-        paramType = ParamType.Body)
-      {{/bodyParameter}}{{#hasMore}},{{/hasMore}}
-    {{/allParams}}
-    )) {
 
-    // do something
+  val {{nickname}}Operation = (apiOperation[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]("{{nickname}}")
+      summary "{{{summary}}}"
+      parameters(
+        {{#allParams}}
+        {{#queryParameter}}
+        queryParam[{{dataType}}]("{{paramName}}").description(""){{^required}}.optional{{/required}}{{#defaultValue}}.defaultValue({{{defaultValue}}}){{/defaultValue}}
+        {{/queryParameter}}
+        {{#pathParameter}}
+        pathParam[{{dataType}}]("{{paramName}}").description(""){{#defaultValue}}.defaultValue({{{defaultValue}}}){{/defaultValue}}
+        {{/pathParameter}}
+        {{#headerParameter}}
+        headerParam[{{dataType}}]("{{paramName}}").description(""){{^required}}.optional{{/required}}{{#defaultValue}}.defaultValue({{{defaultValue}}}){{/defaultValue}}
+        {{/headerParameter}}
+        {{#bodyParameter}}
+        bodyParam[{{dataType}}]("{{paramName}}").description(""){{^required}}.optional{{/required}}{{#defaultValue}}.defaultValue({{{defaultValue}}}){{/defaultValue}}
+        {{/bodyParameter}}
+        {{#hasMore}},{{/hasMore}}
+        {{/allParams}})
+  )
+  
+
+  {{httpMethod}}("{{path}}",operation({{nickname}}Operation)) {
+    {{#allParams}}
+    {{#pathParameter}}
+      val {{paramName}} = params.getOrElse("{{paramName}}", halt(400))
+    {{/pathParameter}}
+
+    {{#queryParameter}}
+      val {{paramName}} = params.getAs[{{dataType}}]("{{paramName}}")
+    {{/queryParameter}}
+
+    {{#headerParameter}}
+      val {{paramName}} = request.getHeader("{{paramName}}")
+    {{/headerParameter}}
+
+    {{#bodyParameter}}
+      val {{paramName}} = parsedBody.extract[{{dataType}}]
+    {{/bodyParameter}}
+    println({{paramName}})
+  {{/allParams}}
   }
+
 {{/operation}}
 {{/operations}}
 }

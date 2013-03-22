@@ -11,7 +11,7 @@ class ScalatraBootstrap extends LifeCycle {
       context mount (new PetApi, "/pet/*")
       context mount (new StoreApi, "/store/*")
       context mount (new UserApi, "/user/*")
-      context mount (new ResourcesApp, "/*")
+      context mount (new ResourcesApp, "/api-docs/*")
     } catch {
       case e: Throwable => e.printStackTrace()
     }

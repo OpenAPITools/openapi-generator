@@ -18,7 +18,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
 
   protected val applicationDescription: String = "PetApi"
   override protected val applicationName: Option[String] = Some("pet")
-
+/*
   def swaggerToModel(cls: Class[_]) = {
     val docObj = ApiPropertiesReader.read(cls)
     val name = docObj.getName
@@ -27,96 +27,79 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
 
     Model(name, name, fields.toMap)
   }
-
+*/
   before() {
     contentType = formats("json")
     response.headers += ("Access-Control-Allow-Origin" -> "*")
   }
 
-  get("/:petId",
-    summary("Find pet by ID"),
-    nickname("getPetById"),
-    responseClass("Pet"),
-    endpoint("{petId}"),
-    notes("Returns a pet based on ID"),
-    parameters(
-      Parameter(name = "petId", 
-        description = "ID of pet that needs to be fetched",
-        dataType = DataType.String,
-        defaultValue = None,
-        paramType = ParamType.Path)
-      )) {
 
-    // do something
+  val getPetByIdOperation = (apiOperation[Pet]("getPetById")
+      summary "Find pet by ID"
+      parameters(
+        pathParam[String]("petId").description(""))
+  )
+  
+
+  get("/:petId",operation(getPetByIdOperation)) {
+    val petId = params.getOrElse("petId", halt(400))
+    println(petId)
   }
 
-  post("/",
-    summary("Add a new pet to the store"),
-    nickname("addPet"),
-    responseClass("void"),
-    endpoint(""),
-    notes(""),
-    parameters(
-      Parameter(name = "body",
-        description = "Pet object that needs to be added to the store",
-        dataType = DataType("Pet"),
-        paramType = ParamType.Body)
-      )) {
 
-    // do something
+
+  val addPetOperation = (apiOperation[Unit]("addPet")
+      summary "Add a new pet to the store"
+      parameters(
+        bodyParam[Pet]("body").description(""))
+  )
+  
+
+  post("/",operation(addPetOperation)) {
+    val body = parsedBody.extract[Pet]
+    println(body)
   }
 
-  put("/",
-    summary("Update an existing pet"),
-    nickname("updatePet"),
-    responseClass("void"),
-    endpoint(""),
-    notes(""),
-    parameters(
-      Parameter(name = "body",
-        description = "Pet object that needs to be updated in the store",
-        dataType = DataType("Pet"),
-        paramType = ParamType.Body)
-      )) {
 
-    // do something
+
+  val updatePetOperation = (apiOperation[Unit]("updatePet")
+      summary "Update an existing pet"
+      parameters(
+        bodyParam[Pet]("body").description(""))
+  )
+  
+
+  put("/",operation(updatePetOperation)) {
+    val body = parsedBody.extract[Pet]
+    println(body)
   }
 
-  get("/findByStatus",
-    summary("Finds Pets by status"),
-    nickname("findPetsByStatus"),
-    responseClass("List[Pet]"),
-    endpoint("findByStatus"),
-    notes("Multiple status values can be provided with comma seperated strings"),
-    parameters(
-      Parameter(name = "status", 
-        description = "Status values that need to be considered for filter",
-        paramType = ParamType.Query,
-        required = true,
-        allowMultiple = true,
-        defaultValue = Some("available"),
-        dataType = DataType("String"))
-      )) {
 
-    // do something
+
+  val findPetsByStatusOperation = (apiOperation[List[Pet]]("findPetsByStatus")
+      summary "Finds Pets by status"
+      parameters(
+        queryParam[String]("status").description("").defaultValue("available"))
+  )
+  
+
+  get("/findByStatus",operation(findPetsByStatusOperation)) {
+    val status = params.getAs[String]("status")
+    println(status)
   }
 
-  get("/findByTags",
-    summary("Finds Pets by tags"),
-    nickname("findPetsByTags"),
-    responseClass("List[Pet]"),
-    endpoint("findByTags"),
-    notes("Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing."),
-    parameters(
-      Parameter(name = "tags", 
-        description = "Tags to filter by",
-        paramType = ParamType.Query,
-        required = true,
-        allowMultiple = true,
-        defaultValue = None,
-        dataType = DataType("String"))
-      )) {
 
-    // do something
+
+  val findPetsByTagsOperation = (apiOperation[List[Pet]]("findPetsByTags")
+      summary "Finds Pets by tags"
+      parameters(
+        queryParam[String]("tags").description(""))
+  )
+  
+
+  get("/findByTags",operation(findPetsByTagsOperation)) {
+    val tags = params.getAs[String]("tags")
+    println(tags)
   }
+
 }

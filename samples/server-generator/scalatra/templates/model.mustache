@@ -4,15 +4,12 @@ package {{package}}
 {{/imports}}
 
 {{#models}}
-import scala.reflect.BeanProperty
 
 {{#model}}
 case class {{classname}} (
   {{#vars}}
 
-  {{#description}}/* {{description}} */
-  {{/description}}
-  {{name}}: {{datatype}}{{#hasMore}},{{newline}}  {{/hasMore}}
+  {{name}}: {{#isNotRequired}}Option[{{/isNotRequired}}{{datatype}}{{#isNotRequired}}]{{/isNotRequired}}  {{#hasMore}},{{/hasMore}}{{#description}}  // {{description}}{{/description}}{{newline}}
   {{/vars}}
 )
 {{/model}}

@@ -37,6 +37,8 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
 
   override def apiPackage = Some("apis")
 
+
+
   // supporting classes
   override def supportingFiles = List(
     ("README.mustache", outputFolder, "README.md"),
@@ -57,6 +59,10 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
           val paramList = k._2.asInstanceOf[List[_]]
           paramList.foreach(param => {
             val map = param.asInstanceOf[scala.collection.mutable.HashMap[String, AnyRef]]
+            if(map.contains("dataType")){
+              val dataType = map("dataType")
+              map += "dataType" -> dataType.toString.replaceAll("Array\\[","List[")
+            }
             if(map.contains("required")) {
               if(map("required") == "false") map += "notRequired" -> "true"
             }
