@@ -424,6 +424,7 @@ class Codegen(config: CodegenConfig) {
           "description" -> propertyDocSchema.description,
           "notes" -> propertyDocSchema.description,
           "required" -> propertyDocSchema.required.toString,
+          "isNotRequired" -> (!propertyDocSchema.required).toString,
           "getter" -> config.toGetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
           "setter" -> config.toSetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
           "isList" -> isList,
