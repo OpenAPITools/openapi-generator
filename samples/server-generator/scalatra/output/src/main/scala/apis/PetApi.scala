@@ -18,16 +18,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
 
   protected val applicationDescription: String = "PetApi"
   override protected val applicationName: Option[String] = Some("pet")
-/*
-  def swaggerToModel(cls: Class[_]) = {
-    val docObj = ApiPropertiesReader.read(cls)
-    val name = docObj.getName
-    val fields = for (field <- docObj.getFields.asScala.filter(d => d.paramType != null))
-      yield (field.name -> ModelField(field.name, field.notes, DataType(field.paramType)))
 
-    Model(name, name, fields.toMap)
-  }
-*/
   before() {
     contentType = formats("json")
     response.headers += ("Access-Control-Allow-Origin" -> "*")
