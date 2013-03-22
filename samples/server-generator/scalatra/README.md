@@ -17,7 +17,7 @@ You also need to add both the sbt and scala binary to your PATH.
 You first need to build the `swagger-codegen` project--this is done by running this command at the root of the swagger-codegen project:
 
 ```
-mvn package
+sbt assembly
 ```
 
 You can now generate a server from any valid[**](https://github.com/wordnik/swagger-codegen/blob/master/README.md#validating-your-swagger-spec) swagger spec:
@@ -55,7 +55,7 @@ sbt
 > container:start
 ```
 
-You can now load the swagger-ui against `http://localhost:8080/resources.json`.  Of course this isn't a fully
+You can now load the swagger-ui against `http://localhost:8080/api-docs`.  Of course this isn't a fully
 runnable server!  You have to add the logic in the apis/*.scala files.  But that's the easy part.
 
 ### Making it your own
@@ -72,4 +72,3 @@ Take a look at the sample templates here:
 
 
 Sound easy?  It is!
-
