@@ -43,11 +43,15 @@ object ApiExtractor extends RemoteUrl {
             Some(parse(json).extract[ApiListing])
           }
           catch {
-            case e:java.io.FileNotFoundException => {
+            case e: java.io.FileNotFoundException => {
               println("WARNING!  Unable to read API " + basePath + api.path)
               None
             }
-            case _ : Throwable=> None
+            case e: Throwable => {
+              println("WARNING!  Unable to read API " + basePath + api.path)
+              e.printStackTrace()
+              None
+            }
           }
         }).flatten.toList
   }
