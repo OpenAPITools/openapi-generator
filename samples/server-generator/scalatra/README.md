@@ -2,7 +2,7 @@
 
 ## Overview
 Using the swagger-codegen, you can not only generate clients but servers as well!  The same spec can be used to drive your
-development both ways.  This is an example of generating a server for `node.js`.
+development both ways.  This is an example of generating a server for `scalatra`.
 
 ### Prerequisites
 You need the following installed and available in your $PATH:
