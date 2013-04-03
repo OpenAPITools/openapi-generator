@@ -40,9 +40,10 @@ object JavaJaxRSServerGenerator extends BasicJavaGenerator {
   // supporting classes
   override def supportingFiles = List(
     ("README.mustache", outputFolder, "README.md"),
+    ("ApiException.mustache", destinationDir + "/" + apiPackage.get.replaceAll("\\.", "/"), "ApiException.java"),
+    ("ApiOriginFilter.mustache", destinationDir + "/" + apiPackage.get.replaceAll("\\.", "/"), "ApiOriginFilter.java"),
     ("ApiResponse.mustache", destinationDir + "/" + apiPackage.get.replaceAll("\\.", "/"), "ApiResponse.java"),
     ("JacksonJsonProvider.mustache", destinationDir + "/" + apiPackage.get.replaceAll("\\.", "/"), "JacksonJsonProvider.java"),
-    ("ApiException.mustache", destinationDir + "/" + apiPackage.get.replaceAll("\\.", "/"), "ApiException.java"),
     ("NotFoundException.mustache", destinationDir + "/" + apiPackage.get.replaceAll("\\.", "/"), "NotFoundException.java"),
     ("pom.xml", outputFolder, "pom.xml"),
     ("web.mustache", outputFolder + "/src/main/webapp/WEB-INF", "web.xml")
