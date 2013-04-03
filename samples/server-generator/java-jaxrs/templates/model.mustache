@@ -1,0 +1,38 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+{{#models}}
+{{#model}}
+public class {{classname}} {
+  {{#vars}}
+
+  {{#description}}/* {{{description}}} */
+  {{/description}}
+  private {{{datatype}}} {{name}} = {{{defaultValue}}};
+  {{/vars}}
+  
+  {{#vars}}
+
+  public {{{datatype}}} {{getter}}() {
+    return {{name}};
+  }
+  public void {{setter}}({{{datatype}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+
+  {{/vars}}
+
+  @Override
+  public String toString()  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#vars}}
+    sb.append("  {{name}}: ").append({{name}}).append("\n");
+    {{/vars}}
+    sb.append("}\n");
+    return sb.toString();
+  }
+}
+{{/model}}
+{{/models}}
