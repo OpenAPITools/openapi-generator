@@ -168,7 +168,7 @@ You can also use the codegen to generate a server for a couple different framewo
 
 * [scala scalatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
 
-* [java jax-rs generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/jax-rs)
+* [java jax-rs generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/java-jaxrs)
 
 ### To build the codegen library
 
