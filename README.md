@@ -168,6 +168,8 @@ You can also use the codegen to generate a server for a couple different framewo
 
 * [scala scalatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
 
+* [java jax-rs generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/jax-rs)
+
 ### To build the codegen library
 
 This will create the swagger-codegen library from source.  
@@ -182,7 +184,7 @@ either repackage the library OR modify your codegen script to use a file path!
 License
 -------
 
-Copyright 2012 Wordnik, Inc.
+Copyright 2013 Wordnik, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
