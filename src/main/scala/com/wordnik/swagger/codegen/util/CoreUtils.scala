@@ -28,25 +28,15 @@ import scala.annotation.tailrec
 
 object CoreUtils {
   def extractAllModels(apis: List[ApiListing]): Map[String, Model] = {
-    val modelObjects = new HashMap[String, Model]
-    apis.foreach(api => {
-      for ((nm, model) <- extractApiModels(api)) modelObjects += nm -> model
-      if(api.models.isDefined) {
-	api.models.get.foreach(model => modelObjects += model._1 -> model._2)
-      }
-    })
-    modelObjects.toMap
+    apis.foldLeft(Map.empty[String, Model]) { (acc, api) =>
+      acc ++ api.models.getOrElse(Map.empty[String, Model]) ++ extractApiModels(api)
+    }
   }
 
   def extractModelNames(op: Operation): Set[String] = {
-    val modelNames = new HashSet[String]
-    modelNames += op.responseClass
-    // POST, PUT, DELETE body
-    op.parameters.filter(p => p.paramType == "body")
-      .foreach(p => modelNames += p.dataType)
-    val baseNames = (for (modelName <- (modelNames.toList))
-      yield (extractBasePartFromType(modelName))).toSet
-    baseNames.toSet
+//    // POST, PUT, DELETE body
+    val modelNames = Set(op.responseClass) ++ op.parameters.filter(_.paramType == "body").map(_.dataType)
+    modelNames map extractBasePartFromType
   }
 
   def extractBasePartFromType(datatype: String): String = {
@@ -58,55 +48,44 @@ object CoreUtils {
   }
 
   def extractApiModels(sd: ApiListing): Map[String, Model] = {
-    val modelNames = new HashSet[String]
-    val modelObjects = new HashMap[String, Model]
+    val modelObjects = sd.models.map(_.foldLeft(Map.empty[String, Model])(_ + _)) getOrElse Map.empty
     // return types
-    sd.apis.foreach(api => 
-      api.operations.foreach(op => {
-        modelNames += op.responseClass
-        // POST, PUT, DELETE body
-        op.parameters.filter(p => p.paramType == "body")
-          .foreach(p => modelNames += p.dataType)
-      })
-    )
-    if(sd.models.isDefined)
-      for ((name, m) <- sd.models.get)
-        modelObjects += name -> m
+    val modelNames = sd.apis.foldLeft(Set.empty[String]) { (acc, api) =>
+      api.operations.foldLeft(acc){ _ ++ extractModelNames(_) }
+    }
 
     // extract all base model names, strip away Containers like List[] and primitives
-    val baseNames = (for (modelName <- (modelNames.toList filterNot primitives.contains))
-      yield (extractBasePartFromType(modelName))).toSet
-
+    val baseNames = (modelNames filterNot primitives.contains) map extractBasePartFromType
     // get complex models from base
     val requiredModels = modelObjects.filter(obj => baseNames.contains(obj._1))
 
-    val subNames = new HashSet[String]
-    // look inside top-level models
-    recurseModels(requiredModels.toMap, modelObjects.toMap, subNames)
 
-    val subModels = modelObjects.filter(obj => subNames.contains(obj._1))
+    // look inside top-level models
+    val sn = subNames(requiredModels.toMap, modelObjects)
+    val subModels = modelObjects.filter(obj => sn.contains(obj._1))
     val allModels = requiredModels ++ subModels
-    allModels.filter(m => primitives.contains(m._1) == false).toMap
+    allModels.filter(m => !primitives.contains(m._1)).toMap
   }
 
-  def recurseModels(requiredModels: Map[String, Model], allModels: Map[String, Model], subNames: HashSet[String]) {
-    requiredModels foreach (m => subNames ++ recurseModel(m._2.properties.toList, allModels, subNames.toSet))
+  def subNames(requiredModels: Map[String, Model], allModels: Map[String, Model], acc: Set[String] = Set.empty): Set[String] = {
+     requiredModels.foldLeft(acc) { case (subNames, (_, m)) =>
+       recurseModel(m.properties.toList, allModels, subNames + m.id)
+    }
   }
 
   @tailrec def recurseModel(properties: List[(String, ModelProperty)], allModels: Map[String, Model], subNames: Set[String]): Set[String] = {
     properties match {
       case Nil => subNames
       case (_, subObject) :: rest =>
-        val propertyName = if (containers.contains(subObject.`type`)) {
-          subObject.items flatMap { subItem =>
-            Option(subItem.ref.getOrElse(subItem.`type`))
-          }
-        } else Option((subObject.`type`))
+        val nm = subObject.`type`
+        val propertyName = if (containers.contains(nm)) {
+          subObject.items flatMap (si => Option(si.ref.getOrElse(si.`type`))) orElse Option(nm)
+        } else Option(nm)
 
         if (propertyName.isDefined && !subNames.contains(propertyName.get)) {
           val prop = propertyName.get
           if (allModels.contains(prop)) {
-            recurseModel(allModels(prop).properties.toList, allModels, subNames + prop)
+            recurseModel(rest, allModels, this.subNames(Map(prop -> allModels(prop)), allModels, subNames + prop))
           } else {
             recurseModel(rest, allModels, subNames + prop)
           }
