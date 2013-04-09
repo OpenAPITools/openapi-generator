@@ -23,6 +23,8 @@ import scala.collection.JavaConversions._
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 
 import scala.io.Source
+import scala.collection.mutable
+import scala.annotation.tailrec
 
 object CoreUtils {
   def extractAllModels(apis: List[ApiListing]): Map[String, Model] = {
@@ -87,40 +89,28 @@ object CoreUtils {
     allModels.filter(m => primitives.contains(m._1) == false).toMap
   }
 
-  def recurseModels(requiredModels: Map[String, Model], allModels: Map[String, Model], subNames: HashSet[String]) = {
-    requiredModels.map(m => recurseModel(m._2, allModels, subNames))
+  def recurseModels(requiredModels: Map[String, Model], allModels: Map[String, Model], subNames: HashSet[String]) {
+    requiredModels foreach (m => subNames ++ recurseModel(m._2.properties.toList, allModels, subNames.toSet))
   }
 
-  def recurseModel(model: Model, allModels: Map[String, Model], subNames: HashSet[String]): Unit = {
-    model.properties.foreach(prop => {
-      val subObject = prop._2
-      val propertyName = containers.contains(subObject.`type`) match {
-        case true => subObject.items match {
-          case Some(subItem) => {
-            Option(subItem.ref.getOrElse(subItem.`type`)) match {
-              case Some(sn) => Some(sn)
-              case _ => None
-            }
+  @tailrec def recurseModel(properties: List[(String, ModelProperty)], allModels: Map[String, Model], subNames: Set[String]): Set[String] = {
+    properties match {
+      case Nil => subNames
+      case (_, subObject) :: rest =>
+        val propertyName = if (containers.contains(subObject.`type`)) {
+          subObject.items flatMap { subItem =>
+            Option(subItem.ref.getOrElse(subItem.`type`))
           }
-          case _ => None
-        }
-        case false => Some(subObject.`type`)
-      }
-      propertyName match {
-        case Some(property) => subNames.contains(property) match {
-          case false => {
-            allModels.containsKey(property) match {
-              case true => {
-                recurseModel(allModels(property), allModels, subNames)
-              }
-              case false =>
-            }
-            subNames += property
+        } else Option((subObject.`type`))
+
+        if (propertyName.isDefined && !subNames.contains(propertyName.get)) {
+          val prop = propertyName.get
+          if (allModels.contains(prop)) {
+            recurseModel(allModels(prop).properties.toList, allModels, subNames + prop)
+          } else {
+            recurseModel(rest, allModels, subNames + prop)
           }
-          case true =>
-        }
-        case None =>
-      }
-    })
+        } else recurseModel(rest, allModels, subNames)
+    }
   }
 }
