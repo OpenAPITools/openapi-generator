@@ -1,0 +1,50 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import com.wordnik.swagger.client._
+import akka.dispatch.{ Future, Await }
+import akka.util.duration._
+import akka.util.Duration
+import collection.mutable
+
+{{#operations}}
+class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+
+  {{#operation}}
+  def {{nickname}}({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
+    // create path and map variables
+    val path =
+      ("{{path}}"
+        replaceAll ("\\{format\\}", ser.name)
+        {{#pathParams}}replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}})
+        {{/pathParams}})
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    {{#requiredParamCount}}
+    // verify required params are set
+    (Set({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size match {
+       case {{requiredParamCount}} => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    {{/requiredParamCount}}
+
+    {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/queryParams}}
+
+    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/headerParams}}
+
+    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}ser.serialize({{bodyParam}}){{/bodyParam}}{{^bodyParam}}""{{/bodyParam}})
+    resFuture flatMap { resp =>
+      process({{^returnType}}(){{/returnType}}{{#returnType}}ser.deserialize[{{returnType}}](resp.body) {{/returnType}})
+    }
+  }
+  
+  {{/operation}}
+
+}
+{{/operations}}

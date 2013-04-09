@@ -1,0 +1,17 @@
+package {{package}}
+
+import org.joda.time.DateTime
+
+{{#models}}
+
+{{#model}}
+
+case class {{className}} (
+  {{#vars}}
+
+  {{#description}}/* {{{description}}} */
+  {{/description}}
+  {{name}}: {{datatype}}{{#hasMore}},{{newline}}  {{/hasMore}}
+  {{/vars}})
+{{/model}}
+{{/models}}
