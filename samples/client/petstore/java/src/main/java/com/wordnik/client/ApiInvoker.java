@@ -1,7 +1,5 @@
 package com.wordnik.client;
 
-import com.wordnik.swagger.core.util.JsonUtil;
-
 import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.annotation.*;
