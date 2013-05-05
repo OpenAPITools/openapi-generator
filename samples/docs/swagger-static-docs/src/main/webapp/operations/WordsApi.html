@@ -1,0 +1,365 @@
+<div class="main-content">
+  <h2><a name="WordsApi"></a>WordsApi</h2>
+  <p>This is the WordsApi API</p>
+
+  <h2><a name="searchWords"></a>searchWords</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/words.{format}/search/{query}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordSearchResults"><a href="#">WordSearchResults</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">query&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Search query</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Only include these comma-delimited parts of speech</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">excludePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Exclude these comma-delimited parts of speech</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">caseSensitive&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Search case sensitive</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minDictionaryCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum number of dictionary entries for words returned</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxDictionaryCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum dictionary definition count</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum word length</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum word length</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">skip&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Results to skip</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getWordOfTheDay"></a>getWordOfTheDay</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/words.{format}/wordOfTheDay</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordOfTheDay"><a href="#">WordOfTheDay</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">date&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Fetches by date in yyyy-MM-dd</p>
+	  </div>
+    </ul>
+  <h2><a name="reverseDictionary"></a>reverseDictionary</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/words.{format}/reverseDictionary</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="DefinitionSearchResults"><a href="#">DefinitionSearchResults</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">query&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Search term</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">findSenseForWord&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Restricts words and finds closest sense</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includeSourceDictionaries&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Only include these comma-delimited source dictionaries</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">excludeSourceDictionaries&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Exclude these comma-delimited source dictionaries</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Only include these comma-delimited parts of speech</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">excludePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Exclude these comma-delimited parts of speech</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">expandTerms&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Expand terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sortBy&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Attribute to sort by</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sortOrder&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Sort direction</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum word length</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum word length</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includeTags&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Return a closed set of XML tags in response</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">skip&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Results to skip</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getRandomWords"></a>getRandomWords</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/words.{format}/randomWords</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordObject"><a href="#">List[WordObject]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">includePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">CSV part-of-speech values to include</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">excludePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">CSV part-of-speech values to exclude</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sortBy&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Attribute to sort by</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sortOrder&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Sort direction</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">hasDictionaryDef&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Only return words with dictionary definitions</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minDictionaryCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum dictionary count</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxDictionaryCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum dictionary count</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum word length</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum word length</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getRandomWord"></a>getRandomWord</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/words.{format}/randomWord</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordObject"><a href="#">WordObject</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">includePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">CSV part-of-speech values to include</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">excludePartOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">CSV part-of-speech values to exclude</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">hasDictionaryDef&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Only return words with dictionary definitions</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxCorpusCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum corpus frequency for terms</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minDictionaryCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum dictionary count</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxDictionaryCount&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum dictionary count</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">minLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum word length</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">maxLength&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum word length</p>
+	  </div>
+    </ul>
+  </div>

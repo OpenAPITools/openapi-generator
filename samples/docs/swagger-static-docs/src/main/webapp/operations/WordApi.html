@@ -1,0 +1,413 @@
+<div class="main-content">
+  <h2><a name="WordApi"></a>WordApi</h2>
+  <p>This is the WordApi API</p>
+
+  <h2><a name="getExamples"></a>getExamples</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/examples</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="ExampleSearchResults"><a href="#">ExampleSearchResults</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to return examples for</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includeDuplicates&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Show duplicate examples from different sources</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">skip&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Results to skip</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getWord"></a>getWord</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordObject"><a href="#">WordObject</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">String value of WordObject to return</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includeSuggestions&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Return suggestions (for correct spelling, case variants, etc.)</p>
+	  </div>
+    </ul>
+  <h2><a name="getDefinitions"></a>getDefinitions</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/definitions</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="Definition"><a href="#">List[Definition]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to return definitions for</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">partOfSpeech&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">CSV list of part-of-speech types</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sourceDictionaries&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Source dictionary to return definitions from.  If 'all' is received, results are returned from all sources. If multiple values are received (e.g. 'century,wiktionary'), results are returned from the first specified dictionary that has definitions. If left blank, results are returned from the first dictionary that has definitions. By default, dictionaries are searched in this order: ahd, wiktionary, webster, century, wordnet</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includeRelated&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Return related words with definitions</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">includeTags&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Return a closed set of XML tags in response</p>
+	  </div>
+    </ul>
+  <h2><a name="getTopExample"></a>getTopExample</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/topExample</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="Example"><a href="#">Example</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to fetch examples for</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    </ul>
+  <h2><a name="getRelatedWords"></a>getRelatedWords</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/relatedWords</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="Related"><a href="#">List[Related]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to fetch relationships for</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">relationshipTypes&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Limits the total results per type of relationship type</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limitPerRelationshipType&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Restrict to the supplied relatinship types</p>
+	  </div>
+    </ul>
+  <h2><a name="getTextPronunciations"></a>getTextPronunciations</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/pronunciations</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="TextPron"><a href="#">List[TextPron]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to get pronunciations for</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sourceDictionary&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Get from a single dictionary</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">typeFormat&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Text pronunciation type</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return a correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getHyphenation"></a>getHyphenation</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/hyphenation</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="Syllable"><a href="#">List[Syllable]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to get syllables for</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sourceDictionary&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return a correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getWordFrequency"></a>getWordFrequency</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/frequency</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="FrequencySummary"><a href="#">FrequencySummary</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to return</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">startYear&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Starting Year</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">endYear&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Ending Year</p>
+	  </div>
+    </ul>
+  <h2><a name="getPhrases"></a>getPhrases</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/phrases</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="Bigram"><a href="#">List[Bigram]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to fetch phrases for</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">wlmi&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Minimum WLMI for the phrase</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    </ul>
+  <h2><a name="getEtymologies"></a>getEtymologies</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/etymologies</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="string"><a href="#">List[string]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to return</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested.</p>
+	  </div>
+    </ul>
+  <h2><a name="getAudio"></a>getAudio</h2>
+  <hr>
+  <p></p>
+  <p>The metadata includes a time-expiring fileUrl which allows reading the audio file directly from the API.  Currently only audio pronunciations from the American Heritage Dictionary in mp3 format are supported.</p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/audio</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="AudioFile"><a href="#">List[AudioFile]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to get audio for.</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">useCanonical&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Use the canonical form of the word</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getScrabbleScore"></a>getScrabbleScore</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/word.{format}/{word}/scrabbleScore</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="ScrabbleScoreResult"><a href="#">ScrabbleScoreResult</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">word&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Word to get scrabble score for.</p>
+	  </div>
+    </ul>
+  </div>
