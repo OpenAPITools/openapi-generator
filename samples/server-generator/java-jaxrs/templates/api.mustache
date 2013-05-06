@@ -20,8 +20,10 @@ public class {{className}} {
   @{{httpMethod}}
   @Path("{{path}}")
   @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", responseClass = "{{{returnType}}}")
-  @ApiErrors(value = { @ApiError(code = 400, reason = "Invalid ID supplied"),
-      @ApiError(code = 404, reason = "Pet not found") })
+  @ApiErrors(value = { {{#errorList}} @ApiError(code = {{{code}}}, reason = "{{{reason}}}"){{#hasMore}},{{/hasMore}}
+  {{/errorList}} 
+      })
+     
   public Response {{nickname}}(
     {{#allParams}}
     {{#queryParameter}}
