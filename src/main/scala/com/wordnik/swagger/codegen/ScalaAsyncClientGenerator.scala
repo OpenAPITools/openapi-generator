@@ -75,12 +75,17 @@ object ScalaAsyncClientGenerator extends App {
                     |      For more info, visit: https://developers.helloreverb.com/swagger/
                   """.stripMargin
 
-  val opts = new AsycnClientGeneratorConf(args)
+  val opts = new AsycnClientGeneratorConf(if (args.nonEmpty) args else Array("--help"))
   val rootDir = new File(opts.projectRoot())
   val codeDir = {
     val cd = opts.codeDir()
     if (cd.startsWith("/")) new File(cd)
     else new File(rootDir, cd)
+  }
+  val resUrl = {
+    val r = opts.resourceUrl()
+    if (!r.startsWith("http") && !r.startsWith("file")) sys.props("fileMap") = r
+    r
   }
   val cfg = SwaggerGenConfig(
     api = SwaggerApi(opts.name(), opts.resourceUrl(), opts.`package`(), apiKey = opts.apiKey.get),
