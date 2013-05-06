@@ -100,3 +100,5 @@ pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
 )}
 
 assemblySettings
+
+jarName in assembly := "swagger-codegen.jar"

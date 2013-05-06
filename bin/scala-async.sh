@@ -18,5 +18,15 @@ if [ ! -d "${APP_DIR}" ]; then
 fi
 
 cd $APP_DIR
+
+
+# if you've executed sbt assembly previously it will use that instead.
 ags="com.wordnik.swagger.codegen.ScalaAsyncClientGenerator $@"
-./sbt "run-main $ags"
+
+if [ -f $APP_DIR/target/swagger-codegen.jar ]; then 
+  java -cp target/swagger-codegen.jar $ags
+else
+  ./sbt "run-main $ags"
+fi
+
+
