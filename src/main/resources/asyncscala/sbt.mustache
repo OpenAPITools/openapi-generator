@@ -1,4 +1,4 @@
-organization := "com.wordnik.samples"
+organization := "{{package}}"
 
 name := "{{projectName}}-client"
 
@@ -10,6 +10,4 @@ libraryDependencies += "joda-time" % "joda-time" % "2.2"
 
 libraryDependencies += "org.joda" % "joda-convert" % "1.3.1"
 
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.10" % "provided"
-
-resolvers += Opts.resolver.sonatypeReleases
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.12" % "provided"
