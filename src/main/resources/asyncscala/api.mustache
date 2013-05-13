@@ -25,19 +25,17 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
 
     {{#requiredParamCount}}
     // verify required params are set
-    (Set({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size match {
-       case {{requiredParamCount}} => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
+    val paramCount = (Set({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size 
+    if (paramCount != {{requiredParamCount}}) sys.error("missing required params")
     {{/requiredParamCount}}
 
-    {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{#queryParams}}if({{paramName}} != null) queryParams += "{{baseName}}" -> {{paramName}}.toString
     {{/queryParams}}
 
     {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}.toString
     {{/headerParams}}
 
-    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}ser.serialize({{bodyParam}}){{/bodyParam}}{{^bodyParam}}""{{/bodyParam}})
+    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}ser.serialize({{bodyParam}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
     resFuture flatMap { resp =>
       process({{^returnType}}(){{/returnType}}{{#returnType}}ser.deserialize[{{returnType}}](resp.body) {{/returnType}})
     }

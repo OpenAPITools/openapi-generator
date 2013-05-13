@@ -329,6 +329,7 @@ class Codegen(config: CodegenConfig) {
       }
     }
 
+    val writeMethods = Set("POST", "PUT", "PATCH")
     val properties =
       HashMap[String, AnyRef](
         "path" -> path,
@@ -337,6 +338,7 @@ class Codegen(config: CodegenConfig) {
         "notes" -> operation.notes,
         "deprecated" -> operation.`deprecated`,
         "bodyParam" -> bodyParam,
+        "emptyBodyParam" -> (if (writeMethods contains operation.httpMethod.toUpperCase) "{}" else ""),
         "allParams" -> sp,
         "bodyParams" -> bodyParams.toList,
         "pathParams" -> pathParams.toList,
