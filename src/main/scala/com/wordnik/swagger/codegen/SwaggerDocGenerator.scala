@@ -15,6 +15,8 @@
  */
 
 import com.wordnik.swagger.codegen.BasicGenerator
+import com.wordnik.swagger.codegen.spec.SwaggerSpec
+import com.wordnik.swagger.model._
 
 import scala.collection.mutable.{ HashMap, ListBuffer }
 
@@ -26,26 +28,73 @@ object SwaggerDocGenerator extends BasicGenerator {
   val outputFolder = "samples/docs/swagger-static-docs"
 
   // where to write generated code
-  override def destinationDir = outputFolder + "/sd"
+  override def destinationDir = outputFolder + "/src/main/webapp"
 
   // template used for apis
   apiTemplateFiles += "operation.mustache" -> ".html"
   
-  modelTemplateFiles.clear
+  modelTemplateFiles += "model.mustache" -> ".html"
+
+  override def toDeclaration(obj: ModelProperty): (String, String) = {
+    obj.`type` match {
+      case "Array" => {
+        val inner = {
+          obj.items match {
+            case Some(items) => items.ref.getOrElse(items.`type`)
+            case _ => throw new Exception("no inner type defined")
+          }
+        }
+        val e = "List[%s]" format toDeclaredType(inner)
+        (e, toDefaultValue(inner, obj))
+      }
+      case e: String => (toDeclaredType(e), toDefaultValue(e, obj))
+    }
+  }
+
+  override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
+    val mutable = scala.collection.mutable.Map() ++ m
+    mutable.map(k => {
+      k._1 match {
+        case "allParams" => {
+          val paramList = k._2.asInstanceOf[List[_]]
+          paramList.foreach(param => {
+            val map = param.asInstanceOf[scala.collection.mutable.HashMap[String, AnyRef]]
+            if(map.contains("dataType")){
+              val ComplexTypeMatcher = ".*\\[(.*)\\].*".r
+              val v = map("dataType") match {
+                case ComplexTypeMatcher(v) => v
+                case _ => map("dataType").asInstanceOf[String]
+              }
+              if(SwaggerSpec.primitives.contains(v)) {
+                map += "simpleType" -> v
+              }
+              else {
+                map += "complexType" -> v
+              }
+            }
+          })
+        }
+        case _ =>
+      }
+    })
+    mutable.toMap
+  }
 
   // package for models
-  override def modelPackage = Some(".")
+  override def modelPackage = Some("models")
 
   // package for api classes
   override def apiPackage = Some("operations")
 
   override def supportingFiles = List(
+    ("pom.xml", outputFolder, "pom.xml"),
     ("assets/css/bootstrap-responsive.css", destinationDir + "/assets/css", "bootstrap-responsive.css"),
     ("assets/css/bootstrap.css", destinationDir + "/assets/css", "bootstrap.css"),
     ("assets/css/style.css", destinationDir + "/assets/css", "style.css"),
     ("assets/images/logo.png", destinationDir + "/assets/images", "logo.png"),
     ("assets/js/bootstrap.js", destinationDir + "/assets/js", "bootstrap.js"),
     ("assets/js/jquery-1.8.3.min.js", destinationDir + "/assets/js", "jquery-1.8.3.min.js"),
+    ("assets/js/main.js", destinationDir + "/assets/js", "main.js"),
     ("index.mustache", destinationDir, "index.html")
   )
 }
