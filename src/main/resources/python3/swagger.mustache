@@ -35,7 +35,7 @@ class ApiClient:
             for param, value in headerParams.items():
                 headers[param] = value
 
-        headers['Content-type'] = 'application/json'
+        #headers['Content-type'] = 'application/json'
         headers['api_key'] = self.apiKey
 
         if self.cookie:
