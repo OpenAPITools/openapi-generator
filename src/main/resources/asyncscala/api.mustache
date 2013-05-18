@@ -1,0 +1,47 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import com.wordnik.swagger.client._
+import scala.concurrent.{ Future, Await }
+import scala.concurrent.duration._
+import collection.mutable
+
+{{#operations}}
+class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+
+  {{#operation}}
+  def {{nickname}}({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
+    // create path and map variables
+    val path =
+      ("{{path}}"
+        replaceAll ("\\{format\\}", ser.name)
+        {{#pathParams}}replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}})
+        {{/pathParams}})
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    {{#requiredParamCount}}
+    // verify required params are set
+    val paramCount = (Set({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size 
+    if (paramCount != {{requiredParamCount}}) sys.error("missing required params")
+    {{/requiredParamCount}}
+
+    {{#queryParams}}if({{paramName}} != null) queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/queryParams}}
+
+    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/headerParams}}
+
+    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}ser.serialize({{bodyParam}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
+    resFuture flatMap { resp =>
+      process({{^returnType}}(){{/returnType}}{{#returnType}}ser.deserialize[{{returnType}}](resp.body) {{/returnType}})
+    }
+  }
+  
+  {{/operation}}
+
+}
+{{/operations}}

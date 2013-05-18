@@ -81,10 +81,12 @@ class Codegen(config: CodegenConfig) {
               lb
             })
             opList += apiToMap(apiPath, operation)
+          
             CoreUtils.extractModelNames(operation).foreach(i => allImports += i)
           }
         })
       }
+     
       case None =>
     }
 
@@ -206,6 +208,18 @@ class Codegen(config: CodegenConfig) {
     val headerParams = new ListBuffer[AnyRef]
     val bodyParams = new ListBuffer[AnyRef]
     var paramList = new ListBuffer[HashMap[String, AnyRef]]
+    var errorList = new ListBuffer[HashMap[String, AnyRef]]
+    
+    if (operation.errorResponses != null) {
+		operation.errorResponses.foreach(param => { 
+		 val params = new HashMap[String, AnyRef]
+		 params += "code" -> param.code.toString()
+ 		 params += "reason" -> param.reason
+ 		 params += "hasMore" -> "true"
+ 		 errorList += params	 
+ 		 })
+ 		 
+    }
 
     if (operation.parameters != null) {
       operation.parameters.foreach(param => {
@@ -284,6 +298,10 @@ class Codegen(config: CodegenConfig) {
       case 0 =>
       case _ => pathParams.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
     }
+    errorList.size match{
+      case 0 =>
+      case _ => errorList.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+      }
 
     val sp = {
       val lb = new ListBuffer[AnyRef]
@@ -311,6 +329,7 @@ class Codegen(config: CodegenConfig) {
       }
     }
 
+    val writeMethods = Set("POST", "PUT", "PATCH")
     val properties =
       HashMap[String, AnyRef](
         "path" -> path,
@@ -319,12 +338,14 @@ class Codegen(config: CodegenConfig) {
         "notes" -> operation.notes,
         "deprecated" -> operation.`deprecated`,
         "bodyParam" -> bodyParam,
+        "emptyBodyParam" -> (if (writeMethods contains operation.httpMethod.toUpperCase) "{}" else ""),
         "allParams" -> sp,
         "bodyParams" -> bodyParams.toList,
         "pathParams" -> pathParams.toList,
         "queryParams" -> queryParams.toList,
         "headerParams" -> headerParams.toList,
         "requiredParams" -> requiredParams.toList,
+        "errorList" -> errorList,
         "httpMethod" -> operation.httpMethod.toUpperCase,
         operation.httpMethod.toLowerCase -> "true")
     if (requiredParams.size > 0) properties += "requiredParamCount" -> requiredParams.size.toString

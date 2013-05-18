@@ -1,0 +1,25 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import com.wordnik.swagger.client._
+import apis._
+import java.io.Closeable
+
+class {{clientName}}(config: SwaggerConfig) extends Closeable {
+  val locator = config.locator
+  val name = config.name
+  val dataFormat = config.dataFormat
+
+  private[this] val client = transportClient
+
+  protected def transportClient = new RestClient(config)
+
+  {{#apis}}
+  val {{name}} = new {{className}}(client, config)
+  {{/apis}}
+
+  def close() {
+    client.close()
+  }
+}

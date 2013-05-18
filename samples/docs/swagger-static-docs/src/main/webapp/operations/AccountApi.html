@@ -1,0 +1,119 @@
+<div class="main-content">
+  <h2><a name="AccountApi"></a>AccountApi</h2>
+  <p>This is the AccountApi API</p>
+
+  <h2><a name="authenticate"></a>authenticate</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/account.{format}/authenticate/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="AuthenticationToken"><a href="#">AuthenticationToken</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">username&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">A confirmed Wordnik username</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">password&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The user's password</p>
+	  </div>
+    </ul>
+  <h2><a name="authenticatePost"></a>authenticatePost</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/account.{format}/authenticate/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="AuthenticationToken"><a href="#">AuthenticationToken</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">username&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">A confirmed Wordnik username</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;string&nbsp;(body)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The user's password</p>
+	  </div>
+    </ul>
+  <h2><a name="getWordListsForLoggedInUser"></a>getWordListsForLoggedInUser</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/account.{format}/wordLists</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordList"><a href="#">List[WordList]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">auth_token of logged-in user</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">skip&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Results to skip</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="getApiTokenStatus"></a>getApiTokenStatus</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/account.{format}/apiTokenStatus</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="ApiTokenStatus"><a href="#">ApiTokenStatus</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">api_key&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Wordnik authentication token</p>
+	  </div>
+    </ul>
+  <h2><a name="getLoggedInUser"></a>getLoggedInUser</h2>
+  <hr>
+  <p></p>
+  <p>Requires a valid auth_token to be set.</p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/account.{format}/user</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="User"><a href="#">User</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)</p>
+	  </div>
+    </ul>
+  </div>

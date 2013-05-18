@@ -5,7 +5,7 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.2-SNAPSHOT"
+version := "2.0.3-SNAPSHOT"
 
 scalaVersion := "2.9.2"
 
@@ -16,24 +16,20 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10.0")
 
 libraryDependencies ++= Seq(
-  "org.json4s" %% "json4s-jackson" % "3.1.0",
+  "org.json4s" %% "json4s-jackson" % "3.2.4",
+  "io.backchat.inflector" %% "scala-inflector" % "1.3.5",
   "commons-io" % "commons-io" % "2.3",
+  "ch.qos.logback" % "logback-classic" % "1.0.10" % "provided",
+  "org.rogach" %% "scallop" % "0.8.1",
   "junit" % "junit" % "4.11" % "test",
   "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
 
 libraryDependencies <+= scalaVersion {
   case v if v.startsWith("2.9") => 
-    "org.fusesource.scalate" % "scalate-wikitext_2.9" % "1.6.1"
+    "org.fusesource.scalate" % "scalate-core_2.9" % "1.6.1"
   case v if v.startsWith("2.10") => 
-    "org.fusesource.scalate" %% "scalate-wikitext" % "1.6.1"
-}
-
-libraryDependencies <+= scalaVersion {
-  case v if v.startsWith("2.9") => 
-    "org.fusesource.scalate" % "scalate-page_2.9" % "1.6.1"
-  case v if v.startsWith("2.10") => 
-    "org.fusesource.scalate" %% "scalate-page" % "1.6.1"
+    "org.fusesource.scalate" %% "scalate-core" % "1.6.1"
 }
 
 packageOptions <+= (name, version, organization) map {
@@ -103,4 +99,6 @@ pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
   </developers>
 )}
 
-seq(assemblySettings:_*)
+assemblySettings
+
+jarName in assembly := "swagger-codegen.jar"

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" media="screen">
   <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-responsive.css" media="screen">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <script src="assets/js/jquery-1.8.3.min.js" type="text/javascript"></script>
+  <script src="assets/js/main.js" type="text/javascript"></script>
 
-  <title>REST API v1.1 Resources | Twitter Developers</title>
+  <title>REST API Resources</title>
 </head>
 <body>
   <div class="header">
@@ -15,27 +17,40 @@
       <h1 id="logo"><a class="logo" href="/"><span>Swagger</span><span class="light">API Docs</span></a></h1>
     </div>
   </div>
-  <div class="main_content">
-    <h1>API Documentation</h1>
-    {{#apis}}
-    <h2>{{className}}</h2>
-    <table>
-      <tr>
-        <th class="column_header_name">Name</th>
-        <th class="column_header_path">Resource</th>
-        <th class="column_header_notes">Notes</th>
-      </tr>
-      {{#operations}}
-      {{#operation}}
-      <tr>
-        <td><a href="operations/{{{className}}}.html#{{{nickname}}}">{{{nickname}}}</a></td>
-        <td>{{path}}</td>
-        <td>{{{summary}}}{{#notes}}<div id="{{className}}_{{nickname}}" class="operation expandable">{{notes}}</div>{{/notes}}</td>
-      </tr>
-      {{/operation}}
-      {{/operations}}
-    </table>
-    {{/apis}}
+  <div class="model-container"></div>
+  <div class="content">
+    <div class="box clearfix">
+      <div class="sidebar">
+        <div class="section-box">
+          <div class="section-header">
+            Overview
+          </div>
+          <ul>
+            <li>Getting Started</li>
+          </ul>
+        </div>
+    		{{#apis}}
+        <div class="section-box">
+          <div class="section-header">
+            <a href="/#!/{{className}}">{{className}}</a>
+          </div>
+          <ul>
+			      {{#operations}}
+			      {{#operation}}
+            <li><a href="/#!/{{className}}#{{nickname}}">{{nickname}}</a></li>
+            {{/operation}}
+            {{/operations}}
+          </ul>
+        </div>
+        {{/apis}}
+      </div>
+    <div class="non-sidebar">
+      <div class="main-content">
+        <h2>Getting Started</h2>
+        <p>To begin using your fancy HTTP API, follow the steps below.</p>
+        <p>You can add some helpful tips, here</p>
+      </div>
+    </div>
   </div>
 </body>
 </html>

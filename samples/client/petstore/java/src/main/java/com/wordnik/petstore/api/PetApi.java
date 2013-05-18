@@ -23,7 +23,7 @@ public class PetApi {
 
   public Pet getPetById (String petId) throws ApiException {
     // create path and map variables
-    String path = "/pet.{format}/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId));
+    String path = "/pet.{format}/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();

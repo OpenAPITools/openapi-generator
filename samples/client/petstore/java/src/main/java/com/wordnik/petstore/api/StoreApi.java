@@ -23,7 +23,7 @@ public class StoreApi {
 
   public Order getOrderById (String orderId) throws ApiException {
     // create path and map variables
-    String path = "/store.{format}/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId));
+    String path = "/store.{format}/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -52,7 +52,7 @@ public class StoreApi {
   }
   public void deleteOrder (String orderId) throws ApiException {
     // create path and map variables
-    String path = "/store.{format}/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId));
+    String path = "/store.{format}/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();

@@ -1,0 +1,191 @@
+<div class="main-content">
+  <h2><a name="WordListApi"></a>WordListApi</h2>
+  <p>This is the WordListApi API</p>
+
+  <h2><a name="updateWordList"></a>updateWordList</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/wordList.{format}/{permalink}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>PUT</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">permalink&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">permalink of WordList to update</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;&nbsp;<div class="model" id="WordList"><a href="#">WordList</a>&nbsp;(body)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Updated WordList</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)</p>
+	  </div>
+    </ul>
+  <h2><a name="deleteWordList"></a>deleteWordList</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/wordList.{format}/{permalink}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>DELETE</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">permalink&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">ID of WordList to delete</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)</p>
+	  </div>
+    </ul>
+  <h2><a name="getWordListByPermalink"></a>getWordListByPermalink</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/wordList.{format}/{permalink}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordList"><a href="#">WordList</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">permalink&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">permalink of WordList to fetch</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)</p>
+	  </div>
+    </ul>
+  <h2><a name="addWordsToWordList"></a>addWordsToWordList</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/wordList.{format}/{permalink}/words</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">permalink&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">permalink of WordList to user</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;&nbsp;<div class="model" id="StringValue"><a href="#">Array[StringValue]</a>&nbsp;(body)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Array of words to add to WordList</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)</p>
+	  </div>
+    </ul>
+  <h2><a name="getWordListWords"></a>getWordListWords</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/wordList.{format}/{permalink}/words</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="WordListWord"><a href="#">List[WordListWord]</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">permalink&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">ID of WordList to use</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sortBy&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Field to sort by</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">sortOrder&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Direction to sort</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">skip&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Results to skip</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">limit&nbsp;:&nbsp;int&nbsp;(query)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Maximum number of results to return</p>
+	  </div>
+    </ul>
+  <h2><a name="deleteWordsFromWordList"></a>deleteWordsFromWordList</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://api.wordnik.com/v4/wordList.{format}/{permalink}/deleteWords</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">permalink&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">permalink of WordList to use</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;&nbsp;<div class="model" id="StringValue"><a href="#">Array[StringValue]</a>&nbsp;(body)</div>
+	      <span>optional</span>
+	    </div>
+	    <p class="param-description">Words to remove from WordList</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">auth_token&nbsp;:&nbsp;string&nbsp;(header)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above)</p>
+	  </div>
+    </ul>
+  </div>

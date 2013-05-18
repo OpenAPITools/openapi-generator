@@ -110,7 +110,7 @@ public class UserApi {
   }
   public void updateUser (String username, User body) throws ApiException {
     // create path and map variables
-    String path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username));
+    String path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -139,7 +139,7 @@ public class UserApi {
   }
   public void deleteUser (String username) throws ApiException {
     // create path and map variables
-    String path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username));
+    String path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -168,7 +168,7 @@ public class UserApi {
   }
   public User getUserByName (String username) throws ApiException {
     // create path and map variables
-    String path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username));
+    String path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
