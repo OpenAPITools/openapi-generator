@@ -1,0 +1,30 @@
+using System;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+
+{{#models}}
+{{#model}}
+namespace {{package}} {
+  public class {{classname}} {
+    {{#vars}}
+
+    {{#description}}/* {{{description}}} */
+    {{/description}}
+    public {{{datatype}}} {{name}} { get; set; }
+
+    {{/vars}}
+
+    public override string ToString()  {
+      var sb = new StringBuilder();
+      sb.Append("class {{classname}} {\n");
+      {{#vars}}
+      sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+      {{/vars}}
+      sb.Append("}\n");
+      return sb.ToString();
+    }
+  }
+  {{/model}}
+  {{/models}}
+}

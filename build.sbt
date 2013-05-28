@@ -96,6 +96,11 @@ pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
       <name>Ivan Porto Carrero</name>
       <url>http://flanders.co.nz/</url>
     </developer>
+    <developer>
+      <id>radius314</id>
+      <name>Danny Gershman</name>
+      <email>danny.gershman@gmail.com</email>
+    </developer>
   </developers>
 )}
 
