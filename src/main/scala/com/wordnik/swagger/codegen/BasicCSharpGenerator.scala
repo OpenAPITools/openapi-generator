@@ -167,7 +167,7 @@ class BasicCSharpGenerator extends BasicGenerator {
     else word
   }
 
-  override def toVarName(name: String): String = {
+  /*override def toVarName(name: String): String = {
     name match {
       case _ if (reservedWords.contains(name)) => escapeReservedWord(name)
       case _ => typeMapping.getOrElse(name, name)
@@ -177,7 +177,7 @@ class BasicCSharpGenerator extends BasicGenerator {
 
   def capitalize(s: String) = { 
     s(0).toUpper + s.substring(1, s.length).toLowerCase 
-  }
+  }*/
 
   // supporting classes
   override def supportingFiles =
