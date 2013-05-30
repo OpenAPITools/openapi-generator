@@ -151,7 +151,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         m += "models" -> List((name, schema))
         m += "package" -> modelPackage
         m += "invokerPackage" -> invokerPackage
-        m += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator))
+        m += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replace(".", File.separator))
         m += "newline" -> "\n"
 
         Some(m.toMap)
@@ -177,7 +177,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "invokerPackage" -> invokerPackage
       m += "apis" -> Map(className -> operationList.toList)
       m += "models" -> None
-      m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator))
+      m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replace(".", File.separator))
       m += "newline" -> "\n"
 
       Some(m.toMap)

@@ -37,8 +37,8 @@ object CSharpPetstoreCodegen extends BasicCSharpGenerator {
   // supporting classes
   override def supportingFiles =
     List(
-      ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replaceAll("\\.", java.io.File.separator) + java.io.File.separator, "ApiInvoker.cs"),
-      ("apiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replaceAll("\\.", java.io.File.separator) + java.io.File.separator, "ApiException.cs"),
+      ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiInvoker.cs"),
+      ("apiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiException.cs"),
       ("Newtonsoft.Json.dll", "samples/client/petstore/csharp/bin", "Newtonsoft.Json.dll"),
       ("compile.mustache", "samples/client/petstore/csharp", "compile.bat"))
 }
