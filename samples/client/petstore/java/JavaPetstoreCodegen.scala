@@ -34,6 +34,9 @@ object JavaPetstoreCodegen extends BasicJavaGenerator {
   // package for api classes
   override def apiPackage = Some("com.wordnik.petstore.api")
 
+  // artifact id
+  additionalParams += "artifactId" -> "swagger-petstore"
+
   // supporting classes
   override def supportingFiles =
     List(
