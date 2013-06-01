@@ -30,7 +30,6 @@ abstract class CodegenConfig {
   def toModelName(name: String): String
   def toApiName(name: String): String
 
-  
   def toModelFilename(name: String) = name
   def toApiFilename(name: String) = toApiName(name)
   def apiNameFromPath(apiPath: String): String
@@ -39,6 +38,7 @@ abstract class CodegenConfig {
 
   val apiTemplateFiles = new HashMap[String, String]()
   val modelTemplateFiles = new HashMap[String, String]()
+  val additionalParams = new HashMap[String, String]
 
   def defaultIncludes = Set[String]()
   def languageSpecificPrimitives = Set[String]()
