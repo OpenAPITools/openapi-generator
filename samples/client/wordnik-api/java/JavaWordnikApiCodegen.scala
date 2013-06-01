@@ -36,6 +36,11 @@ object JavaWordnikApiCodegen extends BasicJavaGenerator {
   // package for api classes
   override def apiPackage = Some("com.wordnik.client.api")
 
+  additionalParams ++= Map(
+    "artifactId" -> "swagger-petstore", 
+    "artifactVersion" -> "1.0.0",
+    "groupId" -> "com.wordnik")
+
   // supporting classes
   override def supportingFiles =
     List(
