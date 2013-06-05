@@ -15,15 +15,24 @@
         return apiInvoker;
       }
       
+      // Sets the endpoint base url for the services being accessed
       public void setBasePath(string basePath) {
         this.basePath = basePath;
       }
       
+      // Gets the endpoint base url for the services being accessed
       public String getBasePath() {
         return basePath;
       }
 
       {{#operation}}
+
+      /// <summary>
+      /// {{summary}} {{notes}}
+      /// </summary>
+      {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
+      {{#hasMore}} {{/hasMore}}{{/allParams}}
+      /// <returns></returns>
       public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         // create path and map variables
         var path = "{{path}}".Replace("{format}","json"){{#pathParams}}.Replace("{" + "{{paramName}}" + "}", apiInvoker.escapeString({{{paramName}}}.ToString())){{/pathParams}};
