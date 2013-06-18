@@ -109,7 +109,7 @@ abstract class CodegenConfig {
   def toVarName(name: String): String = {
     name match {
       case _ if (reservedWords.contains(name)) => escapeReservedWord(name)
-      case _ => typeMapping.getOrElse(name, name)
+      case _ => name
     }
   }
 
