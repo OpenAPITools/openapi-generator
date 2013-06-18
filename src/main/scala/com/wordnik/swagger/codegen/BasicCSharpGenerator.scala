@@ -24,6 +24,7 @@ object BasicCSharpGenerator extends BasicCSharpGenerator {
 
 class BasicCSharpGenerator extends BasicGenerator {
   override def defaultIncludes = Set(
+    "char",
     "double",
     "int",
     "long",
@@ -67,11 +68,10 @@ class BasicCSharpGenerator extends BasicGenerator {
   apiTemplateFiles += "api.mustache" -> ".cs"
 
   override def reservedWords = Set("abstract", "continue", "for", "new", "switch", "assert", 
-      "default", "if", "package", "synchronized", "boolean", "do", "goto", "private", 
-      "this", "break", "double", "implements", "protected", "throw", "byte", "else", 
-      "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", 
-      "catch", "extends", "short", "try", "char", "final", "interface", "static", 
-      "void", "class", "finally", "strictfp", "volatile", "const", "float", 
+      "default", "if", "package", "synchronized", "do", "goto", "private", "this", "break", 
+      "implements", "protected", "throw", "else", "import", "public", "throws", "case", 
+      "enum", "instanceof", "return", "transient", "catch", "extends", "try", "final", 
+      "interface", "static", "void", "class", "finally", "strictfp", "volatile", "const", 
       "native", "super", "while")
 
   // import/require statements for specific datatypes
