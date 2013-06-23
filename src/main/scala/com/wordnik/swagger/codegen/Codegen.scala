@@ -484,7 +484,6 @@ class Codegen(config: CodegenConfig) {
     val engine = new TemplateEngine(Some(rootDir))
 
     val apiList = new ListBuffer[Map[String, AnyRef]]
-
     apis.foreach(a => {
       apiList += Map(
         "name" -> a._1._2,
@@ -520,7 +519,7 @@ class Codegen(config: CodegenConfig) {
         "modelPackage" -> config.modelPackage,
         "apiPackage" -> config.apiPackage,
         "apis" -> apiList,
-        "models" -> modelList)
+        "models" -> modelList) ++ config.additionalParams
 
     config.supportingFiles.map(file => {
       val supportingFile = file._1

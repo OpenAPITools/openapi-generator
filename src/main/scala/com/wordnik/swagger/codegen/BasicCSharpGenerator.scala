@@ -18,12 +18,13 @@ package com.wordnik.swagger.codegen
 
 import com.wordnik.swagger.model._
 
-object BasicJavaGenerator extends BasicJavaGenerator {
+object BasicCSharpGenerator extends BasicCSharpGenerator {
   def main(args: Array[String]) = generateClient(args)
 }
 
-class BasicJavaGenerator extends BasicGenerator {
+class BasicCSharpGenerator extends BasicGenerator {
   override def defaultIncludes = Set(
+    "char",
     "double",
     "int",
     "long",
@@ -37,56 +38,53 @@ class BasicJavaGenerator extends BasicGenerator {
     "Float")
 
   /**
-   * We are using java objects instead of primitives to avoid showing default
+   * We are using csharp objects instead of primitives to avoid showing default
    * primitive values when the API returns missing data.  For instance, having a
    * {"count":0} != count is unknown.  You can change this to use primitives if you
    * desire, but update the default values as well or they'll be set to null in 
    * variable declarations.
    */
   override def typeMapping = Map(
-    "boolean" -> "Boolean",
-    "string" -> "String",
-    "int" -> "Integer",
-    "float" -> "Float",
-    "long" -> "Long",
-    "double" -> "Double",
-    "object" -> "Object")
+    "boolean" -> "bool",
+    "string" -> "string",
+    "int" -> "int",
+    "float" -> "float",
+    "long" -> "long",
+    "double" -> "double",
+    "object" -> "object",
+    "Date" -> "DateTime",
+    "date" -> "DateTime")
 
   // location of templates
-  override def templateDir = "Java"
+  override def templateDir = "csharp"
 
   // where to write generated code
-  override def destinationDir = "generated-code/java/src/main/java"
+  override def destinationDir = "generated-code/csharp/src/main/csharp"
 
   // template used for models
-  modelTemplateFiles += "model.mustache" -> ".java"
+  modelTemplateFiles += "model.mustache" -> ".cs"
 
   // template used for models
-  apiTemplateFiles += "api.mustache" -> ".java"
+  apiTemplateFiles += "api.mustache" -> ".cs"
 
   override def reservedWords = Set("abstract", "continue", "for", "new", "switch", "assert", 
-      "default", "if", "package", "synchronized", "boolean", "do", "goto", "private", 
-      "this", "break", "double", "implements", "protected", "throw", "byte", "else", 
-      "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", 
-      "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", 
-      "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", 
+      "default", "if", "package", "synchronized", "do", "goto", "private", "this", "break", 
+      "implements", "protected", "throw", "else", "import", "public", "throws", "case", 
+      "enum", "instanceof", "return", "transient", "catch", "extends", "try", "final", 
+      "interface", "static", "void", "class", "finally", "strictfp", "volatile", "const", 
       "native", "super", "while")
 
   // import/require statements for specific datatypes
-  override def importMapping = Map(
-    "Date" -> "java.util.Date",
-    "Array" -> "java.util.*",
-    "ArrayList" -> "java.util.*",
-    "List" -> "java.util.*")
+  override def importMapping = Map()
 
   // package for models
-  override def modelPackage = Some("com.wordnik.client.model")
+  override def modelPackage = Some("Com.Wordnik.Client.Model")
 
   // package for api classes
-  override def apiPackage = Some("com.wordnik.client.api")
+  override def apiPackage = Some("Com.Wordnik.Client.Api")
 
   // file suffix
-  override def fileSuffix = ".java"
+  override def fileSuffix = ".cs"
 
   // response classes
   override def processResponseClass(responseClass: String): Option[String] = {
@@ -140,7 +138,7 @@ class BasicJavaGenerator extends BasicGenerator {
   }
 
   /**
-   * we are defaulting to null values since the codegen uses java objects instead of primitives
+   * we are defaulting to null values since the codegen uses csharp objects instead of primitives
    * If you change to primitives, you can put in the appropriate values (0.0f, etc).
    */
   override def toDefaultValue(dataType: String, obj: ModelProperty) = {
@@ -169,11 +167,23 @@ class BasicJavaGenerator extends BasicGenerator {
     else word
   }
 
+  /*override def toVarName(name: String): String = {
+    name match {
+      case _ if (reservedWords.contains(name)) => escapeReservedWord(name)
+      case _ => typeMapping.getOrElse(name, name)
+    }
+    capitalize(name)
+  }
+
+  def capitalize(s: String) = { 
+    s(0).toUpper + s.substring(1, s.length).toLowerCase 
+  }*/
+
   // supporting classes
   override def supportingFiles =
     List(
       ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiInvoker.java"),
-      ("JsonUtil.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "JsonUtil.java"),
       ("apiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiException.java"),
-      ("pom.mustache", "generated-code/java", "pom.xml"))
+      ("Newtonsoft.Json.dll", "generated-code/csharp/bin", "Newtonsoft.Json.dll"),
+      ("compile.mustache", "generated-code/csharp", "compile.bat"))
 }

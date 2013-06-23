@@ -149,7 +149,7 @@ If you need to make static pages or don't want the sandbox of the swagger-ui, yo
 Will produce the output here:
 
 ```
-https://github.com/wordnik/swagger-codegen/tree/master/samples/docs/swagger-static-docs/sd
+https://github.com/wordnik/swagger-codegen/tree/master/samples/docs/swagger-static-docs
 ```
 
 which is based on these templates:
@@ -157,6 +157,10 @@ which is based on these templates:
 ```
 https://github.com/wordnik/swagger-codegen/tree/master/src/main/resources/swagger-static
 ```
+
+and looks like this
+
+![Image](https://raw.github.com/wordnik/swagger-codegen/master/samples/docs/swagger-static-docs/static-docs.png)
 
 ### To build a server stub
 

@@ -35,6 +35,6 @@ object ScalaWordnikApiCodegen extends BasicScalaGenerator {
 
   // supporting classes
   override def supportingFiles = List(
-    ("apiInvoker.mustache", destinationDir + "/" + invokerPackage.get.replaceAll("\\.", java.io.File.separator), "ApiInvoker.scala"),
+    ("apiInvoker.mustache", destinationDir + "/" + invokerPackage.get.replace(".", java.io.File.separator), "ApiInvoker.scala"),
     ("pom.mustache", destinationRoot, "pom.xml"))
 }
