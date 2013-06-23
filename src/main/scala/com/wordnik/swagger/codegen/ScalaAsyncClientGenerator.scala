@@ -204,7 +204,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   override val modelPackage: Option[String] = Some(packageName + ".model")
   override val apiPackage: Option[String] = Some(packageName + ".apis")
   override val reservedWords: Set[String] = Set("type", "package", "match", "object")
-  override val importMapping = Map("Date" -> "org.joda.time.DateTime", "DateTimeZone" -> "org.joda.time.DateTimeZone")
+  override val importMapping = Map("Date" -> "org.joda.time.DateTime", "DateTimeZone" -> "org.joda.time.DateTimeZone", "Chronology" -> "org.joda.time.Chronology")
   override val typeMapping = Map(
       "boolean" -> "Boolean",
       "string" -> "String",
