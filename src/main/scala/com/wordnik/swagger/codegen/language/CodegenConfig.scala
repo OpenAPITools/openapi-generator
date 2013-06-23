@@ -137,18 +137,9 @@ abstract class CodegenConfig {
       case "float" => "0f"
       case "double" => "0.0"
       case e: String if (Set("List").contains(e)) => {
-        val inner = {
-          obj.items match {
-            case Some(items) => {
-              if(items.ref != None) 
-                items.ref.get
-              else
-                items.`type`
-            }
-            case _ => throw new Exception("no inner type defined")
-          }
-        }
-        "new java.util.ArrayList[" + toDeclaredType(inner) + "]" + "()"
+        val inner =
+          obj.items.map(i => i.ref.getOrElse(i.`type`)).getOrElse(throw new Exception("no inner type defined"))
+        "List.empty[" + toDeclaredType(inner) + "]"
       }
       case _ => "_"
     }

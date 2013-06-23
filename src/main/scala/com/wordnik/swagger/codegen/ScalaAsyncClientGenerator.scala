@@ -204,7 +204,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   override val modelPackage: Option[String] = Some(packageName + ".model")
   override val apiPackage: Option[String] = Some(packageName + ".apis")
   override val reservedWords: Set[String] = Set("type", "package", "match", "object")
-  override val importMapping = Map("Date" -> "org.joda.time.DateTime")
+  override val importMapping = Map("Date" -> "org.joda.time.DateTime", "DateTimeZone" -> "org.joda.time.DateTimeZone")
   override val typeMapping = Map(
       "boolean" -> "Boolean",
       "string" -> "String",
@@ -213,15 +213,26 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       "long" -> "Long",
       "double" -> "Double",
       "object" -> "Any",
-      "Date" -> "DateTime")
+      "Date" -> "DateTime",
+      "BCryptPassword" -> "String")
 
   override val defaultIncludes = Set(
       "Int",
+      "int",
       "String",
+      "string",
       "Long",
+      "long",
       "Float",
+      "float",
       "Double",
+      "double",
       "Boolean",
+      "boolean",
+      "DateTime",
+      "DateTimeZone",
+      "Chronology",
+      "object",
       "Any")
   override def supportingFiles = List(
     ("client.mustache", destinationDir + "/" + cfg.api.packageName.replace('.', '/'), (pascalizedClientName +".scala")),
@@ -308,12 +319,12 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
         })
       }
       output.map(op => processApiOperation(op._2, op._3))
-      allModels ++= CoreUtils.extractApiModels(apiDescription)
+      allModels ++= CoreUtils.extractApiModels(apiDescription, defaultIncludes, typeMapping)
     })
     output.toList
   }
 
-  override def toModelName(name: String) = name.pascalize
+  override def toModelName(name: String) = toDeclaredType(name.pascalize)
 
   override def toApiName(name: String) = {
     name.replaceAll("\\{","").replaceAll("\\}", "") match {
@@ -333,7 +344,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
    */
   override def prepareModelMap(models: Map[String, Model]): List[Map[String, AnyRef]] = {
     (for ((name, schema) <- models) yield {
-      if (!defaultIncludes.contains(name)) {
+      if (!defaultIncludes.contains(name) && !name.equalsIgnoreCase("subscribe")) {
         Some(Map(
           "name" -> toModelName(name),
           "className" -> name,
@@ -397,12 +408,14 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     val opMap = new mutable.HashMap[(String, String), mutable.ListBuffer[(String, Operation)]]
     for ((basePath, apiPath, operation) <- operations) {
       val className = resourceNameFromFullPath(apiPath)
-      val listToAddTo = opMap.getOrElse((basePath, className), {
-        val l = new mutable.ListBuffer[(String, Operation)]
-        opMap += (basePath, className) -> l
-        l
-      })
-      listToAddTo += (apiPath -> operation)
+      if (!className.equalsIgnoreCase("baldr")) {
+        val listToAddTo = opMap.getOrElse((basePath, className), {
+          val l = new mutable.ListBuffer[(String, Operation)]
+          opMap += (basePath, className) -> l
+          l
+        })
+        listToAddTo += (apiPath -> operation)
+      }
     }
     opMap.map(m => (m._1, m._2.toList)).toMap
   }

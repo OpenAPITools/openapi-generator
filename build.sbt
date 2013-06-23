@@ -5,15 +5,15 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.3-SNAPSHOT"
+version := "2.0.3"
 
 scalaVersion := "2.9.2"
 
-javacOptions ++= Seq("-Xlint:unchecked", "-Xlint:deprecation")
+javacOptions ++= Seq("-target", "1.6", "-source", "1.6", "-Xlint:unchecked", "-Xlint:deprecation")
 
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
-crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.10.0")
+crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0")
 
 libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % "3.2.4",
