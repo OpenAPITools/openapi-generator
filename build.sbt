@@ -52,7 +52,7 @@ publishTo <<= (version) { version: String =>
   if (version.trim.endsWith("SNAPSHOT"))
     Some("Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots")
   else
-    Some("Sonatype Nexus Releases" at "https://oss.sonatype.org/content/repositories/releases")
+    Some("Sonatype Nexus Releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 }
 
 publishMavenStyle := true
