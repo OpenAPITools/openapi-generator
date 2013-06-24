@@ -38,7 +38,7 @@ import scala.collection.mutable.{ HashMap, ListBuffer, HashSet }
 import scala.collection.JavaConversions._
 
 object Codegen {
-  val templates = new HashMap[String, (TemplateEngine, Template)]
+  val templates = new HashMap[String, (String, (TemplateEngine, Template))]
 }
 
 class Codegen(config: CodegenConfig) {
@@ -136,29 +136,7 @@ class Codegen(config: CodegenConfig) {
     })
 
     val rootDir = new java.io.File(".")
-    val engineData = Codegen.templates.getOrElse(templateFile, {
-      val engine = new TemplateEngine(Some(rootDir))
-      val srcName = config.templateDir + File.separator + templateFile
-      val srcStream = {
-        getClass.getClassLoader.getResourceAsStream(srcName) match {
-          case is: java.io.InputStream => is
-          case _ => {
-            val f = new java.io.File(srcName)
-            if (!f.exists) throw new Exception("Missing template: " + srcName)
-            else new java.io.FileInputStream(f)
-          }
-        }
-      }
-      val template = engine.compile(
-        TemplateSource.fromText(config.templateDir + File.separator + templateFile,
-          Source.fromInputStream(srcStream).mkString))
-      val t = Tuple2(engine, template)
-      Codegen.templates += templateFile -> t
-      t
-    })
-
-    val engine = engineData._1
-    val template = engineData._2
+    val (resourcePath, (engine, template)) = Codegen.templates.getOrElseUpdate(templateFile, compileTemplate(templateFile, Some(rootDir)))
 
     val requiredModels = {
       for(i <- allImports) yield {
@@ -182,11 +160,31 @@ class Codegen(config: CodegenConfig) {
       "operations" -> f,
       "models" -> modelData,
       "basePath" -> bundle.getOrElse("basePath", ""))
-    var output = engine.layout(config.templateDir + File.separator + templateFile, template, data.toMap)
+    var output = engine.layout(resourcePath, template, data.toMap)
 
     //  a shutdown method will be added to scalate in an upcoming release
     engine.compiler.shutdown
     output
+  }
+
+
+  protected def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
+    val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
+    val srcName = config.templateDir + File.separator + templateFile
+    val srcStream = {
+      getClass.getClassLoader.getResourceAsStream(srcName) match {
+        case is: java.io.InputStream => is
+        case _ => {
+          val f = new java.io.File(srcName)
+          if (!f.exists) throw new Exception("Missing template: " + srcName)
+          else new java.io.FileInputStream(f)
+        }
+      }
+    }
+    val template = engine.compile(
+      TemplateSource.fromText(config.templateDir + File.separator + templateFile,
+        Source.fromInputStream(srcStream).mkString))
+    (srcName, engine -> template)
   }
 
   def allowableValuesToString(v: AllowableValues) = {
@@ -532,13 +530,7 @@ class Codegen(config: CodegenConfig) {
 
       if (supportingFile.endsWith(".mustache")) {
         val output = {
-          val resourceName = config.templateDir + File.separator + supportingFile
-          val is = getInputStream(resourceName)
-          if (is == null)
-            throw new Exception("Resource not found: " + resourceName)
-          val template = engine.compile(
-            TemplateSource.fromText(resourceName,
-              Source.fromInputStream(is).mkString))
+          val (resourceName, (_, template)) = compileTemplate(supportingFile, Some(rootDir), Some(engine))
           engine.layout(resourceName, template, data.toMap)
         }
         val fw = new FileWriter(outputFilename, false)

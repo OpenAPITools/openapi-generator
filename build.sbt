@@ -5,7 +5,7 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.3"
+version := "2.0.5"
 
 scalaVersion := "2.9.2"
 
@@ -89,7 +89,7 @@ pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
     </developer>
     <developer>
       <id>ayush</id>
-      <name>Ayush Gupts</name>
+      <name>Ayush Gupta</name>
       <email>ayush@glugbot.com</email>
     </developer>
     <developer>

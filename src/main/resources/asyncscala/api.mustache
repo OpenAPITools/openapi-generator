@@ -16,7 +16,7 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
     val path =
       ("{{path}}"
         replaceAll ("\\{format\\}", ser.name)
-        {{#pathParams}}replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}})
+        {{#pathParams}}replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}}.toString)
         {{/pathParams}})
 
     // query params
@@ -25,7 +25,7 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
 
     {{#requiredParamCount}}
     // verify required params are set
-    val paramCount = (Set({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size 
+    val paramCount = (Set[Any]({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size
     if (paramCount != {{requiredParamCount}}) sys.error("missing required params")
     {{/requiredParamCount}}
 
