@@ -31,29 +31,30 @@ object ApiExtractor extends RemoteUrl {
   implicit val formats = SwaggerSerializers.formats
 
   def fetchApiListings(basePath: String, apis: List[ApiListingReference], apiKey: Option[String] = None): List[ApiListing] = {
+    println("looking at base path " + basePath)
     (for (api <- apis) yield {
-          try{
-            val json = basePath.startsWith("http") match {
-              case true => {
-                println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
-                urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
-              }
-              case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
-            }
-            Some(parse(json).extract[ApiListing])
+      try{
+        val json = (basePath.startsWith("http")) match {
+          case true => {
+            println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
+            urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
           }
-          catch {
-            case e: java.io.FileNotFoundException => {
-              println("WARNING!  Unable to read API " + basePath + api.path)
-              None
-            }
-            case e: Throwable => {
-              println("WARNING!  Unable to read API " + basePath + api.path)
-              e.printStackTrace()
-              None
-            }
-          }
-        }).flatten.toList
+          case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
+        }
+        Some(parse(json).extract[ApiListing])
+      }
+      catch {
+        case e: java.io.FileNotFoundException => {
+          println("WARNING!  Unable to read API " + basePath + api.path)
+          None
+        }
+        case e: Throwable => {
+          println("WARNING!  Unable to read API " + basePath + api.path)
+          e.printStackTrace()
+          None
+        }
+      }
+    }).flatten.toList
   }
 
   def extractApiOperations(basePath: String, references: List[ApiListingReference], apiKey: Option[String] = None) = {

@@ -89,7 +89,7 @@ object SwaggerSerializers {
           ""
         }),
         (json \ "basePath").extractOrElse({
-          !!(json, RESOURCE_LISTING, "basePath", "missing required field", ERROR)
+          !!(json, RESOURCE_LISTING, "basePath", "missing deprecated field", WARNING)
           ""
         }),
         (json \ "apis").extract[List[ApiListingReference]]
@@ -177,10 +177,12 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       Operation(
-        (json \ "httpMethod").extractOrElse({
-          !!(json, OPERATION, "httpMethod", "missing required field", ERROR)
-          ""
-        }),
+        (json \ "httpMethod").extractOrElse(
+          (json \ "method").extractOrElse({
+            !!(json, OPERATION, "method", "missing required field", ERROR)
+            ""
+          })
+        ),
         (json \ "summary").extract[String],
         (json \ "notes").extractOrElse(""),
         (json \ "responseClass").extractOrElse({
@@ -198,7 +200,7 @@ object SwaggerSerializers {
     }, {
       case x: Operation =>
       implicit val fmts = formats
-      ("httpMethod" -> x.httpMethod) ~
+      ("method" -> x.httpMethod) ~
       ("summary" -> x.summary) ~
       ("notes" -> x.notes) ~
       ("responseClass" -> x.responseClass) ~
