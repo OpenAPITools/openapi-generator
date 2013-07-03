@@ -137,7 +137,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
       "description":"the description",
       "operations":[
         {
-          "httpMethod":"GET",
+          "method":"GET",
           "summary":"the summary",
           "notes":"the notes",
           "responseClass":"string",
@@ -203,7 +203,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
         List(Parameter("id", "the id", "-1", false, true, "string", AllowableListValues(List("a","b","c")), "query"))
       ))
     )
-    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"httpMethod":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
+    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
   }
 }
 
@@ -214,7 +214,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
   it should "deserialize an Operation" in {
     val jsonString = """
     {
-      "httpMethod":"GET",
+      "method":"GET",
       "summary":"the summary",
       "notes":"the notes",
       "responseClass":"string",
@@ -269,7 +269,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
       "getMeSomeStrings",
       List(Parameter("id", "the id", "-1", false, true, "string", AllowableListValues(List("a","b","c")), "query"))
     )
-    write(op) should be ("""{"httpMethod":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
+    write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
   }
 }
 
