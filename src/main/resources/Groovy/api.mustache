@@ -1,0 +1,56 @@
+package {{package}};
+
+
+
+
+
+import groovyx.net.http.*
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
+import {{invokerPackage}}.ApiUtils
+//-------------
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import java.util.*;
+
+@Mixin(ApiUtils)
+{{#operations}}
+class {{classname}} {
+    String basePath = "{{basePath}}"
+    String versionPath = "/api/v1"
+
+
+  {{#operation}}
+  def {{nickname}} ({{#allParams}} {{{dataType}}} {{paramName}},{{/allParams}} Closure onSuccess, Closure onFailure)  {
+    // create path and map variables
+    String resourcePath = "{{path}}"
+
+
+    // query params
+    def queryParams = [:]
+    def headerParams = [:]
+
+    {{#requiredParamCount}}
+    // verify required params are set
+    if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
+       throw new RuntimeException("missing required params")
+    }
+    {{/requiredParamCount}}
+
+    {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
+      queryParams.put("{{paramName}}", String.valueOf({{paramName}}))
+    {{/queryParams}}
+
+    {{#headerParams}}headerParams.put("{{paramName}}", {{paramName}})
+    {{/headerParams}}
+
+    invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
+                    "{{httpMethod}}", "{{returnContainer}}",
+                    {{#returnBaseType}}{{{returnBaseType}}}.class {{/returnBaseType}}{{^returnBaseType}}null {{/returnBaseType}})
+
+  }
+  {{/operation}}
+}
+{{/operations}}
