@@ -28,7 +28,11 @@ class ApiUtils {
 
 
     def buildUrlAndUriPath(basePath, versionPath, resourcePath) {
-
+        // HTTPBuilder expects to get as its constructor parameter an URL,
+        // without any other additions like path, therefore we need to cut the path
+        // from the basePath as it is represented by swagger APIs
+        // we use java.net.URI to manipulate the basePath
+        // then the uriPath will hold the rest of the path
         URI baseUri =  create(basePath)
         def pathOnly = baseUri.getPath()
         [basePath-pathOnly, pathOnly+versionPath+resourcePath]
