@@ -1,0 +1,21 @@
+package {{package}};
+
+import groovy.transform.Canonical
+{{#imports}}import {{import}};
+{{/imports}}
+{{#models}}
+{{#model}}
+@Canonical
+class {{classname}} {
+  {{#vars}}
+
+  {{#description}}/* {{{description}}} */
+  {{/description}}
+  {{{datatype}}} {{name}} = {{{defaultValue}}}
+  {{/vars}}
+  
+
+}
+
+{{/model}}
+{{/models}}
