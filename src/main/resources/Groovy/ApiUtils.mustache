@@ -8,9 +8,6 @@ import static java.net.URI.create;
 
 class ApiUtils {
 
-    def onSuccessPrintResult = {println "Successfully invoked API $it"}
-    def onFailurePrintError = {status, message -> println "Failed to invoke API $status $message"}
-
     def invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, method, container, type)  {
         def (url, uriPath) = buildUrlAndUriPath(basePath, versionPath, resourcePath)
         println "url=$url uriPath=$uriPath"
