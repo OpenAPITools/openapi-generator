@@ -48,8 +48,11 @@
         }
         {{/requiredParamCount}}
 
-        {{#queryParams}}if ({{paramName}} != null)
-          queryParams.Add("{{paramName}}", {{paramName}});
+		string paramStr = null;
+        {{#queryParams}}if ({{paramName}} != null){
+          paramStr = ({{paramName}} != null && {{paramName}} is DateTime) ? ((DateTime)(object){{paramName}}).ToString("u") : Convert.ToString({{paramName}});
+          queryParams.Add("{{paramName}}", paramStr);
+		}
         {{/queryParams}}
 
         {{#headerParams}}headerParams.Add("{{paramName}}", {{paramName}});
