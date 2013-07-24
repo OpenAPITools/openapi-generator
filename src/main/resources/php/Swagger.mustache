@@ -78,24 +78,23 @@ class APIClient {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
-		if ($method == self::$GET) {
-			if (! empty($queryParams)) {
-				$url = ($url . '?' . http_build_query($queryParams));
-			}
-		} else if ($method == self::$POST) {
-				curl_setopt($curl, CURLOPT_POST, true);
-				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-			} else if ($method == self::$PUT) {
-				$json_data = json_encode($postData);
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-			} else if ($method == self::$DELETE) {
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-			} else {
-			throw new Exception('Method ' . $method . ' is not recognized.');
+		if (! empty($queryParams)) {
+			$url = ($url . '?' . http_build_query($queryParams));
 		}
 
+		if ($method == self::$POST) {
+			curl_setopt($curl, CURLOPT_POST, true);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+		} else if ($method == self::$PUT) {
+			$json_data = json_encode($postData);
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+		} else if ($method == self::$DELETE) {
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+		} else if ($method != self::$GET) {
+			throw new Exception('Method ' . $method . ' is not recognized.');
+		}
 		curl_setopt($curl, CURLOPT_URL, $url);
 
 		// Make the request
