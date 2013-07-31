@@ -136,7 +136,7 @@ client codegen and ui may not work correctly.
 To validate an api and write output to ./swagger-errors.html:
 
 ```
-./bin/validate.sh http://petstore.swagger.wordnik.com/api/resources.json "" ./swagger-errors.html
+./bin/validate.sh http://petstore.swagger.wordnik.com/api/api-docs "specia-key" ./swagger-errors.html
 ```
 
 ### Generating static api documentation
