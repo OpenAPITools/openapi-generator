@@ -1,0 +1,280 @@
+{
+  "apiVersion": "1.0.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://petstore.swagger.wordnik.com/api",
+  "resourcePath": "/user",
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "apis": [
+    {
+      "path": "/user",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create user",
+          "notes": "This can only be done by the logged in user.",
+          "responseClass": "void",
+          "nickname": "createUser",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "User",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/createWithArray",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Creates list of users with given input array",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "createUsersWithArrayInput",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "List of user object",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "Array[User]",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/createWithList",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Creates list of users with given list input",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "createUsersWithListInput",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "List of user object",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "List[User]",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/{username}",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Updated user",
+          "notes": "This can only be done by the logged in user.",
+          "responseClass": "void",
+          "nickname": "updateUser",
+          "parameters": [
+            {
+              "name": "username",
+              "description": "name that need to be deleted",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Updated user object",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "User",
+              "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete user",
+          "notes": "This can only be done by the logged in user.",
+          "responseClass": "void",
+          "nickname": "deleteUser",
+          "parameters": [
+            {
+              "name": "username",
+              "description": "The name that needs to be deleted",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get user by user name",
+          "notes": "",
+          "responseClass": "User",
+          "nickname": "getUserByName",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "username",
+              "description": "The name that needs to be fetched. Use user1 for testing.",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/login",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Logs user into the system",
+          "notes": "",
+          "responseClass": "string",
+          "nickname": "loginUser",
+          "produces": [
+            "text/plain"
+          ],
+          "parameters": [
+            {
+              "name": "username",
+              "description": "The user name for login",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "password",
+              "description": "The password for login in clear text",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username and password combination"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/logout",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Logs out current logged in user session",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "logoutUser",
+          "produces": [
+            "text/plain"
+          ],
+          "parameters": []
+        }
+      ]
+    }
+  ],
+  "models": {
+    "User": {
+      "id": "User",
+      "name": "User",
+      "properties": {
+        "email": {
+          "type": "string",
+          "required": false
+        },
+        "username": {
+          "type": "string",
+          "required": false
+        },
+        "userStatus": {
+          "type": "int",
+          "required": false,
+          "description": "User Status",
+          "allowableValues": {
+            "valueType": "LIST",
+            "values": [
+              "1-registered",
+              "2-active",
+              "3-closed"
+            ]
+          }
+        },
+        "lastName": {
+          "type": "string",
+          "required": false
+        },
+        "firstName": {
+          "type": "string",
+          "required": false
+        },
+        "id": {
+          "type": "long",
+          "required": false
+        },
+        "phone": {
+          "type": "string",
+          "required": false
+        },
+        "password": {
+          "type": "string",
+          "required": false
+        }
+      }
+    }
+  }
+}

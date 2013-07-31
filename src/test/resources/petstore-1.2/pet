@@ -1,0 +1,284 @@
+{
+  "apiVersion": "1.0.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://petstore.swagger.wordnik.com/api",
+  "resourcePath": "/pet",
+  "produces": [
+    "application/json",
+    "application/xml",
+    "text/plain",
+    "text/html"
+  ],
+  "apis": [
+    {
+      "path": "/pet/{petId}",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Find pet by ID",
+          "notes": "Returns a pet based on ID",
+          "responseClass": "Pet",
+          "nickname": "getPetById",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+          "authorizations": [
+            "oauth2"
+          ],
+          "parameters": [
+            {
+              "name": "petId",
+              "description": "ID of pet that needs to be fetched",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Pet not found"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Deletes a pet",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "deletePet",
+          "parameters": [
+            {
+              "name": "petId",
+              "description": "Pet id to delete",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid pet value"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pet",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Add a new pet to the store",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "addPet",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "Pet object that needs to be added to the store",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "Pet",
+              "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 405,
+              "message": "Invalid input"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update an existing pet",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "updatePet",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "Pet object that needs to be updated in the store",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "Pet",
+              "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Pet not found"
+            },
+            {
+              "code": 405,
+              "message": "Validation exception"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pet/findByStatus",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds Pets by status",
+          "notes": "Multiple status values can be provided with comma seperated strings",
+          "responseClass": "List[Pet]",
+          "nickname": "findPetsByStatus",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "status",
+              "description": "Status values that need to be considered for filter",
+              "defaultValue": "available",
+              "required": true,
+              "allowMultiple": true,
+              "dataType": "string",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "available",
+                  "pending",
+                  "sold"
+                ]
+              },
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid status value"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pet/findByTags",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds Pets by tags",
+          "notes": "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.",
+          "responseClass": "List[Pet]",
+          "nickname": "findPetsByTags",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "tags",
+              "description": "Tags to filter by",
+              "required": true,
+              "allowMultiple": true,
+              "dataType": "string",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid tag value"
+            }
+          ],
+          "deprecated": "true"
+        }
+      ]
+    }
+  ],
+  "models": {
+    "Tag": {
+      "id": "Tag",
+      "name": "Tag",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "id": {
+          "type": "long",
+          "required": false
+        }
+      }
+    },
+    "Pet": {
+      "id": "Pet",
+      "name": "Pet",
+      "properties": {
+        "id": {
+          "type": "long",
+          "required": false
+        },
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "tags": {
+          "type": "List",
+          "required": false,
+          "items": {
+            "$ref": "Tag"
+          }
+        },
+        "photoUrls": {
+          "type": "List",
+          "required": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string",
+          "required": false,
+          "description": "pet status in the store",
+          "allowableValues": {
+            "valueType": "LIST",
+            "values": [
+              "available",
+              "pending",
+              "sold"
+            ]
+          }
+        },
+        "category": {
+          "type": "Category",
+          "required": false
+        }
+      }
+    },
+    "Category": {
+      "id": "Category",
+      "name": "Category",
+      "properties": {
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "id": {
+          "type": "long",
+          "required": false
+        }
+      }
+    }
+  }
+}
