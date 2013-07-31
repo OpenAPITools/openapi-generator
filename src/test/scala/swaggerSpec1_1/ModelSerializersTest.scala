@@ -1,3 +1,5 @@
+package swaggerSpec1_1
+
 import com.wordnik.swagger.model._
 
 import org.json4s._
@@ -13,35 +15,35 @@ import org.scalatest.matchers.ShouldMatchers
 import scala.collection.mutable.LinkedHashMap
 
 @RunWith(classOf[JUnitRunner])
-class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
+class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
-  it should "fail resource listing without base path" in {
-    SwaggerSerializers.validationMessages.clear
+  it should "deserialize an ResourceListing with no apis" in {
     val jsonString = """
     {
       "apiVersion":"1.2.3",
-      "swaggerVersion":"1.1"
+      "swaggerVersion":"1.1",
+      "basePath":"http://foo/bar"
     }
     """
-    parse(jsonString).extract[ResourceListing]
-    SwaggerSerializers.validationMessages.size should be (1)
-  }
-
-  it should "fail resource listing without apiVersion" in {
-    SwaggerSerializers.validationMessages.clear
-    val jsonString = """
-    {
-      "basePath": "http://foo.com",
-      "swaggerVersion":"1.1"
+    val json = parse(jsonString)
+    json.extract[ResourceListing] match {
+      case p: ResourceListing => {
+        p.apiVersion should be ("1.2.3")
+        p.swaggerVersion should be ("1.1")
+        p.basePath should be ("http://foo/bar")
+        p.apis.size should be (0)
+      }
+      case _ => fail("wrong type returned, should be ResourceListing")
     }
-    """
-    parse(jsonString).extract[ResourceListing]
-    SwaggerSerializers.validationMessages.size should be (1)
   }
 
-  it should "fail with missing paths in a ResourceListing" in {
-    SwaggerSerializers.validationMessages.clear
+  it should "serialize an ApiListingReference with no apis" in {
+    val l = ApiListingReference("/foo/bar", "the description")
+    write(l) should be ("""{"path":"/foo/bar","description":"the description"}""")
+  }
+
+  it should "deserialize an ResourceListing" in {
     val jsonString = """
     {
       "apiVersion":"1.2.3",
@@ -49,6 +51,7 @@ class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
       "basePath":"http://foo/bar",
       "apis":[
         {
+          "path":"/a/b",
           "description":"path ab apis"
         },{
           "path":"/c",
@@ -57,35 +60,16 @@ class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
       ]
     }
     """
-    parse(jsonString).extract[ResourceListing] match {
-      case e: ResourceListing => {
-        e.apis.size should be (2)
+    val json = parse(jsonString)
+    json.extract[ResourceListing] match {
+      case p: ResourceListing => {
+        p.apiVersion should be ("1.2.3")
+        p.swaggerVersion should be ("1.1")
+        p.basePath should be ("http://foo/bar")
+        p.apis.size should be (2)
       }
-      case _ => fail("didn't parse the underlying apis")
+      case _ => fail("wrong type returned, should be ResourceListing")
     }
-    SwaggerSerializers.validationMessages.size should be (1)
-  }
-}
-
-@RunWith(classOf[JUnitRunner])
-class ApiListingReferenceValidationTest extends FlatSpec with ShouldMatchers {
-  implicit val formats = SwaggerSerializers.formats
-
-
-  it should "deserialize an ApiListingReference" in {
-    SwaggerSerializers.validationMessages.clear
-    val jsonString = """
-    {
-      "description":"the description"
-    }
-    """
-    parse(jsonString).extract[ApiListingReference] match {
-      case p: ApiListingReference => {
-        p.description should be ("the description")
-      }
-      case _ => fail("wrong type returned, should be ApiListingReference")
-    }
-    SwaggerSerializers.validationMessages.size should be (1)
   }
 
   it should "serialize an ApiListingReference" in {
@@ -95,18 +79,70 @@ class ApiListingReferenceValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ApiDescriptionValidationTest extends FlatSpec with ShouldMatchers {
+class ApiListingReferenceSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
-  it should "fail to deserialize an ApiDescription with path, method, return type" in {
-    SwaggerSerializers.validationMessages.clear
+  it should "deserialize an ApiListingReference" in {
     val jsonString = """
     {
+      "path":"/foo/bar",
+      "description":"the description"
+    }
+    """
+    val json = parse(jsonString)
+    json.extract[ApiListingReference] match {
+      case p: ApiListingReference => {
+        p.path should be ("/foo/bar")
+        p.description should be ("the description")
+      }
+      case _ => fail("wrong type returned, should be ApiListingReference")
+    }
+  }
+
+  it should "serialize an ApiListingReference" in {
+    val l = ApiListingReference("/foo/bar", "the description")
+    write(l) should be ("""{"path":"/foo/bar","description":"the description"}""")
+  }
+}
+
+@RunWith(classOf[JUnitRunner])
+class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
+  implicit val formats = SwaggerSerializers.formats
+
+  it should "deserialize an ApiDescription with no ops" in {
+    val jsonString = """
+    {
+      "path":"/foo/bar",
+      "description":"the description"
+    }
+    """
+    val json = parse(jsonString)
+    json.extract[ApiDescription] match {
+      case p: ApiDescription => {
+        p.path should be ("/foo/bar")
+        p.description should be ("the description")
+        p.operations.size should be (0)
+      }
+      case _ => fail("wrong type returned, should be ApiDescription")
+    }
+  }
+
+  it should "serialize an ApiDescription with no operations" in {
+    val l = ApiDescription("/foo/bar", "the description")
+    write(l) should be ("""{"path":"/foo/bar","description":"the description"}""")
+  }
+
+  it should "deserialize an ApiDescription" in {
+    val jsonString = """
+    {
+      "path":"/foo/bar",
       "description":"the description",
       "operations":[
         {
+          "method":"GET",
           "summary":"the summary",
           "notes":"the notes",
+          "responseClass":"string",
           "nickname":"getMeSomeStrings",
           "parameters":[
             {
@@ -127,24 +163,60 @@ class ApiDescriptionValidationTest extends FlatSpec with ShouldMatchers {
       ]
     }
     """
-    parse(jsonString).extract[ApiDescription] match {
+    val json = parse(jsonString)
+    json.extract[ApiDescription] match {
       case p: ApiDescription => {
-        SwaggerSerializers.validationMessages.size should be (3)
+        p.path should be ("/foo/bar")
+        p.description should be ("the description")
+        p.operations.size should be (1)
+        p.operations.foreach(op => {
+          op.httpMethod should be ("GET")
+          op.summary should be ("the summary")
+          op.notes should be ("the notes")
+          op.responseClass should be ("string")
+          op.nickname should be ("getMeSomeStrings")
+          op.parameters.size should be (1)
+
+          op.parameters.foreach(m => {
+            m.name should be ("id")
+            m.description should be ("the id")
+            m.defaultValue should be ("-1")
+            m.required should be (false)
+            m.allowMultiple should be (true)
+            m.dataType should be ("string")
+            m.paramType should be ("query")
+          })
+        })
       }
       case _ => fail("wrong type returned, should be ApiDescription")
     }
   }
+
+  it should "serialize an ApiDescription" in {
+    val l = ApiDescription(
+      "/foo/bar", 
+      "the description",
+      List(Operation(
+        "get",
+        "the summary",
+        "the notes",
+        "string",
+        "getMeSomeStrings",
+        List(Parameter("id", "the id", "-1", false, true, "string", AllowableListValues(List("a","b","c")), "query"))
+      ))
+    )
+    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
+  }
 }
 
 @RunWith(classOf[JUnitRunner])
-class OperationValidationTest extends FlatSpec with ShouldMatchers {
+class OperationSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
-  it should "fail to deserialize an Operation with missing param type" in {
-    SwaggerSerializers.validationMessages.clear
+  it should "deserialize an Operation" in {
     val jsonString = """
     {
-      "httpMethod":"GET",
+      "method":"GET",
       "summary":"the summary",
       "notes":"the notes",
       "responseClass":"string",
@@ -160,7 +232,8 @@ class OperationValidationTest extends FlatSpec with ShouldMatchers {
           "allowableValues":{
             "valueType":"LIST",
             "values":["a","b","c"]
-          }
+          },
+          "paramType":"query"
         }
       ]
     }
@@ -168,7 +241,22 @@ class OperationValidationTest extends FlatSpec with ShouldMatchers {
     val json = parse(jsonString)
     json.extract[Operation] match {
       case op: Operation => {
-        SwaggerSerializers.validationMessages.size should be (1)
+        op.httpMethod should be ("GET")
+        op.summary should be ("the summary")
+        op.notes should be ("the notes")
+        op.responseClass should be ("string")
+        op.nickname should be ("getMeSomeStrings")
+        op.parameters.size should be (1)
+
+        op.parameters.foreach(m => {
+          m.name should be ("id")
+          m.description should be ("the id")
+          m.defaultValue should be ("-1")
+          m.required should be (false)
+          m.allowMultiple should be (true)
+          m.dataType should be ("string")
+          m.paramType should be ("query")
+        })
       }
       case _ => fail("wrong type returned, should be Operation")
     }
@@ -188,7 +276,7 @@ class OperationValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ErrorResponseValidationTest extends FlatSpec with ShouldMatchers {
+class ErrorResponseSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
   it should "deserialize an ErrorResponse" in {
@@ -215,7 +303,7 @@ class ErrorResponseValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ParameterValidationTest extends FlatSpec with ShouldMatchers {
+class ParameterSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
   it should "deserialize another param" in {
@@ -286,7 +374,7 @@ class ParameterValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ModelValidationTest extends FlatSpec with ShouldMatchers {
+class ModelSerializationTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
   it should "deserialize a model" in {
@@ -363,7 +451,7 @@ class ModelValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ModelRefValidationTest extends FlatSpec with ShouldMatchers {
+class ModelRefSerializationTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
   it should "deserialize a model ref" in {
@@ -390,7 +478,7 @@ class ModelRefValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
+class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
   it should "deserialize a model property with allowable values and ref" in {
@@ -494,7 +582,7 @@ class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class AllowableValuesValidationTest extends FlatSpec with ShouldMatchers {
+class AllowableValuesSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
   it should "deserialize allowable value list" in {

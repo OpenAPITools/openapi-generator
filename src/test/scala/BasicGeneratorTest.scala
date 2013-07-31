@@ -41,9 +41,9 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
   behavior of "BasicGenerator"
 
   it should "get operations" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
 
-    val subDocs = ApiExtractor.fetchApiListings("src/test/resources/petstore", resourceListing.apis)
+    val subDocs = ApiExtractor.fetchApiListings("src/test/resources/petstore-1.1", resourceListing.apis)
     val allModels = new HashMap[String, Model]
 
     implicit val basePath = "http://localhost:8080/api"
@@ -73,8 +73,8 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "verify ops are grouped by path correctly" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
-    val subDocs = ApiExtractor.fetchApiListings("src/test/resources/petstore", resourceListing.apis)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
+    val subDocs = ApiExtractor.fetchApiListings("src/test/resources/petstore-1.1", resourceListing.apis)
     val allModels = new HashMap[String, Model]()
 
     implicit val basePath = "http://localhost:8080/api"

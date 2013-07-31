@@ -1,3 +1,5 @@
+package swaggerSpec1_1
+
 import com.wordnik.swagger.codegen.util.CoreUtils
 
 import com.wordnik.swagger.model._
@@ -15,13 +17,13 @@ import scala.collection.mutable.LinkedHashMap
 
 @RunWith(classOf[JUnitRunner])
 class CoreUtilsTest extends FlatSpec with ShouldMatchers {
-  sys.props += "fileMap" -> "src/test/resources/petstore"
+  sys.props += "fileMap" -> "src/test/resources/petstore-1.1"
 
   behavior of "CoreUtils"
 
   it should "verify models are extracted" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
 
     val cu = CoreUtils.extractAllModels(apis)
     cu.size should be (5)
@@ -30,8 +32,8 @@ class CoreUtilsTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "verify operation names" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
 
     val petApi = apis.filter(api => api.resourcePath == "/pet").head
     val eps = petApi.apis.map(api => (api.path, api)).toMap

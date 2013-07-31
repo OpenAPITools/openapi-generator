@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package swaggerSpec1_1
 
 import com.wordnik.swagger.model._
 
@@ -33,7 +34,7 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 	behavior of "Swagger Model"
 
 	it should "deserialize ResourceListing" in {
-		val json = Source.fromFile("src/test/resources/petstore/resources.json").mkString
+		val json = Source.fromFile("src/test/resources/petstore-1.1/resources.json").mkString
 		val listing = parse(json).extract[ResourceListing]
 
 		listing.apiVersion should be ("0.2")
@@ -49,7 +50,7 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 	}
 
 	it should "deserialize ApiListing" in {
-		val json = Source.fromFile("src/test/resources/petstore/pet.json").mkString
+		val json = Source.fromFile("src/test/resources/petstore-1.1/pet.json").mkString
 		val apiListing = parse(json).extract[ApiListing]
 
 		apiListing.apiVersion should be ("0.2")
@@ -90,7 +91,7 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 	}
 
 	it should "deserialize ApiListing with AllowableValues" in {
-		val json = Source.fromFile("src/test/resources/petstore/pet.json").mkString
+		val json = Source.fromFile("src/test/resources/petstore-1.1/pet.json").mkString
 		val apiListing = parse(json).extract[ApiListing]
 		val apiMap = apiListing.apis.map(api => (api.path, api)).toMap
 		val petBaseApi = apiMap("/pet.{format}/findByStatus")
@@ -113,7 +114,7 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 	}
 
   it should "maintain model property order when deserializing" in {
-    val json = Source.fromFile("src/test/resources/petstore/pet.json").mkString
+    val json = Source.fromFile("src/test/resources/petstore-1.1/pet.json").mkString
     val apiListing = parse(json).extract[ApiListing]
 
     val modelsOpt = apiListing.models
@@ -134,7 +135,7 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
   }
 
 	it should "deserialize models" in {
- 		val json = Source.fromFile("src/test/resources/petstore/pet.json").mkString
+ 		val json = Source.fromFile("src/test/resources/petstore-1.1/pet.json").mkString
 		val apiListing = parse(json).extract[ApiListing]
 
 		val modelsOpt = apiListing.models

@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package swaggerSpec1_1
 
 import com.wordnik.swagger.model._
 import com.wordnik.swagger.codegen.util.{ResourceExtractor, ApiExtractor, CoreUtils}
@@ -29,7 +30,7 @@ import scala.reflect.BeanProperty
 class ResourceExtractorTest extends FlatSpec with ShouldMatchers {
   behavior of "ResourceExtractor"
   it should "get 3 apis from a resource listing" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
     resourceListing should not be(null)
     resourceListing.apis.size should be (3)
   }
@@ -39,8 +40,8 @@ class ResourceExtractorTest extends FlatSpec with ShouldMatchers {
 class ApiExtractorTest extends FlatSpec with ShouldMatchers {
   behavior of "ApiExtractor"
   it should "verify the deserialization of the store api" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json")
-    val docs = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
+    val docs = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
 
     val m = docs.map(t => (t.resourcePath, t)).toMap
     val storeApi = m("/store")

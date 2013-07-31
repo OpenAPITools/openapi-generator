@@ -181,8 +181,8 @@ class BasicObjcGeneratorTest extends FlatSpec with ShouldMatchers {
    }
 
    it should "verify an api map with path param" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json", None)
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json", None)
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
     val codegen = new Codegen(config)
     val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
@@ -210,8 +210,8 @@ class BasicObjcGeneratorTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "verify an api map with query params" in {
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json", None)
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json", None)
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
     val codegen = new Codegen(config)
     val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
@@ -246,9 +246,9 @@ class BasicObjcGeneratorTest extends FlatSpec with ShouldMatchers {
   it should "create an api file" in {
     implicit val basePath = "http://localhost:8080/api"
     val codegen = new Codegen(config)
-    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore/resources.json", None)
+    val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json", None)
 
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore", resourceListing.apis)
+    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
     val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
     val endpoint = petApi.apis.filter(api => api.path == "/pet.{format}/findByTags").head
