@@ -123,7 +123,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     })
 
     codegen.writeSupportingClasses(operationMap, allModels.toMap)
-    System.exit(1)
+    System.exit(0)
   }
 
   def extractApiOperations(apiListings: List[ApiListing], allModels: HashMap[String, Model] )(implicit basePath:String) = {
