@@ -44,9 +44,9 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 
 		val apis = listing.apis.map(api => (api.path, api.description)).toMap
 
-		apis("/store.{format}") should be ("Operations about store")
-		apis("/pet.{format}") should be ("Operations about pets")
-		apis("/user.{format}") should be ("Operations about user")
+		apis("/store.{format}") should be (Some("Operations about store"))
+		apis("/pet.{format}") should be (Some("Operations about pets"))
+		apis("/user.{format}") should be (Some("Operations about user"))
 	}
 
 	it should "deserialize ApiListing" in {
@@ -63,11 +63,11 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 
 		val apiMap = apiListing.apis.map(api => (api.path, api)).toMap
 		val petBaseApi = apiMap("/pet.{format}/{petId}")
-		petBaseApi.description should be ("Operations about pets")
+		petBaseApi.description should be (Some("Operations about pets"))
 		petBaseApi.operations.size should be (1)
 
 		val getPetById = petBaseApi.operations.head
-		getPetById.httpMethod should be ("GET")
+		getPetById.method should be ("GET")
 		getPetById.summary should be ("Find pet by ID")
 		getPetById.notes should be ("Returns a pet based on ID")
 		getPetById.responseClass should be ("Pet")
@@ -77,14 +77,14 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 
 		val param = getPetById.parameters.head
 		param.name should be ("petId")
-		param.description should be ("ID of pet that needs to be fetched")
+		param.description should be (Some("ID of pet that needs to be fetched"))
 		param.paramType should be ("path")
 		param.required should be (true)
 		param.allowMultiple should be (false)
 		param.dataType should be ("string")
 
-		getPetById.errorResponses.size should be (2)
-		val errors = getPetById.errorResponses.map(error => (error.code, error.reason)).toMap
+		getPetById.responseMessages.size should be (2)
+		val errors = getPetById.responseMessages.map(response => (response.code, response.message)).toMap
 
 		errors(400) should be ("Invalid ID supplied")
 		errors(404) should be ("Pet not found")
@@ -99,7 +99,7 @@ class SwaggerModelTest extends FlatSpec with ShouldMatchers {
 		val param = findPetsByStatus.parameters.head
 
 		param.name should be ("status")
-		param.description should be ("Status values that need to be considered for filter")
+		param.description should be (Some("Status values that need to be considered for filter"))
 		param.paramType should be ("query")
 		param.required should be (true)
 		param.allowMultiple should be (true)

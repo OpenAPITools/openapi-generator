@@ -58,8 +58,8 @@ class ApiExtractorTest extends FlatSpec with ShouldMatchers {
 
     getOrderById should not be null
 
-    getOrderById.httpMethod should be ("GET")
+    getOrderById.method should be ("GET")
     getOrderById.parameters.size should be (1)
-    getOrderById.errorResponses.size should be (2)
+    getOrderById.responseMessages.size should be (2)
   }
 }

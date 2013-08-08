@@ -100,7 +100,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
       "double" -> ("Double", "0.0"),
       "object" -> ("Any", "_"))
     expected.map(e => {
-      val model = ModelProperty(e._1)
+      val model = ModelProperty(e._1, "nothing")
       config.toDeclaration(model) should be (e._2)
     })
   }
@@ -125,7 +125,8 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    */
    it should "create a declaration with a List of strings" in {
       val property = ModelProperty(
-        "Array", 
+        `type` = "Array", 
+        qualifiedType = "nothing",
         items=Some(ModelRef(`type`= "string")))
       val m = config.toDeclaration(property)
       m._1 should be ("List[String]")
@@ -137,7 +138,8 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    */
    it should "create a declaration with a List of ints" in {
       val property = ModelProperty(
-        "Array", 
+        `type` = "Array", 
+        qualifiedType = "nothing",
         items=Some(ModelRef(`type`= "int")))
       val m = config.toDeclaration(property)
       m._1 should be ("List[Int]")
@@ -149,7 +151,8 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    */
    it should "create a declaration with a List of floats" in {
       val property = ModelProperty(
-        "Array", 
+        `type` = "Array", 
+        qualifiedType = "nothing",
         items=Some(ModelRef(`type`= "float")))
       val m = config.toDeclaration(property)
       m._1 should be ("List[Float]")
@@ -161,7 +164,8 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    */
    it should "create a declaration with a List of doubles" in {
       val property = ModelProperty(
-        "Array", 
+        `type` = "Array", 
+        qualifiedType = "nothing",
         items=Some(ModelRef(`type`= "double")))
       val m = config.toDeclaration(property)
       m._1 should be ("List[Double]")
@@ -173,8 +177,9 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
    */
    it should "create a declaration with a List of complex objects" in {
       val property = ModelProperty(
-        "Array", 
-        items=Some(ModelRef(`type`= "User")))
+        `type` = "Array",
+        qualifiedType = "Array",
+        items = Some(ModelRef(`type`= "User")))
       val m = config.toDeclaration(property)
       m._1 should be ("List[User]")
       m._2 should be ("_")
@@ -187,7 +192,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
     val endpoint = petApi.apis.filter(api => api.path == "/pet.{format}/findByTags").head
-    val operation = endpoint.operations.filter(op => op.httpMethod == "GET").head
+    val operation = endpoint.operations.filter(op => op.method == "GET").head
     val m = codegen.apiToMap("http://my.api.com/api", operation)
 
     m("path") should be ("http://my.api.com/api")
@@ -222,7 +227,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
     val endpoint = petApi.apis.filter(api => api.path == "/pet.{format}/findByStatus").head
-    val operation = endpoint.operations.filter(op => op.httpMethod == "GET").head
+    val operation = endpoint.operations.filter(op => op.method == "GET").head
     val m = codegen.apiToMap("http://my.api.com/api", operation)
 
     m("path") should be ("http://my.api.com/api")
@@ -262,7 +267,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     val petApi = apis.filter(doc => doc.resourcePath == "/pet").head
 
     val endpoint = petApi.apis.filter(api => api.path == "/pet.{format}/findByTags").head
-    val operation = endpoint.operations.filter(op => op.httpMethod == "GET").head
+    val operation = endpoint.operations.filter(op => op.method == "GET").head
     val m = codegen.apiToMap("http://my.api.com/api", operation)
 
     val allModels = new HashMap[String, Model]

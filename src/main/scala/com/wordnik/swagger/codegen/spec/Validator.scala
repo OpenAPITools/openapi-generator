@@ -24,7 +24,7 @@ import scala.collection.JavaConversions._
 object Validator extends PathUtil {
   def main(args: Array[String]) {
     if(args.length == 0) {
-      throw new RuntimeException("Need url to resources.json as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
+      throw new RuntimeException("Need url to Resource Listing as argument. You can also specify VM Argument -DfileMap=/path/to/resourceListing")
     }
     val host = args(0)
     val apiKey = {

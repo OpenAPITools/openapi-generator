@@ -208,11 +208,11 @@ class Codegen(config: CodegenConfig) {
     var paramList = new ListBuffer[HashMap[String, AnyRef]]
     var errorList = new ListBuffer[HashMap[String, AnyRef]]
     
-    if (operation.errorResponses != null) {
-		operation.errorResponses.foreach(param => { 
+    if (operation.responseMessages != null) {
+		operation.responseMessages.foreach(param => { 
 		 val params = new HashMap[String, AnyRef]
 		 params += "code" -> param.code.toString()
- 		 params += "reason" -> param.reason
+ 		 params += "reason" -> param.message
  		 params += "hasMore" -> "true"
  		 errorList += params	 
  		 })
@@ -224,7 +224,7 @@ class Codegen(config: CodegenConfig) {
         val params = new HashMap[String, AnyRef]
         params += (param.paramType + "Parameter") -> "true"
         params += "type" -> param.paramType
-        params += "defaultValue" -> config.toDefaultValue(param.dataType, param.defaultValue)
+        params += "defaultValue" -> config.toDefaultValue(param.dataType, param.defaultValue.getOrElse(""))
         params += "dataType" -> config.toDeclaredType(param.dataType)
         params += "swaggerDataType" -> param.dataType
         params += "description" -> param.description
@@ -336,7 +336,7 @@ class Codegen(config: CodegenConfig) {
         "notes" -> operation.notes,
         "deprecated" -> operation.`deprecated`,
         "bodyParam" -> bodyParam,
-        "emptyBodyParam" -> (if (writeMethods contains operation.httpMethod.toUpperCase) "{}" else ""),
+        "emptyBodyParam" -> (if (writeMethods contains operation.method.toUpperCase) "{}" else ""),
         "allParams" -> sp,
         "bodyParams" -> bodyParams.toList,
         "pathParams" -> pathParams.toList,
@@ -344,8 +344,8 @@ class Codegen(config: CodegenConfig) {
         "headerParams" -> headerParams.toList,
         "requiredParams" -> requiredParams.toList,
         "errorList" -> errorList,
-        "httpMethod" -> operation.httpMethod.toUpperCase,
-        operation.httpMethod.toLowerCase -> "true")
+        "httpMethod" -> operation.method.toUpperCase,
+        operation.method.toLowerCase -> "true")
     if (requiredParams.size > 0) properties += "requiredParamCount" -> requiredParams.size.toString
     operation.responseClass.indexOf("[") match {
       case -1 => {

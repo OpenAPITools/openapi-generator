@@ -19,9 +19,7 @@ package com.wordnik.swagger.codegen
 trait PathUtil {
   def getResourcePath(host: String) = {
     System.getProperty("fileMap") match {
-      case s: String => {
-        s + "/resources.json"
-      }
+      case s: String => s
       case _ => host
     }
   }

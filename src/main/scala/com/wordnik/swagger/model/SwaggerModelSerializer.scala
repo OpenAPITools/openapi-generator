@@ -19,7 +19,7 @@ object SwaggerSerializers {
     new AllowableValuesSerializer + 
     new ParameterSerializer +
     new OperationSerializer +
-    new ErrorResponseSerializer +
+    new ResponseMessageSerializer +
     new ApiDescriptionSerializer +
     new ApiListingReferenceSerializer +
     new ResourceListingSerializer +
@@ -52,8 +52,14 @@ object SwaggerSerializers {
           !!(json, RESOURCE, "resourcePath", "missing recommended field", WARNING)
           ""
         }),
+        (json \ "produces").extract[List[String]],
+        (json \ "consumes").extract[List[String]],
+        (json \ "protocols").extract[List[String]],
+        (json \ "authorizations").extract[List[String]],
         (json \ "apis").extract[List[ApiDescription]],
-        (json \ "models").extractOpt[Map[String, Model]]
+        (json \ "models").extractOpt[Map[String, Model]],
+        (json \ "description").extractOpt[String],
+        (json \ "position").extractOrElse(0)
       )
     }, {
       case x: ApiListing =>
@@ -117,7 +123,7 @@ object SwaggerSerializers {
           !!(json, RESOURCE, "path", "missing required field", ERROR)
           ""
         }),
-        (json \ "description").extractOrElse("")
+        (json \ "description").extractOpt[String]
       )
     }, {
       case x: ApiListingReference =>
@@ -135,7 +141,7 @@ object SwaggerSerializers {
           !!(json, RESOURCE_LISTING, "path", "missing required field", ERROR)
           ""
         }),
-        (json \ "description").extractOrElse(""),
+        (json \ "description").extractOpt[String],
         (json \ "operations").extract[List[Operation]]
       )
     }, {
@@ -152,30 +158,37 @@ object SwaggerSerializers {
     }
   ))
 
-  class ErrorResponseSerializer extends CustomSerializer[ErrorResponse](formats => ({
+  class ResponseMessageSerializer extends CustomSerializer[ResponseMessage](formats => ({
     case json =>
       implicit val fmts: Formats = formats
-      ErrorResponse(
+      ResponseMessage(
         (json \ "code").extractOrElse({
           !!(json, ERROR, "code", "missing required field", ERROR)
           0
         }),
-        (json \ "reason").extractOrElse({
-          !!(json, ERROR, "reason", "missing required field", ERROR)
-          ""
+        (json \ "message").extractOrElse({
+          (json \ "reason").extractOrElse({
+            !!(json, ERROR, "reason", "missing required field", ERROR)
+            ""
+          })
         })
       )
     }, {
-      case x: ErrorResponse =>
+      case x: ResponseMessage =>
       implicit val fmts = formats
       ("code" -> x.code) ~
-      ("reason" -> x.reason)
+      ("message" -> x.message)
     }
   ))
 
   class OperationSerializer extends CustomSerializer[Operation](formats => ({
     case json =>
       implicit val fmts: Formats = formats
+      val responses = ((json \ "responseMessages").extract[List[ResponseMessage]]) match {
+        case e: List[ResponseMessage] if (e.size > 0) => e
+        case _ => (json \ "errorResponses").extract[List[ResponseMessage]]
+      }
+
       Operation(
         (json \ "httpMethod").extractOrElse(
           (json \ "method").extractOrElse({
@@ -193,22 +206,27 @@ object SwaggerSerializers {
           !!(json, OPERATION, "nickname", "missing required field", ERROR)
           ""
         }),
+        (json \ "position").extractOrElse(0),
+        (json \ "produces").extract[List[String]],
+        (json \ "consumes").extract[List[String]],
+        (json \ "protocols").extract[List[String]],
+        (json \ "authorizations").extract[List[String]],
         (json \ "parameters").extract[List[Parameter]],
-        (json \ "errorResponses").extract[List[ErrorResponse]],
+        responses,
         (json \ "deprecated").extractOpt[String]
       )
     }, {
       case x: Operation =>
       implicit val fmts = formats
-      ("method" -> x.httpMethod) ~
+      ("method" -> x.method) ~
       ("summary" -> x.summary) ~
       ("notes" -> x.notes) ~
       ("responseClass" -> x.responseClass) ~
       ("nickname" -> x.nickname) ~
       ("parameters" -> Extraction.decompose(x.parameters)) ~
-      ("errorResponses" -> {
-        x.errorResponses match {
-          case e: List[ErrorResponse] if(e.size > 0) => Extraction.decompose(e)
+      ("responseMessages" -> {
+        x.responseMessages match {
+          case e: List[ResponseMessage] if(e.size > 0) => Extraction.decompose(e)
           case _ => JNothing
         }
       }) ~
@@ -224,16 +242,13 @@ object SwaggerSerializers {
           !!(json, OPERATION_PARAM, "reason", "missing parameter name", WARNING)
           ""
         }),
-        (json \ "description").extractOrElse({
-          !!(json, OPERATION_PARAM, "description", "missing recommended field", WARNING)
-          ""
-        }),
+        (json \ "description").extractOpt[String],
         (json \ "defaultValue") match {
-          case e:JInt => e.num.toString
-          case e:JBool => e.value.toString
-          case e:JString => e.s
-          case e:JDouble => e.num.toString
-          case _ => ""
+          case e:JInt => Some(e.num.toString)
+          case e:JBool => Some(e.value.toString)
+          case e:JString => Some(e.s)
+          case e:JDouble => Some(e.num.toString)
+          case _ => None
         },
         (json \ "required") match {
           case e:JString => e.s.toBoolean
@@ -262,7 +277,7 @@ object SwaggerSerializers {
       ("dataType" -> x.dataType) ~
       ("allowableValues" -> {
         x.allowableValues match {
-          case Any => JNothing // don't serialize when not a concrete type
+          case AnyAllowableValues => JNothing // don't serialize when not a concrete type
           case e:AllowableValues => Extraction.decompose(x.allowableValues)
           case _ => JNothing
         }
@@ -290,6 +305,7 @@ object SwaggerSerializers {
           ""
         }),
         (json \ "name").extractOrElse(""),
+        (json \ "id").extractOrElse(""),
         output,
         (json \ "description").extractOpt[String]
       )
@@ -312,7 +328,8 @@ object SwaggerSerializers {
       implicit val fmts: Formats = formats
       ModelProperty(
         `type` = (json \ "type").extractOrElse(""),
-        (json \ "required") match {
+        `qualifiedType` = (json \ "type").extractOrElse(""),
+        required = (json \ "required") match {
           case e:JString => e.s.toBoolean
           case e:JBool => e.value
           case _ => false
@@ -334,7 +351,7 @@ object SwaggerSerializers {
       ("description" -> x.description) ~
       ("allowableValues" -> {
         x.allowableValues match {
-          case Any => JNothing // don't serialize when not a concrete type
+          case AnyAllowableValues => JNothing // don't serialize when not a concrete type
           case e:AllowableValues => Extraction.decompose(x.allowableValues)
           case _ => JNothing
         }
@@ -383,7 +400,7 @@ object SwaggerSerializers {
         }
         case JString(x) if x.equalsIgnoreCase("range") =>
           AllowableRangeValues((json \ "min").extract[String], (json \ "max").extract[String])
-        case _ => Any
+        case _ => AnyAllowableValues
       }
     }, {
       case AllowableListValues(values, "LIST") => 

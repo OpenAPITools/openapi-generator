@@ -64,12 +64,12 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
     // pick apart the /store/order api
     val orderApi = operations("/store.{format}/order")
 
-    orderApi.httpMethod should be ("POST")
+    orderApi.method should be ("POST")
     orderApi.summary should be ("Place an order for a pet")
     orderApi.responseClass should be ("void")
     orderApi.nickname should be ("placeOrder")
     orderApi.parameters.size should be (1)
-    orderApi.errorResponses.size should be (1)
+    orderApi.responseMessages.size should be (1)
   }
 
   it should "verify ops are grouped by path correctly" in {
@@ -91,7 +91,7 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
 
     // 2 operations
     orderOperations.size should be (2)
-    (orderOperations.map(m => m.httpMethod).toSet & Set("GET", "DELETE")).size should be (2)
+    (orderOperations.map(m => m.method).toSet & Set("GET", "DELETE")).size should be (2)
     (orderOperations.map(m => m.nickname).toSet & Set("getOrderById", "deleteOrder")).size should be (2)
   }
 
@@ -136,12 +136,13 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
     Model(
       "SampleObject",
       "SampleObject",
+      "SampleObject",
       LinkedHashMap(
-        "stringValue" -> ModelProperty("string"),
-        "intValue" -> ModelProperty("int"),
-        "longValue" -> ModelProperty("long"),
-        "floatValue" -> ModelProperty("float"),
-        "doubleValue" -> ModelProperty("double")),
+        "stringValue" -> ModelProperty("string", "java.lang.String"),
+        "intValue" -> ModelProperty("int", "int"),
+        "longValue" -> ModelProperty("long", "long"),
+        "floatValue" -> ModelProperty("float", "float"),
+        "doubleValue" -> ModelProperty("double", "double")),
       Some("a sample object"))
   }
 }

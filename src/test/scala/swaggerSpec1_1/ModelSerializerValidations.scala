@@ -83,7 +83,7 @@ class ApiListingReferenceValidationTest extends FlatSpec with ShouldMatchers {
     """
     parse(jsonString).extract[ApiListingReference] match {
       case p: ApiListingReference => {
-        p.description should be ("the description")
+        p.description should be (Some("the description"))
       }
       case _ => fail("wrong type returned, should be ApiListingReference")
     }
@@ -91,7 +91,7 @@ class ApiListingReferenceValidationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize an ApiListingReference" in {
-    val l = ApiListingReference("/foo/bar", "the description")
+    val l = ApiListingReference("/foo/bar", Some("the description"))
     write(l) should be ("""{"path":"/foo/bar","description":"the description"}""")
   }
 }
@@ -183,36 +183,41 @@ class OperationValidationTest extends FlatSpec with ShouldMatchers {
       "the notes",
       "string",
       "getMeSomeStrings",
-      List(Parameter("id", "the id", "-1", false, true, "string", AllowableListValues(List("a","b","c")), "query"))
+      0,
+      List.empty,
+      List.empty,
+      List.empty,
+      List.empty,
+      List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
     )
     write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
   }
 }
 
 @RunWith(classOf[JUnitRunner])
-class ErrorResponseValidationTest extends FlatSpec with ShouldMatchers {
+class ResponseMessageValidationTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats
 
-  it should "deserialize an ErrorResponse" in {
+  it should "deserialize an ResponseMessage" in {
     val jsonString = """
     {
       "code":101,
-      "reason":"the reason"
+      "reason":"the message"
     }
     """
     val json = parse(jsonString)
-    json.extract[ErrorResponse] match {
-      case p: ErrorResponse => {
+    json.extract[ResponseMessage] match {
+      case p: ResponseMessage => {
         p.code should be (101)
-        p.reason should be ("the reason")
+        p.message should be ("the message")
       }
-      case _ => fail("wrong type returned, should be ErrorResponse")
+      case _ => fail("wrong type returned, should be ResponseMessage")
     }
   }
 
   it should "serialize an operation" in {
-    val l = ErrorResponse(101, "the reason")
-    write(l) should be ("""{"code":101,"reason":"the reason"}""")
+    val l = ResponseMessage(101, "the message")
+    write(l) should be ("""{"code":101,"message":"the message"}""")
   }
 }
 
@@ -222,29 +227,29 @@ class ParameterValidationTest extends FlatSpec with ShouldMatchers {
 
   it should "deserialize another param" in {
     val jsonString = """
-            {
-              "name":"includeDuplicates",
-              "defaultValue":"false",
-              "description":"Show duplicate examples from different sources",
-              "required":"false",
-              "allowableValues":{
-                "values":[
-                  false,
-                  true
-                ],
-                "valueType":"LIST"
-              },
-              "dataType":"string",
-              "allowMultiple":false,
-              "paramType":"query"
-            }
+{
+  "name":"includeDuplicates",
+  "defaultValue":"false",
+  "description":"Show duplicate examples from different sources",
+  "required":"false",
+  "allowableValues":{
+    "values":[
+      false,
+      true
+    ],
+    "valueType":"LIST"
+  },
+  "dataType":"string",
+  "allowMultiple":false,
+  "paramType":"query"
+}
     """
     val json = parse(jsonString)
     json.extract[Parameter] match {
       case p: Parameter => {
         p.name should be ("includeDuplicates")
-        p.description should be ("Show duplicate examples from different sources")
-        p.defaultValue should be ("false")
+        p.description should be (Some("Show duplicate examples from different sources"))
+        p.defaultValue should be (Some("false"))
         p.required should be (false)
         p.allowMultiple should be (false)
         p.dataType should be ("string")
@@ -270,8 +275,8 @@ class ParameterValidationTest extends FlatSpec with ShouldMatchers {
     json.extract[Parameter] match {
       case p: Parameter => {
         p.name should be ("name")
-        p.description should be ("description")
-        p.defaultValue should be ("tony")
+        p.description should be (Some("description"))
+        p.defaultValue should be (Some("tony"))
         p.required should be (false)
         p.allowMultiple should be (true)
         p.dataType should be ("string")
@@ -282,7 +287,7 @@ class ParameterValidationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a parameter" in {
-    val l = Parameter("name", "description", "tony", false, true, "string", Any, "query")
+    val l = Parameter("name", Some("description"), Some("tony"), false, true, "string", AnyAllowableValues, "query")
     write(l) should be ("""{"name":"name","description":"description","defaultValue":"tony","required":false,"allowMultiple":true,"dataType":"string","paramType":"query"}""")
   }
 }
@@ -359,7 +364,7 @@ class ModelValidationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a model" in {
-    val ref = Model("Foo", "Bar", (LinkedHashMap("s" -> ModelProperty("string", true, Some("a string")))))
+    val ref = Model("Foo", "Bar", "Bar", (LinkedHashMap("s" -> ModelProperty("string", "string", 0, true, Some("a string")))))
     write(ref) should be ("""{"id":"Foo","name":"Bar","properties":{"s":{"type":"string","required":true,"description":"a string"}}}""")
   }
 }
@@ -434,7 +439,7 @@ class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a model property with allowable values and ref" in {
-    val p = ModelProperty("string", false, Some("nice"), AllowableListValues(List("a","b")),Some(ModelRef("Foo",Some("Bar"))))
+    val p = ModelProperty("string", "string", 0, false, Some("nice"), AllowableListValues(List("a","b")),Some(ModelRef("Foo",Some("Bar"))))
     write(p) should be ("""{"type":"string","required":false,"description":"nice","allowableValues":{"valueType":"LIST","values":["a","b"]},"items":{"type":"Foo","$ref":"Bar"}}""")
   }
 
@@ -466,7 +471,7 @@ class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a model property with allowable values" in {
-    val p = ModelProperty("string", false, Some("nice"), AllowableListValues(List("a","b")))
+    val p = ModelProperty("string", "string", 0, false, Some("nice"), AllowableListValues(List("a","b")))
     write(p) should be ("""{"type":"string","required":false,"description":"nice","allowableValues":{"valueType":"LIST","values":["a","b"]}}""")
   }
 
@@ -490,7 +495,7 @@ class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
   }
 
   it should "serialize a model property" in {
-    val p = ModelProperty("string", false, Some("nice"))
+    val p = ModelProperty("string", "string", 0, false, Some("nice"))
     write(p) should be ("""{"type":"string","required":false,"description":"nice"}""")
   }
 }
