@@ -227,22 +227,22 @@ class ParameterValidationTest extends FlatSpec with ShouldMatchers {
 
   it should "deserialize another param" in {
     val jsonString = """
-{
-  "name":"includeDuplicates",
-  "defaultValue":"false",
-  "description":"Show duplicate examples from different sources",
-  "required":"false",
-  "allowableValues":{
-    "values":[
-      false,
-      true
-    ],
-    "valueType":"LIST"
-  },
-  "dataType":"string",
-  "allowMultiple":false,
-  "paramType":"query"
-}
+      {
+        "name":"includeDuplicates",
+        "defaultValue":"false",
+        "description":"Show duplicate examples from different sources",
+        "required":"false",
+        "allowableValues":{
+          "values":[
+            false,
+            true
+          ],
+          "valueType":"LIST"
+        },
+        "dataType":"string",
+        "allowMultiple":false,
+        "paramType":"query"
+      }
     """
     val json = parse(jsonString)
     json.extract[Parameter] match {

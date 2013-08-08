@@ -24,10 +24,13 @@ trait PathUtil {
     }
   }
 
-  def getBasePath(basePath: String) = {
+  def getBasePath(host: String, basePath: String) = {
     System.getProperty("fileMap") match {
       case s: String => s
-      case _ => basePath
+      case _ => {
+        if(basePath != "") basePath
+        else host
+      }
     }
   }
 

@@ -40,4 +40,12 @@ class PathUtilTest extends FlatSpec with ShouldMatchers {
   it should "convert a path" in {
   	config.apiNameFromPath("/foo/bar/cats/dogs") should be ("FooApi")
   }
+
+  /**
+   * since swagger-spec 1.2 doesn't support `basePath` in the Resource Listing,
+   * ensure the base path is extracted from the input host
+   **/
+   it should "get determine the basePath implicitly" in {
+    config.getBasePath("http://foo.com/api-docs", "") should be ("http://foo.com/api-docs")
+   }
 }

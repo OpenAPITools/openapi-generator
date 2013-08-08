@@ -301,8 +301,8 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   codegen = new AsyncClientCodegen(cfg.api.clientName, this, Some(cfg.projectRoot))
 
 
-  override def getBasePath(basePath: String): String =
-    cfg.api.baseUrl.getOrElse(super.getBasePath(basePath))
+  override def getBasePath(host: String, basePath: String): String =
+    cfg.api.baseUrl.getOrElse(super.getBasePath(host, basePath))
 
   override def generateClient(args: Array[String]) = {
 
@@ -316,7 +316,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       }
     }
 
-    implicit val basePath = getBasePath(doc.basePath)
+    implicit val basePath = getBasePath("", doc.basePath)
 
     val apiReferences = doc.apis
     if (apiReferences == null)

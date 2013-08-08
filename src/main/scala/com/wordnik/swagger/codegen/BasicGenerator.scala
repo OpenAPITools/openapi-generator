@@ -60,13 +60,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       }
     }
 
-    implicit val basePath = getBasePath(doc.basePath) match {
-      case "" => {
-        // use host
-        host
-      }
-      case e: String => e
-    }
+    implicit val basePath = getBasePath(host, doc.basePath)
 
     val apiReferences = doc.apis
     if (apiReferences == null)
