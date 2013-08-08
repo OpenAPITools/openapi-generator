@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2013 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,13 +31,14 @@ object ApiExtractor extends RemoteUrl {
   implicit val formats = SwaggerSerializers.formats
 
   def fetchApiListings(basePath: String, apis: List[ApiListingReference], apiKey: Option[String] = None): List[ApiListing] = {
-    println("looking at base path " + basePath)
     (for (api <- apis) yield {
       try{
         val json = (basePath.startsWith("http")) match {
           case true => {
-            println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
-            urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
+            val path = if(api.path.startsWith("http")) api.path
+            else basePath + api.path
+            println("calling: " + ((path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
+            urlToString((path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
           }
           case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
         }

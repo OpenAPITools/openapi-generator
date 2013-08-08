@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2013 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 
 import com.wordnik.swagger.codegen.BasicScalaGenerator
+import com.wordnik.swagger.codegen.PathUtil
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -45,7 +46,10 @@ class PathUtilTest extends FlatSpec with ShouldMatchers {
    * since swagger-spec 1.2 doesn't support `basePath` in the Resource Listing,
    * ensure the base path is extracted from the input host
    **/
-   it should "get determine the basePath implicitly" in {
-    config.getBasePath("http://foo.com/api-docs", "") should be ("http://foo.com/api-docs")
-   }
+  it should "get determine the basePath implicitly" in {
+    sys.props -= "fileMap"
+    new PathUtilImpl().getBasePath("http://foo.com/api-docs", "") should be ("http://foo.com/api-docs")
+  }
 }
+
+class PathUtilImpl extends PathUtil

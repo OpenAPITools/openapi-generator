@@ -12,6 +12,20 @@ import scala.collection.mutable.{ListBuffer, LinkedHashMap}
 object SwaggerSerializers {
   import ValidationMessage._
 
+  val swaggerTypeMap = Map(
+    // simple types
+    ("integer", "int32") -> "int",
+    ("integer", "int64") -> "long",
+    ("number", "float") -> "float",
+    ("number", "double") -> "double",
+    ("string", "byte") -> "byte",
+    ("string", "date") -> "Date",
+    ("string", "date-time") -> "Date",
+
+    // containers
+    ("array", "") -> "Array"
+  )
+
   implicit val formats = DefaultFormats + 
     new ModelSerializer + 
     new ModelPropertySerializer +
@@ -326,9 +340,20 @@ object SwaggerSerializers {
   class ModelPropertySerializer extends CustomSerializer[ModelProperty] (formats => ({
     case json =>
       implicit val fmts: Formats = formats
+
+      val `type` = (json \ "$ref") match {
+        case e: JString => e.s
+        case _ => {
+          // convert the jsonschema types into swagger types.  Note, this logic will move elsewhere soon
+          SwaggerSerializers.swaggerTypeMap.getOrElse(
+            ((json \ "type").extractOrElse(""), (json \ "format").extractOrElse(""))
+          , (json \ "type").extractOrElse(""))
+        }
+      }
+
       ModelProperty(
-        `type` = (json \ "type").extractOrElse(""),
-        `qualifiedType` = (json \ "type").extractOrElse(""),
+        `type` = `type`,
+        `qualifiedType` = `type`,
         required = (json \ "required") match {
           case e:JString => e.s.toBoolean
           case e:JBool => e.value

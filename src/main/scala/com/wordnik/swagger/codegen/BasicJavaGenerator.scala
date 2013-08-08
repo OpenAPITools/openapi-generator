@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2013 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -50,7 +50,8 @@ class BasicJavaGenerator extends BasicGenerator {
     "float" -> "Float",
     "long" -> "Long",
     "double" -> "Double",
-    "object" -> "Object")
+    "object" -> "Object",
+    "integer" -> "Integer")
 
   // location of templates
   override def templateDir = "Java"

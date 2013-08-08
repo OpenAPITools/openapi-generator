@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2013 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,7 +35,9 @@ trait PathUtil {
   }
 
   def toModelName(name: String) = {
-    name(0).toUpper + name.substring(1)
+    if(name.length > 0)
+      name(0).toUpper + name.substring(1)
+    else "MISSING MODEL NAME"
   }
 
   def toApiName(name: String) = {

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2013 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     }
 
     implicit val basePath = getBasePath(host, doc.basePath)
+    println("base path is " + basePath)
 
     val apiReferences = doc.apis
     if (apiReferences == null)
