@@ -6,7 +6,7 @@ import com.wordnik.petstore.model.Order;
 import java.util.*;
 
 public class StoreApi {
-  String basePath = "http://petstore.swagger.wordnik.com/api";
+  String basePath = "http://hello.com";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public ApiInvoker getInvoker() {
@@ -23,7 +23,7 @@ public class StoreApi {
 
   public Order getOrderById (String orderId) throws ApiException {
     // create path and map variables
-    String path = "/store.{format}/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -33,8 +33,10 @@ public class StoreApi {
     if(orderId == null ) {
        throw new ApiException(400, "missing required params");
     }
+    String contentType = "application/json";
+
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
       if(response != null){
         return (Order) ApiInvoker.deserialize(response, "", Order.class);
       }
@@ -52,7 +54,7 @@ public class StoreApi {
   }
   public void deleteOrder (String orderId) throws ApiException {
     // create path and map variables
-    String path = "/store.{format}/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -62,8 +64,10 @@ public class StoreApi {
     if(orderId == null ) {
        throw new ApiException(400, "missing required params");
     }
+    String contentType = "application/json";
+
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams);
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -81,7 +85,7 @@ public class StoreApi {
   }
   public void placeOrder (Order body) throws ApiException {
     // create path and map variables
-    String path = "/store.{format}/order".replaceAll("\\{format\\}","json");
+    String path = "/store/order".replaceAll("\\{format\\}","json");
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -91,8 +95,10 @@ public class StoreApi {
     if(body == null ) {
        throw new ApiException(400, "missing required params");
     }
+    String contentType = "application/json";
+
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
       if(response != null){
         return ;
       }

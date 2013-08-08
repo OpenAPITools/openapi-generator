@@ -47,8 +47,10 @@ public class {{classname}} {
     {{#headerParams}}headerParams.put("{{paramName}}", {{paramName}});
     {{/headerParams}}
 
+    String contentType = "application/json";
+
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams);
+      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams, contentType);
       if(response != null){
         return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
       }

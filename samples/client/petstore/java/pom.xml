@@ -2,14 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wordnik</groupId>
-  <artifactId>swagger-client</artifactId>
+  <artifactId>swagger-petstore</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-client</name>
-  <version>1.0</version>
+  <name>swagger-petstore</name>
+  <version>1.0.0</version>
   <scm>
     <connection>scm:git:git@github.com:wordnik/swagger-mustache.git</connection>
-    <developerConnection>scm:git:git@github.com:wordnik/swagger-mustache.git</developerConnection>
-    <url>https://github.com/wordnik/swagger-mustache</url>
+    <developerConnection>scm:git:git@github.com:wordnik/swagger-codegen.git</developerConnection>
+    <url>https://github.com/wordnik/swagger-codegen</url>
   </scm>
   <prerequisites>
     <maven>2.2.0</maven>
@@ -107,6 +107,7 @@
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
+        <version>${scala-maven-plugin-version}</version>
         <executions>
           <execution>
             <goals>
@@ -207,5 +208,7 @@
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.8.1</junit-version>
     <scala-test-version>1.6.1</scala-test-version>
+    <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
   </properties>
 </project>
+
