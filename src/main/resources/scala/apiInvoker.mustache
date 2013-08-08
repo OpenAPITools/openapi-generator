@@ -83,7 +83,7 @@ object ApiInvoker {
     val client = getClient(host)
 
     val querystring = queryParams.filter(k => k._2 != null).map(k => (escapeString(k._1) + "=" + escapeString(k._2))).mkString("?", "&", "")
-    val builder = client.resource(host + path + querystring).`type`(contentType)
+    val builder = client.resource(host + path + querystring).accept(contentType)
 
     headerParams.map(p => builder.header(p._1, p._2))
     defaultHeaders.map(p => {
@@ -106,11 +106,13 @@ object ApiInvoker {
           builder.post(classOf[ClientResponse], form)
         }
         else {
-          builder.post(classOf[ClientResponse], serialize(body))
+          if(body == null) builder.post(classOf[ClientResponse], serialize(body))
+          else builder.`type`(contentType).post(classOf[ClientResponse], serialize(body))
         }
       }
       case "PUT" => {
-        builder.put(classOf[ClientResponse], serialize(body))
+        if(body == null) builder.put(classOf[ClientResponse], null)
+        else builder.`type`(contentType).put(classOf[ClientResponse], serialize(body))
       }
       case "DELETE" => {
         builder.delete(classOf[ClientResponse])
