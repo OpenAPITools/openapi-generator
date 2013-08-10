@@ -1,6 +1,7 @@
 package com.wordnik.swagger.model
 
 import com.wordnik.swagger.codegen.spec.ValidationMessage
+import legacy.LegacySerializers
 
 import org.json4s._
 import org.json4s.JsonDSL._
@@ -12,7 +13,7 @@ import scala.collection.mutable.{ListBuffer, LinkedHashMap}
 object SwaggerSerializers {
   import ValidationMessage._
 
-  val swaggerTypeMap = Map(
+  val jsonSchemaTypeMap = Map(
     // simple types
     ("integer", "int32") -> "int",
     ("integer", "int64") -> "long",
@@ -26,24 +27,31 @@ object SwaggerSerializers {
     ("array", "") -> "Array"
   )
 
-  implicit val formats = DefaultFormats + 
-    new ModelSerializer + 
-    new ModelPropertySerializer +
-    new ModelRefSerializer + 
-    new AllowableValuesSerializer + 
-    new ParameterSerializer +
-    new OperationSerializer +
-    new ResponseMessageSerializer +
-    new ApiDescriptionSerializer +
-    new ApiListingReferenceSerializer +
-    new ResourceListingSerializer +
-    new ApiListingSerializer
+  def formats(version: String) = {
+    version match {
+      case "1.1" => LegacySerializers.formats
+      case "1.2" => {
+        DefaultFormats + 
+          new ModelSerializer + 
+          new ModelPropertySerializer +
+          new ModelRefSerializer + 
+          new AllowableValuesSerializer + 
+          new ParameterSerializer +
+          new OperationSerializer +
+          new ResponseMessageSerializer +
+          new ApiDescriptionSerializer +
+          new ApiListingReferenceSerializer +
+          new ResourceListingSerializer +
+          new ApiListingSerializer
+      }
+    }
+  }
 
-  val validationMessages = ListBuffer.empty[ValidationMessage]
+  def validationMessages = ValidationMessage.validationMessages
 
   def !!(element: AnyRef, elementType: String, elementId: String, message: String, level: String = ERROR) {
     val msg = new ValidationMessage(element, elementType, elementId, message, level)
-    validationMessages += msg
+    ValidationMessage.validationMessages += msg
   }
 
   class ApiListingSerializer extends CustomSerializer[ApiListing](formats => ({
@@ -181,10 +189,8 @@ object SwaggerSerializers {
           0
         }),
         (json \ "message").extractOrElse({
-          (json \ "reason").extractOrElse({
-            !!(json, ERROR, "reason", "missing required field", ERROR)
-            ""
-          })
+          !!(json, ERROR, "reason", "missing required field", ERROR)
+          ""
         })
       )
     }, {
@@ -198,10 +204,6 @@ object SwaggerSerializers {
   class OperationSerializer extends CustomSerializer[Operation](formats => ({
     case json =>
       implicit val fmts: Formats = formats
-      val responses = ((json \ "responseMessages").extract[List[ResponseMessage]]) match {
-        case e: List[ResponseMessage] if (e.size > 0) => e
-        case _ => (json \ "errorResponses").extract[List[ResponseMessage]]
-      }
 
       Operation(
         (json \ "httpMethod").extractOrElse(
@@ -226,7 +228,7 @@ object SwaggerSerializers {
         (json \ "protocols").extract[List[String]],
         (json \ "authorizations").extract[List[String]],
         (json \ "parameters").extract[List[Parameter]],
-        responses,
+        (json \ "responseMessages").extract[List[ResponseMessage]],
         (json \ "deprecated").extractOpt[String]
       )
     }, {
@@ -251,6 +253,36 @@ object SwaggerSerializers {
   class ParameterSerializer extends CustomSerializer[Parameter](formats => ({
     case json =>
       implicit val fmts: Formats = formats
+
+      val output = new ListBuffer[String]
+      (json \ "enum") match {
+        case JArray(entries) => entries.map {
+          case e: JInt => output += e.num.toString
+          case e: JBool => output += e.value.toString
+          case e: JString => output += e.s
+          case e: JDouble => output += e.num.toString
+          case _ =>
+        }
+        case _ =>
+      }
+      val allowableValues = {
+        if(output.size > 0) AllowableListValues(output.toList)
+        else {
+          val min = (json \ "min") match {
+            case e: JObject => e.extract[String]
+            case _ => ""
+          }
+          val max = (json \ "max") match {
+            case e: JObject => e.extract[String]
+            case _ => ""
+          }
+          if(min != "" && max != "")
+            AllowableRangeValues(min, max)
+          else
+            AnyAllowableValues
+        }
+      }
+
       Parameter(
         (json \ "name").extractOrElse({
           !!(json, OPERATION_PARAM, "reason", "missing parameter name", WARNING)
@@ -274,7 +306,7 @@ object SwaggerSerializers {
           !!(json, OPERATION_PARAM, "dataType", "missing required field", ERROR)
           ""
         }),
-        (json \ "allowableValues").extract[AllowableValues],
+        allowableValues,
         (json \ "paramType").extractOrElse({
           !!(json, OPERATION_PARAM, "paramType", "missing required field", ERROR)
           ""
@@ -304,10 +336,17 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
       val output = new LinkedHashMap[String, ModelProperty]
+      val required = (json \ "required").extract[Set[String]]
       val properties = (json \ "properties") match {
         case JObject(entries) => {
           entries.map({
-            case (key, value) => output += key -> value.extract[ModelProperty]
+            case (key, value) => {
+              val prop = value.extract[ModelProperty]
+              if(required.contains(key))
+                output += key -> prop.copy(required = true)
+              else
+                output += key -> prop
+            }
           })
         }
         case _ =>
@@ -345,12 +384,40 @@ object SwaggerSerializers {
         case e: JString => e.s
         case _ => {
           // convert the jsonschema types into swagger types.  Note, this logic will move elsewhere soon
-          SwaggerSerializers.swaggerTypeMap.getOrElse(
+          SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
             ((json \ "type").extractOrElse(""), (json \ "format").extractOrElse(""))
           , (json \ "type").extractOrElse(""))
         }
       }
 
+      val output = new ListBuffer[String]
+      (json \ "enum") match {
+        case JArray(entries) => entries.map {
+          case e: JInt => output += e.num.toString
+          case e: JBool => output += e.value.toString
+          case e: JString => output += e.s
+          case e: JDouble => output += e.num.toString
+          case _ =>
+        }
+        case _ =>
+      }
+      val allowableValues = {
+        if(output.size > 0) AllowableListValues(output.toList)
+        else {
+          val min = (json \ "min") match {
+            case e: JObject => e.extract[String]
+            case _ => ""
+          }
+          val max = (json \ "max") match {
+            case e: JObject => e.extract[String]
+            case _ => ""
+          }
+          if(min != "" && max != "")
+            AllowableRangeValues(min, max)
+          else
+            AnyAllowableValues
+        }
+      }
       ModelProperty(
         `type` = `type`,
         `qualifiedType` = `type`,
@@ -360,7 +427,7 @@ object SwaggerSerializers {
           case _ => false
         },
         description = (json \ "description").extractOpt[String],
-        allowableValues = (json \ "allowableValues").extract[AllowableValues],
+        allowableValues = allowableValues,
         items = {
           (json \ "items").extractOpt[ModelRef] match {
             case Some(e: ModelRef) if(e.`type` != null || e.ref != None) => Some(e)

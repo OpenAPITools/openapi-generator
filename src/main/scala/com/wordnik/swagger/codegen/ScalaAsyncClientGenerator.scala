@@ -321,7 +321,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     val apiReferences = doc.apis
     if (apiReferences == null)
       throw new Exception("No APIs specified by resource")
-    val apis = ApiExtractor.fetchApiListings(basePath, apiReferences, apiKey)
+    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, apiReferences, apiKey)
 
     new SwaggerSpecValidator(doc, apis).validate()
 

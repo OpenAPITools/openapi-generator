@@ -42,7 +42,7 @@ object Codegen {
 }
 
 class Codegen(config: CodegenConfig) {
-  implicit val formats = SwaggerSerializers.formats
+  implicit val formats = SwaggerSerializers.formats("1.2")
 
   def generateSource(bundle: Map[String, AnyRef], templateFile: String): String = {
     val allImports = new HashSet[String]

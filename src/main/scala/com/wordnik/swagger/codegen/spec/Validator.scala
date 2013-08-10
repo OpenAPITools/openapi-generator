@@ -45,7 +45,7 @@ object Validator extends PathUtil {
     }
 
     val basePath = getBasePath(host, doc.basePath)
-    val apis = ApiExtractor.fetchApiListings(basePath, doc.apis, apiKey)
+    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, doc.apis, apiKey)
     val swaggerSpecValidator = new SwaggerSpecValidator(doc, apis, false)
     swaggerSpecValidator.validate()
     swaggerSpecValidator.generateReport(host, outputFilename)

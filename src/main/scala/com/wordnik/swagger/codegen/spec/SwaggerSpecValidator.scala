@@ -441,4 +441,6 @@ object ValidationMessage {
   val OPERATION_PARAM = "Operation Parameter"
   val MODEL = "Model"
   val MODEL_PROPERTY = "Model Property"
+
+  val validationMessages = ListBuffer.empty[ValidationMessage]
 }
