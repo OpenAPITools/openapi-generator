@@ -41,7 +41,7 @@ class ApiExtractorTest extends FlatSpec with ShouldMatchers {
   behavior of "ApiExtractor"
   it should "verify the deserialization of the store api" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
-    val docs = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
+    val docs = ApiExtractor.extractApiOperations(resourceListing.swaggerVersion, "src/test/resources/petstore-1.1", resourceListing.apis)
 
     val m = docs.map(t => (t.resourcePath, t)).toMap
     val storeApi = m("/store")

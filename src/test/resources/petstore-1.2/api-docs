@@ -7,12 +7,12 @@
       "description": "Operations about pets"
     },
     {
-      "path": "/user",
-      "description": "Operations about user"
-    },
-    {
       "path": "/store",
       "description": "Operations about store"
+    },
+    {
+      "path": "/user",
+      "description": "Operations about user"
     }
   ],
   "authorizations": {

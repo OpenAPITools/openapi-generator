@@ -23,7 +23,7 @@ class CoreUtilsTest extends FlatSpec with ShouldMatchers {
 
   it should "verify models are extracted" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
+    val apis = ApiExtractor.extractApiOperations(resourceListing.swaggerVersion, "src/test/resources/petstore-1.1", resourceListing.apis)
 
     val cu = CoreUtils.extractAllModels(apis)
     cu.size should be (5)
@@ -33,7 +33,7 @@ class CoreUtilsTest extends FlatSpec with ShouldMatchers {
 
   it should "verify operation names" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
-    val apis = ApiExtractor.extractApiOperations("src/test/resources/petstore-1.1", resourceListing.apis)
+    val apis = ApiExtractor.extractApiOperations(resourceListing.swaggerVersion, "src/test/resources/petstore-1.1", resourceListing.apis)
 
     val petApi = apis.filter(api => api.resourcePath == "/pet").head
     val eps = petApi.apis.map(api => (api.path, api)).toMap
@@ -58,7 +58,7 @@ class CoreUtilsTest extends FlatSpec with ShouldMatchers {
 }
 
 object CoreUtilsTest {
-  implicit val formats = SwaggerSerializers.formats
+  implicit val formats = SwaggerSerializers.formats("1.1")
 
 	def sampleApis1 = {
 		parse("""

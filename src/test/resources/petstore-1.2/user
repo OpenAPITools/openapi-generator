@@ -1,7 +1,7 @@
 {
   "apiVersion": "1.0.0",
   "swaggerVersion": "1.2",
-  "basePath": "http://petstore.swagger.wordnik.com/api",
+  "basePath": "http://localhost:8002/api",
   "resourcePath": "/user",
   "produces": [
     "application/json",
@@ -9,74 +9,39 @@
   ],
   "apis": [
     {
-      "path": "/user",
-      "operations": [
-        {
-          "method": "POST",
-          "summary": "Create user",
-          "notes": "This can only be done by the logged in user.",
-          "responseClass": "void",
-          "nickname": "createUser",
-          "parameters": [
-            {
-              "name": "body",
-              "description": "Created user object",
-              "required": true,
-              "allowMultiple": false,
-              "dataType": "User",
-              "paramType": "body"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "path": "/user/createWithArray",
-      "operations": [
-        {
-          "method": "POST",
-          "summary": "Creates list of users with given input array",
-          "notes": "",
-          "responseClass": "void",
-          "nickname": "createUsersWithArrayInput",
-          "parameters": [
-            {
-              "name": "body",
-              "description": "List of user object",
-              "required": true,
-              "allowMultiple": false,
-              "dataType": "Array[User]",
-              "paramType": "body"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "path": "/user/createWithList",
-      "operations": [
-        {
-          "method": "POST",
-          "summary": "Creates list of users with given list input",
-          "notes": "",
-          "responseClass": "void",
-          "nickname": "createUsersWithListInput",
-          "parameters": [
-            {
-              "name": "body",
-              "description": "List of user object",
-              "required": true,
-              "allowMultiple": false,
-              "dataType": "List[User]",
-              "paramType": "body"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "path": "/user/{username}",
       "operations": [
+        {
+          "method": "GET",
+          "summary": "Get user by user name",
+          "notes": "",
+          "responseClass": "User",
+          "nickname": "getUserByName",
+          "produces": [
+            "application/json",
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "username",
+              "description": "The name that needs to be fetched. Use user1 for testing.",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            }
+          ]
+        },
         {
           "method": "PUT",
           "summary": "Updated user",
@@ -89,7 +54,7 @@
               "description": "name that need to be deleted",
               "required": true,
               "allowMultiple": false,
-              "dataType": "string",
+              "type": "string",
               "paramType": "path"
             },
             {
@@ -97,7 +62,7 @@
               "description": "Updated user object",
               "required": true,
               "allowMultiple": false,
-              "dataType": "User",
+              "type": "User",
               "paramType": "body"
             }
           ],
@@ -124,38 +89,7 @@
               "description": "The name that needs to be deleted",
               "required": true,
               "allowMultiple": false,
-              "dataType": "string",
-              "paramType": "path"
-            }
-          ],
-          "responseMessages": [
-            {
-              "code": 400,
-              "message": "Invalid username supplied"
-            },
-            {
-              "code": 404,
-              "message": "User not found"
-            }
-          ]
-        },
-        {
-          "method": "GET",
-          "summary": "Get user by user name",
-          "notes": "",
-          "responseClass": "User",
-          "nickname": "getUserByName",
-          "produces": [
-            "application/json",
-            "application/xml"
-          ],
-          "parameters": [
-            {
-              "name": "username",
-              "description": "The name that needs to be fetched. Use user1 for testing.",
-              "required": true,
-              "allowMultiple": false,
-              "dataType": "string",
+              "type": "string",
               "paramType": "path"
             }
           ],
@@ -190,7 +124,7 @@
               "description": "The user name for login",
               "required": true,
               "allowMultiple": false,
-              "dataType": "string",
+              "type": "string",
               "paramType": "query"
             },
             {
@@ -198,7 +132,7 @@
               "description": "The password for login in clear text",
               "required": true,
               "allowMultiple": false,
-              "dataType": "string",
+              "type": "string",
               "paramType": "query"
             }
           ],
@@ -226,53 +160,115 @@
           "parameters": []
         }
       ]
+    },
+    {
+      "path": "/user",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create user",
+          "notes": "This can only be done by the logged in user.",
+          "responseClass": "void",
+          "nickname": "createUser",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "allowMultiple": false,
+              "type": "User",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/createWithArray",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Creates list of users with given input array",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "createUsersWithArrayInput",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "List of user object",
+              "required": true,
+              "allowMultiple": false,
+              "type": "array",
+              "items": {
+                "$ref": "User"
+              },
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/createWithList",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Creates list of users with given list input",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "createUsersWithListInput",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "List of user object",
+              "required": true,
+              "allowMultiple": false,
+              "type": "array",
+              "items": {
+                "$ref": "User"
+              },
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
     }
   ],
   "models": {
     "User": {
       "id": "User",
-      "name": "User",
       "properties": {
-        "email": {
-          "type": "string",
-          "required": false
-        },
         "username": {
-          "type": "string",
-          "required": false
-        },
-        "userStatus": {
-          "type": "int",
-          "required": false,
-          "description": "User Status",
-          "allowableValues": {
-            "valueType": "LIST",
-            "values": [
-              "1-registered",
-              "2-active",
-              "3-closed"
-            ]
-          }
-        },
-        "lastName": {
-          "type": "string",
-          "required": false
-        },
-        "firstName": {
-          "type": "string",
-          "required": false
-        },
-        "id": {
-          "type": "long",
-          "required": false
-        },
-        "phone": {
-          "type": "string",
-          "required": false
+          "type": "string"
         },
         "password": {
-          "type": "string",
-          "required": false
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Status",
+          "enum": [
+            "1-registered",
+            "2-active",
+            "3-closed"
+          ]
+        },
+        "firstName": {
+          "type": "string"
         }
       }
     }

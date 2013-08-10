@@ -1,7 +1,7 @@
 {
   "apiVersion": "1.0.0",
   "swaggerVersion": "1.2",
-  "basePath": "http://petstore.swagger.wordnik.com/api",
+  "basePath": "http://localhost:8002/api",
   "resourcePath": "/pet",
   "produces": [
     "application/json",
@@ -32,7 +32,7 @@
               "description": "ID of pet that needs to be fetched",
               "required": true,
               "allowMultiple": false,
-              "dataType": "string",
+              "type": "string",
               "paramType": "path"
             }
           ],
@@ -59,7 +59,7 @@
               "description": "Pet id to delete",
               "required": true,
               "allowMultiple": false,
-              "dataType": "string",
+              "type": "string",
               "paramType": "path"
             }
           ],
@@ -76,29 +76,6 @@
       "path": "/pet",
       "operations": [
         {
-          "method": "POST",
-          "summary": "Add a new pet to the store",
-          "notes": "",
-          "responseClass": "void",
-          "nickname": "addPet",
-          "parameters": [
-            {
-              "name": "body",
-              "description": "Pet object that needs to be added to the store",
-              "required": true,
-              "allowMultiple": false,
-              "dataType": "Pet",
-              "paramType": "body"
-            }
-          ],
-          "responseMessages": [
-            {
-              "code": 405,
-              "message": "Invalid input"
-            }
-          ]
-        },
-        {
           "method": "PUT",
           "summary": "Update an existing pet",
           "notes": "",
@@ -110,7 +87,7 @@
               "description": "Pet object that needs to be updated in the store",
               "required": true,
               "allowMultiple": false,
-              "dataType": "Pet",
+              "type": "Pet",
               "paramType": "body"
             }
           ],
@@ -126,6 +103,29 @@
             {
               "code": 405,
               "message": "Validation exception"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Add a new pet to the store",
+          "notes": "",
+          "responseClass": "void",
+          "nickname": "addPet",
+          "parameters": [
+            {
+              "name": "body",
+              "description": "Pet object that needs to be added to the store",
+              "required": true,
+              "allowMultiple": false,
+              "type": "Pet",
+              "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 405,
+              "message": "Invalid input"
             }
           ]
         }
@@ -151,16 +151,13 @@
               "defaultValue": "available",
               "required": true,
               "allowMultiple": true,
-              "dataType": "string",
-              "allowableValues": {
-                "valueType": "LIST",
-                "values": [
-                  "available",
-                  "pending",
-                  "sold"
-                ]
-              },
-              "paramType": "query"
+              "type": "string",
+              "paramType": "query",
+              "enum": [
+                "available",
+                "pending",
+                "sold"
+              ]
             }
           ],
           "responseMessages": [
@@ -191,7 +188,7 @@
               "description": "Tags to filter by",
               "required": true,
               "allowMultiple": true,
-              "dataType": "string",
+              "type": "string",
               "paramType": "query"
             }
           ],
@@ -209,74 +206,66 @@
   "models": {
     "Tag": {
       "id": "Tag",
-      "name": "Tag",
       "properties": {
         "name": {
-          "type": "string",
-          "required": false
+          "type": "string"
         },
         "id": {
-          "type": "long",
-          "required": false
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
     "Pet": {
       "id": "Pet",
-      "name": "Pet",
+      "description": "A pet is a person's best friend",
+      "required": [
+        "name",
+        "id"
+      ],
       "properties": {
-        "id": {
-          "type": "long",
-          "required": false
-        },
-        "name": {
-          "type": "string",
-          "required": false
-        },
         "tags": {
-          "type": "List",
-          "required": false,
+          "type": "array",
           "items": {
             "$ref": "Tag"
           }
         },
-        "photoUrls": {
-          "type": "List",
-          "required": false,
-          "items": {
-            "type": "string"
-          }
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
         },
         "status": {
           "type": "string",
-          "required": false,
           "description": "pet status in the store",
-          "allowableValues": {
-            "valueType": "LIST",
-            "values": [
-              "available",
-              "pending",
-              "sold"
-            ]
-          }
+          "enum": [
+            "available",
+            "pending",
+            "sold"
+          ]
         },
         "category": {
-          "type": "Category",
-          "required": false
+          "$ref": "Category"
+        },
+        "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
     "Category": {
       "id": "Category",
-      "name": "Category",
       "properties": {
         "name": {
-          "type": "string",
-          "required": false
+          "type": "string"
         },
         "id": {
-          "type": "long",
-          "required": false
+          "type": "integer",
+          "format": "int64"
         }
       }
     }

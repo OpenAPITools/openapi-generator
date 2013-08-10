@@ -29,7 +29,7 @@ import scala.io._
 
 @RunWith(classOf[JUnitRunner])
 class SwaggerModelTest extends FlatSpec with ShouldMatchers {
-  implicit val formats = SwaggerSerializers.formats
+  implicit val formats = SwaggerSerializers.formats("1.1")
 
 	behavior of "Swagger Model"
 
