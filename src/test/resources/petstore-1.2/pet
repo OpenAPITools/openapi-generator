@@ -12,6 +12,7 @@
   "apis": [
     {
       "path": "/pet/{petId}",
+      "description":"Operations about pets",
       "operations": [
         {
           "method": "GET",

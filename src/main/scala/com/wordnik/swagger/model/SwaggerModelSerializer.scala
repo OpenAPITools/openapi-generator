@@ -302,8 +302,8 @@ object SwaggerSerializers {
           case _ => false
         },
         (json \ "allowMultiple").extractOrElse(false),
-        (json \ "dataType").extractOrElse({
-          !!(json, OPERATION_PARAM, "dataType", "missing required field", ERROR)
+        (json \ "type").extractOrElse({
+          !!(json, OPERATION_PARAM, "type", "missing required field", ERROR)
           ""
         }),
         allowableValues,
@@ -320,7 +320,7 @@ object SwaggerSerializers {
       ("defaultValue" -> x.defaultValue) ~
       ("required" -> x.required) ~
       ("allowMultiple" -> x.allowMultiple) ~
-      ("dataType" -> x.dataType) ~
+      ("type" -> x.dataType) ~
       ("allowableValues" -> {
         x.allowableValues match {
           case AnyAllowableValues => JNothing // don't serialize when not a concrete type

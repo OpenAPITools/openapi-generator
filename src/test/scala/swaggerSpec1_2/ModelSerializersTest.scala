@@ -147,7 +147,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
               "defaultValue":"-1",
               "required":false,
               "allowMultiple":true,
-              "dataType":"string",
+              "type":"string",
               "enum":["a","b","c"],
               "paramType":"query"
             }
@@ -203,7 +203,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
         List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
       ))
     )
-    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
+    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
   }
 }
 
@@ -226,7 +226,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
           "defaultValue":"-1",
           "required":false,
           "allowMultiple":true,
-          "dataType":"string",
+          "type":"string",
           "enum":["a","b","c"],
           "paramType":"query"
         }
@@ -271,7 +271,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
       List.empty,
       List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
     )
-    write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"dataType":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
+    write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
   }
 }
 
@@ -317,7 +317,7 @@ class ParameterSerializersTest extends FlatSpec with ShouldMatchers {
                 false,
                 true
               ],
-              "dataType":"string",
+              "type":"string",
               "allowMultiple":false,
               "paramType":"query"
             }
@@ -345,7 +345,7 @@ class ParameterSerializersTest extends FlatSpec with ShouldMatchers {
       "defaultValue":"tony",
       "required":false,
       "allowMultiple":true,
-      "dataType":"string",
+      "type":"string",
       "paramType":"query"
     }
     """
@@ -366,7 +366,7 @@ class ParameterSerializersTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a parameter" in {
     val l = Parameter("name", Some("description"), Some("tony"), false, true, "string", AnyAllowableValues, "query")
-    write(l) should be ("""{"name":"name","description":"description","defaultValue":"tony","required":false,"allowMultiple":true,"dataType":"string","paramType":"query"}""")
+    write(l) should be ("""{"name":"name","description":"description","defaultValue":"tony","required":false,"allowMultiple":true,"type":"string","paramType":"query"}""")
   }
 }
 
