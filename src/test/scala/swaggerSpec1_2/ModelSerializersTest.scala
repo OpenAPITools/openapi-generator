@@ -138,7 +138,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
           "method":"GET",
           "summary":"the summary",
           "notes":"the notes",
-          "responseClass":"string",
+          "type":"string",
           "nickname":"getMeSomeStrings",
           "parameters":[
             {
@@ -203,7 +203,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
         List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
       ))
     )
-    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
+    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","type":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
   }
 }
 
@@ -217,7 +217,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
       "method":"GET",
       "summary":"the summary",
       "notes":"the notes",
-      "responseClass":"string",
+      "type":"string",
       "nickname":"getMeSomeStrings",
       "parameters":[
         {
@@ -271,7 +271,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
       List.empty,
       List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
     )
-    write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","responseClass":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
+    write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","type":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
   }
 }
 

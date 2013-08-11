@@ -27,6 +27,47 @@ object SwaggerSerializers {
     ("array", "") -> "Array"
   )
 
+  def toJsonSchema(name: String, `type`: String): JObject = {
+    `type` match {
+      case "int"       => (name -> "integer") ~ ("format" -> "int32")
+      case "long"      => (name -> "integer") ~ ("format" -> "int64")
+      case "float"     => (name -> "number")  ~ ("format" -> "float")
+      case "double"    => (name -> "number")  ~ ("format" -> "double")
+      case "string"    => (name -> "string")  ~ ("format" -> JNothing)
+      case "byte"      => (name -> "string")  ~ ("format" -> "byte")
+      case "boolean"   => (name -> "boolean") ~ ("format" -> JNothing)
+      case "Date"      => (name -> "string")  ~ ("format" -> "date-time")
+      case "date"      => (name -> "string")  ~ ("format" -> "date")
+      case "date-time" => (name -> "string")  ~ ("format" -> "date-time")
+      case _           => {
+        val ComplexTypeMatcher = "([a-zA-Z]*)\\[([a-zA-Z\\.\\-]*)\\].*".r
+        `type` match {
+          case ComplexTypeMatcher(container, value) => 
+            toJsonSchemaContainer(container) ~ {
+              ("items" -> {if(isSimpleType(value))
+                  toJsonSchema("type", value)
+                else
+                  toJsonSchema("$ref", value)})
+            }
+          case _ => (name -> `type`)    ~ ("format" -> JNothing)
+        }
+      }
+    }
+  }
+
+  def toJsonSchemaContainer(name: String): JObject = {
+    name match {
+      case "List"      => ("type" -> "array")   ~ ("format" -> JNothing)
+      case "Array"     => ("type" -> "array")   ~ ("format" -> JNothing)
+      case "Set"       => ("type" -> "array")   ~ ("uniqueItems" -> true)
+      case _           => ("type" -> JNothing)
+    }
+  }
+
+  def isSimpleType(name: String) = {
+    Set("int", "long", "float", "double", "string", "byte", "boolean", "Date", "date", "date-time", "array").contains(name)
+  }
+
   def formats(version: String) = {
     version match {
       case "1.1" => LegacySerializers.formats
@@ -205,6 +246,21 @@ object SwaggerSerializers {
     case json =>
       implicit val fmts: Formats = formats
 
+      val responseClass = (json \ "items") match {
+        case e: JObject => {
+          val inner = {
+            (e \ "type").extractOrElse({
+              (e \ "$ref").extract[String]
+            })
+          }
+          "%s[%s]".format((json \ "type").extract[String], inner)
+        }
+        case _ => (json \ "type").extractOrElse({
+          !!(json, OPERATION, "responseClass", "missing required field", ERROR)
+          ""
+        })
+      }
+
       Operation(
         (json \ "httpMethod").extractOrElse(
           (json \ "method").extractOrElse({
@@ -214,10 +270,7 @@ object SwaggerSerializers {
         ),
         (json \ "summary").extract[String],
         (json \ "notes").extractOrElse(""),
-        (json \ "responseClass").extractOrElse({
-          !!(json, OPERATION, "responseClass", "missing required field", ERROR)
-          ""
-        }),
+        responseClass,
         (json \ "nickname").extractOrElse({
           !!(json, OPERATION, "nickname", "missing required field", ERROR)
           ""
@@ -233,11 +286,24 @@ object SwaggerSerializers {
       )
     }, {
       case x: Operation =>
+
+      val ComplexTypeMatcher = "([a-zA-Z]*)\\[([a-zA-Z\\.\\-]*)\\].*".r
+      val output = x.responseClass match {
+        case ComplexTypeMatcher(container, value) => 
+          toJsonSchemaContainer(container) ~ {
+            ("items" -> {if(isSimpleType(value))
+                toJsonSchema("type", value)
+              else
+                toJsonSchema("$ref", value)})
+          }
+        case _ => toJsonSchema("type", x.responseClass)    ~ ("format" -> JNothing)
+      }
+
       implicit val fmts = formats
       ("method" -> x.method) ~
       ("summary" -> x.summary) ~
       ("notes" -> x.notes) ~
-      ("responseClass" -> x.responseClass) ~
+      output ~
       ("nickname" -> x.nickname) ~
       ("parameters" -> Extraction.decompose(x.parameters)) ~
       ("responseMessages" -> {

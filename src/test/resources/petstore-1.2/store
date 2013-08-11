@@ -15,7 +15,7 @@
           "method": "GET",
           "summary": "Find purchase order by ID",
           "notes": "For valid response try integer IDs with value <= 5. Anything above 5 or nonintegers will generate API errors",
-          "responseClass": "Order",
+          "type": "Order",
           "nickname": "getOrderById",
           "produces": [
             "application/json",
@@ -46,7 +46,7 @@
           "method": "DELETE",
           "summary": "Delete purchase order by ID",
           "notes": "For valid response try integer IDs with value < 1000.  Anything above 1000 or nonintegers will generate API errors",
-          "responseClass": "void",
+          "type": "void",
           "nickname": "deleteOrder",
           "parameters": [
             {
@@ -78,7 +78,7 @@
           "method": "POST",
           "summary": "Place an order for a pet",
           "notes": "",
-          "responseClass": "void",
+          "type": "void",
           "nickname": "placeOrder",
           "parameters": [
             {
@@ -104,6 +104,10 @@
     "Order": {
       "id": "Order",
       "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
         "status": {
           "type": "string",
           "description": "Order Status",
@@ -113,14 +117,6 @@
             "delivered"
           ]
         },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "shipDate": {
-          "type": "string",
-          "format": "date-time"
-        },
         "petId": {
           "type": "integer",
           "format": "int64"
@@ -128,6 +124,10 @@
         "quantity": {
           "type": "integer",
           "format": "int32"
+        },
+        "shipDate": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     }
