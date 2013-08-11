@@ -18,7 +18,7 @@ import scala.collection.mutable.LinkedHashMap
 class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
-  it should "fail resource listing without base path" in {
+  it should "not have base path" in {
     SwaggerSerializers.validationMessages.clear
     val jsonString = """
     {
@@ -27,7 +27,7 @@ class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
     }
     """
     parse(jsonString).extract[ResourceListing]
-    SwaggerSerializers.validationMessages.size should be (1)
+    SwaggerSerializers.validationMessages.size should be (0)
   }
 
   it should "fail resource listing without apiVersion" in {
@@ -64,6 +64,7 @@ class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
       }
       case _ => fail("didn't parse the underlying apis")
     }
+    println(SwaggerSerializers.validationMessages)
     SwaggerSerializers.validationMessages.size should be (1)
   }
 }
@@ -194,7 +195,7 @@ class ResponseMessageValidationTest extends FlatSpec with ShouldMatchers {
     val jsonString = """
     {
       "code":101,
-      "reason":"the message"
+      "message":"the message"
     }
     """
     val json = parse(jsonString)
@@ -398,10 +399,7 @@ class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
       "type":"string",
       "required":false,
       "description":"nice",
-      "allowableValues": {
-        "valueType":"LIST",
-        "values":["1","2","3"]
-      },
+      "enum":["1","2","3"],
       "items":{
         "type":"Foo",
         "$ref":"Bar"
@@ -441,10 +439,7 @@ class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
       "type":"string",
       "required":false,
       "description":"nice",
-      "allowableValues": {
-        "valueType":"LIST",
-        "values":["1","2","3"]
-      }
+      "enum":["1","2","3"]
     }
     """
     val json = parse(jsonString)

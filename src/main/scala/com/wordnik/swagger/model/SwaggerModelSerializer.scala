@@ -107,6 +107,9 @@ object SwaggerSerializers {
   class ResourceListingSerializer extends CustomSerializer[ResourceListing](formats => ({
     case json =>
       implicit val fmts: Formats = formats
+
+      val apis = (json \ "apis").extract[List[ApiListingReference]]
+
       ResourceListing(
         (json \ "apiVersion").extractOrElse({
           !!(json, RESOURCE_LISTING, "apiVersion", "missing required field", ERROR)
@@ -116,11 +119,8 @@ object SwaggerSerializers {
           !!(json, RESOURCE_LISTING, "swaggerVersion", "missing required field", ERROR)
           ""
         }),
-        (json \ "basePath").extractOrElse({
-          !!(json, RESOURCE_LISTING, "basePath", "missing deprecated field", WARNING)
-          ""
-        }),
-        (json \ "apis").extract[List[ApiListingReference]]
+        "",
+        apis.filter(a => a.path != "" && a.path != null)
       )
     }, {
       case x: ResourceListing =>

@@ -22,8 +22,7 @@ class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
     val jsonString = """
     {
       "apiVersion":"1.2.3",
-      "swaggerVersion":"1.2",
-      "basePath":"http://foo/bar"
+      "swaggerVersion":"1.2"
     }
     """
     val json = parse(jsonString)
@@ -31,7 +30,6 @@ class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
       case p: ResourceListing => {
         p.apiVersion should be ("1.2.3")
         p.swaggerVersion should be ("1.2")
-        p.basePath should be ("http://foo/bar")
         p.apis.size should be (0)
       }
       case _ => fail("wrong type returned, should be ResourceListing")
@@ -48,7 +46,6 @@ class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
     {
       "apiVersion":"1.2.3",
       "swaggerVersion":"1.2",
-      "basePath":"http://foo/bar",
       "apis":[
         {
           "path":"/a/b",
@@ -65,7 +62,6 @@ class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
       case p: ResourceListing => {
         p.apiVersion should be ("1.2.3")
         p.swaggerVersion should be ("1.2")
-        p.basePath should be ("http://foo/bar")
         p.apis.size should be (2)
       }
       case _ => fail("wrong type returned, should be ResourceListing")
@@ -409,7 +405,6 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
         model.id should be ("Foo")
         model.name should be ("Bar")
         model.properties should not be (null)
-        println(model.properties)
         model.properties.size should be (3)
         model.description should be (Some("nice model"))
         model.properties("id") match {
