@@ -387,13 +387,6 @@ object SwaggerSerializers {
       ("required" -> x.required) ~
       ("allowMultiple" -> x.allowMultiple) ~
       toJsonSchema("type", x.dataType) ~
-      ("allowableValues" -> {
-        x.allowableValues match {
-          case AnyAllowableValues => JNothing // don't serialize when not a concrete type
-          case e:AllowableValues => Extraction.decompose(x.allowableValues)
-          case _ => JNothing
-        }
-      }) ~
       ("paramType" -> x.paramType)
 
       x.allowableValues match {
@@ -521,16 +514,17 @@ object SwaggerSerializers {
     }, {
     case x: ModelProperty =>
       implicit val fmts = formats
-      toJsonSchema("type", x.`type`) ~
+      val output = toJsonSchema("type", x.`type`) ~
       ("description" -> x.description) ~
-      ("allowableValues" -> {
-        x.allowableValues match {
-          case AnyAllowableValues => JNothing // don't serialize when not a concrete type
-          case e:AllowableValues => Extraction.decompose(x.allowableValues)
-          case _ => JNothing
-        }
-      }) ~
       ("items" -> Extraction.decompose(x.items))
+
+      x.allowableValues match {
+        case AllowableListValues(values, "LIST") => 
+          output ~ ("enum" -> Extraction.decompose(values))
+        case AllowableRangeValues(min, max)  => 
+          output ~ ("minimum" -> min) ~ ("maximum" -> max)
+        case _ => output
+      }
     }
   ))
 

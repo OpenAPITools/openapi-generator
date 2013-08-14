@@ -13,6 +13,11 @@ object SpecConverter {
   def main(args: Array[String]) = {
     implicit val formats = SwaggerSerializers.formats("1.2")
 
+    if(args == null || args.length < 3) {
+      println("Usage: SpecConverter {host} {api-key} {outputDir}\nIf no API key is required, use an empty string")
+      exit(0)
+    }
+
     val url = args(0)
     val key = Option(args(1))
     val outputDir = new File(args(2))
