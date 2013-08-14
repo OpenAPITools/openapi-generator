@@ -203,7 +203,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
         List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
       ))
     )
-    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","type":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}]}""")
+    write(l) should be ("""{"path":"/foo/bar","description":"the description","operations":[{"method":"get","summary":"the summary","notes":"the notes","type":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","paramType":"query","enum":["a","b","c"]}]}]}""")
   }
 }
 
@@ -271,7 +271,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
       List.empty,
       List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
     )
-    write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","type":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","allowableValues":{"valueType":"LIST","values":["a","b","c"]},"paramType":"query"}]}""")
+    write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","type":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","paramType":"query","enum":["a","b","c"]}]}""")
   }
 }
 
@@ -442,7 +442,7 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model" in {
     val ref = Model("Foo", "Bar", "Bar", (LinkedHashMap("s" -> ModelProperty("string", "string", 0, true, Some("a string")))))
-    write(ref) should be ("""{"id":"Foo","name":"Bar","properties":{"s":{"type":"string","required":true,"description":"a string"}}}""")
+    write(ref) should be ("""{"id":"Foo","name":"Bar","required":["s"],"properties":{"s":{"type":"string","description":"a string"}}}""")
   }
 }
 
@@ -514,7 +514,7 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model property with allowable values and ref" in {
     val p = ModelProperty("string", "string", 0, false, Some("nice"), AllowableListValues(List("a","b")),Some(ModelRef("Foo",Some("Bar"))))
-    write(p) should be ("""{"type":"string","required":false,"description":"nice","allowableValues":{"valueType":"LIST","values":["a","b"]},"items":{"type":"Foo","$ref":"Bar"}}""")
+    write(p) should be ("""{"type":"string","description":"nice","items":{"type":"Foo","$ref":"Bar"},"enum":["a","b"]}""")
   }
 
   it should "deserialize a model property with allowable values" in {
@@ -543,7 +543,7 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model property with allowable values" in {
     val p = ModelProperty("string", "string", 0, false, Some("nice"), AllowableListValues(List("a","b")))
-    write(p) should be ("""{"type":"string","required":false,"description":"nice","allowableValues":{"valueType":"LIST","values":["a","b"]}}""")
+    write(p) should be ("""{"type":"string","description":"nice","enum":["a","b"]}""")
   }
 
   it should "deserialize a model property" in {
@@ -567,7 +567,7 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model property" in {
     val p = ModelProperty("string", "string", 0, false, Some("nice"))
-    write(p) should be ("""{"type":"string","required":false,"description":"nice"}""")
+    write(p) should be ("""{"type":"string","description":"nice"}""")
   }
 }
 
