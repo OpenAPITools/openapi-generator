@@ -39,6 +39,7 @@ object SwaggerSerializers {
       case "Date"      => (name -> "string")  ~ ("format" -> "date-time")
       case "date"      => (name -> "string")  ~ ("format" -> "date")
       case "date-time" => (name -> "string")  ~ ("format" -> "date-time")
+      case "Array"     => (name -> "array")
       case _           => {
         val ComplexTypeMatcher = "([a-zA-Z]*)\\[([a-zA-Z\\.\\-]*)\\].*".r
         `type` match {
@@ -138,7 +139,7 @@ object SwaggerSerializers {
       }) ~
       ("models" -> {
         x.models match {
-          case e: Map[String, Model] if (e.size > 0) => Extraction.decompose(e)
+          case Some(e) if (e.size > 0) => Extraction.decompose(e)
           case _ => JNothing
         }
       })
@@ -168,7 +169,6 @@ object SwaggerSerializers {
       implicit val fmts = formats
       ("apiVersion" -> x.apiVersion) ~
       ("swaggerVersion" -> x.swaggerVersion) ~
-      ("basePath" -> x.basePath) ~
       ("apis" -> {
         x.apis match {
           case e: List[ApiListingReference] if (e.size > 0) => Extraction.decompose(e)
@@ -381,12 +381,12 @@ object SwaggerSerializers {
     }, {
       case x: Parameter =>
       implicit val fmts = formats
-      ("name" -> x.name) ~
+      val output = ("name" -> x.name) ~
       ("description" -> x.description) ~
       ("defaultValue" -> x.defaultValue) ~
       ("required" -> x.required) ~
       ("allowMultiple" -> x.allowMultiple) ~
-      ("type" -> x.dataType) ~
+      toJsonSchema("type", x.dataType) ~
       ("allowableValues" -> {
         x.allowableValues match {
           case AnyAllowableValues => JNothing // don't serialize when not a concrete type
@@ -395,6 +395,14 @@ object SwaggerSerializers {
         }
       }) ~
       ("paramType" -> x.paramType)
+
+      x.allowableValues match {
+        case AllowableListValues(values, "LIST") => 
+          output ~ ("enum" -> Extraction.decompose(values))
+        case AllowableRangeValues(min, max)  => 
+          output ~ ("minimum" -> min) ~ ("maximum" -> max)
+        case _ => output
+      }
     }
   ))
 
@@ -431,8 +439,17 @@ object SwaggerSerializers {
     }, {
     case x: Model =>
       implicit val fmts = formats
+      val required: List[String] = (for((name, prop) <- x.properties) yield {
+        if(prop.required) Some(name)
+        else None
+      }).flatten.toList
+
       ("id" -> x.id) ~
       ("name" -> x.name) ~
+      ("required" -> (required.size match {
+        case 0 => JNothing
+        case _ => Extraction.decompose(required)
+      })) ~
       ("properties" -> {
         x.properties match {
           case e: LinkedHashMap[String, ModelProperty] => Extraction.decompose(e.toMap)
@@ -504,8 +521,7 @@ object SwaggerSerializers {
     }, {
     case x: ModelProperty =>
       implicit val fmts = formats
-      ("type" -> x.`type`) ~
-      ("required" -> x.required) ~
+      toJsonSchema("type", x.`type`) ~
       ("description" -> x.description) ~
       ("allowableValues" -> {
         x.allowableValues match {
