@@ -11,7 +11,14 @@ import collection.mutable
 class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
   {{#operation}}
-  def {{nickname}}({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
+
+  def {{nickname}}({{#allParams}}
+      {{#optional}}
+        {{paramName}}: Option[{{dataType}}] = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
+      {{/optional}}
+      {{^optional}}
+        {{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
+      {{/optional}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
     // create path and map variables
     val path =
       ("{{path}}"

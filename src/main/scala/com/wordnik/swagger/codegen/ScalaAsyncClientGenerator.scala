@@ -95,10 +95,7 @@ object ScalaAsyncClientGenerator extends App {
     if (!r.startsWith("http") && !r.startsWith("file")) sys.props("fileMap") = r
     r
   }
-  val baseUrl = {
-    val r = opts.baseUrl()
-    if (r == null || r.trim.isEmpty) None else Some(r)
-  }
+  val baseUrl = opts.baseUrl.get
   val cfg = SwaggerGenConfig(
     api = SwaggerApi(opts.name(), resUrl, opts.`package`(), apiKey = opts.apiKey.get, baseUrl = baseUrl),
     templateDir = new File(opts.templateDir()),

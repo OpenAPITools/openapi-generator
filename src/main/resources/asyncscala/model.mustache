@@ -2,16 +2,17 @@ package {{package}}
 
 import org.joda.time.DateTime
 
+{{#imports}}import {{import}}
+{{/imports}}
+
 {{#models}}
 
 {{#model}}
-
-case class {{className}} (
+case class {{classname}} (
   {{#vars}}
 
-  {{#description}}/* {{{description}}} */
-  {{/description}}
-  {{name}}: {{datatype}}{{#hasMore}},{{newline}}  {{/hasMore}}
-  {{/vars}})
+  {{name}}: {{#isNotRequired}}Option[{{/isNotRequired}}{{datatype}}{{#isNotRequired}}]{{/isNotRequired}}  {{#hasMore}},{{/hasMore}}{{#description}}  // {{description}}{{/description}}{{newline}}
+  {{/vars}}
+)
 {{/model}}
 {{/models}}
