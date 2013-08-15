@@ -129,6 +129,7 @@ object SwaggerSerializers {
       case x: ApiListing =>
       implicit val fmts = formats
       ("apiVersion" -> x.apiVersion) ~
+      ("resourcePath" -> x.resourcePath) ~
       ("swaggerVersion" -> x.swaggerVersion) ~
       ("basePath" -> x.basePath) ~
       ("apis" -> {
