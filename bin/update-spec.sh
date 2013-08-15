@@ -21,15 +21,13 @@ cd $APP_DIR
 
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="com.wordnik.swagger.codegen.SpecConverter $@"
 
 if [ -f $APP_DIR/target/scala-2.9.1/swagger-codegen.jar ]; then
-  java -cp target/scala-2.9.1/swagger-codegen.jar $ags
+  scala -cp target/scala-2.9.1/swagger-codegen.jar $ags
 elif [[ -f $APP_DIR/target/scala-2.10/swagger-codegen.jar  ]]; then
   java -cp target/scala-2.10/swagger-codegen.jar $ags
 else
-  ./sbt assembly
-  java -cp target/swagger-codegen.jar $ags
+  ./sbt "run-main $ags"
 fi
 
