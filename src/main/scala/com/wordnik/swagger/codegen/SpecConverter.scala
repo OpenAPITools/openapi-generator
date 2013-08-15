@@ -27,6 +27,14 @@ object SpecConverter {
     val resourcePath = url.split("/").last
     val resourceListing = ResourceExtractor.fetchListing(url, key)
 
+    resourceListing.swaggerVersion match {
+      case "1.1" =>
+      case e: String => {
+        println("unsupported swagger version %s".format(e))
+        sys.exit(0)
+      }
+    }
+
     val updatedListing = {
       val apis = (for(api <- resourceListing.apis) yield {
         val path = if(api.path.startsWith("/" + resourcePath)) {
@@ -54,6 +62,7 @@ object SpecConverter {
   def writeToFile(p: String, s: String) {
     val pw = new java.io.PrintWriter(new File(p))
     try {
+      println("writing file %s".format(p))
       pw.write(s)
     } finally {
       pw.close()
