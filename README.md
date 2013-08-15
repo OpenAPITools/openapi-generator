@@ -174,6 +174,29 @@ You can also use the codegen to generate a server for a couple different framewo
 
 * [java jax-rs generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/java-jaxrs)
 
+
+### Migrating from Swagger 1.1 to 1.2 format
+
+If you've spent time hand-crafting your swagger spec files, you can use the [SpecConverter](https://github.com/wordnik/swagger-codegen/blob/master/src/main/scala/com/wordnik/swagger/codegen/SpecConverter.scala) to do the dirty work.  For example:
+
+```bash
+$ ./bin/update-spec.sh http://developer.wordnik.com/v4/resources.json wordnik-developer
+writing file wordnik-developer/api-docs
+calling: http://developer.wordnik.com/v4/account.json
+calling: http://developer.wordnik.com/v4/word.json
+calling: http://developer.wordnik.com/v4/words.json
+calling: http://developer.wordnik.com/v4/wordList.json
+calling: http://developer.wordnik.com/v4/wordLists.json
+writing file wordnik-developer/account
+writing file wordnik-developer/word
+writing file wordnik-developer/words
+writing file wordnik-developer/wordList
+writing file wordnik-developer/wordLists
+```
+
+Will read the 1.1 spec from wordnik developer and write it into the folder called `wordnik-developer`.
+
+
 ### To build the codegen library
 
 This will create the swagger-codegen library from source.  
