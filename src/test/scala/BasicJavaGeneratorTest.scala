@@ -46,6 +46,13 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
   	config.processResponseDeclaration("string") should be (Some("String"))
   }
 
+ /*
+   * arrays look nice
+   */
+  it should "process a string array" in {
+    config.processResponseDeclaration("array[String]") should be (Some("List<String>"))
+  }
+
   /*
    * swagger int is turned into scala Int
    */

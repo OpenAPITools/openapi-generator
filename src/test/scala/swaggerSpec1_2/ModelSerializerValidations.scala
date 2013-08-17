@@ -64,7 +64,6 @@ class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
       }
       case _ => fail("didn't parse the underlying apis")
     }
-    println(SwaggerSerializers.validationMessages)
     SwaggerSerializers.validationMessages.size should be (1)
   }
 }
