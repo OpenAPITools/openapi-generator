@@ -38,4 +38,11 @@ class BasicCSharpGeneratorTest extends FlatSpec with ShouldMatchers {
   it should "perserve the name date" in {
     config.toVarName("date") should be ("date")
   }
+
+ /*
+   * arrays look nice
+   */
+  it should "process a string array" in {
+    config.processResponseDeclaration("array[string]") should be (Some("List<string>"))
+  }
 }

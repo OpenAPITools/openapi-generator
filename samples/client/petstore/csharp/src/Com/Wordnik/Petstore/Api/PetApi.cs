@@ -11,26 +11,34 @@
         return apiInvoker;
       }
       
+      // Sets the endpoint base url for the services being accessed
       public void setBasePath(string basePath) {
         this.basePath = basePath;
       }
       
+      // Gets the endpoint base url for the services being accessed
       public String getBasePath() {
         return basePath;
       }
 
-      public Pet getPetById (string Petid) {
+      /// <summary>
+      /// Find pet by ID Returns a pet based on ID
+      /// </summary>
+      /// <param name="petId">ID of pet that needs to be fetched</param>
+      /// <returns></returns>
+      public Pet getPetById (string petId) {
         // create path and map variables
-        var path = "/pet.{format}/{petId}".Replace("{format}","json").Replace("{" + "Petid" + "}", apiInvoker.escapeString(Petid.ToString()));
+        var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.escapeString(petId.ToString()));
 
         // query params
         var queryParams = new Dictionary<String, String>();
         var headerParams = new Dictionary<String, String>();
 
         // verify required params are set
-        if (Petid == null ) {
+        if (petId == null ) {
            throw new ApiException(400, "missing required params");
         }
+        string paramStr = null;
         try {
           var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams);
           if(response != null){
@@ -48,9 +56,49 @@
           }
         }
       }
+      /// <summary>
+      /// Deletes a pet 
+      /// </summary>
+      /// <param name="petId">Pet id to delete</param>
+      /// <returns></returns>
+      public void deletePet (string petId) {
+        // create path and map variables
+        var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.escapeString(petId.ToString()));
+
+        // query params
+        var queryParams = new Dictionary<String, String>();
+        var headerParams = new Dictionary<String, String>();
+
+        // verify required params are set
+        if (petId == null ) {
+           throw new ApiException(400, "missing required params");
+        }
+        string paramStr = null;
+        try {
+          var response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams);
+          if(response != null){
+             return ;
+          }
+          else {
+            return ;
+          }
+        } catch (ApiException ex) {
+          if(ex.ErrorCode == 404) {
+          	return ;
+          }
+          else {
+            throw ex;
+          }
+        }
+      }
+      /// <summary>
+      /// Add a new pet to the store 
+      /// </summary>
+      /// <param name="body">Pet object that needs to be added to the store</param>
+      /// <returns></returns>
       public void addPet (Pet body) {
         // create path and map variables
-        var path = "/pet.{format}".Replace("{format}","json");
+        var path = "/pet".Replace("{format}","json");
 
         // query params
         var queryParams = new Dictionary<String, String>();
@@ -60,6 +108,7 @@
         if (body == null ) {
            throw new ApiException(400, "missing required params");
         }
+        string paramStr = null;
         try {
           var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams);
           if(response != null){
@@ -77,9 +126,14 @@
           }
         }
       }
+      /// <summary>
+      /// Update an existing pet 
+      /// </summary>
+      /// <param name="body">Pet object that needs to be updated in the store</param>
+      /// <returns></returns>
       public void updatePet (Pet body) {
         // create path and map variables
-        var path = "/pet.{format}".Replace("{format}","json");
+        var path = "/pet".Replace("{format}","json");
 
         // query params
         var queryParams = new Dictionary<String, String>();
@@ -89,6 +143,7 @@
         if (body == null ) {
            throw new ApiException(400, "missing required params");
         }
+        string paramStr = null;
         try {
           var response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, body, headerParams);
           if(response != null){
@@ -106,20 +161,28 @@
           }
         }
       }
-      public List<Pet> findPetsByStatus (string Status) {
+      /// <summary>
+      /// Finds Pets by status Multiple status values can be provided with comma seperated strings
+      /// </summary>
+      /// <param name="status">Status values that need to be considered for filter</param>
+      /// <returns></returns>
+      public List<Pet> findPetsByStatus (string status) {
         // create path and map variables
-        var path = "/pet.{format}/findByStatus".Replace("{format}","json");
+        var path = "/pet/findByStatus".Replace("{format}","json");
 
         // query params
         var queryParams = new Dictionary<String, String>();
         var headerParams = new Dictionary<String, String>();
 
         // verify required params are set
-        if (Status == null ) {
+        if (status == null ) {
            throw new ApiException(400, "missing required params");
         }
-        if (Status != null)
-          queryParams.Add("Status", Status);
+        string paramStr = null;
+        if (status != null){
+          paramStr = (status != null && status is DateTime) ? ((DateTime)(object)status).ToString("u") : Convert.ToString(status);
+          queryParams.Add("status", paramStr);
+		}
         try {
           var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams);
           if(response != null){
@@ -137,20 +200,28 @@
           }
         }
       }
-      public List<Pet> findPetsByTags (string Tags) {
+      /// <summary>
+      /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+      /// </summary>
+      /// <param name="tags">Tags to filter by</param>
+      /// <returns></returns>
+      public List<Pet> findPetsByTags (string tags) {
         // create path and map variables
-        var path = "/pet.{format}/findByTags".Replace("{format}","json");
+        var path = "/pet/findByTags".Replace("{format}","json");
 
         // query params
         var queryParams = new Dictionary<String, String>();
         var headerParams = new Dictionary<String, String>();
 
         // verify required params are set
-        if (Tags == null ) {
+        if (tags == null ) {
            throw new ApiException(400, "missing required params");
         }
-        if (Tags != null)
-          queryParams.Add("Tags", Tags);
+        string paramStr = null;
+        if (tags != null){
+          paramStr = (tags != null && tags is DateTime) ? ((DateTime)(object)tags).ToString("u") : Convert.ToString(tags);
+          queryParams.Add("tags", paramStr);
+		}
         try {
           var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams);
           if(response != null){

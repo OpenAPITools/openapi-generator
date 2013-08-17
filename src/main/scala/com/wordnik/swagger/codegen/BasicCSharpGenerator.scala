@@ -45,6 +45,7 @@ class BasicCSharpGenerator extends BasicGenerator {
    * variable declarations.
    */
   override def typeMapping = Map(
+    "array" -> "List",
     "boolean" -> "bool",
     "string" -> "string",
     "int" -> "int",
@@ -97,7 +98,16 @@ class BasicCSharpGenerator extends BasicGenerator {
   override def processResponseDeclaration(responseClass: String): Option[String] = {
     responseClass match {
       case "void" => None
-      case e: String => Some(typeMapping.getOrElse(e, e.replaceAll("\\[", "<").replaceAll("\\]", ">")))
+      case e: String => {
+        val ComplexTypeMatcher = "(.*)\\[(.*)\\].*".r
+        val t = e match {
+          case ComplexTypeMatcher(container, inner) => {
+            e.replaceAll(container, typeMapping.getOrElse(container, container))
+          }
+          case _ => e
+        }
+        Some(typeMapping.getOrElse(t, t.replaceAll("\\[", "<").replaceAll("\\]", ">")))
+      }
     }
   }
 

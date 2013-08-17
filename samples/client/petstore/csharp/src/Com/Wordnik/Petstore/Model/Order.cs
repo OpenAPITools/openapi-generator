@@ -5,25 +5,25 @@ using System.Collections.Generic;
 
 namespace Com.Wordnik.Petstore.Model {
   public class Order {
-    public long Id { get; set; }
-
-    public long Petid { get; set; }
+    public long id { get; set; }
 
     /* Order Status */
-    public string Status { get; set; }
+    public string status { get; set; }
 
-    public int Quantity { get; set; }
+    public long petId { get; set; }
 
-    public DateTime Shipdate { get; set; }
+    public int quantity { get; set; }
+
+    public DateTime shipDate { get; set; }
 
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class Order {\n");
-      sb.Append("  Id: ").Append(Id).Append("\n");
-      sb.Append("  Petid: ").Append(Petid).Append("\n");
-      sb.Append("  Status: ").Append(Status).Append("\n");
-      sb.Append("  Quantity: ").Append(Quantity).Append("\n");
-      sb.Append("  Shipdate: ").Append(Shipdate).Append("\n");
+      sb.Append("  id: ").Append(id).Append("\n");
+      sb.Append("  status: ").Append(status).Append("\n");
+      sb.Append("  petId: ").Append(petId).Append("\n");
+      sb.Append("  quantity: ").Append(quantity).Append("\n");
+      sb.Append("  shipDate: ").Append(shipDate).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

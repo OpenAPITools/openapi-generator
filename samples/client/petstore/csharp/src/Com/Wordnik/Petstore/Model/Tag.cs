@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace Com.Wordnik.Petstore.Model {
   public class Tag {
-    public long Id { get; set; }
+    public string name { get; set; }
 
-    public string Name { get; set; }
+    public long id { get; set; }
 
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class Tag {\n");
-      sb.Append("  Id: ").Append(Id).Append("\n");
-      sb.Append("  Name: ").Append(Name).Append("\n");
+      sb.Append("  name: ").Append(name).Append("\n");
+      sb.Append("  id: ").Append(id).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }
