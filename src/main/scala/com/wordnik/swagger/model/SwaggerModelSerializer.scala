@@ -350,6 +350,36 @@ object SwaggerSerializers {
         }
       }
 
+      val t = (json \ "type").extractOrElse("")
+      val inner = {
+        val items = new scala.collection.mutable.HashSet[String]
+        (json \ "items") match {
+          case JObject(e) => {
+            val i = for(a <- e) yield {
+              a._1 == "$ref" match {
+                case true => a._2
+                case false => a._1 == "type" match {
+                  case true => a._2
+                  case _ => JNothing
+                }
+              }
+            }
+            for(j <- i)
+              j match {
+                case JString(e) => items += e
+                case _ =>
+              }
+            if(items.size > 0) Some(items.head)
+            else None
+          }
+          case _ => None
+        }
+      }
+      val `type` = inner match {
+        case Some(a) => "%s[%s]".format(t, a)
+        case _ => t
+      }
+
       Parameter(
         (json \ "name").extractOrElse({
           !!(json, OPERATION_PARAM, "reason", "missing parameter name", WARNING)
@@ -369,10 +399,7 @@ object SwaggerSerializers {
           case _ => false
         },
         (json \ "allowMultiple").extractOrElse(false),
-        (json \ "type").extractOrElse({
-          !!(json, OPERATION_PARAM, "type", "missing required field", ERROR)
-          ""
-        }),
+        `type`,
         allowableValues,
         (json \ "paramType").extractOrElse({
           !!(json, OPERATION_PARAM, "paramType", "missing required field", ERROR)

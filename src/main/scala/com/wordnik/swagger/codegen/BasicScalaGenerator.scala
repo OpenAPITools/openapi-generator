@@ -33,6 +33,7 @@ class BasicScalaGenerator extends BasicGenerator {
     "Any")
 
   override def typeMapping = Map(
+    "array" -> "List",
     "boolean" -> "Boolean",
     "string" -> "String",
     "int" -> "Int",
@@ -75,6 +76,34 @@ class BasicScalaGenerator extends BasicGenerator {
       case "void" => None
       case e: String => Some(typeMapping.getOrElse(e, e))
     }
+  }
+
+  override def processResponseDeclaration(responseClass: String): Option[String] = {
+    responseClass match {
+      case "void" => None
+      case e: String => {
+        val ComplexTypeMatcher = "(.*)\\[(.*)\\].*".r
+        val t = e match {
+          case ComplexTypeMatcher(container, inner) => {
+            e.replaceAll(container, typeMapping.getOrElse(container, container))
+          }
+          case _ => e
+        }
+        Some(typeMapping.getOrElse(t, t))
+      }
+    }
+  }
+
+  override def toDeclaredType(dt: String): String = {
+    val declaredType = dt.indexOf("[") match {
+      case -1 => dt
+      case n: Int => {
+        if (dt.substring(0, n).toLowerCase == "array")
+          "List" + dt.substring(n)
+        else dt
+      }
+    }
+    typeMapping.getOrElse(declaredType, declaredType)
   }
 
   override def toDeclaration(obj: ModelProperty): (String, String) = {
