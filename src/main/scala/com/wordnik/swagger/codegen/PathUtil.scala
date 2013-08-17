@@ -26,7 +26,11 @@ trait PathUtil {
 
   def getBasePath(host: String, basePath: String) = {
     System.getProperty("fileMap") match {
-      case s: String => s
+      case s: String => {
+        // return the parent folder
+        val f = new java.io.File(s)
+        f.getParent
+      }
       case _ => {
         if(basePath != "") basePath
         else host
