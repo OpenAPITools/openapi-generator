@@ -45,7 +45,7 @@ class BasicObjcGenerator extends BasicGenerator {
     "NSString")
   
   override def typeMapping = Map(
-    "Date" -> "RVBDate",
+    "Date" -> "NIKDate",
     "boolean" -> "NSNumber",
     "string" -> "NSString",
     "integer" -> "NSNumber",
@@ -59,7 +59,8 @@ class BasicObjcGenerator extends BasicGenerator {
     "object" -> "NSObject")
 
   override def importMapping = Map(
-    "Date" -> "RVBDate")
+    "RVBDate" -> "NIKDate",
+    "Date" -> "NIKDate")
 
   override def toModelFilename(name: String) = "RVB" + name
 
