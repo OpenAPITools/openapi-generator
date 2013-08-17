@@ -5,7 +5,7 @@
 
 - (void)setUp {
     [super setUp];
-    api = [[NIKPetApi alloc ]init];
+    api = [[RVBPetApi alloc ]init];
 }
 
 - (void)tearDown {
@@ -14,10 +14,10 @@
 
 - (void)testGetPetById {
     bool done = false;
-    static NIKPet* pet = nil;
+    static RVBPet* pet = nil;
     static NSError * gError = nil;
 
-    [api getPetByIdWithCompletionBlock:@"1" completionHandler:^(NIKPet *output, NSError *error) {
+    [api getPetByIdWithCompletionBlock:@"1" completionHandler:^(RVBPet *output, NSError *error) {
         if(error) {
             gError = error;
         }
@@ -25,7 +25,7 @@
             NSLog(@"failed to fetch pet");
         }
         else {
-            pet = [[NIKPet alloc] initWithValues:[output asDictionary]];
+            pet = [[RVBPet alloc] initWithValues:[output asDictionary]];
         }
     }];
 
@@ -47,11 +47,11 @@
     bool done = false;
     static NSError * gError = nil;
 
-    NIKPet * petToAdd = [[NIKPet alloc] init];
+    RVBPet * petToAdd = [[RVBPet alloc] init];
     [petToAdd set_id:@"1000"];
     NSMutableArray* tags = [[NSMutableArray alloc] init];
     for(int i = 0; i < 5; i++){
-        NIKTag * tag = [[NIKTag alloc] init];
+        RVBTag * tag = [[RVBTag alloc] init];
         [tag set_id:[NSNumber numberWithInt:i]];
         [tag setName:[NSString stringWithFormat:@"tag-%d", i]];
         [tags addObject:tag];
@@ -59,7 +59,7 @@
     [petToAdd setTags:tags];
     [petToAdd setStatus:@"lost"];
 
-    NIKCategory * category = [[NIKCategory alloc] init];
+    RVBCategory * category = [[RVBCategory alloc] init];
     [category setName:@"sold"];
     [petToAdd setCategory:category];
     [petToAdd setName:@"dragon"];
@@ -89,9 +89,9 @@
         }
     }
 
-    static NIKPet* pet = nil;
+    static RVBPet* pet = nil;
 
-    [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%@",[petToAdd _id]] completionHandler:^(NIKPet *output, NSError *error) {
+    [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%@",[petToAdd _id]] completionHandler:^(RVBPet *output, NSError *error) {
         if(error) {
             gError = error;
         }
@@ -99,7 +99,7 @@
             NSLog(@"failed to fetch pet");
         }
         else {
-            pet = [[NIKPet alloc] initWithValues:[output asDictionary]];
+            pet = [[RVBPet alloc] initWithValues:[output asDictionary]];
         }
     }];
 
@@ -123,11 +123,11 @@
     bool done = false;
     static NSError * gError = nil;
 
-    NIKPet * petToAdd = [[NIKPet alloc] init];
+    RVBPet * petToAdd = [[RVBPet alloc] init];
     [petToAdd set_id:[NSNumber numberWithInt:1000]];
     NSMutableArray* tags = [[NSMutableArray alloc] init];
     for(int i = 0; i < 5; i++){
-        NIKTag * tag = [[NIKTag alloc] init];
+        RVBTag * tag = [[RVBTag alloc] init];
         [tag set_id:[NSNumber numberWithInt:i]];
         [tag setName:[NSString stringWithFormat:@"tag-%d", i]];
         [tags addObject:tag];
@@ -135,7 +135,7 @@
     [petToAdd setTags:tags];
     [petToAdd setStatus:@"lost"];
     
-    NIKCategory * category = [[NIKCategory alloc] init];
+    RVBCategory * category = [[RVBCategory alloc] init];
     [category setName:@"sold"];
     [petToAdd setCategory:category];
     [petToAdd setName:@"dragon"];
@@ -167,10 +167,10 @@
         }
     }
     
-    static NIKPet* pet = nil;
+    static RVBPet* pet = nil;
     done = false;
     
-    [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%@",[petToAdd _id]] completionHandler:^(NIKPet *output, NSError *error) {
+    [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%@",[petToAdd _id]] completionHandler:^(RVBPet *output, NSError *error) {
         if(error) {
             gError = error;
         }
@@ -178,7 +178,7 @@
             NSLog(@"failed to fetch pet");
         }
         else {
-            pet = [[NIKPet alloc] initWithValues:[output asDictionary]];
+            pet = [[RVBPet alloc] initWithValues:[output asDictionary]];
             NSLog(@"got the pet");
         }
     }];
@@ -223,7 +223,7 @@
     pet = nil;
     done = false;
     
-    [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%d",1000] completionHandler:^(NIKPet *output, NSError *error) {
+    [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%d",1000] completionHandler:^(RVBPet *output, NSError *error) {
         if(error) {
             gError = error;
         }
@@ -231,7 +231,7 @@
             NSLog(@"failed to fetch pet");
         }
         else {
-            pet = [[NIKPet alloc] initWithValues:[output asDictionary]];
+            pet = [[RVBPet alloc] initWithValues:[output asDictionary]];
         }
     }];
     
@@ -264,8 +264,8 @@
         }
         else {
             pets = [[NSMutableArray alloc]init];
-            for(NIKPet* pet in output) {
-                [pets addObject:[[NIKPet alloc] initWithValues:[pet asDictionary]]];
+            for(RVBPet* pet in output) {
+                [pets addObject:[[RVBPet alloc] initWithValues:[pet asDictionary]]];
             }
         }
     }];
@@ -276,7 +276,7 @@
             done = true;
         }
         if(pets){
-            for(NIKPet * pet in pets) {
+            for(RVBPet * pet in pets) {
                 STAssertEqualObjects([pet status], @"available", @"got invalid status for pets");
             }
             done = true;
@@ -297,8 +297,8 @@
         }
         else {
             pets = [[NSMutableArray alloc]init];
-            for(NIKPet* pet in output) {
-                [pets addObject:[[NIKPet alloc] initWithValues:[pet asDictionary]]];
+            for(RVBPet* pet in output) {
+                [pets addObject:[[RVBPet alloc] initWithValues:[pet asDictionary]]];
             }
         }
     }];
@@ -309,9 +309,9 @@
             done = true;
         }
         if(pets){
-            for(NIKPet * pet in pets) {
+            for(RVBPet * pet in pets) {
                 bool hasTag = false;
-                for(NIKTag * tag in [pet tags]){
+                for(RVBTag * tag in [pet tags]){
                     if([[tag name] isEqualToString:@"tag1"] || [[tag name] isEqualToString:@"tag2"])
                         hasTag = true;
                 }

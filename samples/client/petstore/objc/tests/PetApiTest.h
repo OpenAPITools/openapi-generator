@@ -1,9 +1,9 @@
 #import <SenTestingKit/SenTestingKit.h>
-#import "NIKPetApi.h"
+#import "RVBPetApi.h"
 
 @interface PetApiTest : SenTestCase {
 @private
-    NIKPetApi * api;
+    RVBPetApi * api;
 }
 
 @end

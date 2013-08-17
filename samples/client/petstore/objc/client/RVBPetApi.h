@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "NIKApiInvoker.h"
-#import "NIKPet.h"
+#import "RVBPet.h"
 
 
-@interface NIKPetApi: NSObject {
+@interface RVBPetApi: NSObject {
 
 @private
     NSOperationQueue *_queue;
@@ -21,7 +21,16 @@
  @param petId ID of pet that needs to be fetched
  */
 -(void) getPetByIdWithCompletionBlock :(NSString*) petId 
-        completionHandler: (void (^)(NIKPet* output, NSError* error))completionBlock;
+        completionHandler: (void (^)(RVBPet* output, NSError* error))completionBlock;
+
+/**
+
+ Deletes a pet
+ 
+ @param petId Pet id to delete
+ */
+-(void) deletePetWithCompletionBlock :(NSString*) petId 
+        completionHandler: (void (^)(NSError* error))completionBlock;
 
 /**
 
@@ -29,7 +38,7 @@
  
  @param body Pet object that needs to be added to the store
  */
--(void) addPetWithCompletionBlock :(NIKPet*) body 
+-(void) addPetWithCompletionBlock :(RVBPet*) body 
         completionHandler: (void (^)(NSError* error))completionBlock;
 
 /**
@@ -38,7 +47,7 @@
  
  @param body Pet object that needs to be updated in the store
  */
--(void) updatePetWithCompletionBlock :(NIKPet*) body 
+-(void) updatePetWithCompletionBlock :(RVBPet*) body 
         completionHandler: (void (^)(NSError* error))completionBlock;
 
 /**

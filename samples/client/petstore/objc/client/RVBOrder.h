@@ -2,16 +2,16 @@
 #import "NIKSwaggerObject.h"
 #import "NIKDate.h"
 
-@interface NIKOrder : NIKSwaggerObject
+@interface RVBOrder : NIKSwaggerObject
 
 @property(nonatomic) NSNumber* _id;
-@property(nonatomic) NSNumber* petId;
 @property(nonatomic) NSString* status;
+@property(nonatomic) NSNumber* petId;
 @property(nonatomic) NSNumber* quantity;
 @property(nonatomic) NIKDate* shipDate;
 - (id) _id: (NSNumber*) _id
-     petId: (NSNumber*) petId
      status: (NSString*) status
+     petId: (NSNumber*) petId
      quantity: (NSNumber*) quantity
      shipDate: (NIKDate*) shipDate;
 

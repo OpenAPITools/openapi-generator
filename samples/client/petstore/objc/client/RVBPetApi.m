@@ -1,20 +1,20 @@
-#import "NIKPetApi.h"
+#import "RVBPetApi.h"
 #import "NIKFile.h"
-#import "NIKPet.h"
+#import "RVBPet.h"
 
 
 
-@implementation NIKPetApi
+@implementation RVBPetApi
 static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 @synthesize queue = _queue;
 @synthesize api = _api;
 
-+(NIKPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    static NIKPetApi* singletonAPI = nil;
++(RVBPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
+    static RVBPetApi* singletonAPI = nil;
 
     if (singletonAPI == nil) {
-        singletonAPI = [[NIKPetApi alloc] init];
+        singletonAPI = [[RVBPetApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
     }
     return singletonAPI;
@@ -34,9 +34,9 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 }
 
 -(void) getPetByIdWithCompletionBlock:(NSString*) petId
-        completionHandler: (void (^)(NIKPet* output, NSError* error))completionBlock{
+        completionHandler: (void (^)(RVBPet* output, NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/{petId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -63,15 +63,51 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             completionBlock(nil, error);return;
         }
 
-        completionBlock( [[NIKPet alloc]initWithValues: data], nil);}];
+        completionBlock( [[RVBPet alloc]initWithValues: data], nil);}];
     
 
 }
 
--(void) addPetWithCompletionBlock:(NIKPet*) body
+-(void) deletePetWithCompletionBlock:(NSString*) petId
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
+
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [_api escapeString:petId]];
+    NSString* contentType = @"application/json";
+
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    id bodyDictionary = nil;
+        if(petId == nil) {
+        // error
+    }
+    [_api stringWithCompletionBlock:requestUrl 
+                             method:@"DELETE" 
+                        queryParams:queryParams 
+                               body:bodyDictionary 
+                       headerParams:headerParams
+                        contentType:contentType
+                    completionBlock:^(NSString *data, NSError *error) {
+        if (error) {
+            completionBlock(error);
+            return;
+        }
+        completionBlock(nil);
+    }];
+    
+
+}
+
+-(void) addPetWithCompletionBlock:(RVBPet*) body
+        completionHandler: (void (^)(NSError* error))completionBlock{
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -129,10 +165,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) updatePetWithCompletionBlock:(NIKPet*) body
+-(void) updatePetWithCompletionBlock:(RVBPet*) body
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -193,7 +229,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 -(void) findPetsByStatusWithCompletionBlock:(NSString*) status
         completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByStatus", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByStatus", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -224,7 +260,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if([data isKindOfClass:[NSArray class]]){
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[data count]];
             for (NSDictionary* dict in (NSArray*)data) {
-                NIKPet* d = [[NIKPet alloc]initWithValues: dict];
+                RVBPet* d = [[RVBPet alloc]initWithValues: dict];
                 [objs addObject:d];
             }
             completionBlock(objs, nil);
@@ -237,7 +273,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 -(void) findPetsByTagsWithCompletionBlock:(NSString*) tags
         completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByTags", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByTags", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -268,7 +304,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         if([data isKindOfClass:[NSArray class]]){
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[data count]];
             for (NSDictionary* dict in (NSArray*)data) {
-                NIKPet* d = [[NIKPet alloc]initWithValues: dict];
+                RVBPet* d = [[RVBPet alloc]initWithValues: dict];
                 [objs addObject:d];
             }
             completionBlock(objs, nil);
@@ -282,7 +318,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/{petId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -326,11 +362,48 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) addPetAsJsonWithCompletionBlock :(NIKPet*) body 
+-(void) deletePetAsJsonWithCompletionBlock :(NSString*) petId 
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@""];
+
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [_api escapeString:petId]];
+    NSString* contentType = @"application/json";
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    id bodyDictionary = nil;
+    if(petId == nil) {
+        // error
+    }
+    [_api dictionary:requestUrl 
+              method:@"DELETE" 
+         queryParams:queryParams 
+                body:bodyDictionary 
+        headerParams:headerParams
+         contentType:contentType
+     completionBlock:^(NSDictionary *data, NSError *error) {
+        if (error) {
+            completionBlock(error);return;
+        }
+
+        completionBlock(nil);
+
+    }];
+
+
+}
+
+-(void) addPetAsJsonWithCompletionBlock :(RVBPet*) body 
+
+        completionHandler:(void (^)(NSError *))completionBlock{
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -384,11 +457,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) updatePetAsJsonWithCompletionBlock :(NIKPet*) body 
+-(void) updatePetAsJsonWithCompletionBlock :(RVBPet*) body 
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -446,7 +519,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByStatus", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByStatus", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -495,7 +568,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet.{format}/findByTags", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByTags", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)

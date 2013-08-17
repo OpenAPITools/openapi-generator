@@ -1,13 +1,13 @@
 #import "NIKDate.h"
-#import "NIKCategory.h"
+#import "RVBCategory.h"
 
-@implementation NIKCategory
+@implementation RVBCategory
 
--(id)_id: (NSNumber*) _id
-    name: (NSString*) name
+-(id)name: (NSString*) name
+    _id: (NSNumber*) _id
 {
-  __id = _id;
   _name = name;
+  __id = _id;
   return self;
 }
 
@@ -15,8 +15,8 @@
 {
     self = [super init];
     if(self) {
-        __id = dict[@"id"]; 
         _name = dict[@"name"]; 
+        __id = dict[@"id"]; 
         
 
     }
@@ -25,8 +25,8 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    if(__id != nil) dict[@"id"] = __id ;
     if(_name != nil) dict[@"name"] = _name ;
+    if(__id != nil) dict[@"id"] = __id ;
     NSDictionary* output = [dict copy];
     return output;
 }

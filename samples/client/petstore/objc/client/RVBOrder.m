@@ -1,17 +1,17 @@
 #import "NIKDate.h"
-#import "NIKOrder.h"
+#import "RVBOrder.h"
 
-@implementation NIKOrder
+@implementation RVBOrder
 
 -(id)_id: (NSNumber*) _id
-    petId: (NSNumber*) petId
     status: (NSString*) status
+    petId: (NSNumber*) petId
     quantity: (NSNumber*) quantity
     shipDate: (NIKDate*) shipDate
 {
   __id = _id;
-  _petId = petId;
   _status = status;
+  _petId = petId;
   _quantity = quantity;
   _shipDate = shipDate;
   return self;
@@ -22,8 +22,8 @@
     self = [super init];
     if(self) {
         __id = dict[@"id"]; 
-        _petId = dict[@"petId"]; 
         _status = dict[@"status"]; 
+        _petId = dict[@"petId"]; 
         _quantity = dict[@"quantity"]; 
         id shipDate_dict = dict[@"shipDate"];
         _shipDate = [[NIKDate alloc]initWithValues:shipDate_dict];
@@ -36,8 +36,8 @@
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     if(__id != nil) dict[@"id"] = __id ;
-    if(_petId != nil) dict[@"petId"] = _petId ;
     if(_status != nil) dict[@"status"] = _status ;
+    if(_petId != nil) dict[@"petId"] = _petId ;
     if(_quantity != nil) dict[@"quantity"] = _quantity ;
     if(_shipDate != nil){
         if([_shipDate isKindOfClass:[NSArray class]]){

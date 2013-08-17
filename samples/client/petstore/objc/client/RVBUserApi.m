@@ -1,20 +1,20 @@
-#import "NIKUserApi.h"
+#import "RVBUserApi.h"
 #import "NIKFile.h"
-#import "NIKUser.h"
+#import "RVBUser.h"
 
 
 
-@implementation NIKUserApi
+@implementation RVBUserApi
 static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 @synthesize queue = _queue;
 @synthesize api = _api;
 
-+(NIKUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    static NIKUserApi* singletonAPI = nil;
++(RVBUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
+    static RVBUserApi* singletonAPI = nil;
 
     if (singletonAPI == nil) {
-        singletonAPI = [[NIKUserApi alloc] init];
+        singletonAPI = [[RVBUserApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
     }
     return singletonAPI;
@@ -33,10 +33,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     [_api addHeader:value forKey:key];
 }
 
--(void) createUsersWithArrayInputWithCompletionBlock:(NSArray*) body
+-(void) createUserWithCompletionBlock:(RVBUser*) body
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithArray", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -94,10 +94,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) createUserWithCompletionBlock:(NIKUser*) body
+-(void) createUsersWithArrayInputWithCompletionBlock:(NSArray*) body
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/createWithArray", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -158,7 +158,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 -(void) createUsersWithListInputWithCompletionBlock:(NSArray*) body
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithList", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/createWithList", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -217,10 +217,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 }
 
 -(void) updateUserWithCompletionBlock:(NSString*) username
-        body:(NIKUser*) body
+        body:(RVBUser*) body
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -285,7 +285,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 -(void) deleteUserWithCompletionBlock:(NSString*) username
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -319,9 +319,9 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 }
 
 -(void) getUserByNameWithCompletionBlock:(NSString*) username
-        completionHandler: (void (^)(NIKUser* output, NSError* error))completionBlock{
+        completionHandler: (void (^)(RVBUser* output, NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -348,7 +348,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             completionBlock(nil, error);return;
         }
 
-        completionBlock( [[NIKUser alloc]initWithValues: data], nil);}];
+        completionBlock( [[RVBUser alloc]initWithValues: data], nil);}];
     
 
 }
@@ -357,7 +357,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         password:(NSString*) password
         completionHandler: (void (^)(NSString* output, NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/login", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/login", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -399,7 +399,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 -(void) logoutUserWithCompletionBlock: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/logout", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/logout", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -428,11 +428,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) createUsersWithArrayInputAsJsonWithCompletionBlock :(NSArray*) body 
+-(void) createUserAsJsonWithCompletionBlock :(RVBUser*) body 
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithArray", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -486,11 +486,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) createUserAsJsonWithCompletionBlock :(NIKUser*) body 
+-(void) createUsersWithArrayInputAsJsonWithCompletionBlock :(NSArray*) body 
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/createWithArray", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -548,7 +548,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/createWithList", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/createWithList", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -603,11 +603,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 }
 
 -(void) updateUserAsJsonWithCompletionBlock :(NSString*) username 
-body:(NIKUser*) body 
+body:(RVBUser*) body 
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -669,7 +669,7 @@ body:(NIKUser*) body
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -706,7 +706,7 @@ body:(NIKUser*) body
 
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/{username}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -755,7 +755,7 @@ password:(NSString*) password
 
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/login", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/login", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -809,7 +809,7 @@ password:(NSString*) password
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user.{format}/logout", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/logout", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)

@@ -1,21 +1,21 @@
 #import "NIKDate.h"
-#import "NIKPet.h"
+#import "RVBPet.h"
 
-@implementation NIKPet
+@implementation RVBPet
 
--(id)tags: (NSArray*) tags
+-(id)name: (NSString*) name
     _id: (NSNumber*) _id
-    category: (NIKCategory*) category
+    tags: (NSArray*) tags
     status: (NSString*) status
-    name: (NSString*) name
     photoUrls: (NSArray*) photoUrls
+    category: (RVBCategory*) category
 {
-  _tags = tags;
-  __id = _id;
-  _category = category;
-  _status = status;
   _name = name;
+  __id = _id;
+  _tags = tags;
+  _status = status;
   _photoUrls = photoUrls;
+  _category = category;
   return self;
 }
 
@@ -23,6 +23,8 @@
 {
     self = [super init];
     if(self) {
+        _name = dict[@"name"]; 
+        __id = dict[@"id"]; 
         id tags_dict = dict[@"tags"];
         if([tags_dict isKindOfClass:[NSArray class]]) {
 
@@ -30,7 +32,7 @@
 
             if([(NSArray*)tags_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)tags_dict) {
-                    NIKTag* d = [[NIKTag alloc] initWithValues:dict];
+                    RVBTag* d = [[RVBTag alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
                 
@@ -43,12 +45,10 @@
         else {
             _tags = [[NSArray alloc] init];
         }
-        __id = dict[@"id"]; 
-        id category_dict = dict[@"category"];
-        _category = [[NIKCategory alloc]initWithValues:category_dict];
         _status = dict[@"status"]; 
-        _name = dict[@"name"]; 
         _photoUrls = dict[@"photoUrls"]; 
+        id category_dict = dict[@"category"];
+        _category = [[RVBCategory alloc]initWithValues:category_dict];
         
 
     }
@@ -57,10 +57,12 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    if(_name != nil) dict[@"name"] = _name ;
+    if(__id != nil) dict[@"id"] = __id ;
     if(_tags != nil){
         if([_tags isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
-            for( NIKTag *tags in (NSArray*)_tags) {
+            for( RVBTag *tags in (NSArray*)_tags) {
                 [array addObject:[(NIKSwaggerObject*)tags asDictionary]];
             }
             dict[@"tags"] = array;
@@ -75,11 +77,12 @@
     else {
     if(_tags != nil) dict[@"tags"] = [(NIKSwaggerObject*)_tags asDictionary];
     }
-    if(__id != nil) dict[@"id"] = __id ;
+    if(_status != nil) dict[@"status"] = _status ;
+    if(_photoUrls != nil) dict[@"photoUrls"] = _photoUrls ;
     if(_category != nil){
         if([_category isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
-            for( NIKCategory *category in (NSArray*)_category) {
+            for( RVBCategory *category in (NSArray*)_category) {
                 [array addObject:[(NIKSwaggerObject*)category asDictionary]];
             }
             dict[@"category"] = array;
@@ -94,9 +97,6 @@
     else {
     if(_category != nil) dict[@"category"] = [(NIKSwaggerObject*)_category asDictionary];
     }
-    if(_status != nil) dict[@"status"] = _status ;
-    if(_name != nil) dict[@"name"] = _name ;
-    if(_photoUrls != nil) dict[@"photoUrls"] = _photoUrls ;
     NSDictionary* output = [dict copy];
     return output;
 }

@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "NIKApiInvoker.h"
-#import "NIKUser.h"
+#import "RVBUser.h"
 
 
-@interface NIKUserApi: NSObject {
+@interface RVBUserApi: NSObject {
 
 @private
     NSOperationQueue *_queue;
@@ -16,20 +16,20 @@
 
 /**
 
+ Create user
+ This can only be done by the logged in user.
+ @param body Created user object
+ */
+-(void) createUserWithCompletionBlock :(RVBUser*) body 
+        completionHandler: (void (^)(NSError* error))completionBlock;
+
+/**
+
  Creates list of users with given input array
  
  @param body List of user object
  */
 -(void) createUsersWithArrayInputWithCompletionBlock :(NSArray*) body 
-        completionHandler: (void (^)(NSError* error))completionBlock;
-
-/**
-
- Create user
- This can only be done by the logged in user.
- @param body Created user object
- */
--(void) createUserWithCompletionBlock :(NIKUser*) body 
         completionHandler: (void (^)(NSError* error))completionBlock;
 
 /**
@@ -49,7 +49,7 @@
  @param body Updated user object
  */
 -(void) updateUserWithCompletionBlock :(NSString*) username 
-        body:(NIKUser*) body 
+        body:(RVBUser*) body 
         completionHandler: (void (^)(NSError* error))completionBlock;
 
 /**
@@ -68,7 +68,7 @@
  @param username The name that needs to be fetched. Use user1 for testing.
  */
 -(void) getUserByNameWithCompletionBlock :(NSString*) username 
-        completionHandler: (void (^)(NIKUser* output, NSError* error))completionBlock;
+        completionHandler: (void (^)(RVBUser* output, NSError* error))completionBlock;
 
 /**
 

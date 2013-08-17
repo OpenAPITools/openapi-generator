@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "NIKApiInvoker.h"
-#import "NIKOrder.h"
+#import "RVBOrder.h"
 
 
-@interface NIKStoreApi: NSObject {
+@interface RVBStoreApi: NSObject {
 
 @private
     NSOperationQueue *_queue;
@@ -21,12 +21,12 @@
  @param orderId ID of pet that needs to be fetched
  */
 -(void) getOrderByIdWithCompletionBlock :(NSString*) orderId 
-        completionHandler: (void (^)(NIKOrder* output, NSError* error))completionBlock;
+        completionHandler: (void (^)(RVBOrder* output, NSError* error))completionBlock;
 
 /**
 
  Delete purchase order by ID
- For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+ For valid response try integer IDs with value < 1000.  Anything above 1000 or nonintegers will generate API errors
  @param orderId ID of the order that needs to be deleted
  */
 -(void) deleteOrderWithCompletionBlock :(NSString*) orderId 
@@ -38,7 +38,7 @@
  
  @param body order placed for purchasing the pet
  */
--(void) placeOrderWithCompletionBlock :(NIKOrder*) body 
+-(void) placeOrderWithCompletionBlock :(RVBOrder*) body 
         completionHandler: (void (^)(NSError* error))completionBlock;
 
 @end

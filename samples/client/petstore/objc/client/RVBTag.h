@@ -1,12 +1,12 @@
 #import <Foundation/Foundation.h>
 #import "NIKSwaggerObject.h"
 
-@interface NIKTag : NIKSwaggerObject
+@interface RVBTag : NIKSwaggerObject
 
-@property(nonatomic) NSNumber* _id;
 @property(nonatomic) NSString* name;
-- (id) _id: (NSNumber*) _id
-     name: (NSString*) name;
+@property(nonatomic) NSNumber* _id;
+- (id) name: (NSString*) name
+     _id: (NSNumber*) _id;
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

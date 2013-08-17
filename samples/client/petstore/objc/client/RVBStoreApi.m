@@ -1,20 +1,20 @@
-#import "NIKStoreApi.h"
+#import "RVBStoreApi.h"
 #import "NIKFile.h"
-#import "NIKOrder.h"
+#import "RVBOrder.h"
 
 
 
-@implementation NIKStoreApi
+@implementation RVBStoreApi
 static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 @synthesize queue = _queue;
 @synthesize api = _api;
 
-+(NIKStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    static NIKStoreApi* singletonAPI = nil;
++(RVBStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
+    static RVBStoreApi* singletonAPI = nil;
 
     if (singletonAPI == nil) {
-        singletonAPI = [[NIKStoreApi alloc] init];
+        singletonAPI = [[RVBStoreApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
     }
     return singletonAPI;
@@ -34,9 +34,9 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 }
 
 -(void) getOrderByIdWithCompletionBlock:(NSString*) orderId
-        completionHandler: (void (^)(NIKOrder* output, NSError* error))completionBlock{
+        completionHandler: (void (^)(RVBOrder* output, NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -63,7 +63,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
             completionBlock(nil, error);return;
         }
 
-        completionBlock( [[NIKOrder alloc]initWithValues: data], nil);}];
+        completionBlock( [[RVBOrder alloc]initWithValues: data], nil);}];
     
 
 }
@@ -71,7 +71,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 -(void) deleteOrderWithCompletionBlock:(NSString*) orderId
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -104,10 +104,10 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) placeOrderWithCompletionBlock:(NIKOrder*) body
+-(void) placeOrderWithCompletionBlock:(RVBOrder*) body
         completionHandler: (void (^)(NSError* error))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -169,7 +169,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
         completionHandler:(void (^)(NSString*, NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -217,7 +217,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order/{orderId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
@@ -250,11 +250,11 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
 }
 
--(void) placeOrderAsJsonWithCompletionBlock :(NIKOrder*) body 
+-(void) placeOrderAsJsonWithCompletionBlock :(RVBOrder*) body 
 
         completionHandler:(void (^)(NSError *))completionBlock{
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store.{format}/order", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)

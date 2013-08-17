@@ -4,7 +4,7 @@
 
 - (void)setUp {
     [super setUp];
-    api = [[NIKUserApi alloc ]init];
+    api = [[RVBUserApi alloc ]init];
 }
 
 - (void)tearDown {
