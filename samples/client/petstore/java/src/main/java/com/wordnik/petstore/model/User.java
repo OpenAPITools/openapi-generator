@@ -1,41 +1,20 @@
 package com.wordnik.petstore.model;
 
 public class User {
-  private String email = null;
+  private Long id = null;
+  private String firstName = null;
   private String username = null;
+  private String lastName = null;
+  private String email = null;
+  private String password = null;
+  private String phone = null;
   /* User Status */
   private Integer userStatus = null;
-  private String lastName = null;
-  private String firstName = null;
-  private Long id = null;
-  private String phone = null;
-  private String password = null;
-  public String getEmail() {
-    return email;
+  public Long getId() {
+    return id;
   }
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public Integer getUserStatus() {
-    return userStatus;
-  }
-  public void setUserStatus(Integer userStatus) {
-    this.userStatus = userStatus;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getFirstName() {
@@ -45,18 +24,25 @@ public class User {
     this.firstName = firstName;
   }
 
-  public Long getId() {
-    return id;
+  public String getUsername() {
+    return username;
   }
-  public void setId(Long id) {
-    this.id = id;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
-  public String getPhone() {
-    return phone;
+  public String getLastName() {
+    return lastName;
   }
-  public void setPhone(String phone) {
-    this.phone = phone;
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public String getPassword() {
@@ -66,18 +52,32 @@ public class User {
     this.password = password;
   }
 
+  public String getPhone() {
+    return phone;
+  }
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public Integer getUserStatus() {
+    return userStatus;
+  }
+  public void setUserStatus(Integer userStatus) {
+    this.userStatus = userStatus;
+  }
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    sb.append("  email: ").append(email).append("\n");
-    sb.append("  username: ").append(username).append("\n");
-    sb.append("  userStatus: ").append(userStatus).append("\n");
-    sb.append("  lastName: ").append(lastName).append("\n");
-    sb.append("  firstName: ").append(firstName).append("\n");
     sb.append("  id: ").append(id).append("\n");
-    sb.append("  phone: ").append(phone).append("\n");
+    sb.append("  firstName: ").append(firstName).append("\n");
+    sb.append("  username: ").append(username).append("\n");
+    sb.append("  lastName: ").append(lastName).append("\n");
+    sb.append("  email: ").append(email).append("\n");
     sb.append("  password: ").append(password).append("\n");
+    sb.append("  phone: ").append(phone).append("\n");
+    sb.append("  userStatus: ").append(userStatus).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

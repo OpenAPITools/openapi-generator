@@ -6,7 +6,7 @@ import com.wordnik.petstore.model.User;
 import java.util.*;
 
 public class UserApi {
-  String basePath = "http://hello.com";
+  String basePath = "http://petstore.swagger.wordnik.com/api";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public ApiInvoker getInvoker() {
