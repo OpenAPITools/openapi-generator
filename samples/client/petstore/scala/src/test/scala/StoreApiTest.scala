@@ -34,8 +34,8 @@ class StoreApiTest extends FlatSpec with ShouldMatchers {
     val now = new java.util.Date
     val order = Order (
       1000,
-      10,
       "pending",
+      10,
       101,
       now)
 
@@ -56,8 +56,8 @@ class StoreApiTest extends FlatSpec with ShouldMatchers {
     val now = new java.util.Date
     val order = Order(
       1001,
-      10,
       "pending",
+      10,
       101,
       now)
 

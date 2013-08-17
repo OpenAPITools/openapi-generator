@@ -6,6 +6,10 @@ import com.sun.jersey.api.client.config.ClientConfig
 import com.sun.jersey.api.client.config.DefaultClientConfig
 import com.sun.jersey.api.client.filter.LoggingFilter
 
+import com.sun.jersey.multipart.FormDataMultiPart
+import com.sun.jersey.multipart.file.FileDataBodyPart
+
+import java.io.File
 import java.net.URLEncoder
 import javax.ws.rs.core.MediaType
 
@@ -50,8 +54,13 @@ object ApiInvoker {
         case _ => null
       }
     } else {
-      containerType match {
-        case "List" => {
+      containerType.toLowerCase match {
+        case "list" => {
+          val typeInfo = mapper.getTypeFactory().constructCollectionType(classOf[java.util.List[_]], cls)
+          val response = mapper.readValue(json, typeInfo).asInstanceOf[java.util.List[_]]
+          response.asScala.toList
+        }
+        case "array" => {
           val typeInfo = mapper.getTypeFactory().constructCollectionType(classOf[java.util.List[_]], cls)
           val response = mapper.readValue(json, typeInfo).asInstanceOf[java.util.List[_]]
           response.asScala.toList
@@ -75,11 +84,11 @@ object ApiInvoker {
     } else null
   }
 
-  def invokeApi(host: String, path: String, method: String, queryParams: Map[String, String], body: AnyRef, headerParams: Map[String, String]) = {
+  def invokeApi(host: String, path: String, method: String, queryParams: Map[String, String], body: AnyRef, headerParams: Map[String, String], contentType: String) = {
     val client = getClient(host)
 
     val querystring = queryParams.filter(k => k._2 != null).map(k => (escapeString(k._1) + "=" + escapeString(k._2))).mkString("?", "&", "")
-    val builder = client.resource(host + path + querystring).`type`("application/json")
+    val builder = client.resource(host + path + querystring).accept(contentType)
 
     headerParams.map(p => builder.header(p._1, p._2))
     defaultHeaders.map(p => {
@@ -94,10 +103,21 @@ object ApiInvoker {
         builder.get(classOf[ClientResponse]).asInstanceOf[ClientResponse]
       }
       case "POST" => {
-        builder.post(classOf[ClientResponse], serialize(body))
+        if(body != null && body.isInstanceOf[File]) {
+          val file = body.asInstanceOf[File]
+          val form = new FormDataMultiPart()
+          form.field("filename", file.getName())
+          form.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE))
+          builder.post(classOf[ClientResponse], form)
+        }
+        else {
+          if(body == null) builder.post(classOf[ClientResponse], serialize(body))
+          else builder.`type`(contentType).post(classOf[ClientResponse], serialize(body))
+        }
       }
       case "PUT" => {
-        builder.put(classOf[ClientResponse], serialize(body))
+        if(body == null) builder.put(classOf[ClientResponse], null)
+        else builder.`type`(contentType).put(classOf[ClientResponse], serialize(body))
       }
       case "DELETE" => {
         builder.delete(classOf[ClientResponse])
@@ -134,4 +154,5 @@ class ApiException extends Exception {
     this()
   }
 }
+
 

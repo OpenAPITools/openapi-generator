@@ -3,6 +3,9 @@ package com.wordnik.petstore.api
 import com.wordnik.petstore.model.User
 import com.wordnik.client.ApiInvoker
 import com.wordnik.client.ApiException
+
+import java.io.File
+
 import scala.collection.mutable.HashMap
 
 class UserApi {
@@ -11,9 +14,16 @@ class UserApi {
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
-  def createUsersWithArrayInput (body: Array[User]) = {
+  def createUser (body: User) = {
     // create path and map variables
-    val path = "/user.{format}/createWithArray".replaceAll("\\{format\\}","json")// query params
+    val path = "/user".replaceAll("\\{format\\}","json")
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
@@ -23,7 +33,7 @@ class UserApi {
        case _ => throw new Exception("missing required params")
     }
     try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -32,9 +42,16 @@ class UserApi {
       case ex: ApiException => throw ex
     }
   }
-  def createUser (body: User) = {
+  def createUsersWithArrayInput (body: List[User]) = {
     // create path and map variables
-    val path = "/user.{format}".replaceAll("\\{format\\}","json")// query params
+    val path = "/user/createWithArray".replaceAll("\\{format\\}","json")
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
@@ -44,7 +61,7 @@ class UserApi {
        case _ => throw new Exception("missing required params")
     }
     try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -55,7 +72,14 @@ class UserApi {
   }
   def createUsersWithListInput (body: List[User]) = {
     // create path and map variables
-    val path = "/user.{format}/createWithList".replaceAll("\\{format\\}","json")// query params
+    val path = "/user/createWithList".replaceAll("\\{format\\}","json")
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
@@ -65,7 +89,7 @@ class UserApi {
        case _ => throw new Exception("missing required params")
     }
     try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -76,7 +100,14 @@ class UserApi {
   }
   def updateUser (username: String, body: User) = {
     // create path and map variables
-    val path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+
+    
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
 
     // query params
     val queryParams = new HashMap[String, String]
@@ -88,7 +119,7 @@ class UserApi {
        case _ => throw new Exception("missing required params")
     }
     try {
-      apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -99,7 +130,11 @@ class UserApi {
   }
   def deleteUser (username: String) = {
     // create path and map variables
-    val path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+
+    
+    val contentType = {
+      "application/json"}
 
     // query params
     val queryParams = new HashMap[String, String]
@@ -111,7 +146,7 @@ class UserApi {
        case _ => throw new Exception("missing required params")
     }
     try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -122,7 +157,11 @@ class UserApi {
   }
   def getUserByName (username: String) : Option[User]= {
     // create path and map variables
-    val path = "/user.{format}/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+
+    
+    val contentType = {
+      "application/json"}
 
     // query params
     val queryParams = new HashMap[String, String]
@@ -134,7 +173,7 @@ class UserApi {
        case _ => throw new Exception("missing required params")
     }
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[User]).asInstanceOf[User])
         case _ => None
@@ -146,7 +185,11 @@ class UserApi {
   }
   def loginUser (username: String, password: String) : Option[String]= {
     // create path and map variables
-    val path = "/user.{format}/login".replaceAll("\\{format\\}","json")// query params
+    val path = "/user/login".replaceAll("\\{format\\}","json")
+    val contentType = {
+      "application/json"}
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
@@ -158,7 +201,7 @@ class UserApi {
     if(String.valueOf(username) != "null") queryParams += "username" -> username.toString
     if(String.valueOf(password) != "null") queryParams += "password" -> password.toString
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[String]).asInstanceOf[String])
         case _ => None
@@ -170,12 +213,16 @@ class UserApi {
   }
   def logoutUser () = {
     // create path and map variables
-    val path = "/user.{format}/logout".replaceAll("\\{format\\}","json")// query params
+    val path = "/user/logout".replaceAll("\\{format\\}","json")
+    val contentType = {
+      "application/json"}
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }

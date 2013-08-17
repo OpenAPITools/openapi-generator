@@ -27,12 +27,13 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
 
   it should "add a new pet" in {
     val pet = Pet(
-      (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
-      1000,
-      Category(1, "sold"),
-      "lost",
       "dragon",
-      (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList)
+      1000,
+      (for (i <- (1 to 5)) yield Tag("tag-" + i, i)).toList,
+      "lost",
+      (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList,
+      Category("sold", 1)
+    )
 
     api.addPet(pet)
     api.getPetById("1000") match {
@@ -51,12 +52,13 @@ class PetApiTest extends FlatSpec with ShouldMatchers {
 
   it should "update a pet" in {
     val pet = Pet(
-      (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
-      1000,
-      Category(1, "sold"),
-      "confused",
       "programmer",
-      (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList)
+      1000,
+      (for (i <- (1 to 5)) yield Tag("tag-" + i, i)).toList,
+      "confused",
+      (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList,
+      Category("sold", 1)
+    )
 
     api.addPet(pet)
 

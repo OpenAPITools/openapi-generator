@@ -12,11 +12,6 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>scala-tools.org</id>
-      <name>Scala-Tools Maven2 Repository</name>
-      <url>http://scala-tools.org/repo-releases</url>
-    </pluginRepository>
-    <pluginRepository>
       <id>maven-mongodb-plugin-repo</id>
       <name>maven mongodb plugin repository</name>
       <url>http://maven-mongodb-plugin.googlecode.com/svn/maven/repo</url>
@@ -114,9 +109,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.scala-tools</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
-        <version>2.15.2</version>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>${scala-maven-plugin-version}</version>
         <executions>
           <execution>
             <id>scala-compile-first</id>
@@ -162,6 +157,12 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>com.sun.jersey.contribs</groupId>
+      <artifactId>jersey-multipart</artifactId>
+      <version>${jersey-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala-version}</version>
@@ -195,5 +196,7 @@
     <scala-test-version>1.6.1</scala-test-version>
     <junit-version>4.8.1</junit-version>
     <scala-test-version>1.6.1</scala-test-version>
+    <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
   </properties>
 </project>
+
