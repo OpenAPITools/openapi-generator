@@ -350,7 +350,15 @@ object SwaggerSerializers {
         }
       }
 
-      val t = (json \ "type").extractOrElse("")
+      val t = (json \ "$ref") match {
+        case e: JString => e.s
+        case _ => {
+          // convert the jsonschema types into swagger types.  Note, this logic will move elsewhere soon
+          SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
+            ((json \ "type").extractOrElse(""), (json \ "format").extractOrElse(""))
+          , (json \ "type").extractOrElse(""))
+        }
+      }
       val inner = {
         val items = new scala.collection.mutable.HashSet[String]
         (json \ "items") match {
