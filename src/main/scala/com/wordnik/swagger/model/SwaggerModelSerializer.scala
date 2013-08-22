@@ -567,8 +567,22 @@ object SwaggerSerializers {
   class ModelRefSerializer extends CustomSerializer[ModelRef](formats => ({
     case json =>
       implicit val fmts: Formats = formats
+
+      val `type` = (json \ "type") match {
+        case e: JString => e.s
+        case _ => ""
+      }
+      val format = (json \ "format") match {
+        case e: JString => e.s
+        case _ => ""
+      }
+      val jsonSchemaType = jsonSchemaTypeMap.getOrElse((`type`, format), `type`)
+
       ModelRef(
-        (json \ "type").extractOrElse(null: String),
+        jsonSchemaType match {
+          case e: String if(e != "") => e
+          case _ => null
+        },
         (json \ "$ref").extractOpt[String]
       )
     }, {

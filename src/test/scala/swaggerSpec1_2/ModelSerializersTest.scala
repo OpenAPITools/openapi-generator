@@ -569,6 +569,59 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
     val p = ModelProperty("string", "string", 0, false, Some("nice"))
     write(p) should be ("""{"type":"string","description":"nice"}""")
   }
+
+  it should "extract model properties" in {
+    val jsonString = """
+    {
+      "type":"integer",
+      "format":"int64",
+      "required":true,
+      "description":"nice"
+    }
+    """
+    val json = parse(jsonString)
+    json.extract[ModelProperty] match {
+      case p: ModelProperty => {
+        p.`type` should be ("long")
+        p.required should be (true)
+        p.description should be (Some("nice"))
+      }
+      case _ => fail("expected type ModelProperty")
+    }
+  }
+
+  it should "extract model properties with arrays" in {
+    val jsonString = """
+{
+  "id": "DocIdList",
+  "name": "DocIdList",
+  "properties": {
+    "docIds": {
+      "items": {
+        "format": "int64",
+        "type": "integer"
+      },
+      "type": "array"
+    }
+  }
+}
+"""
+    val json = parse(jsonString)
+    json.extract[Model] match {
+      case p: Model => {
+        p.properties should not be (null)
+        p.properties.size should be (1)
+        p.properties.keys.size should be (1)
+        for(key <- p.properties.keys) {
+          val property = p.properties(key)
+          property.`type` should be ("Array")
+          property.items should not be (None)
+          property.items.get.`type` should be ("long")
+        }
+      }
+      case _ => fail("expected type ModelProperty")
+    }
+  }
 }
 
 @RunWith(classOf[JUnitRunner])
