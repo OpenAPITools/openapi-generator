@@ -313,7 +313,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       }
     }
 
-    implicit val basePath = getBasePath("", doc.basePath)
+    implicit val basePath = getBasePath(host, doc.basePath)
 
     val apiReferences = doc.apis
     if (apiReferences == null)
