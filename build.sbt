@@ -55,14 +55,6 @@ publishTo <<= (version) { version: String =>
     Some("Sonatype Nexus Releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 }
 
-publishTo <<= (version) { version: String =>
-  val artifactory = "https://ci.aws.wordnik.com/artifactory/m2-"
-  if (version.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at artifactory + "snapshots")
-  else
-    Some("releases"  at artifactory + "releases")
-}
-
 //publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 
 
