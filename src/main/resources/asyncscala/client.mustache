@@ -9,7 +9,6 @@ import java.io.Closeable
 class {{clientName}}(config: SwaggerConfig) extends Closeable {
   val locator = config.locator
   val name = config.name
-  val dataFormat = config.dataFormat
 
   private[this] val client = transportClient
 

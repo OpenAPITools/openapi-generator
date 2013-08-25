@@ -17,13 +17,12 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
         {{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
       {{/optional}}
       {{^optional}}
-        {{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
-      {{/optional}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
+        {{paramName}}: {{dataType}}{{#defaultValue}} = {{defaultValue}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
+      {{/optional}}{{/allParams}})(implicit reader: ClientResponseReader[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{dataType}}]{{/bodyParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
     // create path and map variables
-    val path =
-      ("{{path}}"
-        replaceAll ("\\{format\\}", ser.name)
-        {{#pathParams}}replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}}.toString)
+    val path = 
+      (addFmt("{{path}}"){{#pathParams}}
+        replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}}.toString)
         {{/pathParams}})
 
     // query params
@@ -42,9 +41,9 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
     {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}.toString
     {{/headerParams}}
 
-    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}ser.serialize({{bodyParam}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
+    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}writer.write({{bodyParam}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
     resFuture flatMap { resp =>
-      process({{^returnType}}(){{/returnType}}{{#returnType}}ser.deserialize[{{returnType}}](resp.body) {{/returnType}})
+      process(reader.read(resp))
     }
   }
 

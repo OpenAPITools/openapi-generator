@@ -5,7 +5,7 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.8"
+version := "2.0.9-SNAPSHOT"
 
 scalaVersion := "2.9.1"
 
@@ -16,11 +16,11 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0")
 
 libraryDependencies ++= Seq(
-  "org.json4s"                  %% "json4s-jackson"     % "3.2.4",
+  "org.json4s"                  %% "json4s-jackson"     % "3.2.5",
   "io.backchat.inflector"       %% "scala-inflector"    % "1.3.5",
   "commons-io"                   % "commons-io"         % "2.3",
-  "ch.qos.logback"               % "logback-classic"    % "1.0.10" % "provided",
-  "org.rogach"                  %% "scallop"            % "0.8.1",
+  "ch.qos.logback"               % "logback-classic"    % "1.0.13" % "provided",
+  "org.rogach"                  %% "scallop"            % "0.9.4",
   "junit"                        % "junit"              % "4.11" % "test",
   "org.scalatest"               %% "scalatest"          % "1.9.1" % "test"
 )
@@ -53,6 +53,14 @@ publishTo <<= (version) { version: String =>
     Some("Sonatype Nexus Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots")
   else
     Some("Sonatype Nexus Releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
+}
+
+publishTo <<= (version) { version: String =>
+  val artifactory = "https://ci.aws.wordnik.com/artifactory/m2-"
+  if (version.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at artifactory + "snapshots")
+  else
+    Some("releases"  at artifactory + "releases")
 }
 
 //publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
