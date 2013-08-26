@@ -262,6 +262,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       "yield")
   override val importMapping = cfg.defaultImports
   override val typeMapping = Map(
+      "array" -> "List",
       "boolean" -> "Boolean",
       "string" -> "String",
       "int" -> "Int",
