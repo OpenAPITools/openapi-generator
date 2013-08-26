@@ -96,9 +96,8 @@ object SwaggerSerializers {
     ValidationMessage.validationMessages += msg
   }
 
-  class ApiListingSerializer extends CustomSerializer[ApiListing](formats => ({
+  class ApiListingSerializer extends CustomSerializer[ApiListing](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
       ApiListing(
         (json \ "apiVersion").extractOrElse({
           !!(json, RESOURCE, "apiVersion", "missing required field", ERROR)
@@ -127,7 +126,6 @@ object SwaggerSerializers {
       )
     }, {
       case x: ApiListing =>
-      implicit val fmts = formats
       ("apiVersion" -> x.apiVersion) ~
       ("resourcePath" -> x.resourcePath) ~
       ("swaggerVersion" -> x.swaggerVersion) ~
@@ -147,9 +145,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class ResourceListingSerializer extends CustomSerializer[ResourceListing](formats => ({
+  class ResourceListingSerializer extends CustomSerializer[ResourceListing](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
 
       val apis = (json \ "apis").extract[List[ApiListingReference]]
 
@@ -167,7 +164,6 @@ object SwaggerSerializers {
       )
     }, {
       case x: ResourceListing =>
-      implicit val fmts = formats
       ("apiVersion" -> x.apiVersion) ~
       ("swaggerVersion" -> x.swaggerVersion) ~
       ("apis" -> {
@@ -179,9 +175,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class ApiListingReferenceSerializer extends CustomSerializer[ApiListingReference](formats => ({
+  class ApiListingReferenceSerializer extends CustomSerializer[ApiListingReference](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
       ApiListingReference(
         (json \ "path").extractOrElse({
           !!(json, RESOURCE, "path", "missing required field", ERROR)
@@ -191,15 +186,13 @@ object SwaggerSerializers {
       )
     }, {
       case x: ApiListingReference =>
-      implicit val fmts = formats
       ("path" -> x.path) ~
       ("description" -> x.description)
     }
   ))
 
-  class ApiDescriptionSerializer extends CustomSerializer[ApiDescription](formats => ({
+  class ApiDescriptionSerializer extends CustomSerializer[ApiDescription](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
       ApiDescription(
         (json \ "path").extractOrElse({
           !!(json, RESOURCE_LISTING, "path", "missing required field", ERROR)
@@ -210,7 +203,6 @@ object SwaggerSerializers {
       )
     }, {
       case x: ApiDescription =>
-      implicit val fmts = formats
       ("path" -> x.path) ~
       ("description" -> x.description) ~
       ("operations" -> {
@@ -222,9 +214,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class ResponseMessageSerializer extends CustomSerializer[ResponseMessage](formats => ({
+  class ResponseMessageSerializer extends CustomSerializer[ResponseMessage](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
       ResponseMessage(
         (json \ "code").extractOrElse({
           !!(json, ERROR, "code", "missing required field", ERROR)
@@ -237,15 +228,13 @@ object SwaggerSerializers {
       )
     }, {
       case x: ResponseMessage =>
-      implicit val fmts = formats
       ("code" -> x.code) ~
       ("message" -> x.message)
     }
   ))
 
-  class OperationSerializer extends CustomSerializer[Operation](formats => ({
+  class OperationSerializer extends CustomSerializer[Operation](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
 
       val responseClass = (json \ "items") match {
         case e: JObject => {
@@ -300,7 +289,6 @@ object SwaggerSerializers {
         case _ => toJsonSchema("type", x.responseClass)    ~ ("format" -> JNothing)
       }
 
-      implicit val fmts = formats
       ("method" -> x.method) ~
       ("summary" -> x.summary) ~
       ("notes" -> x.notes) ~
@@ -317,9 +305,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class ParameterSerializer extends CustomSerializer[Parameter](formats => ({
+  class ParameterSerializer extends CustomSerializer[Parameter](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
 
       val output = new ListBuffer[String]
       (json \ "enum") match {
@@ -416,7 +403,6 @@ object SwaggerSerializers {
       )
     }, {
       case x: Parameter =>
-      implicit val fmts = formats
       val output = ("name" -> x.name) ~
       ("description" -> x.description) ~
       ("defaultValue" -> x.defaultValue) ~
@@ -435,9 +421,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class ModelSerializer extends CustomSerializer[Model](formats => ({
+  class ModelSerializer extends CustomSerializer[Model](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
       val output = new LinkedHashMap[String, ModelProperty]
       val required = (json \ "required").extract[Set[String]]
       val properties = (json \ "properties") match {
@@ -467,7 +452,6 @@ object SwaggerSerializers {
       )
     }, {
     case x: Model =>
-      implicit val fmts = formats
       val required: List[String] = (for((name, prop) <- x.properties) yield {
         if(prop.required) Some(name)
         else None
@@ -488,10 +472,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class ModelPropertySerializer extends CustomSerializer[ModelProperty] (formats => ({
+  class ModelPropertySerializer extends CustomSerializer[ModelProperty] (implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
-
       val `type` = (json \ "$ref") match {
         case e: JString => e.s
         case _ => {
@@ -549,7 +531,6 @@ object SwaggerSerializers {
       )
     }, {
     case x: ModelProperty =>
-      implicit val fmts = formats
       val output = toJsonSchema("type", x.`type`) ~
       ("description" -> x.description) ~
       ("items" -> Extraction.decompose(x.items))
@@ -564,9 +545,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class ModelRefSerializer extends CustomSerializer[ModelRef](formats => ({
+  class ModelRefSerializer extends CustomSerializer[ModelRef](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
 
       val `type` = (json \ "type") match {
         case e: JString => e.s
@@ -587,7 +567,6 @@ object SwaggerSerializers {
       )
     }, {
       case x: ModelRef =>
-      implicit val fmts = formats
       ("type" -> {
         x.`type` match {
           case e:String => Some(e)
@@ -598,9 +577,8 @@ object SwaggerSerializers {
     }
   ))
 
-  class AllowableValuesSerializer extends CustomSerializer[AllowableValues](formats => ({
+  class AllowableValuesSerializer extends CustomSerializer[AllowableValues](implicit formats => ({
     case json =>
-      implicit val fmts: Formats = formats
       json \ "valueType" match {
         case JString(x) if x.equalsIgnoreCase("list") => {
           val output = new ListBuffer[String]
@@ -622,7 +600,6 @@ object SwaggerSerializers {
       }
     }, {
       case AllowableListValues(values, "LIST") => 
-        implicit val fmts = formats
         ("valueType" -> "LIST") ~ ("values" -> Extraction.decompose(values))
       case AllowableRangeValues(min, max)  => 
         ("valueType" -> "RANGE") ~ ("min" -> min) ~ ("max" -> max)
