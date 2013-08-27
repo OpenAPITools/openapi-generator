@@ -74,7 +74,7 @@ abstract class CodegenConfig {
   def processResponseDeclaration(responseClass: String): Option[String] = {
     responseClass match {
       case "void" => None
-      case e: String => Some(typeMapping.getOrElse(e, e))
+      case e: String => Some(toDeclaredType(e))
     }
   }
 

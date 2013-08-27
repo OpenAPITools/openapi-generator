@@ -425,7 +425,7 @@ object SwaggerSerializers {
     case json =>
       val output = new LinkedHashMap[String, ModelProperty]
       val required = (json \ "required").extract[Set[String]]
-      val properties = (json \ "properties") match {
+      json \ "properties" match {
         case JObject(entries) => {
           entries.map({
             case (key, value) => {
@@ -464,7 +464,7 @@ object SwaggerSerializers {
         case _ => Extraction.decompose(required)
       })) ~
       ("properties" -> {
-        x.properties match {
+        (x.properties: @unchecked) match {
           case e: LinkedHashMap[String, ModelProperty] => Extraction.decompose(e.toMap)
           case _ => JNothing
         }
@@ -485,7 +485,7 @@ object SwaggerSerializers {
       }
 
       val output = new ListBuffer[String]
-      (json \ "enum") match {
+      json \ "enum" match {
         case JArray(entries) => entries.map {
           case e: JInt => output += e.num.toString
           case e: JBool => output += e.value.toString

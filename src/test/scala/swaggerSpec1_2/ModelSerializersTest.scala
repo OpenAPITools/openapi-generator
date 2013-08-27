@@ -256,6 +256,54 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
       case _ => fail("wrong type returned, should be Operation")
     }
   }
+  it should "deserialize an Operation with an array property" in {
+    val jsonString = """
+    {
+      "method":"GET",
+      "summary":"the summary",
+      "notes":"the notes",
+      "type":"string",
+      "nickname":"getMeSomePets",
+      "parameters":[
+        {
+          "name":"id",
+          "description":"the id",
+          "defaultValue":"-1",
+          "required":false,
+          "allowMultiple":true,
+          "type":"array",
+          "items": {
+            "$ref": "Pet"
+          },
+          "enum":["a","b","c"],
+          "paramType":"query"
+        }
+      ]
+    }
+                     """
+    val json = parse(jsonString)
+    json.extract[Operation] match {
+      case op: Operation => {
+        op.method should be ("GET")
+        op.summary should be ("the summary")
+        op.notes should be ("the notes")
+        op.responseClass should be ("array[Pet]")
+        op.nickname should be ("getMeSomePets")
+        op.parameters.size should be (1)
+
+        op.parameters.foreach(m => {
+          m.name should be ("id")
+          m.description should be (Some("the id"))
+          m.defaultValue should be (Some("-1"))
+          m.required should be (false)
+          m.allowMultiple should be (true)
+          m.dataType should be ("string")
+          m.paramType should be ("query")
+        })
+      }
+      case _ => fail("wrong type returned, should be Operation")
+    }
+  }
 
   it should "serialize an operation" in {
     val op = Operation(

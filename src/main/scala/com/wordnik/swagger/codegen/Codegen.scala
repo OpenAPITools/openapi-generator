@@ -406,7 +406,7 @@ class Codegen(config: CodegenConfig) {
       baseType = config.typeMapping.contains(baseType) match {
         case true => config.typeMapping(baseType)
         case false => {
-          imports += Map("import" -> config.typeMapping.getOrElse(baseType, baseType))
+          imports += Map("import" -> config.toDeclaredType(baseType))
           baseType
         }
       }

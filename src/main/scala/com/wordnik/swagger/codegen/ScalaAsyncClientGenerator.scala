@@ -13,6 +13,7 @@ import com.wordnik.swagger.codegen.util.{CoreUtils, ApiExtractor, ResourceExtrac
 import com.wordnik.swagger.codegen.spec.SwaggerSpecValidator
 import mojolly.inflector.InflectorImports._
 import org.rogach.scallop.{ScallopConf, Scallop}
+import scala.annotation.switch
 
 case class SwaggerApi(
              clientName: String,
@@ -266,13 +267,15 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       "boolean" -> "Boolean",
       "string" -> "String",
       "int" -> "Int",
+      "long" -> "Long",
       "float" -> "Float",
       "byte" -> "Byte",
       "short" -> "Short",
       "char" -> "Char",
       "long" -> "Long",
       "double" -> "Double",
-      "object" -> "Any") ++ cfg.typeMapping
+      "object" -> "Any",
+      "file" -> "File") ++ cfg.typeMapping
 
   override val defaultIncludes = Set(
       "Int",
@@ -482,20 +485,32 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   override def processResponseClass(responseClass: String): Option[String] = {
     responseClass match {
       case "void" => None //Some("Unit")
-      case e: String => Some(typeMapping.getOrElse(e, e))
+      case e: String => Some(toDeclaredType(e))
     }
   }
 
   override def processResponseDeclaration(responseClass: String): Option[String] = {
     responseClass match {
       case "void" => None //Some("Unit")
-      case e: String => Some(typeMapping.getOrElse(e, e))
+      case e: String => Some(toDeclaredType(e))
     }
+  }
+
+  override def toDeclaredType(dt: String): String = {
+    val declaredType = (dt.indexOf("["): @switch) match {
+      case -1 => dt
+      case n: Int => {
+        if (dt.substring(0, n).toLowerCase == "array")
+          "List" + dt.substring(n)
+        else dt
+      }
+    }
+    typeMapping.getOrElse(declaredType, declaredType)
   }
 
   override def toDeclaration(obj: ModelProperty): (String, String) = {
     obj.`type` match {
-      case "Array" => {
+      case "Array" | "array" => {
         val inner = {
           obj.items match {
             case Some(items) => items.ref.getOrElse(items.`type`)
