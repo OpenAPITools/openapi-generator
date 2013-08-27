@@ -35,7 +35,13 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
     if (paramCount != {{requiredParamCount}}) sys.error("missing required params")
     {{/requiredParamCount}}
 
-    {{#queryParams}}if({{paramName}} != null) queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{#queryParams}}
+    {{#optional}}
+    if({{paramName}} != null) {{paramName}}.foreach { v => queryParams += "{{baseName}}" -> v.toString }
+    {{/optional}}
+    {{^optional}}
+    if({{paramName}} != null)   queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/optional}}
     {{/queryParams}}
 
     {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}.toString
