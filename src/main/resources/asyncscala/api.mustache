@@ -14,7 +14,7 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
 
   def {{nickname}}({{#allParams}}
       {{#optional}}
-        {{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{{defaultValue}}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{defaultValue}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
       {{/optional}}
       {{^optional}}
         {{paramName}}: {{dataType}}{{#defaultValue}} = {{defaultValue}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
