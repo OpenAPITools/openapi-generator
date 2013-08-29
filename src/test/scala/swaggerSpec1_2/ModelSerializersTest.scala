@@ -280,14 +280,14 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
         }
       ]
     }
-                     """
+"""
     val json = parse(jsonString)
     json.extract[Operation] match {
       case op: Operation => {
         op.method should be ("GET")
         op.summary should be ("the summary")
         op.notes should be ("the notes")
-        op.responseClass should be ("array[Pet]")
+        op.responseClass should be ("string")
         op.nickname should be ("getMeSomePets")
         op.parameters.size should be (1)
 
@@ -297,7 +297,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
           m.defaultValue should be (Some("-1"))
           m.required should be (false)
           m.allowMultiple should be (true)
-          m.dataType should be ("string")
+          m.dataType should be ("Array[Pet]")
           m.paramType should be ("query")
         })
       }
@@ -320,6 +320,53 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
       List(Parameter("id", Some("the id"), Some("-1"), false, true, "string", AllowableListValues(List("a","b","c")), "query"))
     )
     write(op) should be ("""{"method":"get","summary":"the summary","notes":"the notes","type":"string","nickname":"getMeSomeStrings","parameters":[{"name":"id","description":"the id","defaultValue":"-1","required":false,"allowMultiple":true,"type":"string","paramType":"query","enum":["a","b","c"]}]}""")
+  }
+
+  it should "deserialize an Operation with array" in {
+    val jsonString = """
+    {
+      "method":"GET",
+      "summary":"the summary",
+      "notes":"the notes",
+      "type":"string",
+      "nickname":"getMeSomeStrings",
+      "parameters":[
+        {
+          "name":"userId",
+          "description":"the id",
+          "defaultValue":"-1",
+          "required":false,
+          "type":"array",
+          "items": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "paramType":"query"
+        }
+      ]
+    }
+    """
+    val json = parse(jsonString)
+
+    json.extract[Operation] match {
+      case op: Operation => {
+        op.method should be ("GET")
+        op.summary should be ("the summary")
+        op.notes should be ("the notes")
+        op.responseClass should be ("string")
+        op.nickname should be ("getMeSomeStrings")
+        op.parameters.size should be (1)
+
+        op.parameters.foreach(m => {
+          m.name should be ("userId")
+          m.description should be (Some("the id"))
+          m.defaultValue should be (Some("-1"))
+          m.required should be (false)
+          m.dataType should be ("Array[long]")
+        })
+      }
+      case _ => fail("wrong type returned, should be Operation")
+    }
   }
 }
 

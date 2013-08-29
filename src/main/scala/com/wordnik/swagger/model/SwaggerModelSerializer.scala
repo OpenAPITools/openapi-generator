@@ -305,8 +305,9 @@ object SwaggerSerializers {
     }
   ))
 
-  class ParameterSerializer extends CustomSerializer[Parameter](implicit formats => ({
+  class ParameterSerializer extends CustomSerializer[Parameter](formats => ({
     case json =>
+      implicit val fmts: Formats = formats
 
       val output = new ListBuffer[String]
       (json \ "enum") match {
@@ -337,35 +338,28 @@ object SwaggerSerializers {
         }
       }
 
-      val t = (json \ "$ref") match {
-        case e: JString => e.s
-        case _ => {
-          // convert the jsonschema types into swagger types.  Note, this logic will move elsewhere soon
-          SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
+      val t =  SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
             ((json \ "type").extractOrElse(""), (json \ "format").extractOrElse(""))
           , (json \ "type").extractOrElse(""))
-        }
-      }
+
       val inner = {
         val items = new scala.collection.mutable.HashSet[String]
+        val map = new scala.collection.mutable.HashMap[String, String]
         (json \ "items") match {
           case JObject(e) => {
-            val i = for(a <- e) yield {
-              a._1 == "$ref" match {
-                case true => a._2
-                case false => a._1 == "type" match {
-                  case true => a._2
-                  case _ => JNothing
-                }
-              }
-            }
-            for(j <- i)
-              j match {
-                case JString(e) => items += e
+            for(a <- e) {
+              a._2 match {
+                case e: JString => map += a._1 -> e.s
                 case _ =>
               }
-            if(items.size > 0) Some(items.head)
-            else None
+            }
+            val `type` = map.getOrElse("type", "")
+            val format = map.getOrElse("format", "")
+            if(map.contains("$ref")) {
+              Some(map("$ref"))
+            }
+            else
+              Option(jsonSchemaTypeMap.getOrElse((`type`,format), null))
           }
           case _ => None
         }
@@ -374,35 +368,35 @@ object SwaggerSerializers {
         case Some(a) => "%s[%s]".format(t, a)
         case _ => t
       }
-
       Parameter(
-        (json \ "name").extractOrElse({
+        name = (json \ "name").extractOrElse({
           !!(json, OPERATION_PARAM, "reason", "missing parameter name", WARNING)
           ""
         }),
-        (json \ "description").extractOpt[String],
-        (json \ "defaultValue") match {
+        description = (json \ "description").extractOpt[String],
+        defaultValue = (json \ "defaultValue") match {
           case e:JInt => Some(e.num.toString)
           case e:JBool => Some(e.value.toString)
           case e:JString => Some(e.s)
           case e:JDouble => Some(e.num.toString)
           case _ => None
         },
-        (json \ "required") match {
+        required = (json \ "required") match {
           case e:JString => e.s.toBoolean
           case e:JBool => e.value
           case _ => false
         },
-        (json \ "allowMultiple").extractOrElse(false),
-        `type`,
-        allowableValues,
-        (json \ "paramType").extractOrElse({
+        allowMultiple = (json \ "allowMultiple").extractOrElse(false),
+        dataType = `type`,
+        allowableValues = allowableValues,
+        paramType = (json \ "paramType").extractOrElse({
           !!(json, OPERATION_PARAM, "paramType", "missing required field", ERROR)
           ""
         })
       )
     }, {
       case x: Parameter =>
+      implicit val fmts = formats
       val output = ("name" -> x.name) ~
       ("description" -> x.description) ~
       ("defaultValue" -> x.defaultValue) ~
