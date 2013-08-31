@@ -14,6 +14,8 @@ You need the following installed and available in your $PATH:
 
 * [Scala 2.9.1](http://www.scala-lang.org)
 
+* [sbt (only download if you're building on Windows)](http://www.scala-sbt.org/)
+
 You also need to add the scala binary to your PATH.
 
 After cloning the project, you need to build it from source with this command:
@@ -21,6 +23,13 @@ After cloning the project, you need to build it from source with this command:
 ```
 ./sbt assembly
 ```
+
+or for Windows...
+
+```
+sbt assembly
+```
+
 
 ### To generate a sample client library
 You can build a client against Wordnik's [petstore](http://petstore.swagger.wordnik.com) API as follows:
