@@ -421,9 +421,8 @@ object SwaggerSerializers {
       val required = (json \ "required").extract[Set[String]]
       json \ "properties" match {
         case JObject(entries) => {
-          entries.map({
-            case (key, value) => {
-              val prop = value.extract[ModelProperty]
+          entries.map(kv => kv._1 -> kv._2.extract[ModelProperty]).sortBy(_._2.position).map({
+            case (key, prop) => {
               if(required.contains(key))
                 output += key -> prop.copy(required = true)
               else
@@ -514,6 +513,7 @@ object SwaggerSerializers {
           case e:JBool => e.value
           case _ => false
         },
+        position = (json \ "position").extractOrElse(0),
         description = (json \ "description").extractOpt[String],
         allowableValues = allowableValues,
         items = {
@@ -527,7 +527,8 @@ object SwaggerSerializers {
     case x: ModelProperty =>
       val output = toJsonSchema("type", x.`type`) ~
       ("description" -> x.description) ~
-      ("items" -> Extraction.decompose(x.items))
+      ("items" -> Extraction.decompose(x.items)) ~
+      ("position" -> x.position)
 
       x.allowableValues match {
         case AllowableListValues(values, "LIST") => 

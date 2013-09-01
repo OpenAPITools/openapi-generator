@@ -537,7 +537,7 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model" in {
     val ref = Model("Foo", "Bar", "Bar", (LinkedHashMap("s" -> ModelProperty("string", "string", 0, true, Some("a string")))))
-    write(ref) should be ("""{"id":"Foo","name":"Bar","required":["s"],"properties":{"s":{"type":"string","description":"a string"}}}""")
+    write(ref) should be ("""{"id":"Foo","name":"Bar","required":["s"],"properties":{"s":{"type":"string","description":"a string","position":0}}}""")
   }
 }
 
@@ -609,7 +609,7 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model property with allowable values and ref" in {
     val p = ModelProperty("string", "string", 0, false, Some("nice"), AllowableListValues(List("a","b")),Some(ModelRef("Foo",Some("Bar"))))
-    write(p) should be ("""{"type":"string","description":"nice","items":{"type":"Foo","$ref":"Bar"},"enum":["a","b"]}""")
+    write(p) should be ("""{"type":"string","description":"nice","items":{"type":"Foo","$ref":"Bar"},"position":0,"enum":["a","b"]}""")
   }
 
   it should "deserialize a model property with allowable values" in {
@@ -638,7 +638,7 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model property with allowable values" in {
     val p = ModelProperty("string", "string", 0, false, Some("nice"), AllowableListValues(List("a","b")))
-    write(p) should be ("""{"type":"string","description":"nice","enum":["a","b"]}""")
+    write(p) should be ("""{"type":"string","description":"nice","position":0,"enum":["a","b"]}""")
   }
 
   it should "deserialize a model property" in {
@@ -662,7 +662,7 @@ class ModelPropertySerializationTest extends FlatSpec with ShouldMatchers {
 
   it should "serialize a model property" in {
     val p = ModelProperty("string", "string", 0, false, Some("nice"))
-    write(p) should be ("""{"type":"string","description":"nice"}""")
+    write(p) should be ("""{"type":"string","description":"nice","position":0}""")
   }
 
   it should "extract model properties" in {
