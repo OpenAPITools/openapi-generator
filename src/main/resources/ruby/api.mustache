@@ -22,7 +22,12 @@ class {{classname}}
     {{/requiredParamCount}}
     
     # set default values and merge with input
-    options = { {{#allParams}}:{{{paramName}}} => {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} }.merge(opts)
+    options = {
+    {{#allParams}}
+      :{{paramName}} => {{paramName}}{{#hasMore}},
+      {{/hasMore}}
+    {{/allParams}}
+    }.merge(opts)
 
     #resource path
     path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', escapeString({{paramName}}))

@@ -5,44 +5,33 @@ class {{classname}}
   attr_accessor {{#vars}}:{{{name}}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{newline}}
   # :internal => :external
   def self.attribute_map
-  {
+    {
       {{#vars}}
-      :{{{name}}} => :{{{baseName}}}{{#hasMore}}, {{/hasMore}}
-      {{/vars}}{{newline}}
-  }
+      :{{{name}}} => :{{{baseName}}}{{#hasMore}},
+      {{/hasMore}}
+    {{/vars}}{{newline}}
+    }
   end
 
   def initialize(attributes = {})
+    return if attributes.empty?
     # Morph attribute keys into undescored rubyish style
-    if attributes.to_s != ""
-
-      {{#vars}}
-      if {{classname}}.attribute_map["{{{name}}}".to_sym] != nil
-        name = "{{{name}}}".to_sym
-        value = attributes["{{{baseName}}}"]
-        {{#isContainer}}
-	      if value.is_a?(Array)
-	        array = Array.new
-	        value.each do |arrayValue|
-	          {{#isPrimitiveType}}array.push arrayValue
-	        {{/isPrimitiveType}}
-	          {{#complexType}}array.push {{complexType}}.new(arrayValue)
-	        {{/complexType}}
-	        end
-	        send("#{name}=", array) if self.respond_to?(name)
-	      end
-        {{/isContainer}}
-        {{^isContainer}}
-	      send("#{name}=", value) if self.respond_to?(name)
-	      {{/isContainer}}
-	    end
-      {{/vars}}
+    {{#vars}}
+    if self.class.attribute_map[:"{{{name}}}"]
+      {{#isContainer}}
+        if (value = attributes["{{{baseName}}}"]).is_a?(Array)
+          @{{{name}}} = value{{#complexType}}.map{ |v| {{complexType}}.new(v) }{{/complexType}}
+        end
+      {{/isContainer}}{{^isContainer}}
+        @{{{name}}} = attributes["{{{baseName}}}"]
+    {{/isContainer}}
     end
+    {{/vars}}{{newline}}
   end
 
   def to_body
     body = {}
-    {{classname}}.attribute_map.each_pair do |key,value|
+    self.class.attribute_map.each_pair do |key, value|
       body[value] = self.send(key) unless self.send(key).nil?
     end
     body
