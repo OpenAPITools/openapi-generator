@@ -500,9 +500,10 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     val declaredType = (dt.indexOf("["): @switch) match {
       case -1 => dt
       case n: Int => {
-        if (dt.substring(0, n).toLowerCase == "array")
-          "List" + dt.substring(n)
-        else dt
+        if (dt.substring(0, n).toLowerCase == "array") {
+          val dtt = dt.substring(n + 1, dt.length - 1)
+          s"List[${typeMapping.getOrElse(dtt, dtt)}]"
+        } else dt
       }
     }
     typeMapping.getOrElse(declaredType, declaredType)
