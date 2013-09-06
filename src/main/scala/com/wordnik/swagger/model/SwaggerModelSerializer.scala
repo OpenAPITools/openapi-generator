@@ -472,9 +472,16 @@ object SwaggerSerializers {
         case e: JString => e.s
         case _ => {
           // convert the jsonschema types into swagger types.  Note, this logic will move elsewhere soon
-          SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
+          val t = SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
             ((json \ "type").extractOrElse(""), (json \ "format").extractOrElse(""))
           , (json \ "type").extractOrElse(""))
+          val isUnique = (json \ "uniqueItems") match {
+            case e: JBool => e.value
+            case e: JString => e.s.toBoolean
+            case _ => false
+          }
+          if(t == "Array" && isUnique) "set"
+          else t
         }
       }
 
