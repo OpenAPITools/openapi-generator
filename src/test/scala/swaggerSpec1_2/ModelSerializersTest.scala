@@ -535,6 +535,73 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
     }
   }
 
+  it should "deserialize a model with a set" in {
+    val jsonString = """
+    {
+      "id":"Foo",
+      "name":"Bar",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type":"string",
+          "description":"id"
+        },
+        "name": {
+          "type":"string",
+          "description":"name"
+        },
+        "tags": {
+          "type":"array",
+          "uniqueItems": true,
+          "items": {
+            "type":"string"
+          }
+        }
+      },
+      "description":"nice model"
+    }
+    """
+    val json = parse(jsonString)
+    json.extract[Model] match {
+      case model: Model => {
+        model.id should be ("Foo")
+        model.name should be ("Bar")
+        model.properties should not be (null)
+        model.properties.size should be (3)
+        model.description should be (Some("nice model"))
+        model.properties("id") match {
+          case e: ModelProperty => {
+            e.`type` should be ("string")
+            e.required should be (true)
+            e.description should be (Some("id"))
+          }
+          case _ => fail("missing property id")
+        }
+        model.properties("name") match {
+          case e: ModelProperty => {
+            e.`type` should be ("string")
+            e.required should be (false)
+            e.description should be (Some("name"))
+          }
+          case _ => fail("missing property name")
+        }
+
+        model.properties("tags") match {
+          case e: ModelProperty => {
+            e.`type` should be ("set")
+            e.required should be (false)
+            e.items match {
+              case Some(items) => items.`type` should be ("string")
+              case _ => fail("didn't find ref for Array")
+            }
+          }
+          case _ => fail("missing property name")
+        }
+      }
+      case _ => fail("expected type Model")
+    }
+  }
+
   it should "serialize a model" in {
     val ref = Model("Foo", "Bar", "Bar", (LinkedHashMap("s" -> ModelProperty("string", "string", 0, true, Some("a string")))))
     write(ref) should be ("""{"id":"Foo","name":"Bar","required":["s"],"properties":{"s":{"type":"string","description":"a string"}}}""")
