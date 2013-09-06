@@ -27,9 +27,13 @@ class BasicScalaGenerator extends BasicGenerator {
     "Int",
     "String",
     "Long",
+    "Short",
+    "Char",
+    "Byte",
     "Float",
     "Double",
     "Boolean",
+    "AnyRef",
     "Any")
 
   override def typeMapping = Map(
@@ -37,11 +41,15 @@ class BasicScalaGenerator extends BasicGenerator {
     "boolean" -> "Boolean",
     "string" -> "String",
     "int" -> "Int",
+    "long" -> "Long",
     "float" -> "Float",
+    "byte" -> "Byte",
+    "short" -> "Short",
+    "char" -> "Char",
     "long" -> "Long",
     "double" -> "Double",
-    "file" -> "File",
-    "object" -> "Any")
+    "object" -> "Any",
+    "file" -> "File")
 
   // template used for models
   modelTemplateFiles += "model.mustache" -> ".scala"
@@ -56,7 +64,47 @@ class BasicScalaGenerator extends BasicGenerator {
   override def destinationDir = "generated-code/scala/src/main/scala"
 
   // reserved words which need special quoting
-  override def reservedWords = Set("type", "package", "match", "object")
+  override def reservedWords =
+    Set(
+      "abstract",
+      "case",
+      "catch",
+      "class",
+      "def",
+      "do",
+      "else",
+      "extends",
+      "false",
+      "final",
+      "finally",
+      "for",
+      "forSome",
+      "if",
+      "implicit",
+      "import",
+      "lazy",
+      "match",
+      "new",
+      "null",
+      "object",
+      "override",
+      "package",
+      "private",
+      "protected",
+      "return",
+      "sealed",
+      "super",
+      "this",
+      "throw",
+      "trait",
+      "try",
+      "true",
+      "type",
+      "val",
+      "var",
+      "while",
+      "with",
+      "yield")
 
   // import/require statements for specific datatypes
   override def importMapping = Map(

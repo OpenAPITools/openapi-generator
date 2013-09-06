@@ -261,7 +261,10 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       "while",
       "with",
       "yield")
-  override val importMapping = cfg.defaultImports
+  override val importMapping = Map(
+      "Date" -> "java.util.Date",
+      "File" -> "java.io.File"
+    ) ++ cfg.defaultImports
   override val typeMapping = Map(
       "array" -> "List",
       "boolean" -> "Boolean",
@@ -502,7 +505,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       case n: Int => {
         if (dt.substring(0, n).toLowerCase == "array") {
           val dtt = dt.substring(n + 1, dt.length - 1)
-          s"List[${typeMapping.getOrElse(dtt, dtt)}]"
+          "List[%s]".format(typeMapping.getOrElse(dtt, dtt))
         } else dt
       }
     }
@@ -511,18 +514,22 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
 
   override def toDeclaration(obj: ModelProperty): (String, String) = {
     obj.`type` match {
-      case "Array" | "array" => {
-        val inner = {
-          obj.items match {
-            case Some(items) => items.ref.getOrElse(items.`type`)
-            case _ => throw new Exception("no inner type defined")
-          }
-        }
-        val e = "List[%s]" format toDeclaredType(inner)
-        (e, toDefaultValue(inner, obj))
-      }
+      case "Array" | "array" =>  makeContainerType(obj, "List")
+      case "Set" | "set" => makeContainerType(obj, "Set")
       case e: String => (toDeclaredType(e), toDefaultValue(e, obj))
     }
+  }
+
+
+  private def makeContainerType(obj: ModelProperty, container: String): (String, String) = {
+    val inner = {
+      obj.items match {
+        case Some(items) => items.ref.getOrElse(items.`type`)
+        case _ => throw new Exception("no inner type defined")
+      }
+    }
+    val e = "%s[%s]" format (container, toDeclaredType(inner))
+    (e, toDefaultValue(inner, obj))
   }
 
   // escape keywords
