@@ -23,7 +23,9 @@ case class SwaggerApi(
              modelTemplates: Map[String, String] = Map("model.mustache" -> ".scala"),
              apiKey: Option[String] = None,
              baseUrl: Option[String] = None,
-             excludedApis: Set[String] = Set.empty)
+             excludedApis: Set[String] = Set.empty,
+             excludedModels: Set[String] = Set.empty,
+             excludedModelPackages: Set[String] = Set.empty)
 case class SwaggerGenConfig(
              api: SwaggerApi,
              templateDir: File,
@@ -31,7 +33,8 @@ case class SwaggerGenConfig(
              projectRoot: File,
              defaultIncludes: Set[String] = Set.empty,
              typeMapping: Map[String, String] = Map.empty,
-             defaultImports: Map[String, String] = Map.empty)
+             defaultImports: Map[String, String] = Map.empty,
+             excludedModelPackages: Set[String] = Set.empty)
 object AsycnClientGeneratorConf {
   val appBanner: String = """
         |
@@ -220,6 +223,8 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   override val fileSuffix: String = ".scala"
   override val modelPackage: Option[String] = Some(packageName + ".model")
   override val apiPackage: Option[String] = Some(packageName + ".apis")
+
+
   override val reservedWords: Set[String] =
     Set(
       "abstract",
@@ -291,7 +296,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       "Double",
       "Boolean",
       "AnyRef",
-      "Any") ++  cfg.defaultIncludes
+      "Any") ++  cfg.defaultIncludes ++ cfg.api.excludedModels
 
   override def supportingFiles = List(
     ("client.mustache", destinationDir + "/" + cfg.api.packageName.replace('.', '/'), (pascalizedClientName +".scala")),
@@ -406,44 +411,41 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
    * creates a map of models and properties needed to write source
    */
   override def prepareModelMap(models: Map[String, Model]): List[Map[String, AnyRef]] = {
-    (for ((name, schema) <- models) yield {
-      if (!defaultIncludes.contains(name)) {
-        Some(Map(
-          "name" -> toModelName(name),
-          "className" -> name,
-          "filename" -> toModelFilename(name),
-          "apis" -> None,
-          "models" -> List((name, schema)),
-          "package" -> modelPackage,
-          "invokerPackage" -> invokerPackage,
-          "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator)),
-          "newline" -> "\n"))
-      }
-      else None
-    }).flatten.toList
+    for {
+      (name, schema) <- (models -- defaultIncludes).toList
+      if !(cfg.excludedModelPackages ++ cfg.api.excludedModelPackages).exists(schema.qualifiedType.startsWith)
+    } yield {
+      Map(
+        "name" -> toModelName(name),
+        "className" -> name,
+        "filename" -> toModelFilename(name),
+        "apis" -> None,
+        "models" -> List((name, schema)),
+        "package" -> modelPackage,
+        "invokerPackage" -> invokerPackage,
+        "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replaceAll("\\.", File.separator)),
+        "newline" -> "\n")
+    }
   }
 
   override def prepareApiBundle(apiMap: Map[(String, String), List[(String, Operation)]] ): List[Map[String, AnyRef]] = {
-    (for ((identifier, operationList) <- apiMap) yield {
-      val basePath = identifier._1
-      val name = identifier._2
-      val className = toApiName(name)
-
-      Some(Map(
-          "baseName" -> name,
-          "filename" -> toApiFilename(name),
-          "name" -> toApiName(name),
-          "className" -> className,
-          "basePath" -> basePath,
-          "package" -> apiPackage,
-          "invokerPackage" -> invokerPackage,
-          "apis" -> Map(className -> operationList.toList),
-          "models" -> None,
-          "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator)),
-          "newline" -> "\n"))
-
-
-    }).flatten.toList
+    for {
+      ((basePath, name), operationList) <- apiMap.toList
+      className = toApiName(name)
+    } yield {
+      Map(
+        "baseName" -> name,
+        "filename" -> toApiFilename(name),
+        "name" -> toApiName(name),
+        "className" -> className,
+        "basePath" -> basePath,
+        "package" -> apiPackage,
+        "invokerPackage" -> invokerPackage,
+        "apis" -> Map(className -> operationList.toList),
+        "models" -> None,
+        "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replaceAll("\\.", File.separator)),
+        "newline" -> "\n")
+    }
   }
 
   override def bundleToSource(bundle:List[Map[String, AnyRef]], templates: Map[String, String]): List[(String, String)] = {
