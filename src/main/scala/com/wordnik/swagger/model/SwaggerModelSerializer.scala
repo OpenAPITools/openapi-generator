@@ -515,7 +515,7 @@ object SwaggerSerializers {
       }
       ModelProperty(
         `type` = `type`,
-        `qualifiedType` = `type`,
+        `qualifiedType` = (json \ "qualifiedType").extractOpt[String].getOrElse(`type`),
         required = (json \ "required") match {
           case e:JString => e.s.toBoolean
           case e:JBool => e.value
