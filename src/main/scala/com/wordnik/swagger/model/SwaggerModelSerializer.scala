@@ -440,7 +440,7 @@ object SwaggerSerializers {
           ""
         }),
         (json \ "name").extractOrElse(""),
-        (json \ "id").extractOrElse(""),
+        (json \ "qualifiedType").extractOrElse((json \ "id").extractOrElse("")),
         output,
         (json \ "description").extractOpt[String]
       )
