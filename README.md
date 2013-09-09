@@ -8,7 +8,9 @@ http://swagger.wordnik.com.  For more information about Wordnik's APIs, please v
 ### Prerequisites
 You need the following installed and available in your $PATH:
 
-* [Java 1.6](http://java.oracle.com)
+* [Java 1.7](http://java.oracle.com)
+
+Note!  Some folks have had issues with OOM errors with java version "1.6.0_51".  It's strongly suggested that you upgrade to 1.7!
 
 * [Apache maven 3.0.3 or greater](http://maven.apache.org/)
 
