@@ -502,7 +502,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   }
 
   override def toDeclaredType(dt: String): String = {
-    val declaredType = (dt.indexOf("["): @switch) match {
+    val declaredType = (dt.indexOf("[")) match {
       case -1 => dt
       case n: Int => {
         if (dt.substring(0, n).toLowerCase == "array") {
