@@ -120,8 +120,10 @@ class BasicJavaGenerator extends BasicGenerator {
     val declaredType = dt.indexOf("[") match {
       case -1 => dt
       case n: Int => {
-        if (dt.substring(0, n).toLowerCase == "array")
+        if (dt.substring(0, n) == "Array")
           "List" + dt.substring(n).replaceAll("\\[", "<").replaceAll("\\]", ">")
+        else if (dt.substring(0, n) == "Set")
+          "Set" + dt.substring(n).replaceAll("\\[", "<").replaceAll("\\]", ">")
         else dt.replaceAll("\\[", "<").replaceAll("\\]", ">")
       }
     }
@@ -138,6 +140,15 @@ class BasicJavaGenerator extends BasicGenerator {
     val defaultValue = toDefaultValue(declaredType, obj)
     declaredType match {
       case "List" => {
+        val inner = {
+          obj.items match {
+            case Some(items) => items.ref.getOrElse(items.`type`)
+            case _ => throw new Exception("no inner type defined")
+          }
+        }
+        declaredType += "<" + toDeclaredType(inner) + ">"
+      }
+      case "Set" => {
         val inner = {
           obj.items match {
             case Some(items) => items.ref.getOrElse(items.`type`)

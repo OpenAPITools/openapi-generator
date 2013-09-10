@@ -146,8 +146,10 @@ class BasicScalaGenerator extends BasicGenerator {
     val declaredType = dt.indexOf("[") match {
       case -1 => dt
       case n: Int => {
-        if (dt.substring(0, n).toLowerCase == "array")
+        if (dt.substring(0, n) == "Array")
           "List" + dt.substring(n)
+        else if (dt.substring(0, n) == "Set")
+          "Set" + dt.substring(n)
         else dt
       }
     }
@@ -174,6 +176,16 @@ class BasicScalaGenerator extends BasicGenerator {
           }
         }
         val e = "List[%s]" format toDeclaredType(inner)
+        (e, toDefaultValue(inner, obj))
+      }
+      case "Set" => {
+        val inner = {
+          obj.items match {
+            case Some(items) => items.ref.getOrElse(items.`type`)
+            case _ => throw new Exception("no inner type defined")
+          }
+        }
+        val e = "Set[%s]" format toDeclaredType(inner)
         (e, toDefaultValue(inner, obj))
       }
       case e: String => (toDeclaredType(e), toDefaultValue(e, obj))
