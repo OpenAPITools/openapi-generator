@@ -18,5 +18,5 @@ package com.wordnik.swagger.codegen.spec
 
 object SwaggerSpec {
   val primitives = List("int", "string", "long", "double", "float", "boolean", "void")
-  val containers = List("List", "Map", "Set", "Array", "array")
+  val containers = List("List", "Map", "Set", "Array")
 }
