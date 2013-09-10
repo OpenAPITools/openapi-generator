@@ -24,7 +24,8 @@ object SwaggerSerializers {
     ("string", "date-time") -> "Date",
 
     // containers
-    ("array", "") -> "Array"
+    ("array", "") -> "Array",
+    ("set", "") -> "Set"
   )
 
   def toJsonSchema(name: String, `type`: String): JObject = {
@@ -66,7 +67,7 @@ object SwaggerSerializers {
   }
 
   def isSimpleType(name: String) = {
-    Set("int", "long", "float", "double", "string", "byte", "boolean", "Date", "date", "date-time", "array").contains(name)
+    Set("int", "long", "float", "double", "string", "byte", "boolean", "Date", "date", "date-time", "array", "set").contains(name)
   }
 
   def formats(version: String) = {
@@ -359,7 +360,7 @@ object SwaggerSerializers {
               Some(map("$ref"))
             }
             else
-              Option(jsonSchemaTypeMap.getOrElse((`type`,format), null))
+              Option(jsonSchemaTypeMap.getOrElse((`type`,format), `type`))
           }
           case _ => None
         }
@@ -480,7 +481,7 @@ object SwaggerSerializers {
             case e: JString => e.s.toBoolean
             case _ => false
           }
-          if(t == "Array" && isUnique) "set"
+          if(t == "Array" && isUnique) "Set"
           else t
         }
       }
