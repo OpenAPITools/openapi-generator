@@ -205,18 +205,18 @@ class Codegen(config: CodegenConfig) {
     val pathParams = new ListBuffer[AnyRef]
     val headerParams = new ListBuffer[AnyRef]
     val bodyParams = new ListBuffer[AnyRef]
+    val formParams = new ListBuffer[AnyRef]
     var paramList = new ListBuffer[HashMap[String, AnyRef]]
     var errorList = new ListBuffer[HashMap[String, AnyRef]]
     
     if (operation.responseMessages != null) {
-		operation.responseMessages.foreach(param => { 
-		 val params = new HashMap[String, AnyRef]
-		 params += "code" -> param.code.toString()
- 		 params += "reason" -> param.message
- 		 params += "hasMore" -> "true"
- 		 errorList += params	 
- 		 })
- 		 
+  		operation.responseMessages.foreach(param => { 
+        val params = new HashMap[String, AnyRef]
+        params += "code" -> param.code.toString()
+        params += "reason" -> param.message
+        params += "hasMore" -> "true"
+        errorList += params	 
+      })
     }
 
     if (operation.parameters != null) {
@@ -225,11 +225,21 @@ class Codegen(config: CodegenConfig) {
         params += (param.paramType + "Parameter") -> "true"
         params += "type" -> param.paramType
         params += "defaultValue" -> config.toDefaultValue(param.dataType, param.defaultValue.getOrElse(""))
-        params += "dataType" -> config.toDeclaredType(param.dataType)
         params += "swaggerDataType" -> param.dataType
         params += "description" -> param.description
         params += "hasMore" -> "true"
         params += "allowMultiple" -> param.allowMultiple.toString
+
+        val u = param.dataType.indexOf("[") match {
+          case -1 => config.toDeclaredType(param.dataType)
+          case n: Int => {
+            val ComplexTypeMatcher = "(.*)\\[(.*)\\].*".r
+            val ComplexTypeMatcher(container, basePart) = param.dataType
+            container + "[" + config.toDeclaredType(basePart) + "]"
+          }
+        }
+
+        params += "dataType" -> u
 
         param.allowableValues match {
           case a: AllowableValues => params += "allowableValues" -> allowableValuesToString(a)
@@ -267,6 +277,15 @@ class Codegen(config: CodegenConfig) {
             params += "baseName" -> param.name
             params += "required" -> param.required.toString
             headerParams += params.clone
+          }
+          case "form" => {
+            /*
+            params += "paramName" -> config.toVarName(param.name)
+            params += "baseName" -> param.name
+            params += "required" -> param.required.toString
+            formParams += params.clone
+            */
+            println("Form params currently not supported!")
           }
           case x @ _ => throw new Exception("Unknown parameter type: " + x)
         }
@@ -412,7 +431,9 @@ class Codegen(config: CodegenConfig) {
       }
       (config.defaultIncludes ++ config.languageSpecificPrimitives).toSet.contains(baseType) match {
         case true =>
-        case _ => imports += Map("import" -> baseType)
+        case _ => {
+          imports += Map("import" -> baseType)
+        }
       }
 
       val isList = (if (isListType(propertyDocSchema.`type`)) true else None)

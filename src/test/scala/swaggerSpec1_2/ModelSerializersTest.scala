@@ -588,7 +588,7 @@ class ModelSerializationTest extends FlatSpec with ShouldMatchers {
 
         model.properties("tags") match {
           case e: ModelProperty => {
-            e.`type` should be ("set")
+            e.`type` should be ("Set")
             e.required should be (false)
             e.items match {
               case Some(items) => items.`type` should be ("string")
