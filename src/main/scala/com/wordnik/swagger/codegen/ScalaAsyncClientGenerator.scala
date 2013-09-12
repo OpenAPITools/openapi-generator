@@ -25,7 +25,8 @@ case class SwaggerApi(
              baseUrl: Option[String] = None,
              excludedApis: Set[String] = Set.empty,
              excludedModels: Set[String] = Set.empty,
-             excludedModelPackages: Set[String] = Set.empty)
+             excludedModelPackages: Set[String] = Set.empty,
+             defaultImports: Map[String, String] = Map.empty)
 case class SwaggerGenConfig(
              api: SwaggerApi,
              templateDir: File,
@@ -269,7 +270,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   override val importMapping = Map(
       "Date" -> "java.util.Date",
       "File" -> "java.io.File"
-    ) ++ cfg.defaultImports
+    ) ++ cfg.defaultImports ++ cfg.api.defaultImports
   override val typeMapping = Map(
       "array" -> "List",
       "boolean" -> "Boolean",
