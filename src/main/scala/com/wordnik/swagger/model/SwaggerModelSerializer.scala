@@ -237,19 +237,35 @@ object SwaggerSerializers {
   class OperationSerializer extends CustomSerializer[Operation](implicit formats => ({
     case json =>
 
-      val responseClass = (json \ "items") match {
-        case e: JObject => {
-          val inner = {
-            (e \ "type").extractOrElse({
-              (e \ "$ref").extract[String]
-            })
+      val t =  SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
+            ((json \ "type").extractOrElse(""), (json \ "format").extractOrElse(""))
+          , (json \ "type").extractOrElse(""))
+
+      val inner = {
+        val items = new scala.collection.mutable.HashSet[String]
+        val map = new scala.collection.mutable.HashMap[String, String]
+        (json \ "items") match {
+          case JObject(e) => {
+            for(a <- e) {
+              a._2 match {
+                case e: JString => map += a._1 -> e.s
+                case _ =>
+              }
+            }
+            val `type` = map.getOrElse("type", "")
+            val format = map.getOrElse("format", "")
+            if(map.contains("$ref")) {
+              Some(map("$ref"))
+            }
+            else
+              Option(jsonSchemaTypeMap.getOrElse((`type`,format), `type`))
           }
-          "%s[%s]".format((json \ "type").extract[String], inner)
+          case _ => None
         }
-        case _ => (json \ "type").extractOrElse({
-          !!(json, OPERATION, "responseClass", "missing required field", ERROR)
-          ""
-        })
+      }
+      val responseClass = inner match {
+        case Some(a) => "%s[%s]".format(t, a)
+        case _ => t
       }
 
       Operation(
