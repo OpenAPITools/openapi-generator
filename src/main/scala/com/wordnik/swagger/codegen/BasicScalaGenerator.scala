@@ -133,7 +133,7 @@ class BasicScalaGenerator extends BasicGenerator {
         val ComplexTypeMatcher = "(.*)\\[(.*)\\].*".r
         val t = e match {
           case ComplexTypeMatcher(container, inner) => {
-            e.replaceAll(container, typeMapping.getOrElse(container, container))
+            e.replaceAll(container, typeMapping.getOrElse(container.toLowerCase, container))
           }
           case _ => e
         }
