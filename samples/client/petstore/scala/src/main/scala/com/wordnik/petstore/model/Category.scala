@@ -1,6 +1,8 @@
 package com.wordnik.petstore.model
 
 case class Category (
-  name: String,
-  id: Long)
+  /* Category unique identifier */
+  id: Long,
+  /* Name of the category */
+  name: String)
 

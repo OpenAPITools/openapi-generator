@@ -5,6 +5,7 @@ import com.wordnik.client.ApiInvoker
 import com.wordnik.client.ApiException
 
 import java.io.File
+import java.util.Date
 
 import scala.collection.mutable.HashMap
 
@@ -28,7 +29,7 @@ class UserApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(body) - null).size match {
+    (List(body).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -42,7 +43,7 @@ class UserApi {
       case ex: ApiException => throw ex
     }
   }
-  def createUsersWithArrayInput (body: List[User]) = {
+  def createUsersWithArrayInput (body: Array[User]) = {
     // create path and map variables
     val path = "/user/createWithArray".replaceAll("\\{format\\}","json")
     val contentType = {
@@ -56,7 +57,7 @@ class UserApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(body) - null).size match {
+    (List(body).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -70,7 +71,7 @@ class UserApi {
       case ex: ApiException => throw ex
     }
   }
-  def createUsersWithListInput (body: List[User]) = {
+  def createUsersWithListInput (body: Array[User]) = {
     // create path and map variables
     val path = "/user/createWithList".replaceAll("\\{format\\}","json")
     val contentType = {
@@ -84,7 +85,7 @@ class UserApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(body) - null).size match {
+    (List(body).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -100,7 +101,7 @@ class UserApi {
   }
   def updateUser (username: String, body: User) = {
     // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
     val contentType = {
@@ -114,7 +115,7 @@ class UserApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(username, body) - null).size match {
+    (List(username, body).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -130,7 +131,7 @@ class UserApi {
   }
   def deleteUser (username: String) = {
     // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
     val contentType = {
@@ -141,7 +142,7 @@ class UserApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(username) - null).size match {
+    (List(username).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -157,7 +158,7 @@ class UserApi {
   }
   def getUserByName (username: String) : Option[User]= {
     // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escapeString(username))
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
     val contentType = {
@@ -168,7 +169,7 @@ class UserApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(username) - null).size match {
+    (List(username).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -194,7 +195,7 @@ class UserApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(username, password) - null).size match {
+    (List(username, password).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }

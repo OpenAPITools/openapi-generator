@@ -1,6 +1,8 @@
 package com.wordnik.petstore.model
 
 case class Tag (
-  name: String,
-  id: Long)
+  /* Unique identifier for the tag */
+  id: Long,
+  /* Friendly name for the tag */
+  name: String)
 

@@ -1,10 +1,12 @@
 package com.wordnik.petstore.api
 
+import java.io.File
 import com.wordnik.petstore.model.Pet
 import com.wordnik.client.ApiInvoker
 import com.wordnik.client.ApiException
 
 import java.io.File
+import java.util.Date
 
 import scala.collection.mutable.HashMap
 
@@ -14,9 +16,9 @@ class PetApi {
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
-  def getPetById (petId: String) : Option[Pet]= {
+  def getPetById (petId: Long) : Option[Pet]= {
     // create path and map variables
-    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escapeString(petId))
+    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 
     
     val contentType = {
@@ -27,7 +29,7 @@ class PetApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(petId) - null).size match {
+    (List(petId).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -44,7 +46,7 @@ class PetApi {
   }
   def deletePet (petId: String) = {
     // create path and map variables
-    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escapeString(petId))
+    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 
     
     val contentType = {
@@ -55,12 +57,93 @@ class PetApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(petId) - null).size match {
+    (List(petId).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
     try {
       apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap, contentType) match {
+        case s: String =>
+          case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  def partialUpdate (petId: String, body: Pet) : Option[List[Pet]]= {
+    // create path and map variables
+    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
+
+    
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    // verify required params are set
+    (List(petId, body).filter(_ != null)).size match {
+       case 2 => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    try {
+      apiInvoker.invokeApi(basePath, path, "PATCH", queryParams.toMap, body, headerParams.toMap, contentType) match {
+        case s: String =>
+          Some(ApiInvoker.deserialize(s, "Array", classOf[Pet]).asInstanceOf[List[Pet]])
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  def updatePetWithForm (petId: String, name: String, status: String) = {
+    // create path and map variables
+    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
+
+    
+    val contentType = {
+      "application/json"}
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    // verify required params are set
+    (List(petId).filter(_ != null)).size match {
+       case 1 => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, None, headerParams.toMap, contentType) match {
+        case s: String =>
+          case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  def uploadFile (additionalMetadata: String, body: File) = {
+    // create path and map variables
+    val path = "/pet/uploadImage".replaceAll("\\{format\\}","json")
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -83,7 +166,7 @@ class PetApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(body) - null).size match {
+    (List(body).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -111,7 +194,7 @@ class PetApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(body) - null).size match {
+    (List(body).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -136,7 +219,7 @@ class PetApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(status) - null).size match {
+    (List(status).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -144,7 +227,7 @@ class PetApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-          Some(ApiInvoker.deserialize(s, "array", classOf[Pet]).asInstanceOf[List[Pet]])
+          Some(ApiInvoker.deserialize(s, "Array", classOf[Pet]).asInstanceOf[List[Pet]])
         case _ => None
       }
     } catch {
@@ -163,7 +246,7 @@ class PetApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(tags) - null).size match {
+    (List(tags).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -171,7 +254,7 @@ class PetApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-          Some(ApiInvoker.deserialize(s, "array", classOf[Pet]).asInstanceOf[List[Pet]])
+          Some(ApiInvoker.deserialize(s, "Array", classOf[Pet]).asInstanceOf[List[Pet]])
         case _ => None
       }
     } catch {

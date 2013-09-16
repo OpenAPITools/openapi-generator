@@ -5,6 +5,7 @@ import com.wordnik.client.ApiInvoker
 import com.wordnik.client.ApiException
 
 import java.io.File
+import java.util.Date
 
 import scala.collection.mutable.HashMap
 
@@ -16,7 +17,7 @@ class StoreApi {
 
   def getOrderById (orderId: String) : Option[Order]= {
     // create path and map variables
-    val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escapeString(orderId))
+    val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
     
     val contentType = {
@@ -27,7 +28,7 @@ class StoreApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(orderId) - null).size match {
+    (List(orderId).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -44,7 +45,7 @@ class StoreApi {
   }
   def deleteOrder (orderId: String) = {
     // create path and map variables
-    val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escapeString(orderId))
+    val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
     
     val contentType = {
@@ -55,7 +56,7 @@ class StoreApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(orderId) - null).size match {
+    (List(orderId).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -83,7 +84,7 @@ class StoreApi {
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(body) - null).size match {
+    (List(body).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
