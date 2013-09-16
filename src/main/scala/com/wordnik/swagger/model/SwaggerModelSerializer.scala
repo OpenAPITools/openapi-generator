@@ -268,6 +268,10 @@ object SwaggerSerializers {
         case _ => t
       }
 
+      if(responseClass == "" || responseClass == null){
+        !!(json, OPERATION, "responseClass", "missing required field", ERROR)
+      }
+
       Operation(
         (json \ "httpMethod").extractOrElse(
           (json \ "method").extractOrElse({
