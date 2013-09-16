@@ -279,13 +279,10 @@ class Codegen(config: CodegenConfig) {
             headerParams += params.clone
           }
           case "form" => {
-            /*
             params += "paramName" -> config.toVarName(param.name)
             params += "baseName" -> param.name
             params += "required" -> param.required.toString
             formParams += params.clone
-            */
-            println("Form params currently not supported!")
           }
           case x @ _ => throw new Exception("Unknown parameter type: " + x)
         }
@@ -361,6 +358,7 @@ class Codegen(config: CodegenConfig) {
         "pathParams" -> pathParams.toList,
         "queryParams" -> queryParams.toList,
         "headerParams" -> headerParams.toList,
+        "formParams" -> formParams.toList,
         "requiredParams" -> requiredParams.toList,
         "errorList" -> errorList,
         "httpMethod" -> operation.method.toUpperCase,
