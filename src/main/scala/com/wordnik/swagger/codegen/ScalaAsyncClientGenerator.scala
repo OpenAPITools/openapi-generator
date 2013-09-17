@@ -317,10 +317,17 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   override def generateClient(args: Array[String]) = {
 
     val host = cfg.api.resourceUrl
-    val apiKey = cfg.api.apiKey map ("?api_key=" + _)
+    val authorization = {
+      val apiKey = cfg.api.apiKey
+      if(apiKey != None) 
+        Some(ApiKeyValue("api_key", "query", apiKey.get))
+      else 
+        None
+    }
+
     val doc = {
       try {
-        ResourceExtractor.fetchListing(getResourcePath(host), apiKey)
+        ResourceExtractor.fetchListing(getResourcePath(host), authorization)
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
@@ -331,7 +338,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     val apiReferences = doc.apis
     if (apiReferences == null)
       throw new Exception("No APIs specified by resource")
-    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, apiReferences, apiKey)
+    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, apiReferences, authorization)
 
     new SwaggerSpecValidator(doc, apis).validate()
 

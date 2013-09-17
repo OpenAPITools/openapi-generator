@@ -166,7 +166,7 @@ class BasicScalaGenerator extends BasicGenerator {
             case _ => throw new Exception("no inner type defined")
           }
         }
-        val e = "List[%s]" format toDeclaredType(inner)
+        val e = "List[%s]".format(toDeclaredType(inner))
         (e, toDefaultValue(inner, obj))
       }
       case "List" => {
@@ -176,7 +176,7 @@ class BasicScalaGenerator extends BasicGenerator {
             case _ => throw new Exception("no inner type defined")
           }
         }
-        val e = "List[%s]" format toDeclaredType(inner)
+        val e = "List[%s]".format(toDeclaredType(inner))
         (e, toDefaultValue(inner, obj))
       }
       case "Set" => {
@@ -186,7 +186,7 @@ class BasicScalaGenerator extends BasicGenerator {
             case _ => throw new Exception("no inner type defined")
           }
         }
-        val e = "Set[%s]" format toDeclaredType(inner)
+        val e = "Set[%s]".format(toDeclaredType(inner))
         (e, toDefaultValue(inner, obj))
       }
       case e: String => (toDeclaredType(e), toDefaultValue(e, obj))

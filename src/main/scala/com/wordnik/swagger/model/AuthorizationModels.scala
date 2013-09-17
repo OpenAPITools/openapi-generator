@@ -41,3 +41,6 @@ case class AuthorizationCodeGrant(
   tokenEndpoint: TokenEndpoint) extends GrantType {
   def `type` = "authorization_code"
 }
+
+trait AuthorizationValue
+case class ApiKeyValue(keyName: String, passAs: String, value: String) extends AuthorizationValue

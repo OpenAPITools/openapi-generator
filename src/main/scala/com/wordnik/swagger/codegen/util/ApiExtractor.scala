@@ -28,7 +28,7 @@ import scala.io._
 import scala.collection.mutable.{ ListBuffer, HashMap, HashSet }
 
 object ApiExtractor extends RemoteUrl {
-  def fetchApiListings(version: String, basePath: String, apis: List[ApiListingReference], apiKey: Option[String] = None): List[ApiListing] = {
+  def fetchApiListings(version: String, basePath: String, apis: List[ApiListingReference], authorization: Option[AuthorizationValue] = None): List[ApiListing] = {
     implicit val formats = SwaggerSerializers.formats(version)
     (for (api <- apis) yield {
       try{
@@ -36,8 +36,7 @@ object ApiExtractor extends RemoteUrl {
           case true => {
             val path = if(api.path.startsWith("http")) api.path
             else basePath + api.path
-            println("calling: " + ((path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
-            urlToString((path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
+            urlToString(path.replaceAll(".\\{format\\}", ".json"), authorization)
           }
           case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
         }
@@ -57,13 +56,12 @@ object ApiExtractor extends RemoteUrl {
     }).flatten.toList
   }
 
-  def extractApiOperations(version: String, basePath: String, references: List[ApiListingReference], apiKey: Option[String] = None) = {
+  def extractApiOperations(version: String, basePath: String, references: List[ApiListingReference], authorization: Option[AuthorizationValue] = None) = {
     implicit val formats = SwaggerSerializers.formats(version)
     for (api <- references) yield {
       val json = basePath.startsWith("http") match {
         case true => {
-          println("calling: " + ((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json")))
-          urlToString((basePath + api.path + apiKey.getOrElse("")).replaceAll(".\\{format\\}", ".json"))
+          urlToString((basePath + api.path).replaceAll(".\\{format\\}", ".json"), authorization)
         }
         case false => Source.fromFile((basePath + api.path).replaceAll(".\\{format\\}", ".json")).mkString
       }

@@ -110,6 +110,7 @@ class BasicObjcGenerator extends BasicGenerator {
         responseClass match {
           case "void" => None
           case e: String => {
+            println(responseClass)
             if(responseClass.toLowerCase.startsWith("array") || responseClass.toLowerCase.startsWith("list"))
               Some("NSArray")
             else
@@ -161,9 +162,10 @@ class BasicObjcGenerator extends BasicGenerator {
   }
 
   override def toDeclaration(obj: ModelProperty) = {
+    println("getting declaration for " + obj)
     var declaredType = toDeclaredType(obj.`type`)
     declaredType.toLowerCase match {
-      case "List" => {
+      case "list" => {
         declaredType = "array"
       }
       case e: String => e
@@ -183,7 +185,15 @@ class BasicObjcGenerator extends BasicGenerator {
             case _ => throw new Exception("no inner type defined")
           }
         }
-        declaredType += "<" + inner + ">"
+        "NSArray"
+      }
+      case "set" => {
+        val inner = {
+          obj.items match {
+            case Some(items) => items.ref.getOrElse(items.`type`)
+            case _ => throw new Exception("no inner type defined")
+          }
+        }
         "NSArray"
       }
       case _ =>

@@ -27,9 +27,10 @@ object Validator extends PathUtil {
       throw new RuntimeException("Need url to Resource Listing as argument. You can also specify VM Argument -DfileMap=/path/to/resourceListing")
     }
     val host = args(0)
-    val apiKey = {
-      if (args.length > 1) Some("?api_key=" + args(1))
-      else None
+    val authorization = {
+      // if (args.length > 1) Some("?api_key=" + args(1))
+      // else 
+      None
     }
 
     val outputFilename = {
@@ -38,14 +39,14 @@ object Validator extends PathUtil {
     }
     val doc = {
       try {
-        ResourceExtractor.fetchListing(getResourcePath(host), apiKey)
+        ResourceExtractor.fetchListing(getResourcePath(host), authorization)
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
     }
 
     val basePath = getBasePath(host, doc.basePath)
-    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, doc.apis, apiKey)
+    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, doc.apis, authorization)
     val swaggerSpecValidator = new SwaggerSpecValidator(doc, apis, false)
     swaggerSpecValidator.validate()
     swaggerSpecValidator.generateReport(host, outputFilename)

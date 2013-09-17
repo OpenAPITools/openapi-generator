@@ -53,6 +53,10 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
     config.processResponseDeclaration("array[String]") should be (Some("List<String>"))
   }
 
+  it should "process an upper-case string array" in {
+    config.processResponseDeclaration("Array[String]") should be (Some("List<String>"))
+  }
+
   /*
    * swagger int is turned into scala Int
    */

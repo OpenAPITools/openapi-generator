@@ -25,9 +25,9 @@ import org.json4s.jackson.Serialization.read
 import scala.io._
 
 object ResourceExtractor extends RemoteUrl {
-	def fetchListing(path: String, apiKey: Option[String] = None): ResourceListing = {
+	def fetchListing(path: String, authorization: Option[AuthorizationValue] = None): ResourceListing = {
 		val json = path.startsWith("http") match {
-			case true => urlToString(path + apiKey.getOrElse(""))
+			case true => urlToString(path, authorization)
 			case false => Source.fromFile(path).mkString
 		}
 

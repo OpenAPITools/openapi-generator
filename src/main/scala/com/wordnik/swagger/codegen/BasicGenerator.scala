@@ -48,13 +48,24 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       throw new RuntimeException("Need url to resource listing as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
     }
     val host = args(0)
-    val apiKey = {
-      if (args.length > 1) Some("?api_key=" + args(1))
-      else None
+    val authorization = {
+      Option (System.getProperty("header")) match {
+        case Some(e) => {
+          // this is ugly and will be replaced with proper arg parsing like in ScalaAsyncClientGenerator soon
+          val authInfo = e.split(":")
+          Some(ApiKeyValue(authInfo(0), "header", authInfo(1)))
+        }
+        case _ => {
+          if (args.length > 1) {
+            Some(ApiKeyValue("api_key", "query", args(1)))
+          }
+          else None
+        }
+      }
     }
     val doc = {
       try {
-        ResourceExtractor.fetchListing(getResourcePath(host), apiKey)
+        ResourceExtractor.fetchListing(getResourcePath(host), authorization)
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
@@ -66,7 +77,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val apiReferences = doc.apis
     if (apiReferences == null)
       throw new Exception("No APIs specified by resource")
-    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, apiReferences, apiKey)
+    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, apiReferences, authorization)
 
     SwaggerSerializers.validationMessages.filter(_.level == ValidationMessage.ERROR).size match {
       case i: Int if i > 0 => {
