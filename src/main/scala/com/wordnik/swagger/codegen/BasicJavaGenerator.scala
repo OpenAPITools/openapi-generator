@@ -78,6 +78,7 @@ class BasicJavaGenerator extends BasicGenerator {
 
   // import/require statements for specific datatypes
   override def importMapping = Map(
+    "File" -> "java.io.File",
     "Date" -> "java.util.Date",
     "Array" -> "java.util.*",
     "ArrayList" -> "java.util.*",
