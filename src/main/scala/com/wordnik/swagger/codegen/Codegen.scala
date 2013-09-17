@@ -239,7 +239,7 @@ class Codegen(config: CodegenConfig) {
           }
         }
 
-        params += "dataType" -> u
+        params += "dataType" ->config.toDeclaredType(u)
 
         param.allowableValues match {
           case a: AllowableValues => params += "allowableValues" -> allowableValuesToString(a)
