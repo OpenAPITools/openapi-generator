@@ -138,7 +138,10 @@ abstract class CodegenConfig {
       case "double" => "0.0"
       case e: String if (Set("List").contains(e)) => {
         val inner =
-          obj.items.map(i => i.ref.getOrElse(i.`type`)).getOrElse(throw new Exception("no inner type defined"))
+          obj.items.map(i => i.ref.getOrElse(i.`type`)).getOrElse({
+            println("failed on " + dataType + ", " + obj)
+            throw new Exception("no inner type defined")
+          })
         "List.empty[" + toDeclaredType(inner) + "]"
       }
       case _ => "_"

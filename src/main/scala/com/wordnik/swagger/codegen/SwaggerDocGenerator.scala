@@ -41,7 +41,10 @@ object SwaggerDocGenerator extends BasicGenerator {
         val inner = {
           obj.items match {
             case Some(items) => items.ref.getOrElse(items.`type`)
-            case _ => throw new Exception("no inner type defined")
+            case _ => {
+              println("failed on " + obj)
+              throw new Exception("no inner type defined")
+            }
           }
         }
         val e = "List[%s]" format toDeclaredType(inner)
