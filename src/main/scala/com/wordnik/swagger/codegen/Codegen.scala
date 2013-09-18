@@ -362,6 +362,7 @@ class Codegen(config: CodegenConfig) {
         "requiredParams" -> requiredParams.toList,
         "errorList" -> errorList,
         "httpMethod" -> operation.method.toUpperCase,
+        "httpMethodLowerCase" -> operation.method.toLowerCase,
         operation.method.toLowerCase -> "true")
     if (requiredParams.size > 0) properties += "requiredParamCount" -> requiredParams.size.toString
     operation.responseClass.indexOf("[") match {
