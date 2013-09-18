@@ -27,7 +27,6 @@ trait RemoteUrl {
 				}
 				case None => new URL(url).openConnection()
 			}
-			println(conn)
 			is = conn.getInputStream()
 			Source.fromInputStream(is).mkString
 		}

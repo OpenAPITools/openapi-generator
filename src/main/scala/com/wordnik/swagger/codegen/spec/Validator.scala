@@ -18,6 +18,7 @@ package com.wordnik.swagger.codegen.spec
 
 import com.wordnik.swagger.codegen.util.{CoreUtils, ApiExtractor, ResourceExtractor}
 import com.wordnik.swagger.codegen.PathUtil
+import com.wordnik.swagger.model._
 
 import scala.collection.JavaConversions._
 
@@ -28,9 +29,19 @@ object Validator extends PathUtil {
     }
     val host = args(0)
     val authorization = {
-      // if (args.length > 1) Some("?api_key=" + args(1))
-      // else 
-      None
+      Option (System.getProperty("header")) match {
+        case Some(e) => {
+          // this is ugly and will be replaced with proper arg parsing like in ScalaAsyncClientGenerator soon
+          val authInfo = e.split(":")
+          Some(ApiKeyValue(authInfo(0), "header", authInfo(1)))
+        }
+        case _ => {
+          if (args.length > 1) {
+            Some(ApiKeyValue("api_key", "query", args(1)))
+          }
+          else None
+        }
+      }
     }
 
     val outputFilename = {
