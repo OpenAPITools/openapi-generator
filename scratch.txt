@@ -1,8 +1,0 @@
-import com.wordnik.swagger.client._
-import com.wordnik.samples.petstore._
-import akka.dispatch._
-import akka.util.duration._
-
-val cfg = SwaggerConfig("http://petstore.swagger.wordnik.com/api")
-val client = new Petstore(cfg)
-try { Await.result(client.pet.findPetsByStatus(), 3 seconds) } finally { client.close() }
