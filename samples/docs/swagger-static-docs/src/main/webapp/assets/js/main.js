@@ -71,5 +71,5 @@ $(function(){
     resize();
     $(window).bind('hashchange', function() {
         choose(window.location.href.toString());
-    }).trigger('hashchange');
+    });
 });
