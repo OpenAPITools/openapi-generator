@@ -41,10 +41,10 @@ public class {{classname}} {
     {{/requiredParamCount}}
 
     {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
-      queryParams.put("{{paramName}}", String.valueOf({{paramName}}));
+      queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
 
-    {{#headerParams}}headerParams.put("{{paramName}}", {{paramName}});
+    {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
 
     String contentType = "application/json";
