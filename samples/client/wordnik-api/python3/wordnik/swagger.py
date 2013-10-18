@@ -35,7 +35,7 @@ class ApiClient:
             for param, value in headerParams.items():
                 headers[param] = value
 
-        headers['Content-type'] = 'application/json'
+        #headers['Content-type'] = 'application/json'
         headers['api_key'] = self.apiKey
 
         if self.cookie:
@@ -43,15 +43,19 @@ class ApiClient:
 
         data = None
 
-        if method == 'GET':
+        
+        if queryParams:
+            # Need to remove None values, these should not be sent
+            sentQueryParams = {}
+            for param, value in queryParams.items():
+                if value != None:
+                    sentQueryParams[param] = value
+            url = url + '?' + urllib.parse.urlencode(sentQueryParams)
 
-            if queryParams:
-                # Need to remove None values, these should not be sent
-                sentQueryParams = {}
-                for param, value in queryParams.items():
-                    if value != None:
-                        sentQueryParams[param] = value
-                url = url + '?' + urllib.parse.urlencode(sentQueryParams)
+        if method in ['GET']:
+
+            #Options to add statements later on and for compatibility
+            pass
 
         elif method in ['POST', 'PUT', 'DELETE']:
 
@@ -98,7 +102,7 @@ class ApiClient:
     def sanitizeForSerialization(self, obj):
         """Dump an object into JSON for POSTing."""
 
-        if not obj:
+        if type(obj) == type(None):
             return None
         elif type(obj) in [str, int, float, bool]:
             return obj
@@ -159,6 +163,8 @@ class ApiClient:
                         value = attrType(value)
                     except UnicodeEncodeError:
                         value = unicode(value)
+                    except TypeError:
+                        value = value
                     setattr(instance, attr, value)
                 elif (attrType == 'datetime'):
                     setattr(instance, attr, datetime.datetime.strptime(value[:-5],

@@ -33,7 +33,7 @@ class PetApi(object):
         """Find pet by ID
 
         Args:
-            petId, str: ID of pet that needs to be fetched (required)
+            petId, int: ID of pet that needs to be fetched (required)
             
         Returns: Pet
         """
@@ -47,7 +47,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/pet.{format}/{petId}'
+        resourcePath = '/pet/{petId}'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 
@@ -70,6 +70,155 @@ class PetApi(object):
         return responseObject
         
         
+    def deletePet(self, petId, **kwargs):
+        """Deletes a pet
+
+        Args:
+            petId, str: Pet id to delete (required)
+            
+        Returns: 
+        """
+
+        allParams = ['petId']
+
+        params = locals()
+        for (key, val) in params['kwargs'].items():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method deletePet" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/pet/{petId}'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'DELETE'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('petId' in params):
+            replacement = str(self.apiClient.toPathValue(params['petId']))
+            resourcePath = resourcePath.replace('{' + 'petId' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        
+        
+    def partialUpdate(self, petId, body, **kwargs):
+        """partial updates to a pet
+
+        Args:
+            petId, str: ID of pet that needs to be fetched (required)
+            body, Pet: Pet object that needs to be added to the store (required)
+            
+        Returns: Array[Pet]
+        """
+
+        allParams = ['petId', 'body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].items():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method partialUpdate" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/pet/{petId}'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'PATCH'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('petId' in params):
+            replacement = str(self.apiClient.toPathValue(params['petId']))
+            resourcePath = resourcePath.replace('{' + 'petId' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'Array[Pet]')
+        return responseObject
+        
+        
+    def updatePetWithForm(self, petId, **kwargs):
+        """Updates a pet in the store with form data
+
+        Args:
+            petId, str: ID of pet that needs to be updated (required)
+            name, str: Updated name of the pet (optional)
+            status, str: Updated status of the pet (optional)
+            
+        Returns: 
+        """
+
+        allParams = ['petId', 'name', 'status']
+
+        params = locals()
+        for (key, val) in params['kwargs'].items():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method updatePetWithForm" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/pet/{petId}'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('petId' in params):
+            replacement = str(self.apiClient.toPathValue(params['petId']))
+            resourcePath = resourcePath.replace('{' + 'petId' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        
+        
+    def uploadFile(self, **kwargs):
+        """uploads an image
+
+        Args:
+            additionalMetadata, str: Additional data to pass to server (optional)
+            body, File: file to upload (optional)
+            
+        Returns: 
+        """
+
+        allParams = ['additionalMetadata', 'body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].items():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method uploadFile" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/pet/uploadImage'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        
+        
     def addPet(self, body, **kwargs):
         """Add a new pet to the store
 
@@ -88,7 +237,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/pet.{format}'
+        resourcePath = '/pet'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'POST'
 
@@ -120,7 +269,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/pet.{format}'
+        resourcePath = '/pet'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'PUT'
 
@@ -140,7 +289,7 @@ class PetApi(object):
         Args:
             status, str: Status values that need to be considered for filter (required)
             
-        Returns: list[Pet]
+        Returns: Array[Pet]
         """
 
         allParams = ['status']
@@ -152,7 +301,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/pet.{format}/findByStatus'
+        resourcePath = '/pet/findByStatus'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 
@@ -169,7 +318,7 @@ class PetApi(object):
         if not response:
             return None
 
-        responseObject = self.apiClient.deserialize(response, 'list[Pet]')
+        responseObject = self.apiClient.deserialize(response, 'Array[Pet]')
         return responseObject
         
         
@@ -179,7 +328,7 @@ class PetApi(object):
         Args:
             tags, str: Tags to filter by (required)
             
-        Returns: list[Pet]
+        Returns: Array[Pet]
         """
 
         allParams = ['tags']
@@ -191,7 +340,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/pet.{format}/findByTags'
+        resourcePath = '/pet/findByTags'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 
@@ -208,7 +357,7 @@ class PetApi(object):
         if not response:
             return None
 
-        responseObject = self.apiClient.deserialize(response, 'list[Pet]')
+        responseObject = self.apiClient.deserialize(response, 'Array[Pet]')
         return responseObject
         
         

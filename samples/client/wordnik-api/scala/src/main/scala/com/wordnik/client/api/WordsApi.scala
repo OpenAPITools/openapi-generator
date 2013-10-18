@@ -1,7 +1,7 @@
 package com.wordnik.client.api
 
-import com.wordnik.client.model.DefinitionSearchResults
 import com.wordnik.client.model.WordObject
+import com.wordnik.client.model.DefinitionSearchResults
 import com.wordnik.client.model.WordOfTheDay
 import com.wordnik.client.model.WordSearchResults
 import com.wordnik.client.common.ApiInvoker

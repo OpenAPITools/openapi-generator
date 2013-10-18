@@ -22,24 +22,31 @@ class User:
     def __init__(self):
         self.swaggerTypes = {
             'id': 'int',
-            'lastName': 'str',
-            'phone': 'str',
             'username': 'str',
-            'email': 'str',
-            'userStatus': 'int',
             'firstName': 'str',
-            'password': 'str'
+            'lastName': 'str',
+            'email': 'str',
+            'password': 'str',
+            'phone': 'str',
+            'userStatus': 'int'
 
         }
 
 
+        #Unique identifier for the user
         self.id = None # int
-        self.lastName = None # str
-        self.phone = None # str
+        #Unique username
         self.username = None # str
+        #First name of the user
+        self.firstName = None # str
+        #Last name of the user
+        self.lastName = None # str
+        #Email address of the user
         self.email = None # str
+        #Password name of the user
+        self.password = None # str
+        #Phone number of the user
+        self.phone = None # str
         #User Status
         self.userStatus = None # int
-        self.firstName = None # str
-        self.password = None # str
         
