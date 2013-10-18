@@ -2,21 +2,17 @@
 //  main.m
 //  PetstoreClient
 //
-//  Created by Tony Tam on 9/26/12.
-//  Copyright (c) 2012 Tony Tam. All rights reserved.
+//  Created by Tony Tam on 10/18/13.
+//  Copyright (c) 2013 Reverb. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-int main(int argc, const char * argv[])
+#import "AppDelegate.h"
+
+int main(int argc, char * argv[])
 {
-
     @autoreleasepool {
-        
-        // insert code here...
-        NSLog(@"Hello, World!");
-        
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
-    return 0;
 }
-
