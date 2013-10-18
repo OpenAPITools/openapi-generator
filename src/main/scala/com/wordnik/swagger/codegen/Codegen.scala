@@ -171,7 +171,7 @@ class Codegen(config: CodegenConfig) {
 
   protected def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
     val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
-    val srcName = config.templateDir + File.separator + templateFile
+    val srcName = config.templateDir + "/" + templateFile
     val srcStream = {
       getClass.getClassLoader.getResourceAsStream(srcName) match {
         case is: java.io.InputStream => is
