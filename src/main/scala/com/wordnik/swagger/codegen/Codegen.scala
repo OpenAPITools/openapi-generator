@@ -209,6 +209,7 @@ class Codegen(config: CodegenConfig) {
     val formParams = new ListBuffer[AnyRef]
     var paramList = new ListBuffer[HashMap[String, AnyRef]]
     var errorList = new ListBuffer[HashMap[String, AnyRef]]
+    var bodyParamRequired: Option[String] = Some("true")
     
     if (operation.responseMessages != null) {
   		operation.responseMessages.foreach(param => { 
@@ -256,8 +257,9 @@ class Codegen(config: CodegenConfig) {
             params += "baseName" -> "body"
             param.required match {
               case true => params += "required" -> "true"
-              case _ =>
+              case _ => bodyParamRequired = None
             }
+
             bodyParam = Some("body")
             bodyParams += params.clone
           }
@@ -353,6 +355,7 @@ class Codegen(config: CodegenConfig) {
         "notes" -> operation.notes,
         "deprecated" -> operation.`deprecated`,
         "bodyParam" -> bodyParam,
+        "bodyParamRequired" -> bodyParamRequired,
         "emptyBodyParam" -> (if (writeMethods contains operation.method.toUpperCase) "{}" else ""),
         "allParams" -> sp,
         "bodyParams" -> bodyParams.toList,
