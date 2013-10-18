@@ -61,7 +61,7 @@
       /// </summary>
       /// <param name="body">List of user object</param>
       /// <returns></returns>
-      public void createUsersWithArrayInput (array<User> body) {
+      public void createUsersWithArrayInput (List<User> body) {
         // create path and map variables
         var path = "/user/createWithArray".Replace("{format}","json");
 
@@ -96,7 +96,7 @@
       /// </summary>
       /// <param name="body">List of user object</param>
       /// <returns></returns>
-      public void createUsersWithListInput (array<User> body) {
+      public void createUsersWithListInput (List<User> body) {
         // create path and map variables
         var path = "/user/createWithList".Replace("{format}","json");
 

@@ -26,19 +26,31 @@ class Order {
   static $swaggerTypes = array(
       'id' => 'int',
       'petId' => 'int',
-      'status' => 'string',
       'quantity' => 'int',
+      'status' => 'string',
       'shipDate' => 'DateTime'
 
     );
 
+  /**
+  * Unique identifier for the order
+  */
   public $id; // int
+  /**
+  * ID of pet being ordered
+  */
   public $petId; // int
   /**
-  * Order Status
+  * Number of pets ordered
+  */
+  public $quantity; // int
+  /**
+  * Status of the order
   */
   public $status; // string
-  public $quantity; // int
+  /**
+  * Date shipped, only if it has been
+  */
   public $shipDate; // DateTime
   }
 

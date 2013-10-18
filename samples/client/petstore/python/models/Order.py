@@ -23,17 +23,21 @@ class Order:
         self.swaggerTypes = {
             'id': 'long',
             'petId': 'long',
-            'status': 'str',
             'quantity': 'int',
+            'status': 'str',
             'shipDate': 'datetime'
 
         }
 
 
+        #Unique identifier for the order
         self.id = None # long
+        #ID of pet being ordered
         self.petId = None # long
-        #Order Status
-        self.status = None # str
+        #Number of pets ordered
         self.quantity = None # int
+        #Status of the order
+        self.status = None # str
+        #Date shipped, only if it has been
         self.shipDate = None # datetime
         

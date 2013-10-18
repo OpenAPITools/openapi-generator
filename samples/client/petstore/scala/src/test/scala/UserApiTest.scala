@@ -79,7 +79,7 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
         "XXXXXXXXXXX",
         "408-867-5309",
         1)
-    }).toArray
+    }).toList
     api.createUsersWithArrayInput(userArray)
     
     for (i <- (1 to 2)) {
@@ -104,7 +104,7 @@ class UserApiTest extends FlatSpec with ShouldMatchers {
         "XXXXXXXXXXX",
         "408-867-5309",
         1)
-    }).toArray
+    }).toList
     api.createUsersWithListInput(userList)
 
     for (i <- (1 to 3)) {

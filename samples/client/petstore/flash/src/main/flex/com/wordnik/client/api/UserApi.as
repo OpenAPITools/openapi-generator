@@ -22,8 +22,8 @@ public class UserApi extends SwaggerApi {
         super(apiCredentials, eventDispatcher);
     }
 
-public static const event_createUsersWithArrayInput: String = "createUsersWithArrayInput";
 public static const event_createUser: String = "createUser";
+public static const event_createUsersWithArrayInput: String = "createUsersWithArrayInput";
 public static const event_createUsersWithListInput: String = "createUsersWithListInput";
 public static const event_updateUser: String = "updateUser";
 public static const event_deleteUser: String = "deleteUser";
@@ -32,34 +32,9 @@ public static const event_loginUser: String = "loginUser";
 public static const event_logoutUser: String = "logoutUser";
 /*
      * Returns void */
-    public function createUsersWithArrayInput (body: Array): String {
-        // create path and map variables
-        var path: String = "/user.{format}/createWithArray".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        // verify required params are set
-        if(body == null ) {
-            throw new ApiError(400, "missing required params");
-        }
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "createUsersWithArrayInput";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    /*
-     * Returns void */
     public function createUser (body: User): String {
         // create path and map variables
-        var path: String = "/user.{format}".replace(/{format}/g,"xml");
+        var path: String = "/user".replace(/{format}/g,"xml");
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -82,9 +57,34 @@ public static const event_logoutUser: String = "logoutUser";
     }
     /*
      * Returns void */
+    public function createUsersWithArrayInput (body: Array): String {
+        // create path and map variables
+        var path: String = "/user/createWithArray".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if(body == null ) {
+            throw new ApiError(400, "missing required params");
+        }
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "createUsersWithArrayInput";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+    /*
+     * Returns void */
     public function createUsersWithListInput (body: Array): String {
         // create path and map variables
-        var path: String = "/user.{format}/createWithList".replace(/{format}/g,"xml");
+        var path: String = "/user/createWithList".replace(/{format}/g,"xml");
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -109,7 +109,7 @@ public static const event_logoutUser: String = "logoutUser";
      * Returns void */
     public function updateUser (username: String, body: User): String {
         // create path and map variables
-        var path: String = "/user.{format}/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
+        var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -134,7 +134,7 @@ public static const event_logoutUser: String = "logoutUser";
      * Returns void */
     public function deleteUser (username: String): String {
         // create path and map variables
-        var path: String = "/user.{format}/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
+        var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -159,7 +159,7 @@ public static const event_logoutUser: String = "logoutUser";
      * Returns User */
     public function getUserByName (username: String): String {
         // create path and map variables
-        var path: String = "/user.{format}/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
+        var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -184,7 +184,7 @@ public static const event_logoutUser: String = "logoutUser";
      * Returns string */
     public function loginUser (username: String, password: String): String {
         // create path and map variables
-        var path: String = "/user.{format}/login".replace(/{format}/g,"xml");
+        var path: String = "/user/login".replace(/{format}/g,"xml");
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -213,7 +213,7 @@ public static const event_logoutUser: String = "logoutUser";
      * Returns void */
     public function logoutUser (): String {
         // create path and map variables
-        var path: String = "/user.{format}/logout".replace(/{format}/g,"xml");
+        var path: String = "/user/logout".replace(/{format}/g,"xml");
 
         // query params
         var queryParams: Dictionary = new Dictionary();

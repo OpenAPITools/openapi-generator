@@ -29,7 +29,13 @@ class Category {
 
     );
 
+  /**
+  * Category unique identifier
+  */
   public $id; // int
+  /**
+  * Name of the category
+  */
   public $name; // string
   }
 

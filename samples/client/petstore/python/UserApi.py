@@ -29,38 +29,6 @@ class UserApi(object):
       self.apiClient = apiClient
 
     
-    def createUsersWithArrayInput(self, body, **kwargs):
-        """Creates list of users with given input array
-
-        Args:
-            body, list[User]: List of user object (required)
-            
-        Returns: 
-        """
-
-        allParams = ['body']
-
-        params = locals()
-        for (key, val) in params['kwargs'].iteritems():
-            if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithArrayInput" % key)
-            params[key] = val
-        del params['kwargs']
-
-        resourcePath = '/user.{format}/createWithArray'
-        resourcePath = resourcePath.replace('{format}', 'json')
-        method = 'POST'
-
-        queryParams = {}
-        headerParams = {}
-
-        postData = (params['body'] if 'body' in params else None)
-
-        response = self.apiClient.callAPI(resourcePath, method, queryParams,
-                                          postData, headerParams)
-
-        
-        
     def createUser(self, body, **kwargs):
         """Create user
 
@@ -79,7 +47,39 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/user.{format}'
+        resourcePath = '/user'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        
+        
+    def createUsersWithArrayInput(self, body, **kwargs):
+        """Creates list of users with given input array
+
+        Args:
+            body, list[User]: List of user object (required)
+            
+        Returns: 
+        """
+
+        allParams = ['body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithArrayInput" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/user/createWithArray'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'POST'
 
@@ -97,7 +97,7 @@ class UserApi(object):
         """Creates list of users with given list input
 
         Args:
-            body, List[User]: List of user object (required)
+            body, list[User]: List of user object (required)
             
         Returns: 
         """
@@ -111,7 +111,7 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/user.{format}/createWithList'
+        resourcePath = '/user/createWithList'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'POST'
 
@@ -144,7 +144,7 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/user.{format}/{username}'
+        resourcePath = '/user/{username}'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'PUT'
 
@@ -180,7 +180,7 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/user.{format}/{username}'
+        resourcePath = '/user/{username}'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'DELETE'
 
@@ -216,7 +216,7 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/user.{format}/{username}'
+        resourcePath = '/user/{username}'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 
@@ -258,7 +258,7 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/user.{format}/login'
+        resourcePath = '/user/login'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 
@@ -298,7 +298,7 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/user.{format}/logout'
+        resourcePath = '/user/logout'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 

@@ -43,7 +43,7 @@ class UserApi {
       case ex: ApiException => throw ex
     }
   }
-  def createUsersWithArrayInput (body: Array[User]) = {
+  def createUsersWithArrayInput (body: List[User]) = {
     // create path and map variables
     val path = "/user/createWithArray".replaceAll("\\{format\\}","json")
     val contentType = {
@@ -71,7 +71,7 @@ class UserApi {
       case ex: ApiException => throw ex
     }
   }
-  def createUsersWithListInput (body: Array[User]) = {
+  def createUsersWithListInput (body: List[User]) = {
     // create path and map variables
     val path = "/user/createWithList".replaceAll("\\{format\\}","json")
     val contentType = {

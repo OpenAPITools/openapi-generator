@@ -35,7 +35,7 @@ class StoreApi {
    public function getOrderById($orderId) {
 
   		//parse inputs
-  		$resourcePath = "/store.{format}/order/{orderId}";
+  		$resourcePath = "/store/order/{orderId}";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();
@@ -43,7 +43,7 @@ class StoreApi {
 
       if($orderId != null) {
   			$resourcePath = str_replace("{" . "orderId" . "}",
-  			                            $orderId, $resourcePath);
+  			                            $this->apiClient->toPathValue($orderId), $resourcePath);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -73,7 +73,7 @@ class StoreApi {
    public function deleteOrder($orderId) {
 
   		//parse inputs
-  		$resourcePath = "/store.{format}/order/{orderId}";
+  		$resourcePath = "/store/order/{orderId}";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "DELETE";
       $queryParams = array();
@@ -81,7 +81,7 @@ class StoreApi {
 
       if($orderId != null) {
   			$resourcePath = str_replace("{" . "orderId" . "}",
-  			                            $orderId, $resourcePath);
+  			                            $this->apiClient->toPathValue($orderId), $resourcePath);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -103,7 +103,7 @@ class StoreApi {
    public function placeOrder($body) {
 
   		//parse inputs
-  		$resourcePath = "/store.{format}/order";
+  		$resourcePath = "/store/order";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "POST";
       $queryParams = array();

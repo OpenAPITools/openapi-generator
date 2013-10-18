@@ -24,23 +24,38 @@
 class Pet {
 
   static $swaggerTypes = array(
-      'tags' => 'array[Some(Tag)]',
       'id' => 'int',
       'category' => 'Category',
-      'status' => 'string',
       'name' => 'string',
-      'photoUrls' => 'array[None]'
+      'photoUrls' => 'array[string]',
+      'tags' => 'array[Tag]',
+      'status' => 'string'
 
     );
 
-  public $tags; // array[Some(Tag)]
+  /**
+  * Unique identifier for the Pet
+  */
   public $id; // int
+  /**
+  * Category the pet is in
+  */
   public $category; // Category
+  /**
+  * Friendly name of the pet
+  */
+  public $name; // string
+  /**
+  * Image URLs
+  */
+  public $photoUrls; // array[string]
+  /**
+  * Tags assigned to this pet
+  */
+  public $tags; // array[Tag]
   /**
   * pet status in the store
   */
   public $status; // string
-  public $name; // string
-  public $photoUrls; // array[None]
   }
 
