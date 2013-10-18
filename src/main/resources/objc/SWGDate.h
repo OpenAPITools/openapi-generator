@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "NIKSwaggerObject.h"
+#import "SWGObject.h"
 
-@interface NIKDate : NIKSwaggerObject {
+@interface SWGDate : SWGObject {
 @private
     NSDate *_date;
 }

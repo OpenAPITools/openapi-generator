@@ -1,21 +1,16 @@
 #import <Foundation/Foundation.h>
-#import "NIKApiInvoker.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 {{newline}}
 
 {{#operations}}
-@interface {{classname}}: NSObject {
-
-@private
-    NSOperationQueue *_queue;
-    NIKApiInvoker * _api;
-}
-@property(nonatomic, readonly) NSOperationQueue* queue;
-@property(nonatomic, readonly) NIKApiInvoker* api;
+@interface {{classname}}: NSObject
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
-
+-(unsigned long) requestQueueSize;
++({{classname}}*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;
++(void) setBasePath:(NSString*)basePath;
++(NSString*) getBasePath;
 {{#operation}}
 /**
 
@@ -29,7 +24,7 @@
  {{/allParams}}
 
  */
--(void) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}        {{/hasMore}}{{/allParams}}
+-(NSNumber*) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}{{newline}}        {{/hasMore}}{{/allParams}}
         {{#returnBaseType}}{{#hasParams}}{{newline}}        completionHandler: {{/hasParams}}(void (^)({{returnType}} output, NSError* error))completionBlock;{{/returnBaseType}}
         {{^returnBaseType}}{{#hasParams}}{{newline}}        completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock;{{/returnBaseType}}
 

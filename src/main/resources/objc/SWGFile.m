@@ -1,6 +1,6 @@
-#import "NIKFile.h"
+#import "SWGFile.h"
 
-@implementation NIKFile
+@implementation SWGFile
 
 @synthesize name = _name;
 @synthesize mimeType = _mimeType;

@@ -1,6 +1,6 @@
-#import "NIKDate.h"
+#import "SWGDate.h"
 
-@implementation NIKDate
+@implementation SWGDate
 
 @synthesize date = _date;
 
