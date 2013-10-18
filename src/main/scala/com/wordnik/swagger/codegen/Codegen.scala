@@ -115,6 +115,7 @@ class Codegen(config: CodegenConfig) {
         case true =>
       }
     })
+
     allImports --= config.defaultIncludes
     allImports --= primitives
     allImports --= containers
@@ -235,11 +236,11 @@ class Codegen(config: CodegenConfig) {
           case n: Int => {
             val ComplexTypeMatcher = "(.*)\\[(.*)\\].*".r
             val ComplexTypeMatcher(container, basePart) = param.dataType
-            container + "[" + config.toDeclaredType(basePart) + "]"
+            config.toDeclaredType(container + "[" + config.toDeclaredType(basePart) + "]")
           }
         }
 
-        params += "dataType" -> config.toDeclaredType(u)
+        params += "dataType" -> u
 
         param.allowableValues match {
           case a: AllowableValues => params += "allowableValues" -> allowableValuesToString(a)
@@ -424,7 +425,7 @@ class Codegen(config: CodegenConfig) {
       baseType = config.typeMapping.contains(baseType) match {
         case true => config.typeMapping(baseType)
         case false => {
-          imports += Map("import" -> config.toDeclaredType(baseType))
+          // imports += Map("import" -> config.toDeclaredType(baseType))
           baseType
         }
       }
