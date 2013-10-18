@@ -1,10 +1,14 @@
 package com.wordnik.client.api
 
+import com.wordnik.client.model.WordListWord
 import com.wordnik.client.model.WordList
 import com.wordnik.client.model.StringValue
-import com.wordnik.client.model.WordListWord
 import com.wordnik.client.common.ApiInvoker
 import com.wordnik.client.common.ApiException
+
+import java.io.File
+import java.util.Date
+
 import scala.collection.mutable.HashMap
 
 class WordListApi {
@@ -15,20 +19,27 @@ class WordListApi {
 
   def updateWordList (permalink: String, body: WordList, auth_token: String) = {
     // create path and map variables
-    val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escapeString(permalink))
+    val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
+
+    
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(permalink, auth_token) - null).size match {
+    (List(permalink, auth_token).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }
     headerParams += "auth_token" -> auth_token
     try {
-      apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -39,20 +50,24 @@ class WordListApi {
   }
   def deleteWordList (permalink: String, auth_token: String) = {
     // create path and map variables
-    val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escapeString(permalink))
+    val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
+
+    
+    val contentType = {
+      "application/json"}
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(permalink, auth_token) - null).size match {
+    (List(permalink, auth_token).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }
     headerParams += "auth_token" -> auth_token
     try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -63,20 +78,24 @@ class WordListApi {
   }
   def getWordListByPermalink (permalink: String, auth_token: String) : Option[WordList]= {
     // create path and map variables
-    val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escapeString(permalink))
+    val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
+
+    
+    val contentType = {
+      "application/json"}
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(permalink, auth_token) - null).size match {
+    (List(permalink, auth_token).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }
     headerParams += "auth_token" -> auth_token
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[WordList]).asInstanceOf[WordList])
         case _ => None
@@ -86,22 +105,29 @@ class WordListApi {
       case ex: ApiException => throw ex
     }
   }
-  def addWordsToWordList (permalink: String, body: Array[StringValue], auth_token: String) = {
+  def addWordsToWordList (permalink: String, body: List[StringValue], auth_token: String) = {
     // create path and map variables
-    val path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escapeString(permalink))
+    val path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
+
+    
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(permalink, auth_token) - null).size match {
+    (List(permalink, auth_token).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }
     headerParams += "auth_token" -> auth_token
     try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -112,14 +138,18 @@ class WordListApi {
   }
   def getWordListWords (permalink: String, auth_token: String, sortBy: String= "createDate", sortOrder: String= "desc", skip: Int= 0, limit: Int= 100) : Option[List[WordListWord]]= {
     // create path and map variables
-    val path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escapeString(permalink))
+    val path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
+
+    
+    val contentType = {
+      "application/json"}
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(permalink, auth_token) - null).size match {
+    (List(permalink, auth_token).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -129,7 +159,7 @@ class WordListApi {
     if(String.valueOf(limit) != "null") queryParams += "limit" -> limit.toString
     headerParams += "auth_token" -> auth_token
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "List", classOf[WordListWord]).asInstanceOf[List[WordListWord]])
         case _ => None
@@ -139,22 +169,29 @@ class WordListApi {
       case ex: ApiException => throw ex
     }
   }
-  def deleteWordsFromWordList (permalink: String, body: Array[StringValue], auth_token: String) = {
+  def deleteWordsFromWordList (permalink: String, body: List[StringValue], auth_token: String) = {
     // create path and map variables
-    val path = "/wordList.{format}/{permalink}/deleteWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escapeString(permalink))
+    val path = "/wordList.{format}/{permalink}/deleteWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
+
+    
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(permalink, auth_token) - null).size match {
+    (List(permalink, auth_token).filter(_ != null)).size match {
        case 2 => // all required values set
        case _ => throw new Exception("missing required params")
     }
     headerParams += "auth_token" -> auth_token
     try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }

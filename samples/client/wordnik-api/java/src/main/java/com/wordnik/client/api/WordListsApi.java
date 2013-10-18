@@ -34,8 +34,10 @@ public class WordListsApi {
        throw new ApiException(400, "missing required params");
     }
     headerParams.put("auth_token", auth_token);
+    String contentType = "application/json";
+
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
       if(response != null){
         return (WordList) ApiInvoker.deserialize(response, "", WordList.class);
       }

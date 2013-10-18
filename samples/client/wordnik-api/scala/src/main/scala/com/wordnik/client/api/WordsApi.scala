@@ -1,11 +1,15 @@
 package com.wordnik.client.api
 
-import com.wordnik.client.model.WordObject
 import com.wordnik.client.model.DefinitionSearchResults
+import com.wordnik.client.model.WordObject
 import com.wordnik.client.model.WordOfTheDay
 import com.wordnik.client.model.WordSearchResults
 import com.wordnik.client.common.ApiInvoker
 import com.wordnik.client.common.ApiException
+
+import java.io.File
+import java.util.Date
+
 import scala.collection.mutable.HashMap
 
 class WordsApi {
@@ -16,14 +20,18 @@ class WordsApi {
 
   def searchWords (query: String, includePartOfSpeech: String, excludePartOfSpeech: String, caseSensitive: String= "true", minCorpusCount: Int= 5, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 1, maxLength: Int= -1, skip: Int= 0, limit: Int= 10) : Option[WordSearchResults]= {
     // create path and map variables
-    val path = "/words.{format}/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}",apiInvoker.escapeString(query))
+    val path = "/words.{format}/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}",apiInvoker.escape(query))
+
+    
+    val contentType = {
+      "application/json"}
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(query) - null).size match {
+    (List(query).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -39,7 +47,7 @@ class WordsApi {
     if(String.valueOf(skip) != "null") queryParams += "skip" -> skip.toString
     if(String.valueOf(limit) != "null") queryParams += "limit" -> limit.toString
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[WordSearchResults]).asInstanceOf[WordSearchResults])
         case _ => None
@@ -51,13 +59,17 @@ class WordsApi {
   }
   def getWordOfTheDay (date: String) : Option[WordOfTheDay]= {
     // create path and map variables
-    val path = "/words.{format}/wordOfTheDay".replaceAll("\\{format\\}","json")// query params
+    val path = "/words.{format}/wordOfTheDay".replaceAll("\\{format\\}","json")
+    val contentType = {
+      "application/json"}
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     if(String.valueOf(date) != "null") queryParams += "date" -> date.toString
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[WordOfTheDay]).asInstanceOf[WordOfTheDay])
         case _ => None
@@ -69,12 +81,16 @@ class WordsApi {
   }
   def reverseDictionary (query: String, findSenseForWord: String, includeSourceDictionaries: String, excludeSourceDictionaries: String, includePartOfSpeech: String, excludePartOfSpeech: String, expandTerms: String, sortBy: String, sortOrder: String, minCorpusCount: Int= 5, maxCorpusCount: Int= -1, minLength: Int= 1, maxLength: Int= -1, includeTags: String= "false", skip: String= "0", limit: Int= 10) : Option[DefinitionSearchResults]= {
     // create path and map variables
-    val path = "/words.{format}/reverseDictionary".replaceAll("\\{format\\}","json")// query params
+    val path = "/words.{format}/reverseDictionary".replaceAll("\\{format\\}","json")
+    val contentType = {
+      "application/json"}
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(query) - null).size match {
+    (List(query).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
@@ -95,7 +111,7 @@ class WordsApi {
     if(String.valueOf(skip) != "null") queryParams += "skip" -> skip.toString
     if(String.valueOf(limit) != "null") queryParams += "limit" -> limit.toString
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[DefinitionSearchResults]).asInstanceOf[DefinitionSearchResults])
         case _ => None
@@ -107,7 +123,11 @@ class WordsApi {
   }
   def getRandomWords (includePartOfSpeech: String, excludePartOfSpeech: String, sortBy: String, sortOrder: String, hasDictionaryDef: String= "true", minCorpusCount: Int= 0, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 5, maxLength: Int= -1, limit: Int= 10) : Option[List[WordObject]]= {
     // create path and map variables
-    val path = "/words.{format}/randomWords".replaceAll("\\{format\\}","json")// query params
+    val path = "/words.{format}/randomWords".replaceAll("\\{format\\}","json")
+    val contentType = {
+      "application/json"}
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
@@ -124,7 +144,7 @@ class WordsApi {
     if(String.valueOf(sortOrder) != "null") queryParams += "sortOrder" -> sortOrder.toString
     if(String.valueOf(limit) != "null") queryParams += "limit" -> limit.toString
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "List", classOf[WordObject]).asInstanceOf[List[WordObject]])
         case _ => None
@@ -136,7 +156,11 @@ class WordsApi {
   }
   def getRandomWord (includePartOfSpeech: String, excludePartOfSpeech: String, hasDictionaryDef: String= "true", minCorpusCount: Int= 0, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 5, maxLength: Int= -1) : Option[WordObject]= {
     // create path and map variables
-    val path = "/words.{format}/randomWord".replaceAll("\\{format\\}","json")// query params
+    val path = "/words.{format}/randomWord".replaceAll("\\{format\\}","json")
+    val contentType = {
+      "application/json"}
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
@@ -150,7 +174,7 @@ class WordsApi {
     if(String.valueOf(minLength) != "null") queryParams += "minLength" -> minLength.toString
     if(String.valueOf(maxLength) != "null") queryParams += "maxLength" -> maxLength.toString
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[WordObject]).asInstanceOf[WordObject])
         case _ => None

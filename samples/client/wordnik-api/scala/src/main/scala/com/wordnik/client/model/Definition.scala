@@ -1,11 +1,11 @@
 package com.wordnik.client.model
 
-import com.wordnik.client.model.ExampleUsage
-import com.wordnik.client.model.Note
-import com.wordnik.client.model.Citation
-import com.wordnik.client.model.TextPron
 import com.wordnik.client.model.Label
+import com.wordnik.client.model.ExampleUsage
+import com.wordnik.client.model.TextPron
+import com.wordnik.client.model.Citation
 import com.wordnik.client.model.Related
+import com.wordnik.client.model.Note
 case class Definition (
   extendedText: String,
   text: String,
