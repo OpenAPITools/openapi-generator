@@ -5,9 +5,9 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.10-SNAPSHOT"
+version := "2.0.11"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.9.1"
 
 javacOptions ++= Seq("-target", "1.6", "-source", "1.6", "-Xlint:unchecked", "-Xlint:deprecation")
 
