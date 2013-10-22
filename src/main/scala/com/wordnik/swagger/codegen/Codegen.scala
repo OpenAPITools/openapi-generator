@@ -500,6 +500,18 @@ class Codegen(config: CodegenConfig) {
     }
   }
 
+  def writeJson(m: AnyRef): String = {
+    Option(System.getProperty("modelFormat")) match {
+      case Some(e) if e =="1.1" => write1_1(m)
+      case _ => write(m)
+    }
+  }
+
+  def write1_1(m: AnyRef): String = {
+    implicit val formats = SwaggerSerializers.formats("1.1")
+    write(m)
+  }
+
   def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model]) = {
     val rootDir = new java.io.File(".")
     val engine = new TemplateEngine(Some(rootDir))
@@ -519,7 +531,7 @@ class Codegen(config: CodegenConfig) {
     val modelList = new ListBuffer[HashMap[String, AnyRef]]
 
     models.foreach(m => {
-      val json = write(m._2)
+      val json = writeJson(m._2)
 
       modelList += HashMap(
         "modelName" -> m._1,
