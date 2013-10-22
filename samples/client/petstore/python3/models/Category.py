@@ -27,6 +27,8 @@ class Category:
         }
 
 
+        #Category unique identifier
         self.id = None # int
+        #Name of the category
         self.name = None # str
         

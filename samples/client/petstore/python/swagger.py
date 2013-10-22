@@ -159,7 +159,7 @@ class ApiClient:
         instance = objClass()
 
         for attr, attrType in instance.swaggerTypes.iteritems():
-            if attr in obj:
+            if obj is not None and attr in obj and type(obj) in [list, dict]:
                 value = obj[attr]
                 if attrType in ['str', 'int', 'long', 'float', 'bool']:
                     attrType = eval(attrType)
