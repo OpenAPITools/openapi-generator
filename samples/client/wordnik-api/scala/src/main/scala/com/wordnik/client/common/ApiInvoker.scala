@@ -6,6 +6,10 @@ import com.sun.jersey.api.client.config.ClientConfig
 import com.sun.jersey.api.client.config.DefaultClientConfig
 import com.sun.jersey.api.client.filter.LoggingFilter
 
+import com.sun.jersey.multipart.FormDataMultiPart
+import com.sun.jersey.multipart.file.FileDataBodyPart
+
+import java.io.File
 import java.net.URLEncoder
 import javax.ws.rs.core.MediaType
 
@@ -36,12 +40,16 @@ object ApiInvoker {
   val defaultHeaders: HashMap[String, String] = HashMap()
   val hostMap: HashMap[String, Client] = HashMap()
 
-  def escapeString(value: String): String = {
+  def escape(value: String): String = {
     URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
   }
 
+  def escape(value: Long): String = value.toString
+  def escape(value: Double): String = value.toString
+  def escape(value: Float): String = value.toString
+
   def deserialize(json: String, containerType: String, cls: Class[_]) = {
-    if (cls == classOf[String] && containerType == null) {
+    if (cls == classOf[String]) {
       json match {
         case s: String => {
           if (s.startsWith("\"") && s.endsWith("\"") && s.length > 1) s.substring(1, s.length - 2)
@@ -50,8 +58,13 @@ object ApiInvoker {
         case _ => null
       }
     } else {
-      containerType match {
-        case "List" => {
+      containerType.toLowerCase match {
+        case "array" => {
+          val typeInfo = mapper.getTypeFactory().constructCollectionType(classOf[java.util.List[_]], cls)
+          val response = mapper.readValue(json, typeInfo).asInstanceOf[java.util.List[_]]
+          response.asScala.toList
+        }
+        case "list" => {
           val typeInfo = mapper.getTypeFactory().constructCollectionType(classOf[java.util.List[_]], cls)
           val response = mapper.readValue(json, typeInfo).asInstanceOf[java.util.List[_]]
           response.asScala.toList
@@ -75,12 +88,11 @@ object ApiInvoker {
     } else null
   }
 
-  def invokeApi(host: String, path: String, method: String, queryParams: Map[String, String], body: AnyRef, headerParams: Map[String, String]) = {
+  def invokeApi(host: String, path: String, method: String, queryParams: Map[String, String], body: AnyRef, headerParams: Map[String, String], contentType: String): String = {
     val client = getClient(host)
 
-    val querystring = queryParams.filter(k => k._2 != null).map(k => (escapeString(k._1) + "=" + escapeString(k._2))).mkString("?", "&", "")
-    val builder = client.resource(host + path + querystring).`type`("application/json")
-
+    val querystring = queryParams.filter(k => k._2 != null).map(k => (escape(k._1) + "=" + escape(k._2))).mkString("?", "&", "")
+    val builder = client.resource(host + path + querystring).accept(contentType)
     headerParams.map(p => builder.header(p._1, p._2))
     defaultHeaders.map(p => {
       headerParams.contains(p._1) match {
@@ -94,22 +106,43 @@ object ApiInvoker {
         builder.get(classOf[ClientResponse]).asInstanceOf[ClientResponse]
       }
       case "POST" => {
-        builder.post(classOf[ClientResponse], serialize(body))
+        if(body != null && body.isInstanceOf[File]) {
+          val file = body.asInstanceOf[File]
+          val form = new FormDataMultiPart()
+          form.field("filename", file.getName())
+          form.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE))
+          builder.post(classOf[ClientResponse], form)
+        }
+        else {
+          if(body == null) builder.post(classOf[ClientResponse], serialize(body))
+          else builder.`type`(contentType).post(classOf[ClientResponse], serialize(body))
+        }
       }
       case "PUT" => {
-        builder.put(classOf[ClientResponse], serialize(body))
+        if(body == null) builder.put(classOf[ClientResponse], null)
+        else builder.`type`(contentType).put(classOf[ClientResponse], serialize(body))
       }
       case "DELETE" => {
         builder.delete(classOf[ClientResponse])
       }
       case _ => null
     }
-    response.getClientResponseStatus() match {
-      case ClientResponse.Status.OK => response.getEntity(classOf[String])
+    response.getClientResponseStatus().getStatusCode() match {
+      case 204 => ""
+      case code: Int if (Range(200, 299).contains(code)) => {
+        response.hasEntity() match {
+          case true => response.getEntity(classOf[String])
+          case false => ""
+        }
+      }
       case _ => {
+        val entity = response.hasEntity() match {
+          case true => response.getEntity(classOf[String])
+          case false => "no data"
+        }
         throw new ApiException(
           response.getClientResponseStatus().getStatusCode(),
-          response.getEntity(classOf[String]))
+          entity)
       }
     }
   }
@@ -127,11 +160,6 @@ object ApiInvoker {
   }
 }
 
-class ApiException extends Exception {
-  var code = 0
+class ApiException(val code: Int, msg: String) extends RuntimeException(msg)
 
-  def this(code: Int, msg: String) = {
-    this()
-  }
-}
 

@@ -7,233 +7,245 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA07F4BE16134F27006A2112 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA07F4BD16134F27006A2112 /* Foundation.framework */; };
-		EA07F4C116134F27006A2112 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA07F4C016134F27006A2112 /* main.m */; };
-		EA07F4C516134F27006A2112 /* PetstoreClient.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EA07F4C416134F27006A2112 /* PetstoreClient.1 */; };
-		EA07F5311613580E006A2112 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA07F5301613580E006A2112 /* SenTestingKit.framework */; };
-		EA07F53316135819006A2112 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA07F53216135819006A2112 /* Cocoa.framework */; };
-		EA4F4D3816F1A90A00F24B35 /* NIKFile.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4F4D3716F1A90A00F24B35 /* NIKFile.m */; };
-		EAE9042217BF2F7900486EFE /* NIKApiInvoker.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040617BF2F3A00486EFE /* NIKApiInvoker.h */; };
-		EAE9042317BF2F7900486EFE /* NIKApiInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040717BF2F3A00486EFE /* NIKApiInvoker.m */; };
-		EAE9042417BF2F7900486EFE /* NIKDate.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040817BF2F3A00486EFE /* NIKDate.h */; };
-		EAE9042517BF2F7900486EFE /* NIKDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040917BF2F3A00486EFE /* NIKDate.m */; };
-		EAE9042617BF2F7900486EFE /* NIKSwaggerObject.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040A17BF2F3A00486EFE /* NIKSwaggerObject.h */; };
-		EAE9042717BF2F7900486EFE /* NIKSwaggerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040B17BF2F3A00486EFE /* NIKSwaggerObject.m */; };
-		EAE9042817BF2F7900486EFE /* RVBCategory.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE903F617BF2CB200486EFE /* RVBCategory.h */; };
-		EAE9042917BF2F7900486EFE /* RVBCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE903F717BF2CB200486EFE /* RVBCategory.m */; };
-		EAE9042A17BF2F7900486EFE /* RVBOrder.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE903F817BF2CB200486EFE /* RVBOrder.h */; };
-		EAE9042B17BF2F7900486EFE /* RVBOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE903F917BF2CB200486EFE /* RVBOrder.m */; };
-		EAE9042C17BF2F7900486EFE /* RVBPet.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE903FA17BF2CB200486EFE /* RVBPet.h */; };
-		EAE9042D17BF2F7900486EFE /* RVBPet.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE903FB17BF2CB200486EFE /* RVBPet.m */; };
-		EAE9042E17BF2F7900486EFE /* RVBPetApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE903FC17BF2CB200486EFE /* RVBPetApi.h */; };
-		EAE9042F17BF2F7900486EFE /* RVBPetApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE903FD17BF2CB200486EFE /* RVBPetApi.m */; };
-		EAE9043017BF2F7900486EFE /* RVBStoreApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE903FE17BF2CB200486EFE /* RVBStoreApi.h */; };
-		EAE9043117BF2F7900486EFE /* RVBStoreApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE903FF17BF2CB200486EFE /* RVBStoreApi.m */; };
-		EAE9043217BF2F7900486EFE /* RVBTag.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040017BF2CB200486EFE /* RVBTag.h */; };
-		EAE9043317BF2F7900486EFE /* RVBTag.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040117BF2CB200486EFE /* RVBTag.m */; };
-		EAE9043417BF2F7900486EFE /* RVBUser.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040217BF2CB200486EFE /* RVBUser.h */; };
-		EAE9043517BF2F7900486EFE /* RVBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040317BF2CB200486EFE /* RVBUser.m */; };
-		EAE9043617BF2F7900486EFE /* RVBUserApi.h in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040417BF2CB200486EFE /* RVBUserApi.h */; };
-		EAE9043717BF2F7900486EFE /* RVBUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE9040517BF2CB200486EFE /* RVBUserApi.m */; };
-		EAE9043817BF318800486EFE /* NIKFile.h in Sources */ = {isa = PBXBuildFile; fileRef = EA4F4D3616F1A90A00F24B35 /* NIKFile.h */; };
-		EAE9043917BF318800486EFE /* NIKFile.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4F4D3716F1A90A00F24B35 /* NIKFile.m */; };
-		EAE9043A17BF31C800486EFE /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA81837816137FD500341A6E /* PetApiTest.m */; };
-		EAE9043B17BF31C800486EFE /* PetApiTest.h in Sources */ = {isa = PBXBuildFile; fileRef = EA81837916137FD500341A6E /* PetApiTest.h */; };
-		EAE9043C17BF31C800486EFE /* UserApiTest.h in Sources */ = {isa = PBXBuildFile; fileRef = EA5A034216141443003B3E41 /* UserApiTest.h */; };
-		EAE9043D17BF31C800486EFE /* UserApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5A034316141443003B3E41 /* UserApiTest.m */; };
+		BA525648922D4C0E9F44D4F1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73DA4F1067C343C3962F1542 /* libPods.a */; };
+		EA66999A1811D2FA00A70D03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699991811D2FA00A70D03 /* Foundation.framework */; };
+		EA66999C1811D2FA00A70D03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999B1811D2FA00A70D03 /* CoreGraphics.framework */; };
+		EA66999E1811D2FA00A70D03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999D1811D2FA00A70D03 /* UIKit.framework */; };
+		EA6699A41811D2FA00A70D03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA6699A21811D2FA00A70D03 /* InfoPlist.strings */; };
+		EA6699A61811D2FA00A70D03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699A51811D2FA00A70D03 /* main.m */; };
+		EA6699AA1811D2FA00A70D03 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699A91811D2FA00A70D03 /* AppDelegate.m */; };
+		EA6699AD1811D2FA00A70D03 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA6699AB1811D2FA00A70D03 /* Main_iPhone.storyboard */; };
+		EA6699B01811D2FA00A70D03 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA6699AE1811D2FA00A70D03 /* Main_iPad.storyboard */; };
+		EA6699B31811D2FA00A70D03 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699B21811D2FA00A70D03 /* ViewController.m */; };
+		EA6699B51811D2FA00A70D03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA6699B41811D2FA00A70D03 /* Images.xcassets */; };
+		EA6699BC1811D2FB00A70D03 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699BB1811D2FB00A70D03 /* XCTest.framework */; };
+		EA6699BD1811D2FB00A70D03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699991811D2FA00A70D03 /* Foundation.framework */; };
+		EA6699BE1811D2FB00A70D03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999D1811D2FA00A70D03 /* UIKit.framework */; };
+		EA6699C61811D2FB00A70D03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA6699C41811D2FB00A70D03 /* InfoPlist.strings */; };
+		EA6699C81811D2FB00A70D03 /* PetstoreClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */; };
+		EAEA85E41811D3AE00F06E69 /* SWGApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */; };
+		EAEA85E51811D3AE00F06E69 /* SWGCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CF1811D3AE00F06E69 /* SWGCategory.m */; };
+		EAEA85E61811D3AE00F06E69 /* SWGDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85D11811D3AE00F06E69 /* SWGDate.m */; };
+		EAEA85E71811D3AE00F06E69 /* SWGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85D31811D3AE00F06E69 /* SWGFile.m */; };
+		EAEA85E81811D3AE00F06E69 /* SWGObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85D51811D3AE00F06E69 /* SWGObject.m */; };
+		EAEA85E91811D3AE00F06E69 /* SWGOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85D71811D3AE00F06E69 /* SWGOrder.m */; };
+		EAEA85EA1811D3AE00F06E69 /* SWGPet.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85D91811D3AE00F06E69 /* SWGPet.m */; };
+		EAEA85EB1811D3AE00F06E69 /* SWGPetApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85DB1811D3AE00F06E69 /* SWGPetApi.m */; };
+		EAEA85EC1811D3AE00F06E69 /* SWGStoreApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85DD1811D3AE00F06E69 /* SWGStoreApi.m */; };
+		EAEA85ED1811D3AE00F06E69 /* SWGTag.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85DF1811D3AE00F06E69 /* SWGTag.m */; };
+		EAEA85EE1811D3AE00F06E69 /* SWGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E11811D3AE00F06E69 /* SWGUser.m */; };
+		EAEA85EF1811D3AE00F06E69 /* SWGUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */; };
+		EAEA85F11811D8F100F06E69 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEA85F01811D8F100F06E69 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EA07F52E161357A5006A2112 /* PBXContainerItemProxy */ = {
+		EA6699BF1811D2FB00A70D03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EA07F4B016134F27006A2112 /* Project object */;
+			containerPortal = EA66998E1811D2FA00A70D03 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = EA07F4B816134F27006A2112;
+			remoteGlobalIDString = EA6699951811D2FA00A70D03;
 			remoteInfo = PetstoreClient;
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		EA07F4B716134F27006A2112 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				EA07F4C516134F27006A2112 /* PetstoreClient.1 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		EA07F4B916134F27006A2112 /* PetstoreClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PetstoreClient; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA07F4BD16134F27006A2112 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		EA07F4C016134F27006A2112 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		EA07F4C316134F27006A2112 /* PetstoreClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetstoreClient-Prefix.pch"; sourceTree = "<group>"; };
-		EA07F4C416134F27006A2112 /* PetstoreClient.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PetstoreClient.1; sourceTree = "<group>"; };
-		EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetstoreClientTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA07F5301613580E006A2112 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		EA07F53216135819006A2112 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		EA4F4D3616F1A90A00F24B35 /* NIKFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIKFile.h; path = ../client/NIKFile.h; sourceTree = "<group>"; };
-		EA4F4D3716F1A90A00F24B35 /* NIKFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIKFile.m; path = ../client/NIKFile.m; sourceTree = "<group>"; };
-		EA5A034216141443003B3E41 /* UserApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserApiTest.h; path = ../tests/UserApiTest.h; sourceTree = "<group>"; };
-		EA5A034316141443003B3E41 /* UserApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserApiTest.m; path = ../tests/UserApiTest.m; sourceTree = "<group>"; };
-		EA81837816137FD500341A6E /* PetApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PetApiTest.m; path = ../tests/PetApiTest.m; sourceTree = "<group>"; };
-		EA81837916137FD500341A6E /* PetApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PetApiTest.h; path = ../tests/PetApiTest.h; sourceTree = "<group>"; };
-		EAE903F617BF2CB200486EFE /* RVBCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBCategory.h; path = ../client/RVBCategory.h; sourceTree = "<group>"; };
-		EAE903F717BF2CB200486EFE /* RVBCategory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBCategory.m; path = ../client/RVBCategory.m; sourceTree = "<group>"; };
-		EAE903F817BF2CB200486EFE /* RVBOrder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBOrder.h; path = ../client/RVBOrder.h; sourceTree = "<group>"; };
-		EAE903F917BF2CB200486EFE /* RVBOrder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBOrder.m; path = ../client/RVBOrder.m; sourceTree = "<group>"; };
-		EAE903FA17BF2CB200486EFE /* RVBPet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBPet.h; path = ../client/RVBPet.h; sourceTree = "<group>"; };
-		EAE903FB17BF2CB200486EFE /* RVBPet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBPet.m; path = ../client/RVBPet.m; sourceTree = "<group>"; };
-		EAE903FC17BF2CB200486EFE /* RVBPetApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBPetApi.h; path = ../client/RVBPetApi.h; sourceTree = "<group>"; };
-		EAE903FD17BF2CB200486EFE /* RVBPetApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBPetApi.m; path = ../client/RVBPetApi.m; sourceTree = "<group>"; };
-		EAE903FE17BF2CB200486EFE /* RVBStoreApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBStoreApi.h; path = ../client/RVBStoreApi.h; sourceTree = "<group>"; };
-		EAE903FF17BF2CB200486EFE /* RVBStoreApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBStoreApi.m; path = ../client/RVBStoreApi.m; sourceTree = "<group>"; };
-		EAE9040017BF2CB200486EFE /* RVBTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBTag.h; path = ../client/RVBTag.h; sourceTree = "<group>"; };
-		EAE9040117BF2CB200486EFE /* RVBTag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBTag.m; path = ../client/RVBTag.m; sourceTree = "<group>"; };
-		EAE9040217BF2CB200486EFE /* RVBUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBUser.h; path = ../client/RVBUser.h; sourceTree = "<group>"; };
-		EAE9040317BF2CB200486EFE /* RVBUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBUser.m; path = ../client/RVBUser.m; sourceTree = "<group>"; };
-		EAE9040417BF2CB200486EFE /* RVBUserApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RVBUserApi.h; path = ../client/RVBUserApi.h; sourceTree = "<group>"; };
-		EAE9040517BF2CB200486EFE /* RVBUserApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RVBUserApi.m; path = ../client/RVBUserApi.m; sourceTree = "<group>"; };
-		EAE9040617BF2F3A00486EFE /* NIKApiInvoker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NIKApiInvoker.h; path = ../client/NIKApiInvoker.h; sourceTree = "<group>"; };
-		EAE9040717BF2F3A00486EFE /* NIKApiInvoker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NIKApiInvoker.m; path = ../client/NIKApiInvoker.m; sourceTree = "<group>"; };
-		EAE9040817BF2F3A00486EFE /* NIKDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NIKDate.h; path = ../client/NIKDate.h; sourceTree = "<group>"; };
-		EAE9040917BF2F3A00486EFE /* NIKDate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NIKDate.m; path = ../client/NIKDate.m; sourceTree = "<group>"; };
-		EAE9040A17BF2F3A00486EFE /* NIKSwaggerObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NIKSwaggerObject.h; path = ../client/NIKSwaggerObject.h; sourceTree = "<group>"; };
-		EAE9040B17BF2F3A00486EFE /* NIKSwaggerObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NIKSwaggerObject.m; path = ../client/NIKSwaggerObject.m; sourceTree = "<group>"; };
+		73DA4F1067C343C3962F1542 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		EA6699961811D2FA00A70D03 /* PetstoreClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetstoreClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA6699991811D2FA00A70D03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EA66999B1811D2FA00A70D03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EA66999D1811D2FA00A70D03 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EA6699A11811D2FA00A70D03 /* PetstoreClient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PetstoreClient-Info.plist"; sourceTree = "<group>"; };
+		EA6699A31811D2FA00A70D03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EA6699A51811D2FA00A70D03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EA6699A71811D2FA00A70D03 /* PetstoreClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PetstoreClient-Prefix.pch"; sourceTree = "<group>"; };
+		EA6699A81811D2FA00A70D03 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EA6699A91811D2FA00A70D03 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EA6699AC1811D2FA00A70D03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		EA6699AF1811D2FA00A70D03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		EA6699B11811D2FA00A70D03 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		EA6699B21811D2FA00A70D03 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		EA6699B41811D2FA00A70D03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		EA6699BA1811D2FB00A70D03 /* PetstoreClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetstoreClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA6699BB1811D2FB00A70D03 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		EA6699C31811D2FB00A70D03 /* PetstoreClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PetstoreClientTests-Info.plist"; sourceTree = "<group>"; };
+		EA6699C51811D2FB00A70D03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PetstoreClientTests.m; sourceTree = "<group>"; };
+		EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGApiClient.h; sourceTree = "<group>"; };
+		EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiClient.m; sourceTree = "<group>"; };
+		EAEA85CE1811D3AE00F06E69 /* SWGCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGCategory.h; sourceTree = "<group>"; };
+		EAEA85CF1811D3AE00F06E69 /* SWGCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGCategory.m; sourceTree = "<group>"; };
+		EAEA85D01811D3AE00F06E69 /* SWGDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGDate.h; sourceTree = "<group>"; };
+		EAEA85D11811D3AE00F06E69 /* SWGDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGDate.m; sourceTree = "<group>"; };
+		EAEA85D21811D3AE00F06E69 /* SWGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGFile.h; sourceTree = "<group>"; };
+		EAEA85D31811D3AE00F06E69 /* SWGFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGFile.m; sourceTree = "<group>"; };
+		EAEA85D41811D3AE00F06E69 /* SWGObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGObject.h; sourceTree = "<group>"; };
+		EAEA85D51811D3AE00F06E69 /* SWGObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGObject.m; sourceTree = "<group>"; };
+		EAEA85D61811D3AE00F06E69 /* SWGOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGOrder.h; sourceTree = "<group>"; };
+		EAEA85D71811D3AE00F06E69 /* SWGOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGOrder.m; sourceTree = "<group>"; };
+		EAEA85D81811D3AE00F06E69 /* SWGPet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGPet.h; sourceTree = "<group>"; };
+		EAEA85D91811D3AE00F06E69 /* SWGPet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGPet.m; sourceTree = "<group>"; };
+		EAEA85DA1811D3AE00F06E69 /* SWGPetApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGPetApi.h; sourceTree = "<group>"; };
+		EAEA85DB1811D3AE00F06E69 /* SWGPetApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGPetApi.m; sourceTree = "<group>"; };
+		EAEA85DC1811D3AE00F06E69 /* SWGStoreApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGStoreApi.h; sourceTree = "<group>"; };
+		EAEA85DD1811D3AE00F06E69 /* SWGStoreApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGStoreApi.m; sourceTree = "<group>"; };
+		EAEA85DE1811D3AE00F06E69 /* SWGTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGTag.h; sourceTree = "<group>"; };
+		EAEA85DF1811D3AE00F06E69 /* SWGTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGTag.m; sourceTree = "<group>"; };
+		EAEA85E01811D3AE00F06E69 /* SWGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGUser.h; sourceTree = "<group>"; };
+		EAEA85E11811D3AE00F06E69 /* SWGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGUser.m; sourceTree = "<group>"; };
+		EAEA85E21811D3AE00F06E69 /* SWGUserApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGUserApi.h; sourceTree = "<group>"; };
+		EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGUserApi.m; sourceTree = "<group>"; };
+		EAEA85F01811D8F100F06E69 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "../Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EA07F4B616134F27006A2112 /* Frameworks */ = {
+		EA6699931811D2FA00A70D03 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA07F4BE16134F27006A2112 /* Foundation.framework in Frameworks */,
+				EA66999C1811D2FA00A70D03 /* CoreGraphics.framework in Frameworks */,
+				EA66999E1811D2FA00A70D03 /* UIKit.framework in Frameworks */,
+				EA66999A1811D2FA00A70D03 /* Foundation.framework in Frameworks */,
+				BA525648922D4C0E9F44D4F1 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA07F4EE1613521A006A2112 /* Frameworks */ = {
+		EA6699B71811D2FB00A70D03 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA07F53316135819006A2112 /* Cocoa.framework in Frameworks */,
-				EA07F5311613580E006A2112 /* SenTestingKit.framework in Frameworks */,
+				EAEA85F11811D8F100F06E69 /* libPods.a in Frameworks */,
+				EA6699BC1811D2FB00A70D03 /* XCTest.framework in Frameworks */,
+				EA6699BE1811D2FB00A70D03 /* UIKit.framework in Frameworks */,
+				EA6699BD1811D2FB00A70D03 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EA07F4AE16134F27006A2112 = {
+		EA66998D1811D2FA00A70D03 = {
 			isa = PBXGroup;
 			children = (
-				EA81837C1613809300341A6E /* Tests */,
-				EA07F52D1613569E006A2112 /* Generated Client */,
-				EA07F4BF16134F27006A2112 /* PetstoreClient */,
-				EA07F4BC16134F27006A2112 /* Frameworks */,
-				EA07F4BA16134F27006A2112 /* Products */,
+				EAEA85CB1811D3AE00F06E69 /* client */,
+				EA66999F1811D2FA00A70D03 /* PetstoreClient */,
+				EA6699C11811D2FB00A70D03 /* PetstoreClientTests */,
+				EA6699981811D2FA00A70D03 /* Frameworks */,
+				EA6699971811D2FA00A70D03 /* Products */,
+				EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
-		EA07F4BA16134F27006A2112 /* Products */ = {
+		EA6699971811D2FA00A70D03 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA07F4B916134F27006A2112 /* PetstoreClient */,
-				EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */,
+				EA6699961811D2FA00A70D03 /* PetstoreClient.app */,
+				EA6699BA1811D2FB00A70D03 /* PetstoreClientTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EA07F4BC16134F27006A2112 /* Frameworks */ = {
+		EA6699981811D2FA00A70D03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA07F53216135819006A2112 /* Cocoa.framework */,
-				EA07F5301613580E006A2112 /* SenTestingKit.framework */,
-				EA07F4BD16134F27006A2112 /* Foundation.framework */,
-				EA07F4F71613521A006A2112 /* Other Frameworks */,
+				EAEA85F01811D8F100F06E69 /* libPods.a */,
+				EA6699991811D2FA00A70D03 /* Foundation.framework */,
+				EA66999B1811D2FA00A70D03 /* CoreGraphics.framework */,
+				EA66999D1811D2FA00A70D03 /* UIKit.framework */,
+				EA6699BB1811D2FB00A70D03 /* XCTest.framework */,
+				73DA4F1067C343C3962F1542 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EA07F4BF16134F27006A2112 /* PetstoreClient */ = {
+		EA66999F1811D2FA00A70D03 /* PetstoreClient */ = {
 			isa = PBXGroup;
 			children = (
-				EA07F4C016134F27006A2112 /* main.m */,
-				EA07F4C416134F27006A2112 /* PetstoreClient.1 */,
-				EA07F4C216134F27006A2112 /* Supporting Files */,
+				EA6699A81811D2FA00A70D03 /* AppDelegate.h */,
+				EA6699A91811D2FA00A70D03 /* AppDelegate.m */,
+				EA6699AB1811D2FA00A70D03 /* Main_iPhone.storyboard */,
+				EA6699AE1811D2FA00A70D03 /* Main_iPad.storyboard */,
+				EA6699B11811D2FA00A70D03 /* ViewController.h */,
+				EA6699B21811D2FA00A70D03 /* ViewController.m */,
+				EA6699B41811D2FA00A70D03 /* Images.xcassets */,
+				EA6699A01811D2FA00A70D03 /* Supporting Files */,
 			);
 			path = PetstoreClient;
 			sourceTree = "<group>";
 		};
-		EA07F4C216134F27006A2112 /* Supporting Files */ = {
+		EA6699A01811D2FA00A70D03 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EA07F4C316134F27006A2112 /* PetstoreClient-Prefix.pch */,
+				EA6699A11811D2FA00A70D03 /* PetstoreClient-Info.plist */,
+				EA6699A21811D2FA00A70D03 /* InfoPlist.strings */,
+				EA6699A51811D2FA00A70D03 /* main.m */,
+				EA6699A71811D2FA00A70D03 /* PetstoreClient-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EA07F4F71613521A006A2112 /* Other Frameworks */ = {
+		EA6699C11811D2FB00A70D03 /* PetstoreClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */,
+				EA6699C21811D2FB00A70D03 /* Supporting Files */,
 			);
-			name = "Other Frameworks";
+			path = PetstoreClientTests;
 			sourceTree = "<group>";
 		};
-		EA07F52D1613569E006A2112 /* Generated Client */ = {
+		EA6699C21811D2FB00A70D03 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EAE9040617BF2F3A00486EFE /* NIKApiInvoker.h */,
-				EAE9040717BF2F3A00486EFE /* NIKApiInvoker.m */,
-				EAE9040817BF2F3A00486EFE /* NIKDate.h */,
-				EAE9040917BF2F3A00486EFE /* NIKDate.m */,
-				EA4F4D3616F1A90A00F24B35 /* NIKFile.h */,
-				EA4F4D3716F1A90A00F24B35 /* NIKFile.m */,
-				EAE9040A17BF2F3A00486EFE /* NIKSwaggerObject.h */,
-				EAE9040B17BF2F3A00486EFE /* NIKSwaggerObject.m */,
-				EAE903F617BF2CB200486EFE /* RVBCategory.h */,
-				EAE903F717BF2CB200486EFE /* RVBCategory.m */,
-				EAE903F817BF2CB200486EFE /* RVBOrder.h */,
-				EAE903F917BF2CB200486EFE /* RVBOrder.m */,
-				EAE903FA17BF2CB200486EFE /* RVBPet.h */,
-				EAE903FB17BF2CB200486EFE /* RVBPet.m */,
-				EAE903FC17BF2CB200486EFE /* RVBPetApi.h */,
-				EAE903FD17BF2CB200486EFE /* RVBPetApi.m */,
-				EAE903FE17BF2CB200486EFE /* RVBStoreApi.h */,
-				EAE903FF17BF2CB200486EFE /* RVBStoreApi.m */,
-				EAE9040017BF2CB200486EFE /* RVBTag.h */,
-				EAE9040117BF2CB200486EFE /* RVBTag.m */,
-				EAE9040217BF2CB200486EFE /* RVBUser.h */,
-				EAE9040317BF2CB200486EFE /* RVBUser.m */,
-				EAE9040417BF2CB200486EFE /* RVBUserApi.h */,
-				EAE9040517BF2CB200486EFE /* RVBUserApi.m */,
+				EA6699C31811D2FB00A70D03 /* PetstoreClientTests-Info.plist */,
+				EA6699C41811D2FB00A70D03 /* InfoPlist.strings */,
 			);
-			name = "Generated Client";
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EA81837C1613809300341A6E /* Tests */ = {
+		EAEA85CB1811D3AE00F06E69 /* client */ = {
 			isa = PBXGroup;
 			children = (
-				EA81837816137FD500341A6E /* PetApiTest.m */,
-				EA81837916137FD500341A6E /* PetApiTest.h */,
-				EA5A034216141443003B3E41 /* UserApiTest.h */,
-				EA5A034316141443003B3E41 /* UserApiTest.m */,
+				EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */,
+				EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */,
+				EAEA85CE1811D3AE00F06E69 /* SWGCategory.h */,
+				EAEA85CF1811D3AE00F06E69 /* SWGCategory.m */,
+				EAEA85D01811D3AE00F06E69 /* SWGDate.h */,
+				EAEA85D11811D3AE00F06E69 /* SWGDate.m */,
+				EAEA85D21811D3AE00F06E69 /* SWGFile.h */,
+				EAEA85D31811D3AE00F06E69 /* SWGFile.m */,
+				EAEA85D41811D3AE00F06E69 /* SWGObject.h */,
+				EAEA85D51811D3AE00F06E69 /* SWGObject.m */,
+				EAEA85D61811D3AE00F06E69 /* SWGOrder.h */,
+				EAEA85D71811D3AE00F06E69 /* SWGOrder.m */,
+				EAEA85D81811D3AE00F06E69 /* SWGPet.h */,
+				EAEA85D91811D3AE00F06E69 /* SWGPet.m */,
+				EAEA85DA1811D3AE00F06E69 /* SWGPetApi.h */,
+				EAEA85DB1811D3AE00F06E69 /* SWGPetApi.m */,
+				EAEA85DC1811D3AE00F06E69 /* SWGStoreApi.h */,
+				EAEA85DD1811D3AE00F06E69 /* SWGStoreApi.m */,
+				EAEA85DE1811D3AE00F06E69 /* SWGTag.h */,
+				EAEA85DF1811D3AE00F06E69 /* SWGTag.m */,
+				EAEA85E01811D3AE00F06E69 /* SWGUser.h */,
+				EAEA85E11811D3AE00F06E69 /* SWGUser.m */,
+				EAEA85E21811D3AE00F06E69 /* SWGUserApi.h */,
+				EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */,
 			);
-			name = Tests;
+			name = client;
+			path = ../client;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EA07F4B816134F27006A2112 /* PetstoreClient */ = {
+		EA6699951811D2FA00A70D03 /* PetstoreClient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA07F4C816134F27006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClient" */;
+			buildConfigurationList = EA6699CB1811D2FB00A70D03 /* Build configuration list for PBXNativeTarget "PetstoreClient" */;
 			buildPhases = (
-				EA07F4B516134F27006A2112 /* Sources */,
-				EA07F4B616134F27006A2112 /* Frameworks */,
-				EA07F4B716134F27006A2112 /* CopyFiles */,
+				04DAA264FD78471BBAD25173 /* Check Pods Manifest.lock */,
+				EA6699921811D2FA00A70D03 /* Sources */,
+				EA6699931811D2FA00A70D03 /* Frameworks */,
+				EA6699941811D2FA00A70D03 /* Resources */,
+				3692D11BB04F489DAA7C0B6A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -241,152 +253,213 @@
 			);
 			name = PetstoreClient;
 			productName = PetstoreClient;
-			productReference = EA07F4B916134F27006A2112 /* PetstoreClient */;
-			productType = "com.apple.product-type.tool";
+			productReference = EA6699961811D2FA00A70D03 /* PetstoreClient.app */;
+			productType = "com.apple.product-type.application";
 		};
-		EA07F4F11613521A006A2112 /* PetstoreClientTests */ = {
+		EA6699B91811D2FB00A70D03 /* PetstoreClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA07F5051613521A006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClientTests" */;
+			buildConfigurationList = EA6699CE1811D2FB00A70D03 /* Build configuration list for PBXNativeTarget "PetstoreClientTests" */;
 			buildPhases = (
-				EA07F4ED1613521A006A2112 /* Sources */,
-				EA07F4EE1613521A006A2112 /* Frameworks */,
-				EA07F4EF1613521A006A2112 /* Resources */,
-				EA07F4F01613521A006A2112 /* ShellScript */,
+				EA6699B61811D2FB00A70D03 /* Sources */,
+				EA6699B71811D2FB00A70D03 /* Frameworks */,
+				EA6699B81811D2FB00A70D03 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				EA07F52F161357A5006A2112 /* PBXTargetDependency */,
+				EA6699C01811D2FB00A70D03 /* PBXTargetDependency */,
 			);
 			name = PetstoreClientTests;
 			productName = PetstoreClientTests;
-			productReference = EA07F4F21613521A006A2112 /* PetstoreClientTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = EA6699BA1811D2FB00A70D03 /* PetstoreClientTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EA07F4B016134F27006A2112 /* Project object */ = {
+		EA66998E1811D2FA00A70D03 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
-				ORGANIZATIONNAME = "Tony Tam";
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = Reverb;
+				TargetAttributes = {
+					EA6699B91811D2FB00A70D03 = {
+						TestTargetID = EA6699951811D2FA00A70D03;
+					};
+				};
 			};
-			buildConfigurationList = EA07F4B316134F27006A2112 /* Build configuration list for PBXProject "PetstoreClient" */;
+			buildConfigurationList = EA6699911811D2FA00A70D03 /* Build configuration list for PBXProject "PetstoreClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
-			mainGroup = EA07F4AE16134F27006A2112;
-			productRefGroup = EA07F4BA16134F27006A2112 /* Products */;
+			mainGroup = EA66998D1811D2FA00A70D03;
+			productRefGroup = EA6699971811D2FA00A70D03 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EA07F4B816134F27006A2112 /* PetstoreClient */,
-				EA07F4F11613521A006A2112 /* PetstoreClientTests */,
+				EA6699951811D2FA00A70D03 /* PetstoreClient */,
+				EA6699B91811D2FB00A70D03 /* PetstoreClientTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		EA07F4EF1613521A006A2112 /* Resources */ = {
+		EA6699941811D2FA00A70D03 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA6699B01811D2FA00A70D03 /* Main_iPad.storyboard in Resources */,
+				EA6699B51811D2FA00A70D03 /* Images.xcassets in Resources */,
+				EA6699AD1811D2FA00A70D03 /* Main_iPhone.storyboard in Resources */,
+				EA6699A41811D2FA00A70D03 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA6699B81811D2FB00A70D03 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA6699C61811D2FB00A70D03 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EA07F4F01613521A006A2112 /* ShellScript */ = {
+		04DAA264FD78471BBAD25173 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3692D11BB04F489DAA7C0B6A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EA07F4B516134F27006A2112 /* Sources */ = {
+		EA6699921811D2FA00A70D03 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA07F4C116134F27006A2112 /* main.m in Sources */,
-				EA4F4D3816F1A90A00F24B35 /* NIKFile.m in Sources */,
+				EAEA85E51811D3AE00F06E69 /* SWGCategory.m in Sources */,
+				EAEA85ED1811D3AE00F06E69 /* SWGTag.m in Sources */,
+				EA6699B31811D2FA00A70D03 /* ViewController.m in Sources */,
+				EA6699AA1811D2FA00A70D03 /* AppDelegate.m in Sources */,
+				EAEA85EE1811D3AE00F06E69 /* SWGUser.m in Sources */,
+				EAEA85EF1811D3AE00F06E69 /* SWGUserApi.m in Sources */,
+				EAEA85EB1811D3AE00F06E69 /* SWGPetApi.m in Sources */,
+				EAEA85E61811D3AE00F06E69 /* SWGDate.m in Sources */,
+				EA6699A61811D2FA00A70D03 /* main.m in Sources */,
+				EAEA85EA1811D3AE00F06E69 /* SWGPet.m in Sources */,
+				EAEA85E41811D3AE00F06E69 /* SWGApiClient.m in Sources */,
+				EAEA85EC1811D3AE00F06E69 /* SWGStoreApi.m in Sources */,
+				EAEA85E91811D3AE00F06E69 /* SWGOrder.m in Sources */,
+				EAEA85E81811D3AE00F06E69 /* SWGObject.m in Sources */,
+				EAEA85E71811D3AE00F06E69 /* SWGFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA07F4ED1613521A006A2112 /* Sources */ = {
+		EA6699B61811D2FB00A70D03 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAE9043A17BF31C800486EFE /* PetApiTest.m in Sources */,
-				EAE9043B17BF31C800486EFE /* PetApiTest.h in Sources */,
-				EAE9043C17BF31C800486EFE /* UserApiTest.h in Sources */,
-				EAE9043D17BF31C800486EFE /* UserApiTest.m in Sources */,
-				EAE9043817BF318800486EFE /* NIKFile.h in Sources */,
-				EAE9043917BF318800486EFE /* NIKFile.m in Sources */,
-				EAE9042217BF2F7900486EFE /* NIKApiInvoker.h in Sources */,
-				EAE9042317BF2F7900486EFE /* NIKApiInvoker.m in Sources */,
-				EAE9042417BF2F7900486EFE /* NIKDate.h in Sources */,
-				EAE9042517BF2F7900486EFE /* NIKDate.m in Sources */,
-				EAE9042617BF2F7900486EFE /* NIKSwaggerObject.h in Sources */,
-				EAE9042717BF2F7900486EFE /* NIKSwaggerObject.m in Sources */,
-				EAE9042817BF2F7900486EFE /* RVBCategory.h in Sources */,
-				EAE9042917BF2F7900486EFE /* RVBCategory.m in Sources */,
-				EAE9042A17BF2F7900486EFE /* RVBOrder.h in Sources */,
-				EAE9042B17BF2F7900486EFE /* RVBOrder.m in Sources */,
-				EAE9042C17BF2F7900486EFE /* RVBPet.h in Sources */,
-				EAE9042D17BF2F7900486EFE /* RVBPet.m in Sources */,
-				EAE9042E17BF2F7900486EFE /* RVBPetApi.h in Sources */,
-				EAE9042F17BF2F7900486EFE /* RVBPetApi.m in Sources */,
-				EAE9043017BF2F7900486EFE /* RVBStoreApi.h in Sources */,
-				EAE9043117BF2F7900486EFE /* RVBStoreApi.m in Sources */,
-				EAE9043217BF2F7900486EFE /* RVBTag.h in Sources */,
-				EAE9043317BF2F7900486EFE /* RVBTag.m in Sources */,
-				EAE9043417BF2F7900486EFE /* RVBUser.h in Sources */,
-				EAE9043517BF2F7900486EFE /* RVBUser.m in Sources */,
-				EAE9043617BF2F7900486EFE /* RVBUserApi.h in Sources */,
-				EAE9043717BF2F7900486EFE /* RVBUserApi.m in Sources */,
+				EA6699C81811D2FB00A70D03 /* PetstoreClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EA07F52F161357A5006A2112 /* PBXTargetDependency */ = {
+		EA6699C01811D2FB00A70D03 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EA07F4B816134F27006A2112 /* PetstoreClient */;
-			targetProxy = EA07F52E161357A5006A2112 /* PBXContainerItemProxy */;
+			target = EA6699951811D2FA00A70D03 /* PetstoreClient */;
+			targetProxy = EA6699BF1811D2FB00A70D03 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		EA6699A21811D2FA00A70D03 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA6699A31811D2FA00A70D03 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EA6699AB1811D2FA00A70D03 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA6699AC1811D2FA00A70D03 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		EA6699AE1811D2FA00A70D03 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA6699AF1811D2FA00A70D03 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		EA6699C41811D2FB00A70D03 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA6699C51811D2FB00A70D03 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		EA07F4C616134F27006A2112 /* Debug */ = {
+		EA6699C91811D2FB00A70D03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -394,122 +467,153 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		EA07F4C716134F27006A2112 /* Release */ = {
+		EA6699CA1811D2FB00A70D03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks $(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		EA07F4C916134F27006A2112 /* Debug */ = {
+		EA6699CC1811D2FB00A70D03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
+				INFOPLIST_FILE = "PetstoreClient/PetstoreClient-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		EA07F4CA16134F27006A2112 /* Release */ = {
+		EA6699CD1811D2FB00A70D03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
+				INFOPLIST_FILE = "PetstoreClient/PetstoreClient-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
-		EA07F5061613521A006A2112 /* Debug */ = {
+		EA6699CF1811D2FB00A70D03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PetstoreClient.app/PetstoreClient";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "../tests/PetstoreClientTests-Prefix.pch";
-				INFOPLIST_FILE = "../tests/PetstoreClientTests-Info.plist";
+				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
-		EA07F5071613521A006A2112 /* Release */ = {
+		EA6699D01811D2FB00A70D03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PetstoreClient.app/PetstoreClient";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "../tests/PetstoreClientTests-Prefix.pch";
-				INFOPLIST_FILE = "../tests/PetstoreClientTests-Info.plist";
+				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
+				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EA07F4B316134F27006A2112 /* Build configuration list for PBXProject "PetstoreClient" */ = {
+		EA6699911811D2FA00A70D03 /* Build configuration list for PBXProject "PetstoreClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA07F4C616134F27006A2112 /* Debug */,
-				EA07F4C716134F27006A2112 /* Release */,
+				EA6699C91811D2FB00A70D03 /* Debug */,
+				EA6699CA1811D2FB00A70D03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA07F4C816134F27006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClient" */ = {
+		EA6699CB1811D2FB00A70D03 /* Build configuration list for PBXNativeTarget "PetstoreClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA07F4C916134F27006A2112 /* Debug */,
-				EA07F4CA16134F27006A2112 /* Release */,
+				EA6699CC1811D2FB00A70D03 /* Debug */,
+				EA6699CD1811D2FB00A70D03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA07F5051613521A006A2112 /* Build configuration list for PBXNativeTarget "PetstoreClientTests" */ = {
+		EA6699CE1811D2FB00A70D03 /* Build configuration list for PBXNativeTarget "PetstoreClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA07F5061613521A006A2112 /* Debug */,
-				EA07F5071613521A006A2112 /* Release */,
+				EA6699CF1811D2FB00A70D03 /* Debug */,
+				EA6699D01811D2FB00A70D03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EA07F4B016134F27006A2112 /* Project object */;
+	rootObject = EA66998E1811D2FA00A70D03 /* Project object */;
 }

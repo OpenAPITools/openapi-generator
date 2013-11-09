@@ -36,7 +36,7 @@ class ApiClient:
             for param, value in headerParams.iteritems():
                 headers[param] = value
 
-        headers['Content-type'] = 'application/json'
+        #headers['Content-type'] = 'application/json'
         headers['api_key'] = self.apiKey
 
         if self.cookie:
@@ -44,15 +44,18 @@ class ApiClient:
 
         data = None
 
-        if method == 'GET':
+        if queryParams:
+            # Need to remove None values, these should not be sent
+            sentQueryParams = {}
+            for param, value in queryParams.items():
+                if value != None:
+                    sentQueryParams[param] = value
+            url = url + '?' + urllib.urlencode(sentQueryParams)
 
-            if queryParams:
-                # Need to remove None values, these should not be sent
-                sentQueryParams = {}
-                for param, value in queryParams.items():
-                    if value != None:
-                        sentQueryParams[param] = value
-                url = url + '?' + urllib.urlencode(sentQueryParams)
+        if method in ['GET']:
+
+            #Options to add statements later on and for compatibility
+            pass
 
         elif method in ['POST', 'PUT', 'DELETE']:
 
@@ -81,21 +84,21 @@ class ApiClient:
         return data
 
     def toPathValue(self, obj):
-        """Serialize a list to a CSV string, if necessary.
+        """Convert a string or object to a path-friendly value
         Args:
-            obj -- data object to be serialized
+            obj -- object or string value
         Returns:
-            string -- json serialization of object
+            string -- quoted value
         """
         if type(obj) == list:
-            return ','.join(obj)
+            return urllib.quote(','.join(obj))
         else:
-            return obj
+            return urllib.quote(str(obj))
 
     def sanitizeForSerialization(self, obj):
         """Dump an object into JSON for POSTing."""
 
-        if not obj:
+        if type(obj) == type(None):
             return None
         elif type(obj) in [str, int, long, float, bool]:
             return obj
@@ -139,12 +142,12 @@ class ApiClient:
                 subClass = match.group(1)
                 return [self.deserialize(subObj, subClass) for subObj in obj]
 
-            if (objClass in ['int', 'float', 'long', 'dict', 'list', 'str']):
+            if (objClass in ['int', 'float', 'long', 'dict', 'list', 'str', 'bool', 'datetime']):
                 objClass = eval(objClass)
             else:  # not a native type, must be model class
                 objClass = eval(objClass + '.' + objClass)
 
-        if objClass in [str, int, long, float, bool]:
+        if objClass in [int, long, float, dict, list, str, bool]:
             return objClass(obj)
         elif objClass == datetime:
             # Server will always return a time stamp in UTC, but with
@@ -156,7 +159,7 @@ class ApiClient:
         instance = objClass()
 
         for attr, attrType in instance.swaggerTypes.iteritems():
-            if attr in obj:
+            if obj is not None and attr in obj and type(obj) in [list, dict]:
                 value = obj[attr]
                 if attrType in ['str', 'int', 'long', 'float', 'bool']:
                     attrType = eval(attrType)
@@ -164,7 +167,12 @@ class ApiClient:
                         value = attrType(value)
                     except UnicodeEncodeError:
                         value = unicode(value)
+                    except TypeError:
+                        value = value
                     setattr(instance, attr, value)
+                elif (attrType == 'datetime'):
+                    setattr(instance, attr, datetime.datetime.strptime(value[:-5],
+                                              "%Y-%m-%dT%H:%M:%S.%f"))
                 elif 'list[' in attrType:
                     match = re.match('list\[(.*)\]', attrType)
                     subClass = match.group(1)
@@ -197,4 +205,5 @@ class MethodRequest(urllib2.Request):
 
     def get_method(self):
         return getattr(self, 'method', urllib2.Request.get_method(self))
+
 

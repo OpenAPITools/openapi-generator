@@ -45,7 +45,9 @@ class BasicObjcGenerator extends BasicGenerator {
     "NSString")
   
   override def typeMapping = Map(
-    "Date" -> "NIKDate",
+    "enum" -> "NSString",
+    "date" -> "SWGDate",
+    "Date" -> "SWGDate",
     "boolean" -> "NSNumber",
     "string" -> "NSString",
     "integer" -> "NSNumber",
@@ -59,10 +61,9 @@ class BasicObjcGenerator extends BasicGenerator {
     "object" -> "NSObject")
 
   override def importMapping = Map(
-    "RVBDate" -> "NIKDate",
-    "Date" -> "NIKDate")
+    "Date" -> "SWGDate")
 
-  override def toModelFilename(name: String) = "RVB" + name
+  override def toModelFilename(name: String) = "SWG" + name
 
   // naming for the models
   override def toModelName(name: String) = {
@@ -74,16 +75,24 @@ class BasicObjcGenerator extends BasicGenerator {
     ).toSet.contains(name) match {
       case true => name(0).toUpper + name.substring(1)
       case _ => {
-        "RVB" + name(0).toUpper + name.substring(1)
+        "SWG" + name(0).toUpper + name.substring(1)
       }
     }
   }
 
+  // objective c doesn't like variables starting with "new"
+  override def toVarName(name: String): String = {
+    if(name.startsWith("new") || reservedWords.contains(name)) {
+      escapeReservedWord(name)
+    }
+    else name
+  }
+
   // naming for the apis
-  override def toApiName(name: String) = "RVB" + name(0).toUpper + name.substring(1) + "Api"
+  override def toApiName(name: String) = "SWG" + name(0).toUpper + name.substring(1) + "Api"
 
   // location of templates
-  override def templateDir = "src/main/resources/objc"
+  override def templateDir = "objc"
 
   // template used for models
   modelTemplateFiles += "model-header.mustache" -> ".h"
@@ -110,7 +119,6 @@ class BasicObjcGenerator extends BasicGenerator {
         responseClass match {
           case "void" => None
           case e: String => {
-            println(responseClass)
             if(responseClass.toLowerCase.startsWith("array") || responseClass.toLowerCase.startsWith("list"))
               Some("NSArray")
             else
@@ -162,7 +170,6 @@ class BasicObjcGenerator extends BasicGenerator {
   }
 
   override def toDeclaration(obj: ModelProperty) = {
-    println("getting declaration for " + obj)
     var declaredType = toDeclaredType(obj.`type`)
     declaredType.toLowerCase match {
       case "list" => {

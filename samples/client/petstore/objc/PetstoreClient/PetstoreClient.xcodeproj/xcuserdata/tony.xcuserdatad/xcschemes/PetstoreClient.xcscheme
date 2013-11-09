@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0450"
+   LastUpgradeVersion = "0500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EA07F4B816134F27006A2112"
-               BuildableName = "PetstoreClient"
+               BlueprintIdentifier = "EA6699951811D2FA00A70D03"
+               BuildableName = "PetstoreClient.app"
                BlueprintName = "PetstoreClient"
                ReferencedContainer = "container:PetstoreClient.xcodeproj">
             </BuildableReference>
@@ -28,12 +28,22 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EA6699B91811D2FB00A70D03"
+               BuildableName = "PetstoreClientTests.xctest"
+               BlueprintName = "PetstoreClientTests"
+               ReferencedContainer = "container:PetstoreClient.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA07F4B816134F27006A2112"
-            BuildableName = "PetstoreClient"
+            BlueprintIdentifier = "EA6699951811D2FA00A70D03"
+            BuildableName = "PetstoreClient.app"
             BlueprintName = "PetstoreClient"
             ReferencedContainer = "container:PetstoreClient.xcodeproj">
          </BuildableReference>
@@ -51,8 +61,8 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA07F4B816134F27006A2112"
-            BuildableName = "PetstoreClient"
+            BlueprintIdentifier = "EA6699951811D2FA00A70D03"
+            BuildableName = "PetstoreClient.app"
             BlueprintName = "PetstoreClient"
             ReferencedContainer = "container:PetstoreClient.xcodeproj">
          </BuildableReference>
@@ -69,8 +79,8 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA07F4B816134F27006A2112"
-            BuildableName = "PetstoreClient"
+            BlueprintIdentifier = "EA6699951811D2FA00A70D03"
+            BuildableName = "PetstoreClient.app"
             BlueprintName = "PetstoreClient"
             ReferencedContainer = "container:PetstoreClient.xcodeproj">
          </BuildableReference>

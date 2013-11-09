@@ -27,6 +27,8 @@ class Tag:
         }
 
 
+        #Unique identifier for the tag
         self.id = None # long
+        #Friendly name for the tag
         self.name = None # str
         

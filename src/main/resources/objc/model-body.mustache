@@ -1,6 +1,6 @@
 {{#models}}
 {{#model}}
-#import "NIKDate.h"
+#import "SWGDate.h"
 #import "{{classname}}.h"
 
 @implementation {{classname}}
@@ -22,7 +22,7 @@
         _{{name}} = dict[@"{{baseName}}"]; 
         {{/isPrimitiveType}}
         {{#complexType}}
-        id {{name}}_dict = dict[@"{{name}}"];
+        id {{name}}_dict = dict[@"{{baseName}}"];
         {{#isContainer}}
         if([{{name}}_dict isKindOfClass:[NSArray class]]) {
 
@@ -30,7 +30,7 @@
 
             if([(NSArray*){{name}}_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*){{name}}_dict) {
-                    {{{complexType}}}* d = [[{{{complexType}}} alloc] initWithValues:dict];
+                    {{{complexType}}}* d = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{complexType}}} {{/instantiationType}} alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
                 
@@ -45,7 +45,8 @@
         }
         {{/isContainer}}
         {{#isNotContainer}}
-            _{{name}} = [[{{complexType}} alloc]initWithValues:{{name}}_dict];
+        if({{name}}_dict != nil)
+            _{{name}} = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{complexType}}} {{/instantiationType}} alloc]initWithValues:{{name}}_dict];
         {{/isNotContainer}}
         {{/complexType}}
         {{/vars}}{{newline}}
@@ -61,21 +62,21 @@
         if([_{{name}} isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
             for( {{complexType}} *{{name}} in (NSArray*)_{{name}}) {
-                [array addObject:[(NIKSwaggerObject*){{name}} asDictionary]];
+                [array addObject:[(SWGObject*){{name}} asDictionary]];
             }
-            dict[@"{{baseName}}"] = array;
+            dict[@"{{name}}"] = array;
         }
-        else if(_{{name}} && [_{{name}} isKindOfClass:[NIKDate class]]) {
-            NSString * dateString = [(NIKDate*)_{{name}} toString];
+        else if(_{{name}} && [_{{name}} isKindOfClass:[SWGDate class]]) {
+            NSString * dateString = [(SWGDate*)_{{name}} toString];
             if(dateString){
                 dict[@"{{name}}"] = dateString;
             }
         }
-    }
-    else {
-    {{/complexType}}
-        if(_{{name}} != nil) dict[@"{{baseName}}"] = {{#complexType}}[(NIKSwaggerObject*){{/complexType}}_{{name}} {{#complexType}}asDictionary]{{/complexType}};
-    {{#complexType}}
+        else {
+        {{/complexType}}
+            if(_{{name}} != nil) dict[@"{{baseName}}"] = {{#complexType}}[(SWGObject*){{/complexType}}_{{name}} {{#complexType}}asDictionary]{{/complexType}};
+        {{#complexType}}
+        }
     }
     {{/complexType}}
     {{/vars}}

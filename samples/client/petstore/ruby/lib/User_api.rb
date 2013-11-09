@@ -8,16 +8,17 @@ class User_api
     URI.encode(string.to_s)
   end
 
-  def self.create_users_with_array_input (body,opts={})
+  def self.create_user (body,opts={})
     query_param_keys = []
 
     # verify existence of params
     raise "body is required" if body.nil?
     # set default values and merge with input
-    options = { :body => body}.merge(opts)
+    options = {
+    :body => body}.merge(opts)
 
     #resource path
-    path = "/user.{format}/createWithArray".sub('{format}','json')
+    path = "/user".sub('{format}','json')
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -50,16 +51,17 @@ class User_api
     
   end
 
-def self.create_user (body,opts={})
+def self.create_users_with_array_input (body,opts={})
     query_param_keys = []
 
     # verify existence of params
     raise "body is required" if body.nil?
     # set default values and merge with input
-    options = { :body => body}.merge(opts)
+    options = {
+    :body => body}.merge(opts)
 
     #resource path
-    path = "/user.{format}".sub('{format}','json')
+    path = "/user/createWithArray".sub('{format}','json')
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -98,10 +100,11 @@ def self.create_users_with_list_input (body,opts={})
     # verify existence of params
     raise "body is required" if body.nil?
     # set default values and merge with input
-    options = { :body => body}.merge(opts)
+    options = {
+    :body => body}.merge(opts)
 
     #resource path
-    path = "/user.{format}/createWithList".sub('{format}','json')
+    path = "/user/createWithList".sub('{format}','json')
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -141,10 +144,12 @@ def self.update_user (username,body,opts={})
     raise "username is required" if username.nil?
     raise "body is required" if body.nil?
     # set default values and merge with input
-    options = { :username => username, :body => body}.merge(opts)
+    options = {
+    :username => username,
+      :body => body}.merge(opts)
 
     #resource path
-    path = "/user.{format}/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
     
     
     # pull querystring keys from options
@@ -184,10 +189,11 @@ def self.delete_user (username,opts={})
     # verify existence of params
     raise "username is required" if username.nil?
     # set default values and merge with input
-    options = { :username => username}.merge(opts)
+    options = {
+    :username => username}.merge(opts)
 
     #resource path
-    path = "/user.{format}/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
     
     
     # pull querystring keys from options
@@ -207,10 +213,11 @@ def self.get_user_by_name (username,opts={})
     # verify existence of params
     raise "username is required" if username.nil?
     # set default values and merge with input
-    options = { :username => username}.merge(opts)
+    options = {
+    :username => username}.merge(opts)
 
     #resource path
-    path = "/user.{format}/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
     
     
     # pull querystring keys from options
@@ -231,10 +238,12 @@ def self.login_user (username,password,opts={})
     raise "username is required" if username.nil?
     raise "password is required" if password.nil?
     # set default values and merge with input
-    options = { :username => username, :password => password}.merge(opts)
+    options = {
+    :username => username,
+      :password => password}.merge(opts)
 
     #resource path
-    path = "/user.{format}/login".sub('{format}','json')
+    path = "/user/login".sub('{format}','json')
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -251,10 +260,11 @@ def self.logout_user (opts={})
     query_param_keys = []
 
     # set default values and merge with input
-    options = { }.merge(opts)
+    options = {
+    }.merge(opts)
 
     #resource path
-    path = "/user.{format}/logout".sub('{format}','json')
+    path = "/user/logout".sub('{format}','json')
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|

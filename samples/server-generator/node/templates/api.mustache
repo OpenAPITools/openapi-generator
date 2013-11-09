@@ -1,6 +1,7 @@
 var swagger = require("swagger-node-express");
 var url = require("url");
 var errors = swagger.errors;
+var params = swagger.params;
 
 /* add model includes */
 
@@ -22,15 +23,15 @@ exports.{{nickname}} = {
     "path" : "{{path}}",
     "notes" : "{{{notes}}}",
     "summary" : "{{{summary}}}",
-    "method": "{{httpMethod}}",
+    "httpMethod": "{{httpMethod}}",
     "params" : [{{#queryParams}}
-      swagger.queryParam("{{paramName}}", "{{description}}", "{{swaggerDataType}}", {{required}}, {{allowMultiple}}, "{{{allowableValues}}}"{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}}){{#hasMore}},{{/hasMore}}
+      params.query("{{paramName}}", "{{description}}", "{{swaggerDataType}}", {{required}}, {{allowMultiple}}, "{{{allowableValues}}}"{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}}){{#hasMore}},{{/hasMore}}
     {{/queryParams}}].concat([{{#pathParams}}
-      swagger.pathParam("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
+      params.path("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
     {{/pathParams}}]).concat([{{#headerParams}}
-      swagger.header("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
+      params.header("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
     {{/headerParams}}]).concat([{{#bodyParams}}
-      swagger.postParam("{{swaggerDataType}}", "{{description}}", {{required}})
+      params.body("body", "{{swaggerDataType}}", "{{description}}", {{required}})
     {{/bodyParams}}]),
     "responseClass" : "{{returnType}}",
     "errorResponses" : [errors.invalid('id'), errors.notFound('{{returnType}}')],

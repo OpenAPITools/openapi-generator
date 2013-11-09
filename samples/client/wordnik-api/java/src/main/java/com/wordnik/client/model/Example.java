@@ -1,8 +1,8 @@
 package com.wordnik.client.model;
 
 import com.wordnik.client.model.Sentence;
-import com.wordnik.client.model.ScoredWord;
 import com.wordnik.client.model.ContentProvider;
+import com.wordnik.client.model.ScoredWord;
 public class Example {
   private Long id = null;
   private Long exampleId = null;

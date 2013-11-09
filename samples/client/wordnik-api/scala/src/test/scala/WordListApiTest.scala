@@ -63,12 +63,13 @@ class WordListApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "add words to a list" in {
-    val wordsToAdd = new ListBuffer[StringValue]
-    wordsToAdd += StringValue("delicious")
-    wordsToAdd += StringValue("tasty")
-    wordsToAdd += StringValue("scrumptious")
+    val wordsToAdd = List(
+      StringValue("delicious"),
+      StringValue("tasty"),
+      StringValue("scrumptious")
+    )
 
-    api.addWordsToWordList(sampleList.permalink, wordsToAdd.toArray, auth.token)
+    api.addWordsToWordList(sampleList.permalink, wordsToAdd, auth.token)
   }
 
   it should "get word list words" in {
@@ -81,11 +82,12 @@ class WordListApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
   }
 
   it should "remove words from a list" in {
-    val wordsToRemove = new ListBuffer[StringValue]
-    wordsToRemove += StringValue("delicious")
-    wordsToRemove += StringValue("tasty")
+    val wordsToRemove = List(
+      StringValue("delicious"),
+      StringValue("tasty")
+    )
 
-    api.deleteWordsFromWordList(sampleList.permalink, wordsToRemove.toArray, auth.token)
+    api.deleteWordsFromWordList(sampleList.permalink, wordsToRemove, auth.token)
     api.getWordListWords(sampleList.permalink, auth.token).get.size should be(1)
   }
 

@@ -1,15 +1,15 @@
 #import <Foundation/Foundation.h>
-#import "NIKSwaggerObject.h"
+#import "SWGObject.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 {{newline}}
 {{#models}}
 {{#model}}
 
-@interface {{classname}} : NIKSwaggerObject
+@interface {{classname}} : SWGObject
 
 {{#vars}}
-@property(nonatomic) {{datatype}} {{name}};
+@property(nonatomic) {{datatype}} {{name}};  {{#description}}/* {{{description}}} {{#isNotRequired}}[optional]{{/isNotRequired}} */{{/description}}{{newline}}
 {{/vars}}
 - (id) {{#vars}}{{name}}: ({{datatype}}) {{name}}{{#hasMore}}{{newline}}     {{/hasMore}}{{^hasMore}};{{/hasMore}}
        {{/vars}}

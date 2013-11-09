@@ -87,6 +87,7 @@ object SwaggerSerializers {
           new ResourceListingSerializer +
           new ApiListingSerializer
       }
+      case _ => throw new IllegalArgumentException("%s is not a valid Swagger version".format(version))
     }
   }
 

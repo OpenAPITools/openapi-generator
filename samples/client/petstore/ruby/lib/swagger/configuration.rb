@@ -3,7 +3,8 @@ module Swagger
   class Configuration
     require 'swagger/version'    
     
-    attr_accessor :format, :api_key, :username, :password, :auth_token, :scheme, :host, :base_path, :user_agent, :logger
+    attr_accessor :format, :api_key, :username, :password, :auth_token, :scheme, :host, :base_path,
+        :user_agent, :logger, :inject_format
     
     # Defaults go in here..
     def initialize
@@ -12,8 +13,10 @@ module Swagger
       @host = 'api.wordnik.com'
       @base_path = '/v4'
       @user_agent = "ruby-#{Swagger::VERSION}"
+      @inject_format = true
     end
 
   end
 
 end
+

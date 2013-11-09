@@ -47,7 +47,7 @@ class StoreApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/store.{format}/order/{orderId}'
+        resourcePath = '/store/order/{orderId}'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 
@@ -88,7 +88,7 @@ class StoreApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/store.{format}/order/{orderId}'
+        resourcePath = '/store/order/{orderId}'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'DELETE'
 
@@ -124,7 +124,7 @@ class StoreApi(object):
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/store.{format}/order'
+        resourcePath = '/store/order'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'POST'
 

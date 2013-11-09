@@ -47,7 +47,6 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet
         {{#hasMore}},{{/hasMore}}
         {{/allParams}})
   )
-  
 
   {{httpMethod}}("{{path}}",operation({{nickname}}Operation)) {
     {{#allParams}}

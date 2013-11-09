@@ -8,7 +8,6 @@ app.use(express.bodyParser());
 
 swagger.setAppHandler(app);  
 
-// resources for the demo
 {{#apis}}
 var {{name}}Api = require("./apis/{{className}}.js");
 {{/apis}}
@@ -16,7 +15,7 @@ var {{name}}Api = require("./apis/{{className}}.js");
 swagger.addModels(models)
   {{#apis}}
   {{#operations}}
-  {{#operation}}.add{{httpMethod}}({{name}}Api.{{nickname}}){{/operation}}{{newline}}
+  {{#operation}}.add{{method}}({{name}}Api.{{nickname}}){{/operation}}{{newline}}
   {{/operations}}
   {{/apis}};
 

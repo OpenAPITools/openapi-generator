@@ -115,6 +115,7 @@ class Codegen(config: CodegenConfig) {
         case true =>
       }
     })
+
     allImports --= config.defaultIncludes
     allImports --= primitives
     allImports --= containers
@@ -170,7 +171,7 @@ class Codegen(config: CodegenConfig) {
 
   protected def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
     val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
-    val srcName = config.templateDir + File.separator + templateFile
+    val srcName = config.templateDir + "/" + templateFile
     val srcStream = {
       getClass.getClassLoader.getResourceAsStream(srcName) match {
         case is: java.io.InputStream => is
@@ -236,11 +237,11 @@ class Codegen(config: CodegenConfig) {
           case n: Int => {
             val ComplexTypeMatcher = "(.*)\\[(.*)\\].*".r
             val ComplexTypeMatcher(container, basePart) = param.dataType
-            container + "[" + config.toDeclaredType(basePart) + "]"
+            config.toDeclaredType(container + "[" + config.toDeclaredType(basePart) + "]")
           }
         }
 
-        params += "dataType" -> config.toDeclaredType(u)
+        params += "dataType" -> u
 
         param.allowableValues match {
           case a: AllowableValues => params += "allowableValues" -> allowableValuesToString(a)
@@ -427,7 +428,7 @@ class Codegen(config: CodegenConfig) {
       baseType = config.typeMapping.contains(baseType) match {
         case true => config.typeMapping(baseType)
         case false => {
-          imports += Map("import" -> config.toDeclaredType(baseType))
+          // imports += Map("import" -> config.toDeclaredType(baseType))
           baseType
         }
       }
@@ -499,6 +500,18 @@ class Codegen(config: CodegenConfig) {
     }
   }
 
+  def writeJson(m: AnyRef): String = {
+    Option(System.getProperty("modelFormat")) match {
+      case Some(e) if e =="1.1" => write1_1(m)
+      case _ => write(m)
+    }
+  }
+
+  def write1_1(m: AnyRef): String = {
+    implicit val formats = SwaggerSerializers.formats("1.1")
+    write(m)
+  }
+
   def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model]) = {
     val rootDir = new java.io.File(".")
     val engine = new TemplateEngine(Some(rootDir))
@@ -518,7 +531,7 @@ class Codegen(config: CodegenConfig) {
     val modelList = new ListBuffer[HashMap[String, AnyRef]]
 
     models.foreach(m => {
-      val json = write(m._2)
+      val json = writeJson(m._2)
 
       modelList += HashMap(
         "modelName" -> m._1,

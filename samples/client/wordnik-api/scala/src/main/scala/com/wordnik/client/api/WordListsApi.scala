@@ -3,6 +3,10 @@ package com.wordnik.client.api
 import com.wordnik.client.model.WordList
 import com.wordnik.client.common.ApiInvoker
 import com.wordnik.client.common.ApiException
+
+import java.io.File
+import java.util.Date
+
 import scala.collection.mutable.HashMap
 
 class WordListsApi {
@@ -13,18 +17,25 @@ class WordListsApi {
 
   def createWordList (body: WordList, auth_token: String) : Option[WordList]= {
     // create path and map variables
-    val path = "/wordLists.{format}".replaceAll("\\{format\\}","json")// query params
+    val path = "/wordLists.{format}".replaceAll("\\{format\\}","json")
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
     // verify required params are set
-    (Set(auth_token) - null).size match {
+    (List(auth_token).filter(_ != null)).size match {
        case 1 => // all required values set
        case _ => throw new Exception("missing required params")
     }
     headerParams += "auth_token" -> auth_token
     try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap) match {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[WordList]).asInstanceOf[WordList])
         case _ => None

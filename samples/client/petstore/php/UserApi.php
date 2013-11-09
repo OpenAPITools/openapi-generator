@@ -26,16 +26,16 @@ class UserApi {
 	}
 
   /**
-	 * createUsersWithArrayInput
-	 * Creates list of users with given input array
-   * body, array[User]: List of user object (required)
+	 * createUser
+	 * Create user
+   * body, User: Created user object (required)
    * @return 
 	 */
 
-   public function createUsersWithArrayInput($body) {
+   public function createUser($body) {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}/createWithArray";
+  		$resourcePath = "/user";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "POST";
       $queryParams = array();
@@ -52,16 +52,16 @@ class UserApi {
 
       }
   /**
-	 * createUser
-	 * Create user
-   * body, User: Created user object (required)
+	 * createUsersWithArrayInput
+	 * Creates list of users with given input array
+   * body, array[User]: List of user object (required)
    * @return 
 	 */
 
-   public function createUser($body) {
+   public function createUsersWithArrayInput($body) {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}";
+  		$resourcePath = "/user/createWithArray";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "POST";
       $queryParams = array();
@@ -80,14 +80,14 @@ class UserApi {
   /**
 	 * createUsersWithListInput
 	 * Creates list of users with given list input
-   * body, List[User]: List of user object (required)
+   * body, array[User]: List of user object (required)
    * @return 
 	 */
 
    public function createUsersWithListInput($body) {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}/createWithList";
+  		$resourcePath = "/user/createWithList";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "POST";
       $queryParams = array();
@@ -114,7 +114,7 @@ class UserApi {
    public function updateUser($username, $body) {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}/{username}";
+  		$resourcePath = "/user/{username}";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "PUT";
       $queryParams = array();
@@ -122,7 +122,7 @@ class UserApi {
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
-  			                            $username, $resourcePath);
+  			                            $this->apiClient->toPathValue($username), $resourcePath);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -144,7 +144,7 @@ class UserApi {
    public function deleteUser($username) {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}/{username}";
+  		$resourcePath = "/user/{username}";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "DELETE";
       $queryParams = array();
@@ -152,7 +152,7 @@ class UserApi {
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
-  			                            $username, $resourcePath);
+  			                            $this->apiClient->toPathValue($username), $resourcePath);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -174,7 +174,7 @@ class UserApi {
    public function getUserByName($username) {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}/{username}";
+  		$resourcePath = "/user/{username}";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();
@@ -182,7 +182,7 @@ class UserApi {
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
-  			                            $username, $resourcePath);
+  			                            $this->apiClient->toPathValue($username), $resourcePath);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -213,17 +213,17 @@ class UserApi {
    public function loginUser($username, $password) {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}/login";
+  		$resourcePath = "/user/login";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
 
       if($username != null) {
-  		  $queryParams['username'] = $this->apiClient->toPathValue($username);
+  		  $queryParams['username'] = $this->apiClient->toQueryValue($username);
   		}
   		if($password != null) {
-  		  $queryParams['password'] = $this->apiClient->toPathValue($password);
+  		  $queryParams['password'] = $this->apiClient->toQueryValue($password);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -252,7 +252,7 @@ class UserApi {
    public function logoutUser() {
 
   		//parse inputs
-  		$resourcePath = "/user.{format}/logout";
+  		$resourcePath = "/user/logout";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();

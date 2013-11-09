@@ -29,7 +29,7 @@ public static const event_placeOrder: String = "placeOrder";
      * Returns Order */
     public function getOrderById (orderId: String): String {
         // create path and map variables
-        var path: String = "/store.{format}/order/{orderId}".replace(/{format}/g,"xml").replace("{" + "orderId" + "}", getApiInvoker().escapeString(orderId));
+        var path: String = "/store/order/{orderId}".replace(/{format}/g,"xml").replace("{" + "orderId" + "}", getApiInvoker().escapeString(orderId));
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -54,7 +54,7 @@ public static const event_placeOrder: String = "placeOrder";
      * Returns void */
     public function deleteOrder (orderId: String): String {
         // create path and map variables
-        var path: String = "/store.{format}/order/{orderId}".replace(/{format}/g,"xml").replace("{" + "orderId" + "}", getApiInvoker().escapeString(orderId));
+        var path: String = "/store/order/{orderId}".replace(/{format}/g,"xml").replace("{" + "orderId" + "}", getApiInvoker().escapeString(orderId));
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -79,7 +79,7 @@ public static const event_placeOrder: String = "placeOrder";
      * Returns void */
     public function placeOrder (body: Order): String {
         // create path and map variables
-        var path: String = "/store.{format}/order".replace(/{format}/g,"xml");
+        var path: String = "/store/order".replace(/{format}/g,"xml");
 
         // query params
         var queryParams: Dictionary = new Dictionary();

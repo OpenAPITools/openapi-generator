@@ -1,12 +1,12 @@
 package com.wordnik.client.model;
 
 import java.util.*;
-import com.wordnik.client.model.ExampleUsage;
-import com.wordnik.client.model.Note;
-import com.wordnik.client.model.Citation;
-import com.wordnik.client.model.TextPron;
 import com.wordnik.client.model.Label;
+import com.wordnik.client.model.ExampleUsage;
+import com.wordnik.client.model.TextPron;
+import com.wordnik.client.model.Citation;
 import com.wordnik.client.model.Related;
+import com.wordnik.client.model.Note;
 public class Definition {
   private String extendedText = null;
   private String text = null;

@@ -1,6 +1,7 @@
 #!/bin/sh
 
 SCRIPT="$0"
+SCALA_RUNNER_VERSION=$(scala ./bin/Version.scala)
 
 while [ -h "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
@@ -23,11 +24,8 @@ cd $APP_DIR
 # if you've executed sbt assembly previously it will use that instead.
 ags="com.wordnik.swagger.codegen.spec.Validator $@"
 
-if [ -f $APP_DIR/target/scala-2.9.1/swagger-codegen.jar ]; then
-  scala -cp target/scala-2.9.1/swagger-codegen.jar $ags
-elif [[ -f $APP_DIR/target/scala-2.10/swagger-codegen.jar  ]]; then
-  java -cp target/scala-2.10/swagger-codegen.jar $ags
+if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar ]; then
+  scala -cp target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar $ags
 else
-  ./sbt "run-main $ags"
+  echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
 fi
-

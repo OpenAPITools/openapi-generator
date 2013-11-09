@@ -29,7 +29,13 @@ class Tag {
 
     );
 
+  /**
+  * Unique identifier for the tag
+  */
   public $id; // int
+  /**
+  * Friendly name for the tag
+  */
   public $name; // string
   }
 
