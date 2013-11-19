@@ -44,12 +44,17 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   var codegen = new Codegen(this)
 
   def generateClient(args: Array[String]) = {
+    generateClientWithoutExit(args)
+    System.exit(0)
+  }
+
+  def generateClientWithoutExit(args: Array[String]) {
     if (args.length == 0) {
       throw new RuntimeException("Need url to resource listing as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
     }
     val host = args(0)
     val authorization = {
-      Option (System.getProperty("header")) match {
+      Option(System.getProperty("header")) match {
         case Some(e) => {
           // this is ugly and will be replaced with proper arg parsing like in ScalaAsyncClientGenerator soon
           val authInfo = e.split(":")
@@ -129,7 +134,6 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     })
 
     codegen.writeSupportingClasses(operationMap, allModels.toMap)
-    System.exit(0)
   }
 
   def extractApiOperations(apiListings: List[ApiListing], allModels: HashMap[String, Model] )(implicit basePath:String) = {
