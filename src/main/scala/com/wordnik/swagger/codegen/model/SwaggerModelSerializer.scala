@@ -222,12 +222,14 @@ object SwaggerSerializers {
     case json =>
       ResponseMessage(
         (json \ "code").extractOrElse(0),
-        (json \ "message").extractOrElse("")
+        (json \ "message").extractOrElse(""),
+        (json \ "responseModel").extractOpt[String]
       )
     }, {
       case x: ResponseMessage =>
       ("code" -> x.code) ~
-      ("message" -> x.message)
+      ("message" -> x.message) ~
+      ("responseModel" -> x.responseModel)
     }
   ))
 

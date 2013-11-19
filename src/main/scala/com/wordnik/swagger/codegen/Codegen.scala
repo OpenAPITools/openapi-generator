@@ -227,10 +227,12 @@ class Codegen(config: CodegenConfig) {
     var bodyParamRequired: Option[String] = Some("true")
 
     if (operation.responseMessages != null) {
-  		operation.responseMessages.foreach(param => {
+      operation.responseMessages.foreach(param => {
         val params = new HashMap[String, AnyRef]
         params += "code" -> param.code.toString()
         params += "reason" -> param.message
+        if (!param.responseModel.isEmpty) 
+          params += "responseModel" -> param.responseModel
         params += "hasMore" -> "true"
         errorList += params
       })
