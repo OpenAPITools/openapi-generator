@@ -12,6 +12,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.LoggingFilter;
 import com.sun.jersey.api.client.WebResource.Builder;
 
+import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.MediaType;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ public class ApiInvoker {
   public static ApiInvoker getInstance() {
     return INSTANCE;
   }
-  
+
   public void addDefaultHeader(String key, String value) {
      defaultHeaderMap.put(key, value);
   }
@@ -46,7 +47,7 @@ public class ApiInvoker {
       else if(String.class.equals(cls)) {
         if(json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1)
           return json.substring(1, json.length() - 2);
-        else 
+        else
           return json;
       }
       else {
@@ -60,9 +61,9 @@ public class ApiInvoker {
 
   public static String serialize(Object obj) throws ApiException {
     try {
-      if (obj != null) 
+      if (obj != null)
         return JsonUtil.getJsonMapper().writeValueAsString(obj);
-      else 
+      else
         return null;
     }
     catch (Exception e) {
@@ -74,7 +75,7 @@ public class ApiInvoker {
     Client client = getClient(host);
 
     StringBuilder b = new StringBuilder();
-    
+
     for(String key : queryParams.keySet()) {
       String value = queryParams.get(key);
       if (value != null){
@@ -91,7 +92,7 @@ public class ApiInvoker {
     for(String key : headerParams.keySet()) {
       builder.header(key, headerParams.get(key));
     }
-    
+
     for(String key : defaultHeaderMap.keySet()) {
       if(!headerParams.containsKey(key)) {
         builder.header(key, defaultHeaderMap.get(key));
@@ -123,13 +124,16 @@ public class ApiInvoker {
     else {
       throw new ApiException(500, "unknown method type " + method);
     }
-    if(response.getClientResponseStatus() == ClientResponse.Status.OK) {
+    if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
+	return null;
+    }
+    else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
       return (String) response.getEntity(String.class);
     }
     else {
       throw new ApiException(
                 response.getClientResponseStatus().getStatusCode(),
-                response.getEntity(String.class));      
+                response.getEntity(String.class));
     }
   }
 
