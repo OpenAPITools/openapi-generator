@@ -17,6 +17,7 @@ public class User {
   private String phone = null;
   /* User Status */
   private Integer userStatus = null;
+  public enum userStatusEnum { 1-registered, 2-active, 3-closed, }; 
   public Long getId() {
     return id;
   }
