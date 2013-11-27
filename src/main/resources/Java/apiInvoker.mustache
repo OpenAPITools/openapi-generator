@@ -125,7 +125,7 @@ public class ApiInvoker {
       throw new ApiException(500, "unknown method type " + method);
     }
     if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
-	return null;
+      return null;
     }
     else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
       return (String) response.getEntity(String.class);
