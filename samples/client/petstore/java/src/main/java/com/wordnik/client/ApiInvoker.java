@@ -12,6 +12,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.LoggingFilter;
 import com.sun.jersey.api.client.WebResource.Builder;
 
+import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.MediaType;
 
 import java.util.Map;
@@ -123,7 +124,7 @@ public class ApiInvoker {
     else {
       throw new ApiException(500, "unknown method type " + method);
     }
-    if(response.getClientResponseStatus() == ClientResponse.Status.OK) {
+    if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
       return (String) response.getEntity(String.class);
     }
     else {
