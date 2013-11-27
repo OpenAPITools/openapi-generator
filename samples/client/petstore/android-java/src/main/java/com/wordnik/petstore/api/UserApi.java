@@ -26,6 +26,10 @@ public class UserApi {
   }
 
   public void createUser (User body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/user".replaceAll("\\{format\\}","json");
 
@@ -33,10 +37,6 @@ public class UserApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -57,6 +57,10 @@ public class UserApi {
     }
   }
   public void createUsersWithArrayInput (List<User> body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
@@ -64,10 +68,6 @@ public class UserApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -88,6 +88,10 @@ public class UserApi {
     }
   }
   public void createUsersWithListInput (List<User> body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/user/createWithList".replaceAll("\\{format\\}","json");
 
@@ -95,10 +99,6 @@ public class UserApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -119,6 +119,10 @@ public class UserApi {
     }
   }
   public void updateUser (String username, User body) throws ApiException {
+    // verify required params are set
+    if(username == null || body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
@@ -126,10 +130,6 @@ public class UserApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(username == null || body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -150,6 +150,10 @@ public class UserApi {
     }
   }
   public void deleteUser (String username) throws ApiException {
+    // verify required params are set
+    if(username == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
@@ -157,10 +161,6 @@ public class UserApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(username == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -181,6 +181,10 @@ public class UserApi {
     }
   }
   public User getUserByName (String username) throws ApiException {
+    // verify required params are set
+    if(username == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
@@ -188,10 +192,6 @@ public class UserApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(username == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -212,6 +212,10 @@ public class UserApi {
     }
   }
   public String loginUser (String username, String password) throws ApiException {
+    // verify required params are set
+    if(username == null || password == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/user/login".replaceAll("\\{format\\}","json");
 
@@ -219,10 +223,6 @@ public class UserApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(username == null || password == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(username)))
       queryParams.put("username", String.valueOf(username));
     if(!"null".equals(String.valueOf(password)))
