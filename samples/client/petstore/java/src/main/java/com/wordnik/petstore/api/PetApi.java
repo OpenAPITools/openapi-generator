@@ -23,6 +23,10 @@ public class PetApi {
   }
 
   public Pet getPetById (Long petId) throws ApiException {
+    // verify required params are set
+    if(petId == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
@@ -30,10 +34,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(petId == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -54,6 +54,10 @@ public class PetApi {
     }
   }
   public void deletePet (String petId) throws ApiException {
+    // verify required params are set
+    if(petId == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
@@ -61,10 +65,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(petId == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -85,6 +85,10 @@ public class PetApi {
     }
   }
   public List<Pet> partialUpdate (String petId, Pet body) throws ApiException {
+    // verify required params are set
+    if(petId == null || body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
@@ -92,10 +96,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(petId == null || body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -116,6 +116,10 @@ public class PetApi {
     }
   }
   public void updatePetWithForm (String petId, String name, String status) throws ApiException {
+    // verify required params are set
+    if(petId == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
@@ -123,10 +127,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(petId == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -174,6 +174,10 @@ public class PetApi {
     }
   }
   public void addPet (Pet body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet".replaceAll("\\{format\\}","json");
 
@@ -181,10 +185,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -205,6 +205,10 @@ public class PetApi {
     }
   }
   public void updatePet (Pet body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet".replaceAll("\\{format\\}","json");
 
@@ -212,10 +216,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -236,6 +236,10 @@ public class PetApi {
     }
   }
   public List<Pet> findPetsByStatus (String status) throws ApiException {
+    // verify required params are set
+    if(status == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
@@ -243,10 +247,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(status == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(status)))
       queryParams.put("status", String.valueOf(status));
     String contentType = "application/json";
@@ -269,6 +269,10 @@ public class PetApi {
     }
   }
   public List<Pet> findPetsByTags (String tags) throws ApiException {
+    // verify required params are set
+    if(tags == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
@@ -276,10 +280,6 @@ public class PetApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(tags == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(tags)))
       queryParams.put("tags", String.valueOf(tags));
     String contentType = "application/json";
