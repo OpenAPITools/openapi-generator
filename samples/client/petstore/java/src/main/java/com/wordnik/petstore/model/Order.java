@@ -10,7 +10,7 @@ public class Order {
   private Integer quantity = null;
   /* Status of the order */
   private String status = null;
-  public enum statusEnum { placed,  approved,  delivered, }; 
+  //public enum statusEnum { placed,  approved,  delivered, }; 
   /* Date shipped, only if it has been */
   private Date shipDate = null;
   public Long getId() {
