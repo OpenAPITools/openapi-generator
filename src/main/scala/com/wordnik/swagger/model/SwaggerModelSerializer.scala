@@ -347,10 +347,16 @@ object SwaggerSerializers {
         else {
           val min = (json \ "min") match {
             case e: JObject => e.extract[String]
+            case e: JString => e.s
+            case e: JInt => e.num.toString
+            case e: JDouble => e.num.toString          
             case _ => ""
           }
           val max = (json \ "max") match {
             case e: JObject => e.extract[String]
+            case e: JString => e.s
+            case e: JInt => e.num.toString
+            case e: JDouble => e.num.toString          
             case _ => ""
           }
           if(min != "" && max != "")

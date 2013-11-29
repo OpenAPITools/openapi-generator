@@ -1,8 +1,8 @@
 package com.wordnik.client.api
 
+import com.wordnik.client.model.WordListWord
 import com.wordnik.client.model.WordList
 import com.wordnik.client.model.StringValue
-import com.wordnik.client.model.WordListWord
 import com.wordnik.client.common.ApiInvoker
 import com.wordnik.client.common.ApiException
 

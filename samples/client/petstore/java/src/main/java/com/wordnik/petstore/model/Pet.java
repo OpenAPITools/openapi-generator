@@ -16,6 +16,7 @@ public class Pet {
   private List<Tag> tags = new ArrayList<Tag>();
   /* pet status in the store */
   private String status = null;
+  //public enum statusEnum { available, pending, sold, }; 
   public Long getId() {
     return id;
   }
