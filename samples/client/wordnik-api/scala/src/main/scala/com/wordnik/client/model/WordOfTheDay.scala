@@ -1,8 +1,8 @@
 package com.wordnik.client.model
 
 import java.util.Date
-import com.wordnik.client.model.SimpleDefinition
 import com.wordnik.client.model.SimpleExample
+import com.wordnik.client.model.SimpleDefinition
 import com.wordnik.client.model.ContentProvider
 case class WordOfTheDay (
   id: Long,

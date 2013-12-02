@@ -1,16 +1,16 @@
 package com.wordnik.client.api
 
-import com.wordnik.client.model.Definition
+import com.wordnik.client.model.FrequencySummary
+import com.wordnik.client.model.Bigram
+import com.wordnik.client.model.WordObject
+import com.wordnik.client.model.ExampleSearchResults
+import com.wordnik.client.model.Example
 import com.wordnik.client.model.ScrabbleScoreResult
 import com.wordnik.client.model.TextPron
-import com.wordnik.client.model.Example
 import com.wordnik.client.model.Syllable
-import com.wordnik.client.model.AudioFile
-import com.wordnik.client.model.ExampleSearchResults
-import com.wordnik.client.model.WordObject
-import com.wordnik.client.model.Bigram
 import com.wordnik.client.model.Related
-import com.wordnik.client.model.FrequencySummary
+import com.wordnik.client.model.Definition
+import com.wordnik.client.model.AudioFile
 import com.wordnik.client.common.ApiInvoker
 import com.wordnik.client.common.ApiException
 

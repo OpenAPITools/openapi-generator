@@ -188,6 +188,19 @@ class Codegen(config: CodegenConfig) {
     (srcName, engine -> template)
   }
 
+  def rawAllowableValuesToString(v: AllowableValues) = {
+    v match {
+      case av: AllowableListValues => {
+        av
+      }
+      case av: AllowableRangeValues => {
+        av
+      }
+      case _ => None
+    }
+  }
+
+
   def allowableValuesToString(v: AllowableValues) = {
     v match {
       case av: AllowableListValues => {
@@ -304,6 +317,11 @@ class Codegen(config: CodegenConfig) {
     requiredParams.size match {
       case 0 =>
       case _ => requiredParams.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+    }
+
+    headerParams.size match {
+      case 0 =>
+      case _ => headerParams.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
     }
 
     queryParams.size match {
@@ -466,6 +484,7 @@ class Codegen(config: CodegenConfig) {
           "defaultValue" -> config.toDeclaration(propertyDocSchema)._2,
           "description" -> propertyDocSchema.description,
           "notes" -> propertyDocSchema.description,
+          "allowableValues" -> rawAllowableValuesToString(propertyDocSchema.allowableValues),        
           (if(propertyDocSchema.required) "required" else "isNotRequired") -> "true",
           "getter" -> config.toGetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
           "setter" -> config.toSetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
