@@ -32,6 +32,10 @@ public class WordApi {
   }
 
   public ExampleSearchResults getExamples (String word, String includeDuplicates, String useCanonical, Integer skip, Integer limit) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/examples".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -39,10 +43,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(includeDuplicates)))
       queryParams.put("includeDuplicates", String.valueOf(includeDuplicates));
     if(!"null".equals(String.valueOf(useCanonical)))
@@ -71,6 +71,10 @@ public class WordApi {
     }
   }
   public WordObject getWord (String word, String useCanonical, String includeSuggestions) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -78,10 +82,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     if(!"null".equals(String.valueOf(includeSuggestions)))
@@ -106,6 +106,10 @@ public class WordApi {
     }
   }
   public List<Definition> getDefinitions (String word, String partOfSpeech, String sourceDictionaries, Integer limit, String includeRelated, String useCanonical, String includeTags) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/definitions".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -113,10 +117,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(limit)))
       queryParams.put("limit", String.valueOf(limit));
     if(!"null".equals(String.valueOf(partOfSpeech)))
@@ -149,6 +149,10 @@ public class WordApi {
     }
   }
   public Example getTopExample (String word, String useCanonical) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/topExample".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -156,10 +160,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     String contentType = "application/json";
@@ -182,6 +182,10 @@ public class WordApi {
     }
   }
   public List<Related> getRelatedWords (String word, String relationshipTypes, String useCanonical, Integer limitPerRelationshipType) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/relatedWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -189,10 +193,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     if(!"null".equals(String.valueOf(relationshipTypes)))
@@ -219,6 +219,10 @@ public class WordApi {
     }
   }
   public List<TextPron> getTextPronunciations (String word, String sourceDictionary, String typeFormat, String useCanonical, Integer limit) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/pronunciations".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -226,10 +230,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     if(!"null".equals(String.valueOf(sourceDictionary)))
@@ -258,6 +258,10 @@ public class WordApi {
     }
   }
   public List<Syllable> getHyphenation (String word, String sourceDictionary, String useCanonical, Integer limit) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/hyphenation".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -265,10 +269,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     if(!"null".equals(String.valueOf(sourceDictionary)))
@@ -295,6 +295,10 @@ public class WordApi {
     }
   }
   public FrequencySummary getWordFrequency (String word, String useCanonical, Integer startYear, Integer endYear) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/frequency".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -302,10 +306,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     if(!"null".equals(String.valueOf(startYear)))
@@ -332,6 +332,10 @@ public class WordApi {
     }
   }
   public List<Bigram> getPhrases (String word, Integer limit, Integer wlmi, String useCanonical) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/phrases".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -339,10 +343,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(limit)))
       queryParams.put("limit", String.valueOf(limit));
     if(!"null".equals(String.valueOf(wlmi)))
@@ -369,6 +369,10 @@ public class WordApi {
     }
   }
   public List<String> getEtymologies (String word, String useCanonical) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/etymologies".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -376,10 +380,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     String contentType = "application/json";
@@ -402,6 +402,10 @@ public class WordApi {
     }
   }
   public List<AudioFile> getAudio (String word, String useCanonical, Integer limit) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/audio".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -409,10 +413,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(useCanonical)))
       queryParams.put("useCanonical", String.valueOf(useCanonical));
     if(!"null".equals(String.valueOf(limit)))
@@ -437,6 +437,10 @@ public class WordApi {
     }
   }
   public ScrabbleScoreResult getScrabbleScore (String word) throws ApiException {
+    // verify required params are set
+    if(word == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/word.{format}/{word}/scrabbleScore".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}", apiInvoker.escapeString(word.toString()));
 
@@ -444,10 +448,6 @@ public class WordApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(word == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {

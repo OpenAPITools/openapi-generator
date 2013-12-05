@@ -22,6 +22,10 @@ public class WordListsApi {
   }
 
   public WordList createWordList (WordList body, String auth_token) throws ApiException {
+    // verify required params are set
+    if(auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/wordLists.{format}".replaceAll("\\{format\\}","json");
 
@@ -29,10 +33,6 @@ public class WordListsApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     headerParams.put("auth_token", auth_token);
     String contentType = "application/json";
 

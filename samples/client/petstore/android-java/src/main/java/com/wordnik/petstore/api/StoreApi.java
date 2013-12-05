@@ -26,6 +26,10 @@ public class StoreApi {
   }
 
   public Order getOrderById (String orderId) throws ApiException {
+    // verify required params are set
+    if(orderId == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
@@ -33,10 +37,6 @@ public class StoreApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(orderId == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -57,6 +57,10 @@ public class StoreApi {
     }
   }
   public void deleteOrder (String orderId) throws ApiException {
+    // verify required params are set
+    if(orderId == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
@@ -64,10 +68,6 @@ public class StoreApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(orderId == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -88,6 +88,10 @@ public class StoreApi {
     }
   }
   public void placeOrder (Order body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/store/order".replaceAll("\\{format\\}","json");
 
@@ -95,10 +99,6 @@ public class StoreApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {

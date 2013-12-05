@@ -25,6 +25,10 @@ public class AccountApi {
   }
 
   public AuthenticationToken authenticate (String username, String password) throws ApiException {
+    // verify required params are set
+    if(username == null || password == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
@@ -32,10 +36,6 @@ public class AccountApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(username == null || password == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(password)))
       queryParams.put("password", String.valueOf(password));
     String contentType = "application/json";
@@ -58,6 +58,10 @@ public class AccountApi {
     }
   }
   public AuthenticationToken authenticatePost (String username, String body) throws ApiException {
+    // verify required params are set
+    if(username == null || body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
@@ -65,10 +69,6 @@ public class AccountApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(username == null || body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     String contentType = "application/json";
 
     try {
@@ -89,6 +89,10 @@ public class AccountApi {
     }
   }
   public List<WordList> getWordListsForLoggedInUser (String auth_token, Integer skip, Integer limit) throws ApiException {
+    // verify required params are set
+    if(auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/account.{format}/wordLists".replaceAll("\\{format\\}","json");
 
@@ -96,10 +100,6 @@ public class AccountApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(skip)))
       queryParams.put("skip", String.valueOf(skip));
     if(!"null".equals(String.valueOf(limit)))
@@ -153,6 +153,10 @@ public class AccountApi {
     }
   }
   public User getLoggedInUser (String auth_token) throws ApiException {
+    // verify required params are set
+    if(auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/account.{format}/user".replaceAll("\\{format\\}","json");
 
@@ -160,10 +164,6 @@ public class AccountApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     headerParams.put("auth_token", auth_token);
     String contentType = "application/json";
 
