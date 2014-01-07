@@ -19,11 +19,11 @@ public class {{classname}} {
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
-  
+
   public void setBasePath(String basePath) {
     this.basePath = basePath;
   }
-  
+
   public String getBasePath() {
     return basePath;
   }
@@ -45,10 +45,10 @@ public class {{classname}} {
     Map<String, String> headerParams = new HashMap<String, String>();
 
     {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
-      queryParams.put("{{paramName}}", String.valueOf({{paramName}}));
+      queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
 
-    {{#headerParams}}headerParams.put("{{paramName}}", {{paramName}});
+    {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
 
     String contentType = "application/json";
