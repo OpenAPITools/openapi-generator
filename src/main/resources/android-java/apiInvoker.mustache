@@ -209,7 +209,7 @@ public class ApiInvoker {
   }
 
   private HttpClient getClient(String host) {
-    if(client == null) {
+    if (client == null) {
       if (ignoreSSLCertificates && ignoreSSLConnectionManager != null) {
         // Trust self signed certificates
         client = new DefaultHttpClient(ignoreSSLConnectionManager, new BasicHttpParams());
@@ -260,7 +260,8 @@ public class ApiInvoker {
     } catch (KeyManagementException e) {
       // This might be thrown when passing a key into init(), but no key is being passed.
     } catch (GeneralSecurityException e) {
-      throw new RuntimeException("Couldn't Init SSLSocketFactory: " + e.getMessage(), e);
+      // This catches anything else that might go wrong.
+      // If anything goes wrong we default to the standard connection manager.
     }
   }
 }
