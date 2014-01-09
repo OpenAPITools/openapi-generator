@@ -253,6 +253,7 @@ public class ApiInvoker {
       Scheme httpsScheme = new Scheme("https", sf, 443);
       SchemeRegistry schemeRegistry = new SchemeRegistry();
       schemeRegistry.register(httpsScheme);
+      schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
       ignoreSSLConnectionManager = new SingleClientConnManager(new BasicHttpParams(), schemeRegistry);
     } catch (NoSuchAlgorithmException e) {
