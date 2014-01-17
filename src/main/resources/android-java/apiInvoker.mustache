@@ -156,8 +156,11 @@ public class ApiInvoker {
       }
       else if ("POST".equals(method)) {
         HttpPost post = new HttpPost(url);
-        post.setHeader("Content-Type", contentType);
-        post.setEntity(new StringEntity(serialize(body), "UTF-8"));
+
+        if (body != null) {
+          post.setHeader("Content-Type", contentType);
+          post.setEntity(new StringEntity(serialize(body), "UTF-8"));
+        }
         for(String key : headers.keySet()) {
           post.setHeader(key, headers.get(key));
         }
