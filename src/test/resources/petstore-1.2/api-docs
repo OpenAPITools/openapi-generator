@@ -7,48 +7,51 @@
       "description": "Operations about pets"
     },
     {
-      "path": "/store",
-      "description": "Operations about store"
-    },
-    {
       "path": "/user",
       "description": "Operations about user"
+    },
+    {
+      "path": "/store",
+      "description": "Operations about store"
     }
   ],
   "authorizations": {
     "oauth2": {
       "type": "oauth2",
       "scopes": [
-        "PUBLIC"
+        {
+          "scope": "email",
+          "description": "Access to your email address"
+        },
+        {
+          "scope": "pets",
+          "description": "Access to your pets"
+        }
       ],
       "grantTypes": {
         "implicit": {
           "loginEndpoint": {
-            "url": "http://localhost:8002/oauth/dialog"
+            "url": "http://petstore.swagger.wordnik.com/oauth/dialog"
           },
-          "tokenName": "access_code"
+          "tokenName": "access_token"
         },
         "authorization_code": {
           "tokenRequestEndpoint": {
-            "url": "http://localhost:8002/oauth/requestToken",
+            "url": "http://petstore.swagger.wordnik.com/oauth/requestToken",
             "clientIdName": "client_id",
             "clientSecretName": "client_secret"
           },
           "tokenEndpoint": {
-            "url": "http://localhost:8002/oauth/token",
+            "url": "http://petstore.swagger.wordnik.com/oauth/token",
             "tokenName": "access_code"
           }
         }
       }
-    },
-    "apiKey": {
-      "type": "apiKey",
-      "passAs": "header"
     }
   },
   "info": {
     "title": "Swagger Sample App",
-    "description": "This is a sample server Petstore server.  You can find out more about Swagger \n    at <a href=\"http://swagger.wordnik.com\">http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.",
+    "description": "This is a sample server Petstore server.  You can find out more about Swagger \n    at <a href=\"http://swagger.wordnik.com\">http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.  For this sample,\n    you can use the api key \"special-key\" to test the authorization filters",
     "termsOfServiceUrl": "http://helloreverb.com/terms/",
     "contact": "apiteam@wordnik.com",
     "license": "Apache 2.0",
