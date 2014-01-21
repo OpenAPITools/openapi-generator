@@ -183,6 +183,10 @@ object LegacySerializers {
   class OperationSerializer extends CustomSerializer[Operation](formats => ({
     case json =>
       implicit val fmts: Formats = formats
+      val authorizations = (json \ "authorizations").extractOpt[Map[String, AuthorizationType]] match {
+        case Some(m) => m.values.toList
+        case _ => List.empty
+      }
       Operation(
         (json \ "httpMethod").extractOrElse(
           (json \ "method").extractOrElse({
@@ -204,7 +208,7 @@ object LegacySerializers {
         (json \ "produces").extract[List[String]],
         (json \ "consumes").extract[List[String]],
         (json \ "protocols").extract[List[String]],
-        (json \ "authorizations").extract[List[String]],
+        authorizations,
         (json \ "parameters").extract[List[Parameter]],
         (json \ "errorResponses").extract[List[ResponseMessage]],
         (json \ "deprecated").extractOpt[String]
