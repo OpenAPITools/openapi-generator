@@ -37,7 +37,13 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
 
   override def apiPackage = Some("apis")
 
-
+  additionalParams ++= Map(
+    "appName" -> "Swagger Sample", 
+    "appDescription" -> "A sample swagger server",
+    "infoUrl" -> "http://developers.helloreverb.com",
+    "infoEmail" -> "hello@helloreverb.com",
+    "licenseInfo" -> "All rights reserved",
+    "licenseUrl" -> "http://apache.org/licenses/LICENSE-2.0.html")
 
   // supporting classes
   override def supportingFiles = List(
@@ -48,7 +54,8 @@ object ScalatraServerGenerator extends BasicScalaGenerator {
     ("Bootstrap.mustache", destinationDir, "ScalatraBootstrap.scala"),
     ("ServletApp.mustache", destinationDir, "ServletApp.scala"),
     ("project/build.properties", outputFolder, "project/build.properties"),
-    ("project/plugins.sbt", outputFolder, "project/plugins.sbt"))
+    ("project/plugins.sbt", outputFolder, "project/plugins.sbt"),
+    ("sbt", outputFolder, "sbt"))
 
   override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
     val mutable = scala.collection.mutable.Map() ++ m
