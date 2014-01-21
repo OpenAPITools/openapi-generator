@@ -31,14 +31,10 @@ class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
         p.apiVersion should be ("1.2.3")
         p.swaggerVersion should be ("1.2")
         p.apis.size should be (0)
+        p.authorizations.size should be (0)
       }
       case _ => fail("wrong type returned, should be ResourceListing")
     }
-  }
-
-  it should "serialize an ApiListingReference with no apis" in {
-    val l = ApiListingReference("/foo/bar", Some("the description"))
-    write(l) should be ("""{"path":"/foo/bar","description":"the description"}""")
   }
 
   it should "deserialize an ResourceListing" in {
@@ -54,7 +50,8 @@ class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
           "path":"/c",
           "description":"path c apis"
         }
-      ]
+      ],
+      "authorizations": {}
     }
     """
     val json = parse(jsonString)
@@ -63,15 +60,12 @@ class ResourceListingSerializersTest extends FlatSpec with ShouldMatchers {
         p.apiVersion should be ("1.2.3")
         p.swaggerVersion should be ("1.2")
         p.apis.size should be (2)
+        p.authorizations.size should be (0)
       }
       case _ => fail("wrong type returned, should be ResourceListing")
     }
   }
 
-  it should "serialize an ApiListingReference" in {
-    val l = ApiListingReference("/foo/bar", Some("the description"))
-    write(l) should be ("""{"path":"/foo/bar","description":"the description"}""")
-  }
 }
 
 @RunWith(classOf[JUnitRunner])
@@ -102,9 +96,52 @@ class ApiListingReferenceSerializersTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
+class ApiListingSerializersTest extends FlatSpec with ShouldMatchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
+  it should "deserialize an ApiListing" in {
+    val jsonString = """
+    {
+      "apiVersion":"1.2.3",
+      "swaggerVersion":"1.2",
+      "basePath": "/foo/bar",
+      "resourcePath": "/a/b",
+      "produces": [ "application/json" ],
+      "authorizations": {},
+      "apis": []
+    }
+    """
+    val json = parse(jsonString)
+    json.extract[ApiListing] match {
+      case p: ApiListing=> {
+        p.apiVersion should be ("1.2.3")
+        p.swaggerVersion should be ("1.2")
+        p.basePath should be ("/foo/bar")
+        p.resourcePath should be ("/a/b")
+        p.produces should be (List("application/json"))
+        p.authorizations.size should be (0)
+        p.models should be (None)
+        p.description should be (None)
+        p.position should be (0)
+      }
+      case _ => fail("wrong type returned, should be ApiListing")
+    }
+  }
+
+  it should "serialize an ApiListing" in {
+    val l = ApiListing(
+      apiVersion = "1.2.3", 
+      swaggerVersion = "1.2",
+      basePath = "/foo/bar",
+      resourcePath = "/a/b"
+    )
+    write(l) should be ("""{"apiVersion":"1.2.3","resourcePath":"/a/b","swaggerVersion":"1.2","basePath":"/foo/bar"}""")
+  }
+}
+
+@RunWith(classOf[JUnitRunner])
+class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
+  implicit val formats = SwaggerSerializers.formats("1.2")
   it should "deserialize an ApiDescription with no ops" in {
     val jsonString = """
     {
@@ -151,7 +188,8 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
               "enum":["a","b","c"],
               "paramType":"query"
             }
-          ]
+          ],
+          "authorizations":{}
         }
       ]
     }
@@ -179,6 +217,7 @@ class ApiDescriptionSerializersTest extends FlatSpec with ShouldMatchers {
             m.dataType should be ("string")
             m.paramType should be ("query")
           })
+          op.authorizations.size should be (0)
         })
       }
       case _ => fail("wrong type returned, should be ApiDescription")
@@ -230,7 +269,8 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
           "enum":["a","b","c"],
           "paramType":"query"
         }
-      ]
+      ],
+      "authorizations":{}
     }
     """
     val json = parse(jsonString)
@@ -252,6 +292,7 @@ class OperationSerializersTest extends FlatSpec with ShouldMatchers {
           m.dataType should be ("string")
           m.paramType should be ("query")
         })
+        op.authorizations.size should be (0)
       }
       case _ => fail("wrong type returned, should be Operation")
     }
