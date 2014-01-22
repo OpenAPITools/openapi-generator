@@ -23,7 +23,7 @@ sbt assembly
 You can now generate a server from any valid[**](https://github.com/wordnik/swagger-codegen/blob/master/README.md#validating-your-swagger-spec) swagger spec:
 
 ```
-./bin/runscala.sh samples/server-generator/scalatra/ScalatraServerGenerator.scala http://petstore.swagger.wordnik.com/api/api-docs.json special-key
+./bin/runscala.sh samples/server-generator/scalatra/ScalatraServerGenerator.scala http://petstore.swagger.wordnik.com/api/api-docs special-key
 ```
 
 After executing this script, you will have an output directory with the server-generated files:
