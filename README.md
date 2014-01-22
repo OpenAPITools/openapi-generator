@@ -63,7 +63,7 @@ Other languages have petstore samples, too:
 It's just as easy--you can either run the default generators:
 
 ```
-./bin/runscala.sh com.wordnik.swagger.codegen.BasicScalaGenerator http://petstore.swagger.wordnik.com/api/resources.json special-key
+./bin/runscala.sh com.wordnik.swagger.codegen.BasicScalaGenerator http://petstore.swagger.wordnik.com/api/api-docs special-key
 ```
 
 Replace `Scala` with `Flash`, `Java`, `Objc`, `PHP`, `Python`, `Python3`, `Ruby`.
