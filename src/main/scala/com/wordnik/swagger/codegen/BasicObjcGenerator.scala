@@ -103,13 +103,13 @@ class BasicObjcGenerator extends BasicGenerator {
   apiTemplateFiles += "api-body.mustache" -> ".m"
 
   // package for models
-  override def invokerPackage = None
+  override def invokerPackage: Option[String] = None
 
   // package for models
-  override def modelPackage = None
+  override def modelPackage: Option[String] = None
 
   // package for api classes
-  override def apiPackage = None
+  override def apiPackage: Option[String] = None
 
   // response classes
   override def processResponseClass(responseClass: String): Option[String] = {
