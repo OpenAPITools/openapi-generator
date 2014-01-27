@@ -497,12 +497,11 @@ class Codegen(config: CodegenConfig) {
         case true => properties += "isPrimitiveType" -> "true"
         case _ => properties += "complexType" -> config.toModelName(baseType)
       }
-
       l += properties
     })
-    l.size match {
-      case 0 =>
-      case _ => l.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+    if(l.size > 0) {
+      val last = l.last.asInstanceOf[HashMap[String, String]]
+      last.remove("hasMore")
     }
     data += "vars" -> l
     data += "imports" -> imports.toSet
@@ -557,11 +556,11 @@ class Codegen(config: CodegenConfig) {
         "model" -> modelToMap(m._1, m._2),
         "filename" -> config.toModelFilename(m._1),
         "modelJson" -> json,
-        "hasMore" -> "true")
+        "hasMoreModels" -> "true")
     })
     modelList.size match {
       case 0 =>
-      case _ => modelList.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+      case _ => modelList.last.asInstanceOf[HashMap[String, String]] -= "hasMoreModels"
     }
 
     val data: HashMap[String, AnyRef] =

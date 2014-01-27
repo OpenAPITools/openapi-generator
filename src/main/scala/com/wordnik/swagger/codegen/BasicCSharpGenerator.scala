@@ -102,7 +102,7 @@ class BasicCSharpGenerator extends BasicGenerator {
         val ComplexTypeMatcher = "(.*)\\[(.*)\\].*".r
         val t = e match {
           case ComplexTypeMatcher(container, inner) => {
-            e.replaceAll(container, typeMapping.getOrElse(container, container))
+            e.replaceAll(container, typeMapping.getOrElse(container.toLowerCase, container))
           }
           case _ => e
         }
@@ -126,8 +126,8 @@ class BasicCSharpGenerator extends BasicGenerator {
   override def toDeclaration(obj: ModelProperty) = {
     var declaredType = toDeclaredType(obj.`type`)
 
-    declaredType match {
-      case "Array" => declaredType = "List"
+    declaredType.toLowerCase match {
+      case "array" => declaredType = "List"
       case e: String => e
     }
 
