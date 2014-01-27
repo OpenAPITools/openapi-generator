@@ -22,6 +22,33 @@ public class PetApi {
     return basePath;
   }
 
+  public void uploadFile (String additionalMetadata, File body) throws ApiException {
+    // create path and map variables
+    String path = "/pet/uploadImage".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   public Pet getPetById (Long petId) throws ApiException {
     // verify required params are set
     if(petId == null ) {
@@ -131,33 +158,6 @@ public class PetApi {
 
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public void uploadFile (String additionalMetadata, File body) throws ApiException {
-    // create path and map variables
-    String path = "/pet/uploadImage".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
       if(response != null){
         return ;
       }

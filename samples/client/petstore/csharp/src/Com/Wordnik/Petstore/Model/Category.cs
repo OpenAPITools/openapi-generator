@@ -5,10 +5,8 @@ using System.Collections.Generic;
 
 namespace Com.Wordnik.Petstore.Model {
   public class Category {
-    /* Category unique identifier */
     public long id { get; set; }
 
-    /* Name of the category */
     public string name { get; set; }
 
     public override string ToString()  {

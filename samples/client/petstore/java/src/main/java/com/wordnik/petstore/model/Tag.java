@@ -1,9 +1,7 @@
 package com.wordnik.petstore.model;
 
 public class Tag {
-  /* Unique identifier for the tag */
   private Long id = null;
-  /* Friendly name for the tag */
   private String name = null;
   public Long getId() {
     return id;
