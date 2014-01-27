@@ -255,6 +255,8 @@ class Codegen(config: CodegenConfig) {
         }
 
         params += "dataType" -> u
+        params += "getter" -> config.toGetter(param.name, u)
+        params += "setter" -> config.toSetter(param.name, u)
 
         param.allowableValues match {
           case a: AllowableValues => params += "allowableValues" -> allowableValuesToString(a)
