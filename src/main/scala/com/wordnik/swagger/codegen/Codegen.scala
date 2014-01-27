@@ -308,11 +308,7 @@ class Codegen(config: CodegenConfig) {
 
     val requiredParams = new ListBuffer[HashMap[String, AnyRef]]
     paramList.filter(p => p.contains("required") && p("required") == "true").foreach(param => {
-      requiredParams += HashMap(
-        "paramName" -> param("paramName"),
-        "defaultValue" -> param("defaultValue"),
-        "baseName" -> param("baseName"),
-        "hasMore" -> "true")
+      requiredParams += (param.clone += "hasMore" -> "true")
     })
     requiredParams.size match {
       case 0 =>
