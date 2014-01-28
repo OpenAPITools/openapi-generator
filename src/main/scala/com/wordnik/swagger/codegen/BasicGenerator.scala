@@ -133,7 +133,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       println("wrote api " + filename)
     })
 
-    codegen.writeSupportingClasses(operationMap, allModels.toMap)
+    codegen.writeSupportingClasses(operationMap, allModels.toMap, doc.apiVersion)
   }
 
   def extractApiOperations(apiListings: List[ApiListing], allModels: HashMap[String, Model] )(implicit basePath:String) = {

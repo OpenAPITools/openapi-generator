@@ -529,7 +529,7 @@ class Codegen(config: CodegenConfig) {
     write(m)
   }
 
-  def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model]) = {
+  def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model], apiVersion: String) = {
     val rootDir = new java.io.File(".")
     val engine = new TemplateEngine(Some(rootDir))
 
@@ -568,7 +568,8 @@ class Codegen(config: CodegenConfig) {
         "modelPackage" -> config.modelPackage,
         "apiPackage" -> config.apiPackage,
         "apis" -> apiList,
-        "models" -> modelList) ++ config.additionalParams
+        "models" -> modelList,
+        "apiVersion" -> apiVersion) ++ config.additionalParams
 
     config.supportingFiles.map(file => {
       val supportingFile = file._1
