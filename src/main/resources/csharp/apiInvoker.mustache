@@ -61,6 +61,7 @@
 
           var client = WebRequest.Create(host + path + querystring);
           client.ContentType = "application/json";
+          client.Method = method;
 
           foreach (var headerParamsItem in headerParams)
           {
