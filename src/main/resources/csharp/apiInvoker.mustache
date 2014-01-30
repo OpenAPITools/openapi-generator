@@ -61,6 +61,7 @@
 
           var client = WebRequest.Create(host + path + querystring);
           client.ContentType = "application/json";
+          client.Method = method;
 
           foreach (var headerParamsItem in headerParams)
           {
@@ -85,6 +86,7 @@
               default:
                   throw new ApiException(500, "unknown method type " + method);         
           }
+
               var webResponse = (HttpWebResponse) client.GetResponse();
               if (webResponse.StatusCode != HttpStatusCode.OK) throw new ApiException((int) webResponse.StatusCode, webResponse.StatusDescription);
 
