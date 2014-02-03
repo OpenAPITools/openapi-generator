@@ -82,10 +82,11 @@ class BasicObjcGenerator extends BasicGenerator {
 
   // objective c doesn't like variables starting with "new"
   override def toVarName(name: String): String = {
-    if(name.startsWith("new") || reservedWords.contains(name)) {
-      escapeReservedWord(name)
+    val paramName = name.replaceAll("[^a-zA-Z0-9_]","")
+    if(paramName.startsWith("new") || reservedWords.contains(paramName)) {
+      escapeReservedWord(paramName)
     }
-    else name
+    else paramName
   }
 
   // naming for the apis
