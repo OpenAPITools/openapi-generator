@@ -53,21 +53,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       throw new RuntimeException("Need url to resource listing as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
     }
     val host = args(0)
-    val authorization = {
-      Option(System.getProperty("header")) match {
-        case Some(e) => {
-          // this is ugly and will be replaced with proper arg parsing like in ScalaAsyncClientGenerator soon
-          val authInfo = e.split(":")
-          Some(ApiKeyValue(authInfo(0), "header", authInfo(1)))
-        }
-        case _ => {
-          if (args.length > 1) {
-            Some(ApiKeyValue("api_key", "query", args(1)))
-          }
-          else None
-        }
-      }
-    }
+    val apiKey = if(args.length > 1) Some(args(1)) else None
+    val authorization = authenticate(apiKey)
     val doc = {
       try {
         ResourceExtractor.fetchListing(getResourcePath(host), authorization)
@@ -76,13 +63,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       }
     }
 
-    implicit val basePath = getBasePath(host, doc.basePath)
-    println("base path is " + basePath)
-
-    val apiReferences = doc.apis
-    if (apiReferences == null)
-      throw new Exception("No APIs specified by resource")
-    val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, apiReferences, authorization)
+    val apis: List[ApiListing] = getApis(host, doc, authorization)
 
     SwaggerSerializers.validationMessages.filter(_.level == ValidationMessage.ERROR).size match {
       case i: Int if i > 0 => {
@@ -134,6 +115,32 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     })
 
     codegen.writeSupportingClasses(operationMap, allModels.toMap)
+  }
+
+
+  def getApis(host: String, doc: ResourceListing, authorization: Option[ApiKeyValue]): List[ApiListing] = {
+    implicit val basePath = getBasePath(host, doc.basePath)
+    println("base path is " + basePath)
+
+    val apiReferences = doc.apis
+    if (apiReferences == null)
+      throw new Exception("No APIs specified by resource")
+    ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, apiReferences, authorization)
+  }
+
+  def authenticate(apiKey: Option[String]): Option[ApiKeyValue] = {
+    Option(System.getProperty("header")) match {
+      case Some(e) => {
+        // this is ugly and will be replaced with proper arg parsing like in ScalaAsyncClientGenerator soon
+        val authInfo = e.split(":")
+        Some(ApiKeyValue(authInfo(0), "header", authInfo(1)))
+      }
+      case _ => {
+        apiKey.map{ key =>
+          Some(ApiKeyValue("api_key", "query", key))
+        }.getOrElse(None)
+      }
+    }
   }
 
   def extractApiOperations(apiListings: List[ApiListing], allModels: HashMap[String, Model] )(implicit basePath:String) = {
