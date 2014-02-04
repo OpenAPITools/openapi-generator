@@ -122,6 +122,7 @@ class BasicJavaGeneratorTest extends FlatSpec with ShouldMatchers {
    */
   it should "honor the import mapping" in {
   	config.importMapping("Date") should be ("java.util.Date")
+  	config.importMapping("DateTime") should be ("org.joda.time.*")
   }
 
   /*
