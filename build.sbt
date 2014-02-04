@@ -15,7 +15,7 @@ javacOptions ++= Seq("-target", "1.6", "-source", "1.6", "-Xlint:unchecked", "-X
 
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
-//crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0", "2.10.1", "2.10.2")
+crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0", "2.10.1", "2.10.2")
 
 libraryDependencies ++= Seq(
   "org.json4s"                  %% "json4s-jackson"     % "3.2.5",
@@ -65,9 +65,13 @@ publishTo <<= (version) { version: String =>
     Some("Sonatype Nexus Releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 }
 
+//publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 
-publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+artifact in (Compile, assembly) ~= { art =>
+  art.copy(`classifier` = Some("assembly"))
+}
 
+addArtifact(artifact in (Compile, assembly), assembly)
 
 publishMavenStyle := true
 
