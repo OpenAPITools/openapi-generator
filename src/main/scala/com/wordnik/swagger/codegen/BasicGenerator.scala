@@ -78,7 +78,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       }
       case 0 =>
     }
-
+    implicit val basePath = getBasePath(host, doc.basePath)
+    
     new SwaggerSpecValidator(doc, apis).validate()
 
     val allModels = new HashMap[String, Model]
