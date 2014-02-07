@@ -27,6 +27,8 @@ class BasicJavaGenerator extends BasicGenerator {
     "double",
     "int",
     "long",
+    "short",
+    "char",
     "float",
     "String",
     "boolean",
@@ -52,6 +54,8 @@ class BasicJavaGenerator extends BasicGenerator {
     "int" -> "Integer",
     "float" -> "Float",
     "long" -> "Long",
+    "short" -> "Short",
+    "char" -> "String",
     "double" -> "Double",
     "object" -> "Object",
     "integer" -> "Integer")
@@ -188,6 +192,7 @@ class BasicJavaGenerator extends BasicGenerator {
       case "Boolean" => "null"
       case "Integer" => "null"
       case "Long" => "null"
+      case "Short" => "null"
       case "Float" => "null"
       case "Double" => "null"
       case "List" => {
