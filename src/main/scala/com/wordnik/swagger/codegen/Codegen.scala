@@ -384,6 +384,16 @@ class Codegen(config: CodegenConfig) {
         "httpMethod" -> operation.method.toUpperCase,
         "httpMethodLowerCase" -> operation.method.toLowerCase,
         operation.method.toLowerCase -> "true")
+    if (0 < operation.consumes.length) {
+      properties += "consume" -> operation.consumes(0)
+    } else {
+      properties += "consume" -> "application/json"
+    }
+    if (0 < operation.produces.length) {
+      properties += "produces" -> operation.produces
+    } else {
+      properties += "produces" -> "application/json"
+    }
     if (requiredParams.size > 0) properties += "requiredParamCount" -> requiredParams.size.toString
     operation.responseClass.indexOf("[") match {
       case -1 => {

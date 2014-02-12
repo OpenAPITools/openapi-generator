@@ -50,7 +50,6 @@ class APIClient {
 		$headerParams) {
 
 		$headers = array();
-		$headers[] = "Content-type: application/json";
 
         # Allow API key from $headerParams to override default
         $added_api_key = False;
@@ -234,8 +233,3 @@ class APIClient {
 		return $instance;
 	}
 }
-
-
-?>
-
-
