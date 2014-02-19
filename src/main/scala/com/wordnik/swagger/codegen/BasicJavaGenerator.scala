@@ -184,6 +184,15 @@ class BasicJavaGenerator extends BasicGenerator {
   }
 
   /**
+   * you should override these params for generating the pom.xml and processing
+   * additional params
+   **/
+  additionalParams ++= Map(
+    "artifactId" -> "java-client", 
+    "artifactVersion" -> "1.0.0",
+    "groupId" -> "com.wordnik")
+
+  /**
    * we are defaulting to null values since the codegen uses java objects instead of primitives
    * If you change to primitives, you can put in the appropriate values (0.0f, etc).
    */

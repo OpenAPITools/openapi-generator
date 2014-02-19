@@ -58,6 +58,15 @@ class BasicAndroidJavaGenerator extends BasicJavaGenerator {
   // package for api classes
   override def apiPackage = Some("com.wordnik.client.api")
 
+  /**
+   * you should override these params for generating the pom.xml and processing
+   * additional params
+   **/
+  additionalParams ++= Map(
+    "artifactId" -> "android-client", 
+    "artifactVersion" -> "1.0.0",
+    "groupId" -> "com.wordnik")
+
   // supporting classes
   override def supportingFiles = List(
     ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiInvoker.java"),

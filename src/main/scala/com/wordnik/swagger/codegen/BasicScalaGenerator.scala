@@ -205,6 +205,15 @@ class BasicScalaGenerator extends BasicGenerator {
   // escape keywords
   override def escapeReservedWord(word: String) = "`" + word + "`"
 
+  /**
+   * you should override these params for generating the pom.xml and processing
+   * additional params
+   **/
+  additionalParams ++= Map(
+    "artifactId" -> "scala-client", 
+    "artifactVersion" -> "1.0.0",
+    "groupId" -> "com.wordnik")
+
   // supporting classes
   override def supportingFiles = List(
     ("apiInvoker.mustache", destinationDir + "/com/wordnik/client", "ApiInvoker.scala"),
