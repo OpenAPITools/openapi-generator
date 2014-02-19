@@ -6,6 +6,8 @@ packageArchetype.java_server
 
 assemblySettings
 
+scalariformSettings
+
 organization := "com.wordnik"
 
 seq(webSettings :_*)
