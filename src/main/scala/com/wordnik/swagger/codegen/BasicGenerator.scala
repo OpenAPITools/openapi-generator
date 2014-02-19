@@ -115,7 +115,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       println("wrote api " + filename)
     })
 
-    codegen.writeSupportingClasses(operationMap, allModels.toMap)
+    codegen.writeSupportingClasses(operationMap, allModels.toMap, doc.apiVersion)
   }
 
 

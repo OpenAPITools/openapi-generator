@@ -114,7 +114,7 @@ object ScalaAsyncClientGenerator extends App {
 }
 
 class AsyncClientCodegen(clientName: String, config: CodegenConfig, rootDir: Option[File] = None) extends Codegen(config) {
-  override def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model]) = {
+  override def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model], apiVersion: String) = {
     val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
 
     val apiList = new ListBuffer[Map[String, AnyRef]]
@@ -377,7 +377,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       println("wrote api " + filename)
     })
 
-    codegen.writeSupportingClasses(operationMap, allModels.toMap)
+    codegen.writeSupportingClasses(operationMap, allModels.toMap, doc.apiVersion)
   }
 
 
