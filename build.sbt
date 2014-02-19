@@ -7,7 +7,7 @@ name := "swagger-codegen"
 
 version := "2.0.13"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.1"
 
 crossVersion := CrossVersion.full
 
@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
   "io.backchat.inflector"       %% "scala-inflector"    % "1.3.5",
   "commons-io"                   % "commons-io"         % "2.3",
   "ch.qos.logback"               % "logback-classic"    % "1.0.13" % "provided",
-  "org.rogach"                  %% "scallop"            % "0.9.4",
+  "org.rogach"                  %% "scallop"            % "0.8.1",
   "junit"                        % "junit"              % "4.11" % "test",
   "org.scalatest"               %% "scalatest"          % "1.9.1" % "test"
 )
