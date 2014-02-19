@@ -63,6 +63,6 @@ class BasicAndroidJavaGenerator extends BasicJavaGenerator {
     ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiInvoker.java"),
     ("jsonUtil.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "JsonUtil.java"),
     ("ApiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiException.java"),
-    ("pom.mustache", "android-java", "pom.xml")
+    ("pom.mustache", destinationDir, "pom.xml")
   )
 }
