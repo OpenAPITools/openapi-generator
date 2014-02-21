@@ -19,11 +19,11 @@ public class WordsApi {
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
-  
+
   public void setBasePath(String basePath) {
     this.basePath = basePath;
   }
-  
+
   public String getBasePath() {
     return basePath;
   }
