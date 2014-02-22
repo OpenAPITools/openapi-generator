@@ -14,14 +14,13 @@ You can use maven central to add this library to your current project:
 <dependency>
   <groupId>com.wordnik</groupId>
   <artifactId>wordnik-android-client</artifactId>
-  <version>4.0.0</version>
+  <version>4.0</version>
 </dependency>
 ```
 
 or with gradle:
 
 ```gradle
-
 repositories {
     mavenCentral()
 }
@@ -29,7 +28,6 @@ repositories {
 dependencies {
     compile 'com.wordnik:wordnik-android-client:4.0'
 }
-
 ```
 
 or you can pull the source and re-generate the client library with Maven:
@@ -48,11 +46,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 class WordOfTheDayAsyncTask extends AsyncTask<Void, Void, WordOfTheDay> {
-    FullscreenActivity activity = null;
-
-    public WordOfTheDayAsyncTask(FullscreenActivity activity) {
-        this.activity = activity;
-    }
     @Override
     protected WordOfTheDay doInBackground(Void... params) {
         WordsApi api = new WordsApi();
