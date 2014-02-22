@@ -5,7 +5,7 @@ This is a full client library for the Wordnik API.  It requires that you have a 
 can get one for free at http://developer.wordnik.com.
 
 This library is built using the Wordnik [Swagger](http://swagger.wordnik.com) client library generator.  You
-can re-generate this library by running ./bin/java-wordnik-api.sh from the swagger-codegen project
+can re-generate this library by running ./bin/android-java-wordnik-api.sh from the swagger-codegen project
 
 ## Usage
 You can use maven central to add this library to your current project:
