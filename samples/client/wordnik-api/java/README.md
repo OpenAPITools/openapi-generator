@@ -8,7 +8,16 @@ This library is built using the Wordnik [Swagger](http://swagger.wordnik.com) cl
 can re-generate this library by running ./bin/java-wordnik-api.sh from the swagger-codegen project
 
 ## Usage
-Generate the client library with Maven:
+You can use maven central to add this library to your current project:
+
+```xml
+<dependency>
+  <groupId>com.wordnik</groupId>
+  <artifactId>wordnik-java-client</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+or you can pull the source and re-generate the client library with Maven:
 
 ```
 mvn package
