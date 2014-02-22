@@ -71,6 +71,9 @@ class WordOfTheDayAsyncTask extends AsyncTask<Void, Void, WordOfTheDay> {
 }
 ```
 
+You can now invoke the async task anywhere in your app.  Of course you'll want to do
+something more in your `onPostExecute` function.
+
 ```java
 new WordOfTheDayAsyncTask().execute();
 ```
