@@ -51,22 +51,17 @@ class WordOfTheDayAsyncTask extends AsyncTask<Void, Void, WordOfTheDay> {
         WordsApi api = new WordsApi();
         api.addHeader("api_key", "YOUR_API_KEY");
         try {
-            WordOfTheDay w = api.getWordOfTheDay("2014-02-19");
-            if(w != null)
-                Log.d("FullscreenActivity", w.toString());
-            else
-                Log.d("FullscreenActivity", "nothing");
-            return w;
+            return api.getWordOfTheDay("2014-02-19");
         }
         catch (Exception e) {
-            Log.d("FullscreenActivity", e.getMessage());
+            Log.d("WordOfTheDayAsyncTask", e.getMessage());
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(WordOfTheDay d) {
-        activity.setWordOfTheDay(d);
+        Log.d("WordOfTheDayAsyncTask", d.toString());
     }
 }
 ```
