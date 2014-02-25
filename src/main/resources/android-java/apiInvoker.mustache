@@ -184,6 +184,18 @@ public class ApiInvoker {
         }
         response = client.execute(delete);
       }
+      else if ("PATCH".equals(method)) {
+        HttpPatch patch = new HttpPatch(url);
+
+        if (body != null) {
+          patch.setHeader("Content-Type", contentType);
+          patch.setEntity(new StringEntity(serialize(body), "UTF-8"));
+        }
+        for(String key : headers.keySet()) {
+          patch.setHeader(key, headers.get(key));
+        }
+        response = client.execute(patch);
+      }
 
       int code = response.getStatusLine().getStatusCode();
       String responseString = null;
