@@ -5,7 +5,7 @@ This is a full client library for the Wordnik API.  It requires that you have a 
 can get one for free at http://developer.wordnik.com.
 
 This library is built using the Wordnik [Swagger](http://swagger.wordnik.com) client library generator.  You
-can re-generate this library by running ./bin/java-wordnik-api.sh from the swagger-codegen project
+can re-generate this library by running ./bin/android-java-wordnik-api.sh from the swagger-codegen project
 
 ## Usage
 You can use maven central to add this library to your current project:
@@ -51,22 +51,17 @@ class WordOfTheDayAsyncTask extends AsyncTask<Void, Void, WordOfTheDay> {
         WordsApi api = new WordsApi();
         api.addHeader("api_key", "YOUR_API_KEY");
         try {
-            WordOfTheDay w = api.getWordOfTheDay("2014-02-19");
-            if(w != null)
-                Log.d("FullscreenActivity", w.toString());
-            else
-                Log.d("FullscreenActivity", "nothing");
-            return w;
+            return api.getWordOfTheDay("2014-02-19");
         }
         catch (Exception e) {
-            Log.d("FullscreenActivity", e.getMessage());
+            Log.d("WordOfTheDayAsyncTask", e.getMessage());
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(WordOfTheDay d) {
-        activity.setWordOfTheDay(d);
+        Log.d("WordOfTheDayAsyncTask", d.toString());
     }
 }
 ```
