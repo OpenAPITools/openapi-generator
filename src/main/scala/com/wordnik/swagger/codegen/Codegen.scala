@@ -388,10 +388,8 @@ class Codegen(config: CodegenConfig) {
       val o = new ListBuffer[Map[String, String]]
       for(i <- 0 until operation.consumes.length) {
         val m = new HashMap[String, String]
-        if(i < (operation.consumes.length - 1)) {
-          println(i + ", " + operation.consumes.length)
+        if(i < (operation.consumes.length - 1))
           m += "hasMore" -> "true"
-        }
         m += "mediaType" -> operation.consumes(i)
         o += m.toMap
       }
