@@ -22,33 +22,6 @@ public class PetApi {
     return basePath;
   }
 
-  public void uploadFile (String additionalMetadata, File body) throws ApiException {
-    // create path and map variables
-    String path = "/pet/uploadImage".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
   public Pet getPetById (Long petId) throws ApiException {
     // verify required params are set
     if(petId == null ) {
@@ -60,11 +33,15 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
       }
@@ -91,11 +68,15 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -122,11 +103,15 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json","application/xml"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PATCH", queryParams, body, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "PATCH", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "Array", Pet.class);
       }
@@ -153,11 +138,49 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    String contentType = "application/json";
+    formParams.put("name", name);
+    formParams.put("status", status);
+    String[] contentTypes = {
+      "application/x-www-form-urlencoded"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public void uploadFile (String additionalMetadata, File body) throws ApiException {
+    // create path and map variables
+    String path = "/pet/uploadImage".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    formParams.put("additionalMetadata", additionalMetadata);
+    String[] contentTypes = {
+      "multipart/form-data"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -184,11 +207,15 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json","application/xml"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -215,11 +242,15 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, body, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -246,13 +277,17 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(status)))
       queryParams.put("status", String.valueOf(status));
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "Array", Pet.class);
       }
@@ -279,13 +314,17 @@ public class PetApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(tags)))
       queryParams.put("tags", String.valueOf(tags));
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "Array", Pet.class);
       }
