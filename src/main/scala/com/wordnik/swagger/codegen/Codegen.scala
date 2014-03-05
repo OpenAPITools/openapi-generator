@@ -385,11 +385,13 @@ class Codegen(config: CodegenConfig) {
         "httpMethodLowerCase" -> operation.method.toLowerCase,
         operation.method.toLowerCase -> "true")
     if (0 < operation.consumes.length) {
-      val m = new HashMap[String, String]
       val o = new ListBuffer[Map[String, String]]
       for(i <- 0 until operation.consumes.length) {
-        if(i < operation.consumes.length - 1)
+        val m = new HashMap[String, String]
+        if(i < (operation.consumes.length - 1)) {
+          println(i + ", " + operation.consumes.length)
           m += "hasMore" -> "true"
+        }
         m += "mediaType" -> operation.consumes(i)
         o += m.toMap
       }
@@ -398,10 +400,10 @@ class Codegen(config: CodegenConfig) {
       properties += "consumes" -> List(Map("mediaType" -> "application/json"))
     }
     if (0 < operation.produces.length) {
-      val m = new HashMap[String, String]
       val o = new ListBuffer[Map[String, String]]
       for(i <- 0 until operation.produces.length) {
-        if(i < operation.produces.length - 1)
+        val m = new HashMap[String, String]
+        if((i + 1) < operation.produces.length)
           m += "hasMore" -> "true"
         m += "mediaType" -> operation.produces(i)
         o += m.toMap
