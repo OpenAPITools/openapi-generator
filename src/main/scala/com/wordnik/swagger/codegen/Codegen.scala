@@ -385,14 +385,30 @@ class Codegen(config: CodegenConfig) {
         "httpMethodLowerCase" -> operation.method.toLowerCase,
         operation.method.toLowerCase -> "true")
     if (0 < operation.consumes.length) {
-      properties += "consume" -> operation.consumes(0)
+      val m = new HashMap[String, String]
+      val o = new ListBuffer[Map[String, String]]
+      for(i <- 0 until operation.consumes.length) {
+        if(i < operation.consumes.length - 1)
+          m += "hasMore" -> "true"
+        m += "mediaType" -> operation.consumes(i)
+        o += m.toMap
+      }
+      properties += "consumes" -> o.toList
     } else {
-      properties += "consume" -> "application/json"
+      properties += "consumes" -> List(Map("mediaType" -> "application/json"))
     }
     if (0 < operation.produces.length) {
-      properties += "produces" -> operation.produces
+      val m = new HashMap[String, String]
+      val o = new ListBuffer[Map[String, String]]
+      for(i <- 0 until operation.produces.length) {
+        if(i < operation.produces.length - 1)
+          m += "hasMore" -> "true"
+        m += "mediaType" -> operation.produces(i)
+        o += m.toMap
+      }
+      properties += "produces" -> o.toList
     } else {
-      properties += "produces" -> "application/json"
+      properties += "produces" -> List(Map("mediaType" -> "application/json"))
     }
     if (requiredParams.size > 0) properties += "requiredParamCount" -> requiredParams.size.toString
     operation.responseClass.indexOf("[") match {
