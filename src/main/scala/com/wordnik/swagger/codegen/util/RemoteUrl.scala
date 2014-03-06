@@ -30,6 +30,15 @@ trait RemoteUrl {
 			is = conn.getInputStream()
 			Source.fromInputStream(is).mkString
 		}
+		catch {
+			case e: javax.net.ssl.SSLProtocolException => {
+				println("there is a problem with the target SSL certificate")
+				println("**** you may want to run with -Djsse.enableSNIExtension=false\n\n")
+				e.printStackTrace
+				throw e
+			}
+			case e: Exception => e.printStackTrace; throw e;
+		}
 		finally {
 			if(is != null) is.close()
 		}
