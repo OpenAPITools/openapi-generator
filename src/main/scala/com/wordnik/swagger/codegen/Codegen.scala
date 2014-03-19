@@ -81,12 +81,12 @@ class Codegen(config: CodegenConfig) {
               lb
             })
             opList += apiToMap(apiPath, operation)
-          
+
             CoreUtils.extractModelNames(operation).foreach(i => allImports += i)
           }
         })
       }
-     
+
       case None =>
     }
 
@@ -223,14 +223,14 @@ class Codegen(config: CodegenConfig) {
     var paramList = new ListBuffer[HashMap[String, AnyRef]]
     var errorList = new ListBuffer[HashMap[String, AnyRef]]
     var bodyParamRequired: Option[String] = Some("true")
-    
+
     if (operation.responseMessages != null) {
-  		operation.responseMessages.foreach(param => { 
+  		operation.responseMessages.foreach(param => {
         val params = new HashMap[String, AnyRef]
         params += "code" -> param.code.toString()
         params += "reason" -> param.message
         params += "hasMore" -> "true"
-        errorList += params	 
+        errorList += params
       })
     }
 
@@ -509,7 +509,7 @@ class Codegen(config: CodegenConfig) {
           "defaultValue" -> config.toDeclaration(propertyDocSchema)._2,
           "description" -> propertyDocSchema.description,
           "notes" -> propertyDocSchema.description,
-          "allowableValues" -> rawAllowableValuesToString(propertyDocSchema.allowableValues),        
+          "allowableValues" -> rawAllowableValuesToString(propertyDocSchema.allowableValues),
           (if(propertyDocSchema.required) "required" else "isNotRequired") -> "true",
           "getter" -> config.toGetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
           "setter" -> config.toSetter(prop._1, config.toDeclaration(propertyDocSchema)._1),
@@ -567,7 +567,7 @@ class Codegen(config: CodegenConfig) {
         "className" -> config.toApiName(a._1._2),
         "basePath" -> a._1._1,
         "operations" -> {
-          (for (t <- a._2) yield { Map("operation" -> t._2, "path" -> t._1) }).toList
+          (for (t <- a._2) yield { Map("operation" -> apiToMap(t._1, t._2), "path" -> t._1) }).toList
         })
     })
 
