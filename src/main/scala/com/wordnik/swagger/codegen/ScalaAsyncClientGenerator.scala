@@ -116,7 +116,7 @@ object ScalaAsyncClientGenerator extends App {
 class AsyncClientCodegen(clientName: String, config: CodegenConfig, rootDir: Option[File] = None) extends Codegen(config) {
 
   override def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]],
-    models: Map[String, Model], apiVersion: String): Unit = {
+    models: Map[String, Model], apiVersion: String): Seq[File] = {
 
     def apiListF(apis: Map[(String, String), List[(String, Operation)]]): List[Map[String, AnyRef]] = {
       val apiList = new ListBuffer[Map[String, AnyRef]]

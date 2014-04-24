@@ -560,18 +560,18 @@ class Codegen(config: CodegenConfig) {
     models: Map[String, Model],
     apiVersion: String,
     rootDir: Option[File],
-    dataF: (Map[(String, String), List[(String, Operation)]], Map[String, Model]) => Map[String, AnyRef]): Unit = {
+    dataF: (Map[(String, String), List[(String, Operation)]], Map[String, Model]) => Map[String, AnyRef]): Seq[File] = {
 
     val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
     val data = dataF(apis, models)
 
-    config.supportingFiles.map(file => {
+    val outputFiles = config.supportingFiles map { file =>
       val supportingFile = file._1
       val outputDir = file._2
       val destFile = file._3
 
-      val outputFilename = outputDir.replaceAll("\\.", File.separator) + File.separator + destFile
-      val outputFolder = new File(outputFilename).getParent
+      val outputFile = new File(outputDir.replaceAll("\\.", File.separator) + File.separator + destFile)
+      val outputFolder = outputFile.getParent
       new File(outputFolder).mkdirs
 
       if (supportingFile.endsWith(".mustache")) {
@@ -579,10 +579,10 @@ class Codegen(config: CodegenConfig) {
           val (resourceName, (_, template)) = compileTemplate(supportingFile, rootDir, Some(engine))
           engine.layout(resourceName, template, data.toMap)
         }
-        val fw = new FileWriter(outputFilename, false)
+        val fw = new FileWriter(outputFile, false)
         fw.write(output + "\n")
         fw.close()
-        println("wrote " + outputFilename)
+        println("wrote " + outputFile.getPath())
       } else {
         val file = new File(config.templateDir + File.separator + supportingFile)
         if (file.isDirectory()) {
@@ -591,23 +591,24 @@ class Codegen(config: CodegenConfig) {
           println("copied directory " + supportingFile)
         } else {
           val is = getInputStream(config.templateDir + File.separator + supportingFile)
-          val outputFile = new File(outputFilename)
-          val parentDir = new File(outputFile.getParent)
+          val parentDir = outputFile.getParentFile()
           if (parentDir != null && !parentDir.exists) {
             println("making directory: " + parentDir.toString + ": " + parentDir.mkdirs)
           }
-          FileUtils.copyInputStreamToFile(is, new File(outputFilename))
-          println("copied " + outputFilename)
+          FileUtils.copyInputStreamToFile(is, outputFile)
+          println("copied " + outputFile.getPath())
           is.close
         }
       }
-    })
+      outputFile
+    }
     //a shutdown method will be added to scalate in an upcoming release
     engine.compiler.shutdown()
+    outputFiles
   }
 
   def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]],
-    models: Map[String, Model], apiVersion: String): Unit = {
+    models: Map[String, Model], apiVersion: String): Seq[File] = {
  
     val rootDir: Option[File] = Some(new File("."))
 
