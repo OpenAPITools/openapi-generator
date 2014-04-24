@@ -114,91 +114,55 @@ object ScalaAsyncClientGenerator extends App {
 }
 
 class AsyncClientCodegen(clientName: String, config: CodegenConfig, rootDir: Option[File] = None) extends Codegen(config) {
-  override def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]], models: Map[String, Model], apiVersion: String) = {
-    val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
 
-    val apiList = new ListBuffer[Map[String, AnyRef]]
+  override def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]],
+    models: Map[String, Model], apiVersion: String): Unit = {
 
-    apis.map(a => {
-      apiList += Map(
-        "name" -> a._1._2,
-        "filename" -> config.toApiFilename(a._1._2),
-        "className" -> config.toApiName(a._1._2),
-        "basePath" -> a._1._1,
-        "operations" -> {
-          (for (t <- a._2) yield { Map("operation" -> t._2, "path" -> t._1) }).toList
-        })
-    })
+    def apiListF(apis: Map[(String, String), List[(String, Operation)]]): List[Map[String, AnyRef]] = {
+      val apiList = new ListBuffer[Map[String, AnyRef]]
+      apis.map(a => {
+        apiList += Map(
+          "name" -> a._1._2,
+          "filename" -> config.toApiFilename(a._1._2),
+          "className" -> config.toApiName(a._1._2),
+          "basePath" -> a._1._1,
+          "operations" -> {
+            (for (t <- a._2) yield { Map("operation" -> t._2, "path" -> t._1) }).toList
+          })
+      })
+      apiList.toList
+    }
 
-
-
-    val modelList = new ListBuffer[HashMap[String, AnyRef]]
-
-    models.foreach(m => {
-      val json = write(m._2)
-
+    def modelListF(models: Map[String, Model]): List[Map[String, AnyRef]] = {
+      val modelList = new ListBuffer[HashMap[String, AnyRef]]
+      models.foreach(m => {
+        val json = write(m._2)
       modelList += HashMap(
         "modelName" -> m._1,
         "model" -> m._2,
         "filename" -> config.toModelFilename(m._1),
         "modelJson" -> json,
         "hasMore" -> "true")
-    })
-    modelList.size match {
-      case 0 =>
-      case _ => modelList.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+      })
+      modelList.size match {
+        case 0 =>
+        case _ => modelList.last.asInstanceOf[HashMap[String, String]] -= "hasMore"
+      }
+      modelList.map(_.toMap).toList
     }
 
-    val data =
+    def dataF(apis: Map[(String, String), List[(String, Operation)]],
+              models: Map[String, Model]): Map[String, AnyRef] =
       Map(
         "clientName" -> clientName.underscore.pascalize,
         "projectName" -> clientName.underscore.dasherize,
         "package" -> config.packageName,
         "modelPackage" -> config.modelPackage,
         "apiPackage" -> config.apiPackage,
-        "apis" -> apiList,
-        "models" -> modelList)
+        "apis" -> apiListF(apis),
+        "models" -> modelListF(models))
 
-    config.supportingFiles.map(file => {
-      val supportingFile = file._1
-      val outputDir = file._2
-      val destFile = file._3
-
-      val outputFilename = outputDir.replaceAll("\\.", File.separator) + File.separator + destFile
-      val outputFolder = new File(outputFilename).getParent
-      new File(outputFolder).mkdirs
-
-      if (supportingFile.endsWith(".mustache")) {
-        val output = {
-          val (resourceName, (_, template)) = compileTemplate(supportingFile, rootDir, Some(engine))
-          engine.layout(resourceName, template, data.toMap)
-        }
-        val fw = new FileWriter(outputFilename, false)
-        fw.write(output + "\n")
-        fw.close()
-        println("wrote " + outputFilename)
-      } else {
-        val file = new File(config.templateDir + File.separator + supportingFile)
-        if(file.isDirectory) {
-          // copy the whole directory
-          FileUtils.copyDirectory(file, new File(outputDir))
-          println("copied directory " + supportingFile)
-        } else {
-          val is = getInputStream(config.templateDir + File.separator + supportingFile)
-          val outputFile = new File(outputFilename)
-          val parentDir = new File(outputFile.getParent)
-          if (parentDir != null && !parentDir.exists) {
-            println("making directory: " + parentDir.toString + ": " + parentDir.mkdirs)
-          }
-          FileUtils.copyInputStreamToFile(is, new File(outputFilename))
-          println("copied " + outputFilename)
-          is.close
-        }
-      }
-    })
-    //a shutdown method will be added to scalate in an upcoming release
-
-    engine.compiler.shutdown()
+    writeSupportingClasses(apis, models, apiVersion, rootDir, dataF)
   }
 
   override protected def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
