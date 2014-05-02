@@ -60,4 +60,16 @@ function goToAnchor() {
     window.scrollTo(0,$('a[name='+anchor+']').offset().top - 80);
   }
 }
+function resize()
+{
+    $(".sidebar").css('height', $(window).height() -60);
+    $("#content-window").css('height', $(window).height() -60);
 
+}
+$(function(){
+    window.onresize = resize;
+    resize();
+    $(window).bind('hashchange', function() {
+        choose(window.location.href.toString());
+    });
+});
