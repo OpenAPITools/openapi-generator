@@ -4,8 +4,15 @@
 
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a 
-Swagger-compliant server.  You can find out more about both the spec and the framework at 
-http://swagger.wordnik.com.  For more information about Wordnik's APIs, please visit http://developer.wordnik.com.  
+Swagger-compliant server.  
+
+## What's Swagger?
+
+The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swager removes the guesswork in calling the service.
+
+
+Check out [Swagger-Spec](https://github.com/wordnik/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
+
 
 ### Prerequisites
 You need the following installed and available in your $PATH:
@@ -224,7 +231,7 @@ either repackage the library OR modify your codegen script to use a file path!
 License
 -------
 
-Copyright 2013 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

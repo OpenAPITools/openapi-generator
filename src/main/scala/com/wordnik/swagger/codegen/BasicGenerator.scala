@@ -43,12 +43,12 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
 
   var codegen = new Codegen(this)
 
-  def generateClient(args: Array[String]) = {
+  def generateClient(args: Array[String]): Unit = {
     generateClientWithoutExit(args)
     System.exit(0)
   }
 
-  def generateClientWithoutExit(args: Array[String]) {
+  def generateClientWithoutExit(args: Array[String]): Seq[File] = {
     if (args.length == 0) {
       throw new RuntimeException("Need url to resource listing as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
     }
