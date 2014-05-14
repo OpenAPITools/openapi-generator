@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 abstract class BasicFlashCodegen extends BasicGenerator {
   override def defaultIncludes = Set(
@@ -53,10 +53,10 @@ abstract class BasicFlashCodegen extends BasicGenerator {
 
 
   // package for models
-  override def modelPackage = Some("com.wordnik.client.model")
+  override def modelPackage: Option[String] = Some("com.wordnik.client.model")
 
   // package for api classes
-  override def apiPackage = Some("com.wordnik.client.api")
+  override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
   // file suffix
   override def fileSuffix = ".as"

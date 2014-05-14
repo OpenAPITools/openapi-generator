@@ -16,7 +16,7 @@
 
 import com.wordnik.swagger.codegen.BasicGenerator
 import com.wordnik.swagger.codegen.util._
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

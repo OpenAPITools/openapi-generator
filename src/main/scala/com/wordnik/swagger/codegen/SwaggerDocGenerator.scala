@@ -16,7 +16,7 @@
 
 import com.wordnik.swagger.codegen.BasicGenerator
 import com.wordnik.swagger.codegen.spec.SwaggerSpec
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import scala.collection.mutable.{ HashMap, ListBuffer }
 
@@ -84,10 +84,10 @@ object SwaggerDocGenerator extends BasicGenerator {
   }
 
   // package for models
-  override def modelPackage = Some("models")
+  override def modelPackage: Option[String] = Some("models")
 
   // package for api classes
-  override def apiPackage = Some("operations")
+  override def apiPackage: Option[String] = Some("operations")
 
   override def supportingFiles = List(
     ("pom.xml", outputFolder, "pom.xml"),

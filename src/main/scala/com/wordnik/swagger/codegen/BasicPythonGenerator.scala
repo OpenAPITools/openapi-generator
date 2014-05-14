@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import java.io.File
 
@@ -38,7 +38,7 @@ class BasicPythonGenerator extends BasicGenerator {
   override def destinationDir = "generated-code/python"
 
   // package for models
-  override def modelPackage = Some("models")
+  override def modelPackage: Option[String] = Some("models")
 
   // package for apis
   override def apiPackage = None

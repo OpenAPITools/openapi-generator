@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 object BasicScalaGenerator extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)
@@ -114,10 +114,10 @@ class BasicScalaGenerator extends BasicGenerator {
   )
 
   // package for models
-  override def modelPackage = Some("com.wordnik.client.model")
+  override def modelPackage: Option[String] = Some("com.wordnik.client.model")
 
   // package for api classes
-  override def apiPackage = Some("com.wordnik.client.api")
+  override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
   // response classes--if you don't want a response class, override and set to None
   override def processResponseClass(responseClass: String): Option[String] = {

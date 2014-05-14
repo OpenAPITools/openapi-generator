@@ -18,7 +18,7 @@ package com.wordnik.swagger.codegen.spec
 
 import com.wordnik.swagger.codegen.util.{CoreUtils, ApiExtractor, ResourceExtractor}
 import com.wordnik.swagger.codegen.PathUtil
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import scala.collection.JavaConversions._
 

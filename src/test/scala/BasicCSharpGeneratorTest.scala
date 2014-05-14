@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 import com.wordnik.swagger.codegen.{BasicCSharpGenerator, PathUtil}
 import com.wordnik.swagger.codegen.util._
 import com.wordnik.swagger.codegen.language._

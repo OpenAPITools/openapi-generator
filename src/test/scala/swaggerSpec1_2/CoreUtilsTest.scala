@@ -2,7 +2,7 @@ package swaggerSpec1_2
 
 import com.wordnik.swagger.codegen.util.CoreUtils
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 import com.wordnik.swagger.codegen.util._
 
 import org.junit.runner.RunWith

@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 object BasicObjcGenerator extends BasicObjcGenerator {
   def main(args: Array[String]) = generateClient(args)

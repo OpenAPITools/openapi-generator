@@ -1,6 +1,6 @@
-package com.wordnik.swagger.model.legacy
+package com.wordnik.swagger.codegen.model.legacy
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 import com.wordnik.swagger.codegen.spec.ValidationMessage
 
 import org.json4s._

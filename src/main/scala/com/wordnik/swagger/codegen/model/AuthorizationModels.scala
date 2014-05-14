@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.wordnik.swagger.model
+package com.wordnik.swagger.codegen.model
 
 trait AuthorizationType {
   def `type`: String

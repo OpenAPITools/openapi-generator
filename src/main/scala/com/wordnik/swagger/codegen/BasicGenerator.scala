@@ -20,8 +20,8 @@ import com.wordnik.swagger.codegen._
 import com.wordnik.swagger.codegen.util._
 import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.spec.SwaggerSpecValidator
-import com.wordnik.swagger.model._
-import com.wordnik.swagger.model.SwaggerSerializers
+import com.wordnik.swagger.codegen.model._
+import com.wordnik.swagger.codegen.model.SwaggerSerializers
 import com.wordnik.swagger.codegen.spec.ValidationMessage
 
 import java.io.{ File, FileWriter }

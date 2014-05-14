@@ -15,7 +15,7 @@
  */
 package swaggerSpec1_2
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 import com.wordnik.swagger.codegen.util.{ResourceExtractor, ApiExtractor, CoreUtils}
 
 import org.junit.runner.RunWith

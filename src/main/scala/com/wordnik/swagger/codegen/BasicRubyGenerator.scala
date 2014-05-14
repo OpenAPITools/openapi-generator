@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import java.io.File
 
@@ -26,7 +26,7 @@ object BasicRubyGenerator extends BasicRubyGenerator {
 
 class BasicRubyGenerator extends BasicGenerator {
 
-  override def apiPackage = Some("lib")
+  override def apiPackage: Option[String] = Some("lib")
 
   // location of templates
   override def templateDir = "ruby"
@@ -44,7 +44,7 @@ class BasicRubyGenerator extends BasicGenerator {
   override def fileSuffix = ".rb"
 
   // package for models
-  override def modelPackage = Some("models")
+  override def modelPackage: Option[String] = Some("models")
 
   // response classes
   override def processResponseClass(responseClass: String): Option[String] = {

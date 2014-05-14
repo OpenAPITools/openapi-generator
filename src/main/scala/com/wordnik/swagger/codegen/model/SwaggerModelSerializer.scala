@@ -1,4 +1,4 @@
-package com.wordnik.swagger.model
+package com.wordnik.swagger.codegen.model
 
 import com.wordnik.swagger.codegen.spec.ValidationMessage
 import legacy.LegacySerializers

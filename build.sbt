@@ -5,7 +5,7 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.14"
+version := "2.0.16"
 
 scalaVersion := "2.10.0"
 

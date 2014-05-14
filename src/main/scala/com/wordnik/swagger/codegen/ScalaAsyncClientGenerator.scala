@@ -2,7 +2,7 @@ package com.wordnik.swagger.codegen
 
 import scala.collection.mutable
 import java.io.{File, FileWriter}
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 import scala.collection.mutable.{HashMap, ListBuffer}
 import language.CodegenConfig
 import scala.io.Source

@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen.util
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import scala.collection.mutable.{ HashSet, ListBuffer, HashMap }
 import scala.collection.JavaConversions._

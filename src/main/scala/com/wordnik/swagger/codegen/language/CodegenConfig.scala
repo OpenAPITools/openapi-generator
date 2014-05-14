@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen.language
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import scala.collection.mutable.{ HashMap, HashSet }
 
