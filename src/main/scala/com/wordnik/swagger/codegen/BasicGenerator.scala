@@ -42,12 +42,15 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
   var codegen = new Codegen(this)
+  var fileMap: Option[String] = None
 
+  @deprecated(message = "please use the generate function", since = "2.0.16")
   def generateClient(args: Array[String]): Unit = {
     generateClientWithoutExit(args)
     System.exit(0)
   }
 
+  @deprecated(message = "please use the generate function", since = "2.0.16")
   def generateClientWithoutExit(args: Array[String]): Seq[File] = {
     if (args.length == 0) {
       throw new RuntimeException("Need url to resource listing as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
@@ -55,9 +58,27 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val host = args(0)
     val apiKey = if(args.length > 1) Some(args(1)) else None
     val authorization = authenticate(apiKey)
+
+    val opts = new ClientOpts()
+    opts.uri = host
+    opts.auth = authorization
+    opts.properties = Map("fileMap" -> sys.props("fileMap"))
+
+    generate(opts)
+  }
+
+  def generate(opts: ClientOpts) = {
+    if (opts == null) {
+      throw new RuntimeException("Need url to resource listing as argument. You can also specify VM Argument -DfileMap=/path/to/folder/containing.resources.json/")
+    }
+    val host = opts.uri
+    val authorization = opts.auth
+
+    fileMap = Option(opts.properties.getOrElse("fileMap", null))
+
     val doc = {
       try {
-        ResourceExtractor.fetchListing(getResourcePath(host), authorization)
+        ResourceExtractor.fetchListing(getResourcePath(host, fileMap), authorization)
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
@@ -78,20 +99,23 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       }
       case 0 =>
     }
-    implicit val basePath = getBasePath(host, doc.basePath)
-    
+
+    implicit val basePath = getBasePath(host, doc.basePath, fileMap)
+
     new SwaggerSpecValidator(doc, apis).validate()
 
     val allModels = new HashMap[String, Model]
     val operations = extractApiOperations(apis, allModels)
     val operationMap = groupOperationsToFiles(operations)
     val modelBundle = prepareModelMap(allModels.toMap)
-    val modelFiles = bundleToSource(modelBundle, modelTemplateFiles.toMap)
+    val modelInfo = bundleToSource(modelBundle, modelTemplateFiles.toMap)
+    val modelFiles = new ListBuffer[File]()
 
-    modelFiles.map(m => {
+    modelInfo.map(m => {
       val filename = m._1
 
       val file = new java.io.File(filename)
+      modelFiles += file
       file.getParentFile().mkdirs
 
       val fw = new FileWriter(filename, false)
@@ -101,12 +125,14 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     })
 
     val apiBundle = prepareApiBundle(operationMap.toMap)
-    val apiFiles = bundleToSource(apiBundle, apiTemplateFiles.toMap)
+    val apiInfo = bundleToSource(apiBundle, apiTemplateFiles.toMap)
+    val apiFiles = new ListBuffer[File]()
 
-    apiFiles.map(m => {
+    apiInfo.map(m => {
       val filename = m._1
 
       val file = new java.io.File(filename)
+      apiFiles += file
       file.getParentFile().mkdirs
 
       val fw = new FileWriter(filename, false)
@@ -115,12 +141,12 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       println("wrote api " + filename)
     })
 
-    codegen.writeSupportingClasses(operationMap, allModels.toMap, doc.apiVersion)
+    codegen.writeSupportingClasses(operationMap, allModels.toMap, doc.apiVersion) ++
+      modelFiles ++ apiFiles
   }
 
-
   def getApis(host: String, doc: ResourceListing, authorization: Option[ApiKeyValue]): List[ApiListing] = {
-    implicit val basePath = getBasePath(host, doc.basePath)
+    implicit val basePath = getBasePath(host, doc.basePath, fileMap)
     println("base path is " + basePath)
 
     val apiReferences = doc.apis

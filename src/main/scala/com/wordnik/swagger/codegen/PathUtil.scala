@@ -17,16 +17,16 @@
 package com.wordnik.swagger.codegen
 
 trait PathUtil {
-  def getResourcePath(host: String) = {
-    System.getProperty("fileMap") match {
-      case s: String => s
+  def getResourcePath(host: String, fileMap: Option[String] = None) = {
+    fileMap match {
+      case Some(s) => s
       case _ => host
     }
   }
 
-  def getBasePath(host: String, basePath: String) = {
-    System.getProperty("fileMap") match {
-      case s: String => {
+  def getBasePath(host: String, basePath: String, fileMap: Option[String] = None) = {
+    fileMap match {
+      case Some(s) => {
         // return the parent folder
         val f = new java.io.File(s)
         f.getParent

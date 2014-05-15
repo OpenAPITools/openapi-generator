@@ -275,11 +275,10 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   codegen = new AsyncClientCodegen(cfg.api.clientName, this, Some(cfg.projectRoot))
 
 
-  override def getBasePath(host: String, basePath: String): String =
-    cfg.api.baseUrl.getOrElse(super.getBasePath(host, basePath))
+  override def getBasePath(host: String, basePath: String, fileMap: Option[String]): String =
+    cfg.api.baseUrl.getOrElse(super.getBasePath(host, basePath, fileMap))
 
   override def generateClient(args: Array[String]) = {
-
     val host = cfg.api.resourceUrl
     val authorization = {
       val apiKey = cfg.api.apiKey
@@ -291,13 +290,13 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
 
     val doc = {
       try {
-        ResourceExtractor.fetchListing(getResourcePath(host), authorization)
+        ResourceExtractor.fetchListing(getResourcePath(host, fileMap), authorization)
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
     }
 
-    implicit val basePath = getBasePath(host, doc.basePath)
+    implicit val basePath = getBasePath(host, doc.basePath, fileMap)
 
     val apiReferences = doc.apis
     if (apiReferences == null)
