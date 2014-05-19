@@ -45,7 +45,7 @@ class BasicAndroidJavaGenerator extends BasicJavaGenerator {
     "Any")
 
   // package for api invoker, error files
-  override def invokerPackage = Some("com.wordnik.client")
+  override def invokerPackage:Option[String] = Some("com.wordnik.client")
 
   override def templateDir = "android-java"
 
