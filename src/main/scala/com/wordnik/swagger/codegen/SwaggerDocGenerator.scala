@@ -14,15 +14,19 @@
  *  limitations under the License.
  */
 
+package com.wordnik.swagger.codegen
+
 import com.wordnik.swagger.codegen.BasicGenerator
 import com.wordnik.swagger.codegen.spec.SwaggerSpec
 import com.wordnik.swagger.codegen.model._
 
 import scala.collection.mutable.{ HashMap, ListBuffer }
 
-object SwaggerDocGenerator extends BasicGenerator {
+object SwaggerDocGenerator extends SwaggerDocGenerator {
   def main(args: Array[String]) = generateClient(args)
+}
 
+class SwaggerDocGenerator extends BasicGenerator {
   override def templateDir = "src/main/resources/swagger-static"
 
   val outputFolder = "samples/docs/swagger-static-docs"
