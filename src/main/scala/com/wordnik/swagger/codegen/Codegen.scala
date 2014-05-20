@@ -152,6 +152,7 @@ class Codegen(config: CodegenConfig) {
 
     var data = Map[String, AnyRef](
       "name" -> bundle("name"),
+      "modelPackage" -> bundle.getOrElse("modelPackage", None),
       "package" -> bundle("package"),
       "baseName" -> bundle.getOrElse("baseName", None),
       "className" -> bundle("className"),

@@ -75,7 +75,6 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val authorization = opts.auth
 
     fileMap = Option(opts.properties.getOrElse("fileMap", null))
-
     val doc = {
       try {
         ResourceExtractor.fetchListing(getResourcePath(host, fileMap), authorization)
@@ -204,7 +203,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         m += "invokerPackage" -> invokerPackage
         m += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replace(".", File.separator))
         m += "newline" -> "\n"
-
+        m += "modelPackage" -> modelPackage
         Some(m.toMap)
       }
       else None
@@ -230,7 +229,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "models" -> None
       m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replace(".", File.separator))
       m += "newline" -> "\n"
-
+      m += "modelPackage" -> modelPackage
       Some(m.toMap)
     }).flatten.toList
   }
