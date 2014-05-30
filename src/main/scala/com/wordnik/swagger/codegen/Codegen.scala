@@ -45,12 +45,14 @@ class Codegen(config: CodegenConfig) {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   def generateSource(bundle: Map[String, AnyRef], templateFile: String): String = {
+    println("~~~~~~~ Generate Source ~~~~~~~~")
     val allImports = new HashSet[String]
     val includedModels = new HashSet[String]
     val modelList = new ListBuffer[Map[String, AnyRef]]
-    val models = bundle("models")
+    // val models = bundle("models").asInstanceOf[Tuple2[String, List[(String, AnyRef)]]]
 
-    models match {
+    // println(models)
+/*    models match {
       case e: List[Tuple2[String, Model]] => {
         e.foreach(m => {
           includedModels += m._1
@@ -62,9 +64,9 @@ class Codegen(config: CodegenConfig) {
           modelList += modelMap
         })
       }
-      case None =>
+      case _ =>
     }
-
+*/
     val modelData = Map[String, AnyRef]("model" -> modelList.toList)
     val operationList = new ListBuffer[Map[String, AnyRef]]
     val classNameToOperationList = new HashMap[String, ListBuffer[AnyRef]]
@@ -170,7 +172,7 @@ class Codegen(config: CodegenConfig) {
   }
 
 
-  protected def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
+  def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
     val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
     val srcName = config.templateDir + "/" + templateFile
     val srcStream = {
@@ -547,13 +549,72 @@ class Codegen(config: CodegenConfig) {
   def writeJson(m: AnyRef): String = {
     Option(System.getProperty("modelFormat")) match {
       case Some(e) if e =="1.1" => write1_1(m)
-      case _ => write(m)
+      case _ => pretty(render(parse(write(m))))
     }
   }
 
   def write1_1(m: AnyRef): String = {
     implicit val formats = SwaggerSerializers.formats("1.1")
     write(m)
+  }
+
+  def writeSupportingClasses2(
+    apiBundle: List[Map[String, AnyRef]],
+    allModels: Map[String, Model],
+    apiVersion: String): Seq[File] = {
+
+    val rootDir: Option[File] = Some(new File("."))
+    val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
+    val data = Map(
+      "invokerPackage" -> config.invokerPackage,
+      "package" -> config.packageName,
+      "modelPackage" -> config.modelPackage,
+      "apiPackage" -> config.apiPackage,
+      "apiInfo" -> Map("apis" -> apiBundle),
+      "models" -> allModels,
+      "apiVersion" -> apiVersion) ++ config.additionalParams
+
+println(pretty(render(parse(write(data)))))
+    val outputFiles = config.supportingFiles map { file =>
+      val supportingFile = file._1
+      val outputDir = file._2
+      val destFile = file._3
+
+      val outputFile = new File(outputDir.replaceAll("\\.", File.separator) + File.separator + destFile)
+      val outputFolder = outputFile.getParent
+      new File(outputFolder).mkdirs
+
+      if (supportingFile.endsWith(".mustache")) {
+        val output = {
+          val (resourceName, (_, template)) = compileTemplate(supportingFile, rootDir, Some(engine))
+          engine.layout(resourceName, template, data.toMap)
+        }
+        val fw = new FileWriter(outputFile, false)
+        fw.write(output + "\n")
+        fw.close()
+        println("wrote " + outputFile.getPath())
+      } else {
+        val file = new File(config.templateDir + File.separator + supportingFile)
+        if (file.isDirectory()) {
+          // copy the whole directory
+          FileUtils.copyDirectory(file, new File(outputDir))
+          println("copied directory " + supportingFile)
+        } else {
+          val is = getInputStream(config.templateDir + File.separator + supportingFile)
+          val parentDir = outputFile.getParentFile()
+          if (parentDir != null && !parentDir.exists) {
+            println("making directory: " + parentDir.toString + ": " + parentDir.mkdirs)
+          }
+          FileUtils.copyInputStreamToFile(is, outputFile)
+          println("copied " + outputFile.getPath())
+          is.close
+        }
+      }
+      outputFile
+    }
+    //a shutdown method will be added to scalate in an upcoming release
+    engine.compiler.shutdown()
+    outputFiles
   }
 
   final def writeSupportingClasses(
@@ -649,7 +710,7 @@ class Codegen(config: CodegenConfig) {
     }
 
     def dataF(apis: Map[(String, String), List[(String, Operation)]],
-              models: Map[String, Model]): Map[String, AnyRef] =
+              models: Map[String, Model]): Map[String, AnyRef] = {
       Map(
         "invokerPackage" -> config.invokerPackage,
         "package" -> config.packageName,
@@ -658,6 +719,7 @@ class Codegen(config: CodegenConfig) {
         "apis" -> apiListF(apis),
         "models" -> modelListF(models),
         "apiVersion" -> apiVersion) ++ config.additionalParams
+    }
 
     writeSupportingClasses(apis, models, apiVersion, rootDir, dataF)
   }

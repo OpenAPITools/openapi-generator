@@ -165,7 +165,7 @@ class AsyncClientCodegen(clientName: String, config: CodegenConfig, rootDir: Opt
     writeSupportingClasses(apis, models, apiVersion, rootDir, dataF)
   }
 
-  override protected def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
+  override def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
     val eng = engine getOrElse new TemplateEngine(rootDir orElse Some(new File(".")))
     val rn = config.templateDir + File.separator + templateFile
     val rrn = "asyncscala" + File.separator + templateFile

@@ -265,7 +265,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     queryParam("allowableValues") should be (Some("LIST[available,pending,sold]"))
   }
 
-  it should "create an api file" in {
+  ignore should "create an api file" in {
     implicit val basePath = "http://localhost:8080/api"
     val codegen = new Codegen(config)
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json", None)

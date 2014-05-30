@@ -23,8 +23,12 @@ import com.wordnik.swagger.codegen.spec.SwaggerSpecValidator
 import com.wordnik.swagger.codegen.model._
 import com.wordnik.swagger.codegen.model.SwaggerSerializers
 import com.wordnik.swagger.codegen.spec.ValidationMessage
+import com.wordnik.swagger.codegen.spec.SwaggerSpec._
 
 import java.io.{ File, FileWriter }
+
+import org.json4s.jackson.JsonMethods._
+import org.json4s.jackson.Serialization.write
 
 import scala.io._
 import scala.collection.JavaConversions._
@@ -32,6 +36,8 @@ import scala.collection.mutable.{ ListBuffer, HashMap, HashSet }
 import scala.io.Source
 
 abstract class BasicGenerator extends CodegenConfig with PathUtil {
+  implicit val formats = SwaggerSerializers.formats("1.2")
+
   def packageName = "com.wordnik.client"
   def templateDir = "src/main/resources/scala"
   def destinationDir = "generated-code/src/main/scala"
@@ -103,33 +109,42 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
 
     new SwaggerSpecValidator(doc, apis).validate()
 
+println("prepare model bundle")
     val allModels = new HashMap[String, Model]
     val operations = extractApiOperations(apis, allModels)
-    val operationMap = groupOperationsToFiles(operations)
-    val modelBundle = prepareModelMap(allModels.toMap)
-    val modelInfo = bundleToSource(modelBundle, modelTemplateFiles.toMap)
+    val operationMap: Map[(String, String), List[(String, Operation)]] =
+      groupOperationsToFiles(operations)
+
+
+    val modelMap = prepareModelMap(allModels.toMap)
+
+    val modelFileContents = writeFiles(modelMap, modelTemplateFiles.toMap)
     val modelFiles = new ListBuffer[File]()
 
-    modelInfo.map(m => {
-      val filename = m._1
-
+    for((filename, contents) <- modelFileContents) {
       val file = new java.io.File(filename)
       modelFiles += file
       file.getParentFile().mkdirs
-
       val fw = new FileWriter(filename, false)
-      fw.write(m._2 + "\n")
+      fw.write(contents + "\n")
       fw.close()
-      println("wrote model " + filename)
-    })
+    }
+
+println("prepare api bundle")
 
     val apiBundle = prepareApiBundle(operationMap.toMap)
-    val apiInfo = bundleToSource(apiBundle, apiTemplateFiles.toMap)
+// println(apiBundle)
+// println(pretty(render(parse(write(apiBundle)))))
+    // for(i <- apiBundle; (a, b) <- i) println(i)
+
+    // println(pretty(render(parse(write(apiBundle)))))
+println("made api bundle")
+
+    val apiInfo = writeFiles(apiBundle, apiTemplateFiles.toMap)
     val apiFiles = new ListBuffer[File]()
 
     apiInfo.map(m => {
       val filename = m._1
-
       val file = new java.io.File(filename)
       apiFiles += file
       file.getParentFile().mkdirs
@@ -137,11 +152,36 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       val fw = new FileWriter(filename, false)
       fw.write(m._2 + "\n")
       fw.close()
-      println("wrote api " + filename)
+      // println("wrote api " + filename)
     })
 
-    codegen.writeSupportingClasses(operationMap, allModels.toMap, doc.apiVersion) ++
+println("supporting classes")
+    codegen.writeSupportingClasses2(apiBundle, allModels.toMap, doc.apiVersion) ++
       modelFiles ++ apiFiles
+  }
+
+  /**
+   * applies a template to each of the models
+   */
+  def writeFiles(models: List[Map[String, AnyRef]], templates: Map[String, String]): List[(String, String)] = {
+    val output = new ListBuffer[Tuple2[String, String]]
+    models.foreach(m => {
+      for ((templateFile, suffix) <- templates) {
+        val imports = m.getOrElse("imports", None)
+        val filename = m("outputDirectory").toString +File.separator + m("filename").toString + suffix
+        output += Tuple2(filename, generateSource(m, templateFile))
+      }
+    })
+    output.toList
+  }
+
+  def generateSource(bundle: Map[String, AnyRef], templateFile: String): String = {
+    val rootDir = new java.io.File(".")
+    val (resourcePath, (engine, template)) = Codegen.templates.getOrElseUpdate(templateFile, codegen.compileTemplate(templateFile, Some(rootDir)))
+    var output = engine.layout(resourcePath, template, bundle)
+
+    engine.compiler.shutdown
+    output
   }
 
   def getApis(host: String, doc: ResourceListing, authorization: Option[ApiKeyValue]): List[ApiListing] = {
@@ -191,17 +231,25 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
    * creates a map of models and properties needed to write source
    */
   def prepareModelMap(models: Map[String, Model]): List[Map[String, AnyRef]] = {
+    val allImports = new HashSet[String]
+    val outputDirectory = (destinationDir + File.separator + modelPackage.getOrElse("").replace(".", File.separator))
     (for ((name, schema) <- models) yield {
       if (!defaultIncludes.contains(name)) {
+        val modelMap: Map[String, AnyRef] = codegen.modelToMap(name, schema)
+
+        val imports = modelMap("imports").asInstanceOf[Set[Map[String, AnyRef]]]
+
+        val models: List[Map[String, Map[String, AnyRef]]] = List(Map("model" -> modelMap))
         val m = new HashMap[String, AnyRef]
+        m += "imports" -> processImports(imports)
         m += "name" -> toModelName(name)
         m += "className" -> name
         m += "filename" -> toModelFilename(name)
         m += "apis" -> None
-        m += "models" -> List((name, schema))
+        m += "models" -> models
         m += "package" -> modelPackage
         m += "invokerPackage" -> invokerPackage
-        m += "outputDirectory" -> (destinationDir + File.separator + modelPackage.getOrElse("").replace(".", File.separator))
+        m += "outputDirectory" -> outputDirectory
         m += "newline" -> "\n"
         m += "modelPackage" -> modelPackage
         Some(m.toMap)
@@ -210,14 +258,70 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     }).flatten.toList
   }
 
+  def processImports(ii: Set[Map[String, AnyRef]]) = {
+    val allImports = new HashSet[String]()
+
+    ii.foreach(_.map(m => allImports += m._2.asInstanceOf[String]))
+
+    val imports = new ListBuffer[Map[String, String]]
+    val includedModels = new HashSet[String]
+    val importScope = modelPackage match {
+      case Some(s) => s + "."
+      case _ => ""
+    }
+    // do the mapping before removing primitives!
+    allImports.foreach(value => {
+      val model = toModelName(value.asInstanceOf[String])
+      includedModels.contains(model) match {
+        case false => {
+          importMapping.containsKey(model) match {
+            case true => {
+              if(!imports.flatten.map(m => m._2).toSet.contains(importMapping(model))) {
+                imports += Map("import" -> importMapping(model))
+              }
+            }
+            case false =>
+          }
+        }
+        case true =>
+      }
+    })
+
+    allImports --= defaultIncludes
+    allImports --= primitives
+    allImports --= containers
+    allImports.foreach(i => {
+      val model = toModelName(i)
+      includedModels.contains(model) match {
+        case false => {
+          importMapping.containsKey(model) match {
+            case true =>
+            case false => {
+              if(!imports.flatten.map(m => m._2).toSet.contains(importScope + model)){
+                imports += Map("import" -> (importScope + model))
+              }
+            }
+          }
+        }
+        case true => // no need to add the model
+      }
+    })
+    imports
+  }
+
   def prepareApiBundle(apiMap: Map[(String, String), List[(String, Operation)]] ): List[Map[String, AnyRef]] = {
     (for ((identifier, operationList) <- apiMap) yield {
       val basePath = identifier._1
       val name = identifier._2
       val className = toApiName(name)
 
-      val m = new HashMap[String, AnyRef]
+      val operations = new ListBuffer[AnyRef]
+      for((path, operation) <- operationList) {
+        val op = codegen.apiToMap(path, operation)
+        operations += Map("operation" -> op, "path" -> path)
+      }
 
+      val m = new HashMap[String, AnyRef]
       m += "baseName" -> name
       m += "filename" -> toApiFilename(name)
       m += "name" -> toApiName(name)
@@ -225,7 +329,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "basePath" -> basePath
       m += "package" -> apiPackage
       m += "invokerPackage" -> invokerPackage
-      m += "apis" -> Map(className -> operationList.toList)
+      m += "operations" -> operations
       m += "models" -> None
       m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replace(".", File.separator))
       m += "newline" -> "\n"
@@ -238,7 +342,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val output = new ListBuffer[(String, String)]
     bundle.foreach(m => {
       for ((file, suffix) <- templates) {
-        output += Tuple2(m("outputDirectory").toString + File.separator + m("filename").toString + suffix, codegen.generateSource(m, file))
+        val filename = m("outputDirectory").toString + File.separator + m("filename").toString + suffix
+        output += Tuple2(filename, codegen.generateSource(m, file))
       }
     })
     output.toList
