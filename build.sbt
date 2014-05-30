@@ -7,7 +7,7 @@ name := "swagger-codegen"
 
 version := "2.0.16"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.1"
 
 crossVersion := CrossVersion.full
 
@@ -15,29 +15,30 @@ javacOptions ++= Seq("-target", "1.6", "-source", "1.6", "-Xlint:unchecked", "-X
 
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
-crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0", "2.10.1", "2.10.2")
+crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0", "2.10.1", "2.10.2", "2.10.3", "2.10.4", "2.11.0", "2.11.1")
 
 libraryDependencies ++= Seq(
-  "org.json4s"                  %% "json4s-jackson"     % "3.2.5",
+  "org.json4s"                  %% "json4s-jackson"     % "3.2.10",
   "io.backchat.inflector"       %% "scala-inflector"    % "1.3.5",
   "commons-io"                   % "commons-io"         % "2.3",
   "ch.qos.logback"               % "logback-classic"    % "1.0.13" % "provided",
-  "org.rogach"                  %% "scallop"            % "0.8.1",
+  "org.rogach"                  %% "scallop"            % "0.9.5",
   "junit"                        % "junit"              % "4.11" % "test",
-  "org.scalatest"               %% "scalatest"          % "1.9.1" % "test"
+  "org.scalatest"               %% "scalatest"          % "2.1.7" % "test"
 )
 
 libraryDependencies <+= scalaVersion {
   case v if v.startsWith("2.9") => 
     "org.fusesource.scalate" % "scalate-core_2.9" % "1.6.1"
-  case v if v.startsWith("2.10") => { 
-    "org.fusesource.scalate" %% "scalate-core" % "1.6.1"
-  }
+  case v if v.startsWith("2.10") => 
+    "org.scalatra.scalate" %% "scalate-core" % "1.7.0"
+  case v if v.startsWith("2.11") => 
+    "org.scalatra.scalate" %% "scalate-core" % "1.7.0"
 }
 
 libraryDependencies ++= {
   scalaVersion.toString match {
-    case v if v.startsWith("2.10") => Seq("org.scala-lang" % "scala-reflect" % v)
+    case v if v.startsWith("2.10") || v.startsWith("2.11") => Seq("org.scala-lang" % "scala-reflect" % v)
     case _ => Seq()
   }
 }

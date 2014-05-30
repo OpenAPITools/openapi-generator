@@ -1,0 +1,100 @@
+{
+  "apiVersion": "0.5",
+  "swaggerVersion": "1.1",
+  "basePath": "http://localhost:8000",
+  "resourcePath": "/admin",
+  "apis": [
+    {
+      "path": "/admin.{format}/health",
+      "description": "Administrative operations",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Returns health report on this JVM",
+          "responseClass": "Health",
+          "nickname": "getHealth"
+        }
+      ]
+    },
+    {
+      "path": "/admin.{format}/ping",
+      "description": "Administrative operations",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Pings service",
+          "responseClass": "string",
+          "nickname": "ping"
+        }
+      ]
+    }
+  ],
+  "models": {
+    "Memory": {
+      "required": false,
+      "id": "Memory",
+      "properties": {
+        "free": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "long"
+        },
+        "max": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "long"
+        },
+        "allocated": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "long"
+        },
+        "used": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "long"
+        },
+        "percentUsed": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "double"
+        }
+      },
+      "uniqueItems": false,
+      "type": "any"
+    },
+    "Health": {
+      "required": false,
+      "id": "Health",
+      "properties": {
+        "peakThreadCount": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "int"
+        },
+        "memory": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "Memory"
+        },
+        "startedThreadCount": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "long"
+        },
+        "liveThreadCount": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "int"
+        },
+        "daemonThreadCount": {
+          "required": true,
+          "uniqueItems": false,
+          "type": "int"
+        }
+      },
+      "uniqueItems": false,
+      "type": "any"
+    }
+  }
+}

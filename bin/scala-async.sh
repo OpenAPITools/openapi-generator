@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SCRIPT="$0"
-SCALA_RUNNER_VERSION=$(scala ./bin/Version.scala)
+SCALA_RUNNER_VERSION=2.10  #$(scala ./bin/Version.scala)
 
 while [ -h "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
@@ -25,7 +25,7 @@ cd $APP_DIR
 ags="com.wordnik.swagger.codegen.ScalaAsyncClientGenerator $@"
 
 if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar ]; then
-  scala -cp target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar $ags
+  java -cp target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar $ags
 else
   echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
 fi

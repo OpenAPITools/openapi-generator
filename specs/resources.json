@@ -1,0 +1,15 @@
+{
+  "apiVersion": "0.5",
+  "swaggerVersion": "1.1",
+  "basePath": "http://localhost:8000",
+  "apis": [
+    {
+      "path": "/admin.{format}",
+      "description": "Administrative operations"
+    },
+    {
+      "path": "/discovery.{format}",
+      "description": "Discovery Service's Core Operations"
+    }
+  ]
+}
