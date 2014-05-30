@@ -14,6 +14,7 @@ import com.wordnik.swagger.codegen.spec.SwaggerSpecValidator
 import mojolly.inflector.InflectorImports._
 import org.rogach.scallop.{ScallopConf, Scallop}
 import scala.annotation.switch
+import scala.collection.JavaConverters._
 
 case class SwaggerApi(
              clientName: String,
@@ -109,8 +110,18 @@ object ScalaAsyncClientGenerator extends App {
   )
 
   val generator = new ScalaAsyncClientGenerator(cfg)
+
+  val clientOpts = new ClientOpts()
+  val props = new HashMap[String, String]
+  if(resUrl.startsWith("http"))
+    clientOpts.uri = resUrl
+  else
+    props += "fileMap" -> resUrl
+
+  clientOpts.properties = props.toMap.asJava
+
   println(appBanner)
-  generator.generateClient(Array.empty)
+  generator.generate(clientOpts)
 }
 
 class AsyncClientCodegen(clientName: String, config: CodegenConfig, rootDir: Option[File] = None) extends Codegen(config) {
