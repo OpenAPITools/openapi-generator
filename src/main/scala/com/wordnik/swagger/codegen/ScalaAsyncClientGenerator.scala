@@ -278,7 +278,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
 
   override def getBasePath(host: String, basePath: String, fileMap: Option[String]): String =
     cfg.api.baseUrl.getOrElse(super.getBasePath(host, basePath, fileMap))
-
+/*
   override def generateClient(args: Array[String]) = {
     val host = cfg.api.resourceUrl
     val authorization = {
@@ -372,6 +372,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       case _ => "Client"
     }
   }
+*/
 //
 //  override def nameFromPath(apiPath: String) = resourceNameFromFullPath(apiPath)
 //
