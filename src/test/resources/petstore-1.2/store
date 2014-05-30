@@ -1,11 +1,10 @@
 {
   "apiVersion": "1.0.0",
   "swaggerVersion": "1.2",
-  "basePath": "http://localhost:8002/api",
+  "basePath": "http://petstore.swagger.wordnik.com/api",
   "resourcePath": "/store",
   "produces": [
-    "application/json",
-    "application/xml"
+    "application/json"
   ],
   "apis": [
     {
@@ -17,16 +16,12 @@
           "notes": "For valid response try integer IDs with value <= 5. Anything above 5 or nonintegers will generate API errors",
           "type": "Order",
           "nickname": "getOrderById",
-          "produces": [
-            "application/json",
-            "application/xml"
-          ],
+          "authorizations": {},
           "parameters": [
             {
               "name": "orderId",
               "description": "ID of pet that needs to be fetched",
               "required": true,
-              "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             }
@@ -48,12 +43,19 @@
           "notes": "For valid response try integer IDs with value < 1000.  Anything above 1000 or nonintegers will generate API errors",
           "type": "void",
           "nickname": "deleteOrder",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
           "parameters": [
             {
               "name": "orderId",
               "description": "ID of the order that needs to be deleted",
               "required": true,
-              "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             }
@@ -80,12 +82,19 @@
           "notes": "",
           "type": "void",
           "nickname": "placeOrder",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
           "parameters": [
             {
               "name": "body",
               "description": "order placed for purchasing the pet",
               "required": true,
-              "allowMultiple": false,
               "type": "Order",
               "paramType": "body"
             }
@@ -108,15 +117,6 @@
           "type": "integer",
           "format": "int64"
         },
-        "status": {
-          "type": "string",
-          "description": "Order Status",
-          "enum": [
-            "placed",
-            "approved",
-            "delivered"
-          ]
-        },
         "petId": {
           "type": "integer",
           "format": "int64"
@@ -124,6 +124,15 @@
         "quantity": {
           "type": "integer",
           "format": "int32"
+        },
+        "status": {
+          "type": "string",
+          "description": "Order Status",
+          "enum": [
+            "placed",
+            " approved",
+            " delivered"
+          ]
         },
         "shipDate": {
           "type": "string",

@@ -19,24 +19,17 @@ public class {{classname}} {
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
-  
+
   public void setBasePath(String basePath) {
     this.basePath = basePath;
   }
-  
+
   public String getBasePath() {
     return basePath;
   }
 
   {{#operation}}
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    // create path and map variables
-    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
     {{#requiredParamCount}}
     // verify required params are set
     if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
@@ -44,11 +37,18 @@ public class {{classname}} {
     }
     {{/requiredParamCount}}
 
+    // create path and map variables
+    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
     {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
-      queryParams.put("{{paramName}}", String.valueOf({{paramName}}));
+      queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
 
-    {{#headerParams}}headerParams.put("{{paramName}}", {{paramName}});
+    {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
 
     String contentType = "application/json";

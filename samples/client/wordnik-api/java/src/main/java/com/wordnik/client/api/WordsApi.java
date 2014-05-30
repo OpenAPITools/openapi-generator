@@ -25,6 +25,10 @@ public class WordsApi {
   }
 
   public WordSearchResults searchWords (String query, String includePartOfSpeech, String excludePartOfSpeech, String caseSensitive, Integer minCorpusCount, Integer maxCorpusCount, Integer minDictionaryCount, Integer maxDictionaryCount, Integer minLength, Integer maxLength, Integer skip, Integer limit) throws ApiException {
+    // verify required params are set
+    if(query == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/words.{format}/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}", apiInvoker.escapeString(query.toString()));
 
@@ -32,10 +36,6 @@ public class WordsApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(query == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(caseSensitive)))
       queryParams.put("caseSensitive", String.valueOf(caseSensitive));
     if(!"null".equals(String.valueOf(includePartOfSpeech)))
@@ -107,6 +107,10 @@ public class WordsApi {
     }
   }
   public DefinitionSearchResults reverseDictionary (String query, String findSenseForWord, String includeSourceDictionaries, String excludeSourceDictionaries, String includePartOfSpeech, String excludePartOfSpeech, String expandTerms, String sortBy, String sortOrder, Integer minCorpusCount, Integer maxCorpusCount, Integer minLength, Integer maxLength, String includeTags, String skip, Integer limit) throws ApiException {
+    // verify required params are set
+    if(query == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/words.{format}/reverseDictionary".replaceAll("\\{format\\}","json");
 
@@ -114,10 +118,6 @@ public class WordsApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(query == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(query)))
       queryParams.put("query", String.valueOf(query));
     if(!"null".equals(String.valueOf(findSenseForWord)))

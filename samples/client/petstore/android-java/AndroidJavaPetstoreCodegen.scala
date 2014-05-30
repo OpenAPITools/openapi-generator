@@ -14,13 +14,13 @@
  *  limitations under the License.
  */
 
-import com.wordnik.swagger.codegen.BasicJavaGenerator
+import com.wordnik.swagger.codegen.BasicAndroidJavaGenerator
 
-object AndroidJavaPetstoreCodegen extends BasicJavaGenerator {
+object AndroidJavaPetstoreCodegen extends BasicAndroidJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
 
   // location of templates
-  override def templateDir = "android-java"
+  override def templateDir = "src/main/resources/android-java"
 
   // where to write generated code
   override def destinationDir = "samples/client/petstore/android-java/src/main/java"

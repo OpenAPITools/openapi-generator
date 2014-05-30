@@ -1,9 +1,7 @@
 package com.wordnik.petstore.model;
 
 public class Category {
-  /* Category unique identifier */
   private Long id = null;
-  /* Name of the category */
   private String name = null;
   public Long getId() {
     return id;

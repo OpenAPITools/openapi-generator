@@ -2,15 +2,12 @@ package com.wordnik.petstore.model;
 
 import java.util.Date;
 public class Order {
-  /* Unique identifier for the order */
   private Long id = null;
-  /* ID of pet being ordered */
   private Long petId = null;
-  /* Number of pets ordered */
   private Integer quantity = null;
-  /* Status of the order */
+  /* Order Status */
   private String status = null;
-  /* Date shipped, only if it has been */
+  //public enum statusEnum { placed,  approved,  delivered, }; 
   private Date shipDate = null;
   public Long getId() {
     return id;

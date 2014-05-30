@@ -14,15 +14,17 @@
  *  limitations under the License.
  */
 
+package com.wordnik.swagger.codegen
+
 import com.wordnik.swagger.codegen.BasicJavaGenerator
 
 import com.wordnik.swagger.model._
 
-object BasicAndroidJavaClient extends BasicJavaGenerator {
+object BasicAndroidJavaClient extends BasicAndroidJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
+}
 
-  override def templateDir = "src/main/resources/android-java"
-
+class BasicAndroidJavaGenerator extends BasicJavaGenerator {
   override def typeMapping = super.typeMapping ++ Map(
     "file" -> "File")
 
@@ -42,14 +44,10 @@ object BasicAndroidJavaClient extends BasicJavaGenerator {
     "AnyRef",
     "Any")
 
-  additionalParams ++= Map(
-    "artifactId" -> "swagger-android-client", 
-    "artifactVersion" -> "1.0.0",
-    "groupId" -> "com.wordnik"
-  )
-
   // package for api invoker, error files
   override def invokerPackage = Some("com.wordnik.client")
+
+  override def templateDir = "android-java"
 
   // where to write generated code
   override def destinationDir = "generated-code/android-java/src/main/java"
@@ -60,12 +58,21 @@ object BasicAndroidJavaClient extends BasicJavaGenerator {
   // package for api classes
   override def apiPackage = Some("com.wordnik.client.api")
 
+  /**
+   * you should override these params for generating the pom.xml and processing
+   * additional params
+   **/
+  additionalParams ++= Map(
+    "artifactId" -> "android-client", 
+    "artifactVersion" -> "1.0.0",
+    "groupId" -> "com.wordnik")
 
   // supporting classes
   override def supportingFiles = List(
+    ("httpPatch.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "HttpPatch.java"),
     ("apiInvoker.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiInvoker.java"),
     ("jsonUtil.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "JsonUtil.java"),
-    ("ApiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiException.java"),
-    ("pom.mustache", "android-java", "pom.xml")
+    ("apiException.mustache", destinationDir + java.io.File.separator + invokerPackage.get.replace(".", java.io.File.separator) + java.io.File.separator, "ApiException.java"),
+    ("pom.mustache", destinationDir, "pom.xml")
   )
 }

@@ -10,6 +10,12 @@ public class {{classname}} {
   {{#description}}/* {{{description}}} */
   {{/description}}
   private {{{datatype}}} {{name}} = {{{defaultValue}}};
+  {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}
+  {{/min}}
+  //{{^min}}public enum {{name}}Enum { {{#values}} {{.}}, {{/values}} }; 
+  {{/min}}
+  {{/allowableValues}}
+  
   {{/vars}}
   
   {{#vars}}

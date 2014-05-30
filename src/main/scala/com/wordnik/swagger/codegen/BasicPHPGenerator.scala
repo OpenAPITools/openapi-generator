@@ -152,9 +152,6 @@ class BasicPHPGenerator extends BasicGenerator {
     (declaredType, defaultValue)
   }
 
-  // escape keywords
-  override def escapeReservedWord(word: String) = "`" + word + "`"
-
   // supporting classes
   override def supportingFiles = List(
     ("Swagger.mustache", destinationDir + File.separator + apiPackage.get,

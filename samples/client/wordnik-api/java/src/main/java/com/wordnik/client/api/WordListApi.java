@@ -24,6 +24,10 @@ public class WordListApi {
   }
 
   public void updateWordList (String permalink, WordList body, String auth_token) throws ApiException {
+    // verify required params are set
+    if(permalink == null || auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
@@ -31,10 +35,6 @@ public class WordListApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(permalink == null || auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     headerParams.put("auth_token", auth_token);
     String contentType = "application/json";
 
@@ -56,6 +56,10 @@ public class WordListApi {
     }
   }
   public void deleteWordList (String permalink, String auth_token) throws ApiException {
+    // verify required params are set
+    if(permalink == null || auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
@@ -63,10 +67,6 @@ public class WordListApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(permalink == null || auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     headerParams.put("auth_token", auth_token);
     String contentType = "application/json";
 
@@ -88,6 +88,10 @@ public class WordListApi {
     }
   }
   public WordList getWordListByPermalink (String permalink, String auth_token) throws ApiException {
+    // verify required params are set
+    if(permalink == null || auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
@@ -95,10 +99,6 @@ public class WordListApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(permalink == null || auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     headerParams.put("auth_token", auth_token);
     String contentType = "application/json";
 
@@ -120,6 +120,10 @@ public class WordListApi {
     }
   }
   public void addWordsToWordList (String permalink, List<StringValue> body, String auth_token) throws ApiException {
+    // verify required params are set
+    if(permalink == null || auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
@@ -127,10 +131,6 @@ public class WordListApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(permalink == null || auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     headerParams.put("auth_token", auth_token);
     String contentType = "application/json";
 
@@ -152,6 +152,10 @@ public class WordListApi {
     }
   }
   public List<WordListWord> getWordListWords (String permalink, String auth_token, String sortBy, String sortOrder, Integer skip, Integer limit) throws ApiException {
+    // verify required params are set
+    if(permalink == null || auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
@@ -159,10 +163,6 @@ public class WordListApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(permalink == null || auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     if(!"null".equals(String.valueOf(sortBy)))
       queryParams.put("sortBy", String.valueOf(sortBy));
     if(!"null".equals(String.valueOf(sortOrder)))
@@ -192,6 +192,10 @@ public class WordListApi {
     }
   }
   public void deleteWordsFromWordList (String permalink, List<StringValue> body, String auth_token) throws ApiException {
+    // verify required params are set
+    if(permalink == null || auth_token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
     // create path and map variables
     String path = "/wordList.{format}/{permalink}/deleteWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}", apiInvoker.escapeString(permalink.toString()));
 
@@ -199,10 +203,6 @@ public class WordListApi {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
-    // verify required params are set
-    if(permalink == null || auth_token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
     headerParams.put("auth_token", auth_token);
     String contentType = "application/json";
 

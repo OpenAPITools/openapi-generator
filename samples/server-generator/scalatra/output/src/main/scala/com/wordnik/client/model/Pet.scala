@@ -2,12 +2,17 @@ package com.wordnik.client.model
 
 import com.wordnik.client.model.Category
 import com.wordnik.client.model.Tag
-case class Pet (
-  tags: Option[List[Tag]],
-  id: Option[Long],
+case class Pet(
+  id: Long, // unique identifier for the pet
+
   category: Option[Category],
-  status: Option[String],// pet status in the store
-  name: Option[String],
-  photoUrls: Option[List[String]]
-)
+
+  name: String,
+
+  photoUrls: Option[List[String]],
+
+  tags: Option[List[Tag]],
+
+  status: Option[String] // pet status in the store
+  )
 

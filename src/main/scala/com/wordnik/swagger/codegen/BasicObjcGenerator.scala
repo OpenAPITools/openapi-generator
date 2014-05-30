@@ -82,10 +82,11 @@ class BasicObjcGenerator extends BasicGenerator {
 
   // objective c doesn't like variables starting with "new"
   override def toVarName(name: String): String = {
-    if(name.startsWith("new") || reservedWords.contains(name)) {
-      escapeReservedWord(name)
+    val paramName = name.replaceAll("[^a-zA-Z0-9_]","")
+    if(paramName.startsWith("new") || reservedWords.contains(paramName)) {
+      escapeReservedWord(paramName)
     }
-    else name
+    else paramName
   }
 
   // naming for the apis
@@ -103,13 +104,13 @@ class BasicObjcGenerator extends BasicGenerator {
   apiTemplateFiles += "api-body.mustache" -> ".m"
 
   // package for models
-  override def invokerPackage = None
+  override def invokerPackage: Option[String] = None
 
   // package for models
-  override def modelPackage = None
+  override def modelPackage: Option[String] = None
 
   // package for api classes
-  override def apiPackage = None
+  override def apiPackage: Option[String] = None
 
   // response classes
   override def processResponseClass(responseClass: String): Option[String] = {

@@ -100,6 +100,10 @@ object SwaggerSerializers {
 
   class ApiListingSerializer extends CustomSerializer[ApiListing](implicit formats => ({
     case json =>
+      val authorizations = (json \ "authorizations").extractOpt[Map[String, AuthorizationType]] match {
+        case Some(m) => m.values.toList
+        case _ => List.empty
+      }
       ApiListing(
         (json \ "apiVersion").extractOrElse({
           !!(json, RESOURCE, "apiVersion", "missing required field", ERROR)
@@ -120,7 +124,7 @@ object SwaggerSerializers {
         (json \ "produces").extract[List[String]],
         (json \ "consumes").extract[List[String]],
         (json \ "protocols").extract[List[String]],
-        (json \ "authorizations").extract[List[String]],
+        authorizations,
         (json \ "apis").extract[List[ApiDescription]],
         (json \ "models").extractOpt[Map[String, Model]],
         (json \ "description").extractOpt[String],
@@ -238,6 +242,10 @@ object SwaggerSerializers {
   class OperationSerializer extends CustomSerializer[Operation](implicit formats => ({
     case json =>
 
+      val authorizations = (json \ "authorizations").extractOpt[Map[String, AuthorizationType]] match {
+        case Some(m) => m.values.toList
+        case _ => List.empty
+      }
       val t =  SwaggerSerializers.jsonSchemaTypeMap.getOrElse(
             ((json \ "type").extractOrElse(""), (json \ "format").extractOrElse(""))
           , (json \ "type").extractOrElse(""))
@@ -291,7 +299,7 @@ object SwaggerSerializers {
         (json \ "produces").extract[List[String]],
         (json \ "consumes").extract[List[String]],
         (json \ "protocols").extract[List[String]],
-        (json \ "authorizations").extract[List[String]],
+        authorizations,
         (json \ "parameters").extract[List[Parameter]],
         (json \ "responseMessages").extract[List[ResponseMessage]],
         (json \ "deprecated").extractOpt[String]
@@ -347,10 +355,16 @@ object SwaggerSerializers {
         else {
           val min = (json \ "min") match {
             case e: JObject => e.extract[String]
+            case e: JString => e.s
+            case e: JInt => e.num.toString
+            case e: JDouble => e.num.toString          
             case _ => ""
           }
           val max = (json \ "max") match {
             case e: JObject => e.extract[String]
+            case e: JString => e.s
+            case e: JInt => e.num.toString
+            case e: JDouble => e.num.toString          
             case _ => ""
           }
           if(min != "" && max != "")

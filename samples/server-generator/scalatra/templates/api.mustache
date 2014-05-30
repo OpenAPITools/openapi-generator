@@ -2,7 +2,6 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-import com.wordnik.swagger.core.ApiPropertiesReader
 
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
@@ -44,6 +43,9 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet
         {{#bodyParameter}}
         bodyParam[{{dataType}}]("{{paramName}}").description(""){{^required}}.optional{{/required}}{{#defaultValue}}.defaultValue({{{defaultValue}}}){{/defaultValue}}
         {{/bodyParameter}}
+        {{#formParameter}}
+        formParam[{{dataType}}]("{{paramName}}").description(""){{^required}}.optional{{/required}}{{#defaultValue}}.defaultValue({{{defaultValue}}}){{/defaultValue}}
+        {{/formParameter}}
         {{#hasMore}},{{/hasMore}}
         {{/allParams}})
   )
@@ -61,6 +63,10 @@ class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet
     {{#headerParameter}}
       val {{paramName}} = request.getHeader("{{paramName}}")
     {{/headerParameter}}
+
+    {{#formParameter}}
+      val {{paramName}} = params.getAs[{{dataType}}]("{{paramName}}")
+    {{/formParameter}}
 
     {{#bodyParameter}}
       val {{paramName}} = parsedBody.extract[{{dataType}}]

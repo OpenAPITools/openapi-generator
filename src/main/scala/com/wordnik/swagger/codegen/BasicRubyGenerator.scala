@@ -26,10 +26,6 @@ object BasicRubyGenerator extends BasicRubyGenerator {
 
 class BasicRubyGenerator extends BasicGenerator {
 
-  override def toApiName(name: String) = {
-    name(0).toUpper + name.substring(1) + "_api"
-  }
-
   override def apiPackage = Some("lib")
 
   // location of templates
@@ -58,9 +54,13 @@ class BasicRubyGenerator extends BasicGenerator {
     }
   }
 
-  override def toModelFilename(name: String) = name.toLowerCase
-  override def toApiFilename(name: String) = name.toLowerCase + "_api"
+  override def toApiName(name: String) = {
+    var fixedName = name.replaceAll("(\\{|\\})","")
+    fixedName(0).toUpper + fixedName.substring(1) + "_api"
+  }
 
+  override def toModelFilename(name: String) = name.toLowerCase.replaceAll("(\\{|\\})","")
+  override def toApiFilename(name: String) = name.toLowerCase.replaceAll("(\\{|\\})","") + "_api"
   override def toVarName(name: String): String = toUnderscore(name)
 
   override def toMethodName(name: String): String = toUnderscore(name)

@@ -5,19 +5,15 @@ using System.Collections.Generic;
 
 namespace Com.Wordnik.Petstore.Model {
   public class Pet {
-    /* Unique identifier for the Pet */
+    /* unique identifier for the pet */
     public long id { get; set; }
 
-    /* Category the pet is in */
     public Category category { get; set; }
 
-    /* Friendly name of the pet */
     public string name { get; set; }
 
-    /* Image URLs */
     public List<string> photoUrls { get; set; }
 
-    /* Tags assigned to this pet */
     public List<Tag> tags { get; set; }
 
     /* pet status in the store */

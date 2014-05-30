@@ -27,6 +27,8 @@ class BasicJavaGenerator extends BasicGenerator {
     "double",
     "int",
     "long",
+    "short",
+    "char",
     "float",
     "String",
     "boolean",
@@ -52,6 +54,8 @@ class BasicJavaGenerator extends BasicGenerator {
     "int" -> "Integer",
     "float" -> "Float",
     "long" -> "Long",
+    "short" -> "Short",
+    "char" -> "String",
     "double" -> "Double",
     "object" -> "Object",
     "integer" -> "Integer")
@@ -82,7 +86,12 @@ class BasicJavaGenerator extends BasicGenerator {
     "Date" -> "java.util.Date",
     "Array" -> "java.util.*",
     "ArrayList" -> "java.util.*",
-    "List" -> "java.util.*")
+    "List" -> "java.util.*",
+    "DateTime" -> "org.joda.time.*",
+    "LocalDateTime" -> "org.joda.time.*",
+    "LocalDate" -> "org.joda.time.*",
+    "LocalTime" -> "org.joda.time.*"
+  )
 
   // package for models
   override def modelPackage = Some("com.wordnik.client.model")
@@ -175,6 +184,15 @@ class BasicJavaGenerator extends BasicGenerator {
   }
 
   /**
+   * you should override these params for generating the pom.xml and processing
+   * additional params
+   **/
+  additionalParams ++= Map(
+    "artifactId" -> "java-client", 
+    "artifactVersion" -> "1.0.0",
+    "groupId" -> "com.wordnik")
+
+  /**
    * we are defaulting to null values since the codegen uses java objects instead of primitives
    * If you change to primitives, you can put in the appropriate values (0.0f, etc).
    */
@@ -183,6 +201,7 @@ class BasicJavaGenerator extends BasicGenerator {
       case "Boolean" => "null"
       case "Integer" => "null"
       case "Long" => "null"
+      case "Short" => "null"
       case "Float" => "null"
       case "Double" => "null"
       case "List" => {

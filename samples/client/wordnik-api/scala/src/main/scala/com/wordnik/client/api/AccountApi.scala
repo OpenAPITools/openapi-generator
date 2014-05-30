@@ -1,8 +1,8 @@
 package com.wordnik.client.api
 
-import com.wordnik.client.model.ApiTokenStatus
-import com.wordnik.client.model.WordList
 import com.wordnik.client.model.User
+import com.wordnik.client.model.WordList
+import com.wordnik.client.model.ApiTokenStatus
 import com.wordnik.client.model.AuthenticationToken
 import com.wordnik.client.common.ApiInvoker
 import com.wordnik.client.common.ApiException

@@ -5,19 +5,15 @@ using System.Collections.Generic;
 
 namespace Com.Wordnik.Petstore.Model {
   public class Order {
-    /* Unique identifier for the order */
     public long id { get; set; }
 
-    /* ID of pet being ordered */
     public long petId { get; set; }
 
-    /* Number of pets ordered */
     public int quantity { get; set; }
 
-    /* Status of the order */
+    /* Order Status */
     public string status { get; set; }
 
-    /* Date shipped, only if it has been */
     public DateTime shipDate { get; set; }
 
     public override string ToString()  {

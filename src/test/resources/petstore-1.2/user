@@ -1,11 +1,10 @@
 {
   "apiVersion": "1.0.0",
   "swaggerVersion": "1.2",
-  "basePath": "http://localhost:8002/api",
+  "basePath": "http://petstore.swagger.wordnik.com/api",
   "resourcePath": "/user",
   "produces": [
-    "application/json",
-    "application/xml"
+    "application/json"
   ],
   "apis": [
     {
@@ -17,16 +16,37 @@
           "notes": "This can only be done by the logged in user.",
           "type": "void",
           "nickname": "createUser",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
           "parameters": [
             {
               "name": "body",
               "description": "Created user object",
               "required": true,
-              "allowMultiple": false,
               "type": "User",
               "paramType": "body"
             }
           ]
+        }
+      ]
+    },
+    {
+      "path": "/user/logout",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Logs out current logged in user session",
+          "notes": "",
+          "type": "void",
+          "nickname": "logoutUser",
+          "authorizations": {},
+          "parameters": []
         }
       ]
     },
@@ -39,12 +59,19 @@
           "notes": "",
           "type": "void",
           "nickname": "createUsersWithArrayInput",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
           "parameters": [
             {
               "name": "body",
               "description": "List of user object",
               "required": true,
-              "allowMultiple": false,
               "type": "array",
               "items": {
                 "$ref": "User"
@@ -64,12 +91,19 @@
           "notes": "",
           "type": "void",
           "nickname": "createUsersWithListInput",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
           "parameters": [
             {
               "name": "body",
               "description": "List of user object",
               "required": true,
-              "allowMultiple": false,
               "type": "array",
               "items": {
                 "$ref": "User"
@@ -89,12 +123,19 @@
           "notes": "This can only be done by the logged in user.",
           "type": "void",
           "nickname": "updateUser",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
           "parameters": [
             {
               "name": "username",
               "description": "name that need to be deleted",
               "required": true,
-              "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             },
@@ -102,7 +143,6 @@
               "name": "body",
               "description": "Updated user object",
               "required": true,
-              "allowMultiple": false,
               "type": "User",
               "paramType": "body"
             }
@@ -124,12 +164,19 @@
           "notes": "This can only be done by the logged in user.",
           "type": "void",
           "nickname": "deleteUser",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
           "parameters": [
             {
               "name": "username",
               "description": "The name that needs to be deleted",
               "required": true,
-              "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             }
@@ -151,16 +198,12 @@
           "notes": "",
           "type": "User",
           "nickname": "getUserByName",
-          "produces": [
-            "application/json",
-            "application/xml"
-          ],
+          "authorizations": {},
           "parameters": [
             {
               "name": "username",
               "description": "The name that needs to be fetched. Use user1 for testing.",
               "required": true,
-              "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             }
@@ -187,15 +230,12 @@
           "notes": "",
           "type": "string",
           "nickname": "loginUser",
-          "produces": [
-            "text/plain"
-          ],
+          "authorizations": {},
           "parameters": [
             {
               "name": "username",
               "description": "The user name for login",
               "required": true,
-              "allowMultiple": false,
               "type": "string",
               "paramType": "query"
             },
@@ -203,7 +243,6 @@
               "name": "password",
               "description": "The password for login in clear text",
               "required": true,
-              "allowMultiple": false,
               "type": "string",
               "paramType": "query"
             }
@@ -216,22 +255,6 @@
           ]
         }
       ]
-    },
-    {
-      "path": "/user/logout",
-      "operations": [
-        {
-          "method": "GET",
-          "summary": "Logs out current logged in user session",
-          "notes": "",
-          "type": "void",
-          "nickname": "logoutUser",
-          "produces": [
-            "text/plain"
-          ],
-          "parameters": []
-        }
-      ]
     }
   ],
   "models": {
@@ -242,19 +265,19 @@
           "type": "integer",
           "format": "int64"
         },
+        "firstName": {
+          "type": "string"
+        },
         "username": {
           "type": "string"
         },
-        "password": {
+        "lastName": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
+        "password": {
           "type": "string"
         },
         "phone": {

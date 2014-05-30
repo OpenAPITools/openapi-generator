@@ -20,7 +20,7 @@ object JavaPetstoreCodegen extends BasicJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
 
   // location of templates
-  override def templateDir = "Java"
+  override def templateDir = "src/main/resources/Java"
 
   // where to write generated code
   override def destinationDir = "samples/client/petstore/java/src/main/java"
