@@ -109,7 +109,6 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
 
     new SwaggerSpecValidator(doc, apis).validate()
 
-println("prepare model bundle")
     val allModels = new HashMap[String, Model]
     val operations = extractApiOperations(apis, allModels)
     val operationMap: Map[(String, String), List[(String, Operation)]] =
@@ -130,16 +129,7 @@ println("prepare model bundle")
       fw.close()
     }
 
-println("prepare api bundle")
-
     val apiBundle = prepareApiBundle(operationMap.toMap)
-// println(apiBundle)
-// println(pretty(render(parse(write(apiBundle)))))
-    // for(i <- apiBundle; (a, b) <- i) println(i)
-
-    // println(pretty(render(parse(write(apiBundle)))))
-println("made api bundle")
-
     val apiInfo = writeFiles(apiBundle, apiTemplateFiles.toMap)
     val apiFiles = new ListBuffer[File]()
 
@@ -152,10 +142,9 @@ println("made api bundle")
       val fw = new FileWriter(filename, false)
       fw.write(m._2 + "\n")
       fw.close()
-      // println("wrote api " + filename)
+      println("wrote api " + filename)
     })
 
-println("supporting classes")
     codegen.writeSupportingClasses2(apiBundle, allModels.toMap, doc.apiVersion) ++
       modelFiles ++ apiFiles
   }
@@ -336,29 +325,6 @@ println("supporting classes")
       m += "modelPackage" -> modelPackage
       Some(m.toMap)
     }).flatten.toList
-  }
-
-  def bundleToSource(bundle:List[Map[String, AnyRef]], templates: Map[String, String]): List[(String, String)] = {
-    val output = new ListBuffer[(String, String)]
-    bundle.foreach(m => {
-      for ((file, suffix) <- templates) {
-        val filename = m("outputDirectory").toString + File.separator + m("filename").toString + suffix
-        output += Tuple2(filename, codegen.generateSource(m, file))
-      }
-    })
-    output.toList
-  }
-
-  def generateAndWrite(bundle: Map[String, AnyRef], templateFile: String) = {
-    val output = codegen.generateSource(bundle, templateFile)
-    val outputDir = new File(bundle("outputDirectory").asInstanceOf[String])
-    outputDir.mkdirs
-
-    val filename = outputDir + File.separator + bundle("filename")
-    val fw = new FileWriter(filename, false)
-    fw.write(output + "\n")
-    fw.close()
-    println("wrote " + filename)
   }
 
   def groupOperationsToFiles(operations: List[(String, String, Operation)]): Map[(String, String), List[(String, Operation)]] = {

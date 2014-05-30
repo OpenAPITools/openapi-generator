@@ -419,7 +419,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     }
   }
 
-  override def bundleToSource(bundle:List[Map[String, AnyRef]], templates: Map[String, String]): List[(String, String)] = {
+  def bundleToSource(bundle:List[Map[String, AnyRef]], templates: Map[String, String]): List[(String, String)] = {
     bundle.foldLeft(List.empty[(String, String)]) { (acc, m) =>
       templates.foldLeft(acc) { (out, tem) =>
         val (file, suffix) = tem
@@ -428,7 +428,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     }
   }
 
-  override def generateAndWrite(bundle: Map[String, AnyRef], templateFile: String) = {
+  def generateAndWrite(bundle: Map[String, AnyRef], templateFile: String) = {
     val output = codegen.generateSource(bundle, templateFile)
     val outputDir = new File(bundle("outputDirectory").asInstanceOf[String])
     outputDir.mkdirs

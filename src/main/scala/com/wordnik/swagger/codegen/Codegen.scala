@@ -44,15 +44,14 @@ object Codegen {
 class Codegen(config: CodegenConfig) {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
+  @deprecated
   def generateSource(bundle: Map[String, AnyRef], templateFile: String): String = {
-    println("~~~~~~~ Generate Source ~~~~~~~~")
     val allImports = new HashSet[String]
     val includedModels = new HashSet[String]
     val modelList = new ListBuffer[Map[String, AnyRef]]
-    // val models = bundle("models").asInstanceOf[Tuple2[String, List[(String, AnyRef)]]]
+    val models = bundle("models").asInstanceOf[Tuple2[String, List[(String, AnyRef)]]]
 
-    // println(models)
-/*    models match {
+    models match {
       case e: List[Tuple2[String, Model]] => {
         e.foreach(m => {
           includedModels += m._1
@@ -66,7 +65,7 @@ class Codegen(config: CodegenConfig) {
       }
       case _ =>
     }
-*/
+
     val modelData = Map[String, AnyRef]("model" -> modelList.toList)
     val operationList = new ListBuffer[Map[String, AnyRef]]
     val classNameToOperationList = new HashMap[String, ListBuffer[AnyRef]]

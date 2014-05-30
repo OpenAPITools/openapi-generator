@@ -280,12 +280,15 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     val allModels = new HashMap[String, Model]
     val operations = config.extractApiOperations(List(petApi), allModels)
 
-    val apiMap = config.groupOperationsToFiles(operations)
-    val bundle = config.prepareApiBundle(apiMap)
-    val apiFiles = config.bundleToSource(bundle, config.apiTemplateFiles.toMap)
+    val operationMap = config.groupOperationsToFiles(operations)
+    // val bundle = config.prepareApiBundle(apiMap)
+    // val apiFiles = config.bundleToSource(bundle, config.apiTemplateFiles.toMap)
 
-    apiFiles.size should be (1)
-    val file = apiFiles.head
+    val apiBundle = config.prepareApiBundle(operationMap.toMap)
+    val apiInfo = config.writeFiles(apiBundle, config.apiTemplateFiles.toMap)
+
+    apiInfo.size should be (1)
+    val file = apiInfo.head
 
     // verify the filename is set
     file._1.indexOf("""PetApi.scala""") should not be (-1)
