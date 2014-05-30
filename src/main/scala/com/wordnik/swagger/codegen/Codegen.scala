@@ -43,7 +43,7 @@ object Codegen {
 
 class Codegen(config: CodegenConfig) {
   implicit val formats = SwaggerSerializers.formats("1.2")
-
+/*
   @deprecated
   def generateSource(bundle: Map[String, AnyRef], templateFile: String): String = {
     val allImports = new HashSet[String]
@@ -170,7 +170,7 @@ class Codegen(config: CodegenConfig) {
     output
   }
 
-
+*/
   def compileTemplate(templateFile: String, rootDir: Option[File] = None, engine: Option[TemplateEngine] = None): (String, (TemplateEngine, Template)) = {
     val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
     val srcName = config.templateDir + "/" + templateFile
@@ -573,7 +573,6 @@ class Codegen(config: CodegenConfig) {
       "models" -> allModels,
       "apiVersion" -> apiVersion) ++ config.additionalParams
 
-println(pretty(render(parse(write(data)))))
     val outputFiles = config.supportingFiles map { file =>
       val supportingFile = file._1
       val outputDir = file._2
@@ -615,7 +614,7 @@ println(pretty(render(parse(write(data)))))
     engine.compiler.shutdown()
     outputFiles
   }
-
+/*
   final def writeSupportingClasses(
     apis: Map[(String, String), List[(String, Operation)]],
     models: Map[String, Model],
@@ -722,7 +721,7 @@ println(pretty(render(parse(write(data)))))
 
     writeSupportingClasses(apis, models, apiVersion, rootDir, dataF)
   }
-
+*/
   protected def isListType(dt: String) = isCollectionType(dt, "List") || isCollectionType(dt, "Array") || isCollectionType(dt, "Set")
 
   protected def isMapType(dt: String) = isCollectionType(dt, "Map")

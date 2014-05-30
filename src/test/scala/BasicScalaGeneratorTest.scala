@@ -265,7 +265,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     queryParam("allowableValues") should be (Some("LIST[available,pending,sold]"))
   }
 
-  ignore should "create an api file" in {
+  it should "create an api file" in {
     implicit val basePath = "http://localhost:8080/api"
     val codegen = new Codegen(config)
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json", None)
@@ -281,8 +281,6 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     val operations = config.extractApiOperations(List(petApi), allModels)
 
     val operationMap = config.groupOperationsToFiles(operations)
-    // val bundle = config.prepareApiBundle(apiMap)
-    // val apiFiles = config.bundleToSource(bundle, config.apiTemplateFiles.toMap)
 
     val apiBundle = config.prepareApiBundle(operationMap.toMap)
     val apiInfo = config.writeFiles(apiBundle, config.apiTemplateFiles.toMap)

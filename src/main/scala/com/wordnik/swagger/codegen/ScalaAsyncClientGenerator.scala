@@ -114,7 +114,7 @@ object ScalaAsyncClientGenerator extends App {
 }
 
 class AsyncClientCodegen(clientName: String, config: CodegenConfig, rootDir: Option[File] = None) extends Codegen(config) {
-
+/*
   override def writeSupportingClasses(apis: Map[(String, String), List[(String, Operation)]],
     models: Map[String, Model], apiVersion: String): Seq[File] = {
 
@@ -177,6 +177,7 @@ class AsyncClientCodegen(clientName: String, config: CodegenConfig, rootDir: Opt
     val template = eng.compile(TemplateSource.fromText(resourceName,Source.fromInputStream(is).mkString))
     (resourceName, eng -> template)
   }
+*/
 }
 
 class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
@@ -308,30 +309,29 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     val allModels = new mutable.HashMap[String, Model]
     val operations = extractApiOperations(apis, allModels)
     val operationMap = groupOperationsToFiles(operations)
-    val modelBundle = prepareModelMap(allModels.toMap)
-    val modelFiles = bundleToSource(modelBundle, modelTemplateFiles.toMap)
 
-    modelFiles.map(m => {
-      val filename = m._1
+    val modelMap = prepareModelMap(allModels.toMap)
 
+    val modelFileContents = writeFiles(modelMap, modelTemplateFiles.toMap)
+    val modelFiles = new ListBuffer[File]()
+
+    for((filename, contents) <- modelFileContents) {
       val file = new java.io.File(filename)
+      modelFiles += file
       file.getParentFile().mkdirs
-
       val fw = new FileWriter(filename, false)
-      fw.write(m._2 + "\n")
+      fw.write(contents + "\n")
       fw.close()
-      println("wrote model " + filename)
-    })
-
-
+    }
 
     val apiBundle = prepareApiBundle(operationMap.toMap)
-    val apiFiles = bundleToSource(apiBundle, apiTemplateFiles.toMap)
+    val apiInfo = writeFiles(apiBundle, apiTemplateFiles.toMap)
+    val apiFiles = new ListBuffer[File]()
 
-    apiFiles.map(m => {
+    apiInfo.map(m => {
       val filename = m._1
-
       val file = new java.io.File(filename)
+      apiFiles += file
       file.getParentFile().mkdirs
 
       val fw = new FileWriter(filename, false)
@@ -340,7 +340,8 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       println("wrote api " + filename)
     })
 
-    codegen.writeSupportingClasses(operationMap, allModels.toMap, doc.apiVersion)
+    codegen.writeSupportingClasses2(apiBundle, allModels.toMap, doc.apiVersion) ++
+      modelFiles ++ apiFiles
   }
 
 
@@ -381,6 +382,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   /**
    * creates a map of models and properties needed to write source
    */
+/*
   override def prepareModelMap(models: Map[String, Model]): List[Map[String, AnyRef]] = {
     for {
       (name, schema) <- (models -- defaultIncludes).toList
@@ -439,7 +441,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     fw.close()
     println("wrote " + filename)
   }
-
+*/
   override def groupOperationsToFiles(operations: List[(String, String, Operation)]): Map[(String, String), List[(String, Operation)]] = {
     val opMap = new mutable.HashMap[(String, String), mutable.ListBuffer[(String, Operation)]]
     for ((basePath, apiPath, operation) <- operations) {
