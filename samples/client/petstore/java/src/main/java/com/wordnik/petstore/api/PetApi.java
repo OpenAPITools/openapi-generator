@@ -2,8 +2,9 @@ package com.wordnik.petstore.api;
 
 import com.wordnik.client.ApiException;
 import com.wordnik.client.ApiInvoker;
-import java.io.File;
+
 import com.wordnik.petstore.model.Pet;
+import java.io.File;
 import java.util.*;
 
 public class PetApi {
