@@ -455,10 +455,6 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     println("wrote " + filename)
   }
 */
-  override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
-    val mutable = scala.collection.mutable.Map() ++ m
-    m
-  }
 
   // response classes--if you don't want a response class, override and set to None
   override def processResponseClass(responseClass: String): Option[String] = {

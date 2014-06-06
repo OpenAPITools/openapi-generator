@@ -114,9 +114,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val operationMap: Map[(String, String), List[(String, Operation)]] =
       groupOperationsToFiles(operations)
 
-
     val modelMap = prepareModelMap(allModels.toMap)
-
     val modelFileContents = writeFiles(modelMap, modelTemplateFiles.toMap)
     val modelFiles = new ListBuffer[File]()
 
@@ -213,6 +211,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       output.map(op => processApiOperation(op._2, op._3))
       allModels ++= CoreUtils.extractApiModels(apiDescription)
     })
+
     output.toList
   }
 
@@ -305,18 +304,49 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       val basePath = identifier._1
       val name = identifier._2
       val className = toApiName(name)
-
+      val allImports = new HashSet[String]
       val operations = new ListBuffer[AnyRef]
-      for((path, operation) <- operationList) {
-        val op = codegen.apiToMap(path, operation)
-        operations += Map("operation" -> op, "path" -> path)
+      val o = new ListBuffer[AnyRef]
+
+      val classNameToOperationList = new HashMap[String, ListBuffer[AnyRef]]
+      for ((apiPath, operation) <- operationList) {
+        CoreUtils.extractModelNames(operation).foreach(i => allImports += i)
+      }
+      println((allImports.map(i => Map("import" -> i))).toList)
+      val imports = new ListBuffer[Map[String, String]]
+      val includedModels = new HashSet[String]
+      val modelList = new ListBuffer[Map[String, AnyRef]]
+      val importScope = modelPackage match {
+        case Some(s) => s + "."
+        case None => ""
       }
 
+      allImports --= defaultIncludes
+      allImports --= primitives
+      allImports --= containers
+      allImports.foreach(i => {
+        val model = toModelName(i)
+        if(!includedModels.contains(model)) {
+          if(!importMapping.containsKey(model)) {
+            if(!imports.flatten.map(m => m._2).toSet.contains(importScope + model)){
+              imports += Map("import" -> (importScope + model))
+            }
+          }
+        }
+      })
+
+      for((path, operation) <- operationList) {
+        val op = codegen.apiToMap(path, operation)
+        o += Map("path" -> path) ++ op
+      }
+      operations += Map("operation" -> o)
+
       val m = new HashMap[String, AnyRef]
+      m += "imports" -> imports
       m += "baseName" -> name
       m += "filename" -> toApiFilename(name)
       m += "name" -> toApiName(name)
-      m += "className" -> className
+      m += "classname" -> className
       m += "basePath" -> basePath
       m += "package" -> apiPackage
       m += "invokerPackage" -> invokerPackage
@@ -327,6 +357,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "modelPackage" -> modelPackage
 
       m ++= additionalParams
+      println(pretty(render(parse(write(m)))))
       Some(m.toMap)
     }).flatten.toList
   }
