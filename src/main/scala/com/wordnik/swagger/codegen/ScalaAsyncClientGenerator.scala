@@ -118,6 +118,7 @@ object ScalaAsyncClientGenerator extends App {
   else
     props += "fileMap" -> resUrl
 
+  println(props)
   clientOpts.properties = props.toMap.asJava
 
   println(appBanner)
@@ -376,14 +377,14 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   }
 
   override def toModelName(name: String) = toDeclaredType(name.pascalize)
-
+*/
   override def toApiName(name: String) = {
     name.replaceAll("\\{","").replaceAll("\\}", "") match {
       case s: String if(s.length > 0) => s.underscore.pascalize + "Client"
       case _ => "Client"
     }
   }
-*/
+
 //
 //  override def nameFromPath(apiPath: String) = resourceNameFromFullPath(apiPath)
 //
@@ -454,22 +455,10 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
     println("wrote " + filename)
   }
 */
-  override def groupOperationsToFiles(operations: List[(String, String, Operation)]): Map[(String, String), List[(String, Operation)]] = {
-    val opMap = new mutable.HashMap[(String, String), mutable.ListBuffer[(String, Operation)]]
-    for ((basePath, apiPath, operation) <- operations) {
-      val className = resourceNameFromFullPath(apiPath)
-      if (!cfg.api.excludedApis.exists(_.equalsIgnoreCase(className))) {
-        val listToAddTo = opMap.getOrElse((basePath, className), {
-          val l = new mutable.ListBuffer[(String, Operation)]
-          opMap += (basePath, className) -> l
-          l
-        })
-        listToAddTo += (apiPath -> operation)
-      }
-    }
-    opMap.map(m => (m._1, m._2.toList)).toMap
+  override def processApiMap(m: Map[String, AnyRef]): Map[String, AnyRef] = {
+    val mutable = scala.collection.mutable.Map() ++ m
+    m
   }
-
 
   // response classes--if you don't want a response class, override and set to None
   override def processResponseClass(responseClass: String): Option[String] = {

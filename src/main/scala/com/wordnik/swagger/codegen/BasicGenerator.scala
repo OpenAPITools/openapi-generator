@@ -157,7 +157,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     models.foreach(m => {
       for ((templateFile, suffix) <- templates) {
         val imports = m.getOrElse("imports", None)
-        val filename = m("outputDirectory").toString +File.separator + m("filename").toString + suffix
+        val filename = m("outputDirectory").toString + File.separator + m("filename").toString + suffix
         output += Tuple2(filename, generateSource(m, templateFile))
       }
     })
@@ -241,6 +241,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         m += "outputDirectory" -> outputDirectory
         m += "newline" -> "\n"
         m += "modelPackage" -> modelPackage
+
+        m ++= additionalParams
         Some(m.toMap)
       }
       else None
@@ -323,6 +325,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "outputDirectory" -> (destinationDir + File.separator + apiPackage.getOrElse("").replace(".", File.separator))
       m += "newline" -> "\n"
       m += "modelPackage" -> modelPackage
+
+      m ++= additionalParams
       Some(m.toMap)
     }).flatten.toList
   }
