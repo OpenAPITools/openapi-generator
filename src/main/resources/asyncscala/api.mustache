@@ -8,7 +8,7 @@ import scala.concurrent.duration._
 import collection.mutable
 
 {{#operations}}
-class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+class {{className}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
   {{#operation}}
 
