@@ -33,10 +33,16 @@ object ResourceExtractor extends RemoteUrl {
 
     implicit val formats = {
       val jval = parse(json)
+
       val version = (jval \ "swaggerVersion") match {
+        case e: JInt => e.num.toString
+        case e: JBool => e.value.toString
         case e: JString => e.s
+        case e: JDouble => e.num.toString
         case _ => ""
       }
+
+      println("version: " + version)
       SwaggerSerializers.formats(version)
     }
 		parse(json).extract[ResourceListing]

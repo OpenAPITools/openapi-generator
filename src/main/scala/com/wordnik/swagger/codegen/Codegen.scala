@@ -451,6 +451,7 @@ class Codegen(config: CodegenConfig) {
         "classVarName" -> config.toVarName(className), // suggested name of object created from this class
         "modelPackage" -> config.modelPackage,
         "description" -> model.description,
+        "modelJson" -> writeJson(model),
         "newline" -> "\n")
 
     val l = new ListBuffer[AnyRef]
@@ -559,18 +560,52 @@ class Codegen(config: CodegenConfig) {
 
   def writeSupportingClasses2(
     apiBundle: List[Map[String, AnyRef]],
-    allModels: Map[String, Model],
+    modelsMap: List[Map[String, AnyRef]],
     apiVersion: String): Seq[File] = {
 
+
+
+    val b = new HashMap[String, HashMap[String, AnyRef]]
+    modelsMap.foreach(m => {
+      if(m.contains("models")) {
+        val f = m("models").asInstanceOf[List[Map[String, AnyRef]]]
+
+        f.foreach(g => {
+          val e = new HashMap[String, AnyRef]
+          val model = g("model").asInstanceOf[Map[String, AnyRef]]
+          e ++= model
+          e += "hasMoreModels" -> "true"
+
+          b += model("classVarName").toString -> e
+        })
+      }  
+    })
+    val models = new ListBuffer[HashMap[String, AnyRef]]
+
+    val keys = b.keys
+    var count = 0
+    b.values.foreach(v => {
+      models += v
+      count += 1
+      if(count != keys.size) {
+        v += "hasMoreModels" -> "true"
+      }
+      else {
+        v.remove("hasMoreModels")
+      }
+    })
+
+    val f = Map("model" -> models)
     val rootDir: Option[File] = Some(new File("."))
     val engine = new TemplateEngine(rootDir orElse Some(new File(".")))
+
     val data = Map(
       "invokerPackage" -> config.invokerPackage,
       "package" -> config.packageName,
       "modelPackage" -> config.modelPackage,
       "apiPackage" -> config.apiPackage,
       "apiInfo" -> Map("apis" -> apiBundle),
-      "models" -> allModels,
+      "models" -> f,
       "apiVersion" -> apiVersion) ++ config.additionalParams
 
     val outputFiles = config.supportingFiles map { file =>

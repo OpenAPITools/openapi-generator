@@ -87,7 +87,7 @@ object SwaggerSerializers {
           new ResourceListingSerializer +
           new ApiListingSerializer
       }
-      case _ => throw new IllegalArgumentException("%s is not a valid Swagger version".format(version))
+      case _ => throw new IllegalArgumentException("%s is not a valid Swagger version~~".format(version))
     }
   }
 
@@ -104,15 +104,24 @@ object SwaggerSerializers {
         case Some(m) => m.values.toList
         case _ => List.empty
       }
+
+      val swaggerVersion = (json \ "swaggerVersion") match {
+        case e: JInt => e.num.toString
+        case e: JBool => e.value.toString
+        case e: JString => e.s
+        case e: JDouble => e.num.toString
+        case _ => {
+          !!(json, RESOURCE_LISTING, "swaggerVersion", "missing required field!!!", ERROR)
+          ""
+        }
+      }
+
       ApiListing(
         (json \ "apiVersion").extractOrElse({
           !!(json, RESOURCE, "apiVersion", "missing required field", ERROR)
           ""
         }),
-        (json \ "swaggerVersion").extractOrElse({
-          !!(json, RESOURCE, "swaggerVersion", "missing required field", ERROR)
-          ""
-        }),
+        swaggerVersion,
         (json \ "basePath").extractOrElse({
           !!(json, RESOURCE, "basePath", "missing required field", ERROR)
           ""
@@ -156,15 +165,23 @@ object SwaggerSerializers {
 
       val apis = (json \ "apis").extract[List[ApiListingReference]]
 
+      val swaggerVersion = (json \ "swaggerVersion") match {
+        case e: JInt => e.num.toString
+        case e: JBool => e.value.toString
+        case e: JString => e.s
+        case e: JDouble => e.num.toString
+        case _ => {
+          !!(json, RESOURCE_LISTING, "swaggerVersion", "missing required field!!!", ERROR)
+          ""
+        }
+      }
+
       ResourceListing(
         (json \ "apiVersion").extractOrElse({
           !!(json, RESOURCE_LISTING, "apiVersion", "missing required field", ERROR)
           ""
         }),
-        (json \ "swaggerVersion").extractOrElse({
-          !!(json, RESOURCE_LISTING, "swaggerVersion", "missing required field", ERROR)
-          ""
-        }),
+        swaggerVersion,
         "",
         apis.filter(a => a.path != "" && a.path != null)
       )
@@ -183,11 +200,15 @@ object SwaggerSerializers {
 
   class ApiListingReferenceSerializer extends CustomSerializer[ApiListingReference](implicit formats => ({
     case json =>
-      ApiListingReference(
-        (json \ "path").extractOrElse({
+      val path = (json \ "path").extractOrElse({
+        (json \ "resourcePath").extractOrElse({
           !!(json, RESOURCE, "path", "missing required field", ERROR)
           ""
-        }),
+        })
+      })
+
+      ApiListingReference(
+        path,
         (json \ "description").extractOpt[String]
       )
     }, {
@@ -199,6 +220,7 @@ object SwaggerSerializers {
 
   class ApiDescriptionSerializer extends CustomSerializer[ApiDescription](implicit formats => ({
     case json =>
+
       ApiDescription(
         (json \ "path").extractOrElse({
           !!(json, RESOURCE_LISTING, "path", "missing required field", ERROR)

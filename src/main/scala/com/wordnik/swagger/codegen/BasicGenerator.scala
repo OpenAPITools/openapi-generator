@@ -99,7 +99,11 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         })
         Option(System.getProperty("skipErrors")) match {
           case Some(str) => println("**** ignoring errors and continuing")
-          case None => sys.exit(0)
+          case None => {
+            val out = new StringBuilder
+            SwaggerSerializers.validationMessages.foreach(m => out.append(m).append("\n"))
+            throw new RuntimeException(out.toString)
+          }
         }
       }
       case 0 =>
@@ -143,7 +147,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       println("wrote api " + filename)
     })
 
-    codegen.writeSupportingClasses2(apiBundle, allModels.toMap, doc.apiVersion) ++
+    codegen.writeSupportingClasses2(apiBundle, modelMap, doc.apiVersion) ++
       modelFiles ++ apiFiles
   }
 
@@ -240,7 +244,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
         m += "outputDirectory" -> outputDirectory
         m += "newline" -> "\n"
         m += "modelPackage" -> modelPackage
-
+        m += "modelJson" -> codegen.writeJson(schema)
         m ++= additionalParams
         Some(m.toMap)
       }
@@ -312,7 +316,6 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       for ((apiPath, operation) <- operationList) {
         CoreUtils.extractModelNames(operation).foreach(i => allImports += i)
       }
-      println((allImports.map(i => Map("import" -> i))).toList)
       val imports = new ListBuffer[Map[String, String]]
       val includedModels = new HashSet[String]
       val modelList = new ListBuffer[Map[String, AnyRef]]
@@ -357,7 +360,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       m += "modelPackage" -> modelPackage
 
       m ++= additionalParams
-      println(pretty(render(parse(write(m)))))
+      
       Some(m.toMap)
     }).flatten.toList
   }
