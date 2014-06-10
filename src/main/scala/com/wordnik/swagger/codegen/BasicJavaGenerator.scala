@@ -107,6 +107,16 @@ class BasicJavaGenerator extends BasicGenerator {
     super.toVarName(paramName)
   }
 
+  override def toApiFilename(name: String): String = {
+    val paramName = name.replaceAll("[^a-zA-Z0-9_]","")
+    super.toApiFilename(paramName)
+  }
+
+  override def toApiName(name: String): String = {
+    val paramName = name.replaceAll("[^a-zA-Z0-9_]","")
+    super.toApiName(paramName)
+  }
+
   // response classes
   override def processResponseClass(responseClass: String): Option[String] = {
     responseClass match {
