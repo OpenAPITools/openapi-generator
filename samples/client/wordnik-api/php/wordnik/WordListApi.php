@@ -29,8 +29,11 @@ class WordListApi {
 	 * updateWordList
 	 * Updates an existing WordList
    * permalink, string: permalink of WordList to update (required)
+
    * body, WordList: Updated WordList (optional)
+
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * @return 
 	 */
 
@@ -42,6 +45,8 @@ class WordListApi {
   		$method = "PUT";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -64,7 +69,9 @@ class WordListApi {
 	 * deleteWordList
 	 * Deletes an existing WordList
    * permalink, string: ID of WordList to delete (required)
+
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * @return 
 	 */
 
@@ -76,6 +83,8 @@ class WordListApi {
   		$method = "DELETE";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -98,7 +107,9 @@ class WordListApi {
 	 * getWordListByPermalink
 	 * Fetches a WordList by ID
    * permalink, string: permalink of WordList to fetch (required)
+
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * @return WordList
 	 */
 
@@ -110,6 +121,8 @@ class WordListApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -140,8 +153,11 @@ class WordListApi {
 	 * addWordsToWordList
 	 * Adds words to a WordList
    * permalink, string: permalink of WordList to user (required)
+
    * body, array[StringValue]: Array of words to add to WordList (optional)
+
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * @return 
 	 */
 
@@ -153,6 +169,8 @@ class WordListApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -175,11 +193,17 @@ class WordListApi {
 	 * getWordListWords
 	 * Fetches words in a WordList
    * permalink, string: ID of WordList to use (required)
+
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * sortBy, string: Field to sort by (optional)
+
    * sortOrder, string: Direction to sort (optional)
+
    * skip, int: Results to skip (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return array[WordListWord]
 	 */
 
@@ -191,6 +215,8 @@ class WordListApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($sortBy != null) {
   		  $queryParams['sortBy'] = $this->apiClient->toQueryValue($sortBy);
@@ -233,8 +259,11 @@ class WordListApi {
 	 * deleteWordsFromWordList
 	 * Removes words from a WordList
    * permalink, string: permalink of WordList to use (required)
+
    * body, array[StringValue]: Words to remove from WordList (optional)
+
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * @return 
 	 */
 
@@ -246,6 +275,8 @@ class WordListApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -265,5 +296,6 @@ class WordListApi {
 
       }
   
+
 }
 

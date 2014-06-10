@@ -29,7 +29,9 @@ class WordListsApi {
 	 * createWordList
 	 * Creates a WordList.
    * body, WordList: WordList to create (optional)
+
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * @return WordList
 	 */
 
@@ -41,6 +43,8 @@ class WordListsApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -64,5 +68,6 @@ class WordListsApi {
 
       }
   
+
 }
 

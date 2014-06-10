@@ -29,17 +29,29 @@ class WordsApi {
 	 * searchWords
 	 * Searches words
    * query, string: Search query (required)
+
    * includePartOfSpeech, string: Only include these comma-delimited parts of speech (optional)
+
    * excludePartOfSpeech, string: Exclude these comma-delimited parts of speech (optional)
+
    * caseSensitive, string: Search case sensitive (optional)
+
    * minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
    * maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
    * minDictionaryCount, int: Minimum number of dictionary entries for words returned (optional)
+
    * maxDictionaryCount, int: Maximum dictionary definition count (optional)
+
    * minLength, int: Minimum word length (optional)
+
    * maxLength, int: Maximum word length (optional)
+
    * skip, int: Results to skip (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return WordSearchResults
 	 */
 
@@ -51,6 +63,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($caseSensitive != null) {
   		  $queryParams['caseSensitive'] = $this->apiClient->toQueryValue($caseSensitive);
@@ -111,6 +125,7 @@ class WordsApi {
 	 * getWordOfTheDay
 	 * Returns a specific WordOfTheDay
    * date, string: Fetches by date in yyyy-MM-dd (optional)
+
    * @return WordOfTheDay
 	 */
 
@@ -122,6 +137,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($date != null) {
   		  $queryParams['date'] = $this->apiClient->toQueryValue($date);
@@ -148,21 +165,37 @@ class WordsApi {
 	 * reverseDictionary
 	 * Reverse dictionary search
    * query, string: Search term (required)
+
    * findSenseForWord, string: Restricts words and finds closest sense (optional)
+
    * includeSourceDictionaries, string: Only include these comma-delimited source dictionaries (optional)
+
    * excludeSourceDictionaries, string: Exclude these comma-delimited source dictionaries (optional)
+
    * includePartOfSpeech, string: Only include these comma-delimited parts of speech (optional)
+
    * excludePartOfSpeech, string: Exclude these comma-delimited parts of speech (optional)
+
    * expandTerms, string: Expand terms (optional)
+
    * sortBy, string: Attribute to sort by (optional)
+
    * sortOrder, string: Sort direction (optional)
+
    * minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
    * maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
    * minLength, int: Minimum word length (optional)
+
    * maxLength, int: Maximum word length (optional)
+
    * includeTags, string: Return a closed set of XML tags in response (optional)
+
    * skip, string: Results to skip (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return DefinitionSearchResults
 	 */
 
@@ -174,6 +207,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($query != null) {
   		  $queryParams['query'] = $this->apiClient->toQueryValue($query);
@@ -245,17 +280,29 @@ class WordsApi {
 	 * getRandomWords
 	 * Returns an array of random WordObjects
    * includePartOfSpeech, string: CSV part-of-speech values to include (optional)
+
    * excludePartOfSpeech, string: CSV part-of-speech values to exclude (optional)
+
    * sortBy, string: Attribute to sort by (optional)
+
    * sortOrder, string: Sort direction (optional)
+
    * hasDictionaryDef, string: Only return words with dictionary definitions (optional)
+
    * minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
    * maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
    * minDictionaryCount, int: Minimum dictionary count (optional)
+
    * maxDictionaryCount, int: Maximum dictionary count (optional)
+
    * minLength, int: Minimum word length (optional)
+
    * maxLength, int: Maximum word length (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return array[WordObject]
 	 */
 
@@ -267,6 +314,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($hasDictionaryDef != null) {
   		  $queryParams['hasDictionaryDef'] = $this->apiClient->toQueryValue($hasDictionaryDef);
@@ -326,14 +375,23 @@ class WordsApi {
 	 * getRandomWord
 	 * Returns a single random WordObject
    * includePartOfSpeech, string: CSV part-of-speech values to include (optional)
+
    * excludePartOfSpeech, string: CSV part-of-speech values to exclude (optional)
+
    * hasDictionaryDef, string: Only return words with dictionary definitions (optional)
+
    * minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
    * maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
    * minDictionaryCount, int: Minimum dictionary count (optional)
+
    * maxDictionaryCount, int: Maximum dictionary count (optional)
+
    * minLength, int: Minimum word length (optional)
+
    * maxLength, int: Maximum word length (optional)
+
    * @return WordObject
 	 */
 
@@ -345,6 +403,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($hasDictionaryDef != null) {
   		  $queryParams['hasDictionaryDef'] = $this->apiClient->toQueryValue($hasDictionaryDef);
@@ -392,5 +452,6 @@ class WordsApi {
 
       }
   
+
 }
 

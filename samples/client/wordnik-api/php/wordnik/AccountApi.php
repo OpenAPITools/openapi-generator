@@ -29,7 +29,9 @@ class AccountApi {
 	 * authenticate
 	 * Authenticates a User
    * username, string: A confirmed Wordnik username (required)
+
    * password, string: The user's password (required)
+
    * @return AuthenticationToken
 	 */
 
@@ -41,6 +43,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($password != null) {
   		  $queryParams['password'] = $this->apiClient->toQueryValue($password);
@@ -71,7 +75,9 @@ class AccountApi {
 	 * authenticatePost
 	 * Authenticates a user
    * username, string: A confirmed Wordnik username (required)
+
    * body, string: The user's password (required)
+
    * @return AuthenticationToken
 	 */
 
@@ -83,6 +89,8 @@ class AccountApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
@@ -110,8 +118,11 @@ class AccountApi {
 	 * getWordListsForLoggedInUser
 	 * Fetches WordList objects for the logged-in user.
    * auth_token, string: auth_token of logged-in user (required)
+
    * skip, int: Results to skip (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return array[WordList]
 	 */
 
@@ -123,6 +134,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($skip != null) {
   		  $queryParams['skip'] = $this->apiClient->toQueryValue($skip);
@@ -155,6 +168,7 @@ class AccountApi {
 	 * getApiTokenStatus
 	 * Returns usage statistics for the API account.
    * api_key, string: Wordnik authentication token (optional)
+
    * @return ApiTokenStatus
 	 */
 
@@ -166,6 +180,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($api_key != null) {
   		 	$headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
@@ -192,6 +208,7 @@ class AccountApi {
 	 * getLoggedInUser
 	 * Returns the logged-in User
    * auth_token, string: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
    * @return User
 	 */
 
@@ -203,6 +220,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = '(mediaType,application/json)';
+      $headerParams['Content-Type'] = '';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -226,5 +245,6 @@ class AccountApi {
 
       }
   
+
 }
 
