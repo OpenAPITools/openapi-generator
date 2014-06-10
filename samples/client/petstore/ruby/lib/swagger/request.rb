@@ -87,6 +87,15 @@ module Swagger
         end
       end
 
+      # Stick a .{format} placeholder on the end of the path if there isn't
+      # one already or an actual format like json or xml
+      # e.g. /words/blah => /words/blah.{format}
+      if Swagger.configuration.force_ending_format
+        unless ['.json', '.xml', '{format}'].any? {|s| p.downcase.include? s }
+          p = "#{p}.#{format}"   
+        end
+      end
+
       p = p.sub("{format}", self.format.to_s)
       
       URI.encode [Swagger.configuration.base_path, p].join("/").gsub(/\/+/, '/')
@@ -121,7 +130,9 @@ module Swagger
       self.params.each_pair do |key, value|
         next if self.path.include? "{#{key}}"                                   # skip path params
         next if value.blank? && value.class != FalseClass                       # skip empties
-        key = key.to_s.camelize(:lower).to_sym unless key.to_sym == :api_key    # api_key is not a camelCased param
+        if Swagger.configuration.camelize_params
+          key = key.to_s.camelize(:lower).to_sym unless key.to_sym == :api_key    # api_key is not a camelCased param
+        end
         query_values[key] = value.to_s
       end
     
@@ -186,4 +197,3 @@ module Swagger
 
   end
 end
-

@@ -20,6 +20,7 @@ class Store_api
     #resource path
     path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(order_id))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -30,6 +31,7 @@ class Store_api
     post_body = nil
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
     Order.new(response)
+
   end
 
 def self.delete_order (order_id,opts={})
@@ -44,6 +46,7 @@ def self.delete_order (order_id,opts={})
     #resource path
     path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(order_id))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -54,6 +57,7 @@ def self.delete_order (order_id,opts={})
     post_body = nil
     Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.place_order (body,opts={})
@@ -67,6 +71,7 @@ def self.place_order (body,opts={})
 
     #resource path
     path = "/store/order".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -97,6 +102,7 @@ def self.place_order (body,opts={})
     end
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 end
