@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wordnik</groupId>
-  <artifactId>swagger-client</artifactId>
+  <artifactId>scala-client</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-client</name>
-  <version>1.0</version>
+  <name>scala-client</name>
+  <version>1.0.0</version>
   <prerequisites>
     <maven>2.2.0</maven>
   </prerequisites>
@@ -170,13 +170,13 @@
     </dependency>
     <dependency>
       <groupId>com.wordnik</groupId>
-      <artifactId>swagger-core_2.9.1</artifactId>
+      <artifactId>swagger-core_${scala-short-version}</artifactId>
       <version>${swagger-core-version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.9.1</artifactId>
+      <artifactId>scalatest_${scala-short-version}</artifactId>
       <version>${scala-test-version}</version>
       <scope>test</scope>
     </dependency>
@@ -187,15 +187,34 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+    <profiles>
+        <profile>
+            <id>scala_2.10</id>
+            <properties>
+                <scala-version>2.10.3</scala-version>
+                <scala-short-version>2.10</scala-short-version>
+                <swagger-core-version>1.3.2</swagger-core-version>
+                <scala-test-version>2.1.2</scala-test-version>
+            </properties>
+        </profile>
+        <profile>
+            <id>scala_2.9.1</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <scala-version>2.9.1-1</scala-version>
+                <scala-short-version>2.9.1</scala-short-version>
+                <swagger-core-version>1.1.0</swagger-core-version>
+                <scala-test-version>1.6.1</scala-test-version>
+            </properties>
+        </profile>
+    </profiles>
   <properties>
     <jersey-version>1.7</jersey-version>
-    <swagger-core-version>1.1.0</swagger-core-version>
-    <scala-version>2.9.1-1</scala-version>
     <junit-version>4.8.1</junit-version>
     <maven-plugin.version>1.0.0</maven-plugin.version>
-    <scala-test-version>1.6.1</scala-test-version>
     <junit-version>4.8.1</junit-version>
-    <scala-test-version>1.6.1</scala-test-version>
     <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
   </properties>
 </project>

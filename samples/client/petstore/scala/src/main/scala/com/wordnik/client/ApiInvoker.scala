@@ -44,8 +44,6 @@ object ApiInvoker {
     URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
   }
 
-  def addHeader(key: String, value: String) = defaultHeaders += key -> value
-
   def escape(value: Long): String = value.toString
   def escape(value: Double): String = value.toString
   def escape(value: Float): String = value.toString

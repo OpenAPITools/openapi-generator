@@ -20,6 +20,7 @@ class StoreApi {
     val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -48,6 +49,7 @@ class StoreApi {
     val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -73,6 +75,7 @@ class StoreApi {
   def placeOrder (body: Order) = {
     // create path and map variables
     val path = "/store/order".replaceAll("\\{format\\}","json")
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
