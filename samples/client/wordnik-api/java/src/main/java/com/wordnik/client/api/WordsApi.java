@@ -2,10 +2,12 @@ package com.wordnik.client.api;
 
 import com.wordnik.client.common.ApiException;
 import com.wordnik.client.common.ApiInvoker;
+
 import com.wordnik.client.model.DefinitionSearchResults;
 import com.wordnik.client.model.WordObject;
 import com.wordnik.client.model.WordOfTheDay;
 import com.wordnik.client.model.WordSearchResults;
+import java.io.File;
 import java.util.*;
 
 public class WordsApi {
@@ -35,6 +37,7 @@ public class WordsApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(caseSensitive)))
       queryParams.put("caseSensitive", String.valueOf(caseSensitive));
@@ -58,10 +61,13 @@ public class WordsApi {
       queryParams.put("skip", String.valueOf(skip));
     if(!"null".equals(String.valueOf(limit)))
       queryParams.put("limit", String.valueOf(limit));
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (WordSearchResults) ApiInvoker.deserialize(response, "", WordSearchResults.class);
       }
@@ -84,13 +90,17 @@ public class WordsApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(date)))
       queryParams.put("date", String.valueOf(date));
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (WordOfTheDay) ApiInvoker.deserialize(response, "", WordOfTheDay.class);
       }
@@ -117,6 +127,7 @@ public class WordsApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(query)))
       queryParams.put("query", String.valueOf(query));
@@ -150,10 +161,13 @@ public class WordsApi {
       queryParams.put("skip", String.valueOf(skip));
     if(!"null".equals(String.valueOf(limit)))
       queryParams.put("limit", String.valueOf(limit));
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (DefinitionSearchResults) ApiInvoker.deserialize(response, "", DefinitionSearchResults.class);
       }
@@ -176,6 +190,7 @@ public class WordsApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(hasDictionaryDef)))
       queryParams.put("hasDictionaryDef", String.valueOf(hasDictionaryDef));
@@ -201,10 +216,13 @@ public class WordsApi {
       queryParams.put("sortOrder", String.valueOf(sortOrder));
     if(!"null".equals(String.valueOf(limit)))
       queryParams.put("limit", String.valueOf(limit));
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<WordObject>) ApiInvoker.deserialize(response, "List", WordObject.class);
       }
@@ -227,6 +245,7 @@ public class WordsApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(hasDictionaryDef)))
       queryParams.put("hasDictionaryDef", String.valueOf(hasDictionaryDef));
@@ -246,10 +265,13 @@ public class WordsApi {
       queryParams.put("minLength", String.valueOf(minLength));
     if(!"null".equals(String.valueOf(maxLength)))
       queryParams.put("maxLength", String.valueOf(maxLength));
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (WordObject) ApiInvoker.deserialize(response, "", WordObject.class);
       }
