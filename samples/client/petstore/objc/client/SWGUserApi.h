@@ -2,6 +2,7 @@
 #import "SWGUser.h"
 
 
+
 @interface SWGUserApi: NSObject
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
@@ -9,33 +10,6 @@
 +(SWGUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;
 +(void) setBasePath:(NSString*)basePath;
 +(NSString*) getBasePath;
-/**
-
- Create user
- This can only be done by the logged in user.
- @param body Created user object
- */
--(NSNumber*) createUserWithCompletionBlock :(SWGUser*) body 
-        completionHandler: (void (^)(NSError* error))completionBlock;
-
-/**
-
- Creates list of users with given input array
- 
- @param body List of user object
- */
--(NSNumber*) createUsersWithArrayInputWithCompletionBlock :(NSArray*) body 
-        completionHandler: (void (^)(NSError* error))completionBlock;
-
-/**
-
- Creates list of users with given list input
- 
- @param body List of user object
- */
--(NSNumber*) createUsersWithListInputWithCompletionBlock :(NSArray*) body 
-        completionHandler: (void (^)(NSError* error))completionBlock;
-
 /**
 
  Updated user
@@ -82,5 +56,32 @@
  
  */
 -(NSNumber*) logoutUserWithCompletionBlock :(void (^)(NSError* error))completionBlock;
+
+/**
+
+ Create user
+ This can only be done by the logged in user.
+ @param body Created user object
+ */
+-(NSNumber*) createUserWithCompletionBlock :(SWGUser*) body 
+        completionHandler: (void (^)(NSError* error))completionBlock;
+
+/**
+
+ Creates list of users with given input array
+ 
+ @param body List of user object
+ */
+-(NSNumber*) createUsersWithArrayInputWithCompletionBlock :(NSArray*) body 
+        completionHandler: (void (^)(NSError* error))completionBlock;
+
+/**
+
+ Creates list of users with given list input
+ 
+ @param body List of user object
+ */
+-(NSNumber*) createUsersWithListInputWithCompletionBlock :(NSArray*) body 
+        completionHandler: (void (^)(NSError* error))completionBlock;
 
 @end

@@ -3,17 +3,18 @@
 #import "SWGCategory.h"
 #import "SWGTag.h"
 
+
 @interface SWGPet : SWGObject
 
-@property(nonatomic) NSNumber* _id;  /* Unique identifier for the Pet */
+@property(nonatomic) NSNumber* _id;  /* unique identifier for the pet */
 
-@property(nonatomic) SWGCategory* category;  /* Category the pet is in [optional]*/
+@property(nonatomic) SWGCategory* category;  
 
-@property(nonatomic) NSString* name;  /* Friendly name of the pet */
+@property(nonatomic) NSString* name;  
 
-@property(nonatomic) NSArray* photoUrls;  /* Image URLs [optional]*/
+@property(nonatomic) NSArray* photoUrls;  
 
-@property(nonatomic) NSArray* tags;  /* Tags assigned to this pet [optional]*/
+@property(nonatomic) NSArray* tags;  
 
 @property(nonatomic) NSString* status;  /* pet status in the store [optional]*/
 

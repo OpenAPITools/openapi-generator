@@ -2,17 +2,18 @@
 #import "SWGObject.h"
 #import "SWGDate.h"
 
+
 @interface SWGOrder : SWGObject
 
-@property(nonatomic) NSNumber* _id;  /* Unique identifier for the order [optional]*/
+@property(nonatomic) NSNumber* _id;  
 
-@property(nonatomic) NSNumber* petId;  /* ID of pet being ordered [optional]*/
+@property(nonatomic) NSNumber* petId;  
 
-@property(nonatomic) NSNumber* quantity;  /* Number of pets ordered [optional]*/
+@property(nonatomic) NSNumber* quantity;  
 
-@property(nonatomic) NSString* status;  /* Status of the order [optional]*/
+@property(nonatomic) NSString* status;  /* Order Status [optional]*/
 
-@property(nonatomic) SWGDate* shipDate;  /* Date shipped, only if it has been [optional]*/
+@property(nonatomic) SWGDate* shipDate;  
 
 - (id) _id: (NSNumber*) _id
      petId: (NSNumber*) petId

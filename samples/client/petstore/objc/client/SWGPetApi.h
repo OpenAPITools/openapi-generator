@@ -3,6 +3,7 @@
 #import "SWGFile.h"
 
 
+
 @interface SWGPetApi: NSObject
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;

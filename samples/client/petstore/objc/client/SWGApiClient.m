@@ -280,7 +280,7 @@ static bool loggingEnabled = false;
     }
 
     if(body != nil) {
-        if([body isKindOfClass:[NSDictionary class]]){
+        if([body isKindOfClass:[NSDictionary class]] || [body isKindOfClass:[NSArray class]]){
             [request setValue:requestContentType forHTTPHeaderField:@"Content-Type"];
         }
         else if ([body isKindOfClass:[SWGFile class]]) {}
