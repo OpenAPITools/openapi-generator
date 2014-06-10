@@ -41,8 +41,6 @@ object ResourceExtractor extends RemoteUrl {
         case e: JDouble => e.num.toString
         case _ => ""
       }
-
-      println("version: " + version)
       SwaggerSerializers.formats(version)
     }
 		parse(json).extract[ResourceListing]
