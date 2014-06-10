@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -31,15 +31,11 @@ class Pet:
         }
 
 
-        #Unique identifier for the Pet
+        #unique identifier for the pet
         self.id = None # long
-        #Category the pet is in
         self.category = None # Category
-        #Friendly name of the pet
         self.name = None # str
-        #Image URLs
         self.photoUrls = None # list[str]
-        #Tags assigned to this pet
         self.tags = None # list[Tag]
         #pet status in the store
         self.status = None # str

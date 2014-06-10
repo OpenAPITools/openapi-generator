@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,12 +29,15 @@ class PetApi(object):
       self.apiClient = apiClient
 
     
+
     def getPetById(self, petId, **kwargs):
         """Find pet by ID
 
         Args:
             petId, long: ID of pet that needs to be fetched (required)
+
             
+
         Returns: Pet
         """
 
@@ -69,13 +72,17 @@ class PetApi(object):
         responseObject = self.apiClient.deserialize(response, 'Pet')
         return responseObject
         
+
         
+
     def deletePet(self, petId, **kwargs):
         """Deletes a pet
 
         Args:
             petId, str: Pet id to delete (required)
+
             
+
         Returns: 
         """
 
@@ -105,14 +112,19 @@ class PetApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def partialUpdate(self, petId, body, **kwargs):
         """partial updates to a pet
 
         Args:
             petId, str: ID of pet that needs to be fetched (required)
+
             body, Pet: Pet object that needs to be added to the store (required)
+
             
+
         Returns: Array[Pet]
         """
 
@@ -147,15 +159,21 @@ class PetApi(object):
         responseObject = self.apiClient.deserialize(response, 'Array[Pet]')
         return responseObject
         
+
         
+
     def updatePetWithForm(self, petId, **kwargs):
         """Updates a pet in the store with form data
 
         Args:
             petId, str: ID of pet that needs to be updated (required)
+
             name, str: Updated name of the pet (optional)
+
             status, str: Updated status of the pet (optional)
+
             
+
         Returns: 
         """
 
@@ -185,14 +203,19 @@ class PetApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def uploadFile(self, **kwargs):
         """uploads an image
 
         Args:
             additionalMetadata, str: Additional data to pass to server (optional)
+
             body, File: file to upload (optional)
+
             
+
         Returns: 
         """
 
@@ -218,13 +241,17 @@ class PetApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def addPet(self, body, **kwargs):
         """Add a new pet to the store
 
         Args:
             body, Pet: Pet object that needs to be added to the store (required)
+
             
+
         Returns: 
         """
 
@@ -250,13 +277,17 @@ class PetApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def updatePet(self, body, **kwargs):
         """Update an existing pet
 
         Args:
             body, Pet: Pet object that needs to be updated in the store (required)
+
             
+
         Returns: 
         """
 
@@ -282,13 +313,17 @@ class PetApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def findPetsByStatus(self, status= None, **kwargs):
         """Finds Pets by status
 
         Args:
             status, str: Status values that need to be considered for filter (required)
+
             
+
         Returns: Array[Pet]
         """
 
@@ -321,13 +356,17 @@ class PetApi(object):
         responseObject = self.apiClient.deserialize(response, 'Array[Pet]')
         return responseObject
         
+
         
+
     def findPetsByTags(self, tags, **kwargs):
         """Finds Pets by tags
 
         Args:
             tags, str: Tags to filter by (required)
+
             
+
         Returns: Array[Pet]
         """
 
@@ -360,7 +399,11 @@ class PetApi(object):
         responseObject = self.apiClient.deserialize(response, 'Array[Pet]')
         return responseObject
         
+
         
+
     
+
+
 
 
