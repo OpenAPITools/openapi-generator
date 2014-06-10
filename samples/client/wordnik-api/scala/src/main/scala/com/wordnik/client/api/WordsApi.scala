@@ -23,6 +23,7 @@ class WordsApi {
     val path = "/words.{format}/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}",apiInvoker.escape(query))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -60,6 +61,7 @@ class WordsApi {
   def getWordOfTheDay (date: String) : Option[WordOfTheDay]= {
     // create path and map variables
     val path = "/words.{format}/wordOfTheDay".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -82,6 +84,7 @@ class WordsApi {
   def reverseDictionary (query: String, findSenseForWord: String, includeSourceDictionaries: String, excludeSourceDictionaries: String, includePartOfSpeech: String, excludePartOfSpeech: String, expandTerms: String, sortBy: String, sortOrder: String, minCorpusCount: Int= 5, maxCorpusCount: Int= -1, minLength: Int= 1, maxLength: Int= -1, includeTags: String= "false", skip: String= "0", limit: Int= 10) : Option[DefinitionSearchResults]= {
     // create path and map variables
     val path = "/words.{format}/reverseDictionary".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -124,6 +127,7 @@ class WordsApi {
   def getRandomWords (includePartOfSpeech: String, excludePartOfSpeech: String, sortBy: String, sortOrder: String, hasDictionaryDef: String= "true", minCorpusCount: Int= 0, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 5, maxLength: Int= -1, limit: Int= 10) : Option[List[WordObject]]= {
     // create path and map variables
     val path = "/words.{format}/randomWords".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -157,6 +161,7 @@ class WordsApi {
   def getRandomWord (includePartOfSpeech: String, excludePartOfSpeech: String, hasDictionaryDef: String= "true", minCorpusCount: Int= 0, maxCorpusCount: Int= -1, minDictionaryCount: Int= 1, maxDictionaryCount: Int= -1, minLength: Int= 5, maxLength: Int= -1) : Option[WordObject]= {
     // create path and map variables
     val path = "/words.{format}/randomWord".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 

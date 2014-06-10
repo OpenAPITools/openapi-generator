@@ -18,6 +18,7 @@ class WordListsApi {
   def createWordList (body: WordList, auth_token: String) : Option[WordList]= {
     // create path and map variables
     val path = "/wordLists.{format}".replaceAll("\\{format\\}","json")
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
