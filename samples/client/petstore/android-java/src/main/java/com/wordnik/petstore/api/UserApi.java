@@ -4,6 +4,7 @@ import com.wordnik.client.ApiException;
 import com.wordnik.client.ApiInvoker;
 import com.wordnik.petstore.model.User;
 import java.util.*;
+import java.io.File;
 
 public class UserApi {
   String basePath = "http://petstore.swagger.wordnik.com/api";
@@ -16,108 +17,15 @@ public class UserApi {
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
-  
+
   public void setBasePath(String basePath) {
     this.basePath = basePath;
   }
-  
+
   public String getBasePath() {
     return basePath;
   }
 
-  public void createUser (User body) throws ApiException {
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/user".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public void createUsersWithArrayInput (List<User> body) throws ApiException {
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public void createUsersWithListInput (List<User> body) throws ApiException {
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
   public void updateUser (String username, User body) throws ApiException {
     // verify required params are set
     if(username == null || body == null ) {
@@ -258,6 +166,99 @@ public class UserApi {
 
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public void createUser (User body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/user".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public void createUsersWithArrayInput (List<User> body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public void createUsersWithListInput (List<User> body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
       if(response != null){
         return ;
       }

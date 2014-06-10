@@ -2,9 +2,9 @@ package com.wordnik.petstore.api;
 
 import com.wordnik.client.ApiException;
 import com.wordnik.client.ApiInvoker;
-import java.io.File;
 import com.wordnik.petstore.model.Pet;
 import java.util.*;
+import java.io.File;
 
 public class PetApi {
   String basePath = "http://petstore.swagger.wordnik.com/api";
@@ -17,11 +17,11 @@ public class PetApi {
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
-  
+
   public void setBasePath(String basePath) {
     this.basePath = basePath;
   }
-  
+
   public String getBasePath() {
     return basePath;
   }

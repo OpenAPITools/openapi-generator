@@ -4,6 +4,7 @@ import com.wordnik.client.ApiException;
 import com.wordnik.client.ApiInvoker;
 import com.wordnik.petstore.model.Order;
 import java.util.*;
+import java.io.File;
 
 public class StoreApi {
   String basePath = "http://petstore.swagger.wordnik.com/api";
@@ -16,11 +17,11 @@ public class StoreApi {
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
-  
+
   public void setBasePath(String basePath) {
     this.basePath = basePath;
   }
-  
+
   public String getBasePath() {
     return basePath;
   }
