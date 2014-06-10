@@ -25,8 +25,8 @@ class User {
 
   static $swaggerTypes = array(
       'id' => 'int',
-      'username' => 'string',
       'firstName' => 'string',
+      'username' => 'string',
       'lastName' => 'string',
       'email' => 'string',
       'password' => 'string',
@@ -35,33 +35,12 @@ class User {
 
     );
 
-  /**
-  * Unique identifier for the user
-  */
   public $id; // int
-  /**
-  * Unique username
-  */
-  public $username; // string
-  /**
-  * First name of the user
-  */
   public $firstName; // string
-  /**
-  * Last name of the user
-  */
+  public $username; // string
   public $lastName; // string
-  /**
-  * Email address of the user
-  */
   public $email; // string
-  /**
-  * Password name of the user
-  */
   public $password; // string
-  /**
-  * Phone number of the user
-  */
   public $phone; // string
   /**
   * User Status

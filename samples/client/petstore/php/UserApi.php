@@ -26,88 +26,12 @@ class UserApi {
 	}
 
   /**
-	 * createUser
-	 * Create user
-   * body, User: Created user object (required)
-   * @return 
-	 */
-
-   public function createUser($body) {
-
-  		//parse inputs
-  		$resourcePath = "/user";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
-      $queryParams = array();
-      $headerParams = array();
-
-      //make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
-	 * createUsersWithArrayInput
-	 * Creates list of users with given input array
-   * body, array[User]: List of user object (required)
-   * @return 
-	 */
-
-   public function createUsersWithArrayInput($body) {
-
-  		//parse inputs
-  		$resourcePath = "/user/createWithArray";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
-      $queryParams = array();
-      $headerParams = array();
-
-      //make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
-	 * createUsersWithListInput
-	 * Creates list of users with given list input
-   * body, array[User]: List of user object (required)
-   * @return 
-	 */
-
-   public function createUsersWithListInput($body) {
-
-  		//parse inputs
-  		$resourcePath = "/user/createWithList";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
-      $queryParams = array();
-      $headerParams = array();
-
-      //make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
 	 * updateUser
 	 * Updated user
    * username, string: name that need to be deleted (required)
+
    * body, User: Updated user object (required)
+
    * @return 
 	 */
 
@@ -119,6 +43,8 @@ class UserApi {
   		$method = "PUT";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
@@ -138,6 +64,7 @@ class UserApi {
 	 * deleteUser
 	 * Delete user
    * username, string: The name that needs to be deleted (required)
+
    * @return 
 	 */
 
@@ -149,6 +76,8 @@ class UserApi {
   		$method = "DELETE";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
@@ -168,6 +97,7 @@ class UserApi {
 	 * getUserByName
 	 * Get user by user name
    * username, string: The name that needs to be fetched. Use user1 for testing. (required)
+
    * @return User
 	 */
 
@@ -179,6 +109,8 @@ class UserApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
@@ -206,7 +138,9 @@ class UserApi {
 	 * loginUser
 	 * Logs user into the system
    * username, string: The user name for login (required)
+
    * password, string: The password for login in clear text (required)
+
    * @return string
 	 */
 
@@ -218,6 +152,8 @@ class UserApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($username != null) {
   		  $queryParams['username'] = $this->apiClient->toQueryValue($username);
@@ -257,6 +193,95 @@ class UserApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      //make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      }
+  /**
+	 * createUser
+	 * Create user
+   * body, User: Created user object (required)
+
+   * @return 
+	 */
+
+   public function createUser($body) {
+
+  		//parse inputs
+  		$resourcePath = "/user";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      //make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      }
+  /**
+	 * createUsersWithArrayInput
+	 * Creates list of users with given input array
+   * body, array[User]: List of user object (required)
+
+   * @return 
+	 */
+
+   public function createUsersWithArrayInput($body) {
+
+  		//parse inputs
+  		$resourcePath = "/user/createWithArray";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      //make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      }
+  /**
+	 * createUsersWithListInput
+	 * Creates list of users with given list input
+   * body, array[User]: List of user object (required)
+
+   * @return 
+	 */
+
+   public function createUsersWithListInput($body) {
+
+  		//parse inputs
+  		$resourcePath = "/user/createWithList";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       //make the API Call
       if (! isset($body)) {
@@ -269,5 +294,6 @@ class UserApi {
 
       }
   
+
 }
 

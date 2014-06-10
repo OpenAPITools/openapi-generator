@@ -44,13 +44,12 @@ class APIClient {
 	 * @param array $queryParams parameters to be place in query URL
 	 * @param array $postData parameters to be placed in POST body
 	 * @param array $headerParams parameters to be place in request header
-	 * @return unknown
+	 * @return mixed
 	 */
 	public function callAPI($resourcePath, $method, $queryParams, $postData,
 		$headerParams) {
 
 		$headers = array();
-		$headers[] = "Content-type: application/json";
 
         # Allow API key from $headerParams to override default
         $added_api_key = False;
@@ -67,7 +66,7 @@ class APIClient {
 		}
 
 		if (is_object($postData) or is_array($postData)) {
-			$postData = json_encode(self::sanitizeForSerialization($postData));
+			$postData = json_encode($this->sanitizeForSerialization($postData));
 		}
 
 		$url = $this->apiServer . $resourcePath;
@@ -118,21 +117,35 @@ class APIClient {
 				$response_info['http_code']);
 		}
 
-
 		return $data;
 	}
 
 	/**
 	 * Build a JSON POST object
 	 */
-	public static function sanitizeForSerialization($postData) {
-		foreach ($postData as $key => $value) {
-			if (is_a($value, "DateTime")) {
-				$postData->{$key} = $value->format(DateTime::ISO8601);
-			}
-		}
-		return $postData;
-	}
+  protected function sanitizeForSerialization($data)
+  {
+    if (is_scalar($data) || null === $data) {
+      $sanitized = $data;
+    } else if ($data instanceof \DateTime) {
+      $sanitized = $data->format(\DateTime::ISO8601);
+    } else if (is_array($data)) {
+      foreach ($data as $property => $value) {
+        $data[$property] = $this->sanitizeForSerialization($value);
+      }
+      $sanitized = $data;
+    } else if (is_object($data)) {
+      $values = array();
+      foreach (array_keys($data::$swaggerTypes) as $property) {
+        $values[$property] = $this->sanitizeForSerialization($data->$property);
+      }
+      $sanitized = $values;
+    } else {
+      $sanitized = (string)$data;
+    }
+
+    return $sanitized;
+  }
 
 	/**
 	 * Take value and turn it into a string suitable for inclusion in
@@ -170,73 +183,43 @@ class APIClient {
   		return $value;
 	}
 
-	/**
-	 * Deserialize a JSON string into an object
-	 *
-	 * @param object $object object or primitive to be deserialized
-	 * @param string $class class name is passed as a string
-	 * @return object an instance of $class
-	 */
-	public static function deserialize($object, $class) {
+  /**
+   * Deserialize a JSON string into an object
+   *
+   * @param object $object object or primitive to be deserialized
+   * @param string $class class name is passed as a string
+   * @return object an instance of $class
+   */
 
-		if (gettype($object) == "NULL") {
-	      	return $object;
-	     }
-
-    if (substr($class, 0, 6) == 'array[') {
-      $sub_class = substr($class, 6, -1);
-      $sub_objects = array();
-      foreach ($object as $sub_object) {
-        $sub_objects[] = self::deserialize($sub_object,
-                                    			 $sub_class);
+  public static function deserialize($data, $class)
+  {
+    if (null === $data) {
+      $deserialized = null;
+    } else if (substr($class, 0, 6) == 'array[') {
+      $subClass = substr($class, 6, -1);
+      $values = array();
+      foreach ($data as $value) {
+        $values[] = self::deserialize($value, $subClass);
       }
-      return $sub_objects;
+      $deserialized = $values;
     } elseif ($class == 'DateTime') {
-      		return new DateTime($object);
-		} elseif (in_array($class, array('string', 'int', 'float', 'bool'))) {
-			settype($object, $class);
-			return $object;
-		} else {
-			$instance = new $class(); // this instantiates class named $class
-			$classVars = get_class_vars($class);
-		}
+      $deserialized = new \DateTime($data);
+    } elseif (in_array($class, array('string', 'int', 'float', 'bool'))) {
+      settype($data, $class);
+      $deserialized = $data;
+    } else {
+      $instance = new $class();
+      foreach ($instance::$swaggerTypes as $property => $type) {
+        if (isset($data->$property)) {
+          $instance->$property = self::deserialize($data->$property, $type);
+        }
+      }
+      $deserialized = $instance;
+    }
 
-		foreach ($object as $property => $value) {
+    return $deserialized;
+  }
 
-			// Need to handle possible pluralization differences
-			$true_property = $property;
-
-			if (! property_exists($class, $true_property)) {
-				if (substr($property, -1) == 's') {
-					$true_property = substr($property, 0, -1);
-				}
-			}
-
-			if (array_key_exists($true_property, $classVars['swaggerTypes'])) {
-				$type = $classVars['swaggerTypes'][$true_property];
-			} else {
-				$type = 'string';
-			}
-			if (in_array($type, array('string', 'int', 'float', 'bool'))) {
-				settype($value, $type);
-				$instance->{$true_property} = $value;
-			} elseif (preg_match("/array<(.*)>/", $type, $matches)) {
-				$sub_class = $matches[1];
-				$instance->{$true_property} = array();
-				foreach ($value as $sub_property => $sub_value) {
-					$instance->{$true_property}[] = self::deserialize($sub_value,
-						$sub_class);
-				}
-			} else {
-				$instance->{$true_property} = self::deserialize($value, $type);
-			}
-		}
-		return $instance;
-	}
 }
-
-
-?>
-
 
 

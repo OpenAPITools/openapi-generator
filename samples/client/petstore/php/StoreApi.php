@@ -29,6 +29,7 @@ class StoreApi {
 	 * getOrderById
 	 * Find purchase order by ID
    * orderId, string: ID of pet that needs to be fetched (required)
+
    * @return Order
 	 */
 
@@ -40,6 +41,8 @@ class StoreApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($orderId != null) {
   			$resourcePath = str_replace("{" . "orderId" . "}",
@@ -67,6 +70,7 @@ class StoreApi {
 	 * deleteOrder
 	 * Delete purchase order by ID
    * orderId, string: ID of the order that needs to be deleted (required)
+
    * @return 
 	 */
 
@@ -78,6 +82,8 @@ class StoreApi {
   		$method = "DELETE";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($orderId != null) {
   			$resourcePath = str_replace("{" . "orderId" . "}",
@@ -97,6 +103,7 @@ class StoreApi {
 	 * placeOrder
 	 * Place an order for a pet
    * body, Order: order placed for purchasing the pet (required)
+
    * @return 
 	 */
 
@@ -108,6 +115,8 @@ class StoreApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       //make the API Call
       if (! isset($body)) {
@@ -120,5 +129,6 @@ class StoreApi {
 
       }
   
+
 }
 
