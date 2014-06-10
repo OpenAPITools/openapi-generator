@@ -3,6 +3,8 @@ package {{package}}
 {{#imports}}import {{import}}
 {{/imports}}
 
+import java.io.File
+
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
 import org.json4s._
@@ -11,12 +13,12 @@ import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
 
 import scala.collection.JavaConverters._
 
-class {{className}} (implicit val swagger: Swagger) extends ScalatraServlet 
+class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet 
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
-  protected val applicationDescription: String = "{{className}}"
+  protected val applicationDescription: String = "{{classname}}"
   override protected val applicationName: Option[String] = Some("{{baseName}}")
 
   before() {

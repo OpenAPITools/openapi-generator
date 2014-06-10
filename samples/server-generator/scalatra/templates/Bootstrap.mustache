@@ -10,10 +10,11 @@ class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext) {
     implicit val system = ActorSystem("mySystem")
     try {
+      {{#apiInfo}}
       {{#apis}}
-      context mount (new {{className}}, "/{{name}}/*")
+      context mount (new {{classname}}, "/{{baseName}}/*")
       {{/apis}}
-
+      {{/apiInfo}}
       context mount (new ResourcesApp, "/api-docs/*")
     } catch {
       case e: Throwable => e.printStackTrace()

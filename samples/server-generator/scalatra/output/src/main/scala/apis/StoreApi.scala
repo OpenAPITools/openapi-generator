@@ -1,6 +1,8 @@
 package apis
 
 import com.wordnik.client.model.Order
+import java.io.File
+
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
 import org.json4s._
