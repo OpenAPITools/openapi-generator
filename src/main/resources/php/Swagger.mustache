@@ -85,7 +85,6 @@ class APIClient {
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
 		} else if ($method == self::$PUT) {
-			$json_data = json_encode($postData);
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
 		} else if ($method == self::$DELETE) {
