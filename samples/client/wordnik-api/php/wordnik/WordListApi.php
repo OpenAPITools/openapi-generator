@@ -45,8 +45,8 @@ class WordListApi {
   		$method = "PUT";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -83,8 +83,8 @@ class WordListApi {
   		$method = "DELETE";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -121,8 +121,8 @@ class WordListApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -169,8 +169,8 @@ class WordListApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);
@@ -215,8 +215,8 @@ class WordListApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($sortBy != null) {
   		  $queryParams['sortBy'] = $this->apiClient->toQueryValue($sortBy);
@@ -275,8 +275,8 @@ class WordListApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);

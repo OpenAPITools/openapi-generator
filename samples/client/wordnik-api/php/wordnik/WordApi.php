@@ -49,8 +49,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($includeDuplicates != null) {
   		  $queryParams['includeDuplicates'] = $this->apiClient->toQueryValue($includeDuplicates);
@@ -106,8 +106,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -165,8 +165,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($limit != null) {
   		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
@@ -226,8 +226,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -276,8 +276,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -334,8 +334,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -393,8 +393,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -449,8 +449,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -505,8 +505,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($limit != null) {
   		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
@@ -557,8 +557,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -605,8 +605,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -652,8 +652,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",

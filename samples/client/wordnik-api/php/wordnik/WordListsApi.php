@@ -43,8 +43,8 @@ class WordListsApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);

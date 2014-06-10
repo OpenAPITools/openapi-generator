@@ -43,8 +43,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($password != null) {
   		  $queryParams['password'] = $this->apiClient->toQueryValue($password);
@@ -89,8 +89,8 @@ class AccountApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($username != null) {
   			$resourcePath = str_replace("{" . "username" . "}",
@@ -134,8 +134,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($skip != null) {
   		  $queryParams['skip'] = $this->apiClient->toQueryValue($skip);
@@ -180,8 +180,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($api_key != null) {
   		 	$headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
@@ -220,8 +220,8 @@ class AccountApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($auth_token != null) {
   		 	$headerParams['auth_token'] = $this->apiClient->toHeaderValue($auth_token);

@@ -63,8 +63,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($caseSensitive != null) {
   		  $queryParams['caseSensitive'] = $this->apiClient->toQueryValue($caseSensitive);
@@ -137,8 +137,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($date != null) {
   		  $queryParams['date'] = $this->apiClient->toQueryValue($date);
@@ -207,8 +207,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($query != null) {
   		  $queryParams['query'] = $this->apiClient->toQueryValue($query);
@@ -314,8 +314,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($hasDictionaryDef != null) {
   		  $queryParams['hasDictionaryDef'] = $this->apiClient->toQueryValue($hasDictionaryDef);
@@ -403,8 +403,8 @@ class WordsApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '(mediaType,application/json)';
-      $headerParams['Content-Type'] = '';
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($hasDictionaryDef != null) {
   		  $queryParams['hasDictionaryDef'] = $this->apiClient->toQueryValue($hasDictionaryDef);

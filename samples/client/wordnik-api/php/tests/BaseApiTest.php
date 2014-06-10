@@ -34,7 +34,7 @@ require_once 'wordnik/Swagger.php';
 class BaseApiTest extends PHPUnit_Framework_TestCase {
 
   public function setUp() {
-    $this->apiUrl = 'http://api.wordnik.com/v4';
+    $this->apiUrl = 'https://api.wordnik.com/v4';
     $this->apiKey = getenv('API_KEY');
     $this->username = getenv('USER_NAME');
     $this->password = getenv('PASSWORD');
