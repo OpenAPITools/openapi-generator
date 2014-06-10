@@ -29,23 +29,37 @@ class WordsApi(object):
       self.apiClient = apiClient
 
     
+
     def searchWords(self, query, **kwargs):
         """Searches words
 
         Args:
             query, str: Search query (required)
+
             includePartOfSpeech, str: Only include these comma-delimited parts of speech (optional)
+
             excludePartOfSpeech, str: Exclude these comma-delimited parts of speech (optional)
+
             caseSensitive, str: Search case sensitive (optional)
+
             minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
             maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
             minDictionaryCount, int: Minimum number of dictionary entries for words returned (optional)
+
             maxDictionaryCount, int: Maximum dictionary definition count (optional)
+
             minLength, int: Minimum word length (optional)
+
             maxLength, int: Maximum word length (optional)
+
             skip, int: Results to skip (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: WordSearchResults
         """
 
@@ -102,13 +116,17 @@ class WordsApi(object):
         responseObject = self.apiClient.deserialize(response, 'WordSearchResults')
         return responseObject
         
+
         
+
     def getWordOfTheDay(self, **kwargs):
         """Returns a specific WordOfTheDay
 
         Args:
             date, str: Fetches by date in yyyy-MM-dd (optional)
+
             
+
         Returns: WordOfTheDay
         """
 
@@ -141,28 +159,47 @@ class WordsApi(object):
         responseObject = self.apiClient.deserialize(response, 'WordOfTheDay')
         return responseObject
         
+
         
+
     def reverseDictionary(self, query, **kwargs):
         """Reverse dictionary search
 
         Args:
             query, str: Search term (required)
+
             findSenseForWord, str: Restricts words and finds closest sense (optional)
+
             includeSourceDictionaries, str: Only include these comma-delimited source dictionaries (optional)
+
             excludeSourceDictionaries, str: Exclude these comma-delimited source dictionaries (optional)
+
             includePartOfSpeech, str: Only include these comma-delimited parts of speech (optional)
+
             excludePartOfSpeech, str: Exclude these comma-delimited parts of speech (optional)
+
             expandTerms, str: Expand terms (optional)
+
             sortBy, str: Attribute to sort by (optional)
+
             sortOrder, str: Sort direction (optional)
+
             minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
             maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
             minLength, int: Minimum word length (optional)
+
             maxLength, int: Maximum word length (optional)
+
             includeTags, str: Return a closed set of XML tags in response (optional)
+
             skip, str: Results to skip (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: DefinitionSearchResults
         """
 
@@ -225,24 +262,39 @@ class WordsApi(object):
         responseObject = self.apiClient.deserialize(response, 'DefinitionSearchResults')
         return responseObject
         
+
         
+
     def getRandomWords(self, **kwargs):
         """Returns an array of random WordObjects
 
         Args:
             includePartOfSpeech, str: CSV part-of-speech values to include (optional)
+
             excludePartOfSpeech, str: CSV part-of-speech values to exclude (optional)
+
             sortBy, str: Attribute to sort by (optional)
+
             sortOrder, str: Sort direction (optional)
+
             hasDictionaryDef, str: Only return words with dictionary definitions (optional)
+
             minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
             maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
             minDictionaryCount, int: Minimum dictionary count (optional)
+
             maxDictionaryCount, int: Maximum dictionary count (optional)
+
             minLength, int: Minimum word length (optional)
+
             maxLength, int: Maximum word length (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: list[WordObject]
         """
 
@@ -297,21 +349,33 @@ class WordsApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[WordObject]')
         return responseObject
         
+
         
+
     def getRandomWord(self, **kwargs):
         """Returns a single random WordObject
 
         Args:
             includePartOfSpeech, str: CSV part-of-speech values to include (optional)
+
             excludePartOfSpeech, str: CSV part-of-speech values to exclude (optional)
+
             hasDictionaryDef, str: Only return words with dictionary definitions (optional)
+
             minCorpusCount, int: Minimum corpus frequency for terms (optional)
+
             maxCorpusCount, int: Maximum corpus frequency for terms (optional)
+
             minDictionaryCount, int: Minimum dictionary count (optional)
+
             maxDictionaryCount, int: Maximum dictionary count (optional)
+
             minLength, int: Minimum word length (optional)
+
             maxLength, int: Maximum word length (optional)
+
             
+
         Returns: WordObject
         """
 
@@ -360,7 +424,11 @@ class WordsApi(object):
         responseObject = self.apiClient.deserialize(response, 'WordObject')
         return responseObject
         
+
         
+
     
+
+
 
 
