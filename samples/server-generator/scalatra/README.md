@@ -9,15 +9,15 @@ You need the following installed and available in your $PATH:
 
 <li>- sbt 0.12 (http://www.scala-sbt.org/)
 
-<li>- Scala 2.9.1 [available here](http://www.scala-lang.org)
+<li>- Scala 2.10.0 [available here](http://www.scala-lang.org)
 
-You also need to add both the sbt and scala binary to your PATH.
+You also need to add the scala binary to your PATH.
 
 ### Generating a server
 You first need to build the `swagger-codegen` project--this is done by running this command at the root of the swagger-codegen project:
 
 ```
-sbt assembly
+./sbt assembly
 ```
 
 You can now generate a server from any valid[**](https://github.com/wordnik/swagger-codegen/blob/master/README.md#validating-your-swagger-spec) swagger spec:
@@ -50,7 +50,9 @@ $ find  -type f
 To run the server, cd to the `samples/server-generator/scalatra/output` folder and run:
 
 ```
-sbt
+chmod a+x ./sbt
+
+./sbt
 
 > container:start
 ```

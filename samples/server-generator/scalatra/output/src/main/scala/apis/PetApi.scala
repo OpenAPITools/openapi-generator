@@ -8,10 +8,12 @@ import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
+import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig, SizeConstraintExceededException }
 
 import scala.collection.JavaConverters._
 
 class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
+    with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
@@ -83,7 +85,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   post("/uploadImage", operation(uploadFileOperation)) {
     val additionalMetadata = params.getAs[String]("additionalMetadata")
     println("additionalMetadata: " + additionalMetadata)
-    val body = parsedBody.extract[File]
+    val body = fileParams("body")
     println("body: " + body)
   }
 

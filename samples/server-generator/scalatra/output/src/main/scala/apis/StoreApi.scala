@@ -8,10 +8,12 @@ import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
+import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig, SizeConstraintExceededException }
 
 import scala.collection.JavaConverters._
 
 class StoreApi(implicit val swagger: Swagger) extends ScalatraServlet
+    with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
