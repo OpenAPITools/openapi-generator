@@ -20,24 +20,34 @@ import scala.collection.mutable.{ HashMap, ListBuffer }
 
 object NodeServerGenerator extends BasicScalaGenerator {
   def main(args: Array[String]) = generateClient(args)
+  val codeDir = "app"
+  val apiDir = "apis"
 
   override def templateDir = "samples/server-generator/node/templates"
 
   val outputFolder = "samples/server-generator/node/output"
     
   // where to write generated code
-  override def destinationDir = outputFolder + "/App"
+  override def destinationDir = outputFolder + java.io.File.separator + codeDir
+
+  override def apiPackage = Option(apiDir)
 
   // template used for apis
   apiTemplateFiles ++= Map("api.mustache" -> ".js")
   
   modelTemplateFiles.clear
 
-  override def apiPackage = Some("apis")
-  
+  additionalParams ++= Map(
+    "artifactId" -> "swagger-sample-app",
+    "artifactVersion" -> "1.0.0",
+    "homepage" -> "http://swagger.wordnik.com",
+    "codeDir" -> codeDir,
+    "apiFolder" -> apiDir
+  )
+
   // supporting classes
   override def supportingFiles = List(
-    ("package.json", outputFolder, "package.json"),
+    ("package.mustache", outputFolder, "package.json"),
     ("README.mustache", outputFolder, "README.md"),
     ("main.mustache", destinationDir, "main.js"),
     ("models.mustache", destinationDir, "models.js"))

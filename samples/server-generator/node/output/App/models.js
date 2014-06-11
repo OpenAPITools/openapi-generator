@@ -1,2 +1,129 @@
 exports.models = {
-  "Pet": {"id":"Pet","name":"","properties":{"name":{"type":"string","required":false},"tags":{"type":"Array","required":false,"items":{"$ref":"Tag"}},"photoUrls":{"type":"Array","required":false,"items":{"type":"string"}},"id":{"type":"long","required":false},"status":{"type":"string","required":false,"description":"pet status in the store"},"category":{"type":"Category","required":false}}},"Category": {"id":"Category","name":"","properties":{"id":{"type":"long","required":false},"name":{"type":"string","required":false}}},"Tag": {"id":"Tag","name":"","properties":{"id":{"type":"long","required":false},"name":{"type":"string","required":false}}},"User": {"id":"User","name":"","properties":{"email":{"type":"string","required":false},"username":{"type":"string","required":false},"userStatus":{"type":"int","required":false,"description":"User Status"},"lastName":{"type":"string","required":false},"firstName":{"type":"string","required":false},"id":{"type":"long","required":false},"phone":{"type":"string","required":false},"password":{"type":"string","required":false}}},"Order": {"id":"Order","name":"","properties":{"shipDate":{"type":"Date","required":false},"quantity":{"type":"int","required":false},"petId":{"type":"long","required":false},"id":{"type":"long","required":false},"status":{"type":"string","required":false,"description":"Order Status"}}}}
+  "Tag": {
+  "id" : "Tag",
+  "name" : "",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "name" : {
+      "type" : "string"
+    }
+  }
+},
+
+  "User": {
+  "id" : "User",
+  "name" : "",
+  "properties" : {
+    "email" : {
+      "type" : "string"
+    },
+    "username" : {
+      "type" : "string"
+    },
+    "userStatus" : {
+      "type" : "integer",
+      "format" : "int32",
+      "description" : "User Status",
+      "enum" : [ "1-registered", "2-active", "3-closed" ]
+    },
+    "lastName" : {
+      "type" : "string"
+    },
+    "firstName" : {
+      "type" : "string"
+    },
+    "id" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "phone" : {
+      "type" : "string"
+    },
+    "password" : {
+      "type" : "string"
+    }
+  }
+},
+
+  "Order": {
+  "id" : "Order",
+  "name" : "",
+  "properties" : {
+    "shipDate" : {
+      "type" : "string",
+      "format" : "date-time"
+    },
+    "quantity" : {
+      "type" : "integer",
+      "format" : "int32"
+    },
+    "petId" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "id" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "status" : {
+      "type" : "string",
+      "description" : "Order Status",
+      "enum" : [ "placed", " approved", " delivered" ]
+    }
+  }
+},
+
+  "Category": {
+  "id" : "Category",
+  "name" : "",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "name" : {
+      "type" : "string"
+    }
+  }
+},
+
+  "Pet": {
+  "id" : "Pet",
+  "name" : "",
+  "required" : [ "id", "name" ],
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "tags" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "Tag"
+      }
+    },
+    "photoUrls" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "id" : {
+      "type" : "integer",
+      "format" : "int64",
+      "description" : "unique identifier for the pet"
+    },
+    "status" : {
+      "type" : "string",
+      "description" : "pet status in the store",
+      "enum" : [ "available", "pending", "sold" ]
+    },
+    "category" : {
+      "type" : "Category"
+    }
+  }
+}
+
+  }

@@ -23,7 +23,7 @@ exports.{{nickname}} = {
     "path" : "{{path}}",
     "notes" : "{{{notes}}}",
     "summary" : "{{{summary}}}",
-    "httpMethod": "{{httpMethod}}",
+    "method": "{{httpMethod}}",
     "params" : [{{#queryParams}}
       params.query("{{paramName}}", "{{description}}", "{{swaggerDataType}}", {{required}}, {{allowMultiple}}, "{{{allowableValues}}}"{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}}){{#hasMore}},{{/hasMore}}
     {{/queryParams}}].concat([{{#pathParams}}
@@ -31,10 +31,10 @@ exports.{{nickname}} = {
     {{/pathParams}}]).concat([{{#headerParams}}
       params.header("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
     {{/headerParams}}]).concat([{{#bodyParams}}
-      params.body("body", "{{swaggerDataType}}", "{{description}}", {{required}})
+      params.body("body", "{{swaggerDataType}}", "{{description}}", {{#required}}{{required}}{{/required}}{{^required}}false{{/required}})
     {{/bodyParams}}]),
-    "responseClass" : "{{returnType}}",
-    "errorResponses" : [errors.invalid('id'), errors.notFound('{{returnType}}')],
+    "type" : "{{returnType}}",
+    "responseMessages" : [errors.invalid('id'), errors.notFound('{{returnType}}')],
     "nickname" : "{{nickname}}"
   },
   'action': function (req,res) {
