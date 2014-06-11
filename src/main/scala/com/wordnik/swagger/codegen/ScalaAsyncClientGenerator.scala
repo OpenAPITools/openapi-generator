@@ -121,7 +121,6 @@ object ScalaAsyncClientGenerator extends App {
   props += "clientName" -> cfg.api.clientName.underscore.pascalize
   
   clientOpts.properties = props.toMap.asJava
-  println(props)
 
   println(appBanner)
   generator.generate(clientOpts)
