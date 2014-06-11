@@ -79,7 +79,8 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   val uploadFileOperation = (apiOperation[Unit]("uploadFile")
     summary "uploads an image"
     parameters (
-      formParam[String]("additionalMetadata").description(""), bodyParam[File]("body").description("").optional)
+      formParam[String]("additionalMetadata").description(""),
+      bodyParam[File]("body").description("").optional)
   )
 
   post("/uploadImage", operation(uploadFileOperation)) {
