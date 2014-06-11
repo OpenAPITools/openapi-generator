@@ -89,6 +89,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       }
     }
 
+    additionalParams ++= opts.properties
     val apis: List[ApiListing] = getApis(host, doc, authorization)
 
     SwaggerSerializers.validationMessages.filter(_.level == ValidationMessage.ERROR).size match {
