@@ -201,7 +201,7 @@ object LegacySerializers {
           ""
         }),
         (json \ "nickname").extractOrElse({
-          !!(json, OPERATION, "nickname", "missing required field", ERROR)
+          !!(json, OPERATION, "nickname", "missing required field", WARNING)
           ""
         }),
         (json \ "position").extractOrElse(0),
