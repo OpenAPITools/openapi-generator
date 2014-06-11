@@ -22,6 +22,42 @@
       }
 
       /// <summary>
+      /// Updated user This can only be done by the logged in user.
+      /// </summary>
+      /// <param name="username">name that need to be deleted</param>
+      /// <param name="body">Updated user object</param>
+      /// <returns></returns>
+      public void updateUser (string username, User body) {
+        // create path and map variables
+        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(username.ToString()));
+
+        // query params
+        var queryParams = new Dictionary<String, String>();
+        var headerParams = new Dictionary<String, String>();
+
+        // verify required params are set
+        if (username == null || body == null ) {
+           throw new ApiException(400, "missing required params");
+        }
+        string paramStr = null;
+        try {
+          var response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, body, headerParams);
+          if(response != null){
+             return ;
+          }
+          else {
+            return ;
+          }
+        } catch (ApiException ex) {
+          if(ex.ErrorCode == 404) {
+          	return ;
+          }
+          else {
+            throw ex;
+          }
+        }
+      }
+      /// <summary>
       /// Delete user This can only be done by the logged in user.
       /// </summary>
       /// <param name="username">The name that needs to be deleted</param>
@@ -85,42 +121,6 @@
         } catch (ApiException ex) {
           if(ex.ErrorCode == 404) {
           	return null;
-          }
-          else {
-            throw ex;
-          }
-        }
-      }
-      /// <summary>
-      /// Updated user This can only be done by the logged in user.
-      /// </summary>
-      /// <param name="username">name that need to be deleted</param>
-      /// <param name="body">Updated user object</param>
-      /// <returns></returns>
-      public void updateUser (string username, User body) {
-        // create path and map variables
-        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(username.ToString()));
-
-        // query params
-        var queryParams = new Dictionary<String, String>();
-        var headerParams = new Dictionary<String, String>();
-
-        // verify required params are set
-        if (username == null || body == null ) {
-           throw new ApiException(400, "missing required params");
-        }
-        string paramStr = null;
-        try {
-          var response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, body, headerParams);
-          if(response != null){
-             return ;
-          }
-          else {
-            return ;
-          }
-        } catch (ApiException ex) {
-          if(ex.ErrorCode == 404) {
-          	return ;
           }
           else {
             throw ex;

@@ -29,10 +29,15 @@ class WordApi {
 	 * getExamples
 	 * Returns examples for a word
    * word, string: Word to return examples for (required)
+
    * includeDuplicates, string: Show duplicate examples from different sources (optional)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * skip, int: Results to skip (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return ExampleSearchResults
 	 */
 
@@ -44,6 +49,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($includeDuplicates != null) {
   		  $queryParams['includeDuplicates'] = $this->apiClient->toQueryValue($includeDuplicates);
@@ -83,8 +90,11 @@ class WordApi {
 	 * getWord
 	 * Given a word as a string, returns the WordObject that represents it
    * word, string: String value of WordObject to return (required)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * includeSuggestions, string: Return suggestions (for correct spelling, case variants, etc.) (optional)
+
    * @return WordObject
 	 */
 
@@ -96,6 +106,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -129,12 +141,19 @@ class WordApi {
 	 * getDefinitions
 	 * Return definitions for a word
    * word, string: Word to return definitions for (required)
+
    * partOfSpeech, string: CSV list of part-of-speech types (optional)
+
    * sourceDictionaries, string: Source dictionary to return definitions from.  If 'all' is received, results are returned from all sources. If multiple values are received (e.g. 'century,wiktionary'), results are returned from the first specified dictionary that has definitions. If left blank, results are returned from the first dictionary that has definitions. By default, dictionaries are searched in this order: ahd, wiktionary, webster, century, wordnet (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * includeRelated, string: Return related words with definitions (optional)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * includeTags, string: Return a closed set of XML tags in response (optional)
+
    * @return array[Definition]
 	 */
 
@@ -146,6 +165,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($limit != null) {
   		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
@@ -191,7 +212,9 @@ class WordApi {
 	 * getTopExample
 	 * Returns a top example for a word
    * word, string: Word to fetch examples for (required)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * @return Example
 	 */
 
@@ -203,6 +226,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -233,9 +258,13 @@ class WordApi {
 	 * getRelatedWords
 	 * Given a word as a string, returns relationships from the Word Graph
    * word, string: Word to fetch relationships for (required)
+
    * relationshipTypes, string: Limits the total results per type of relationship type (optional)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * limitPerRelationshipType, int: Restrict to the supplied relatinship types (optional)
+
    * @return array[Related]
 	 */
 
@@ -247,6 +276,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -283,10 +314,15 @@ class WordApi {
 	 * getTextPronunciations
 	 * Returns text pronunciations for a given word
    * word, string: Word to get pronunciations for (required)
+
    * sourceDictionary, string: Get from a single dictionary (optional)
+
    * typeFormat, string: Text pronunciation type (optional)
+
    * useCanonical, string: If true will try to return a correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return array[TextPron]
 	 */
 
@@ -298,6 +334,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -337,9 +375,13 @@ class WordApi {
 	 * getHyphenation
 	 * Returns syllable information for a word
    * word, string: Word to get syllables for (required)
+
    * sourceDictionary, string: Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet. (optional)
+
    * useCanonical, string: If true will try to return a correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return array[Syllable]
 	 */
 
@@ -351,6 +393,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -387,9 +431,13 @@ class WordApi {
 	 * getWordFrequency
 	 * Returns word usage over time
    * word, string: Word to return (required)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * startYear, int: Starting Year (optional)
+
    * endYear, int: Ending Year (optional)
+
    * @return FrequencySummary
 	 */
 
@@ -401,6 +449,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -437,9 +487,13 @@ class WordApi {
 	 * getPhrases
 	 * Fetches bi-gram phrases for a word
    * word, string: Word to fetch phrases for (required)
+
    * limit, int: Maximum number of results to return (optional)
+
    * wlmi, int: Minimum WLMI for the phrase (optional)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * @return array[Bigram]
 	 */
 
@@ -451,6 +505,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($limit != null) {
   		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
@@ -487,7 +543,9 @@ class WordApi {
 	 * getEtymologies
 	 * Fetches etymology data
    * word, string: Word to return (required)
+
    * useCanonical, string: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
    * @return array[string]
 	 */
 
@@ -499,6 +557,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -529,8 +589,11 @@ class WordApi {
 	 * getAudio
 	 * Fetches audio metadata for a word.
    * word, string: Word to get audio for. (required)
+
    * useCanonical, string: Use the canonical form of the word (optional)
+
    * limit, int: Maximum number of results to return (optional)
+
    * @return array[AudioFile]
 	 */
 
@@ -542,6 +605,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($useCanonical != null) {
   		  $queryParams['useCanonical'] = $this->apiClient->toQueryValue($useCanonical);
@@ -575,6 +640,7 @@ class WordApi {
 	 * getScrabbleScore
 	 * Returns the Scrabble score for a word
    * word, string: Word to get scrabble score for. (required)
+
    * @return ScrabbleScoreResult
 	 */
 
@@ -586,6 +652,8 @@ class WordApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($word != null) {
   			$resourcePath = str_replace("{" . "word" . "}",
@@ -610,5 +678,6 @@ class WordApi {
 
       }
   
+
 }
 

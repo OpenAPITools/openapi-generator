@@ -15,95 +15,12 @@ class UserApi {
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
-  def createUser (body: User) = {
-    // create path and map variables
-    val path = "/user".replaceAll("\\{format\\}","json")
-    val contentType = {
-      if(body != null && body.isInstanceOf[File] )
-        "multipart/form-data"
-      else "application/json"
-      }
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-
-    // verify required params are set
-    (List(body).filter(_ != null)).size match {
-       case 1 => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
-        case s: String =>
-          case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
-  def createUsersWithArrayInput (body: List[User]) = {
-    // create path and map variables
-    val path = "/user/createWithArray".replaceAll("\\{format\\}","json")
-    val contentType = {
-      if(body != null && body.isInstanceOf[File] )
-        "multipart/form-data"
-      else "application/json"
-      }
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-
-    // verify required params are set
-    (List(body).filter(_ != null)).size match {
-       case 1 => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
-        case s: String =>
-          case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
-  def createUsersWithListInput (body: List[User]) = {
-    // create path and map variables
-    val path = "/user/createWithList".replaceAll("\\{format\\}","json")
-    val contentType = {
-      if(body != null && body.isInstanceOf[File] )
-        "multipart/form-data"
-      else "application/json"
-      }
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-
-    // verify required params are set
-    (List(body).filter(_ != null)).size match {
-       case 1 => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
-        case s: String =>
-          case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
   def updateUser (username: String, body: User) = {
     // create path and map variables
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -134,6 +51,7 @@ class UserApi {
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -161,6 +79,7 @@ class UserApi {
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -187,6 +106,7 @@ class UserApi {
   def loginUser (username: String, password: String) : Option[String]= {
     // create path and map variables
     val path = "/user/login".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -215,6 +135,7 @@ class UserApi {
   def logoutUser () = {
     // create path and map variables
     val path = "/user/logout".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -224,6 +145,93 @@ class UserApi {
 
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
+        case s: String =>
+          case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  def createUser (body: User) = {
+    // create path and map variables
+    val path = "/user".replaceAll("\\{format\\}","json")
+
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    // verify required params are set
+    (List(body).filter(_ != null)).size match {
+       case 1 => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
+        case s: String =>
+          case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  def createUsersWithArrayInput (body: List[User]) = {
+    // create path and map variables
+    val path = "/user/createWithArray".replaceAll("\\{format\\}","json")
+
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    // verify required params are set
+    (List(body).filter(_ != null)).size match {
+       case 1 => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
+        case s: String =>
+          case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  def createUsersWithListInput (body: List[User]) = {
+    // create path and map variables
+    val path = "/user/createWithList".replaceAll("\\{format\\}","json")
+
+    val contentType = {
+      if(body != null && body.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      }
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    // verify required params are set
+    (List(body).filter(_ != null)).size match {
+       case 1 => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,16 +29,23 @@ class WordApi(object):
       self.apiClient = apiClient
 
     
+
     def getExamples(self, word, **kwargs):
         """Returns examples for a word
 
         Args:
             word, str: Word to return examples for (required)
+
             includeDuplicates, str: Show duplicate examples from different sources (optional)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             skip, int: Results to skip (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: ExampleSearchResults
         """
 
@@ -81,15 +88,21 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'ExampleSearchResults')
         return responseObject
         
+
         
+
     def getWord(self, word, **kwargs):
         """Given a word as a string, returns the WordObject that represents it
 
         Args:
             word, str: String value of WordObject to return (required)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             includeSuggestions, str: Return suggestions (for correct spelling, case variants, etc.) (optional)
+
             
+
         Returns: WordObject
         """
 
@@ -128,19 +141,29 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'WordObject')
         return responseObject
         
+
         
+
     def getDefinitions(self, word, **kwargs):
         """Return definitions for a word
 
         Args:
             word, str: Word to return definitions for (required)
+
             partOfSpeech, str: CSV list of part-of-speech types (optional)
+
             sourceDictionaries, str: Source dictionary to return definitions from.  If 'all' is received, results are returned from all sources. If multiple values are received (e.g. 'century,wiktionary'), results are returned from the first specified dictionary that has definitions. If left blank, results are returned from the first dictionary that has definitions. By default, dictionaries are searched in this order: ahd, wiktionary, webster, century, wordnet (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             includeRelated, str: Return related words with definitions (optional)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             includeTags, str: Return a closed set of XML tags in response (optional)
+
             
+
         Returns: list[Definition]
         """
 
@@ -187,14 +210,19 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[Definition]')
         return responseObject
         
+
         
+
     def getTopExample(self, word, **kwargs):
         """Returns a top example for a word
 
         Args:
             word, str: Word to fetch examples for (required)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             
+
         Returns: Example
         """
 
@@ -231,16 +259,23 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'Example')
         return responseObject
         
+
         
+
     def getRelatedWords(self, word, **kwargs):
         """Given a word as a string, returns relationships from the Word Graph
 
         Args:
             word, str: Word to fetch relationships for (required)
+
             relationshipTypes, str: Limits the total results per type of relationship type (optional)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             limitPerRelationshipType, int: Restrict to the supplied relatinship types (optional)
+
             
+
         Returns: list[Related]
         """
 
@@ -281,17 +316,25 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[Related]')
         return responseObject
         
+
         
+
     def getTextPronunciations(self, word, **kwargs):
         """Returns text pronunciations for a given word
 
         Args:
             word, str: Word to get pronunciations for (required)
+
             sourceDictionary, str: Get from a single dictionary (optional)
+
             typeFormat, str: Text pronunciation type (optional)
+
             useCanonical, str: If true will try to return a correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: list[TextPron]
         """
 
@@ -334,16 +377,23 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[TextPron]')
         return responseObject
         
+
         
+
     def getHyphenation(self, word, **kwargs):
         """Returns syllable information for a word
 
         Args:
             word, str: Word to get syllables for (required)
+
             sourceDictionary, str: Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet. (optional)
+
             useCanonical, str: If true will try to return a correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: list[Syllable]
         """
 
@@ -384,16 +434,23 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[Syllable]')
         return responseObject
         
+
         
+
     def getWordFrequency(self, word, **kwargs):
         """Returns word usage over time
 
         Args:
             word, str: Word to return (required)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             startYear, int: Starting Year (optional)
+
             endYear, int: Ending Year (optional)
+
             
+
         Returns: FrequencySummary
         """
 
@@ -434,16 +491,23 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'FrequencySummary')
         return responseObject
         
+
         
+
     def getPhrases(self, word, **kwargs):
         """Fetches bi-gram phrases for a word
 
         Args:
             word, str: Word to fetch phrases for (required)
+
             limit, int: Maximum number of results to return (optional)
+
             wlmi, int: Minimum WLMI for the phrase (optional)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             
+
         Returns: list[Bigram]
         """
 
@@ -484,14 +548,19 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[Bigram]')
         return responseObject
         
+
         
+
     def getEtymologies(self, word, **kwargs):
         """Fetches etymology data
 
         Args:
             word, str: Word to return (required)
+
             useCanonical, str: If true will try to return the correct word root ('cats' -&gt; 'cat'). If false returns exactly what was requested. (optional)
+
             
+
         Returns: list[str]
         """
 
@@ -528,15 +597,21 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[str]')
         return responseObject
         
+
         
+
     def getAudio(self, word, **kwargs):
         """Fetches audio metadata for a word.
 
         Args:
             word, str: Word to get audio for. (required)
+
             useCanonical, str: Use the canonical form of the word (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: list[AudioFile]
         """
 
@@ -575,13 +650,17 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[AudioFile]')
         return responseObject
         
+
         
+
     def getScrabbleScore(self, word, **kwargs):
         """Returns the Scrabble score for a word
 
         Args:
             word, str: Word to get scrabble score for. (required)
+
             
+
         Returns: ScrabbleScoreResult
         """
 
@@ -616,7 +695,11 @@ class WordApi(object):
         responseObject = self.apiClient.deserialize(response, 'ScrabbleScoreResult')
         return responseObject
         
+
         
+
     
+
+
 
 

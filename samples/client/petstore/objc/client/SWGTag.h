@@ -1,11 +1,12 @@
 #import <Foundation/Foundation.h>
 #import "SWGObject.h"
 
+
 @interface SWGTag : SWGObject
 
-@property(nonatomic) NSNumber* _id;  /* Unique identifier for the tag [optional]*/
+@property(nonatomic) NSNumber* _id;  
 
-@property(nonatomic) NSString* name;  /* Friendly name for the tag [optional]*/
+@property(nonatomic) NSString* name;  
 
 - (id) _id: (NSNumber*) _id
      name: (NSString*) name;

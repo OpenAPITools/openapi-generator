@@ -45,8 +45,8 @@ class {{classname}} {
   		$method = "{{httpMethod}}";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = '{{produces}}';
-      $headerParams['Content-Type'] = '{{consume}}';
+      $headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}';
+      $headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
 
       {{#queryParams}}
   		if(${{paramName}} != null) {

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ class BasicGroovyGenerator extends BasicJavaGenerator {
 
 
   // package for models
-  override def modelPackage = Some("com.wordnik.client.model")
+  override def modelPackage: Option[String] = Some("com.wordnik.client.model")
 
   // package for api classes
-  override def apiPackage = Some("com.wordnik.client.api")
+  override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
   // file suffix
   override def fileSuffix = ".groovy"

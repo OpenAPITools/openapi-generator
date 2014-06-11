@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,13 +29,17 @@ class AccountApi(object):
       self.apiClient = apiClient
 
     
+
     def authenticate(self, username, password, **kwargs):
         """Authenticates a User
 
         Args:
             username, str: A confirmed Wordnik username (required)
+
             password, str: The user's password (required)
+
             
+
         Returns: AuthenticationToken
         """
 
@@ -72,14 +76,19 @@ class AccountApi(object):
         responseObject = self.apiClient.deserialize(response, 'AuthenticationToken')
         return responseObject
         
+
         
+
     def authenticatePost(self, username, body, **kwargs):
         """Authenticates a user
 
         Args:
             username, str: A confirmed Wordnik username (required)
+
             body, str: The user's password (required)
+
             
+
         Returns: AuthenticationToken
         """
 
@@ -114,15 +123,21 @@ class AccountApi(object):
         responseObject = self.apiClient.deserialize(response, 'AuthenticationToken')
         return responseObject
         
+
         
+
     def getWordListsForLoggedInUser(self, auth_token, **kwargs):
         """Fetches WordList objects for the logged-in user.
 
         Args:
             auth_token, str: auth_token of logged-in user (required)
+
             skip, int: Results to skip (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: list[WordList]
         """
 
@@ -159,13 +174,17 @@ class AccountApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[WordList]')
         return responseObject
         
+
         
+
     def getApiTokenStatus(self, **kwargs):
         """Returns usage statistics for the API account.
 
         Args:
             api_key, str: Wordnik authentication token (optional)
+
             
+
         Returns: ApiTokenStatus
         """
 
@@ -198,13 +217,17 @@ class AccountApi(object):
         responseObject = self.apiClient.deserialize(response, 'ApiTokenStatus')
         return responseObject
         
+
         
+
     def getLoggedInUser(self, auth_token, **kwargs):
         """Returns the logged-in User
 
         Args:
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             
+
         Returns: User
         """
 
@@ -237,7 +260,11 @@ class AccountApi(object):
         responseObject = self.apiClient.deserialize(response, 'User')
         return responseObject
         
+
         
+
     
+
+
 
 

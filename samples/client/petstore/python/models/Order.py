@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -30,14 +30,10 @@ class Order:
         }
 
 
-        #Unique identifier for the order
         self.id = None # long
-        #ID of pet being ordered
         self.petId = None # long
-        #Number of pets ordered
         self.quantity = None # int
-        #Status of the order
+        #Order Status
         self.status = None # str
-        #Date shipped, only if it has been
         self.shipDate = None # datetime
         

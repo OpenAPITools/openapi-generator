@@ -1,6 +1,5 @@
 package com.wordnik.petstore.api
 
-import java.io.File
 import com.wordnik.petstore.model.Pet
 import com.wordnik.client.ApiInvoker
 import com.wordnik.client.ApiException
@@ -21,6 +20,7 @@ class PetApi {
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -49,6 +49,7 @@ class PetApi {
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -76,6 +77,7 @@ class PetApi {
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 
     
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -107,6 +109,7 @@ class PetApi {
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -132,6 +135,7 @@ class PetApi {
   def uploadFile (additionalMetadata: String, body: File) = {
     // create path and map variables
     val path = "/pet/uploadImage".replaceAll("\\{format\\}","json")
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -155,6 +159,7 @@ class PetApi {
   def addPet (body: Pet) = {
     // create path and map variables
     val path = "/pet".replaceAll("\\{format\\}","json")
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -183,6 +188,7 @@ class PetApi {
   def updatePet (body: Pet) = {
     // create path and map variables
     val path = "/pet".replaceAll("\\{format\\}","json")
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -211,6 +217,7 @@ class PetApi {
   def findPetsByStatus (status: String= "available") : Option[List[Pet]]= {
     // create path and map variables
     val path = "/pet/findByStatus".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -238,6 +245,7 @@ class PetApi {
   def findPetsByTags (tags: String) : Option[List[Pet]]= {
     // create path and map variables
     val path = "/pet/findByTags".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 

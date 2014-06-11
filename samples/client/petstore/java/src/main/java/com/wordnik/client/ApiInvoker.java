@@ -26,6 +26,11 @@ public class ApiInvoker {
   private static ApiInvoker INSTANCE = new ApiInvoker();
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private boolean isDebug = false;
+
+  public void enableDebug() {
+    isDebug = true;
+  }
 
   public static ApiInvoker getInstance() {
     return INSTANCE;
@@ -124,8 +129,8 @@ public class ApiInvoker {
           StringBuilder formParamBuilder = new StringBuilder();
 
           // encode the form params
-          for(String key : headerParams.keySet()) {
-            String value = headerParams.get(key);
+          for(String key : formParams.keySet()) {
+            String value = formParams.get(key);
             if(value != null && !"".equals(value.trim())) {
               if(formParamBuilder.length() > 0) {
                 formParamBuilder.append("&");
@@ -169,7 +174,8 @@ public class ApiInvoker {
   private Client getClient(String host) {
     if(!hostMap.containsKey(host)) {
       Client client = Client.create();
-      client.addFilter(new LoggingFilter());
+      if(isDebug)
+        client.addFilter(new LoggingFilter());
       hostMap.put(host, client);
     }
     return hostMap.get(host);

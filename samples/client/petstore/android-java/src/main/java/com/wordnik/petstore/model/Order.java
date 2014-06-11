@@ -4,19 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 public class Order {
-  /* Unique identifier for the order */
   @JsonProperty("id")
   private Long id = null;
-  /* ID of pet being ordered */
   @JsonProperty("petId")
   private Long petId = null;
-  /* Number of pets ordered */
   @JsonProperty("quantity")
   private Integer quantity = null;
-  /* Status of the order */
+  /* Order Status */
   @JsonProperty("status")
   private String status = null;
-  /* Date shipped, only if it has been */
   @JsonProperty("shipDate")
   private Date shipDate = null;
   public Long getId() {

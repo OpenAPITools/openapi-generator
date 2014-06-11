@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 object BasicCSharpGenerator extends BasicCSharpGenerator {
   def main(args: Array[String]) = generateClient(args)
@@ -79,10 +79,10 @@ class BasicCSharpGenerator extends BasicGenerator {
   override def importMapping = Map()
 
   // package for models
-  override def modelPackage = Some("Com.Wordnik.Client.Model")
+  override def modelPackage: Option[String] = Some("Com.Wordnik.Client.Model")
 
   // package for api classes
-  override def apiPackage = Some("Com.Wordnik.Client.Api")
+  override def apiPackage: Option[String] = Some("Com.Wordnik.Client.Api")
 
   // file suffix
   override def fileSuffix = ".cs"

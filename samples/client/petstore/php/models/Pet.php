@@ -34,24 +34,12 @@ class Pet {
     );
 
   /**
-  * Unique identifier for the Pet
+  * unique identifier for the pet
   */
   public $id; // int
-  /**
-  * Category the pet is in
-  */
   public $category; // Category
-  /**
-  * Friendly name of the pet
-  */
   public $name; // string
-  /**
-  * Image URLs
-  */
   public $photoUrls; // array[string]
-  /**
-  * Tags assigned to this pet
-  */
   public $tags; // array[Tag]
   /**
   * pet status in the store

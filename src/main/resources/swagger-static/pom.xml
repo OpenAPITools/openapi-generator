@@ -93,26 +93,7 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <id>sonatype-snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-    <repository>
-      <id>sonatype-releases</id>
-      <url>https://oss.sonatype.org/content/repositories/releases</url>
-    </repository>
-  </repositories>
-  <dependencies>
-    <dependency>
-      <groupId>com.wordnik</groupId>
-      <artifactId>swagger-codegen_2.9.1</artifactId>
-      <version>${swagger-codegen-version}</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
   <properties>
-    <swagger-codegen-version>2.0.2-SNAPSHOT</swagger-codegen-version>
     <maven-plugin.version>3.1.0</maven-plugin.version>
     <jetty-version>7.6.0.v20120127</jetty-version>
   </properties>

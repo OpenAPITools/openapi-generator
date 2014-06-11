@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,12 +29,15 @@ class StoreApi(object):
       self.apiClient = apiClient
 
     
+
     def getOrderById(self, orderId, **kwargs):
         """Find purchase order by ID
 
         Args:
             orderId, str: ID of pet that needs to be fetched (required)
+
             
+
         Returns: Order
         """
 
@@ -69,13 +72,17 @@ class StoreApi(object):
         responseObject = self.apiClient.deserialize(response, 'Order')
         return responseObject
         
+
         
+
     def deleteOrder(self, orderId, **kwargs):
         """Delete purchase order by ID
 
         Args:
             orderId, str: ID of the order that needs to be deleted (required)
+
             
+
         Returns: 
         """
 
@@ -105,13 +112,17 @@ class StoreApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def placeOrder(self, body, **kwargs):
         """Place an order for a pet
 
         Args:
             body, Order: order placed for purchasing the pet (required)
+
             
+
         Returns: 
         """
 
@@ -137,7 +148,11 @@ class StoreApi(object):
                                           postData, headerParams)
 
         
+
         
+
     
+
+
 
 

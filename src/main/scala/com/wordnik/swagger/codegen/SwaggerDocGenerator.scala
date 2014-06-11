@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,15 +14,19 @@
  *  limitations under the License.
  */
 
+package com.wordnik.swagger.codegen
+
 import com.wordnik.swagger.codegen.BasicGenerator
 import com.wordnik.swagger.codegen.spec.SwaggerSpec
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import scala.collection.mutable.{ HashMap, ListBuffer }
 
-object SwaggerDocGenerator extends BasicGenerator {
+object SwaggerDocGenerator extends SwaggerDocGenerator {
   def main(args: Array[String]) = generateClient(args)
+}
 
+class SwaggerDocGenerator extends BasicGenerator {
   override def templateDir = "src/main/resources/swagger-static"
 
   val outputFolder = "samples/docs/swagger-static-docs"
@@ -84,10 +88,10 @@ object SwaggerDocGenerator extends BasicGenerator {
   }
 
   // package for models
-  override def modelPackage = Some("models")
+  override def modelPackage: Option[String] = Some("models")
 
   // package for api classes
-  override def apiPackage = Some("operations")
+  override def apiPackage: Option[String] = Some("operations")
 
   override def supportingFiles = List(
     ("pom.xml", outputFolder, "pom.xml"),

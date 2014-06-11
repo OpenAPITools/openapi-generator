@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ object ObjcPetstoreCodegen extends BasicObjcGenerator {
   val outputFolder = "samples/client/petstore/objc/"
   override def destinationDir = outputFolder + java.io.File.separator + "client"
 
-  // to avoid recompiling ...
   override def templateDir = "objc"
 
   additionalParams ++= Map("projectName" -> "PetstoreClient")

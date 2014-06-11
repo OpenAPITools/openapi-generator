@@ -8,136 +8,7 @@ class User_api
     URI.encode(string.to_s)
   end
 
-  def self.create_user (body,opts={})
-    query_param_keys = []
-
-    # verify existence of params
-    raise "body is required" if body.nil?
-    # set default values and merge with input
-    options = {
-    :body => body}.merge(opts)
-
-    #resource path
-    path = "/user".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
-    
-    headers = nil
-    post_body = nil
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
-          else
-            array.push item
-          end
-        end
-        post_body = array
-
-      else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
-      end
-    end
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
-    
-  end
-
-def self.create_users_with_array_input (body,opts={})
-    query_param_keys = []
-
-    # verify existence of params
-    raise "body is required" if body.nil?
-    # set default values and merge with input
-    options = {
-    :body => body}.merge(opts)
-
-    #resource path
-    path = "/user/createWithArray".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
-    
-    headers = nil
-    post_body = nil
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
-          else
-            array.push item
-          end
-        end
-        post_body = array
-
-      else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
-      end
-    end
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
-    
-  end
-
-def self.create_users_with_list_input (body,opts={})
-    query_param_keys = []
-
-    # verify existence of params
-    raise "body is required" if body.nil?
-    # set default values and merge with input
-    options = {
-    :body => body}.merge(opts)
-
-    #resource path
-    path = "/user/createWithList".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
-    
-    headers = nil
-    post_body = nil
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
-          else
-            array.push item
-          end
-        end
-        post_body = array
-
-      else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
-      end
-    end
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
-    
-  end
-
-def self.update_user (username,body,opts={})
+  def self.update_user (username,body,opts={})
     query_param_keys = []
 
     # verify existence of params
@@ -151,6 +22,7 @@ def self.update_user (username,body,opts={})
     #resource path
     path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -181,6 +53,7 @@ def self.update_user (username,body,opts={})
     end
     Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.delete_user (username,opts={})
@@ -195,6 +68,7 @@ def self.delete_user (username,opts={})
     #resource path
     path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -205,6 +79,7 @@ def self.delete_user (username,opts={})
     post_body = nil
     Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.get_user_by_name (username,opts={})
@@ -219,6 +94,7 @@ def self.get_user_by_name (username,opts={})
     #resource path
     path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -229,6 +105,7 @@ def self.get_user_by_name (username,opts={})
     post_body = nil
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
     User.new(response)
+
   end
 
 def self.login_user (username,password,opts={})
@@ -244,6 +121,7 @@ def self.login_user (username,password,opts={})
 
     #resource path
     path = "/user/login".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -254,6 +132,7 @@ def self.login_user (username,password,opts={})
     post_body = nil
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
     string.new(response)
+
   end
 
 def self.logout_user (opts={})
@@ -265,6 +144,7 @@ def self.logout_user (opts={})
 
     #resource path
     path = "/user/logout".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -275,6 +155,142 @@ def self.logout_user (opts={})
     post_body = nil
     Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
+  end
+
+def self.create_user (body,opts={})
+    query_param_keys = []
+
+    # verify existence of params
+    raise "body is required" if body.nil?
+    # set default values and merge with input
+    options = {
+    :body => body}.merge(opts)
+
+    #resource path
+    path = "/user".sub('{format}','json')
+
+    
+    # pull querystring keys from options
+    queryopts = options.select do |key,value|
+      query_param_keys.include? key
+    end
+    
+    headers = nil
+    post_body = nil
+    if body != nil
+      if body.is_a?(Array)
+        array = Array.new
+        body.each do |item|
+          if item.respond_to?("to_body".to_sym)
+            array.push item.to_body
+          else
+            array.push item
+          end
+        end
+        post_body = array
+
+      else 
+        if body.respond_to?("to_body".to_sym)
+	        post_body = body.to_body
+	      else
+	        post_body = body
+	      end
+      end
+    end
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    
+
+  end
+
+def self.create_users_with_array_input (body,opts={})
+    query_param_keys = []
+
+    # verify existence of params
+    raise "body is required" if body.nil?
+    # set default values and merge with input
+    options = {
+    :body => body}.merge(opts)
+
+    #resource path
+    path = "/user/createWithArray".sub('{format}','json')
+
+    
+    # pull querystring keys from options
+    queryopts = options.select do |key,value|
+      query_param_keys.include? key
+    end
+    
+    headers = nil
+    post_body = nil
+    if body != nil
+      if body.is_a?(Array)
+        array = Array.new
+        body.each do |item|
+          if item.respond_to?("to_body".to_sym)
+            array.push item.to_body
+          else
+            array.push item
+          end
+        end
+        post_body = array
+
+      else 
+        if body.respond_to?("to_body".to_sym)
+	        post_body = body.to_body
+	      else
+	        post_body = body
+	      end
+      end
+    end
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    
+
+  end
+
+def self.create_users_with_list_input (body,opts={})
+    query_param_keys = []
+
+    # verify existence of params
+    raise "body is required" if body.nil?
+    # set default values and merge with input
+    options = {
+    :body => body}.merge(opts)
+
+    #resource path
+    path = "/user/createWithList".sub('{format}','json')
+
+    
+    # pull querystring keys from options
+    queryopts = options.select do |key,value|
+      query_param_keys.include? key
+    end
+    
+    headers = nil
+    post_body = nil
+    if body != nil
+      if body.is_a?(Array)
+        array = Array.new
+        body.each do |item|
+          if item.respond_to?("to_body".to_sym)
+            array.push item.to_body
+          else
+            array.push item
+          end
+        end
+        post_body = array
+
+      else 
+        if body.respond_to?("to_body".to_sym)
+	        post_body = body.to_body
+	      else
+	        post_body = body
+	      end
+      end
+    end
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    
+
   end
 
 end

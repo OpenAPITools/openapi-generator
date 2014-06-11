@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,15 +20,22 @@ object ObjcWordnikApiCodegen extends BasicObjcGenerator {
   def main(args: Array[String]) = generateClient(args)
 
   // where to write generated code
-  override def destinationDir = "samples/client/wordnik-api/objc/client"
+  val outputFolder = "samples/client/wordnik-api/objc"
+  override def destinationDir = outputFolder + java.io.File.separator + "client"
+
+  additionalParams ++= Map("projectName" -> "WordnikApiClient")
 
   // supporting classes
   override def supportingFiles =
     List(
-      ("NIKSwaggerObject.h", destinationDir, "NIKSwaggerObject.h"),
-      ("NIKSwaggerObject.m", destinationDir, "NIKSwaggerObject.m"),
-      ("NIKApiInvoker.h", destinationDir, "NIKApiInvoker.h"),
-      ("NIKApiInvoker.m", destinationDir, "NIKApiInvoker.m"),
-      ("NIKDate.h", destinationDir, "NIKDate.h"),
-      ("NIKDate.m", destinationDir, "NIKDate.m"))
+      ("SWGObject.h", destinationDir, "SWGObject.h"),
+      ("SWGObject.m", destinationDir, "SWGObject.m"),
+      ("SWGApiClient.h", destinationDir, "SWGApiClient.h"),
+      ("SWGApiClient.m", destinationDir, "SWGApiClient.m"),
+      ("SWGFile.h", destinationDir, "SWGFile.h"),
+      ("SWGFile.m", destinationDir, "SWGFile.m"),
+      ("SWGDate.h", destinationDir, "SWGDate.h"),
+      ("SWGDate.m", destinationDir, "SWGDate.m"),
+      ("Podfile.mustache", outputFolder, "Podfile")
+    )
 }

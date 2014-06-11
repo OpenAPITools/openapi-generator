@@ -22,90 +22,15 @@ public class UserApi extends SwaggerApi {
         super(apiCredentials, eventDispatcher);
     }
 
-public static const event_createUser: String = "createUser";
-public static const event_createUsersWithArrayInput: String = "createUsersWithArrayInput";
-public static const event_createUsersWithListInput: String = "createUsersWithListInput";
 public static const event_updateUser: String = "updateUser";
 public static const event_deleteUser: String = "deleteUser";
 public static const event_getUserByName: String = "getUserByName";
 public static const event_loginUser: String = "loginUser";
 public static const event_logoutUser: String = "logoutUser";
+public static const event_createUser: String = "createUser";
+public static const event_createUsersWithArrayInput: String = "createUsersWithArrayInput";
+public static const event_createUsersWithListInput: String = "createUsersWithListInput";
 /*
-     * Returns void */
-    public function createUser (body: User): String {
-        // create path and map variables
-        var path: String = "/user".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        // verify required params are set
-        if(body == null ) {
-            throw new ApiError(400, "missing required params");
-        }
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "createUser";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    /*
-     * Returns void */
-    public function createUsersWithArrayInput (body: Array): String {
-        // create path and map variables
-        var path: String = "/user/createWithArray".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        // verify required params are set
-        if(body == null ) {
-            throw new ApiError(400, "missing required params");
-        }
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "createUsersWithArrayInput";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    /*
-     * Returns void */
-    public function createUsersWithListInput (body: Array): String {
-        // create path and map variables
-        var path: String = "/user/createWithList".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        // verify required params are set
-        if(body == null ) {
-            throw new ApiError(400, "missing required params");
-        }
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "createUsersWithListInput";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    /*
      * Returns void */
     public function updateUser (username: String, body: User): String {
         // create path and map variables
@@ -225,6 +150,81 @@ public static const event_logoutUser: String = "logoutUser";
 
         token.requestId = requestId;
         token.completionEventType = "logoutUser";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+    /*
+     * Returns void */
+    public function createUser (body: User): String {
+        // create path and map variables
+        var path: String = "/user".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if(body == null ) {
+            throw new ApiError(400, "missing required params");
+        }
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "createUser";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+    /*
+     * Returns void */
+    public function createUsersWithArrayInput (body: Array): String {
+        // create path and map variables
+        var path: String = "/user/createWithArray".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if(body == null ) {
+            throw new ApiError(400, "missing required params");
+        }
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "createUsersWithArrayInput";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+    /*
+     * Returns void */
+    public function createUsersWithListInput (body: Array): String {
+        // create path and map variables
+        var path: String = "/user/createWithList".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if(body == null ) {
+            throw new ApiError(400, "missing required params");
+        }
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "createUsersWithListInput";
 
         token.returnType = null ;
         return requestId;

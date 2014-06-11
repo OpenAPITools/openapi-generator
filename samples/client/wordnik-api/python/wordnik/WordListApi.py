@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,14 +29,19 @@ class WordListApi(object):
       self.apiClient = apiClient
 
     
+
     def updateWordList(self, permalink, auth_token, **kwargs):
         """Updates an existing WordList
 
         Args:
             permalink, str: permalink of WordList to update (required)
+
             body, WordList: Updated WordList (optional)
+
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             
+
         Returns: 
         """
 
@@ -68,14 +73,19 @@ class WordListApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def deleteWordList(self, permalink, auth_token, **kwargs):
         """Deletes an existing WordList
 
         Args:
             permalink, str: ID of WordList to delete (required)
+
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             
+
         Returns: 
         """
 
@@ -107,14 +117,19 @@ class WordListApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def getWordListByPermalink(self, permalink, auth_token, **kwargs):
         """Fetches a WordList by ID
 
         Args:
             permalink, str: permalink of WordList to fetch (required)
+
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             
+
         Returns: WordList
         """
 
@@ -151,15 +166,21 @@ class WordListApi(object):
         responseObject = self.apiClient.deserialize(response, 'WordList')
         return responseObject
         
+
         
+
     def addWordsToWordList(self, permalink, auth_token, **kwargs):
         """Adds words to a WordList
 
         Args:
             permalink, str: permalink of WordList to user (required)
+
             body, list[StringValue]: Array of words to add to WordList (optional)
+
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             
+
         Returns: 
         """
 
@@ -191,18 +212,27 @@ class WordListApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def getWordListWords(self, permalink, auth_token, **kwargs):
         """Fetches words in a WordList
 
         Args:
             permalink, str: ID of WordList to use (required)
+
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             sortBy, str: Field to sort by (optional)
+
             sortOrder, str: Direction to sort (optional)
+
             skip, int: Results to skip (optional)
+
             limit, int: Maximum number of results to return (optional)
+
             
+
         Returns: list[WordListWord]
         """
 
@@ -247,15 +277,21 @@ class WordListApi(object):
         responseObject = self.apiClient.deserialize(response, 'list[WordListWord]')
         return responseObject
         
+
         
+
     def deleteWordsFromWordList(self, permalink, auth_token, **kwargs):
         """Removes words from a WordList
 
         Args:
             permalink, str: permalink of WordList to use (required)
+
             body, list[StringValue]: Words to remove from WordList (optional)
+
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             
+
         Returns: 
         """
 
@@ -287,7 +323,11 @@ class WordListApi(object):
                                           postData, headerParams)
 
         
+
         
+
     
+
+
 
 

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ class CodegenConfigTest extends FlatSpec with ShouldMatchers {
     override def escapeReservedWord(word: String) = "`" + word + "`"
     override def typeMapping = Map("int" -> "integer")
     override def invokerPackage = Some("com.wordnik.something")
-    override def apiPackage = Some("com.wordnik.api")
+    override def apiPackage: Option[String] = Some("com.wordnik.api")
     override def modelPackage = Some("com.wordnik.models")
     override def reservedWords = Set("special")
     override def importMapping = super.importMapping ++ Map("User" -> "com.mypackage.User")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -27,8 +27,6 @@ class Tag:
         }
 
 
-        #Unique identifier for the tag
         self.id = None # long
-        #Friendly name for the tag
         self.name = None # str
         

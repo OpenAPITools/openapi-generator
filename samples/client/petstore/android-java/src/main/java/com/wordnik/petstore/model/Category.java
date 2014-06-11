@@ -3,10 +3,8 @@ package com.wordnik.petstore.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Category {
-  /* Category unique identifier */
   @JsonProperty("id")
   private Long id = null;
-  /* Name of the category */
   @JsonProperty("name")
   private String name = null;
   public Long getId() {

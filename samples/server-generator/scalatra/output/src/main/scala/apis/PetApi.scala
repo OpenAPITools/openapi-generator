@@ -1,16 +1,19 @@
 package apis
 
-import java.io.File
 import com.wordnik.client.model.Pet
+import java.io.File
+
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
+import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig, SizeConstraintExceededException }
 
 import scala.collection.JavaConverters._
 
 class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
+    with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
@@ -61,7 +64,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   val updatePetWithFormOperation = (apiOperation[Unit]("updatePetWithForm")
     summary "Updates a pet in the store with form data"
     parameters (
-      pathParam[String]("petId").description(""), queryParam[String]("name").description(""), queryParam[String]("status").description(""))
+      pathParam[String]("petId").description(""), formParam[String]("name").description(""), formParam[String]("status").description(""))
   )
 
   post("/:petId", operation(updatePetWithFormOperation)) {
@@ -76,13 +79,14 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   val uploadFileOperation = (apiOperation[Unit]("uploadFile")
     summary "uploads an image"
     parameters (
-      queryParam[String]("additionalMetadata").description(""), bodyParam[File]("body").description("").optional)
+      formParam[String]("additionalMetadata").description(""),
+      bodyParam[File]("body").description("").optional)
   )
 
   post("/uploadImage", operation(uploadFileOperation)) {
     val additionalMetadata = params.getAs[String]("additionalMetadata")
     println("additionalMetadata: " + additionalMetadata)
-    val body = parsedBody.extract[File]
+    val body = fileParams("body")
     println("body: " + body)
   }
 

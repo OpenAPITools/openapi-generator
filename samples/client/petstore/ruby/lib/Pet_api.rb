@@ -20,6 +20,7 @@ class Pet_api
     #resource path
     path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -30,6 +31,7 @@ class Pet_api
     post_body = nil
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
     Pet.new(response)
+
   end
 
 def self.delete_pet (pet_id,opts={})
@@ -44,6 +46,7 @@ def self.delete_pet (pet_id,opts={})
     #resource path
     path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -54,6 +57,7 @@ def self.delete_pet (pet_id,opts={})
     post_body = nil
     Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.partial_update (pet_id,body,opts={})
@@ -70,6 +74,7 @@ def self.partial_update (pet_id,body,opts={})
     #resource path
     path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -100,6 +105,7 @@ def self.partial_update (pet_id,body,opts={})
     end
     response = Swagger::Request.new(:PATCH, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
     response.map {|response|Pet.new(response)}
+
   end
 
 def self.update_pet_with_form (pet_id,name,status,opts={})
@@ -116,6 +122,7 @@ def self.update_pet_with_form (pet_id,name,status,opts={})
     #resource path
     path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -126,6 +133,7 @@ def self.update_pet_with_form (pet_id,name,status,opts={})
     post_body = nil
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.upload_file (additional_metadata,body,opts={})
@@ -138,6 +146,7 @@ def self.upload_file (additional_metadata,body,opts={})
 
     #resource path
     path = "/pet/uploadImage".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -168,6 +177,7 @@ def self.upload_file (additional_metadata,body,opts={})
     end
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.add_pet (body,opts={})
@@ -181,6 +191,7 @@ def self.add_pet (body,opts={})
 
     #resource path
     path = "/pet".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -211,6 +222,7 @@ def self.add_pet (body,opts={})
     end
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.update_pet (body,opts={})
@@ -224,6 +236,7 @@ def self.update_pet (body,opts={})
 
     #resource path
     path = "/pet".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -254,6 +267,7 @@ def self.update_pet (body,opts={})
     end
     Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
     
+
   end
 
 def self.find_pets_by_status (status= "available",opts={})
@@ -267,6 +281,7 @@ def self.find_pets_by_status (status= "available",opts={})
 
     #resource path
     path = "/pet/findByStatus".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -277,6 +292,7 @@ def self.find_pets_by_status (status= "available",opts={})
     post_body = nil
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
     response.map {|response|Pet.new(response)}
+
   end
 
 def self.find_pets_by_tags (tags,opts={})
@@ -290,6 +306,7 @@ def self.find_pets_by_tags (tags,opts={})
 
     #resource path
     path = "/pet/findByTags".sub('{format}','json')
+
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
@@ -300,6 +317,7 @@ def self.find_pets_by_tags (tags,opts={})
     post_body = nil
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
     response.map {|response|Pet.new(response)}
+
   end
 
 end

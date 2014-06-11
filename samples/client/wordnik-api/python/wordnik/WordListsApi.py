@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,13 +29,17 @@ class WordListsApi(object):
       self.apiClient = apiClient
 
     
+
     def createWordList(self, auth_token, **kwargs):
         """Creates a WordList.
 
         Args:
             body, WordList: WordList to create (optional)
+
             auth_token, str: The auth token of the logged-in user, obtained by calling /account.{format}/authenticate/{username} (described above) (required)
+
             
+
         Returns: WordList
         """
 
@@ -68,7 +72,11 @@ class WordListsApi(object):
         responseObject = self.apiClient.deserialize(response, 'WordList')
         return responseObject
         
+
         
+
     
+
+
 
 

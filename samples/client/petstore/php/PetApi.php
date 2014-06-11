@@ -29,6 +29,7 @@ class PetApi {
 	 * getPetById
 	 * Find pet by ID
    * petId, int: ID of pet that needs to be fetched (required)
+
    * @return Pet
 	 */
 
@@ -40,6 +41,8 @@ class PetApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($petId != null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
@@ -67,6 +70,7 @@ class PetApi {
 	 * deletePet
 	 * Deletes a pet
    * petId, string: Pet id to delete (required)
+
    * @return 
 	 */
 
@@ -78,6 +82,8 @@ class PetApi {
   		$method = "DELETE";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($petId != null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
@@ -97,7 +103,9 @@ class PetApi {
 	 * partialUpdate
 	 * partial updates to a pet
    * petId, string: ID of pet that needs to be fetched (required)
+
    * body, Pet: Pet object that needs to be added to the store (required)
+
    * @return Array[Pet]
 	 */
 
@@ -109,6 +117,8 @@ class PetApi {
   		$method = "PATCH";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = 'application/json,application/xml';
 
       if($petId != null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
@@ -136,8 +146,11 @@ class PetApi {
 	 * updatePetWithForm
 	 * Updates a pet in the store with form data
    * petId, string: ID of pet that needs to be updated (required)
+
    * name, string: Updated name of the pet (optional)
+
    * status, string: Updated status of the pet (optional)
+
    * @return 
 	 */
 
@@ -149,6 +162,8 @@ class PetApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
 
       if($petId != null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
@@ -168,7 +183,9 @@ class PetApi {
 	 * uploadFile
 	 * uploads an image
    * additionalMetadata, string: Additional data to pass to server (optional)
+
    * body, File: file to upload (optional)
+
    * @return 
 	 */
 
@@ -180,6 +197,8 @@ class PetApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'multipart/form-data';
 
       //make the API Call
       if (! isset($body)) {
@@ -195,6 +214,7 @@ class PetApi {
 	 * addPet
 	 * Add a new pet to the store
    * body, Pet: Pet object that needs to be added to the store (required)
+
    * @return 
 	 */
 
@@ -206,6 +226,8 @@ class PetApi {
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json,application/xml';
 
       //make the API Call
       if (! isset($body)) {
@@ -221,6 +243,7 @@ class PetApi {
 	 * updatePet
 	 * Update an existing pet
    * body, Pet: Pet object that needs to be updated in the store (required)
+
    * @return 
 	 */
 
@@ -232,6 +255,8 @@ class PetApi {
   		$method = "PUT";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       //make the API Call
       if (! isset($body)) {
@@ -247,6 +272,7 @@ class PetApi {
 	 * findPetsByStatus
 	 * Finds Pets by status
    * status, string: Status values that need to be considered for filter (required)
+
    * @return Array[Pet]
 	 */
 
@@ -258,6 +284,8 @@ class PetApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($status != null) {
   		  $queryParams['status'] = $this->apiClient->toQueryValue($status);
@@ -284,6 +312,7 @@ class PetApi {
 	 * findPetsByTags
 	 * Finds Pets by tags
    * tags, string: Tags to filter by (required)
+
    * @return Array[Pet]
 	 */
 
@@ -295,6 +324,8 @@ class PetApi {
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
 
       if($tags != null) {
   		  $queryParams['tags'] = $this->apiClient->toQueryValue($tags);
@@ -318,5 +349,6 @@ class PetApi {
 
       }
   
+
 }
 

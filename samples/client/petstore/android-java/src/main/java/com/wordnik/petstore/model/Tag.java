@@ -3,10 +3,8 @@ package com.wordnik.petstore.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Tag {
-  /* Unique identifier for the tag */
   @JsonProperty("id")
   private Long id = null;
-  /* Friendly name for the tag */
   @JsonProperty("name")
   private String name = null;
   public Long getId() {

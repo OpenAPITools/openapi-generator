@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 WordAPI.py
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,109 +29,17 @@ class UserApi(object):
       self.apiClient = apiClient
 
     
-    def createUser(self, body, **kwargs):
-        """Create user
 
-        Args:
-            body, User: Created user object (required)
-            
-        Returns: 
-        """
-
-        allParams = ['body']
-
-        params = locals()
-        for (key, val) in params['kwargs'].items():
-            if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method createUser" % key)
-            params[key] = val
-        del params['kwargs']
-
-        resourcePath = '/user'
-        resourcePath = resourcePath.replace('{format}', 'json')
-        method = 'POST'
-
-        queryParams = {}
-        headerParams = {}
-
-        postData = (params['body'] if 'body' in params else None)
-
-        response = self.apiClient.callAPI(resourcePath, method, queryParams,
-                                          postData, headerParams)
-
-        
-        
-    def createUsersWithArrayInput(self, body, **kwargs):
-        """Creates list of users with given input array
-
-        Args:
-            body, list[User]: List of user object (required)
-            
-        Returns: 
-        """
-
-        allParams = ['body']
-
-        params = locals()
-        for (key, val) in params['kwargs'].items():
-            if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithArrayInput" % key)
-            params[key] = val
-        del params['kwargs']
-
-        resourcePath = '/user/createWithArray'
-        resourcePath = resourcePath.replace('{format}', 'json')
-        method = 'POST'
-
-        queryParams = {}
-        headerParams = {}
-
-        postData = (params['body'] if 'body' in params else None)
-
-        response = self.apiClient.callAPI(resourcePath, method, queryParams,
-                                          postData, headerParams)
-
-        
-        
-    def createUsersWithListInput(self, body, **kwargs):
-        """Creates list of users with given list input
-
-        Args:
-            body, list[User]: List of user object (required)
-            
-        Returns: 
-        """
-
-        allParams = ['body']
-
-        params = locals()
-        for (key, val) in params['kwargs'].items():
-            if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithListInput" % key)
-            params[key] = val
-        del params['kwargs']
-
-        resourcePath = '/user/createWithList'
-        resourcePath = resourcePath.replace('{format}', 'json')
-        method = 'POST'
-
-        queryParams = {}
-        headerParams = {}
-
-        postData = (params['body'] if 'body' in params else None)
-
-        response = self.apiClient.callAPI(resourcePath, method, queryParams,
-                                          postData, headerParams)
-
-        
-        
     def updateUser(self, username, body, **kwargs):
         """Updated user
 
         Args:
             username, str: name that need to be deleted (required)
+
             body, User: Updated user object (required)
+
             
+
         Returns: 
         """
 
@@ -161,13 +69,17 @@ class UserApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def deleteUser(self, username, **kwargs):
         """Delete user
 
         Args:
             username, str: The name that needs to be deleted (required)
+
             
+
         Returns: 
         """
 
@@ -197,13 +109,17 @@ class UserApi(object):
                                           postData, headerParams)
 
         
+
         
+
     def getUserByName(self, username, **kwargs):
         """Get user by user name
 
         Args:
             username, str: The name that needs to be fetched. Use user1 for testing. (required)
+
             
+
         Returns: User
         """
 
@@ -238,14 +154,19 @@ class UserApi(object):
         responseObject = self.apiClient.deserialize(response, 'User')
         return responseObject
         
+
         
+
     def loginUser(self, username, password, **kwargs):
         """Logs user into the system
 
         Args:
             username, str: The user name for login (required)
+
             password, str: The password for login in clear text (required)
+
             
+
         Returns: str
         """
 
@@ -280,12 +201,15 @@ class UserApi(object):
         responseObject = self.apiClient.deserialize(response, 'str')
         return responseObject
         
+
         
+
     def logoutUser(self, **kwargs):
         """Logs out current logged in user session
 
         Args:
             
+
         Returns: 
         """
 
@@ -311,7 +235,119 @@ class UserApi(object):
                                           postData, headerParams)
 
         
+
         
+
+    def createUser(self, body, **kwargs):
+        """Create user
+
+        Args:
+            body, User: Created user object (required)
+
+            
+
+        Returns: 
+        """
+
+        allParams = ['body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].items():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method createUser" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/user'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        
+
+        
+
+    def createUsersWithArrayInput(self, body, **kwargs):
+        """Creates list of users with given input array
+
+        Args:
+            body, list[User]: List of user object (required)
+
+            
+
+        Returns: 
+        """
+
+        allParams = ['body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].items():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithArrayInput" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/user/createWithArray'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        
+
+        
+
+    def createUsersWithListInput(self, body, **kwargs):
+        """Creates list of users with given list input
+
+        Args:
+            body, list[User]: List of user object (required)
+
+            
+
+        Returns: 
+        """
+
+        allParams = ['body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].items():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithListInput" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/user/createWithList'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        
+
+        
+
     
+
+
 
 

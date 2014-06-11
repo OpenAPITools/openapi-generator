@@ -23,6 +23,7 @@ class AccountApi {
     val path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -52,6 +53,7 @@ class AccountApi {
     val path = "/account.{format}/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
     
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -81,6 +83,7 @@ class AccountApi {
   def getWordListsForLoggedInUser (auth_token: String, skip: Int= 0, limit: Int= 50) : Option[List[WordList]]= {
     // create path and map variables
     val path = "/account.{format}/wordLists".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -110,6 +113,7 @@ class AccountApi {
   def getApiTokenStatus (api_key: String) : Option[ApiTokenStatus]= {
     // create path and map variables
     val path = "/account.{format}/apiTokenStatus".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 
@@ -132,6 +136,7 @@ class AccountApi {
   def getLoggedInUser (auth_token: String) : Option[User]= {
     // create path and map variables
     val path = "/account.{format}/user".replaceAll("\\{format\\}","json")
+
     val contentType = {
       "application/json"}
 

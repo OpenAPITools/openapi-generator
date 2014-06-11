@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2012 Wordnik, Inc.
+Copyright 2014 Wordnik, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ class User:
     def __init__(self):
         self.swaggerTypes = {
             'id': 'long',
-            'username': 'str',
             'firstName': 'str',
+            'username': 'str',
             'lastName': 'str',
             'email': 'str',
             'password': 'str',
@@ -33,19 +33,12 @@ class User:
         }
 
 
-        #Unique identifier for the user
         self.id = None # long
-        #Unique username
-        self.username = None # str
-        #First name of the user
         self.firstName = None # str
-        #Last name of the user
+        self.username = None # str
         self.lastName = None # str
-        #Email address of the user
         self.email = None # str
-        #Password name of the user
         self.password = None # str
-        #Phone number of the user
         self.phone = None # str
         #User Status
         self.userStatus = None # int

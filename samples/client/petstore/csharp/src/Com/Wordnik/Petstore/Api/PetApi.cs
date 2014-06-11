@@ -22,38 +22,6 @@
       }
 
       /// <summary>
-      /// uploads an image 
-      /// </summary>
-      /// <param name="additionalMetadata">Additional data to pass to server</param>
-      /// <param name="body">file to upload</param>
-      /// <returns></returns>
-      public void uploadFile (string additionalMetadata, File body) {
-        // create path and map variables
-        var path = "/pet/uploadImage".Replace("{format}","json");
-
-        // query params
-        var queryParams = new Dictionary<String, String>();
-        var headerParams = new Dictionary<String, String>();
-
-        string paramStr = null;
-        try {
-          var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams);
-          if(response != null){
-             return ;
-          }
-          else {
-            return ;
-          }
-        } catch (ApiException ex) {
-          if(ex.ErrorCode == 404) {
-          	return ;
-          }
-          else {
-            throw ex;
-          }
-        }
-      }
-      /// <summary>
       /// Find pet by ID Returns a pet based on ID
       /// </summary>
       /// <param name="petId">ID of pet that needs to be fetched</param>
@@ -181,6 +149,38 @@
         string paramStr = null;
         try {
           var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams);
+          if(response != null){
+             return ;
+          }
+          else {
+            return ;
+          }
+        } catch (ApiException ex) {
+          if(ex.ErrorCode == 404) {
+          	return ;
+          }
+          else {
+            throw ex;
+          }
+        }
+      }
+      /// <summary>
+      /// uploads an image 
+      /// </summary>
+      /// <param name="additionalMetadata">Additional data to pass to server</param>
+      /// <param name="body">file to upload</param>
+      /// <returns></returns>
+      public void uploadFile (string additionalMetadata, File body) {
+        // create path and map variables
+        var path = "/pet/uploadImage".Replace("{format}","json");
+
+        // query params
+        var queryParams = new Dictionary<String, String>();
+        var headerParams = new Dictionary<String, String>();
+
+        string paramStr = null;
+        try {
+          var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams);
           if(response != null){
              return ;
           }

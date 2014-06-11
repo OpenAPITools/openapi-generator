@@ -22,6 +22,7 @@ class WordListApi {
     val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
 
     
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -53,6 +54,7 @@ class WordListApi {
     val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -81,6 +83,7 @@ class WordListApi {
     val path = "/wordList.{format}/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -110,6 +113,7 @@ class WordListApi {
     val path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
 
     
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"
@@ -141,6 +145,7 @@ class WordListApi {
     val path = "/wordList.{format}/{permalink}/words".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -174,6 +179,7 @@ class WordListApi {
     val path = "/wordList.{format}/{permalink}/deleteWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
 
     
+
     val contentType = {
       if(body != null && body.isInstanceOf[File] )
         "multipart/form-data"

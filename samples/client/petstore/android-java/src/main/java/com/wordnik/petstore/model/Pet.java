@@ -6,19 +6,15 @@ import java.util.*;
 import com.wordnik.petstore.model.Category;
 import com.wordnik.petstore.model.Tag;
 public class Pet {
-  /* Unique identifier for the Pet */
+  /* unique identifier for the pet */
   @JsonProperty("id")
   private Long id = null;
-  /* Category the pet is in */
   @JsonProperty("category")
   private Category category = null;
-  /* Friendly name of the pet */
   @JsonProperty("name")
   private String name = null;
-  /* Image URLs */
   @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
-  /* Tags assigned to this pet */
   @JsonProperty("tags")
   private List<Tag> tags = new ArrayList<Tag>();
   /* pet status in the store */

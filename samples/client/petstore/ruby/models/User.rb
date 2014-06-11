@@ -1,12 +1,12 @@
 class User
-  attr_accessor :id, :username, :first_name, :last_name, :email, :password, :phone, :user_status
+  attr_accessor :id, :first_name, :username, :last_name, :email, :password, :phone, :user_status
 
   # :internal => :external
   def self.attribute_map
     {
       :id => :id,
-      :username => :username,
       :first_name => :firstName,
+      :username => :username,
       :last_name => :lastName,
       :email => :email,
       :password => :password,
@@ -22,11 +22,11 @@ class User
     if self.class.attribute_map[:"id"]
       @id = attributes["id"]
     end
-    if self.class.attribute_map[:"username"]
-      @username = attributes["username"]
-    end
     if self.class.attribute_map[:"first_name"]
       @first_name = attributes["firstName"]
+    end
+    if self.class.attribute_map[:"username"]
+      @username = attributes["username"]
     end
     if self.class.attribute_map[:"last_name"]
       @last_name = attributes["lastName"]

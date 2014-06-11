@@ -1,0 +1,403 @@
+{
+  "apiVersion": "0.5",
+  "swaggerVersion": "1.1",
+  "basePath": "http://localhost:9000/",
+  "resourcePath": "/discovery.{format}",
+  "apis": [
+    {
+      "path": "/discovery.{format}/config",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Returns configuration of an instance",
+          "responseClass": "ConfigurationResponse",
+          "nickname": "getInstanceConfiguration",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Instance not found"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "instanceId",
+              "description": "InstanceId of the service for which configuration is required",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/status",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "POST",
+          "summary": "Marks an instance's status",
+          "responseClass": "string",
+          "nickname": "updateInstanceStatus",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Instance not found"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "instanceId",
+              "description": "InstanceId of the service which is to be marked as available",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "status",
+              "description": "The new status",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/{targetServiceName}",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Return base urls accessible to a target service",
+          "responseClass": "List[String]",
+          "nickname": "getServiceInstancesUrls",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Source Instance not found"
+            },
+            {
+              "code": 400,
+              "reason": "Unknown service name specified"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "sourceInstanceId",
+              "description": "InstanceId of the service which wants to call the target service",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "targetZone",
+              "description": "The zone in which the target service instances should be located. Valid values are all - (all zones in the same region), same - (same zone a the source service), [zone-name] - (the name of zone for example us-west-1a, us-west-1b, us-west-1c)",
+              "paramType": "query",
+              "defaultValue": "all",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "targetServiceName",
+              "description": "Name of service whose instances are needed",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/commission",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "POST",
+          "summary": "Perpare for a service to boot up and make contact",
+          "responseClass": "string",
+          "nickname": "commissionInstance",
+          "parameters": [
+            {
+              "name": "instanceId",
+              "description": "InstanceId of the service from which to anticipate contact",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "serviceName",
+              "description": "Name of service",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "buildNumber",
+              "description": "Build Number of service",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "cluster",
+              "description": "Name of cluster to launch this into",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/de-commission",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "POST",
+          "summary": "Decomission an instance and remove it",
+          "responseClass": "string",
+          "nickname": "decommissionInstance",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Instance not found"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "instanceId",
+              "description": "InstanceId of the service to be decommissioned",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/register",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "POST",
+          "summary": "Register an instance and return its configuration",
+          "responseClass": "RegistrationResponse",
+          "nickname": "registerInstance",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Instance not found"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "instanceId",
+              "description": "InstanceId of the service to be registered",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/instances/{targetServiceName}",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Return instances accessible to a target service",
+          "responseClass": "List[Instance]",
+          "nickname": "getServiceInstances",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Source Instance not found"
+            },
+            {
+              "code": 400,
+              "reason": "Unknown service name specified"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "sourceInstanceId",
+              "description": "InstanceId of the service which wants to call the target service",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "targetZone",
+              "description": "The zone in which the target service instances should be located. Valid values are all - (all zones in the same region), same - (same zone a the source service), [zone-name] - (the name of zone for example us-west-1a, us-west-1b, us-west-1c)",
+              "paramType": "query",
+              "defaultValue": "all",
+              "required": false,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "targetServiceName",
+              "description": "Name of service whose instances are needed",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/services/{status}",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Return instances running in the zone managed by this Discovery Service",
+          "responseClass": "List[Instance]",
+          "nickname": "getServiceInstancesByStatus",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Instances not found"
+            },
+            {
+              "code": 400,
+              "reason": "Unknown status specified"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "status",
+              "description": "The status for which services need to be returned",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/discovery.{format}/services/{status}/{targetServiceName}",
+      "description": "Discovery Service's Core Operations",
+      "operations": [
+        {
+          "httpMethod": "GET",
+          "summary": "Return instances in the zone managed by this Discovery Service for a given status and and service",
+          "responseClass": "List[Instance]",
+          "nickname": "getServiceInstancesByStatusAndName",
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Instances not found"
+            },
+            {
+              "code": 400,
+              "reason": "Unknown status specified"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "status",
+              "description": "The status for which services need to be returned",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            },
+            {
+              "name": "targetServiceName",
+              "description": "Name of service whose instances are needed",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "dataType": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "Instance": {
+      "id": "Instance",
+      "properties": {
+        "baseUrl": {
+          "type": "string"
+        },
+        "id": {
+          "type": "long"
+        },
+        "privateIp": {
+          "type": "string"
+        },
+        "buildNumber": {
+          "type": "string"
+        },
+        "lastPingedOn": {
+          "type": "Date"
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "Date"
+        },
+        "awsInstanceId": {
+          "type": "string"
+        },
+        "cluster": {
+          "type": "string"
+        },
+        "publicIp": {
+          "type": "string"
+        },
+        "zone": {
+          "type": "string"
+        },
+        "serviceName": {
+          "type": "string"
+        }
+      }
+    },
+    "ConfigurationResponse": {
+      "id": "ConfigurationResponse",
+      "properties": {
+        "config": {
+          "type": "string"
+        }
+      }
+    },
+    "RegistrationResponse": {
+      "id": "RegistrationResponse",
+      "properties": {
+        "config": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

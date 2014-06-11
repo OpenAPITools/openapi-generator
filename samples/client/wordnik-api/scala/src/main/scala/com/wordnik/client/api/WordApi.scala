@@ -30,6 +30,7 @@ class WordApi {
     val path = "/word.{format}/{word}/examples".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -62,6 +63,7 @@ class WordApi {
     val path = "/word.{format}/{word}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -92,6 +94,7 @@ class WordApi {
     val path = "/word.{format}/{word}/definitions".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -126,6 +129,7 @@ class WordApi {
     val path = "/word.{format}/{word}/topExample".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -155,6 +159,7 @@ class WordApi {
     val path = "/word.{format}/{word}/relatedWords".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -186,6 +191,7 @@ class WordApi {
     val path = "/word.{format}/{word}/pronunciations".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -218,6 +224,7 @@ class WordApi {
     val path = "/word.{format}/{word}/hyphenation".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -249,6 +256,7 @@ class WordApi {
     val path = "/word.{format}/{word}/frequency".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -280,6 +288,7 @@ class WordApi {
     val path = "/word.{format}/{word}/phrases".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -311,6 +320,7 @@ class WordApi {
     val path = "/word.{format}/{word}/etymologies".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -340,6 +350,7 @@ class WordApi {
     val path = "/word.{format}/{word}/audio".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 
@@ -370,6 +381,7 @@ class WordApi {
     val path = "/word.{format}/{word}/scrabbleScore".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
     
+
     val contentType = {
       "application/json"}
 

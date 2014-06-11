@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.wordnik.swagger.codegen.spec
 
 import com.wordnik.swagger.codegen.util.{CoreUtils, ApiExtractor, ResourceExtractor}
 import com.wordnik.swagger.codegen.PathUtil
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import scala.collection.JavaConversions._
 
@@ -28,6 +28,8 @@ object Validator extends PathUtil {
       throw new RuntimeException("Need url to Resource Listing as argument. You can also specify VM Argument -DfileMap=/path/to/resourceListing")
     }
     val host = args(0)
+    val fileMap = Option(sys.props("fileMap"))
+
     val authorization = {
       Option (System.getProperty("header")) match {
         case Some(e) => {
@@ -50,13 +52,13 @@ object Validator extends PathUtil {
     }
     val doc = {
       try {
-        ResourceExtractor.fetchListing(getResourcePath(host), authorization)
+        ResourceExtractor.fetchListing(getResourcePath(host, fileMap), authorization)
       } catch {
         case e: Exception => throw new Exception("unable to read from " + host, e)
       }
     }
 
-    val basePath = getBasePath(host, doc.basePath)
+    val basePath = getBasePath(host, doc.basePath, fileMap)
     val apis = ApiExtractor.fetchApiListings(doc.swaggerVersion, basePath, doc.apis, authorization)
     val swaggerSpecValidator = new SwaggerSpecValidator(doc, apis, false)
     swaggerSpecValidator.validate()

@@ -1,15 +1,19 @@
 package apis
 
 import com.wordnik.client.model.User
+import java.io.File
+
 import org.scalatra.{ TypedParamSupport, ScalatraServlet }
 import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
+import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig, SizeConstraintExceededException }
 
 import scala.collection.JavaConverters._
 
 class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
+    with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
@@ -20,39 +24,6 @@ class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
   before() {
     contentType = formats("json")
     response.headers += ("Access-Control-Allow-Origin" -> "*")
-  }
-
-  val createUserOperation = (apiOperation[Unit]("createUser")
-    summary "Create user"
-    parameters (
-      bodyParam[User]("body").description(""))
-  )
-
-  post("/", operation(createUserOperation)) {
-    val body = parsedBody.extract[User]
-    println("body: " + body)
-  }
-
-  val createUsersWithArrayInputOperation = (apiOperation[Unit]("createUsersWithArrayInput")
-    summary "Creates list of users with given input array"
-    parameters (
-      bodyParam[List[User]]("body").description(""))
-  )
-
-  post("/createWithArray", operation(createUsersWithArrayInputOperation)) {
-    val body = parsedBody.extract[List[User]]
-    println("body: " + body)
-  }
-
-  val createUsersWithListInputOperation = (apiOperation[Unit]("createUsersWithListInput")
-    summary "Creates list of users with given list input"
-    parameters (
-      bodyParam[List[User]]("body").description(""))
-  )
-
-  post("/createWithList", operation(createUsersWithListInputOperation)) {
-    val body = parsedBody.extract[List[User]]
-    println("body: " + body)
   }
 
   val updateUserOperation = (apiOperation[Unit]("updateUser")
@@ -109,6 +80,39 @@ class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
   )
 
   get("/logout", operation(logoutUserOperation)) {
+  }
+
+  val createUserOperation = (apiOperation[Unit]("createUser")
+    summary "Create user"
+    parameters (
+      bodyParam[User]("body").description(""))
+  )
+
+  post("/", operation(createUserOperation)) {
+    val body = parsedBody.extract[User]
+    println("body: " + body)
+  }
+
+  val createUsersWithArrayInputOperation = (apiOperation[Unit]("createUsersWithArrayInput")
+    summary "Creates list of users with given input array"
+    parameters (
+      bodyParam[List[User]]("body").description(""))
+  )
+
+  post("/createWithArray", operation(createUsersWithArrayInputOperation)) {
+    val body = parsedBody.extract[List[User]]
+    println("body: " + body)
+  }
+
+  val createUsersWithListInputOperation = (apiOperation[Unit]("createUsersWithListInput")
+    summary "Creates list of users with given list input"
+    parameters (
+      bodyParam[List[User]]("body").description(""))
+  )
+
+  post("/createWithList", operation(createUsersWithListInputOperation)) {
+    val body = parsedBody.extract[List[User]]
+    println("body: " + body)
   }
 
 }

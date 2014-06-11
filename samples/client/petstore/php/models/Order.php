@@ -32,25 +32,13 @@ class Order {
 
     );
 
-  /**
-  * Unique identifier for the order
-  */
   public $id; // int
-  /**
-  * ID of pet being ordered
-  */
   public $petId; // int
-  /**
-  * Number of pets ordered
-  */
   public $quantity; // int
   /**
-  * Status of the order
+  * Order Status
   */
   public $status; // string
-  /**
-  * Date shipped, only if it has been
-  */
   public $shipDate; // DateTime
   }
 

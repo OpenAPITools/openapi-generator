@@ -8,7 +8,7 @@ class ScalatraBootstrap extends LifeCycle {
   implicit val swagger = new SwaggerApp
 
   override def init(context: ServletContext) {
-    implicit val system = ActorSystem("mySystem")
+    implicit val system = ActorSystem("appActorSystem")
     try {
       context mount (new UserApi, "/user/*")
       context mount (new PetApi, "/pet/*")

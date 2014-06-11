@@ -24,7 +24,7 @@ php -d detect_unicode=0 go-pear.phar
 Then install PHPUnit:
 
 ```sh
-pear config-set auto_discover
+pear config-set auto_discover 1
 pear install pear.phpunit.de/PHPUnit
 ```
 

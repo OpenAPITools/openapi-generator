@@ -8,7 +8,7 @@ import scala.concurrent.duration._
 import collection.mutable
 
 {{#operations}}
-class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+class {{className}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
   {{#operation}}
 
@@ -17,7 +17,7 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
         {{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{defaultValue}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
       {{/optional}}
       {{^optional}}
-        {{paramName}}: {{dataType}}{{#defaultValue}} = {{defaultValue}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
       {{/optional}}{{/allParams}})(implicit reader: ClientResponseReader[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{dataType}}]{{/bodyParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
     // create path and map variables
     val path = 

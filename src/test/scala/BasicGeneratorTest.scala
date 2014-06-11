@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 import com.wordnik.swagger.codegen.BasicGenerator
 import com.wordnik.swagger.codegen.util._
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -109,10 +109,11 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
     bundle("package") should be (Some("com.wordnik.client.model"))
 
     // inspect models
-    val modelList = bundle("models").asInstanceOf[List[(String, Model)]]
+    val modelList = bundle("models").asInstanceOf[List[Map[String, AnyRef]]]
     modelList.size should be (1)
-    modelList.head._1 should be ("SampleObject")
-    modelList.head._2.getClass should be (classOf[Model])
+
+    val m = modelList.head("model").asInstanceOf[Map[String, AnyRef]]
+    m("classVarName") should be ("SampleObject")
   }
 
   it should "create a model file" in {
@@ -120,10 +121,12 @@ class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
     val generator = new SampleGenerator
 
     val model = sampleModel
-    val bundle = generator.prepareModelMap(Map(model.id -> model))
-    val modelFile = generator.bundleToSource(bundle, generator.modelTemplateFiles.toMap).head
+    val modelMap = (generator.prepareModelMap(Map(model.id -> model)))
 
-    val fileContents = modelFile._2
+    val modelFileContents = generator.writeFiles(modelMap, generator.modelTemplateFiles.toMap).toMap
+    val name = modelFileContents.keys.filter(_.endsWith("SampleObject.test")).head
+
+    val fileContents = modelFileContents(name)
     fileContents.indexOf("case class SampleObject") should not be (-1)
     fileContents.indexOf("longValue: Long") should not be (-1)
     fileContents.indexOf("intValue: Int") should not be (-1)

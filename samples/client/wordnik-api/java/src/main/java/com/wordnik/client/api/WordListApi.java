@@ -2,9 +2,11 @@ package com.wordnik.client.api;
 
 import com.wordnik.client.common.ApiException;
 import com.wordnik.client.common.ApiInvoker;
+
 import com.wordnik.client.model.WordListWord;
 import com.wordnik.client.model.WordList;
 import com.wordnik.client.model.StringValue;
+import java.io.File;
 import java.util.*;
 
 public class WordListApi {
@@ -34,12 +36,16 @@ public class WordListApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     headerParams.put("auth_token", auth_token);
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, body, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -66,12 +72,16 @@ public class WordListApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     headerParams.put("auth_token", auth_token);
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -98,12 +108,16 @@ public class WordListApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     headerParams.put("auth_token", auth_token);
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (WordList) ApiInvoker.deserialize(response, "", WordList.class);
       }
@@ -130,12 +144,16 @@ public class WordListApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     headerParams.put("auth_token", auth_token);
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -162,6 +180,7 @@ public class WordListApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     if(!"null".equals(String.valueOf(sortBy)))
       queryParams.put("sortBy", String.valueOf(sortBy));
@@ -172,10 +191,13 @@ public class WordListApi {
     if(!"null".equals(String.valueOf(limit)))
       queryParams.put("limit", String.valueOf(limit));
     headerParams.put("auth_token", auth_token);
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<WordListWord>) ApiInvoker.deserialize(response, "List", WordListWord.class);
       }
@@ -202,12 +224,16 @@ public class WordListApi {
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
 
     headerParams.put("auth_token", auth_token);
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }

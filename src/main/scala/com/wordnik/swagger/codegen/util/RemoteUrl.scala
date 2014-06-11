@@ -1,6 +1,6 @@
 package com.wordnik.swagger.codegen.util
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import java.net._
 import java.io.InputStream

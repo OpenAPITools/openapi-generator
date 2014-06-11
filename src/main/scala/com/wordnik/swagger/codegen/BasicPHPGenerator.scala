@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import java.io.File
 
@@ -38,10 +38,10 @@ class BasicPHPGenerator extends BasicGenerator {
   override def destinationDir = "generated-code/php"
 
   // package for models
-  override def modelPackage = Some("models")
+  override def modelPackage: Option[String] = Some("models")
 
   // package for apis
-  override def apiPackage = Some("")
+  override def apiPackage: Option[String] = Some("")
 
   // file suffix
   override def fileSuffix = ".php"

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2012 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.wordnik.swagger.codegen
 
 import com.wordnik.swagger.codegen.BasicJavaGenerator
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 object BasicAndroidJavaClient extends BasicAndroidJavaGenerator {
   def main(args: Array[String]) = generateClient(args)
@@ -45,7 +45,7 @@ class BasicAndroidJavaGenerator extends BasicJavaGenerator {
     "Any")
 
   // package for api invoker, error files
-  override def invokerPackage = Some("com.wordnik.client")
+  override def invokerPackage:Option[String] = Some("com.wordnik.client")
 
   override def templateDir = "android-java"
 
@@ -53,10 +53,10 @@ class BasicAndroidJavaGenerator extends BasicJavaGenerator {
   override def destinationDir = "generated-code/android-java/src/main/java"
 
   // package for models
-  override def modelPackage = Some("com.wordnik.client.model")
+  override def modelPackage: Option[String] = Some("com.wordnik.client.model")
 
   // package for api classes
-  override def apiPackage = Some("com.wordnik.client.api")
+  override def apiPackage: Option[String] = Some("com.wordnik.client.api")
 
   /**
    * you should override these params for generating the pom.xml and processing

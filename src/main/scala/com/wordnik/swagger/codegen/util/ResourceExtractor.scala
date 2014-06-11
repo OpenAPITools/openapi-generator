@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2014 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.wordnik.swagger.codegen.util
 
-import com.wordnik.swagger.model._
+import com.wordnik.swagger.codegen.model._
 
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
@@ -33,8 +33,12 @@ object ResourceExtractor extends RemoteUrl {
 
     implicit val formats = {
       val jval = parse(json)
+
       val version = (jval \ "swaggerVersion") match {
+        case e: JInt => e.num.toString
+        case e: JBool => e.value.toString
         case e: JString => e.s
+        case e: JDouble => e.num.toString
         case _ => ""
       }
       SwaggerSerializers.formats(version)

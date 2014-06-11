@@ -5,6 +5,7 @@
 
 
 
+
 @implementation SWGStoreApi
 static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 
@@ -200,6 +201,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     
 
 }
+
 
 
 @end
