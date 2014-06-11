@@ -247,6 +247,9 @@ class Codegen(config: CodegenConfig) {
         params += "hasMore" -> "true"
         params += "allowMultiple" -> param.allowMultiple.toString
 
+        if(param.dataType == "File") params += "isFile" -> "true"
+        else params += "notFile" -> "true"
+
         val u = param.dataType.indexOf("[") match {
           case -1 => config.toDeclaredType(param.dataType)
           case n: Int => {

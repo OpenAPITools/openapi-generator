@@ -329,18 +329,29 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       allImports --= containers
       allImports.foreach(i => {
         val model = toModelName(i)
-        if(!includedModels.contains(model)) {
-          if(!importMapping.containsKey(model)) {
-            if(!imports.flatten.map(m => m._2).toSet.contains(importScope + model)){
-              imports += Map("import" -> (importScope + model))
-            }
+        if(!includedModels.contains(model) && !importMapping.containsKey(model)) {
+          if(!imports.flatten.map(m => m._2).toSet.contains(importScope + model)){
+            imports += Map("import" -> (importScope + model))
           }
         }
       })
 
+      val names = new HashSet[String]
       for((path, operation) <- operationList) {
         val op = codegen.apiToMap(path, operation)
-        o += Map("path" -> path) ++ op
+        val nickname = op.getOrElse("nickname", op("httpMethod")).asInstanceOf[String]
+        var updatedNickname = nickname
+        if(names.contains(nickname)) {
+          var counter = 0
+          var done = false
+          while(!done) {
+            updatedNickname = nickname + "_" + className + "_" + counter
+            if(!names.contains(updatedNickname)) done = true
+            counter += 1
+          }
+        }
+        names += updatedNickname
+        o += (Map("path" -> path) ++ op ++ Map("nickname" -> updatedNickname))
       }
       operations += Map("operation" -> o)
 
