@@ -309,13 +309,13 @@ static bool loggingEnabled = false;
      JSONRequestOperationWithRequest:request
      success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
          if([self executeRequestWithId:requestId]) {
-//             if(self.logServerResponses)
+             if(self.logServerResponses)
                  [self logResponse:JSON forRequest:request error:nil];
              completionBlock(JSON, nil);
          }
      } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id data) {
          if([self executeRequestWithId:requestId]) {
-//             if(self.logServerResponses)
+             if(self.logServerResponses)
                  [self logResponse:nil forRequest:request error:error];
              completionBlock(nil, error);
          }
