@@ -85,8 +85,8 @@ class AsycnClientGeneratorConf(arguments: Seq[String]) extends ScallopConf(argum
 
   footer("\nFor more information, visit https://developers.helloreverb.com/swagger/")
 }
-object ScalaAsyncClientGenerator extends App {
 
+object ScalaAsyncClientGenerator extends App {
   val appBanner: String = AsycnClientGeneratorConf.appBanner
 
   val opts = new AsycnClientGeneratorConf(if (args.nonEmpty) args else Array("--help"))
@@ -118,8 +118,10 @@ object ScalaAsyncClientGenerator extends App {
   else
     props += "fileMap" -> resUrl
 
-  println(props)
+  props += "clientName" -> cfg.api.clientName.underscore.pascalize
+  
   clientOpts.properties = props.toMap.asJava
+  println(props)
 
   println(appBanner)
   generator.generate(clientOpts)
@@ -491,7 +493,6 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
       case e: String => (toDeclaredType(e), toDefaultValue(e, obj))
     }
   }
-
 
   private def makeContainerType(obj: ModelProperty, container: String): (String, String) = {
     val inner = {
