@@ -448,6 +448,7 @@ class Codegen(config: CodegenConfig) {
     val data: HashMap[String, AnyRef] =
       HashMap(
         "classname" -> config.toModelName(className),
+        "className" -> config.toModelName(className),
         "classVarName" -> config.toVarName(className), // suggested name of object created from this class
         "modelPackage" -> config.modelPackage,
         "description" -> model.description,
@@ -613,7 +614,7 @@ class Codegen(config: CodegenConfig) {
       val outputDir = file._2
       val destFile = file._3
 
-      val outputFile = new File(outputDir.replaceAll("\\.", File.separator) + File.separator + destFile)
+      val outputFile = new File(outputDir + File.separator + destFile)
       val outputFolder = outputFile.getParent
       new File(outputFolder).mkdirs
 
