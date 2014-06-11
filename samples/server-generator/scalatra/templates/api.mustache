@@ -10,10 +10,12 @@ import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
+import org.scalatra.servlet.{FileUploadSupport, MultipartConfig, SizeConstraintExceededException}
 
 import scala.collection.JavaConverters._
 
 class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet 
+    with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
@@ -54,6 +56,10 @@ class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
 
   {{httpMethod}}("{{path}}",operation({{nickname}}Operation)) {
     {{#allParams}}
+    {{#isFile}}
+      val {{paramName}} = fileParams("{{paramName}}")
+    {{/isFile}}
+    {{#notFile}}
     {{#pathParameter}}
       val {{paramName}} = params.getOrElse("{{paramName}}", halt(400))
     {{/pathParameter}}
@@ -73,6 +79,7 @@ class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
     {{#bodyParameter}}
       val {{paramName}} = parsedBody.extract[{{dataType}}]
     {{/bodyParameter}}
+    {{/notFile}}
     println("{{paramName}}: " + {{paramName}})
   {{/allParams}}
   }
