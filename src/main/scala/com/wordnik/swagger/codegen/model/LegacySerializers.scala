@@ -26,33 +26,14 @@ object LegacySerializers {
                   new ResourceListingSerializer +
                   new ApiListingSerializer
 
-  def validationMessages = ValidationMessage.validationMessages
-
-  def !!(element: AnyRef, elementType: String, elementId: String, message: String, level: String = ERROR) {
-    val msg = new ValidationMessage(element, elementType, elementId, message, level)
-    ValidationMessage.validationMessages += msg
-  }
-
   class ApiListingSerializer extends CustomSerializer[ApiListing](formats => ({
     case json =>
       implicit val fmts: Formats = formats
       ApiListing(
-        (json \ "apiVersion").extractOrElse({
-          !!(json, RESOURCE, "apiVersion", "missing required field", ERROR)
-          ""
-        }),
-        (json \ "swaggerVersion").extractOrElse({
-          !!(json, RESOURCE, "swaggerVersion", "missing required field", ERROR)
-          ""
-        }),
-        (json \ "basePath").extractOrElse({
-          !!(json, RESOURCE, "basePath", "missing required field", ERROR)
-          ""
-        }),
-        (json \ "resourcePath").extractOrElse({
-          !!(json, RESOURCE, "resourcePath", "missing recommended field", WARNING)
-          ""
-        }),
+        (json \ "apiVersion").extractOrElse(""),
+        (json \ "swaggerVersion").extractOrElse(""),
+        (json \ "basePath").extractOrElse(""),
+        (json \ "resourcePath").extractOrElse(""),
         List.empty,
         List.empty,
         List.empty,
@@ -87,18 +68,9 @@ object LegacySerializers {
     case json =>
       implicit val fmts: Formats = formats
       ResourceListing(
-        (json \ "apiVersion").extractOrElse({
-          !!(json, RESOURCE_LISTING, "apiVersion", "missing required field", ERROR)
-          ""
-        }),
-        (json \ "swaggerVersion").extractOrElse({
-          !!(json, RESOURCE_LISTING, "swaggerVersion", "missing required field", ERROR)
-          ""
-        }),
-        (json \ "basePath").extractOrElse({
-          !!(json, RESOURCE_LISTING, "basePath", "missing deprecated field", WARNING)
-          ""
-        }),
+        (json \ "apiVersion").extractOrElse(""),
+        (json \ "swaggerVersion").extractOrElse(""),
+        (json \ "basePath").extractOrElse(""),
         (json \ "apis").extract[List[ApiListingReference]]
       )
     }, {
@@ -120,10 +92,7 @@ object LegacySerializers {
     case json =>
       implicit val fmts: Formats = formats
       ApiListingReference(
-        (json \ "path").extractOrElse({
-          !!(json, RESOURCE, "path", "missing required field", ERROR)
-          ""
-        }),
+        (json \ "path").extractOrElse(""),
         (json \ "description").extractOpt[String]
       )
     }, {
@@ -138,10 +107,7 @@ object LegacySerializers {
     case json =>
       implicit val fmts: Formats = formats
       ApiDescription(
-        (json \ "path").extractOrElse({
-          !!(json, RESOURCE_LISTING, "path", "missing required field", ERROR)
-          ""
-        }),
+        (json \ "path").extractOrElse(""),
         (json \ "description").extractOpt[String],
         (json \ "operations").extract[List[Operation]]
       )
@@ -163,14 +129,8 @@ object LegacySerializers {
     case json =>
       implicit val fmts: Formats = formats
       ResponseMessage(
-        (json \ "code").extractOrElse({
-          !!(json, ERROR, "code", "missing required field", ERROR)
-          0
-        }),
-        (json \ "reason").extractOrElse({
-          !!(json, ERROR, "reason", "missing required field", ERROR)
-          ""
-        })
+        (json \ "code").extractOrElse(0),
+        (json \ "reason").extractOrElse("")
       )
     }, {
       case x: ResponseMessage =>
@@ -189,21 +149,12 @@ object LegacySerializers {
       }
       Operation(
         (json \ "httpMethod").extractOrElse(
-          (json \ "method").extractOrElse({
-            !!(json, OPERATION, "method", "missing required field", ERROR)
-            ""
-          })
+          (json \ "method").extractOrElse("")
         ),
         (json \ "summary").extract[String],
         (json \ "notes").extractOrElse(""),
-        (json \ "responseClass").extractOrElse({
-          !!(json, OPERATION, "responseClass", "missing required field", ERROR)
-          ""
-        }),
-        (json \ "nickname").extractOrElse({
-          !!(json, OPERATION, "nickname", "missing required field", WARNING)
-          ""
-        }),
+        (json \ "responseClass").extractOrElse(""),
+        (json \ "nickname").extractOrElse(""),
         (json \ "position").extractOrElse(0),
         (json \ "produces").extract[List[String]],
         (json \ "consumes").extract[List[String]],
@@ -236,10 +187,7 @@ object LegacySerializers {
     case json =>
       implicit val fmts: Formats = formats
       Parameter(
-        (json \ "name").extractOrElse({
-          !!(json, OPERATION_PARAM, "reason", "missing parameter name", WARNING)
-          ""
-        }),
+        (json \ "name").extractOrElse(""),
         (json \ "description").extractOpt[String],
         (json \ "defaultValue") match {
           case e:JInt => Some(e.num.toString)
@@ -254,15 +202,9 @@ object LegacySerializers {
           case _ => false
         },
         (json \ "allowMultiple").extractOrElse(false),
-        (json \ "dataType").extractOrElse({
-          !!(json, OPERATION_PARAM, "dataType", "missing required field", ERROR)
-          ""
-        }),
+        (json \ "dataType").extractOrElse(""),
         (json \ "allowableValues").extract[AllowableValues],
-        (json \ "paramType").extractOrElse({
-          !!(json, OPERATION_PARAM, "paramType", "missing required field", ERROR)
-          ""
-        })
+        (json \ "paramType").extractOrElse("")
       )
     }, {
       case x: Parameter =>
@@ -298,10 +240,7 @@ object LegacySerializers {
       }
 
       Model(
-        (json \ "id").extractOrElse({
-          !!(json, MODEL, "id", "missing required field", ERROR)
-          ""
-        }),
+        (json \ "id").extractOrElse(""),
         (json \ "name").extractOrElse(""),
         (json \ "id").extractOrElse(""),
         output,

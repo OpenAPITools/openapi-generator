@@ -24,6 +24,7 @@ import com.wordnik.swagger.codegen.model._
 import com.wordnik.swagger.codegen.model.SwaggerSerializers
 import com.wordnik.swagger.codegen.spec.ValidationMessage
 import com.wordnik.swagger.codegen.spec.SwaggerSpec._
+import com.wordnik.swagger.util.ValidationException
 
 import java.io.{ File, FileWriter }
 
@@ -81,29 +82,29 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val authorization = opts.auth
 
     fileMap = Option(opts.properties.getOrElse("fileMap", null))
-    val doc = {
-      try {
-        ResourceExtractor.fetchListing(getResourcePath(host, fileMap), authorization)
-      } catch {
-        case e: Exception => throw new Exception("unable to read from " + host, e)
-      }
-    }
+    val doc = ResourceExtractor.fetchListing(getResourcePath(host, fileMap), authorization)
 
     additionalParams ++= opts.properties
     val apis: List[ApiListing] = getApis(host, doc, authorization)
 
-    SwaggerSerializers.validationMessages.filter(_.level == ValidationMessage.ERROR).size match {
+    val errors = new ListBuffer[ValidationError] ++ SwaggerValidator.validate(doc)
+    for(api <- apis) {
+      SwaggerValidator.validate(api, errors)
+    }
+
+    errors.filter(_.severity == SwaggerValidator.ERROR).size match {
       case i: Int if i > 0 => {
         println("********* Failed to read swagger json!")
-        SwaggerSerializers.validationMessages.foreach(msg => {
+        errors.foreach(msg => {
           println(msg)
         })
         Option(System.getProperty("skipErrors")) match {
           case Some(str) => println("**** ignoring errors and continuing")
           case None => {
             val out = new StringBuilder
-            SwaggerSerializers.validationMessages.foreach(m => out.append(m).append("\n"))
-            throw new RuntimeException(out.toString)
+            errors.foreach(m => out.append(m).append("\n"))
+            println(errors)
+            throw new ValidationException(400, "Failed validation", errors.toList)
           }
         }
       }
