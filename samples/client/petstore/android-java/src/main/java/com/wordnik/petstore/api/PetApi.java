@@ -26,6 +26,8 @@ public class PetApi {
     return basePath;
   }
 
+  //error info- code: 400 reason: "Invalid ID supplied" model: <none>
+  //error info- code: 404 reason: "Pet not found" model: <none>
   public Pet getPetById (Long petId) throws ApiException {
     // verify required params are set
     if(petId == null ) {
@@ -57,6 +59,7 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 400 reason: "Invalid pet value" model: <none>
   public void deletePet (String petId) throws ApiException {
     // verify required params are set
     if(petId == null ) {
@@ -88,6 +91,7 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 400 reason: "Invalid tag value" model: <none>
   public List<Pet> partialUpdate (String petId, Pet body) throws ApiException {
     // verify required params are set
     if(petId == null || body == null ) {
@@ -119,6 +123,7 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 405 reason: "Invalid input" model: <none>
   public void updatePetWithForm (String petId, String name, String status) throws ApiException {
     // verify required params are set
     if(petId == null ) {
@@ -177,6 +182,7 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 405 reason: "Invalid input" model: <none>
   public void addPet (Pet body) throws ApiException {
     // verify required params are set
     if(body == null ) {
@@ -208,6 +214,9 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 400 reason: "Invalid ID supplied" model: <none>
+  //error info- code: 404 reason: "Pet not found" model: <none>
+  //error info- code: 405 reason: "Validation exception" model: <none>
   public void updatePet (Pet body) throws ApiException {
     // verify required params are set
     if(body == null ) {
@@ -239,6 +248,7 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 400 reason: "Invalid status value" model: <none>
   public List<Pet> findPetsByStatus (String status) throws ApiException {
     // verify required params are set
     if(status == null ) {
@@ -272,6 +282,7 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 400 reason: "Invalid tag value" model: <none>
   public List<Pet> findPetsByTags (String tags) throws ApiException {
     // verify required params are set
     if(tags == null ) {
