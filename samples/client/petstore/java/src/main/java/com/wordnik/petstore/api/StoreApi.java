@@ -23,6 +23,8 @@ public class StoreApi {
     return basePath;
   }
 
+  //error info- code: 400 reason: "Invalid ID supplied" model: <none>
+  //error info- code: 404 reason: "Order not found" model: <none>
   public Order getOrderById (String orderId) throws ApiException {
     // verify required params are set
     if(orderId == null ) {
@@ -58,6 +60,8 @@ public class StoreApi {
       }
     }
   }
+  //error info- code: 400 reason: "Invalid ID supplied" model: <none>
+  //error info- code: 404 reason: "Order not found" model: <none>
   public void deleteOrder (String orderId) throws ApiException {
     // verify required params are set
     if(orderId == null ) {
@@ -93,6 +97,7 @@ public class StoreApi {
       }
     }
   }
+  //error info- code: 400 reason: "Invalid order" model: <none>
   public void placeOrder (Order body) throws ApiException {
     // verify required params are set
     if(body == null ) {

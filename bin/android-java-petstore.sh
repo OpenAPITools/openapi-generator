@@ -1,7 +1,6 @@
 #!/bin/sh
 
 SCRIPT="$0"
-SCALA_RUNNER_VERSION=$(scala ./bin/Version.scala)
 
 while [ -h "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
@@ -19,6 +18,7 @@ if [ ! -d "${APP_DIR}" ]; then
 fi
 
 cd $APP_DIR
+SCALA_RUNNER_VERSION=$(scala ./bin/Version.scala)
 
 
 # if you've executed sbt assembly previously it will use that instead.
@@ -26,7 +26,7 @@ export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/
 ags="$@ samples/client/petstore/android-java/AndroidJavaPetstoreCodegen.scala http://petstore.swagger.wordnik.com/api/api-docs special-key"
 
 if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar ]; then
-  scala -cp target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar $ags
+  scala -cp $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar $ags
 else
   echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
 fi

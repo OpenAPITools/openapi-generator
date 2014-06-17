@@ -220,14 +220,28 @@ object SwaggerSerializers {
 
   class ResponseMessageSerializer extends CustomSerializer[ResponseMessage](implicit formats => ({
     case json =>
+      val responseClass = (json \ "responseModel") match {
+        case e: JObject => {
+          val inner = {
+            (e \ "items" \"type").extractOrElse({
+              (e \ "items" \ "$ref").extract[String]
+            })
+          }
+          Option("%s[%s]".format((e \ "type").extract[String], inner))
+        }
+        case _ => (json \ "responseModel").extractOpt[String]
+      }
+    
       ResponseMessage(
         (json \ "code").extractOrElse(0),
-        (json \ "message").extractOrElse("")
+        (json \ "message").extractOrElse(""),
+        (json \ "responseModel").extractOpt[String]
       )
     }, {
       case x: ResponseMessage =>
       ("code" -> x.code) ~
-      ("message" -> x.message)
+      ("message" -> x.message) ~
+      ("responseModel" -> x.responseModel)
     }
   ))
 

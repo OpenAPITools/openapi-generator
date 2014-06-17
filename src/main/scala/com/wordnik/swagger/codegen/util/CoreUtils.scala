@@ -35,7 +35,7 @@ object CoreUtils {
 
   def extractModelNames(op: Operation): Set[String] = {
 //    // POST, PUT, DELETE body
-    val modelNames = Set(op.responseClass) ++ op.parameters.filter(_.paramType == "body").map(_.dataType)
+    val modelNames = Set(op.responseClass) ++ op.parameters.filter(_.paramType == "body").map(_.dataType) ++ op.responseMessages.filter(!_.responseModel.isEmpty).map(_.responseModel.get)
     modelNames map extractBasePartFromType
   }
 
