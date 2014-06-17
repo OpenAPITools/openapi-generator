@@ -60,7 +60,9 @@ class BasicCSharpGenerator extends BasicGenerator {
   override def templateDir = "csharp"
 
   // where to write generated code
-  override def destinationDir = "generated-code/csharp/src/main/csharp"
+  override def destinationDir = "generated-code/csharp/src"
+
+  override def invokerPackage: Option[String] = Some("Swagger.Client.Common")
 
   // template used for models
   modelTemplateFiles += "model.mustache" -> ".cs"
@@ -79,10 +81,10 @@ class BasicCSharpGenerator extends BasicGenerator {
   override def importMapping = Map()
 
   // package for models
-  override def modelPackage: Option[String] = Some("Com.Wordnik.Client.Model")
+  override def modelPackage: Option[String] = Some("Swagger.Client.Model")
 
   // package for api classes
-  override def apiPackage: Option[String] = Some("Com.Wordnik.Client.Api")
+  override def apiPackage: Option[String] = Some("Swagger.Client.Api")
 
   // file suffix
   override def fileSuffix = ".cs"
