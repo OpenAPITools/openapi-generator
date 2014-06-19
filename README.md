@@ -136,7 +136,7 @@ If you don't want to call your server, you can save the swagger spec files into 
 to the code generator like this:
 
 ```
--DfileMap=/path/to/files
+-DfileMap=/path/to/resource-listing
 ```
 
 Or for example:
