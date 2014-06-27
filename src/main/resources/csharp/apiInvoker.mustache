@@ -86,14 +86,27 @@
               default:
                   throw new ApiException(500, "unknown method type " + method);         
           }
-              var webResponse = (HttpWebResponse) client.GetResponse();
-              if (webResponse.StatusCode != HttpStatusCode.OK) throw new ApiException((int) webResponse.StatusCode, webResponse.StatusDescription);
+
+          try
+          {
+              var webResponse = (HttpWebResponse)client.GetResponse();
+              if (webResponse.StatusCode != HttpStatusCode.OK) throw new ApiException((int)webResponse.StatusCode, webResponse.StatusDescription);
 
               var responseReader = new StreamReader(webResponse.GetResponseStream());
               var responseData = responseReader.ReadToEnd();
               responseReader.Close();
               return responseData;
+          }
+          catch(WebException ex)
+          {
+              var response = ex.Response as HttpWebResponse;
+              int statusCode = 0;
+              if (response != null)
+              {
+                  statusCode = (int)response.StatusCode;
+              }
+              throw new ApiException(statusCode, ex.Message);
+          }
       }
-
     }
   }
