@@ -46,15 +46,15 @@ class BasicCSharpGenerator extends BasicGenerator {
    */
   override def typeMapping = Map(
     "array" -> "List",
-    "boolean" -> "bool",
+    "boolean" -> "bool?",
     "string" -> "string",
-    "int" -> "int",
-    "float" -> "float",
-    "long" -> "long",
-    "double" -> "double",
+    "int" -> "int?",
+    "float" -> "float?",
+    "long" -> "long?",
+    "double" -> "double?",
     "object" -> "object",
-    "Date" -> "DateTime",
-    "date" -> "DateTime")
+    "Date" -> "DateTime?",
+    "date" -> "DateTime?")
 
   // location of templates
   override def templateDir = "csharp"
