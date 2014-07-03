@@ -436,7 +436,7 @@ class Codegen(config: CodegenConfig) {
         val ComplexTypeMatcher(basePart) = operation.responseClass
 
         properties += "returnType" -> config.processResponseDeclaration(operation.responseClass.replaceAll(basePart, config.processResponseClass(basePart).get))
-        properties += "returnContainer" -> (operation.responseClass.substring(0, n))
+        properties += "returnContainer" -> config.processResponseClass(operation.responseClass.substring(0, n))
         properties += "returnBaseType" -> config.processResponseClass(basePart)
         properties += "returnTypeIsPrimitive" -> {
           (config.languageSpecificPrimitives.contains(basePart) || primitives.contains(basePart)) match {
