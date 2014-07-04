@@ -285,9 +285,7 @@ class ScalaAsyncClientGenerator(cfg: SwaggerGenConfig) extends BasicGenerator {
   modelTemplateFiles ++= cfg.api.modelTemplates
   apiTemplateFiles ++= cfg.api.apiTemplates
 
-
   codegen = new AsyncClientCodegen(cfg.api.clientName, this, Some(cfg.projectRoot))
-
 
   override def getBasePath(host: String, basePath: String, fileMap: Option[String]): String =
     cfg.api.baseUrl.getOrElse(super.getBasePath(host, basePath, fileMap))
