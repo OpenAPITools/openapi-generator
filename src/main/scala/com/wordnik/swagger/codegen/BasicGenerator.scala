@@ -88,9 +88,8 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
     val apis: List[ApiListing] = getApis(host, doc, authorization)
 
     val errors = new ListBuffer[ValidationError] ++ SwaggerValidator.validate(doc)
-    for(api <- apis) {
+    for(api <- apis)
       SwaggerValidator.validate(api, errors)
-    }
 
     errors.filter(_.severity == SwaggerValidator.ERROR).size match {
       case i: Int if i > 0 => {
