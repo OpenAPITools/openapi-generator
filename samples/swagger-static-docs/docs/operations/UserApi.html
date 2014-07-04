@@ -1,0 +1,155 @@
+<div class="main-content">
+  <h2><a name="UserApi"></a>UserApi</h2>
+  <p>This is the UserApi API</p>
+
+  <h2><a name="updateUser"></a>updateUser</h2>
+  <hr>
+  <p></p>
+  <p>This can only be done by the logged in user.</p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>PUT</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">username&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">name that need to be deleted</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;&nbsp;<div class="model" id="User"><a href="#">User</a>&nbsp;(body)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Updated user object</p>
+	  </div>
+    </ul>
+  <h2><a name="deleteUser"></a>deleteUser</h2>
+  <hr>
+  <p></p>
+  <p>This can only be done by the logged in user.</p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>DELETE</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">username&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The name that needs to be deleted</p>
+	  </div>
+    </ul>
+  <h2><a name="getUserByName"></a>getUserByName</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="User"><a href="#">User</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">username&nbsp;:&nbsp;string&nbsp;(path)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The name that needs to be fetched. Use user1 for testing.</p>
+	  </div>
+    </ul>
+  <h2><a name="loginUser"></a>loginUser</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user/login</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="string"><a href="#">string</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">username&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The user name for login</p>
+	  </div>
+    <div class="parameter">
+	    <div class="param">password&nbsp;:&nbsp;string&nbsp;(query)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">The password for login in clear text</p>
+	  </div>
+    </ul>
+  <h2><a name="logoutUser"></a>logoutUser</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user/logout</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	</ul>
+  <h2><a name="createUser"></a>createUser</h2>
+  <hr>
+  <p></p>
+  <p>This can only be done by the logged in user.</p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;&nbsp;<div class="model" id="User"><a href="#">User</a>&nbsp;(body)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">Created user object</p>
+	  </div>
+    </ul>
+  <h2><a name="createUsersWithArrayInput"></a>createUsersWithArrayInput</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user/createWithArray</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;&nbsp;<div class="model" id="User"><a href="#">Array[User]</a>&nbsp;(body)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">List of user object</p>
+	  </div>
+    </ul>
+  <h2><a name="createUsersWithListInput"></a>createUsersWithListInput</h2>
+  <hr>
+  <p></p>
+  <p></p><h3 class="section">URL</h3>
+  <code>http://petstore.swagger.wordnik.com/api/user/createWithList</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="void"><a href="#"></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	<div class="parameter">
+	    <div class="param">body&nbsp;:&nbsp;&nbsp;<div class="model" id="User"><a href="#">Array[User]</a>&nbsp;(body)</div>
+	      <span></span>
+	    </div>
+	    <p class="param-description">List of user object</p>
+	  </div>
+    </ul>
+  </div>
