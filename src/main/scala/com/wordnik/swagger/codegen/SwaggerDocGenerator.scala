@@ -29,10 +29,10 @@ object SwaggerDocGenerator extends SwaggerDocGenerator {
 class SwaggerDocGenerator extends BasicGenerator {
   override def templateDir = "src/main/resources/swagger-static"
 
-  val outputFolder = "samples/docs/swagger-static-docs"
+  val outputFolder = "samples/swagger-static-docs"
 
   // where to write generated code
-  override def destinationDir = outputFolder + "/src/main/webapp"
+  override def destinationDir = outputFolder + "/docs"
 
   // template used for apis
   apiTemplateFiles += "operation.mustache" -> ".html"
@@ -94,7 +94,8 @@ class SwaggerDocGenerator extends BasicGenerator {
   override def apiPackage: Option[String] = Some("operations")
 
   override def supportingFiles = List(
-    ("pom.xml", outputFolder, "pom.xml"),
+    ("package.mustache", outputFolder, "package.json"),
+    ("main.mustache", outputFolder, "main.js"),
     ("assets/css/bootstrap-responsive.css", destinationDir + "/assets/css", "bootstrap-responsive.css"),
     ("assets/css/bootstrap.css", destinationDir + "/assets/css", "bootstrap.css"),
     ("assets/css/style.css", destinationDir + "/assets/css", "style.css"),
