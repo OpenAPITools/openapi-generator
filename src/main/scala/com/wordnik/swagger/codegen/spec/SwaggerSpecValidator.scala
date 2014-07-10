@@ -55,7 +55,7 @@ class SwaggerSpecValidator(private val doc: ResourceListing,
           fixInputDataTypes(models.toMap, apis)
 	  fixModels(models.toMap)
 	}
-	case None => LOGGER.warning("no models found for listing  " + api.basePath)
+	case None => LOGGER.warning("No models found for listing: " + api.resourcePath)
       }
     })
 
