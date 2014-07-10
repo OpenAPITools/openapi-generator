@@ -46,8 +46,7 @@ class CodegenTest extends FlatSpec with ShouldMatchers {
 
   behavior of "Codegen"
   /*
-   * A response of type "void" will turn into a declaration of None
-   * for the template generator
+   * A return specified as "Array" should map to "List"
    */
   it should "recognize the returnContainer as a List" in {
     val map = subject.apiToMap("/contacts", testOp)
