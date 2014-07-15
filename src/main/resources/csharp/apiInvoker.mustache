@@ -14,7 +14,7 @@
       public static ApiInvoker GetInstance() {
         return _instance;
       }
-      
+
       public void addDefaultHeader(string key, string value) {
          defaultHeaderMap.Add(key, value);
       }
@@ -46,7 +46,7 @@
 
       public string invokeAPI(string host, string path, string method, Dictionary<String, String> queryParams, object body, Dictionary<String, String> headerParams) {
         var b = new StringBuilder();
-        
+
         foreach (var queryParamItem in queryParams)
         {
             var value = queryParamItem.Value;
@@ -71,7 +71,7 @@
           {
               client.Headers.Add(defaultHeaderMapItem.Key, defaultHeaderMapItem.Value);
           }
-    
+
           switch (method)
           {
               case "GET":
@@ -84,13 +84,17 @@
                   swRequestWriter.Close();
                   break;
               default:
-                  throw new ApiException(500, "unknown method type " + method);         
+                  throw new ApiException(500, "unknown method type " + method);
           }
 
           try
           {
               var webResponse = (HttpWebResponse)client.GetResponse();
-              if (webResponse.StatusCode != HttpStatusCode.OK) throw new ApiException((int)webResponse.StatusCode, webResponse.StatusDescription);
+              if (webResponse.StatusCode != HttpStatusCode.OK)
+              {
+                  webResponse.Close();
+                  throw new ApiException((int)webResponse.StatusCode, webResponse.StatusDescription);
+              }
 
               var responseReader = new StreamReader(webResponse.GetResponseStream());
               var responseData = responseReader.ReadToEnd();
@@ -104,6 +108,7 @@
               if (response != null)
               {
                   statusCode = (int)response.StatusCode;
+                  response.Close();
               }
               throw new ApiException(statusCode, ex.Message);
           }
