@@ -8,18 +8,23 @@
   namespace {{package}} {
     {{#operations}}
     public class {{classname}} {
-      string basePath = "{{basePath}}";
+      string basePath;
       private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
+
+      public {{classname}}(String basePath = "{{basePath}}")
+      {
+        this.basePath = basePath;
+      }
 
       public ApiInvoker getInvoker() {
         return apiInvoker;
       }
-      
+
       // Sets the endpoint base url for the services being accessed
       public void setBasePath(string basePath) {
         this.basePath = basePath;
       }
-      
+
       // Gets the endpoint base url for the services being accessed
       public String getBasePath() {
         return basePath;
