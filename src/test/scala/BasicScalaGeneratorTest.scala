@@ -211,7 +211,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     m("returnType") should be (Some("List[Pet]"))
     m("returnTypeIsPrimitive") should be (None)
     m("pathParams").asInstanceOf[List[_]].size should be (0)
-    m("returnContainer") should be ("List")
+    m("returnContainer") should be (Some("List"))
     m("requiredParamCount") should be ("1")
 
     val queryParams = m("queryParams").asInstanceOf[List[_]]
@@ -248,7 +248,7 @@ class BasicScalaGeneratorTest extends FlatSpec with ShouldMatchers {
     m("returnType") should be (Some("List[Pet]"))
     m("returnTypeIsPrimitive") should be (None)
     m("pathParams").asInstanceOf[List[_]].size should be (0)
-    m("returnContainer") should be ("List")
+    m("returnContainer") should be (Some("List"))
     m("requiredParamCount") should be ("1")
 
     val queryParams = m("queryParams").asInstanceOf[List[_]]
