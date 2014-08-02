@@ -41,7 +41,7 @@ class BasicCSharpGenerator extends BasicGenerator {
    * We are using csharp objects instead of primitives to avoid showing default
    * primitive values when the API returns missing data.  For instance, having a
    * {"count":0} != count is unknown.  You can change this to use primitives if you
-   * desire, but update the default values as well or they'll be set to null in 
+   * desire, but update the default values as well or they'll be set to null in
    * variable declarations.
    */
   override def typeMapping = Map(
@@ -54,7 +54,9 @@ class BasicCSharpGenerator extends BasicGenerator {
     "double" -> "double?",
     "object" -> "object",
     "Date" -> "DateTime?",
-    "date" -> "DateTime?")
+    "date" -> "DateTime?",
+    "File" -> "byte[]",
+    "file" -> "byte[]")
 
   // location of templates
   override def templateDir = "csharp"
@@ -70,11 +72,11 @@ class BasicCSharpGenerator extends BasicGenerator {
   // template used for models
   apiTemplateFiles += "api.mustache" -> ".cs"
 
-  override def reservedWords = Set("abstract", "continue", "for", "new", "switch", "assert", 
-      "default", "if", "package", "synchronized", "do", "goto", "private", "this", "break", 
-      "implements", "protected", "throw", "else", "import", "public", "throws", "case", 
-      "enum", "instanceof", "return", "transient", "catch", "extends", "try", "final", 
-      "interface", "static", "void", "class", "finally", "strictfp", "volatile", "const", 
+  override def reservedWords = Set("abstract", "continue", "for", "new", "switch", "assert",
+      "default", "if", "package", "synchronized", "do", "goto", "private", "this", "break",
+      "implements", "protected", "throw", "else", "import", "public", "throws", "case",
+      "enum", "instanceof", "return", "transient", "catch", "extends", "try", "final",
+      "interface", "static", "void", "class", "finally", "strictfp", "volatile", "const",
       "native", "super", "while")
 
   // import/require statements for specific datatypes
@@ -180,7 +182,7 @@ class BasicCSharpGenerator extends BasicGenerator {
   }
 
   override def escapeReservedWord(word: String) = {
-    if (reservedWords.contains(word)) 
+    if (reservedWords.contains(word))
       throw new Exception("reserved word " + "\"" + word + "\" not allowed")
     else word
   }
@@ -193,8 +195,8 @@ class BasicCSharpGenerator extends BasicGenerator {
     capitalize(name)
   }
 
-  def capitalize(s: String) = { 
-    s(0).toUpper + s.substring(1, s.length).toLowerCase 
+  def capitalize(s: String) = {
+    s(0).toUpper + s.substring(1, s.length).toLowerCase
   }*/
 
   // supporting classes
