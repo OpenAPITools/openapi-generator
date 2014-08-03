@@ -15,7 +15,7 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 
 crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0", "2.10.1", "2.10.2", "2.10.3", "2.10.4", "2.11.0", "2.11.1")
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
   "org.json4s"                  %% "json4s-jackson"     % "3.2.10",
@@ -128,6 +128,8 @@ pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
     </developer>
   </developers>
 )}
+
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases"
 
 assemblySettings
 
