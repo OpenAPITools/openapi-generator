@@ -129,8 +129,6 @@ pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
   </developers>
 )}
 
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases"
-
 assemblySettings
 
 jarName in assembly := "swagger-codegen.jar"
