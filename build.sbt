@@ -43,6 +43,8 @@ libraryDependencies ++= {
   }
 }
 
+resolvers += "Typesafe releases" at "http://repo.typesafe.com/typesafe/releases"
+
 packageOptions <+= (name, version, organization) map {
   (title, version, vendor) =>
     Package.ManifestAttributes(
