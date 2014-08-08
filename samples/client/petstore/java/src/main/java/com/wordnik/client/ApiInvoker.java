@@ -11,6 +11,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.LoggingFilter;
 import com.sun.jersey.api.client.WebResource.Builder;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.MediaType;
@@ -117,7 +118,10 @@ public class ApiInvoker {
     }
     else if ("POST".equals(method)) {
       if(body == null)
-        response = builder.post(ClientResponse.class, serialize(body));
+        response = builder.post(ClientResponse.class, null);
+      else if(body instanceof FormDataMultiPart) {
+        response = builder.type(contentType).post(ClientResponse.class, body);
+      }
       else
         response = builder.type(contentType).post(ClientResponse.class, serialize(body));
     }
