@@ -71,7 +71,7 @@ public class {{classname}} {
       {{#formParams}}
       {{#notFile}}
       hasFields = true;
-      mp.field("{{baseName}}", "{{paramName}}", MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
       {{/notFile}}
       {{#isFile}}
       hasFields = true;
