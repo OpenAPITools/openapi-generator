@@ -84,9 +84,11 @@ class BasicJavaGenerator extends BasicGenerator {
   override def importMapping = Map(
     "File" -> "java.io.File",
     "Date" -> "java.util.Date",
+    "Timestamp" -> "java.sql.Timestamp",
     "Array" -> "java.util.*",
     "ArrayList" -> "java.util.*",
     "List" -> "java.util.*",
+    "Set" -> "java.util.*",
     "DateTime" -> "org.joda.time.*",
     "LocalDateTime" -> "org.joda.time.*",
     "LocalDate" -> "org.joda.time.*",
