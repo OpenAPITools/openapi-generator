@@ -87,6 +87,7 @@ class BasicJavaGenerator extends BasicGenerator {
     "Array" -> "java.util.*",
     "ArrayList" -> "java.util.*",
     "List" -> "java.util.*",
+    "Set" -> "java.util.*",
     "DateTime" -> "org.joda.time.*",
     "LocalDateTime" -> "org.joda.time.*",
     "LocalDate" -> "org.joda.time.*",
