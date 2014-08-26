@@ -20,7 +20,7 @@ class {{classname}}
     if self.class.attribute_map[:"{{{name}}}"]
       {{#isContainer}}
         if (value = attributes["{{{baseName}}}"]).is_a?(Array)
-          @{{{name}}} = value{{#complexType}}.map{ |v| {{complexType}}.new(v) }{{/complexType}}
+          @{{{name}}} = value{{#complexType}}.map{ |v| {{complexType}}.new(v) }{{/complexType}}{{newline}}
         end
       {{/isContainer}}{{^isContainer}}
         @{{{name}}} = attributes["{{{baseName}}}"]
