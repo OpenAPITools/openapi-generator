@@ -74,6 +74,56 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 405 reason: "Invalid input" model: <none>
+  public void updatePetWithForm (String petId, String name, String status) throws ApiException {
+    Object postBody = null;
+    // verify required params are set
+    if(petId == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    String[] contentTypes = {
+      "application/x-www-form-urlencoded"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if(contentType.startsWith("multipart/form-data")) {
+      boolean hasFields = false;
+      FormDataMultiPart mp = new FormDataMultiPart();
+      hasFields = true;
+      mp.field("name", name, MediaType.MULTIPART_FORM_DATA_TYPE);
+      hasFields = true;
+      mp.field("status", status, MediaType.MULTIPART_FORM_DATA_TYPE);
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+      formParams.put("name", name);formParams.put("status", status);}
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   //error info- code: 400 reason: "Invalid pet value" model: <none>
   public void deletePet (String petId) throws ApiException {
     Object postBody = null;
@@ -160,56 +210,6 @@ public class PetApi {
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
       	return null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  //error info- code: 405 reason: "Invalid input" model: <none>
-  public void updatePetWithForm (String petId, String name, String status) throws ApiException {
-    Object postBody = null;
-    // verify required params are set
-    if(petId == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    String[] contentTypes = {
-      "application/x-www-form-urlencoded"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      hasFields = true;
-      mp.field("name", "name", MediaType.MULTIPART_FORM_DATA_TYPE);
-      hasFields = true;
-      mp.field("status", "status", MediaType.MULTIPART_FORM_DATA_TYPE);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      formParams.put("name", name);formParams.put("status", status);}
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
       }
       else {
         throw ex;
@@ -425,7 +425,7 @@ public class PetApi {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
       hasFields = true;
-      mp.field("additionalMetadata", "additionalMetadata", MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("additionalMetadata", additionalMetadata, MediaType.MULTIPART_FORM_DATA_TYPE);
       hasFields = true;
       mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
       if(hasFields)
