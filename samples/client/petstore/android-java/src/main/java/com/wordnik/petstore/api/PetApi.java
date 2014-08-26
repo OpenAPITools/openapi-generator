@@ -59,6 +59,38 @@ public class PetApi {
       }
     }
   }
+  //error info- code: 405 reason: "Invalid input" model: <none>
+  public void updatePetWithForm (String petId, String name, String status) throws ApiException {
+    // verify required params are set
+    if(petId == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   //error info- code: 400 reason: "Invalid pet value" model: <none>
   public void deletePet (String petId) throws ApiException {
     // verify required params are set
@@ -109,7 +141,7 @@ public class PetApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "PATCH", queryParams, body, headerParams, contentType);
       if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "Array", Pet.class);
+        return (List<Pet>) ApiInvoker.deserialize(response, "List", Pet.class);
       }
       else {
         return null;
@@ -117,65 +149,6 @@ public class PetApi {
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
         return null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  //error info- code: 405 reason: "Invalid input" model: <none>
-  public void updatePetWithForm (String petId, String name, String status) throws ApiException {
-    // verify required params are set
-    if(petId == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public void uploadFile (String additionalMetadata, File body) throws ApiException {
-    // create path and map variables
-    String path = "/pet/uploadImage".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, body, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
       }
       else {
         throw ex;
@@ -268,7 +241,7 @@ public class PetApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
       if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "Array", Pet.class);
+        return (List<Pet>) ApiInvoker.deserialize(response, "List", Pet.class);
       }
       else {
         return null;
@@ -302,7 +275,7 @@ public class PetApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
       if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "Array", Pet.class);
+        return (List<Pet>) ApiInvoker.deserialize(response, "List", Pet.class);
       }
       else {
         return null;
@@ -310,6 +283,33 @@ public class PetApi {
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
         return null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public void uploadFile (String additionalMetadata, File file) throws ApiException {
+    // create path and map variables
+    String path = "/pet/uploadImage".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
       }
       else {
         throw ex;
