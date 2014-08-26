@@ -163,6 +163,7 @@ class Codegen(config: CodegenConfig) {
             params += "paramName" -> config.toVarName(param.name)
             params += "baseName" -> param.name
             params += "required" -> "true"
+            params -= "optional"
             pathParams += params.clone
           }
           case "query" => {
