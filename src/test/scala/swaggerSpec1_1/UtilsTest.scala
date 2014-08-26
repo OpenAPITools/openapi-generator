@@ -24,7 +24,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
 import scala.collection.JavaConverters._
-import scala.reflect.BeanProperty
+import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class ResourceExtractorTest extends FlatSpec with ShouldMatchers {

@@ -3,7 +3,7 @@ package com.wordnik.swagger.util
 import com.wordnik.swagger.codegen.model._
 
 import scala.collection.JavaConverters._
-import scala.reflect.BeanProperty
+import scala.beans.BeanProperty
 
 class ValidationException(code:Int, msg:String, errors: List[ValidationError]) extends Exception(msg:String) {
   val messages: java.util.List[ValidationMessage] = (

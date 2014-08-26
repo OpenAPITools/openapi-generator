@@ -11,7 +11,7 @@ import org.scalatest.matchers.ShouldMatchers
 
 import scala.collection.mutable.{ ListBuffer, HashMap }
 import scala.collection.JavaConversions._
-import scala.reflect.BeanProperty
+import scala.beans.BeanProperty
 
 import scala.io.Source
 

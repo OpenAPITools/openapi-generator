@@ -8,7 +8,7 @@ import org.scalatest.matchers.ShouldMatchers
 
 import scala.collection.mutable.{ ListBuffer, HashMap }
 import scala.collection.JavaConverters._
-import scala.reflect.BeanProperty
+import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class PetApiTest extends FlatSpec with ShouldMatchers {

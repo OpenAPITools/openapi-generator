@@ -5,7 +5,7 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.17-SNAPSHOT"
+version := "2.0.17"
 
 crossVersion := CrossVersion.full
 
@@ -13,9 +13,9 @@ javacOptions ++= Seq("-target", "1.6", "-source", "1.6", "-Xlint:unchecked", "-X
 
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
-crossScalaVersions := Seq("2.9.0", "2.9.0-1", "2.9.1", "2.9.1-1", "2.9.2", "2.9.3", "2.10.0", "2.10.1", "2.10.2", "2.10.3", "2.10.4", "2.11.0", "2.11.1")
+crossScalaVersions := Seq("2.10.0", "2.10.1", "2.10.2", "2.10.3", "2.10.4", "2.11.0", "2.11.1")
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.1"
 
 libraryDependencies ++= Seq(
   "org.json4s"                  %% "json4s-jackson"     % "3.2.10",
@@ -68,7 +68,7 @@ publishTo <<= (version) { version: String =>
     Some("Sonatype Nexus Releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2")
 }
 
-publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+// publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 
 artifact in (Compile, assembly) ~= { art =>
   art.copy(`classifier` = Some("assembly"))
@@ -133,4 +133,4 @@ pomExtra <<= (pomExtra, name, description) {(pom, name, desc) => pom ++ Group(
 
 assemblySettings
 
-jarName in assembly := "swagger-codegen.jar"
+// jarName in assembly := "swagger-codegen.jar"

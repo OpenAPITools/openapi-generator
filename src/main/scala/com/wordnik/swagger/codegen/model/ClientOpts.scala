@@ -1,6 +1,6 @@
 package com.wordnik.swagger.codegen.model
 
-import scala.reflect.BeanProperty
+import scala.beans.BeanProperty
 import scala.collection.JavaConverters._
 
 class ClientOpts(

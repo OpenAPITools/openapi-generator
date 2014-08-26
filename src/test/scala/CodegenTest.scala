@@ -23,7 +23,7 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 
-import scala.reflect.BeanProperty
+import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class CodegenTest extends FlatSpec with ShouldMatchers {
