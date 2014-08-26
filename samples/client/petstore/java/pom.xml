@@ -104,55 +104,8 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>${scala-maven-plugin-version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <configuration>
-            <recompileMode>incremental</recompileMode>
-          </configuration>
-          <jvmArgs>
-            <jvmArg>-Xmx384m</jvmArg>
-          </jvmArgs>
-          <args>
-            <arg>-target:jvm-1.5</arg>
-            <arg>-deprecation</arg>
-          </args>
-          <launchers>
-            <launcher>
-              <id>run-scalatest</id>
-              <mainClass>org.scalatest.tools.Runner</mainClass>
-              <args>
-                <arg>-p</arg>
-                <arg>${project.build.testOutputDirectory}</arg>
-              </args>
-              <jvmArgs>
-                <jvmArg>-Xmx512m</jvmArg>
-              </jvmArgs>
-            </launcher>
-          </launchers>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>${scala-maven-plugin-version}</version>
-      </plugin>
-    </plugins>
-  </reporting>
   <dependencies>
     <dependency>
       <groupId>com.sun.jersey</groupId>
@@ -198,18 +151,6 @@
 
     <!-- test dependencies -->
     <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scala-version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.9.1</artifactId>
-      <version>${scala-test-version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit-version}</version>
@@ -221,12 +162,9 @@
     <jersey-version>1.7</jersey-version>
     <jackson-version>2.1.4</jackson-version>
     <jodatime-version>2.3</jodatime-version>
-    <scala-version>2.9.1-1</scala-version>
     <junit-version>4.8.1</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.8.1</junit-version>
-    <scala-test-version>1.6.1</scala-test-version>
-    <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
   </properties>
 </project>
 
