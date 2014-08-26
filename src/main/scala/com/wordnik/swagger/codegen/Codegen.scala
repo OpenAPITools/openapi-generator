@@ -143,16 +143,17 @@ class Codegen(config: CodegenConfig) {
           case _ =>
         }
 
-        if (!param.required) {
+        if (param.required) {
+          params += "required" -> "true"
+        } else {
           params += "optional" -> "true"
         }
         param.paramType match {
           case "body" => {
             params += "paramName" -> "body"
             params += "baseName" -> "body"
-            param.required match {
-              case true => params += "required" -> "true"
-              case _ => bodyParamRequired = None
+            if (!param.required) {
+              bodyParamRequired = None
             }
 
             bodyParam = Some("body")
@@ -167,19 +168,16 @@ class Codegen(config: CodegenConfig) {
           case "query" => {
             params += "paramName" -> config.toVarName(param.name)
             params += "baseName" -> param.name
-            params += "required" -> param.required.toString
             queryParams += params.clone
           }
           case "header" => {
             params += "paramName" -> config.toVarName(param.name)
             params += "baseName" -> param.name
-            params += "required" -> param.required.toString
             headerParams += params.clone
           }
           case "form" => {
             params += "paramName" -> config.toVarName(param.name)
             params += "baseName" -> param.name
-            params += "required" -> param.required.toString
             formParams += params.clone
           }
           case x @ _ => throw new Exception("Unknown parameter type: " + x)
