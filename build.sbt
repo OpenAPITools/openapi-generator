@@ -5,7 +5,7 @@ organization := "com.wordnik"
 
 name := "swagger-codegen"
 
-version := "2.0.17"
+version := "2.0.18-SNAPSHOT"
 
 crossVersion := CrossVersion.full
 
