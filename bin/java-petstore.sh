@@ -23,10 +23,10 @@ SCALA_RUNNER_VERSION=$(scala ./bin/Version.scala)
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ samples/client/petstore/java/JavaPetstoreCodegen.scala http://petstore.swagger.wordnik.com/api/api-docs special-key"
+ags="$@ samples/client/petstore/java/JavaPetstoreCodegen.scala http://localhost:8002/api/api-docs special-key"
 
-if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar ]; then
-  scala -cp $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar $ags
+if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*.jar ]; then
+  scala -cp $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*.jar $ags
 else
   echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
 fi

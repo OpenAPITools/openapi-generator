@@ -24,8 +24,8 @@ cd $APP_DIR
 # if you've executed sbt assembly previously it will use that instead.
 ags="com.wordnik.swagger.codegen.SpecConverter $@"
 
-if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar ]; then
-  scala -cp target/scala-$SCALA_RUNNER_VERSION/swagger-codegen.jar $ags
+if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*.jar ]; then
+  scala -cp target/scala-$SCALA_RUNNER_VERSION/*.jar $ags
 else
   echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
 fi
