@@ -16,7 +16,6 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.codegen.BasicGenerator
 import com.wordnik.swagger.codegen.spec.SwaggerSpec
 import com.wordnik.swagger.codegen.model._
 

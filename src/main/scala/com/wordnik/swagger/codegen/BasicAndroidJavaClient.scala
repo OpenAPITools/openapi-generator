@@ -16,8 +16,6 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.codegen.BasicJavaGenerator
-
 import com.wordnik.swagger.codegen.model._
 
 object BasicAndroidJavaClient extends BasicAndroidJavaGenerator {

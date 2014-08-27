@@ -53,6 +53,7 @@ class BasicJavaGenerator extends BasicGenerator {
     "string" -> "String",
     "int" -> "Integer",
     "float" -> "Float",
+    "number" -> "BigDecimal",
     "long" -> "Long",
     "short" -> "Short",
     "char" -> "String",
@@ -82,6 +83,7 @@ class BasicJavaGenerator extends BasicGenerator {
 
   // import/require statements for specific datatypes
   override def importMapping = Map(
+    "BigDecimal" -> "java.math.BigDecimal",
     "File" -> "java.io.File",
     "Date" -> "java.util.Date",
     "Timestamp" -> "java.sql.Timestamp",

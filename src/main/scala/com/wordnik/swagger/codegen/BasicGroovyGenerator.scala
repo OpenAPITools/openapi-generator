@@ -16,8 +16,6 @@
 
 package com.wordnik.swagger.codegen
 
-import com.wordnik.swagger.codegen.BasicJavaGenerator
-
 object BasicGroovyGenerator extends BasicGroovyGenerator {
   def main(args: Array[String]) = generateClient(args)
 }
