@@ -22,12 +22,12 @@ import com.wordnik.swagger.codegen.language._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
-class BasicCSharpGeneratorTest extends FlatSpec with ShouldMatchers {
+class BasicCSharpGeneratorTest extends FlatSpec with Matchers {
   val config = new BasicCSharpGenerator
 
   behavior of "BasicCSharpGenerator"

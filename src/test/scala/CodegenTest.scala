@@ -21,12 +21,12 @@ import com.wordnik.swagger.codegen.model._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
-class CodegenTest extends FlatSpec with ShouldMatchers {
+class CodegenTest extends FlatSpec with Matchers {
 
   val subject = new Codegen(new BasicJavaGenerator)
   

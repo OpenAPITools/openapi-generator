@@ -8,7 +8,7 @@ import com.wordnik.swagger.codegen.util._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.read
@@ -16,7 +16,7 @@ import org.json4s.jackson.Serialization.read
 import scala.collection.mutable.LinkedHashMap
 
 @RunWith(classOf[JUnitRunner])
-class CoreUtilsTest extends FlatSpec with ShouldMatchers {
+class CoreUtilsTest extends FlatSpec with Matchers {
   sys.props += "fileMap" -> "src/test/resources/petstore-1.1"
 
   behavior of "CoreUtils"

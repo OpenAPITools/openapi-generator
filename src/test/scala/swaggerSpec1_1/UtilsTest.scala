@@ -21,13 +21,13 @@ import com.wordnik.swagger.codegen.util.{ResourceExtractor, ApiExtractor, CoreUt
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import scala.collection.JavaConverters._
 import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
-class ResourceExtractorTest extends FlatSpec with ShouldMatchers {
+class ResourceExtractorTest extends FlatSpec with Matchers {
   behavior of "ResourceExtractor"
   it should "get 3 apis from a resource listing" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")
@@ -37,7 +37,7 @@ class ResourceExtractorTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ApiExtractorTest extends FlatSpec with ShouldMatchers {
+class ApiExtractorTest extends FlatSpec with Matchers {
   behavior of "ApiExtractor"
   it should "verify the deserialization of the store api" in {
     val resourceListing = ResourceExtractor.fetchListing("src/test/resources/petstore-1.1/resources.json")

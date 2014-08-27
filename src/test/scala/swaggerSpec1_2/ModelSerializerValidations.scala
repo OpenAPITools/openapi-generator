@@ -10,12 +10,12 @@ import org.json4s.jackson.Serialization.{read, write}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import scala.collection.mutable.{ LinkedHashMap, ListBuffer }
 
 @RunWith(classOf[JUnitRunner])
-class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
+class ResourceListingValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "not have base path" in {
@@ -72,7 +72,7 @@ class ResourceListingValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ApiListingReferenceValidationTest extends FlatSpec with ShouldMatchers {
+class ApiListingReferenceValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "deserialize an ApiListingReference" in {
@@ -100,7 +100,7 @@ class ApiListingReferenceValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ApiDescriptionValidationTest extends FlatSpec with ShouldMatchers {
+class ApiDescriptionValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "fail to deserialize an ApiDescription with path, method, return type" in {
@@ -141,7 +141,7 @@ class ApiDescriptionValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class OperationValidationTest extends FlatSpec with ShouldMatchers {
+class OperationValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "fail to deserialize an Operation with missing param type" in {
@@ -196,7 +196,7 @@ class OperationValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ResponseMessageValidationTest extends FlatSpec with ShouldMatchers {
+class ResponseMessageValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "deserialize an ResponseMessage" in {
@@ -223,7 +223,7 @@ class ResponseMessageValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ParameterValidationTest extends FlatSpec with ShouldMatchers {
+class ParameterValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "deserialize another param" in {
@@ -291,7 +291,7 @@ class ParameterValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ModelValidationTest extends FlatSpec with ShouldMatchers {
+class ModelValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "deserialize a model" in {
@@ -368,7 +368,7 @@ class ModelValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ModelRefValidationTest extends FlatSpec with ShouldMatchers {
+class ModelRefValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "deserialize a model ref" in {
@@ -395,7 +395,7 @@ class ModelRefValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
+class ModelPropertyValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "deserialize a model property with allowable values and ref" in {
@@ -493,7 +493,7 @@ class ModelPropertyValidationTest extends FlatSpec with ShouldMatchers {
 }
 
 @RunWith(classOf[JUnitRunner])
-class AllowableValuesValidationTest extends FlatSpec with ShouldMatchers {
+class AllowableValuesValidationTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.2")
 
   it should "deserialize allowable value list" in {

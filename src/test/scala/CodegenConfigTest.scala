@@ -21,12 +21,12 @@ import com.wordnik.swagger.codegen.PathUtil
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
-class CodegenConfigTest extends FlatSpec with ShouldMatchers {
+class CodegenConfigTest extends FlatSpec with Matchers {
   class SampleCodegenConfig extends CodegenConfig with PathUtil {
     override def packageName = "com.test"
     override def templateDir = "src/test/resources/sampleConfigTemplates"

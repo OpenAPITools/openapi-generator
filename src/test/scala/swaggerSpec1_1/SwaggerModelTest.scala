@@ -23,12 +23,12 @@ import org.json4s.jackson.Serialization.read
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import scala.io._
 
 @RunWith(classOf[JUnitRunner])
-class SwaggerModelTest extends FlatSpec with ShouldMatchers {
+class SwaggerModelTest extends FlatSpec with Matchers {
   implicit val formats = SwaggerSerializers.formats("1.1")
 
 	behavior of "Swagger Model"

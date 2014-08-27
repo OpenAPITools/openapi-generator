@@ -21,12 +21,12 @@ import com.wordnik.swagger.codegen.model._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers 
 
 import scala.collection.mutable.{LinkedHashMap, HashMap}
 
 @RunWith(classOf[JUnitRunner])
-class BasicGeneratorTest extends FlatSpec with ShouldMatchers {
+class BasicGeneratorTest extends FlatSpec with Matchers {
   class SampleGenerator extends BasicGenerator {
   	modelTemplateFiles += "model.mustache" -> ".test"
   	override def typeMapping = Map(
