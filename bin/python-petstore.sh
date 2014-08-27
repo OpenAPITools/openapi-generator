@@ -25,8 +25,8 @@ cd $APP_DIR
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="$@ samples/client/petstore/python/PythonPetstoreCodegen.scala http://petstore.swagger.wordnik.com/api/api-docs special-key"
 
-if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*.jar ]; then
-  scala -cp target/scala-$SCALA_RUNNER_VERSION/*.jar $ags
+if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*assembly*.jar ]; then
+  scala -cp target/scala-$SCALA_RUNNER_VERSION/*assembly*.jar $ags
 else
   echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
 fi
