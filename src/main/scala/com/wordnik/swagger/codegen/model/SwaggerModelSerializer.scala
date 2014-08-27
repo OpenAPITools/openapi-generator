@@ -27,6 +27,7 @@ object SwaggerSerializers {
     ("string", "byte") -> "byte",
     ("string", "date") -> "Date",
     ("string", "date-time") -> "Date",
+    ("string", "uuid") -> "UUID",
 
     // containers
     ("array", "") -> "Array",
