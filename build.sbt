@@ -15,7 +15,7 @@ scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", 
 
 crossScalaVersions := Seq("2.10.0", "2.10.1", "2.10.2", "2.10.3", "2.10.4", "2.11.0", "2.11.1")
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
   "org.json4s"                  %% "json4s-jackson"     % "3.2.10",
