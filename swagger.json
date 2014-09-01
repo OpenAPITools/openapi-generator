@@ -275,7 +275,10 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/Pet"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
             }
           },
           "400": {
@@ -417,7 +420,10 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/Pet"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
             }
           },
           "400": {
@@ -600,15 +606,22 @@
     },
     "Pet": {
       "enum": [
+        "id",
         "photoUrls",
         "name"
       ],
       "properties": {
-        "tags": {
-          "type": "array",
-          "items": {
-            "$ref": "Tag"
-          }
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "Category"
+        },
+        "name": {
+          "type": "string",
+          "example": "doggie",
+          "position": 0
         },
         "photoUrls": {
           "type": "array",
@@ -616,17 +629,11 @@
             "type": "string"
           }
         },
-        "category": {
-          "$ref": "Category"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string",
-          "example": "doggie",
-          "position": 0
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "Tag"
+          }
         },
         "status": {
           "type": "string",
@@ -646,29 +653,33 @@
       }
     },
     "Order": {
+      "description": "All you ever needed to know about orders",
+      "enum": [ "id" ],
       "properties": {
-        "complete": {
-          "type": "boolean"
+        "id": {
+          "description": "the unique ID for the order",
+          "type": "integer",
+          "format": "int64"
+        },
+        "petId": {
+          "description": "the ID of the pet being purchased",
+          "type": "integer",
+          "format": "int64"
+        },
+        "quantity": {
+          "description": "number of pets in the order",
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "status": {
+          "type": "string",
+          "enum": [ "dead", "alive" ]
         },
         "shipDate": {
           "type": "string",
           "format": "date-time"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "petId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "status": {
-          "type": "string",
-          "position": 0
         }
       }
     }

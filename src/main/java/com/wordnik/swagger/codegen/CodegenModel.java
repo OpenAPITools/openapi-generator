@@ -9,4 +9,5 @@ class CodegenModel {
   public String name, classname, description;
   public String defaultValue;
   public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
+  public Set<String> imports = new HashSet<String>();
 }

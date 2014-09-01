@@ -5,10 +5,10 @@
 
 @implementation {{classname}}
 
--(id){{#vars}}{{name}}: ({{datatype}}) {{name}}{{#hasMore}}{{newline}}    {{/hasMore}}{{/vars}}{{newline}}{
-  {{#vars}}_{{name}} = {{name}};
-  {{/vars}}
-
+-(id){{#vars}}{{name}}: ({{datatype}}) {{name}}{{^hasMore}} { {{/hasMore}}
+    {{/vars}}
+    {{#vars}}_{{name}} = {{name}};
+    {{/vars}}
     return self;
 }
 
@@ -16,16 +16,9 @@
 {
     self = [super init];
     if(self) {
-        {{#vars}}
-
-        {{#isPrimitiveType}}
-        _{{name}} = dict[@"{{baseName}}"]; 
-        {{/isPrimitiveType}}
-        {{#complexType}}
-        id {{name}}_dict = dict[@"{{baseName}}"];
-        {{#isContainer}}
+        {{#vars}}{{#isPrimitiveType}}_{{name}} = dict[@"{{baseName}}"];{{/isPrimitiveType}}{{#complexType}}
+        id {{name}}_dict = dict[@"{{baseName}}"];{{#isContainer}}
         if([{{name}}_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*){{name}}_dict count]];
 
             if([(NSArray*){{name}}_dict count] > 0) {
@@ -44,21 +37,16 @@
             _{{name}} = [[NSArray alloc] init];
         }
         {{/isContainer}}
-        {{#isNotContainer}}
-        if({{name}}_dict != nil)
+        {{#isNotContainer}}if({{name}}_dict != nil)
             _{{name}} = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{complexType}}} {{/instantiationType}} alloc]initWithValues:{{name}}_dict];
-        {{/isNotContainer}}
-        {{/complexType}}
-        {{/vars}}{{newline}}
+        {{/isNotContainer}}{{/complexType}}{{/vars}}
     }
     return self;
 }
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    {{#vars}}
-    {{#complexType}}
-    if(_{{name}} != nil){
+    {{#vars}}{{#complexType}}if(_{{name}} != nil){
         if([_{{name}} isKindOfClass:[NSArray class]]){
             NSMutableArray * array = [[NSMutableArray alloc] init];
             for( {{complexType}} *{{name}} in (NSArray*)_{{name}}) {
@@ -73,14 +61,12 @@
             }
         }
         else {
-        {{/complexType}}
-            if(_{{name}} != nil) dict[@"{{baseName}}"] = {{#complexType}}[(SWGObject*){{/complexType}}_{{name}} {{#complexType}}asDictionary]{{/complexType}};
-        {{#complexType}}
+            if(_{{name}} != nil) dict[@"{{baseName}}"] = [(SWGObject*)_{{name}} asDictionary];
         }
     }
-    {{/complexType}}
-    {{/vars}}
-
+    {{/complexType}}{{#isPrimitiveType}}if(_{{name}} != nil)
+        dict[@"{{baseName}}"] = [(SWGObject*)_{{name}} asDictionary];
+    {{/isPrimitiveType}}{{/vars}}
     NSDictionary* output = [dict copy];
     return output;
 }

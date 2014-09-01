@@ -1,20 +1,30 @@
 package com.wordnik.swagger.codegen;
 
-import com.wordnik.swagger.models.ModelImpl;
+import com.wordnik.swagger.models.*;
 
 import java.util.*;
 
 public interface CodegenConfig {
-  CodegenModel fromModel(String name, ModelImpl model);
-  String modelPackage();
-  Set<String> defaultIncludes();
-  Map<String, String> typeMapping();
-  Set<String> reservedWords();
-  Map<String, String> importMapping();
   String apiPackage();
+  String apiFileFolder();
   String fileSuffix();
   String templateDir();
-  Map<String, String> modelTemplateFiles();
-  String toModelFilename(String name);
   String modelFileFolder();
+  String modelPackage();
+  String toApiName(String name);
+  String toModelName(String name);
+
+  Set<String> reservedWords();
+
+  CodegenModel fromModel(String name, ModelImpl model);
+  CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
+  Set<String> defaultIncludes();
+  Map<String, String> typeMapping();
+  Map<String, String> importMapping();
+  Map<String, String> apiTemplateFiles();
+  Map<String, String> modelTemplateFiles();
+
+  String toApiFilename(String name);
+  String toModelFilename(String name);
+  String toModelImport(String name);
 }

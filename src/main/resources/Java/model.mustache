@@ -4,24 +4,23 @@ package {{package}};
 {{/imports}}
 {{#models}}
 
-{{#model}}
-public class {{classname}} {
-  {{#vars}}
-
-  {{#description}}/* {{{description}}} */
-  {{/description}}
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};
-  {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}
-  {{/min}}
+{{#model}}{{#description}}
+/**
+ * {{description}}
+ **/{{/description}}
+public class {{classname}} { {{#vars}}
+  /**{{#description}}
+   * {{{description}}}{{/description}}
+   * required: {{required}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   **/
+  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{#allowableValues}}
+  
   //{{^min}}public enum {{name}}Enum { {{#values}} {{.}}, {{/values}} }; 
-  {{/min}}
-  {{/allowableValues}}
+  {{/min}}{{/allowableValues}}{{/vars}}
   
-  {{/vars}}
-  
-  {{#vars}}
-
-  public {{{datatype}}} {{getter}}() {
+  {{#vars}}public {{{datatype}}} {{getter}}() {
     return {{name}};
   }
   public void {{setter}}({{{datatype}}} {{name}}) {
@@ -34,10 +33,8 @@ public class {{classname}} {
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
-    {{#vars}}
-    sb.append("  {{name}}: ").append({{name}}).append("\n");
-    {{/vars}}
-    sb.append("}\n");
+    {{#vars}}sb.append("  {{name}}: ").append({{name}}).append("\n");
+    {{/vars}}sb.append("}\n");
     return sb.toString();
   }
 }
