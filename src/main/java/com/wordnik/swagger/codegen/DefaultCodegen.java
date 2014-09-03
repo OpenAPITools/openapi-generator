@@ -87,6 +87,17 @@ public class DefaultCodegen {
     return name;
   }
 
+  public String toParamName(String name) {
+    if(reservedWords.contains(name)) {
+      return escapeReservedWord(name);
+    }
+    return name;
+  }
+
+  public String escapeReservedWord(String name) {
+    throw new RuntimeException("reserved word " + name + " not allowed");
+  }
+
   public String toModelImport(String name) {
     if("".equals(modelPackage()))
       return name;
@@ -457,7 +468,7 @@ public class DefaultCodegen {
           CodegenProperty model = fromProperty(qp.getName(), property);
           p.collectionFormat = collectionFormat;
           p.dataType = model.datatype;
-          p.paramName = qp.getName();
+          p.paramName = toParamName(qp.getName());
         }
         else {
           BodyParameter bp = (BodyParameter) param;
@@ -482,7 +493,7 @@ public class DefaultCodegen {
             if(sub instanceof RefModel)
               p.dataType = ((RefModel)sub).getSimpleRef();
           }
-          p.paramName = bp.getName();
+          p.paramName = toParamName(bp.getName());
         }
         allParams.add(p);
         if(param instanceof QueryParameter)

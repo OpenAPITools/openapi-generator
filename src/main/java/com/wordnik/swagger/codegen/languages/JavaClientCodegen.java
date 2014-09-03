@@ -48,6 +48,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
+  public String escapeReservedWord(String name) {
+    return "_" + name;
+  }
+
+  @Override
   public String apiFileFolder() {
     return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replaceAll("\\.", File.separator);
   }
