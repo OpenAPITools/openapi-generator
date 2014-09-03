@@ -76,7 +76,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   public String getSwaggerType(Property p) {
     String swaggerType = super.getSwaggerType(p);
     String type = null;
-    System.out.println("checking type mapping for " + swaggerType);
     if(typeMapping.containsKey(swaggerType)) {
       type = typeMapping.get(swaggerType);
       if(languageSpecificPrimitives.contains(type) && !foundationClasses.contains(type))

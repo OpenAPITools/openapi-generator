@@ -335,6 +335,8 @@ public class DefaultCodegen {
       operationId = "fixme";
     op.path = path;
     op.operationId = operationId;
+    op.summary = operation.getSummary();
+    op.notes = operation.getDescription();
 
     Response methodResponse = null;
 
@@ -387,13 +389,23 @@ public class DefaultCodegen {
 
         op.returnBaseType = innerProperty.datatype;
       }
-      else
-        op.returnBaseType = responseModel.datatype;
+      else {
+        op.returnBaseType = responseModel.complexType;
+
+      }
 
       op.returnType = responseModel.datatype;
       if(responseModel.isContainer)
         op.returnContainer = responseModel.complexType;
+      else
+        op.returnSimpleType = true;
+      if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null)
+        op.returnTypeIsPrimitive = true;
+    }
 
+    if(op.returnBaseType == null) {
+      op.returnTypeIsPrimitive = true;
+      op.returnSimpleType = true;
     }
 
     List<Parameter> parameters = operation.getParameters();
@@ -477,6 +489,8 @@ public class DefaultCodegen {
     // legacy support
     op.nickname = operationId;
 
+    if(op.allParams.size() > 0) 
+      op.hasParams = true;
     return op;
   }
 }
