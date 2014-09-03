@@ -7,8 +7,14 @@ import java.util.*;
 
 
 public class CodegenOperation {
-  public String path, operationId,
-    returnType;
+  public String path, operationId, returnType, httpMethod, returnBaseType, returnContainer;
+  public List<Map<String, String>> consumes, produces;
+  public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
+  public List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
+  public List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
+  public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
+  public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
+  public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
 
   // legacy support
   public String nickname;

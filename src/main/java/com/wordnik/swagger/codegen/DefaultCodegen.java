@@ -2,6 +2,7 @@ package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.util.Json;
 import com.wordnik.swagger.models.*;
+import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
 
 import java.util.*;
@@ -18,6 +19,7 @@ public class DefaultCodegen {
   protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
   protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
   protected String templateDir;
+  protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   public Set<String> defaultIncludes() {
     return defaultIncludes;
@@ -57,6 +59,9 @@ public class DefaultCodegen {
   }
   public String modelFileFolder() {
     return outputFolder + File.separator + modelPackage().replaceAll("\\.", File.separator);
+  }
+  public Map<String, Object> additionalProperties() {
+    return additionalProperties;
   }
 
   public void setTemplateDir(String templateDir) {
@@ -166,7 +171,7 @@ public class DefaultCodegen {
     }
     else {
       System.out.println("unhandled property default value");
-      Json.prettyPrint(p);
+      // Json.prettyPrint(p);
       return "null";
     }
   }
@@ -226,28 +231,40 @@ public class DefaultCodegen {
     return initialCaps(name);
   }
 
-  public CodegenModel fromModel(String name, ModelImpl model) {
+  public CodegenModel fromModel(String name, Model model) {
     CodegenModel m = new CodegenModel();
     m.name = name;
     m.description = model.getDescription();
     m.classname = toModelName(name);
 
     int count = 0;
-    for(String key: model.getProperties().keySet()) {
-      Property prop = model.getProperties().get(key);
-      if(prop == null) {
-        System.out.println("null property for " + key);
-        Json.prettyPrint(model.getProperties());
-      }
-      else {
-        CodegenProperty cp = fromProperty(key, prop);
-        if(cp.complexType != null && !defaultIncludes.contains(cp.complexType)) {
-          m.imports.add(cp.complexType);
+    if(model instanceof ArrayModel) {
+      ArrayModel am = (ArrayModel) model;
+      ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
+      CodegenProperty cp = fromProperty(name, arrayProperty);
+      m.vars.add(cp);
+    }
+    else if (model instanceof RefModel) {
+
+    }
+    else {
+      ModelImpl impl = (ModelImpl) model;
+      for(String key: impl.getProperties().keySet()) {
+        Property prop = impl.getProperties().get(key);
+        if(prop == null) {
+          System.out.println("null property for " + key);
+          // Json.prettyPrint(impl.getProperties());
         }
-        m.vars.add(cp);
-        count += 1;
-        if(count != model.getProperties().keySet().size())
-          cp.hasMore = new Boolean(true);
+        else {
+          CodegenProperty cp = fromProperty(key, prop);
+          if(cp.complexType != null && !defaultIncludes.contains(cp.complexType)) {
+            m.imports.add(cp.complexType);
+          }
+          m.vars.add(cp);
+          count += 1;
+          if(count != impl.getProperties().keySet().size())
+            cp.hasMore = new Boolean(true);
+        }
       }
     }
     return m;
@@ -321,6 +338,34 @@ public class DefaultCodegen {
 
     Response methodResponse = null;
 
+    if(operation.getConsumes() != null && operation.getConsumes().size() > 0) {
+      List<Map<String, String>> c = new ArrayList<Map<String, String>>();
+      int count = 0;
+      for(String key: operation.getConsumes()) {
+        Map<String, String> mediaType = new HashMap<String, String>();
+        mediaType.put("mediaType", key);
+        count += 1;
+        if (count < operation.getConsumes().size())
+          mediaType.put("hasMore", "true");
+        c.add(mediaType);
+      }
+      op.consumes = c;
+    }
+
+    if(operation.getProduces() != null && operation.getProduces().size() > 0) {
+      List<Map<String, String>> c = new ArrayList<Map<String, String>>();
+      int count = 0;
+      for(String key: operation.getProduces()) {
+        Map<String, String> mediaType = new HashMap<String, String>();
+        mediaType.put("mediaType", key);
+        count += 1;
+        if (count < operation.getProduces().size())
+          mediaType.put("hasMore", "true");
+        c.add(mediaType);
+      }
+      op.produces = c;
+    }
+
     if(operation.getResponses() != null) {
       for(String responseCode: operation.getResponses().keySet()) {
         Response response = operation.getResponses().get(responseCode);
@@ -334,11 +379,101 @@ public class DefaultCodegen {
 
     if(methodResponse != null && methodResponse.getSchema() != null) {
       CodegenProperty responseModel = fromProperty("response", methodResponse.getSchema());
-      Json.prettyPrint(responseModel);
+
+      Property responseProperty = methodResponse.getSchema();
+      if(responseProperty instanceof ArrayProperty) {
+        ArrayProperty ap = (ArrayProperty) responseProperty;
+        CodegenProperty innerProperty = fromProperty("response", ap.getItems());
+
+        op.returnBaseType = innerProperty.datatype;
+      }
+      else
+        op.returnBaseType = responseModel.datatype;
+
       op.returnType = responseModel.datatype;
+      if(responseModel.isContainer)
+        op.returnContainer = responseModel.complexType;
+
     }
 
+    List<Parameter> parameters = operation.getParameters();
+    List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
+    List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
+    List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
+    List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
+    List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
+    List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
+    List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
 
+    if(parameters != null) {
+      for(Parameter param : parameters) {
+        CodegenParameter p = new CodegenParameter();
+        p.baseName = param.getName();
+
+        if(param instanceof SerializableParameter) {
+          SerializableParameter qp = (SerializableParameter) param;
+          Property property = null;
+          String collectionFormat = null;
+          if("array".equals(qp.getType())) {
+            Property inner = qp.getItems();
+            property = new ArrayProperty(inner);
+            collectionFormat = qp.getCollectionFormat();
+          }
+          else
+            property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
+          CodegenProperty model = fromProperty(qp.getName(), property);
+          p.collectionFormat = collectionFormat;
+          p.dataType = model.datatype;
+          p.paramName = qp.getName();
+        }
+        else {
+          BodyParameter bp = (BodyParameter) param;
+          Model model = bp.getSchema();
+
+          if(model instanceof ModelImpl) {
+            ModelImpl impl = (ModelImpl) model;
+            CodegenModel cm = fromModel(bp.getName(), impl);
+            p.dataType = cm.classname;
+          }
+          else if(model instanceof ArrayModel) {
+            // to use the built-in model parsing, we unwrap the ArrayModel
+            // and get a single property from it
+            ArrayModel impl = (ArrayModel) model;
+            CodegenModel cm = fromModel(bp.getName(), impl);
+            // get the single property
+            CodegenProperty cp = cm.vars.get(0);
+            p.dataType = cp.datatype;
+          }
+          else{
+            Model sub = bp.getSchema();
+            if(sub instanceof RefModel)
+              p.dataType = ((RefModel)sub).getSimpleRef();
+          }
+          p.paramName = bp.getName();
+        }
+        allParams.add(p);
+        if(param instanceof QueryParameter)
+          queryParams.add(p);
+        else if(param instanceof PathParameter)
+          pathParams.add(p);
+        else if(param instanceof HeaderParameter)
+          headerParams.add(p);
+        else if(param instanceof CookieParameter)
+          cookieParams.add(p);
+        else if(param instanceof BodyParameter)
+          bodyParams.add(p);
+        // else if(param instanceof FormParameter)
+        //   formParams.add(p);
+      }
+    }
+    op.httpMethod = httpMethod.toUpperCase();
+    op.allParams = allParams;
+    op.bodyParams = bodyParams;
+    op.pathParams = pathParams;
+    op.queryParams = queryParams;
+    op.headerParams = headerParams;
+    // op.cookieParams = cookieParams;
+    op.formParams = formParams;
     // legacy support
     op.nickname = operationId;
 

@@ -23,7 +23,6 @@ public class Codegen extends DefaultGenerator {
       }
     }
 
-
     try{
       Swagger swagger = (Swagger) Json.mapper()
         .readValue(new File("swagger.json"), Swagger.class);

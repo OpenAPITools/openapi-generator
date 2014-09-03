@@ -5,6 +5,7 @@ import com.wordnik.swagger.models.*;
 import java.util.*;
 
 public interface CodegenConfig {
+  Map<String, Object> additionalProperties();
   String apiPackage();
   String apiFileFolder();
   String fileSuffix();
@@ -16,7 +17,7 @@ public interface CodegenConfig {
 
   Set<String> reservedWords();
 
-  CodegenModel fromModel(String name, ModelImpl model);
+  CodegenModel fromModel(String name, Model model);
   CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
   Set<String> defaultIncludes();
   Map<String, String> typeMapping();

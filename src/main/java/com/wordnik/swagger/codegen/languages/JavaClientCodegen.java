@@ -15,6 +15,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     apiPackage = "com.wordnik.api";
     modelPackage = "com.wordnik.model";
 
+    additionalProperties.put("invokerPackage", "com.wordnik.common");
+
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
         "String",

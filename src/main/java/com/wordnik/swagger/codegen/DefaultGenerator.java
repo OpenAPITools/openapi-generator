@@ -26,7 +26,8 @@ public class DefaultGenerator implements Generator {
         Model model = definitions.get(name);
         Map<String, Model> modelMap = new HashMap<String, Model>();
         modelMap.put(name, model);
-        Object models = processModels(config, modelMap);
+        Map<String, Object> models = processModels(config, modelMap);
+        models.putAll(config.additionalProperties());
         for(String templateName: config.modelTemplateFiles().keySet()) {
           String suffix = config.modelTemplateFiles().get(templateName);
           String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
@@ -44,9 +45,8 @@ public class DefaultGenerator implements Generator {
       for(String tag: paths.keySet()) {
         List<CodegenOperation> ops = paths.get(tag);
 
-        Object tagObject = processOperations(config, tag, ops);
-        Json.prettyPrint(tagObject);
-
+        Map<String, Object> operations = processOperations(config, tag, ops);
+        operations.putAll(config.additionalProperties());
         for(String templateName: config.apiTemplateFiles().keySet()) {
           String suffix = config.apiTemplateFiles().get(templateName);
           String filename = config.apiFileFolder() + File.separator + config.toApiFilename(tag) + suffix;
@@ -56,7 +56,7 @@ public class DefaultGenerator implements Generator {
             .defaultValue("")
             .compile(template);
 
-          writeToFile(filename, tmpl.execute(tagObject));
+          writeToFile(filename, tmpl.execute(operations));
         }
         
       }
@@ -66,19 +66,6 @@ public class DefaultGenerator implements Generator {
     }
   }
 
-  public void processOperation(String tag, String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations) {
-    if(tag == null)
-      tag = "default";
-
-    List<CodegenOperation> opList = operations.get(tag);
-    if(opList == null) {
-      opList = new ArrayList<CodegenOperation>();
-      operations.put(tag, opList);
-    }
-    CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation);
-    opList.add(co);
-  }
-
   public Map<String, List<CodegenOperation>> groupPaths(Map<String, Path> paths) {
     // group by tag, create a Default grouping if none
     Map<String, List<CodegenOperation>> ops = new HashMap<String, List<CodegenOperation>>();
@@ -86,28 +73,35 @@ public class DefaultGenerator implements Generator {
 
     for(String resourcePath: paths.keySet()) {
       Path path = paths.get(resourcePath);
-      Operation get = path.getGet();
-      if(get != null) {
-        tags = get.getTags();
-        if(tags != null && tags.size() > 0) {
-          for(String tag: tags) {
-            processOperation(tag, resourcePath, "get", get, ops);
-          }
-        }
-        else {
-          processOperation(null, resourcePath, "get", get, ops);
-        }
-      }
-      // List<CodegenOperation> ops = ops
-      Operation put = path.getPut();
-      Operation post = path.getPost();
-      Operation delete = path.getDelete();
-      Operation patch = path.getPatch();
-      Operation options = path.getOptions();
-
+      processOperation(resourcePath, "get", path.getGet(), ops);
+      processOperation(resourcePath, "put", path.getPut(), ops);
+      processOperation(resourcePath, "post", path.getPost(), ops);
+      processOperation(resourcePath, "delete", path.getDelete(), ops);
+      processOperation(resourcePath, "patch", path.getPatch(), ops);
+      processOperation(resourcePath, "options", path.getOptions(), ops);
     }
-    Json.prettyPrint(ops);
+    // Json.prettyPrint(ops);
     return ops;
+  }
+
+  public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations) {
+    if(operation != null) {
+      List<String> tags = operation.getTags();
+      if(tags == null) {
+        tags = new ArrayList<String>();
+        tags.add("default");
+      }
+
+      for(String tag: tags) {
+        List<CodegenOperation> opList = operations.get(tag);
+        if(opList == null) {
+          opList = new ArrayList<CodegenOperation>();
+          operations.put(tag, opList);
+        }
+        CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation);
+        opList.add(co);
+      }
+    }
   }
 
   public File writeToFile(String filename, String contents) throws IOException {
@@ -148,6 +142,7 @@ public class DefaultGenerator implements Generator {
     objs.put("classname", config.toApiName(tag));
     objs.put("operation", ops);
     operations.put("operations", objs);
+    operations.put("package", config.apiPackage());
     return operations;
   }
 
