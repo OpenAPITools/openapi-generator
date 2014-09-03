@@ -18,7 +18,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     apiTemplateFiles.put("api-header.mustache", ".h");
     apiTemplateFiles.put("api-body.mustache", ".m");
     templateDir = "objc";
-    modelPackage = "com.wordnik.model";
+    modelPackage = "";
 
     defaultIncludes = new HashSet<String>(
       Arrays.asList("bool",
@@ -110,13 +110,31 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
+  public String toModelImport(String name) {
+    name = name + ".h";
+    if("".equals(modelPackage()))
+      return name;
+    else
+      return modelPackage() + "." + name;
+  }
+
+  @Override
+  public String apiFileFolder() {
+    return outputFolder + File.separator + "client";
+  }
+
+  @Override
   public String modelFileFolder() {
-    return outputFolder + File.separator + "models";
+    return outputFolder + File.separator + "client";
   }
 
   @Override
   public String toModelFilename(String name) {
-    return "SWG" + name;
+    return "SWG" + initialCaps(name);
+  }
+
+  public String toApiFilename(String name) {
+    return "SWG" + initialCaps(name);
   }
 
   @Override

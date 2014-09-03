@@ -88,7 +88,10 @@ public class DefaultCodegen {
   }
 
   public String toModelImport(String name) {
-    return modelPackage() + "." + name;
+    if("".equals(modelPackage()))
+      return name;
+    else
+      return modelPackage() + "." + name;
   }
 
   public String toApiImport(String name) {
@@ -181,7 +184,7 @@ public class DefaultCodegen {
       return "new ArrayList<" + inner + ">() ";
     }
     else {
-      System.out.println("unhandled property default value");
+      // System.out.println("unhandled property default value");
       // Json.prettyPrint(p);
       return "null";
     }
@@ -402,13 +405,13 @@ public class DefaultCodegen {
         op.returnBaseType = innerProperty.datatype;
       }
       else {
-        if(responseModel.complexType != null)
+        if(responseModel.complexType != null) {
           op.returnBaseType = responseModel.complexType;
+          imports.add(responseModel.complexType);
+        }
         else
           op.returnBaseType = responseModel.datatype;
       }
-
-      imports.add(op.returnBaseType);
 
       op.returnType = responseModel.datatype;
       if(responseModel.isContainer != null)

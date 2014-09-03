@@ -187,7 +187,6 @@ public class DefaultGenerator implements Generator {
       if(m == null)
         m = config.toModelImport(i);
 
-      System.out.println("adding import " + i + ", " + m);
       if(m != null) {
         im.put("import", m);
         imports.add(im);
@@ -195,9 +194,6 @@ public class DefaultGenerator implements Generator {
     }
 
     operations.put("imports", imports);
-
-    Json.prettyPrint(allImports);
-    Json.prettyPrint(imports);
 
     return operations;
   }
