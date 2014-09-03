@@ -203,7 +203,13 @@
             "in": "body",
             "name": "body",
             "description": "List of user object",
-            "required": false
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
           }
         ],
         "responses": {

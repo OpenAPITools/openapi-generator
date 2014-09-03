@@ -4,8 +4,15 @@ import com.wordnik.swagger.codegen.*;
 import com.wordnik.swagger.models.properties.*;
 
 import java.util.*;
+import java.io.File;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
+  protected String invokerPackage = "com.wordnik.api";
+  protected String groupId = "com.wordnik";
+  protected String artifactId = "swagger-client";
+  protected String artifactVersion = "1.0.0";
+  protected String sourceFolder = "src/main/java";
+
   public JavaClientCodegen() {
     super();
     outputFolder = "generated-code/java";
@@ -15,7 +22,18 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     apiPackage = "com.wordnik.api";
     modelPackage = "com.wordnik.model";
 
-    additionalProperties.put("invokerPackage", "com.wordnik.common");
+    additionalProperties.put("invokerPackage", invokerPackage);
+    additionalProperties.put("groupId", groupId);
+    additionalProperties.put("artifactId", artifactId);
+    additionalProperties.put("artifactVersion", artifactVersion);
+
+    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+    supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
+      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
+    supportingFiles.add(new SupportingFile("JsonUtil.mustache", 
+      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
+    supportingFiles.add(new SupportingFile("apiException.mustache", 
+      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
@@ -30,8 +48,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
-  public String toModelImport(String name) {
-    return null;
+  public String apiFileFolder() {
+    return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replaceAll("\\.", File.separator);
+  }
+
+  public String modelFileFolder() {
+    return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replaceAll("\\.", File.separator);
   }
 
   @Override

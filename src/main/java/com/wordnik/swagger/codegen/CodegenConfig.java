@@ -9,6 +9,7 @@ public interface CodegenConfig {
   String apiPackage();
   String apiFileFolder();
   String fileSuffix();
+  String outputFolder();
   String templateDir();
   String modelFileFolder();
   String modelPackage();
@@ -16,6 +17,8 @@ public interface CodegenConfig {
   String toModelName(String name);
 
   Set<String> reservedWords();
+
+  List<SupportingFile> supportingFiles();
 
   CodegenModel fromModel(String name, Model model);
   CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
@@ -28,4 +31,5 @@ public interface CodegenConfig {
   String toApiFilename(String name);
   String toModelFilename(String name);
   String toModelImport(String name);
+  String toApiImport(String name);
 }

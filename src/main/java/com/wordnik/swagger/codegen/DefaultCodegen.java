@@ -20,6 +20,7 @@ public class DefaultCodegen {
   protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
   protected String templateDir;
   protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
 
   public Set<String> defaultIncludes() {
     return defaultIncludes;
@@ -63,6 +64,12 @@ public class DefaultCodegen {
   public Map<String, Object> additionalProperties() {
     return additionalProperties;
   }
+  public List<SupportingFile> supportingFiles() {
+    return supportingFiles;
+  }
+  public String outputFolder() {
+    return outputFolder;
+  }
 
   public void setTemplateDir(String templateDir) {
     this.templateDir = templateDir;
@@ -82,6 +89,10 @@ public class DefaultCodegen {
 
   public String toModelImport(String name) {
     return modelPackage() + "." + name;
+  }
+
+  public String toApiImport(String name) {
+    return apiPackage() + "." + name;
   }
 
   public DefaultCodegen() {
@@ -329,6 +340,7 @@ public class DefaultCodegen {
 
   public CodegenOperation fromOperation(String path, String httpMethod, Operation operation){
     CodegenOperation op = new CodegenOperation();
+    Set<String> imports = new HashSet<String>();
 
     String operationId = operation.getOperationId();
     if(operationId == null)
@@ -390,17 +402,23 @@ public class DefaultCodegen {
         op.returnBaseType = innerProperty.datatype;
       }
       else {
-        op.returnBaseType = responseModel.complexType;
-
+        if(responseModel.complexType != null)
+          op.returnBaseType = responseModel.complexType;
+        else
+          op.returnBaseType = responseModel.datatype;
       }
 
+      imports.add(op.returnBaseType);
+
       op.returnType = responseModel.datatype;
-      if(responseModel.isContainer)
+      if(responseModel.isContainer != null)
         op.returnContainer = responseModel.complexType;
       else
         op.returnSimpleType = true;
       if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null)
         op.returnTypeIsPrimitive = true;
+    }
+    else {
     }
 
     if(op.returnBaseType == null) {
@@ -478,19 +496,46 @@ public class DefaultCodegen {
         //   formParams.add(p);
       }
     }
+    for(String i: imports) {
+      if(!defaultIncludes.contains(i) && !languageSpecificPrimitives.contains(i)){
+        if(typeMapping.keySet().contains(i)) {
+          op.imports.add(typeMapping.get(i));
+        }
+        else
+          op.imports.add(i);
+      }
+    }
     op.httpMethod = httpMethod.toUpperCase();
-    op.allParams = allParams;
-    op.bodyParams = bodyParams;
-    op.pathParams = pathParams;
-    op.queryParams = queryParams;
-    op.headerParams = headerParams;
+    op.allParams = addHasMore(allParams);
+    op.bodyParams = addHasMore(bodyParams);
+    op.pathParams = addHasMore(pathParams);
+    op.queryParams = addHasMore(queryParams);
+    op.headerParams = addHasMore(headerParams);
     // op.cookieParams = cookieParams;
-    op.formParams = formParams;
+    op.formParams = addHasMore(formParams);
     // legacy support
     op.nickname = operationId;
 
     if(op.allParams.size() > 0) 
       op.hasParams = true;
     return op;
+  }
+
+  private List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
+    if(objs != null) {
+      for(int i = 0; i < objs.size() - 1; i++) {
+        objs.get(i).hasMore = new Boolean(true);
+      }
+    }
+    return objs;
+  }
+
+  private Map<String, Object> addHasMore(Map<String, Object> objs) {
+    if(objs != null) {
+      for(int i = 0; i < objs.size() - 1; i++) {
+        objs.put("hasMore", true);
+      }
+    }
+    return objs;
   }
 }

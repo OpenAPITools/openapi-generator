@@ -350,6 +350,12 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-tools-api</artifactId>
       <version>2.0</version>
@@ -395,6 +401,7 @@
     <felix-version>2.3.4</felix-version>
     <swagger-core-version>1.5.0-SNAPSHOT</swagger-core-version>
     <scala-test-version>2.1.4</scala-test-version>
+    <commons-io-version>2.3</commons-io-version>
 
     <junit-version>4.8.1</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>

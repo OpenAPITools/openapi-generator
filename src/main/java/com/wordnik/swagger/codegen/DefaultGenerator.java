@@ -6,6 +6,7 @@ import com.wordnik.swagger.util.*;
 
 import com.samskivert.mustache.*;
 
+import org.apache.commons.io.FileUtils;
 
 import java.util.*;
 import java.io.*;
@@ -20,13 +21,15 @@ public class DefaultGenerator implements Generator {
 
   public void generate(Swagger swagger) {
     try {
+      Map<String, Object> models = null;
+      Map<String, Object> operations = null;
       // models
       Map<String, Model> definitions = swagger.getDefinitions();
       for(String name: definitions.keySet()) {
         Model model = definitions.get(name);
         Map<String, Model> modelMap = new HashMap<String, Model>();
         modelMap.put(name, model);
-        Map<String, Object> models = processModels(config, modelMap);
+        models = processModels(config, modelMap);
         models.putAll(config.additionalProperties());
         for(String templateName: config.modelTemplateFiles().keySet()) {
           String suffix = config.modelTemplateFiles().get(templateName);
@@ -45,11 +48,14 @@ public class DefaultGenerator implements Generator {
       for(String tag: paths.keySet()) {
         List<CodegenOperation> ops = paths.get(tag);
 
-        Map<String, Object> operations = processOperations(config, tag, ops);
+        operations = processOperations(config, tag, ops);
         operations.putAll(config.additionalProperties());
         for(String templateName: config.apiTemplateFiles().keySet()) {
           String suffix = config.apiTemplateFiles().get(templateName);
-          String filename = config.apiFileFolder() + File.separator + config.toApiFilename(tag) + suffix;
+          String filename = config.apiFileFolder() +
+            File.separator +
+            config.toApiFilename(tag) +
+            suffix;
 
           String template = readTemplate(config.templateDir() + File.separator + templateName);
           Template tmpl = Mustache.compiler()
@@ -58,7 +64,32 @@ public class DefaultGenerator implements Generator {
 
           writeToFile(filename, tmpl.execute(operations));
         }
-        
+      }
+
+      // supporting files
+      Map<String, Object> bundle = new HashMap<String, Object>();
+      bundle.putAll(config.additionalProperties());
+      for(SupportingFile support: config.supportingFiles()) {
+        String outputFolder = config.outputFolder();
+        if(support.folder != null && !"".equals(support.folder))
+          outputFolder += File.separator + support.folder;
+        File of = new File(outputFolder);
+        if(!of.isDirectory())
+          of.mkdirs();
+        String outputFilename = outputFolder + File.separator + support.destinationFilename;
+
+        if(support.templateFile.endsWith("mustache")) {
+          String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
+          Template tmpl = Mustache.compiler()
+            .defaultValue("")
+            .compile(template);
+
+          writeToFile(outputFilename, tmpl.execute(bundle));
+        }
+        else {
+          String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
+          FileUtils.writeStringToFile(new File(outputFilename), template);
+        }
       }
     }
     catch (Exception e) {
@@ -143,6 +174,31 @@ public class DefaultGenerator implements Generator {
     objs.put("operation", ops);
     operations.put("operations", objs);
     operations.put("package", config.apiPackage());
+
+    Set<String> allImports = new HashSet<String>();
+    for(CodegenOperation op: ops) {
+      allImports.addAll(op.imports);
+    }
+
+    List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+    for(String i: allImports) {
+      Map<String, String> im = new HashMap<String, String>();
+      String m = config.importMapping().get(i);
+      if(m == null)
+        m = config.toModelImport(i);
+
+      System.out.println("adding import " + i + ", " + m);
+      if(m != null) {
+        im.put("import", m);
+        imports.add(im);
+      }
+    }
+
+    operations.put("imports", imports);
+
+    Json.prettyPrint(allImports);
+    Json.prettyPrint(imports);
+
     return operations;
   }
 
