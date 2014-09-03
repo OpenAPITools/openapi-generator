@@ -69,7 +69,7 @@ public class DefaultCodegen {
   }
 
   public String toApiFilename(String name) {
-    return initialCaps(name);
+    return initialCaps(name) + "Api";
   }
 
   public String toModelFilename(String name) {
@@ -224,7 +224,7 @@ public class DefaultCodegen {
   }
 
   public String toApiName(String name) {
-    return initialCaps(name);
+    return initialCaps(name) + "Api";
   }
 
   public String toModelName(String name) {
