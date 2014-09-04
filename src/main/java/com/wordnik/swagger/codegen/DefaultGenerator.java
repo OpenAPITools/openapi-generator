@@ -23,6 +23,7 @@ public class DefaultGenerator implements Generator {
     try {
       Map<String, Object> models = null;
       Map<String, Object> operations = null;
+
       // models
       Map<String, Model> definitions = swagger.getDefinitions();
       for(String name: definitions.keySet()) {
@@ -112,7 +113,6 @@ public class DefaultGenerator implements Generator {
       processOperation(resourcePath, "patch", path.getPatch(), ops);
       processOperation(resourcePath, "options", path.getOptions(), ops);
     }
-    // Json.prettyPrint(ops);
     return ops;
   }
 

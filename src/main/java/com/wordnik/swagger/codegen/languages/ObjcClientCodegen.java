@@ -130,7 +130,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String toModelImport(String name) {
-    name = name + ".h";
+    // name = name + ".h";
     if("".equals(modelPackage()))
       return name;
     else
