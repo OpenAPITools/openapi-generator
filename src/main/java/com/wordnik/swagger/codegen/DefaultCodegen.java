@@ -71,6 +71,13 @@ public class DefaultCodegen {
     return outputFolder;
   }
 
+  public void setOutputDir(String dir) {
+    this.outputFolder = dir;
+  }
+  public String getOutputDir() {
+    return outputFolder();
+  }
+
   public void setTemplateDir(String templateDir) {
     this.templateDir = templateDir;
   }

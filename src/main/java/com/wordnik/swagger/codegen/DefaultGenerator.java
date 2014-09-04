@@ -4,6 +4,7 @@ import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.*;
 
+import com.wordnik.swagger.codegen.languages.*;
 import com.samskivert.mustache.*;
 
 import org.apache.commons.io.FileUtils;
@@ -13,13 +14,23 @@ import java.io.*;
 
 public class DefaultGenerator implements Generator {
   private CodegenConfig config;
+  private ClientOptInput opts = null;
+  private Swagger swagger = null;
 
-  public Generator config(CodegenConfig config) {
-    this.config = config;
+  public Generator opts(ClientOptInput opts) {
+    this.opts = opts;
+
+    this.swagger = opts.getModel();
+    ClientOpts clientOpts = opts.getOpts();
+    this.config = opts.getConfig();
+
     return this;
   }
 
-  public void generate(Swagger swagger) {
+  public void generate() {
+    if(swagger == null || config == null) {
+      throw new RuntimeException("missing swagger input or config!");
+    }
     try {
       Map<String, Object> models = null;
       Map<String, Object> operations = null;

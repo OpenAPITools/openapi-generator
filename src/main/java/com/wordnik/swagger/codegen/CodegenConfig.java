@@ -18,13 +18,15 @@ public interface CodegenConfig {
   String toModelName(String name);
   String toParamName(String name);
   String escapeReservedWord(String name);
-
   String getTypeDeclaration(Property p);
   String getTypeDeclaration(String name);
 
   Set<String> reservedWords();
 
   List<SupportingFile> supportingFiles();
+
+  void setOutputDir(String dir);
+  String getOutputDir();
 
   CodegenModel fromModel(String name, Model model);
   CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
