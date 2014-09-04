@@ -9,6 +9,7 @@ import java.io.File;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected Set<String> foundationClasses = new HashSet<String>();
+  protected String sourceFolder = "client";
 
   public ObjcClientCodegen() {
     super();
@@ -46,8 +47,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     typeMapping = new HashMap<String, String>();
     typeMapping.put("enum", "NSString");
-    typeMapping.put("date", "SWGDate");
-    typeMapping.put("dateTime", "SWGDate");
+    typeMapping.put("Date", "SWGDate");
+    typeMapping.put("DateTime", "SWGDate");
     // typeMapping.put("Date", "SWGDate");
     typeMapping.put("boolean", "NSNumber");
     typeMapping.put("string", "NSString");
@@ -56,7 +57,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("float", "NSNumber");
     typeMapping.put("long", "NSNumber");
     typeMapping.put("double", "NSNumber");
-    typeMapping.put("Array", "NSArray");
+    typeMapping.put("array", "NSArray");
     // typeMapping.put("array", "NSArray");
     typeMapping.put("List", "NSArray");
     typeMapping.put("object", "NSObject");
@@ -70,6 +71,24 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "NSObject",
         "NSString")
       );
+
+    supportingFiles.add(new SupportingFile("SWGObject.h", sourceFolder, "SWGObject.h"));
+    supportingFiles.add(new SupportingFile("SWGObject.m", sourceFolder, "SWGObject.m"));
+    supportingFiles.add(new SupportingFile("SWGApiClient.h", sourceFolder, "SWGApiClient.h"));
+    supportingFiles.add(new SupportingFile("SWGApiClient.m", sourceFolder, "SWGApiClient.m"));
+    supportingFiles.add(new SupportingFile("SWGFile.h", sourceFolder, "SWGFile.h"));
+    supportingFiles.add(new SupportingFile("SWGFile.m", sourceFolder, "SWGFile.m"));
+    supportingFiles.add(new SupportingFile("SWGDate.h", sourceFolder, "SWGDate.h"));
+    supportingFiles.add(new SupportingFile("SWGDate.m", sourceFolder, "SWGDate.m"));
+    supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
+  }
+
+  @Override
+  public String getTypeDeclaration(String name) {
+    if(languageSpecificPrimitives.contains(name) && !foundationClasses.contains(name))
+      return name;
+    else
+      return name + "*";
   }
 
   @Override
@@ -120,12 +139,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + File.separator + "client";
+    return outputFolder + File.separator + sourceFolder;
   }
 
   @Override
   public String modelFileFolder() {
-    return outputFolder + File.separator + "client";
+    return outputFolder + File.separator + sourceFolder;
   }
 
   @Override
@@ -133,8 +152,13 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     return "SWG" + initialCaps(name);
   }
 
+  @Override
+  public String toApiName(String name) {
+    return "SWG" + initialCaps(name) + "Api";
+  }
+
   public String toApiFilename(String name) {
-    return "SWG" + initialCaps(name);
+    return "SWG" + initialCaps(name) + "Api";
   }
 
   @Override

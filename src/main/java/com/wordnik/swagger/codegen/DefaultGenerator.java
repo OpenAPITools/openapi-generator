@@ -89,6 +89,7 @@ public class DefaultGenerator implements Generator {
         else {
           String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
           FileUtils.writeStringToFile(new File(outputFilename), template);
+          System.out.println("copying file to " + outputFilename);
         }
       }
     }
@@ -186,7 +187,6 @@ public class DefaultGenerator implements Generator {
       String m = config.importMapping().get(i);
       if(m == null)
         m = config.toModelImport(i);
-
       if(m != null) {
         im.put("import", m);
         imports.add(im);

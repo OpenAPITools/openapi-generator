@@ -196,7 +196,6 @@ public class DefaultCodegen {
     }
     else {
       // System.out.println("unhandled property default value");
-      // Json.prettyPrint(p);
       return "null";
     }
   }
@@ -241,6 +240,10 @@ public class DefaultCodegen {
     return Character.toUpperCase(name.charAt(0)) + name.substring(1);
   }
 
+  public String getTypeDeclaration(String name) {
+    return name;
+  }
+
   public String getTypeDeclaration(Property p) {
     String swaggerType = getSwaggerType(p);
     if(typeMapping.containsKey(swaggerType))
@@ -278,7 +281,6 @@ public class DefaultCodegen {
         Property prop = impl.getProperties().get(key);
         if(prop == null) {
           System.out.println("null property for " + key);
-          // Json.prettyPrint(impl.getProperties());
         }
         else {
           CodegenProperty cp = fromProperty(key, prop);
@@ -289,9 +291,27 @@ public class DefaultCodegen {
           count += 1;
           if(count != impl.getProperties().keySet().size())
             cp.hasMore = new Boolean(true);
+          if(cp.isContainer != null) {
+            String arrayImport = typeMapping.get("array");
+            if(arrayImport != null &&
+              !languageSpecificPrimitives.contains(arrayImport) && 
+              !defaultIncludes.contains(arrayImport))
+              m.imports.add(arrayImport);
+          }
+
+          if(cp.complexType != null &&
+            !languageSpecificPrimitives.contains(cp.complexType) && 
+            !defaultIncludes.contains(cp.complexType))
+            m.imports.add(cp.complexType);
+
+          if(cp.baseType != null &&
+            !languageSpecificPrimitives.contains(cp.baseType) && 
+            !defaultIncludes.contains(cp.baseType))
+            m.imports.add(cp.baseType);
         }
       }
     }
+
     return m;
   }
 
@@ -339,16 +359,21 @@ public class DefaultCodegen {
     }
 
     property.datatype = getTypeDeclaration(p);
+    property.baseType = getSwaggerType(p);
 
-    if(languageSpecificPrimitives().contains(type)) {
-      property.isPrimitiveType = true;
-    }
-    else
-      property.complexType = type;
-    if(p instanceof ArrayProperty)
+    if(p instanceof ArrayProperty) {
       property.isContainer = true;
-    else
+      ArrayProperty ap = (ArrayProperty) p;
+      CodegenProperty cp = fromProperty("inner", ap.getItems());
+      property.baseType = cp.baseType;
+      if(!languageSpecificPrimitives.contains(cp.baseType))
+        property.complexType = cp.baseType;
+    }
+    else {
       property.isNotContainer = true;
+      if(languageSpecificPrimitives().contains(type))
+        property.isPrimitiveType = true;
+    }
     return property;
   }
 
@@ -401,44 +426,47 @@ public class DefaultCodegen {
           methodResponse = response;
         }
       }
-      if(methodResponse == null && operation.getResponses().keySet().contains("default"))
+      if(methodResponse == null && operation.getResponses().keySet().contains("default")) {
         methodResponse = operation.getResponses().get("default");
+      }
     }
 
     if(methodResponse != null && methodResponse.getSchema() != null) {
-      CodegenProperty responseModel = fromProperty("response", methodResponse.getSchema());
+      CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
 
       Property responseProperty = methodResponse.getSchema();
+
       if(responseProperty instanceof ArrayProperty) {
         ArrayProperty ap = (ArrayProperty) responseProperty;
         CodegenProperty innerProperty = fromProperty("response", ap.getItems());
-
-        op.returnBaseType = innerProperty.datatype;
+        op.returnBaseType = innerProperty.baseType;
       }
       else {
-        if(responseModel.complexType != null) {
-          op.returnBaseType = responseModel.complexType;
-          imports.add(responseModel.complexType);
-        }
+        if(cm.complexType != null)
+          op.returnBaseType = cm.complexType;
         else
-          op.returnBaseType = responseModel.datatype;
+          op.returnBaseType = cm.baseType;
       }
 
-      op.returnType = responseModel.datatype;
-      if(responseModel.isContainer != null)
-        op.returnContainer = responseModel.complexType;
+      op.returnType = cm.datatype;
+      if(cm.isContainer != null) {
+        op.returnContainer = cm.complexType;
+      }
       else
         op.returnSimpleType = true;
       if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null)
         op.returnTypeIsPrimitive = true;
-    }
-    else {
     }
 
     if(op.returnBaseType == null) {
       op.returnTypeIsPrimitive = true;
       op.returnSimpleType = true;
     }
+
+    if(op.returnBaseType != null &&
+      !defaultIncludes.contains(op.returnBaseType) &&
+      !languageSpecificPrimitives.contains(op.returnBaseType))
+      imports.add(op.returnBaseType);
 
     List<Parameter> parameters = operation.getParameters();
     List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
@@ -469,6 +497,9 @@ public class DefaultCodegen {
           p.collectionFormat = collectionFormat;
           p.dataType = model.datatype;
           p.paramName = toParamName(qp.getName());
+
+          if(model.complexType != null)
+            imports.add(model.complexType);
         }
         else {
           BodyParameter bp = (BodyParameter) param;
@@ -477,7 +508,8 @@ public class DefaultCodegen {
           if(model instanceof ModelImpl) {
             ModelImpl impl = (ModelImpl) model;
             CodegenModel cm = fromModel(bp.getName(), impl);
-            p.dataType = cm.classname;
+            p.dataType = getTypeDeclaration(cm.classname);
+            // imports.add(p.dataType);
           }
           else if(model instanceof ArrayModel) {
             // to use the built-in model parsing, we unwrap the ArrayModel
@@ -485,13 +517,27 @@ public class DefaultCodegen {
             ArrayModel impl = (ArrayModel) model;
             CodegenModel cm = fromModel(bp.getName(), impl);
             // get the single property
-            CodegenProperty cp = cm.vars.get(0);
-            p.dataType = cp.datatype;
+            CodegenProperty cp = fromProperty("inner", impl.getItems());
+
+            imports.add(cp.baseType);
+            p.dataType = getTypeDeclaration(typeMapping.get(impl.getType()));
+            p.isContainer = true;
           }
           else{
             Model sub = bp.getSchema();
-            if(sub instanceof RefModel)
-              p.dataType = ((RefModel)sub).getSimpleRef();
+            if(sub instanceof RefModel) {
+              String name = ((RefModel)sub).getSimpleRef();
+              if(typeMapping.containsKey(name))
+                name = typeMapping.get(name);
+              else {
+                name = toModelName(name);
+                if(defaultIncludes.contains(name))
+                  imports.add(name);
+                name = getTypeDeclaration(name);
+              }
+              p.dataType = name;
+
+            }
           }
           p.paramName = toParamName(bp.getName());
         }
@@ -512,11 +558,7 @@ public class DefaultCodegen {
     }
     for(String i: imports) {
       if(!defaultIncludes.contains(i) && !languageSpecificPrimitives.contains(i)){
-        if(typeMapping.keySet().contains(i)) {
-          op.imports.add(typeMapping.get(i));
-        }
-        else
-          op.imports.add(i);
+        op.imports.add(i);
       }
     }
     op.httpMethod = httpMethod.toUpperCase();
@@ -532,13 +574,17 @@ public class DefaultCodegen {
 
     if(op.allParams.size() > 0) 
       op.hasParams = true;
+
     return op;
   }
 
   private List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
     if(objs != null) {
-      for(int i = 0; i < objs.size() - 1; i++) {
-        objs.get(i).hasMore = new Boolean(true);
+      for(int i = 0; i < objs.size(); i++) {
+        if(i > 0)
+          objs.get(i).secondaryParam = new Boolean(true);
+        if(i < objs.size() - 1)
+          objs.get(i).hasMore = new Boolean(true);
       }
     }
     return objs;
@@ -547,7 +593,10 @@ public class DefaultCodegen {
   private Map<String, Object> addHasMore(Map<String, Object> objs) {
     if(objs != null) {
       for(int i = 0; i < objs.size() - 1; i++) {
-        objs.put("hasMore", true);
+        if(i > 0)
+          objs.put("secondaryParam", new Boolean(true));
+        if(i < objs.size() - 1)
+          objs.put("hasMore", true);
       }
     }
     return objs;

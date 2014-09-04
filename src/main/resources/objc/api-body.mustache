@@ -2,7 +2,7 @@
 #import "{{classname}}.h"
 #import "SWGFile.h"
 #import "SWGApiClient.h"
-{{#imports}}#import "{{import}}.h"
+{{#imports}}#import "{{import}}"
 {{/imports}}
 {{newline}}
 
@@ -53,7 +53,8 @@ static NSString * basePath = @"{{basePath}}";
 
 
 {{#operation}}
--(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}}{{newline}}        {{/allParams}}
+-(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}}
+            {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}}{{newline}}        {{/allParams}}
         {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{returnType}} output, NSError* error))completionBlock{{/returnBaseType}}
         {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock{{/returnBaseType}} {
 

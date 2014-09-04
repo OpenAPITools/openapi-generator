@@ -1,6 +1,7 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
+import com.wordnik.swagger.models.properties.*;
 
 import java.util.*;
 
@@ -17,6 +18,9 @@ public interface CodegenConfig {
   String toModelName(String name);
   String toParamName(String name);
   String escapeReservedWord(String name);
+
+  String getTypeDeclaration(Property p);
+  String getTypeDeclaration(String name);
 
   Set<String> reservedWords();
 

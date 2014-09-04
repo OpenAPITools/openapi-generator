@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-{{#imports}}#import "{{import}}.h"
+{{#imports}}#import "{{import}}"
 {{/imports}}
 {{newline}}
 
@@ -20,7 +20,8 @@
  {{#allParams}}@param {{paramName}} {{description}}
  {{/allParams}}
  */
--(NSNumber*) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
+-(NSNumber*) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}}
+            {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
 {{#returnBaseType}}{{#hasParams}}    completionHandler: {{/hasParams}}(void (^)({{returnType}} output, NSError* error))completionBlock;{{/returnBaseType}}
 {{^returnBaseType}}{{#hasParams}}    completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock;{{/returnBaseType}}
 {{/operation}}
