@@ -39,7 +39,7 @@ public class Codegen extends DefaultGenerator {
     try{
       codegenInput
         .opts(clientArgs)
-        .model(swagger);
+        .swagger(swagger);
 
       new Codegen().opts(codegenInput).generate();
     }

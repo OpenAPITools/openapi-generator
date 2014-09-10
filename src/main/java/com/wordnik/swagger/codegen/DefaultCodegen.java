@@ -381,6 +381,8 @@ public class DefaultCodegen {
       if(languageSpecificPrimitives().contains(type))
         property.isPrimitiveType = true;
     }
+    if("id".equals(property.name))
+      Json.prettyPrint(property);
     return property;
   }
 

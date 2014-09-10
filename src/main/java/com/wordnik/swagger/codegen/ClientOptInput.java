@@ -22,11 +22,11 @@ import com.wordnik.swagger.models.Swagger;
 
 public class ClientOptInput {
   private ClientOpts opts;
-  private Swagger model;
+  private Swagger swagger;
   protected CodegenConfig config;
 
-  public ClientOptInput model(Swagger model) {
-    this.setModel(model);
+  public ClientOptInput swagger(Swagger swagger) {
+    this.setSwagger(swagger);
     return this;
   }
   public ClientOptInput opts(ClientOpts opts) {
@@ -49,11 +49,11 @@ public class ClientOptInput {
     return opts;
   }
 
-  public void setModel(Swagger model) {
-    this.model = model;
+  public void setSwagger(Swagger swagger) {
+    this.swagger = swagger;
   }
 
-  public Swagger getModel() {
-    return model;
+  public Swagger getSwagger() {
+    return swagger;
   }
 }

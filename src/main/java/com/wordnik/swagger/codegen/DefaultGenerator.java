@@ -20,7 +20,7 @@ public class DefaultGenerator implements Generator {
   public Generator opts(ClientOptInput opts) {
     this.opts = opts;
 
-    this.swagger = opts.getModel();
+    this.swagger = opts.getSwagger();
     ClientOpts clientOpts = opts.getOpts();
     this.config = opts.getConfig();
 
