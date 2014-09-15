@@ -578,16 +578,26 @@ public class DefaultCodegen {
           p.paramName = toParamName(bp.getName());
         }
         allParams.add(p);
-        if(param instanceof QueryParameter)
+        if(param instanceof QueryParameter) {
           queryParams.add(p);
-        else if(param instanceof PathParameter)
+          p.isQueryParam = new Boolean(true);
+        }
+        else if(param instanceof PathParameter) {
           pathParams.add(p);
-        else if(param instanceof HeaderParameter)
+          p.isPathParam = new Boolean(true);
+        }
+        else if(param instanceof HeaderParameter) {
           headerParams.add(p);
-        else if(param instanceof CookieParameter)
+          p.isHeaderParam = new Boolean(true);
+        }
+        else if(param instanceof CookieParameter) {
           cookieParams.add(p);
-        else if(param instanceof BodyParameter)
+          p.isCookieParam = new Boolean(true);
+        }
+        else if(param instanceof BodyParameter) {
           bodyParams.add(p);
+          p.isBodyParam = new Boolean(true);
+        }
         // else if(param instanceof FormParameter)
         //   formParams.add(p);
       }

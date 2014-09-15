@@ -23,8 +23,9 @@ public class {{classname}} {
   @ApiResponses(value = { {{#responses}}
     @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
     {{/hasMore}}{{/responses}} })
-     
-  public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{#hasMore}},{{/hasMore}}{{/allParams}})
+
+  public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}})
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
