@@ -22,6 +22,16 @@ public class DefaultCodegen {
   protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
   protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
 
+  // override with any special post-processing
+  public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    return objs;
+  }
+
+  // override with any special post-processing
+  public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    return objs;
+  }
+
   public Set<String> defaultIncludes() {
     return defaultIncludes;
   }
@@ -381,8 +391,6 @@ public class DefaultCodegen {
       if(languageSpecificPrimitives().contains(type))
         property.isPrimitiveType = true;
     }
-    if("id".equals(property.name))
-      Json.prettyPrint(property);
     return property;
   }
 
@@ -397,6 +405,7 @@ public class DefaultCodegen {
     op.operationId = operationId;
     op.summary = operation.getSummary();
     op.notes = operation.getDescription();
+    op.tags = operation.getTags();
 
     Response methodResponse = null;
 
@@ -437,6 +446,23 @@ public class DefaultCodegen {
       }
       if(methodResponse == null && operation.getResponses().keySet().contains("default")) {
         methodResponse = operation.getResponses().get("default");
+      }
+      for(String responseCode: operation.getResponses().keySet()) {
+        Response response = operation.getResponses().get(responseCode);
+        if(response != methodResponse) {
+          CodegenResponse r = new CodegenResponse();
+          if("default".equals(responseCode))
+            r.code = "0";
+          else
+            r.code = responseCode;
+          r.message = response.getDescription();
+          r.schema = response.getSchema();
+          op.responses.add(r);
+        }
+        for(int i = 0; i < op.responses.size() - 1; i++) {
+          CodegenResponse r = op.responses.get(i);
+          r.hasMore = new Boolean(true);
+        }
       }
     }
 
@@ -490,6 +516,7 @@ public class DefaultCodegen {
       for(Parameter param : parameters) {
         CodegenParameter p = new CodegenParameter();
         p.baseName = param.getName();
+        p.description = param.getDescription();
 
         if(param instanceof SerializableParameter) {
           SerializableParameter qp = (SerializableParameter) param;
@@ -609,5 +636,16 @@ public class DefaultCodegen {
       }
     }
     return objs;
+  }
+
+
+  public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+    List<CodegenOperation> opList = operations.get(tag);
+    if(opList == null) {
+      opList = new ArrayList<CodegenOperation>();
+      operations.put(tag, opList);
+    }
+    opList.add(co);
+    co.baseName = tag;    
   }
 }

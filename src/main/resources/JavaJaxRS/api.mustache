@@ -1,0 +1,36 @@
+package {{package}};
+
+import com.wordnik.swagger.annotations.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.util.List;
+import {{package}}.NotFoundException;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.*;
+
+@Path("/{{baseName}}")
+@Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+@Produces({"application/json"})
+{{#operations}}
+public class {{classname}} {
+  {{#operation}}
+  @{{httpMethod}}
+  @Path("{{path}}")
+  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class {{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
+  @ApiResponses(value = { {{#responses}}
+    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
+    {{/hasMore}}{{/responses}} })
+     
+  public Response {{nickname}}(
+    {{#allParams}}{{>queryParams}}{{>pathParams}} {{>headerParams}} {{>bodyParams}} {{#hasMore}},{{/hasMore}}{{/allParams}})
+      throws NotFoundException {
+      // do some magic!
+      return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+  }
+
+  {{/operation}}
+}
+{{/operations}}

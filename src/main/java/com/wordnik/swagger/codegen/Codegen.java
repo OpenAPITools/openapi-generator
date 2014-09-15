@@ -53,6 +53,8 @@ public class Codegen extends DefaultGenerator {
       return new ObjcClientCodegen();
     else if("java".equals(name)) 
       return new JavaClientCodegen();
+    else if("jaxrs".equals(name))
+      return new JaxRSServerCodegen();
     else
       throw new RuntimeException("unsupported client type");
   }
