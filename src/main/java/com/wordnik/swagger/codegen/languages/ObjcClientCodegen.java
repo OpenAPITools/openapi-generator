@@ -58,7 +58,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("long", "NSNumber");
     typeMapping.put("double", "NSNumber");
     typeMapping.put("array", "NSArray");
-    // typeMapping.put("array", "NSArray");
+    typeMapping.put("number", "NSNumber");
     typeMapping.put("List", "NSArray");
     typeMapping.put("object", "NSObject");
 
