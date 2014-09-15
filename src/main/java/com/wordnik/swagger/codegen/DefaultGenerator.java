@@ -79,7 +79,6 @@ public class DefaultGenerator implements Generator {
           Template tmpl = Mustache.compiler()
             .withLoader(new Mustache.TemplateLoader() {
               public Reader getTemplate (String name) {
-                System.out.println("loading template " + name);
                 return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
               };
             })
