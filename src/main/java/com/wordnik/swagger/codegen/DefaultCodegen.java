@@ -240,6 +240,8 @@ public class DefaultCodegen {
       datatype = "long";
     else if (p instanceof MapProperty)
       datatype = "map";
+    else if (p instanceof DecimalProperty)
+      datatype = "number";
     else if (p instanceof RefProperty) {
       RefProperty r = (RefProperty)p;
       datatype = r.get$ref();
@@ -399,8 +401,23 @@ public class DefaultCodegen {
     Set<String> imports = new HashSet<String>();
 
     String operationId = operation.getOperationId();
-    if(operationId == null)
-      operationId = "fixme";
+    if(operationId == null) {
+      operationId = path.replaceAll("/", "") + "_" + httpMethod;
+      String[] parts = (path + "/" + httpMethod).split("/");
+      StringBuilder builder = new StringBuilder();
+      for(int i = 0; i < parts.length; i++) {
+        String part = parts[i];
+        if(part.length() > 0) {
+          if(builder.toString().length() == 0)
+            part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
+          else
+            part = Character.toUpperCase(part.charAt(0)) + part.substring(1);
+          builder.append(part);
+        }
+      }
+      operationId = builder.toString();
+      System.out.println("generated operationId " + operationId);
+    }
     op.path = path;
     op.operationId = operationId;
     op.summary = operation.getSummary();
