@@ -19,13 +19,12 @@ public class {{classname}} {
   {{#operation}}
   @{{httpMethod}}
   @Path("{{path}}")
-  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class {{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
+  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
   @ApiResponses(value = { {{#responses}}
     @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
     {{/hasMore}}{{/responses}} })
      
-  public Response {{nickname}}(
-    {{#allParams}}{{>queryParams}}{{>pathParams}} {{>headerParams}} {{>bodyParams}} {{#hasMore}},{{/hasMore}}{{/allParams}})
+  public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{#hasMore}},{{/hasMore}}{{/allParams}})
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
