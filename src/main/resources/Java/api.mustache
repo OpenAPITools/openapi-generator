@@ -82,7 +82,10 @@ public class {{classname}} {
         postBody = mp;
     }
     else {
-      {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", {{paramName}});{{/notFile}}
+      {{#formParams}}
+      {{#notFile}}
+      formParams.put("{{baseName}}", String.valueOf({{paramName}}));
+      {{/notFile}}
       {{/formParams}}
     }
 
