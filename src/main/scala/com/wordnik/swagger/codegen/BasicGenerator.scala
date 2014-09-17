@@ -16,8 +16,6 @@
 
 package com.wordnik.swagger.codegen
 
-import java.util.Base64
-
 import com.wordnik.swagger.codegen._
 import com.wordnik.swagger.codegen.util._
 import com.wordnik.swagger.codegen.language.CodegenConfig
@@ -30,6 +28,7 @@ import com.wordnik.swagger.util.ValidationException
 
 import java.io.{ File, FileWriter }
 
+import net.iharder.Base64
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 
@@ -195,7 +194,7 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
       ApiKeyValue(authInfo(0), "header", authInfo(1))
     }
     val basicAuth = sys.props.get("auth.basic") map { e =>
-      val creds = if (e.contains(":")) Base64.getEncoder.encodeToString(e.getBytes) else e
+      val creds = if (e.contains(":")) Base64.encodeBytes(e.getBytes) else e
       ApiKeyValue("Authorization", "header", s"Basic $creds")
     }
     val apiKeyAuth = apiKey  map { key =>
