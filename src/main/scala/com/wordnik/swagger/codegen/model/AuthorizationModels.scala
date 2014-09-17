@@ -44,3 +44,4 @@ case class AuthorizationCodeGrant(
 
 trait AuthorizationValue
 case class ApiKeyValue(keyName: String, passAs: String, value: String) extends AuthorizationValue
+
