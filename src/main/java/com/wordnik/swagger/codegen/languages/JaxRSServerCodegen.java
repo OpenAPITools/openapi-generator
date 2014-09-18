@@ -22,7 +22,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     outputFolder = "generated-code/javaJaxRS";
     modelTemplateFiles.put("model.mustache", ".java");
     apiTemplateFiles.put("api.mustache", ".java");
-    templateDir = "src/main/resources/JavaJaxRS";
+    templateDir = "JavaJaxRS";
     apiPackage = "com.wordnik.api";
     modelPackage = "com.wordnik.model";
 
