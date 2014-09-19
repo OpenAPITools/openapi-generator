@@ -21,11 +21,11 @@ public class {{classname}} {
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
-  
+
   public void setBasePath(String basePath) {
     this.basePath = basePath;
   }
-  
+
   public String getBasePath() {
     return basePath;
   }
@@ -35,7 +35,7 @@ public class {{classname}} {
   {{/responseModel}}{{^responseModel}}<none>
   {{/responseModel}}
   {{/errorList}}  
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object postBody = {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#requiredParamCount}}
     // verify required params are set
@@ -45,7 +45,8 @@ public class {{classname}} {
     {{/requiredParamCount}}
 
     // create path and map variables
-    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}
+      .replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
