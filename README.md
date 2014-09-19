@@ -14,6 +14,16 @@ The goal of Swagger™ is to define a standard, language-agnostic interface to R
 Check out [Swagger-Spec](https://github.com/wordnik/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
+## Compatability
+The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
+
+Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
+----------------------- | ------------ | -------------------------- | -----
+2.1.0 (in development)  | n/a          | 2.0           | [branch develop_2.0](https://github.com/wordnik/swagger-codegen/tree/develop_2.0)
+2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/wordnik/swagger-codegen/tree/v2.0.17)
+1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/wordnik/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
+
+
 ### Prerequisites
 You need the following installed and available in your $PATH:
 
