@@ -66,6 +66,7 @@ public class DefaultGenerator implements Generator {
         List<CodegenOperation> ops = paths.get(tag);
 
         operations = processOperations(config, tag, ops);
+        operations.put("modelPackage", config.modelPackage());
         operations.putAll(config.additionalProperties());
         operations.put("baseName", tag);
         for(String templateName : config.apiTemplateFiles().keySet()) {
