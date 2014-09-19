@@ -79,13 +79,15 @@ class {{classname}}(object):
         {{/pathParams}}
 
         {{#formParams}}
-        headerParams['Content-type'] = 'application/x-www-form-urlencoded'
         if ('{{paramName}}' in params):
             formParams['{{paramName}}'] = params['{{paramName}}']
         {{/formParams}}
+        if formParams:
+            headerParams['Content-type'] = 'application/x-www-form-urlencoded'
 
         {{#bodyParam}}
-        bodyParam = params['body']
+        if ('{{paramName}}' in params):
+            bodyParam = params['{{paramName}}']
         {{/bodyParam}}
 
         postData = (formParams if formParams else bodyParam)
