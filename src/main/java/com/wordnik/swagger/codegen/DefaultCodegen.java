@@ -65,12 +65,15 @@ public class DefaultCodegen {
   public Map<String, String> modelTemplateFiles() {
     return modelTemplateFiles;
   }
+
   public String apiFileFolder() {
-    return outputFolder + File.separator + apiPackage().replaceAll("\\.", File.separator);
+    return outputFolder + "/" + apiPackage().replaceAll("\\.", "/");
   }
+
   public String modelFileFolder() {
-    return outputFolder + File.separator + modelPackage().replaceAll("\\.", File.separator);
+    return outputFolder + "/" + modelPackage().replaceAll("\\.", "/");
   }
+
   public Map<String, Object> additionalProperties() {
     return additionalProperties;
   }
