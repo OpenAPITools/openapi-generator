@@ -28,6 +28,7 @@ import com.wordnik.swagger.util.ValidationException
 
 import java.io.{ File, FileWriter }
 
+import net.iharder.Base64
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 
@@ -187,18 +188,20 @@ abstract class BasicGenerator extends CodegenConfig with PathUtil {
   }
 
   def authenticate(apiKey: Option[String]): Option[ApiKeyValue] = {
-    Option(System.getProperty("header")) match {
-      case Some(e) => {
-        // this is ugly and will be replaced with proper arg parsing like in ScalaAsyncClientGenerator soon
-        val authInfo = e.split(":")
-        Some(ApiKeyValue(authInfo(0), "header", authInfo(1)))
-      }
-      case _ => {
-        apiKey.map{ key =>
-          Some(ApiKeyValue("api_key", "query", key))
-        }.getOrElse(None)
-      }
+    val headerAuth = sys.props.get("header") map { e =>
+      // this is ugly and will be replaced with proper arg parsing like in ScalaAsyncClientGenerator soon
+      val authInfo = e.split(":")
+      ApiKeyValue(authInfo(0), "header", authInfo(1))
     }
+    val basicAuth = sys.props.get("auth.basic") map { e =>
+      val creds = if (e.contains(":")) Base64.encodeBytes(e.getBytes) else e
+      ApiKeyValue("Authorization", "header", s"Basic $creds")
+    }
+    val apiKeyAuth = apiKey  map { key =>
+      ApiKeyValue("api_key", "query", key)
+    }
+
+    headerAuth orElse basicAuth orElse apiKeyAuth
   }
 
   def extractApiOperations(apiListings: List[ApiListing], allModels: HashMap[String, Model] )(implicit basePath:String) = {

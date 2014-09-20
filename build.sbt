@@ -21,6 +21,7 @@ libraryDependencies ++= Seq(
   "org.json4s"                  %% "json4s-jackson"     % "3.2.10",
   "io.backchat.inflector"       %% "scala-inflector"    % "1.3.5",
   "commons-io"                   % "commons-io"         % "2.3",
+  "net.iharder"                  % "base64"             % "2.3.8",
   "ch.qos.logback"               % "logback-classic"    % "1.0.13" % "provided",
   "org.rogach"                  %% "scallop"            % "0.9.5",
   "junit"                        % "junit"              % "4.11" % "test",
