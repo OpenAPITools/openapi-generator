@@ -60,9 +60,12 @@ class ApiClient:
         elif method in ['POST', 'PUT', 'DELETE']:
 
             if postData:
-                headers['Content-type'] = 'application/json'
                 data = self.sanitizeForSerialization(postData)
-                data = json.dumps(data)
+                if 'Content-type' not in headers:
+                    headers['Content-type'] = 'application/json'
+                    data = json.dumps(data)
+                else:
+                    data = urllib.urlencode(data)
 
         else:
             raise Exception('Method ' + method + ' is not recognized.')

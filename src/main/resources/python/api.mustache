@@ -58,6 +58,8 @@ class {{classname}}(object):
 
         queryParams = {}
         headerParams = {}
+        formParams = {}
+        bodyParam = None
 
         {{#queryParams}}
         if ('{{paramName}}' in params):
@@ -76,7 +78,19 @@ class {{classname}}(object):
                                                 replacement)
         {{/pathParams}}
 
-        postData = (params['body'] if 'body' in params else None)
+        {{#formParams}}
+        if ('{{paramName}}' in params):
+            formParams['{{paramName}}'] = params['{{paramName}}']
+        {{/formParams}}
+        if formParams:
+            headerParams['Content-type'] = 'application/x-www-form-urlencoded'
+
+        {{#bodyParam}}
+        if ('{{paramName}}' in params):
+            bodyParam = params['{{paramName}}']
+        {{/bodyParam}}
+
+        postData = (formParams if formParams else bodyParam)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
                                           postData, headerParams)
