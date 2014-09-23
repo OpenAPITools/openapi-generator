@@ -20,6 +20,7 @@ public interface CodegenConfig {
   String escapeReservedWord(String name);
   String getTypeDeclaration(Property p);
   String getTypeDeclaration(String name);
+  void processOpts();
 
   Set<String> reservedWords();
 

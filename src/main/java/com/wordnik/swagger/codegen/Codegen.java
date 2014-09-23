@@ -14,6 +14,7 @@ public class Codegen extends DefaultGenerator {
     options.addOption("l", "lang", true, "client language to generate");
     options.addOption("o", "output", true, "where to write the generated files");
     options.addOption("i", "input-spec", true, "location of the swagger spec, as URL or file");
+    options.addOption("t", "template-dir", true, "folder containing the template files");
 
     ClientOptInput codegenInput = new ClientOptInput();
     ClientOpts clientArgs = new ClientOpts();
@@ -29,10 +30,16 @@ public class Codegen extends DefaultGenerator {
         codegenInput.getConfig().setOutputDir(cmd.getOptionValue("o"));
       if (cmd.hasOption("i"))
         swagger = new SwaggerLoader().read(cmd.getOptionValue("i"));
-
+      if (cmd.hasOption("t"))
+        clientArgs.getProperties().put("templateDir",
+          String.valueOf(cmd.getOptionValue("t")));
+      if (cmd.hasOption("h")) {
+        usage(options);
+        return;
+      }
     }
     catch (Exception e) {
-      e.printStackTrace();
+      usage(options);
       return;
     }
 
@@ -40,12 +47,16 @@ public class Codegen extends DefaultGenerator {
       codegenInput
         .opts(clientArgs)
         .swagger(swagger);
-
       new Codegen().opts(codegenInput).generate();
     }
     catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  static void usage(Options options) {
+    HelpFormatter formatter = new HelpFormatter();
+    formatter.printHelp( "Codegen", options );
   }
 
   static CodegenConfig getConfig(String name) {

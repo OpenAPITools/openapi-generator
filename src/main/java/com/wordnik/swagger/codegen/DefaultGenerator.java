@@ -32,6 +32,7 @@ public class DefaultGenerator implements Generator {
       throw new RuntimeException("missing swagger input or config!");
     }
     try {
+      config.processOpts();
       Map<String, Object> models = null;
       Map<String, Object> operations = null;
 

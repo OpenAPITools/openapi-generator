@@ -22,6 +22,12 @@ public class DefaultCodegen {
   protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
   protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
 
+  public void processOpts(){
+    if(additionalProperties.containsKey("templateDir")) {
+      this.setTemplateDir((String)additionalProperties.get("templateDir"));
+    }
+  }
+
   // override with any special post-processing
   public Map<String, Object> postProcessModels(Map<String, Object> objs) {
     return objs;
@@ -214,10 +220,8 @@ public class DefaultCodegen {
       String inner = getSwaggerType(ap.getItems());
       return "new ArrayList<" + inner + ">() ";
     }
-    else {
-      // System.out.println("unhandled property default value");
+    else
       return "null";
-    }
   }
 
   /**
