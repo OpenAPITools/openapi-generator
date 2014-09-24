@@ -42,7 +42,6 @@ public class Codegen extends DefaultGenerator {
       usage(options);
       return;
     }
-
     try{
       codegenInput
         .opts(clientArgs)

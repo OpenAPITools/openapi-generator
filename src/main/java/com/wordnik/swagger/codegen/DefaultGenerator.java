@@ -247,13 +247,11 @@ public class DefaultGenerator implements Generator {
     Set<String> allImports = new HashSet<String>();
     for(String key: definitions.keySet()) {
       Model mm = definitions.get(key);
-      if(mm instanceof ModelImpl) {
-        CodegenModel cm = config.fromModel(key, (ModelImpl) mm);
-        Map<String, Object> mo = new HashMap<String, Object>();
-        mo.put("model", cm);
-        models.add(mo);
-        allImports.addAll(cm.imports);
-      }
+      CodegenModel cm = config.fromModel(key, mm);
+      Map<String, Object> mo = new HashMap<String, Object>();
+      mo.put("model", cm);
+      models.add(mo);
+      allImports.addAll(cm.imports);
     }
     objs.put("models", models);
 

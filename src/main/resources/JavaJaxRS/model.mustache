@@ -8,7 +8,7 @@ package {{package}};
 /**
  * {{description}}
  **/{{/description}}
-public class {{classname}} { {{#vars}}
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} { {{#vars}}
   /**{{#description}}
    * {{{description}}}{{/description}}
    * required: {{required}}{{#minimum}}
@@ -33,6 +33,7 @@ public class {{classname}} { {{#vars}}
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("  " + super.toString()).append("\n");{{/parent}}
     {{#vars}}sb.append("  {{name}}: ").append({{name}}).append("\n");
     {{/vars}}sb.append("}\n");
     return sb.toString();

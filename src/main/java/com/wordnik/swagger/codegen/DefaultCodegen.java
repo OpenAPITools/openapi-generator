@@ -12,6 +12,7 @@ public class DefaultCodegen {
   protected String outputFolder = "";
   protected Set<String> defaultIncludes = new HashSet<String>();
   protected Map<String, String> typeMapping = new HashMap<String, String>();
+  protected Map<String, String> instantiationTypes = new HashMap<String, String>();
   protected Set<String> reservedWords = new HashSet<String>();
   protected Set<String> languageSpecificPrimitives = new HashSet<String>();
   protected Map<String, String> importMapping = new HashMap<String, String>();
@@ -153,7 +154,6 @@ public class DefaultCodegen {
       );
 
     typeMapping = new HashMap<String, String>();
-    typeMapping.put("Array", "List");
     typeMapping.put("array", "List");
     typeMapping.put("List", "List");
     typeMapping.put("boolean", "Boolean");
@@ -168,6 +168,9 @@ public class DefaultCodegen {
     typeMapping.put("double", "Double");
     typeMapping.put("object", "Object");
     typeMapping.put("integer", "Integer");
+
+    instantiationTypes = new HashMap<String, String>();
+    instantiationTypes.put("array", "ArrayList");
 
     reservedWords = new HashSet<String> (
       Arrays.asList(
@@ -194,6 +197,21 @@ public class DefaultCodegen {
     importMapping.put("LocalDateTime", "org.joda.time.*");
     importMapping.put("LocalDate", "org.joda.time.*");
     importMapping.put("LocalTime", "org.joda.time.*");
+  }
+
+  public String toInstantiationType(Property p) {
+    if (p instanceof MapProperty) {
+      MapProperty ap = (MapProperty) p;
+      String inner = getSwaggerType(ap.getAdditionalProperties());
+      return "HashMap<String, " + inner + ">";
+    }
+    else if (p instanceof ArrayProperty) {
+      ArrayProperty ap = (ArrayProperty) p;
+      String inner = getSwaggerType(ap.getItems());
+      return "ArrayList<" + inner + ">";
+    }
+    else
+      return null;
   }
 
   public String toDefaultValue(Property p) {
@@ -290,16 +308,24 @@ public class DefaultCodegen {
     m.name = name;
     m.description = model.getDescription();
     m.classname = toModelName(name);
-
     int count = 0;
     if(model instanceof ArrayModel) {
       ArrayModel am = (ArrayModel) model;
       ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
       CodegenProperty cp = fromProperty(name, arrayProperty);
-      m.vars.add(cp);
+      // m.vars.add(cp);
+      if(cp.complexType != null && !defaultIncludes.contains(cp.complexType))
+        m.imports.add(cp.complexType);
+      m.parent = cp.baseType;
+      String containerType = cp.containerType;
+      if(typeMapping.containsKey(containerType)) {
+        containerType = typeMapping.get(containerType);
+        cp.containerType = containerType;
+        m.imports.add(containerType);
+      }
     }
     else if (model instanceof RefModel) {
-
+      // TODO
     }
     else {
       ModelImpl impl = (ModelImpl) model;
@@ -389,9 +415,11 @@ public class DefaultCodegen {
 
     if(p instanceof ArrayProperty) {
       property.isContainer = true;
+      property.containerType = "array";
       ArrayProperty ap = (ArrayProperty) p;
       CodegenProperty cp = fromProperty("inner", ap.getItems());
-      property.baseType = cp.baseType;
+
+      property.baseType = toInstantiationType(p);
       if(!languageSpecificPrimitives.contains(cp.baseType))
         property.complexType = cp.baseType;
     }
@@ -409,7 +437,8 @@ public class DefaultCodegen {
 
     String operationId = operation.getOperationId();
     if(operationId == null) {
-      operationId = path.replaceAll("/", "") + "_" + httpMethod;
+      path = path.replaceAll("\\{", "");
+      path = path.replaceAll("\\}", "");
       String[] parts = (path + "/" + httpMethod).split("/");
       StringBuilder builder = new StringBuilder();
       for(int i = 0; i < parts.length; i++) {
@@ -596,7 +625,6 @@ public class DefaultCodegen {
                 name = getTypeDeclaration(name);
               }
               p.dataType = name;
-
             }
           }
           p.paramName = toParamName(bp.getName());

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class CodegenProperty {
   public String baseName, complexType, getter, setter, description, datatype,
-    name, min, max, defaultValue, baseType;
+    name, min, max, defaultValue, baseType, containerType;
   public Double minimum, maximum, exclusiveMinimum, exclusiveMaximum;
   public Boolean hasMore = null, required = null, secondaryParam = null;
   public Boolean isPrimitiveType, isContainer, isNotContainer;
