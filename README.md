@@ -72,6 +72,7 @@ mvn package
 
 Other languages have petstore samples, too:
 ```
+./bin/android-petstore.sh
 ./bin/java-petstore.sh
 ./bin/objc-petstore.sh
 ```
