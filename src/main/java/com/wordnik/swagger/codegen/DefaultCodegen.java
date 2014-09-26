@@ -155,6 +155,7 @@ public class DefaultCodegen {
 
     typeMapping = new HashMap<String, String>();
     typeMapping.put("array", "List");
+    typeMapping.put("map", "Map");
     typeMapping.put("List", "List");
     typeMapping.put("boolean", "Boolean");
     typeMapping.put("string", "String");
@@ -189,8 +190,10 @@ public class DefaultCodegen {
     importMapping.put("File", "java.io.File");
     importMapping.put("Date", "java.util.Date");
     importMapping.put("Timestamp", "java.sql.Timestamp");
-    importMapping.put("Array", "java.util.*");
-    importMapping.put("ArrayList", "java.util.*");
+    importMapping.put("Map", "java.util.Map");
+    importMapping.put("HashMap", "java.util.HashMap");
+    importMapping.put("Array", "java.util.List");
+    importMapping.put("ArrayList", "java.util.ArrayList");
     importMapping.put("List", "java.util.*");
     importMapping.put("Set", "java.util.*");
     importMapping.put("DateTime", "org.joda.time.*");
@@ -231,8 +234,11 @@ public class DefaultCodegen {
       return "null";
     else if (p instanceof LongProperty)
       return "null";
-    else if (p instanceof MapProperty)
-      return "null";
+    else if (p instanceof MapProperty) {
+      MapProperty ap = (MapProperty) p;
+      String inner = getSwaggerType(ap.getAdditionalProperties());
+      return "new HashMap<String, " + inner + ">() ";
+    }
     else if (p instanceof ArrayProperty) {
       ArrayProperty ap = (ArrayProperty) p;
       String inner = getSwaggerType(ap.getItems());
@@ -329,13 +335,22 @@ public class DefaultCodegen {
     }
     else {
       ModelImpl impl = (ModelImpl) model;
+      // Json.prettyPrint(impl);
       for(String key: impl.getProperties().keySet()) {
         Property prop = impl.getProperties().get(key);
+
         if(prop == null) {
           System.out.println("null property for " + key);
         }
         else {
           CodegenProperty cp = fromProperty(key, prop);
+          cp.required = false;
+          if(impl.getRequired() != null) {
+            for(String req : impl.getRequired()) {
+              if(key.equals(req))
+                cp.required = true;
+            }
+          }
           if(cp.complexType != null && !defaultIncludes.contains(cp.complexType)) {
             m.imports.add(cp.complexType);
           }
@@ -363,7 +378,6 @@ public class DefaultCodegen {
         }
       }
     }
-
     return m;
   }
 
@@ -377,7 +391,6 @@ public class DefaultCodegen {
     property.setter = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
 
     property.defaultValue = toDefaultValue(p);
-    property.required = p.getRequired();
 
     String type = getSwaggerType(p);
 
@@ -419,7 +432,17 @@ public class DefaultCodegen {
       ArrayProperty ap = (ArrayProperty) p;
       CodegenProperty cp = fromProperty("inner", ap.getItems());
 
-      property.baseType = toInstantiationType(p);
+      property.baseType = getSwaggerType(p);
+      if(!languageSpecificPrimitives.contains(cp.baseType))
+        property.complexType = cp.baseType;
+    }
+    else if(p instanceof MapProperty) {
+      property.isContainer = true;
+      property.containerType = "map";
+      MapProperty ap = (MapProperty) p;
+      CodegenProperty cp = fromProperty("inner", ap.getAdditionalProperties());
+
+      property.baseType = getSwaggerType(p);
       if(!languageSpecificPrimitives.contains(cp.baseType))
         property.complexType = cp.baseType;
     }
@@ -606,10 +629,10 @@ public class DefaultCodegen {
             ArrayModel impl = (ArrayModel) model;
             CodegenModel cm = fromModel(bp.getName(), impl);
             // get the single property
-            CodegenProperty cp = fromProperty("inner", impl.getItems());
-
+            ArrayProperty ap = new ArrayProperty().items(impl.getItems());
+            CodegenProperty cp = fromProperty("inner", ap);
             imports.add(cp.baseType);
-            p.dataType = getTypeDeclaration(typeMapping.get(impl.getType()));
+            p.dataType = cp.datatype;
             p.isContainer = true;
           }
           else{

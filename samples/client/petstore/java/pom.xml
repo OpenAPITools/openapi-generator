@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wordnik</groupId>
-  <artifactId>swagger-petstore</artifactId>
+  <artifactId>swagger-client</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-petstore</name>
+  <name>swagger-client</name>
   <version>1.0.0</version>
   <scm>
     <connection>scm:git:git@github.com:wordnik/swagger-mustache.git</connection>
@@ -167,4 +167,3 @@
     <junit-version>4.8.1</junit-version>
   </properties>
 </project>
-

@@ -18,15 +18,10 @@ if [ ! -d "${APP_DIR}" ]; then
 fi
 
 cd $APP_DIR
-SCALA_RUNNER_VERSION=$(scala ./bin/Version.scala)
 
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ samples/client/petstore/android-java/AndroidJavaPetstoreCodegen.scala http://petstore.swagger.wordnik.com/api/api-docs special-key"
+ags="$@ com.wordnik.swagger.codegen.Codegen -i src/test/resources/petstore.json -l android -o samples/client/petstore/android-java"
 
-if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*assembly*.jar ]; then
-  scala -cp $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*assembly*.jar $ags
-else
-  echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
-fi
+java -cp $APP_DIR/target/*:$APP_DIR/target/lib/* $ags

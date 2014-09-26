@@ -69,7 +69,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
       return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
     }
     else if (p instanceof MapProperty) {
-      throw new RuntimeException("not supported yet");
+      MapProperty mp = (MapProperty) p;
+      Property inner = mp.getAdditionalProperties();
+
+      return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
     }
     return super.getTypeDeclaration(p);
   }

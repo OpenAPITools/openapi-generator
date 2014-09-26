@@ -16,7 +16,8 @@
 {
     self = [super init];
     if(self) {
-        {{#vars}}{{#isPrimitiveType}}_{{name}} = dict[@"{{baseName}}"];{{/isPrimitiveType}}{{#complexType}}
+        {{#vars}}{{#isPrimitiveType}}_{{name}} = dict[@"{{baseName}}"];{{/isPrimitiveType}}
+        {{#complexType}}
         id {{name}}_dict = dict[@"{{baseName}}"];{{#isContainer}}
         if([{{name}}_dict isKindOfClass:[NSArray class]]) {
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*){{name}}_dict count]];

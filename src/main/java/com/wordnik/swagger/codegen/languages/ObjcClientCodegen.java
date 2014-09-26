@@ -10,6 +10,7 @@ import java.io.File;
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected Set<String> foundationClasses = new HashSet<String>();
   protected String sourceFolder = "client";
+  protected static String PREFIX = "SWG";
 
   public ObjcClientCodegen() {
     super();
@@ -22,7 +23,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     modelPackage = "";
 
     defaultIncludes = new HashSet<String>(
-      Arrays.asList("bool",
+      Arrays.asList(
+        "bool",
         "int",
         "NSString",
         "NSObject", 
@@ -124,7 +126,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
       return Character.toUpperCase(type.charAt(0)) + type.substring(1);
     }
     else {
-      return "SWG" + Character.toUpperCase(type.charAt(0)) + type.substring(1);
+      return PREFIX + Character.toUpperCase(type.charAt(0)) + type.substring(1);
     }
   }
 
@@ -149,16 +151,16 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String toModelFilename(String name) {
-    return "SWG" + initialCaps(name);
+    return PREFIX + initialCaps(name);
   }
 
   @Override
   public String toApiName(String name) {
-    return "SWG" + initialCaps(name) + "Api";
+    return PREFIX + initialCaps(name) + "Api";
   }
 
   public String toApiFilename(String name) {
-    return "SWG" + initialCaps(name) + "Api";
+    return PREFIX + initialCaps(name) + "Api";
   }
 
   @Override

@@ -61,6 +61,8 @@ public class Codegen extends DefaultGenerator {
   static CodegenConfig getConfig(String name) {
     if("objc".equals(name))
       return new ObjcClientCodegen();
+    else if("android".equals(name))
+      return new AndroidClientCodegen();
     else if("java".equals(name)) 
       return new JavaClientCodegen();
     else if("jaxrs".equals(name))
