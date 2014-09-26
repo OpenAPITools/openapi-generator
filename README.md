@@ -119,18 +119,19 @@ http://online.swagger.io/validator/debug?url=http://petstore.swagger.wordnik.com
 
 You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
 
+### node.js
 #### Not yet migrated to this branch
-* [javascript node.js Server generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/node)
 
+### rails-grape
 #### Not yet migrated to this branch
-* [ruby sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/sinatra)
 
+
+### scala scalatra
 #### Not yet migrated to this branch
-* [scala scalatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
 
-* java jax-rs
+### java jax-rs
 
-To do so, just use the `-l jaxrs` flag when reading a spec file~
+To do so, just use the `-l jaxrs` flag when reading a spec file
 
 ### To build the codegen library
 
