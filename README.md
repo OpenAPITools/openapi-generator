@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.org/wordnik/swagger-codegen.png)](https://travis-ci.org/wordnik/swagger-codegen)
 
 ## Overview
-This is the swagger codegen project, which allows generation of client libraries automatically from a 
-Swagger-compliant server.  
+This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
 
 ## What's Swagger?
 
@@ -43,86 +42,47 @@ mvn package
 You can build a client against Wordnik's [petstore](http://petstore.swagger.wordnik.com) API as follows:
 
 ```
-./bin/scala-petstore.sh
+./bin/java-petstore.sh
 ```
 
-This will run the script in [samples/client/petstore/ScalaPetstoreCodegen.scala](https://github.com/wordnik/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) and create the client.  You can then
-compile and run the client, as well as unit tests against it:
+This will run the generator with this command:
 
 ```
-cd samples/client/petstore/scala
+java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
+  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -l java \
+  -o samples/client/petstore/java
+```
+
+With a number of options.  You can get the options with the -h flag:
+```
+usage: Codegen
+ -i,--input-spec <arg>     location of the swagger spec, as URL or file
+ -l,--lang <arg>           client language to generate
+ -o,--output <arg>         where to write the generated files
+ -t,--template-dir <arg>   folder containing the template files
+ ```
+
+You can then compile and run the client, as well as unit tests against it:
+
+```
+cd samples/client/petstore/java
 mvn package
 ```
 
 Other languages have petstore samples, too:
 ```
-./bin/flash-petstore.sh
 ./bin/java-petstore.sh
 ./bin/objc-petstore.sh
-./bin/php-petstore.sh
-./bin/python-petstore.sh
-./bin/python3-petstore.sh
-./bin/ruby-petstore.sh
 ```
 
 ### Generating libraries from your server
-It's just as easy--you can either run the default generators:
-
-```
-./bin/runscala.sh com.wordnik.swagger.codegen.BasicScalaGenerator http://petstore.swagger.wordnik.com/api/api-docs special-key
-```
-
-Replace `Scala` with `Flash`, `Java`, `Objc`, `PHP`, `Python`, `Python3`, `Ruby`.
-
-You will probably want to override some of the defaults--like packages, etc.  For doing this, just create a scala
-script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://github.com/wordnik/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) as an example:
-
-For example, create `src/main/scala/MyCodegen.scala` with these contents:
-
-```scala
-import com.wordnik.swagger.codegen.BasicScalaGenerator
-
-object MyCodegen extends BasicScalaGenerator {
-  def main(args: Array[String]) = generateClient(args)
-
-  // location of templates
-  override def templateDir = "scala"
-
-  // where to write generated code
-  override def destinationDir = "client/scala/src/main/scala"
-
-  // api invoker package
-  override def invokerPackage = "com.myapi.client"
-
-  // package for models
-  override def modelPackage = Some("com.myapi.client.model")
-
-  // package for api classes
-  override def apiPackage = Some("com.myapi.client.api")
-
-  // supporting classes
-  override def supportingFiles = List(
-    ("apiInvoker.mustache", destinationDir + java.io.File.separator + packageName.replaceAll("\\.", java.io.File.separator), "ApiInvoker.scala"),
-    ("pom.mustache", destinationDir, "pom.xml")
-  )
-}
-```
-
-Now you can generate your client like this:
-
-```
-./bin/runscala.sh src/main/scala/MyCodegen.scala http://my.api.com/resources.json super-secret-key
-```
-
-w00t!  Thanks to the scala interpretor, you didn't even need to recompile.
+It's just as easy--just use the `-i` flag to point to either a server or file.
 
 ### Modifying the client library format
-Don't like the default swagger client syntax?  Want a different language supported?  No problem!  Swagger codegen
-processes mustache templates with the [scalate](http://scalate.fusesource.org/) engine.  You can modify our templates or
-make your own.
+Don't like the default swagger client syntax?  Want a different language supported?  No problem!  Swagger codegen processes mustache templates with the [jmustache](https://github.com/samskivert/jmustache) engine.  You can modify our templates or make your own.
 
-You can look at `src/main/resources/${your-language}` for examples.  To make your own templates, create your own files
-and override the `templateDir` in your script to point to the right place.  It actually is that easy.
+You can look at `src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
 
 ### Where is Javascript???
 See our [javascript library](http://github.com/wordnik/swagger.js)--it's completely dynamic and doesn't require
@@ -135,7 +95,7 @@ If you don't want to call your server, you can save the swagger spec files into 
 to the code generator like this:
 
 ```
--DfileMap=/path/to/resource-listing
+-i ./src/test/resources/petstore.json
 ```
 
 Or for example:
@@ -143,94 +103,49 @@ Or for example:
 ./bin/java-petstore-filemap.sh
 ```
 
-Which simple passes `-DfileMap=src/test/resources/petstore` as an argument.  Great for creating libraries on your
-ci server... or while coding on an airplane.
+Great for creating libraries on your ci server, from the [Swagger Editor](http://editor.swagger.wordnik.com)... or while coding on an airplane.
 
 ### Validating your swagger spec
-You can use the validation tool to see that your server is creating a proper spec file.  If you want to learn
-more about the spec file and format, please see [swagger-core](https://github.com/wordnik/swagger-core/wiki).  This
-tool will read the server and generate a report of any violations of the spec.  If there are violations, the
-client codegen and ui may not work correctly.
 
-To validate an api and write output to ./swagger-errors.html:
+You have options.  The easiest is to use our [online validator](https://github.com/swagger-api/validator-badge) which not only will let you validate your spec, but with the debug flag, you can see what's wrong with your spec.  For example:
 
-```
-./bin/validate.sh http://petstore.swagger.wordnik.com/api/api-docs "specia-key" ./swagger-errors.html
-```
+http://online.swagger.io/validator/debug?url=http://petstore.swagger.wordnik.com/v2/swagger.json
 
 ### Generating static api documentation
-If you need to make static pages or don't want the sandbox of the swagger-ui, you can use the codegen to build them.  Remember, the engine is just using mustache templates--the output format is your call.
 
-```
-./bin/static-docs.sh
-```
-
-Will produce the output here:
-
-```
-https://github.com/wordnik/swagger-codegen/tree/master/samples/docs/swagger-static-docs
-```
-
-which is based on these templates:
-
-```
-https://github.com/wordnik/swagger-codegen/tree/master/src/main/resources/swagger-static
-```
-
-and looks like this
-
-![Image](https://raw.github.com/wordnik/swagger-codegen/master/samples/docs/swagger-static-docs/static-docs.png)
+#### Not yet migrated to this branch
 
 ### To build a server stub
 
 You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
 
+#### Not yet migrated to this branch
 * [javascript node.js Server generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/node)
 
+#### Not yet migrated to this branch
 * [ruby sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/sinatra)
 
+#### Not yet migrated to this branch
 * [scala scalatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
 
-* [java jax-rs generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/java-jaxrs)
+* java jax-rs
 
-
-### Migrating from Swagger 1.1 to 1.2 format
-
-If you've spent time hand-crafting your swagger spec files, you can use the [SpecConverter](https://github.com/wordnik/swagger-codegen/blob/master/src/main/scala/com/wordnik/swagger/codegen/SpecConverter.scala) to do the dirty work.  For example:
-
-```bash
-$ ./bin/update-spec.sh http://developer.wordnik.com/v4/resources.json wordnik-developer
-writing file wordnik-developer/api-docs
-calling: http://developer.wordnik.com/v4/account.json
-calling: http://developer.wordnik.com/v4/word.json
-calling: http://developer.wordnik.com/v4/words.json
-calling: http://developer.wordnik.com/v4/wordList.json
-calling: http://developer.wordnik.com/v4/wordLists.json
-writing file wordnik-developer/account
-writing file wordnik-developer/word
-writing file wordnik-developer/words
-writing file wordnik-developer/wordList
-writing file wordnik-developer/wordLists
-```
-
-Will read the 1.1 spec from wordnik developer and write it into the folder called `wordnik-developer`.
-
+To do so, just use the `-l jaxrs` flag when reading a spec file~
 
 ### To build the codegen library
 
 This will create the swagger-codegen library from source.  
 
 ```
-./sbt assembly
+mvn package
 ```
 
-Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to
-either repackage the library OR modify your codegen script to use a file path!
+Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to either repackage the library OR specify a path to your scripts
 
 License
 -------
 
-Copyright 2014 Wordnik, Inc.
+Copyright 2014 Reverb Technologies, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
