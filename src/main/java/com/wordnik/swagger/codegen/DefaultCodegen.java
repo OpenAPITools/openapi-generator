@@ -412,6 +412,9 @@ public class DefaultCodegen {
 
     if(p instanceof StringProperty) {
       StringProperty sp = (StringProperty) p;
+      property.maxLength = sp.getMaxLength();
+      property.minLength = sp.getMinLength();
+      property.pattern = sp.getPattern();
       if(sp.getEnum() != null) {
         List<String> _enum = sp.getEnum();
         property._enum = _enum;
