@@ -3,15 +3,16 @@
 #import "SWGDate.h"
 #import "{{classname}}.h"
 
-@implementation {{classname}}
+@implementation {{classname}}{{#parent}}: {{parent}}{{/parent}}
 
+{{#hasVars}}
 -(id){{#vars}}{{name}}: ({{datatype}}) {{name}}{{^hasMore}} { {{/hasMore}}
     {{/vars}}
     {{#vars}}_{{name}} = {{name}};
     {{/vars}}
     return self;
 }
-
+{{/hasVars}}
 -(id) initWithValues:(NSDictionary*)dict
 {
     self = [super init];

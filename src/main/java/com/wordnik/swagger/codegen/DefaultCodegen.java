@@ -353,7 +353,8 @@ public class DefaultCodegen {
           m.imports.add(containerType);
         }
       }
-      if(impl.getProperties() != null) {
+      if(impl.getProperties() != null && impl.getProperties().size() > 0) {
+        m.hasVars = true;
         for(String key: impl.getProperties().keySet()) {
           Property prop = impl.getProperties().get(key);
 
@@ -395,6 +396,9 @@ public class DefaultCodegen {
               m.imports.add(cp.baseType);
           }
         }
+      }
+      else {
+        m.emptyVars = true;
       }
     }
     return m;

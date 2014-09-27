@@ -11,10 +11,11 @@
 {{#vars}}
 @property(nonatomic) {{datatype}} {{name}};  {{#description}}/* {{{description}}} {{#isNotRequired}}[optional]{{/isNotRequired}} */{{/description}}{{newline}}
 {{/vars}}
+{{#hasVars}}
 - (id) {{#vars}}{{name}}: ({{datatype}}) {{name}}{{#hasMore}}
   {{/hasMore}}{{^hasMore}};{{/hasMore}}
        {{/vars}}
-{{newline}}
+{{/hasVars}}
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
 {{newline}}

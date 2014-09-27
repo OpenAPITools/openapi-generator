@@ -11,4 +11,5 @@ public class CodegenModel {
   public String defaultValue;
   public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
   public Set<String> imports = new HashSet<String>();
+  public Boolean hasVars, emptyVars;
 }
