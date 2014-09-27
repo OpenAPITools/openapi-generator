@@ -16,8 +16,8 @@ public class Codegen extends DefaultGenerator {
     options.addOption("i", "input-spec", true, "location of the swagger spec, as URL or file");
     options.addOption("t", "template-dir", true, "folder containing the template files");
 
-    ClientOptInput codegenInput = new ClientOptInput();
-    ClientOpts clientArgs = new ClientOpts();
+    ClientOptInput clientOptInput = new ClientOptInput();
+    ClientOpts clientOpts = new ClientOpts();
     Swagger swagger = null;
 
     CommandLine cmd = null;
@@ -25,14 +25,16 @@ public class Codegen extends DefaultGenerator {
       CommandLineParser parser = new BasicParser();
       cmd = parser.parse(options, args);
       if (cmd.hasOption("l"))
-        codegenInput.setConfig(getConfig(cmd.getOptionValue("l")));
+        clientOptInput.setConfig(getConfig(cmd.getOptionValue("l")));
+
       if (cmd.hasOption("o"))
-        codegenInput.getConfig().setOutputDir(cmd.getOptionValue("o"));
+        clientOptInput.getConfig().setOutputDir(cmd.getOptionValue("o"));
       if (cmd.hasOption("i"))
         swagger = new SwaggerLoader().read(cmd.getOptionValue("i"));
-      if (cmd.hasOption("t"))
-        clientArgs.getProperties().put("templateDir",
+      if (cmd.hasOption("t")) {
+        clientOpts.getProperties().put("templateDir",
           String.valueOf(cmd.getOptionValue("t")));
+      }
       if (cmd.hasOption("h")) {
         usage(options);
         return;
@@ -43,10 +45,10 @@ public class Codegen extends DefaultGenerator {
       return;
     }
     try{
-      codegenInput
-        .opts(clientArgs)
+      clientOptInput
+        .opts(clientOpts)
         .swagger(swagger);
-      new Codegen().opts(codegenInput).generate();
+      new Codegen().opts(clientOptInput).generate();
     }
     catch (Exception e) {
       e.printStackTrace();

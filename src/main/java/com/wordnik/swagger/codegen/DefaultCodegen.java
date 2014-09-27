@@ -438,6 +438,8 @@ public class DefaultCodegen {
       property.baseType = getSwaggerType(p);
       if(!languageSpecificPrimitives.contains(cp.baseType))
         property.complexType = cp.baseType;
+      else
+        property.isPrimitiveType = true;
     }
     else if(p instanceof MapProperty) {
       property.isContainer = true;
@@ -448,11 +450,15 @@ public class DefaultCodegen {
       property.baseType = getSwaggerType(p);
       if(!languageSpecificPrimitives.contains(cp.baseType))
         property.complexType = cp.baseType;
+      else
+        property.isPrimitiveType = true;
     }
     else {
       property.isNotContainer = true;
       if(languageSpecificPrimitives().contains(type))
         property.isPrimitiveType = true;
+      else
+        property.complexType = property.baseType;
     }
     return property;
   }

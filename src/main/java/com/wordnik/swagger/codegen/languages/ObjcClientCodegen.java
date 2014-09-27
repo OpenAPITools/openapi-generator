@@ -29,7 +29,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "NSString",
         "NSObject", 
         "NSArray",
-        "NSNumber")
+        "NSNumber",
+        "NSDictionary")
       );
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
@@ -60,6 +61,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("long", "NSNumber");
     typeMapping.put("double", "NSNumber");
     typeMapping.put("array", "NSArray");
+    typeMapping.put("map", "NSDictionary");
     typeMapping.put("number", "NSNumber");
     typeMapping.put("List", "NSArray");
     typeMapping.put("object", "NSObject");
@@ -71,7 +73,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
       Arrays.asList(
         "NSNumber",
         "NSObject",
-        "NSString")
+        "NSString",
+        "NSDictionary")
       );
 
     supportingFiles.add(new SupportingFile("SWGObject.h", sourceFolder, "SWGObject.h"));
@@ -137,6 +140,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
       return name;
     else
       return modelPackage() + "." + name;
+  }
+
+  @Override
+  public String toDefaultValue(Property p) {
+    return null;
   }
 
   @Override

@@ -23,6 +23,7 @@ public class DefaultGenerator implements Generator {
     this.swagger = opts.getSwagger();
     ClientOpts clientOpts = opts.getOpts();
     this.config = opts.getConfig();
+    this.config.additionalProperties().putAll(clientOpts.getProperties());
 
     return this;
   }

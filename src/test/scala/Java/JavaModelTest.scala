@@ -96,7 +96,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(1).isContainer should equal (true)
   }
 
-  it should "convert a model wiht a map property" in {
+  it should "convert a model with a map property" in {
     val model = new ModelImpl()
       .description("a sample model")
       .property("translations", new MapProperty()
