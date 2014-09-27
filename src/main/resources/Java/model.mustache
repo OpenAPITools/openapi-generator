@@ -2,25 +2,29 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+
+import com.wordnik.swagger.annotations.*;
 {{#models}}
 
 {{#model}}{{#description}}
 /**
  * {{description}}
  **/{{/description}}
-public class {{classname}} { {{#vars}}
-  /**{{#description}}
-   * {{{description}}}{{/description}}
-   * required: {{required}}{{#minimum}}
-   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-   * maximum: {{maximum}}{{/maximum}}
-   **/
+@ApiModel(description = "{{{description}}}")
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} { {{#vars}}
   private {{{datatype}}} {{name}} = {{{defaultValue}}};{{#allowableValues}}
   
   //{{^min}}public enum {{name}}Enum { {{#values}} {{.}}, {{/values}} }; 
   {{/min}}{{/allowableValues}}{{/vars}}
   
-  {{#vars}}public {{{datatype}}} {{getter}}() {
+  {{#vars}}
+  /**{{#description}}
+   * {{{description}}}{{/description}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   **/
+  @ApiModelProperty(required = {{required}}, value = "{{{description}}}")
+  public {{{datatype}}} {{getter}}() {
     return {{name}};
   }
   public void {{setter}}({{{datatype}}} {{name}}) {
@@ -33,6 +37,7 @@ public class {{classname}} { {{#vars}}
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("  " + super.toString()).append("\n");{{/parent}}
     {{#vars}}sb.append("  {{name}}: ").append({{name}}).append("\n");
     {{/vars}}sb.append("}\n");
     return sb.toString();

@@ -6,7 +6,7 @@
 {{#models}}
 {{#model}}
 
-@interface {{classname}} : SWGObject
+@interface {{classname}} : {{^parent}}SWGObject{{/parent}}{{#parent}}{{parent}}{{/parent}}
 
 {{#vars}}
 @property(nonatomic) {{datatype}} {{name}};  {{#description}}/* {{{description}}} {{#isNotRequired}}[optional]{{/isNotRequired}} */{{/description}}{{newline}}

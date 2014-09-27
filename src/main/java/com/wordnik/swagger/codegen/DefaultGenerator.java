@@ -262,10 +262,16 @@ public class DefaultGenerator implements Generator {
       String m = config.importMapping().get(i);
       if(m == null)
         m = config.toModelImport(i);
-      if(m != null) {
+      if(m != null && !config.defaultIncludes().contains(m)) {
         im.put("import", m);
         imports.add(im);
       }
+      // add instantiation types
+      m = config.instantiationTypes().get(i);
+      if(m != null && !config.defaultIncludes().contains(m)) {
+        im.put("import", m);
+        imports.add(im);
+      }      
     }
 
     objs.put("imports", imports);

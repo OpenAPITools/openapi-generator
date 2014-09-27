@@ -63,7 +63,6 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(2).required should equal (false)
     vars.get(2).isNotContainer should equal (true)
 
-
     (cm.imports.asScala.toSet &
       Set("SWGDate")).size should be (1)
   }
@@ -205,5 +204,38 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(0).required should equal (false)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isNotContainer should be (null)
+  }
+
+  it should "convert an array model" in {
+    val model = new ArrayModel()
+      .description("an array model")
+      .items(new RefProperty("#/definitions/Children"))
+    val codegen = new ObjcClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+
+    cm.name should be ("sample")
+    cm.classname should be ("SWGSample")
+    cm.description should be ("an array model")
+    cm.vars.size should be (0)
+    cm.parent should be ("NSMutableArray")
+    cm.imports.size should be (3)
+    (cm.imports.asScala.toSet & Set("SWGChildren", "NSArray", "NSMutableArray")).size should be (3)
+  }
+
+  it should "convert an map model" in {
+    val model = new ModelImpl()
+      .description("an map model")
+      .additionalProperties(new RefProperty("#/definitions/Children"))
+
+    val codegen = new ObjcClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+
+    cm.name should be ("sample")
+    cm.classname should be ("SWGSample")
+    cm.description should be ("an map model")
+    cm.vars.size should be (0)
+    cm.parent should be ("NSMutableDictionary")
+    cm.imports.size should be (3)
+    (cm.imports.asScala.toSet & Set("SWGChildren", "NSDictionary", "NSMutableDictionary")).size should be (3)
   }
 }

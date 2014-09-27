@@ -709,12 +709,6 @@
         },
         "complete": {
           "type": "boolean"
-        },
-        "keyValuePairs": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
         }
       }
     }

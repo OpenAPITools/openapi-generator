@@ -33,6 +33,7 @@ public interface CodegenConfig {
   CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
   Set<String> defaultIncludes();
   Map<String, String> typeMapping();
+  Map<String, String> instantiationTypes();
   Map<String, String> importMapping();
   Map<String, String> apiTemplateFiles();
   Map<String, String> modelTemplateFiles();

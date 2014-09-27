@@ -45,6 +45,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         "Long",
         "Float")
       );
+    instantiationTypes.put("array", "ArrayList");
+    instantiationTypes.put("map", "HashMap");
   }
 
   @Override

@@ -45,6 +45,9 @@ public class DefaultCodegen {
   public Map<String, String> typeMapping() {
     return typeMapping;
   }
+  public Map<String, String> instantiationTypes() {
+    return instantiationTypes;
+  }
   public Set<String> reservedWords() {
     return reservedWords;
   }
@@ -171,7 +174,6 @@ public class DefaultCodegen {
     typeMapping.put("integer", "Integer");
 
     instantiationTypes = new HashMap<String, String>();
-    instantiationTypes.put("array", "ArrayList");
 
     reservedWords = new HashSet<String> (
       Arrays.asList(
@@ -206,12 +208,12 @@ public class DefaultCodegen {
     if (p instanceof MapProperty) {
       MapProperty ap = (MapProperty) p;
       String inner = getSwaggerType(ap.getAdditionalProperties());
-      return "HashMap<String, " + inner + ">";
+      return instantiationTypes.get("map") + "<String, " + inner + ">";
     }
     else if (p instanceof ArrayProperty) {
       ArrayProperty ap = (ArrayProperty) p;
       String inner = getSwaggerType(ap.getItems());
-      return "ArrayList<" + inner + ">";
+      return instantiationTypes.get("array") + "<" + inner + ">";
     }
     else
       return null;
@@ -319,11 +321,12 @@ public class DefaultCodegen {
       ArrayModel am = (ArrayModel) model;
       ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
       CodegenProperty cp = fromProperty(name, arrayProperty);
-      // m.vars.add(cp);
       if(cp.complexType != null && !defaultIncludes.contains(cp.complexType))
         m.imports.add(cp.complexType);
-      m.parent = cp.baseType;
+      m.parent = toInstantiationType(arrayProperty);
       String containerType = cp.containerType;
+      if(instantiationTypes.containsKey(containerType))
+        m.imports.add(instantiationTypes.get(containerType));
       if(typeMapping.containsKey(containerType)) {
         containerType = typeMapping.get(containerType);
         cp.containerType = containerType;
@@ -335,46 +338,62 @@ public class DefaultCodegen {
     }
     else {
       ModelImpl impl = (ModelImpl) model;
-      // Json.prettyPrint(impl);
-      for(String key: impl.getProperties().keySet()) {
-        Property prop = impl.getProperties().get(key);
-
-        if(prop == null) {
-          System.out.println("null property for " + key);
+      if(impl.getAdditionalProperties() != null) {
+        MapProperty mapProperty = new MapProperty(impl.getAdditionalProperties());
+        CodegenProperty cp = fromProperty(name, mapProperty);
+        if(cp.complexType != null && !defaultIncludes.contains(cp.complexType))
+          m.imports.add(cp.complexType);
+        m.parent = toInstantiationType(mapProperty);
+        String containerType = cp.containerType;
+        if(instantiationTypes.containsKey(containerType))
+          m.imports.add(instantiationTypes.get(containerType));
+        if(typeMapping.containsKey(containerType)) {
+          containerType = typeMapping.get(containerType);
+          cp.containerType = containerType;
+          m.imports.add(containerType);
         }
-        else {
-          CodegenProperty cp = fromProperty(key, prop);
-          cp.required = false;
-          if(impl.getRequired() != null) {
-            for(String req : impl.getRequired()) {
-              if(key.equals(req))
-                cp.required = true;
+      }
+      if(impl.getProperties() != null) {
+        for(String key: impl.getProperties().keySet()) {
+          Property prop = impl.getProperties().get(key);
+
+          if(prop == null) {
+            System.out.println("null property for " + key);
+          }
+          else {
+            CodegenProperty cp = fromProperty(key, prop);
+            cp.required = false;
+            if(impl.getRequired() != null) {
+              for(String req : impl.getRequired()) {
+                if(key.equals(req))
+                  cp.required = true;
+              }
             }
-          }
-          if(cp.complexType != null && !defaultIncludes.contains(cp.complexType)) {
-            m.imports.add(cp.complexType);
-          }
-          m.vars.add(cp);
-          count += 1;
-          if(count != impl.getProperties().keySet().size())
-            cp.hasMore = new Boolean(true);
-          if(cp.isContainer != null) {
-            String arrayImport = typeMapping.get("array");
-            if(arrayImport != null &&
-              !languageSpecificPrimitives.contains(arrayImport) && 
-              !defaultIncludes.contains(arrayImport))
-              m.imports.add(arrayImport);
-          }
+            if(cp.complexType != null && !defaultIncludes.contains(cp.complexType)) {
+              m.imports.add(cp.complexType);
+            }
+            m.vars.add(cp);
+            count += 1;
+            if(count != impl.getProperties().keySet().size())
+              cp.hasMore = new Boolean(true);
+            if(cp.isContainer != null) {
+              String arrayImport = typeMapping.get("array");
+              if(arrayImport != null &&
+                !languageSpecificPrimitives.contains(arrayImport) && 
+                !defaultIncludes.contains(arrayImport))
+                m.imports.add(arrayImport);
+            }
 
-          if(cp.complexType != null &&
-            !languageSpecificPrimitives.contains(cp.complexType) && 
-            !defaultIncludes.contains(cp.complexType))
-            m.imports.add(cp.complexType);
+            if(cp.complexType != null &&
+              !languageSpecificPrimitives.contains(cp.complexType) && 
+              !defaultIncludes.contains(cp.complexType))
+              m.imports.add(cp.complexType);
 
-          if(cp.baseType != null &&
-            !languageSpecificPrimitives.contains(cp.baseType) && 
-            !defaultIncludes.contains(cp.baseType))
-            m.imports.add(cp.baseType);
+            if(cp.baseType != null &&
+              !languageSpecificPrimitives.contains(cp.baseType) && 
+              !defaultIncludes.contains(cp.baseType))
+              m.imports.add(cp.baseType);
+          }
         }
       }
     }

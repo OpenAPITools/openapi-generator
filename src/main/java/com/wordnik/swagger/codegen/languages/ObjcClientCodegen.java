@@ -30,7 +30,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "NSObject", 
         "NSArray",
         "NSNumber",
-        "NSDictionary")
+        "NSDictionary",
+        "NSMutableArray",
+        "NSMutableDictionary")
       );
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
@@ -77,6 +79,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "NSDictionary")
       );
 
+    instantiationTypes.put("array", "NSMutableArray");
+    instantiationTypes.put("map", "NSMutableDictionary");
+
     supportingFiles.add(new SupportingFile("SWGObject.h", sourceFolder, "SWGObject.h"));
     supportingFiles.add(new SupportingFile("SWGObject.m", sourceFolder, "SWGObject.m"));
     supportingFiles.add(new SupportingFile("SWGApiClient.h", sourceFolder, "SWGApiClient.h"));
@@ -86,6 +91,22 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     supportingFiles.add(new SupportingFile("SWGDate.h", sourceFolder, "SWGDate.h"));
     supportingFiles.add(new SupportingFile("SWGDate.m", sourceFolder, "SWGDate.m"));
     supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
+  }
+
+  @Override
+  public String toInstantiationType(Property p) {
+    if (p instanceof MapProperty) {
+      MapProperty ap = (MapProperty) p;
+      String inner = getSwaggerType(ap.getAdditionalProperties());
+      return instantiationTypes.get("map");
+    }
+    else if (p instanceof ArrayProperty) {
+      ArrayProperty ap = (ArrayProperty) p;
+      String inner = getSwaggerType(ap.getItems());
+      return instantiationTypes.get("array");
+    }
+    else
+      return null;
   }
 
   @Override
