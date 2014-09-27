@@ -108,6 +108,11 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-annotations-version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
       <version>${jackson-version}</version>
@@ -140,8 +145,14 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  <repositories>
+    <repository>
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
   <properties>
+    <swagger-annotations-version>1.5.0-SNAPSHOT</swagger-annotations-version>
     <jackson-version>2.1.4</jackson-version>
     <junit-version>4.8.1</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
