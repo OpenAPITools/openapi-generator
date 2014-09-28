@@ -35,7 +35,7 @@ public class DefaultGenerator implements Generator {
     try {
       config.processOpts();
       Map<String, Object> models = null;
-      Map<String, Object> operations = null;
+      List<Object> allOperations = new ArrayList<Object>();
 
       // models
       Map<String, Model> definitions = swagger.getDefinitions();
@@ -66,11 +66,12 @@ public class DefaultGenerator implements Generator {
       Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
       for(String tag : paths.keySet()) {
         List<CodegenOperation> ops = paths.get(tag);
-
-        operations = processOperations(config, tag, ops);
-        operations.put("baseName", tag);
-        operations.put("modelPackage", config.modelPackage());
-        operations.putAll(config.additionalProperties());
+        Map<String, Object> operation = processOperations(config, tag, ops);
+        operation.put("baseName", tag);
+        operation.put("modelPackage", config.modelPackage());
+        operation.putAll(config.additionalProperties());
+        operation.put("classname", config.toApiName(tag));
+        allOperations.add(operation);
         for(String templateName : config.apiTemplateFiles().keySet()) {
           String suffix = config.apiTemplateFiles().get(templateName);
           String filename = config.apiFileFolder() +
@@ -88,7 +89,7 @@ public class DefaultGenerator implements Generator {
             .defaultValue("")
             .compile(template);
 
-          writeToFile(filename, tmpl.execute(operations));
+          writeToFile(filename, tmpl.execute(operation));
         }
       }
 
@@ -96,6 +97,11 @@ public class DefaultGenerator implements Generator {
       Map<String, Object> bundle = new HashMap<String, Object>();
       bundle.putAll(config.additionalProperties());
       bundle.put("apiPackage", config.apiPackage());
+
+      Map<String, Object> apis = new HashMap<String, Object>();
+      apis.put("apis", allOperations);
+
+      bundle.put("apiInfo", apis);
       for(SupportingFile support : config.supportingFiles()) {
         String outputFolder = config.outputFolder();
         if(support.folder != null && !"".equals(support.folder))

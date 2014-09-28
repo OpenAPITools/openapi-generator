@@ -7,7 +7,7 @@ import java.util.*;
 import java.io.File;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
-  protected String invokerPackage = "com.wordnik.api";
+  protected String invokerPackage = "com.wordnik.client";
   protected String groupId = "com.wordnik";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
@@ -19,8 +19,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     modelTemplateFiles.put("model.mustache", ".java");
     apiTemplateFiles.put("api.mustache", ".java");
     templateDir = "Java";
-    apiPackage = "com.wordnik.api";
-    modelPackage = "com.wordnik.model";
+    apiPackage = "com.wordnik.client.api";
+    modelPackage = "com.wordnik.client.model";
 
     additionalProperties.put("invokerPackage", invokerPackage);
     additionalProperties.put("groupId", groupId);

@@ -69,6 +69,8 @@ public class Codegen extends DefaultGenerator {
       return new JavaClientCodegen();
     else if("jaxrs".equals(name))
       return new JaxRSServerCodegen();
+    else if("static".equals(name))
+      return new StaticDocCodegen();
     else
       throw new RuntimeException("unsupported client type");
   }

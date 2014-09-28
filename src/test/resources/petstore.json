@@ -706,9 +706,6 @@
         "status": {
           "type": "string",
           "position": 0
-        },
-        "complete": {
-          "type": "boolean"
         }
       }
     }
