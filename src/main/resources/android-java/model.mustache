@@ -1,21 +1,29 @@
 package {{package}};
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 {{#imports}}import {{import}};
 {{/imports}}
-{{#models}}
-{{#model}}
-public class {{classname}} {
-  {{#vars}}
 
-  {{#description}}/* {{{description}}} */
-  {{/description}}
-  @JsonProperty("{{name}}")
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};
-  {{/vars}}
+import com.wordnik.swagger.annotations.*;
+{{#models}}
+
+{{#model}}{{#description}}
+/**
+ * {{description}}
+ **/{{/description}}
+@ApiModel(description = "{{{description}}}")
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} { {{#vars}}
+  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{#allowableValues}}
+  
+  //{{^min}}public enum {{name}}Enum { {{#values}} {{.}}, {{/values}} }; 
+  {{/min}}{{/allowableValues}}{{/vars}}
   
   {{#vars}}
+  /**{{#description}}
+   * {{{description}}}{{/description}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   **/
+  @ApiModelProperty(required = {{required}}, value = "{{{description}}}")
   public {{{datatype}}} {{getter}}() {
     return {{name}};
   }
@@ -29,10 +37,9 @@ public class {{classname}} {
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
-    {{#vars}}
-    sb.append("  {{name}}: ").append({{name}}).append("\n");
-    {{/vars}}
-    sb.append("}\n");
+    {{#parent}}sb.append("  " + super.toString()).append("\n");{{/parent}}
+    {{#vars}}sb.append("  {{name}}: ").append({{name}}).append("\n");
+    {{/vars}}sb.append("}\n");
     return sb.toString();
   }
 }
