@@ -1,8 +1,6 @@
 package com.wordnik.client.model;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
 
@@ -23,8 +21,6 @@ public class Order  {
   
   private Date shipDate = null;
   private String status = null;
-  private Boolean complete = null;
-  private Map<String, String> keyValuePairs = new HashMap<String, String>() ;
   
   
   /**
@@ -82,28 +78,6 @@ public class Order  {
   }
 
   
-  /**
-   **/
-  @ApiModelProperty(required = false, value = "")
-  public Boolean getComplete() {
-    return complete;
-  }
-  public void setComplete(Boolean complete) {
-    this.complete = complete;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(required = false, value = "")
-  public Map<String, String> getKeyValuePairs() {
-    return keyValuePairs;
-  }
-  public void setKeyValuePairs(Map<String, String> keyValuePairs) {
-    this.keyValuePairs = keyValuePairs;
-  }
-
-  
 
   @Override
   public String toString()  {
@@ -115,8 +89,6 @@ public class Order  {
     sb.append("  quantity: ").append(quantity).append("\n");
     sb.append("  shipDate: ").append(shipDate).append("\n");
     sb.append("  status: ").append(status).append("\n");
-    sb.append("  complete: ").append(complete).append("\n");
-    sb.append("  keyValuePairs: ").append(keyValuePairs).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
