@@ -106,6 +106,43 @@ Or for example:
 
 Great for creating libraries on your ci server, from the [Swagger Editor](http://editor.swagger.wordnik.com)... or while coding on an airplane.
 
+### Customizing the generator
+
+There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:
+
+```
+$ ls -1 src/main/java/com/wordnik/swagger/codegen/languages/
+AndroidClientCodegen.java
+JavaClientCodegen.java
+JaxRSServerCodegen.java
+ObjcClientCodegen.java
+StaticDocCodegen.java
+```
+
+Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc., you may want to extend these.
+
+To change, for example, the prefix for the Objective-C generated files, simply subclass the ObjcClientCodegen.java:
+
+```
+package com.mycompany.swagger.codegen;
+
+import com.wordnik.swagger.codegen.languages.*;
+
+public class MyObjcCodegen extends ObjcClientCodegen {
+  static {
+    PREFIX = "HELO";
+  }
+}
+```
+
+and specify the `classname` when running the generator:
+
+```
+-i com.mycompany.swagger.codegen.MyObjcCodegen
+```
+
+Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.
+
 ### Validating your swagger spec
 
 You have options.  The easiest is to use our [online validator](https://github.com/swagger-api/validator-badge) which not only will let you validate your spec, but with the debug flag, you can see what's wrong with your spec.  For example:
