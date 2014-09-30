@@ -412,7 +412,7 @@ public class DefaultCodegen {
     property.description = p.getDescription();
     property.getter = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
     property.setter = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
-
+    property.example = p.getExample();
     property.defaultValue = toDefaultValue(p);
 
     String type = getSwaggerType(p);
