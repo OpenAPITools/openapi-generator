@@ -100,8 +100,8 @@ public class DefaultGenerator implements Generator {
 
       Map<String, Object> apis = new HashMap<String, Object>();
       apis.put("apis", allOperations);
-
       bundle.put("apiInfo", apis);
+
       for(SupportingFile support : config.supportingFiles()) {
         String outputFolder = config.outputFolder();
         if(support.folder != null && !"".equals(support.folder))
@@ -137,7 +137,6 @@ public class DefaultGenerator implements Generator {
   }
 
   public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
-    // group by tag, create a Default grouping if none
     Map<String, List<CodegenOperation>> ops = new HashMap<String, List<CodegenOperation>>();
     List<String> tags = null;
 
@@ -164,11 +163,25 @@ public class DefaultGenerator implements Generator {
       for(String tag : tags) {
         CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation);
         co.tags = new ArrayList<String>();
-        co.tags.add(tag);
+        co.tags.add(sanitizeTag(tag));
 
-        config.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
       }
     }
+  }
+
+  protected String sanitizeTag(String tag) {
+    // remove spaces and make strong case
+    String [] parts = tag.split(" ");
+    StringBuffer buf = new StringBuffer();
+    for(String part: parts) {
+      if(!"".equals(part)) {
+        buf.append(Character.toUpperCase(part.charAt(0)));
+        if(part.length() > 1)
+          buf.append(part.substring(1));
+      }
+    }
+    return buf.toString().replaceAll("[^a-zA-Z ]", "");
   }
 
   public File writeToFile(String filename, String contents) throws IOException {

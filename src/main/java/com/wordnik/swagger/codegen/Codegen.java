@@ -71,6 +71,18 @@ public class Codegen extends DefaultGenerator {
       return new JaxRSServerCodegen();
     else if("static".equals(name))
       return new StaticDocCodegen();
+    else if(name.indexOf(".") > 0) {
+      // see if it's a class
+      try {
+        System.out.println("loading class " + name);
+        Class customClass = Class.forName(name);
+        System.out.println("loaded");
+        return (CodegenConfig)customClass.newInstance();
+      }
+      catch (Exception e) {
+        throw new RuntimeException("can't load class " + name);
+      }
+    }
     else
       throw new RuntimeException("unsupported client type");
   }
