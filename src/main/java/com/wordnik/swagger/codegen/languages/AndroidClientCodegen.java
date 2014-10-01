@@ -45,7 +45,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         "Double",
         "Integer",
         "Long",
-        "Float")
+        "Float",
+        "Object")
       );
     instantiationTypes.put("array", "ArrayList");
     instantiationTypes.put("map", "HashMap");
