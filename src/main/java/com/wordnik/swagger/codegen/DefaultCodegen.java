@@ -4,6 +4,7 @@ import com.wordnik.swagger.util.Json;
 import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
 import java.io.File;
@@ -441,6 +442,7 @@ public class DefaultCodegen {
       if(sp.getEnum() != null) {
         List<String> _enum = sp.getEnum();
         property._enum = _enum;
+        property.isEnum = true;
 
         // legacy support
         Map<String, Object> allowableValues = new HashMap<String, Object>();
@@ -449,7 +451,9 @@ public class DefaultCodegen {
       }
     }
 
-    property.datatype = getTypeDeclaration(p);
+    property.datatype = property.isEnum
+      ? StringUtils.capitalize(getTypeDeclaration(p)) + "Enum"
+      : getTypeDeclaration(p);
     property.baseType = getSwaggerType(p);
 
     if(p instanceof ArrayProperty) {
