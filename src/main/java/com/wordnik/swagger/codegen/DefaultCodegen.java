@@ -452,7 +452,7 @@ public class DefaultCodegen {
     }
 
     property.datatype = property.isEnum
-      ? StringUtils.capitalize(getTypeDeclaration(p)) + "Enum"
+      ? StringUtils.capitalize(property.name) + "Enum"
       : getTypeDeclaration(p);
     property.baseType = getSwaggerType(p);
 
