@@ -6,8 +6,7 @@ import com.wordnik.swagger.core.util.JsonUtil
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest._
 
 import scala.collection.mutable.{ ListBuffer, HashMap }
 import scala.collection.JavaConversions._
@@ -16,7 +15,7 @@ import scala.beans.BeanProperty
 import scala.io.Source
 
 @RunWith(classOf[JUnitRunner])
-class WordApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
+class WordApiTest extends FlatSpec with Matchers with BaseApiTest {
   behavior of "WordApi"
   val api = new WordApi
 

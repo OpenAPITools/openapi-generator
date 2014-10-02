@@ -3,15 +3,14 @@ import com.wordnik.petstore.model._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest._
 
 import scala.collection.mutable.{ ListBuffer, HashMap }
 import scala.collection.JavaConversions._
 import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
-class UserApiTest extends FlatSpec with ShouldMatchers {
+class UserApiTest extends FlatSpec with Matchers {
   behavior of "UserApi"
   val api = new UserApi
   api.apiInvoker.defaultHeaders += "api_key" -> "special-key"

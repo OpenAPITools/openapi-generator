@@ -3,15 +3,14 @@ import com.wordnik.client.model._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest._
 
 import scala.collection.mutable.{ ListBuffer, HashMap }
 import scala.collection.JavaConversions._
 import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
-class AccountApiTest extends FlatSpec with ShouldMatchers with BaseApiTest {
+class AccountApiTest extends FlatSpec with Matchers with BaseApiTest {
   behavior of "AccountApi"
   val api = new AccountApi
 

@@ -19,7 +19,7 @@ trait RemoteUrl {
 						connection
 					}
 					else if(auth.passAs == "query") {
-						new URL(url + "?%s=%s".format(URLEncoder.encode(auth.keyName), URLEncoder.encode(auth.value))).openConnection()
+						new URL(url + "?%s=%s".format(URLEncoder.encode(auth.keyName, "UTF-8"), URLEncoder.encode(auth.value, "UTF-8"))).openConnection()
 					}
 					else {
 						new URL(url).openConnection()
