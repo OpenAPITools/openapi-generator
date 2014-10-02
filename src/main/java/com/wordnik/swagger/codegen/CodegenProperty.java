@@ -18,6 +18,7 @@ public class CodegenProperty {
   public Double minimum, maximum, exclusiveMinimum, exclusiveMaximum;
   public Boolean hasMore = null, required = null, secondaryParam = null;
   public Boolean isPrimitiveType, isContainer, isNotContainer;
+  public boolean isEnum;
   public List<String> _enum;
   public Map<String, Object> allowableValues;
 }
