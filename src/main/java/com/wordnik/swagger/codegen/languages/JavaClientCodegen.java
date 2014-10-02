@@ -57,11 +57,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replaceAll("\\.", File.separator);
+    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replaceAll("\\.", "/");
   }
 
   public String modelFileFolder() {
-    return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replaceAll("\\.", File.separator);
+    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replaceAll("\\.", "/");
   }
 
   @Override
