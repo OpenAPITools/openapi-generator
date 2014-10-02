@@ -502,6 +502,10 @@ public class DefaultCodegen {
       path = path.replaceAll("\\}", "");
       String[] parts = (path + "/" + httpMethod).split("/");
       StringBuilder builder = new StringBuilder();
+      if("/".equals(path)) {
+        // must be root path
+        builder.append("root");
+      }
       for(int i = 0; i < parts.length; i++) {
         String part = parts[i];
         if(part.length() > 0) {
