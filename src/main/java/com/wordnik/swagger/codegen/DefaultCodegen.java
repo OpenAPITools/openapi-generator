@@ -316,6 +316,8 @@ public class DefaultCodegen {
     m.name = name;
     m.description = model.getDescription();
     m.classname = toModelName(name);
+    m.classVarName = toVarName(name);
+    m.modelJson = Json.pretty(model);
     int count = 0;
     if(model instanceof ArrayModel) {
       ArrayModel am = (ArrayModel) model;

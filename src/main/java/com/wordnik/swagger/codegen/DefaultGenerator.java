@@ -34,21 +34,22 @@ public class DefaultGenerator implements Generator {
     }
     try {
       config.processOpts();
-      Map<String, Object> models = null;
+       // models = null;
       List<Object> allOperations = new ArrayList<Object>();
-
+      List<Object> allModels = new ArrayList<Object>();
       // models
       Map<String, Model> definitions = swagger.getDefinitions();
       for(String name: definitions.keySet()) {
         Model model = definitions.get(name);
         Map<String, Model> modelMap = new HashMap<String, Model>();
         modelMap.put(name, model);
-        models = processModels(config, modelMap);
+        Map<String, Object> models = processModels(config, modelMap);
         models.putAll(config.additionalProperties());
+
+        allModels.add(((List<Object>)models.get("models")).get(0));
         for(String templateName : config.modelTemplateFiles().keySet()) {
           String suffix = config.modelTemplateFiles().get(templateName);
           String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
-
           String template = readTemplate(config.templateDir() + File.separator + templateName);
           Template tmpl = Mustache.compiler()
             .withLoader(new Mustache.TemplateLoader() {
@@ -58,7 +59,6 @@ public class DefaultGenerator implements Generator {
             })
             .defaultValue("")
             .compile(template);
-
           writeToFile(filename, tmpl.execute(models));
         }
       }
@@ -101,6 +101,13 @@ public class DefaultGenerator implements Generator {
       Map<String, Object> apis = new HashMap<String, Object>();
       apis.put("apis", allOperations);
       bundle.put("apiInfo", apis);
+      bundle.put("models", allModels);
+
+      for(int i = 0; i < allModels.size() - 1; i++) {
+        HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
+        CodegenModel m = cm.get("model");
+        m.hasMoreModels = true;
+      }
 
       for(SupportingFile support : config.supportingFiles()) {
         String outputFolder = config.outputFolder();
