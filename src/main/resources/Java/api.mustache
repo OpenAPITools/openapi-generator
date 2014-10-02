@@ -3,6 +3,8 @@ package {{package}};
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiInvoker;
 
+import {{modelPackage}}.*;
+
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -11,7 +13,8 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 
 {{#operations}}
 public class {{classname}} {
