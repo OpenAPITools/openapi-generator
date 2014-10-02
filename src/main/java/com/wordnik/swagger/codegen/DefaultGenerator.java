@@ -102,6 +102,7 @@ public class DefaultGenerator implements Generator {
       apis.put("apis", allOperations);
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
+      bundle.put("apiFolder", config.apiPackage().replaceAll("\\.", File.separator));
 
       for(int i = 0; i < allModels.size() - 1; i++) {
         HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
