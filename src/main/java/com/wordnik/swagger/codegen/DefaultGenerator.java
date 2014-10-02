@@ -34,7 +34,16 @@ public class DefaultGenerator implements Generator {
     }
     try {
       config.processOpts();
-       // models = null;
+
+      StringBuilder hostBuilder = new StringBuilder();
+      if(swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
+        hostBuilder.append(swagger.getSchemes().get(0));
+        hostBuilder.append("://");
+      }
+      else
+        hostBuilder.append("https://");
+      hostBuilder.append(swagger.getHost()).append(swagger.getBasePath());
+      String basePath = hostBuilder.toString();
       List<Object> allOperations = new ArrayList<Object>();
       List<Object> allModels = new ArrayList<Object>();
       // models
@@ -67,6 +76,7 @@ public class DefaultGenerator implements Generator {
       for(String tag : paths.keySet()) {
         List<CodegenOperation> ops = paths.get(tag);
         Map<String, Object> operation = processOperations(config, tag, ops);
+        operation.put("basePath", basePath);
         operation.put("baseName", tag);
         operation.put("modelPackage", config.modelPackage());
         operation.putAll(config.additionalProperties());
