@@ -33,7 +33,17 @@ exports.{{nickname}} = {
     {{/headerParams}}]).concat([{{#bodyParams}}
       params.body("body", "{{swaggerDataType}}", "{{description}}", {{#required}}{{required}}{{/required}}{{^required}}false{{/required}})
     {{/bodyParams}}]),
+    {{#returnContainer}}
+    "type": "{{returnType}}",
+    "items": {
+      {{#returnTypeIsPrimitive}}"type": "{{returnContainer}}"{{/returnTypeIsPrimitive}}
+      {{^returnTypeIsPrimitive}}"$ref": "{{returnContainer}}"{{/returnTypeIsPrimitive}}
+    },
+    // container
+    {{/returnContainer}}
+    {{^returnContainer}}
     "type" : "{{returnType}}",
+    {{/returnContainer}}
     "responseMessages" : [errors.invalid('id'), errors.notFound('{{returnType}}')],
     "nickname" : "{{nickname}}"
   },

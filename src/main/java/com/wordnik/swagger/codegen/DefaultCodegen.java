@@ -413,8 +413,8 @@ public class DefaultCodegen {
     property.name = toVarName(name);
     property.baseName = name;
     property.description = p.getDescription();
-    property.getter = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
-    property.setter = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+    property.getter = "get" + initialCaps(name);
+    property.setter = "set" + initialCaps(name);
     property.example = p.getExample();
     property.defaultValue = toDefaultValue(p);
 
@@ -508,7 +508,7 @@ public class DefaultCodegen {
           if(builder.toString().length() == 0)
             part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
           else
-            part = Character.toUpperCase(part.charAt(0)) + part.substring(1);
+            part = initialCaps(part);
           builder.append(part);
         }
       }

@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 swagger.setAppHandler(app);  
 swagger.configureSwaggerPaths("", "api-docs", "")
 
-var models = require("./models.js");
+var models = require("./app/models.js");
 
 {{#apiInfo}}
 {{#apis}}
@@ -32,13 +32,8 @@ var {{classname}} = require("./{{apiFolder}}/{{classname}}.js");
 {{/apiInfo}}
 
 swagger.addModels(models)
-  {{#apiInfo}}
-  {{#apis}}
-  {{#operations}}
-  {{#operation}}.add{{httpMethod}}({{classname}}.{{nickname}}){{newline}}{{/operation}}
-  {{/operations}}
-  {{/apis}};
-  {{/apiInfo}}
+  {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}.add{{httpMethod}}({{classname}}.{{nickname}}){{/operation}}{{/operations}}
+  {{/apis}}{{/apiInfo}};
 
 // configures the app
 swagger.configure("http://localhost:8002", "0.1");

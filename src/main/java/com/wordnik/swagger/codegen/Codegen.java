@@ -69,6 +69,8 @@ public class Codegen extends DefaultGenerator {
       return new JavaClientCodegen();
     else if("jaxrs".equals(name))
       return new JaxRSServerCodegen();
+    else if("nodejs".equals(name))
+      return new NodeJSServerCodegen();
     else if("static".equals(name))
       return new StaticDocCodegen();
     else if(name.indexOf(".") > 0) {
