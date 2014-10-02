@@ -17,10 +17,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} { {{#vars}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
    **/
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{#allowableValues}}
+  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{#isEnum}}
   
-  //{{^min}}public enum {{name}}Enum { {{#values}} {{.}}, {{/values}} }; 
-  {{/min}}{{/allowableValues}}{{/vars}}
+  public enum {{datatype}} { {{#_enum}}{{.}}{{^-last}}, {{/-last}}{{/_enum}} };
+  {{/isEnum}}{{/vars}}
   
   {{#vars}}
   @ApiModelProperty(required = {{required}}, value = "{{{description}}}")
