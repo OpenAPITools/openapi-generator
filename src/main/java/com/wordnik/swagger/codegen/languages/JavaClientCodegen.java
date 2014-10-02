@@ -43,7 +43,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         "Double",
         "Integer",
         "Long",
-        "Float")
+        "Float",
+        "Object")
       );
     instantiationTypes.put("array", "ArrayList");
     instantiationTypes.put("map", "HashMap");
