@@ -606,7 +606,8 @@ public class DefaultCodegen {
       }
     }
 
-    if(methodResponse != null && methodResponse.getSchema() != null) {
+    if(methodResponse != null) {
+     if (methodResponse.getSchema() != null) {
       CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
 
       Property responseProperty = methodResponse.getSchema();
@@ -632,6 +633,8 @@ public class DefaultCodegen {
         op.returnSimpleType = true;
       if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null)
         op.returnTypeIsPrimitive = true;
+     }
+     addHeaders(methodResponse, op.responseHeaders);
     }
 
     if(op.returnBaseType == null) {
@@ -806,6 +809,14 @@ public class DefaultCodegen {
       output.add(kv);
     }
     return output;
+  }
+
+  private void addHeaders(Response response, List<CodegenProperty> target) {
+    if (response.getHeaders() != null) {
+      for (Map.Entry<String, Property> headers : response.getHeaders().entrySet()) {
+        target.add(fromProperty(headers.getKey(), headers.getValue()));
+      }
+    }
   }
 
   private List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
