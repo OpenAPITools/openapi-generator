@@ -15,6 +15,34 @@ class PetApi {
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
+  def deletePet (petId: String) = {
+    // create path and map variables
+    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
+
+    
+
+    val contentType = {
+      "application/json"}
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    // verify required params are set
+    (List(petId).filter(_ != null)).size match {
+       case 1 => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    try {
+      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap, contentType) match {
+        case s: String =>
+          case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
   def getPetById (petId: Long) : Option[Pet]= {
     // create path and map variables
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
@@ -38,34 +66,6 @@ class PetApi {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "", classOf[Pet]).asInstanceOf[Pet])
         case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
-  def deletePet (petId: String) = {
-    // create path and map variables
-    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
-
-    
-
-    val contentType = {
-      "application/json"}
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-
-    // verify required params are set
-    (List(petId).filter(_ != null)).size match {
-       case 1 => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
-    try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap, contentType) match {
-        case s: String =>
-          case _ => None
       }
     } catch {
       case ex: ApiException if ex.code == 404 => None
@@ -124,30 +124,6 @@ class PetApi {
     }
     try {
       apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, None, headerParams.toMap, contentType) match {
-        case s: String =>
-          case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
-  def uploadFile (additionalMetadata: String, body: File) = {
-    // create path and map variables
-    val path = "/pet/uploadImage".replaceAll("\\{format\\}","json")
-
-    val contentType = {
-      if(body != null && body.isInstanceOf[File] )
-        "multipart/form-data"
-      else "application/json"
-      }
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
           case _ => None
       }
@@ -264,6 +240,27 @@ class PetApi {
         case s: String =>
           Some(ApiInvoker.deserialize(s, "Array", classOf[Pet]).asInstanceOf[List[Pet]])
         case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  def uploadFile (additionalMetadata: String, file: File) = {
+    // create path and map variables
+    val path = "/pet/uploadImage".replaceAll("\\{format\\}","json")
+
+    val contentType = {
+      "application/json"}
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, None, headerParams.toMap, contentType) match {
+        case s: String =>
+          case _ => None
       }
     } catch {
       case ex: ApiException if ex.code == 404 => None
