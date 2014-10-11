@@ -115,7 +115,6 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
     for(CodegenOperation op: operationList) {
       op.httpMethod = op.httpMethod.toLowerCase();
     }
-    Json.prettyPrint(objs);
     return objs;
   }
 

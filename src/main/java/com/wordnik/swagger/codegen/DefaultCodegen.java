@@ -644,7 +644,7 @@ public class DefaultCodegen {
             Property inner = qp.getItems();
             property = new ArrayProperty(inner);
             collectionFormat = qp.getCollectionFormat();
-            CodegenProperty pr = fromProperty("aaa", inner);
+            CodegenProperty pr = fromProperty("inner", inner);
             p.baseType = pr.datatype;
           }
           else
