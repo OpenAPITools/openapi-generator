@@ -19,15 +19,16 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
     outputFolder = "generated-code/scalatra";
     modelTemplateFiles.put("model.mustache", ".scala");
     apiTemplateFiles.put("api.mustache", ".scala");
-    templateDir = "src/main/resources/scalatra";
+    templateDir = "scalatra";
     apiPackage = "com.wordnik.client.api";
     modelPackage = "com.wordnik.client.model";
 
     defaultIncludes = new HashSet<String>(
       Arrays.asList("double",
-        "int",
-        "long",
-        "short",
+        "Int",
+        "Long",
+        "Float",
+        "Double",
         "char",
         "float",
         "String",
@@ -41,6 +42,9 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         "Set",
         "Map")
       );
+
+    typeMapping.put("integer", "Int");
+    typeMapping.put("long", "Long");
 
     additionalProperties.put("appName", "Swagger Sample");
     additionalProperties.put("appName", "Swagger Sample");
