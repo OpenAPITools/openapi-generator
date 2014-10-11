@@ -1,0 +1,15 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+
+{{#model}}
+case class {{classname}} (
+  {{#vars}}{{name}}: {{#isNotRequired}}Option[{{/isNotRequired}}{{datatype}}{{#isNotRequired}}] {{#description}}  // {{description}}{{/description}}
+  {{/isNotRequired}}{{#hasMore}},
+  {{/hasMore}}{{/vars}}
+)
+{{/model}}
+{{/models}}
