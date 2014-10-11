@@ -34,6 +34,28 @@ public class DefaultGenerator implements Generator {
     }
     try {
       config.processOpts();
+      if(swagger.getInfo() != null) {
+        Info info = swagger.getInfo();
+        if(info.getTitle() != null)
+          config.additionalProperties().put("appName", info.getTitle());
+        if(info.getDescription() != null)
+          config.additionalProperties().put("appDescription", info.getDescription());
+        if(info.getContact() != null) {
+          Contact contact = info.getContact();
+          config.additionalProperties().put("infoUrl", contact.getUrl());
+          if(contact.getEmail() != null)
+            config.additionalProperties().put("infoEmail", contact.getEmail());
+        }
+        if(info.getLicense() != null) {
+          License license = info.getLicense();
+          if(license.getName() != null)
+            config.additionalProperties().put("licenseInfo", license.getName());
+          if(license.getUrl() != null)
+            config.additionalProperties().put("licenseUrl", license.getUrl());
+          // 
+          // licenseUrl
+        }
+      }
 
       StringBuilder hostBuilder = new StringBuilder();
       if(swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
