@@ -71,6 +71,8 @@ public class Codegen extends DefaultGenerator {
       return new JaxRSServerCodegen();
     else if("nodejs".equals(name))
       return new NodeJSServerCodegen();
+    else if("scalatra".equals(name))
+      return new ScalatraServerCodegen();
     else if("static".equals(name))
       return new StaticDocCodegen();
     else if(name.indexOf(".") > 0) {
