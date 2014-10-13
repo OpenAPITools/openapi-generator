@@ -181,7 +181,7 @@ If you need to make static pages or don't want the sandbox of the swagger-ui, yo
 Will produce the output here:
 
 ```
-https://github.com/wordnik/swagger-codegen/tree/master/samples/docs/swagger-static-docs
+https://github.com/wordnik/swagger-codegen/tree/master/samples/swagger-static-docs/docs
 ```
 
 which is based on these templates:
