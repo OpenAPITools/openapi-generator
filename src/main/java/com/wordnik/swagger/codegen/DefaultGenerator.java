@@ -52,14 +52,12 @@ public class DefaultGenerator implements Generator {
             config.additionalProperties().put("licenseInfo", license.getName());
           if(license.getUrl() != null)
             config.additionalProperties().put("licenseUrl", license.getUrl());
-          // 
-          // licenseUrl
         }
       }
 
       StringBuilder hostBuilder = new StringBuilder();
       if(swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
-        hostBuilder.append(swagger.getSchemes().get(0));
+        hostBuilder.append(swagger.getSchemes().get(0).toValue());
         hostBuilder.append("://");
       }
       else
