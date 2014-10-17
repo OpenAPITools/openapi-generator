@@ -601,6 +601,7 @@ public class DefaultCodegen {
           op.returnBaseType = cm.baseType;
       }
 
+      op.defaultValue = toDefaultValue(responseProperty);
       op.returnType = cm.datatype;
       if(cm.isContainer != null) {
         op.returnContainer = cm.complexType;
