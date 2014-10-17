@@ -1,29 +1,40 @@
-import org.eclipse.jetty.server.nio.SelectChannelConnector
-import org.eclipse.jetty.server.{ Server }
-import org.eclipse.jetty.server.handler.ContextHandlerCollection
+import org.eclipse.jetty.server._
 import org.eclipse.jetty.webapp.WebAppContext
-import org.eclipse.jetty.servlet.{ DefaultServlet, ServletContextHandler, ServletHolder }
+import org.scalatra.servlet.ScalatraListener
 
 object JettyMain {
+
+  object conf {
+    val port = sys.env.get("PORT") map (_.toInt) getOrElse (8080)
+    val stopTimeout = sys.env.get("STOP_TIMEOUT") map (_.toInt) getOrElse (5000)
+    val connectorIdleTimeout = sys.env.get("CONNECTOR_IDLE_TIMEOUT") map (_.toInt) getOrElse (90000)
+    val webapp = sys.env.get("PUBLIC") getOrElse "webapp"
+    val contextPath = sys.env.get("CONTEXT_PATH") getOrElse "/"
+  }
+
   def main(args: Array[String]) = {
     val server: Server = new Server
     println("starting jetty")
 
-    server setGracefulShutdown 5000
-    server setSendServerVersion false
-    server setSendDateHeader true
+    server setStopTimeout conf.stopTimeout
+    //server setDumpAfterStart true
     server setStopAtShutdown true
 
-    val connector = new SelectChannelConnector
-    connector setPort sys.env.get("PORT").map(_.toInt).getOrElse(8080)
-    connector setMaxIdleTime 90000
+    val httpConfig = new HttpConfiguration()
+    httpConfig setSendDateHeader true
+    httpConfig setSendServerVersion false
+
+    val connector = new NetworkTrafficServerConnector(server, new HttpConnectionFactory(httpConfig))
+    connector setPort conf.port
+    connector setSoLingerTime 0
+    connector setIdleTimeout conf.connectorIdleTimeout
     server addConnector connector
 
-    val webapp = sys.env.get("PUBLIC") getOrElse "webapp"
+    val webapp = conf.webapp
     val webApp = new WebAppContext
-    webApp setContextPath "/"
-    webApp setResourceBase webapp
-    webApp setDescriptor (webapp+"/WEB-INF/web.xml");
+    webApp setContextPath conf.contextPath
+    webApp setResourceBase conf.webapp
+    webApp setEventListeners Array(new ScalatraListener)
 
     server setHandler webApp
 
