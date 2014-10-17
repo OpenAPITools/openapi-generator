@@ -1,0 +1,51 @@
+swagger: 2
+info:
+  title: Echo API
+  description: Simple Rest Echo
+  version: "1.0.0"
+host: "localhost:8002"
+schemes:
+  - http
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /echo:
+    get:
+      description: "Returns the 'message' to the caller"
+      operationId: "echo"
+      parameters:
+        #- name: X-header-param
+        - name: headerParam
+          in: header
+          type: string
+          required: false
+        - name: message
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: EchoResponse
+        default:
+          description: "Error"
+          schema:
+            $ref: Error
+definitions:
+  EchoResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
