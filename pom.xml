@@ -290,7 +290,6 @@
         </plugins>
       </build>
     </profile>
-  </profile>
   </profiles>
   <reporting>
     <outputDirectory>target/site</outputDirectory>
