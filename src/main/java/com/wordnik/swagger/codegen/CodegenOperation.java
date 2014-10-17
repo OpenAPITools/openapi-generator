@@ -9,7 +9,7 @@ import java.util.*;
 public class CodegenOperation {
   public Boolean hasParams, returnTypeIsPrimitive, returnSimpleType;
   public String path, operationId, returnType, httpMethod, returnBaseType, 
-    returnContainer, summary, notes, baseName;
+    returnContainer, summary, notes, baseName, defaultValue;
 
   public List<Map<String, String>> consumes, produces;
   public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
