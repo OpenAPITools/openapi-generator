@@ -601,7 +601,7 @@ public class DefaultCodegen {
           op.returnBaseType = cm.baseType;
       }
 
-      op.defaultValue = toDefaultValue(responseProperty);
+      op.defaultResponse = toDefaultValue(responseProperty);
       op.returnType = cm.datatype;
       if(cm.isContainer != null) {
         op.returnContainer = cm.complexType;
@@ -647,6 +647,7 @@ public class DefaultCodegen {
             collectionFormat = qp.getCollectionFormat();
             CodegenProperty pr = fromProperty("inner", inner);
             p.baseType = pr.datatype;
+            imports.add(pr.datatype);
           }
           else
             property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
@@ -666,7 +667,8 @@ public class DefaultCodegen {
             ModelImpl impl = (ModelImpl) model;
             CodegenModel cm = fromModel(bp.getName(), impl);
             p.dataType = getTypeDeclaration(cm.classname);
-            // imports.add(p.dataType);
+            System.out.println("added import for " + p.dataType);
+            imports.add(p.dataType);
           }
           else if(model instanceof ArrayModel) {
             // to use the built-in model parsing, we unwrap the ArrayModel
