@@ -1,3 +1,5 @@
+# Note!  The swagger-codegen will be moving from the wordnik organization to swagger-api!
+
 # Swagger Code Generator
 
 [![Build Status](https://travis-ci.org/wordnik/swagger-codegen.png)](https://travis-ci.org/wordnik/swagger-codegen)
