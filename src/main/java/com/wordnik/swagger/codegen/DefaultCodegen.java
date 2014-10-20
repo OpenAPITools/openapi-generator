@@ -636,7 +636,8 @@ public class DefaultCodegen {
         CodegenParameter p = new CodegenParameter();
         p.baseName = param.getName();
         p.description = param.getDescription();
-
+        p.required = param.getRequired();
+        
         if(param instanceof SerializableParameter) {
           SerializableParameter qp = (SerializableParameter) param;
           Property property = null;
