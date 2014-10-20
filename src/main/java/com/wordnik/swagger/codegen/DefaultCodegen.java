@@ -705,6 +705,7 @@ public class DefaultCodegen {
           p.isQueryParam = new Boolean(true);
         }
         else if(param instanceof PathParameter) {
+          p.required = true;
           pathParams.add(p);
           p.isPathParam = new Boolean(true);
         }
