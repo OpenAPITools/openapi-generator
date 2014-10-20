@@ -8,6 +8,14 @@ import {{invokerPackage}}.ApiInvoker;
 import java.util.*;
 import java.io.File;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.entity.mime.*;
+import org.apache.http.entity.mime.content.*;
+import org.apache.http.entity.ContentType;
+
+import android.webkit.MimeTypeMap;
+
 {{#operations}}
 public class {{classname}} {
   String basePath = "{{basePath}}";
@@ -29,12 +37,20 @@ public class {{classname}} {
     return basePath;
   }
 
+  private static String getMimeType(File file) {
+    MimeTypeMap mime = MimeTypeMap.getSingleton();
+    int index = file.getName().lastIndexOf('.')+1;
+    String ext = file.getName().substring(index).toLowerCase();
+    return mime.getMimeTypeFromExtension(ext);
+  }
+
   {{#operation}}
   {{#errorList}} //error info- code: {{code}} reason: "{{reason}}" model: {{#responseModel}}{{responseModel}}
   {{/responseModel}}{{^responseModel}}<none>
   {{/responseModel}}
   {{/errorList}}
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    Object postBody = {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#requiredParamCount}}
     // verify required params are set
     if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
@@ -56,10 +72,43 @@ public class {{classname}} {
     {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
+    };
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if(contentType.startsWith("application/x-www-form-urlencoded")) {
+      boolean hasFields = false;
+      List<NameValuePair> mp = new ArrayList<NameValuePair>();
+      {{#formParams}}
+      hasFields = true;
+      mp.add(new BasicNameValuePair("{{baseName}}", {{paramName}}));
+      {{/formParams}}
+      if(hasFields)
+        postBody = mp;
+    }
+    else if(contentType.startsWith("multipart/form-data")) {
+      boolean hasFields = false;
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+      {{#formParams}}
+      hasFields = true;
+      builder.addTextBody("{{baseName}}", {{paramName}}.toString());
+      {{/formParams}}
+      {{#bodyParam}}
+      hasFields = true;
+      builder.addBinaryBody("file", {{bodyParam}}, ContentType.create(getMimeType({{bodyParam}})), {{bodyParam}}.getName());
+      {{/bodyParam}}
+      if(hasFields)
+        postBody = builder;
+    }
+    else {
+      postBody = {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
       }

@@ -12,7 +12,9 @@ import org.apache.http.client.methods.*;
 import org.apache.http.conn.*;
 import org.apache.http.conn.scheme.*;
 import org.apache.http.conn.ssl.*;
+import org.apache.http.entity.mime.*;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.impl.client.*;
 import org.apache.http.impl.conn.*;
 import org.apache.http.params.*;
@@ -156,10 +158,23 @@ public class ApiInvoker {
       }
       else if ("POST".equals(method)) {
         HttpPost post = new HttpPost(url);
-
         if (body != null) {
-          post.setHeader("Content-Type", contentType);
-          post.setEntity(new StringEntity(serialize(body), "UTF-8"));
+          if("application/x-www-form-urlencoded".equals(contentType)) {
+            post.setHeader("Content-Type", contentType);
+            post.setEntity(new UrlEncodedFormEntity((List<NameValuePair>)body));		
+          }
+          else if("multipart/form-data".equals(contentType)) {
+            String boundary = "-------------" + System.currentTimeMillis();
+            post.setHeader("Content-type", "multipart/form-data; boundary="+boundary);
+	    MultipartEntityBuilder builder = (MultipartEntityBuilder)body;
+	    builder.setBoundary(boundary);
+            post.setEntity(builder.build());		
+          }
+          else {
+            post.setHeader("Content-Type", contentType);
+            post.setEntity(new StringEntity(serialize(body), "UTF-8"));
+          }
+
         }
         for(String key : headers.keySet()) {
           post.setHeader(key, headers.get(key));
@@ -169,8 +184,21 @@ public class ApiInvoker {
       else if ("PUT".equals(method)) {
         HttpPut put = new HttpPut(url);
         if(body != null) {
-          put.setHeader("Content-Type", contentType);
-          put.setEntity(new StringEntity(serialize(body), "UTF-8"));
+          if("application/x-www-form-urlencoded".equals(contentType)) {
+            put.setHeader("Content-Type", contentType);
+            put.setEntity(new UrlEncodedFormEntity((List<NameValuePair>)body));		
+          }
+          else if("multipart/form-data".equals(contentType)) {
+            String boundary = "-------------" + System.currentTimeMillis();
+            put.setHeader("Content-type", "multipart/form-data; boundary="+boundary);
+	    MultipartEntityBuilder builder = (MultipartEntityBuilder)body;
+	    builder.setBoundary(boundary);
+            put.setEntity(builder.build());		
+          }
+          else {
+            put.setHeader("Content-Type", contentType);
+            put.setEntity(new StringEntity(serialize(body), "UTF-8"));
+          }
         }
         for(String key : headers.keySet()) {
           put.setHeader(key, headers.get(key));
