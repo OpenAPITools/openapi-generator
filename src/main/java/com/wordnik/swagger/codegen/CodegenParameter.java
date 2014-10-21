@@ -9,5 +9,5 @@ public class CodegenParameter {
    * this property is required and its value MUST be true. Otherwise, the property
    * MAY be included and its default value is false.
    */
-  public boolean required;
+  public Boolean required;
 }
