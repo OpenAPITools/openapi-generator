@@ -1,20 +1,14 @@
 package com.wordnik.swagger.codegen
 
-import scala.collection.mutable
-import java.io.{File, FileWriter}
+import java.io.File
+
+import com.wordnik.swagger.codegen.language.CodegenConfig
 import com.wordnik.swagger.codegen.model._
-import scala.collection.mutable.{HashMap, ListBuffer}
-import language.CodegenConfig
-import scala.io.Source
-import org.json4s.jackson.Serialization._
-import org.fusesource.scalate.{Template, TemplateSource, TemplateEngine}
-import org.apache.commons.io.FileUtils
-import com.wordnik.swagger.codegen.util.{CoreUtils, ApiExtractor, ResourceExtractor}
-import com.wordnik.swagger.codegen.spec.SwaggerSpecValidator
 import mojolly.inflector.InflectorImports._
-import org.rogach.scallop.{ScallopConf, Scallop}
-import scala.annotation.switch
+import org.rogach.scallop.ScallopConf
+
 import scala.collection.JavaConverters._
+import scala.collection.mutable.HashMap
 
 case class SwaggerApi(
              clientName: String,
@@ -119,7 +113,8 @@ object ScalaAsyncClientGenerator extends App {
     props += "fileMap" -> resUrl
 
   props += "clientName" -> cfg.api.clientName.underscore.pascalize
-  
+  props += "projectName" -> cfg.api.clientName.underscore.dasherize
+
   clientOpts.properties = props.toMap.asJava
 
   println(appBanner)
