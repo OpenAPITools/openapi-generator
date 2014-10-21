@@ -521,8 +521,8 @@ public class DefaultCodegen {
     }
     op.path = path;
     op.operationId = operationId;
-    op.summary = operation.getSummary();
-    op.notes = operation.getDescription();
+    op.summary = operation.getDescription();
+    op.notes = operation.getSummary();
     op.tags = operation.getTags();
 
     Response methodResponse = null;
