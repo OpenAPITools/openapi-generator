@@ -648,7 +648,7 @@ public class DefaultCodegen {
             collectionFormat = qp.getCollectionFormat();
             CodegenProperty pr = fromProperty("inner", inner);
             p.baseType = pr.datatype;
-            imports.add(pr.datatype);
+            imports.add(pr.baseType);
           }
           else
             property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
@@ -657,8 +657,9 @@ public class DefaultCodegen {
           p.dataType = model.datatype;
           p.paramName = toParamName(qp.getName());
 
-          if(model.complexType != null)
+          if(model.complexType != null) {
             imports.add(model.complexType);
+          }
         }
         else {
           BodyParameter bp = (BodyParameter) param;
@@ -668,7 +669,6 @@ public class DefaultCodegen {
             ModelImpl impl = (ModelImpl) model;
             CodegenModel cm = fromModel(bp.getName(), impl);
             p.dataType = getTypeDeclaration(cm.classname);
-            System.out.println("added import for " + p.dataType);
             imports.add(p.dataType);
           }
           else if(model instanceof ArrayModel) {
@@ -679,6 +679,7 @@ public class DefaultCodegen {
             // get the single property
             ArrayProperty ap = new ArrayProperty().items(impl.getItems());
             CodegenProperty cp = fromProperty("inner", ap);
+
             imports.add(cp.baseType);
             p.dataType = cp.datatype;
             p.isContainer = true;
@@ -691,8 +692,9 @@ public class DefaultCodegen {
                 name = typeMapping.get(name);
               else {
                 name = toModelName(name);
-                if(defaultIncludes.contains(name))
+                if(defaultIncludes.contains(name)) {
                   imports.add(name);
+                }
                 name = getTypeDeclaration(name);
               }
               p.dataType = name;
