@@ -66,6 +66,7 @@ public class DefaultGenerator implements Generator {
       String basePath = hostBuilder.toString();
       List<Object> allOperations = new ArrayList<Object>();
       List<Object> allModels = new ArrayList<Object>();
+
       // models
       Map<String, Model> definitions = swagger.getDefinitions();
       for(String name: definitions.keySet()) {
@@ -133,6 +134,7 @@ public class DefaultGenerator implements Generator {
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
       bundle.put("apiFolder", config.apiPackage().replaceAll("\\.", "/"));
+      bundle.put("modelPackage", config.modelPackage());
 
       for(int i = 0; i < allModels.size() - 1; i++) {
         HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
