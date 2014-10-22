@@ -1,6 +1,6 @@
 # Swagger Code Generator
 
-[![Build Status](https://travis-ci.org/wordnik/swagger-codegen.png)](https://travis-ci.org/wordnik/swagger-codegen)
+[![Build Status](https://travis-ci.org/swagger-api/swagger-codegen.png)](https://travis-ci.org/swagger-api/swagger-codegen)
 
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
@@ -10,7 +10,7 @@ This is the swagger codegen project, which allows generation of client libraries
 The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swagger removes the guesswork in calling the service.
 
 
-Check out [Swagger-Spec](https://github.com/wordnik/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
+Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
 ## Compatability
@@ -18,9 +18,9 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
 ----------------------- | ------------ | -------------------------- | -----
-2.1.0 (in development)  | n/a          | 2.0           | [branch develop_2.0](https://github.com/wordnik/swagger-codegen/tree/develop_2.0)
-2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/wordnik/swagger-codegen/tree/v2.0.17)
-1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/wordnik/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
+2.1.0 (in development)  | n/a          | 2.0           | [branch develop_2.0](https://github.com/swagger-api/swagger-codegen/tree/develop_2.0)
+2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
+1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
 
 ### Prerequisites
@@ -86,7 +86,7 @@ Don't like the default swagger client syntax?  Want a different language support
 You can look at `src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
 
 ### Where is Javascript???
-See our [javascript library](http://github.com/wordnik/swagger.js)--it's completely dynamic and doesn't require
+See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
 static code generation.
 There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a swagger specification.
 
