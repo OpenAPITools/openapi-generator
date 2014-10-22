@@ -1,8 +1,6 @@
-# Note!  The swagger-codegen will be moving from the wordnik organization to swagger-api!
-
 # Swagger Code Generator
 
-[![Build Status](https://travis-ci.org/wordnik/swagger-codegen.png)](https://travis-ci.org/wordnik/swagger-codegen)
+[![Build Status](https://travis-ci.org/swagger-api/swagger-codegen.png)](https://travis-ci.org/swagger-api/swagger-codegen)
 
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a 
@@ -13,7 +11,7 @@ Swagger-compliant server.
 The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swagger removes the guesswork in calling the service.
 
 
-Check out [Swagger-Spec](https://github.com/wordnik/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
+Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
 ## Compatability
@@ -21,9 +19,9 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
 ----------------------- | ------------ | -------------------------- | -----
-2.1.0 (in development)  | n/a          | 2.0           | [branch develop_2.0](https://github.com/wordnik/swagger-codegen/tree/develop_2.0)
-2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/wordnik/swagger-codegen/tree/v2.0.17)
-1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/wordnik/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
+2.1.0 (in development)  | n/a          | 2.0           | [branch develop_2.0](https://github.com/swagger-api/swagger-codegen/tree/develop_2.0)
+2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
+1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
 
 ### Prerequisites
@@ -35,7 +33,7 @@ Note!  Some folks have had issues with OOM errors with java version "1.6.0_51". 
 
 * [Apache maven 3.0.3 or greater](http://maven.apache.org/)
 
-* [Scala 2.9.1](http://www.scala-lang.org)
+* [Scala 2.10.4](http://www.scala-lang.org)
 
 * [sbt (only download if you're building on Windows)](http://www.scala-sbt.org/)
 
@@ -61,7 +59,7 @@ You can build a client against Wordnik's [petstore](http://petstore.swagger.word
 ./bin/scala-petstore.sh
 ```
 
-This will run the script in [samples/client/petstore/ScalaPetstoreCodegen.scala](https://github.com/wordnik/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) and create the client.  You can then
+This will run the script in [samples/client/petstore/ScalaPetstoreCodegen.scala](https://github.com/swagger-api/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) and create the client.  You can then
 compile and run the client, as well as unit tests against it:
 
 ```
@@ -90,7 +88,7 @@ It's just as easy--you can either run the default generators:
 Replace `Scala` with `Flash`, `Java`, `Objc`, `PHP`, `Python`, `Python3`, `Ruby`.
 
 You will probably want to override some of the defaults--like packages, etc.  For doing this, just create a scala
-script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://github.com/wordnik/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) as an example:
+script with the overrides you want.  Follow [ScalaPetstoreCodegen](https://github.com/swagger-api/swagger-codegen/blob/master/samples/client/petstore/scala/ScalaPetstoreCodegen.scala) as an example:
 
 For example, create `src/main/scala/MyCodegen.scala` with these contents:
 
@@ -140,7 +138,7 @@ You can look at `src/main/resources/${your-language}` for examples.  To make you
 and override the `templateDir` in your script to point to the right place.  It actually is that easy.
 
 ### Where is Javascript???
-See our [javascript library](http://github.com/wordnik/swagger.js)--it's completely dynamic and doesn't require
+See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
 static code generation.
 There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a swagger specification.
 
@@ -163,7 +161,7 @@ ci server... or while coding on an airplane.
 
 ### Validating your swagger spec
 You can use the validation tool to see that your server is creating a proper spec file.  If you want to learn
-more about the spec file and format, please see [swagger-core](https://github.com/wordnik/swagger-core/wiki).  This
+more about the spec file and format, please see [swagger-core](https://github.com/swagger-spec).  This
 tool will read the server and generate a report of any violations of the spec.  If there are violations, the
 client codegen and ui may not work correctly.
 
@@ -183,35 +181,35 @@ If you need to make static pages or don't want the sandbox of the swagger-ui, yo
 Will produce the output here:
 
 ```
-https://github.com/wordnik/swagger-codegen/tree/master/samples/swagger-static-docs/docs
+https://github.com/swagger-api/swagger-codegen/tree/master/samples/swagger-static-docs/docs
 ```
 
 which is based on these templates:
 
 ```
-https://github.com/wordnik/swagger-codegen/tree/master/src/main/resources/swagger-static
+https://github.com/swagger-api/swagger-codegen/tree/master/src/main/resources/swagger-static
 ```
 
 and looks like this
 
-![Image](https://raw.github.com/wordnik/swagger-codegen/master/samples/docs/swagger-static-docs/static-docs.png)
+![Image](https://raw.github.com/swagger-api/swagger-codegen/master/samples/docs/swagger-static-docs/static-docs.png)
 
 ### To build a server stub
 
 You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
 
-* [javascript node.js Server generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/node)
+* [javascript node.js Server generator](https://github.com/swagger-api/swagger-codegen/tree/master/samples/server-generator/node)
 
-* [ruby sinatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/sinatra)
+* [ruby sinatra generator](https://github.com/swagger-api/swagger-codegen/tree/master/samples/server-generator/sinatra)
 
-* [scala scalatra generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/scalatra)
+* [scala scalatra generator](https://github.com/swagger-api/swagger-codegen/tree/master/samples/server-generator/scalatra)
 
-* [java jax-rs generator](https://github.com/wordnik/swagger-codegen/tree/master/samples/server-generator/java-jaxrs)
+* [java jax-rs generator](https://github.com/swagger-api/swagger-codegen/tree/master/samples/server-generator/java-jaxrs)
 
 
 ### Migrating from Swagger 1.1 to 1.2 format
 
-If you've spent time hand-crafting your swagger spec files, you can use the [SpecConverter](https://github.com/wordnik/swagger-codegen/blob/master/src/main/scala/com/wordnik/swagger/codegen/SpecConverter.scala) to do the dirty work.  For example:
+If you've spent time hand-crafting your swagger spec files, you can use the [SpecConverter](https://github.com/swagger-api/swagger-codegen/blob/master/src/main/scala/com/wordnik/swagger/codegen/SpecConverter.scala) to do the dirty work.  For example:
 
 ```bash
 $ ./bin/update-spec.sh http://developer.wordnik.com/v4/resources.json wordnik-developer
@@ -245,7 +243,7 @@ either repackage the library OR modify your codegen script to use a file path!
 License
 -------
 
-Copyright 2014 Wordnik, Inc.
+Copyright 2014 Reverb Technologies, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
