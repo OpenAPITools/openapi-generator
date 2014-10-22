@@ -21,6 +21,7 @@ public class CodegenOperation {
   public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
 
   public Set<String> imports = new HashSet<String>();
+  public List<Map<String, String>> examples;
 
   // legacy support
   public String nickname;

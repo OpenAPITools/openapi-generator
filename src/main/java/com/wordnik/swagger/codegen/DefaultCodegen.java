@@ -115,7 +115,10 @@ public class DefaultCodegen {
   }
 
   public String toVarName(String name) {
-    return name;
+    if(reservedWords.contains(name))
+      return escapeReservedWord(name);
+    else
+      return name;
   }
 
   public String toParamName(String name) {
@@ -314,7 +317,10 @@ public class DefaultCodegen {
 
   public CodegenModel fromModel(String name, Model model) {
     CodegenModel m = new CodegenModel();
-    m.name = name;
+    if(reservedWords.contains(name))
+      m.name = escapeReservedWord(name);
+    else
+      m.name = name;
     m.description = model.getDescription();
     m.classname = toModelName(name);
     m.classVarName = toVarName(name);
@@ -498,12 +504,13 @@ public class DefaultCodegen {
 
     String operationId = operation.getOperationId();
     if(operationId == null) {
-      path = path.replaceAll("\\{", "");
-      path = path.replaceAll("\\}", "");
-      String[] parts = (path + "/" + httpMethod).split("/");
+      String tmpPath = path;
+      tmpPath = tmpPath.replaceAll("\\{", "");
+      tmpPath = tmpPath.replaceAll("\\}", "");
+      String[] parts = (tmpPath + "/" + httpMethod).split("/");
       StringBuilder builder = new StringBuilder();
-      if("/".equals(path)) {
-        // must be root path
+      if("/".equals(tmpPath)) {
+        // must be root tmpPath
         builder.append("root");
       }
       for(int i = 0; i < parts.length; i++) {
@@ -575,6 +582,7 @@ public class DefaultCodegen {
             r.code = responseCode;
           r.message = response.getDescription();
           r.schema = response.getSchema();
+          r.examples = toExamples(response.getExamples());
           op.responses.add(r);
         }
         for(int i = 0; i < op.responses.size() - 1; i++) {
@@ -600,7 +608,7 @@ public class DefaultCodegen {
         else
           op.returnBaseType = cm.baseType;
       }
-
+      op.examples = toExamples(methodResponse.getExamples());
       op.defaultResponse = toDefaultValue(responseProperty);
       op.returnType = cm.datatype;
       if(cm.isContainer != null) {
@@ -748,6 +756,22 @@ public class DefaultCodegen {
       op.hasParams = true;
 
     return op;
+  }
+
+  protected List<Map<String, String>> toExamples(Map<String, String> examples) {
+    if(examples == null)
+      return null;
+
+    List<Map<String, String>> output = new ArrayList<Map<String, String>>();
+    for(String key: examples.keySet()) {
+      String value = examples.get(key);
+
+      Map<String, String> kv = new HashMap<String, String>();
+      kv.put("contentType", key);
+      kv.put("example", value);
+      output.add(kv);
+    }
+    return output;
   }
 
   private List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
