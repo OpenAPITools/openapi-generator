@@ -64,6 +64,7 @@ public class DefaultGenerator implements Generator {
         hostBuilder.append("https://");
       hostBuilder.append(swagger.getHost()).append(swagger.getBasePath());
       String basePath = hostBuilder.toString();
+
       List<Object> allOperations = new ArrayList<Object>();
       List<Object> allModels = new ArrayList<Object>();
 

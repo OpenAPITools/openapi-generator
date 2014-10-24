@@ -631,6 +631,7 @@ public class DefaultCodegen {
       imports.add(op.returnBaseType);
 
     List<Parameter> parameters = operation.getParameters();
+    CodegenParameter bodyParam = null;
     List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
     List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
     List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
@@ -731,6 +732,7 @@ public class DefaultCodegen {
         else if(param instanceof BodyParameter) {
           bodyParams.add(p);
           p.isBodyParam = new Boolean(true);
+          bodyParam = p;
         }
         // else if(param instanceof FormParameter)
         //   formParams.add(p);
@@ -741,6 +743,7 @@ public class DefaultCodegen {
         op.imports.add(i);
       }
     }
+    op.bodyParam = bodyParam;
     op.httpMethod = httpMethod.toUpperCase();
     op.allParams = addHasMore(allParams);
     op.bodyParams = addHasMore(bodyParams);

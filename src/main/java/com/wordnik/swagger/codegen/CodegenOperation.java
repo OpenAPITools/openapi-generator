@@ -11,6 +11,7 @@ public class CodegenOperation {
     returnContainer, summary, notes, baseName, defaultResponse;
 
   public List<Map<String, String>> consumes, produces;
+  public CodegenParameter bodyParam;
   public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
   public List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
   public List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
