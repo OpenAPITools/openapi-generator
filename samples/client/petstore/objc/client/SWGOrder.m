@@ -8,8 +8,7 @@
     quantity: (NSNumber*) quantity
     shipDate: (SWGDate*) shipDate
     status: (NSString*) status
-    complete: (NSNumber*) complete
-    keyValuePairs: (SWGMap*) keyValuePairs { 
+    complete: (NSNumber*) complete { 
     
     __id = _id;
     _petId = petId;
@@ -17,11 +16,9 @@
     _shipDate = shipDate;
     _status = status;
     _complete = complete;
-    _keyValuePairs = keyValuePairs;
     
     return self;
 }
-
 -(id) initWithValues:(NSDictionary*)dict
 {
     self = [super init];
@@ -30,9 +27,12 @@
         _petId = dict[@"petId"];
         _quantity = dict[@"quantity"];
         
+        id shipDate_dict = dict[@"shipDate"];
+        if(shipDate_dict != nil)
+            _shipDate = [[SWGDate  alloc]initWithValues:shipDate_dict];
+        
         _status = dict[@"status"];
         _complete = dict[@"complete"];
-        
         
     }
     return self;
@@ -40,16 +40,53 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    
+    
     if(__id != nil)
-        dict[@"id"] = [(SWGObject*)__id asDictionary];
+        dict[@"id"] = __id;
+    
+    
+    
+    
     if(_petId != nil)
-        dict[@"petId"] = [(SWGObject*)_petId asDictionary];
+        dict[@"petId"] = _petId;
+    
+    
+    
+    
     if(_quantity != nil)
-        dict[@"quantity"] = [(SWGObject*)_quantity asDictionary];
+        dict[@"quantity"] = _quantity;
+    
+    
+    
+    if(_shipDate != nil){
+        
+        
+        if(_shipDate && [_shipDate isKindOfClass:[SWGDate class]]) {
+            NSString * dateString = [(SWGDate*)_shipDate toString];
+            if(dateString){
+            dict[@"shipDate"] = dateString;
+            }
+        }
+        else {
+            if(_shipDate != nil)
+            dict[@"shipDate"] = [(SWGObject*)_shipDate asDictionary];
+        }
+        
+    }
+    
+    
+    
     if(_status != nil)
-        dict[@"status"] = [(SWGObject*)_status asDictionary];
+        dict[@"status"] = _status;
+    
+    
+    
+    
     if(_complete != nil)
-        dict[@"complete"] = [(SWGObject*)_complete asDictionary];
+        dict[@"complete"] = _complete;
+    
+    
     
     NSDictionary* output = [dict copy];
     return output;

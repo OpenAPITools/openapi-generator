@@ -18,8 +18,8 @@
  
  */
 -(NSNumber*) placeOrderWithCompletionBlock : (SWGOrder*) body
+    completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock;
 
-    completionHandler: (void (^)(NSError* error))completionBlock;
 /**
 
  Find purchase order by ID

@@ -6,7 +6,7 @@
 
 
 @implementation SWGUserApi
-static NSString * basePath = @"";
+static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
 
 +(SWGUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGUserApi* singletonAPI = nil;
@@ -72,6 +72,40 @@ static NSString * basePath = @"";
 
     id bodyDictionary = nil;
     
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(SWGObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        // convert it to a dictionary
+        NSError * error;
+        NSString * str = (NSString*)body;
+        NSDictionary *JSON =
+            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:NSJSONReadingMutableContainers
+                                              error:&error];
+        bodyDictionary = JSON;
+    }
+    else if([body isKindOfClass: [SWGFile class]]) {
+        requestContentType = @"form-data";
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
+    
     
     
 
@@ -124,6 +158,40 @@ static NSString * basePath = @"";
 
     id bodyDictionary = nil;
     
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(SWGObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        // convert it to a dictionary
+        NSError * error;
+        NSString * str = (NSString*)body;
+        NSDictionary *JSON =
+            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:NSJSONReadingMutableContainers
+                                              error:&error];
+        bodyDictionary = JSON;
+    }
+    else if([body isKindOfClass: [SWGFile class]]) {
+        requestContentType = @"form-data";
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
+    
     
     
 
@@ -175,6 +243,40 @@ static NSString * basePath = @"";
     
 
     id bodyDictionary = nil;
+    
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(SWGObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        // convert it to a dictionary
+        NSError * error;
+        NSString * str = (NSString*)body;
+        NSDictionary *JSON =
+            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:NSJSONReadingMutableContainers
+                                              error:&error];
+        bodyDictionary = JSON;
+    }
+    else if([body isKindOfClass: [SWGFile class]]) {
+        requestContentType = @"form-data";
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
     
     
     
@@ -394,6 +496,40 @@ static NSString * basePath = @"";
     
 
     id bodyDictionary = nil;
+    
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(SWGObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        // convert it to a dictionary
+        NSError * error;
+        NSString * str = (NSString*)body;
+        NSDictionary *JSON =
+            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:NSJSONReadingMutableContainers
+                                              error:&error];
+        bodyDictionary = JSON;
+    }
+    else if([body isKindOfClass: [SWGFile class]]) {
+        requestContentType = @"form-data";
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
     
     
     

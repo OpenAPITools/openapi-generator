@@ -6,7 +6,7 @@
 
 
 @implementation SWGStoreApi
-static NSString * basePath = @"";
+static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
 
 +(SWGStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGStoreApi* singletonAPI = nil;
@@ -51,8 +51,8 @@ static NSString * basePath = @"";
 
 
 -(NSNumber*) placeOrderWithCompletionBlock:(SWGOrder*) body        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock {
+        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
+         {
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order", basePath];
 
@@ -72,6 +72,40 @@ static NSString * basePath = @"";
 
     id bodyDictionary = nil;
     
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(SWGObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        // convert it to a dictionary
+        NSError * error;
+        NSString * str = (NSString*)body;
+        NSDictionary *JSON =
+            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:NSJSONReadingMutableContainers
+                                              error:&error];
+        bodyDictionary = JSON;
+    }
+    else if([body isKindOfClass: [SWGFile class]]) {
+        requestContentType = @"form-data";
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
+    
     
     
 
@@ -82,22 +116,27 @@ static NSString * basePath = @"";
     
     
     
-    
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"POST" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
+    return [client dictionary:requestUrl 
+                              method:@"POST" 
+                         queryParams:queryParams 
+                                body:bodyDictionary 
+                        headerParams:headerParams
+                  requestContentType:requestContentType
+                 responseContentType:responseContentType
+                     completionBlock:^(NSDictionary *data, NSError *error) {
                         if (error) {
-                            completionBlock(error);
+                            completionBlock(nil, error);
+                            
                             return;
                         }
-                        completionBlock(nil);
+                        
+                        SWGOrder *result = nil;
+                        if (data) {
+                            result = [[SWGOrder    alloc]initWithValues: data];
+                        }
+                        completionBlock(result , nil);
+                        
                     }];
-    
     
 
 }

@@ -11,7 +11,6 @@
     
     return self;
 }
-
 -(id) initWithValues:(NSDictionary*)dict
 {
     self = [super init];
@@ -25,10 +24,18 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    
+    
     if(__id != nil)
-        dict[@"id"] = [(SWGObject*)__id asDictionary];
+        dict[@"id"] = __id;
+    
+    
+    
+    
     if(_name != nil)
-        dict[@"name"] = [(SWGObject*)_name asDictionary];
+        dict[@"name"] = _name;
+    
+    
     
     NSDictionary* output = [dict copy];
     return output;

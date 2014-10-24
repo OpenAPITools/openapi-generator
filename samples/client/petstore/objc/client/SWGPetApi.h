@@ -66,13 +66,30 @@
 
 /**
 
+ Updates a pet in the store with form data
+ 
+
+ @param petId ID of pet that needs to be updated
+ @param name Updated name of the pet
+ @param status Updated status of the pet
+ 
+ */
+-(NSNumber*) updatePetWithFormWithCompletionBlock : (NSString*) petId
+            name: (NSString*) name
+            status: (NSString*) status
+
+    completionHandler: (void (^)(NSError* error))completionBlock;
+/**
+
  Deletes a pet
  
 
+ @param api_key 
  @param petId Pet id to delete
  
  */
--(NSNumber*) deletePetWithCompletionBlock : (NSNumber*) petId
+-(NSNumber*) deletePetWithCompletionBlock : (NSString*) api_key
+            petId: (NSNumber*) petId
 
     completionHandler: (void (^)(NSError* error))completionBlock;
 @end

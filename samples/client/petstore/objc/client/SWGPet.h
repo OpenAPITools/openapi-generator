@@ -6,12 +6,12 @@
 
 @interface SWGPet : SWGObject
 
-@property(nonatomic) NSNumber* _id;  /* the identifier for the pet  */
+@property(nonatomic) NSNumber* _id;  
 @property(nonatomic) SWGCategory* category;  
 @property(nonatomic) NSString* name;  
 @property(nonatomic) NSArray* photoUrls;  
 @property(nonatomic) NSArray* tags;  
-@property(nonatomic) NSString* status;  
+@property(nonatomic) NSString* status;  /* pet status in the store  */
 - (id) _id: (NSNumber*) _id
   
        category: (SWGCategory*) category
@@ -24,7 +24,6 @@
   
        status: (NSString*) status;
        
-
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
 

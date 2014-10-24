@@ -11,7 +11,7 @@
 @property(nonatomic) NSString* email;  
 @property(nonatomic) NSString* password;  
 @property(nonatomic) NSString* phone;  
-@property(nonatomic) NSNumber* userStatus;  
+@property(nonatomic) NSNumber* userStatus;  /* User Status  */
 - (id) _id: (NSNumber*) _id
   
        username: (NSString*) username
@@ -28,7 +28,6 @@
   
        userStatus: (NSNumber*) userStatus;
        
-
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
 

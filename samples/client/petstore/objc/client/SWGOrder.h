@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "SWGObject.h"
 #import "SWGDate.h"
-#import "SWGMap.h"
 
 
 @interface SWGOrder : SWGObject
@@ -10,9 +9,8 @@
 @property(nonatomic) NSNumber* petId;  
 @property(nonatomic) NSNumber* quantity;  
 @property(nonatomic) SWGDate* shipDate;  
-@property(nonatomic) NSString* status;  
+@property(nonatomic) NSString* status;  /* Order Status  */
 @property(nonatomic) NSNumber* complete;  
-@property(nonatomic) SWGMap* keyValuePairs;  
 - (id) _id: (NSNumber*) _id
   
        petId: (NSNumber*) petId
@@ -23,11 +21,8 @@
   
        status: (NSString*) status
   
-       complete: (NSNumber*) complete
-  
-       keyValuePairs: (SWGMap*) keyValuePairs;
+       complete: (NSNumber*) complete;
        
-
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
 

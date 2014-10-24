@@ -23,7 +23,6 @@
     
     return self;
 }
-
 -(id) initWithValues:(NSDictionary*)dict
 {
     self = [super init];
@@ -43,22 +42,54 @@
 
 -(NSDictionary*) asDictionary {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    
+    
     if(__id != nil)
-        dict[@"id"] = [(SWGObject*)__id asDictionary];
+        dict[@"id"] = __id;
+    
+    
+    
+    
     if(_username != nil)
-        dict[@"username"] = [(SWGObject*)_username asDictionary];
+        dict[@"username"] = _username;
+    
+    
+    
+    
     if(_firstName != nil)
-        dict[@"firstName"] = [(SWGObject*)_firstName asDictionary];
+        dict[@"firstName"] = _firstName;
+    
+    
+    
+    
     if(_lastName != nil)
-        dict[@"lastName"] = [(SWGObject*)_lastName asDictionary];
+        dict[@"lastName"] = _lastName;
+    
+    
+    
+    
     if(_email != nil)
-        dict[@"email"] = [(SWGObject*)_email asDictionary];
+        dict[@"email"] = _email;
+    
+    
+    
+    
     if(_password != nil)
-        dict[@"password"] = [(SWGObject*)_password asDictionary];
+        dict[@"password"] = _password;
+    
+    
+    
+    
     if(_phone != nil)
-        dict[@"phone"] = [(SWGObject*)_phone asDictionary];
+        dict[@"phone"] = _phone;
+    
+    
+    
+    
     if(_userStatus != nil)
-        dict[@"userStatus"] = [(SWGObject*)_userStatus asDictionary];
+        dict[@"userStatus"] = _userStatus;
+    
+    
     
     NSDictionary* output = [dict copy];
     return output;

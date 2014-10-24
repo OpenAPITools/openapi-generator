@@ -6,7 +6,7 @@
 
 
 @implementation SWGPetApi
-static NSString * basePath = @"";
+static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
 
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGPetApi* singletonAPI = nil;
@@ -72,6 +72,40 @@ static NSString * basePath = @"";
 
     id bodyDictionary = nil;
     
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(SWGObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        // convert it to a dictionary
+        NSError * error;
+        NSString * str = (NSString*)body;
+        NSDictionary *JSON =
+            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:NSJSONReadingMutableContainers
+                                              error:&error];
+        bodyDictionary = JSON;
+    }
+    else if([body isKindOfClass: [SWGFile class]]) {
+        requestContentType = @"form-data";
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
+    
     
     
 
@@ -123,6 +157,40 @@ static NSString * basePath = @"";
     
 
     id bodyDictionary = nil;
+    
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
+        NSMutableArray * objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)body) {
+            if([dict respondsToSelector:@selector(asDictionary)]) {
+                [objs addObject:[(SWGObject*)dict asDictionary]];
+            }
+            else{
+                [objs addObject:dict];
+            }
+        }
+        bodyDictionary = objs;
+    }
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
+    }
+    else if([body isKindOfClass:[NSString class]]) {
+        // convert it to a dictionary
+        NSError * error;
+        NSString * str = (NSString*)body;
+        NSDictionary *JSON =
+            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
+                                            options:NSJSONReadingMutableContainers
+                                              error:&error];
+        bodyDictionary = JSON;
+    }
+    else if([body isKindOfClass: [SWGFile class]]) {
+        requestContentType = @"form-data";
+        bodyDictionary = body;
+    }
+    else{
+        NSLog(@"don't know what to do with %@", body);
+    }
+
     
     
     
@@ -342,7 +410,9 @@ static NSString * basePath = @"";
 
 }
 
--(NSNumber*) deletePetWithCompletionBlock:(NSNumber*) petId        
+-(NSNumber*) updatePetWithFormWithCompletionBlock:(NSString*) petId        
+            name:(NSString*) name        
+            status:(NSString*) status        
         
         completionHandler: (void (^)(NSError* error))completionBlock {
 
@@ -362,6 +432,61 @@ static NSString * basePath = @"";
     
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
+
+    id bodyDictionary = nil;
+    
+    
+    
+
+    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
+
+    
+
+    
+    
+    
+    
+    return [client stringWithCompletionBlock:requestUrl 
+                                             method:@"POST" 
+                                        queryParams:queryParams 
+                                               body:bodyDictionary 
+                                       headerParams:headerParams
+                                 requestContentType: requestContentType
+                                responseContentType: responseContentType
+                                    completionBlock:^(NSString *data, NSError *error) {
+                        if (error) {
+                            completionBlock(error);
+                            return;
+                        }
+                        completionBlock(nil);
+                    }];
+    
+    
+
+}
+
+-(NSNumber*) deletePetWithCompletionBlock:(NSString*) api_key        
+            petId:(NSNumber*) petId        
+        
+        completionHandler: (void (^)(NSError* error))completionBlock {
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
+
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
+    
+
+    NSString* requestContentType = @"application/json";
+    NSString* responseContentType = @"application/json";
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    if(api_key != nil)
+        headerParams[@"api_key"] = api_key;
 
     id bodyDictionary = nil;
     
