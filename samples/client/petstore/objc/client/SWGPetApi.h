@@ -25,10 +25,10 @@
  Add a new pet to the store
  
 
- @param body Pet object that needs to be added to the store
+ @param pet Pet object that needs to be added to the store
  
  */
--(NSNumber*) addPetWithCompletionBlock : (SWGPet*) body
+-(NSNumber*) addPetWithCompletionBlock : (SWGPet*) pet
 
     completionHandler: (void (^)(NSError* error))completionBlock;
 /**

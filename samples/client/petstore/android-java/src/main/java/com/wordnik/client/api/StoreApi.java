@@ -2,13 +2,19 @@ package com.wordnik.client.api;
 
 import com.wordnik.client.ApiException;
 import com.wordnik.client.ApiInvoker;
-import com.wordnik.client.model.Order;
+
+import com.wordnik.client.model.*;
 
 import java.util.*;
+
+import com.wordnik.client.model.Order;
+
+import java.util.Map;
+import java.util.HashMap;
 import java.io.File;
 
 public class StoreApi {
-  String basePath = "";
+  String basePath = "http://petstore.swagger.wordnik.com/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -29,7 +35,9 @@ public class StoreApi {
 
   
   
-  public void  placeOrder (Order body) throws ApiException {
+  public Order  placeOrder (Order body) throws ApiException {
+    Object postBody = body;
+
     
 
     // create path and map variables
@@ -46,16 +54,16 @@ public class StoreApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return ;
+        return (Order) ApiInvoker.deserialize(response, "", Order.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return ;
+        return  null;
       }
       else {
         throw ex;
@@ -65,6 +73,8 @@ public class StoreApi {
   
   
   public Order  getOrderById (String orderId) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -81,7 +91,7 @@ public class StoreApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return (Order) ApiInvoker.deserialize(response, "", Order.class);
       }
@@ -100,6 +110,8 @@ public class StoreApi {
   
   
   public void  deleteOrder (String orderId) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -116,7 +128,7 @@ public class StoreApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }

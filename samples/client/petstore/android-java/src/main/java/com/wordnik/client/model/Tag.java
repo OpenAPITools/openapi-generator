@@ -15,7 +15,7 @@ public class Tag  {
   
   /**
    **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = false, value = "")
   public Long getId() {
     return id;
   }
@@ -26,7 +26,7 @@ public class Tag  {
   
   /**
    **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = false, value = "")
   public String getName() {
     return name;
   }

@@ -100,8 +100,9 @@ public class User  {
 
   
   /**
+   * User Status
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(required = false, value = "User Status")
   public Integer getUserStatus() {
     return userStatus;
   }

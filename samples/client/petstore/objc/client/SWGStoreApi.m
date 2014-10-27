@@ -54,6 +54,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
          {
 
+    id m_body = body;
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order", basePath];
 
     // remove format in URL if needed
@@ -72,9 +73,9 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
 
     id bodyDictionary = nil;
     
-    if(body != nil && [body isKindOfClass:[NSArray class]]){
+    if(m_body != nil && [m_body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)body) {
+        for (id dict in (NSArray*)m_body) {
             if([dict respondsToSelector:@selector(asDictionary)]) {
                 [objs addObject:[(SWGObject*)dict asDictionary]];
             }
@@ -84,25 +85,25 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
         }
         bodyDictionary = objs;
     }
-    else if([body respondsToSelector:@selector(asDictionary)]) {
-        bodyDictionary = [(SWGObject*)body asDictionary];
+    else if([m_body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)m_body asDictionary];
     }
-    else if([body isKindOfClass:[NSString class]]) {
+    else if([m_body isKindOfClass:[NSString class]]) {
         // convert it to a dictionary
         NSError * error;
-        NSString * str = (NSString*)body;
+        NSString * str = (NSString*)m_body;
         NSDictionary *JSON =
             [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
                                             options:NSJSONReadingMutableContainers
                                               error:&error];
         bodyDictionary = JSON;
     }
-    else if([body isKindOfClass: [SWGFile class]]) {
+    else if([m_body isKindOfClass: [SWGFile class]]) {
         requestContentType = @"form-data";
-        bodyDictionary = body;
+        bodyDictionary = m_body;
     }
     else{
-        NSLog(@"don't know what to do with %@", body);
+        NSLog(@"don't know what to do with %@", m_body);
     }
 
     
@@ -145,6 +146,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
          {
 
+    id m_body = nil;
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
     // remove format in URL if needed
@@ -203,6 +205,7 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/v2";
         
         completionHandler: (void (^)(NSError* error))completionBlock {
 
+    id m_body = nil;
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
     // remove format in URL if needed

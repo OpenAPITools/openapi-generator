@@ -7,10 +7,7 @@ import java.util.*;
 import com.wordnik.swagger.annotations.*;
 
 
-/**
- * A single pet in the store
- **/
-@ApiModel(description = "A single pet in the store")
+@ApiModel(description = "")
 public class Pet  { 
   private Long id = null;
   
@@ -24,9 +21,8 @@ public class Pet  {
   
   
   /**
-   * the identifier for the pet
    **/
-  @ApiModelProperty(required = false, value = "the identifier for the pet")
+  @ApiModelProperty(required = false, value = "")
   public Long getId() {
     return id;
   }
@@ -80,8 +76,9 @@ public class Pet  {
 
   
   /**
+   * pet status in the store
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(required = false, value = "pet status in the store")
   public String getStatus() {
     return status;
   }

@@ -1,18 +1,28 @@
-package com.wordnik.petstore.model;
+package com.wordnik.client.model;
 
+import com.wordnik.client.model.Category;
+import com.wordnik.client.model.Tag;
 import java.util.*;
-import com.wordnik.petstore.model.Category;
-import com.wordnik.petstore.model.Tag;
-public class Pet {
-  /* unique identifier for the pet */
+
+import com.wordnik.swagger.annotations.*;
+
+
+@ApiModel(description = "")
+public class Pet  { 
   private Long id = null;
+  
+  //public enum idEnum {  }; 
+  
   private Category category = null;
   private String name = null;
-  private List<String> photoUrls = new ArrayList<String>();
-  private List<Tag> tags = new ArrayList<Tag>();
-  /* pet status in the store */
+  private List<String> photoUrls = new ArrayList<String>() ;
+  private List<Tag> tags = new ArrayList<Tag>() ;
   private String status = null;
-  //public enum statusEnum { available, pending, sold, }; 
+  
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
   public Long getId() {
     return id;
   }
@@ -20,6 +30,10 @@ public class Pet {
     this.id = id;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
   public Category getCategory() {
     return category;
   }
@@ -27,6 +41,10 @@ public class Pet {
     this.category = category;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
   public String getName() {
     return name;
   }
@@ -34,6 +52,10 @@ public class Pet {
     this.name = name;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -41,6 +63,10 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
   public List<Tag> getTags() {
     return tags;
   }
@@ -48,6 +74,11 @@ public class Pet {
     this.tags = tags;
   }
 
+  
+  /**
+   * pet status in the store
+   **/
+  @ApiModelProperty(required = false, value = "pet status in the store")
   public String getStatus() {
     return status;
   }
@@ -55,10 +86,13 @@ public class Pet {
     this.status = status;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
+    
     sb.append("  id: ").append(id).append("\n");
     sb.append("  category: ").append(category).append("\n");
     sb.append("  name: ").append(name).append("\n");
@@ -69,4 +103,3 @@ public class Pet {
     return sb.toString();
   }
 }
-

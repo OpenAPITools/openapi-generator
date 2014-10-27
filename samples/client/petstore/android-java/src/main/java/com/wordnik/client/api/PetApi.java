@@ -2,13 +2,19 @@ package com.wordnik.client.api;
 
 import com.wordnik.client.ApiException;
 import com.wordnik.client.ApiInvoker;
-import com.wordnik.client.model.Pet;
+
+import com.wordnik.client.model.*;
 
 import java.util.*;
+
+import com.wordnik.client.model.Pet;
+
+import java.util.Map;
+import java.util.HashMap;
 import java.io.File;
 
 public class PetApi {
-  String basePath = "";
+  String basePath = "http://petstore.swagger.wordnik.com/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -30,6 +36,8 @@ public class PetApi {
   
   
   public void  updatePet (Pet body) throws ApiException {
+    Object postBody = body;
+
     
 
     // create path and map variables
@@ -46,7 +54,7 @@ public class PetApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -64,7 +72,9 @@ public class PetApi {
   }
   
   
-  public void  addPet (Pet body) throws ApiException {
+  public void  addPet (Pet pet) throws ApiException {
+    Object postBody = pet;
+
     
 
     // create path and map variables
@@ -81,7 +91,7 @@ public class PetApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -100,6 +110,8 @@ public class PetApi {
   
   
   public List<Pet>  findPetsByStatus (List<String> status) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -118,7 +130,7 @@ public class PetApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "Pet", Pet.class);
       }
@@ -137,6 +149,8 @@ public class PetApi {
   
   
   public List<Pet>  findPetsByTags (List<String> tags) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -155,7 +169,7 @@ public class PetApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "Pet", Pet.class);
       }
@@ -174,6 +188,8 @@ public class PetApi {
   
   
   public Pet  getPetById (Long petId) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -190,7 +206,7 @@ public class PetApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
       }
@@ -208,7 +224,9 @@ public class PetApi {
   }
   
   
-  public void  deletePet (Long petId) throws ApiException {
+  public void  updatePetWithForm (String petId, String name, String status) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -225,7 +243,45 @@ public class PetApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public void  deletePet (String api_key, Long petId) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    
+
+    headerParams.put("api_key", api_key);
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }

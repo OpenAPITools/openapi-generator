@@ -2,14 +2,20 @@ package com.wordnik.client.api;
 
 import com.wordnik.client.ApiException;
 import com.wordnik.client.ApiInvoker;
+
+import com.wordnik.client.model.*;
+
+import java.util.*;
+
 import com.wordnik.client.model.User;
 import java.util.*;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.File;
 
 public class UserApi {
-  String basePath = "";
+  String basePath = "http://petstore.swagger.wordnik.com/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -31,6 +37,8 @@ public class UserApi {
   
   
   public void  createUser (User body) throws ApiException {
+    Object postBody = body;
+
     
 
     // create path and map variables
@@ -47,7 +55,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -66,6 +74,8 @@ public class UserApi {
   
   
   public void  createUsersWithArrayInput (List<User> body) throws ApiException {
+    Object postBody = body;
+
     
 
     // create path and map variables
@@ -82,7 +92,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -101,6 +111,8 @@ public class UserApi {
   
   
   public void  createUsersWithListInput (List<User> body) throws ApiException {
+    Object postBody = body;
+
     
 
     // create path and map variables
@@ -117,7 +129,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -136,6 +148,8 @@ public class UserApi {
   
   
   public String  loginUser (String username, String password) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -156,7 +170,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return (String) ApiInvoker.deserialize(response, "", String.class);
       }
@@ -175,6 +189,8 @@ public class UserApi {
   
   
   public void  logoutUser () throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -191,7 +207,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -210,6 +226,8 @@ public class UserApi {
   
   
   public User  getUserByName (String username) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -226,7 +244,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return (User) ApiInvoker.deserialize(response, "", User.class);
       }
@@ -245,6 +263,8 @@ public class UserApi {
   
   
   public void  updateUser (String username, User body) throws ApiException {
+    Object postBody = body;
+
     
 
     // create path and map variables
@@ -261,7 +281,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
@@ -280,6 +300,8 @@ public class UserApi {
   
   
   public void  deleteUser (String username) throws ApiException {
+    Object postBody = null;
+
     
 
     // create path and map variables
@@ -296,7 +318,7 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }

@@ -21,4 +21,3 @@ public class JsonUtil {
 		return mapper;
 	}
 }
-
