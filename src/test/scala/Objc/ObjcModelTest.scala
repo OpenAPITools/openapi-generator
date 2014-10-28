@@ -1,7 +1,7 @@
 package objc
 
 import com.wordnik.swagger.codegen.languages.ObjcClientCodegen
-import com.wordnik.swagger.util.Json
+import com.wordnik.swagger.util.{ Json, SwaggerLoader }
 import com.wordnik.swagger.models._
 import com.wordnik.swagger.models.properties._
 
@@ -237,5 +237,24 @@ class ObjcModelTest extends FlatSpec with Matchers {
     cm.parent should be ("NSMutableDictionary")
     cm.imports.size should be (3)
     (cm.imports.asScala.toSet & Set("SWGChildren", "NSDictionary", "NSMutableDictionary")).size should be (3)
+  }
+
+  it should "create proper imports per #316" in {
+    val model = new SwaggerLoader().read("src/test/resources/postBodyTest.json")
+    val codegen = new ObjcClientCodegen()
+
+    val animalPaths = model.getPaths()
+    val animalOps = animalPaths.get("/animals")
+    animalOps.getPost() should not be (null)
+    val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost())
+    animalCo.imports.size should be (1)
+    animalCo.imports.contains("SWGAnimal") should equal (true)
+
+    val insectPaths = model.getPaths()
+    val insectOps = insectPaths.get("/insects")
+    insectOps.getPost() should not be (null)
+    val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost())
+    insectCo.imports.size should be (1)
+    insectCo.imports.contains("SWGInsect") should equal (true)
   }
 }
