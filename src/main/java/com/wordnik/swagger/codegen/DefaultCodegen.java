@@ -661,6 +661,10 @@ public class DefaultCodegen {
           }
           else
             property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
+          if(property == null) {
+            System.out.println("couldn't find property for parameter: ");
+            Json.prettyPrint(param);
+          }
           CodegenProperty model = fromProperty(qp.getName(), property);
           p.collectionFormat = collectionFormat;
           p.dataType = model.datatype;
@@ -675,10 +679,21 @@ public class DefaultCodegen {
           Model model = bp.getSchema();
 
           if(model instanceof ModelImpl) {
+            System.out.println("model impl");
             ModelImpl impl = (ModelImpl) model;
             CodegenModel cm = fromModel(bp.getName(), impl);
-            p.dataType = getTypeDeclaration(cm.classname);
-            imports.add(p.dataType);
+            if(cm.emptyVars != null && cm.emptyVars == false) {
+              p.dataType = getTypeDeclaration(cm.classname);
+              imports.add(p.dataType);
+            }
+            else {
+              // TODO: missing format, so this will not always work
+              Property prop = PropertyBuilder.build(impl.getType(), null, null);
+              CodegenProperty cp = fromProperty("property", prop);
+              if(cp != null) {
+                p.dataType = cp.datatype;
+              }
+            }
           }
           else if(model instanceof ArrayModel) {
             // to use the built-in model parsing, we unwrap the ArrayModel
@@ -688,7 +703,9 @@ public class DefaultCodegen {
             // get the single property
             ArrayProperty ap = new ArrayProperty().items(impl.getItems());
             CodegenProperty cp = fromProperty("inner", ap);
-
+            if(cp.complexType != null) {
+              imports.add(cp.complexType);
+            }
             imports.add(cp.baseType);
             p.dataType = cp.datatype;
             p.isContainer = true;
@@ -704,6 +721,7 @@ public class DefaultCodegen {
                 if(defaultIncludes.contains(name)) {
                   imports.add(name);
                 }
+                imports.add(name);
                 name = getTypeDeclaration(name);
               }
               p.dataType = name;
