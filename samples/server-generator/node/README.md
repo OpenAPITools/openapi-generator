@@ -51,7 +51,7 @@ To run the server, cd to the `samples/server-generator/node/output` folder and r
 ```
 # install the dependencies
 npm install
-node Apps/main.js
+node App/main.js
 ```
 
 You can now load the swagger-ui against `http://localhost:8002/resources.json`.  Of course this isn't a fully
