@@ -97,6 +97,7 @@ class BasicPythonGenerator extends BasicGenerator {
     }
   }
   override def typeMapping = Map(
+    "integer" -> "int",
     "float" -> "float",
     "long" -> "long",
     "double" -> "float",
