@@ -1,13 +1,12 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
-import com.wordnik.swagger.models.properties.*;
 
 import java.util.*;
 
 public class CodegenOperation {
   public Boolean hasParams, returnTypeIsPrimitive, returnSimpleType;
-  public String path, operationId, returnType, httpMethod, returnBaseType, 
+  public String path, operationId, returnType, httpMethod, returnBaseType,
     returnContainer, summary, notes, baseName, defaultResponse;
 
   public List<Map<String, String>> consumes, produces;
@@ -23,6 +22,7 @@ public class CodegenOperation {
 
   public Set<String> imports = new HashSet<String>();
   public List<Map<String, String>> examples;
+  public ExternalDocs externalDocs;
 
   // legacy support
   public String nickname;

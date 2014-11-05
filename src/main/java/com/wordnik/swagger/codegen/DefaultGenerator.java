@@ -136,7 +136,9 @@ public class DefaultGenerator implements Generator {
       bundle.put("models", allModels);
       bundle.put("apiFolder", config.apiPackage().replaceAll("\\.", "/"));
       bundle.put("modelPackage", config.modelPackage());
-
+      if (swagger.getExternalDocs() != null) {
+        bundle.put("externalDocs", swagger.getExternalDocs());
+      }
       for(int i = 0; i < allModels.size() - 1; i++) {
         HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
         CodegenModel m = cm.get("model");
@@ -331,7 +333,7 @@ public class DefaultGenerator implements Generator {
       if(m != null && !config.defaultIncludes().contains(m)) {
         im.put("import", m);
         imports.add(im);
-      }      
+      }
     }
 
     objs.put("imports", imports);

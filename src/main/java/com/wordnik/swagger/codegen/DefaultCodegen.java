@@ -325,6 +325,7 @@ public class DefaultCodegen {
     m.classname = toModelName(name);
     m.classVarName = toVarName(name);
     m.modelJson = Json.pretty(model);
+    m.externalDocs = model.getExternalDocs();
     int count = 0;
     if(model instanceof ArrayModel) {
       ArrayModel am = (ArrayModel) model;
@@ -775,7 +776,7 @@ public class DefaultCodegen {
 
     if(op.allParams.size() > 0) 
       op.hasParams = true;
-
+    op.externalDocs = operation.getExternalDocs(); 
     return op;
   }
 
