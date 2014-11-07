@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 import com.wordnik.petstore.model.Category;
-import com.wordnik.petstore.model.Tag;
 public class Pet {
   /* unique identifier for the pet */
   @JsonProperty("id")

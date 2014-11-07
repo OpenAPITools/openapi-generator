@@ -122,7 +122,7 @@ class Codegen(config: CodegenConfig) {
         params += "hasMore" -> "true"
         params += "allowMultiple" -> param.allowMultiple.toString
 
-        if(param.dataType == "File") params += "isFile" -> "true"
+        if(param.dataType.toLowerCase() == "file") params += "isFile" -> "true"
         else params += "notFile" -> "true"
 
         val u = param.dataType.indexOf("[") match {
@@ -155,7 +155,6 @@ class Codegen(config: CodegenConfig) {
             if (!param.required) {
               bodyParamRequired = None
             }
-
             bodyParam = Some("body")
             bodyParams += params.clone
           }

@@ -82,8 +82,10 @@ public class {{classname}} {
       boolean hasFields = false;
       List<NameValuePair> mp = new ArrayList<NameValuePair>();
       {{#formParams}}
+      {{^isFile}}
       hasFields = true;
       mp.add(new BasicNameValuePair("{{baseName}}", {{paramName}}));
+      {{/isFile}}
       {{/formParams}}
       if(hasFields)
         postBody = mp;
@@ -94,12 +96,19 @@ public class {{classname}} {
       builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
       {{#formParams}}
       hasFields = true;
+      {{^isFile}}
       builder.addTextBody("{{baseName}}", {{paramName}}.toString());
+      {{/isFile}}
+      {{#isFile}}
+      builder.addBinaryBody("file", {{paramName}}, ContentType.create(getMimeType({{paramName}})), {{paramName}}.getName());
+      {{/isFile}}
       {{/formParams}}
-      {{#bodyParam}}
+      {{#bodyParams}}
+      {{#isFile}}
       hasFields = true;
-      builder.addBinaryBody("file", {{bodyParam}}, ContentType.create(getMimeType({{bodyParam}})), {{bodyParam}}.getName());
-      {{/bodyParam}}
+      builder.addBinaryBody("file", {{paramName}}, ContentType.create(getMimeType({{paramName}})), {{paramName}}.getName());
+      {{/isFile}}
+      {{/bodyParams}}
       if(hasFields)
         postBody = builder;
     }
