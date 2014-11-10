@@ -39,6 +39,16 @@ public class DefaultCodegen {
   public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
     return objs;
   }
+  
+  // override with any special text escaping logic
+  public String escapeText(String input) {
+    if(input != null) {
+      String output = input.replaceAll("\n", " ");
+      output = output.replace("\"", "\\\"");
+      return output;
+    }
+    return input;
+  }
 
   public Set<String> defaultIncludes() {
     return defaultIncludes;
@@ -418,7 +428,7 @@ public class DefaultCodegen {
 
     property.name = toVarName(name);
     property.baseName = name;
-    property.description = p.getDescription();
+    property.description = escapeText(p.getDescription());
     property.getter = "get" + initialCaps(name);
     property.setter = "set" + initialCaps(name);
     property.example = p.getExample();
@@ -528,8 +538,8 @@ public class DefaultCodegen {
     }
     op.path = path;
     op.operationId = operationId;
-    op.summary = operation.getSummary();
-    op.notes = operation.getDescription();
+    op.summary = escapeText(operation.getSummary());
+    op.notes = escapeText(operation.getDescription());
     op.tags = operation.getTags();
 
     Response methodResponse = null;
