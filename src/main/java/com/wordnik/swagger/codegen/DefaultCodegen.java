@@ -690,7 +690,6 @@ public class DefaultCodegen {
           Model model = bp.getSchema();
 
           if(model instanceof ModelImpl) {
-            System.out.println("model impl");
             ModelImpl impl = (ModelImpl) model;
             CodegenModel cm = fromModel(bp.getName(), impl);
             if(cm.emptyVars != null && cm.emptyVars == false) {
