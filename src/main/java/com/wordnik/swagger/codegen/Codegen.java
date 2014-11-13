@@ -75,6 +75,8 @@ public class Codegen extends DefaultGenerator {
       return new ScalatraServerCodegen();
     else if("static".equals(name))
       return new StaticDocCodegen();
+    else if("tizen".equals(name))
+      return new TizenClientCodegen();
     else if(name.indexOf(".") > 0) {
       // see if it's a class
       try {

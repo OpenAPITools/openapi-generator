@@ -19,7 +19,6 @@ fi
 
 cd $APP_DIR
 
-
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="$@ com.wordnik.swagger.codegen.Codegen -i http://petstore.swagger.wordnik.com/v2/swagger.json -l java  -o samples/client/petstore/java"

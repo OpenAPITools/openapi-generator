@@ -1,0 +1,158 @@
+{{#models}}{{#model}}
+#include "{{classname}}.h"
+#include <FLocales.h>
+
+using namespace Tizen::Base;
+using namespace Tizen::System;
+using namespace Tizen::Base::Utility;
+using namespace Tizen::Base::Collection;
+using namespace Tizen::Web::Json;
+using namespace Tizen::Locales;
+
+
+namespace Swagger {
+
+{{classname}}::{{classname}}() {
+    init();
+}
+
+{{classname}}::~{{classname}}() {
+    this->cleanup();
+}
+
+void
+{{classname}}::init() {
+    {{#vars}}{{name}} = null;
+    {{/vars}}
+}
+
+void
+{{classname}}::cleanup() {
+    {{#vars}}if({{name}} != null) {
+        {{#isContainer}}{{name}}->RemoveAll(true);{{/isContainer}}
+        delete {{name}};
+        {{name}} = null;
+    }
+    {{/vars}}
+}
+
+
+{{classname}}*
+{{classname}}::fromJson(String* json) {
+    this->cleanup();
+    String str(json->GetPointer());
+    int length = str.GetLength();
+
+    ByteBuffer buffer;
+    buffer.Construct(length);
+
+    for (int i = 0; i < length; ++i) {
+       byte b = str[i];
+       buffer.SetByte(b);
+    }
+
+    IJsonValue* pJson = JsonParser::ParseN(buffer);
+    fromJsonObject(pJson);
+    if (pJson->GetType() == JSON_TYPE_OBJECT) {
+       JsonObject* pObject = static_cast< JsonObject* >(pJson);
+       pObject->RemoveAll(true);
+    }
+    else if (pJson->GetType() == JSON_TYPE_ARRAY) {
+       JsonArray* pArray = static_cast< JsonArray* >(pJson);
+       pArray->RemoveAll(true);
+    }
+    delete pJson;
+    return this;
+}
+
+
+void
+{{classname}}::fromJsonObject(IJsonValue* pJson) {
+    JsonObject* pJsonObject = static_cast< JsonObject* >(pJson);
+
+    if(pJsonObject != null) {
+        {{#vars}}JsonString* {{name}}Key = new JsonString(L"{{baseName}}");
+        IJsonValue* {{name}}Val = null;
+        pJsonObject->GetValue({{name}}Key, {{name}}Val);
+        if({{name}}Val != null) {
+            {{#isContainer}}{{name}} = {{defaultValue}};{{/isContainer}}
+            {{#isNotContainer}}{{name}} = {{defaultValue}};{{/isNotContainer}}
+            jsonToValue({{name}}, {{name}}Val, L"{{baseType}}", L"{{complexType}}");
+        }
+        delete {{name}}Key;
+        {{/vars}}
+    }
+}
+
+{{classname}}::{{classname}}(String* json) {
+    init();
+    String str(json->GetPointer());
+    int length = str.GetLength();
+
+    ByteBuffer buffer;
+    buffer.Construct(length);
+
+    for (int i = 0; i < length; ++i) {
+       byte b = str[i];
+       buffer.SetByte(b);
+    }
+
+    IJsonValue* pJson = JsonParser::ParseN(buffer);
+    fromJsonObject(pJson);
+    if (pJson->GetType() == JSON_TYPE_OBJECT) {
+       JsonObject* pObject = static_cast< JsonObject* >(pJson);
+       pObject->RemoveAll(true);
+    }
+    else if (pJson->GetType() == JSON_TYPE_ARRAY) {
+       JsonArray* pArray = static_cast< JsonArray* >(pJson);
+       pArray->RemoveAll(true);
+    }
+    delete pJson;
+}
+
+String
+{{classname}}::asJson ()
+{
+    JsonObject* pJsonObject = asJsonObject();
+
+    char *pComposeBuf = new char[256];
+    JsonWriter::Compose(pJsonObject, pComposeBuf, 256);
+    String s = String(pComposeBuf);
+
+    delete pComposeBuf;
+    pJsonObject->RemoveAll(true);
+    delete pJsonObject;
+
+    return s;
+}
+
+JsonObject*
+{{classname}}::asJsonObject() {
+    JsonObject *pJsonObject = new JsonObject();
+    pJsonObject->Construct();
+
+    {{#vars}}
+    JsonString *{{name}}Key = new JsonString(L"{{baseName}}");
+    pJsonObject->Add({{name}}Key, toJson({{getter}}(), "{{complexType}}", "{{containerType}}"));
+
+    {{/vars}}
+    return pJsonObject;
+}
+
+{{#vars}}
+{{datatype}}
+{{classname}}::{{getter}}() {
+    return {{name}};
+}
+void
+{{classname}}::{{setter}}({{datatype}} {{name}}) {
+    this->{{name}} = {{name}};
+}
+
+{{/vars}}
+
+
+} /* namespace Swagger */
+
+{{/model}}
+{{/models}}
