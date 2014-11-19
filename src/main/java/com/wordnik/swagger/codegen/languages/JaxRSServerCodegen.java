@@ -113,11 +113,8 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             operation.returnContainer = "Set";
           }
         }
-        // Json.prettyPrint(operation);
-        // if(return)
       }
     }
-    // Json.prettyPrint(objs);
     return objs;
   }
 }

@@ -32,6 +32,9 @@ public class DefaultGenerator implements Generator {
     if(swagger == null || config == null) {
       throw new RuntimeException("missing swagger input or config!");
     }
+    if(System.getProperty("debugSwagger") != null) {
+      Json.prettyPrint(swagger);
+    }
     try {
       config.processOpts();
       if(swagger.getInfo() != null) {
@@ -78,6 +81,7 @@ public class DefaultGenerator implements Generator {
         models.putAll(config.additionalProperties());
 
         allModels.add(((List<Object>)models.get("models")).get(0));
+
         for(String templateName : config.modelTemplateFiles().keySet()) {
           String suffix = config.modelTemplateFiles().get(templateName);
           String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
@@ -93,6 +97,11 @@ public class DefaultGenerator implements Generator {
           writeToFile(filename, tmpl.execute(models));
         }
       }
+      if(System.getProperty("debugModels") != null) {
+        System.out.println("############ Model info ############");
+        Json.prettyPrint(allModels);
+      }
+
       // apis
       Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
       for(String tag : paths.keySet()) {
@@ -124,6 +133,10 @@ public class DefaultGenerator implements Generator {
           writeToFile(filename, tmpl.execute(operation));
         }
       }
+      if(System.getProperty("debugOperations") != null) {
+        System.out.println("############ Operation info ############");
+        Json.prettyPrint(allOperations);
+      }
 
       // supporting files
       Map<String, Object> bundle = new HashMap<String, Object>();
@@ -132,6 +145,9 @@ public class DefaultGenerator implements Generator {
 
       Map<String, Object> apis = new HashMap<String, Object>();
       apis.put("apis", allOperations);
+      if(swagger.getBasePath() != null) {
+        bundle.put("basePath", swagger.getBasePath());
+      }
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
       bundle.put("apiFolder", config.apiPackage().replaceAll("\\.", "/"));
@@ -143,6 +159,11 @@ public class DefaultGenerator implements Generator {
         HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
         CodegenModel m = cm.get("model");
         m.hasMoreModels = true;
+      }
+
+      if(System.getProperty("debugSupportingFiles") != null) {
+        System.out.println("############ Supporting file info ############");
+        Json.prettyPrint(bundle);
       }
 
       for(SupportingFile support : config.supportingFiles()) {
