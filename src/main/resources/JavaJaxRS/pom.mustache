@@ -31,7 +31,7 @@
         <version>${jetty-version}</version>
         <configuration>
           <webAppConfig>
-            <contextPath>/</contextPath>
+            <contextPath>{{^basePath}}/{{/basePath}}{{#basePath}}{{basePath}}{{/basePath}}</contextPath>
           </webAppConfig>
           <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
           <webDefaultXml>${project.basedir}/conf/jetty/webdefault.xml</webDefaultXml>

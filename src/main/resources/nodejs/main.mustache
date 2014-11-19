@@ -20,7 +20,17 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-swagger.setAppHandler(app);  
+{{#basePath}}
+var subpath = express();
+
+app.use("{{{basePath}}}", subpath);
+
+swagger.setAppHandler(subpath);
+{{/basePath}}
+{{^basePath}}
+swagger.setAppHandler(app);
+{{/basePath}}
+
 swagger.configureSwaggerPaths("", "api-docs", "")
 
 var models = require("./app/models.js");
@@ -36,7 +46,7 @@ swagger.addModels(models)
   {{/apis}}{{/apiInfo}};
 
 // configures the app
-swagger.configure("http://localhost:8002", "0.1");
+swagger.configure("http://localhost:8002{{basePath}}", "0.1");
 
 //  start the server
 app.listen(8002);
