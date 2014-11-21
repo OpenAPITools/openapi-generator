@@ -194,6 +194,8 @@ public class DefaultGenerator implements Generator {
           System.out.println("copying file to " + outputFilename);
         }
       }
+
+      config.processSwagger(swagger);
     }
     catch (Exception e) {
       e.printStackTrace();

@@ -39,6 +39,9 @@ public class DefaultCodegen {
   public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
     return objs;
   }
+
+  // override with any special handling of the entire swagger spec
+  public void processSwagger(Swagger swagger) {}
   
   // override with any special text escaping logic
   public String escapeText(String input) {

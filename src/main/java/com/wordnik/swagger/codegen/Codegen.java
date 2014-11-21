@@ -1,5 +1,6 @@
 package com.wordnik.swagger.codegen;
 
+import com.wordnik.swagger.codegen.compat.SwaggerMultiVersionLoader;
 import com.wordnik.swagger.codegen.languages.*;
 import com.wordnik.swagger.models.Swagger;
 import com.wordnik.swagger.util.*;
@@ -29,8 +30,9 @@ public class Codegen extends DefaultGenerator {
 
       if (cmd.hasOption("o"))
         clientOptInput.getConfig().setOutputDir(cmd.getOptionValue("o"));
-      if (cmd.hasOption("i"))
-        swagger = new SwaggerLoader().read(cmd.getOptionValue("i"));
+      if (cmd.hasOption("i")) {
+        swagger = new SwaggerMultiVersionLoader().read(cmd.getOptionValue("i"));
+      }
       if (cmd.hasOption("t")) {
         clientOpts.getProperties().put("templateDir",
           String.valueOf(cmd.getOptionValue("t")));
@@ -74,7 +76,9 @@ public class Codegen extends DefaultGenerator {
     else if("scalatra".equals(name))
       return new ScalatraServerCodegen();
     else if("static".equals(name))
-      return new StaticDocCodegen();
+      return new ScalatraServerCodegen();
+    else if("swagger".equals(name))
+      return new SwaggerGenerator();
     else if("tizen".equals(name))
       return new TizenClientCodegen();
     else if(name.indexOf(".") > 0) {

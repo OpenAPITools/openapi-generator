@@ -196,7 +196,6 @@ public class SwaggerLegacyLoader {
         if(innerType != null)
           am.setItems(innerType);
         else if(items.getRef() != null) {
-          System.out.println("using ref " + items.getRef());
           am.setItems(new RefProperty(items.getRef()));
         }
         else

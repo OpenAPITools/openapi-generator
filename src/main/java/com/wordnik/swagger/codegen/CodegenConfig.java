@@ -37,6 +37,7 @@ public interface CodegenConfig {
   Map<String, String> importMapping();
   Map<String, String> apiTemplateFiles();
   Map<String, String> modelTemplateFiles();
+  void processSwagger(Swagger swagger);
 
   String toApiFilename(String name);
   String toModelFilename(String name);
