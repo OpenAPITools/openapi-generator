@@ -14,10 +14,10 @@ The goal of Swagger™ is to define a standard, language-agnostic interface to R
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
-## Compatability
-The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
+## Compatibility
+The Swagger Specification has undergone 3 revisions since initial creation in 2010. Compatibility between swagger-codegen and the Swagger specification is as follows:
 
-Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
+Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
 ----------------------- | ------------ | -------------------------- | -----
 2.1.0 (in development)  | n/a          | 2.0           | [branch develop_2.0](https://github.com/swagger-api/swagger-codegen/tree/develop_2.0)
 2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
