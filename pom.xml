@@ -344,6 +344,12 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>swagger-legacy-spec-parser</artifactId>
+      <version>${swagger-parser-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>swagger-core</artifactId>
       <version>${swagger-core-version}</version>
       <scope>compile</scope>

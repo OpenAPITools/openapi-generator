@@ -1,8 +1,8 @@
 package com.wordnik.swagger.codegen;
 
-import com.wordnik.swagger.codegen.compat.SwaggerMultiVersionLoader;
 import com.wordnik.swagger.codegen.languages.*;
 import com.wordnik.swagger.models.Swagger;
+import com.wordnik.swagger.parser.SwaggerParser;
 import com.wordnik.swagger.util.*;
 
 import org.apache.commons.cli.*;
@@ -31,7 +31,7 @@ public class Codegen extends DefaultGenerator {
       if (cmd.hasOption("o"))
         clientOptInput.getConfig().setOutputDir(cmd.getOptionValue("o"));
       if (cmd.hasOption("i")) {
-        swagger = new SwaggerMultiVersionLoader().read(cmd.getOptionValue("i"));
+        swagger = new SwaggerParser().read(cmd.getOptionValue("i"));
       }
       if (cmd.hasOption("t")) {
         clientOpts.getProperties().put("templateDir",
