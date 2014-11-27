@@ -13,6 +13,14 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
   protected static String PREFIX = "Sami";
   protected Map<String, String> namespaces = new HashMap<String, String>();
 
+  public String getName() {
+    return "tizen";
+  }
+
+  public String getHelp() {
+    return "Generates a Samsung Tizen C++ client library.";
+  }
+
   public TizenClientCodegen() {
     super();
     outputFolder = "generated-code/tizen";

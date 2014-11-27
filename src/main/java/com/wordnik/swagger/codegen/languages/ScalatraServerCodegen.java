@@ -14,6 +14,14 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/scala";
 
+  public String getName() {
+    return "scalatra";
+  }
+
+  public String getHelp() {
+    return "Generates a Scala server application with Scalatra.";
+  }
+
   public ScalatraServerCodegen() {
     super();
     outputFolder = "generated-code/scalatra";

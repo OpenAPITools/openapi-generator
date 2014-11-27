@@ -13,6 +13,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
 
+  public String getName() {
+    return "java";
+  }
+
+  public String getHelp() {
+    return "Generates a Java client library.";
+  }
+
   public JavaClientCodegen() {
     super();
     outputFolder = "generated-code/java";

@@ -87,8 +87,8 @@ public class PetApi {
   }
   
     
-  public void addPet (Pet pet) throws ApiException {
-    Object postBody = pet;
+  public void addPet (Pet body) throws ApiException {
+    Object postBody = body;
     
 
     // create path and map variables

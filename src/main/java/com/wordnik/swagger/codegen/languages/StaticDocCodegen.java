@@ -13,6 +13,14 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "docs";
 
+  public String getName() {
+    return "dynamic-html";
+  }
+
+  public String getHelp() {
+    return "Generates a dynamic HTML site.";
+  }
+
   public StaticDocCodegen() {
     super();
     outputFolder = "docs";

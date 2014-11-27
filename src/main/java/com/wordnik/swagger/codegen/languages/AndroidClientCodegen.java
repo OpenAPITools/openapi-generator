@@ -13,6 +13,14 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
 
+  public String getName() {
+    return "android";
+  }
+
+  public String getHelp() {
+    return "Generates an Android client library.";
+  }
+
   public AndroidClientCodegen() {
     super();
     outputFolder = "generated-code/android";

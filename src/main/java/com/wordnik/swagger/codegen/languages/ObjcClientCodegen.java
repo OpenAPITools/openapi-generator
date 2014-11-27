@@ -12,6 +12,14 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String sourceFolder = "client";
   protected static String PREFIX = "SWG";
 
+  public String getName() {
+    return "objc";
+  }
+
+  public String getHelp() {
+    return "Generates an Objective-C client library.";
+  }
+
   public ObjcClientCodegen() {
     super();
     outputFolder = "generated-code/objc";

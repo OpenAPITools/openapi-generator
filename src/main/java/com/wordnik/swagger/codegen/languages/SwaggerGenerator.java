@@ -9,6 +9,13 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
+  public String getName() {
+    return "swagger";
+  }
+
+  public String getHelp() {
+    return "Creates a static swagger.json file.";
+  }
 
   public SwaggerGenerator() {
     super();

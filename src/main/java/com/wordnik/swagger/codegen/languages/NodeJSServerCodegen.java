@@ -12,6 +12,14 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
 
+  public String getName() {
+    return "nodejs";
+  }
+
+  public String getHelp() {
+    return "Generates a node.js server application compatible with the 1.2 swagger specification.";
+  }
+
   public NodeJSServerCodegen() {
     super();
     outputFolder = "generated-code/nodejs";
