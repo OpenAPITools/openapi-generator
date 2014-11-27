@@ -75,8 +75,8 @@ public class Codegen extends DefaultGenerator {
       return new NodeJSServerCodegen();
     else if("scalatra".equals(name))
       return new ScalatraServerCodegen();
-    else if("static".equals(name))
-      return new ScalatraServerCodegen();
+    else if("html".equals(name))
+      return new StaticHtmlGenerator();
     else if("swagger".equals(name))
       return new SwaggerGenerator();
     else if("tizen".equals(name))

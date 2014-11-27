@@ -1,5 +1,5 @@
 {
-  "swagger": 2,
+  "swagger": "2.0",
   "info": {
     "title": "HR API",
     "description": "A way to manage people in our organization",

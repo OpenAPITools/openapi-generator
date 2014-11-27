@@ -337,7 +337,7 @@
   </reporting>
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>io.swagger</groupId>
       <artifactId>swagger-parser</artifactId>
       <version>${swagger-parser-version}</version>
       <scope>compile</scope>
