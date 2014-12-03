@@ -149,9 +149,28 @@ You have options.  The easiest is to use our [online validator](https://github.c
 
 http://online.swagger.io/validator/debug?url=http://petstore.swagger.wordnik.com/v2/swagger.json
 
-### Generating static api documentation
+### Generating dynamic html api documentation
 
-#### Not yet migrated to this branch
+To do so, just use the `-l dynamic-html` flag when reading a spec file.  This creates HTML documentation that is available as a single-page application with AJAX.  To view the documentation:
+
+```
+cd samples/swagger-dynamic-html/
+npm install
+node .
+```
+
+Which launches a node.js server so the AJAX calls have a place to go.
+
+
+### Generating static html api documentation
+
+To do so, just use the `-l html` flag when reading a spec file.  This creates a single, simple HTML file with embedded css so you can ship it as an email attachment, or load it from your filesystem:
+
+```
+cd samples/swagger-html/
+open index.html
+```
+
 
 ### To build a server stub
 
