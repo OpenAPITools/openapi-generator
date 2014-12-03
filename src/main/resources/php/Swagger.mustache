@@ -194,7 +194,7 @@ class APIClient {
   {
     if (null === $data) {
       $deserialized = null;
-    } else if (substr($class, 0, 6) == 'array[') {
+    } else if (strcasecmp(substr($class, 0, 6),'array[') == 0) {
       $subClass = substr($class, 6, -1);
       $values = array();
       foreach ($data as $value) {
