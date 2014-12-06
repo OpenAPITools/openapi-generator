@@ -2,8 +2,9 @@ package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.codegen.languages.*;
 import com.wordnik.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
 import com.wordnik.swagger.util.*;
+
+import io.swagger.parser.SwaggerParser;
 
 import org.apache.commons.cli.*;
 
@@ -53,7 +54,6 @@ public class Codegen extends DefaultGenerator {
           }
         }
         else {
-          // cmd = parser.parse(options, args);
           options.addOption("h", "help", true, "config.getHelp()");
         }
         usage(options);
