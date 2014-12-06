@@ -1,13 +1,12 @@
 package com.wordnik.swagger.codegen;
 
-import com.wordnik.swagger.util.Json;
 import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
+import com.wordnik.swagger.util.Json;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
-import java.io.File;
 
 public class DefaultCodegen {
   protected String outputFolder = "";
@@ -513,7 +512,7 @@ public class DefaultCodegen {
   }
 
   public CodegenOperation fromOperation(String path, String httpMethod, Operation operation){
-    CodegenOperation op = new CodegenOperation();
+    CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
     Set<String> imports = new HashSet<String>();
 
     String operationId = operation.getOperationId();
@@ -656,7 +655,7 @@ public class DefaultCodegen {
 
     if(parameters != null) {
       for(Parameter param : parameters) {
-        CodegenParameter p = new CodegenParameter();
+        CodegenParameter p = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         p.baseName = param.getName();
         p.description = param.getDescription();
         p.required = param.getRequired();
