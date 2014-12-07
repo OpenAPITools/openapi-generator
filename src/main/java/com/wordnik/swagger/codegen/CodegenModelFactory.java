@@ -24,10 +24,11 @@ public final class CodegenModelFactory {
     typeMapping.put(type, implementation);
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> T newInstance(CodegenModelType type) {
-    @SuppressWarnings("unchecked") Class<T> classType = (Class<T>) typeMapping.get(type);
+    Class<?> classType = typeMapping.get(type);
     try {
-      return classType.newInstance();
+      return (T) (classType != null ? classType : type.getDefaultImplementation()).newInstance();
     } catch (InstantiationException e) {
       throw new RuntimeException(e);
     } catch (IllegalAccessException e) {
