@@ -2,8 +2,11 @@ package com.wordnik.swagger.codegen;
 
 public enum CodegenModelType {
 
+  MODEL(CodegenModel.class),
+  OPERATION(CodegenOperation.class),
   PARAMETER(CodegenParameter.class),
-  OPERATION(CodegenOperation.class);
+  PROPERTY(CodegenProperty.class),
+  RESPONSE(CodegenResponse.class);
 
   private final Class<?> defaultImplementation;
 
