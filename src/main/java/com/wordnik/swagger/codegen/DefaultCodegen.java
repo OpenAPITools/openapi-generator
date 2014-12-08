@@ -727,6 +727,10 @@ public class DefaultCodegen {
       String collectionFormat = null;
       if("array".equals(qp.getType())) {
         Property inner = qp.getItems();
+        if(inner == null) {
+          System.out.println("warning!  No inner type supplied for array parameter \"" + qp.getName() + "\", using String");
+          inner = new StringProperty().description("//TODO automatically added by swagger-codegen");
+        }
         property = new ArrayProperty(inner);
         collectionFormat = qp.getCollectionFormat();
         CodegenProperty pr = fromProperty("inner", inner);
@@ -736,8 +740,8 @@ public class DefaultCodegen {
       else
         property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
       if(property == null) {
-        System.out.println("couldn't find property for parameter: ");
-        Json.prettyPrint(param);
+        System.out.println("warning!  Property type \"" + qp.getType() + "\" not found for parameter \"" + param.getName() + "\", using String");
+        property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + qp.getType() + " but not supported");
       }
       CodegenProperty model = fromProperty(qp.getName(), property);
       p.collectionFormat = collectionFormat;
