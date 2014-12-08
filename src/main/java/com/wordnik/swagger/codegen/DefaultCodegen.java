@@ -328,7 +328,7 @@ public class DefaultCodegen {
   }
 
   public CodegenModel fromModel(String name, Model model) {
-    CodegenModel m = new CodegenModel();
+    CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
     if(reservedWords.contains(name))
       m.name = escapeReservedWord(name);
     else
@@ -427,7 +427,7 @@ public class DefaultCodegen {
   }
 
   public CodegenProperty fromProperty(String name, Property p) {
-    CodegenProperty property = new CodegenProperty();
+    CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
 
     property.name = toVarName(name);
     property.baseName = name;
@@ -588,7 +588,7 @@ public class DefaultCodegen {
       for(String responseCode: operation.getResponses().keySet()) {
         Response response = operation.getResponses().get(responseCode);
         if(response != methodResponse) {
-          CodegenResponse r = new CodegenResponse();
+          CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
           if("default".equals(responseCode))
             r.code = "0";
           else
