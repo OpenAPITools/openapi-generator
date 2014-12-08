@@ -191,18 +191,9 @@ public class DefaultCodegen {
 
     instantiationTypes = new HashMap<String, String>();
 
-    reservedWords = new HashSet<String> (
-      Arrays.asList(
-        "abstract", "continue", "for", "new", "switch", "assert", 
-        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private", 
-        "this", "break", "double", "implements", "protected", "throw", "byte", "else", 
-        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", 
-        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", 
-        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", 
-        "native", "super", "while")
-    );
+    reservedWords = new HashSet<String>();
 
-    importMapping = new HashMap<String, String> ();
+    importMapping = new HashMap<String, String>();
     importMapping.put("BigDecimal", "java.math.BigDecimal");
     importMapping.put("UUID", "java.util.UUID");
     importMapping.put("File", "java.io.File");
@@ -320,6 +311,8 @@ public class DefaultCodegen {
   }
 
   public String toApiName(String name) {
+    if(name.length() == 0)
+      return "DefaultApi";
     return initialCaps(name) + "Api";
   }
 
