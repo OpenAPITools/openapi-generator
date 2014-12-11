@@ -230,6 +230,9 @@
               <version>${jersey-version}</version>
             </dependency>
           </dependencies>
+          <configuration>
+            <scalaVersion>${scala-version}</scalaVersion>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -437,6 +440,7 @@
     <commons-lang-version>2.4</commons-lang-version>
     <slf4j-version>1.6.3</slf4j-version>
     <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
+    <scala-version>2.10.4</scala-version>
     <jmustache-version>1.9</jmustache-version>
   </properties>
   <repositories>
