@@ -420,6 +420,10 @@ public class DefaultCodegen {
   }
 
   public CodegenProperty fromProperty(String name, Property p) {
+    if(p == null) {
+      System.out.println("unexpected missing property for name " + null);
+      return null;
+    }
     CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
 
     property.name = toVarName(name);
