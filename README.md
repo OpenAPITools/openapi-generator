@@ -161,7 +161,7 @@ ci server... or while coding on an airplane.
 
 ### Validating your swagger spec
 You can use the validation tool to see that your server is creating a proper spec file.  If you want to learn
-more about the spec file and format, please see [swagger-core](https://github.com/swagger-api/swagger-spec).  This
+more about the spec file and format, please see [swagger-spec](https://github.com/swagger-api/swagger-spec).  This
 tool will read the server and generate a report of any violations of the spec.  If there are violations, the
 client codegen and ui may not work correctly.
 
