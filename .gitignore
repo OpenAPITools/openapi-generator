@@ -28,3 +28,4 @@ target
 .lib
 atlassian-ide-plugin.xml
 .DS_Store
+*~
