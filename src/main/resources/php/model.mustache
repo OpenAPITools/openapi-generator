@@ -25,7 +25,6 @@
 {{#model}}
 
 class {{classname}} {
-
   static $swaggerTypes = array(
       {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
       {{/hasMore}}{{/vars}}

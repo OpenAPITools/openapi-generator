@@ -29,6 +29,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     apiTemplateFiles.put("api.mustache", ".php");
     templateDir = "php";
 
+    typeMapping.clear();
+    languageSpecificPrimitives.clear();
+
     reservedWords = new HashSet<String> (
       Arrays.asList(
         "int")
@@ -39,8 +42,14 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
 
-    languageSpecificPrimitives.add("List");
-    languageSpecificPrimitives.add("String");
+    languageSpecificPrimitives.add("array");
+    languageSpecificPrimitives.add("string");
+
+    typeMapping.put("long", "int");
+    typeMapping.put("integer", "int");
+    typeMapping.put("Array", "array");
+    typeMapping.put("String", "string");
+    typeMapping.put("List", "array");
 
     supportingFiles.add(new SupportingFile("Swagger.mustache", "", "Swagger.php"));
   }
@@ -64,13 +73,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     if(p instanceof ArrayProperty) {
       ArrayProperty ap = (ArrayProperty) p;
       Property inner = ap.getItems();
-      return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
+      return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
     }
     else if (p instanceof MapProperty) {
       MapProperty mp = (MapProperty) p;
       Property inner = mp.getAdditionalProperties();
-
-      return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+      return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
     }
     return super.getTypeDeclaration(p);
   }
@@ -81,14 +89,15 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     String type = null;
     if(typeMapping.containsKey(swaggerType)) {
       type = typeMapping.get(swaggerType);
-      if(languageSpecificPrimitives.contains(type))
-        return toModelName(type);
+      if(languageSpecificPrimitives.contains(type)) {
+        return type;
+      }
     }
     else
       type = swaggerType;
     if(type == null)
       return null;
-    return toModelName(type);
+    return type;
   }
 }
 

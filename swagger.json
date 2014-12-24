@@ -17,7 +17,7 @@
           {
             "in": "query",
             "description": "number of records to skip",
-            "name": "skip",
+            "name": "char",
             "type": "integer",
             "format": "int32"
           }

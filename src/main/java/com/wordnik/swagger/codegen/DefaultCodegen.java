@@ -289,8 +289,7 @@ public class DefaultCodegen {
         datatype = datatype.substring("#/definitions/".length());
     }
     else {
-      if(p != null)
-        datatype = p.getType();
+      if(p != null) datatype = p.getType();
     }
     return datatype;
   }
