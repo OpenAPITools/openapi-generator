@@ -30,7 +30,7 @@ class PetApiTest extends FlatSpec with Matchers {
       Category(1, "sold"),
       "dragon",
       (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList,
-      (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
+      (for (i <- (1 to 5)) yield com.wordnik.petstore.model.Tag(i, "tag-" + i)).toList,
       "lost"
     )
 
@@ -55,7 +55,7 @@ class PetApiTest extends FlatSpec with Matchers {
       Category(1, "sold"),
       "programmer",
       (for (i <- (1 to 10)) yield "http://foo.com/photo/" + i).toList,
-      (for (i <- (1 to 5)) yield Tag(i, "tag-" + i)).toList,
+      (for (i <- (1 to 5)) yield com.wordnik.petstore.model.Tag(i, "tag-" + i)).toList,
       "confused"
     )
 
