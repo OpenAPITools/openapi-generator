@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2011 Wordnik, Inc.
+ *  Copyright 2014 Reverb Technologies, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,18 +28,17 @@ class {{classname}} {
 
   {{#operation}}
 	/**
-	 * {{nickname}}
-	 * {{summary}}
-   {{#allParams}}
-   * {{paramName}}, {{dataType}}: {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
-   {{newline}}
-   {{/allParams}}
-	 * @return {{returnType}}
+	 * {{{nickname}}}
+   *
+	 * {{{summary}}}
+   {{#allParams}}* {{paramName}}, {{dataType}}: {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
+   * {{/allParams}}
+	 * @return {{{returnType}}}
 	 */
 
    public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
-  		//parse inputs
+  		// parse inputs
   		$resourcePath = "{{path}}";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "{{httpMethod}}";
@@ -48,45 +47,38 @@ class {{classname}} {
       $headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}';
       $headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
 
-      {{#queryParams}}
-  		if(${{paramName}} != null) {
+      {{#queryParams}}// query params
+      if(${{paramName}} != null) {
   		  $queryParams['{{paramName}}'] = $this->apiClient->toQueryValue(${{paramName}});
-  		}
-  		{{/queryParams}}
-
-      {{#headerParams}}
-  		if(${{paramName}} != null) {
+  		}{{/queryParams}}
+      {{#headerParams}}// header params
+      if(${{paramName}} != null) {
   		 	$headerParams['{{paramName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
-  		}
-      {{/headerParams}}
-
-      {{#pathParams}}
-  		if(${{paramName}} != null) {
+  		}{{/headerParams}}
+      {{#pathParams}}// path params
+      if(${{paramName}} != null) {
   			$resourcePath = str_replace("{" . "{{paramName}}" . "}",
   			                            $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
-  		}
-  		{{/pathParams}}
-
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
+  		}{{/pathParams}}
+      {{#bodyParams}}// body params
+      $body = null;
+      if (isset(${{paramName}})) {
+        $body = ${{paramName}};
       }
+      {{/bodyParams}}
+
+  		// make the API Call
   		$response = $this->apiClient->callAPI($resourcePath, $method,
   		                                      $queryParams, $body,
   		                                      $headerParams);
 
-
-      {{#returnType}}
-
-      if(! $response){
-          return null;
-        }
+      {{#returnType}}if(! $response) {
+        return null;
+      }
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                '{{returnType}}');
-  		return $responseObject;
-
-      {{/returnType}}
+  		return $responseObject;{{/returnType}}
   }
   {{/operation}}
 {{newline}}

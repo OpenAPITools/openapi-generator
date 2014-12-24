@@ -479,12 +479,17 @@ public class DefaultCodegen {
       property.containerType = "array";
       ArrayProperty ap = (ArrayProperty) p;
       CodegenProperty cp = fromProperty("inner", ap.getItems());
-
-      property.baseType = getSwaggerType(p);
-      if(!languageSpecificPrimitives.contains(cp.baseType))
-        property.complexType = cp.baseType;
-      else
-        property.isPrimitiveType = true;
+      if(cp == null) {
+        System.out.println("skipping invalid property:");
+        Json.prettyPrint(p);
+      }
+      else {
+        property.baseType = getSwaggerType(p);
+        if(!languageSpecificPrimitives.contains(cp.baseType))
+          property.complexType = cp.baseType;
+        else
+          property.isPrimitiveType = true;
+      }
     }
     else if(p instanceof MapProperty) {
       property.isContainer = true;
