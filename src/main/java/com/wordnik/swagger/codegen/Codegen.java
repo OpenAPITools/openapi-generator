@@ -12,6 +12,11 @@ import java.io.File;
 import java.util.*;
 
 public class Codegen extends DefaultGenerator {
+  static String debugInfoOptions = "\nThe following additional debug options are available for all codegen targets:" +
+    "\n -DdebugSwagger prints the swagger specification as interpreted by the codegen" +
+    "\n -DdebugModels prints models passed to the template engine" +
+    "\n -DdebugOperations prints operations passed to the template engine" +
+    "\n -DdebugSupportingFiles prints additional data passed to the template engine";
   public static void main(String[] args) {
     List<CodegenConfig> extensions = getExtensions();
     Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
@@ -30,6 +35,7 @@ public class Codegen extends DefaultGenerator {
     options.addOption("o", "output", true, "where to write the generated files");
     options.addOption("i", "input-spec", true, "location of the swagger spec, as URL or file");
     options.addOption("t", "template-dir", true, "folder containing the template files");
+    options.addOption("d", "debug-info", false, "prints additional info for debugging");
 
     ClientOptInput clientOptInput = new ClientOptInput();
     ClientOpts clientOpts = new ClientOpts();
@@ -38,23 +44,26 @@ public class Codegen extends DefaultGenerator {
     CommandLine cmd = null;
     try {
       CommandLineParser parser = new BasicParser();
+      CodegenConfig config = null;
 
       cmd = parser.parse(options, args);
+      if (cmd.hasOption("d")) {
+        usage(options);
+        System.out.println(debugInfoOptions);
+        return;
+      }
       if (cmd.hasOption("l"))
         clientOptInput.setConfig(getConfig(cmd.getOptionValue("l"), configs));
       if (cmd.hasOption("o"))
         clientOptInput.getConfig().setOutputDir(cmd.getOptionValue("o"));
       if (cmd.hasOption("h")) {
         if(cmd.hasOption("l")) {
-          CodegenConfig config = getConfig(String.valueOf(cmd.getOptionValue("l")), configs);
+          config = getConfig(String.valueOf(cmd.getOptionValue("l")), configs);
           if(config != null) {
             options.addOption("h", "help", true, config.getHelp());
             usage(options);
             return;
           }
-        }
-        else {
-          options.addOption("h", "help", true, "config.getHelp()");
         }
         usage(options);
         return;
@@ -88,7 +97,6 @@ public class Codegen extends DefaultGenerator {
     }
     return output;
   }
-
 
   static void usage(Options options) {
     HelpFormatter formatter = new HelpFormatter();
