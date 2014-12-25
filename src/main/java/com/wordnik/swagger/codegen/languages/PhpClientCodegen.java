@@ -44,6 +44,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     languageSpecificPrimitives.add("int");
     languageSpecificPrimitives.add("array");
+    languageSpecificPrimitives.add("map");
     languageSpecificPrimitives.add("string");
     languageSpecificPrimitives.add("DateTime");
 
@@ -52,7 +53,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("Array", "array");
     typeMapping.put("String", "string");
     typeMapping.put("List", "array");
-    typeMapping.put("map", "array");
+    typeMapping.put("map", "map");
 
     supportingFiles.add(new SupportingFile("Swagger.mustache", "", "Swagger.php"));
   }
@@ -81,7 +82,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     else if (p instanceof MapProperty) {
       MapProperty mp = (MapProperty) p;
       Property inner = mp.getAdditionalProperties();
-      return getSwaggerType(p) + "[string]";
+      return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
     }
     return super.getTypeDeclaration(p);
   }

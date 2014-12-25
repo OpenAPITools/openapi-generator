@@ -1,9 +1,11 @@
 package php
 
 import com.wordnik.swagger.codegen.languages.PhpClientCodegen
-import com.wordnik.swagger.util.{ Json, SwaggerLoader }
+import com.wordnik.swagger.util.Json
 import com.wordnik.swagger.models._
 import com.wordnik.swagger.models.properties._
+
+import io.swagger.parser.SwaggerParser
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -121,9 +123,9 @@ class PhpModelTest extends FlatSpec with Matchers {
 
     val vars = cm.vars
     vars.get(0).baseName should be ("translations")
-    vars.get(0).datatype should be ("array[string]")
+    vars.get(0).datatype should be ("map[string,string]")
     vars.get(0).name should be ("translations")
-    vars.get(0).baseType should be ("array")
+    vars.get(0).baseType should be ("map")
     vars.get(0).containerType should be ("map")
     vars.get(0).required should equal (false)
     vars.get(0).isContainer should equal (true)
@@ -151,7 +153,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).required should equal (false)
     vars.get(0).isNotContainer should equal (true)
   }
-/*
+
   it should "convert a model with complex list property" in {
     val model = new ModelImpl()
       .description("a sample model")
@@ -168,10 +170,10 @@ class PhpModelTest extends FlatSpec with Matchers {
 
     val vars = cm.vars
     vars.get(0).baseName should be ("children")
-    vars.get(0).complexType should be ("SWGChildren")
-    vars.get(0).datatype should be ("NSArray*")
+    vars.get(0).complexType should be ("Children")
+    vars.get(0).datatype should be ("array[Children]")
     vars.get(0).name should be ("children")
-    vars.get(0).baseType should be ("NSArray")
+    vars.get(0).baseType should be ("array")
     vars.get(0).containerType should be ("array")
     vars.get(0).required should equal (false)
     vars.get(0).isContainer should equal (true)
@@ -190,14 +192,14 @@ class PhpModelTest extends FlatSpec with Matchers {
     cm.classname should be ("Sample")
     cm.description should be ("a sample model")
     cm.vars.size should be (1)
-    (cm.imports.asScala.toSet & Set("SWGChildren")).size should be (1)
+    (cm.imports.asScala.toSet & Set("Children")).size should be (1)
 
     val vars = cm.vars
     vars.get(0).baseName should be ("children")
-    vars.get(0).complexType should be ("SWGChildren")
-    vars.get(0).datatype should be ("NSDictionary*")
+    vars.get(0).complexType should be ("Children")
+    vars.get(0).datatype should be ("map[string,Children]")
     vars.get(0).name should be ("children")
-    vars.get(0).baseType should be ("NSDictionary")
+    vars.get(0).baseType should be ("map")
     vars.get(0).containerType should be ("map")
     vars.get(0).required should equal (false)
     vars.get(0).isContainer should equal (true)
@@ -215,9 +217,8 @@ class PhpModelTest extends FlatSpec with Matchers {
     cm.classname should be ("Sample")
     cm.description should be ("an array model")
     cm.vars.size should be (0)
-    cm.parent should be ("NSMutableArray")
-    cm.imports.size should be (3)
-    (cm.imports.asScala.toSet & Set("SWGChildren", "NSArray", "NSMutableArray")).size should be (3)
+    cm.imports.size should be (1)
+    (cm.imports.asScala.toSet & Set("Children")).size should be (1)
   }
 
   it should "convert an map model" in {
@@ -232,13 +233,13 @@ class PhpModelTest extends FlatSpec with Matchers {
     cm.classname should be ("Sample")
     cm.description should be ("an map model")
     cm.vars.size should be (0)
-    cm.parent should be ("NSMutableDictionary")
-    cm.imports.size should be (3)
-    (cm.imports.asScala.toSet & Set("SWGChildren", "NSDictionary", "NSMutableDictionary")).size should be (3)
+    cm.imports.size should be (2)
+    (cm.imports.asScala.toSet & Set("Children")).size should be (1)
   }
 
   it should "create proper imports per #316" in {
-    val model = new SwaggerLoader().read("src/test/resources/postBodyTest.json")
+    val model = new SwaggerParser()
+      .read("src/test/resources/postBodyTest.json")
     val codegen = new PhpClientCodegen()
 
     val animalPaths = model.getPaths()
@@ -246,14 +247,13 @@ class PhpModelTest extends FlatSpec with Matchers {
     animalOps.getPost() should not be (null)
     val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost())
     animalCo.imports.size should be (1)
-    animalCo.imports.contains("SWGAnimal") should equal (true)
+    animalCo.imports.contains("Animal") should equal (true)
 
     val insectPaths = model.getPaths()
     val insectOps = insectPaths.get("/insects")
     insectOps.getPost() should not be (null)
     val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost())
     insectCo.imports.size should be (1)
-    insectCo.imports.contains("SWGInsect") should equal (true)
+    insectCo.imports.contains("Insect") should equal (true)
   }
-  */
 }
