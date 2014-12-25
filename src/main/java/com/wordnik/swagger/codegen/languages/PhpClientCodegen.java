@@ -42,14 +42,17 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
 
+    languageSpecificPrimitives.add("int");
     languageSpecificPrimitives.add("array");
     languageSpecificPrimitives.add("string");
+    languageSpecificPrimitives.add("DateTime");
 
     typeMapping.put("long", "int");
     typeMapping.put("integer", "int");
     typeMapping.put("Array", "array");
     typeMapping.put("String", "string");
     typeMapping.put("List", "array");
+    typeMapping.put("map", "array");
 
     supportingFiles.add(new SupportingFile("Swagger.mustache", "", "Swagger.php"));
   }
@@ -78,7 +81,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     else if (p instanceof MapProperty) {
       MapProperty mp = (MapProperty) p;
       Property inner = mp.getAdditionalProperties();
-      return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+      return getSwaggerType(p) + "[string]";
     }
     return super.getTypeDeclaration(p);
   }
@@ -99,152 +102,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
       return null;
     return type;
   }
+
+  public String toDefaultValue(Property p) {
+    return "null";
+  }
 }
-
-/*
-package com.wordnik.swagger.codegen
-
-import com.wordnik.swagger.codegen.model._
-
-import java.io.File
-
-object BasicPHPGenerator extends BasicPHPGenerator {
-  def main(args: Array[String]) = generateClient(args)
-}
-
-class BasicPHPGenerator extends BasicGenerator {
-  // template used for models
-  modelTemplateFiles += "model.mustache" -> ".php"
-
-  // template used for models
-  apiTemplateFiles += "api.mustache" -> ".php"
-
-  // location of templates
-  override def templateDir = "php"
-
-  // where to write generated code
-  override def destinationDir = "generated-code/php"
-
-  // package for models
-  override def modelPackage: Option[String] = Some("models")
-
-  // package for apis
-  override def apiPackage: Option[String] = Some("")
-
-  // file suffix
-  override def fileSuffix = ".php"
-
-  // reserved words which need special quoting
-  // These will all be object properties, in which context we don't need
-  // to worry about escaping them for PHP.
-  override def reservedWords = Set()
-
-  // import/require statements for specific datatypes
-  override def importMapping = Map()
-
-
- // response classes
-  override def processResponseClass(responseClass: String): Option[String] = {
-    typeMapping.contains(responseClass) match {
-      case true => Some(typeMapping(responseClass))
-      case false => {
-        responseClass match {
-          case "void" => None
-          case e: String => {
-            responseClass.startsWith("List") match {
-              case true => Some("array")
-              case false => Some(responseClass)
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-  override def processResponseDeclaration(responseClass: String): Option[String] = {
-    typeMapping.contains(responseClass) match {
-      case true => Some(typeMapping(responseClass))
-      case false => {
-        responseClass match {
-          case "void" => None
-          case e: String => {
-            responseClass.startsWith("List") match {
-              case true => {
-                val responseSubClass = responseClass.dropRight(1).substring(5)
-                typeMapping.contains(responseSubClass) match {
-                  case true => Some("array[" + typeMapping(responseSubClass) + "]")
-                  case false => Some("array[" + responseSubClass + "]")
-                }
-              }
-              case false => Some(responseClass)
-            }
-          }
-        }
-      }
-    }
-  }
-  override def typeMapping = Map(
-    "string" -> "string",
-    "str" -> "string",
-    "int" -> "int",
-    "float" -> "float",
-    "long" -> "int",
-    "double" -> "float",
-    "Array" -> "array",
-    "boolean" -> "bool",
-    "Date" -> "DateTime"
-    )
-
-  override def toDeclaredType(dt: String): String = {
-    val declaredType = typeMapping.getOrElse(dt, dt)
-    declaredType.startsWith("Array") match {
-      case true => {
-        val innerType = dt.dropRight(1).substring(6)
-        typeMapping.contains(innerType) match {
-          case true => "array[" + typeMapping(innerType) + "]"
-          case false => "array[" + innerType + "]"
-        }
-      }
-      case _ => declaredType
-    }
-  }
-
-  override def toDeclaration(obj: ModelProperty) = {
-    var declaredType = toDeclaredType(obj.`type`)
-
-    declaredType match {
-      case "Array" => declaredType = "array"
-      case e: String => {
-        e
-      }
-    }
-
-    val defaultValue = toDefaultValue(declaredType, obj)
-    declaredType match {
-      case "array" => {
-        val inner = {
-          obj.items match {
-            case Some(items) => items.ref.getOrElse(items.`type`)
-            case _ => {
-              println("failed on " + declaredType + ", " + obj)
-              throw new Exception("no inner type defined")
-            }
-          }
-        }
-        declaredType += "[" + toDeclaredType(inner) + "]"
-        "array"
-      }
-      case _ =>
-    }
-    (declaredType, defaultValue)
-  }
-
-  // supporting classes
-  override def supportingFiles = List(
-    ("Swagger.mustache", destinationDir + File.separator + apiPackage.get,
-     "Swagger.php")
-  )
-}
-
-*/
