@@ -80,6 +80,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     else {
       if(co.path.startsWith("/" + basePath))
         co.path = co.path.substring(("/" + basePath).length());
+        co.subresourceOperation = !co.path.isEmpty();
     }
     List<CodegenOperation> opList = operations.get(basePath);
     if(opList == null) {

@@ -20,7 +20,7 @@ import javax.ws.rs.*;
 public class {{classname}} {
   {{#operation}}
   @{{httpMethod}}
-  @Path("{{path}}")
+  {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
   @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
   @ApiResponses(value = { {{#responses}}
     @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
