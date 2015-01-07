@@ -18,7 +18,7 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
 ----------------------- | ------------ | -------------------------- | -----
-2.1.0 (in development)  | n/a          | 2.0           | [branch develop_2.0](https://github.com/swagger-api/swagger-codegen/tree/develop_2.0)
+2.1.0 (in development)  | n/a          | 1.0, 1.1, 1.2, 2.0           | [branch develop_2.0](https://github.com/swagger-api/swagger-codegen/tree/develop_2.0)
 2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
@@ -26,9 +26,7 @@ Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
 ### Prerequisites
 You need the following installed and available in your $PATH:
 
-* [Java 1.7](http://java.oracle.com)
-
-Note!  Some folks have had issues with OOM errors with java version "1.6.0_51".  It's strongly suggested that you upgrade to 1.7!
+* [Java 7](http://java.oracle.com)
 
 * [Apache maven 3.0.3 or greater](http://maven.apache.org/)
 
@@ -104,7 +102,7 @@ Or for example:
 ./bin/java-petstore-filemap.sh
 ```
 
-Great for creating libraries on your ci server, from the [Swagger Editor](http://editor.swagger.wordnik.com)... or while coding on an airplane.
+Great for creating libraries on your ci server, from the [Swagger Editor](http://editor.swagger.io)... or while coding on an airplane.
 
 ### Customizing the generator
 
@@ -203,7 +201,7 @@ Note!  The templates are included in the library generated.  If you want to modi
 License
 -------
 
-Copyright 2014 Reverb Technologies, Inc.
+Copyright 2015 Reverb Technologies, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
