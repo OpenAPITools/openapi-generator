@@ -24,6 +24,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers 
 
 import scala.beans.BeanProperty
+import scala.collection.mutable.{ HashMap, LinkedHashMap }
 
 @RunWith(classOf[JUnitRunner])
 class CodegenTest extends FlatSpec with Matchers {
@@ -40,8 +41,18 @@ class CodegenTest extends FlatSpec with Matchers {
       List.empty,
       List.empty,
       List.empty,
+      //query param
+      List(new Parameter("Name", Some("name"), Some("null"), false, false, "String", AnyAllowableValues, "query", None)),
       List.empty,
-      List.empty,
+      None)
+
+  val testModel = new Model("Contact",
+      "Contact",
+      "Contact",
+      //required field
+      LinkedHashMap("Name" -> new ModelProperty("String", "String", 0, true, None, AnyAllowableValues, None)),
+      None,
+      None,
       None)
 
   behavior of "Codegen"
@@ -52,4 +63,21 @@ class CodegenTest extends FlatSpec with Matchers {
     val map = subject.apiToMap("/contacts", testOp)
     map("returnContainer") should be (Some("List"))
   }
+
+  /*
+   * Field first on the query param should be true
+   */
+  it should "have a first field on first query param and should be true" in {
+    val map = subject.apiToMap("/contacts", testOp)
+    map("queryParams").asInstanceOf[List[HashMap[String, String]]].head("first") should be ("true")
+  }
+
+  /*
+   * Field hasRequiredParams should be true
+   */
+  it should "have a hasRequiredParams field and should be true" in {
+    val map = subject.modelToMap("Contact", testModel)
+    map("hasRequiredParams") should be ("true")
+  }
 }
+
