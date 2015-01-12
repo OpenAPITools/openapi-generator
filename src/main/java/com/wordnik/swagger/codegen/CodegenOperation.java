@@ -5,7 +5,7 @@ import com.wordnik.swagger.models.*;
 import java.util.*;
 
 public class CodegenOperation {
-  public Boolean hasParams, returnTypeIsPrimitive, returnSimpleType;
+  public Boolean hasParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation;
   public String path, operationId, returnType, httpMethod, returnBaseType,
     returnContainer, summary, notes, baseName, defaultResponse;
 
