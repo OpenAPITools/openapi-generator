@@ -175,18 +175,33 @@ open index.html
 You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
 
 ### node.js
-#### Not yet migrated to this branch
+```
+java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
+  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -l nodejs \
+  -o samples/server/petstore/nodejs
+```
 
 ### rails-grape
 #### Not yet migrated to this branch
 
 
 ### scala scalatra
-#### Not yet migrated to this branch
+```
+java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
+  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -l scalatra \
+  -o samples/server/petstore/scalatra
+```
 
 ### java jax-rs
 
-To do so, just use the `-l jaxrs` flag when reading a spec file
+```
+java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
+  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -l jaxrs \
+  -o samples/server/petstore/jaxrs
+```
 
 ### To build the codegen library
 
