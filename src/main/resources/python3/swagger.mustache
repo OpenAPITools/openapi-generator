@@ -139,7 +139,7 @@ class ApiClient:
         r'^\d\d\d\d-\d\d-\d\d([Tt])\d\d:\d\d:\d\d(\.\d+)?(([Zz])|(\+|-)\d\d:?\d\d)$')
 
     def _parseDatetime(self, d):
-        if d is None:
+        if not d:
             return None
         m = ApiClient._iso8601Regex.match(d)
         timesep, microsecond, offset, zulu, plusminus = m.groups()
