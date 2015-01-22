@@ -27,12 +27,12 @@ class {{classname}} {
 	}
 
   {{#operation}}
-	/**
-	 * {{nickname}}
-	 * {{summary}}
+  /**
+   * {{nickname}}
+   * {{summary}}
+   * 
    {{#allParams}}
-   * {{paramName}}, {{dataType}}: {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
-   {{newline}}
+   * @param {{dataType}} ${{paramName}} {{description}} ({{^optional}}required{{/optional}}{{#optional}}optional{{/optional}})
    {{/allParams}}
 	 * @return {{returnType}}
 	 */
