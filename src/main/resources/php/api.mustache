@@ -22,69 +22,78 @@
 {{#operations}}
 class {{classname}} {
 
-	function __construct($apiClient) {
-	  $this->apiClient = $apiClient;
-	}
+  function __construct($apiClient) {
+    $this->apiClient = $apiClient;
+  }
 
   {{#operation}}
   /**
    * {{nickname}}
    * {{summary}}
-   * 
    {{#allParams}}
    * @param {{dataType}} ${{paramName}} {{description}} ({{^optional}}required{{/optional}}{{#optional}}optional{{/optional}})
    {{/allParams}}
-	 * @return {{returnType}}
-	 */
+   * @return {{returnType}}
+   */
 
    public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
-  		//parse inputs
-  		$resourcePath = "{{path}}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "{{httpMethod}}";
+      //parse inputs
+      $resourcePath = "{{path}}";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "{{httpMethod}}";
       $queryParams = array();
       $headerParams = array();
       $headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}';
       $headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
 
       {{#queryParams}}
-  		if(${{paramName}} != null) {
-  		  $queryParams['{{paramName}}'] = $this->apiClient->toQueryValue(${{paramName}});
-  		}
-  		{{/queryParams}}
+      if(${{paramName}} != null) {
+        $queryParams['{{paramName}}'] = $this->apiClient->toQueryValue(${{paramName}});
+      }
+      {{/queryParams}}
 
       {{#headerParams}}
-  		if(${{paramName}} != null) {
-  		 	$headerParams['{{paramName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
-  		}
+      if(${{paramName}} != null) {
+         $headerParams['{{paramName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
+      }
       {{/headerParams}}
 
       {{#pathParams}}
-  		if(${{paramName}} != null) {
-  			$resourcePath = str_replace("{" . "{{paramName}}" . "}",
-  			                            $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
-  		}
-  		{{/pathParams}}
+      if(${{paramName}} != null) {
+        $resourcePath = str_replace("{" . "{{paramName}}" . "}",
+                                    $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
+      }
+      {{/pathParams}}
 
-  		//make the API Call
+      // Generate form params
       if (! isset($body)) {
+        $body = array();
+      }
+      {{#formParams}}
+      if(${{paramName}} != null) {
+        $body['{{paramName}}'] = ${{paramName}};
+      }
+      {{/formParams}}
+      if (empty($body)) {
         $body = null;
       }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+
+      // Make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
 
       {{#returnType}}
 
       if(! $response){
           return null;
-        }
+      }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                '{{returnType}}');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,
+                                                      '{{returnType}}');
+      return $responseObject;
 
       {{/returnType}}
   }
