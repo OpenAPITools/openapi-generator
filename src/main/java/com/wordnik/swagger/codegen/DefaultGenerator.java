@@ -1,16 +1,35 @@
 package com.wordnik.swagger.codegen;
 
-import com.wordnik.swagger.models.*;
-import com.wordnik.swagger.models.properties.*;
-import com.wordnik.swagger.util.*;
-
-import com.wordnik.swagger.codegen.languages.*;
-import com.samskivert.mustache.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 
-import java.util.*;
-import java.io.*;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import com.wordnik.swagger.models.Contact;
+import com.wordnik.swagger.models.Info;
+import com.wordnik.swagger.models.License;
+import com.wordnik.swagger.models.Model;
+import com.wordnik.swagger.models.Operation;
+import com.wordnik.swagger.models.Path;
+import com.wordnik.swagger.models.Swagger;
+import com.wordnik.swagger.util.Json;
 
 public class DefaultGenerator implements Generator {
   private CodegenConfig config;
@@ -282,7 +301,7 @@ public class DefaultGenerator implements Generator {
 
   public Reader getTemplateReader(String name) {
     try{
-      InputStream is = this.getClass().getClassLoader().getResourceAsStream(name);
+      InputStream is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
       if(is == null)
         is = new FileInputStream(new File(name));
       if(is == null)
@@ -294,8 +313,14 @@ public class DefaultGenerator implements Generator {
     }
     throw new RuntimeException("can't load template " + name);
   }
+  
+  private String getCPResourcePath(String name) {
+    if (!"/".equals(File.separator))
+      return name.replaceAll(Pattern.quote(File.separator), "/");
+    return name;
+  }
 
-  public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
+public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
     Map<String, Object> operations = new HashMap<String, Object>();
     Map<String, Object> objs = new HashMap<String, Object>();
     objs.put("classname", config.toApiName(tag));
