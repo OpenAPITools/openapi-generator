@@ -1,15 +1,13 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
-import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.*;
-
-import com.wordnik.swagger.codegen.languages.*;
 import com.samskivert.mustache.*;
 
 import org.apache.commons.io.FileUtils;
 
 import java.util.*;
+import java.util.regex.*;
 import java.io.*;
 
 public class DefaultGenerator implements Generator {
@@ -282,7 +280,7 @@ public class DefaultGenerator implements Generator {
 
   public Reader getTemplateReader(String name) {
     try{
-      InputStream is = this.getClass().getClassLoader().getResourceAsStream(name);
+      InputStream is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
       if(is == null)
         is = new FileInputStream(new File(name));
       if(is == null)
@@ -294,8 +292,14 @@ public class DefaultGenerator implements Generator {
     }
     throw new RuntimeException("can't load template " + name);
   }
+  
+  private String getCPResourcePath(String name) {
+    if (!"/".equals(File.separator))
+      return name.replaceAll(Pattern.quote(File.separator), "/");
+    return name;
+  }
 
-  public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
+public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
     Map<String, Object> operations = new HashMap<String, Object>();
     Map<String, Object> objs = new HashMap<String, Object>();
     objs.put("classname", config.toApiName(tag));
