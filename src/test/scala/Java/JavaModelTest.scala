@@ -240,9 +240,9 @@ class JavaModelTest extends FlatSpec with Matchers {
     (cm.imports.asScala.toSet & Set("Map", "HashMap", "Children")).size should be (3)
   }
 
-  it should "convert a model with upper-case property name" in {
+  it should "convert a model with upper-case property names" in {
     val model = new ModelImpl()
-      .description("a model with upper-case property name")
+      .description("a model with upper-case property names")
       .property("NAME", new StringProperty())
       .required("NAME")
 
