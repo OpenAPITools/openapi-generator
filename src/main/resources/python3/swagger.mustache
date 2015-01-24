@@ -56,7 +56,7 @@ class ApiClient:
             #Options to add statements later on and for compatibility
             pass
 
-        elif method in ['POST', 'PUT', 'DELETE']:
+        elif method in ['PATCH', 'POST', 'PUT', 'DELETE']:
 
             if postData:
                 headers['Content-type'] = 'application/json'
