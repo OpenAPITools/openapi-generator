@@ -5,7 +5,7 @@
   <artifactId>{{artifactId}}</artifactId>
   <packaging>jar</packaging>
   <name>{{artifactId}}</name>
-  <version>{{apiVersion}}</version>
+  <version>{{artifactVersion}}</version>
   <prerequisites>
     <maven>2.2.0</maven>
   </prerequisites>
@@ -186,31 +186,43 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${joda-time-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.joda</groupId>
+      <artifactId>joda-convert</artifactId>
+      <version>${joda-version}</version>
+    </dependency>
   </dependencies>
     <profiles>
-        <profile>
-            <id>scala_2.10</id>
-            <properties>
-                <scala-version>2.10.3</scala-version>
-                <scala-short-version>2.10</scala-short-version>
-                <swagger-core-version>1.3.2</swagger-core-version>
-                <scala-test-version>2.1.2</scala-test-version>
-            </properties>
-        </profile>
-        <profile>
-            <id>scala_2.9.1</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <scala-version>2.9.1-1</scala-version>
-                <scala-short-version>2.9.1</scala-short-version>
-                <swagger-core-version>1.1.0</swagger-core-version>
-                <scala-test-version>1.6.1</scala-test-version>
-            </properties>
-        </profile>
+      <profile>
+        <id>scala_2.10</id>
+        <properties>
+          <scala-version>2.10.3</scala-version>
+          <scala-short-version>2.10</scala-short-version>
+          <swagger-core-version>1.3.2</swagger-core-version>
+          <scala-test-version>2.1.2</scala-test-version>
+        </properties>
+      </profile>
+      <profile>
+        <id>scala_2.9.1</id>
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+          <scala-version>2.9.1-1</scala-version>
+          <scala-short-version>2.9.1</scala-short-version>
+          <swagger-core-version>1.1.0</swagger-core-version>
+          <scala-test-version>1.6.1</scala-test-version>
+        </properties>
+      </profile>
     </profiles>
   <properties>
+    <joda-version>1.2</joda-version>
+    <joda-time-version>2.2</joda-time-version>
     <jersey-version>1.7</jersey-version>
     <junit-version>4.8.1</junit-version>
     <maven-plugin.version>1.0.0</maven-plugin.version>

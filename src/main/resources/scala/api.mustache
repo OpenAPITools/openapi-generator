@@ -26,7 +26,7 @@ class {{classname}} {
 
     {{newline}}
     val contentType = {
-      {{#bodyParam}}if({{bodyParam}} != null && {{bodyParam}}.isInstanceOf[File] )
+      {{#bodyParam}}if({{paramName}} != null && {{paramName}}.isInstanceOf[File] )
         "multipart/form-data"
       else "application/json"
       {{/bodyParam}}
@@ -52,7 +52,7 @@ class {{classname}} {
     {{/headerParams}}
 
     try {
-      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}, headerParams.toMap, contentType) match {
+      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}, headerParams.toMap, contentType) match {
         case s: String =>
           {{#returnType}} Some(ApiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
         {{/returnType}} 

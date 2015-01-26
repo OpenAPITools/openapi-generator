@@ -8,11 +8,8 @@ package {{package}}
 {{#model}}
 
 case class {{classname}} (
-  {{#vars}}
-
-  {{#description}}/* {{{description}}} */
-  {{/description}}
-  {{name}}: {{datatype}}{{#hasMore}},{{newline}}  {{/hasMore}}
-  {{/vars}})
+  {{#vars}}{{#description}}/* {{{description}}} */
+  {{/description}}{{name}}: {{{datatype}}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
+  {{/vars}}
 {{/model}}
 {{/models}}
