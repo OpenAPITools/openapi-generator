@@ -204,6 +204,7 @@ class APIClient {
     } elseif ($class == 'DateTime') {
       $deserialized = new \DateTime($data);
     } elseif (in_array($class, array('string', 'int', 'float', 'bool'))) {
+      $data = (is_object($data) || is_array($data)) json_decode($data) : $data;
       settype($data, $class);
       $deserialized = $data;
     } else {
