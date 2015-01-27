@@ -66,7 +66,7 @@ class APIClient {
 		}
 
 		if (is_object($postData) or is_array($postData)) {
-			$postData = http_build_query($this->sanitizeForSerialization($postData));
+			$postData = json_encode($this->sanitizeForSerialization($postData));
 		}
 
 		$url = $this->apiServer . $resourcePath;

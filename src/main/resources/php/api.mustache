@@ -77,6 +77,8 @@ class {{classname}} {
       {{/formParams}}
       if (empty($body)) {
         $body = null;
+      } else if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
       }
 
       // Make the API Call
