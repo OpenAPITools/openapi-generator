@@ -28,6 +28,8 @@ class APIClient {
 	public static $PUT = "PUT";
 	public static $DELETE = "DELETE";
 
+	private $curl_timout = 5;
+
 	/**
 	 * @param string $apiKey your API key
 	 * @param string $apiServer the address of the API server
@@ -35,6 +37,16 @@ class APIClient {
 	function __construct($apiKey, $apiServer) {
 		$this->apiKey = $apiKey;
 		$this->apiServer = $apiServer;
+	}
+
+	/**
+	 *	@param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
+	*/
+	public function setTimeout($seconds) {
+		if (!is_numeric($seconds)) {
+			throw new Exception('Timeout variable must be numeric.');
+		}
+		$this->curl_timout = $seconds;
 	}
 
 
@@ -72,7 +84,9 @@ class APIClient {
 		$url = $this->apiServer . $resourcePath;
 
 		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+		if ($this->curl_timout) {
+			curl_setopt($curl, CURLOPT_TIMEOUT, $this->curl_timout);
+		}
 		// return the result on success, rather than just TRUE
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
