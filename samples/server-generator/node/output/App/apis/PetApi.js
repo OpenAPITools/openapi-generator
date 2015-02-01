@@ -22,7 +22,7 @@ exports.getPetById = {
     "notes" : "Returns a pet based on ID",
     "summary" : "Find pet by ID",
     "method": "GET",
-    "params" : [].concat([params.path("petId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
+    "parameters" : [].concat([params.path("petId", "ID of pet that needs to be fetched")]).concat([]).concat([]),
     "type" : "Pet",
     "responseMessages" : [errors.invalid('id'), errors.notFound('Pet')],
     "nickname" : "getPetById"
@@ -41,7 +41,7 @@ exports.deletePet = {
     "notes" : "",
     "summary" : "Deletes a pet",
     "method": "DELETE",
-    "params" : [].concat([params.path("petId", "Pet id to delete")]).concat([]).concat([]),
+    "parameters" : [].concat([params.path("petId", "Pet id to delete")]).concat([]).concat([]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "deletePet"
@@ -60,7 +60,7 @@ exports.partialUpdate = {
     "notes" : "",
     "summary" : "partial updates to a pet",
     "method": "PATCH",
-    "params" : [].concat([params.path("petId", "ID of pet that needs to be fetched")]).concat([]).concat([params.body("body", "Pet", "Pet object that needs to be added to the store", true)
+    "parameters" : [].concat([params.path("petId", "ID of pet that needs to be fetched")]).concat([]).concat([params.body("body", "Pet", "Pet object that needs to be added to the store", true)
     ]),
     "type" : "List[Pet]",
     "responseMessages" : [errors.invalid('id'), errors.notFound('List[Pet]')],
@@ -83,7 +83,7 @@ exports.updatePetWithForm = {
     "notes" : "",
     "summary" : "Updates a pet in the store with form data",
     "method": "POST",
-    "params" : [].concat([params.path("petId", "ID of pet that needs to be updated")]).concat([]).concat([]),
+    "parameters" : [].concat([params.path("petId", "ID of pet that needs to be updated")]).concat([]).concat([]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "updatePetWithForm"
@@ -102,7 +102,7 @@ exports.uploadFile = {
     "notes" : "",
     "summary" : "uploads an image",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([params.body("body", "File", "file to upload", false)
+    "parameters" : [].concat([]).concat([]).concat([params.body("body", "File", "file to upload", false)
     ]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
@@ -119,7 +119,7 @@ exports.addPet = {
     "notes" : "",
     "summary" : "Add a new pet to the store",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([params.body("body", "Pet", "Pet object that needs to be added to the store", true)
+    "parameters" : [].concat([]).concat([]).concat([params.body("body", "Pet", "Pet object that needs to be added to the store", true)
     ]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
@@ -139,7 +139,7 @@ exports.updatePet = {
     "notes" : "",
     "summary" : "Update an existing pet",
     "method": "PUT",
-    "params" : [].concat([]).concat([]).concat([params.body("body", "Pet", "Pet object that needs to be updated in the store", true)
+    "parameters" : [].concat([]).concat([]).concat([params.body("body", "Pet", "Pet object that needs to be updated in the store", true)
     ]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
@@ -159,7 +159,7 @@ exports.findPetsByStatus = {
     "notes" : "Multiple status values can be provided with comma seperated strings",
     "summary" : "Finds Pets by status",
     "method": "GET",
-    "params" : [params.query("status", "Status values that need to be considered for filter", "string", true, true, "LIST[available,pending,sold]", "available")].concat([]).concat([]).concat([]),
+    "parameters" : [params.query("status", "Status values that need to be considered for filter", "string", true, true, "LIST[available,pending,sold]", "available")].concat([]).concat([]).concat([]),
     "type" : "List[Pet]",
     "responseMessages" : [errors.invalid('id'), errors.notFound('List[Pet]')],
     "nickname" : "findPetsByStatus"
@@ -178,7 +178,7 @@ exports.findPetsByTags = {
     "notes" : "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.",
     "summary" : "Finds Pets by tags",
     "method": "GET",
-    "params" : [params.query("tags", "Tags to filter by", "string", true, true, "")].concat([]).concat([]).concat([]),
+    "parameters" : [params.query("tags", "Tags to filter by", "string", true, true, "")].concat([]).concat([]).concat([]),
     "type" : "List[Pet]",
     "responseMessages" : [errors.invalid('id'), errors.notFound('List[Pet]')],
     "nickname" : "findPetsByTags"
