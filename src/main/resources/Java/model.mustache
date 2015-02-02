@@ -4,6 +4,7 @@ package {{package}};
 {{/imports}}
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 {{#models}}
 
 {{#model}}{{#description}}
@@ -24,6 +25,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} { {{#vars}
    * maximum: {{maximum}}{{/maximum}}
    **/
   @ApiModelProperty(required = {{required}}, value = "{{{description}}}")
+  @JsonProperty("{{name}}")
   public {{{datatype}}} {{getter}}() {
     return {{name}};
   }

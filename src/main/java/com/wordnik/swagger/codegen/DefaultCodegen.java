@@ -4,6 +4,7 @@ import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.Json;
+
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
@@ -578,10 +579,12 @@ public class DefaultCodegen {
     }
 
     if(operation.getResponses() != null) {
-      for(String responseCode: operation.getResponses().keySet()) {
+      for(String responseCode: new TreeSet<String>(operation.getResponses().keySet())) {
         Response response = operation.getResponses().get(responseCode);
-        if("200".equals(responseCode)) {
+        if (responseCode.startsWith("2")) {
+          // use the first, i.e. the smallest 2xx response status as methodResponse
           methodResponse = response;
+          break;
         }
       }
       if(methodResponse == null && operation.getResponses().keySet().contains("default")) {
