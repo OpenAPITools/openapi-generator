@@ -167,6 +167,7 @@ public class DefaultCodegen {
         "boolean",
         "Boolean",
         "Double",
+        "Void",
         "Integer",
         "Long",
         "Float")
