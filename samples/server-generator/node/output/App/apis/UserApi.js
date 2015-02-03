@@ -22,7 +22,7 @@ exports.updateUser = {
     "notes" : "This can only be done by the logged in user.",
     "summary" : "Updated user",
     "method": "PUT",
-    "params" : [].concat([params.path("username", "name that need to be deleted")]).concat([]).concat([params.body("body", "User", "Updated user object", true)
+    "parameters" : [].concat([params.path("username", "name that need to be deleted")]).concat([]).concat([params.body("body", "User", "Updated user object", true)
     ]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
@@ -45,7 +45,7 @@ exports.deleteUser = {
     "notes" : "This can only be done by the logged in user.",
     "summary" : "Delete user",
     "method": "DELETE",
-    "params" : [].concat([params.path("username", "The name that needs to be deleted")]).concat([]).concat([]),
+    "parameters" : [].concat([params.path("username", "The name that needs to be deleted")]).concat([]).concat([]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "deleteUser"
@@ -64,7 +64,7 @@ exports.getUserByName = {
     "notes" : "",
     "summary" : "Get user by user name",
     "method": "GET",
-    "params" : [].concat([params.path("username", "The name that needs to be fetched. Use user1 for testing.")]).concat([]).concat([]),
+    "parameters" : [].concat([params.path("username", "The name that needs to be fetched. Use user1 for testing.")]).concat([]).concat([]),
     "type" : "User",
     "responseMessages" : [errors.invalid('id'), errors.notFound('User')],
     "nickname" : "getUserByName"
@@ -83,7 +83,7 @@ exports.loginUser = {
     "notes" : "",
     "summary" : "Logs user into the system",
     "method": "GET",
-    "params" : [params.query("username", "The user name for login", "string", true, false, ""),params.query("password", "The password for login in clear text", "string", true, false, "")].concat([]).concat([]).concat([]),
+    "parameters" : [params.query("username", "The user name for login", "string", true, false, ""),params.query("password", "The password for login in clear text", "string", true, false, "")].concat([]).concat([]).concat([]),
     "type" : "String",
     "responseMessages" : [errors.invalid('id'), errors.notFound('String')],
     "nickname" : "loginUser"
@@ -105,7 +105,7 @@ exports.logoutUser = {
     "notes" : "",
     "summary" : "Logs out current logged in user session",
     "method": "GET",
-    "params" : [].concat([]).concat([]).concat([]),
+    "parameters" : [].concat([]).concat([]).concat([]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
     "nickname" : "logoutUser"
@@ -121,7 +121,7 @@ exports.createUser = {
     "notes" : "This can only be done by the logged in user.",
     "summary" : "Create user",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([params.body("body", "User", "Created user object", true)
+    "parameters" : [].concat([]).concat([]).concat([params.body("body", "User", "Created user object", true)
     ]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
@@ -141,7 +141,7 @@ exports.createUsersWithArrayInput = {
     "notes" : "",
     "summary" : "Creates list of users with given input array",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([params.body("body", "Array[User]", "List of user object", true)
+    "parameters" : [].concat([]).concat([]).concat([params.body("body", "Array[User]", "List of user object", true)
     ]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],
@@ -161,7 +161,7 @@ exports.createUsersWithListInput = {
     "notes" : "",
     "summary" : "Creates list of users with given list input",
     "method": "POST",
-    "params" : [].concat([]).concat([]).concat([params.body("body", "Array[User]", "List of user object", true)
+    "parameters" : [].concat([]).concat([]).concat([params.body("body", "Array[User]", "List of user object", true)
     ]),
     "type" : "",
     "responseMessages" : [errors.invalid('id'), errors.notFound('')],

@@ -24,7 +24,7 @@ exports.{{nickname}} = {
     "notes" : "{{{notes}}}",
     "summary" : "{{{summary}}}",
     "method": "{{httpMethod}}",
-    "params" : [{{#queryParams}}
+    "parameters" : [{{#queryParams}}
       params.query("{{paramName}}", "{{description}}", "{{swaggerDataType}}", {{required}}, {{allowMultiple}}, "{{{allowableValues}}}"{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}}){{#hasMore}},{{/hasMore}}
     {{/queryParams}}].concat([{{#pathParams}}
       params.path("{{paramName}}", "{{description}}"){{#hasMore}},{{/hasMore}}
