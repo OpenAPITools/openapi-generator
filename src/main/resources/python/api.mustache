@@ -84,6 +84,7 @@ class {{classname}}(object):
         {{#formParams}}
         if ('{{paramName}}' in params):
             {{#notFile}}formParams['{{paramName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{paramName}}'] = params['{{paramName}}']{{/isFile}}
+            {{newline}}
         {{/formParams}}
 
         {{#bodyParam}}
