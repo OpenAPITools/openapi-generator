@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.wordnik</groupId>
+  <groupId>io.swagger</groupId>
   <artifactId>swagger-client</artifactId>
   <packaging>jar</packaging>
   <name>swagger-client</name>
@@ -156,14 +156,8 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>sonatype-snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-  </repositories>
   <properties>
-    <swagger-annotations-version>1.5.0-SNAPSHOT</swagger-annotations-version>
+    <swagger-annotations-version>1.5.0-M1</swagger-annotations-version>
     <jersey-version>1.7</jersey-version>
     <jackson-version>2.1.4</jackson-version>
     <jodatime-version>2.3</jodatime-version>
