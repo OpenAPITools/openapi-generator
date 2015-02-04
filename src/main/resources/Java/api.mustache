@@ -61,10 +61,8 @@ public class {{classname}} {
     {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
       queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
-
     {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
-
     String[] contentTypes = {
       {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
     };
@@ -74,16 +72,13 @@ public class {{classname}} {
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
-      {{#formParams}}
-      {{#notFile}}
+      {{#formParams}}{{#notFile}}
       hasFields = true;
       mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
-      {{/notFile}}
-      {{#isFile}}
+      {{/notFile}}{{#isFile}}
       hasFields = true;
       mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
-      {{/isFile}}
-      {{/formParams}}
+      {{/isFile}}{{/formParams}}
       if(hasFields)
         postBody = mp;
     }
