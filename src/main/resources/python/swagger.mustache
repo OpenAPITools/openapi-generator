@@ -12,9 +12,9 @@ import urllib2
 import httplib
 import json
 import datetime
-import mimetools
 import mimetypes
-import itertools
+import random
+import string
 
 from models import *
 
@@ -29,7 +29,7 @@ class ApiClient:
         self.apiKey = apiKey
         self.apiServer = apiServer
         self.cookie = None
-        self.boundary = mimetools.choose_boundary()
+        self.boundary = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
 
     def callAPI(self, resourcePath, method, queryParams, postData,
                 headerParams=None, files=None):
@@ -40,7 +40,6 @@ class ApiClient:
             for param, value in headerParams.iteritems():
                 headers[param] = value
 
-        #headers['Content-type'] = 'application/json'
         headers['api_key'] = self.apiKey
 
         if self.cookie:
@@ -68,9 +67,10 @@ class ApiClient:
                 if 'Content-type' not in headers:
                     headers['Content-type'] = 'application/json'
                     data = json.dumps(postData)
-                elif headers['Content-type'] == 'multipart/form':
-                    headers['Content-type'] = 'multipart/form; boundry=%s' % self.boundary
+                elif headers['Content-type'] == 'multipart/form-data':
                     data = self.buildMultipartFormData(postData, files)
+                    headers['Content-type'] = 'multipart/form-data; boundary={0}'.format(self.boundary)
+                    headers['Content-length'] = str(len(data))
                 else:
                     data = urllib.urlencode(postData)
 
@@ -135,29 +135,36 @@ class ApiClient:
             data = json.dumps(postData.__dict__)
 
     def buildMultipartFormData(self, postData, files):
-        parts = []
-        part_boundary = '--' + self.boundary
-        parts.extend(
-            [part_boundary, 'Content-Disposition: form-data; name="%s"' % name, '', value] 
-            for name, value in postData.items()
-            )
+        def escape_quotes(s):
+            return s.replace('"', '\\"')
 
-        file_tuples = []
-        for fieldname, file_path in files:
-            filename = file_path.split('/')[-1]
-            f = open(file_path, 'r')
+        lines = []
+
+        for name, value in postData.items():
+            lines.extend((
+                '--{0}'.format(self.boundary),
+                'Content-Disposition: form-data; name="{0}"'.format(escape_quotes(name)),
+                '',
+                str(value),
+            ))
+
+        for name, filepath in files.items():
+            f = open(filepath, 'r')
+            filename = filepath.split('/')[-1]
             mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
-            body = f.read()
-            file_tuples.append((fieldname, filename, mimetype, body))
-        parts.extend(
-            [part_boundary, 'Content-Disposition file; name="%s"; filename="%s"' % (fieldname, filename), 'Content-Type: %s' % content_type, '', body] 
-            for fieldname, filename, content_type, body in file_tuples
-            )
+            lines.extend((
+                '--{0}'.format(self.boundary),
+                'Content-Disposition: form-data; name="{0}"; filename="{1}"'.format(escape_quotes(name), escape_quotes(filename)),
+                'Content-Type: {0}'.format(mimetype),
+                '',
+                f.read()
+            ))
 
-        flattened = list(itertools.chain(*parts))
-        flattened.append('--' + self.boundary + '--')
-        flattened.append('')
-        return '\r\n'.join(flattened)
+        lines.extend((
+            '--{0}--'.format(self.boundary),
+            ''
+        ))
+        return '\r\n'.join(lines)
 
     def deserialize(self, obj, objClass):
         """Derialize a JSON string into an object.
