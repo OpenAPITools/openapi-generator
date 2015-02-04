@@ -562,6 +562,7 @@ public class DefaultCodegen {
         c.add(mediaType);
       }
       op.consumes = c;
+      op.hasConsumes = true;
     }
 
     if(operation.getProduces() != null && operation.getProduces().size() > 0) {
@@ -576,6 +577,7 @@ public class DefaultCodegen {
         c.add(mediaType);
       }
       op.produces = c;
+      op.hasProduces = true;
     }
 
     if(operation.getResponses() != null) {
