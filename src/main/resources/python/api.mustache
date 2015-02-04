@@ -59,7 +59,7 @@ class {{classname}}(object):
         queryParams = {}
         headerParams = {}
         formParams = {}
-        files = []
+        files = {}
         bodyParam = None
 
         headerParams['Content-type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}'
@@ -87,9 +87,9 @@ class {{classname}}(object):
             formParams['{{paramName}}'] = params['{{paramName}}']
             {{/notFile}}
             {{#isFile}}
-            files.append(('{{paramName}}', params['{{paramName}}']))
+            files['{{paramName}}'] = params['{{paramName}}']
             {{/isFile}}
-        {{newline}}
+        {{#hasMore}}{{newline}}{{/hasMore}}
         {{/formParams}}
 
         {{#bodyParam}}
