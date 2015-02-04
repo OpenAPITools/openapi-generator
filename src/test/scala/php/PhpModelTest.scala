@@ -239,7 +239,7 @@ class PhpModelTest extends FlatSpec with Matchers {
 
   it should "create proper imports per #316" in {
     val model = new SwaggerParser()
-      .read("src/test/resources/postBodyTest.json")
+      .read("src/test/resources/2_0/postBodyTest.json")
     val codegen = new PhpClientCodegen()
 
     val animalPaths = model.getPaths()

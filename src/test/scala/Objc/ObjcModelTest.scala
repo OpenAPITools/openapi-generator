@@ -240,7 +240,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
   }
 
   it should "create proper imports per #316" in {
-    val model = new SwaggerLoader().read("src/test/resources/postBodyTest.json")
+    val model = new SwaggerLoader().read("src/test/resources/2_0/postBodyTest.json")
     val codegen = new ObjcClientCodegen()
 
     val animalPaths = model.getPaths()
