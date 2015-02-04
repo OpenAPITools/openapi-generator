@@ -680,8 +680,14 @@ public class DefaultCodegen {
           p.isBodyParam = new Boolean(true);
           bodyParam = p;
         }
-        // else if(param instanceof FormParameter)
-        //   formParams.add(p);
+        else if(param instanceof FormParameter) {
+          formParams.add(p);
+          if("File".equals(p.dataType))
+            p.isFile = true;
+          else
+            p.notFile = true;
+          p.isFormParam = new Boolean(true);
+        }
       }
     }
     for(String i: imports) {
