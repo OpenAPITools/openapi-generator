@@ -89,8 +89,8 @@ class {{classname}}(object):
             {{#isFile}}
             files.append(('{{paramName}}', params['{{paramName}}']))
             {{/isFile}}
-        {{/formParams}}
         {{newline}}
+        {{/formParams}}
 
         {{#bodyParam}}
         if ('{{paramName}}' in params):
