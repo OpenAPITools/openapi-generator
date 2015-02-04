@@ -12,6 +12,9 @@ import urllib2
 import httplib
 import json
 import datetime
+import mimetools
+import mimetypes
+import itertools
 
 from models import *
 
@@ -26,9 +29,10 @@ class ApiClient:
         self.apiKey = apiKey
         self.apiServer = apiServer
         self.cookie = None
+        self.boundary = mimetools.choose_boundary()
 
     def callAPI(self, resourcePath, method, queryParams, postData,
-                headerParams=None):
+                headerParams=None, files=None):
 
         url = self.apiServer + resourcePath
         headers = {}
@@ -60,12 +64,15 @@ class ApiClient:
         elif method in ['POST', 'PUT', 'DELETE']:
 
             if postData:
-                data = self.sanitizeForSerialization(postData)
+                postData = self.sanitizeForSerialization(postData)
                 if 'Content-type' not in headers:
                     headers['Content-type'] = 'application/json'
-                    data = json.dumps(data)
+                    data = json.dumps(postData)
+                else if headers['Content-type'] == 'multipart/form':
+                    headers['Content-type'] = 'multipart/form; boundry=%s' % self.boundary
+                    data = self.buildMultipartFormData(postData, files)
                 else:
-                    data = urllib.urlencode(data)
+                    data = urllib.urlencode(postData)
 
         else:
             raise Exception('Method ' + method + ' is not recognized.')
@@ -126,6 +133,31 @@ class ApiClient:
                 data = json.dumps([datum.__dict__ for datum in postData])
         elif type(postData) not in safeToDump:
             data = json.dumps(postData.__dict__)
+
+    def buildMultipartFormData(self, postData, files):
+        parts = []
+        part_boundary = '--' + self.boundary
+        parts.extend(
+            [part_boundary, 'Content-Disposition: form-data; name="%s"' % name, '', value] 
+            for name, value in postData.items()
+            )
+
+        file_tuples = []
+        for fieldname, file_path in files:
+            filename = file_path.split('/')[-1]
+            f = open(file_path, 'r')
+            mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+            body = f.read()
+            file_tuples.append((fieldname, filename, mimetype, body))
+        parts.extend(
+            [part_boundary, 'Content-Disposition file; name="%s"; filename="%s"' % (fieldname, filename), 'Content-Type: %s' % content_type, '', body] 
+            for fieldname, filename, content_type, body in file_tuples
+            )
+
+        flattened = list(itertools.chain(*parts))
+        flattened.append('--' + self.boundary + '--')
+        flattened.append('')
+        return '\r\n'.join(flattened)
 
     def deserialize(self, obj, objClass):
         """Derialize a JSON string into an object.
