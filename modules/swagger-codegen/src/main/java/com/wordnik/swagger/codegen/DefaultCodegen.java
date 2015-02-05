@@ -7,9 +7,14 @@ import com.wordnik.swagger.util.Json;
 
 import org.apache.commons.lang.StringUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 public class DefaultCodegen {
+  Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+
   protected String outputFolder = "";
   protected Set<String> defaultIncludes = new HashSet<String>();
   protected Map<String, String> typeMapping = new HashMap<String, String>();
@@ -375,7 +380,7 @@ public class DefaultCodegen {
           Property prop = impl.getProperties().get(key);
 
           if(prop == null) {
-            System.out.println("null property for " + key);
+            LOGGER.warn("null property for " + key);
           }
           else {
             CodegenProperty cp = fromProperty(key, prop);
@@ -422,7 +427,7 @@ public class DefaultCodegen {
 
   public CodegenProperty fromProperty(String name, Property p) {
     if(p == null) {
-      System.out.println("unexpected missing property for name " + null);
+      LOGGER.error("unexpected missing property for name " + null);
       return null;
     }
     CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
@@ -481,8 +486,7 @@ public class DefaultCodegen {
       ArrayProperty ap = (ArrayProperty) p;
       CodegenProperty cp = fromProperty("inner", ap.getItems());
       if(cp == null) {
-        System.out.println("skipping invalid property:");
-        Json.prettyPrint(p);
+        LOGGER.warn("skipping invalid property " + Json.pretty(p));
       }
       else {
         property.baseType = getSwaggerType(p);
@@ -540,7 +544,7 @@ public class DefaultCodegen {
         }
       }
       operationId = builder.toString();
-      System.out.println("generated operationId " + operationId);
+      LOGGER.warn("generated operationId " + operationId);
     }
     op.path = path;
     op.operationId = operationId;
@@ -741,7 +745,7 @@ public class DefaultCodegen {
       if("array".equals(qp.getType())) {
         Property inner = qp.getItems();
         if(inner == null) {
-          System.out.println("warning!  No inner type supplied for array parameter \"" + qp.getName() + "\", using String");
+          LOGGER.warn("warning!  No inner type supplied for array parameter \"" + qp.getName() + "\", using String");
           inner = new StringProperty().description("//TODO automatically added by swagger-codegen");
         }
         property = new ArrayProperty(inner);
@@ -753,7 +757,7 @@ public class DefaultCodegen {
       else
         property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
       if(property == null) {
-        System.out.println("warning!  Property type \"" + qp.getType() + "\" not found for parameter \"" + param.getName() + "\", using String");
+        LOGGER.warn("warning!  Property type \"" + qp.getType() + "\" not found for parameter \"" + param.getName() + "\", using String");
         property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + qp.getType() + " but not supported");
       }
       CodegenProperty model = fromProperty(qp.getName(), property);

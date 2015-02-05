@@ -10,8 +10,8 @@ import java.util.*;
 import java.io.File;
 
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
-  protected String invokerPackage = "com.wordnik.api";
-  protected String groupId = "com.wordnik";
+  protected String invokerPackage = "io.swagger.api";
+  protected String groupId = "io.swagger";
   protected String artifactId = "swagger-server";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
@@ -31,8 +31,8 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     modelTemplateFiles.put("model.mustache", ".java");
     apiTemplateFiles.put("api.mustache", ".java");
     templateDir = "JavaJaxRS";
-    apiPackage = "com.wordnik.api";
-    modelPackage = "com.wordnik.model";
+    apiPackage = "io.swagger.api";
+    modelPackage = "io.swagger.model";
 
     additionalProperties.put("invokerPackage", invokerPackage);
     additionalProperties.put("groupId", groupId);
@@ -64,6 +64,22 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         "Long",
         "Float")
       );
+  }
+
+  @Override
+  public String getTypeDeclaration(Property p) {
+    if(p instanceof ArrayProperty) {
+      ArrayProperty ap = (ArrayProperty) p;
+      Property inner = ap.getItems();
+      return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
+    }
+    else if (p instanceof MapProperty) {
+      MapProperty mp = (MapProperty) p;
+      Property inner = mp.getAdditionalProperties();
+
+      return getTypeDeclaration(inner);
+    }
+    return super.getTypeDeclaration(p);
   }
 
   @Override

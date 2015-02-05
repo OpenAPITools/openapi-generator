@@ -9,7 +9,7 @@
   <groupId>com.wordnik</groupId>
   <artifactId>swagger-codegen</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-codegen</name>
+  <name>swagger-codegen (core library)</name>
   <version>2.1.0-SNAPSHOT</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>

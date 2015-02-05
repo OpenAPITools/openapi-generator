@@ -8,7 +8,7 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>com.wordnik.swagger.jaxrs.json;com.wordnik.swagger.jaxrs.listing;{{apiPackage}}</param-value>
+      <param-value>com.wordnik.swagger.jaxrs.json;com.wordnik.swagger.jaxrs.listing;io.swagger.api</param-value>
     </init-param>
     <init-param>
       <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
@@ -30,7 +30,7 @@
     </init-param>
     <init-param>
       <param-name>swagger.api.title</param-name>
-      <param-value>{{{title}}}</param-value>
+      <param-value>Swagger Server</param-value>
     </init-param>
     <init-param>
       <param-name>swagger.api.basepath</param-name>
@@ -45,7 +45,7 @@
   </servlet-mapping>
   <filter>
     <filter-name>ApiOriginFilter</filter-name>
-    <filter-class>{{apiPackage}}.ApiOriginFilter</filter-class>
+    <filter-class>io.swagger.api.ApiOriginFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>ApiOriginFilter</filter-name>

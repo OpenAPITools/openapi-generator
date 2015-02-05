@@ -8,7 +8,7 @@
   <groupId>com.wordnik</groupId>
   <artifactId>swagger-codegen-project</artifactId>
   <packaging>pom</packaging>
-  <name>swagger-codegen</name>
+  <name>swagger-codegen-project</name>
   <version>2.1.0-SNAPSHOT</version>
   <url>https://github.com/swagger-api/swagger-codegen</url>
   <scm>
