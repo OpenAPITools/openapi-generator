@@ -1,0 +1,59 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import com.wordnik.swagger.client._
+import scala.concurrent.{ Future, Await }
+import scala.concurrent.duration._
+import collection.mutable
+
+{{#operations}}
+class {{className}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+
+  {{#operation}}
+
+  def {{nickname}}({{#allParams}}
+      {{#optional}}
+        {{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{defaultValue}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
+      {{/optional}}
+      {{^optional}}
+        {{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}
+      {{/optional}}{{/allParams}})(implicit reader: ClientResponseReader[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{dataType}}]{{/bodyParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
+    // create path and map variables
+    val path = 
+      (addFmt("{{path}}"){{#pathParams}}
+        replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}}.toString)
+        {{/pathParams}})
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    {{#requiredParamCount}}
+    // verify required params are set
+    val paramCount = (Set[Any]({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size
+    if (paramCount != {{requiredParamCount}}) sys.error("missing required params")
+    {{/requiredParamCount}}
+
+    {{#queryParams}}
+    {{#optional}}
+    if({{paramName}} != null) {{paramName}}.foreach { v => queryParams += "{{baseName}}" -> v.toString }
+    {{/optional}}
+    {{^optional}}
+    if({{paramName}} != null)   queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/optional}}
+    {{/queryParams}}
+
+    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/headerParams}}
+
+    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}writer.write({{bodyParam}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  {{/operation}}
+
+}
+{{/operations}}

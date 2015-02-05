@@ -1,0 +1,101 @@
+  using System;
+  using System.Collections.Generic;
+  using {{invokerPackage}};
+  using {{modelPackage}};
+  {{#imports}}
+  {{/imports}}
+
+  namespace {{package}} {
+    {{#operations}}
+    public class {{classname}} {
+      string basePath;
+      private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
+
+      public {{classname}}(String basePath = "{{basePath}}")
+      {
+        this.basePath = basePath;
+      }
+
+      public ApiInvoker getInvoker() {
+        return apiInvoker;
+      }
+
+      // Sets the endpoint base url for the services being accessed
+      public void setBasePath(string basePath) {
+        this.basePath = basePath;
+      }
+
+      // Gets the endpoint base url for the services being accessed
+      public String getBasePath() {
+        return basePath;
+      }
+
+      {{#operation}}
+
+      /// <summary>
+      /// {{summary}} {{notes}}
+      /// </summary>
+      {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
+      {{#hasMore}} {{/hasMore}}{{/allParams}}
+      /// <returns></returns>
+      public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+        // create path and map variables
+        var path = "{{path}}".Replace("{format}","json"){{#pathParams}}.Replace("{" + "{{paramName}}" + "}", apiInvoker.escapeString({{{paramName}}}.ToString())){{/pathParams}};
+
+        // query params
+        var queryParams = new Dictionary<String, String>();
+        var headerParams = new Dictionary<String, String>();
+        var formParams = new Dictionary<String, object>();
+
+        {{#requiredParamCount}}
+        // verify required params are set
+        if ({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
+           throw new ApiException(400, "missing required params");
+        }
+        {{/requiredParamCount}}
+
+        {{#queryParams}}if ({{paramName}} != null){
+          string paramStr = ({{paramName}} is DateTime) ? ((DateTime)(object){{paramName}}).ToString("u") : Convert.ToString({{paramName}});
+          queryParams.Add("{{paramName}}", paramStr);
+		}
+        {{/queryParams}}
+
+        {{#headerParams}}headerParams.Add("{{paramName}}", {{paramName}});
+        {{/headerParams}}
+
+        {{#formParams}}if ({{paramName}} != null){
+          if({{paramName}} is byte[]) {
+            formParams.Add("{{paramName}}", {{paramName}});
+          } else {
+            string paramStr = ({{paramName}} is DateTime) ? ((DateTime)(object){{paramName}}).ToString("u") : Convert.ToString({{paramName}});
+            formParams.Add("{{paramName}}", paramStr);
+          }
+		}
+        {{/formParams}}
+
+        try {
+          if (typeof({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}) == typeof(byte[])) {
+            var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
+            return {{#returnType}}((object)response) as {{{returnType}}}{{/returnType}};
+          } else {
+            var response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams, formParams);
+            if(response != null){
+               return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, typeof({{{returnType}}})){{/returnType}};
+            }
+            else {
+              return {{#returnType}}null{{/returnType}};
+            }
+          }
+        } catch (ApiException ex) {
+          if(ex.ErrorCode == 404) {
+          	return {{#returnType}}null{{/returnType}};
+          }
+          else {
+            throw ex;
+          }
+        }
+      }
+      {{/operation}}
+    }
+    {{/operations}}
+  }

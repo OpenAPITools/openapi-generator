@@ -1,0 +1,73 @@
+package {{package}} {
+
+import com.wordnik.swagger.common.ApiInvoker;
+import com.wordnik.swagger.exception.ApiErrorCodes;
+import com.wordnik.swagger.exception.ApiError;
+import com.wordnik.swagger.common.ApiUserCredentials;
+import com.wordnik.swagger.event.Response;
+import com.wordnik.swagger.common.SwaggerApi;
+{{#imports}}import {{import}};
+{{/imports}}
+
+import mx.rpc.AsyncToken;
+import mx.utils.UIDUtil;
+import flash.utils.Dictionary;
+import flash.events.EventDispatcher;
+
+{{#operations}}
+public class {{classname}} extends SwaggerApi {
+    /**
+    * Constructor for the {{classname}} api client
+    * @param apiCredentials Wrapper object for tokens and hostName required towards authentication
+    * @param eventDispatcher Optional event dispatcher that when provided is used by the SDK to dispatch any Response
+    */
+    public function {{classname}}(apiCredentials: ApiUserCredentials, eventDispatcher: EventDispatcher = null) {
+        super(apiCredentials, eventDispatcher);
+    }
+
+{{#operation}}
+        public static const event_{{nickname}}: String = "{{nickname}}";
+{{/operation}}
+
+{{#operation}}
+
+    /*
+     * Returns {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
+     */
+    public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
+        // create path and map variables
+        var path: String = "{{path}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{paramName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        {{#requiredParamCount}}
+        // verify required params are set
+        if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
+            throw new ApiError(400, "missing required params");
+        }
+        {{/requiredParamCount}}
+
+        {{#queryParams}}if("null" != String({{paramName}}))
+            queryParams["{{paramName}}"] = toPathValue({{paramName}});
+        {{/queryParams}}
+
+        {{#headerParams}}headerParams["{{paramName}}"] = toPathValue({{paramName}});
+        {{/headerParams}}
+
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "{{nickname}}";
+
+        token.returnType = {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null {{/returnType}};
+        return requestId;
+
+    }
+    {{/operation}}
+}
+        {{/operations}}
+}

@@ -1,0 +1,40 @@
+package {{package}} {
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{#models}}
+{{#model}}
+    [XmlRootNode(name="{{classname}}")]
+    public class {{classname}} {
+    {{#vars}}
+
+    {{#description}}/* {{description}} */
+    {{/description}}
+
+        {{#isList}}
+        // This declaration below of _{{name}}_obj_class is to force flash compiler to include this class
+        private var _{{name}}_obj_class: {{baseType}} = null;
+        [XmlElementWrapper(name="{{name}}")]
+        [XmlElements(name="{{nameSingular}}", type="{{baseType}}")]
+        {{/isList}}
+        {{#isNotContainer}}[XmlElement(name="{{name}}")]
+        {{/isNotContainer}}
+        public var {{name}}: {{{datatype}}} = {{{defaultValue}}};
+
+    {{/vars}}
+
+        public function toString(): String {
+            var str: String = "{{classname}}: ";
+            {{#vars}}
+            str += " ({{name}}: " + {{name}} + ")";
+            {{/vars}}
+            return str;
+        }
+
+
+}
+{{/model}}
+        {{/models}}
+
+}

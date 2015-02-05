@@ -1,0 +1,85 @@
+require "uri"
+
+{{#operations}}
+class {{classname}}
+  basePath = "{{basePath}}"
+  # apiInvoker = APIInvoker
+
+  def self.escapeString(string)
+    URI.encode(string.to_s)
+  end
+
+  {{#operation}}
+  def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}},{{/allParams}} opts={})
+    query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
+
+    {{#requiredParamCount}}
+    
+    # verify existence of params
+    {{#requiredParams}}
+    raise "{{{paramName}}} is required" if {{{paramName}}}.nil?
+    {{/requiredParams}}
+    {{/requiredParamCount}}
+    
+    # set default values and merge with input
+    options = {
+    {{#allParams}}
+      :{{paramName}} => {{paramName}}{{#hasMore}},
+      {{/hasMore}}
+    {{/allParams}}
+    }.merge(opts)
+
+    #resource path
+    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', escapeString({{paramName}}))
+    {{/pathParams}}{{newline}}
+    
+    # pull querystring keys from options
+    queryopts = options.select do |key,value|
+      query_param_keys.include? key
+    end
+    
+    {{#headerParams}}headers = {
+      {{{paramName}}}: {{{paramName}}},
+    }
+    {{/headerParams}}
+    {{^headerParams}}headers = nil
+    {{/headerParams}}
+    
+    post_body = nil
+    {{#bodyParam}}
+    if body != nil
+      if body.is_a?(Array)
+        array = Array.new
+        body.each do |item|
+          if item.respond_to?("to_body".to_sym)
+            array.push item.to_body
+          else
+            array.push item
+          end
+        end
+        post_body = array
+
+      else 
+        if body.respond_to?("to_body".to_sym)
+	        post_body = body.to_body
+	      else
+	        post_body = body
+	      end
+      end
+    end
+    {{/bodyParam}}
+
+    {{#returnType}}
+    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+    {{#returnContainer}}
+    response.map {|response|{{/returnContainer}} {{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}
+    {{/returnType}}
+    {{^returnType}}
+    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    {{/returnType}}
+  {{newline}}
+  end
+
+{{/operation}}
+end
+{{/operations}}
