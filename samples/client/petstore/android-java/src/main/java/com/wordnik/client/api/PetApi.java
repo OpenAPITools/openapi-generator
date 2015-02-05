@@ -8,6 +8,7 @@ import com.wordnik.client.model.*;
 import java.util.*;
 
 import com.wordnik.client.model.Pet;
+import java.io.File;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -282,6 +283,43 @@ public class PetApi {
 
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public void  uploadImage (File petImage) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}/upload".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }

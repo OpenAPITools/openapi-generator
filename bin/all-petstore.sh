@@ -18,20 +18,14 @@ if [ ! -d "${APP_DIR}" ]; then
 fi
 
 cd $APP_DIR
-./bin/java-wordnik-api.sh
-./bin/php-wordnik-api.sh
-./bin/python3-wordnik-api.sh
-./bin/objc-wordnik-api.sh
-./bin/python-wordnik-api.sh
-./bin/scala-wordnik-api.sh
-
 ./bin/android-java-petstore.sh
-./bin/csharp-petstore.sh
-./bin/flash-petstore.sh
+./bin/android-java-wordnik-api.sh
+./bin/dynamic-html.sh
+./bin/html.sh
+./bin/jaxrs-petstore-server.sh
+./bin/java-petstore-filemap.sh
 ./bin/java-petstore.sh
+./bin/java-wordnik-api.sh
 ./bin/objc-petstore.sh
-./bin/php-petstore.sh
-./bin/python-petstore.sh
-./bin/python3-petstore.sh
-./bin/ruby-petstore.sh
-./bin/scala-petstore.sh
+./bin/objc-wordnik-api.sh
+./bin/tizen-petstore.sh

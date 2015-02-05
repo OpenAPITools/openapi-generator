@@ -6,15 +6,15 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wordnik</groupId>
-  <artifactId>swagger-codegen</artifactId>
-  <packaging>jar</packaging>
-  <name>wordnik-swagger-codegen</name>
+  <artifactId>swagger-codegen-project</artifactId>
+  <packaging>pom</packaging>
+  <name>swagger-codegen-project</name>
   <version>2.1.0-SNAPSHOT</version>
-  <url>https://github.com/wordnik/swagger-codegen</url>
+  <url>https://github.com/swagger-api/swagger-codegen</url>
   <scm>
-    <connection>scm:git:git@github.com:wordnik/swagger-codegen.git</connection>
-    <developerConnection>scm:git:git@github.com:wordnik/swagger-codegen.git</developerConnection>
-    <url>https://github.com/wordnik/swagger-codegen</url>
+    <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
+    <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
+    <url>https://github.com/swagger-api/swagger-codegen</url>
   </scm>
   <prerequisites>
     <maven>2.2.0</maven>
@@ -28,7 +28,7 @@
   </developers>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/wordnik/swagger-codegen/issues</url>
+    <url>https://github.com/swagger-api/swagger-core/issues</url>
   </issueManagement>
   <mailingLists>
     <mailingList>
@@ -44,9 +44,8 @@
     </license>
   </licenses>
   <build>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
     <outputDirectory>target/classes</outputDirectory>
-    <testOutputDirectory>target/test-classes</testOutputDirectory>
     <extensions>
       <extension>
         <groupId>org.jvnet.wagon-svn</groupId>
@@ -69,33 +68,6 @@
     <finalName>${project.artifactId}-${project.version}</finalName>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.3.2</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <mainClass>com.wordnik.swagger.codegen.Codegen</mainClass>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>com.wordnik.swagger.codegen.Codegen</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
@@ -108,44 +80,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>add-source</goal>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <configuration>
-            <recompileMode>incremental</recompileMode>
-          </configuration>
-          <jvmArgs>
-            <jvmArg>-Xmx384m</jvmArg>
-          </jvmArgs>
-          <args>
-            <arg>-target:jvm-1.6</arg>
-            <arg>-deprecation</arg>
-          </args>
-          <launchers>
-            <launcher>
-              <id>run-scalatest</id>
-              <mainClass>org.scalatest.tools.Runner</mainClass>
-              <args>
-                <arg>-p</arg>
-                <arg>${project.build.testOutputDirectory}</arg>
-              </args>
-              <jvmArgs>
-                <jvmArg>-Xmx512m</jvmArg>
-              </jvmArgs>
-            </launcher>
-          </launchers>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -189,8 +123,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.0</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
       </plugin>
       <plugin>
@@ -218,7 +152,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.1</version>
       </plugin>
-          </plugins>
+    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -232,21 +166,6 @@
           <configuration>
             <releaseProfiles>release</releaseProfiles>
             <goals>sign</goals>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.mortbay.jetty</groupId>
-          <artifactId>jetty-maven-plugin</artifactId>
-          <version>${jetty-version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.sun.jersey</groupId>
-              <artifactId>jersey-servlet</artifactId>
-              <version>${jersey-version}</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <scalaVersion>${scala-version}</scalaVersion>
           </configuration>
         </plugin>
       </plugins>
@@ -321,6 +240,10 @@
       </build>
     </profile>
   </profiles>
+  <modules>
+    <module>modules/swagger-codegen</module>
+    <module>modules/swagger-codegen-distribution</module>
+  </modules>
   <reporting>
     <outputDirectory>target/site</outputDirectory>
     <plugins>
@@ -365,83 +288,16 @@
       </plugin>
     </plugins>
   </reporting>
-  <dependencies>
-    <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-parser</artifactId>
-      <version>${swagger-parser-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-legacy-spec-parser</artifactId>
-      <version>${swagger-parser-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>swagger-core</artifactId>
-      <version>${swagger-core-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.samskivert</groupId>
-      <artifactId>jmustache</artifactId>
-      <version>${jmustache-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>${commons-io-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-tools-api</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>maven-bundle-plugin</artifactId>
-      <version>${felix-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-ext</artifactId>
-      <version>${slf4j-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>${commons-lang-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-cli</groupId>
-      <artifactId>commons-cli</artifactId>
-      <version>${commons-cli-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.11</artifactId>
-      <version>${scala-test-version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit-version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit-version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <properties>
     <swagger-parser-version>1.0.0-SNAPSHOT</swagger-parser-version>
     <scala-version>2.11.1</scala-version>
@@ -458,13 +314,4 @@
     <scala-version>2.10.4</scala-version>
     <jmustache-version>1.9</jmustache-version>
   </properties>
-  <repositories>
-    <repository>
-      <id>sonatype-snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>

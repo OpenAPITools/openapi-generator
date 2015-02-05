@@ -292,8 +292,12 @@
       <div class="param">petId (required)</div>
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be updated </div>
-      
-      
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated name of the pet </div>
+      <div class="param">status (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated status of the pet </div>
       
     </div>  <!-- field-items -->
     <h3 class="field-label">Return type</h3>
@@ -311,7 +315,7 @@
 
     <h3 class="field-label">Parameters</h3>
     <div class="field-items">
-      <div class="param">api_key (required)</div>
+      <div class="param">api_key (optional)</div>
 
       <div class="param-desc"><span class="param-type">Header Parameter</span> &mdash;  </div>
       <div class="param">petId (required)</div>
@@ -328,6 +332,23 @@
   <hr>
   
   
+  
+  <div class="method">
+    <div class="method-path"><pre class="get"><code class="huge"><span>get</span>: /store/inventory</code></pre></div>
+    <div class="method-summary"><span class="nickname">getInventory</span> Returns pet inventories by status</div>
+    <div class="method-notes">Returns a map of status codes to quantities</div>
+
+    <h3 class="field-label">Parameters</h3>
+    <div class="field-items">
+      
+    </div>  <!-- field-items -->
+    <h3 class="field-label">Return type</h3>
+
+    <div class="return-type"><a href="#integer">map[String, Integer]</a></div>
+
+    
+  </div> <!-- method -->
+  <hr>
   
   <div class="method">
     <div class="method-path"><pre class="post"><code class="huge"><span>post</span>: /store/order</code></pre></div>

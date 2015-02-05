@@ -17,10 +17,20 @@ if [ ! -d "${APP_DIR}" ]; then
   APP_DIR=`cd "${APP_DIR}"; pwd`
 fi
 
-cd $APP_DIR
+root=./modules/swagger-codegen-distribution/pom.xml
+
+# gets version of swagger-codegen
+version=$(sed '/<project>/,/<\/project>/d;/<version>/!d;s/ *<\/\?version> *//g' $root | sed -n '2p' | sed -e 's,.*<version>\([^<]*\)</version>.*,\1,g')
+
+executable="./modules/swagger-codegen-distribution/target/swagger-codegen-distribution-$version.jar"
+
+if [ ! -f "$executable" ]
+then
+  mvn clean package
+fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ com.wordnik.swagger.codegen.Codegen -i src/test/resources/petstore.json -l java -o samples/client/petstore/java"
+ags="$@ -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l java -o samples/client/petstore/java"
 
-java -cp $APP_DIR/target/*:$APP_DIR/target/lib/* $ags
+java $JAVA_OPTS -jar $executable $ags
