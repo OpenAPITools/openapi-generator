@@ -11,9 +11,9 @@ import java.util.regex.*;
 import java.io.*;
 
 public class DefaultGenerator implements Generator {
-  private CodegenConfig config;
-  private ClientOptInput opts = null;
-  private Swagger swagger = null;
+  protected CodegenConfig config;
+  protected ClientOptInput opts = null;
+  protected Swagger swagger = null;
 
   public Generator opts(ClientOptInput opts) {
     this.opts = opts;
