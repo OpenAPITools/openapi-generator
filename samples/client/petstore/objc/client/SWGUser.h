@@ -12,22 +12,16 @@
 @property(nonatomic) NSString* password;  
 @property(nonatomic) NSString* phone;  
 @property(nonatomic) NSNumber* userStatus;  /* User Status  */
-- (id) _id: (NSNumber*) _id
-  
-       username: (NSString*) username
-  
-       firstName: (NSString*) firstName
-  
-       lastName: (NSString*) lastName
-  
-       email: (NSString*) email
-  
-       password: (NSString*) password
-  
-       phone: (NSString*) phone
-  
-       userStatus: (NSNumber*) userStatus;
-       
+- (id) _id: (NSNumber*) _id     
+    username: (NSString*) username     
+    firstName: (NSString*) firstName     
+    lastName: (NSString*) lastName     
+    email: (NSString*) email     
+    password: (NSString*) password     
+    phone: (NSString*) phone     
+    userStatus: (NSNumber*) userStatus;
+    
+
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
 

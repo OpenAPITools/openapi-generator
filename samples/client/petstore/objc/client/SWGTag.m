@@ -4,19 +4,24 @@
 @implementation SWGTag
 
 -(id)_id: (NSNumber*) _id
-    name: (NSString*) name { 
+    name: (NSString*) name
     
+{
     __id = _id;
     _name = name;
     
+
     return self;
 }
+
 -(id) initWithValues:(NSDictionary*)dict
 {
     self = [super init];
     if(self) {
         __id = dict[@"id"];
+        
         _name = dict[@"name"];
+        
         
     }
     return self;
@@ -26,17 +31,14 @@
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     
     
-    if(__id != nil)
-        dict[@"id"] = __id;
+            if(__id != nil) dict[@"id"] = __id ;
+        
     
     
+            if(_name != nil) dict[@"name"] = _name ;
+        
     
-    
-    if(_name != nil)
-        dict[@"name"] = _name;
-    
-    
-    
+
     NSDictionary* output = [dict copy];
     return output;
 }
