@@ -7,7 +7,7 @@
   "host": "api.wordnik.com",
   "basePath": "/v4",
   "schemes": [
-    "http"
+    "https"
   ],
   "security": [
     {
@@ -33,7 +33,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "Usage statistics for the supplied API key",
+            "schema": {
+              "$ref": "#/definitions/ApiTokenStatus"
+            }
           },
           "400": {
             "description": "No token supplied."
@@ -69,7 +72,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "A valid authentication token",
+            "schema": {
+              "$ref": "#/definitions/AuthenticationToken"
+            }
           },
           "403": {
             "description": "Account not available."
@@ -105,7 +111,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "A valid authentication token",
+            "schema": {
+              "$ref": "#/definitions/AuthenticationToken"
+            }
           },
           "403": {
             "description": "Account not available."
@@ -135,7 +144,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "The logged-in user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "403": {
             "description": "Not logged in."
@@ -180,7 +192,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WordList"
+              }
+            }
           },
           "403": {
             "description": "Not authenticated."
@@ -223,7 +241,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/WordObject"
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -265,7 +286,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AudioFile"
+              }
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -338,7 +365,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Definition"
+              }
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -374,7 +407,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -433,7 +472,8 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",            
+            "$ref": "/definitions/ExampleSearchResults"
           },
           "400": {
             "description": "Invalid word supplied."
@@ -482,7 +522,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/FrequencySummary"
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -533,7 +576,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "type": "array",
+            "items": {
+              "schema": {
+                "$ref": "#/definitions/Syllable"
+              }
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -582,7 +631,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Bigram"
+              }
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -637,7 +692,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "type": "array",
+            "items": {
+              "schema": {
+                "$ref": "#/definitions/TextPron"
+              }
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -685,7 +746,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "type": "array",
+            "items": {
+              "schema": {
+                "$ref": "#/definitions/Related"
+              }
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -718,7 +785,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/Example"
+            }
           },
           "400": {
             "description": "Invalid word supplied."
@@ -751,7 +821,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/WordList"
+            }
           },
           "400": {
             "description": "Invalid ID supplied"
@@ -954,7 +1027,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "type": "array",
+            "items": {
+              "schema": {
+                "$ref": "#/definitions/WordListWord"
+              }
+            }
           },
           "400": {
             "description": "Invalid ID supplied"
@@ -1044,7 +1123,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/WordList"
+            }
           },
           "400": {
             "description": "Invalid WordList supplied or mandatory fields are missing"
@@ -1138,7 +1220,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/WordObject"
+            }
           },
           "404": {
             "description": "No word found."
@@ -1248,7 +1333,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "type": "array",
+            "items": {
+              "schema": {
+                "$ref": "#/definitions/WordObject"
+              }
+            }
           },
           "400": {
             "description": "Invalid term supplied."
@@ -1387,7 +1478,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/DefinitionSearchResults"
+            }
           },
           "400": {
             "description": "Invalid term supplied."
@@ -1498,7 +1592,10 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/WordSearchResults"
+            }
           },
           "400": {
             "description": "Invalid query supplied."
@@ -1524,7 +1621,10 @@
         ],
         "responses": {
           "default": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/WordOfTheDay"
+            }
           }
         }
       }
