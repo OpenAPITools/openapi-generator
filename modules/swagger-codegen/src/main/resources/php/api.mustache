@@ -44,6 +44,7 @@ class {{classname}} {
   		$method = "{{httpMethod}}";
       $queryParams = array();
       $headerParams = array();
+      $formParams = array();
       $headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}';
       $headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
 
@@ -60,12 +61,21 @@ class {{classname}} {
   			$resourcePath = str_replace("{" . "{{paramName}}" . "}",
   			                            $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
   		}{{/pathParams}}
+      {{#formParams}}
+      if (${{paramName}} != null) {
+        $formParams[{{paramName}}] = {{#isFile}}'@' . {{/isFile}}${{paramName}}
+      }{{/formParams}}
       {{#bodyParams}}// body params
       $body = null;
       if (isset(${{paramName}})) {
         $body = ${{paramName}};
+      }{{/bodyParams}}
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
       }
-      {{/bodyParams}}
 
   		// make the API Call
   		$response = $this->apiClient->callAPI($resourcePath, $method,

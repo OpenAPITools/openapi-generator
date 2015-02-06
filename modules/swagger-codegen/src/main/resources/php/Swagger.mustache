@@ -65,7 +65,7 @@ class APIClient {
         $headers[] = "api_key: " . $this->apiKey;
     }
 
-    if (is_object($postData) or is_array($postData)) {
+    if (strpos($headers['Content-Type'], "multipart/form-data") < 0 and (is_object($postData) or is_array($postData))) {
       $postData = json_encode($this->sanitizeForSerialization($postData));
     }
 
