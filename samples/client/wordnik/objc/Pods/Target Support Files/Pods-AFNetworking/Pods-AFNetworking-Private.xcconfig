@@ -1,0 +1,5 @@
+#include "Pods-AFNetworking.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/AFNetworking" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking"
+OTHER_LDFLAGS = ${PODS_AFNETWORKING_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}
