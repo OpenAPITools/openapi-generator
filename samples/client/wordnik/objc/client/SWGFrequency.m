@@ -3,10 +3,13 @@
 
 @implementation SWGFrequency
 
--(id)count: (NSNumber*) count    year: (NSNumber*) year{
-  _count = count;
-  _year = year;
-  
+-(id)count: (NSNumber*) count
+    year: (NSNumber*) year
+    
+{
+    _count = count;
+    _year = year;
+    
 
     return self;
 }
@@ -15,17 +18,9 @@
 {
     self = [super init];
     if(self) {
+        _count = dict[@"count"];
         
-
-        
-        _count = dict[@"count"]; 
-        
-        
-        
-
-        
-        _year = dict[@"year"]; 
-        
+        _year = dict[@"year"];
         
         
     }

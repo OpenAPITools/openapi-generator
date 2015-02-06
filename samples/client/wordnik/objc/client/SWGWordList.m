@@ -3,19 +3,31 @@
 
 @implementation SWGWordList
 
--(id)_id: (NSNumber*) _id    permalink: (NSString*) permalink    name: (NSString*) name    createdAt: (SWGDate*) createdAt    updatedAt: (SWGDate*) updatedAt    lastActivityAt: (SWGDate*) lastActivityAt    username: (NSString*) username    userId: (NSNumber*) userId    description: (NSString*) description    numberWordsInList: (NSNumber*) numberWordsInList    type: (NSString*) type{
-  __id = _id;
-  _permalink = permalink;
-  _name = name;
-  _createdAt = createdAt;
-  _updatedAt = updatedAt;
-  _lastActivityAt = lastActivityAt;
-  _username = username;
-  _userId = userId;
-  _description = description;
-  _numberWordsInList = numberWordsInList;
-  _type = type;
-  
+-(id)_id: (NSNumber*) _id
+    permalink: (NSString*) permalink
+    name: (NSString*) name
+    createdAt: (SWGDate*) createdAt
+    updatedAt: (SWGDate*) updatedAt
+    lastActivityAt: (SWGDate*) lastActivityAt
+    username: (NSString*) username
+    userId: (NSNumber*) userId
+    _description: (NSString*) _description
+    numberWordsInList: (NSNumber*) numberWordsInList
+    type: (NSString*) type
+    
+{
+    __id = _id;
+    _permalink = permalink;
+    _name = name;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+    _lastActivityAt = lastActivityAt;
+    _username = username;
+    _userId = userId;
+    __description = _description;
+    _numberWordsInList = numberWordsInList;
+    _type = type;
+    
 
     return self;
 }
@@ -24,86 +36,45 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _permalink = dict[@"permalink"];
         
-        __id = dict[@"id"]; 
+        _name = dict[@"name"];
         
-        
-        
-
-        
-        _permalink = dict[@"permalink"]; 
-        
-        
-        
-
-        
-        _name = dict[@"name"]; 
-        
-        
-        
-
         
         
         id createdAt_dict = dict[@"createdAt"];
-        
         
         if(createdAt_dict != nil)
             _createdAt = [[SWGDate  alloc]initWithValues:createdAt_dict];
         
         
         
-
-        
         
         id updatedAt_dict = dict[@"updatedAt"];
-        
         
         if(updatedAt_dict != nil)
             _updatedAt = [[SWGDate  alloc]initWithValues:updatedAt_dict];
         
         
         
-
-        
         
         id lastActivityAt_dict = dict[@"lastActivityAt"];
-        
         
         if(lastActivityAt_dict != nil)
             _lastActivityAt = [[SWGDate  alloc]initWithValues:lastActivityAt_dict];
         
         
+        _username = dict[@"username"];
         
-
+        _userId = dict[@"userId"];
         
-        _username = dict[@"username"]; 
+        __description = dict[@"description"];
         
+        _numberWordsInList = dict[@"numberWordsInList"];
         
-        
-
-        
-        _userId = dict[@"userId"]; 
-        
-        
-        
-
-        
-        _description = dict[@"description"]; 
-        
-        
-        
-
-        
-        _numberWordsInList = dict[@"numberWordsInList"]; 
-        
-        
-        
-
-        
-        _type = dict[@"type"]; 
-        
+        _type = dict[@"type"];
         
         
     }
@@ -203,7 +174,7 @@
         
     
     
-            if(_description != nil) dict[@"description"] = _description ;
+            if(__description != nil) dict[@"description"] = __description ;
         
     
     

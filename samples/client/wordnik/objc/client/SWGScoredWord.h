@@ -16,17 +16,17 @@
 @property(nonatomic) NSNumber* baseWordScore;  
 @property(nonatomic) NSString* partOfSpeech;  
 - (id) position: (NSNumber*) position     
-       _id: (NSNumber*) _id     
-       docTermCount: (NSNumber*) docTermCount     
-       lemma: (NSString*) lemma     
-       wordType: (NSString*) wordType     
-       score: (NSNumber*) score     
-       sentenceId: (NSNumber*) sentenceId     
-       word: (NSString*) word     
-       stopword: (NSNumber*) stopword     
-       baseWordScore: (NSNumber*) baseWordScore     
-       partOfSpeech: (NSString*) partOfSpeech;
-       
+    _id: (NSNumber*) _id     
+    docTermCount: (NSNumber*) docTermCount     
+    lemma: (NSString*) lemma     
+    wordType: (NSString*) wordType     
+    score: (NSNumber*) score     
+    sentenceId: (NSNumber*) sentenceId     
+    word: (NSString*) word     
+    stopword: (NSNumber*) stopword     
+    baseWordScore: (NSNumber*) baseWordScore     
+    partOfSpeech: (NSString*) partOfSpeech;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

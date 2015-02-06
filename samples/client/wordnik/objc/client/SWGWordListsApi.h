@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "SWGWordList.h"
+#import "SWGObject.h"
 
 
 @interface SWGWordListsApi: NSObject
@@ -20,10 +21,13 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: SWGWordList*
  */
--(NSNumber*) createWordListWithCompletionBlock :(SWGWordList*) body          auth_token:(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) createWordListWithCompletionBlock :(SWGWordList*) body 
+     auth_token:(NSString*) auth_token 
+    
+    completionHandler: (void (^)(SWGWordList* output, NSError* error))completionBlock;
+    
 
 
 

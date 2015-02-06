@@ -6,7 +6,7 @@
 NSString *const SWGResponseObjectErrorKey = @"SWGResponseObject";
 
 static long requestId = 0;
-static bool offlineState = true;
+static bool offlineState = false;
 static NSMutableSet * queuedRequests = nil;
 static bool cacheEnabled = false;
 static AFNetworkReachabilityStatus reachabilityStatus = AFNetworkReachabilityStatusNotReachable;

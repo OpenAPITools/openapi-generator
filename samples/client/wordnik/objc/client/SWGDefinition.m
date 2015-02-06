@@ -3,24 +3,41 @@
 
 @implementation SWGDefinition
 
--(id)extendedText: (NSString*) extendedText    text: (NSString*) text    sourceDictionary: (NSString*) sourceDictionary    citations: (NSArray*) citations    labels: (NSArray*) labels    score: (NSNumber*) score    exampleUses: (NSArray*) exampleUses    attributionUrl: (NSString*) attributionUrl    seqString: (NSString*) seqString    attributionText: (NSString*) attributionText    relatedWords: (NSArray*) relatedWords    sequence: (NSString*) sequence    word: (NSString*) word    notes: (NSArray*) notes    textProns: (NSArray*) textProns    partOfSpeech: (NSString*) partOfSpeech{
-  _extendedText = extendedText;
-  _text = text;
-  _sourceDictionary = sourceDictionary;
-  _citations = citations;
-  _labels = labels;
-  _score = score;
-  _exampleUses = exampleUses;
-  _attributionUrl = attributionUrl;
-  _seqString = seqString;
-  _attributionText = attributionText;
-  _relatedWords = relatedWords;
-  _sequence = sequence;
-  _word = word;
-  _notes = notes;
-  _textProns = textProns;
-  _partOfSpeech = partOfSpeech;
-  
+-(id)extendedText: (NSString*) extendedText
+    text: (NSString*) text
+    sourceDictionary: (NSString*) sourceDictionary
+    citations: (NSArray*) citations
+    labels: (NSArray*) labels
+    score: (NSNumber*) score
+    exampleUses: (NSArray*) exampleUses
+    attributionUrl: (NSString*) attributionUrl
+    seqString: (NSString*) seqString
+    attributionText: (NSString*) attributionText
+    relatedWords: (NSArray*) relatedWords
+    sequence: (NSString*) sequence
+    word: (NSString*) word
+    notes: (NSArray*) notes
+    textProns: (NSArray*) textProns
+    partOfSpeech: (NSString*) partOfSpeech
+    
+{
+    _extendedText = extendedText;
+    _text = text;
+    _sourceDictionary = sourceDictionary;
+    _citations = citations;
+    _labels = labels;
+    _score = score;
+    _exampleUses = exampleUses;
+    _attributionUrl = attributionUrl;
+    _seqString = seqString;
+    _attributionText = attributionText;
+    _relatedWords = relatedWords;
+    _sequence = sequence;
+    _word = word;
+    _notes = notes;
+    _textProns = textProns;
+    _partOfSpeech = partOfSpeech;
+    
 
     return self;
 }
@@ -29,45 +46,27 @@
 {
     self = [super init];
     if(self) {
+        _extendedText = dict[@"extendedText"];
         
-
+        _text = dict[@"text"];
         
-        _extendedText = dict[@"extendedText"]; 
+        _sourceDictionary = dict[@"sourceDictionary"];
         
-        
-        
-
-        
-        _text = dict[@"text"]; 
-        
-        
-        
-
-        
-        _sourceDictionary = dict[@"sourceDictionary"]; 
-        
-        
-        
-
         
         
         id citations_dict = dict[@"citations"];
         
         if([citations_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)citations_dict count]];
-
             if([(NSArray*)citations_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)citations_dict) {
-                    SWGCitation* d = [[SWGCitation  alloc] initWithValues:dict];
+                    SWGCitation* d = [[SWGCitation alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _citations = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _citations = [[NSArray alloc] init];
-            }
         }
         else {
             _citations = [[NSArray alloc] init];
@@ -76,146 +75,94 @@
         
         
         
-
-        
-        
         id labels_dict = dict[@"labels"];
         
         if([labels_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)labels_dict count]];
-
             if([(NSArray*)labels_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)labels_dict) {
-                    SWGLabel* d = [[SWGLabel  alloc] initWithValues:dict];
+                    SWGLabel* d = [[SWGLabel alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _labels = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _labels = [[NSArray alloc] init];
-            }
         }
         else {
             _labels = [[NSArray alloc] init];
         }
         
         
+        _score = dict[@"score"];
         
-        
-
-        
-        _score = dict[@"score"]; 
-        
-        
-        
-
         
         
         id exampleUses_dict = dict[@"exampleUses"];
         
         if([exampleUses_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)exampleUses_dict count]];
-
             if([(NSArray*)exampleUses_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)exampleUses_dict) {
-                    SWGExampleUsage* d = [[SWGExampleUsage  alloc] initWithValues:dict];
+                    SWGExampleUsage* d = [[SWGExampleUsage alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _exampleUses = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _exampleUses = [[NSArray alloc] init];
-            }
         }
         else {
             _exampleUses = [[NSArray alloc] init];
         }
         
         
+        _attributionUrl = dict[@"attributionUrl"];
         
+        _seqString = dict[@"seqString"];
         
-
+        _attributionText = dict[@"attributionText"];
         
-        _attributionUrl = dict[@"attributionUrl"]; 
-        
-        
-        
-
-        
-        _seqString = dict[@"seqString"]; 
-        
-        
-        
-
-        
-        _attributionText = dict[@"attributionText"]; 
-        
-        
-        
-
         
         
         id relatedWords_dict = dict[@"relatedWords"];
         
         if([relatedWords_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)relatedWords_dict count]];
-
             if([(NSArray*)relatedWords_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)relatedWords_dict) {
-                    SWGRelated* d = [[SWGRelated  alloc] initWithValues:dict];
+                    SWGRelated* d = [[SWGRelated alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _relatedWords = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _relatedWords = [[NSArray alloc] init];
-            }
         }
         else {
             _relatedWords = [[NSArray alloc] init];
         }
         
         
+        _sequence = dict[@"sequence"];
         
+        _word = dict[@"word"];
         
-
-        
-        _sequence = dict[@"sequence"]; 
-        
-        
-        
-
-        
-        _word = dict[@"word"]; 
-        
-        
-        
-
         
         
         id notes_dict = dict[@"notes"];
         
         if([notes_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)notes_dict count]];
-
             if([(NSArray*)notes_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)notes_dict) {
-                    SWGNote* d = [[SWGNote  alloc] initWithValues:dict];
+                    SWGNote* d = [[SWGNote alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _notes = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _notes = [[NSArray alloc] init];
-            }
         }
         else {
             _notes = [[NSArray alloc] init];
@@ -224,38 +171,26 @@
         
         
         
-
-        
-        
         id textProns_dict = dict[@"textProns"];
         
         if([textProns_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)textProns_dict count]];
-
             if([(NSArray*)textProns_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)textProns_dict) {
-                    SWGTextPron* d = [[SWGTextPron  alloc] initWithValues:dict];
+                    SWGTextPron* d = [[SWGTextPron alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _textProns = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _textProns = [[NSArray alloc] init];
-            }
         }
         else {
             _textProns = [[NSArray alloc] init];
         }
         
         
-        
-        
-
-        
-        _partOfSpeech = dict[@"partOfSpeech"]; 
-        
+        _partOfSpeech = dict[@"partOfSpeech"];
         
         
     }

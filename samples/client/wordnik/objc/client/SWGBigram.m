@@ -3,13 +3,19 @@
 
 @implementation SWGBigram
 
--(id)count: (NSNumber*) count    gram2: (NSString*) gram2    gram1: (NSString*) gram1    wlmi: (NSNumber*) wlmi    mi: (NSNumber*) mi{
-  _count = count;
-  _gram2 = gram2;
-  _gram1 = gram1;
-  _wlmi = wlmi;
-  _mi = mi;
-  
+-(id)count: (NSNumber*) count
+    gram2: (NSString*) gram2
+    gram1: (NSString*) gram1
+    wlmi: (NSNumber*) wlmi
+    mi: (NSNumber*) mi
+    
+{
+    _count = count;
+    _gram2 = gram2;
+    _gram1 = gram1;
+    _wlmi = wlmi;
+    _mi = mi;
+    
 
     return self;
 }
@@ -18,35 +24,15 @@
 {
     self = [super init];
     if(self) {
+        _count = dict[@"count"];
         
-
+        _gram2 = dict[@"gram2"];
         
-        _count = dict[@"count"]; 
+        _gram1 = dict[@"gram1"];
         
+        _wlmi = dict[@"wlmi"];
         
-        
-
-        
-        _gram2 = dict[@"gram2"]; 
-        
-        
-        
-
-        
-        _gram1 = dict[@"gram1"]; 
-        
-        
-        
-
-        
-        _wlmi = dict[@"wlmi"]; 
-        
-        
-        
-
-        
-        _mi = dict[@"mi"]; 
-        
+        _mi = dict[@"mi"];
         
         
     }

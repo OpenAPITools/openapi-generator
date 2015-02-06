@@ -3,10 +3,13 @@
 
 @implementation SWGLabel
 
--(id)text: (NSString*) text    type: (NSString*) type{
-  _text = text;
-  _type = type;
-  
+-(id)text: (NSString*) text
+    type: (NSString*) type
+    
+{
+    _text = text;
+    _type = type;
+    
 
     return self;
 }
@@ -15,17 +18,9 @@
 {
     self = [super init];
     if(self) {
+        _text = dict[@"text"];
         
-
-        
-        _text = dict[@"text"]; 
-        
-        
-        
-
-        
-        _type = dict[@"type"]; 
-        
+        _type = dict[@"type"];
         
         
     }

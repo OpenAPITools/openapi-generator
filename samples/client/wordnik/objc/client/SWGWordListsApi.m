@@ -6,7 +6,7 @@
 
 
 @implementation SWGWordListsApi
-static NSString * basePath = @"http://api.wordnik.com/v4";
+static NSString * basePath = @"https://api.wordnik.com/v4";
 
 +(SWGWordListsApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGWordListsApi* singletonAPI = nil;
@@ -50,9 +50,11 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
 }
 
 
--(NSNumber*) createWordListWithCompletionBlock:(SWGWordList*) body         auth_token:(NSString*) auth_token        
+-(NSNumber*) createWordListWithCompletionBlock:(SWGWordList*) body
+         auth_token:(NSString*) auth_token
         
-        completionHandler: (void (^)(NSError* error))completionBlock {
+        completionHandler: (void (^)(SWGWordList* output, NSError* error))completionBlock
+         {
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/wordLists.json", basePath];
 
@@ -65,15 +67,14 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-        NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     if(auth_token != nil)
         headerParams[@"auth_token"] = auth_token;
     
 
     id bodyDictionary = nil;
-        
     if(body != nil && [body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
         for (id dict in (NSArray*)body) {
@@ -106,7 +107,6 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     else{
         NSLog(@"don't know what to do with %@", body);
     }
-
     
     
     
@@ -114,30 +114,33 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
 
     
-
     
     
+        
+    // comples response type
+    return [client dictionary:requestUrl 
+                       method:@"POST" 
+                  queryParams:queryParams 
+                         body:bodyDictionary 
+                 headerParams:headerParams
+           requestContentType:requestContentType
+          responseContentType:responseContentType
+              completionBlock:^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SWGWordList *result = nil;
+                if (data) {
+                    result = [[SWGWordList    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
     
     
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"POST" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
-                        if (error) {
-                            completionBlock(error);
-                            return;
-                        }
-                        completionBlock(nil);
-                    }];
-    
-    
-    
-    
-
 }
 
 

@@ -3,19 +3,31 @@
 
 @implementation SWGScoredWord
 
--(id)position: (NSNumber*) position    _id: (NSNumber*) _id    docTermCount: (NSNumber*) docTermCount    lemma: (NSString*) lemma    wordType: (NSString*) wordType    score: (NSNumber*) score    sentenceId: (NSNumber*) sentenceId    word: (NSString*) word    stopword: (NSNumber*) stopword    baseWordScore: (NSNumber*) baseWordScore    partOfSpeech: (NSString*) partOfSpeech{
-  _position = position;
-  __id = _id;
-  _docTermCount = docTermCount;
-  _lemma = lemma;
-  _wordType = wordType;
-  _score = score;
-  _sentenceId = sentenceId;
-  _word = word;
-  _stopword = stopword;
-  _baseWordScore = baseWordScore;
-  _partOfSpeech = partOfSpeech;
-  
+-(id)position: (NSNumber*) position
+    _id: (NSNumber*) _id
+    docTermCount: (NSNumber*) docTermCount
+    lemma: (NSString*) lemma
+    wordType: (NSString*) wordType
+    score: (NSNumber*) score
+    sentenceId: (NSNumber*) sentenceId
+    word: (NSString*) word
+    stopword: (NSNumber*) stopword
+    baseWordScore: (NSNumber*) baseWordScore
+    partOfSpeech: (NSString*) partOfSpeech
+    
+{
+    _position = position;
+    __id = _id;
+    _docTermCount = docTermCount;
+    _lemma = lemma;
+    _wordType = wordType;
+    _score = score;
+    _sentenceId = sentenceId;
+    _word = word;
+    _stopword = stopword;
+    _baseWordScore = baseWordScore;
+    _partOfSpeech = partOfSpeech;
+    
 
     return self;
 }
@@ -24,71 +36,27 @@
 {
     self = [super init];
     if(self) {
+        _position = dict[@"position"];
         
-
+        __id = dict[@"id"];
         
-        _position = dict[@"position"]; 
+        _docTermCount = dict[@"docTermCount"];
         
+        _lemma = dict[@"lemma"];
         
+        _wordType = dict[@"wordType"];
         
-
+        _score = dict[@"score"];
         
-        __id = dict[@"id"]; 
+        _sentenceId = dict[@"sentenceId"];
         
+        _word = dict[@"word"];
         
+        _stopword = dict[@"stopword"];
         
-
+        _baseWordScore = dict[@"baseWordScore"];
         
-        _docTermCount = dict[@"docTermCount"]; 
-        
-        
-        
-
-        
-        _lemma = dict[@"lemma"]; 
-        
-        
-        
-
-        
-        _wordType = dict[@"wordType"]; 
-        
-        
-        
-
-        
-        _score = dict[@"score"]; 
-        
-        
-        
-
-        
-        _sentenceId = dict[@"sentenceId"]; 
-        
-        
-        
-
-        
-        _word = dict[@"word"]; 
-        
-        
-        
-
-        
-        _stopword = dict[@"stopword"]; 
-        
-        
-        
-
-        
-        _baseWordScore = dict[@"baseWordScore"]; 
-        
-        
-        
-
-        
-        _partOfSpeech = dict[@"partOfSpeech"]; 
-        
+        _partOfSpeech = dict[@"partOfSpeech"];
         
         
     }

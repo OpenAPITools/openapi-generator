@@ -1,5 +1,9 @@
 package io.swagger.client.api
 
+import io.swagger.client.model.WordSearchResults
+import io.swagger.client.model.WordOfTheDay
+import io.swagger.client.model.DefinitionSearchResults
+import io.swagger.client.model.WordObject
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException
 
@@ -9,13 +13,13 @@ import java.util.Date
 import scala.collection.mutable.HashMap
 
 class WordsApi {
-  var basePath: String = "http://api.wordnik.com/v4"
+  var basePath: String = "https://api.wordnik.com/v4"
   var apiInvoker = ApiInvoker
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
-  def getRandomWord (hasDictionaryDef: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Integer, maxCorpusCount: Integer, minDictionaryCount: Integer, maxDictionaryCount: Integer, minLength: Integer, maxLength: Integer)  = {
+  def getRandomWord (hasDictionaryDef: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Integer, maxCorpusCount: Integer, minDictionaryCount: Integer, maxDictionaryCount: Integer, minLength: Integer, maxLength: Integer) : Option[WordObject] = {
     // create path and map variables
     val path = "/words.json/randomWord".replaceAll("\\{format\\}","json")
 
@@ -47,7 +51,8 @@ class WordsApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[WordObject]).asInstanceOf[WordObject])
+         
         case _ => None
       }
     } catch {
@@ -100,7 +105,7 @@ class WordsApi {
     }
   }
   
-  def reverseDictionary (query: String, findSenseForWord: String, includeSourceDictionaries: String, excludeSourceDictionaries: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Integer, maxCorpusCount: Integer, minLength: Integer, maxLength: Integer, expandTerms: String, includeTags: String, sortBy: String, sortOrder: String, skip: String, limit: Integer)  = {
+  def reverseDictionary (query: String, findSenseForWord: String, includeSourceDictionaries: String, excludeSourceDictionaries: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Integer, maxCorpusCount: Integer, minLength: Integer, maxLength: Integer, expandTerms: String, includeTags: String, sortBy: String, sortOrder: String, skip: String, limit: Integer) : Option[DefinitionSearchResults] = {
     // create path and map variables
     val path = "/words.json/reverseDictionary".replaceAll("\\{format\\}","json")
 
@@ -139,7 +144,8 @@ class WordsApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[DefinitionSearchResults]).asInstanceOf[DefinitionSearchResults])
+         
         case _ => None
       }
     } catch {
@@ -148,7 +154,7 @@ class WordsApi {
     }
   }
   
-  def searchWords (query: String, caseSensitive: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Integer, maxCorpusCount: Integer, minDictionaryCount: Integer, maxDictionaryCount: Integer, minLength: Integer, maxLength: Integer, skip: Integer, limit: Integer)  = {
+  def searchWords (query: String, caseSensitive: String, includePartOfSpeech: String, excludePartOfSpeech: String, minCorpusCount: Integer, maxCorpusCount: Integer, minDictionaryCount: Integer, maxDictionaryCount: Integer, minLength: Integer, maxLength: Integer, skip: Integer, limit: Integer) : Option[WordSearchResults] = {
     // create path and map variables
     val path = "/words.json/search/{query}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "query" + "\\}",apiInvoker.escape(query))
 
@@ -184,7 +190,8 @@ class WordsApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[WordSearchResults]).asInstanceOf[WordSearchResults])
+         
         case _ => None
       }
     } catch {
@@ -193,7 +200,7 @@ class WordsApi {
     }
   }
   
-  def getWordOfTheDay (date: String)  = {
+  def getWordOfTheDay (date: String) : Option[WordOfTheDay] = {
     // create path and map variables
     val path = "/words.json/wordOfTheDay".replaceAll("\\{format\\}","json")
 
@@ -217,7 +224,8 @@ class WordsApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[WordOfTheDay]).asInstanceOf[WordOfTheDay])
+         
         case _ => None
       }
     } catch {

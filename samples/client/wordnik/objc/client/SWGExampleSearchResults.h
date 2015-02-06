@@ -9,8 +9,8 @@
 @property(nonatomic) NSArray* facets;  
 @property(nonatomic) NSArray* examples;  
 - (id) facets: (NSArray*) facets     
-       examples: (NSArray*) examples;
-       
+    examples: (NSArray*) examples;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

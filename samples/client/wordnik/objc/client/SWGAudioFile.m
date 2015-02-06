@@ -3,22 +3,37 @@
 
 @implementation SWGAudioFile
 
--(id)attributionUrl: (NSString*) attributionUrl    commentCount: (NSNumber*) commentCount    voteCount: (NSNumber*) voteCount    fileUrl: (NSString*) fileUrl    audioType: (NSString*) audioType    _id: (NSNumber*) _id    duration: (NSNumber*) duration    attributionText: (NSString*) attributionText    createdBy: (NSString*) createdBy    description: (NSString*) description    createdAt: (SWGDate*) createdAt    voteWeightedAverage: (NSNumber*) voteWeightedAverage    voteAverage: (NSNumber*) voteAverage    word: (NSString*) word{
-  _attributionUrl = attributionUrl;
-  _commentCount = commentCount;
-  _voteCount = voteCount;
-  _fileUrl = fileUrl;
-  _audioType = audioType;
-  __id = _id;
-  _duration = duration;
-  _attributionText = attributionText;
-  _createdBy = createdBy;
-  _description = description;
-  _createdAt = createdAt;
-  _voteWeightedAverage = voteWeightedAverage;
-  _voteAverage = voteAverage;
-  _word = word;
-  
+-(id)attributionUrl: (NSString*) attributionUrl
+    commentCount: (NSNumber*) commentCount
+    voteCount: (NSNumber*) voteCount
+    fileUrl: (NSString*) fileUrl
+    audioType: (NSString*) audioType
+    _id: (NSNumber*) _id
+    duration: (NSNumber*) duration
+    attributionText: (NSString*) attributionText
+    createdBy: (NSString*) createdBy
+    _description: (NSString*) _description
+    createdAt: (SWGDate*) createdAt
+    voteWeightedAverage: (NSNumber*) voteWeightedAverage
+    voteAverage: (NSNumber*) voteAverage
+    word: (NSString*) word
+    
+{
+    _attributionUrl = attributionUrl;
+    _commentCount = commentCount;
+    _voteCount = voteCount;
+    _fileUrl = fileUrl;
+    _audioType = audioType;
+    __id = _id;
+    _duration = duration;
+    _attributionText = attributionText;
+    _createdBy = createdBy;
+    __description = _description;
+    _createdAt = createdAt;
+    _voteWeightedAverage = voteWeightedAverage;
+    _voteAverage = voteAverage;
+    _word = word;
+    
 
     return self;
 }
@@ -27,94 +42,39 @@
 {
     self = [super init];
     if(self) {
+        _attributionUrl = dict[@"attributionUrl"];
         
-
+        _commentCount = dict[@"commentCount"];
         
-        _attributionUrl = dict[@"attributionUrl"]; 
+        _voteCount = dict[@"voteCount"];
         
+        _fileUrl = dict[@"fileUrl"];
         
+        _audioType = dict[@"audioType"];
         
-
+        __id = dict[@"id"];
         
-        _commentCount = dict[@"commentCount"]; 
+        _duration = dict[@"duration"];
         
+        _attributionText = dict[@"attributionText"];
         
+        _createdBy = dict[@"createdBy"];
         
-
+        __description = dict[@"description"];
         
-        _voteCount = dict[@"voteCount"]; 
-        
-        
-        
-
-        
-        _fileUrl = dict[@"fileUrl"]; 
-        
-        
-        
-
-        
-        _audioType = dict[@"audioType"]; 
-        
-        
-        
-
-        
-        __id = dict[@"id"]; 
-        
-        
-        
-
-        
-        _duration = dict[@"duration"]; 
-        
-        
-        
-
-        
-        _attributionText = dict[@"attributionText"]; 
-        
-        
-        
-
-        
-        _createdBy = dict[@"createdBy"]; 
-        
-        
-        
-
-        
-        _description = dict[@"description"]; 
-        
-        
-        
-
         
         
         id createdAt_dict = dict[@"createdAt"];
-        
         
         if(createdAt_dict != nil)
             _createdAt = [[SWGDate  alloc]initWithValues:createdAt_dict];
         
         
+        _voteWeightedAverage = dict[@"voteWeightedAverage"];
         
-
+        _voteAverage = dict[@"voteAverage"];
         
-        _voteWeightedAverage = dict[@"voteWeightedAverage"]; 
-        
-        
-        
-
-        
-        _voteAverage = dict[@"voteAverage"]; 
-        
-        
-        
-
-        
-        _word = dict[@"word"]; 
-        
+        _word = dict[@"word"];
         
         
     }
@@ -161,7 +121,7 @@
         
     
     
-            if(_description != nil) dict[@"description"] = _description ;
+            if(__description != nil) dict[@"description"] = __description ;
         
     
     

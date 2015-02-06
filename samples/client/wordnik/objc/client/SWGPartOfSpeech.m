@@ -3,11 +3,15 @@
 
 @implementation SWGPartOfSpeech
 
--(id)roots: (NSArray*) roots    storageAbbr: (NSArray*) storageAbbr    allCategories: (NSArray*) allCategories{
-  _roots = roots;
-  _storageAbbr = storageAbbr;
-  _allCategories = allCategories;
-  
+-(id)roots: (NSArray*) roots
+    storageAbbr: (NSArray*) storageAbbr
+    allCategories: (NSArray*) allCategories
+    
+{
+    _roots = roots;
+    _storageAbbr = storageAbbr;
+    _allCategories = allCategories;
+    
 
     return self;
 }
@@ -17,65 +21,47 @@
     self = [super init];
     if(self) {
         
-
-        
         
         id roots_dict = dict[@"roots"];
         
         if([roots_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)roots_dict count]];
-
             if([(NSArray*)roots_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)roots_dict) {
-                    SWGRoot* d = [[SWGRoot  alloc] initWithValues:dict];
+                    SWGRoot* d = [[SWGRoot alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _roots = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _roots = [[NSArray alloc] init];
-            }
         }
         else {
             _roots = [[NSArray alloc] init];
         }
         
         
+        _storageAbbr = dict[@"storageAbbr"];
         
-        
-
-        
-        _storageAbbr = dict[@"storageAbbr"]; 
-        
-        
-        
-
         
         
         id allCategories_dict = dict[@"allCategories"];
         
         if([allCategories_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)allCategories_dict count]];
-
             if([(NSArray*)allCategories_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)allCategories_dict) {
-                    SWGCategory* d = [[SWGCategory  alloc] initWithValues:dict];
+                    SWGCategory* d = [[SWGCategory alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _allCategories = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _allCategories = [[NSArray alloc] init];
-            }
         }
         else {
             _allCategories = [[NSArray alloc] init];
         }
-        
         
         
         

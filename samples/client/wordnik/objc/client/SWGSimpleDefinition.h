@@ -9,10 +9,10 @@
 @property(nonatomic) NSString* note;  
 @property(nonatomic) NSString* partOfSpeech;  
 - (id) text: (NSString*) text     
-       source: (NSString*) source     
-       note: (NSString*) note     
-       partOfSpeech: (NSString*) partOfSpeech;
-       
+    source: (NSString*) source     
+    note: (NSString*) note     
+    partOfSpeech: (NSString*) partOfSpeech;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

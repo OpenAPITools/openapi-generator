@@ -11,11 +11,11 @@
 @property(nonatomic) NSString* word;  
 @property(nonatomic) NSArray* frequency;  
 - (id) unknownYearCount: (NSNumber*) unknownYearCount     
-       totalCount: (NSNumber*) totalCount     
-       frequencyString: (NSString*) frequencyString     
-       word: (NSString*) word     
-       frequency: (NSArray*) frequency;
-       
+    totalCount: (NSNumber*) totalCount     
+    frequencyString: (NSString*) frequencyString     
+    word: (NSString*) word     
+    frequency: (NSArray*) frequency;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

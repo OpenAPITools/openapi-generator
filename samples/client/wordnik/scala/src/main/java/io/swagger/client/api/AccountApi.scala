@@ -1,5 +1,9 @@
 package io.swagger.client.api
 
+import io.swagger.client.model.User
+import io.swagger.client.model.ApiTokenStatus
+import io.swagger.client.model.AuthenticationToken
+import io.swagger.client.model.WordList
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException
 
@@ -9,13 +13,13 @@ import java.util.Date
 import scala.collection.mutable.HashMap
 
 class AccountApi {
-  var basePath: String = "http://api.wordnik.com/v4"
+  var basePath: String = "https://api.wordnik.com/v4"
   var apiInvoker = ApiInvoker
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
-  def getApiTokenStatus (api_key: String)  = {
+  def getApiTokenStatus (api_key: String) : Option[ApiTokenStatus] = {
     // create path and map variables
     val path = "/account.json/apiTokenStatus".replaceAll("\\{format\\}","json")
 
@@ -39,7 +43,8 @@ class AccountApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[ApiTokenStatus]).asInstanceOf[ApiTokenStatus])
+         
         case _ => None
       }
     } catch {
@@ -48,7 +53,7 @@ class AccountApi {
     }
   }
   
-  def authenticate (username: String, password: String)  = {
+  def authenticate (username: String, password: String) : Option[AuthenticationToken] = {
     // create path and map variables
     val path = "/account.json/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
@@ -74,7 +79,8 @@ class AccountApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[AuthenticationToken]).asInstanceOf[AuthenticationToken])
+         
         case _ => None
       }
     } catch {
@@ -83,7 +89,7 @@ class AccountApi {
     }
   }
   
-  def authenticatePost (username: String, body: String)  = {
+  def authenticatePost (username: String, body: String) : Option[AuthenticationToken] = {
     // create path and map variables
     val path = "/account.json/authenticate/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
@@ -111,7 +117,8 @@ class AccountApi {
     try {
       apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[AuthenticationToken]).asInstanceOf[AuthenticationToken])
+         
         case _ => None
       }
     } catch {
@@ -120,7 +127,7 @@ class AccountApi {
     }
   }
   
-  def getLoggedInUser (auth_token: String)  = {
+  def getLoggedInUser (auth_token: String) : Option[User] = {
     // create path and map variables
     val path = "/account.json/user".replaceAll("\\{format\\}","json")
 
@@ -144,7 +151,8 @@ class AccountApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[User]).asInstanceOf[User])
+         
         case _ => None
       }
     } catch {
@@ -153,7 +161,7 @@ class AccountApi {
     }
   }
   
-  def getWordListsForLoggedInUser (auth_token: String, skip: Integer, limit: Integer)  = {
+  def getWordListsForLoggedInUser (auth_token: String, skip: Integer, limit: Integer) : Option[List[WordList]] = {
     // create path and map variables
     val path = "/account.json/wordLists".replaceAll("\\{format\\}","json")
 
@@ -179,7 +187,8 @@ class AccountApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "array", classOf[WordList]).asInstanceOf[List[WordList]])
+         
         case _ => None
       }
     } catch {

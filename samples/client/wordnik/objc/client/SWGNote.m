@@ -3,12 +3,17 @@
 
 @implementation SWGNote
 
--(id)noteType: (NSString*) noteType    appliesTo: (NSArray*) appliesTo    value: (NSString*) value    pos: (NSNumber*) pos{
-  _noteType = noteType;
-  _appliesTo = appliesTo;
-  _value = value;
-  _pos = pos;
-  
+-(id)noteType: (NSString*) noteType
+    appliesTo: (NSArray*) appliesTo
+    value: (NSString*) value
+    pos: (NSNumber*) pos
+    
+{
+    _noteType = noteType;
+    _appliesTo = appliesTo;
+    _value = value;
+    _pos = pos;
+    
 
     return self;
 }
@@ -17,29 +22,13 @@
 {
     self = [super init];
     if(self) {
+        _noteType = dict[@"noteType"];
         
-
+        _appliesTo = dict[@"appliesTo"];
         
-        _noteType = dict[@"noteType"]; 
+        _value = dict[@"value"];
         
-        
-        
-
-        
-        _appliesTo = dict[@"appliesTo"]; 
-        
-        
-        
-
-        
-        _value = dict[@"value"]; 
-        
-        
-        
-
-        
-        _pos = dict[@"pos"]; 
-        
+        _pos = dict[@"pos"];
         
         
     }

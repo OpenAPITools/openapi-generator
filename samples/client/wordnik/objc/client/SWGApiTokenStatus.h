@@ -11,12 +11,12 @@
 @property(nonatomic) NSNumber* expiresInMillis;  
 @property(nonatomic) NSNumber* totalRequests;  
 - (id) valid: (NSNumber*) valid     
-       token: (NSString*) token     
-       resetsInMillis: (NSNumber*) resetsInMillis     
-       remainingCalls: (NSNumber*) remainingCalls     
-       expiresInMillis: (NSNumber*) expiresInMillis     
-       totalRequests: (NSNumber*) totalRequests;
-       
+    token: (NSString*) token     
+    resetsInMillis: (NSNumber*) resetsInMillis     
+    remainingCalls: (NSNumber*) remainingCalls     
+    expiresInMillis: (NSNumber*) expiresInMillis     
+    totalRequests: (NSNumber*) totalRequests;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

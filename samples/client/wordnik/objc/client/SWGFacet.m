@@ -3,10 +3,13 @@
 
 @implementation SWGFacet
 
--(id)facetValues: (NSArray*) facetValues    name: (NSString*) name{
-  _facetValues = facetValues;
-  _name = name;
-  
+-(id)facetValues: (NSArray*) facetValues
+    name: (NSString*) name
+    
+{
+    _facetValues = facetValues;
+    _name = name;
+    
 
     return self;
 }
@@ -16,38 +19,27 @@
     self = [super init];
     if(self) {
         
-
-        
         
         id facetValues_dict = dict[@"facetValues"];
         
         if([facetValues_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)facetValues_dict count]];
-
             if([(NSArray*)facetValues_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)facetValues_dict) {
-                    SWGFacetValue* d = [[SWGFacetValue  alloc] initWithValues:dict];
+                    SWGFacetValue* d = [[SWGFacetValue alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _facetValues = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _facetValues = [[NSArray alloc] init];
-            }
         }
         else {
             _facetValues = [[NSArray alloc] init];
         }
         
         
-        
-        
-
-        
-        _name = dict[@"name"]; 
-        
+        _name = dict[@"name"];
         
         
     }

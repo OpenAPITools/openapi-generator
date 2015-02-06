@@ -1,4 +1,11 @@
 #import <Foundation/Foundation.h>
+#import "SWGFrequencySummary.h"
+#import "SWGExample.h"
+#import "SWGDefinition.h"
+#import "SWGBigram.h"
+#import "SWGWordObject.h"
+#import "SWGAudioFile.h"
+#import "SWGObject.h"
 
 
 @interface SWGWordApi: NSObject
@@ -21,10 +28,14 @@
  @param includeSuggestions Return suggestions (for correct spelling, case variants, etc.)
  
 
+ return type: SWGWordObject*
  */
--(NSNumber*) getWordWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical          includeSuggestions:(NSString*) includeSuggestions 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getWordWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+     includeSuggestions:(NSString*) includeSuggestions 
+    
+    completionHandler: (void (^)(SWGWordObject* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -42,10 +53,14 @@
  @param limit Maximum number of results to return
  
 
+ return type: NSArray*
  */
--(NSNumber*) getAudioWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getAudioWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+     limit:(NSNumber*) limit 
+    
+    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -69,10 +84,18 @@
  @param includeTags Return a closed set of XML tags in response
  
 
+ return type: NSArray*
  */
--(NSNumber*) getDefinitionsWithCompletionBlock :(NSString*) word          limit:(NSNumber*) limit          partOfSpeech:(NSString*) partOfSpeech          includeRelated:(NSString*) includeRelated          sourceDictionaries:(NSArray*) sourceDictionaries          useCanonical:(NSString*) useCanonical          includeTags:(NSString*) includeTags 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getDefinitionsWithCompletionBlock :(NSString*) word 
+     limit:(NSNumber*) limit 
+     partOfSpeech:(NSString*) partOfSpeech 
+     includeRelated:(NSString*) includeRelated 
+     sourceDictionaries:(NSArray*) sourceDictionaries 
+     useCanonical:(NSString*) useCanonical 
+     includeTags:(NSString*) includeTags 
+    
+    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -86,10 +109,13 @@
  @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
  
 
+ return type: NSArray*
  */
--(NSNumber*) getEtymologiesWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getEtymologiesWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+    
+    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -109,10 +135,16 @@
  @param limit Maximum number of results to return
  
 
+ return type: 
  */
--(NSNumber*) getExamplesWithCompletionBlock :(NSString*) word          includeDuplicates:(NSString*) includeDuplicates          useCanonical:(NSString*) useCanonical          skip:(NSNumber*) skip          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getExamplesWithCompletionBlock :(NSString*) word 
+     includeDuplicates:(NSString*) includeDuplicates 
+     useCanonical:(NSString*) useCanonical 
+     skip:(NSNumber*) skip 
+     limit:(NSNumber*) limit 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -130,10 +162,15 @@
  @param endYear Ending Year
  
 
+ return type: SWGFrequencySummary*
  */
--(NSNumber*) getWordFrequencyWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical          startYear:(NSNumber*) startYear          endYear:(NSNumber*) endYear 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getWordFrequencyWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+     startYear:(NSNumber*) startYear 
+     endYear:(NSNumber*) endYear 
+    
+    completionHandler: (void (^)(SWGFrequencySummary* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -151,10 +188,15 @@
  @param limit Maximum number of results to return
  
 
+ return type: 
  */
--(NSNumber*) getHyphenationWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical          sourceDictionary:(NSString*) sourceDictionary          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getHyphenationWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+     sourceDictionary:(NSString*) sourceDictionary 
+     limit:(NSNumber*) limit 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -172,10 +214,15 @@
  @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
  
 
+ return type: NSArray*
  */
--(NSNumber*) getPhrasesWithCompletionBlock :(NSString*) word          limit:(NSNumber*) limit          wlmi:(NSNumber*) wlmi          useCanonical:(NSString*) useCanonical 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getPhrasesWithCompletionBlock :(NSString*) word 
+     limit:(NSNumber*) limit 
+     wlmi:(NSNumber*) wlmi 
+     useCanonical:(NSString*) useCanonical 
+    
+    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -195,10 +242,16 @@
  @param limit Maximum number of results to return
  
 
+ return type: 
  */
--(NSNumber*) getTextPronunciationsWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical          sourceDictionary:(NSString*) sourceDictionary          typeFormat:(NSString*) typeFormat          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getTextPronunciationsWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+     sourceDictionary:(NSString*) sourceDictionary 
+     typeFormat:(NSString*) typeFormat 
+     limit:(NSNumber*) limit 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -216,10 +269,15 @@
  @param limitPerRelationshipType Restrict to the supplied relationship types
  
 
+ return type: 
  */
--(NSNumber*) getRelatedWordsWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical          relationshipTypes:(NSString*) relationshipTypes          limitPerRelationshipType:(NSNumber*) limitPerRelationshipType 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getRelatedWordsWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+     relationshipTypes:(NSString*) relationshipTypes 
+     limitPerRelationshipType:(NSNumber*) limitPerRelationshipType 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -233,10 +291,13 @@
  @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
  
 
+ return type: SWGExample*
  */
--(NSNumber*) getTopExampleWithCompletionBlock :(NSString*) word          useCanonical:(NSString*) useCanonical 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getTopExampleWithCompletionBlock :(NSString*) word 
+     useCanonical:(NSString*) useCanonical 
+    
+    completionHandler: (void (^)(SWGExample* output, NSError* error))completionBlock;
+    
 
 
 

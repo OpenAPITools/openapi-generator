@@ -3,10 +3,13 @@
 
 @implementation SWGContentProvider
 
--(id)_id: (NSNumber*) _id    name: (NSString*) name{
-  __id = _id;
-  _name = name;
-  
+-(id)_id: (NSNumber*) _id
+    name: (NSString*) name
+    
+{
+    __id = _id;
+    _name = name;
+    
 
     return self;
 }
@@ -15,17 +18,9 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
-        
-        __id = dict[@"id"]; 
-        
-        
-        
-
-        
-        _name = dict[@"name"]; 
-        
+        _name = dict[@"name"];
         
         
     }

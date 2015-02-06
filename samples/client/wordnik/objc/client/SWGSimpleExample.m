@@ -3,12 +3,17 @@
 
 @implementation SWGSimpleExample
 
--(id)_id: (NSNumber*) _id    title: (NSString*) title    text: (NSString*) text    url: (NSString*) url{
-  __id = _id;
-  _title = title;
-  _text = text;
-  _url = url;
-  
+-(id)_id: (NSNumber*) _id
+    title: (NSString*) title
+    text: (NSString*) text
+    url: (NSString*) url
+    
+{
+    __id = _id;
+    _title = title;
+    _text = text;
+    _url = url;
+    
 
     return self;
 }
@@ -17,29 +22,13 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _title = dict[@"title"];
         
-        __id = dict[@"id"]; 
+        _text = dict[@"text"];
         
-        
-        
-
-        
-        _title = dict[@"title"]; 
-        
-        
-        
-
-        
-        _text = dict[@"text"]; 
-        
-        
-        
-
-        
-        _url = dict[@"url"]; 
-        
+        _url = dict[@"url"];
         
         
     }

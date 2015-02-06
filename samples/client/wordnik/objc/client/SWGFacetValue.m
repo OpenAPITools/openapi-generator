@@ -3,10 +3,13 @@
 
 @implementation SWGFacetValue
 
--(id)count: (NSNumber*) count    value: (NSString*) value{
-  _count = count;
-  _value = value;
-  
+-(id)count: (NSNumber*) count
+    value: (NSString*) value
+    
+{
+    _count = count;
+    _value = value;
+    
 
     return self;
 }
@@ -15,17 +18,9 @@
 {
     self = [super init];
     if(self) {
+        _count = dict[@"count"];
         
-
-        
-        _count = dict[@"count"]; 
-        
-        
-        
-
-        
-        _value = dict[@"value"]; 
-        
+        _value = dict[@"value"];
         
         
     }

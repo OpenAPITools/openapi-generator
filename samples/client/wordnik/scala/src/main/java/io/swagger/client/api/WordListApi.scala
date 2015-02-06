@@ -11,13 +11,13 @@ import java.util.Date
 import scala.collection.mutable.HashMap
 
 class WordListApi {
-  var basePath: String = "http://api.wordnik.com/v4"
+  var basePath: String = "https://api.wordnik.com/v4"
   var apiInvoker = ApiInvoker
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
-  def getWordListByPermalink (permalink: String, auth_token: String)  = {
+  def getWordListByPermalink (permalink: String, auth_token: String) : Option[WordList] = {
     // create path and map variables
     val path = "/wordList.json/{permalink}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "permalink" + "\\}",apiInvoker.escape(permalink))
 
@@ -43,7 +43,8 @@ class WordListApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[WordList]).asInstanceOf[WordList])
+         
         case _ => None
       }
     } catch {

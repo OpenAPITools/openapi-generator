@@ -12,12 +12,12 @@
 @property(nonatomic) NSNumber* rating;  
 @property(nonatomic) NSNumber* documentMetadataId;  
 - (id) hasScoredWords: (NSNumber*) hasScoredWords     
-       _id: (NSNumber*) _id     
-       scoredWords: (NSArray*) scoredWords     
-       display: (NSString*) display     
-       rating: (NSNumber*) rating     
-       documentMetadataId: (NSNumber*) documentMetadataId;
-       
+    _id: (NSNumber*) _id     
+    scoredWords: (NSArray*) scoredWords     
+    display: (NSString*) display     
+    rating: (NSNumber*) rating     
+    documentMetadataId: (NSNumber*) documentMetadataId;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

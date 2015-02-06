@@ -8,8 +8,8 @@
 @property(nonatomic) NSArray* searchResults;  
 @property(nonatomic) NSNumber* totalResults;  
 - (id) searchResults: (NSArray*) searchResults     
-       totalResults: (NSNumber*) totalResults;
-       
+    totalResults: (NSNumber*) totalResults;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

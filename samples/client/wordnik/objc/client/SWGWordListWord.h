@@ -13,13 +13,13 @@
 @property(nonatomic) NSNumber* numberCommentsOnWord;  
 @property(nonatomic) NSNumber* numberLists;  
 - (id) _id: (NSNumber*) _id     
-       word: (NSString*) word     
-       username: (NSString*) username     
-       userId: (NSNumber*) userId     
-       createdAt: (SWGDate*) createdAt     
-       numberCommentsOnWord: (NSNumber*) numberCommentsOnWord     
-       numberLists: (NSNumber*) numberLists;
-       
+    word: (NSString*) word     
+    username: (NSString*) username     
+    userId: (NSNumber*) userId     
+    createdAt: (SWGDate*) createdAt     
+    numberCommentsOnWord: (NSNumber*) numberCommentsOnWord     
+    numberLists: (NSNumber*) numberLists;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

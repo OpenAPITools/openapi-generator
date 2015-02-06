@@ -12,13 +12,13 @@
 @property(nonatomic) NSString* gram;  
 @property(nonatomic) NSString* label4;  
 - (id) label1: (NSString*) label1     
-       relationshipType: (NSString*) relationshipType     
-       label2: (NSString*) label2     
-       label3: (NSString*) label3     
-       words: (NSArray*) words     
-       gram: (NSString*) gram     
-       label4: (NSString*) label4;
-       
+    relationshipType: (NSString*) relationshipType     
+    label2: (NSString*) label2     
+    label3: (NSString*) label3     
+    words: (NSArray*) words     
+    gram: (NSString*) gram     
+    label4: (NSString*) label4;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

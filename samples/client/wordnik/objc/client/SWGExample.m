@@ -3,20 +3,33 @@
 
 @implementation SWGExample
 
--(id)_id: (NSNumber*) _id    exampleId: (NSNumber*) exampleId    title: (NSString*) title    text: (NSString*) text    score: (SWGScoredWord*) score    sentence: (SWGSentence*) sentence    word: (NSString*) word    provider: (SWGContentProvider*) provider    year: (NSNumber*) year    rating: (NSNumber*) rating    documentId: (NSNumber*) documentId    url: (NSString*) url{
-  __id = _id;
-  _exampleId = exampleId;
-  _title = title;
-  _text = text;
-  _score = score;
-  _sentence = sentence;
-  _word = word;
-  _provider = provider;
-  _year = year;
-  _rating = rating;
-  _documentId = documentId;
-  _url = url;
-  
+-(id)_id: (NSNumber*) _id
+    exampleId: (NSNumber*) exampleId
+    title: (NSString*) title
+    text: (NSString*) text
+    score: (SWGScoredWord*) score
+    sentence: (SWGSentence*) sentence
+    word: (NSString*) word
+    provider: (SWGContentProvider*) provider
+    year: (NSNumber*) year
+    rating: (NSNumber*) rating
+    documentId: (NSNumber*) documentId
+    url: (NSString*) url
+    
+{
+    __id = _id;
+    _exampleId = exampleId;
+    _title = title;
+    _text = text;
+    _score = score;
+    _sentence = sentence;
+    _word = word;
+    _provider = provider;
+    _year = year;
+    _rating = rating;
+    _documentId = documentId;
+    _url = url;
+    
 
     return self;
 }
@@ -25,92 +38,47 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _exampleId = dict[@"exampleId"];
         
-        __id = dict[@"id"]; 
+        _title = dict[@"title"];
         
+        _text = dict[@"text"];
         
-        
-
-        
-        _exampleId = dict[@"exampleId"]; 
-        
-        
-        
-
-        
-        _title = dict[@"title"]; 
-        
-        
-        
-
-        
-        _text = dict[@"text"]; 
-        
-        
-        
-
         
         
         id score_dict = dict[@"score"];
-        
         
         if(score_dict != nil)
             _score = [[SWGScoredWord  alloc]initWithValues:score_dict];
         
         
         
-
-        
         
         id sentence_dict = dict[@"sentence"];
-        
         
         if(sentence_dict != nil)
             _sentence = [[SWGSentence  alloc]initWithValues:sentence_dict];
         
         
+        _word = dict[@"word"];
         
-
-        
-        _word = dict[@"word"]; 
-        
-        
-        
-
         
         
         id provider_dict = dict[@"provider"];
-        
         
         if(provider_dict != nil)
             _provider = [[SWGContentProvider  alloc]initWithValues:provider_dict];
         
         
+        _year = dict[@"year"];
         
-
+        _rating = dict[@"rating"];
         
-        _year = dict[@"year"]; 
+        _documentId = dict[@"documentId"];
         
-        
-        
-
-        
-        _rating = dict[@"rating"]; 
-        
-        
-        
-
-        
-        _documentId = dict[@"documentId"]; 
-        
-        
-        
-
-        
-        _url = dict[@"url"]; 
-        
+        _url = dict[@"url"];
         
         
     }

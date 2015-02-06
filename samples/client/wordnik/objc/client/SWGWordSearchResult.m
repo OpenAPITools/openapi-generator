@@ -3,11 +3,15 @@
 
 @implementation SWGWordSearchResult
 
--(id)count: (NSNumber*) count    lexicality: (NSNumber*) lexicality    word: (NSString*) word{
-  _count = count;
-  _lexicality = lexicality;
-  _word = word;
-  
+-(id)count: (NSNumber*) count
+    lexicality: (NSNumber*) lexicality
+    word: (NSString*) word
+    
+{
+    _count = count;
+    _lexicality = lexicality;
+    _word = word;
+    
 
     return self;
 }
@@ -16,23 +20,11 @@
 {
     self = [super init];
     if(self) {
+        _count = dict[@"count"];
         
-
+        _lexicality = dict[@"lexicality"];
         
-        _count = dict[@"count"]; 
-        
-        
-        
-
-        
-        _lexicality = dict[@"lexicality"]; 
-        
-        
-        
-
-        
-        _word = dict[@"word"]; 
-        
+        _word = dict[@"word"];
         
         
     }

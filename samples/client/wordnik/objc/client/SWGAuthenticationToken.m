@@ -3,11 +3,15 @@
 
 @implementation SWGAuthenticationToken
 
--(id)token: (NSString*) token    userId: (NSNumber*) userId    userSignature: (NSString*) userSignature{
-  _token = token;
-  _userId = userId;
-  _userSignature = userSignature;
-  
+-(id)token: (NSString*) token
+    userId: (NSNumber*) userId
+    userSignature: (NSString*) userSignature
+    
+{
+    _token = token;
+    _userId = userId;
+    _userSignature = userSignature;
+    
 
     return self;
 }
@@ -16,23 +20,11 @@
 {
     self = [super init];
     if(self) {
+        _token = dict[@"token"];
         
-
+        _userId = dict[@"userId"];
         
-        _token = dict[@"token"]; 
-        
-        
-        
-
-        
-        _userId = dict[@"userId"]; 
-        
-        
-        
-
-        
-        _userSignature = dict[@"userSignature"]; 
-        
+        _userSignature = dict[@"userSignature"];
         
         
     }

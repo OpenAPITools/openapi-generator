@@ -3,11 +3,15 @@
 
 @implementation SWGSyllable
 
--(id)text: (NSString*) text    seq: (NSNumber*) seq    type: (NSString*) type{
-  _text = text;
-  _seq = seq;
-  _type = type;
-  
+-(id)text: (NSString*) text
+    seq: (NSNumber*) seq
+    type: (NSString*) type
+    
+{
+    _text = text;
+    _seq = seq;
+    _type = type;
+    
 
     return self;
 }
@@ -16,23 +20,11 @@
 {
     self = [super init];
     if(self) {
+        _text = dict[@"text"];
         
-
+        _seq = dict[@"seq"];
         
-        _text = dict[@"text"]; 
-        
-        
-        
-
-        
-        _seq = dict[@"seq"]; 
-        
-        
-        
-
-        
-        _type = dict[@"type"]; 
-        
+        _type = dict[@"type"];
         
         
     }

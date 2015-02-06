@@ -1,4 +1,9 @@
 #import <Foundation/Foundation.h>
+#import "SWGWordList.h"
+#import "SWGAuthenticationToken.h"
+#import "SWGUser.h"
+#import "SWGApiTokenStatus.h"
+#import "SWGObject.h"
 
 
 @interface SWGAccountApi: NSObject
@@ -17,10 +22,12 @@
  @param api_key Wordnik authentication token
  
 
+ return type: SWGApiTokenStatus*
  */
 -(NSNumber*) getApiTokenStatusWithCompletionBlock :(NSString*) api_key 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+    
+    completionHandler: (void (^)(SWGApiTokenStatus* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -34,10 +41,13 @@
  @param password The user&#39;s password
  
 
+ return type: SWGAuthenticationToken*
  */
--(NSNumber*) authenticateWithCompletionBlock :(NSString*) username          password:(NSString*) password 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) authenticateWithCompletionBlock :(NSString*) username 
+     password:(NSString*) password 
+    
+    completionHandler: (void (^)(SWGAuthenticationToken* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -51,10 +61,13 @@
  @param body The user&#39;s password
  
 
+ return type: SWGAuthenticationToken*
  */
--(NSNumber*) authenticatePostWithCompletionBlock :(NSString*) username          body:(NSString*) body 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) authenticatePostWithCompletionBlock :(NSString*) username 
+     body:(NSString*) body 
+    
+    completionHandler: (void (^)(SWGAuthenticationToken* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -68,10 +81,12 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: SWGUser*
  */
 -(NSNumber*) getLoggedInUserWithCompletionBlock :(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+    
+    completionHandler: (void (^)(SWGUser* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -87,10 +102,14 @@
  @param limit Maximum number of results to return
  
 
+ return type: NSArray*
  */
--(NSNumber*) getWordListsForLoggedInUserWithCompletionBlock :(NSString*) auth_token          skip:(NSNumber*) skip          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getWordListsForLoggedInUserWithCompletionBlock :(NSString*) auth_token 
+     skip:(NSNumber*) skip 
+     limit:(NSNumber*) limit 
+    
+    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    
 
 
 

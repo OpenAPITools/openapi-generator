@@ -3,20 +3,33 @@
 
 @implementation SWGWordOfTheDay
 
--(id)_id: (NSNumber*) _id    parentId: (NSString*) parentId    category: (NSString*) category    createdBy: (NSString*) createdBy    createdAt: (SWGDate*) createdAt    contentProvider: (SWGContentProvider*) contentProvider    htmlExtra: (NSString*) htmlExtra    word: (NSString*) word    definitions: (NSArray*) definitions    examples: (NSArray*) examples    note: (NSString*) note    publishDate: (SWGDate*) publishDate{
-  __id = _id;
-  _parentId = parentId;
-  _category = category;
-  _createdBy = createdBy;
-  _createdAt = createdAt;
-  _contentProvider = contentProvider;
-  _htmlExtra = htmlExtra;
-  _word = word;
-  _definitions = definitions;
-  _examples = examples;
-  _note = note;
-  _publishDate = publishDate;
-  
+-(id)_id: (NSNumber*) _id
+    parentId: (NSString*) parentId
+    category: (NSString*) category
+    createdBy: (NSString*) createdBy
+    createdAt: (SWGDate*) createdAt
+    contentProvider: (SWGContentProvider*) contentProvider
+    htmlExtra: (NSString*) htmlExtra
+    word: (NSString*) word
+    definitions: (NSArray*) definitions
+    examples: (NSArray*) examples
+    note: (NSString*) note
+    publishDate: (SWGDate*) publishDate
+    
+{
+    __id = _id;
+    _parentId = parentId;
+    _category = category;
+    _createdBy = createdBy;
+    _createdAt = createdAt;
+    _contentProvider = contentProvider;
+    _htmlExtra = htmlExtra;
+    _word = word;
+    _definitions = definitions;
+    _examples = examples;
+    _note = note;
+    _publishDate = publishDate;
+    
 
     return self;
 }
@@ -25,85 +38,49 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _parentId = dict[@"parentId"];
         
-        __id = dict[@"id"]; 
+        _category = dict[@"category"];
         
+        _createdBy = dict[@"createdBy"];
         
-        
-
-        
-        _parentId = dict[@"parentId"]; 
-        
-        
-        
-
-        
-        _category = dict[@"category"]; 
-        
-        
-        
-
-        
-        _createdBy = dict[@"createdBy"]; 
-        
-        
-        
-
         
         
         id createdAt_dict = dict[@"createdAt"];
-        
         
         if(createdAt_dict != nil)
             _createdAt = [[SWGDate  alloc]initWithValues:createdAt_dict];
         
         
         
-
-        
         
         id contentProvider_dict = dict[@"contentProvider"];
-        
         
         if(contentProvider_dict != nil)
             _contentProvider = [[SWGContentProvider  alloc]initWithValues:contentProvider_dict];
         
         
+        _htmlExtra = dict[@"htmlExtra"];
         
-
+        _word = dict[@"word"];
         
-        _htmlExtra = dict[@"htmlExtra"]; 
-        
-        
-        
-
-        
-        _word = dict[@"word"]; 
-        
-        
-        
-
         
         
         id definitions_dict = dict[@"definitions"];
         
         if([definitions_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)definitions_dict count]];
-
             if([(NSArray*)definitions_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)definitions_dict) {
-                    SWGSimpleDefinition* d = [[SWGSimpleDefinition  alloc] initWithValues:dict];
+                    SWGSimpleDefinition* d = [[SWGSimpleDefinition alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _definitions = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _definitions = [[NSArray alloc] init];
-            }
         }
         else {
             _definitions = [[NSArray alloc] init];
@@ -112,45 +89,30 @@
         
         
         
-
-        
-        
         id examples_dict = dict[@"examples"];
         
         if([examples_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)examples_dict count]];
-
             if([(NSArray*)examples_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)examples_dict) {
-                    SWGSimpleExample* d = [[SWGSimpleExample  alloc] initWithValues:dict];
+                    SWGSimpleExample* d = [[SWGSimpleExample alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _examples = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _examples = [[NSArray alloc] init];
-            }
         }
         else {
             _examples = [[NSArray alloc] init];
         }
         
         
+        _note = dict[@"note"];
         
-        
-
-        
-        _note = dict[@"note"]; 
-        
-        
-        
-
         
         
         id publishDate_dict = dict[@"publishDate"];
-        
         
         if(publishDate_dict != nil)
             _publishDate = [[SWGDate  alloc]initWithValues:publishDate_dict];

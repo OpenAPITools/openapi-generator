@@ -3,11 +3,15 @@
 
 @implementation SWGTextPron
 
--(id)raw: (NSString*) raw    seq: (NSNumber*) seq    rawType: (NSString*) rawType{
-  _raw = raw;
-  _seq = seq;
-  _rawType = rawType;
-  
+-(id)raw: (NSString*) raw
+    seq: (NSNumber*) seq
+    rawType: (NSString*) rawType
+    
+{
+    _raw = raw;
+    _seq = seq;
+    _rawType = rawType;
+    
 
     return self;
 }
@@ -16,23 +20,11 @@
 {
     self = [super init];
     if(self) {
+        _raw = dict[@"raw"];
         
-
+        _seq = dict[@"seq"];
         
-        _raw = dict[@"raw"]; 
-        
-        
-        
-
-        
-        _seq = dict[@"seq"]; 
-        
-        
-        
-
-        
-        _rawType = dict[@"rawType"]; 
-        
+        _rawType = dict[@"rawType"];
         
         
     }

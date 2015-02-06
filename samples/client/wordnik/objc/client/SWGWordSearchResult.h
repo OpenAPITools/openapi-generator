@@ -8,9 +8,9 @@
 @property(nonatomic) NSNumber* lexicality;  
 @property(nonatomic) NSString* word;  
 - (id) count: (NSNumber*) count     
-       lexicality: (NSNumber*) lexicality     
-       word: (NSString*) word;
-       
+    lexicality: (NSNumber*) lexicality     
+    word: (NSString*) word;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

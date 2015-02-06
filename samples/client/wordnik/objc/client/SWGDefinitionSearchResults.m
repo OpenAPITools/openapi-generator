@@ -3,10 +3,13 @@
 
 @implementation SWGDefinitionSearchResults
 
--(id)results: (NSArray*) results    totalResults: (NSNumber*) totalResults{
-  _results = results;
-  _totalResults = totalResults;
-  
+-(id)results: (NSArray*) results
+    totalResults: (NSNumber*) totalResults
+    
+{
+    _results = results;
+    _totalResults = totalResults;
+    
 
     return self;
 }
@@ -16,38 +19,27 @@
     self = [super init];
     if(self) {
         
-
-        
         
         id results_dict = dict[@"results"];
         
         if([results_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)results_dict count]];
-
             if([(NSArray*)results_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)results_dict) {
-                    SWGDefinition* d = [[SWGDefinition  alloc] initWithValues:dict];
+                    SWGDefinition* d = [[SWGDefinition alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _results = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _results = [[NSArray alloc] init];
-            }
         }
         else {
             _results = [[NSArray alloc] init];
         }
         
         
-        
-        
-
-        
-        _totalResults = dict[@"totalResults"]; 
-        
+        _totalResults = dict[@"totalResults"];
         
         
     }

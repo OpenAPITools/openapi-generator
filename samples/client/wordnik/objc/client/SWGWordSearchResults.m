@@ -3,10 +3,13 @@
 
 @implementation SWGWordSearchResults
 
--(id)searchResults: (NSArray*) searchResults    totalResults: (NSNumber*) totalResults{
-  _searchResults = searchResults;
-  _totalResults = totalResults;
-  
+-(id)searchResults: (NSArray*) searchResults
+    totalResults: (NSNumber*) totalResults
+    
+{
+    _searchResults = searchResults;
+    _totalResults = totalResults;
+    
 
     return self;
 }
@@ -16,38 +19,27 @@
     self = [super init];
     if(self) {
         
-
-        
         
         id searchResults_dict = dict[@"searchResults"];
         
         if([searchResults_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)searchResults_dict count]];
-
             if([(NSArray*)searchResults_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)searchResults_dict) {
-                    SWGWordSearchResult* d = [[SWGWordSearchResult  alloc] initWithValues:dict];
+                    SWGWordSearchResult* d = [[SWGWordSearchResult alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _searchResults = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _searchResults = [[NSArray alloc] init];
-            }
         }
         else {
             _searchResults = [[NSArray alloc] init];
         }
         
         
-        
-        
-
-        
-        _totalResults = dict[@"totalResults"]; 
-        
+        _totalResults = dict[@"totalResults"];
         
         
     }

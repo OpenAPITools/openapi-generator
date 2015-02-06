@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C684292D0D245E7405FAA833 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC93B9A2B7D1228D1473D269 /* libPods.a */; };
 		EA4AA0781A8488E600B7F5BA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA0771A8488E600B7F5BA /* main.m */; };
 		EA4AA07B1A8488E600B7F5BA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA07A1A8488E600B7F5BA /* AppDelegate.m */; };
 		EA4AA07E1A8488E600B7F5BA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA07D1A8488E600B7F5BA /* ViewController.m */; };
@@ -14,6 +15,18 @@
 		EA4AA0831A8488E600B7F5BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA4AA0821A8488E600B7F5BA /* Images.xcassets */; };
 		EA4AA0861A8488E600B7F5BA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA4AA0841A8488E600B7F5BA /* LaunchScreen.xib */; };
 		EA4AA0921A8488E600B7F5BA /* swaggerClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA0911A8488E600B7F5BA /* swaggerClientTests.m */; };
+		EA4AA13B1A84FC0C00B7F5BA /* SWGApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1241A84FC0C00B7F5BA /* SWGApiClient.m */; };
+		EA4AA13C1A84FC0C00B7F5BA /* SWGCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1261A84FC0C00B7F5BA /* SWGCategory.m */; };
+		EA4AA13D1A84FC0C00B7F5BA /* SWGDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1281A84FC0C00B7F5BA /* SWGDate.m */; };
+		EA4AA13E1A84FC0C00B7F5BA /* SWGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA12A1A84FC0C00B7F5BA /* SWGFile.m */; };
+		EA4AA13F1A84FC0C00B7F5BA /* SWGObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA12C1A84FC0C00B7F5BA /* SWGObject.m */; };
+		EA4AA1401A84FC0C00B7F5BA /* SWGOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA12E1A84FC0C00B7F5BA /* SWGOrder.m */; };
+		EA4AA1411A84FC0C00B7F5BA /* SWGPet.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1301A84FC0C00B7F5BA /* SWGPet.m */; };
+		EA4AA1421A84FC0C00B7F5BA /* SWGPetApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1321A84FC0C00B7F5BA /* SWGPetApi.m */; };
+		EA4AA1431A84FC0C00B7F5BA /* SWGStoreApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1341A84FC0C00B7F5BA /* SWGStoreApi.m */; };
+		EA4AA1441A84FC0C00B7F5BA /* SWGTag.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1361A84FC0C00B7F5BA /* SWGTag.m */; };
+		EA4AA1451A84FC0C00B7F5BA /* SWGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA1381A84FC0C00B7F5BA /* SWGUser.m */; };
+		EA4AA1461A84FC0C00B7F5BA /* SWGUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4AA13A1A84FC0C00B7F5BA /* SWGUserApi.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		75682BFB35342B8A1A55F425 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		AC93B9A2B7D1228D1473D269 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4B3F38F5F67A290E9E70688 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EA4AA0721A8488E600B7F5BA /* swaggerClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swaggerClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA4AA0761A8488E600B7F5BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA4AA0771A8488E600B7F5BA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -40,6 +56,30 @@
 		EA4AA08B1A8488E600B7F5BA /* swaggerClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swaggerClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA4AA0901A8488E600B7F5BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA4AA0911A8488E600B7F5BA /* swaggerClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = swaggerClientTests.m; sourceTree = "<group>"; };
+		EA4AA1231A84FC0C00B7F5BA /* SWGApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGApiClient.h; path = ../../../petstore/objc/client/SWGApiClient.h; sourceTree = "<group>"; };
+		EA4AA1241A84FC0C00B7F5BA /* SWGApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGApiClient.m; path = ../../../petstore/objc/client/SWGApiClient.m; sourceTree = "<group>"; };
+		EA4AA1251A84FC0C00B7F5BA /* SWGCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGCategory.h; path = ../../../petstore/objc/client/SWGCategory.h; sourceTree = "<group>"; };
+		EA4AA1261A84FC0C00B7F5BA /* SWGCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGCategory.m; path = ../../../petstore/objc/client/SWGCategory.m; sourceTree = "<group>"; };
+		EA4AA1271A84FC0C00B7F5BA /* SWGDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGDate.h; path = ../../../petstore/objc/client/SWGDate.h; sourceTree = "<group>"; };
+		EA4AA1281A84FC0C00B7F5BA /* SWGDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGDate.m; path = ../../../petstore/objc/client/SWGDate.m; sourceTree = "<group>"; };
+		EA4AA1291A84FC0C00B7F5BA /* SWGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGFile.h; path = ../../../petstore/objc/client/SWGFile.h; sourceTree = "<group>"; };
+		EA4AA12A1A84FC0C00B7F5BA /* SWGFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGFile.m; path = ../../../petstore/objc/client/SWGFile.m; sourceTree = "<group>"; };
+		EA4AA12B1A84FC0C00B7F5BA /* SWGObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGObject.h; path = ../../../petstore/objc/client/SWGObject.h; sourceTree = "<group>"; };
+		EA4AA12C1A84FC0C00B7F5BA /* SWGObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGObject.m; path = ../../../petstore/objc/client/SWGObject.m; sourceTree = "<group>"; };
+		EA4AA12D1A84FC0C00B7F5BA /* SWGOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGOrder.h; path = ../../../petstore/objc/client/SWGOrder.h; sourceTree = "<group>"; };
+		EA4AA12E1A84FC0C00B7F5BA /* SWGOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGOrder.m; path = ../../../petstore/objc/client/SWGOrder.m; sourceTree = "<group>"; };
+		EA4AA12F1A84FC0C00B7F5BA /* SWGPet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGPet.h; path = ../../../petstore/objc/client/SWGPet.h; sourceTree = "<group>"; };
+		EA4AA1301A84FC0C00B7F5BA /* SWGPet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGPet.m; path = ../../../petstore/objc/client/SWGPet.m; sourceTree = "<group>"; };
+		EA4AA1311A84FC0C00B7F5BA /* SWGPetApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGPetApi.h; path = ../../../petstore/objc/client/SWGPetApi.h; sourceTree = "<group>"; };
+		EA4AA1321A84FC0C00B7F5BA /* SWGPetApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGPetApi.m; path = ../../../petstore/objc/client/SWGPetApi.m; sourceTree = "<group>"; };
+		EA4AA1331A84FC0C00B7F5BA /* SWGStoreApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGStoreApi.h; path = ../../../petstore/objc/client/SWGStoreApi.h; sourceTree = "<group>"; };
+		EA4AA1341A84FC0C00B7F5BA /* SWGStoreApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGStoreApi.m; path = ../../../petstore/objc/client/SWGStoreApi.m; sourceTree = "<group>"; };
+		EA4AA1351A84FC0C00B7F5BA /* SWGTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGTag.h; path = ../../../petstore/objc/client/SWGTag.h; sourceTree = "<group>"; };
+		EA4AA1361A84FC0C00B7F5BA /* SWGTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGTag.m; path = ../../../petstore/objc/client/SWGTag.m; sourceTree = "<group>"; };
+		EA4AA1371A84FC0C00B7F5BA /* SWGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGUser.h; path = ../../../petstore/objc/client/SWGUser.h; sourceTree = "<group>"; };
+		EA4AA1381A84FC0C00B7F5BA /* SWGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGUser.m; path = ../../../petstore/objc/client/SWGUser.m; sourceTree = "<group>"; };
+		EA4AA1391A84FC0C00B7F5BA /* SWGUserApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWGUserApi.h; path = ../../../petstore/objc/client/SWGUserApi.h; sourceTree = "<group>"; };
+		EA4AA13A1A84FC0C00B7F5BA /* SWGUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWGUserApi.m; path = ../../../petstore/objc/client/SWGUserApi.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C684292D0D245E7405FAA833 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +101,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5DFE55D094468E3996223EEC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AC93B9A2B7D1228D1473D269 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DC980D5F8CB383341E85702D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				75682BFB35342B8A1A55F425 /* Pods.debug.xcconfig */,
+				C4B3F38F5F67A290E9E70688 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EA4AA0691A8488E600B7F5BA = {
 			isa = PBXGroup;
 			children = (
+				EA4AA09B1A8489A600B7F5BA /* client */,
 				EA4AA0741A8488E600B7F5BA /* swaggerClient */,
 				EA4AA08E1A8488E600B7F5BA /* swaggerClientTests */,
 				EA4AA0731A8488E600B7F5BA /* Products */,
+				DC980D5F8CB383341E85702D /* Pods */,
+				5DFE55D094468E3996223EEC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,6 +180,38 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EA4AA09B1A8489A600B7F5BA /* client */ = {
+			isa = PBXGroup;
+			children = (
+				EA4AA1231A84FC0C00B7F5BA /* SWGApiClient.h */,
+				EA4AA1241A84FC0C00B7F5BA /* SWGApiClient.m */,
+				EA4AA1251A84FC0C00B7F5BA /* SWGCategory.h */,
+				EA4AA1261A84FC0C00B7F5BA /* SWGCategory.m */,
+				EA4AA1271A84FC0C00B7F5BA /* SWGDate.h */,
+				EA4AA1281A84FC0C00B7F5BA /* SWGDate.m */,
+				EA4AA1291A84FC0C00B7F5BA /* SWGFile.h */,
+				EA4AA12A1A84FC0C00B7F5BA /* SWGFile.m */,
+				EA4AA12B1A84FC0C00B7F5BA /* SWGObject.h */,
+				EA4AA12C1A84FC0C00B7F5BA /* SWGObject.m */,
+				EA4AA12D1A84FC0C00B7F5BA /* SWGOrder.h */,
+				EA4AA12E1A84FC0C00B7F5BA /* SWGOrder.m */,
+				EA4AA12F1A84FC0C00B7F5BA /* SWGPet.h */,
+				EA4AA1301A84FC0C00B7F5BA /* SWGPet.m */,
+				EA4AA1311A84FC0C00B7F5BA /* SWGPetApi.h */,
+				EA4AA1321A84FC0C00B7F5BA /* SWGPetApi.m */,
+				EA4AA1331A84FC0C00B7F5BA /* SWGStoreApi.h */,
+				EA4AA1341A84FC0C00B7F5BA /* SWGStoreApi.m */,
+				EA4AA1351A84FC0C00B7F5BA /* SWGTag.h */,
+				EA4AA1361A84FC0C00B7F5BA /* SWGTag.m */,
+				EA4AA1371A84FC0C00B7F5BA /* SWGUser.h */,
+				EA4AA1381A84FC0C00B7F5BA /* SWGUser.m */,
+				EA4AA1391A84FC0C00B7F5BA /* SWGUserApi.h */,
+				EA4AA13A1A84FC0C00B7F5BA /* SWGUserApi.m */,
+			);
+			name = client;
+			path = ../client;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +219,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA4AA0951A8488E600B7F5BA /* Build configuration list for PBXNativeTarget "swaggerClient" */;
 			buildPhases = (
+				D29F5FEAE0DACEA138147EA7 /* Check Pods Manifest.lock */,
 				EA4AA06E1A8488E600B7F5BA /* Sources */,
 				EA4AA06F1A8488E600B7F5BA /* Frameworks */,
 				EA4AA0701A8488E600B7F5BA /* Resources */,
+				C38279E23F9F75ABAE78C10C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,14 +309,59 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C38279E23F9F75ABAE78C10C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D29F5FEAE0DACEA138147EA7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EA4AA06E1A8488E600B7F5BA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA4AA13C1A84FC0C00B7F5BA /* SWGCategory.m in Sources */,
+				EA4AA1441A84FC0C00B7F5BA /* SWGTag.m in Sources */,
 				EA4AA07E1A8488E600B7F5BA /* ViewController.m in Sources */,
 				EA4AA07B1A8488E600B7F5BA /* AppDelegate.m in Sources */,
+				EA4AA1451A84FC0C00B7F5BA /* SWGUser.m in Sources */,
+				EA4AA1461A84FC0C00B7F5BA /* SWGUserApi.m in Sources */,
+				EA4AA1421A84FC0C00B7F5BA /* SWGPetApi.m in Sources */,
+				EA4AA13D1A84FC0C00B7F5BA /* SWGDate.m in Sources */,
 				EA4AA0781A8488E600B7F5BA /* main.m in Sources */,
+				EA4AA1411A84FC0C00B7F5BA /* SWGPet.m in Sources */,
+				EA4AA13B1A84FC0C00B7F5BA /* SWGApiClient.m in Sources */,
+				EA4AA1431A84FC0C00B7F5BA /* SWGStoreApi.m in Sources */,
+				EA4AA1401A84FC0C00B7F5BA /* SWGOrder.m in Sources */,
+				EA4AA13F1A84FC0C00B7F5BA /* SWGObject.m in Sources */,
+				EA4AA13E1A84FC0C00B7F5BA /* SWGFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +483,7 @@
 		};
 		EA4AA0961A8488E600B7F5BA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 75682BFB35342B8A1A55F425 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = swaggerClient/Info.plist;
@@ -353,6 +494,7 @@
 		};
 		EA4AA0971A8488E600B7F5BA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4B3F38F5F67A290E9E70688 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = swaggerClient/Info.plist;
@@ -414,6 +556,7 @@
 				EA4AA0971A8488E600B7F5BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EA4AA0981A8488E600B7F5BA /* Build configuration list for PBXNativeTarget "swaggerClientTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +565,7 @@
 				EA4AA09A1A8488E600B7F5BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

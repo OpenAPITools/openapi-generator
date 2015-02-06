@@ -3,11 +3,15 @@
 
 @implementation SWGRoot
 
--(id)_id: (NSNumber*) _id    name: (NSString*) name    categories: (NSArray*) categories{
-  __id = _id;
-  _name = name;
-  _categories = categories;
-  
+-(id)_id: (NSNumber*) _id
+    name: (NSString*) name
+    categories: (NSArray*) categories
+    
+{
+    __id = _id;
+    _name = name;
+    _categories = categories;
+    
 
     return self;
 }
@@ -16,44 +20,29 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _name = dict[@"name"];
         
-        __id = dict[@"id"]; 
-        
-        
-        
-
-        
-        _name = dict[@"name"]; 
-        
-        
-        
-
         
         
         id categories_dict = dict[@"categories"];
         
         if([categories_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)categories_dict count]];
-
             if([(NSArray*)categories_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)categories_dict) {
-                    SWGCategory* d = [[SWGCategory  alloc] initWithValues:dict];
+                    SWGCategory* d = [[SWGCategory alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _categories = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _categories = [[NSArray alloc] init];
-            }
         }
         else {
             _categories = [[NSArray alloc] init];
         }
-        
         
         
         

@@ -9,10 +9,10 @@
 @property(nonatomic) NSString* text;  
 @property(nonatomic) NSString* url;  
 - (id) _id: (NSNumber*) _id     
-       title: (NSString*) title     
-       text: (NSString*) text     
-       url: (NSString*) url;
-       
+    title: (NSString*) title     
+    text: (NSString*) text     
+    url: (NSString*) url;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

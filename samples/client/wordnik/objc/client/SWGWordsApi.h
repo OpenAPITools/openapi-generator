@@ -1,4 +1,9 @@
 #import <Foundation/Foundation.h>
+#import "SWGWordSearchResults.h"
+#import "SWGWordObject.h"
+#import "SWGWordOfTheDay.h"
+#import "SWGDefinitionSearchResults.h"
+#import "SWGObject.h"
 
 
 @interface SWGWordsApi: NSObject
@@ -33,10 +38,20 @@
  @param maxLength Maximum word length
  
 
+ return type: SWGWordObject*
  */
--(NSNumber*) getRandomWordWithCompletionBlock :(NSString*) hasDictionaryDef          includePartOfSpeech:(NSString*) includePartOfSpeech          excludePartOfSpeech:(NSString*) excludePartOfSpeech          minCorpusCount:(NSNumber*) minCorpusCount          maxCorpusCount:(NSNumber*) maxCorpusCount          minDictionaryCount:(NSNumber*) minDictionaryCount          maxDictionaryCount:(NSNumber*) maxDictionaryCount          minLength:(NSNumber*) minLength          maxLength:(NSNumber*) maxLength 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getRandomWordWithCompletionBlock :(NSString*) hasDictionaryDef 
+     includePartOfSpeech:(NSString*) includePartOfSpeech 
+     excludePartOfSpeech:(NSString*) excludePartOfSpeech 
+     minCorpusCount:(NSNumber*) minCorpusCount 
+     maxCorpusCount:(NSNumber*) maxCorpusCount 
+     minDictionaryCount:(NSNumber*) minDictionaryCount 
+     maxDictionaryCount:(NSNumber*) maxDictionaryCount 
+     minLength:(NSNumber*) minLength 
+     maxLength:(NSNumber*) maxLength 
+    
+    completionHandler: (void (^)(SWGWordObject* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -70,10 +85,23 @@
  @param limit Maximum number of results to return
  
 
+ return type: 
  */
--(NSNumber*) getRandomWordsWithCompletionBlock :(NSString*) hasDictionaryDef          includePartOfSpeech:(NSString*) includePartOfSpeech          excludePartOfSpeech:(NSString*) excludePartOfSpeech          minCorpusCount:(NSNumber*) minCorpusCount          maxCorpusCount:(NSNumber*) maxCorpusCount          minDictionaryCount:(NSNumber*) minDictionaryCount          maxDictionaryCount:(NSNumber*) maxDictionaryCount          minLength:(NSNumber*) minLength          maxLength:(NSNumber*) maxLength          sortBy:(NSString*) sortBy          sortOrder:(NSString*) sortOrder          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getRandomWordsWithCompletionBlock :(NSString*) hasDictionaryDef 
+     includePartOfSpeech:(NSString*) includePartOfSpeech 
+     excludePartOfSpeech:(NSString*) excludePartOfSpeech 
+     minCorpusCount:(NSNumber*) minCorpusCount 
+     maxCorpusCount:(NSNumber*) maxCorpusCount 
+     minDictionaryCount:(NSNumber*) minDictionaryCount 
+     maxDictionaryCount:(NSNumber*) maxDictionaryCount 
+     minLength:(NSNumber*) minLength 
+     maxLength:(NSNumber*) maxLength 
+     sortBy:(NSString*) sortBy 
+     sortOrder:(NSString*) sortOrder 
+     limit:(NSNumber*) limit 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -115,10 +143,27 @@
  @param limit Maximum number of results to return
  
 
+ return type: SWGDefinitionSearchResults*
  */
--(NSNumber*) reverseDictionaryWithCompletionBlock :(NSString*) query          findSenseForWord:(NSString*) findSenseForWord          includeSourceDictionaries:(NSString*) includeSourceDictionaries          excludeSourceDictionaries:(NSString*) excludeSourceDictionaries          includePartOfSpeech:(NSString*) includePartOfSpeech          excludePartOfSpeech:(NSString*) excludePartOfSpeech          minCorpusCount:(NSNumber*) minCorpusCount          maxCorpusCount:(NSNumber*) maxCorpusCount          minLength:(NSNumber*) minLength          maxLength:(NSNumber*) maxLength          expandTerms:(NSString*) expandTerms          includeTags:(NSString*) includeTags          sortBy:(NSString*) sortBy          sortOrder:(NSString*) sortOrder          skip:(NSString*) skip          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) reverseDictionaryWithCompletionBlock :(NSString*) query 
+     findSenseForWord:(NSString*) findSenseForWord 
+     includeSourceDictionaries:(NSString*) includeSourceDictionaries 
+     excludeSourceDictionaries:(NSString*) excludeSourceDictionaries 
+     includePartOfSpeech:(NSString*) includePartOfSpeech 
+     excludePartOfSpeech:(NSString*) excludePartOfSpeech 
+     minCorpusCount:(NSNumber*) minCorpusCount 
+     maxCorpusCount:(NSNumber*) maxCorpusCount 
+     minLength:(NSNumber*) minLength 
+     maxLength:(NSNumber*) maxLength 
+     expandTerms:(NSString*) expandTerms 
+     includeTags:(NSString*) includeTags 
+     sortBy:(NSString*) sortBy 
+     sortOrder:(NSString*) sortOrder 
+     skip:(NSString*) skip 
+     limit:(NSNumber*) limit 
+    
+    completionHandler: (void (^)(SWGDefinitionSearchResults* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -152,10 +197,23 @@
  @param limit Maximum number of results to return
  
 
+ return type: SWGWordSearchResults*
  */
--(NSNumber*) searchWordsWithCompletionBlock :(NSString*) query          caseSensitive:(NSString*) caseSensitive          includePartOfSpeech:(NSString*) includePartOfSpeech          excludePartOfSpeech:(NSString*) excludePartOfSpeech          minCorpusCount:(NSNumber*) minCorpusCount          maxCorpusCount:(NSNumber*) maxCorpusCount          minDictionaryCount:(NSNumber*) minDictionaryCount          maxDictionaryCount:(NSNumber*) maxDictionaryCount          minLength:(NSNumber*) minLength          maxLength:(NSNumber*) maxLength          skip:(NSNumber*) skip          limit:(NSNumber*) limit 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) searchWordsWithCompletionBlock :(NSString*) query 
+     caseSensitive:(NSString*) caseSensitive 
+     includePartOfSpeech:(NSString*) includePartOfSpeech 
+     excludePartOfSpeech:(NSString*) excludePartOfSpeech 
+     minCorpusCount:(NSNumber*) minCorpusCount 
+     maxCorpusCount:(NSNumber*) maxCorpusCount 
+     minDictionaryCount:(NSNumber*) minDictionaryCount 
+     maxDictionaryCount:(NSNumber*) maxDictionaryCount 
+     minLength:(NSNumber*) minLength 
+     maxLength:(NSNumber*) maxLength 
+     skip:(NSNumber*) skip 
+     limit:(NSNumber*) limit 
+    
+    completionHandler: (void (^)(SWGWordSearchResults* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -167,10 +225,12 @@
  @param date Fetches by date in yyyy-MM-dd
  
 
+ return type: SWGWordOfTheDay*
  */
 -(NSNumber*) getWordOfTheDayWithCompletionBlock :(NSString*) date 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+    
+    completionHandler: (void (^)(SWGWordOfTheDay* output, NSError* error))completionBlock;
+    
 
 
 

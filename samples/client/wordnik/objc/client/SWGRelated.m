@@ -3,15 +3,23 @@
 
 @implementation SWGRelated
 
--(id)label1: (NSString*) label1    relationshipType: (NSString*) relationshipType    label2: (NSString*) label2    label3: (NSString*) label3    words: (NSArray*) words    gram: (NSString*) gram    label4: (NSString*) label4{
-  _label1 = label1;
-  _relationshipType = relationshipType;
-  _label2 = label2;
-  _label3 = label3;
-  _words = words;
-  _gram = gram;
-  _label4 = label4;
-  
+-(id)label1: (NSString*) label1
+    relationshipType: (NSString*) relationshipType
+    label2: (NSString*) label2
+    label3: (NSString*) label3
+    words: (NSArray*) words
+    gram: (NSString*) gram
+    label4: (NSString*) label4
+    
+{
+    _label1 = label1;
+    _relationshipType = relationshipType;
+    _label2 = label2;
+    _label3 = label3;
+    _words = words;
+    _gram = gram;
+    _label4 = label4;
+    
 
     return self;
 }
@@ -20,47 +28,19 @@
 {
     self = [super init];
     if(self) {
+        _label1 = dict[@"label1"];
         
-
+        _relationshipType = dict[@"relationshipType"];
         
-        _label1 = dict[@"label1"]; 
+        _label2 = dict[@"label2"];
         
+        _label3 = dict[@"label3"];
         
+        _words = dict[@"words"];
         
-
+        _gram = dict[@"gram"];
         
-        _relationshipType = dict[@"relationshipType"]; 
-        
-        
-        
-
-        
-        _label2 = dict[@"label2"]; 
-        
-        
-        
-
-        
-        _label3 = dict[@"label3"]; 
-        
-        
-        
-
-        
-        _words = dict[@"words"]; 
-        
-        
-        
-
-        
-        _gram = dict[@"gram"]; 
-        
-        
-        
-
-        
-        _label4 = dict[@"label4"]; 
-        
+        _label4 = dict[@"label4"];
         
         
     }

@@ -3,15 +3,23 @@
 
 @implementation SWGWordListWord
 
--(id)_id: (NSNumber*) _id    word: (NSString*) word    username: (NSString*) username    userId: (NSNumber*) userId    createdAt: (SWGDate*) createdAt    numberCommentsOnWord: (NSNumber*) numberCommentsOnWord    numberLists: (NSNumber*) numberLists{
-  __id = _id;
-  _word = word;
-  _username = username;
-  _userId = userId;
-  _createdAt = createdAt;
-  _numberCommentsOnWord = numberCommentsOnWord;
-  _numberLists = numberLists;
-  
+-(id)_id: (NSNumber*) _id
+    word: (NSString*) word
+    username: (NSString*) username
+    userId: (NSNumber*) userId
+    createdAt: (SWGDate*) createdAt
+    numberCommentsOnWord: (NSNumber*) numberCommentsOnWord
+    numberLists: (NSNumber*) numberLists
+    
+{
+    __id = _id;
+    _word = word;
+    _username = username;
+    _userId = userId;
+    _createdAt = createdAt;
+    _numberCommentsOnWord = numberCommentsOnWord;
+    _numberLists = numberLists;
+    
 
     return self;
 }
@@ -20,52 +28,25 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _word = dict[@"word"];
         
-        __id = dict[@"id"]; 
+        _username = dict[@"username"];
         
+        _userId = dict[@"userId"];
         
-        
-
-        
-        _word = dict[@"word"]; 
-        
-        
-        
-
-        
-        _username = dict[@"username"]; 
-        
-        
-        
-
-        
-        _userId = dict[@"userId"]; 
-        
-        
-        
-
         
         
         id createdAt_dict = dict[@"createdAt"];
-        
         
         if(createdAt_dict != nil)
             _createdAt = [[SWGDate  alloc]initWithValues:createdAt_dict];
         
         
+        _numberCommentsOnWord = dict[@"numberCommentsOnWord"];
         
-
-        
-        _numberCommentsOnWord = dict[@"numberCommentsOnWord"]; 
-        
-        
-        
-
-        
-        _numberLists = dict[@"numberLists"]; 
-        
+        _numberLists = dict[@"numberLists"];
         
         
     }

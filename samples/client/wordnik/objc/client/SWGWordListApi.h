@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "SWGWordList.h"
 #import "SWGStringValue.h"
+#import "SWGObject.h"
 
 
 @interface SWGWordListApi: NSObject
@@ -21,10 +22,13 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: SWGWordList*
  */
--(NSNumber*) getWordListByPermalinkWithCompletionBlock :(NSString*) permalink          auth_token:(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getWordListByPermalinkWithCompletionBlock :(NSString*) permalink 
+     auth_token:(NSString*) auth_token 
+    
+    completionHandler: (void (^)(SWGWordList* output, NSError* error))completionBlock;
+    
 
 
 /**
@@ -40,10 +44,14 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: 
  */
--(NSNumber*) updateWordListWithCompletionBlock :(NSString*) permalink          body:(SWGWordList*) body          auth_token:(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) updateWordListWithCompletionBlock :(NSString*) permalink 
+     body:(SWGWordList*) body 
+     auth_token:(NSString*) auth_token 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -57,10 +65,13 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: 
  */
--(NSNumber*) deleteWordListWithCompletionBlock :(NSString*) permalink          auth_token:(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) deleteWordListWithCompletionBlock :(NSString*) permalink 
+     auth_token:(NSString*) auth_token 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -76,10 +87,14 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: 
  */
--(NSNumber*) deleteWordsFromWordListWithCompletionBlock :(NSString*) permalink          body:(NSArray*) body          auth_token:(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) deleteWordsFromWordListWithCompletionBlock :(NSString*) permalink 
+     body:(NSArray*) body 
+     auth_token:(NSString*) auth_token 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -101,10 +116,17 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: 
  */
--(NSNumber*) getWordListWordsWithCompletionBlock :(NSString*) permalink          sortBy:(NSString*) sortBy          sortOrder:(NSString*) sortOrder          skip:(NSNumber*) skip          limit:(NSNumber*) limit          auth_token:(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) getWordListWordsWithCompletionBlock :(NSString*) permalink 
+     sortBy:(NSString*) sortBy 
+     sortOrder:(NSString*) sortOrder 
+     skip:(NSNumber*) skip 
+     limit:(NSNumber*) limit 
+     auth_token:(NSString*) auth_token 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 /**
@@ -120,10 +142,14 @@
  @param auth_token The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
  
 
+ return type: 
  */
--(NSNumber*) addWordsToWordListWithCompletionBlock :(NSString*) permalink          body:(NSArray*) body          auth_token:(NSString*) auth_token 
-        
-                completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) addWordsToWordListWithCompletionBlock :(NSString*) permalink 
+     body:(NSArray*) body 
+     auth_token:(NSString*) auth_token 
+    
+    
+    completionHandler: (void (^)(NSError* error))completionBlock;
 
 
 

@@ -1,5 +1,11 @@
 package io.swagger.client.api
 
+import io.swagger.client.model.Example
+import io.swagger.client.model.AudioFile
+import io.swagger.client.model.Bigram
+import io.swagger.client.model.WordObject
+import io.swagger.client.model.FrequencySummary
+import io.swagger.client.model.Definition
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException
 
@@ -9,13 +15,13 @@ import java.util.Date
 import scala.collection.mutable.HashMap
 
 class WordApi {
-  var basePath: String = "http://api.wordnik.com/v4"
+  var basePath: String = "https://api.wordnik.com/v4"
   var apiInvoker = ApiInvoker
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
-  def getWord (word: String, useCanonical: String, includeSuggestions: String)  = {
+  def getWord (word: String, useCanonical: String, includeSuggestions: String) : Option[WordObject] = {
     // create path and map variables
     val path = "/word.json/{word}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
@@ -42,7 +48,8 @@ class WordApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[WordObject]).asInstanceOf[WordObject])
+         
         case _ => None
       }
     } catch {
@@ -51,7 +58,7 @@ class WordApi {
     }
   }
   
-  def getAudio (word: String, useCanonical: String, limit: Integer)  = {
+  def getAudio (word: String, useCanonical: String, limit: Integer) : Option[List[AudioFile]] = {
     // create path and map variables
     val path = "/word.json/{word}/audio".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
@@ -78,7 +85,8 @@ class WordApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "array", classOf[AudioFile]).asInstanceOf[List[AudioFile]])
+         
         case _ => None
       }
     } catch {
@@ -87,7 +95,7 @@ class WordApi {
     }
   }
   
-  def getDefinitions (word: String, limit: Integer, partOfSpeech: String, includeRelated: String, sourceDictionaries: List[String], useCanonical: String, includeTags: String)  = {
+  def getDefinitions (word: String, limit: Integer, partOfSpeech: String, includeRelated: String, sourceDictionaries: List[String], useCanonical: String, includeTags: String) : Option[List[Definition]] = {
     // create path and map variables
     val path = "/word.json/{word}/definitions".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
@@ -118,7 +126,8 @@ class WordApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "array", classOf[Definition]).asInstanceOf[List[Definition]])
+         
         case _ => None
       }
     } catch {
@@ -127,7 +136,7 @@ class WordApi {
     }
   }
   
-  def getEtymologies (word: String, useCanonical: String)  = {
+  def getEtymologies (word: String, useCanonical: String) : Option[List[String]] = {
     // create path and map variables
     val path = "/word.json/{word}/etymologies".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
@@ -153,7 +162,8 @@ class WordApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "array", classOf[String]).asInstanceOf[List[String]])
+         
         case _ => None
       }
     } catch {
@@ -200,7 +210,7 @@ class WordApi {
     }
   }
   
-  def getWordFrequency (word: String, useCanonical: String, startYear: Integer, endYear: Integer)  = {
+  def getWordFrequency (word: String, useCanonical: String, startYear: Integer, endYear: Integer) : Option[FrequencySummary] = {
     // create path and map variables
     val path = "/word.json/{word}/frequency".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
@@ -228,7 +238,8 @@ class WordApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[FrequencySummary]).asInstanceOf[FrequencySummary])
+         
         case _ => None
       }
     } catch {
@@ -274,7 +285,7 @@ class WordApi {
     }
   }
   
-  def getPhrases (word: String, limit: Integer, wlmi: Integer, useCanonical: String)  = {
+  def getPhrases (word: String, limit: Integer, wlmi: Integer, useCanonical: String) : Option[List[Bigram]] = {
     // create path and map variables
     val path = "/word.json/{word}/phrases".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
@@ -302,7 +313,8 @@ class WordApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "array", classOf[Bigram]).asInstanceOf[List[Bigram]])
+         
         case _ => None
       }
     } catch {
@@ -386,7 +398,7 @@ class WordApi {
     }
   }
   
-  def getTopExample (word: String, useCanonical: String)  = {
+  def getTopExample (word: String, useCanonical: String) : Option[Example] = {
     // create path and map variables
     val path = "/word.json/{word}/topExample".replaceAll("\\{format\\}","json").replaceAll("\\{" + "word" + "\\}",apiInvoker.escape(word))
 
@@ -412,7 +424,8 @@ class WordApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[Example]).asInstanceOf[Example])
+         
         case _ => None
       }
     } catch {

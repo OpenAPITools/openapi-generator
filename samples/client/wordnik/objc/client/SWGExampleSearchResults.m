@@ -3,10 +3,13 @@
 
 @implementation SWGExampleSearchResults
 
--(id)facets: (NSArray*) facets    examples: (NSArray*) examples{
-  _facets = facets;
-  _examples = examples;
-  
+-(id)facets: (NSArray*) facets
+    examples: (NSArray*) examples
+    
+{
+    _facets = facets;
+    _examples = examples;
+    
 
     return self;
 }
@@ -16,26 +19,20 @@
     self = [super init];
     if(self) {
         
-
-        
         
         id facets_dict = dict[@"facets"];
         
         if([facets_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)facets_dict count]];
-
             if([(NSArray*)facets_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)facets_dict) {
-                    SWGFacet* d = [[SWGFacet  alloc] initWithValues:dict];
+                    SWGFacet* d = [[SWGFacet alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _facets = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _facets = [[NSArray alloc] init];
-            }
         }
         else {
             _facets = [[NSArray alloc] init];
@@ -44,31 +41,23 @@
         
         
         
-
-        
-        
         id examples_dict = dict[@"examples"];
         
         if([examples_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)examples_dict count]];
-
             if([(NSArray*)examples_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)examples_dict) {
-                    SWGExample* d = [[SWGExample  alloc] initWithValues:dict];
+                    SWGExample* d = [[SWGExample alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _examples = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _examples = [[NSArray alloc] init];
-            }
         }
         else {
             _examples = [[NSArray alloc] init];
         }
-        
         
         
         

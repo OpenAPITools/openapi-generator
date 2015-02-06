@@ -3,9 +3,11 @@
 
 @implementation SWGExampleUsage
 
--(id)text: (NSString*) text{
-  _text = text;
-  
+-(id)text: (NSString*) text
+    
+{
+    _text = text;
+    
 
     return self;
 }
@@ -14,11 +16,7 @@
 {
     self = [super init];
     if(self) {
-        
-
-        
-        _text = dict[@"text"]; 
-        
+        _text = dict[@"text"];
         
         
     }

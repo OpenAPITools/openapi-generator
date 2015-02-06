@@ -7,8 +7,8 @@
 @property(nonatomic) NSNumber* count;  
 @property(nonatomic) NSString* value;  
 - (id) count: (NSNumber*) count     
-       value: (NSString*) value;
-       
+    value: (NSString*) value;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

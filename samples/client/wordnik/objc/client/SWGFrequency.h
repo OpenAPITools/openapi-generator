@@ -7,8 +7,8 @@
 @property(nonatomic) NSNumber* count;  
 @property(nonatomic) NSNumber* year;  
 - (id) count: (NSNumber*) count     
-       year: (NSNumber*) year;
-       
+    year: (NSNumber*) year;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

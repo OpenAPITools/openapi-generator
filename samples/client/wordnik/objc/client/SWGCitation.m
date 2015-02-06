@@ -3,10 +3,13 @@
 
 @implementation SWGCitation
 
--(id)cite: (NSString*) cite    source: (NSString*) source{
-  _cite = cite;
-  _source = source;
-  
+-(id)cite: (NSString*) cite
+    source: (NSString*) source
+    
+{
+    _cite = cite;
+    _source = source;
+    
 
     return self;
 }
@@ -15,17 +18,9 @@
 {
     self = [super init];
     if(self) {
+        _cite = dict[@"cite"];
         
-
-        
-        _cite = dict[@"cite"]; 
-        
-        
-        
-
-        
-        _source = dict[@"source"]; 
-        
+        _source = dict[@"source"];
         
         
     }

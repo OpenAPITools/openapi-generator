@@ -3,14 +3,21 @@
 
 @implementation SWGApiTokenStatus
 
--(id)valid: (NSNumber*) valid    token: (NSString*) token    resetsInMillis: (NSNumber*) resetsInMillis    remainingCalls: (NSNumber*) remainingCalls    expiresInMillis: (NSNumber*) expiresInMillis    totalRequests: (NSNumber*) totalRequests{
-  _valid = valid;
-  _token = token;
-  _resetsInMillis = resetsInMillis;
-  _remainingCalls = remainingCalls;
-  _expiresInMillis = expiresInMillis;
-  _totalRequests = totalRequests;
-  
+-(id)valid: (NSNumber*) valid
+    token: (NSString*) token
+    resetsInMillis: (NSNumber*) resetsInMillis
+    remainingCalls: (NSNumber*) remainingCalls
+    expiresInMillis: (NSNumber*) expiresInMillis
+    totalRequests: (NSNumber*) totalRequests
+    
+{
+    _valid = valid;
+    _token = token;
+    _resetsInMillis = resetsInMillis;
+    _remainingCalls = remainingCalls;
+    _expiresInMillis = expiresInMillis;
+    _totalRequests = totalRequests;
+    
 
     return self;
 }
@@ -19,41 +26,17 @@
 {
     self = [super init];
     if(self) {
+        _valid = dict[@"valid"];
         
-
+        _token = dict[@"token"];
         
-        _valid = dict[@"valid"]; 
+        _resetsInMillis = dict[@"resetsInMillis"];
         
+        _remainingCalls = dict[@"remainingCalls"];
         
+        _expiresInMillis = dict[@"expiresInMillis"];
         
-
-        
-        _token = dict[@"token"]; 
-        
-        
-        
-
-        
-        _resetsInMillis = dict[@"resetsInMillis"]; 
-        
-        
-        
-
-        
-        _remainingCalls = dict[@"remainingCalls"]; 
-        
-        
-        
-
-        
-        _expiresInMillis = dict[@"expiresInMillis"]; 
-        
-        
-        
-
-        
-        _totalRequests = dict[@"totalRequests"]; 
-        
+        _totalRequests = dict[@"totalRequests"];
         
         
     }

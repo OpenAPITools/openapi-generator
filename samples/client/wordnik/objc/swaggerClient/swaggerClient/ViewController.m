@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "SWGPetApi.h"
 
 @interface ViewController ()
 
@@ -17,6 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+
+    SWGPetApi * pet = [[SWGPetApi alloc] init];
+    [pet getPetByIdWithCompletionBlock:@10 completionHandler:^(SWGPet *output, NSError *error) {
+        NSLog(@"%@", output);
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {

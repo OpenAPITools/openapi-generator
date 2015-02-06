@@ -11,12 +11,12 @@
 @property(nonatomic) NSString* canonicalForm;  
 @property(nonatomic) NSString* vulgar;  
 - (id) _id: (NSNumber*) _id     
-       word: (NSString*) word     
-       originalWord: (NSString*) originalWord     
-       suggestions: (NSArray*) suggestions     
-       canonicalForm: (NSString*) canonicalForm     
-       vulgar: (NSString*) vulgar;
-       
+    word: (NSString*) word     
+    originalWord: (NSString*) originalWord     
+    suggestions: (NSArray*) suggestions     
+    canonicalForm: (NSString*) canonicalForm     
+    vulgar: (NSString*) vulgar;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

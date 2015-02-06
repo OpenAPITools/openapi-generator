@@ -1,11 +1,15 @@
 #import "SWGWordsApi.h"
 #import "SWGFile.h"
 #import "SWGApiClient.h"
+#import "SWGWordSearchResults.h"
+#import "SWGWordObject.h"
+#import "SWGWordOfTheDay.h"
+#import "SWGDefinitionSearchResults.h"
 
 
 
 @implementation SWGWordsApi
-static NSString * basePath = @"http://api.wordnik.com/v4";
+static NSString * basePath = @"https://api.wordnik.com/v4";
 
 +(SWGWordsApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGWordsApi* singletonAPI = nil;
@@ -49,9 +53,18 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
 }
 
 
--(NSNumber*) getRandomWordWithCompletionBlock:(NSString*) hasDictionaryDef         includePartOfSpeech:(NSString*) includePartOfSpeech         excludePartOfSpeech:(NSString*) excludePartOfSpeech         minCorpusCount:(NSNumber*) minCorpusCount         maxCorpusCount:(NSNumber*) maxCorpusCount         minDictionaryCount:(NSNumber*) minDictionaryCount         maxDictionaryCount:(NSNumber*) maxDictionaryCount         minLength:(NSNumber*) minLength         maxLength:(NSNumber*) maxLength        
+-(NSNumber*) getRandomWordWithCompletionBlock:(NSString*) hasDictionaryDef
+         includePartOfSpeech:(NSString*) includePartOfSpeech
+         excludePartOfSpeech:(NSString*) excludePartOfSpeech
+         minCorpusCount:(NSNumber*) minCorpusCount
+         maxCorpusCount:(NSNumber*) maxCorpusCount
+         minDictionaryCount:(NSNumber*) minDictionaryCount
+         maxDictionaryCount:(NSNumber*) maxDictionaryCount
+         minLength:(NSNumber*) minLength
+         maxLength:(NSNumber*) maxLength
         
-        completionHandler: (void (^)(NSError* error))completionBlock {
+        completionHandler: (void (^)(SWGWordObject* output, NSError* error))completionBlock
+         {
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/words.json/randomWord", basePath];
 
@@ -64,7 +77,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(hasDictionaryDef != nil)
         queryParams[@"hasDictionaryDef"] = hasDictionaryDef;
     if(includePartOfSpeech != nil)
@@ -84,44 +97,59 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(maxLength != nil)
         queryParams[@"maxLength"] = maxLength;
     
-        NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
 
     id bodyDictionary = nil;
-        
+    
     
     
 
     SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
 
     
-
     
     
+        
+    // comples response type
+    return [client dictionary:requestUrl 
+                       method:@"GET" 
+                  queryParams:queryParams 
+                         body:bodyDictionary 
+                 headerParams:headerParams
+           requestContentType:requestContentType
+          responseContentType:responseContentType
+              completionBlock:^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SWGWordObject *result = nil;
+                if (data) {
+                    result = [[SWGWordObject    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
     
     
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"GET" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
-                        if (error) {
-                            completionBlock(error);
-                            return;
-                        }
-                        completionBlock(nil);
-                    }];
-    
-    
-    
-    
-
 }
 
--(NSNumber*) getRandomWordsWithCompletionBlock:(NSString*) hasDictionaryDef         includePartOfSpeech:(NSString*) includePartOfSpeech         excludePartOfSpeech:(NSString*) excludePartOfSpeech         minCorpusCount:(NSNumber*) minCorpusCount         maxCorpusCount:(NSNumber*) maxCorpusCount         minDictionaryCount:(NSNumber*) minDictionaryCount         maxDictionaryCount:(NSNumber*) maxDictionaryCount         minLength:(NSNumber*) minLength         maxLength:(NSNumber*) maxLength         sortBy:(NSString*) sortBy         sortOrder:(NSString*) sortOrder         limit:(NSNumber*) limit        
+-(NSNumber*) getRandomWordsWithCompletionBlock:(NSString*) hasDictionaryDef
+         includePartOfSpeech:(NSString*) includePartOfSpeech
+         excludePartOfSpeech:(NSString*) excludePartOfSpeech
+         minCorpusCount:(NSNumber*) minCorpusCount
+         maxCorpusCount:(NSNumber*) maxCorpusCount
+         minDictionaryCount:(NSNumber*) minDictionaryCount
+         maxDictionaryCount:(NSNumber*) maxDictionaryCount
+         minLength:(NSNumber*) minLength
+         maxLength:(NSNumber*) maxLength
+         sortBy:(NSString*) sortBy
+         sortOrder:(NSString*) sortOrder
+         limit:(NSNumber*) limit
+        
         
         completionHandler: (void (^)(NSError* error))completionBlock {
 
@@ -136,7 +164,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(hasDictionaryDef != nil)
         queryParams[@"hasDictionaryDef"] = hasDictionaryDef;
     if(includePartOfSpeech != nil)
@@ -162,22 +190,22 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(limit != nil)
         queryParams[@"limit"] = limit;
     
-        NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
 
     id bodyDictionary = nil;
-        
+    
     
     
 
     SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
 
     
-
+    
+            // primitive response type
     
     
-    
-    
+    // no return base type
     return [client stringWithCompletionBlock:requestUrl 
                                              method:@"GET" 
                                         queryParams:queryParams 
@@ -196,12 +224,27 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     
     
     
-
 }
 
--(NSNumber*) reverseDictionaryWithCompletionBlock:(NSString*) query         findSenseForWord:(NSString*) findSenseForWord         includeSourceDictionaries:(NSString*) includeSourceDictionaries         excludeSourceDictionaries:(NSString*) excludeSourceDictionaries         includePartOfSpeech:(NSString*) includePartOfSpeech         excludePartOfSpeech:(NSString*) excludePartOfSpeech         minCorpusCount:(NSNumber*) minCorpusCount         maxCorpusCount:(NSNumber*) maxCorpusCount         minLength:(NSNumber*) minLength         maxLength:(NSNumber*) maxLength         expandTerms:(NSString*) expandTerms         includeTags:(NSString*) includeTags         sortBy:(NSString*) sortBy         sortOrder:(NSString*) sortOrder         skip:(NSString*) skip         limit:(NSNumber*) limit        
+-(NSNumber*) reverseDictionaryWithCompletionBlock:(NSString*) query
+         findSenseForWord:(NSString*) findSenseForWord
+         includeSourceDictionaries:(NSString*) includeSourceDictionaries
+         excludeSourceDictionaries:(NSString*) excludeSourceDictionaries
+         includePartOfSpeech:(NSString*) includePartOfSpeech
+         excludePartOfSpeech:(NSString*) excludePartOfSpeech
+         minCorpusCount:(NSNumber*) minCorpusCount
+         maxCorpusCount:(NSNumber*) maxCorpusCount
+         minLength:(NSNumber*) minLength
+         maxLength:(NSNumber*) maxLength
+         expandTerms:(NSString*) expandTerms
+         includeTags:(NSString*) includeTags
+         sortBy:(NSString*) sortBy
+         sortOrder:(NSString*) sortOrder
+         skip:(NSString*) skip
+         limit:(NSNumber*) limit
         
-        completionHandler: (void (^)(NSError* error))completionBlock {
+        completionHandler: (void (^)(SWGDefinitionSearchResults* output, NSError* error))completionBlock
+         {
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/words.json/reverseDictionary", basePath];
 
@@ -214,7 +257,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(query != nil)
         queryParams[@"query"] = query;
     if(findSenseForWord != nil)
@@ -248,46 +291,61 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(limit != nil)
         queryParams[@"limit"] = limit;
     
-        NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
 
     id bodyDictionary = nil;
-        
+    
     
     
 
     SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
 
     
-
     
     
+        
+    // comples response type
+    return [client dictionary:requestUrl 
+                       method:@"GET" 
+                  queryParams:queryParams 
+                         body:bodyDictionary 
+                 headerParams:headerParams
+           requestContentType:requestContentType
+          responseContentType:responseContentType
+              completionBlock:^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SWGDefinitionSearchResults *result = nil;
+                if (data) {
+                    result = [[SWGDefinitionSearchResults    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
     
     
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"GET" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
-                        if (error) {
-                            completionBlock(error);
-                            return;
-                        }
-                        completionBlock(nil);
-                    }];
-    
-    
-    
-    
-
 }
 
--(NSNumber*) searchWordsWithCompletionBlock:(NSString*) query         caseSensitive:(NSString*) caseSensitive         includePartOfSpeech:(NSString*) includePartOfSpeech         excludePartOfSpeech:(NSString*) excludePartOfSpeech         minCorpusCount:(NSNumber*) minCorpusCount         maxCorpusCount:(NSNumber*) maxCorpusCount         minDictionaryCount:(NSNumber*) minDictionaryCount         maxDictionaryCount:(NSNumber*) maxDictionaryCount         minLength:(NSNumber*) minLength         maxLength:(NSNumber*) maxLength         skip:(NSNumber*) skip         limit:(NSNumber*) limit        
+-(NSNumber*) searchWordsWithCompletionBlock:(NSString*) query
+         caseSensitive:(NSString*) caseSensitive
+         includePartOfSpeech:(NSString*) includePartOfSpeech
+         excludePartOfSpeech:(NSString*) excludePartOfSpeech
+         minCorpusCount:(NSNumber*) minCorpusCount
+         maxCorpusCount:(NSNumber*) maxCorpusCount
+         minDictionaryCount:(NSNumber*) minDictionaryCount
+         maxDictionaryCount:(NSNumber*) maxDictionaryCount
+         minLength:(NSNumber*) minLength
+         maxLength:(NSNumber*) maxLength
+         skip:(NSNumber*) skip
+         limit:(NSNumber*) limit
         
-        completionHandler: (void (^)(NSError* error))completionBlock {
+        completionHandler: (void (^)(SWGWordSearchResults* output, NSError* error))completionBlock
+         {
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/words.json/search/{query}", basePath];
 
@@ -301,7 +359,7 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(caseSensitive != nil)
         queryParams[@"caseSensitive"] = caseSensitive;
     if(includePartOfSpeech != nil)
@@ -325,46 +383,50 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     if(limit != nil)
         queryParams[@"limit"] = limit;
     
-        NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
 
     id bodyDictionary = nil;
-        
+    
     
     
 
     SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
 
     
-
     
     
+        
+    // comples response type
+    return [client dictionary:requestUrl 
+                       method:@"GET" 
+                  queryParams:queryParams 
+                         body:bodyDictionary 
+                 headerParams:headerParams
+           requestContentType:requestContentType
+          responseContentType:responseContentType
+              completionBlock:^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SWGWordSearchResults *result = nil;
+                if (data) {
+                    result = [[SWGWordSearchResults    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
     
     
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"GET" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
-                        if (error) {
-                            completionBlock(error);
-                            return;
-                        }
-                        completionBlock(nil);
-                    }];
-    
-    
-    
-    
-
 }
 
--(NSNumber*) getWordOfTheDayWithCompletionBlock:(NSString*) date        
+-(NSNumber*) getWordOfTheDayWithCompletionBlock:(NSString*) date
         
-        completionHandler: (void (^)(NSError* error))completionBlock {
+        completionHandler: (void (^)(SWGWordOfTheDay* output, NSError* error))completionBlock
+         {
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/words.json/wordOfTheDay", basePath];
 
@@ -377,45 +439,48 @@ static NSString * basePath = @"http://api.wordnik.com/v4";
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(date != nil)
         queryParams[@"date"] = date;
     
-        NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
 
     id bodyDictionary = nil;
-        
+    
     
     
 
     SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
 
     
-
     
     
+        
+    // comples response type
+    return [client dictionary:requestUrl 
+                       method:@"GET" 
+                  queryParams:queryParams 
+                         body:bodyDictionary 
+                 headerParams:headerParams
+           requestContentType:requestContentType
+          responseContentType:responseContentType
+              completionBlock:^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SWGWordOfTheDay *result = nil;
+                if (data) {
+                    result = [[SWGWordOfTheDay    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
     
     
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"GET" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
-                        if (error) {
-                            completionBlock(error);
-                            return;
-                        }
-                        completionBlock(nil);
-                    }];
-    
-    
-    
-    
-
 }
 
 

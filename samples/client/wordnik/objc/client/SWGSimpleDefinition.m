@@ -3,12 +3,17 @@
 
 @implementation SWGSimpleDefinition
 
--(id)text: (NSString*) text    source: (NSString*) source    note: (NSString*) note    partOfSpeech: (NSString*) partOfSpeech{
-  _text = text;
-  _source = source;
-  _note = note;
-  _partOfSpeech = partOfSpeech;
-  
+-(id)text: (NSString*) text
+    source: (NSString*) source
+    note: (NSString*) note
+    partOfSpeech: (NSString*) partOfSpeech
+    
+{
+    _text = text;
+    _source = source;
+    _note = note;
+    _partOfSpeech = partOfSpeech;
+    
 
     return self;
 }
@@ -17,29 +22,13 @@
 {
     self = [super init];
     if(self) {
+        _text = dict[@"text"];
         
-
+        _source = dict[@"source"];
         
-        _text = dict[@"text"]; 
+        _note = dict[@"note"];
         
-        
-        
-
-        
-        _source = dict[@"source"]; 
-        
-        
-        
-
-        
-        _note = dict[@"note"]; 
-        
-        
-        
-
-        
-        _partOfSpeech = dict[@"partOfSpeech"]; 
-        
+        _partOfSpeech = dict[@"partOfSpeech"];
         
         
     }

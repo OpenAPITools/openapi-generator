@@ -3,16 +3,25 @@
 
 @implementation SWGUser
 
--(id)_id: (NSNumber*) _id    username: (NSString*) username    email: (NSString*) email    status: (NSNumber*) status    faceBookId: (NSString*) faceBookId    userName: (NSString*) userName    displayName: (NSString*) displayName    password: (NSString*) password{
-  __id = _id;
-  _username = username;
-  _email = email;
-  _status = status;
-  _faceBookId = faceBookId;
-  _userName = userName;
-  _displayName = displayName;
-  _password = password;
-  
+-(id)_id: (NSNumber*) _id
+    username: (NSString*) username
+    email: (NSString*) email
+    status: (NSNumber*) status
+    faceBookId: (NSString*) faceBookId
+    userName: (NSString*) userName
+    displayName: (NSString*) displayName
+    password: (NSString*) password
+    
+{
+    __id = _id;
+    _username = username;
+    _email = email;
+    _status = status;
+    _faceBookId = faceBookId;
+    _userName = userName;
+    _displayName = displayName;
+    _password = password;
+    
 
     return self;
 }
@@ -21,53 +30,21 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _username = dict[@"username"];
         
-        __id = dict[@"id"]; 
+        _email = dict[@"email"];
         
+        _status = dict[@"status"];
         
+        _faceBookId = dict[@"faceBookId"];
         
-
+        _userName = dict[@"userName"];
         
-        _username = dict[@"username"]; 
+        _displayName = dict[@"displayName"];
         
-        
-        
-
-        
-        _email = dict[@"email"]; 
-        
-        
-        
-
-        
-        _status = dict[@"status"]; 
-        
-        
-        
-
-        
-        _faceBookId = dict[@"faceBookId"]; 
-        
-        
-        
-
-        
-        _userName = dict[@"userName"]; 
-        
-        
-        
-
-        
-        _displayName = dict[@"displayName"]; 
-        
-        
-        
-
-        
-        _password = dict[@"password"]; 
-        
+        _password = dict[@"password"];
         
         
     }

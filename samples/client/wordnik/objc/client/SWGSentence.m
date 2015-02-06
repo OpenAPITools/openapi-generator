@@ -3,14 +3,21 @@
 
 @implementation SWGSentence
 
--(id)hasScoredWords: (NSNumber*) hasScoredWords    _id: (NSNumber*) _id    scoredWords: (NSArray*) scoredWords    display: (NSString*) display    rating: (NSNumber*) rating    documentMetadataId: (NSNumber*) documentMetadataId{
-  _hasScoredWords = hasScoredWords;
-  __id = _id;
-  _scoredWords = scoredWords;
-  _display = display;
-  _rating = rating;
-  _documentMetadataId = documentMetadataId;
-  
+-(id)hasScoredWords: (NSNumber*) hasScoredWords
+    _id: (NSNumber*) _id
+    scoredWords: (NSArray*) scoredWords
+    display: (NSString*) display
+    rating: (NSNumber*) rating
+    documentMetadataId: (NSNumber*) documentMetadataId
+    
+{
+    _hasScoredWords = hasScoredWords;
+    __id = _id;
+    _scoredWords = scoredWords;
+    _display = display;
+    _rating = rating;
+    _documentMetadataId = documentMetadataId;
+    
 
     return self;
 }
@@ -19,63 +26,36 @@
 {
     self = [super init];
     if(self) {
+        _hasScoredWords = dict[@"hasScoredWords"];
         
-
+        __id = dict[@"id"];
         
-        _hasScoredWords = dict[@"hasScoredWords"]; 
-        
-        
-        
-
-        
-        __id = dict[@"id"]; 
-        
-        
-        
-
         
         
         id scoredWords_dict = dict[@"scoredWords"];
         
         if([scoredWords_dict isKindOfClass:[NSArray class]]) {
-
             NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*)scoredWords_dict count]];
-
             if([(NSArray*)scoredWords_dict count] > 0) {
                 for (NSDictionary* dict in (NSArray*)scoredWords_dict) {
-                    SWGScoredWord* d = [[SWGScoredWord  alloc] initWithValues:dict];
+                    SWGScoredWord* d = [[SWGScoredWord alloc] initWithValues:dict];
                     [objs addObject:d];
                 }
-                
                 _scoredWords = [[NSArray alloc] initWithArray:objs];
             }
-            else {
+            else
                 _scoredWords = [[NSArray alloc] init];
-            }
         }
         else {
             _scoredWords = [[NSArray alloc] init];
         }
         
         
+        _display = dict[@"display"];
         
+        _rating = dict[@"rating"];
         
-
-        
-        _display = dict[@"display"]; 
-        
-        
-        
-
-        
-        _rating = dict[@"rating"]; 
-        
-        
-        
-
-        
-        _documentMetadataId = dict[@"documentMetadataId"]; 
-        
+        _documentMetadataId = dict[@"documentMetadataId"];
         
         
     }

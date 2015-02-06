@@ -3,14 +3,21 @@
 
 @implementation SWGWordObject
 
--(id)_id: (NSNumber*) _id    word: (NSString*) word    originalWord: (NSString*) originalWord    suggestions: (NSArray*) suggestions    canonicalForm: (NSString*) canonicalForm    vulgar: (NSString*) vulgar{
-  __id = _id;
-  _word = word;
-  _originalWord = originalWord;
-  _suggestions = suggestions;
-  _canonicalForm = canonicalForm;
-  _vulgar = vulgar;
-  
+-(id)_id: (NSNumber*) _id
+    word: (NSString*) word
+    originalWord: (NSString*) originalWord
+    suggestions: (NSArray*) suggestions
+    canonicalForm: (NSString*) canonicalForm
+    vulgar: (NSString*) vulgar
+    
+{
+    __id = _id;
+    _word = word;
+    _originalWord = originalWord;
+    _suggestions = suggestions;
+    _canonicalForm = canonicalForm;
+    _vulgar = vulgar;
+    
 
     return self;
 }
@@ -19,41 +26,17 @@
 {
     self = [super init];
     if(self) {
+        __id = dict[@"id"];
         
-
+        _word = dict[@"word"];
         
-        __id = dict[@"id"]; 
+        _originalWord = dict[@"originalWord"];
         
+        _suggestions = dict[@"suggestions"];
         
+        _canonicalForm = dict[@"canonicalForm"];
         
-
-        
-        _word = dict[@"word"]; 
-        
-        
-        
-
-        
-        _originalWord = dict[@"originalWord"]; 
-        
-        
-        
-
-        
-        _suggestions = dict[@"suggestions"]; 
-        
-        
-        
-
-        
-        _canonicalForm = dict[@"canonicalForm"]; 
-        
-        
-        
-
-        
-        _vulgar = dict[@"vulgar"]; 
-        
+        _vulgar = dict[@"vulgar"];
         
         
     }

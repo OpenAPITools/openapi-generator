@@ -7,8 +7,8 @@
 @property(nonatomic) NSString* text;  
 @property(nonatomic) NSString* type;  
 - (id) text: (NSString*) text     
-       type: (NSString*) type;
-       
+    type: (NSString*) type;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

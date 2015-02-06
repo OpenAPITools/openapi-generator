@@ -7,6 +7,10 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
+import io.swagger.client.model.WordSearchResults;
+import io.swagger.client.model.WordOfTheDay;
+import io.swagger.client.model.DefinitionSearchResults;
+import io.swagger.client.model.WordObject;
 
 import com.sun.jersey.multipart.FormDataMultiPart;
 
@@ -17,7 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class WordsApi {
-  String basePath = "http://api.wordnik.com/v4";
+  String basePath = "https://api.wordnik.com/v4";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public ApiInvoker getInvoker() {
@@ -34,7 +38,7 @@ public class WordsApi {
 
   
     
-  public void getRandomWord (String hasDictionaryDef, String includePartOfSpeech, String excludePartOfSpeech, Integer minCorpusCount, Integer maxCorpusCount, Integer minDictionaryCount, Integer maxDictionaryCount, Integer minLength, Integer maxLength) throws ApiException {
+  public WordObject getRandomWord (String hasDictionaryDef, String includePartOfSpeech, String excludePartOfSpeech, Integer minCorpusCount, Integer maxCorpusCount, Integer minDictionaryCount, Integer maxDictionaryCount, Integer minLength, Integer maxLength) throws ApiException {
     Object postBody = null;
     
 
@@ -86,14 +90,14 @@ public class WordsApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return ;
+        return (WordObject) ApiInvoker.deserialize(response, "", WordObject.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-      	return ;
+      	return  null;
       }
       else {
         throw ex;
@@ -176,7 +180,7 @@ public class WordsApi {
   }
   
     
-  public void reverseDictionary (String query, String findSenseForWord, String includeSourceDictionaries, String excludeSourceDictionaries, String includePartOfSpeech, String excludePartOfSpeech, Integer minCorpusCount, Integer maxCorpusCount, Integer minLength, Integer maxLength, String expandTerms, String includeTags, String sortBy, String sortOrder, String skip, Integer limit) throws ApiException {
+  public DefinitionSearchResults reverseDictionary (String query, String findSenseForWord, String includeSourceDictionaries, String excludeSourceDictionaries, String includePartOfSpeech, String excludePartOfSpeech, Integer minCorpusCount, Integer maxCorpusCount, Integer minLength, Integer maxLength, String expandTerms, String includeTags, String sortBy, String sortOrder, String skip, Integer limit) throws ApiException {
     Object postBody = null;
     
 
@@ -242,14 +246,14 @@ public class WordsApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return ;
+        return (DefinitionSearchResults) ApiInvoker.deserialize(response, "", DefinitionSearchResults.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-      	return ;
+      	return  null;
       }
       else {
         throw ex;
@@ -258,7 +262,7 @@ public class WordsApi {
   }
   
     
-  public void searchWords (String query, String caseSensitive, String includePartOfSpeech, String excludePartOfSpeech, Integer minCorpusCount, Integer maxCorpusCount, Integer minDictionaryCount, Integer maxDictionaryCount, Integer minLength, Integer maxLength, Integer skip, Integer limit) throws ApiException {
+  public WordSearchResults searchWords (String query, String caseSensitive, String includePartOfSpeech, String excludePartOfSpeech, Integer minCorpusCount, Integer maxCorpusCount, Integer minDictionaryCount, Integer maxDictionaryCount, Integer minLength, Integer maxLength, Integer skip, Integer limit) throws ApiException {
     Object postBody = null;
     
 
@@ -315,14 +319,14 @@ public class WordsApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return ;
+        return (WordSearchResults) ApiInvoker.deserialize(response, "", WordSearchResults.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-      	return ;
+      	return  null;
       }
       else {
         throw ex;
@@ -331,7 +335,7 @@ public class WordsApi {
   }
   
     
-  public void getWordOfTheDay (String date) throws ApiException {
+  public WordOfTheDay getWordOfTheDay (String date) throws ApiException {
     Object postBody = null;
     
 
@@ -367,14 +371,14 @@ public class WordsApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return ;
+        return (WordOfTheDay) ApiInvoker.deserialize(response, "", WordOfTheDay.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-      	return ;
+      	return  null;
       }
       else {
         throw ex;

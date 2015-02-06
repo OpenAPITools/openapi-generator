@@ -21,18 +21,18 @@
 @property(nonatomic) NSString* note;  
 @property(nonatomic) SWGDate* publishDate;  
 - (id) _id: (NSNumber*) _id     
-       parentId: (NSString*) parentId     
-       category: (NSString*) category     
-       createdBy: (NSString*) createdBy     
-       createdAt: (SWGDate*) createdAt     
-       contentProvider: (SWGContentProvider*) contentProvider     
-       htmlExtra: (NSString*) htmlExtra     
-       word: (NSString*) word     
-       definitions: (NSArray*) definitions     
-       examples: (NSArray*) examples     
-       note: (NSString*) note     
-       publishDate: (SWGDate*) publishDate;
-       
+    parentId: (NSString*) parentId     
+    category: (NSString*) category     
+    createdBy: (NSString*) createdBy     
+    createdAt: (SWGDate*) createdAt     
+    contentProvider: (SWGContentProvider*) contentProvider     
+    htmlExtra: (NSString*) htmlExtra     
+    word: (NSString*) word     
+    definitions: (NSArray*) definitions     
+    examples: (NSArray*) examples     
+    note: (NSString*) note     
+    publishDate: (SWGDate*) publishDate;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

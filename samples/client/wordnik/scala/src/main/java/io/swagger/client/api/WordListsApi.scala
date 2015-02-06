@@ -10,13 +10,13 @@ import java.util.Date
 import scala.collection.mutable.HashMap
 
 class WordListsApi {
-  var basePath: String = "http://api.wordnik.com/v4"
+  var basePath: String = "https://api.wordnik.com/v4"
   var apiInvoker = ApiInvoker
   
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
-  def createWordList (body: WordList, auth_token: String)  = {
+  def createWordList (body: WordList, auth_token: String) : Option[WordList] = {
     // create path and map variables
     val path = "/wordLists.json".replaceAll("\\{format\\}","json")
 
@@ -43,7 +43,8 @@ class WordListsApi {
     try {
       apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
-           
+           Some(ApiInvoker.deserialize(s, "", classOf[WordList]).asInstanceOf[WordList])
+         
         case _ => None
       }
     } catch {

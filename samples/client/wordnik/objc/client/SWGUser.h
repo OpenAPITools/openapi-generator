@@ -13,14 +13,14 @@
 @property(nonatomic) NSString* displayName;  
 @property(nonatomic) NSString* password;  
 - (id) _id: (NSNumber*) _id     
-       username: (NSString*) username     
-       email: (NSString*) email     
-       status: (NSNumber*) status     
-       faceBookId: (NSString*) faceBookId     
-       userName: (NSString*) userName     
-       displayName: (NSString*) displayName     
-       password: (NSString*) password;
-       
+    username: (NSString*) username     
+    email: (NSString*) email     
+    status: (NSNumber*) status     
+    faceBookId: (NSString*) faceBookId     
+    userName: (NSString*) userName     
+    displayName: (NSString*) displayName     
+    password: (NSString*) password;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

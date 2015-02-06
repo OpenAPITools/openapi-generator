@@ -8,8 +8,8 @@
 @property(nonatomic) NSArray* facetValues;  
 @property(nonatomic) NSString* name;  
 - (id) facetValues: (NSArray*) facetValues     
-       name: (NSString*) name;
-       
+    name: (NSString*) name;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

@@ -27,22 +27,22 @@
 @property(nonatomic) NSArray* textProns;  
 @property(nonatomic) NSString* partOfSpeech;  
 - (id) extendedText: (NSString*) extendedText     
-       text: (NSString*) text     
-       sourceDictionary: (NSString*) sourceDictionary     
-       citations: (NSArray*) citations     
-       labels: (NSArray*) labels     
-       score: (NSNumber*) score     
-       exampleUses: (NSArray*) exampleUses     
-       attributionUrl: (NSString*) attributionUrl     
-       seqString: (NSString*) seqString     
-       attributionText: (NSString*) attributionText     
-       relatedWords: (NSArray*) relatedWords     
-       sequence: (NSString*) sequence     
-       word: (NSString*) word     
-       notes: (NSArray*) notes     
-       textProns: (NSArray*) textProns     
-       partOfSpeech: (NSString*) partOfSpeech;
-       
+    text: (NSString*) text     
+    sourceDictionary: (NSString*) sourceDictionary     
+    citations: (NSArray*) citations     
+    labels: (NSArray*) labels     
+    score: (NSNumber*) score     
+    exampleUses: (NSArray*) exampleUses     
+    attributionUrl: (NSString*) attributionUrl     
+    seqString: (NSString*) seqString     
+    attributionText: (NSString*) attributionText     
+    relatedWords: (NSArray*) relatedWords     
+    sequence: (NSString*) sequence     
+    word: (NSString*) word     
+    notes: (NSArray*) notes     
+    textProns: (NSArray*) textProns     
+    partOfSpeech: (NSString*) partOfSpeech;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

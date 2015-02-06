@@ -20,18 +20,18 @@
 @property(nonatomic) NSNumber* documentId;  
 @property(nonatomic) NSString* url;  
 - (id) _id: (NSNumber*) _id     
-       exampleId: (NSNumber*) exampleId     
-       title: (NSString*) title     
-       text: (NSString*) text     
-       score: (SWGScoredWord*) score     
-       sentence: (SWGSentence*) sentence     
-       word: (NSString*) word     
-       provider: (SWGContentProvider*) provider     
-       year: (NSNumber*) year     
-       rating: (NSNumber*) rating     
-       documentId: (NSNumber*) documentId     
-       url: (NSString*) url;
-       
+    exampleId: (NSNumber*) exampleId     
+    title: (NSString*) title     
+    text: (NSString*) text     
+    score: (SWGScoredWord*) score     
+    sentence: (SWGSentence*) sentence     
+    word: (NSString*) word     
+    provider: (SWGContentProvider*) provider     
+    year: (NSNumber*) year     
+    rating: (NSNumber*) rating     
+    documentId: (NSNumber*) documentId     
+    url: (NSString*) url;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;

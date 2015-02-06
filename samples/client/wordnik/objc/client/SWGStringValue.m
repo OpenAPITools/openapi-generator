@@ -3,9 +3,11 @@
 
 @implementation SWGStringValue
 
--(id)word: (NSString*) word{
-  _word = word;
-  
+-(id)word: (NSString*) word
+    
+{
+    _word = word;
+    
 
     return self;
 }
@@ -14,11 +16,7 @@
 {
     self = [super init];
     if(self) {
-        
-
-        
-        _word = dict[@"word"]; 
-        
+        _word = dict[@"word"];
         
         
     }

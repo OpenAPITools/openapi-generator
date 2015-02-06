@@ -8,9 +8,9 @@
 @property(nonatomic) NSNumber* seq;  
 @property(nonatomic) NSString* rawType;  
 - (id) raw: (NSString*) raw     
-       seq: (NSNumber*) seq     
-       rawType: (NSString*) rawType;
-       
+    seq: (NSNumber*) seq     
+    rawType: (NSString*) rawType;
+    
 
 - (id) initWithValues: (NSDictionary*)dict;
 - (NSDictionary*) asDictionary;
