@@ -630,7 +630,7 @@ public class DefaultCodegen {
       op.defaultResponse = toDefaultValue(responseProperty);
       op.returnType = cm.datatype;
       if(cm.isContainer != null) {
-        op.returnContainer = cm.complexType;
+        op.returnContainer = cm.containerType;
       }
       else
         op.returnSimpleType = true;
