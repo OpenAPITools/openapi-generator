@@ -12,6 +12,9 @@ import urllib2
 import httplib
 import json
 import datetime
+import mimetypes
+import random
+import string
 
 from models import *
 
@@ -26,9 +29,10 @@ class ApiClient:
         self.apiKey = apiKey
         self.apiServer = apiServer
         self.cookie = None
+        self.boundary = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
 
     def callAPI(self, resourcePath, method, queryParams, postData,
-                headerParams=None):
+                headerParams=None, files=None):
 
         url = self.apiServer + resourcePath
         headers = {}
@@ -36,7 +40,6 @@ class ApiClient:
             for param, value in headerParams.iteritems():
                 headers[param] = value
 
-        #headers['Content-type'] = 'application/json'
         headers['api_key'] = self.apiKey
 
         if self.cookie:
@@ -60,12 +63,16 @@ class ApiClient:
         elif method in ['POST', 'PUT', 'DELETE']:
 
             if postData:
-                data = self.sanitizeForSerialization(postData)
+                postData = self.sanitizeForSerialization(postData)
                 if 'Content-type' not in headers:
                     headers['Content-type'] = 'application/json'
-                    data = json.dumps(data)
+                    data = json.dumps(postData)
+                elif headers['Content-type'] == 'multipart/form-data':
+                    data = self.buildMultipartFormData(postData, files)
+                    headers['Content-type'] = 'multipart/form-data; boundary={0}'.format(self.boundary)
+                    headers['Content-length'] = str(len(data))
                 else:
-                    data = urllib.urlencode(data)
+                    data = urllib.urlencode(postData)
 
         else:
             raise Exception('Method ' + method + ' is not recognized.')
@@ -126,6 +133,38 @@ class ApiClient:
                 data = json.dumps([datum.__dict__ for datum in postData])
         elif type(postData) not in safeToDump:
             data = json.dumps(postData.__dict__)
+
+    def buildMultipartFormData(self, postData, files):
+        def escape_quotes(s):
+            return s.replace('"', '\\"')
+
+        lines = []
+
+        for name, value in postData.items():
+            lines.extend((
+                '--{0}'.format(self.boundary),
+                'Content-Disposition: form-data; name="{0}"'.format(escape_quotes(name)),
+                '',
+                str(value),
+            ))
+
+        for name, filepath in files.items():
+            f = open(filepath, 'r')
+            filename = filepath.split('/')[-1]
+            mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+            lines.extend((
+                '--{0}'.format(self.boundary),
+                'Content-Disposition: form-data; name="{0}"; filename="{1}"'.format(escape_quotes(name), escape_quotes(filename)),
+                'Content-Type: {0}'.format(mimetype),
+                '',
+                f.read()
+            ))
+
+        lines.extend((
+            '--{0}--'.format(self.boundary),
+            ''
+        ))
+        return '\r\n'.join(lines)
 
     def deserialize(self, obj, objClass):
         """Derialize a JSON string into an object.
