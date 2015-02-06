@@ -59,7 +59,10 @@ class {{classname}}(object):
         queryParams = {}
         headerParams = {}
         formParams = {}
+        files = {}
         bodyParam = None
+
+        headerParams['Content-type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}'
 
         {{#queryParams}}
         if ('{{paramName}}' in params):
@@ -80,10 +83,9 @@ class {{classname}}(object):
 
         {{#formParams}}
         if ('{{paramName}}' in params):
-            formParams['{{paramName}}'] = params['{{paramName}}']
+            {{#notFile}}formParams['{{paramName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{paramName}}'] = params['{{paramName}}']{{/isFile}}
+            {{newline}}
         {{/formParams}}
-        if formParams:
-            headerParams['Content-type'] = 'application/x-www-form-urlencoded'
 
         {{#bodyParam}}
         if ('{{paramName}}' in params):
@@ -93,7 +95,7 @@ class {{classname}}(object):
         postData = (formParams if formParams else bodyParam)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
-                                          postData, headerParams)
+                                          postData, headerParams, files=files)
 
         {{#returnType}}
         if not response:

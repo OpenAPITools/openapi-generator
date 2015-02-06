@@ -72,7 +72,12 @@ class {{classname}} {
       }
       {{#formParams}}
       if(${{paramName}} != null) {
+        {{#notFile}}
         $body['{{paramName}}'] = ${{paramName}};
+        {{/notFile}}
+        {{#isFile}}
+        $body['{{paramName}}'] = '@' . ${{paramName}};
+        {{/isFile}}
       }
       {{/formParams}}
       if (empty($body)) {
