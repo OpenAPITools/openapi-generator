@@ -30,6 +30,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     templateDir = "objc";
     modelPackage = "";
 
+    additionalProperties.put("projectName", "swaggerClient");
+
     defaultIncludes = new HashSet<String>(
       Arrays.asList(
         "bool",
@@ -55,7 +57,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "void", "char", "short", "int", "void", "char", "short", "int",
         "long", "float", "double", "signed", "unsigned", "id", "const",
         "volatile", "in", "out", "inout", "bycopy", "byref", "oneway",
-        "self", "super"
+        "self", "super", "description"
       ));
 
     typeMapping = new HashMap<String, String>();
@@ -164,7 +166,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String toModelImport(String name) {
-    // name = name + ".h";
     if("".equals(modelPackage()))
       return name;
     else
