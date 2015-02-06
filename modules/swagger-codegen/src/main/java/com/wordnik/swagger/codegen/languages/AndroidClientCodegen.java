@@ -7,8 +7,8 @@ import java.util.*;
 import java.io.File;
 
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
-  protected String invokerPackage = "com.wordnik.client";
-  protected String groupId = "com.wordnik";
+  protected String invokerPackage = "io.swagger.client";
+  protected String groupId = "io.swagger";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
@@ -27,8 +27,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     modelTemplateFiles.put("model.mustache", ".java");
     apiTemplateFiles.put("api.mustache", ".java");
     templateDir = "android-java";
-    apiPackage = "com.wordnik.client.api";
-    modelPackage = "com.wordnik.client.model";
+    apiPackage = "io.swagger.client.api";
+    modelPackage = "io.swagger.client.model";
 
     additionalProperties.put("invokerPackage", invokerPackage);
     additionalProperties.put("groupId", groupId);
