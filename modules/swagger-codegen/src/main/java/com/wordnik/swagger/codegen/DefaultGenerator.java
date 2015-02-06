@@ -71,28 +71,30 @@ public class DefaultGenerator implements Generator {
 
       // models
       Map<String, Model> definitions = swagger.getDefinitions();
-      for(String name: definitions.keySet()) {
-        Model model = definitions.get(name);
-        Map<String, Model> modelMap = new HashMap<String, Model>();
-        modelMap.put(name, model);
-        Map<String, Object> models = processModels(config, modelMap);
-        models.putAll(config.additionalProperties());
+      if(definitions != null) {
+        for(String name: definitions.keySet()) {
+          Model model = definitions.get(name);
+          Map<String, Model> modelMap = new HashMap<String, Model>();
+          modelMap.put(name, model);
+          Map<String, Object> models = processModels(config, modelMap);
+          models.putAll(config.additionalProperties());
 
-        allModels.add(((List<Object>)models.get("models")).get(0));
+          allModels.add(((List<Object>)models.get("models")).get(0));
 
-        for(String templateName : config.modelTemplateFiles().keySet()) {
-          String suffix = config.modelTemplateFiles().get(templateName);
-          String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
-          String template = readTemplate(config.templateDir() + File.separator + templateName);
-          Template tmpl = Mustache.compiler()
-            .withLoader(new Mustache.TemplateLoader() {
-              public Reader getTemplate (String name) {
-                return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
-              };
-            })
-            .defaultValue("")
-            .compile(template);
-          writeToFile(filename, tmpl.execute(models));
+          for(String templateName : config.modelTemplateFiles().keySet()) {
+            String suffix = config.modelTemplateFiles().get(templateName);
+            String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
+            String template = readTemplate(config.templateDir() + File.separator + templateName);
+            Template tmpl = Mustache.compiler()
+              .withLoader(new Mustache.TemplateLoader() {
+                public Reader getTemplate (String name) {
+                  return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                };
+              })
+              .defaultValue("")
+              .compile(template);
+            writeToFile(filename, tmpl.execute(models));
+          }
         }
       }
       if(System.getProperty("debugModels") != null) {
