@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wordnik</groupId>
-  <artifactId>scala-client</artifactId>
+  <artifactId>swagger-client</artifactId>
   <packaging>jar</packaging>
-  <name>scala-client</name>
+  <name>swagger-client</name>
   <version>1.0.0</version>
   <prerequisites>
     <maven>2.2.0</maven>
@@ -151,32 +151,33 @@
   </reporting>
   <dependencies>
     <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-scala_2.10</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-client</artifactId>
       <version>${jersey-version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-multipart</artifactId>
       <version>${jersey-version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala-version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.wordnik</groupId>
-      <artifactId>swagger-core_${scala-short-version}</artifactId>
+      <artifactId>swagger-core</artifactId>
       <version>${swagger-core-version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_${scala-short-version}</artifactId>
+      <artifactId>scalatest_2.10</artifactId>
       <version>${scala-test-version}</version>
       <scope>test</scope>
     </dependency>
@@ -186,36 +187,28 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${joda-time-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.joda</groupId>
+      <artifactId>joda-convert</artifactId>
+      <version>${joda-version}</version>
+    </dependency>
   </dependencies>
-    <profiles>
-        <profile>
-            <id>scala_2.10</id>
-            <properties>
-                <scala-version>2.10.3</scala-version>
-                <scala-short-version>2.10</scala-short-version>
-                <swagger-core-version>1.3.2</swagger-core-version>
-                <scala-test-version>2.1.2</scala-test-version>
-            </properties>
-        </profile>
-        <profile>
-            <id>scala_2.9.1</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <scala-version>2.9.1-1</scala-version>
-                <scala-short-version>2.9.1</scala-short-version>
-                <swagger-core-version>1.1.0</swagger-core-version>
-                <scala-test-version>1.6.1</scala-test-version>
-            </properties>
-        </profile>
-    </profiles>
   <properties>
+    <scala-version>2.10.4</scala-version>
+    <joda-version>1.2</joda-version>
+    <joda-time-version>2.2</joda-time-version>
     <jersey-version>1.7</jersey-version>
-    <junit-version>4.8.1</junit-version>
+    <swagger-core-version>1.5.0-M1</swagger-core-version>
     <maven-plugin.version>1.0.0</maven-plugin.version>
+    <jackson-version>2.4.2</jackson-version>
+
     <junit-version>4.8.1</junit-version>
     <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
+    <scala-test-version>2.1.3</scala-test-version>
   </properties>
 </project>
-
