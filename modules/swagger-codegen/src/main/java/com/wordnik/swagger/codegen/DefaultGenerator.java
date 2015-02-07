@@ -54,6 +54,9 @@ public class DefaultGenerator implements Generator {
           if(license.getUrl() != null)
             config.additionalProperties().put("licenseUrl", license.getUrl());
         }
+        if(info.getVersion() != null) {
+          config.additionalProperties().put("version", info.getVersion());
+        }
       }
 
       StringBuilder hostBuilder = new StringBuilder();
