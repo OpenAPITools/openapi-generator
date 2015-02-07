@@ -26,13 +26,14 @@ public class DefaultGenerator implements Generator {
     return this;
   }
 
-  public void generate() {
+  public List<File> generate() {
     if(swagger == null || config == null) {
       throw new RuntimeException("missing swagger input or config!");
     }
     if(System.getProperty("debugSwagger") != null) {
       Json.prettyPrint(swagger);
     }
+    List<File> files = new ArrayList<File>();
     try {
       config.processOpts();
       if(swagger.getInfo() != null) {
@@ -94,6 +95,7 @@ public class DefaultGenerator implements Generator {
               .defaultValue("")
               .compile(template);
             writeToFile(filename, tmpl.execute(models));
+            files.add(new File(filename));
           }
         }
       }
@@ -131,6 +133,7 @@ public class DefaultGenerator implements Generator {
             .compile(template);
 
           writeToFile(filename, tmpl.execute(operation));
+          files.add(new File(filename));
         }
       }
       if(System.getProperty("debugOperations") != null) {
@@ -187,11 +190,13 @@ public class DefaultGenerator implements Generator {
             .compile(template);
 
           writeToFile(outputFilename, tmpl.execute(bundle));
+          files.add(new File(outputFilename));
         }
         else {
           String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
           FileUtils.writeStringToFile(new File(outputFilename), template);
           System.out.println("copying file to " + outputFilename);
+          files.add(new File(outputFilename));
         }
       }
 
@@ -200,6 +205,7 @@ public class DefaultGenerator implements Generator {
     catch (Exception e) {
       e.printStackTrace();
     }
+    return files;
   }
 
   public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
