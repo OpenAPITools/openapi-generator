@@ -17,7 +17,7 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.codegen.ClientOpts;
-
+import com.wordnik.swagger.annotations.*;
 import com.wordnik.swagger.models.Swagger;
 
 public class ClientOptInput {
@@ -53,6 +53,7 @@ public class ClientOptInput {
     this.swagger = swagger;
   }
 
+  @ApiModelProperty(dataType="Object")
   public Swagger getSwagger() {
     return swagger;
   }
