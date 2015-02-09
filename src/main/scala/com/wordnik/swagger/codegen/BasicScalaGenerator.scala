@@ -212,7 +212,8 @@ class BasicScalaGenerator extends BasicGenerator {
   additionalParams ++= Map(
     "artifactId" -> "scala-client", 
     "artifactVersion" -> "1.0.0",
-    "groupId" -> "com.wordnik")
+    "groupId" -> "com.wordnik",
+    "asyncHttpClient" -> "false")
 
   // supporting classes
   override def supportingFiles = List(

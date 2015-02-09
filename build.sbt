@@ -13,7 +13,7 @@ javacOptions ++= Seq("-target", "1.6", "-source", "1.6", "-Xlint:unchecked", "-X
 
 scalacOptions ++= Seq("-optimize", "-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8")
 
-crossScalaVersions := Seq("2.10.0", "2.10.1", "2.10.2", "2.10.3", "2.10.4", "2.11.0", "2.11.1")
+crossScalaVersions := Seq("2.10.4", "2.11.0", "2.11.1")
 
 scalaVersion := "2.10.4"
 
