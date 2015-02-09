@@ -38,7 +38,9 @@ object ScalaJsonUtil {
 class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
                  httpHeaders: HashMap[String, String] = HashMap(),
                  hostMap: HashMap[String, Client] = HashMap(),
-                 asyncHttpClient: Boolean = false) {
+                 asyncHttpClient: Boolean = false,
+                 authScheme: String = "",
+                 authPreemptive: Boolean = false) {
 
   var defaultHeaders: HashMap[String, String] = httpHeaders
 
@@ -167,6 +169,12 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
       import org.sonatype.spice.jersey.client.ahc.AhcHttpClient
 
       val config: DefaultAhcConfig = new DefaultAhcConfig()
+      if (!authScheme.isEmpty) {
+        val authSchemeEnum = Realm.AuthScheme.valueOf(authScheme)
+        config.getAsyncHttpClientConfigBuilder
+          .setRealm(new Realm.RealmBuilder().setScheme(authSchemeEnum)
+          .setUsePreemptiveAuth(authPreemptive).build)
+      }
       AhcHttpClient.create(config)
     }
     case _ => Client.create()
@@ -176,7 +184,9 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
 object ApiInvoker extends ApiInvoker(mapper = ScalaJsonUtil.getJsonMapper,
   httpHeaders = HashMap(),
   hostMap = HashMap(),
-  asyncHttpClient = {{asyncHttpClient}})
+  asyncHttpClient = {{asyncHttpClient}},
+  authScheme = {{authScheme}},
+  authPreemptive = {{authPreemptive}})
 
 class ApiException(val code: Int, msg: String) extends RuntimeException(msg)
 
