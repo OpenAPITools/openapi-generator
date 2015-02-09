@@ -58,6 +58,10 @@ class {{classname}}(object):
 
         queryParams = {}
         headerParams = {}
+        formParams = {}
+        files = {}
+        bodyParam = None
+
         $headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}';
         $headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
 
@@ -78,10 +82,20 @@ class {{classname}}(object):
                                                 replacement)
         {{/pathParams}}
 
-        postData = (params['body'] if 'body' in params else None)
+        {{#formParams}}
+        if ('{{paramName}}' in params):
+            {{#notFile}}formParams['{{paramName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{paramName}}'] = params['{{paramName}}']{{/isFile}}
+        {{/formParams}}
+
+        {{#bodyParam}}
+        if ('{{paramName}}' in params):
+            bodyParam = params['{{paramName}}']
+        {{/bodyParam}}
+
+        postData = (formParams if formParams else bodyParam)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
-                                          postData, headerParams)
+                                          postData, headerParams, files=files)
 
         {{#returnType}}
         if not response:
