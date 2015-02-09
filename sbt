@@ -128,7 +128,7 @@ declare -r default_jvm_opts="-Dfile.encoding=UTF8 -XX:MaxPermSize=256m -Xms512m 
 declare -r noshare_opts="-Dsbt.global.base=project/.sbtboot -Dsbt.boot.directory=project/.boot -Dsbt.ivy.home=project/.ivy"
 declare -r latest_28="2.8.2"
 declare -r latest_29="2.9.3"
-declare -r latest_210="2.10.0"
+declare -r latest_210="2.10.4"
 
 declare -r script_path=$(get_script_path "$BASH_SOURCE")
 declare -r script_dir="$(dirname $script_path)"
