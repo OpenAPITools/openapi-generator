@@ -43,6 +43,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     additionalProperties.put("groupId", groupId);
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
+    additionalProperties.put("asyncHttpClient", false);
 
     supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
     supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
