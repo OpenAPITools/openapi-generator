@@ -12,6 +12,9 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
+  protected String authScheme = "";
+  protected boolean authPreemptive = false;
+  protected boolean asyncHttpClient = !authScheme.isEmpty();
 
   public String getName() {
     return "scala";
@@ -43,6 +46,9 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     additionalProperties.put("groupId", groupId);
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
+    additionalProperties.put("asyncHttpClient", asyncHttpClient);
+    additionalProperties.put("authScheme", authScheme);
+    additionalProperties.put("authPreemptive", authPreemptive);
 
     supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
     supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
