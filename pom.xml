@@ -299,6 +299,15 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <repositories>
+    <repository>
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <properties>
     <swagger-parser-version>1.0.0-SNAPSHOT</swagger-parser-version>
     <scala-version>2.11.1</scala-version>
