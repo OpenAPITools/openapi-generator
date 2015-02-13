@@ -687,7 +687,7 @@ public class DefaultCodegen {
           bodyParams.add(p.copy());
         }
         else if(param instanceof FormParameter) {
-          if("file".equals(p.dataType))
+          if("file".equalsIgnoreCase(p.dataType))
             p.isFile = true;
           else
             p.notFile = true;
