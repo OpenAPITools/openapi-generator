@@ -324,7 +324,7 @@
     </dependency>
     <dependency>
       <groupId>io.swagger</groupId>
-      <artifactId>swagger-legacy-spec-parser</artifactId>
+      <artifactId>swagger-compat-spec-parser</artifactId>
       <version>${swagger-parser-version}</version>
     </dependency>
     <dependency>
