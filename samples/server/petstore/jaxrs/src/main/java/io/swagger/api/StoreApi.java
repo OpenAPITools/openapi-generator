@@ -11,6 +11,11 @@ import io.swagger.model.Order;
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
+import java.io.InputStream;
+
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 
@@ -23,7 +28,7 @@ public class StoreApi {
   
   @Produces({ "application/json", "application/xml" })
   // Integer
-  @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class)
+  @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "map")
   @ApiResponses(value = {  })
 
   public Response getInventory()

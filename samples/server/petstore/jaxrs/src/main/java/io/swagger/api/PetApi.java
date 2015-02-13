@@ -6,9 +6,15 @@ import com.wordnik.swagger.annotations.*;
 import com.sun.jersey.multipart.FormDataParam;
 
 import io.swagger.model.Pet;
+import java.io.File;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
+
+import java.io.InputStream;
+
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
@@ -132,6 +138,23 @@ public class PetApi {
 
   public Response deletePet(@ApiParam(value = ""  )@HeaderParam("api_key") String api_key,
     @ApiParam(value = "Pet id to delete",required=true ) @PathParam("petId") Long petId)
+      throws NotFoundException {
+      // do some magic!
+      return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+  }
+
+  
+  @POST
+  @Path("/{petId}/uploadImage")
+  @Consumes({ "multipart/form-data" })
+  @Produces({ "application/json", "application/xml" })
+  // Void
+  @ApiOperation(value = "uploads an image", notes = "", response = Void.class)
+  @ApiResponses(value = {  })
+
+  public Response uploadFile(@ApiParam(value = "Additional data to pass to server" )@FormParam("additionalMetadata")  String additionalMetadata,
+    @ApiParam(value = "file to upload") @FormDataParam("file") InputStream inputStream,
+    @ApiParam(value = "file detail") @FormDataParam("file") FormDataContentDisposition fileDetail)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

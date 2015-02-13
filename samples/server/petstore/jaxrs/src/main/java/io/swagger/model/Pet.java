@@ -27,7 +27,10 @@ public class Pet  {
   /**
    * pet status in the store
    **/
-  private String status = null;
+  private StatusEnum status = null;
+  
+  public enum StatusEnum { available, pending, sold };
+  
   
   
   @ApiModelProperty(required = false, value = "")
@@ -76,10 +79,10 @@ public class Pet  {
 
   
   @ApiModelProperty(required = false, value = "pet status in the store")
-  public String getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
-  public void setStatus(String status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
