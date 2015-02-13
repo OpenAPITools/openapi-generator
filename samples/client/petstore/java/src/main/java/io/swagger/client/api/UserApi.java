@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class UserApi {
-  String basePath = "http://petstore.swagger.wordnik.com/v2";
+  String basePath = "http://petstore.swagger.io/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public ApiInvoker getInvoker() {

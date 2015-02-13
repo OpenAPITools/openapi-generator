@@ -270,12 +270,12 @@ SamiOrder::setShipDate(DateTime* pShipDate) {
     this->pShipDate = pShipDate;
 }
 
-String*
+PStatusEnum
 SamiOrder::getStatus() {
     return pStatus;
 }
 void
-SamiOrder::setStatus(String* pStatus) {
+SamiOrder::setStatus(PStatusEnum pStatus) {
     this->pStatus = pStatus;
 }
 

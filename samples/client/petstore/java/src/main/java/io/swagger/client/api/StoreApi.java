@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class StoreApi {
-  String basePath = "http://petstore.swagger.wordnik.com/v2";
+  String basePath = "http://petstore.swagger.io/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public ApiInvoker getInvoker() {
@@ -70,7 +70,7 @@ public class StoreApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return (Map<String, Integer>) ApiInvoker.deserialize(response, "", Map.class);
+        return (Map<String, Integer>) ApiInvoker.deserialize(response, "map", Map.class);
       }
       else {
         return null;

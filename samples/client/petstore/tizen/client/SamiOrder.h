@@ -57,8 +57,8 @@ public:
     DateTime* getShipDate();
     void setShipDate(DateTime* pShipDate);
     
-    String* getStatus();
-    void setStatus(String* pStatus);
+    PStatusEnum getStatus();
+    void setStatus(PStatusEnum pStatus);
     
     Boolean* getComplete();
     void setComplete(Boolean* pComplete);
@@ -69,7 +69,7 @@ private:
     Long* pPetId;
     Integer* pQuantity;
     DateTime* pShipDate;
-    String* pStatus;
+    PStatusEnum pStatus;
     Boolean* pComplete;
     
 };

@@ -8,6 +8,7 @@ import io.swagger.client.model.*;
 import java.util.*;
 
 import io.swagger.client.model.Pet;
+import java.io.File;
 
 import com.sun.jersey.multipart.FormDataMultiPart;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class PetApi {
-  String basePath = "http://petstore.swagger.wordnik.com/v2";
+  String basePath = "http://petstore.swagger.io/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public ApiInvoker getInvoker() {
@@ -171,7 +172,7 @@ public class PetApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "Pet", Pet.class);
+        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
       }
       else {
         return null;
@@ -223,7 +224,7 @@ public class PetApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "Pet", Pet.class);
+        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
       }
       else {
         return null;
@@ -384,6 +385,64 @@ public class PetApi {
 
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+    
+  public void uploadFile (String additionalMetadata, File file) throws ApiException {
+    Object postBody = null;
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+    
+    String[] contentTypes = {
+      "multipart/form-data"
+    };
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if(contentType.startsWith("multipart/form-data")) {
+      boolean hasFields = false;
+      FormDataMultiPart mp = new FormDataMultiPart();
+      
+      hasFields = true;
+      mp.field("additionalMetadata", additionalMetadata, MediaType.MULTIPART_FORM_DATA_TYPE);
+      
+      hasFields = true;
+      mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
+      
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+      formParams.put("additionalMetadata", additionalMetadata);
+      
+      
+    }
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }

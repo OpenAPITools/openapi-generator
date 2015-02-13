@@ -60,8 +60,8 @@ public:
     IList* getTags();
     void setTags(IList* pTags);
     
-    String* getStatus();
-    void setStatus(String* pStatus);
+    PStatusEnum getStatus();
+    void setStatus(PStatusEnum pStatus);
     
 
 private:
@@ -70,7 +70,7 @@ private:
     String* pName;
     IList* pPhotoUrls;
     IList* pTags;
-    String* pStatus;
+    PStatusEnum pStatus;
     
 };
 

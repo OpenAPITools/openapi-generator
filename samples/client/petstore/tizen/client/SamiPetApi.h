@@ -6,6 +6,7 @@
 #include "SamiError.h"
 
 using Tizen::Base::Long;
+#include "SamiFile.h"
 using Tizen::Base::String;
 #include "SamiPet.h"
 
@@ -40,8 +41,11 @@ public:
   void 
   deletePetWithCompletion(String* api_key, Long* petId, void(* handler)(SamiError*));
   
+  void 
+  uploadFileWithCompletion(String* additionalMetadata, SamiFile* file, void(* handler)(SamiError*));
+  
   static String getBasePath() {
-    return L"http://petstore.swagger.wordnik.com/v2";
+    return L"http://petstore.swagger.io/v2";
   }
 
 private:

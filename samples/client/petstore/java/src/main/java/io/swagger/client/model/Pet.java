@@ -9,16 +9,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Pet  { 
+public class Pet  {
+  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private Category category = null;
   private String name = null;
   private List<String> photoUrls = new ArrayList<String>() ;
   private List<Tag> tags = new ArrayList<Tag>() ;
-  private String status = null;
+  public enum StatusEnum {
+     available,  pending,  sold, 
+  };
+  private StatusEnum status = null;
   
   
   /**
@@ -86,10 +87,10 @@ public class Pet  {
    **/
   @ApiModelProperty(required = false, value = "pet status in the store")
   @JsonProperty("status")
-  public String getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
-  public void setStatus(String status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 

@@ -414,5 +414,46 @@ SamiPetApi::deletePetWithCompletion(String* api_key, Long* petId, void(*success)
   
 }
 
+void
+uploadFileProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiError*)) {
+  int code = pHttpResponse->GetHttpStatusCode();
+
+  if(code >= 200 && code < 300) {
+    handler(null, null);
+  }
+  else {
+    SamiError* error = new SamiError(code, new String(pHttpResponse->GetStatusText()));
+    
+    handler(error, null);
+  }
+}
+
+void 
+SamiPetApi::uploadFileWithCompletion(String* additionalMetadata, SamiFile* file, void(*success)(SamiError*)) {
+  client = new SamiApiClient();
+
+  client->success(&uploadFileProcessor, (void(*)(void*, SamiError*))success);
+  HashMap* headerParams = new HashMap(SingleObjectDeleter);
+  headerParams->Construct();
+
+  
+
+  HashMap* queryParams = new HashMap(SingleObjectDeleter);
+  queryParams->Construct();
+
+  
+
+  String* mBody = null;
+
+  
+
+  String url(L"/pet/{petId}/uploadImage");
+
+  
+
+  client->execute(SamiPetApi::getBasePath(), url, "POST", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
+  
+}
+
 
 } /* namespace Swagger */
