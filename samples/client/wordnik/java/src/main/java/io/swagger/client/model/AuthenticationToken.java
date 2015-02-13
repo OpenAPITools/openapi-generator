@@ -6,12 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class AuthenticationToken  { 
+public class AuthenticationToken  {
+  
   private String token = null;
   private Long userId = null;
-  
-  //public enum userIdEnum {  }; 
-  
   private String userSignature = null;
   
   

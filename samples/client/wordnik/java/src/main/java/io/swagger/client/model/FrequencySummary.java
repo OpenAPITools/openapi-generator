@@ -8,15 +8,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class FrequencySummary  { 
+public class FrequencySummary  {
+  
   private Integer unknownYearCount = null;
-  
-  //public enum unknownYearCountEnum {  }; 
-  
   private Long totalCount = null;
-  
-  //public enum totalCountEnum {  }; 
-  
   private String frequencyString = null;
   private String word = null;
   private List<Frequency> frequency = new ArrayList<Frequency>() ;

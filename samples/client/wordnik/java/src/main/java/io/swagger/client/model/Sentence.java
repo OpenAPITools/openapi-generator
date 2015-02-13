@@ -8,22 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Sentence  { 
+public class Sentence  {
+  
   private Boolean hasScoredWords = null;
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private List<ScoredWord> scoredWords = new ArrayList<ScoredWord>() ;
   private String display = null;
   private Integer rating = null;
-  
-  //public enum ratingEnum {  }; 
-  
   private Long documentMetadataId = null;
-  
-  //public enum documentMetadataIdEnum {  }; 
-  
   
   
   /**

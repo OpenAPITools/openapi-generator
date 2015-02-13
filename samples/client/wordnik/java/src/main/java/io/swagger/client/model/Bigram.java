@@ -6,21 +6,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Bigram  { 
+public class Bigram  {
+  
   private Long count = null;
-  
-  //public enum countEnum {  }; 
-  
   private String gram2 = null;
   private String gram1 = null;
   private Double wlmi = null;
-  
-  //public enum wlmiEnum {  }; 
-  
   private Double mi = null;
-  
-  //public enum miEnum {  }; 
-  
   
   
   /**

@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Label  { 
+public class Label  {
+  
   private String text = null;
   private String type = null;
   

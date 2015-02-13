@@ -7,38 +7,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class AudioFile  { 
+public class AudioFile  {
+  
   private String attributionUrl = null;
   private Integer commentCount = null;
-  
-  //public enum commentCountEnum {  }; 
-  
   private Integer voteCount = null;
-  
-  //public enum voteCountEnum {  }; 
-  
   private String fileUrl = null;
   private String audioType = null;
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private Double duration = null;
-  
-  //public enum durationEnum {  }; 
-  
   private String attributionText = null;
   private String createdBy = null;
   private String description = null;
   private Date createdAt = null;
   private Float voteWeightedAverage = null;
-  
-  //public enum voteWeightedAverageEnum {  }; 
-  
   private Float voteAverage = null;
-  
-  //public enum voteAverageEnum {  }; 
-  
   private String word = null;
   
   

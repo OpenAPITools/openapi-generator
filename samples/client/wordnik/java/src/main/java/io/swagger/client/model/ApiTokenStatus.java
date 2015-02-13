@@ -6,25 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class ApiTokenStatus  { 
+public class ApiTokenStatus  {
+  
   private Boolean valid = null;
   private String token = null;
   private Long resetsInMillis = null;
-  
-  //public enum resetsInMillisEnum {  }; 
-  
   private Long remainingCalls = null;
-  
-  //public enum remainingCallsEnum {  }; 
-  
   private Long expiresInMillis = null;
-  
-  //public enum expiresInMillisEnum {  }; 
-  
   private Long totalRequests = null;
-  
-  //public enum totalRequestsEnum {  }; 
-  
   
   
   /**

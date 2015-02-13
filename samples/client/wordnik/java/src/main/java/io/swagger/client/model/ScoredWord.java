@@ -6,35 +6,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class ScoredWord  { 
+public class ScoredWord  {
+  
   private Integer position = null;
-  
-  //public enum positionEnum {  }; 
-  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private Integer docTermCount = null;
-  
-  //public enum docTermCountEnum {  }; 
-  
   private String lemma = null;
   private String wordType = null;
   private Float score = null;
-  
-  //public enum scoreEnum {  }; 
-  
   private Long sentenceId = null;
-  
-  //public enum sentenceIdEnum {  }; 
-  
   private String word = null;
   private Boolean stopword = null;
   private Double baseWordScore = null;
-  
-  //public enum baseWordScoreEnum {  }; 
-  
   private String partOfSpeech = null;
   
   

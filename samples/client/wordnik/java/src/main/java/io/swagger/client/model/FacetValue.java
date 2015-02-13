@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class FacetValue  { 
+public class FacetValue  {
+  
   private Long count = null;
-  
-  //public enum countEnum {  }; 
-  
   private String value = null;
   
   

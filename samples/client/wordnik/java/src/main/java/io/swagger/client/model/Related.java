@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Related  { 
+public class Related  {
+  
   private String label1 = null;
   private String relationshipType = null;
   private String label2 = null;

@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class AudioType  { 
+public class AudioType  {
+  
   private Integer id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String name = null;
   
   

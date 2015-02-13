@@ -13,16 +13,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Definition  { 
+public class Definition  {
+  
   private String extendedText = null;
   private String text = null;
   private String sourceDictionary = null;
   private List<Citation> citations = new ArrayList<Citation>() ;
   private List<Label> labels = new ArrayList<Label>() ;
   private Float score = null;
-  
-  //public enum scoreEnum {  }; 
-  
   private List<ExampleUsage> exampleUses = new ArrayList<ExampleUsage>() ;
   private String attributionUrl = null;
   private String seqString = null;

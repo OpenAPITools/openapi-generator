@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Category  { 
+public class Category  {
+  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String name = null;
   
   

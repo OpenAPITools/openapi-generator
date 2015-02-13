@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class ContentProvider  { 
+public class ContentProvider  {
+  
   private Integer id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String name = null;
   
   

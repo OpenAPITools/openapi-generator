@@ -7,13 +7,17 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
+import io.swagger.client.model.User;
+import io.swagger.client.model.ApiTokenStatus;
+import io.swagger.client.model.AuthenticationToken;
+import io.swagger.client.model.WordList;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
 
 public class AccountApi {
-  String basePath = "http://api.wordnik.com/v4";
+  String basePath = "https://api.wordnik.com/v4";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -34,7 +38,7 @@ public class AccountApi {
 
   
   
-  public void  getApiTokenStatus (String api_key) throws ApiException {
+  public ApiTokenStatus  getApiTokenStatus (String api_key) throws ApiException {
     Object postBody = null;
 
     
@@ -56,14 +60,14 @@ public class AccountApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return ;
+        return (ApiTokenStatus) ApiInvoker.deserialize(response, "", ApiTokenStatus.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return ;
+        return  null;
       }
       else {
         throw ex;
@@ -72,7 +76,7 @@ public class AccountApi {
   }
   
   
-  public void  authenticate (String username, String password) throws ApiException {
+  public AuthenticationToken  authenticate (String username, String password) throws ApiException {
     Object postBody = null;
 
     
@@ -95,14 +99,14 @@ public class AccountApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return ;
+        return (AuthenticationToken) ApiInvoker.deserialize(response, "", AuthenticationToken.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return ;
+        return  null;
       }
       else {
         throw ex;
@@ -111,7 +115,7 @@ public class AccountApi {
   }
   
   
-  public void  authenticatePost (String username, String body) throws ApiException {
+  public AuthenticationToken  authenticatePost (String username, String body) throws ApiException {
     Object postBody = body;
 
     
@@ -132,14 +136,14 @@ public class AccountApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return ;
+        return (AuthenticationToken) ApiInvoker.deserialize(response, "", AuthenticationToken.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return ;
+        return  null;
       }
       else {
         throw ex;
@@ -148,7 +152,7 @@ public class AccountApi {
   }
   
   
-  public void  getLoggedInUser (String auth_token) throws ApiException {
+  public User  getLoggedInUser (String auth_token) throws ApiException {
     Object postBody = null;
 
     
@@ -170,14 +174,14 @@ public class AccountApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return ;
+        return (User) ApiInvoker.deserialize(response, "", User.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return ;
+        return  null;
       }
       else {
         throw ex;
@@ -186,7 +190,7 @@ public class AccountApi {
   }
   
   
-  public void  getWordListsForLoggedInUser (String auth_token, Integer skip, Integer limit) throws ApiException {
+  public List<WordList>  getWordListsForLoggedInUser (String auth_token, Integer skip, Integer limit) throws ApiException {
     Object postBody = null;
 
     
@@ -212,14 +216,14 @@ public class AccountApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return ;
+        return (List<WordList>) ApiInvoker.deserialize(response, "array", WordList.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return ;
+        return  null;
       }
       else {
         throw ex;

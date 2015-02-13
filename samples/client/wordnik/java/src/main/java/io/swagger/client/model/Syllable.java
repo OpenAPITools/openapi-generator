@@ -6,12 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Syllable  { 
+public class Syllable  {
+  
   private String text = null;
   private Integer seq = null;
-  
-  //public enum seqEnum {  }; 
-  
   private String type = null;
   
   

@@ -6,17 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class User  { 
+public class User  {
+  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String username = null;
   private String email = null;
   private Integer status = null;
-  
-  //public enum statusEnum {  }; 
-  
   private String faceBookId = null;
   private String userName = null;
   private String displayName = null;

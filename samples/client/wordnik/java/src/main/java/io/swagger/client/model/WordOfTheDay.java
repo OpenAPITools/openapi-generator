@@ -11,11 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordOfTheDay  { 
+public class WordOfTheDay  {
+  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String parentId = null;
   private String category = null;
   private String createdBy = null;
