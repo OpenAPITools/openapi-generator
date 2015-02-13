@@ -38,7 +38,7 @@ mvn package
 ```
 
 ### To generate a sample client library
-You can build a client against Wordnik's [petstore](http://petstore.swagger.wordnik.com) API as follows:
+You can build a client against Wordnik's [petstore](http://petstore.swagger.io) API as follows:
 
 ```
 ./bin/java-petstore.sh
@@ -48,7 +48,7 @@ This will run the generator with this command:
 
 ```
 java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
-  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -i http://petstore.swagger.io/v2/swagger.json \
   -l java \
   -o samples/client/petstore/java
 ```
@@ -146,7 +146,7 @@ Your subclass will now be loaded and overrides the `PREFIX` value in the supercl
 
 You have options.  The easiest is to use our [online validator](https://github.com/swagger-api/validator-badge) which not only will let you validate your spec, but with the debug flag, you can see what's wrong with your spec.  For example:
 
-http://online.swagger.io/validator/debug?url=http://petstore.swagger.wordnik.com/v2/swagger.json
+http://online.swagger.io/validator/debug?url=http://petstore.swagger.io/v2/swagger.json
 
 ### Generating dynamic html api documentation
 
@@ -178,7 +178,7 @@ You can also use the codegen to generate a server for a couple different framewo
 ### node.js
 ```
 java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
-  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -i http://petstore.swagger.io/v2/swagger.json \
   -l nodejs \
   -o samples/server/petstore/nodejs
 ```
@@ -190,7 +190,7 @@ java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
 ### scala scalatra
 ```
 java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
-  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -i http://petstore.swagger.io/v2/swagger.json \
   -l scalatra \
   -o samples/server/petstore/scalatra
 ```
@@ -199,7 +199,7 @@ java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
 
 ```
 java -cp ./target/*:./target/lib/* com.wordnik.swagger.codegen.Codegen \
-  -i http://petstore.swagger.wordnik.com/v2/swagger.json \
+  -i http://petstore.swagger.io/v2/swagger.json \
   -l jaxrs \
   -o samples/server/petstore/jaxrs
 ```
