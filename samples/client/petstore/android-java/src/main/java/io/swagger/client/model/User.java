@@ -1,4 +1,4 @@
-package com.wordnik.client.model;
+package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;

@@ -1,4 +1,4 @@
-package com.wordnik.client;
+package io.swagger.client;
 
 import org.apache.http.client.methods.*;
 

@@ -1,4 +1,4 @@
-package com.wordnik.client;
+package io.swagger.client;
 
 
 import com.fasterxml.jackson.core.JsonGenerator.Feature;

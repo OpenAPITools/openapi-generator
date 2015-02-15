@@ -1,13 +1,13 @@
-package com.wordnik.client.api;
+package io.swagger.client.api;
 
-import com.wordnik.client.ApiException;
-import com.wordnik.client.ApiInvoker;
+import io.swagger.client.ApiException;
+import io.swagger.client.ApiInvoker;
 
-import com.wordnik.client.model.*;
+import io.swagger.client.model.*;
 
 import java.util.*;
 
-import com.wordnik.client.model.Order;
+import io.swagger.client.model.Order;
 
 import java.util.Map;
 import java.util.HashMap;

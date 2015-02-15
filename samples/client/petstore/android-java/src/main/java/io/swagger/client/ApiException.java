@@ -1,4 +1,4 @@
-package com.wordnik.client;
+package io.swagger.client;
 
 public class ApiException extends Exception {
   int code = 0;

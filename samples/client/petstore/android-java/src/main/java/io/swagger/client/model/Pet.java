@@ -1,7 +1,7 @@
-package com.wordnik.client.model;
+package io.swagger.client.model;
 
-import com.wordnik.client.model.Category;
-import com.wordnik.client.model.Tag;
+import io.swagger.client.model.Category;
+import io.swagger.client.model.Tag;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;

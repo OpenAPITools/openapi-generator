@@ -1,20 +1,20 @@
-package com.wordnik.client.api;
+package io.swagger.client.api;
 
-import com.wordnik.client.ApiException;
-import com.wordnik.client.ApiInvoker;
+import io.swagger.client.ApiException;
+import io.swagger.client.ApiInvoker;
 
-import com.wordnik.client.model.*;
+import io.swagger.client.model.*;
 
 import java.util.*;
 
-import com.wordnik.client.model.User;
-import java.util.*;
+import io.swagger.client.model.Pet;
+import java.io.File;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
 
-public class UserApi {
+public class PetApi {
   String basePath = "http://petstore.swagger.wordnik.com/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
@@ -36,239 +36,13 @@ public class UserApi {
 
   
   
-  public void  createUser (User body) throws ApiException {
+  public void  updatePet (Pet body) throws ApiException {
     Object postBody = body;
 
     
 
     // create path and map variables
-    String path = "/user".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  
-  
-  public void  createUsersWithArrayInput (List<User> body) throws ApiException {
-    Object postBody = body;
-
-    
-
-    // create path and map variables
-    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  
-  
-  public void  createUsersWithListInput (List<User> body) throws ApiException {
-    Object postBody = body;
-
-    
-
-    // create path and map variables
-    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  
-  
-  public String  loginUser (String username, String password) throws ApiException {
-    Object postBody = null;
-
-    
-
-    // create path and map variables
-    String path = "/user/login".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    if(!"null".equals(String.valueOf(username)))
-      queryParams.put("username", String.valueOf(username));
-    if(!"null".equals(String.valueOf(password)))
-      queryParams.put("password", String.valueOf(password));
-    
-
-    
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
-      if(response != null){
-        return (String) ApiInvoker.deserialize(response, "", String.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  
-  
-  public void  logoutUser () throws ApiException {
-    Object postBody = null;
-
-    
-
-    // create path and map variables
-    String path = "/user/logout".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  
-  
-  public User  getUserByName (String username) throws ApiException {
-    Object postBody = null;
-
-    
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String contentType = "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
-      if(response != null){
-        return (User) ApiInvoker.deserialize(response, "", User.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  
-  
-  public void  updateUser (String username, User body) throws ApiException {
-    Object postBody = body;
-
-    
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -299,13 +73,13 @@ public class UserApi {
   }
   
   
-  public void  deleteUser (String username) throws ApiException {
-    Object postBody = null;
+  public void  addPet (Pet pet) throws ApiException {
+    Object postBody = pet;
 
     
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -318,7 +92,234 @@ public class UserApi {
     String contentType = "application/json";
 
     try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public List<Pet>  findPetsByStatus (List<String> status) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    if(!"null".equals(String.valueOf(status)))
+      queryParams.put("status", String.valueOf(status));
+    
+
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return  null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public List<Pet>  findPetsByTags (List<String> tags) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    if(!"null".equals(String.valueOf(tags)))
+      queryParams.put("tags", String.valueOf(tags));
+    
+
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return  null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public Pet  getPetById (Long petId) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return  null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public void  updatePetWithForm (String petId, String name, String status) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public void  deletePet (String api_key, Long petId) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    
+
+    headerParams.put("api_key", api_key);
+    
+
+    String contentType = "application/json";
+
+    try {
       String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  
+  
+  public void  uploadImage (File petImage) throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}/upload".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
         return ;
       }
