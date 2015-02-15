@@ -45,6 +45,11 @@ public class DefaultCodegen {
     return objs;
   }
 
+  // override with any special post-processing
+  public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+    return objs;
+  }
+
   // override with any special handling of the entire swagger spec
   public void processSwagger(Swagger swagger) {}
   
@@ -328,6 +333,7 @@ public class DefaultCodegen {
 
   public CodegenModel fromModel(String name, Model model) {
     CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
+    System.out.println("created " + m.getClass());
     if(reservedWords.contains(name))
       m.name = escapeReservedWord(name);
     else

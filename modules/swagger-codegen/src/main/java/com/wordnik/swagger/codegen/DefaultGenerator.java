@@ -164,6 +164,8 @@ public class DefaultGenerator implements Generator {
         m.hasMoreModels = true;
       }
 
+      config.postProcessSupportingFileData(bundle);
+
       if(System.getProperty("debugSupportingFiles") != null) {
         System.out.println("############ Supporting file info ############");
         Json.prettyPrint(bundle);

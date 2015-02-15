@@ -48,4 +48,5 @@ public interface CodegenConfig {
   void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
   Map<String, Object> postProcessModels(Map<String, Object> objs);
   Map<String, Object> postProcessOperations(Map<String, Object> objs);
+  Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 }
