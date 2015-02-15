@@ -1,9 +1,11 @@
 package objc
 
 import com.wordnik.swagger.codegen.languages.ObjcClientCodegen
-import com.wordnik.swagger.util.{ Json, SwaggerLoader }
+import com.wordnik.swagger.util.Json
 import com.wordnik.swagger.models._
 import com.wordnik.swagger.models.properties._
+
+import io.swagger.parser.SwaggerParser
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -240,7 +242,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
   }
 
   it should "create proper imports per #316" in {
-    val model = new SwaggerLoader().read("src/test/resources/2_0/postBodyTest.json")
+    val model = new SwaggerParser().read("src/test/resources/2_0/postBodyTest.json")
     val codegen = new ObjcClientCodegen()
 
     val animalPaths = model.getPaths()
