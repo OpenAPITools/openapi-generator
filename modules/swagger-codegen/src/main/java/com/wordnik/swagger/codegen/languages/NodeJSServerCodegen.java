@@ -41,7 +41,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
     supportingFiles.add(new SupportingFile("models.mustache", modelPackage, "models.js"));
     supportingFiles.add(new SupportingFile("main.mustache", "", "main.js"));
-    supportingFiles.add(new SupportingFile("README.mustache", "", "README.js"));
+    supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
