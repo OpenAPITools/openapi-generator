@@ -1,7 +1,12 @@
 package com.wordnik.swagger.codegen.languages;
 
 import com.wordnik.swagger.codegen.*;
+import com.wordnik.swagger.models.Model;
 import com.wordnik.swagger.models.properties.*;
+import com.wordnik.swagger.util.Json;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.*;
 
 import java.util.*;
 import java.io.File;
@@ -54,6 +59,28 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
   @Override
   public String escapeReservedWord(String name) {
     return "_" + name;
+  }
+
+  @Override
+  public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+    List<Map<String, Object>> o = (List<Map<String, Object>>)objs.get("models");
+
+    for(Map<String, Object> modelMap : o) {
+      try {
+        CodegenModel m = (CodegenModel) modelMap.get("model");
+        ObjectNode on = (ObjectNode) Json.mapper().readTree(m.modelJson);
+        // inject the id field
+        on.put("id", m.name);
+
+        // remove the definitions qualifier with this nasty hack
+        m.modelJson = Json.pretty(on).replaceAll("\"#/definitions/", "\"");
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+        // skip conversion
+      }
+    }
+    return objs;
   }
 
   @Override
