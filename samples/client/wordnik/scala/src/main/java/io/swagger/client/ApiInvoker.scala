@@ -35,10 +35,14 @@ object ScalaJsonUtil {
   }
 }
 
-object ApiInvoker {
-  val mapper = ScalaJsonUtil.getJsonMapper
-  val defaultHeaders: HashMap[String, String] = HashMap()
-  val hostMap: HashMap[String, Client] = HashMap()
+class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
+                 httpHeaders: HashMap[String, String] = HashMap(),
+                 hostMap: HashMap[String, Client] = HashMap(),
+                 asyncHttpClient: Boolean = false,
+                 authScheme: String = "",
+                 authPreemptive: Boolean = false) {
+
+  var defaultHeaders: HashMap[String, String] = httpHeaders
 
   def escape(value: String): String = {
     URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
@@ -151,14 +155,39 @@ object ApiInvoker {
     hostMap.contains(host) match {
       case true => hostMap(host)
       case false => {
-        val client = Client.create()
+        val client = newClient(host)
         // client.addFilter(new LoggingFilter())
         hostMap += host -> client
         client
       }
     }
   }
+  
+  def newClient(host: String): Client = asyncHttpClient match {
+    case true => {
+      import org.sonatype.spice.jersey.client.ahc.config.DefaultAhcConfig
+      import org.sonatype.spice.jersey.client.ahc.AhcHttpClient
+      import com.ning.http.client.Realm
+
+      val config: DefaultAhcConfig = new DefaultAhcConfig()
+      if (!authScheme.isEmpty) {
+        val authSchemeEnum = Realm.AuthScheme.valueOf(authScheme)
+        config.getAsyncHttpClientConfigBuilder
+          .setRealm(new Realm.RealmBuilder().setScheme(authSchemeEnum)
+          .setUsePreemptiveAuth(authPreemptive).build)
+      }
+      AhcHttpClient.create(config)
+    }
+    case _ => Client.create()
+  }
 }
+
+object ApiInvoker extends ApiInvoker(mapper = ScalaJsonUtil.getJsonMapper,
+  httpHeaders = HashMap(),
+  hostMap = HashMap(),
+  asyncHttpClient = false,
+  authScheme = "",
+  authPreemptive = false)
 
 class ApiException(val code: Int, msg: String) extends RuntimeException(msg)
 

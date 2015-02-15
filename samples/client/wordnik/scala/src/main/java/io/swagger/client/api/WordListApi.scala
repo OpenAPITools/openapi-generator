@@ -10,10 +10,11 @@ import java.util.Date
 
 import scala.collection.mutable.HashMap
 
-class WordListApi {
-  var basePath: String = "https://api.wordnik.com/v4"
-  var apiInvoker = ApiInvoker
-  
+class WordListApi(val defBasePath: String = "https://api.wordnik.com/v4",
+                        defApiInvoker: ApiInvoker = ApiInvoker) {
+  var basePath = defBasePath
+  var apiInvoker = defApiInvoker
+
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
