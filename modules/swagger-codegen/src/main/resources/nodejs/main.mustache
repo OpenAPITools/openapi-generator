@@ -1,11 +1,10 @@
 var express = require("express")
  , url = require("url")
  , cors = require("cors")
+ , app = express()
  , swagger = require("swagger-node-express")
  , db = false
 
-var app = express();
-app.use(express.bodyParser());
 
 var corsOptions = {
   credentials: true,
@@ -18,6 +17,8 @@ var corsOptions = {
   }
 };
 
+app.use(express.json());
+app.use(express.urlencoded());
 app.use(cors(corsOptions));
 
 {{#basePath}}
@@ -42,8 +43,8 @@ var {{classname}} = require("./{{apiFolder}}/{{classname}}.js");
 {{/apiInfo}}
 
 swagger.addModels(models)
-  {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}.add{{httpMethod}}({{classname}}.{{nickname}}){{/operation}}{{/operations}}
-  {{/apis}}{{/apiInfo}};
+  {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}.add{{httpMethod}}({{classname}}.{{nickname}})
+  {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}};
 
 // configures the app
 swagger.configure("http://localhost:8002{{basePath}}", "0.1");
