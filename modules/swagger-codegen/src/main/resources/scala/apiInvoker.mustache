@@ -167,6 +167,7 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
     case true => {
       import org.sonatype.spice.jersey.client.ahc.config.DefaultAhcConfig
       import org.sonatype.spice.jersey.client.ahc.AhcHttpClient
+      import com.ning.http.client.Realm
 
       val config: DefaultAhcConfig = new DefaultAhcConfig()
       if (!authScheme.isEmpty) {
@@ -185,7 +186,7 @@ object ApiInvoker extends ApiInvoker(mapper = ScalaJsonUtil.getJsonMapper,
   httpHeaders = HashMap(),
   hostMap = HashMap(),
   asyncHttpClient = {{asyncHttpClient}},
-  authScheme = {{authScheme}},
+  authScheme = "{{authScheme}}",
   authPreemptive = {{authPreemptive}})
 
 class ApiException(val code: Int, msg: String) extends RuntimeException(msg)
