@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.io.File;
 
 public class PetApi {
-  String basePath = "http://petstore.swagger.wordnik.com/v2";
+  String basePath = "http://petstore.swagger.io/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -73,8 +73,8 @@ public class PetApi {
   }
   
   
-  public void  addPet (Pet pet) throws ApiException {
-    Object postBody = pet;
+  public void  addPet (Pet body) throws ApiException {
+    Object postBody = body;
 
     
 
@@ -300,13 +300,13 @@ public class PetApi {
   }
   
   
-  public void  uploadImage (File petImage) throws ApiException {
+  public void  uploadFile (String additionalMetadata, File file) throws ApiException {
     Object postBody = null;
 
     
 
     // create path and map variables
-    String path = "/pet/{petId}/upload".replaceAll("\\{format\\}","json");
+    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json");
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();

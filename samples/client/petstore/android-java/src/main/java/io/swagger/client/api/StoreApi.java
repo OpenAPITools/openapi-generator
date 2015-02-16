@@ -7,6 +7,7 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
+import java.util.Map;
 import io.swagger.client.model.Order;
 
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.io.File;
 
 public class StoreApi {
-  String basePath = "http://petstore.swagger.wordnik.com/v2";
+  String basePath = "http://petstore.swagger.io/v2";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -33,6 +34,43 @@ public class StoreApi {
     return basePath;
   }
 
+  
+  
+  public Map<String, Integer>  getInventory () throws ApiException {
+    Object postBody = null;
+
+    
+
+    // create path and map variables
+    String path = "/store/inventory".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String contentType = "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      if(response != null){
+        return (Map<String, Integer>) ApiInvoker.deserialize(response, "map", Map.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+        return  null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   
   
   public Order  placeOrder (Order body) throws ApiException {
