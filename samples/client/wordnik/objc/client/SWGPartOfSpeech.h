@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "SWGObject.h"
-#import "SWGRoot.h"
 #import "SWGCategory.h"
+#import "SWGRoot.h"
 
 
 @interface SWGPartOfSpeech : SWGObject

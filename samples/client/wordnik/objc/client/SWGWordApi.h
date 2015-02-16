@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
-#import "SWGFrequencySummary.h"
-#import "SWGExample.h"
-#import "SWGDefinition.h"
-#import "SWGBigram.h"
 #import "SWGWordObject.h"
 #import "SWGAudioFile.h"
+#import "SWGDefinition.h"
+#import "SWGFrequencySummary.h"
+#import "SWGBigram.h"
+#import "SWGExample.h"
 #import "SWGObject.h"
 
 

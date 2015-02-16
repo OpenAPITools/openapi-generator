@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "SWGObject.h"
-#import "SWGSimpleDefinition.h"
 #import "SWGDate.h"
+#import "SWGSimpleDefinition.h"
 #import "SWGSimpleExample.h"
 #import "SWGContentProvider.h"
 

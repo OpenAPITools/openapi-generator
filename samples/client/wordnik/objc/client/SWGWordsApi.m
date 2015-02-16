@@ -1,10 +1,10 @@
 #import "SWGWordsApi.h"
 #import "SWGFile.h"
 #import "SWGApiClient.h"
-#import "SWGWordSearchResults.h"
 #import "SWGWordObject.h"
-#import "SWGWordOfTheDay.h"
 #import "SWGDefinitionSearchResults.h"
+#import "SWGWordSearchResults.h"
+#import "SWGWordOfTheDay.h"
 
 
 

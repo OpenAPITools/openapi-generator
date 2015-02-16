@@ -1,11 +1,11 @@
 #import <Foundation/Foundation.h>
 #import "SWGObject.h"
-#import "SWGNote.h"
 #import "SWGLabel.h"
-#import "SWGTextPron.h"
-#import "SWGExampleUsage.h"
 #import "SWGRelated.h"
 #import "SWGCitation.h"
+#import "SWGExampleUsage.h"
+#import "SWGNote.h"
+#import "SWGTextPron.h"
 
 
 @interface SWGDefinition : SWGObject

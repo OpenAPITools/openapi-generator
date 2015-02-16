@@ -1,10 +1,10 @@
 #import "SWGAccountApi.h"
 #import "SWGFile.h"
 #import "SWGApiClient.h"
-#import "SWGWordList.h"
+#import "SWGApiTokenStatus.h"
 #import "SWGAuthenticationToken.h"
 #import "SWGUser.h"
-#import "SWGApiTokenStatus.h"
+#import "SWGWordList.h"
 
 
 
