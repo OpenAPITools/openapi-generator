@@ -1,9 +1,9 @@
 package io.swagger.client.model
 
-import org.joda.time.DateTime
-import io.swagger.client.model.SimpleDefinition
-import io.swagger.client.model.ContentProvider
 import io.swagger.client.model.SimpleExample
+import io.swagger.client.model.ContentProvider
+import io.swagger.client.model.SimpleDefinition
+import org.joda.time.DateTime
 
 
 

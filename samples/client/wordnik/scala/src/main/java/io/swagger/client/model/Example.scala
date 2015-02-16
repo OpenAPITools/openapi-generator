@@ -1,7 +1,7 @@
 package io.swagger.client.model
 
-import io.swagger.client.model.Sentence
 import io.swagger.client.model.ContentProvider
+import io.swagger.client.model.Sentence
 import io.swagger.client.model.ScoredWord
 
 

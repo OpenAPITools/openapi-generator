@@ -1,8 +1,8 @@
 package io.swagger.client.api
 
-import io.swagger.client.model.User
 import io.swagger.client.model.ApiTokenStatus
 import io.swagger.client.model.AuthenticationToken
+import io.swagger.client.model.User
 import io.swagger.client.model.WordList
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException

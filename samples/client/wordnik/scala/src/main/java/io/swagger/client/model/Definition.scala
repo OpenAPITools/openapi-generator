@@ -1,11 +1,11 @@
 package io.swagger.client.model
 
-import io.swagger.client.model.ExampleUsage
-import io.swagger.client.model.Label
-import io.swagger.client.model.Note
 import io.swagger.client.model.Related
-import io.swagger.client.model.Citation
+import io.swagger.client.model.Note
+import io.swagger.client.model.Label
 import io.swagger.client.model.TextPron
+import io.swagger.client.model.ExampleUsage
+import io.swagger.client.model.Citation
 
 
 
