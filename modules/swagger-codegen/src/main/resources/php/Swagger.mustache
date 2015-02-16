@@ -1,12 +1,22 @@
 <?php
 /**
- * APIClient.php
+ *  Copyright 2015 Reverb Technologies, Inc.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
-
 
 /* Autoload the model definition files */
 /**
- *
  *
  * @param string $className the class to attempt to load
  */
@@ -29,12 +39,13 @@ class APIClient {
   public static $DELETE = "DELETE";
 
   /**
-   * @param string $apiKey your API key
-   * @param string $apiServer the address of the API server
+   * @param string $host the address of the API server
+   * @param string $headerName a header to pass on requests 
    */
-  function __construct($apiKey, $apiServer) {
-    $this->apiKey = $apiKey;
-    $this->apiServer = $apiServer;
+  function __construct($host, $headerName = null, $headerValue = null) {
+    $this->host = $host;
+    $this->headerName = $headerName;
+    $this->headerValue = $headerValue;
   }
 
   /**
@@ -48,7 +59,7 @@ class APIClient {
   }
 
 
-    /**
+  /**
    * @param string $resourcePath path to method endpoint
    * @param string $method method to call
    * @param array $queryParams parameters to be place in query URL
@@ -61,25 +72,25 @@ class APIClient {
 
     $headers = array();
 
-        # Allow API key from $headerParams to override default
-        $added_api_key = False;
+    # Allow API key from $headerParams to override default
+    $added_api_key = False;
     if ($headerParams != null) {
       foreach ($headerParams as $key => $val) {
         $headers[] = "$key: $val";
-        if ($key == 'api_key') {
-            $added_api_key = True;
+        if ($key == $this->headerName) {
+          $added_api_key = True;
         }
       }
     }
-    if (! $added_api_key) {
-        $headers[] = "api_key: " . $this->apiKey;
+    if (! $added_api_key && $this->headerName != null) {
+      $headers[] = $this->headerName . ": " . $this->headerValue;
     }
 
     if (strpos($headers['Content-Type'], "multipart/form-data") < 0 and (is_object($postData) or is_array($postData))) {
       $postData = json_encode($this->sanitizeForSerialization($postData));
     }
 
-    $url = $this->apiServer . $resourcePath;
+    $url = $this->host . $resourcePath;
 
     $curl = curl_init();
     if ($this->curl_timout) {
