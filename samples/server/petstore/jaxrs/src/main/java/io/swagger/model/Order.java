@@ -22,9 +22,9 @@ public class Order  {
   /**
    * Order Status
    **/
-  private StatusEnum status = null;
+  private String status = null;
   
-  public enum StatusEnum { placed, approved, delivered };
+  public enum String { placed, approved, delivered };
   
   /**
    **/
@@ -68,10 +68,10 @@ public class Order  {
 
   
   @ApiModelProperty(required = false, value = "Order Status")
-  public StatusEnum getStatus() {
+  public String getStatus() {
     return status;
   }
-  public void setStatus(StatusEnum status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 

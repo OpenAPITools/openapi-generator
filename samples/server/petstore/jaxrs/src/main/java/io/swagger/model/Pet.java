@@ -1,8 +1,8 @@
 package io.swagger.model;
 
 import io.swagger.model.Category;
-import io.swagger.model.Tag;
 import java.util.*;
+import io.swagger.model.Tag;
 
 import com.wordnik.swagger.annotations.*;
 
@@ -27,9 +27,9 @@ public class Pet  {
   /**
    * pet status in the store
    **/
-  private StatusEnum status = null;
+  private String status = null;
   
-  public enum StatusEnum { available, pending, sold };
+  public enum String { available, pending, sold };
   
   
   
@@ -79,10 +79,10 @@ public class Pet  {
 
   
   @ApiModelProperty(required = false, value = "pet status in the store")
-  public StatusEnum getStatus() {
+  public String getStatus() {
     return status;
   }
-  public void setStatus(StatusEnum status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 
