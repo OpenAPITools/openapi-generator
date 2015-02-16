@@ -3,7 +3,7 @@ package com.wordnik.swagger.codegen;
 import java.util.*;
 
 public class CodegenProperty {
-  public String baseName, complexType, getter, setter, description, datatype,
+  public String baseName, complexType, getter, setter, description, datatype, datatypeWithEnum,
     name, min, max, defaultValue, baseType, containerType;
 
   /** maxLength validation for strings, see http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.1 */

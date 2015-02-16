@@ -480,9 +480,14 @@ public class DefaultCodegen {
       }
     }
 
-    property.datatype = property.isEnum
-      ? StringUtils.capitalize(property.name) + "Enum"
-      : getTypeDeclaration(p);
+    property.datatype = getTypeDeclaration(p);
+
+    // this can cause issues for clients which don't support enums
+    if(property.isEnum)
+      property.datatypeWithEnum = StringUtils.capitalize(property.name) + "Enum";
+    else
+      property.datatypeWithEnum = property.datatype;
+
     property.baseType = getSwaggerType(p);
 
     if(p instanceof ArrayProperty) {
