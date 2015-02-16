@@ -1,8 +1,8 @@
 package io.swagger.client.model;
 
 import io.swagger.client.model.Category;
-import io.swagger.client.model.Tag;
 import java.util.*;
+import io.swagger.client.model.Tag;
 
 import com.wordnik.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +20,7 @@ public class Pet  {
      available,  pending,  sold, 
   };
   private StatusEnum status = null;
-  
+
   
   /**
    **/

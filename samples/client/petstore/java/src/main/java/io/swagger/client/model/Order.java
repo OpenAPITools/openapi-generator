@@ -18,7 +18,7 @@ public class Order  {
   };
   private StatusEnum status = null;
   private Boolean complete = null;
-  
+
   
   /**
    **/
