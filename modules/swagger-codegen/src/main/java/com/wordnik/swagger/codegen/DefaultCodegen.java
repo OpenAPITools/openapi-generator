@@ -333,7 +333,6 @@ public class DefaultCodegen {
 
   public CodegenModel fromModel(String name, Model model) {
     CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-    System.out.println("created " + m.getClass());
     if(reservedWords.contains(name))
       m.name = escapeReservedWord(name);
     else

@@ -2,6 +2,7 @@ package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.codegen.languages.*;
 import com.wordnik.swagger.models.Swagger;
+import com.wordnik.swagger.models.auth.AuthorizationValue;
 import com.wordnik.swagger.util.*;
 
 import io.swagger.parser.SwaggerParser;
@@ -43,6 +44,7 @@ public class Codegen extends DefaultGenerator {
     options.addOption("i", "input-spec", true, "location of the swagger spec, as URL or file");
     options.addOption("t", "template-dir", true, "folder containing the template files");
     options.addOption("d", "debug-info", false, "prints additional info for debugging");
+    options.addOption("a", "auth", false, "addes authorization headers when fetching the swagger definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values");
 
     ClientOptInput clientOptInput = new ClientOptInput();
     ClientOpts clientOpts = new ClientOpts();
@@ -59,6 +61,8 @@ public class Codegen extends DefaultGenerator {
         System.out.println(debugInfoOptions);
         return;
       }
+      if (cmd.hasOption("a"))
+        clientOptInput.setAuth(cmd.getOptionValue("a"));
       if (cmd.hasOption("l"))
         clientOptInput.setConfig(getConfig(cmd.getOptionValue("l")));
       if (cmd.hasOption("o"))
@@ -76,7 +80,7 @@ public class Codegen extends DefaultGenerator {
         return;
       }
       if (cmd.hasOption("i"))
-        swagger = new SwaggerParser().read(cmd.getOptionValue("i"));
+        swagger = new SwaggerParser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues());
       if (cmd.hasOption("t"))
         clientOpts.getProperties().put("templateDir", String.valueOf(cmd.getOptionValue("t")));
     }

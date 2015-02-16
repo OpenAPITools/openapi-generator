@@ -19,10 +19,16 @@ package com.wordnik.swagger.codegen;
 import com.wordnik.swagger.codegen.ClientOpts;
 import com.wordnik.swagger.annotations.*;
 import com.wordnik.swagger.models.Swagger;
+import com.wordnik.swagger.models.auth.AuthorizationValue;
+
+import java.util.*;
+import java.net.URLEncoder;
+import java.net.URLDecoder;
 
 public class ClientOptInput {
   private ClientOpts opts;
   private Swagger swagger;
+  private List<AuthorizationValue> auths;
   protected CodegenConfig config;
 
   public ClientOptInput swagger(Swagger swagger) {
@@ -32,6 +38,44 @@ public class ClientOptInput {
   public ClientOptInput opts(ClientOpts opts) {
     this.setOpts(opts);
     return this;
+  }
+
+  public void setAuth(String urlEncodedAuthString) {
+    List<AuthorizationValue> auths = new ArrayList<AuthorizationValue>();
+    if(urlEncodedAuthString != null && !"".equals(urlEncodedAuthString)) {
+      String[] parts = urlEncodedAuthString.split(",");
+      for(String part : parts) {
+        String[] kvPair = part.split(":");
+        if(kvPair.length == 2) {
+          auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0]), URLDecoder.decode(kvPair[1]), "header"));
+        }
+      }
+    }
+    this.auths = auths;
+  }
+  public String getAuth() {
+    if(auths != null) {
+      StringBuilder b = new StringBuilder();
+      for(AuthorizationValue v : auths) {
+        try {
+          if(b.toString().length() > 0)
+            b.append(",");
+          b.append(URLEncoder.encode(v.getKeyName(), "UTF-8"))
+            .append(":")
+            .append(URLEncoder.encode(v.getValue(), "UTF-8"));
+        }
+        catch (Exception e) {
+          // continue
+          e.printStackTrace();
+        }  
+      }
+      return b.toString();
+    }
+    else
+      return null;
+  }
+  public List<AuthorizationValue> getAuthorizationValues() {
+    return auths;
   }
 
   public CodegenConfig getConfig() {
