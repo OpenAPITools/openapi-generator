@@ -2,17 +2,20 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Label  { 
+public class Label  {
+  
   private String text = null;
   private String type = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("text")
   public String getText() {
     return text;
   }
@@ -24,6 +27,7 @@ public class Label  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("type")
   public String getType() {
     return type;
   }

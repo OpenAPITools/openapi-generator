@@ -3,34 +3,25 @@ package io.swagger.client.model;
 import java.util.Date;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordListWord  { 
+public class WordListWord  {
+  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String word = null;
   private String username = null;
   private Long userId = null;
-  
-  //public enum userIdEnum {  }; 
-  
   private Date createdAt = null;
   private Long numberCommentsOnWord = null;
-  
-  //public enum numberCommentsOnWordEnum {  }; 
-  
   private Long numberLists = null;
-  
-  //public enum numberListsEnum {  }; 
-  
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -42,6 +33,7 @@ public class WordListWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("word")
   public String getWord() {
     return word;
   }
@@ -53,6 +45,7 @@ public class WordListWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -64,6 +57,7 @@ public class WordListWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("userId")
   public Long getUserId() {
     return userId;
   }
@@ -75,6 +69,7 @@ public class WordListWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("createdAt")
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -86,6 +81,7 @@ public class WordListWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("numberCommentsOnWord")
   public Long getNumberCommentsOnWord() {
     return numberCommentsOnWord;
   }
@@ -97,6 +93,7 @@ public class WordListWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("numberLists")
   public Long getNumberLists() {
     return numberLists;
   }

@@ -2,44 +2,29 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class ScoredWord  { 
+public class ScoredWord  {
+  
   private Integer position = null;
-  
-  //public enum positionEnum {  }; 
-  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private Integer docTermCount = null;
-  
-  //public enum docTermCountEnum {  }; 
-  
   private String lemma = null;
   private String wordType = null;
   private Float score = null;
-  
-  //public enum scoreEnum {  }; 
-  
   private Long sentenceId = null;
-  
-  //public enum sentenceIdEnum {  }; 
-  
   private String word = null;
   private Boolean stopword = null;
   private Double baseWordScore = null;
-  
-  //public enum baseWordScoreEnum {  }; 
-  
   private String partOfSpeech = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("position")
   public Integer getPosition() {
     return position;
   }
@@ -51,6 +36,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -62,6 +48,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("docTermCount")
   public Integer getDocTermCount() {
     return docTermCount;
   }
@@ -73,6 +60,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("lemma")
   public String getLemma() {
     return lemma;
   }
@@ -84,6 +72,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("wordType")
   public String getWordType() {
     return wordType;
   }
@@ -95,6 +84,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("score")
   public Float getScore() {
     return score;
   }
@@ -106,6 +96,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("sentenceId")
   public Long getSentenceId() {
     return sentenceId;
   }
@@ -117,6 +108,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("word")
   public String getWord() {
     return word;
   }
@@ -128,6 +120,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("stopword")
   public Boolean getStopword() {
     return stopword;
   }
@@ -139,6 +132,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("baseWordScore")
   public Double getBaseWordScore() {
     return baseWordScore;
   }
@@ -150,6 +144,7 @@ public class ScoredWord  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("partOfSpeech")
   public String getPartOfSpeech() {
     return partOfSpeech;
   }

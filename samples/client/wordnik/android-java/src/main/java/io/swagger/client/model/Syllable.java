@@ -2,21 +2,21 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Syllable  { 
+public class Syllable  {
+  
   private String text = null;
   private Integer seq = null;
-  
-  //public enum seqEnum {  }; 
-  
   private String type = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("text")
   public String getText() {
     return text;
   }
@@ -28,6 +28,7 @@ public class Syllable  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("seq")
   public Integer getSeq() {
     return seq;
   }
@@ -39,6 +40,7 @@ public class Syllable  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("type")
   public String getType() {
     return type;
   }

@@ -1,27 +1,26 @@
 package io.swagger.client.model;
 
-import io.swagger.client.model.ExampleUsage;
-import io.swagger.client.model.Label;
-import io.swagger.client.model.Note;
-import java.util.*;
 import io.swagger.client.model.Related;
-import io.swagger.client.model.Citation;
+import io.swagger.client.model.Note;
+import io.swagger.client.model.Label;
 import io.swagger.client.model.TextPron;
+import io.swagger.client.model.ExampleUsage;
+import java.util.*;
+import io.swagger.client.model.Citation;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Definition  { 
+public class Definition  {
+  
   private String extendedText = null;
   private String text = null;
   private String sourceDictionary = null;
   private List<Citation> citations = new ArrayList<Citation>() ;
   private List<Label> labels = new ArrayList<Label>() ;
   private Float score = null;
-  
-  //public enum scoreEnum {  }; 
-  
   private List<ExampleUsage> exampleUses = new ArrayList<ExampleUsage>() ;
   private String attributionUrl = null;
   private String seqString = null;
@@ -32,11 +31,12 @@ public class Definition  {
   private List<Note> notes = new ArrayList<Note>() ;
   private List<TextPron> textProns = new ArrayList<TextPron>() ;
   private String partOfSpeech = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("extendedText")
   public String getExtendedText() {
     return extendedText;
   }
@@ -48,6 +48,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("text")
   public String getText() {
     return text;
   }
@@ -59,6 +60,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("sourceDictionary")
   public String getSourceDictionary() {
     return sourceDictionary;
   }
@@ -70,6 +72,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("citations")
   public List<Citation> getCitations() {
     return citations;
   }
@@ -81,6 +84,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("labels")
   public List<Label> getLabels() {
     return labels;
   }
@@ -92,6 +96,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("score")
   public Float getScore() {
     return score;
   }
@@ -103,6 +108,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("exampleUses")
   public List<ExampleUsage> getExampleUses() {
     return exampleUses;
   }
@@ -114,6 +120,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("attributionUrl")
   public String getAttributionUrl() {
     return attributionUrl;
   }
@@ -125,6 +132,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("seqString")
   public String getSeqString() {
     return seqString;
   }
@@ -136,6 +144,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("attributionText")
   public String getAttributionText() {
     return attributionText;
   }
@@ -147,6 +156,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("relatedWords")
   public List<Related> getRelatedWords() {
     return relatedWords;
   }
@@ -158,6 +168,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("sequence")
   public String getSequence() {
     return sequence;
   }
@@ -169,6 +180,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("word")
   public String getWord() {
     return word;
   }
@@ -180,6 +192,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("notes")
   public List<Note> getNotes() {
     return notes;
   }
@@ -191,6 +204,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("textProns")
   public List<TextPron> getTextProns() {
     return textProns;
   }
@@ -202,6 +216,7 @@ public class Definition  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("partOfSpeech")
   public String getPartOfSpeech() {
     return partOfSpeech;
   }

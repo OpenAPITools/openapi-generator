@@ -3,24 +3,24 @@ package io.swagger.client.model;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordObject  { 
+public class WordObject  {
+  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String word = null;
   private String originalWord = null;
   private List<String> suggestions = new ArrayList<String>() ;
   private String canonicalForm = null;
   private String vulgar = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -32,6 +32,7 @@ public class WordObject  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("word")
   public String getWord() {
     return word;
   }
@@ -43,6 +44,7 @@ public class WordObject  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("originalWord")
   public String getOriginalWord() {
     return originalWord;
   }
@@ -54,6 +56,7 @@ public class WordObject  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("suggestions")
   public List<String> getSuggestions() {
     return suggestions;
   }
@@ -65,6 +68,7 @@ public class WordObject  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("canonicalForm")
   public String getCanonicalForm() {
     return canonicalForm;
   }
@@ -76,6 +80,7 @@ public class WordObject  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("vulgar")
   public String getVulgar() {
     return vulgar;
   }

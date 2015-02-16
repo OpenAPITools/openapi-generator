@@ -4,21 +4,21 @@ import io.swagger.client.model.Category;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Root  { 
+public class Root  {
+  
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private String name = null;
   private List<Category> categories = new ArrayList<Category>() ;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -30,6 +30,7 @@ public class Root  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -41,6 +42,7 @@ public class Root  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("categories")
   public List<Category> getCategories() {
     return categories;
   }

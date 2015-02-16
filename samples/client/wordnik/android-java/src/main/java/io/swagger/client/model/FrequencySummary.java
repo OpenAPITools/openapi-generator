@@ -4,26 +4,23 @@ import io.swagger.client.model.Frequency;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class FrequencySummary  { 
+public class FrequencySummary  {
+  
   private Integer unknownYearCount = null;
-  
-  //public enum unknownYearCountEnum {  }; 
-  
   private Long totalCount = null;
-  
-  //public enum totalCountEnum {  }; 
-  
   private String frequencyString = null;
   private String word = null;
   private List<Frequency> frequency = new ArrayList<Frequency>() ;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("unknownYearCount")
   public Integer getUnknownYearCount() {
     return unknownYearCount;
   }
@@ -35,6 +32,7 @@ public class FrequencySummary  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("totalCount")
   public Long getTotalCount() {
     return totalCount;
   }
@@ -46,6 +44,7 @@ public class FrequencySummary  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("frequencyString")
   public String getFrequencyString() {
     return frequencyString;
   }
@@ -57,6 +56,7 @@ public class FrequencySummary  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("word")
   public String getWord() {
     return word;
   }
@@ -68,6 +68,7 @@ public class FrequencySummary  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("frequency")
   public List<Frequency> getFrequency() {
     return frequency;
   }

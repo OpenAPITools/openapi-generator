@@ -2,17 +2,20 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Citation  { 
+public class Citation  {
+  
   private String cite = null;
   private String source = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("cite")
   public String getCite() {
     return cite;
   }
@@ -24,6 +27,7 @@ public class Citation  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("source")
   public String getSource() {
     return source;
   }

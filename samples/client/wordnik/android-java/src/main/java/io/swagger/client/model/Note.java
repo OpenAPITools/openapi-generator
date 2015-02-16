@@ -3,22 +3,22 @@ package io.swagger.client.model;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Note  { 
+public class Note  {
+  
   private String noteType = null;
   private List<String> appliesTo = new ArrayList<String>() ;
   private String value = null;
   private Integer pos = null;
-  
-  //public enum posEnum {  }; 
-  
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("noteType")
   public String getNoteType() {
     return noteType;
   }
@@ -30,6 +30,7 @@ public class Note  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("appliesTo")
   public List<String> getAppliesTo() {
     return appliesTo;
   }
@@ -41,6 +42,7 @@ public class Note  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("value")
   public String getValue() {
     return value;
   }
@@ -52,6 +54,7 @@ public class Note  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("pos")
   public Integer getPos() {
     return pos;
   }

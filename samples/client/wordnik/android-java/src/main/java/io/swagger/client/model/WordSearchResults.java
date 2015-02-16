@@ -4,20 +4,20 @@ import io.swagger.client.model.WordSearchResult;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordSearchResults  { 
+public class WordSearchResults  {
+  
   private List<WordSearchResult> searchResults = new ArrayList<WordSearchResult>() ;
   private Integer totalResults = null;
-  
-  //public enum totalResultsEnum {  }; 
-  
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("searchResults")
   public List<WordSearchResult> getSearchResults() {
     return searchResults;
   }
@@ -29,6 +29,7 @@ public class WordSearchResults  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("totalResults")
   public Integer getTotalResults() {
     return totalResults;
   }

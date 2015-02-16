@@ -2,21 +2,21 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class TextPron  { 
+public class TextPron  {
+  
   private String raw = null;
   private Integer seq = null;
-  
-  //public enum seqEnum {  }; 
-  
   private String rawType = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("raw")
   public String getRaw() {
     return raw;
   }
@@ -28,6 +28,7 @@ public class TextPron  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("seq")
   public Integer getSeq() {
     return seq;
   }
@@ -39,6 +40,7 @@ public class TextPron  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("rawType")
   public String getRawType() {
     return rawType;
   }

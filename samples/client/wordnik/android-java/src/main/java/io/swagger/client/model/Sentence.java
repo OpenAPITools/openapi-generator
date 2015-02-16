@@ -4,30 +4,24 @@ import java.util.*;
 import io.swagger.client.model.ScoredWord;
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Sentence  { 
+public class Sentence  {
+  
   private Boolean hasScoredWords = null;
   private Long id = null;
-  
-  //public enum idEnum {  }; 
-  
   private List<ScoredWord> scoredWords = new ArrayList<ScoredWord>() ;
   private String display = null;
   private Integer rating = null;
-  
-  //public enum ratingEnum {  }; 
-  
   private Long documentMetadataId = null;
-  
-  //public enum documentMetadataIdEnum {  }; 
-  
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("hasScoredWords")
   public Boolean getHasScoredWords() {
     return hasScoredWords;
   }
@@ -39,6 +33,7 @@ public class Sentence  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -50,6 +45,7 @@ public class Sentence  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("scoredWords")
   public List<ScoredWord> getScoredWords() {
     return scoredWords;
   }
@@ -61,6 +57,7 @@ public class Sentence  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("display")
   public String getDisplay() {
     return display;
   }
@@ -72,6 +69,7 @@ public class Sentence  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("rating")
   public Integer getRating() {
     return rating;
   }
@@ -83,6 +81,7 @@ public class Sentence  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("documentMetadataId")
   public Long getDocumentMetadataId() {
     return documentMetadataId;
   }

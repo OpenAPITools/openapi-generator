@@ -2,21 +2,21 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class AuthenticationToken  { 
+public class AuthenticationToken  {
+  
   private String token = null;
   private Long userId = null;
-  
-  //public enum userIdEnum {  }; 
-  
   private String userSignature = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("token")
   public String getToken() {
     return token;
   }
@@ -28,6 +28,7 @@ public class AuthenticationToken  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("userId")
   public Long getUserId() {
     return userId;
   }
@@ -39,6 +40,7 @@ public class AuthenticationToken  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("userSignature")
   public String getUserSignature() {
     return userSignature;
   }

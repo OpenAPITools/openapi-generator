@@ -2,20 +2,20 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class FacetValue  { 
+public class FacetValue  {
+  
   private Long count = null;
-  
-  //public enum countEnum {  }; 
-  
   private String value = null;
-  
+
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("count")
   public Long getCount() {
     return count;
   }
@@ -27,6 +27,7 @@ public class FacetValue  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("value")
   public String getValue() {
     return value;
   }
