@@ -38,7 +38,7 @@ class Pet:
             'tags': 'list[Tag]',
             
             
-            'status': 'StatusEnum'
+            'status': 'str'
             
         }
 
@@ -61,5 +61,5 @@ class Pet:
         
         #pet status in the store
         
-        self.status = None # StatusEnum
+        self.status = None # str
         

@@ -35,7 +35,7 @@ class Order:
             'shipDate': 'DateTime',
             
             
-            'status': 'StatusEnum',
+            'status': 'str',
             
             
             'complete': 'bool'
@@ -58,7 +58,7 @@ class Order:
         
         #Order Status
         
-        self.status = None # StatusEnum
+        self.status = None # str
         
         
         self.complete = None # bool
