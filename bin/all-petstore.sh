@@ -26,6 +26,8 @@ cd $APP_DIR
 ./bin/java-petstore-filemap.sh
 ./bin/java-petstore.sh
 ./bin/java-wordnik-api.sh
+./bin/php-petstore.sh
+./bin/python-petstore.sh
 ./bin/objc-petstore.sh
 ./bin/objc-wordnik-api.sh
 ./bin/tizen-petstore.sh

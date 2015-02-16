@@ -31,6 +31,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ -i http://petstore.swagger.io/v2/swagger.json -l python -o samples/client/petstore/python -t modules/swagger-codegen/src/main/resources/python"
+ags="$@ -i http://petstore.swagger.io/v2/swagger.json -l python -o samples/client/petstore/python"
 
 java $JAVA_OPTS -jar $executable $ags
