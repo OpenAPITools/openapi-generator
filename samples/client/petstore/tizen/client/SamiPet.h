@@ -18,10 +18,10 @@ using namespace Tizen::Web::Json;
 
 
 using Tizen::Base::Long;
-#include "SamiCategory.h"
 using Tizen::Base::String;
-using Tizen::Base::Collection::IList;
+#include "SamiCategory.h"
 #include "SamiTag.h"
+using Tizen::Base::Collection::IList;
 
 
 namespace Swagger {
@@ -60,8 +60,8 @@ public:
     IList* getTags();
     void setTags(IList* pTags);
     
-    PStatusEnum getStatus();
-    void setStatus(PStatusEnum pStatus);
+    String* getStatus();
+    void setStatus(String* pStatus);
     
 
 private:
@@ -70,7 +70,7 @@ private:
     String* pName;
     IList* pPhotoUrls;
     IList* pTags;
-    PStatusEnum pStatus;
+    String* pStatus;
     
 };
 

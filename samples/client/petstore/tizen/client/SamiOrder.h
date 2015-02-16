@@ -17,11 +17,11 @@
 using namespace Tizen::Web::Json;
 
 
-using Tizen::Base::Long;
-using Tizen::Base::DateTime;
-using Tizen::Base::String;
 using Tizen::Base::Integer;
+using Tizen::Base::Long;
+using Tizen::Base::String;
 using Tizen::Base::Boolean;
+using Tizen::Base::DateTime;
 
 
 namespace Swagger {
@@ -57,8 +57,8 @@ public:
     DateTime* getShipDate();
     void setShipDate(DateTime* pShipDate);
     
-    PStatusEnum getStatus();
-    void setStatus(PStatusEnum pStatus);
+    String* getStatus();
+    void setStatus(String* pStatus);
     
     Boolean* getComplete();
     void setComplete(Boolean* pComplete);
@@ -69,7 +69,7 @@ private:
     Long* pPetId;
     Integer* pQuantity;
     DateTime* pShipDate;
-    PStatusEnum pStatus;
+    String* pStatus;
     Boolean* pComplete;
     
 };

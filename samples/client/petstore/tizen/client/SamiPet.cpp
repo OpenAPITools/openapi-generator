@@ -279,12 +279,12 @@ SamiPet::setTags(IList* pTags) {
     this->pTags = pTags;
 }
 
-PStatusEnum
+String*
 SamiPet::getStatus() {
     return pStatus;
 }
 void
-SamiPet::setStatus(PStatusEnum pStatus) {
+SamiPet::setStatus(String* pStatus) {
     this->pStatus = pStatus;
 }
 
