@@ -10,7 +10,7 @@ public class ContentProvider  {
   
   private Integer id = null;
   private String name = null;
-  
+
   
   /**
    **/

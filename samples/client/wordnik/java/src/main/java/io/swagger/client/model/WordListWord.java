@@ -16,7 +16,7 @@ public class WordListWord  {
   private Date createdAt = null;
   private Long numberCommentsOnWord = null;
   private Long numberLists = null;
-  
+
   
   /**
    **/

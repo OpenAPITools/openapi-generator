@@ -12,7 +12,7 @@ public class SimpleExample  {
   private String title = null;
   private String text = null;
   private String url = null;
-  
+
   
   /**
    **/

@@ -1,10 +1,10 @@
 package io.swagger.client.model;
 
-import java.util.Date;
-import io.swagger.client.model.SimpleDefinition;
-import io.swagger.client.model.ContentProvider;
-import java.util.*;
 import io.swagger.client.model.SimpleExample;
+import io.swagger.client.model.ContentProvider;
+import io.swagger.client.model.SimpleDefinition;
+import java.util.*;
+import java.util.Date;
 
 import com.wordnik.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,7 +25,7 @@ public class WordOfTheDay  {
   private List<SimpleExample> examples = new ArrayList<SimpleExample>() ;
   private String note = null;
   private Date publishDate = null;
-  
+
   
   /**
    **/

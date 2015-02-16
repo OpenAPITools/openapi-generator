@@ -16,7 +16,7 @@ public class User  {
   private String userName = null;
   private String displayName = null;
   private String password = null;
-  
+
   
   /**
    **/

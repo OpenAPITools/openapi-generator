@@ -1,8 +1,8 @@
 package io.swagger.client.model;
 
 import io.swagger.client.model.Example;
-import io.swagger.client.model.Facet;
 import java.util.*;
+import io.swagger.client.model.Facet;
 
 import com.wordnik.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,7 @@ public class ExampleSearchResults  {
   
   private List<Facet> facets = new ArrayList<Facet>() ;
   private List<Example> examples = new ArrayList<Example>() ;
-  
+
   
   /**
    **/

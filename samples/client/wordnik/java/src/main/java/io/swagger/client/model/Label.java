@@ -10,7 +10,7 @@ public class Label  {
   
   private String text = null;
   private String type = null;
-  
+
   
   /**
    **/

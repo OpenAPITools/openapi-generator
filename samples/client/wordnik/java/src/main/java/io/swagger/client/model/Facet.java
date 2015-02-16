@@ -12,7 +12,7 @@ public class Facet  {
   
   private List<FacetValue> facetValues = new ArrayList<FacetValue>() ;
   private String name = null;
-  
+
   
   /**
    **/

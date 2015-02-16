@@ -14,7 +14,7 @@ public class PartOfSpeech  {
   private List<Root> roots = new ArrayList<Root>() ;
   private List<String> storageAbbr = new ArrayList<String>() ;
   private List<Category> allCategories = new ArrayList<Category>() ;
-  
+
   
   /**
    **/

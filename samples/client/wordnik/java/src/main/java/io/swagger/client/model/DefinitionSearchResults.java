@@ -1,7 +1,7 @@
 package io.swagger.client.model;
 
-import java.util.*;
 import io.swagger.client.model.Definition;
+import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +12,7 @@ public class DefinitionSearchResults  {
   
   private List<Definition> results = new ArrayList<Definition>() ;
   private Integer totalResults = null;
-  
+
   
   /**
    **/

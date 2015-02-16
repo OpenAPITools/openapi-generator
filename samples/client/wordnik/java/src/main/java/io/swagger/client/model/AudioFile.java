@@ -23,7 +23,7 @@ public class AudioFile  {
   private Float voteWeightedAverage = null;
   private Float voteAverage = null;
   private String word = null;
-  
+
   
   /**
    **/

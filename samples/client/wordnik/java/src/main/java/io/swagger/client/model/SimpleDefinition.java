@@ -12,7 +12,7 @@ public class SimpleDefinition  {
   private String source = null;
   private String note = null;
   private String partOfSpeech = null;
-  
+
   
   /**
    **/

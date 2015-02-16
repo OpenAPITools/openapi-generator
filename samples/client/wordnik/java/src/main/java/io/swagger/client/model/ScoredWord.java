@@ -19,7 +19,7 @@ public class ScoredWord  {
   private Boolean stopword = null;
   private Double baseWordScore = null;
   private String partOfSpeech = null;
-  
+
   
   /**
    **/

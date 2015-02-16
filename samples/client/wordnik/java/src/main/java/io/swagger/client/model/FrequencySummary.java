@@ -15,7 +15,7 @@ public class FrequencySummary  {
   private String frequencyString = null;
   private String word = null;
   private List<Frequency> frequency = new ArrayList<Frequency>() ;
-  
+
   
   /**
    **/

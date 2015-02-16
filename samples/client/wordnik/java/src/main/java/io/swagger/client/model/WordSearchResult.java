@@ -11,7 +11,7 @@ public class WordSearchResult  {
   private Long count = null;
   private Double lexicality = null;
   private String word = null;
-  
+
   
   /**
    **/

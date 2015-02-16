@@ -13,7 +13,7 @@ public class Root  {
   private Long id = null;
   private String name = null;
   private List<Category> categories = new ArrayList<Category>() ;
-  
+
   
   /**
    **/

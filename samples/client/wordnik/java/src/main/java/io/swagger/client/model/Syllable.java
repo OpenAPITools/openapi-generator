@@ -11,7 +11,7 @@ public class Syllable  {
   private String text = null;
   private Integer seq = null;
   private String type = null;
-  
+
   
   /**
    **/

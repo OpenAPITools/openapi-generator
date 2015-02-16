@@ -12,7 +12,7 @@ public class WordSearchResults  {
   
   private List<WordSearchResult> searchResults = new ArrayList<WordSearchResult>() ;
   private Integer totalResults = null;
-  
+
   
   /**
    **/

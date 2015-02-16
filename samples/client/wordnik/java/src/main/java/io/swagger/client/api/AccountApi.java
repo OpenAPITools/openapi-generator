@@ -7,9 +7,9 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
-import io.swagger.client.model.User;
 import io.swagger.client.model.ApiTokenStatus;
 import io.swagger.client.model.AuthenticationToken;
+import io.swagger.client.model.User;
 import io.swagger.client.model.WordList;
 
 import com.sun.jersey.multipart.FormDataMultiPart;

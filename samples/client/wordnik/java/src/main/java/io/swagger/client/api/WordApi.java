@@ -7,12 +7,12 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
-import io.swagger.client.model.Example;
-import io.swagger.client.model.AudioFile;
-import io.swagger.client.model.Bigram;
 import io.swagger.client.model.WordObject;
-import io.swagger.client.model.FrequencySummary;
+import io.swagger.client.model.AudioFile;
 import io.swagger.client.model.Definition;
+import io.swagger.client.model.FrequencySummary;
+import io.swagger.client.model.Bigram;
+import io.swagger.client.model.Example;
 
 import com.sun.jersey.multipart.FormDataMultiPart;
 

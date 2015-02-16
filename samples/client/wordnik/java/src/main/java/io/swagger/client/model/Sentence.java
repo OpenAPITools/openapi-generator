@@ -16,7 +16,7 @@ public class Sentence  {
   private String display = null;
   private Integer rating = null;
   private Long documentMetadataId = null;
-  
+
   
   /**
    **/

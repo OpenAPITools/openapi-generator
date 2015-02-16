@@ -11,7 +11,7 @@ public class TextPron  {
   private String raw = null;
   private Integer seq = null;
   private String rawType = null;
-  
+
   
   /**
    **/

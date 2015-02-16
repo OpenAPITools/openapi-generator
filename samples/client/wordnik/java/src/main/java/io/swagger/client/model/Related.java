@@ -16,7 +16,7 @@ public class Related  {
   private List<String> words = new ArrayList<String>() ;
   private String gram = null;
   private String label4 = null;
-  
+
   
   /**
    **/

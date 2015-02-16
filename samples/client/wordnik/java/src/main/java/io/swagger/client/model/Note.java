@@ -13,7 +13,7 @@ public class Note  {
   private List<String> appliesTo = new ArrayList<String>() ;
   private String value = null;
   private Integer pos = null;
-  
+
   
   /**
    **/

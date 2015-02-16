@@ -7,10 +7,10 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
+import io.swagger.client.model.WordObject;
+import io.swagger.client.model.DefinitionSearchResults;
 import io.swagger.client.model.WordSearchResults;
 import io.swagger.client.model.WordOfTheDay;
-import io.swagger.client.model.DefinitionSearchResults;
-import io.swagger.client.model.WordObject;
 
 import com.sun.jersey.multipart.FormDataMultiPart;
 

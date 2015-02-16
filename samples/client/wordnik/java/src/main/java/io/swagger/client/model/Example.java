@@ -1,7 +1,7 @@
 package io.swagger.client.model;
 
-import io.swagger.client.model.Sentence;
 import io.swagger.client.model.ContentProvider;
+import io.swagger.client.model.Sentence;
 import io.swagger.client.model.ScoredWord;
 
 import com.wordnik.swagger.annotations.*;
@@ -23,7 +23,7 @@ public class Example  {
   private Float rating = null;
   private Long documentId = null;
   private String url = null;
-  
+
   
   /**
    **/

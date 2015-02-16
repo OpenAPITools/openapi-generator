@@ -10,7 +10,7 @@ public class FacetValue  {
   
   private Long count = null;
   private String value = null;
-  
+
   
   /**
    **/

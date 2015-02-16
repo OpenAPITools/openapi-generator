@@ -20,7 +20,7 @@ public class WordList  {
   private String description = null;
   private Long numberWordsInList = null;
   private String type = null;
-  
+
   
   /**
    **/

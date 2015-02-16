@@ -10,7 +10,7 @@ public class Frequency  {
   
   private Long count = null;
   private Integer year = null;
-  
+
   
   /**
    **/

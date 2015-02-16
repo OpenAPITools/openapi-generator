@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class StringValue  {
   
   private String word = null;
-  
+
   
   /**
    **/

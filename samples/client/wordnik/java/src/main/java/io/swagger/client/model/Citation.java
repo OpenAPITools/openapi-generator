@@ -10,7 +10,7 @@ public class Citation  {
   
   private String cite = null;
   private String source = null;
-  
+
   
   /**
    **/

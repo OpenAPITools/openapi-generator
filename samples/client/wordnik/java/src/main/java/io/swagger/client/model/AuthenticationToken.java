@@ -11,7 +11,7 @@ public class AuthenticationToken  {
   private String token = null;
   private Long userId = null;
   private String userSignature = null;
-  
+
   
   /**
    **/

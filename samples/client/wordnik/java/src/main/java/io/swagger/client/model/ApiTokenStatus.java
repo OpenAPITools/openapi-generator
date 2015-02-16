@@ -14,7 +14,7 @@ public class ApiTokenStatus  {
   private Long remainingCalls = null;
   private Long expiresInMillis = null;
   private Long totalRequests = null;
-  
+
   
   /**
    **/

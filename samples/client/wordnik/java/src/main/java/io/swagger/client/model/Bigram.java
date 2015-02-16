@@ -13,7 +13,7 @@ public class Bigram  {
   private String gram1 = null;
   private Double wlmi = null;
   private Double mi = null;
-  
+
   
   /**
    **/

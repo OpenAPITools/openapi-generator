@@ -15,7 +15,7 @@ public class WordObject  {
   private List<String> suggestions = new ArrayList<String>() ;
   private String canonicalForm = null;
   private String vulgar = null;
-  
+
   
   /**
    **/

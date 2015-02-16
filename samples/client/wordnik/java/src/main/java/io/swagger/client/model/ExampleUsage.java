@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ExampleUsage  {
   
   private String text = null;
-  
+
   
   /**
    **/

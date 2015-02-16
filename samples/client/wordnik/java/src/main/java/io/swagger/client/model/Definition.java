@@ -1,12 +1,12 @@
 package io.swagger.client.model;
 
-import io.swagger.client.model.ExampleUsage;
-import io.swagger.client.model.Label;
-import io.swagger.client.model.Note;
-import java.util.*;
 import io.swagger.client.model.Related;
-import io.swagger.client.model.Citation;
+import io.swagger.client.model.Note;
+import io.swagger.client.model.Label;
 import io.swagger.client.model.TextPron;
+import io.swagger.client.model.ExampleUsage;
+import java.util.*;
+import io.swagger.client.model.Citation;
 
 import com.wordnik.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +31,7 @@ public class Definition  {
   private List<Note> notes = new ArrayList<Note>() ;
   private List<TextPron> textProns = new ArrayList<TextPron>() ;
   private String partOfSpeech = null;
-  
+
   
   /**
    **/
