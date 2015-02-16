@@ -23,8 +23,9 @@ class JavaModelEnumTest extends FlatSpec with Matchers {
 
     cm.vars.size should be(1)
     val enumVar = cm.vars.get(0)
-    enumVar.baseName should be("name")
-    enumVar.datatype should be("NameEnum")
+    enumVar.baseName should be ("name")
+    enumVar.datatype should be ("String")
+    enumVar.datatypeWithEnum should be("NameEnum")
     enumVar.name should be("name")
     enumVar.defaultValue should be("null")
     enumVar.baseType should be("String")
