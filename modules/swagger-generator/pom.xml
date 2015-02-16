@@ -33,14 +33,6 @@
         <artifactId>scala-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>scala-compile-first</id>
-            <phase>process-resources</phase>
-            <goals>
-                <goal>add-source</goal>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
             <id>scala-test-compile</id>
             <phase>process-test-resources</phase>
             <goals>
