@@ -65,6 +65,10 @@ public class Codegen extends DefaultGenerator {
         clientOptInput.setAuth(cmd.getOptionValue("a"));
       if (cmd.hasOption("l"))
         clientOptInput.setConfig(getConfig(cmd.getOptionValue("l")));
+      else {
+        usage(options);
+        return;
+      }
       if (cmd.hasOption("o"))
         clientOptInput.getConfig().setOutputDir(cmd.getOptionValue("o"));
       if (cmd.hasOption("h")) {
