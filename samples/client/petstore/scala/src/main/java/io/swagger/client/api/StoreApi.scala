@@ -9,10 +9,11 @@ import java.util.Date
 
 import scala.collection.mutable.HashMap
 
-class StoreApi {
-  var basePath: String = "http://petstore.swagger.wordnik.com/v2"
-  var apiInvoker = ApiInvoker
-  
+class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
+                        defApiInvoker: ApiInvoker = ApiInvoker) {
+  var basePath = defBasePath
+  var apiInvoker = defApiInvoker
+
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
@@ -39,7 +40,7 @@ class StoreApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "Integer", classOf[Integer]).asInstanceOf[Map[String, Integer]])
+           Some(ApiInvoker.deserialize(s, "map", classOf[Integer]).asInstanceOf[Map[String, Integer]])
          
         case _ => None
       }

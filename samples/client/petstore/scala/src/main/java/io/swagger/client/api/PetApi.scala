@@ -1,6 +1,7 @@
 package io.swagger.client.api
 
 import io.swagger.client.model.Pet
+import java.io.File
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException
 
@@ -9,10 +10,11 @@ import java.util.Date
 
 import scala.collection.mutable.HashMap
 
-class PetApi {
-  var basePath: String = "http://petstore.swagger.wordnik.com/v2"
-  var apiInvoker = ApiInvoker
-  
+class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
+                        defApiInvoker: ApiInvoker = ApiInvoker) {
+  var basePath = defBasePath
+  var apiInvoker = defApiInvoker
+
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
@@ -110,7 +112,7 @@ class PetApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "Pet", classOf[Pet]).asInstanceOf[List[Pet]])
+           Some(ApiInvoker.deserialize(s, "array", classOf[Pet]).asInstanceOf[List[Pet]])
          
         case _ => None
       }
@@ -144,7 +146,7 @@ class PetApi {
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "Pet", classOf[Pet]).asInstanceOf[List[Pet]])
+           Some(ApiInvoker.deserialize(s, "array", classOf[Pet]).asInstanceOf[List[Pet]])
          
         case _ => None
       }
@@ -248,6 +250,38 @@ class PetApi {
 
     try {
       apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap, contentType) match {
+        case s: String =>
+           
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  def uploadFile (additionalMetadata: String, file: File)  = {
+    // create path and map variables
+    val path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
+
+    
+    val contentType = {
+      
+      "application/json"
+    }
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    
+
+    
+    
+    
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, None, headerParams.toMap, contentType) match {
         case s: String =>
            
         case _ => None

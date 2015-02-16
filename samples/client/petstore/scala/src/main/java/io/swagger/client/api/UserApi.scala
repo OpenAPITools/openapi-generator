@@ -9,10 +9,11 @@ import java.util.Date
 
 import scala.collection.mutable.HashMap
 
-class UserApi {
-  var basePath: String = "http://petstore.swagger.wordnik.com/v2"
-  var apiInvoker = ApiInvoker
-  
+class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
+                        defApiInvoker: ApiInvoker = ApiInvoker) {
+  var basePath = defBasePath
+  var apiInvoker = defApiInvoker
+
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
