@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2014 Reverb Technologies, Inc.
+ *  Copyright 2015 Reverb Technologies, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,110 +25,199 @@ class StoreApi {
 	  $this->apiClient = $apiClient;
 	}
 
-  /**
-	 * getOrderById
-	 * Find purchase order by ID
-   * orderId, string: ID of pet that needs to be fetched (required)
-
-   * @return Order
+  
+	/**
+	 * getInventory
+   *
+	 * Returns pet inventories by status
+   
+	 * @return map[string,int]
 	 */
 
-   public function getOrderById($orderId) {
+   public function getInventory() {
 
-  		//parse inputs
-  		$resourcePath = "/store/order/{orderId}";
+  		// parse inputs
+  		$resourcePath = "/store/inventory";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
 
-      if($orderId != null) {
-  			$resourcePath = str_replace("{" . "orderId" . "}",
-  			                            $this->apiClient->toPathValue($orderId), $resourcePath);
-  		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
+      
+      
+      
+      
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
       }
+
+  		// make the API Call
   		$response = $this->apiClient->callAPI($resourcePath, $method,
   		                                      $queryParams, $body,
   		                                      $headerParams);
 
-
-      if(! $response){
-          return null;
-        }
+      if(! $response) {
+        return null;
+      }
 
   		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Order');
+  		                                                'map[string,int]');
   		return $responseObject;
-
-      }
-  /**
-	 * deleteOrder
-	 * Delete purchase order by ID
-   * orderId, string: ID of the order that needs to be deleted (required)
-
-   * @return 
-	 */
-
-   public function deleteOrder($orderId) {
-
-  		//parse inputs
-  		$resourcePath = "/store/order/{orderId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "DELETE";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
-
-      if($orderId != null) {
-  			$resourcePath = str_replace("{" . "orderId" . "}",
-  			                            $this->apiClient->toPathValue($orderId), $resourcePath);
-  		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
+  }
+  
+	/**
 	 * placeOrder
+   *
 	 * Place an order for a pet
    * body, Order: order placed for purchasing the pet (required)
-
-   * @return 
+   * 
+	 * @return Order
 	 */
 
    public function placeOrder($body) {
 
-  		//parse inputs
+  		// parse inputs
   		$resourcePath = "/store/order";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "POST";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
 
-      //make the API Call
-      if (! isset($body)) {
-        $body = null;
+      
+      
+      
+      
+      // body params
+      $body = null;
+      if (isset($body)) {
+        $body = $body;
       }
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
   		$response = $this->apiClient->callAPI($resourcePath, $method,
   		                                      $queryParams, $body,
   		                                      $headerParams);
 
-
+      if(! $response) {
+        return null;
       }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'Order');
+  		return $responseObject;
+  }
+  
+	/**
+	 * getOrderById
+   *
+	 * Find purchase order by ID
+   * orderId, string: ID of pet that needs to be fetched (required)
+   * 
+	 * @return Order
+	 */
+
+   public function getOrderById($orderId) {
+
+  		// parse inputs
+  		$resourcePath = "/store/order/{orderId}";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
+
+      
+      
+      // path params
+      if($orderId != null) {
+  			$resourcePath = str_replace("{" . "orderId" . "}",
+  			                            $this->apiClient->toPathValue($orderId), $resourcePath);
+  		}
+      
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+      if(! $response) {
+        return null;
+      }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'Order');
+  		return $responseObject;
+  }
+  
+	/**
+	 * deleteOrder
+   *
+	 * Delete purchase order by ID
+   * orderId, string: ID of the order that needs to be deleted (required)
+   * 
+	 * @return 
+	 */
+
+   public function deleteOrder($orderId) {
+
+  		// parse inputs
+  		$resourcePath = "/store/order/{orderId}";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "DELETE";
+      $queryParams = array();
+      $headerParams = array();
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
+
+      
+      
+      // path params
+      if($orderId != null) {
+  			$resourcePath = str_replace("{" . "orderId" . "}",
+  			                            $this->apiClient->toPathValue($orderId), $resourcePath);
+  		}
+      
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+      
+  }
   
 
 }
-
