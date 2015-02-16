@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
-WordAPI.py
-Copyright 2014 Wordnik, Inc.
+{{classname}}.py
+Copyright 2015 Reverb Technologies, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -62,8 +62,8 @@ class {{classname}}(object):
         files = {}
         bodyParam = None
 
-        $headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}';
-        $headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
+        headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}';
+        headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
 
         {{#queryParams}}
         if ('{{paramName}}' in params):
