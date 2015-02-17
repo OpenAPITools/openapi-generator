@@ -12,6 +12,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String sourceFolder = "client";
   protected static String PREFIX = "SWG";
 
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
+  
   public String getName() {
     return "objc";
   }

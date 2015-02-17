@@ -13,6 +13,10 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
   protected static String PREFIX = "Sami";
   protected Map<String, String> namespaces = new HashMap<String, String>();
 
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
+  
   public String getName() {
     return "tizen";
   }

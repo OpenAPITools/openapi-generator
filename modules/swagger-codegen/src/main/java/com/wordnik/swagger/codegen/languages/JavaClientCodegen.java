@@ -13,6 +13,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
 
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
+
   public String getName() {
     return "java";
   }

@@ -16,6 +16,10 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
   protected boolean authPreemptive = false;
   protected boolean asyncHttpClient = !authScheme.isEmpty();
 
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
+  
   public String getName() {
     return "scala";
   }

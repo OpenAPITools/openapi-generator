@@ -17,6 +17,10 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
 
+  public CodegenType getTag() {
+    return CodegenType.SERVER;
+  }
+
   public String getName() {
     return "nodejs";
   }

@@ -14,6 +14,10 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/scala";
 
+  public CodegenType getTag() {
+    return CodegenType.DOCUMENTATION;
+  }
+
   public String getName() {
     return "html";
   }

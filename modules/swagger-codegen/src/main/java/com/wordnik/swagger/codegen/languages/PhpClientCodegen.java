@@ -12,7 +12,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String groupId = "com.wordnik";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
-  // protected String sourceFolder = "";
+
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
 
   public String getName() {
     return "php";
