@@ -51,8 +51,11 @@ public class ApiInvoker {
   }
 
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
+    if(null != containerType) {
+        containerType = containerType.toLowerCase();
+    }
     try{
-      if("List".equals(containerType)) {
+      if("list".equals(containerType) || "array".equals(containerType)) {
         JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
         List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
         return response;
