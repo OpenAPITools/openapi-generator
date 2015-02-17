@@ -300,13 +300,13 @@ public class PetApi {
   }
   
   
-  public void  uploadFile (String additionalMetadata, File file) throws ApiException {
+  public void  uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
     Object postBody = null;
 
     
 
     // create path and map variables
-    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json");
+    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
