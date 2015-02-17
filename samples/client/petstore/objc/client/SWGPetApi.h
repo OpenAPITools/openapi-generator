@@ -38,12 +38,12 @@
  
 
  
- @param pet Pet object that needs to be added to the store
+ @param body Pet object that needs to be added to the store
  
 
  return type: 
  */
--(NSNumber*) addPetWithCompletionBlock :(SWGPet*) pet 
+-(NSNumber*) addPetWithCompletionBlock :(SWGPet*) body 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;
@@ -155,16 +155,24 @@
 
 /**
 
- Upload an image for a pet
+ uploads an image
+ 
+ 
  
 
  
- @param petImage image to upload
+ @param petId ID of pet to update
+ 
+ @param additionalMetadata Additional data to pass to server
+ 
+ @param file file to upload
  
 
  return type: 
  */
--(NSNumber*) uploadImageWithCompletionBlock :(SWGFile*) petImage 
+-(NSNumber*) uploadFileWithCompletionBlock :(NSNumber*) petId 
+     additionalMetadata:(NSString*) additionalMetadata 
+     file:(SWGFile*) file 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;

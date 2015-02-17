@@ -12,6 +12,22 @@
 +(NSString*) getBasePath;
 /**
 
+ Returns pet inventories by status
+ 
+ Returns a map of status codes to quantities
+ 
+
+ 
+
+ return type: NSDictionary*
+ */
+-(NSNumber*) getInventoryWithCompletionBlock :
+    (void (^)(NSDictionary* output, NSError* error))completionBlock;
+    
+
+
+/**
+
  Place an order for a pet
  
  
