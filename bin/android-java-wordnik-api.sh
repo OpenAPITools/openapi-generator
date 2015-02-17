@@ -1,7 +1,6 @@
 #!/bin/sh
 
 SCRIPT="$0"
-SCALA_RUNNER_VERSION=$(scala ./bin/Version.scala)
 
 while [ -h "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
@@ -18,15 +17,20 @@ if [ ! -d "${APP_DIR}" ]; then
   APP_DIR=`cd "${APP_DIR}"; pwd`
 fi
 
-cd $APP_DIR
+root=./modules/swagger-codegen-distribution/pom.xml
 
+# gets version of swagger-codegen
+version=$(sed '/<project>/,/<\/project>/d;/<version>/!d;s/ *<\/\?version> *//g' $root | sed -n '2p' | sed -e 's,.*<version>\([^<]*\)</version>.*,\1,g')
+
+executable="./modules/swagger-codegen-distribution/target/swagger-codegen-distribution-$version.jar"
+
+if [ ! -f "$executable" ]
+then
+  mvn clean package
+fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ samples/client/petstore/android-java/AndroidJavaPetstoreCodegen.scala http://petstore.swagger.wordnik.com/api/api-docs special-key"
+ags="$@ -i modules/swagger-codegen/src/test/resources/2_0/wordnik.json -l android -o samples/client/wordnik/android-java"
 
-if [ -f $APP_DIR/target/scala-$SCALA_RUNNER_VERSION/*assembly*.jar ]; then
-  scala -cp target/scala-$SCALA_RUNNER_VERSION/*assembly*.jar $ags
-else
-  echo "Please set scalaVersion := \"$SCALA_RUNNER_VERSION\" in build.sbt and run ./sbt assembly"
-fi
+java $JAVA_OPTS -jar $executable $ags

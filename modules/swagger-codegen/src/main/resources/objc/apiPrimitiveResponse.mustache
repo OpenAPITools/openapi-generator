@@ -1,0 +1,35 @@
+        // primitive response type
+    {{#returnBaseType}}return [client stringWithCompletionBlock: requestUrl 
+                                              method: @"{{httpMethod}}" 
+                                         queryParams: queryParams 
+                                                body: bodyDictionary 
+                                        headerParams: headerParams
+                                  requestContentType: requestContentType
+                                 responseContentType: responseContentType
+                                     completionBlock: ^(NSString *data, NSError *error) {
+                         if (error) {
+                             completionBlock(nil, error);
+                             return;
+                         }
+                        {{returnBaseType}} *result = data ? [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}} alloc]initWithString: data] : nil;
+                        completionBlock(result, nil);
+                     }];
+    {{/returnBaseType}}
+    {{^returnBaseType}}
+    // no return base type
+    return [client stringWithCompletionBlock: requestUrl 
+                                      method: @"{{httpMethod}}" 
+                                 queryParams: queryParams 
+                                        body: bodyDictionary 
+                                headerParams: headerParams
+                          requestContentType: requestContentType
+                         responseContentType: responseContentType
+                             completionBlock: ^(NSString *data, NSError *error) {
+                if (error) {
+                    completionBlock(error);
+                    return;
+                }
+                completionBlock(nil);
+                    }];
+    {{/returnBaseType}}
+    

@@ -1,0 +1,2 @@
+{{#isFormParam}}{{#notFile}}@ApiParam(value = "{{{description}}}"{{#required}}, required=true{{/required}} {{#allowableValues}}, allowableValues="{{{allowableValues}}}"{{/allowableValues}}{{#defaultValue}}, defaultValue="{{{defaultValue}}}"{{/defaultValue}})@FormParam("{{paramName}}")  {{{dataType}}} {{paramName}}{{/notFile}}{{#isFile}}@ApiParam(value = "{{{description}}}") @FormDataParam("file") InputStream inputStream,
+    @ApiParam(value = "file detail") @FormDataParam("file") FormDataContentDisposition fileDetail{{/isFile}}{{/isFormParam}}

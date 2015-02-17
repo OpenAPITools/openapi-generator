@@ -1,0 +1,131 @@
+#include "{{classname}}.h"
+
+#include "{{prefix}}Helpers.h"
+#include "{{prefix}}Error.h"
+
+using namespace Tizen::Base;
+
+namespace Swagger {
+
+{{#operations}}
+
+{{classname}}::{{classname}}() {
+
+}
+
+{{classname}}::~{{classname}}() {
+
+}
+
+{{#operation}}
+void
+{{nickname}}Processor(HttpResponse* pHttpResponse, void (* handler)(void*, {{prefix}}Error*)) {
+  int code = pHttpResponse->GetHttpStatusCode();
+
+  if(code >= 200 && code < 300) {
+    {{#returnType}}ByteBuffer* pBuffer = pHttpResponse->ReadBodyN();
+    IJsonValue* pJson = JsonParser::ParseN(*pBuffer);
+
+    {{{returnType}}} out = {{{defaultResponse}}};
+    jsonToValue(out, pJson, L"{{returnType}}", L"{{returnBaseType}}");
+
+    if (pJson) {
+      if (pJson->GetType() == JSON_TYPE_OBJECT) {
+         JsonObject* pObject = static_cast< JsonObject* >(pJson);
+         pObject->RemoveAll(true);
+      }
+      else if (pJson->GetType() == JSON_TYPE_ARRAY) {
+         JsonArray* pArray = static_cast< JsonArray* >(pJson);
+         pArray->RemoveAll(true);
+      }
+      handler(out, null);
+    }
+    else {
+      {{prefix}}Error* error = new {{prefix}}Error(0, new String(L"No parsable response received"));
+      handler(null, error);
+    }
+    {{/returnType}}{{^returnType}}handler(null, null);{{/returnType}}
+  }
+  else {
+    {{prefix}}Error* error = new {{prefix}}Error(code, new String(pHttpResponse->GetStatusText()));
+    {{#returnType}}handler(null, error);{{/returnType}}
+    {{^returnType}}handler(error, null);{{/returnType}}
+  }
+}
+
+{{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
+{{classname}}::{{nickname}}WithCompletion({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}},{{/hasParams}} {{#returnType}}void (* success)({{returnType}}, {{prefix}}Error*){{/returnType}}{{^returnType}}void(*success)({{prefix}}Error*){{/returnType}}) {
+  client = new {{prefix}}ApiClient();
+
+  client->success(&{{nickname}}Processor, (void(*)(void*, {{prefix}}Error*))success);
+  HashMap* headerParams = new HashMap(SingleObjectDeleter);
+  headerParams->Construct();
+
+  {{#headerParams}}{{#collectionFormat}}
+  int sz = {{paramName}}->GetCount();
+  for(int i = 0; i < sz; i++) {
+    String itemAt = stringify({{paramName}}->GetAt(i), "{{baseType}}");
+    headerParams->Add(new String("{{paramName}}"), new String(itemAt));
+  }
+  {{/collectionFormat}}{{^collectionFormat}}
+    headerParams->Add(new String("{{baseName}}"), {{paramName}});
+  {{/collectionFormat}}
+  {{/headerParams}}
+
+  HashMap* queryParams = new HashMap(SingleObjectDeleter);
+  queryParams->Construct();
+
+  {{#queryParams}}{{#collectionFormat}}
+  int sz = {{paramName}}->GetCount();
+  for(int i = 0; i < sz; i++) {
+    String itemAt = stringify({{paramName}}->GetAt(i), "{{baseType}}");
+    queryParams->Add(new String("{{paramName}}"), new String(itemAt));
+  }
+  {{/collectionFormat}}{{^collectionFormat}}
+    queryParams->Add(new String("{{baseName}}"), {{paramName}});
+  {{/collectionFormat}}
+  {{/queryParams}}
+
+  String* mBody = null;
+
+  {{#bodyParams}}
+  {{#isContainer}}
+  if({{paramName}} != null) {
+    mBody = new String("");
+    int sz = {{paramName}}->GetCount();
+    for(int i = 0; i < sz; i++) {
+      {{prefix}}Object * obj = ({{prefix}}Object*){{paramName}}->GetAt(i);
+      String json = obj->asJson();
+      if(i > 0)
+        mBody->Append(",");
+      mBody->Append(json);
+    }
+    mBody->Append("]");
+    headerParams->Add(new String("Content-Type"), new String("application/json"));
+  }
+  {{/isContainer}}
+  {{^isContainer}}
+  if({{paramName}} != null) {
+    mBody = new String({{paramName}}->asJson());
+    headerParams->Add(new String("Content-Type"), new String("application/json"));
+  }
+  {{/isContainer}}
+  {{/bodyParams}}
+
+  String url(L"{{{path}}}");
+
+  {{#pathParams}}
+  String s_{{paramName}}(L"{");
+  s_{{paramName}}.Append(L"{{{baseName}}}");
+  s_{{paramName}}.Append(L"}");
+  url.Replace(s_{{paramName}}, stringify({{{paramName}}}, L"{{dataType}}"));
+  {{/pathParams}}
+
+  client->execute({{classname}}::getBasePath(), url, "{{httpMethod}}", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
+  {{#returnType}}return null;{{/returnType}}
+}
+
+{{/operation}}
+{{/operations}}
+
+} /* namespace Swagger */

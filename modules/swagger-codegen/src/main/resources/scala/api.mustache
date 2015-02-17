@@ -1,0 +1,69 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import {{invokerPackage}}.ApiInvoker
+import {{invokerPackage}}.ApiException
+
+import java.io.File
+import java.util.Date
+
+import scala.collection.mutable.HashMap
+
+{{#operations}}
+class {{classname}}(val defBasePath: String = "{{basePath}}",
+                        defApiInvoker: ApiInvoker = ApiInvoker) {
+  var basePath = defBasePath
+  var apiInvoker = defApiInvoker
+
+  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
+
+  {{#operation}}
+  def {{nickname}} ({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
+    // create path and map variables
+    val path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escape({{paramName}}))
+
+    {{/pathParams}}
+
+    {{newline}}
+    val contentType = {
+      {{#bodyParam}}if({{paramName}} != null && {{paramName}}.isInstanceOf[File] )
+        "multipart/form-data"
+      else "application/json"
+      {{/bodyParam}}
+      {{^bodyParam}}"application/json"{{/bodyParam}}
+    }
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+
+    {{#requiredParamCount}}
+    // verify required params are set
+    (List({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}).filter(_ != null)).size match {
+       case {{requiredParamCount}} => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+    {{/requiredParamCount}}
+
+    {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/queryParams}}
+    
+    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}
+    {{/headerParams}}
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}, headerParams.toMap, contentType) match {
+        case s: String =>
+          {{#returnType}} Some(ApiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
+        {{/returnType}} 
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  {{/operation}}
+}
+{{/operations}}
