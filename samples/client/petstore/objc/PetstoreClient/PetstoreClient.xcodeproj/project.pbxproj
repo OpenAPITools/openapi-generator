@@ -36,6 +36,8 @@
 		EAEA85EE1811D3AE00F06E69 /* SWGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E11811D3AE00F06E69 /* SWGUser.m */; };
 		EAEA85EF1811D3AE00F06E69 /* SWGUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */; };
 		EAEA85F11811D8F100F06E69 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEA85F01811D8F100F06E69 /* libPods.a */; };
+		EAFBEABB1A925B8500A27431 /* test-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EAFBEABA1A925B8500A27431 /* test-1.png */; };
+		EAFBEABE1A92C42700A27431 /* SWGApiResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +52,8 @@
 
 /* Begin PBXFileReference section */
 		73DA4F1067C343C3962F1542 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		A425648B5C0A4849C7668069 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E2B6DA00BE52336E23783686 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		EA6699961811D2FA00A70D03 /* PetstoreClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetstoreClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA6699991811D2FA00A70D03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EA66999B1811D2FA00A70D03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -95,7 +98,10 @@
 		EAEA85E11811D3AE00F06E69 /* SWGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGUser.m; sourceTree = "<group>"; };
 		EAEA85E21811D3AE00F06E69 /* SWGUserApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGUserApi.h; sourceTree = "<group>"; };
 		EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGUserApi.m; sourceTree = "<group>"; };
-		EAEA85F01811D8F100F06E69 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "../Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		EAEA85F01811D8F100F06E69 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "../Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		EAFBEABA1A925B8500A27431 /* test-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test-1.png"; sourceTree = "<group>"; };
+		EAFBEABC1A92C42700A27431 /* SWGApiResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGApiResponse.h; sourceTree = "<group>"; };
+		EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A15B3DE4358A178ABAEC251 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E2B6DA00BE52336E23783686 /* Pods.debug.xcconfig */,
+				A425648B5C0A4849C7668069 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EA66998D1811D2FA00A70D03 = {
 			isa = PBXGroup;
 			children = (
@@ -132,7 +147,7 @@
 				EA6699C11811D2FB00A70D03 /* PetstoreClientTests */,
 				EA6699981811D2FA00A70D03 /* Frameworks */,
 				EA6699971811D2FA00A70D03 /* Products */,
-				EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */,
+				1A15B3DE4358A178ABAEC251 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +191,7 @@
 		EA6699A01811D2FA00A70D03 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EAFBEABA1A925B8500A27431 /* test-1.png */,
 				EA6699A11811D2FA00A70D03 /* PetstoreClient-Info.plist */,
 				EA6699A21811D2FA00A70D03 /* InfoPlist.strings */,
 				EA6699A51811D2FA00A70D03 /* main.m */,
@@ -205,6 +221,8 @@
 		EAEA85CB1811D3AE00F06E69 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				EAFBEABC1A92C42700A27431 /* SWGApiResponse.h */,
+				EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */,
 				EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */,
 				EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */,
 				EAEA85CE1811D3AE00F06E69 /* SWGCategory.h */,
@@ -315,6 +333,7 @@
 				EA6699B01811D2FA00A70D03 /* Main_iPad.storyboard in Resources */,
 				EA6699B51811D2FA00A70D03 /* Images.xcassets in Resources */,
 				EA6699AD1811D2FA00A70D03 /* Main_iPhone.storyboard in Resources */,
+				EAFBEABB1A925B8500A27431 /* test-1.png in Resources */,
 				EA6699A41811D2FA00A70D03 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,7 +376,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -372,6 +391,7 @@
 				EA6699B31811D2FA00A70D03 /* ViewController.m in Sources */,
 				EA6699AA1811D2FA00A70D03 /* AppDelegate.m in Sources */,
 				EAEA85EE1811D3AE00F06E69 /* SWGUser.m in Sources */,
+				EAFBEABE1A92C42700A27431 /* SWGApiResponse.m in Sources */,
 				EAEA85EF1811D3AE00F06E69 /* SWGUserApi.m in Sources */,
 				EAEA85EB1811D3AE00F06E69 /* SWGPetApi.m in Sources */,
 				EAEA85E61811D3AE00F06E69 /* SWGDate.m in Sources */,
@@ -515,7 +535,7 @@
 		};
 		EA6699CC1811D2FB00A70D03 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */;
+			baseConfigurationReference = E2B6DA00BE52336E23783686 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -529,7 +549,7 @@
 		};
 		EA6699CD1811D2FB00A70D03 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA5799F266AC4D21AD004BC4 /* Pods.xcconfig */;
+			baseConfigurationReference = A425648B5C0A4849C7668069 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

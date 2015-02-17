@@ -1,1 +1,0 @@
-../../AFNetworking/AFNetworking/AFImageRequestOperation.h

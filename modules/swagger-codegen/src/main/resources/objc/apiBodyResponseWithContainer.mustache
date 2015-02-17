@@ -1,0 +1,37 @@
+    // {{returnContainer}} container response type
+    return [client dictionary: requestUrl 
+                       method: @"{{httpMethod}}" 
+                  queryParams: queryParams 
+                         body: bodyDictionary 
+                 headerParams: headerParams
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+              completionBlock: ^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}{{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
+                    return;
+                }
+                {{#isMapContainer}}
+                NSDictionary *result = nil;
+                if (data) {
+                    result = [[NSDictionary alloc]initWithDictionary: data];
+                }
+                completionBlock(data, nil);
+                {{/isMapContainer}}{{#isListContainer}}
+                {{#returnBaseType}}if([data isKindOfClass:[NSArray class]]){
+                    NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[data count]];
+                    for (NSDictionary* dict in (NSArray*)data) {
+                        {{#returnTypeIsPrimitive}}
+                        {{returnBaseType}}* d = [[{{{returnBaseType}}} alloc]initWithString: dict];
+                        {{/returnTypeIsPrimitive}}
+                        {{^returnTypeIsPrimitive}}
+                        {{{returnBaseType}}}* d = [[{{{returnBaseType}}} alloc]initWithValues: dict];
+                        {{/returnTypeIsPrimitive}}
+                        [objs addObject:d];
+                    }
+                    completionBlock(objs, nil);
+                }
+                {{/returnBaseType}}
+                {{/isListContainer}}
+            }];
+    
