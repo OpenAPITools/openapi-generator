@@ -22,15 +22,22 @@ public class Generator {
   static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
   public static String generateClient(String language, GeneratorInput opts) throws ApiException {
+    Swagger swagger;
     LOGGER.debug("generate client for " + language);
     if(opts == null) {
       throw new BadRequestException(400, "No options were supplied");
     }
     JsonNode node = opts.getSpec();
     if(node == null) {
-      throw new BadRequestException(400, "No swagger specification was supplied");
+      if(opts.getSwaggerUrl() != null) {
+        swagger = new SwaggerParser().read(opts.getSwaggerUrl());
+      }
+      else 
+        throw new BadRequestException(400, "No swagger specification was supplied");
     }
-    Swagger swagger = new SwaggerParser().read(node);
+    else {
+      swagger = new SwaggerParser().read(node);
+    }
     if(swagger == null) {
       throw new BadRequestException(400, "The swagger specification supplied was not valid");
     }
