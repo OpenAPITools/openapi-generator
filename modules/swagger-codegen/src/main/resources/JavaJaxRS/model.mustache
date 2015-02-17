@@ -4,6 +4,7 @@ package {{package}};
 {{/imports}}
 
 import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 {{#models}}
 
 {{#model}}{{#description}}
@@ -11,23 +12,26 @@ import com.wordnik.swagger.annotations.*;
  * {{description}}
  **/{{/description}}
 @ApiModel(description = "{{{description}}}")
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} { {{#vars}}
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
+  {{#vars}}{{#isEnum}}
+  public enum {{datatypeWithEnum}} {
+    {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
+  };
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
+  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
+
+  {{#vars}}
   /**{{#description}}
    * {{{description}}}{{/description}}{{#minimum}}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
    **/
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{#isEnum}}
-  
-  public enum {{datatype}} { {{#_enum}}{{.}}{{^-last}}, {{/-last}}{{/_enum}} };
-  {{/isEnum}}{{/vars}}
-  
-  {{#vars}}
   @ApiModelProperty(required = {{required}}, value = "{{{description}}}")
-  public {{{datatype}}} {{getter}}() {
+  @JsonProperty("{{name}}")
+  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  public void {{setter}}({{{datatype}}} {{name}}) {
+  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

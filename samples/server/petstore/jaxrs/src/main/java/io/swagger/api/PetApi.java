@@ -152,7 +152,8 @@ public class PetApi {
   @ApiOperation(value = "uploads an image", notes = "", response = Void.class)
   @ApiResponses(value = {  })
 
-  public Response uploadFile(@ApiParam(value = "Additional data to pass to server" )@FormParam("additionalMetadata")  String additionalMetadata,
+  public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathParam("petId") Long petId,
+    @ApiParam(value = "Additional data to pass to server" )@FormParam("additionalMetadata")  String additionalMetadata,
     @ApiParam(value = "file to upload") @FormDataParam("file") InputStream inputStream,
     @ApiParam(value = "file detail") @FormDataParam("file") FormDataContentDisposition fileDetail)
       throws NotFoundException {
