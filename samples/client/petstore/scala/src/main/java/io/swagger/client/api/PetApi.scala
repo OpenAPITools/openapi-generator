@@ -260,9 +260,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
-  def uploadFile (additionalMetadata: String, file: File)  = {
+  def uploadFile (petId: Long, additionalMetadata: String, file: File)  = {
     // create path and map variables
-    val path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
+    val path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
+
+    
 
     
     val contentType = {

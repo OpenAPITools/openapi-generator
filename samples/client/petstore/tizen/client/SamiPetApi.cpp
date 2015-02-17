@@ -429,7 +429,7 @@ uploadFileProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiErr
 }
 
 void 
-SamiPetApi::uploadFileWithCompletion(String* additionalMetadata, SamiFile* file, void(*success)(SamiError*)) {
+SamiPetApi::uploadFileWithCompletion(Long* petId, String* additionalMetadata, SamiFile* file, void(*success)(SamiError*)) {
   client = new SamiApiClient();
 
   client->success(&uploadFileProcessor, (void(*)(void*, SamiError*))success);
@@ -449,6 +449,11 @@ SamiPetApi::uploadFileWithCompletion(String* additionalMetadata, SamiFile* file,
 
   String url(L"/pet/{petId}/uploadImage");
 
+  
+  String s_petId(L"{");
+  s_petId.Append(L"petId");
+  s_petId.Append(L"}");
+  url.Replace(s_petId, stringify(petId, L"Long*"));
   
 
   client->execute(SamiPetApi::getBasePath(), url, "POST", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");

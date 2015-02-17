@@ -469,6 +469,9 @@ class PetApi(object):
 
         Args:
             
+            petId, long: ID of pet to update (required)
+            
+            
             additionalMetadata, str: Additional data to pass to server (required)
             
             
@@ -479,7 +482,7 @@ class PetApi(object):
         Returns: 
         """
 
-        allParams = ['additionalMetadata', 'file']
+        allParams = ['petId', 'additionalMetadata', 'file']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -505,6 +508,11 @@ class PetApi(object):
 
         
 
+        
+        if ('petId' in params):
+            replacement = str(self.apiClient.toPathValue(params['petId']))
+            resourcePath = resourcePath.replace('{' + 'petId' + '}',
+                                                replacement)
         
 
         
