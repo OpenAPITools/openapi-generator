@@ -138,7 +138,7 @@ class PetApi {
       $headerParams['Content-Type'] = '';
 
       // query params
-      if($status != null) {
+      if($status !== null) {
   		  $queryParams['status'] = $this->apiClient->toQueryValue($status);
   		}
       
@@ -188,7 +188,7 @@ class PetApi {
       $headerParams['Content-Type'] = '';
 
       // query params
-      if($tags != null) {
+      if($tags !== null) {
   		  $queryParams['tags'] = $this->apiClient->toQueryValue($tags);
   		}
       
@@ -240,7 +240,7 @@ class PetApi {
       
       
       // path params
-      if($petId != null) {
+      if($petId !== null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
   			                            $this->apiClient->toPathValue($petId), $resourcePath);
   		}
@@ -293,15 +293,15 @@ class PetApi {
       
       
       // path params
-      if($petId != null) {
+      if($petId !== null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
   			                            $this->apiClient->toPathValue($petId), $resourcePath);
   		}
       
-      if ($name != null) {
+      if ($name !== null) {
         $formParams[name] = $name;
       }
-      if ($status != null) {
+      if ($status !== null) {
         $formParams[status] = $status;
       }
       
@@ -344,11 +344,11 @@ class PetApi {
 
       
       // header params
-      if($api_key != null) {
+      if($api_key !== null) {
   		 	$headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
   		}
       // path params
-      if($petId != null) {
+      if($petId !== null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
   			                            $this->apiClient->toPathValue($petId), $resourcePath);
   		}
@@ -373,13 +373,14 @@ class PetApi {
 	 * uploadFile
    *
 	 * uploads an image
-   * additionalMetadata, string: Additional data to pass to server (required)
+   * petId, int: ID of pet to update (required)
+   * * additionalMetadata, string: Additional data to pass to server (required)
    * * file, file: file to upload (required)
    * 
 	 * @return 
 	 */
 
-   public function uploadFile($additionalMetadata, $file) {
+   public function uploadFile($petId, $additionalMetadata, $file) {
 
   		// parse inputs
   		$resourcePath = "/pet/{petId}/uploadImage";
@@ -393,12 +394,16 @@ class PetApi {
 
       
       
+      // path params
+      if($petId !== null) {
+  			$resourcePath = str_replace("{" . "petId" . "}",
+  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  		}
       
-      
-      if ($additionalMetadata != null) {
+      if ($additionalMetadata !== null) {
         $formParams[additionalMetadata] = $additionalMetadata;
       }
-      if ($file != null) {
+      if ($file !== null) {
         $formParams[file] = '@' . $file;
       }
       

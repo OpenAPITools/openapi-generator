@@ -184,10 +184,10 @@ class UserApi {
       $headerParams['Content-Type'] = '';
 
       // query params
-      if($username != null) {
+      if($username !== null) {
   		  $queryParams['username'] = $this->apiClient->toQueryValue($username);
   		}// query params
-      if($password != null) {
+      if($password !== null) {
   		  $queryParams['password'] = $this->apiClient->toQueryValue($password);
   		}
       
@@ -279,7 +279,7 @@ class UserApi {
       
       
       // path params
-      if($username != null) {
+      if($username !== null) {
   			$resourcePath = str_replace("{" . "username" . "}",
   			                            $this->apiClient->toPathValue($username), $resourcePath);
   		}
@@ -331,7 +331,7 @@ class UserApi {
       
       
       // path params
-      if($username != null) {
+      if($username !== null) {
   			$resourcePath = str_replace("{" . "username" . "}",
   			                            $this->apiClient->toPathValue($username), $resourcePath);
   		}
@@ -380,7 +380,7 @@ class UserApi {
       
       
       // path params
-      if($username != null) {
+      if($username !== null) {
   			$resourcePath = str_replace("{" . "username" . "}",
   			                            $this->apiClient->toPathValue($username), $resourcePath);
   		}

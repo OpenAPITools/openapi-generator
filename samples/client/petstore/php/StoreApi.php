@@ -147,7 +147,7 @@ class StoreApi {
       
       
       // path params
-      if($orderId != null) {
+      if($orderId !== null) {
   			$resourcePath = str_replace("{" . "orderId" . "}",
   			                            $this->apiClient->toPathValue($orderId), $resourcePath);
   		}
@@ -198,7 +198,7 @@ class StoreApi {
       
       
       // path params
-      if($orderId != null) {
+      if($orderId !== null) {
   			$resourcePath = str_replace("{" . "orderId" . "}",
   			                            $this->apiClient->toPathValue($orderId), $resourcePath);
   		}

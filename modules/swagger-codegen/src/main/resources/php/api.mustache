@@ -49,20 +49,20 @@ class {{classname}} {
       $headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}';
 
       {{#queryParams}}// query params
-      if(${{paramName}} != null) {
+      if(${{paramName}} !== null) {
   		  $queryParams['{{paramName}}'] = $this->apiClient->toQueryValue(${{paramName}});
   		}{{/queryParams}}
       {{#headerParams}}// header params
-      if(${{paramName}} != null) {
+      if(${{paramName}} !== null) {
   		 	$headerParams['{{paramName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
   		}{{/headerParams}}
       {{#pathParams}}// path params
-      if(${{paramName}} != null) {
+      if(${{paramName}} !== null) {
   			$resourcePath = str_replace("{" . "{{paramName}}" . "}",
   			                            $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
   		}{{/pathParams}}
       {{#formParams}}
-      if (${{paramName}} != null) {
+      if (${{paramName}} !== null) {
         $formParams[{{paramName}}] = {{#isFile}}'@' . {{/isFile}}${{paramName}};
       }{{/formParams}}
       {{#bodyParams}}// body params
