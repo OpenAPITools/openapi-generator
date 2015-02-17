@@ -34,8 +34,9 @@ public class SwaggerResource {
 
   @GET
   @Path("/download/{fileId}")
-  @Produces({"application/zip", "application/json"})
-  @ApiOperation(value = "Downloads a pre-generated file", response = File.class)
+  @Produces({"application/zip"})
+  @ApiOperation(value = "Downloads a pre-generated file",
+    response = String.class)
   public Response downloadFile(@PathParam("fileId") String fileId) throws Exception {
     Generated g = fileMap.get(fileId);
     System.out.println("looking for fileId " + fileId);
@@ -57,7 +58,8 @@ public class SwaggerResource {
   @POST
   @Path("/clients/{language}")
   @Produces({"application/zip", "application/json"})
-  @ApiOperation(value = "Generates a client library based on the config")
+  @ApiOperation(
+    value = "Generates a client library based on the config")
   public Response generateClient(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
     @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
@@ -71,7 +73,8 @@ public class SwaggerResource {
       g.setFriendlyName(language + "-client");
       fileMap.put(code, g);
       System.out.println(code + ", " + filename);
-      return Response.ok().entity(new ResponseCode(code)).build();
+      String link = "http://generator.swagger.io/api/gen/download/" + code;
+      return Response.ok().entity(new ResponseCode(code, link)).build();
     }
     else {
       return Response.status(500).build();
@@ -120,7 +123,8 @@ public class SwaggerResource {
       g.setFriendlyName(framework + "-server");
       fileMap.put(code, g);
       System.out.println(code + ", " + filename);
-      return Response.ok().entity(new ResponseCode(code)).build();
+      String link = "http://generator.swagger.io/api/gen/download/" + code;
+      return Response.ok().entity(new ResponseCode(code, link)).build();
     }
     else {
       return Response.status(500).build();
