@@ -54,7 +54,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     supportingFiles.add(new SupportingFile("swagger.mustache", module, "swagger.py"));
     supportingFiles.add(new SupportingFile("__init__.mustache", module, "__init__.py"));
-    supportingFiles.add(new SupportingFile("__init__.mustache", modelPackage.replaceAll("\\.", File.separator), "__init__.py"));
+    supportingFiles.add(new SupportingFile("__init__.mustache", modelPackage.replace('.', File.separatorChar), "__init__.py"));
   }
 
   @Override
