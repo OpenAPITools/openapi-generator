@@ -91,7 +91,7 @@ It's just as easy--just use the `-i` flag to point to either a server or file.
 ### Modifying the client library format
 Don't like the default swagger client syntax?  Want a different language supported?  No problem!  Swagger codegen processes mustache templates with the [jmustache](https://github.com/samskivert/jmustache) engine.  You can modify our templates or make your own.
 
-You can look at `src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
+You can look at `modules/swagger-codegen/src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
 
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
