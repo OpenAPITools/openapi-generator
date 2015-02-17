@@ -1,19 +1,19 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.wordnik.com\">http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters",
+    "description": "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters",
     "version": "1.0.0",
     "title": "Swagger Petstore",
     "termsOfService": "http://helloreverb.com/terms/",
     "contact": {
-      "name": "apiteam@wordnik.com"
+      "email": "apiteam@wordnik.com"
     },
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "petstore.swagger.wordnik.com",
+  "host": "petstore.swagger.io",
   "basePath": "/v2",
   "schemes": [
     "http"
@@ -38,7 +38,7 @@
         "parameters": [
           {
             "in": "body",
-            "name": "pet",
+            "name": "body",
             "description": "Pet object that needs to be added to the store",
             "required": false,
             "schema": {
@@ -121,15 +121,16 @@
         ],
         "parameters": [
           {
-            "in": "query",
             "name": "status",
+            "in": "query",
             "description": "Status values that need to be considered for filter",
             "required": false,
             "type": "array",
             "items": {
               "type": "string"
             },
-            "collectionFormat": "multi"
+            "collectionFormat": "multi",
+            "default": "available"
           }
         ],
         "responses": {
@@ -170,8 +171,8 @@
         ],
         "parameters": [
           {
-            "in": "query",
             "name": "tags",
+            "in": "query",
             "description": "Tags to filter by",
             "required": false,
             "type": "array",
@@ -205,29 +206,6 @@
         ]
       }
     },
-    "/pet/{petId}/upload": {
-      "post": {
-        "tags": [ "pet" ],
-        "summary": "Upload an image for a pet",
-        "operationId": "uploadImage",
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "petImage",
-            "description": "image to upload",
-            "type": "file"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "it worked"
-          }
-        }
-      }  
-    },
     "/pet/{petId}": {
       "get": {
         "tags": [
@@ -242,8 +220,8 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "petId",
+            "in": "path",
             "description": "ID of pet that needs to be fetched",
             "required": true,
             "type": "integer",
@@ -292,24 +270,24 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "petId",
+            "in": "path",
             "description": "ID of pet that needs to be updated",
             "required": true,
             "type": "string"
           },
           {
-            "in": "formData",
             "name": "name",
+            "in": "formData",
             "description": "Updated name of the pet",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
-            "in": "formData",
             "name": "status",
+            "in": "formData",
             "description": "Updated status of the pet",
-            "required": true,
+            "required": false,
             "type": "string"
           }
         ],
@@ -340,15 +318,15 @@
         ],
         "parameters": [
           {
-            "in": "header",
             "name": "api_key",
+            "in": "header",
             "description": "",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
-            "in": "path",
             "name": "petId",
+            "in": "path",
             "description": "Pet id to delete",
             "required": true,
             "type": "integer",
@@ -366,6 +344,91 @@
               "write:pets",
               "read:pets"
             ]
+          }
+        ]
+      }
+    },
+    "/pet/{petId}/uploadImage": {
+      "post": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "uploads an image",
+        "description": "",
+        "operationId": "uploadFile",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of pet to update",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "additionalMetadata",
+            "in": "formData",
+            "description": "Additional data to pass to server",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/store/inventory": {
+      "get": {
+        "tags": [
+          "store"
+        ],
+        "summary": "Returns pet inventories by status",
+        "description": "Returns a map of status codes to quantities",
+        "operationId": "getInventory",
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
           }
         ]
       }
@@ -420,8 +483,8 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "orderId",
+            "in": "path",
             "description": "ID of pet that needs to be fetched",
             "required": true,
             "type": "string"
@@ -455,8 +518,8 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "orderId",
+            "in": "path",
             "description": "ID of the order that needs to be deleted",
             "required": true,
             "type": "string"
@@ -523,7 +586,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "User"
+                "$ref": "#/definitions/User"
               }
             }
           }
@@ -582,15 +645,15 @@
         ],
         "parameters": [
           {
-            "in": "query",
             "name": "username",
+            "in": "query",
             "description": "The user name for login",
             "required": false,
             "type": "string"
           },
           {
-            "in": "query",
             "name": "password",
+            "in": "query",
             "description": "The password for login in clear text",
             "required": false,
             "type": "string"
@@ -642,8 +705,8 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "username",
+            "in": "path",
             "description": "The name that needs to be fetched. Use user1 for testing. ",
             "required": true,
             "type": "string"
@@ -677,8 +740,8 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "username",
+            "in": "path",
             "description": "name that need to be deleted",
             "required": true,
             "type": "string"
@@ -715,8 +778,8 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "username",
+            "in": "path",
             "description": "The name that needs to be deleted",
             "required": true,
             "type": "string"
@@ -741,8 +804,12 @@
     },
     "petstore_auth": {
       "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.wordnik.com/api/oauth/dialog",
-      "flow": "implicit"
+      "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
     }
   },
   "definitions": {
@@ -750,53 +817,29 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
-          "xml": {
-            "name": "id"
-          }
+          "format": "int64"
         },
         "username": {
-          "type": "string",
-          "xml": {
-            "name": "username"
-          }
+          "type": "string"
         },
         "firstName": {
-          "type": "string",
-          "xml": {
-            "name": "firstName"
-          }
+          "type": "string"
         },
         "lastName": {
-          "type": "string",
-          "xml": {
-            "name": "lastName"
-          }
+          "type": "string"
         },
         "email": {
-          "type": "string",
-          "xml": {
-            "name": "email"
-          }
+          "type": "string"
         },
         "password": {
-          "type": "string",
-          "xml": {
-            "name": "password"
-          }
+          "type": "string"
         },
         "phone": {
-          "type": "string",
-          "xml": {
-            "name": "phone"
-          }
+          "type": "string"
         },
         "userStatus": {
           "type": "integer",
           "format": "int32",
-          "xml": {
-            "name": "userStatus"
-          },
           "description": "User Status"
         }
       },
@@ -808,16 +851,10 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
-          "xml": {
-            "name": "id"
-          }
+          "format": "int64"
         },
         "name": {
-          "type": "string",
-          "xml": {
-            "name": "name"
-          }
+          "type": "string"
         }
       },
       "xml": {
@@ -832,23 +869,14 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
-          "xml": {
-            "name": "id"
-          }
+          "format": "int64"
         },
         "category": {
-          "xml": {
-            "name": "category"
-          },
-          "$ref": "Category"
+          "$ref": "#/definitions/Category"
         },
         "name": {
           "type": "string",
-          "example": "doggie",
-          "xml": {
-            "name": "name"
-          }
+          "example": "doggie"
         },
         "photoUrls": {
           "type": "array",
@@ -867,15 +895,17 @@
             "wrapped": true
           },
           "items": {
-            "$ref": "Tag"
+            "$ref": "#/definitions/Tag"
           }
         },
         "status": {
           "type": "string",
-          "xml": {
-            "name": "status"
-          },
-          "description": "pet status in the store"
+          "description": "pet status in the store",
+          "enum": [
+            "available",
+            "pending",
+            "sold"
+          ]
         }
       },
       "xml": {
@@ -886,16 +916,10 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
-          "xml": {
-            "name": "id"
-          }
+          "format": "int64"
         },
         "name": {
-          "type": "string",
-          "xml": {
-            "name": "name"
-          }
+          "type": "string"
         }
       },
       "xml": {
@@ -906,38 +930,28 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
-          "xml": {
-            "name": "id"
-          }
+          "format": "int64"
         },
         "petId": {
           "type": "integer",
-          "format": "int64",
-          "xml": {
-            "name": "petId"
-          }
+          "format": "int64"
         },
         "quantity": {
           "type": "integer",
-          "format": "int32",
-          "xml": {
-            "name": "quantity"
-          }
+          "format": "int32"
         },
         "shipDate": {
           "type": "string",
-          "format": "date-time",
-          "xml": {
-            "name": "shipDate"
-          }
+          "format": "date-time"
         },
         "status": {
           "type": "string",
-          "xml": {
-            "name": "status"
-          },
-          "description": "Order Status"
+          "description": "Order Status",
+          "enum": [
+            "placed",
+            "approved",
+            "delivered"
+          ]
         },
         "complete": {
           "type": "boolean"
