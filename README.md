@@ -37,7 +37,7 @@ mvn package
 ```
 
 ### To generate a sample client library
-You can build a client against Wordnik's [petstore](http://petstore.swagger.io) API as follows:
+You can build a client against the swagger sample [petstore](http://petstore.swagger.io) API as follows:
 
 ```
 ./bin/java-petstore.sh
