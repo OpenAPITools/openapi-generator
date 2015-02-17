@@ -12,7 +12,7 @@ static bool cacheEnabled = false;
 static AFNetworkReachabilityStatus reachabilityStatus = AFNetworkReachabilityStatusNotReachable;
 static NSOperationQueue* sharedQueue;
 static void (^reachabilityChangeBlock)(int);
-static bool loggingEnabled = false;
+static bool loggingEnabled = true;
 
 +(void)setLoggingEnabled:(bool) state {
     loggingEnabled = state;
@@ -26,8 +26,8 @@ static bool loggingEnabled = false;
     cacheEnabled = enabled;
 }
 
-+(void)configureCacheWithMemoryAndDiskCapacity:(unsigned long) memorySize
-                                      diskSize:(unsigned long) diskSize {
++(void)configureCacheWithMemoryAndDiskCapacity: (unsigned long) memorySize
+                                      diskSize: (unsigned long) diskSize {
     NSAssert(memorySize > 0, @"invalid in-memory cache size");
     NSAssert(diskSize >= 0, @"invalid disk cache size");
     
@@ -234,32 +234,51 @@ static bool loggingEnabled = false;
     NSLog(@"request: %@  response: %@ ",  [self descriptionForRequest:request], data );
 }
 
-
--(NSNumber*)  dictionary:(NSString*) path
-                  method:(NSString*) method
-             queryParams:(NSDictionary*) queryParams
-                    body:(id) body
-            headerParams:(NSDictionary*) headerParams
-      requestContentType:(NSString*) requestContentType
-     responseContentType:(NSString*) responseContentType
-         completionBlock:(void (^)(NSDictionary*, NSError *))completionBlock {
+-(NSNumber*)  dictionary: (NSString*) path
+                  method: (NSString*) method
+             queryParams: (NSDictionary*) queryParams
+                    body: (id) body
+            headerParams: (NSDictionary*) headerParams
+      requestContentType: (NSString*) requestContentType
+     responseContentType: (NSString*) responseContentType
+         completionBlock: (void (^)(NSDictionary*, NSError *))completionBlock {
     
     NSMutableURLRequest * request = nil;
-    
-    if ([body isKindOfClass:[SWGFile class]]){
-        SWGFile * file = (SWGFile*) body;
+    if (body != nil && [body isKindOfClass:[NSArray class]]){
+        SWGFile * file;
+        NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
+        for(id obj in body) {
+            if([obj isKindOfClass:[SWGFile class]]) {
+                file = (SWGFile*) obj;
+                requestContentType = @"multipart/form-data";
+            }
+            else if([obj isKindOfClass:[NSDictionary class]]) {
+                for(NSString * key in obj) {
+                    params[key] = obj[key];
+                }
+            }
+        }
         NSString * urlString = [[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString];
         
-        request = [self.requestSerializer multipartFormRequestWithMethod:@"POST"
-                                                               URLString:urlString
-                                                              parameters:nil
-                                               constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                                                   [formData appendPartWithFileData:[file data]
-                                                                               name:@"image"
-                                                                           fileName:[file name]
-                                                                           mimeType:[file mimeType]];
-                                               }
-                                                                   error:nil];
+        if(file != nil) {
+            request = [self.requestSerializer multipartFormRequestWithMethod: @"POST"
+                                                                   URLString: urlString
+                                                                  parameters: nil
+                                                   constructingBodyWithBlock: ^(id<AFMultipartFormData> formData) {
+
+                                                       for(NSString * key in params) {
+                                                           NSData* data = [params[key] dataUsingEncoding:NSUTF8StringEncoding];
+                                                           [formData appendPartWithFormData: data name: key];
+                                                       }
+                                                       
+                                                       [formData appendPartWithFileData: [file data]
+                                                                                   name: [file paramName]
+                                                                               fileName: [file name]
+                                                                               mimeType: [file mimeType]];
+                                                       
+                                                   }
+                                                                       error:nil];
+        }
     }
     else {
         NSString * pathWithQueryParams = [self pathWithQueryParamsToString:path queryParams:queryParams];
@@ -286,9 +305,11 @@ static bool loggingEnabled = false;
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
+    AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+
     if(body != nil) {
         if([body isKindOfClass:[NSDictionary class]] || [body isKindOfClass:[NSArray class]]){
-            [request setValue:requestContentType forHTTPHeaderField:@"Content-Type"];
+            [requestSerializer setValue:requestContentType forHTTPHeaderField:@"Content-Type"];
         }
         else if ([body isKindOfClass:[SWGFile class]]) {}
         else {
@@ -300,7 +321,7 @@ static bool loggingEnabled = false;
             [request setValue:[headerParams valueForKey:key] forHTTPHeaderField:key];
         }
     }
-    [request setValue:[headerParams valueForKey:responseContentType] forHTTPHeaderField:@"Accept"];
+    [requestSerializer setValue:responseContentType forHTTPHeaderField:@"Accept"];
     
     // Always disable cookies!
     [request setHTTPShouldHandleCookies:NO];
@@ -339,39 +360,59 @@ static bool loggingEnabled = false;
     return requestId;
 }
 
--(NSNumber*)  stringWithCompletionBlock:(NSString*) path
-                                 method:(NSString*) method
-                            queryParams:(NSDictionary*) queryParams
-                                   body:(id) body
-                           headerParams:(NSDictionary*) headerParams
-                     requestContentType:(NSString*) requestContentType
-                    responseContentType:(NSString*) responseContentType
-                        completionBlock:(void (^)(NSString*, NSError *))completionBlock {
+-(NSNumber*)  stringWithCompletionBlock: (NSString*) path
+                                 method: (NSString*) method
+                            queryParams: (NSDictionary*) queryParams
+                                   body: (id) body
+                           headerParams: (NSDictionary*) headerParams
+                     requestContentType: (NSString*) requestContentType
+                    responseContentType: (NSString*) responseContentType
+                        completionBlock: (void (^)(NSString*, NSError *))completionBlock {
     NSMutableURLRequest * request = nil;
-    
-    if ([body isKindOfClass:[SWGFile class]]){
-        SWGFile * file = (SWGFile*) body;
+    if (body != nil && [body isKindOfClass:[NSArray class]]){
+        SWGFile * file;
+        NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
+        for(id obj in body) {
+            if([obj isKindOfClass:[SWGFile class]]) {
+                file = (SWGFile*) obj;
+                requestContentType = @"multipart/form-data";
+            }
+            else if([obj isKindOfClass:[NSDictionary class]]) {
+                for(NSString * key in obj) {
+                    params[key] = obj[key];
+                }
+            }
+        }
         NSString * urlString = [[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString];
         
-        request = [self.requestSerializer multipartFormRequestWithMethod:@"POST"
-                                                               URLString:urlString
-                                                              parameters:nil
-                                               constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                                                   [formData appendPartWithFileData:[file data]
-                                                                               name:@"image"
-                                                                           fileName:[file name]
-                                                                           mimeType:[file mimeType]];
-                                               }
-                                                                   error:nil];
+        if(file != nil) {
+            request = [self.requestSerializer multipartFormRequestWithMethod: @"POST"
+                                                                   URLString: urlString
+                                                                  parameters: nil
+                                                   constructingBodyWithBlock: ^(id<AFMultipartFormData> formData) {
+                                                       
+                                                       for(NSString * key in params) {
+                                                           NSData* data = [params[key] dataUsingEncoding:NSUTF8StringEncoding];
+                                                           [formData appendPartWithFormData: data name: key];
+                                                       }
+                                                       
+                                                       [formData appendPartWithFileData: [file data]
+                                                                                   name: [file paramName]
+                                                                               fileName: [file name]
+                                                                               mimeType: [file mimeType]];
+                                                       
+                                                   }
+                                                                       error:nil];
+        }
     }
     else {
         NSString * pathWithQueryParams = [self pathWithQueryParamsToString:path queryParams:queryParams];
         NSString * urlString = [[NSURL URLWithString:pathWithQueryParams relativeToURL:self.baseURL] absoluteString];
         
-        request = [self.requestSerializer requestWithMethod:method
-                                                  URLString:urlString
-                                                 parameters:body
-                                                      error:nil];
+        request = [self.requestSerializer requestWithMethod: method
+                                                  URLString: urlString
+                                                 parameters: body
+                                                      error: nil];
     }
     BOOL hasHeaderParams = false;
     if(headerParams != nil && [headerParams count] > 0)
@@ -389,9 +430,12 @@ static bool loggingEnabled = false;
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
     
+    
+    AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+
     if(body != nil) {
-        if([body isKindOfClass:[NSDictionary class]]){
-            [request setValue:requestContentType forHTTPHeaderField:@"Content-Type"];
+        if([body isKindOfClass:[NSDictionary class]] || [body isKindOfClass:[NSArray class]]){
+            [requestSerializer setValue:requestContentType forHTTPHeaderField:@"Content-Type"];
         }
         else if ([body isKindOfClass:[SWGFile class]]){}
         else {
@@ -403,7 +447,8 @@ static bool loggingEnabled = false;
             [request setValue:[headerParams valueForKey:key] forHTTPHeaderField:key];
         }
     }
-    [request setValue:[headerParams valueForKey:responseContentType] forHTTPHeaderField:@"Accept"];
+    [requestSerializer setValue:responseContentType forHTTPHeaderField:@"Accept"];
+
     
     // Always disable cookies!
     [request setHTTPShouldHandleCookies:NO];

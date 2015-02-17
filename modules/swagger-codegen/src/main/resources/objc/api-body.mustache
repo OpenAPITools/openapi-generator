@@ -53,7 +53,7 @@ static NSString * basePath = @"{{basePath}}";
 
 
 {{#operation}}
--(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}}
+-(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
         {{/allParams}}
         {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{returnType}} output, NSError* error))completionBlock{{/returnBaseType}}
         {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock{{/returnBaseType}} {
@@ -103,20 +103,27 @@ static NSString * basePath = @"{{basePath}}";
         NSError * error;
         NSString * str = (NSString*)__body;
         NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
-                                            options:NSJSONReadingMutableContainers
-                                              error:&error];
+            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
+                                            options: NSJSONReadingMutableContainers
+                                              error: &error];
         bodyDictionary = JSON;
     }
-    else if([__body isKindOfClass: [SWGFile class]]) {
-        requestContentType = @"form-data";
-        bodyDictionary = __body;
-    }
-    else{
-        NSLog(@"don't know what to do with %@", __body);
-    }
     {{/bodyParam}}
-    
+    {{^bodyParam}}
+    bodyDictionary = [[NSMutableArray alloc] init];
+
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+
+    {{#formParams}}{{#notFile}}
+    formParams[@"{{paramName}}"] = {{paramName}};
+    {{/notFile}}{{#isFile}}
+    requestContentType = @"multipart/form-data";
+    [bodyDictionary addObject:{{paramName}}];
+    {{paramName}}.paramName  = @"{{baseName}}";
+    {{/isFile}}{{/formParams}}
+    [bodyDictionary addObject:formParams];
+    {{/bodyParam}}
+
     {{#requiredParamCount}}
     {{#requiredParams}}
     if({{paramName}} == nil) {

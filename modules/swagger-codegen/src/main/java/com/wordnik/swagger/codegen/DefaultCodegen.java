@@ -641,6 +641,10 @@ public class DefaultCodegen {
       op.returnType = cm.datatype;
       if(cm.isContainer != null) {
         op.returnContainer = cm.containerType;
+        if("map".equals(cm.containerType))
+          op.isMapContainer = Boolean.TRUE;
+        else if ("list".equalsIgnoreCase(cm.containerType))
+          op.isListContainer = Boolean.TRUE;
       }
       else
         op.returnSimpleType = true;
@@ -697,7 +701,7 @@ public class DefaultCodegen {
           bodyParams.add(p.copy());
         }
         else if(param instanceof FormParameter) {
-          if("file".equalsIgnoreCase(p.dataType))
+          if("file".equalsIgnoreCase(((FormParameter)param).getType()))
             p.isFile = true;
           else
             p.notFile = true;
