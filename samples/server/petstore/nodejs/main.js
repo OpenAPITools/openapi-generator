@@ -32,8 +32,8 @@ swagger.configureSwaggerPaths("", "api-docs", "")
 var models = require("./app/models.js");
 
 var UserApi = require("./app/apis/UserApi.js");
-var PetApi = require("./app/apis/PetApi.js");
 var StoreApi = require("./app/apis/StoreApi.js");
+var PetApi = require("./app/apis/PetApi.js");
 
 swagger.addModels(models)
   .addPOST(UserApi.createUser)
@@ -44,6 +44,10 @@ swagger.addModels(models)
   .addGET(UserApi.getUserByName)
   .addPUT(UserApi.updateUser)
   .addDELETE(UserApi.deleteUser)
+  .addGET(StoreApi.getInventory)
+  .addPOST(StoreApi.placeOrder)
+  .addGET(StoreApi.getOrderById)
+  .addDELETE(StoreApi.deleteOrder)
   .addPUT(PetApi.updatePet)
   .addPOST(PetApi.addPet)
   .addGET(PetApi.findPetsByStatus)
@@ -52,10 +56,6 @@ swagger.addModels(models)
   .addPOST(PetApi.updatePetWithForm)
   .addDELETE(PetApi.deletePet)
   .addPOST(PetApi.uploadFile)
-  .addGET(StoreApi.getInventory)
-  .addPOST(StoreApi.placeOrder)
-  .addGET(StoreApi.getOrderById)
-  .addDELETE(StoreApi.deleteOrder)
   ;
 
 // configures the app
