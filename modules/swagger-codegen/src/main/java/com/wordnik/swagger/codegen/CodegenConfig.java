@@ -6,6 +6,7 @@ import com.wordnik.swagger.models.properties.*;
 import java.util.*;
 
 public interface CodegenConfig {
+  CodegenType getTag();
   String getName();
   String getHelp();
   Map<String, Object> additionalProperties();
