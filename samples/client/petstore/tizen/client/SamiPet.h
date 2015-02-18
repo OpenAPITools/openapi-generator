@@ -17,9 +17,9 @@
 using namespace Tizen::Web::Json;
 
 
+#include "SamiCategory.h"
 using Tizen::Base::Long;
 using Tizen::Base::String;
-#include "SamiCategory.h"
 #include "SamiTag.h"
 using Tizen::Base::Collection::IList;
 
