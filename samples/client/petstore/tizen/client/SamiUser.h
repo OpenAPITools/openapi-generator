@@ -17,9 +17,9 @@
 using namespace Tizen::Web::Json;
 
 
-using Tizen::Base::Integer;
 using Tizen::Base::Long;
 using Tizen::Base::String;
+using Tizen::Base::Integer;
 
 
 namespace Swagger {

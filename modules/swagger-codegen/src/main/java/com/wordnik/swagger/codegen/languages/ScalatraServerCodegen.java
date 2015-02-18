@@ -128,11 +128,11 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override
