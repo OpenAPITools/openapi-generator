@@ -114,6 +114,7 @@ public class DefaultGenerator implements Generator {
         operation.put("modelPackage", config.modelPackage());
         operation.putAll(config.additionalProperties());
         operation.put("classname", config.toApiName(tag));
+        operation.put("classVarName", config.toApiVarName(tag));
         allOperations.add(operation);
         for(String templateName : config.apiTemplateFiles().keySet()) {
           String suffix = config.apiTemplateFiles().get(templateName);
@@ -153,7 +154,7 @@ public class DefaultGenerator implements Generator {
       }
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
-      bundle.put("apiFolder", config.apiPackage().replaceAll("\\.", "/"));
+      bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
       bundle.put("modelPackage", config.modelPackage());
       if (swagger.getExternalDocs() != null) {
         bundle.put("externalDocs", swagger.getExternalDocs());
