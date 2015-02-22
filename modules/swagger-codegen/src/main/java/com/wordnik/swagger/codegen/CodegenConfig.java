@@ -18,6 +18,7 @@ public interface CodegenConfig {
   String modelFileFolder();
   String modelPackage();
   String toApiName(String name);
+  String toApiVarName(String name);
   String toModelName(String name);
   String toParamName(String name);
   String escapeReservedWord(String name);
