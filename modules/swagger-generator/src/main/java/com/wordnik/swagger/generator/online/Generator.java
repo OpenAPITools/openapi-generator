@@ -82,14 +82,24 @@ public class Generator {
 
   public static String generateServer(String language, GeneratorInput opts) throws ApiException {
     LOGGER.debug("generate server for " + language);
+    Swagger swagger;
+    if(opts == null) {
+      throw new BadRequestException(400, "No options were supplied");
+    }
     if(opts == null) {
       throw new BadRequestException(400, "No options were supplied");
     }
     JsonNode node = opts.getSpec();
     if(node == null) {
-      throw new BadRequestException(400, "No swagger specification was supplied");
+      if(opts.getSwaggerUrl() != null) {
+        swagger = new SwaggerParser().read(opts.getSwaggerUrl());
+      }
+      else 
+        throw new BadRequestException(400, "No swagger specification was supplied");
     }
-    Swagger swagger = new SwaggerParser().read(node);
+    else {
+      swagger = new SwaggerParser().read(node);
+    }
     if(swagger == null) {
       throw new BadRequestException(400, "The swagger specification supplied was not valid");
     }
