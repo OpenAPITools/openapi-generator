@@ -1,6 +1,6 @@
-organization := "{{package}}"
+organization := ""
 
-name := "{{projectName}}-client"
+name := "-client"
 
 libraryDependencies += "com.wordnik.swagger" %% "swagger-async-httpclient" % "0.3.5"
 

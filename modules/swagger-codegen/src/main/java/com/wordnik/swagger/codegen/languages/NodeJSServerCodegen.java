@@ -89,11 +89,11 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + File.separator + apiPackage().replaceAll("\\.", File.separator);
+    return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + File.separator + modelPackage().replaceAll("\\.", File.separator);
+    return outputFolder + File.separator + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override
