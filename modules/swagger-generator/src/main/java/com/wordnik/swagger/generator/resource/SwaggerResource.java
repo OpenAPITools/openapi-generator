@@ -36,7 +36,8 @@ public class SwaggerResource {
   @Path("/download/{fileId}")
   @Produces({"application/zip"})
   @ApiOperation(value = "Downloads a pre-generated file",
-    response = String.class)
+    response = String.class,
+    tags = {@Tag(value = "clients"), @Tag(value = "servers")})
   public Response downloadFile(@PathParam("fileId") String fileId) throws Exception {
     Generated g = fileMap.get(fileId);
     System.out.println("looking for fileId " + fileId);
@@ -59,7 +60,9 @@ public class SwaggerResource {
   @Path("/clients/{language}")
   @Produces({"application/zip", "application/json"})
   @ApiOperation(
-    value = "Generates a client library based on the config")
+    value = "Generates a client library based on the config",
+    response = ResponseCode.class,
+    tags = {@Tag(value = "clients", description = "client operations")})
   public Response generateClient(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
     @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
@@ -85,7 +88,8 @@ public class SwaggerResource {
   @Path("/clients")
   @ApiOperation(value = "Gets languages supported by the client generator",
     response = String.class,
-    responseContainer = "List")
+    responseContainer = "List",
+    tags = {@Tag(value = "clients", description = "client operations")})
   public Response clientOptions() {
     String[] languages = new String[clients.size()];
     languages = clients.toArray(languages);
@@ -96,7 +100,8 @@ public class SwaggerResource {
   @Path("/servers")
   @ApiOperation(value = "Gets languages supported by the server generator",
     response = String.class,
-    responseContainer = "List")
+    responseContainer = "List",
+    tags = {@Tag(value = "servers", description = "server operations")})
   public Response serverOptions() {
     String[] languages = new String[servers.size()];
     languages = servers.toArray(languages);
@@ -106,7 +111,8 @@ public class SwaggerResource {
   @POST
   @Path("/servers/{framework}")
   @ApiOperation(value = "Generates a server library for the supplied server framework",
-    notes = "The model representing this is not accurate, it needs to contain a consolidated JSON structure")
+    response = ResponseCode.class,
+    tags = {@Tag(value = "servers", description = "server operations")})
   public Response generateServerForLanguage(
     @ApiParam(value = "framework", allowableValues = "jaxrs,nodejs", required = true) @PathParam("framework") String framework,
     @ApiParam(value = "parameters", required = true) GeneratorInput opts)
