@@ -34,7 +34,7 @@ public class SwaggerResource {
 
   @GET
   @Path("/download/{fileId}")
-  @Produces({"application/zip"})
+  @Produces({MediaType.APPLICATION_OCTET_STREAM})
   @ApiOperation(value = "Downloads a pre-generated file",
     response = String.class,
     tags = {@Tag(value = "clients"), @Tag(value = "servers")})
@@ -58,7 +58,6 @@ public class SwaggerResource {
 
   @POST
   @Path("/clients/{language}")
-  @Produces({"application/zip", "application/json"})
   @ApiOperation(
     value = "Generates a client library based on the config",
     response = ResponseCode.class,
