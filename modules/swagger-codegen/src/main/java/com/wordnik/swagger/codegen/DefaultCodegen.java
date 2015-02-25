@@ -519,16 +519,20 @@ public class DefaultCodegen {
         property.isPrimitiveType = true;
     }
     else {
-      property.isNotContainer = true;
-      if(languageSpecificPrimitives().contains(type))
-        property.isPrimitiveType = true;
-      else
-        property.complexType = property.baseType;
+        setNonArrayMapProperty(property, type);
     }
     return property;
   }
 
-  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation){
+    protected void setNonArrayMapProperty(CodegenProperty property, String type) {
+        property.isNotContainer = true;
+        if(languageSpecificPrimitives().contains(type))
+          property.isPrimitiveType = true;
+        else
+          property.complexType = property.baseType;
+    }
+
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation){
     CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
     Set<String> imports = new HashSet<String>();
 
