@@ -6,5 +6,10 @@ public class CodegenResponse {
   public String code, message;
   public Boolean hasMore;
   public List<Map<String, String>> examples;
+  public String dataType, baseType, containerType;
+  public Boolean simpleType;
+  public Boolean primitiveType;
+  public Boolean isMapContainer;
+  public Boolean isListContainer;
   Object schema;
 }

@@ -752,6 +752,40 @@ public class DefaultCodegen {
     r.message = response.getDescription();
     r.schema = response.getSchema();
     r.examples = toExamples(response.getExamples());
+
+    if (r.schema != null) {
+      Property responseProperty = response.getSchema();
+      responseProperty.setRequired(true);
+      CodegenProperty cm = fromProperty("response", responseProperty);
+
+      if(responseProperty instanceof ArrayProperty) {
+        ArrayProperty ap = (ArrayProperty) responseProperty;
+        CodegenProperty innerProperty = fromProperty("response", ap.getItems());
+        r.baseType = innerProperty.baseType;
+      }
+      else {
+        if(cm.complexType != null)
+          r.baseType = cm.complexType;
+        else
+          r.baseType = cm.baseType;
+      }
+      r.dataType = cm.datatype;
+      if(cm.isContainer != null) {
+        r.simpleType = false;
+        r.containerType = cm.containerType;
+        r.isMapContainer = "map".equals(cm.containerType);
+        r.isListContainer = "list".equals(cm.containerType);
+      }
+      else
+        r.simpleType  = true;
+      r.primitiveType = (r.baseType == null ||languageSpecificPrimitives().contains(r.baseType));
+    }
+    if (r.baseType == null) {
+      r.isMapContainer = false;
+      r.isListContainer = false;
+      r.primitiveType = true;
+      r.simpleType = true;
+    }
     return r;
   }
 
