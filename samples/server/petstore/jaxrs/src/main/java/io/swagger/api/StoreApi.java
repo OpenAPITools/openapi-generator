@@ -2,7 +2,12 @@ package io.swagger.api;
 
 import io.swagger.model.*;
 
-import com.wordnik.swagger.annotations.*;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import com.sun.jersey.multipart.FormDataParam;
 
 import java.util.Map;
