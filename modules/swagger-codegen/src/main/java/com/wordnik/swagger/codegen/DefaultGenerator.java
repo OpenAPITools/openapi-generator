@@ -150,7 +150,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       Map<String, Object> apis = new HashMap<String, Object>();
       apis.put("apis", allOperations);
       if(swagger.getBasePath() != null) {
-        bundle.put("basePath", swagger.getBasePath());
+        bundle.put("basePath", basePath);
       }
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
