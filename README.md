@@ -93,6 +93,17 @@ Don't like the default swagger client syntax?  Want a different language support
 
 You can look at `modules/swagger-codegen/src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
 
+### Making your own codegen modules
+If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
+
+```
+java -cp modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.3-M1-SNAPSHOT.jar \
+  com.wordnik.swagger.codegen.MetaGenerator \
+  -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
+```
+
+This will write, in the folder `output/myLibrary`, all the files you need to get started, including a README.md.  Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
+
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
 static code generation.
