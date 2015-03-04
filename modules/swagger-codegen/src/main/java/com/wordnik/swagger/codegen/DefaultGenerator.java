@@ -1,6 +1,7 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
+import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.util.*;
 import com.samskivert.mustache.*;
 
@@ -227,20 +228,49 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     return ops;
   }
 
+  public SecuritySchemeDefinition fromSecurity(String name) {
+    Map<String, SecuritySchemeDefinition> map = swagger.getSecurityDefinitions();
+    if(map == null)
+      return null;
+    SecuritySchemeDefinition scheme = map.get(name);
+    if(scheme == null)
+      return null;
+    return scheme;
+  }
+
+
+
   public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations) {
     if(operation != null) {
       List<String> tags = operation.getTags();
-      if(tags == null) {
+      if (tags == null) {
         tags = new ArrayList<String>();
         tags.add("default");
       }
 
-      for(String tag : tags) {
+      for (String tag : tags) {
         CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation);
         co.tags = new ArrayList<String>();
         co.tags.add(sanitizeTag(tag));
-
         config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
+
+        List<Map<String, List<String>>> securities = operation.getSecurity();
+        if(securities == null)
+          continue;
+        Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
+        for (Map<String, List<String>> security : securities) {
+          if (security.size() != 1) {
+            //Not sure what to do
+            continue;
+          }
+          String securityName =  security.keySet().iterator().next();
+          SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
+          if(securityDefinition != null)
+            authMethods.put(securityName, securityDefinition);
+        }
+        if(!authMethods.isEmpty()) {
+          co.authMethods = config.fromSecurity(authMethods);
+        }
       }
     }
   }

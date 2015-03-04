@@ -1,6 +1,7 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
+import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.Json;
@@ -878,6 +879,23 @@ public class DefaultCodegen {
       p.paramName = toParamName(bp.getName());
     }
     return p;
+  }
+
+  public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
+    if(schemes == null)
+      return null;
+
+    List<CodegenSecurity> secs = new ArrayList<CodegenSecurity>();
+    for(Iterator entries = schemes.entrySet().iterator(); entries.hasNext(); ) {
+      Map.Entry<String, SecuritySchemeDefinition> entry = (Map.Entry<String, SecuritySchemeDefinition>) entries.next();
+
+      CodegenSecurity sec = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
+      sec.name = entry.getKey();
+      sec.type = entry.getValue().getType();
+      sec.hasMore = entries.hasNext();
+      secs.add(sec);
+    }
+    return secs;
   }
 
   protected List<Map<String, String>> toExamples(Map<String, String> examples) {
