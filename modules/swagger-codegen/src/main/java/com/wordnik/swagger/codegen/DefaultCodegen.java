@@ -4,14 +4,12 @@ import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.Json;
-
 import org.apache.commons.lang.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
 import java.io.File;
+import java.util.*;
 
 public class DefaultCodegen {
   Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -439,6 +437,19 @@ public class DefaultCodegen {
     return m;
   }
 
+    public static String getterAndSetterCapitalize(String name) {
+        if (name == null || name.length() == 0) {
+            return name;
+        }
+        if (name.length() > 1 && Character.isUpperCase(name.charAt(1)) &&
+                Character.isLowerCase(name.charAt(0))){
+            return name;
+        }
+        char chars[] = name.toCharArray();
+        chars[0] = Character.toUpperCase(chars[0]);
+        return new String(chars);
+    }
+
   public CodegenProperty fromProperty(String name, Property p) {
     if(p == null) {
       LOGGER.error("unexpected missing property for name " + null);
@@ -449,8 +460,8 @@ public class DefaultCodegen {
     property.name = toVarName(name);
     property.baseName = name;
     property.description = escapeText(p.getDescription());
-    property.getter = "get" + initialCaps(name);
-    property.setter = "set" + initialCaps(name);
+    property.getter = "get" + getterAndSetterCapitalize(name);
+    property.setter = "set" + getterAndSetterCapitalize(name);
     property.example = p.getExample();
     property.defaultValue = toDefaultValue(p);
 
