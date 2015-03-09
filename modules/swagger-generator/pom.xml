@@ -221,20 +221,12 @@
     </dependency>
   </dependencies>
   <properties>
-    <felix-version>2.3.4</felix-version>
     <servlet-api-version>2.5</servlet-api-version>
     <logback-version>1.0.1</logback-version>
-    <junit-version>4.8.1</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
-    <commons-lang-version>2.4</commons-lang-version>
-    <slf4j-version>1.6.3</slf4j-version>
     <servlet-api-version>2.5</servlet-api-version>
     <zip-version>1.3.2</zip-version>
     <jetty-version>9.0.7.v20131107</jetty-version>
     <jersey2-version>2.4.1</jersey2-version>
-    <swagger-core-version>1.5.2-M1</swagger-core-version>
-
-    <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
-    <scala-version>2.10.0</scala-version>
   </properties>
 </project>
