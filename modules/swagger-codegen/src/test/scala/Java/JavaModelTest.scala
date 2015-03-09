@@ -124,6 +124,37 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).isContainer should equal (true)
   }
 
+
+  ignore should "convert a model with a map with complex list property" in {
+    val model = new ModelImpl()
+      .description("a sample model")
+      .property("translations", new MapProperty()
+        .additionalProperties(
+          new ArrayProperty().items(new RefProperty("Pet")))
+        )
+      .required("id")
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+
+    cm.name should be ("sample")
+    cm.classname should be ("Sample")
+    cm.description should be ("a sample model")
+    cm.vars.size should be (1)
+
+    val vars = cm.vars
+    vars.get(0).baseName should be ("translations")
+    vars.get(0).getter should be ("getTranslations")
+    vars.get(0).setter should be ("setTranslations")
+    vars.get(0).datatype should be ("Map<String, List<Pet>>")
+    vars.get(0).name should be ("translations")
+    vars.get(0).defaultValue should be ("new HashMap<String, List<Pet>>() ")
+    vars.get(0).baseType should be ("Map")
+    vars.get(0).containerType should be ("map")
+    vars.get(0).required should equal (false)
+    vars.get(0).isContainer should equal (true)
+  }
+
   it should "convert a model with complex properties" in {
     val model = new ModelImpl()
       .description("a sample model")
@@ -259,6 +290,32 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be ("setNAME")
     vars.get(0).datatype should be ("String")
     vars.get(0).name should be ("NAME")
+    vars.get(0).defaultValue should be ("null")
+    vars.get(0).baseType should be ("String")
+    vars.get(0).hasMore should equal (null)
+    vars.get(0).required should equal (true)
+    vars.get(0).isNotContainer should equal (true)
+  }
+
+  it should "convert a model with a 2nd char upper-case property names" in {
+    val model = new ModelImpl()
+      .description("a model with a 2nd char upper-case property names")
+      .property("pId", new StringProperty())
+      .required("pId")
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+
+    cm.name should be ("sample")
+    cm.classname should be ("Sample")
+    cm.vars.size should be (1)
+
+    val vars = cm.vars
+    vars.get(0).baseName should be ("pId")
+    vars.get(0).getter should be ("getpId")
+    vars.get(0).setter should be ("setpId")
+    vars.get(0).datatype should be ("String")
+    vars.get(0).name should be ("pId")
     vars.get(0).defaultValue should be ("null")
     vars.get(0).baseType should be ("String")
     vars.get(0).hasMore should equal (null)
