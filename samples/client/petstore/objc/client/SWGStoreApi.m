@@ -5,9 +5,8 @@
 
 
 
-
 @implementation SWGStoreApi
-static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
+static NSString * basePath = @"http://petstore.swagger.io/v2";
 
 +(SWGStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGStoreApi* singletonAPI = nil;
@@ -51,88 +50,70 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
 }
 
 
--(NSNumber*) getOrderByIdWithCompletionBlock:(NSString*) orderId
-        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock{
+-(NSNumber*) getInventoryWithCompletionBlock: 
+        (void (^)(NSDictionary* output, NSError* error))completionBlock
+         {
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
-
-    // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
-    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"orderId", @"}"]] withString: [SWGApiClient escape:orderId]];
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
-
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
-    id bodyDictionary = nil;
-        if(orderId == nil) {
-        // error
-    }
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
-    return [client dictionary:requestUrl 
-                              method:@"GET" 
-                         queryParams:queryParams 
-                                body:bodyDictionary 
-                        headerParams:headerParams
-                  requestContentType:requestContentType
-                 responseContentType:responseContentType
-                     completionBlock:^(NSDictionary *data, NSError *error) {
-                        if (error) {
-                            completionBlock(nil, error);return;
-                        }
-                        SWGOrder *result = nil;
-                        if (data) {
-                            result = [[SWGOrder alloc]initWithValues: data];
-                        }
-                        completionBlock(result , nil);}];
-    
-
-}
-
--(NSNumber*) deleteOrderWithCompletionBlock:(NSString*) orderId
-        completionHandler: (void (^)(NSError* error))completionBlock{
-
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/inventory", basePath];
 
     // remove format in URL if needed
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"orderId", @"}"]] withString: [SWGApiClient escape:orderId]];
+    
+
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
-    id bodyDictionary = nil;
-        if(orderId == nil) {
-        // error
-    }
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"DELETE" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
-                        if (error) {
-                            completionBlock(error);
-                            return;
-                        }
-                        completionBlock(nil);
-                    }];
     
 
+    id bodyDictionary = nil;
+    
+    
+    bodyDictionary = [[NSMutableArray alloc] init];
+
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+
+    
+    [bodyDictionary addObject:formParams];
+    
+
+    
+
+    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
+
+        // map container response type
+    return [client dictionary: requestUrl 
+                       method: @"GET" 
+                  queryParams: queryParams 
+                         body: bodyDictionary 
+                 headerParams: headerParams
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+              completionBlock: ^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    return;
+                }
+                
+                NSDictionary *result = nil;
+                if (data) {
+                    result = [[NSDictionary alloc]initWithDictionary: data];
+                }
+                completionBlock(data, nil);
+                
+            }];
+    
+    
 }
 
--(NSNumber*) placeOrderWithCompletionBlock:(SWGOrder*) body
-        completionHandler: (void (^)(NSError* error))completionBlock{
+-(NSNumber*) placeOrderWithCompletionBlock: (SWGOrder*) body
+        
+        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
+         {
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order", basePath];
 
@@ -140,15 +121,23 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
+    
+
     NSString* requestContentType = @"application/json";
     NSString* responseContentType = @"application/json";
 
-        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    
+
     id bodyDictionary = nil;
-        if(body != nil && [body isKindOfClass:[NSArray class]]){
+    
+    id __body = body;
+
+    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)body) {
+        for (id dict in (NSArray*)__body) {
             if([dict respondsToSelector:@selector(asDictionary)]) {
                 [objs addObject:[(SWGObject*)dict asDictionary]];
             }
@@ -158,48 +147,184 @@ static NSString * basePath = @"http://petstore.swagger.wordnik.com/api";
         }
         bodyDictionary = objs;
     }
-    else if([body respondsToSelector:@selector(asDictionary)]) {
-        bodyDictionary = [(SWGObject*)body asDictionary];
+    else if([__body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)__body asDictionary];
     }
-    else if([body isKindOfClass:[NSString class]]) {
+    else if([__body isKindOfClass:[NSString class]]) {
         // convert it to a dictionary
         NSError * error;
-        NSString * str = (NSString*)body;
+        NSString * str = (NSString*)__body;
         NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
-                                            options:NSJSONReadingMutableContainers
-                                              error:&error];
+            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
+                                            options: NSJSONReadingMutableContainers
+                                              error: &error];
         bodyDictionary = JSON;
     }
-    else if([body isKindOfClass: [SWGFile class]]) {
-        requestContentType = @"form-data";
-        bodyDictionary = body;
-    }
-    else{
-        NSLog(@"don't know what to do with %@", body);
-    }
-
-    if(body == nil) {
-        // error
-    }
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
-    return [client stringWithCompletionBlock:requestUrl 
-                                             method:@"POST" 
-                                        queryParams:queryParams 
-                                               body:bodyDictionary 
-                                       headerParams:headerParams
-                                 requestContentType: requestContentType
-                                responseContentType: responseContentType
-                                    completionBlock:^(NSString *data, NSError *error) {
-                        if (error) {
-                            completionBlock(error);
-                            return;
-                        }
-                        completionBlock(nil);
-                    }];
+    
     
 
+    
+
+    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
+
+    
+    
+    
+        
+    // comples response type
+    return [client dictionary: requestUrl 
+                       method: @"POST" 
+                  queryParams: queryParams 
+                         body: bodyDictionary 
+                 headerParams: headerParams
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+              completionBlock: ^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SWGOrder *result = nil;
+                if (data) {
+                    result = [[SWGOrder    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
+    
+    
+}
+
+-(NSNumber*) getOrderByIdWithCompletionBlock: (NSString*) orderId
+        
+        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
+         {
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
+
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"orderId", @"}"]] withString: [SWGApiClient escape:orderId]];
+    
+
+    NSString* requestContentType = @"application/json";
+    NSString* responseContentType = @"application/json";
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    
+
+    id bodyDictionary = nil;
+    
+    
+    bodyDictionary = [[NSMutableArray alloc] init];
+
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+
+    
+    [bodyDictionary addObject:formParams];
+    
+
+    
+
+    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
+
+    
+    
+    
+        
+    // comples response type
+    return [client dictionary: requestUrl 
+                       method: @"GET" 
+                  queryParams: queryParams 
+                         body: bodyDictionary 
+                 headerParams: headerParams
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+              completionBlock: ^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    completionBlock(nil, error);
+                    
+                    return;
+                }
+                
+                SWGOrder *result = nil;
+                if (data) {
+                    result = [[SWGOrder    alloc]initWithValues: data];
+                }
+                completionBlock(result , nil);
+                
+              }];
+    
+    
+}
+
+-(NSNumber*) deleteOrderWithCompletionBlock: (NSString*) orderId
+        
+        
+        completionHandler: (void (^)(NSError* error))completionBlock {
+
+    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
+
+    // remove format in URL if needed
+    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
+        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
+
+    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"orderId", @"}"]] withString: [SWGApiClient escape:orderId]];
+    
+
+    NSString* requestContentType = @"application/json";
+    NSString* responseContentType = @"application/json";
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    
+
+    id bodyDictionary = nil;
+    
+    
+    bodyDictionary = [[NSMutableArray alloc] init];
+
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+
+    
+    [bodyDictionary addObject:formParams];
+    
+
+    
+
+    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
+
+    
+    
+            // primitive response type
+    
+    
+    // no return base type
+    return [client stringWithCompletionBlock: requestUrl 
+                                      method: @"DELETE" 
+                                 queryParams: queryParams 
+                                        body: bodyDictionary 
+                                headerParams: headerParams
+                          requestContentType: requestContentType
+                         responseContentType: responseContentType
+                             completionBlock: ^(NSString *data, NSError *error) {
+                if (error) {
+                    completionBlock(error);
+                    return;
+                }
+                completionBlock(nil);
+                    }];
+    
+    
+    
+    
 }
 
 

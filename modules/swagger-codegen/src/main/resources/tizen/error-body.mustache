@@ -1,0 +1,55 @@
+#include "{{prefix}}Error.h"
+
+using namespace Tizen::Base;
+using namespace Tizen::System;
+
+namespace Swagger {
+
+{{prefix}}Error::{{prefix}}Error() {
+    init();
+}
+
+{{prefix}}Error::{{prefix}}Error(int code, String* message) {
+    init();
+    this->setCode(code);
+    this->setMessage(message);
+}
+
+{{prefix}}Error::~{{prefix}}Error() {
+    this->cleanup();
+}
+
+void
+{{prefix}}Error::init() {
+    pCode = 0;
+    pMessage = null;
+}
+
+void
+{{prefix}}Error::cleanup() {
+    if(pMessage != null) {
+        delete pMessage;
+        pMessage = null;
+    }
+}
+
+int
+{{prefix}}Error::getCode() {
+    return pCode;
+}
+void
+{{prefix}}Error::setCode(int pCode) {
+    this->pCode = pCode;
+}
+
+String*
+{{prefix}}Error::getMessage() {
+    return pMessage;
+}
+void
+{{prefix}}Error::setMessage(String* pMessage) {
+    this->pMessage = pMessage;
+}
+
+} /* namespace Swagger */
+

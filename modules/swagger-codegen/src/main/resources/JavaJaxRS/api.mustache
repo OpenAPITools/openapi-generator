@@ -1,0 +1,46 @@
+package {{package}};
+
+import {{modelPackage}}.*;
+
+import com.wordnik.swagger.annotations.*;
+import com.sun.jersey.multipart.FormDataParam;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.util.List;
+import {{package}}.NotFoundException;
+
+import java.io.InputStream;
+
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.*;
+
+@Path("/{{baseName}}")
+@Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+{{#operations}}
+public class {{classname}} {
+  {{#operation}}
+  @{{httpMethod}}
+  {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
+  {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+  {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+  // {{returnType}}
+  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
+  @ApiResponses(value = { {{#responses}}
+    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
+    {{/hasMore}}{{/responses}} })
+
+  public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}})
+      throws NotFoundException {
+      // do some magic!
+      return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+  }
+
+  {{/operation}}
+}
+{{/operations}}

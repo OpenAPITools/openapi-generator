@@ -1,0 +1,14 @@
+com.wordnik.swagger.codegen.languages.AndroidClientCodegen
+com.wordnik.swagger.codegen.languages.AsyncScalaClientCodegen
+com.wordnik.swagger.codegen.languages.JavaClientCodegen
+com.wordnik.swagger.codegen.languages.JaxRSServerCodegen
+com.wordnik.swagger.codegen.languages.NodeJSServerCodegen
+com.wordnik.swagger.codegen.languages.ObjcClientCodegen
+com.wordnik.swagger.codegen.languages.ScalatraServerCodegen
+com.wordnik.swagger.codegen.languages.ScalaClientCodegen
+com.wordnik.swagger.codegen.languages.StaticDocCodegen
+com.wordnik.swagger.codegen.languages.StaticHtmlGenerator
+com.wordnik.swagger.codegen.languages.SwaggerGenerator
+com.wordnik.swagger.codegen.languages.TizenClientCodegen
+com.wordnik.swagger.codegen.languages.PhpClientCodegen
+com.wordnik.swagger.codegen.languages.PythonClientCodegen

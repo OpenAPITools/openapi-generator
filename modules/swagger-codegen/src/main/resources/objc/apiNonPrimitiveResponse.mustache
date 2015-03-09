@@ -1,0 +1,24 @@
+    {{^returnTypeIsPrimitive}}
+    // comples response type
+    return [client dictionary: requestUrl 
+                       method: @"{{httpMethod}}" 
+                  queryParams: queryParams 
+                         body: bodyDictionary 
+                 headerParams: headerParams
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+              completionBlock: ^(NSDictionary *data, NSError *error) {
+                if (error) {
+                    {{#returnBaseType}}completionBlock(nil, error);{{/returnBaseType}}
+                    {{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
+                    return;
+                }
+                {{#returnBaseType}}
+                {{returnBaseType}} *result = nil;
+                if (data) {
+                    result = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}}   alloc]initWithValues: data];
+                }
+                {{#returnBaseType}}completionBlock(result , nil);{{/returnBaseType}}
+                {{/returnBaseType}}
+              }];
+    {{/returnTypeIsPrimitive}}
