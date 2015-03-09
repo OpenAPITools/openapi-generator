@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2011 Wordnik, Inc.
+ *  Copyright 2015 Reverb Technologies, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,330 +25,402 @@ class PetApi {
 	  $this->apiClient = $apiClient;
 	}
 
-  /**
-	 * getPetById
-	 * Find pet by ID
-   * petId, int: ID of pet that needs to be fetched (required)
-
-   * @return Pet
-	 */
-
-   public function getPetById($petId) {
-
-  		//parse inputs
-  		$resourcePath = "/pet/{petId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "GET";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
-
-      if($petId != null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
-  		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      if(! $response){
-          return null;
-        }
-
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Pet');
-  		return $responseObject;
-
-      }
-  /**
-	 * deletePet
-	 * Deletes a pet
-   * petId, string: Pet id to delete (required)
-
-   * @return 
-	 */
-
-   public function deletePet($petId) {
-
-  		//parse inputs
-  		$resourcePath = "/pet/{petId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "DELETE";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
-
-      if($petId != null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
-  		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
-	 * partialUpdate
-	 * partial updates to a pet
-   * petId, string: ID of pet that needs to be fetched (required)
-
-   * body, Pet: Pet object that needs to be added to the store (required)
-
-   * @return Array[Pet]
-	 */
-
-   public function partialUpdate($petId, $body) {
-
-  		//parse inputs
-  		$resourcePath = "/pet/{petId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "PATCH";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json,application/xml';
-      $headerParams['Content-Type'] = 'application/json,application/xml';
-
-      if($petId != null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
-  		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      if(! $response){
-          return null;
-        }
-
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Array[Pet]');
-  		return $responseObject;
-
-      }
-  /**
-	 * updatePetWithForm
-	 * Updates a pet in the store with form data
-   * petId, string: ID of pet that needs to be updated (required)
-
-   * name, string: Updated name of the pet (optional)
-
-   * status, string: Updated status of the pet (optional)
-
-   * @return 
-	 */
-
-   public function updatePetWithForm($petId, $name=null, $status=null) {
-
-  		//parse inputs
-  		$resourcePath = "/pet/{petId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
-
-      if($petId != null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
-  		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
-	 * uploadFile
-	 * uploads an image
-   * additionalMetadata, string: Additional data to pass to server (optional)
-
-   * body, File: file to upload (optional)
-
-   * @return 
-	 */
-
-   public function uploadFile($additionalMetadata=null, $body=null) {
-
-  		//parse inputs
-  		$resourcePath = "/pet/uploadImage";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'multipart/form-data';
-
-      //make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
-	 * addPet
-	 * Add a new pet to the store
-   * body, Pet: Pet object that needs to be added to the store (required)
-
-   * @return 
-	 */
-
-   public function addPet($body) {
-
-  		//parse inputs
-  		$resourcePath = "/pet";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json,application/xml';
-
-      //make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      }
-  /**
+  
+	/**
 	 * updatePet
+   *
 	 * Update an existing pet
-   * body, Pet: Pet object that needs to be updated in the store (required)
-
-   * @return 
+   * body, Pet: Pet object that needs to be added to the store (required)
+   * 
+	 * @return 
 	 */
 
    public function updatePet($body) {
 
-  		//parse inputs
+  		// parse inputs
   		$resourcePath = "/pet";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "PUT";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = 'application/json,application/xml';
 
-      //make the API Call
-      if (! isset($body)) {
-        $body = null;
+      
+      
+      
+      
+      // body params
+      $body = null;
+      if (isset($body)) {
+        $body = $body;
       }
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
   		$response = $this->apiClient->callAPI($resourcePath, $method,
   		                                      $queryParams, $body,
   		                                      $headerParams);
 
+      
+  }
+  
+	/**
+	 * addPet
+   *
+	 * Add a new pet to the store
+   * body, Pet: Pet object that needs to be added to the store (required)
+   * 
+	 * @return 
+	 */
 
+   public function addPet($body) {
+
+  		// parse inputs
+  		$resourcePath = "/pet";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = 'application/json,application/xml';
+
+      
+      
+      
+      
+      // body params
+      $body = null;
+      if (isset($body)) {
+        $body = $body;
       }
-  /**
-	 * findPetsByStatus
-	 * Finds Pets by status
-   * status, string: Status values that need to be considered for filter (required)
 
-   * @return Array[Pet]
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+      
+  }
+  
+	/**
+	 * findPetsByStatus
+   *
+	 * Finds Pets by status
+   * status, array[string]: Status values that need to be considered for filter (required)
+   * 
+	 * @return array[Pet]
 	 */
 
    public function findPetsByStatus($status) {
 
-  		//parse inputs
+  		// parse inputs
   		$resourcePath = "/pet/findByStatus";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
 
-      if($status != null) {
+      // query params
+      if($status !== null) {
   		  $queryParams['status'] = $this->apiClient->toQueryValue($status);
   		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
+      
+      
+      
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
       }
+
+  		// make the API Call
   		$response = $this->apiClient->callAPI($resourcePath, $method,
   		                                      $queryParams, $body,
   		                                      $headerParams);
 
-
-      if(! $response){
-          return null;
-        }
+      if(! $response) {
+        return null;
+      }
 
   		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Array[Pet]');
+  		                                                'array[Pet]');
   		return $responseObject;
-
-      }
-  /**
+  }
+  
+	/**
 	 * findPetsByTags
+   *
 	 * Finds Pets by tags
-   * tags, string: Tags to filter by (required)
-
-   * @return Array[Pet]
+   * tags, array[string]: Tags to filter by (required)
+   * 
+	 * @return array[Pet]
 	 */
 
    public function findPetsByTags($tags) {
 
-  		//parse inputs
+  		// parse inputs
   		$resourcePath = "/pet/findByTags";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();
       $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
 
-      if($tags != null) {
+      // query params
+      if($tags !== null) {
   		  $queryParams['tags'] = $this->apiClient->toQueryValue($tags);
   		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
+      
+      
+      
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
       }
+
+  		// make the API Call
   		$response = $this->apiClient->callAPI($resourcePath, $method,
   		                                      $queryParams, $body,
   		                                      $headerParams);
 
-
-      if(! $response){
-          return null;
-        }
+      if(! $response) {
+        return null;
+      }
 
   		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Array[Pet]');
+  		                                                'array[Pet]');
   		return $responseObject;
+  }
+  
+	/**
+	 * getPetById
+   *
+	 * Find pet by ID
+   * petId, int: ID of pet that needs to be fetched (required)
+   * 
+	 * @return Pet
+	 */
 
+   public function getPetById($petId) {
+
+  		// parse inputs
+  		$resourcePath = "/pet/{petId}";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
+
+      
+      
+      // path params
+      if($petId !== null) {
+  			$resourcePath = str_replace("{" . "petId" . "}",
+  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  		}
+      
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
       }
+
+  		// make the API Call
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+      if(! $response) {
+        return null;
+      }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'Pet');
+  		return $responseObject;
+  }
+  
+	/**
+	 * updatePetWithForm
+   *
+	 * Updates a pet in the store with form data
+   * petId, string: ID of pet that needs to be updated (required)
+   * * name, string: Updated name of the pet (required)
+   * * status, string: Updated status of the pet (required)
+   * 
+	 * @return 
+	 */
+
+   public function updatePetWithForm($petId, $name, $status) {
+
+  		// parse inputs
+  		$resourcePath = "/pet/{petId}";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+      
+      
+      // path params
+      if($petId !== null) {
+  			$resourcePath = str_replace("{" . "petId" . "}",
+  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  		}
+      
+      if ($name !== null) {
+        $formParams[name] = $name;
+      }
+      if ($status !== null) {
+        $formParams[status] = $status;
+      }
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+      
+  }
+  
+	/**
+	 * deletePet
+   *
+	 * Deletes a pet
+   * api_key, string:  (required)
+   * * petId, int: Pet id to delete (required)
+   * 
+	 * @return 
+	 */
+
+   public function deletePet($api_key, $petId) {
+
+  		// parse inputs
+  		$resourcePath = "/pet/{petId}";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "DELETE";
+      $queryParams = array();
+      $headerParams = array();
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = '';
+
+      
+      // header params
+      if($api_key !== null) {
+  		 	$headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
+  		}
+      // path params
+      if($petId !== null) {
+  			$resourcePath = str_replace("{" . "petId" . "}",
+  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  		}
+      
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+      
+  }
+  
+	/**
+	 * uploadFile
+   *
+	 * uploads an image
+   * petId, int: ID of pet to update (required)
+   * * additionalMetadata, string: Additional data to pass to server (required)
+   * * file, file: file to upload (required)
+   * 
+	 * @return 
+	 */
+
+   public function uploadFile($petId, $additionalMetadata, $file) {
+
+  		// parse inputs
+  		$resourcePath = "/pet/{petId}/uploadImage";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $formParams = array();
+      $headerParams['Accept'] = 'application/json,application/xml';
+      $headerParams['Content-Type'] = 'multipart/form-data';
+
+      
+      
+      // path params
+      if($petId !== null) {
+  			$resourcePath = str_replace("{" . "petId" . "}",
+  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  		}
+      
+      if ($additionalMetadata !== null) {
+        $formParams[additionalMetadata] = $additionalMetadata;
+      }
+      if ($file !== null) {
+        $formParams[file] = '@' . $file;
+      }
+      
+
+      $body = $body ?: $formParams;
+
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+        $body = http_build_query($body);
+      }
+
+  		// make the API Call
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+      
+  }
   
 
 }
-

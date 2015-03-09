@@ -1,0 +1,52 @@
+<div class="main-content">
+  <h2><a name="{{className}}"></a>{{className}}</h2>
+  <p>This is the {{className}} API</p>
+
+  {{#operations}}
+  {{#operation}}
+  <h2><a name="{{nickname}}"></a>{{nickname}}</h2>
+  <hr>
+  <p>{{description}}</p>
+  {{#notes}}<p>{{notes}}</p>{{/notes}}
+  <h3 class="section">URL</h3>
+  <code>{{basePath}}{{path}}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>{{httpMethod}}</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" id="{{returnBaseType}}"><a href="#">{{returnType}}</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  	{{#allParams}}
+	  <div class="parameter">
+      {{#isContainer}}
+        {{#complexType}}
+          <!-- container / complex -->
+        {{/complexType}}
+        {{#simpleType}}
+          <!-- container / simple -->
+      <div class="param">{{paramName}}&nbsp;:&nbsp;{{dataType}}&nbsp;({{type}})</div>
+        <span>{{#optional}}optional{{/optional}}</span>
+      </div>
+        {{/simpleType}}
+      {{/isContainer}}
+      {{#isNotContainer}}
+        {{#simpleType}}
+          <!-- not container / simple -->
+      <div class="param">{{paramName}}&nbsp;:&nbsp;{{dataType}}&nbsp;({{type}})</div>
+        <span>{{#optional}}optional{{/optional}}</span>
+      </div>
+        {{/simpleType}}
+      {{/isNotContainer}}
+
+      {{#foo}}
+	    <div class="param">{{paramName}}&nbsp;:&nbsp;{{#complexType}}&nbsp;<div class="model" id="{{complexType}}"><a href="#">{{dataType}}</a>{{/complexType}}{{#simpleType}}{{dataType}}{{/simpleType}}&nbsp;({{type}})</div>
+	      <span>{{#optional}}optional{{/optional}}</span>
+	    </div>
+      {{/foo}}
+	    <p class="param-description">{{description}}</p>
+	  </div>
+    {{/allParams}}
+  </ul>
+  {{/operation}}
+  {{/operations}}
+</div>

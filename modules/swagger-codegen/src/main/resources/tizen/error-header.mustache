@@ -1,0 +1,35 @@
+#ifndef {{prefix}}Error_H_
+#define {{prefix}}Error_H_
+
+#include <FBase.h>
+
+using namespace Tizen::Base;
+
+namespace Swagger {
+
+class {{prefix}}Error {
+public:
+    {{prefix}}Error();
+    {{prefix}}Error(int code, String* message);
+    virtual ~{{prefix}}Error();
+
+
+    void init();
+
+    void cleanup();
+
+    int getCode();
+    void setCode(int pCode);
+    
+    String* getMessage();
+    void setMessage(String* pMessage);
+    
+
+private:
+    int pCode;
+    String* pMessage;
+};
+
+} /* namespace Swagger */
+
+#endif /* {{prefix}}Error_H_ */

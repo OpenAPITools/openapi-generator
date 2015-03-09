@@ -1,0 +1,13 @@
+package {{package}}
+
+import org.joda.time.DateTime
+
+{{#models}}
+
+{{#model}}
+case class {{classname}} (
+  {{#vars}}{{name}}: {{#isNotRequired}}Option[{{/isNotRequired}}{{datatype}}{{#isNotRequired}}]{{/isNotRequired}}{{#hasMore}},{{/hasMore}}{{#description}}  // {{description}}{{/description}}
+  {{/vars}}
+)
+{{/model}}
+{{/models}}
