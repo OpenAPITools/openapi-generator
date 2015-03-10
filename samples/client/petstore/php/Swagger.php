@@ -107,6 +107,9 @@ class APIClient {
     if ($method == self::$POST) {
       curl_setopt($curl, CURLOPT_POST, true);
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+    } else if ($method == self::$PATCH) {
+      curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
     } else if ($method == self::$PUT) {
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
@@ -126,11 +129,14 @@ class APIClient {
     if ($response_info['http_code'] == 0) {
       throw new Exception("TIMEOUT: api call to " . $url .
         " took more than 5s to return" );
-    } else if ($response_info['http_code'] == 200) {
+    } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
       $data = json_decode($response);
+      if (json_last_error() > 0) { // if response is a string
+        $data = $response;
+      }
     } else if ($response_info['http_code'] == 401) {
       throw new Exception("Unauthorized API request to " . $url .
-          ": ".json_decode($response)->message );
+          ": ".serialize($response));
     } else if ($response_info['http_code'] == 404) {
       $data = null;
     } else {
