@@ -226,7 +226,7 @@ class ApiClient:
                 subValues.append(self.deserialize(subValue, subClass))
             setattr(instance, attr, subValues)
           else:
-            setattr(instance, attr, self.deserialize(value, objClass))
+            setattr(instance, attr, self.deserialize(value, attrType))
 
     return instance
 
