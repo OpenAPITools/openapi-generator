@@ -57,6 +57,7 @@ class PetApi {
         $body = $body;
       }
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -102,6 +103,7 @@ class PetApi {
         $body = $body;
       }
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -146,6 +148,7 @@ class PetApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -196,6 +199,7 @@ class PetApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -247,6 +251,7 @@ class PetApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -297,15 +302,16 @@ class PetApi {
   			$resourcePath = str_replace("{" . "petId" . "}",
   			                            $this->apiClient->toPathValue($petId), $resourcePath);
   		}
-      
+      // form params
       if ($name !== null) {
-        $formParams[name] = $name;
-      }
+        $formParams['name'] = $name;
+      }// form params
       if ($status !== null) {
-        $formParams[status] = $status;
+        $formParams['status'] = $status;
       }
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -355,6 +361,7 @@ class PetApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -399,15 +406,16 @@ class PetApi {
   			$resourcePath = str_replace("{" . "petId" . "}",
   			                            $this->apiClient->toPathValue($petId), $resourcePath);
   		}
-      
+      // form params
       if ($additionalMetadata !== null) {
-        $formParams[additionalMetadata] = $additionalMetadata;
-      }
+        $formParams['additionalMetadata'] = $additionalMetadata;
+      }// form params
       if ($file !== null) {
-        $formParams[file] = '@' . $file;
+        $formParams['file'] = '@' . $file;
       }
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
