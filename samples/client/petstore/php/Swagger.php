@@ -107,6 +107,9 @@ class APIClient {
     if ($method == self::$POST) {
       curl_setopt($curl, CURLOPT_POST, true);
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+    } else if ($method == self::$PATCH) {
+      curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
     } else if ($method == self::$PUT) {
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);

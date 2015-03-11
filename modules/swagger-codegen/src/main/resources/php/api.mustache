@@ -61,9 +61,9 @@ class {{classname}} {
   			$resourcePath = str_replace("{" . "{{baseName}}" . "}",
   			                            $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
   		}{{/pathParams}}
-      {{#formParams}}
+      {{#formParams}}// form params
       if (${{paramName}} !== null) {
-        $formParams[{{baseName}}] = {{#isFile}}'@' . {{/isFile}}${{paramName}};
+        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}${{paramName}};
       }{{/formParams}}
       {{#bodyParams}}// body params
       $body = null;
@@ -71,6 +71,7 @@ class {{classname}} {
         $body = ${{paramName}};
       }{{/bodyParams}}
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
