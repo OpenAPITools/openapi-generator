@@ -107,6 +107,9 @@ class APIClient {
     if ($method == self::$POST) {
       curl_setopt($curl, CURLOPT_POST, true);
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+    } else if ($method == self::$PATCH) {
+      curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
     } else if ($method == self::$PUT) {
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
@@ -220,13 +223,14 @@ class APIClient {
       $inner = substr($class, 4, -1);
       $values = array();
       if(strrpos($inner, ",") !== false) {
-        $subClass = explode(',', $inner, 2)[1];
+        $subClass_array = explode(',', $inner, 2);
+        $subClass = $subClass_array[1];
         foreach ($data as $key => $value) {
           $values[] = array($key => self::deserialize($value, $subClass));
         }        
       }
       $deserialized = $values;
-    } elseif (substr($class, 0, 6) == 'array[') {
+    } elseif (strcasecmp(substr($class, 0, 6),'array[') == 0) {
       $subClass = substr($class, 6, -1);
       $values = array();
       foreach ($data as $key => $value) {
