@@ -37,7 +37,8 @@ class {{classname}} implements ArrayAccess {
   public ${{name}}; /* {{{datatype}}} */{{/vars}}
 
   public function __construct(array $data) {
-    {{#vars}}$this->{{name}} = $data["{{name}}"]{{/vars}}
+    {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}},
+    {{/hasMore}}{{/vars}}
   }
 
   public function offsetExists($offset) {
