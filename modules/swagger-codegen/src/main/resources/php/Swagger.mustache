@@ -260,7 +260,7 @@ class APIClient {
 class APIClientException extends Exception {
   protected $response, $response_info;
 
-  public class __construct($message="", $code=0, $response_info=null, $response=null) {
+  public function __construct($message="", $code=0, $response_info=null, $response=null) {
     parent::__construct($message, $code);
     $this->response_info = $response_info;
     $this->response = $response;
