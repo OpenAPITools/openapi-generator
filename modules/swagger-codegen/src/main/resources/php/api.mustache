@@ -63,7 +63,7 @@ class {{classname}} {
   		}{{/pathParams}}
       {{#formParams}}// form params
       if (${{paramName}} !== null) {
-        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}${{paramName}};
+        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->toFormValue(${{paramName}});
       }{{/formParams}}
       {{#bodyParams}}// body params
       $body = null;
