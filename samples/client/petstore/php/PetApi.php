@@ -304,10 +304,10 @@ class PetApi {
   		}
       // form params
       if ($name !== null) {
-        $formParams['name'] = $name;
+        $formParams['name'] = $this->apiClient->toFormValue($name);
       }// form params
       if ($status !== null) {
-        $formParams['status'] = $status;
+        $formParams['status'] = $this->apiClient->toFormValue($status);
       }
       
 
@@ -408,10 +408,10 @@ class PetApi {
   		}
       // form params
       if ($additionalMetadata !== null) {
-        $formParams['additionalMetadata'] = $additionalMetadata;
+        $formParams['additionalMetadata'] = $this->apiClient->toFormValue($additionalMetadata);
       }// form params
       if ($file !== null) {
-        $formParams['file'] = '@' . $file;
+        $formParams['file'] = '@' . $this->apiClient->toFormValue($file);
       }
       
 
