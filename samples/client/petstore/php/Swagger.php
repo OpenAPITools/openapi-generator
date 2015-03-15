@@ -127,13 +127,27 @@ class APIClient {
 
     // Handle the response
     if ($response_info['http_code'] == 0) {
+<<<<<<< HEAD
       throw new APIClientException("TIMEOUT: api call to " . $url .
         " took more than 5s to return", 0, $response_info, $response);
     } else if ($response_info['http_code'] == 200) {
+=======
+      throw new Exception("TIMEOUT: api call to " . $url .
+        " took more than 5s to return" );
+    } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
+>>>>>>> add logic to handle all 2xx response code, bug fix for string response,
       $data = json_decode($response);
+      if (json_last_error() > 0) { // if response is a string
+        $data = $response;
+      }
     } else if ($response_info['http_code'] == 401) {
+<<<<<<< HEAD
       throw new APIClientException("Unauthorized API request to " . $url .
           ": " . json_decode($response)->message, 0, $response_info, $response);
+=======
+      throw new Exception("Unauthorized API request to " . $url .
+          ": ".serialize($response));
+>>>>>>> add logic to handle all 2xx response code, bug fix for string response,
     } else if ($response_info['http_code'] == 404) {
       $data = null;
     } else {
