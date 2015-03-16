@@ -37,14 +37,15 @@ class {{classname}}
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     {{#headerParams}}headers = {
       {{{paramName}}}: {{{paramName}}},
     }
     {{/headerParams}}
     {{^headerParams}}headers = nil
     {{/headerParams}}
-    
+
+    # http body (model)
     post_body = nil
     {{#bodyParam}}
     if body != nil
@@ -69,13 +70,18 @@ class {{classname}}
     end
     {{/bodyParam}}
 
+    # form parameters
+    form_parameter_hash = {}
+    {{#formParams}}{{#optional}}form_parameter_hash["{{baseName}}"] = options[:'{{paramName}}'] if options[:'{{paramName}}']{{/optional}}
+    {{^optional}}form_parameter_hash["{{baseName}}"] = {{paramName}}{{/optional}}{{/formParams}}
+
     {{#returnType}}
-    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     {{#returnContainer}}
     response.map {|response|{{/returnContainer}} {{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}
     {{/returnType}}
     {{^returnType}}
-    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     {{/returnType}}
   {{newline}}
   end
