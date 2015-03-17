@@ -49,6 +49,18 @@ class APIClient {
   }
 
   /**
+   * Set the user agent of the API client
+   *
+   *  @param string $user_agent The user agent of the API client
+   */
+  public function setUserAgent($user_agent) {
+    if (!is_string($user_agent)) {
+      throw new Exception('User-agent must be a string.');
+    }
+    $this->user_agent= $user_agent;
+  }
+
+  /**
    *  @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
   */
   public function setTimeout($seconds) {
@@ -57,7 +69,6 @@ class APIClient {
     }
     $this->curl_timout = $seconds;
   }
-
 
   /**
    * @param string $resourcePath path to method endpoint
@@ -121,25 +132,35 @@ class APIClient {
     }
     curl_setopt($curl, CURLOPT_URL, $url);
 
+    // Set user agent
+    if ($this->user_agent) {
+      curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent);
+    } else { // use PHP-Swagger as the default user agent
+      curl_setopt($curl, CURLOPT_USERAGENT, 'PHP-Swagger');
+    }
+
     // Make the request
     $response = curl_exec($curl);
     $response_info = curl_getinfo($curl);
 
     // Handle the response
     if ($response_info['http_code'] == 0) {
-      throw new Exception("TIMEOUT: api call to " . $url .
-        " took more than 5s to return" );
-    } else if ($response_info['http_code'] == 200) {
+      throw new APIClientException("TIMEOUT: api call to " . $url .
+        " took more than 5s to return", 0, $response_info, $response);
+    } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
       $data = json_decode($response);
+      if (json_last_error() > 0) { // if response is a string
+        $data = $response;
+      }
     } else if ($response_info['http_code'] == 401) {
-      throw new Exception("Unauthorized API request to " . $url .
-          ": ".json_decode($response)->message );
+      throw new APIClientException("Unauthorized API request to " . $url .
+          ": " . serialize($response), 0, $response_info, $response);
     } else if ($response_info['http_code'] == 404) {
       $data = null;
     } else {
-      throw new Exception("Can't connect to the api: " . $url .
+      throw new APIClientException("Can't connect to the api: " . $url .
         " response code: " .
-        $response_info['http_code']);
+        $response_info['http_code'], 0, $response_info, $response);
     }
     return $data;
   }
@@ -178,7 +199,7 @@ class APIClient {
    * @return string the serialized object
    */
   public static function toPathValue($value) {
-      return rawurlencode($value);
+      return rawurlencode(toString($value));
   }
 
   /**
@@ -193,19 +214,47 @@ class APIClient {
         if (is_array($object)) {
             return implode(',', $object);
         } else {
-            return $object;
+            return toString($object);
         }
   }
 
   /**
-   * Just pass through the header value for now. Placeholder in case we
-   * find out we need to do something with header values.
+   * Take value and turn it into a string suitable for inclusion in
+   * the header. If it's a string, pass through unchanged
+   * If it's a datetime object, format it in ISO8601
    * @param string $value a string which will be part of the header
    * @return string the header string
    */
   public static function toHeaderValue($value) {
-      return $value;
+      return toString($value);
   }
+
+  /**
+   * Take value and turn it into a string suitable for inclusion in
+   * the http body (form parameter). If it's a string, pass through unchanged
+   * If it's a datetime object, format it in ISO8601
+   * @param string $value the value of the form parameter
+   * @return string the form string
+   */
+  public static function toFormValue($value) {
+      return toString($value);
+  }
+
+  /**
+   * Take value and turn it into a string suitable for inclusion in
+   * the parameter. If it's a string, pass through unchanged
+   * If it's a datetime object, format it in ISO8601
+   * @param string $value the value of the parameter
+   * @return string the header string
+   */
+  public static function toString($value) {
+    if ($value instanceof \DateTime) { // datetime in ISO8601 format
+      return $value->format(\DateTime::ISO8601);
+    }
+    else {
+      return $value;
+    }
+   }
 
   /**
    * Deserialize a JSON string into an object
@@ -257,3 +306,20 @@ class APIClient {
 
 }
 
+class APIClientException extends Exception {
+  protected $response, $response_info;
+
+  public function __construct($message="", $code=0, $response_info=null, $response=null) {
+    parent::__construct($message, $code);
+    $this->response_info = $response_info;
+    $this->response = $response;
+  }
+
+  public function getResponse() {
+    return $this->response;
+  }
+
+  public function getResponseInfo() {
+    return $this->response_info;
+  }
+}
