@@ -24,7 +24,7 @@
 {{#models}}
 {{#model}}
 
-class {{classname}} {
+class {{classname}} implements ArrayAccess {
   static $swaggerTypes = array(
       {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
       {{/hasMore}}{{/vars}}
@@ -35,6 +35,27 @@ class {{classname}} {
   * {{{description}}}
   */{{/description}}
   public ${{name}}; /* {{{datatype}}} */{{/vars}}
+
+  public function __construct(array $data) {
+    {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
+    {{/hasMore}}{{/vars}}
+  }
+
+  public function offsetExists($offset) {
+    return isset($this->$offset);
+  }
+
+  public function offsetGet($offset) {
+    return $this->$offset;
+  }
+
+  public function offsetSet($offset, $value) {
+    $this->$offset = $value;
+  }
+
+  public function offsetUnset($offset) {
+    unset($this->$offset);
+  }
 }
 {{/model}}
 {{/models}}
