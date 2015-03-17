@@ -106,12 +106,12 @@ public class ApiInvoker {
 
     Builder builder = client.resource(host + path + querystring).accept("application/json");
     for(String key : headerParams.keySet()) {
-      builder.header(key, headerParams.get(key));
+      builder = builder.header(key, headerParams.get(key));
     }
 
     for(String key : defaultHeaderMap.keySet()) {
       if(!headerParams.containsKey(key)) {
-        builder.header(key, defaultHeaderMap.get(key));
+        builder = builder.header(key, defaultHeaderMap.get(key));
       }
     }
     ClientResponse response = null;
