@@ -49,6 +49,18 @@ class APIClient {
   }
 
   /**
+   * Set the user agent of the API client
+   *
+   *  @param string $user_agent The user agent of the API client
+   */
+  public function setUserAgent($user_agent) {
+    if (!is_string($user_agent)) {
+      throw new Exception('User-agent must be a string.');
+    }
+    $this->user_agent= $user_agent;
+  }
+
+  /**
    *  @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
   */
   public function setTimeout($seconds) {
@@ -57,7 +69,6 @@ class APIClient {
     }
     $this->curl_timout = $seconds;
   }
-
 
   /**
    * @param string $resourcePath path to method endpoint
@@ -120,6 +131,13 @@ class APIClient {
       throw new Exception('Method ' . $method . ' is not recognized.');
     }
     curl_setopt($curl, CURLOPT_URL, $url);
+
+    // Set user agent
+    if ($this->user_agent) {
+      curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent);
+    } else { // use PHP-Swagger as the default user agent
+      curl_setopt($curl, CURLOPT_USERAGENT, 'PHP-Swagger');
+    }
 
     // Make the request
     $response = curl_exec($curl);
