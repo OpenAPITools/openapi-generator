@@ -6,7 +6,7 @@ module Swagger
     require 'typhoeus'
     require "swagger/version"
 
-    attr_accessor :host, :path, :format, :params, :body, :http_method, :headers
+    attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params
 
 
     # All requests must have an HTTP method and a path
@@ -115,9 +115,18 @@ module Swagger
     end
     
     # If body is an object, JSONify it before making the actual request.
-    # 
+    # For form parameters, remove empty value 
     def outgoing_body
-      body.is_a?(String) ? body : body.to_json
+      # http form
+      if @body.nil? && @form_params && !@form_params.empty?
+        data = form_params.dup
+        data.each do |key, value|
+          data[key] = value.to_s if value && !value.is_a?(File) # remove emtpy form parameter
+        end
+        data
+      else # http body is JSON
+        @body.is_a?(String) ? @body : @body.to_json
+      end
     end
     
     # Construct a query string from the query-string-type params
@@ -158,6 +167,13 @@ module Swagger
 
       when :post,:POST
         Typhoeus::Request.post(
+          self.url,
+          :body => self.outgoing_body,
+          :headers => self.headers.stringify_keys,
+        )
+
+      when :patch,:PATCH
+        Typhoeus::Request.patch(
           self.url,
           :body => self.outgoing_body,
           :headers => self.headers.stringify_keys,
