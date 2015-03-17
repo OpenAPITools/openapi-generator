@@ -28,11 +28,12 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
     if body != nil
@@ -57,9 +58,13 @@ class PetApi
     end
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+
     
     
-    Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -84,11 +89,12 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
     if body != nil
@@ -113,9 +119,13 @@ class PetApi
     end
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+
     
     
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -140,16 +150,21 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     
     response.map {|response| Pet.new(response) }
     
@@ -177,16 +192,21 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     
     response.map {|response| Pet.new(response) }
     
@@ -215,16 +235,21 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      Pet.new(response)
     
     
@@ -258,17 +283,24 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+    form_parameter_hash["name"] = name
+    form_parameter_hash["status"] = status
+
     
     
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -297,19 +329,24 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     headers = {
       api_key: api_key,
     }
     
     
-    
+
+    # http body (model)
     post_body = nil
+    
+
+    # form parameters
+    form_parameter_hash = {}
     
 
     
     
-    Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -341,17 +378,24 @@ class PetApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+    form_parameter_hash["additionalMetadata"] = additionalMetadata
+    form_parameter_hash["file"] = file
+
     
     
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
