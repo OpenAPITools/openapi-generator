@@ -476,9 +476,9 @@ public class DefaultCodegen {
     property.setter = "set" + getterAndSetterCapitalize(name);
     property.example = p.getExample();
     property.defaultValue = toDefaultValue(p);
+    property.jsonSchema = Json.pretty(p);
 
     String type = getSwaggerType(p);
-
     if(p instanceof AbstractNumericProperty) {
       AbstractNumericProperty np = (AbstractNumericProperty) p;
       property.minimum = np.getMinimum();
@@ -640,7 +640,6 @@ public class DefaultCodegen {
     }
 
     if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-
       Response methodResponse = findMethodResponse(operation.getResponses());
       CodegenResponse methodCodegenResponse = null;
 
@@ -758,6 +757,7 @@ public class DefaultCodegen {
     r.message = response.getDescription();
     r.schema = response.getSchema();
     r.examples = toExamples(response.getExamples());
+    r.jsonSchema = Json.pretty(response);
 
     if (r.schema != null) {
       Property responseProperty = response.getSchema();
@@ -800,6 +800,7 @@ public class DefaultCodegen {
     p.baseName = param.getName();
     p.description = param.getDescription();
     p.required = param.getRequired();
+    p.jsonSchema = Json.pretty(param);
 
     if(param instanceof SerializableParameter) {
       SerializableParameter qp = (SerializableParameter) param;
