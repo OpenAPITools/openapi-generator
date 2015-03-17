@@ -399,7 +399,14 @@ public class DefaultCodegen {
             LOGGER.warn("null property for " + key);
           }
           else {
-            CodegenProperty cp = fromProperty(key, prop);
+            CodegenProperty cp;
+            try{
+              cp = fromProperty(key, prop);
+            }
+            catch(Exception e) {
+              System.out.println("failed to process model " + name);
+              throw new RuntimeException(e);
+            }
             cp.required = false;
             if(impl.getRequired() != null) {
               for(String req : impl.getRequired()) {
