@@ -66,7 +66,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       else
         hostBuilder.append("https://");
       hostBuilder.append(swagger.getHost()).append(swagger.getBasePath());
+      String contextPath = swagger.getBasePath();
       String basePath = hostBuilder.toString();
+
 
       List<Object> allOperations = new ArrayList<Object>();
       List<Object> allModels = new ArrayList<Object>();
@@ -111,6 +113,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         List<CodegenOperation> ops = paths.get(tag);
         Map<String, Object> operation = processOperations(config, tag, ops);
         operation.put("basePath", basePath);
+        operation.put("contextPath", contextPath);
         operation.put("baseName", tag);
         operation.put("modelPackage", config.modelPackage());
         operation.putAll(config.additionalProperties());
