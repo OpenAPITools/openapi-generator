@@ -1,6 +1,9 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
+import com.wordnik.swagger.models.auth.ApiKeyAuthDefinition;
+import com.wordnik.swagger.models.auth.BasicAuthDefinition;
+import com.wordnik.swagger.models.auth.In;
 import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
@@ -897,10 +900,25 @@ public class DefaultCodegen {
     List<CodegenSecurity> secs = new ArrayList<CodegenSecurity>();
     for(Iterator entries = schemes.entrySet().iterator(); entries.hasNext(); ) {
       Map.Entry<String, SecuritySchemeDefinition> entry = (Map.Entry<String, SecuritySchemeDefinition>) entries.next();
+      final SecuritySchemeDefinition schemeDefinition = entry.getValue();
 
       CodegenSecurity sec = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
       sec.name = entry.getKey();
-      sec.type = entry.getValue().getType();
+      sec.type = schemeDefinition.getType();
+
+      if (schemeDefinition instanceof ApiKeyAuthDefinition) {
+        final ApiKeyAuthDefinition apiKeyDefinition = (ApiKeyAuthDefinition) schemeDefinition;
+        sec.isBasic = sec.isOAuth = false;
+        sec.isApiKey = true;
+        sec.keyParamName = apiKeyDefinition.getName();
+        sec.isKeyInHeader = apiKeyDefinition.getIn() == In.HEADER;
+        sec.isKeyInQuery = !sec.isKeyInHeader;
+      } else {
+        sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = false;
+        sec.isBasic = schemeDefinition instanceof BasicAuthDefinition;
+        sec.isOAuth = !sec.isBasic;
+      }
+
       sec.hasMore = entries.hasNext();
       secs.add(sec);
     }

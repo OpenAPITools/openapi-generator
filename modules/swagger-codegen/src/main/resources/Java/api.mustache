@@ -58,7 +58,7 @@ public class {{classname}} {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
+    {{#queryParams}}if ({{paramName}} != null)
       queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
     {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
