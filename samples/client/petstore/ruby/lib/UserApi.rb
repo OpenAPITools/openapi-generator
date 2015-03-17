@@ -28,11 +28,12 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
     if body != nil
@@ -57,9 +58,13 @@ class UserApi
     end
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+
     
     
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -84,11 +89,12 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
     if body != nil
@@ -113,9 +119,13 @@ class UserApi
     end
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+
     
     
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -140,11 +150,12 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
     if body != nil
@@ -169,9 +180,13 @@ class UserApi
     end
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+
     
     
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -199,16 +214,21 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      string.new(response)
     
     
@@ -233,17 +253,22 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
+    
+
+    # form parameters
+    form_parameter_hash = {}
     
 
     
     
-    Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -269,16 +294,21 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      User.new(response)
     
     
@@ -309,11 +339,12 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
     if body != nil
@@ -338,9 +369,13 @@ class UserApi
     end
     
 
+    # form parameters
+    form_parameter_hash = {}
+    
+
     
     
-    Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
@@ -366,17 +401,22 @@ class UserApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
+    
+
+    # form parameters
+    form_parameter_hash = {}
     
 
     
     
-    Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end

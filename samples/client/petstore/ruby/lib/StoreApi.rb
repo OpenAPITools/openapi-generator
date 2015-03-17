@@ -26,16 +26,21 @@ class StoreApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     
     response.map {|response| map.new(response) }
     
@@ -63,11 +68,12 @@ class StoreApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
     if body != nil
@@ -92,8 +98,12 @@ class StoreApi
     end
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      Order.new(response)
     
     
@@ -121,16 +131,21 @@ class StoreApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
     
 
+    # form parameters
+    form_parameter_hash = {}
     
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+
+    
+    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      Order.new(response)
     
     
@@ -158,17 +173,22 @@ class StoreApi
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
+
     
     headers = nil
     
-    
+
+    # http body (model)
     post_body = nil
+    
+
+    # form parameters
+    form_parameter_hash = {}
     
 
     
     
-    Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
