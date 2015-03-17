@@ -14,7 +14,6 @@ import scala.collection.JavaConverters._
 
 @RunWith(classOf[JUnitRunner])
 class JavaModelTest extends FlatSpec with Matchers {
-
   it should "convert a simple java model" in {
     val model = new ModelImpl()
       .description("a sample model")
@@ -321,5 +320,19 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).hasMore should equal (null)
     vars.get(0).required should equal (true)
     vars.get(0).isNotContainer should equal (true)
+  }
+
+  it should "convert hyphens per issue 503" in {
+    val model = new ModelImpl()
+      .description("a sample model")
+      .property("created-at", new DateTimeProperty())
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+    val vars = cm.vars
+    vars.get(0).baseName should be("created-at")
+    vars.get(0).getter should be ("getCreated_at")
+    vars.get(0).setter should be ("setCreated_at")
+    vars.get(0).name should be ("created_at")
   }
 }
