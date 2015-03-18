@@ -621,6 +621,8 @@ public class DefaultCodegen {
         count += 1;
         if (count < operation.getConsumes().size())
           mediaType.put("hasMore", "true");
+        else
+          mediaType.put("hasMore", null);
         c.add(mediaType);
       }
       op.consumes = c;
@@ -636,6 +638,8 @@ public class DefaultCodegen {
         count += 1;
         if (count < operation.getProduces().size())
           mediaType.put("hasMore", "true");
+        else
+          mediaType.put("hasMore", null);
         c.add(mediaType);
       }
       op.produces = c;
