@@ -148,8 +148,8 @@ public class PetApi {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    if(!"null".equals(String.valueOf(status)))
-      queryParams.put("status", String.valueOf(status));
+    if (status != null)
+      queryParams.put("status", ApiInvoker.parameterToString(status));
     
     
     String[] contentTypes = {
@@ -200,8 +200,8 @@ public class PetApi {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    if(!"null".equals(String.valueOf(tags)))
-      queryParams.put("tags", String.valueOf(tags));
+    if (tags != null)
+      queryParams.put("tags", ApiInvoker.parameterToString(tags));
     
     
     String[] contentTypes = {
@@ -317,17 +317,17 @@ public class PetApi {
       FormDataMultiPart mp = new FormDataMultiPart();
       
       hasFields = true;
-      mp.field("name", name, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("name", ApiInvoker.parameterToString(name), MediaType.MULTIPART_FORM_DATA_TYPE);
       
       hasFields = true;
-      mp.field("status", status, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("status", ApiInvoker.parameterToString(status), MediaType.MULTIPART_FORM_DATA_TYPE);
       
       if(hasFields)
         postBody = mp;
     }
     else {
-      formParams.put("name", name);
-      formParams.put("status", status);
+      formParams.put("name", ApiInvoker.parameterToString(name));
+      formParams.put("status", ApiInvoker.parameterToString(status));
       
     }
 
@@ -364,7 +364,7 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    headerParams.put("api_key", api_key);
+    headerParams.put("api_key", ApiInvoker.parameterToString(api_key));
     
     String[] contentTypes = {
       
@@ -428,7 +428,7 @@ public class PetApi {
       FormDataMultiPart mp = new FormDataMultiPart();
       
       hasFields = true;
-      mp.field("additionalMetadata", additionalMetadata, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
       
       hasFields = true;
       mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
@@ -437,7 +437,7 @@ public class PetApi {
         postBody = mp;
     }
     else {
-      formParams.put("additionalMetadata", additionalMetadata);
+      formParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
       
       
     }
