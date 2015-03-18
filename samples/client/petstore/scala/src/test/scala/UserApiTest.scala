@@ -1,5 +1,6 @@
-import com.wordnik.petstore.api._
-import com.wordnik.petstore.model._
+import io.swagger.client._
+import io.swagger.client.api._
+import io.swagger.client.model._
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
