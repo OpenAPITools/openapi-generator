@@ -6,7 +6,7 @@ public class CodegenResponse {
   public String code, message;
   public Boolean hasMore;
   public List<Map<String, String>> examples;
-  public List<CodegenProperty> headers;
+  public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
   public String dataType, baseType, containerType;
   public Boolean simpleType;
   public Boolean primitiveType;
