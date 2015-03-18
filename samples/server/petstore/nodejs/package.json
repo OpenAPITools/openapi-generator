@@ -1,16 +1,15 @@
 {
-  "name": "swagger-client",
-  "description": "Wordnik node.js server generator",
-  "version": "1.0.0",
-  "homepage": "",
-  "main": "./main.js",
-  "engines": {
-    "node": ">= 0.8.x"
-  },
+  "name": "",
+  "version": "",
+  "description": "This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href=&quot;http://swagger.io&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key &quot;special-key&quot; to test the authorization filters",
+  "main": "index.js",
+  "keywords": [
+    "swagger"
+  ],
+  "license": "MIT",
+  "private": true,
   "dependencies": {
-    "swagger-node-express": ">= 2.0.x",
-    "connect": ">= 1.8.x",
-    "cors": "2.1.1",
-    "express": "3.x"
+    "connect": "^3.2.0",
+    "swagger-tools": "0.8.*"
   }
 }
