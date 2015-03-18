@@ -765,6 +765,7 @@ public class DefaultCodegen {
     r.schema = response.getSchema();
     r.examples = toExamples(response.getExamples());
     r.jsonSchema = Json.pretty(response);
+    addHeaders(response, r.headers);
 
     if (r.schema != null) {
       Property responseProperty = response.getSchema();
