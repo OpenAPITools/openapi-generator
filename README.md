@@ -64,9 +64,9 @@ usage: Codegen
  -i,--input-spec <arg>     location of the swagger spec, as URL or file
  -l,--lang <arg>           client language to generate.
                            Available languages include:
-                           [android, java, jaxrs, nodejs, objc, scalatra,
-                           scala, dynamic-html, html, swagger, tizen, php,
-                           python]
+                           [android, async-scala, java, jaxrs, nodejs,
+                           objc, scalatra, scala, dynamic-html, html,
+                           swagger, tizen, php, ruby, python]
  -o,--output <arg>         where to write the generated files
  -t,--template-dir <arg>   folder containing the template files
  ```
