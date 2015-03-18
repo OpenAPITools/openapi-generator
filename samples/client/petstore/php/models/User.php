@@ -22,7 +22,7 @@
  *
  */
 
-class User {
+class User implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'username' => 'string',
@@ -46,4 +46,31 @@ class User {
   * User Status
   */
   public $userStatus; /* int */
+
+  public function __construct(array $data) {
+    $this->id = $data["id"];
+    $this->username = $data["username"];
+    $this->firstName = $data["firstName"];
+    $this->lastName = $data["lastName"];
+    $this->email = $data["email"];
+    $this->password = $data["password"];
+    $this->phone = $data["phone"];
+    $this->userStatus = $data["userStatus"];
+  }
+
+  public function offsetExists($offset) {
+    return isset($this->$offset);
+  }
+
+  public function offsetGet($offset) {
+    return $this->$offset;
+  }
+
+  public function offsetSet($offset, $value) {
+    $this->$offset = $value;
+  }
+
+  public function offsetUnset($offset) {
+    unset($this->$offset);
+  }
 }
