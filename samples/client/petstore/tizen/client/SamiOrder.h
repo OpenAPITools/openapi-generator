@@ -45,23 +45,23 @@ public:
     SamiOrder* fromJson(String* obj);
 
     
-    Long* getId();
-    void setId(Long* pId);
+    Long* getpId();
+    void setpId(Long* pId);
     
-    Long* getPetId();
-    void setPetId(Long* pPetId);
+    Long* getpPetId();
+    void setpPetId(Long* pPetId);
     
-    Integer* getQuantity();
-    void setQuantity(Integer* pQuantity);
+    Integer* getpQuantity();
+    void setpQuantity(Integer* pQuantity);
     
-    DateTime* getShipDate();
-    void setShipDate(DateTime* pShipDate);
+    DateTime* getpShipDate();
+    void setpShipDate(DateTime* pShipDate);
     
-    String* getStatus();
-    void setStatus(String* pStatus);
+    String* getpStatus();
+    void setpStatus(String* pStatus);
     
-    Boolean* getComplete();
-    void setComplete(Boolean* pComplete);
+    Boolean* getpComplete();
+    void setpComplete(Boolean* pComplete);
     
 
 private:

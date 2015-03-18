@@ -238,109 +238,109 @@ SamiUser::asJsonObject() {
 
     
     JsonString *pIdKey = new JsonString(L"id");
-    pJsonObject->Add(pIdKey, toJson(getId(), "Long", ""));
+    pJsonObject->Add(pIdKey, toJson(getpId(), "Long", ""));
 
     
     JsonString *pUsernameKey = new JsonString(L"username");
-    pJsonObject->Add(pUsernameKey, toJson(getUsername(), "String", ""));
+    pJsonObject->Add(pUsernameKey, toJson(getpUsername(), "String", ""));
 
     
     JsonString *pFirstNameKey = new JsonString(L"firstName");
-    pJsonObject->Add(pFirstNameKey, toJson(getFirstName(), "String", ""));
+    pJsonObject->Add(pFirstNameKey, toJson(getpFirstName(), "String", ""));
 
     
     JsonString *pLastNameKey = new JsonString(L"lastName");
-    pJsonObject->Add(pLastNameKey, toJson(getLastName(), "String", ""));
+    pJsonObject->Add(pLastNameKey, toJson(getpLastName(), "String", ""));
 
     
     JsonString *pEmailKey = new JsonString(L"email");
-    pJsonObject->Add(pEmailKey, toJson(getEmail(), "String", ""));
+    pJsonObject->Add(pEmailKey, toJson(getpEmail(), "String", ""));
 
     
     JsonString *pPasswordKey = new JsonString(L"password");
-    pJsonObject->Add(pPasswordKey, toJson(getPassword(), "String", ""));
+    pJsonObject->Add(pPasswordKey, toJson(getpPassword(), "String", ""));
 
     
     JsonString *pPhoneKey = new JsonString(L"phone");
-    pJsonObject->Add(pPhoneKey, toJson(getPhone(), "String", ""));
+    pJsonObject->Add(pPhoneKey, toJson(getpPhone(), "String", ""));
 
     
     JsonString *pUserStatusKey = new JsonString(L"userStatus");
-    pJsonObject->Add(pUserStatusKey, toJson(getUserStatus(), "Integer", ""));
+    pJsonObject->Add(pUserStatusKey, toJson(getpUserStatus(), "Integer", ""));
 
     
     return pJsonObject;
 }
 
 Long*
-SamiUser::getId() {
+SamiUser::getpId() {
     return pId;
 }
 void
-SamiUser::setId(Long* pId) {
+SamiUser::setpId(Long* pId) {
     this->pId = pId;
 }
 
 String*
-SamiUser::getUsername() {
+SamiUser::getpUsername() {
     return pUsername;
 }
 void
-SamiUser::setUsername(String* pUsername) {
+SamiUser::setpUsername(String* pUsername) {
     this->pUsername = pUsername;
 }
 
 String*
-SamiUser::getFirstName() {
+SamiUser::getpFirstName() {
     return pFirstName;
 }
 void
-SamiUser::setFirstName(String* pFirstName) {
+SamiUser::setpFirstName(String* pFirstName) {
     this->pFirstName = pFirstName;
 }
 
 String*
-SamiUser::getLastName() {
+SamiUser::getpLastName() {
     return pLastName;
 }
 void
-SamiUser::setLastName(String* pLastName) {
+SamiUser::setpLastName(String* pLastName) {
     this->pLastName = pLastName;
 }
 
 String*
-SamiUser::getEmail() {
+SamiUser::getpEmail() {
     return pEmail;
 }
 void
-SamiUser::setEmail(String* pEmail) {
+SamiUser::setpEmail(String* pEmail) {
     this->pEmail = pEmail;
 }
 
 String*
-SamiUser::getPassword() {
+SamiUser::getpPassword() {
     return pPassword;
 }
 void
-SamiUser::setPassword(String* pPassword) {
+SamiUser::setpPassword(String* pPassword) {
     this->pPassword = pPassword;
 }
 
 String*
-SamiUser::getPhone() {
+SamiUser::getpPhone() {
     return pPhone;
 }
 void
-SamiUser::setPhone(String* pPhone) {
+SamiUser::setpPhone(String* pPhone) {
     this->pPhone = pPhone;
 }
 
 Integer*
-SamiUser::getUserStatus() {
+SamiUser::getpUserStatus() {
     return pUserStatus;
 }
 void
-SamiUser::setUserStatus(Integer* pUserStatus) {
+SamiUser::setpUserStatus(Integer* pUserStatus) {
     this->pUserStatus = pUserStatus;
 }
 
