@@ -198,10 +198,10 @@ public class UserApi {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    if(!"null".equals(String.valueOf(username)))
-      queryParams.put("username", String.valueOf(username));
-    if(!"null".equals(String.valueOf(password)))
-      queryParams.put("password", String.valueOf(password));
+    if (username != null)
+      queryParams.put("username", ApiInvoker.parameterToString(username));
+    if (password != null)
+      queryParams.put("password", ApiInvoker.parameterToString(password));
     
     
     String[] contentTypes = {
