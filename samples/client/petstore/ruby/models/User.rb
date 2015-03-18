@@ -4,22 +4,14 @@ class User
   # :internal => :external
   def self.attribute_map
     {
-      
-      :id => :id,
-      
-      :username => :username,
-      
-      :firstName => :firstName,
-      
-      :lastName => :lastName,
-      
-      :email => :email,
-      
-      :password => :password,
-      
-      :phone => :phone,
-      
-      :userStatus => :userStatus
+      :id => :'id',
+      :username => :'username',
+      :firstName => :'firstName',
+      :lastName => :'lastName',
+      :email => :'email',
+      :password => :'password',
+      :phone => :'phone',
+      :userStatus => :'userStatus'
       
     }
   end
@@ -29,51 +21,35 @@ class User
     # Morph attribute keys into undescored rubyish style
     
     if self.class.attribute_map[:"id"]
-      
       @id = attributes["id"]
-      
     end
     
     if self.class.attribute_map[:"username"]
-      
       @username = attributes["username"]
-      
     end
     
     if self.class.attribute_map[:"firstName"]
-      
       @firstName = attributes["firstName"]
-      
     end
     
     if self.class.attribute_map[:"lastName"]
-      
       @lastName = attributes["lastName"]
-      
     end
     
     if self.class.attribute_map[:"email"]
-      
       @email = attributes["email"]
-      
     end
     
     if self.class.attribute_map[:"password"]
-      
       @password = attributes["password"]
-      
     end
     
     if self.class.attribute_map[:"phone"]
-      
       @phone = attributes["phone"]
-      
     end
     
     if self.class.attribute_map[:"userStatus"]
-      
       @userStatus = attributes["userStatus"]
-      
     end
     
   end
