@@ -123,8 +123,17 @@
       <version>${servlet-api-version}</version>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <properties>
-    <swagger-core-version>1.5.1-M1</swagger-core-version>
+    <swagger-core-version>1.5.3-M1-SNAPSHOT</swagger-core-version>
     <jetty-version>8.1.11.v20130520</jetty-version>
     <jersey-version>1.13</jersey-version>
     <slf4j-version>1.6.3</slf4j-version>

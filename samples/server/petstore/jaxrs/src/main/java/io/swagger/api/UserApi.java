@@ -29,7 +29,8 @@ public class UserApi {
   
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
-  @com.wordnik.swagger.annotations.ApiResponses(value = {  })
+  @com.wordnik.swagger.annotations.ApiResponses(value = { 
+    @com.wordnik.swagger.annotations.ApiResponse(code = 0, message = "successful operation") })
 
   public Response createUser(@ApiParam(value = "Created user object"  ) User body)
       throws NotFoundException {
@@ -43,7 +44,8 @@ public class UserApi {
   
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
-  @com.wordnik.swagger.annotations.ApiResponses(value = {  })
+  @com.wordnik.swagger.annotations.ApiResponses(value = { 
+    @com.wordnik.swagger.annotations.ApiResponse(code = 0, message = "successful operation") })
 
   public Response createUsersWithArrayInput(@ApiParam(value = "List of user object"  ) List<User> body)
       throws NotFoundException {
@@ -57,7 +59,8 @@ public class UserApi {
   
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
-  @com.wordnik.swagger.annotations.ApiResponses(value = {  })
+  @com.wordnik.swagger.annotations.ApiResponses(value = { 
+    @com.wordnik.swagger.annotations.ApiResponse(code = 0, message = "successful operation") })
 
   public Response createUsersWithListInput(@ApiParam(value = "List of user object"  ) List<User> body)
       throws NotFoundException {
@@ -72,6 +75,8 @@ public class UserApi {
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Logs user into the system", notes = "", response = String.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
+    @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
+    
     @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied") })
 
   public Response loginUser(@ApiParam(value = "The user name for login") @QueryParam("username") String username,
@@ -87,7 +92,8 @@ public class UserApi {
   
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class)
-  @com.wordnik.swagger.annotations.ApiResponses(value = {  })
+  @com.wordnik.swagger.annotations.ApiResponses(value = { 
+    @com.wordnik.swagger.annotations.ApiResponse(code = 0, message = "successful operation") })
 
   public Response logoutUser()
       throws NotFoundException {
@@ -103,6 +109,8 @@ public class UserApi {
   @com.wordnik.swagger.annotations.ApiOperation(value = "Get user by user name", notes = "", response = User.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
     @com.wordnik.swagger.annotations.ApiResponse(code = 404, message = "User not found"),
+    
+    @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
     
     @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied") })
 

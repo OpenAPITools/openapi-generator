@@ -29,7 +29,8 @@ public class StoreApi {
   
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "map")
-  @com.wordnik.swagger.annotations.ApiResponses(value = {  })
+  @com.wordnik.swagger.annotations.ApiResponses(value = { 
+    @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation") })
 
   public Response getInventory()
       throws NotFoundException {
@@ -44,6 +45,8 @@ public class StoreApi {
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Place an order for a pet", notes = "", response = Order.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
+    @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
+    
     @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order") })
 
   public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet"  ) Order body)
@@ -60,6 +63,8 @@ public class StoreApi {
   @com.wordnik.swagger.annotations.ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
     @com.wordnik.swagger.annotations.ApiResponse(code = 404, message = "Order not found"),
+    
+    @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
     
     @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied") })
 
