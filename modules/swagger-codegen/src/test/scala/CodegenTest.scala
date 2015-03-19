@@ -22,7 +22,7 @@ class CodegenTest extends FlatSpec with Matchers {
     val codegen = new DefaultCodegen()
     val path = "/pet/{petId}/uploadImage"
     val p = model.getPaths().get(path).getPost()
-    val op = codegen.fromOperation(path, "post", p)
+    val op = codegen.fromOperation(path, "post", p, model.getDefinitions())
 
     op.operationId should be ("uploadFile")
     op.httpMethod should be ("POST")
@@ -52,7 +52,7 @@ class CodegenTest extends FlatSpec with Matchers {
     val codegen = new DefaultCodegen()
     val path = "/pet/{petId}"
     val p = model.getPaths().get(path).getPost()
-    val op = codegen.fromOperation(path, "post", p)
+    val op = codegen.fromOperation(path, "post", p, model.getDefinitions())
 
     op.operationId should be ("updatePetWithForm")
     op.httpMethod should be ("POST")
@@ -103,7 +103,7 @@ class CodegenTest extends FlatSpec with Matchers {
 
     val path = "/tests/withTwoHundredAndDefault"
     val p = model.getPaths().get(path).getGet()
-    val op = codegen.fromOperation(path, "get", p)
+    val op = codegen.fromOperation(path, "get", p, model.getDefinitions())
     op.returnType should be("String")
 
   }
@@ -116,9 +116,7 @@ class CodegenTest extends FlatSpec with Matchers {
 
     val path = "/tests/withoutTwoHundredButDefault"
     val p = model.getPaths().get(path).getGet()
-    val op = codegen.fromOperation(path, "get", p)
+    val op = codegen.fromOperation(path, "get", p, model.getDefinitions())
     op.returnType should be("String")
-
   }
-
 }
