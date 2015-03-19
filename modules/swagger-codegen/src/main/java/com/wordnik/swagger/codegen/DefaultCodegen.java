@@ -1,5 +1,6 @@
 package com.wordnik.swagger.codegen;
 
+import com.wordnik.swagger.codegen.examples.ExampleGenerator;
 import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.auth.ApiKeyAuthDefinition;
 import com.wordnik.swagger.models.auth.BasicAuthDefinition;
@@ -233,6 +234,55 @@ public class DefaultCodegen {
     importMapping.put("LocalDateTime", "org.joda.time.*");
     importMapping.put("LocalDate", "org.joda.time.*");
     importMapping.put("LocalTime", "org.joda.time.*");
+  }
+
+
+  public String generateExamplePath(String path, Operation operation) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(path);
+
+    if(operation.getParameters() != null) {
+      int count = 0;
+
+      for(Parameter param : operation.getParameters()) {
+        if(param instanceof QueryParameter) {
+          StringBuilder paramPart = new StringBuilder();
+          QueryParameter qp = (QueryParameter) param;
+
+          if(count == 0)
+            paramPart.append("?");
+          else
+            paramPart.append(",");
+          count += 1;
+          if(!param.getRequired())
+            paramPart.append("[");
+          paramPart.append(param.getName()).append("=");
+          paramPart.append("{");
+          if(qp.getCollectionFormat() != null) {
+            paramPart.append(param.getName() + "1");
+            if("csv".equals(qp.getCollectionFormat()))
+              paramPart.append(",");
+            else if("pipes".equals(qp.getCollectionFormat()))
+              paramPart.append("|");
+            else if("tsv".equals(qp.getCollectionFormat()))
+              paramPart.append("\t");
+            else if("multi".equals(qp.getCollectionFormat())) {
+              paramPart.append("&").append(param.getName()).append("=");
+              paramPart.append(param.getName() + "2");
+            }
+          }
+          else {
+            paramPart.append(param.getName());
+          }
+          paramPart.append("}");
+          if(!param.getRequired())
+            paramPart.append("]");
+          sb.append(paramPart.toString());
+        }
+      }
+    }
+
+    return sb.toString();
   }
 
   public String toInstantiationType(Property p) {
@@ -584,7 +634,7 @@ public class DefaultCodegen {
     return responses.get(code);
   }
 
-  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation){
+  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
     CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
     Set<String> imports = new HashSet<String>();
 
@@ -671,24 +721,40 @@ public class DefaultCodegen {
       }
       op.responses.get(op.responses.size() - 1).hasMore = false;
 
-      if (methodResponse != null) {
-        op.returnType = methodCodegenResponse.dataType;
-        op.returnBaseType = methodCodegenResponse.baseType;
-        op.returnSimpleType = methodCodegenResponse.simpleType;
-        op.returnTypeIsPrimitive = methodCodegenResponse.primitiveType;
-        op.returnContainer = methodCodegenResponse.containerType;
-        op.isListContainer = methodCodegenResponse.isListContainer;
-        op.isMapContainer = methodCodegenResponse.isMapContainer;
-        if (methodResponse.getSchema() != null) {
-          Property responseProperty = methodResponse.getSchema();
-          responseProperty.setRequired(true);
-          CodegenProperty cm = fromProperty("response", responseProperty);
-          op.examples = toExamples(methodResponse.getExamples());
-          op.defaultResponse = toDefaultValue(responseProperty);
-          addHeaders(methodResponse, op.responseHeaders);
-        }
+    if(methodResponse != null) {
+      if (methodResponse.getSchema() != null) {
+        CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
 
+        Property responseProperty = methodResponse.getSchema();
+
+        if(responseProperty instanceof ArrayProperty) {
+          ArrayProperty ap = (ArrayProperty) responseProperty;
+          CodegenProperty innerProperty = fromProperty("response", ap.getItems());
+          op.returnBaseType = innerProperty.baseType;
+        }
+        else {
+          if(cm.complexType != null)
+            op.returnBaseType = cm.complexType;
+          else
+            op.returnBaseType = cm.baseType;
+        }
+        op.examples = new ExampleGenerator(definitions).generate(methodResponse.getExamples(), operation.getProduces(), responseProperty);
+        op.defaultResponse = toDefaultValue(responseProperty);
+        op.returnType = cm.datatype;
+        if(cm.isContainer != null) {
+          op.returnContainer = cm.containerType;
+          if("map".equals(cm.containerType))
+            op.isMapContainer = Boolean.TRUE;
+          else if ("list".equalsIgnoreCase(cm.containerType))
+            op.isListContainer = Boolean.TRUE;
+        }
+        else
+          op.returnSimpleType = true;
+        if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null)
+          op.returnTypeIsPrimitive = true;
       }
+      addHeaders(methodResponse, op.responseHeaders);
+    }
     }
 
     List<Parameter> parameters = operation.getParameters();

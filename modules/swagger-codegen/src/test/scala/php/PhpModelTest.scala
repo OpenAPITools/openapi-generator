@@ -245,14 +245,14 @@ class PhpModelTest extends FlatSpec with Matchers {
     val animalPaths = model.getPaths()
     val animalOps = animalPaths.get("/animals")
     animalOps.getPost() should not be (null)
-    val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost())
+    val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), model.getDefinitions())
     animalCo.imports.size should be (1)
     animalCo.imports.contains("Animal") should equal (true)
 
     val insectPaths = model.getPaths()
     val insectOps = insectPaths.get("/insects")
     insectOps.getPost() should not be (null)
-    val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost())
+    val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), model.getDefinitions())
     insectCo.imports.size should be (1)
     insectCo.imports.contains("Insect") should equal (true)
   }

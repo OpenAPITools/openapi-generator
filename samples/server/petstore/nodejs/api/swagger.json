@@ -8,7 +8,7 @@
   "produces": [
     "application/json"
   ],
-  "host": "petstore.swagger.io",
+  "host": "localhost:8080",
   "basePath": "/v2",
   "paths": {
     "/user": {
