@@ -26,7 +26,12 @@ class Tag implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'name' => 'string'
-    );
+  );
+
+  static $attributeMap = array(
+      'id' => 'id',
+      'name' => 'name'
+  );
 
   
   public $id; /* int */

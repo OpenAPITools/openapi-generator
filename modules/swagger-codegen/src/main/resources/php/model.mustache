@@ -28,7 +28,12 @@ class {{classname}} implements ArrayAccess {
   static $swaggerTypes = array(
       {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
       {{/hasMore}}{{/vars}}
-    );
+  );
+
+  static $attributeMap = array(
+      {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
+      {{/hasMore}}{{/vars}}
+  );
 
   {{#vars}}{{#description}}
   /**
