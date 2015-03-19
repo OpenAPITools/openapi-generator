@@ -303,28 +303,6 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
     
-            // primitive response type
-    
-    
-    // no return base type
-    return [client stringWithCompletionBlock: requestUrl 
-                                      method: @"DELETE" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-    
-    
-    
-    
 }
 
 

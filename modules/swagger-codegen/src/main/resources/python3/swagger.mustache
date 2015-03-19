@@ -43,7 +43,6 @@ class ApiClient:
 
         data = None
 
-        
         if queryParams:
             # Need to remove None values, these should not be sent
             sentQueryParams = {}
@@ -57,7 +56,7 @@ class ApiClient:
             #Options to add statements later on and for compatibility
             pass
 
-        elif method in ['POST', 'PUT', 'DELETE']:
+        elif method in ['PATCH', 'POST', 'PUT', 'DELETE']:
 
             if postData:
                 headers['Content-type'] = 'application/json'
@@ -119,6 +118,39 @@ class ApiClient:
                     for (key, val) in objDict.items()
                     if key != 'swaggerTypes'}
 
+    def _iso8601Format(self, timesep, microsecond, offset, zulu):
+        """Format for parsing a datetime string with given properties.
+
+        Args:
+            timesep -- string separating time from date ('T' or 't')
+            microsecond -- microsecond portion of time ('.XXX')
+            offset -- time offset (+/-XX:XX) or None
+            zulu -- 'Z' or 'z' for UTC, or None for time offset (+/-XX:XX)
+
+        Returns:
+            str - format string for datetime.strptime"""
+
+        return '%Y-%m-%d{}%H:%M:%S{}{}'.format(
+            timesep,
+            '.%f' if microsecond else '',
+            zulu or ('%z' if offset else ''))
+
+    # http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
+    _iso8601Regex = re.compile(
+        r'^\d\d\d\d-\d\d-\d\d([Tt])\d\d:\d\d:\d\d(\.\d+)?(([Zz])|(\+|-)\d\d:?\d\d)?$')
+
+    def _parseDatetime(self, d):
+        if d is None:
+            return None
+        m = ApiClient._iso8601Regex.match(d)
+        if not m:
+            raise Exception('datetime regex match failed "%s"' % d)
+        timesep, microsecond, offset, zulu, plusminus = m.groups()
+        format = self._iso8601Format(timesep, microsecond, offset, zulu)
+        if offset and not zulu:
+            d = d.rsplit(sep=plusminus, maxsplit=1)[0] + offset.replace(':', '')
+        return datetime.datetime.strptime(d, format)
+
     def deserialize(self, obj, objClass):
         """Derialize a JSON string into an object.
 
@@ -145,11 +177,7 @@ class ApiClient:
         if objClass in [int, float, dict, list, str, bool]:
             return objClass(obj)
         elif objClass == datetime:
-            # Server will always return a time stamp in UTC, but with
-            # trailing +0000 indicating no offset from UTC. So don't process
-            # last 5 characters.
-            return datetime.datetime.strptime(obj[:-5],
-                                              "%Y-%m-%dT%H:%M:%S.%f")
+            return self._parseDatetime(obj)
 
         instance = objClass()
 
@@ -167,8 +195,7 @@ class ApiClient:
                         value = value
                     setattr(instance, attr, value)
                 elif (attrType == 'datetime'):
-                    setattr(instance, attr, datetime.datetime.strptime(value[:-5],
-                                              "%Y-%m-%dT%H:%M:%S.%f"))
+                    setattr(instance, attr, self._parseDatetime(value))
                 elif 'list[' in attrType:
                     match = re.match('list\[(.*)\]', attrType)
                     subClass = match.group(1)
@@ -182,7 +209,7 @@ class ApiClient:
                     setattr(instance, attr, subValues)
                 else:
                     setattr(instance, attr, self.deserialize(value,
-                                                             objClass))
+                                                             attrType))
 
         return instance
 

@@ -1,16 +1,15 @@
 {
-  "name": "{{{artifactId}}}",
-  "description": "Wordnik node.js server generator",
-  "version": "{{{artifactVersion}}}",
-  "homepage": "{{{homepage}}}",
-  "main": "./main.js",
-  "engines": {
-    "node": ">= 0.8.x"
-  },
+  "name": "{{projectName}}",
+  "version": "{{appVersion}}",
+  "description": "{{appDescription}}",
+  "main": "index.js",
+  "keywords": [
+    "swagger"
+  ],
+  "license": "MIT",
+  "private": true,
   "dependencies": {
-    "swagger-node-express": ">= 2.0.x",
-    "connect": ">= 1.8.x",
-    "cors": "2.1.1",
-    "express": "3.x"
+    "connect": "^3.2.0",
+    "swagger-tools": "0.8.*"
   }
 }

@@ -1,6 +1,7 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
+import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.models.properties.*;
 
 import java.util.*;
@@ -35,6 +36,8 @@ public interface CodegenConfig {
 
   CodegenModel fromModel(String name, Model model);
   CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
+  List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);
+
   Set<String> defaultIncludes();
   Map<String, String> typeMapping();
   Map<String, String> instantiationTypes();

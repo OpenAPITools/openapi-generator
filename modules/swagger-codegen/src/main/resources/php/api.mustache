@@ -50,20 +50,20 @@ class {{classname}} {
 
       {{#queryParams}}// query params
       if(${{paramName}} !== null) {
-  		  $queryParams['{{paramName}}'] = $this->apiClient->toQueryValue(${{paramName}});
+  		  $queryParams['{{baseName}}'] = $this->apiClient->toQueryValue(${{paramName}});
   		}{{/queryParams}}
       {{#headerParams}}// header params
       if(${{paramName}} !== null) {
-  		 	$headerParams['{{paramName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
+  		 	$headerParams['{{baseName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
   		}{{/headerParams}}
       {{#pathParams}}// path params
       if(${{paramName}} !== null) {
-  			$resourcePath = str_replace("{" . "{{paramName}}" . "}",
+  			$resourcePath = str_replace("{" . "{{baseName}}" . "}",
   			                            $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
   		}{{/pathParams}}
-      {{#formParams}}
+      {{#formParams}}// form params
       if (${{paramName}} !== null) {
-        $formParams[{{paramName}}] = {{#isFile}}'@' . {{/isFile}}${{paramName}};
+        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->toFormValue(${{paramName}});
       }{{/formParams}}
       {{#bodyParams}}// body params
       $body = null;
@@ -71,6 +71,7 @@ class {{classname}} {
         $body = ${{paramName}};
       }{{/bodyParams}}
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
