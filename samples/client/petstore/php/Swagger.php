@@ -182,7 +182,7 @@ class APIClient {
     } else if (is_object($data)) {
       $values = array();
       foreach (array_keys($data::$swaggerTypes) as $property) {
-        $values[$property] = $this->sanitizeForSerialization($data->$property);
+        $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$property);
       }
       $sanitized = $values;
     } else {
@@ -295,7 +295,8 @@ class APIClient {
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
         if (isset($data->$property)) {
-          $instance->$property = self::deserialize($data->$property, $type);
+          $original_property_name = $instance::$attributeMap[$property];
+          $instance->$property = self::deserialize($data->$original_property_name, $type);
         }
       }
       $deserialized = $instance;
