@@ -271,7 +271,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       }
 
       for (String tag : tags) {
-        CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation);
+        CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions());
         co.tags = new ArrayList<String>();
         co.tags.add(sanitizeTag(tag));
         config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
