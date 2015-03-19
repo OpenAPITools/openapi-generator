@@ -8,20 +8,20 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
-public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
+public class SwaggerYamlGenerator extends DefaultCodegen implements CodegenConfig {
   public CodegenType getTag() {
     return CodegenType.DOCUMENTATION;
   }
 
   public String getName() {
-    return "swagger";
+    return "swagger-yaml";
   }
 
   public String getHelp() {
-    return "Creates a static swagger.json file.";
+    return "Creates a static swagger.yaml file.";
   }
 
-  public SwaggerGenerator() {
+  public SwaggerYamlGenerator() {
     super();
     templateDir = "swagger";
     outputFolder = "generated-code/swagger";
@@ -31,10 +31,9 @@ public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public void processSwagger(Swagger swagger) {
-    String swaggerString = Json.pretty(swagger);
-
     try{
-      String outputFile = outputFolder + File.separator + "swagger.json";
+      String swaggerString = Yaml.mapper().writeValueAsString(swagger);
+      String outputFile = outputFolder + File.separator + "swagger.yaml";
       FileUtils.writeStringToFile(new File(outputFile), swaggerString);
       System.out.println("wrote file to " + outputFile);
     }
