@@ -58,10 +58,10 @@ public class {{classname}} {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
-      queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
+    {{#queryParams}}if ({{paramName}} != null)
+      queryParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
     {{/queryParams}}
-    {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
+    {{#headerParams}}headerParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
     {{/headerParams}}
     String[] contentTypes = {
       {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
@@ -74,7 +74,7 @@ public class {{classname}} {
       FormDataMultiPart mp = new FormDataMultiPart();
       {{#formParams}}{{#notFile}}
       hasFields = true;
-      mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), MediaType.MULTIPART_FORM_DATA_TYPE);
       {{/notFile}}{{#isFile}}
       hasFields = true;
       mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
@@ -83,7 +83,7 @@ public class {{classname}} {
         postBody = mp;
     }
     else {
-      {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", {{paramName}});{{/notFile}}
+      {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));{{/notFile}}
       {{/formParams}}
     }
 

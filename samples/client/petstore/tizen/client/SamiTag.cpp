@@ -148,31 +148,31 @@ SamiTag::asJsonObject() {
 
     
     JsonString *pIdKey = new JsonString(L"id");
-    pJsonObject->Add(pIdKey, toJson(getId(), "Long", ""));
+    pJsonObject->Add(pIdKey, toJson(getpId(), "Long", ""));
 
     
     JsonString *pNameKey = new JsonString(L"name");
-    pJsonObject->Add(pNameKey, toJson(getName(), "String", ""));
+    pJsonObject->Add(pNameKey, toJson(getpName(), "String", ""));
 
     
     return pJsonObject;
 }
 
 Long*
-SamiTag::getId() {
+SamiTag::getpId() {
     return pId;
 }
 void
-SamiTag::setId(Long* pId) {
+SamiTag::setpId(Long* pId) {
     this->pId = pId;
 }
 
 String*
-SamiTag::getName() {
+SamiTag::getpName() {
     return pName;
 }
 void
-SamiTag::setName(String* pName) {
+SamiTag::setpName(String* pName) {
     this->pName = pName;
 }
 

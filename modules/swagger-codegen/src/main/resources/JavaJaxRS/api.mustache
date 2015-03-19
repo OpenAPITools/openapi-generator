@@ -2,7 +2,8 @@ package {{package}};
 
 import {{modelPackage}}.*;
 
-import com.wordnik.swagger.annotations.*;
+import com.wordnik.swagger.annotations.ApiParam;
+
 import com.sun.jersey.multipart.FormDataParam;
 
 {{#imports}}import {{import}};
@@ -20,7 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 
 @Path("/{{baseName}}")
-@Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+@com.wordnik.swagger.annotations.Api(value = "/{{baseName}}", description = "the {{baseName}} API")
 {{#operations}}
 public class {{classname}} {
   {{#operation}}
@@ -28,10 +29,9 @@ public class {{classname}} {
   {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
   {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
   {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
-  // {{returnType}}
-  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
-  @ApiResponses(value = { {{#responses}}
-    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
+  @com.wordnik.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
+  @com.wordnik.swagger.annotations.ApiResponses(value = { {{#responses}}
+    @com.wordnik.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
     {{/hasMore}}{{/responses}} })
 
   public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},

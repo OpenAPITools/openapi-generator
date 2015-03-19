@@ -9,6 +9,8 @@ com.wordnik.swagger.codegen.languages.ScalaClientCodegen
 com.wordnik.swagger.codegen.languages.StaticDocCodegen
 com.wordnik.swagger.codegen.languages.StaticHtmlGenerator
 com.wordnik.swagger.codegen.languages.SwaggerGenerator
+com.wordnik.swagger.codegen.languages.SwaggerYamlGenerator
 com.wordnik.swagger.codegen.languages.TizenClientCodegen
 com.wordnik.swagger.codegen.languages.PhpClientCodegen
+com.wordnik.swagger.codegen.languages.RubyClientCodegen
 com.wordnik.swagger.codegen.languages.PythonClientCodegen

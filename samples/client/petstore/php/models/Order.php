@@ -22,7 +22,7 @@
  *
  */
 
-class Order {
+class Order implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'petId' => 'int',
@@ -42,4 +42,29 @@ class Order {
   */
   public $status; /* string */
   public $complete; /* boolean */
+
+  public function __construct(array $data) {
+    $this->id = $data["id"];
+    $this->petId = $data["petId"];
+    $this->quantity = $data["quantity"];
+    $this->shipDate = $data["shipDate"];
+    $this->status = $data["status"];
+    $this->complete = $data["complete"];
+  }
+
+  public function offsetExists($offset) {
+    return isset($this->$offset);
+  }
+
+  public function offsetGet($offset) {
+    return $this->$offset;
+  }
+
+  public function offsetSet($offset, $value) {
+    $this->$offset = $value;
+  }
+
+  public function offsetUnset($offset) {
+    unset($this->$offset);
+  }
 }

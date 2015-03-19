@@ -57,6 +57,7 @@ class UserApi {
         $body = $body;
       }
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -102,6 +103,7 @@ class UserApi {
         $body = $body;
       }
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -147,6 +149,7 @@ class UserApi {
         $body = $body;
       }
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -195,6 +198,7 @@ class UserApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -241,6 +245,7 @@ class UserApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -286,6 +291,7 @@ class UserApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -342,6 +348,7 @@ class UserApi {
         $body = $body;
       }
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -387,6 +394,7 @@ class UserApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {

@@ -22,7 +22,7 @@
  *
  */
 
-class Pet {
+class Pet implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'category' => 'Category',
@@ -42,4 +42,29 @@ class Pet {
   * pet status in the store
   */
   public $status; /* string */
+
+  public function __construct(array $data) {
+    $this->id = $data["id"];
+    $this->category = $data["category"];
+    $this->name = $data["name"];
+    $this->photoUrls = $data["photoUrls"];
+    $this->tags = $data["tags"];
+    $this->status = $data["status"];
+  }
+
+  public function offsetExists($offset) {
+    return isset($this->$offset);
+  }
+
+  public function offsetGet($offset) {
+    return $this->$offset;
+  }
+
+  public function offsetSet($offset, $value) {
+    $this->$offset = $value;
+  }
+
+  public function offsetUnset($offset) {
+    unset($this->$offset);
+  }
 }

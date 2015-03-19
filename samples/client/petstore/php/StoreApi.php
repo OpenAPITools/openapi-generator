@@ -52,6 +52,7 @@ class StoreApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -103,6 +104,7 @@ class StoreApi {
         $body = $body;
       }
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -154,6 +156,7 @@ class StoreApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
@@ -205,6 +208,7 @@ class StoreApi {
       
       
 
+      // for HTTP post (form)
       $body = $body ?: $formParams;
 
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
