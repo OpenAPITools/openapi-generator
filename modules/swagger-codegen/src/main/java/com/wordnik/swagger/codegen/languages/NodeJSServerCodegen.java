@@ -44,8 +44,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
    */
   public String getHelp() {
     return "Generates a nodejs server library using the swagger-tools project.  By default, " +
-      "it will not generate service classes--which you will have to implement on your own or let " +
-      "the codegen do it with the `-Dservice` environment variable.";
+      "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
   }
 
   public NodeJSServerCodegen() {
@@ -117,7 +116,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
       "",
       "package.json")
     );
-    if(System.getProperty("service") != null) {
+    if(System.getProperty("noservice") == null) {
       apiTemplateFiles.put(
         "service.mustache",   // the template to use
         "Service.js");       // the extension for each file to write
