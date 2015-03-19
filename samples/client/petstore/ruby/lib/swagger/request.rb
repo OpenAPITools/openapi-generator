@@ -19,7 +19,8 @@ module Swagger
       # Set default headers
       default_headers = {
         'Content-Type' => "application/#{attributes[:format].downcase}",
-        :api_key => Swagger.configuration.api_key
+        :api_key => Swagger.configuration.api_key,
+        'User-Agent' => Swagger.configuration.user_agent
       }
 
       # api_key from headers hash trumps the default, even if its value is blank

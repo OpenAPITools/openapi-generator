@@ -16,7 +16,7 @@ class UserApi
     
     # set default values and merge with input
     options = {
-      :body => body
+      :'body' => body
       
     }.merge(opts)
 
@@ -77,7 +77,7 @@ class UserApi
     
     # set default values and merge with input
     options = {
-      :body => body
+      :'body' => body
       
     }.merge(opts)
 
@@ -138,7 +138,7 @@ class UserApi
     
     # set default values and merge with input
     options = {
-      :body => body
+      :'body' => body
       
     }.merge(opts)
 
@@ -199,8 +199,8 @@ class UserApi
     
     # set default values and merge with input
     options = {
-      :username => username,
-      :password => password
+      :'username' => username,
+      :'password' => password
       
     }.merge(opts)
 
@@ -280,7 +280,7 @@ class UserApi
     
     # set default values and merge with input
     options = {
-      :username => username
+      :'username' => username
       
     }.merge(opts)
 
@@ -322,8 +322,8 @@ class UserApi
     
     # set default values and merge with input
     options = {
-      :username => username,
-      :body => body
+      :'username' => username,
+      :'body' => body
       
     }.merge(opts)
 
@@ -385,7 +385,7 @@ class UserApi
     
     # set default values and merge with input
     options = {
-      :username => username
+      :'username' => username
       
     }.merge(opts)
 

@@ -16,7 +16,7 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :body => body
+      :'body' => body
       
     }.merge(opts)
 
@@ -77,7 +77,7 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :body => body
+      :'body' => body
       
     }.merge(opts)
 
@@ -138,7 +138,7 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :status => status
+      :'status' => status
       
     }.merge(opts)
 
@@ -180,7 +180,7 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :tags => tags
+      :'tags' => tags
       
     }.merge(opts)
 
@@ -222,7 +222,7 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :petId => petId
+      :'petId' => petId
       
     }.merge(opts)
 
@@ -264,9 +264,9 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :petId => petId,
-      :name => name,
-      :status => status
+      :'petId' => petId,
+      :'name' => name,
+      :'status' => status
       
     }.merge(opts)
 
@@ -309,8 +309,8 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :api_key => api_key,
-      :petId => petId
+      :'api_key' => api_key,
+      :'petId' => petId
       
     }.merge(opts)
 
@@ -351,9 +351,9 @@ class PetApi
     
     # set default values and merge with input
     options = {
-      :petId => petId,
-      :additionalMetadata => additionalMetadata,
-      :file => file
+      :'petId' => petId,
+      :'additionalMetadata' => additionalMetadata,
+      :'file' => file
       
     }.merge(opts)
 
