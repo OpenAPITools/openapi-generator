@@ -556,14 +556,18 @@ public class DefaultCodegen {
         property.isPrimitiveType = true;
     }
     else {
-      property.isNotContainer = true;
+        setNonArrayMapProperty(property, type);
+    }
+    return property;
+  }
+
+  protected void setNonArrayMapProperty(CodegenProperty property, String type) {
+    property.isNotContainer = true;
       if(languageSpecificPrimitives().contains(type))
         property.isPrimitiveType = true;
       else
         property.complexType = property.baseType;
     }
-    return property;
-  }
 
   private Response findMethodResponse(Map<String, Response> responses) {
 
