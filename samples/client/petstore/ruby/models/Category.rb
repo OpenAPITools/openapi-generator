@@ -4,10 +4,8 @@ class Category
   # :internal => :external
   def self.attribute_map
     {
-      
-      :id => :id,
-      
-      :name => :name
+      :id => :'id',
+      :name => :'name'
       
     }
   end
@@ -17,15 +15,11 @@ class Category
     # Morph attribute keys into undescored rubyish style
     
     if self.class.attribute_map[:"id"]
-      
       @id = attributes["id"]
-      
     end
     
     if self.class.attribute_map[:"name"]
-      
       @name = attributes["name"]
-      
     end
     
   end

@@ -6,8 +6,7 @@ class {{classname}}
   # :internal => :external
   def self.attribute_map
     {
-      {{#vars}}
-      :{{{name}}} => :{{{baseName}}}{{#hasMore}},{{/hasMore}}
+      {{#vars}}:{{{name}}} => :'{{{baseName}}}'{{#hasMore}},{{/hasMore}}
       {{/vars}}
     }
   end
@@ -17,13 +16,9 @@ class {{classname}}
     # Morph attribute keys into undescored rubyish style
     {{#vars}}
     if self.class.attribute_map[:"{{{name}}}"]
-      {{#isContainer}}
-      if (value = attributes["{{{baseName}}}"]).is_a?(Array)
-        @{{{name}}} = value{{#complexType}}.map{ |v| {{complexType}}.new(v) }{{/complexType}}{{newline}}
-      end
-      {{/isContainer}}{{^isContainer}}
-      @{{{name}}} = attributes["{{{baseName}}}"]
-      {{/isContainer}}
+      {{#isContainer}}if (value = attributes["{{{baseName}}}"]).is_a?(Array)
+        @{{{name}}} = value{{#complexType}}.map{ |v| {{complexType}}.new(v) }{{/complexType}}
+      end{{/isContainer}}{{^isContainer}}@{{{name}}} = attributes["{{{baseName}}}"]{{/isContainer}}
     end
     {{/vars}}
   end
