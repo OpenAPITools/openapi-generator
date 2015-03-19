@@ -43,7 +43,9 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
    * @return A string value for the help message
    */
   public String getHelp() {
-    return "Generates a nodejs server library.";
+    return "Generates a nodejs server library using the swagger-tools project.  By default, " +
+      "it will not generate service classes--which you will have to implement on your own or let " +
+      "the codegen do it with the `-Dservice` environment variable.";
   }
 
   public NodeJSServerCodegen() {

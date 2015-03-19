@@ -1,0 +1,18 @@
+'use strict';
+
+{{#operations}}
+{{#operation}}
+exports.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+
+  var examples = {};
+  {{#examples}}
+  examples['{{contentType}}'] = {{{example}}};
+  {{/examples}}
+
+  {{#returnType}}
+  if(Object.keys(examples).length > 0)
+    return examples[Object.keys(examples)[0]];
+  {{/returnType}}
+}
+{{/operation}}
+{{/operations}}
