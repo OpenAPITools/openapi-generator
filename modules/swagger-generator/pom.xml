@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.wordnik</groupId>
     <artifactId>swagger-codegen-project</artifactId>
-    <version>2.1.1-M1-SNAPSHOT</version>
+    <version>2.1.2-M1</version>
     <relativePath>../..</relativePath>
   </parent>
   <groupId>com.wordnik</groupId>
@@ -200,10 +200,18 @@
       <artifactId>jetty-deploy</artifactId>
       <version>${jetty-version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.scalatest</groupId>
+      <artifactId>scalatest_2.11</artifactId>
+      <version>${scala-test-version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala-version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
@@ -228,6 +236,5 @@
 
     <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
     <scala-version>2.10.0</scala-version>
-    <scala-test-version>1.9</scala-test-version>
   </properties>
 </project>

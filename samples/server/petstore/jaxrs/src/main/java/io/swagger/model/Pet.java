@@ -1,8 +1,8 @@
 package io.swagger.model;
 
 import io.swagger.model.Category;
-import java.util.*;
 import io.swagger.model.Tag;
+import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;

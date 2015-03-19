@@ -13,12 +13,12 @@ The goal of Swagger™ is to define a standard, language-agnostic interface to R
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
-## Compatability
-The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
+## Compatibility
+The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilities with the swagger specification:
 
-Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
+Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
 ----------------------- | ------------ | -------------------------- | -----
-2.1.0-M1                | 2015-02-16   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.0-M1](https://github.com/swagger-api/swagger-codegen/tree/v2.1.0-M1)
+2.1.2-M1 (master)       | 2015-02-23   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.0-M1](https://github.com/swagger-api/swagger-codegen)
 2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
@@ -46,7 +46,7 @@ You can build a client against the swagger sample [petstore](http://petstore.swa
 This will run the generator with this command:
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.0-M1.jar \
+java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l java \
   -o samples/client/petstore/java
@@ -91,7 +91,7 @@ It's just as easy--just use the `-i` flag to point to either a server or file.
 ### Modifying the client library format
 Don't like the default swagger client syntax?  Want a different language supported?  No problem!  Swagger codegen processes mustache templates with the [jmustache](https://github.com/samskivert/jmustache) engine.  You can modify our templates or make your own.
 
-You can look at `src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
+You can look at `modules/swagger-codegen/src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
 
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
@@ -149,7 +149,7 @@ public class MyObjcCodegen extends ObjcClientCodegen {
 and specify the `classname` when running the generator:
 
 ```
--i com.mycompany.swagger.codegen.MyObjcCodegen
+-l com.mycompany.swagger.codegen.MyObjcCodegen
 ```
 
 Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.
@@ -189,7 +189,7 @@ You can also use the codegen to generate a server for a couple different framewo
 
 ### node.js
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.0-M1.jar \
+java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l nodejs \
   -o samples/server/petstore/nodejs
@@ -201,7 +201,7 @@ java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distributi
 
 ### scala scalatra
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.0-M1.jar \
+java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l scalatra \
   -o samples/server/petstore/scalatra
@@ -210,7 +210,7 @@ java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distributi
 ### java jax-rs
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.0-M1.jar \
+java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l jaxrs \
   -o samples/server/petstore/jaxrs

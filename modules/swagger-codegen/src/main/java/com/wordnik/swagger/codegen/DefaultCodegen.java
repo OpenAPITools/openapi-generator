@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.io.File;
 
 public class DefaultCodegen {
   Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -101,11 +102,11 @@ public class DefaultCodegen {
   }
 
   public String apiFileFolder() {
-    return outputFolder + "/" + apiPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + modelPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
   }
 
   public Map<String, Object> additionalProperties() {
@@ -131,6 +132,10 @@ public class DefaultCodegen {
 
   public String toApiFilename(String name) {
     return initialCaps(name) + "Api";
+  }
+
+  public String toApiVarName(String name) {
+    return snakeCase(name);
   }
 
   public String toModelFilename(String name) {
@@ -304,6 +309,10 @@ public class DefaultCodegen {
       if(p != null) datatype = p.getType();
     }
     return datatype;
+  }
+
+  public String snakeCase(String name) {
+    return Character.toLowerCase(name.charAt(0)) + name.substring(1);
   }
 
   public String initialCaps(String name) {

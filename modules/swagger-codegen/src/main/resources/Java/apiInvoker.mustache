@@ -51,8 +51,11 @@ public class ApiInvoker {
   }
 
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
+    if(null != containerType) {
+        containerType = containerType.toLowerCase();
+    }
     try{
-      if("List".equals(containerType)) {
+      if("list".equals(containerType) || "array".equals(containerType)) {
         JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
         List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
         return response;
@@ -103,12 +106,12 @@ public class ApiInvoker {
 
     Builder builder = client.resource(host + path + querystring).accept("application/json");
     for(String key : headerParams.keySet()) {
-      builder.header(key, headerParams.get(key));
+      builder = builder.header(key, headerParams.get(key));
     }
 
     for(String key : defaultHeaderMap.keySet()) {
       if(!headerParams.containsKey(key)) {
-        builder.header(key, defaultHeaderMap.get(key));
+        builder = builder.header(key, defaultHeaderMap.get(key));
       }
     }
     ClientResponse response = null;
