@@ -69,11 +69,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + apiPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + modelPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override

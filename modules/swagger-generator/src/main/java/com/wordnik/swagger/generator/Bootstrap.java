@@ -31,11 +31,13 @@ public class Bootstrap extends HttpServlet {
     bc.setBasePath("/api");
     bc.setTitle("Swagger Generator");
     bc.setDescription("This is an online swagger codegen server.  You can find out more " + 
-      "at <a href=\"https://github.com/wordnik/swagger-generator\">https://github.com/wordnik/swagger-generator</a> or on irc.freenode.net, #swagger." +
+      "at <a href=\"https://github.com/wordnik/swagger-generator\">https://github.com/swagger-api/swagger-codegen</a> or on irc.freenode.net, #swagger." +
       "http://helloreverb.com/terms/");
     bc.setTermsOfServiceUrl("http://helloreverb.com/terms/");
     bc.setContact("apiteam@swagger.io");
     bc.setLicense("Apache 2.0");
+    bc.setVersion("1.0.0");
+    bc.setHost("generator.swagger.io");
     bc.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
     bc.setResourcePackage("com.wordnik.swagger.generator.resource");
     bc.setScan(true);
