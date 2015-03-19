@@ -26,6 +26,7 @@ public interface CodegenConfig {
   String getTypeDeclaration(Property p);
   String getTypeDeclaration(String name);
   void processOpts();
+  String generateExamplePath(String path, Operation operation);
 
   Set<String> reservedWords();
 
@@ -35,7 +36,7 @@ public interface CodegenConfig {
   String getOutputDir();
 
   CodegenModel fromModel(String name, Model model);
-  CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
+  CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions);
   List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);
 
   Set<String> defaultIncludes();

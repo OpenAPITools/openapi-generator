@@ -115,6 +115,11 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
       "",
       "package.json")
     );
+    if(System.getProperty("service") != null) {
+      apiTemplateFiles.put(
+        "service.mustache",   // the template to use
+        "Service.js");       // the extension for each file to write
+    }
   }
 
   @Override
@@ -162,6 +167,22 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         for(CodegenResponse resp : responses) {
           if("0".equals(resp.code))
             resp.code = "default";
+        }
+      }
+      if(operation.examples != null && operation.examples.size() > 0) {
+        List<Map<String, String>> examples = operation.examples;
+        for(int i = examples.size() - 1; i >= 0; i--) {
+          Map<String, String> example = examples.get(i);
+          String contentType = example.get("contentType");
+          if(contentType != null && contentType.indexOf("application/json") == 0) {
+            String jsonExample = example.get("example");
+            if(jsonExample != null) {
+              jsonExample = jsonExample.replaceAll("\\\\n", "\n");
+              example.put("example", jsonExample);
+            }            
+          }
+          else
+            examples.remove(i);
         }
       }
     }
