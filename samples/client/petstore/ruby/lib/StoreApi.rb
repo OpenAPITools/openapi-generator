@@ -57,7 +57,7 @@ class StoreApi
     
     # set default values and merge with input
     options = {
-      :body => body
+      :'body' => body
       
     }.merge(opts)
 
@@ -119,7 +119,7 @@ class StoreApi
     
     # set default values and merge with input
     options = {
-      :orderId => orderId
+      :'orderId' => orderId
       
     }.merge(opts)
 
@@ -161,7 +161,7 @@ class StoreApi
     
     # set default values and merge with input
     options = {
-      :orderId => orderId
+      :'orderId' => orderId
       
     }.merge(opts)
 
