@@ -317,7 +317,7 @@ public class DefaultCodegen {
   }
 
   public String snakeCase(String name) {
-    return Character.toLowerCase(name.charAt(0)) + name.substring(1);
+      return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
   }
 
   public String initialCaps(String name) {
