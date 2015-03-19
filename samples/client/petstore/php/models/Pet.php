@@ -30,7 +30,16 @@ class Pet implements ArrayAccess {
       'photoUrls' => 'array[string]',
       'tags' => 'array[Tag]',
       'status' => 'string'
-    );
+  );
+
+  static $attributeMap = array(
+      'id' => 'id',
+      'category' => 'category',
+      'name' => 'name',
+      'photoUrls' => 'photoUrls',
+      'tags' => 'tags',
+      'status' => 'status'
+  );
 
   
   public $id; /* int */

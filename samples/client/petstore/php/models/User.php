@@ -32,7 +32,18 @@ class User implements ArrayAccess {
       'password' => 'string',
       'phone' => 'string',
       'userStatus' => 'int'
-    );
+  );
+
+  static $attributeMap = array(
+      'id' => 'id',
+      'username' => 'username',
+      'firstName' => 'firstName',
+      'lastName' => 'lastName',
+      'email' => 'email',
+      'password' => 'password',
+      'phone' => 'phone',
+      'userStatus' => 'userStatus'
+  );
 
   
   public $id; /* int */
