@@ -8,7 +8,9 @@ import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.Json;
+
 import org.apache.commons.lang.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,7 +143,7 @@ public class DefaultCodegen {
   }
 
   public String toModelFilename(String name) {
-    return name;
+    return initialCaps(name);
   }
 
   public String toOperationId(String operationId) { return operationId; }
