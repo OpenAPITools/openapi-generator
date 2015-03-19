@@ -30,7 +30,16 @@ class Order implements ArrayAccess {
       'shipDate' => 'DateTime',
       'status' => 'string',
       'complete' => 'boolean'
-    );
+  );
+
+  static $attributeMap = array(
+      'id' => 'id',
+      'petId' => 'petId',
+      'quantity' => 'quantity',
+      'shipDate' => 'shipDate',
+      'status' => 'status',
+      'complete' => 'complete'
+  );
 
   
   public $id; /* int */
