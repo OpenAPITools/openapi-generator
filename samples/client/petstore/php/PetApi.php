@@ -224,12 +224,12 @@ class PetApi {
 	 * getPetById
    *
 	 * Find pet by ID
-   * petId, int: ID of pet that needs to be fetched (required)
+   * pet_id, int: ID of pet that needs to be fetched (required)
    * 
 	 * @return Pet
 	 */
 
-   public function getPetById($petId) {
+   public function getPetById($pet_id) {
 
   		// parse inputs
   		$resourcePath = "/pet/{petId}";
@@ -244,9 +244,9 @@ class PetApi {
       
       
       // path params
-      if($petId !== null) {
+      if($pet_id !== null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
   		}
       
       
@@ -276,14 +276,14 @@ class PetApi {
 	 * updatePetWithForm
    *
 	 * Updates a pet in the store with form data
-   * petId, string: ID of pet that needs to be updated (required)
+   * pet_id, string: ID of pet that needs to be updated (required)
    * * name, string: Updated name of the pet (required)
    * * status, string: Updated status of the pet (required)
    * 
 	 * @return 
 	 */
 
-   public function updatePetWithForm($petId, $name, $status) {
+   public function updatePetWithForm($pet_id, $name, $status) {
 
   		// parse inputs
   		$resourcePath = "/pet/{petId}";
@@ -298,9 +298,9 @@ class PetApi {
       
       
       // path params
-      if($petId !== null) {
+      if($pet_id !== null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
   		}
       // form params
       if ($name !== null) {
@@ -331,12 +331,12 @@ class PetApi {
    *
 	 * Deletes a pet
    * api_key, string:  (required)
-   * * petId, int: Pet id to delete (required)
+   * * pet_id, int: Pet id to delete (required)
    * 
 	 * @return 
 	 */
 
-   public function deletePet($api_key, $petId) {
+   public function deletePet($api_key, $pet_id) {
 
   		// parse inputs
   		$resourcePath = "/pet/{petId}";
@@ -354,9 +354,9 @@ class PetApi {
   		 	$headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
   		}
       // path params
-      if($petId !== null) {
+      if($pet_id !== null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
   		}
       
       
@@ -380,14 +380,14 @@ class PetApi {
 	 * uploadFile
    *
 	 * uploads an image
-   * petId, int: ID of pet to update (required)
-   * * additionalMetadata, string: Additional data to pass to server (required)
+   * pet_id, int: ID of pet to update (required)
+   * * additional_metadata, string: Additional data to pass to server (required)
    * * file, file: file to upload (required)
    * 
 	 * @return 
 	 */
 
-   public function uploadFile($petId, $additionalMetadata, $file) {
+   public function uploadFile($pet_id, $additional_metadata, $file) {
 
   		// parse inputs
   		$resourcePath = "/pet/{petId}/uploadImage";
@@ -402,13 +402,13 @@ class PetApi {
       
       
       // path params
-      if($petId !== null) {
+      if($pet_id !== null) {
   			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($petId), $resourcePath);
+  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
   		}
       // form params
-      if ($additionalMetadata !== null) {
-        $formParams['additionalMetadata'] = $this->apiClient->toFormValue($additionalMetadata);
+      if ($additional_metadata !== null) {
+        $formParams['additionalMetadata'] = $this->apiClient->toFormValue($additional_metadata);
       }// form params
       if ($file !== null) {
         $formParams['file'] = '@' . $this->apiClient->toFormValue($file);
