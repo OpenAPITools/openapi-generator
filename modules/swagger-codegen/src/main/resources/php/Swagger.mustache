@@ -90,7 +90,7 @@ class APIClient {
 
     $headers = array();
 
-    # Allow headers passed in through $headerParams to take president over $this->defaultHeaders
+    # Allow headers passed in through $headerParams to take precedent over $this->defaultHeaders
     $headerParams = array_merge($this->defaultHeaders, $headerParams);
     if ($headerParams != null) {
       foreach ($headerParams as $key => $val) {
