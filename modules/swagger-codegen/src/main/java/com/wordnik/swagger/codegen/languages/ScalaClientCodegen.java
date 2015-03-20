@@ -11,7 +11,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
   protected String groupId = "com.wordnik";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
-  protected String sourceFolder = "src/main/java";
+  protected String sourceFolder = "src/main/scala";
   protected String authScheme = "";
   protected boolean authPreemptive = false;
   protected boolean asyncHttpClient = !authScheme.isEmpty();

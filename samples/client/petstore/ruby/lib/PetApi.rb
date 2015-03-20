@@ -16,9 +16,8 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :body => body
-    
+      :'body' => body
+      
     }.merge(opts)
 
     #resource path
@@ -29,8 +28,9 @@ class PetApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -77,9 +77,8 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :body => body
-    
+      :'body' => body
+      
     }.merge(opts)
 
     #resource path
@@ -90,8 +89,9 @@ class PetApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -138,9 +138,8 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :status => status
-    
+      :'status' => status
+      
     }.merge(opts)
 
     #resource path
@@ -151,8 +150,9 @@ class PetApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -180,9 +180,8 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :tags => tags
-    
+      :'tags' => tags
+      
     }.merge(opts)
 
     #resource path
@@ -193,8 +192,9 @@ class PetApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -222,9 +222,8 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :petId => petId
-    
+      :'petId' => petId
+      
     }.merge(opts)
 
     #resource path
@@ -236,8 +235,9 @@ class PetApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -264,15 +264,10 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :petId => petId,
+      :'petId' => petId,
+      :'name' => name,
+      :'status' => status
       
-    
-      :name => name,
-      
-    
-      :status => status
-    
     }.merge(opts)
 
     #resource path
@@ -284,8 +279,9 @@ class PetApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -313,12 +309,9 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :api_key => api_key,
+      :'api_key' => api_key,
+      :'petId' => petId
       
-    
-      :petId => petId
-    
     }.merge(opts)
 
     #resource path
@@ -330,11 +323,10 @@ class PetApi
       query_param_keys.include? key
     end
 
-    headers = {
-      api_key: api_key,
-    }
+    # header parameters, if any
+    headers = {}
     
-    
+    headers[:'api_key'] = api_key
 
     # http body (model)
     post_body = nil
@@ -359,15 +351,10 @@ class PetApi
     
     # set default values and merge with input
     options = {
-    
-      :petId => petId,
+      :'petId' => petId,
+      :'additionalMetadata' => additionalMetadata,
+      :'file' => file
       
-    
-      :additionalMetadata => additionalMetadata,
-      
-    
-      :file => file
-    
     }.merge(opts)
 
     #resource path
@@ -379,8 +366,9 @@ class PetApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)

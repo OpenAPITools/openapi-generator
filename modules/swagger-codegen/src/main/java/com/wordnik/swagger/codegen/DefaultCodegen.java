@@ -1,5 +1,6 @@
 package com.wordnik.swagger.codegen;
 
+import com.wordnik.swagger.codegen.examples.ExampleGenerator;
 import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.auth.ApiKeyAuthDefinition;
 import com.wordnik.swagger.models.auth.BasicAuthDefinition;
@@ -8,7 +9,9 @@ import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.models.parameters.*;
 import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.Json;
+
 import org.apache.commons.lang.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,7 +144,7 @@ public class DefaultCodegen {
   }
 
   public String toModelFilename(String name) {
-    return name;
+    return initialCaps(name);
   }
 
   public String toOperationId(String operationId) { return operationId; }
@@ -233,6 +236,55 @@ public class DefaultCodegen {
     importMapping.put("LocalTime", "org.joda.time.*");
   }
 
+
+  public String generateExamplePath(String path, Operation operation) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(path);
+
+    if(operation.getParameters() != null) {
+      int count = 0;
+
+      for(Parameter param : operation.getParameters()) {
+        if(param instanceof QueryParameter) {
+          StringBuilder paramPart = new StringBuilder();
+          QueryParameter qp = (QueryParameter) param;
+
+          if(count == 0)
+            paramPart.append("?");
+          else
+            paramPart.append(",");
+          count += 1;
+          if(!param.getRequired())
+            paramPart.append("[");
+          paramPart.append(param.getName()).append("=");
+          paramPart.append("{");
+          if(qp.getCollectionFormat() != null) {
+            paramPart.append(param.getName() + "1");
+            if("csv".equals(qp.getCollectionFormat()))
+              paramPart.append(",");
+            else if("pipes".equals(qp.getCollectionFormat()))
+              paramPart.append("|");
+            else if("tsv".equals(qp.getCollectionFormat()))
+              paramPart.append("\t");
+            else if("multi".equals(qp.getCollectionFormat())) {
+              paramPart.append("&").append(param.getName()).append("=");
+              paramPart.append(param.getName() + "2");
+            }
+          }
+          else {
+            paramPart.append(param.getName());
+          }
+          paramPart.append("}");
+          if(!param.getRequired())
+            paramPart.append("]");
+          sb.append(paramPart.toString());
+        }
+      }
+    }
+
+    return sb.toString();
+  }
+
   public String toInstantiationType(Property p) {
     if (p instanceof MapProperty) {
       MapProperty ap = (MapProperty) p;
@@ -317,7 +369,7 @@ public class DefaultCodegen {
   }
 
   public String snakeCase(String name) {
-    return Character.toLowerCase(name.charAt(0)) + name.substring(1);
+      return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
   }
 
   public String initialCaps(String name) {
@@ -479,9 +531,9 @@ public class DefaultCodegen {
     property.setter = "set" + getterAndSetterCapitalize(name);
     property.example = p.getExample();
     property.defaultValue = toDefaultValue(p);
+    property.jsonSchema = Json.pretty(p);
 
     String type = getSwaggerType(p);
-
     if(p instanceof AbstractNumericProperty) {
       AbstractNumericProperty np = (AbstractNumericProperty) p;
       property.minimum = np.getMinimum();
@@ -554,14 +606,18 @@ public class DefaultCodegen {
         property.isPrimitiveType = true;
     }
     else {
-      property.isNotContainer = true;
+        setNonArrayMapProperty(property, type);
+    }
+    return property;
+  }
+
+  protected void setNonArrayMapProperty(CodegenProperty property, String type) {
+    property.isNotContainer = true;
       if(languageSpecificPrimitives().contains(type))
         property.isPrimitiveType = true;
       else
         property.complexType = property.baseType;
     }
-    return property;
-  }
 
   private Response findMethodResponse(Map<String, Response> responses) {
 
@@ -578,7 +634,7 @@ public class DefaultCodegen {
     return responses.get(code);
   }
 
-  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation){
+  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
     CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
     Set<String> imports = new HashSet<String>();
 
@@ -621,6 +677,8 @@ public class DefaultCodegen {
         count += 1;
         if (count < operation.getConsumes().size())
           mediaType.put("hasMore", "true");
+        else
+          mediaType.put("hasMore", null);
         c.add(mediaType);
       }
       op.consumes = c;
@@ -636,6 +694,8 @@ public class DefaultCodegen {
         count += 1;
         if (count < operation.getProduces().size())
           mediaType.put("hasMore", "true");
+        else
+          mediaType.put("hasMore", null);
         c.add(mediaType);
       }
       op.produces = c;
@@ -643,7 +703,6 @@ public class DefaultCodegen {
     }
 
     if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-
       Response methodResponse = findMethodResponse(operation.getResponses());
       CodegenResponse methodCodegenResponse = null;
 
@@ -662,24 +721,40 @@ public class DefaultCodegen {
       }
       op.responses.get(op.responses.size() - 1).hasMore = false;
 
-      if (methodResponse != null) {
-        op.returnType = methodCodegenResponse.dataType;
-        op.returnBaseType = methodCodegenResponse.baseType;
-        op.returnSimpleType = methodCodegenResponse.simpleType;
-        op.returnTypeIsPrimitive = methodCodegenResponse.primitiveType;
-        op.returnContainer = methodCodegenResponse.containerType;
-        op.isListContainer = methodCodegenResponse.isListContainer;
-        op.isMapContainer = methodCodegenResponse.isMapContainer;
-        if (methodResponse.getSchema() != null) {
-          Property responseProperty = methodResponse.getSchema();
-          responseProperty.setRequired(true);
-          CodegenProperty cm = fromProperty("response", responseProperty);
-          op.examples = toExamples(methodResponse.getExamples());
-          op.defaultResponse = toDefaultValue(responseProperty);
-          addHeaders(methodResponse, op.responseHeaders);
-        }
+    if(methodResponse != null) {
+      if (methodResponse.getSchema() != null) {
+        CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
 
+        Property responseProperty = methodResponse.getSchema();
+
+        if(responseProperty instanceof ArrayProperty) {
+          ArrayProperty ap = (ArrayProperty) responseProperty;
+          CodegenProperty innerProperty = fromProperty("response", ap.getItems());
+          op.returnBaseType = innerProperty.baseType;
+        }
+        else {
+          if(cm.complexType != null)
+            op.returnBaseType = cm.complexType;
+          else
+            op.returnBaseType = cm.baseType;
+        }
+        op.examples = new ExampleGenerator(definitions).generate(methodResponse.getExamples(), operation.getProduces(), responseProperty);
+        op.defaultResponse = toDefaultValue(responseProperty);
+        op.returnType = cm.datatype;
+        if(cm.isContainer != null) {
+          op.returnContainer = cm.containerType;
+          if("map".equals(cm.containerType))
+            op.isMapContainer = Boolean.TRUE;
+          else if ("list".equalsIgnoreCase(cm.containerType))
+            op.isListContainer = Boolean.TRUE;
+        }
+        else
+          op.returnSimpleType = true;
+        if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null)
+          op.returnTypeIsPrimitive = true;
       }
+      addHeaders(methodResponse, op.responseHeaders);
+    }
     }
 
     List<Parameter> parameters = operation.getParameters();
@@ -761,6 +836,8 @@ public class DefaultCodegen {
     r.message = response.getDescription();
     r.schema = response.getSchema();
     r.examples = toExamples(response.getExamples());
+    r.jsonSchema = Json.pretty(response);
+    addHeaders(response, r.headers);
 
     if (r.schema != null) {
       Property responseProperty = response.getSchema();
@@ -803,6 +880,7 @@ public class DefaultCodegen {
     p.baseName = param.getName();
     p.description = param.getDescription();
     p.required = param.getRequired();
+    p.jsonSchema = Json.pretty(param);
 
     if(param instanceof SerializableParameter) {
       SerializableParameter qp = (SerializableParameter) param;

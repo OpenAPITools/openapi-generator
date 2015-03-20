@@ -39,7 +39,7 @@
         }
         {{/isContainer}}{{#isNotContainer}}
         if({{name}}_dict != nil)
-            _{{name}} = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{complexType}}} {{/instantiationType}} alloc]initWithValues:{{name}}_dict];
+            _{{name}} = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{complexType}}} {{/instantiationType}} alloc]{{setter}}:{{name}}_dict];
         {{/isNotContainer}}
         {{/complexType}}
         {{/vars}}{{newline}}

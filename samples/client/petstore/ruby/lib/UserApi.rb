@@ -16,9 +16,8 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
-      :body => body
-    
+      :'body' => body
+      
     }.merge(opts)
 
     #resource path
@@ -29,8 +28,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -77,9 +77,8 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
-      :body => body
-    
+      :'body' => body
+      
     }.merge(opts)
 
     #resource path
@@ -90,8 +89,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -138,9 +138,8 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
-      :body => body
-    
+      :'body' => body
+      
     }.merge(opts)
 
     #resource path
@@ -151,8 +150,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -199,12 +199,9 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
-      :username => username,
+      :'username' => username,
+      :'password' => password
       
-    
-      :password => password
-    
     }.merge(opts)
 
     #resource path
@@ -215,8 +212,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -243,7 +241,7 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
+      
     }.merge(opts)
 
     #resource path
@@ -254,8 +252,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -281,9 +280,8 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
-      :username => username
-    
+      :'username' => username
+      
     }.merge(opts)
 
     #resource path
@@ -295,8 +293,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -323,12 +322,9 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
-      :username => username,
+      :'username' => username,
+      :'body' => body
       
-    
-      :body => body
-    
     }.merge(opts)
 
     #resource path
@@ -340,8 +336,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -388,9 +385,8 @@ class UserApi
     
     # set default values and merge with input
     options = {
-    
-      :username => username
-    
+      :'username' => username
+      
     }.merge(opts)
 
     #resource path
@@ -402,8 +398,9 @@ class UserApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)

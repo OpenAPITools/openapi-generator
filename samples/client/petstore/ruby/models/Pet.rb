@@ -4,18 +4,12 @@ class Pet
   # :internal => :external
   def self.attribute_map
     {
-      
-      :id => :id,
-      
-      :category => :category,
-      
-      :name => :name,
-      
-      :photoUrls => :photoUrls,
-      
-      :tags => :tags,
-      
-      :status => :status
+      :id => :'id',
+      :category => :'category',
+      :name => :'name',
+      :photoUrls => :'photoUrls',
+      :tags => :'tags',
+      :status => :'status'
       
     }
   end
@@ -25,43 +19,31 @@ class Pet
     # Morph attribute keys into undescored rubyish style
     
     if self.class.attribute_map[:"id"]
-      
       @id = attributes["id"]
-      
     end
     
     if self.class.attribute_map[:"category"]
-      
       @category = attributes["category"]
-      
     end
     
     if self.class.attribute_map[:"name"]
-      
       @name = attributes["name"]
-      
     end
     
     if self.class.attribute_map[:"photoUrls"]
-      
       if (value = attributes["photoUrls"]).is_a?(Array)
         @photoUrls = value
       end
-      
     end
     
     if self.class.attribute_map[:"tags"]
-      
       if (value = attributes["tags"]).is_a?(Array)
         @tags = value.map{ |v| Tag.new(v) }
       end
-      
     end
     
     if self.class.attribute_map[:"status"]
-      
       @status = attributes["status"]
-      
     end
     
   end

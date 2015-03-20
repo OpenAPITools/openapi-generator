@@ -23,10 +23,8 @@ class {{classname}}
     
     # set default values and merge with input
     options = {
-    {{#allParams}}
-      :{{paramName}} => {{paramName}}{{#hasMore}},
-      {{/hasMore}}
-    {{/allParams}}
+      {{#allParams}}:'{{paramName}}' => {{paramName}}{{#hasMore}},{{/hasMore}}
+      {{/allParams}}
     }.merge(opts)
 
     #resource path
@@ -38,12 +36,10 @@ class {{classname}}
       query_param_keys.include? key
     end
 
-    {{#headerParams}}headers = {
-      {{{paramName}}}: {{{paramName}}},
-    }
-    {{/headerParams}}
-    {{^headerParams}}headers = nil
-    {{/headerParams}}
+    # header parameters, if any
+    headers = {}
+    {{#headerParams}}{{#optional}}headers[:'{{{baseName}}}'] = options[:'{{{paramName}}}'] if options[:'{{{paramName}}}']{{/optional}}{{/headerParams}}
+    {{#headerParams}}{{^optional}}headers[:'{{{baseName}}}'] = {{{paramName}}}{{/optional}}{{/headerParams}}
 
     # http body (model)
     post_body = nil
