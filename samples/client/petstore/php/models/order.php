@@ -22,7 +22,7 @@
  *
  */
 
-class Order implements ArrayAccess {
+class order implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'pet_id' => 'int',

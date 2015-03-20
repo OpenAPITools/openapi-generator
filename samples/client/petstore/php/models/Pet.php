@@ -27,7 +27,7 @@ class Pet implements ArrayAccess {
       'id' => 'int',
       'category' => 'Category',
       'name' => 'string',
-      'photoUrls' => 'array[string]',
+      'photo_urls' => 'array[string]',
       'tags' => 'array[Tag]',
       'status' => 'string'
   );
@@ -36,7 +36,7 @@ class Pet implements ArrayAccess {
       'id' => 'id',
       'category' => 'category',
       'name' => 'name',
-      'photoUrls' => 'photoUrls',
+      'photo_urls' => 'photoUrls',
       'tags' => 'tags',
       'status' => 'status'
   );
@@ -45,7 +45,7 @@ class Pet implements ArrayAccess {
   public $id; /* int */
   public $category; /* Category */
   public $name; /* string */
-  public $photoUrls; /* array[string] */
+  public $photo_urls; /* array[string] */
   public $tags; /* array[Tag] */
   /**
   * pet status in the store
@@ -56,7 +56,7 @@ class Pet implements ArrayAccess {
     $this->id = $data["id"];
     $this->category = $data["category"];
     $this->name = $data["name"];
-    $this->photoUrls = $data["photoUrls"];
+    $this->photo_urls = $data["photo_urls"];
     $this->tags = $data["tags"];
     $this->status = $data["status"];
   }

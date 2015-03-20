@@ -38,7 +38,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     reservedWords = new HashSet<String> (
       Arrays.asList(
-        "int")
+        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
     );
 
     additionalProperties.put("invokerPackage", invokerPackage);
@@ -66,7 +66,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
   public String escapeReservedWord(String name) {
     return "_" + name;
   }
-
+  
   @Override
   public String apiFileFolder() {
     return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
@@ -111,4 +111,42 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
   public String toDefaultValue(Property p) {
     return "null";
   }
+
+
+  @Override
+  public String toVarName(String name) {
+    // parameter name starting with number won't compile
+    // need to escape it by appending _ at the beginning
+    if (name.matches("^[0-9]")) {
+      name = "_" + name;
+    }
+    
+    // return the name in underscore style
+    // PhoneNumber => phone_number
+    return underscore(name);
+  }
+
+  @Override
+  public String toParamName(String name) {
+    // should be the same as variable name
+    return toVarName(name);
+  }
+
+  @Override
+  public String toModelName(String name) {
+    // model name cannot use reserved keyword
+    if(reservedWords.contains(name))
+      escapeReservedWord(name); // e.g. return => _return
+
+    // camelize the model name
+    // phone_number => PhoneNumber
+    return camelize(name);
+  }
+
+  @Override
+  public String toModelFilename(String name) {
+    // should be the same as the model name
+    return toModelName(name);
+  }
+
 }
