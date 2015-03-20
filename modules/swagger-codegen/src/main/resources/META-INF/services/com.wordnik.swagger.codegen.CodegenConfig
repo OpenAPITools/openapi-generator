@@ -2,6 +2,7 @@ com.wordnik.swagger.codegen.languages.AndroidClientCodegen
 com.wordnik.swagger.codegen.languages.AsyncScalaClientCodegen
 com.wordnik.swagger.codegen.languages.JavaClientCodegen
 com.wordnik.swagger.codegen.languages.JaxRSServerCodegen
+com.wordnik.swagger.codegen.languages.SpringdoxServerCodegen
 com.wordnik.swagger.codegen.languages.NodeJSServerCodegen
 com.wordnik.swagger.codegen.languages.ObjcClientCodegen
 com.wordnik.swagger.codegen.languages.ScalatraServerCodegen
