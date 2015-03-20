@@ -42,11 +42,11 @@ public:
     SamiTag* fromJson(String* obj);
 
     
-    Long* getId();
-    void setId(Long* pId);
+    Long* getpId();
+    void setpId(Long* pId);
     
-    String* getName();
-    void setName(String* pName);
+    String* getpName();
+    void setpName(String* pName);
     
 
 private:

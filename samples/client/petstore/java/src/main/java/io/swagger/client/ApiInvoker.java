@@ -19,15 +19,74 @@ import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.io.IOException;
+import java.util.Date;
+import java.util.TimeZone;
+
 import java.net.URLEncoder;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE = new ApiInvoker();
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean isDebug = false;
+
+  /**
+   * ISO 8601 date time format.
+   * @see https://en.wikipedia.org/wiki/ISO_8601
+   */
+  public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+
+  /**
+   * ISO 8601 date format.
+   * @see https://en.wikipedia.org/wiki/ISO_8601
+   */
+  public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
+  static {
+    // Use UTC as the default time zone.
+    DATE_TIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+  }
+
+  public static Date parseDateTime(String str) {
+    try {
+      return DATE_TIME_FORMAT.parse(str);
+    } catch (java.text.ParseException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static Date parseDate(String str) {
+    try {
+      return DATE_FORMAT.parse(str);
+    } catch (java.text.ParseException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static String formatDateTime(Date datetime) {
+    return DATE_TIME_FORMAT.format(datetime);
+  }
+
+  public static String formatDate(Date date) {
+    return DATE_FORMAT.format(date);
+  }
+
+  public static String parameterToString(Object param) {
+    if (param == null) {
+      return "";
+    } else if (param instanceof Date) {
+      return formatDateTime((Date) param);
+    } else {
+      return String.valueOf(param);
+    }
+  }
 
   public void enableDebug() {
     isDebug = true;

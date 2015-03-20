@@ -148,31 +148,31 @@ SamiCategory::asJsonObject() {
 
     
     JsonString *pIdKey = new JsonString(L"id");
-    pJsonObject->Add(pIdKey, toJson(getId(), "Long", ""));
+    pJsonObject->Add(pIdKey, toJson(getpId(), "Long", ""));
 
     
     JsonString *pNameKey = new JsonString(L"name");
-    pJsonObject->Add(pNameKey, toJson(getName(), "String", ""));
+    pJsonObject->Add(pNameKey, toJson(getpName(), "String", ""));
 
     
     return pJsonObject;
 }
 
 Long*
-SamiCategory::getId() {
+SamiCategory::getpId() {
     return pId;
 }
 void
-SamiCategory::setId(Long* pId) {
+SamiCategory::setpId(Long* pId) {
     this->pId = pId;
 }
 
 String*
-SamiCategory::getName() {
+SamiCategory::getpName() {
     return pName;
 }
 void
-SamiCategory::setName(String* pName) {
+SamiCategory::setpName(String* pName) {
     this->pName = pName;
 }
 

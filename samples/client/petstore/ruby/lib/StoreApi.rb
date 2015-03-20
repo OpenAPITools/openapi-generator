@@ -16,7 +16,7 @@ class StoreApi
     
     # set default values and merge with input
     options = {
-    
+      
     }.merge(opts)
 
     #resource path
@@ -27,8 +27,9 @@ class StoreApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -56,9 +57,8 @@ class StoreApi
     
     # set default values and merge with input
     options = {
-    
-      :body => body
-    
+      :'body' => body
+      
     }.merge(opts)
 
     #resource path
@@ -69,8 +69,9 @@ class StoreApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -118,9 +119,8 @@ class StoreApi
     
     # set default values and merge with input
     options = {
-    
-      :orderId => orderId
-    
+      :'orderId' => orderId
+      
     }.merge(opts)
 
     #resource path
@@ -132,8 +132,9 @@ class StoreApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)
@@ -160,9 +161,8 @@ class StoreApi
     
     # set default values and merge with input
     options = {
-    
-      :orderId => orderId
-    
+      :'orderId' => orderId
+      
     }.merge(opts)
 
     #resource path
@@ -174,8 +174,9 @@ class StoreApi
       query_param_keys.include? key
     end
 
+    # header parameters, if any
+    headers = {}
     
-    headers = nil
     
 
     # http body (model)

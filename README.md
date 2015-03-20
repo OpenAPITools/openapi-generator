@@ -16,7 +16,7 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
 ## Compatability
 The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
 
-Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
+Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
 ----------------------- | ------------ | -------------------------- | -----
 2.1.3-M1-SNAPSHOT                | 2015-02-23   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.0-M1](https://github.com/swagger-api/swagger-codegen)
 2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
@@ -64,9 +64,9 @@ usage: Codegen
  -i,--input-spec <arg>     location of the swagger spec, as URL or file
  -l,--lang <arg>           client language to generate.
                            Available languages include:
-                           [android, java, jaxrs, nodejs, objc, scalatra,
-                           scala, dynamic-html, html, swagger, tizen, php,
-                           python]
+                           [android, async-scala, java, jaxrs, nodejs,
+                           objc, scalatra, scala, dynamic-html, html,
+                           swagger, tizen, php, ruby, python]
  -o,--output <arg>         where to write the generated files
  -t,--template-dir <arg>   folder containing the template files
  ```
