@@ -40,6 +40,8 @@ public class DefaultGenerator implements Generator {
         Info info = swagger.getInfo();
         if(info.getTitle() != null)
           config.additionalProperties().put("appName", info.getTitle());
+        if(info.getVersion() != null)
+          config.additionalProperties().put("appVersion", info.getVersion());
         if(info.getDescription() != null)
           config.additionalProperties().put("appDescription", info.getDescription());
         if(info.getContact() != null) {
