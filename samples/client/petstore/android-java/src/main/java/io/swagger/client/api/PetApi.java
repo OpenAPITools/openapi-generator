@@ -10,6 +10,9 @@ import java.util.*;
 import io.swagger.client.model.Pet;
 import java.io.File;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
@@ -46,16 +49,34 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json","application/xml"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -83,16 +104,34 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/json","application/xml"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -120,18 +159,36 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    if(!"null".equals(String.valueOf(status)))
-      queryParams.put("status", String.valueOf(status));
+    if (status != null)
+      queryParams.put("status", ApiInvoker.parameterToString(status));
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
       }
@@ -159,18 +216,36 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
-    if(!"null".equals(String.valueOf(tags)))
-      queryParams.put("tags", String.valueOf(tags));
+    if (tags != null)
+      queryParams.put("tags", ApiInvoker.parameterToString(tags));
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
       }
@@ -198,16 +273,34 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
       }
@@ -235,16 +328,44 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "application/x-www-form-urlencoded"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+      if (name != null) {
+        builder.addTextBody("name", ApiInvoker.parameterToString(name), ApiInvoker.TEXT_PLAIN_UTF8);
+      }
+      
+      if (status != null) {
+        builder.addTextBody("status", ApiInvoker.parameterToString(status), ApiInvoker.TEXT_PLAIN_UTF8);
+      }
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      formParams.put("name", ApiInvoker.parameterToString(name));
+      formParams.put("status", ApiInvoker.parameterToString(status));
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -272,17 +393,35 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
-    headerParams.put("api_key", api_key);
+    headerParams.put("api_key", ApiInvoker.parameterToString(api_key));
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -310,16 +449,44 @@ public class PetApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      "multipart/form-data"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+      if (additionalMetadata != null) {
+        builder.addTextBody("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), ApiInvoker.TEXT_PLAIN_UTF8);
+      }
+      
+      if (file != null) {
+        builder.addBinaryBody("file", file);
+      }
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      formParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
+      
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
