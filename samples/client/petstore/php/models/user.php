@@ -22,43 +22,51 @@
  *
  */
 
-class Order implements ArrayAccess {
+class user implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
-      'pet_id' => 'int',
-      'quantity' => 'int',
-      'ship_date' => 'DateTime',
-      'status' => 'string',
-      'complete' => 'boolean'
+      'username' => 'string',
+      'first_name' => 'string',
+      'last_name' => 'string',
+      'email' => 'string',
+      'password' => 'string',
+      'phone' => 'string',
+      'user_status' => 'int'
   );
 
   static $attributeMap = array(
       'id' => 'id',
-      'pet_id' => 'petId',
-      'quantity' => 'quantity',
-      'ship_date' => 'shipDate',
-      'status' => 'status',
-      'complete' => 'complete'
+      'username' => 'username',
+      'first_name' => 'firstName',
+      'last_name' => 'lastName',
+      'email' => 'email',
+      'password' => 'password',
+      'phone' => 'phone',
+      'user_status' => 'userStatus'
   );
 
   
   public $id; /* int */
-  public $pet_id; /* int */
-  public $quantity; /* int */
-  public $ship_date; /* DateTime */
+  public $username; /* string */
+  public $first_name; /* string */
+  public $last_name; /* string */
+  public $email; /* string */
+  public $password; /* string */
+  public $phone; /* string */
   /**
-  * Order Status
+  * User Status
   */
-  public $status; /* string */
-  public $complete; /* boolean */
+  public $user_status; /* int */
 
   public function __construct(array $data) {
     $this->id = $data["id"];
-    $this->pet_id = $data["pet_id"];
-    $this->quantity = $data["quantity"];
-    $this->ship_date = $data["ship_date"];
-    $this->status = $data["status"];
-    $this->complete = $data["complete"];
+    $this->username = $data["username"];
+    $this->first_name = $data["first_name"];
+    $this->last_name = $data["last_name"];
+    $this->email = $data["email"];
+    $this->password = $data["password"];
+    $this->phone = $data["phone"];
+    $this->user_status = $data["user_status"];
   }
 
   public function offsetExists($offset) {

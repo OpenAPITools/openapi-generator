@@ -58,7 +58,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(2).baseName should be ("createdAt")
     vars.get(2).complexType should be (null)
     vars.get(2).datatype should be ("DateTime")
-    vars.get(2).name should be ("createdAt")
+    vars.get(2).name should be ("created_at")
     vars.get(2).defaultValue should be ("null")
     vars.get(2).baseType should be ("DateTime")
     vars.get(2).hasMore should equal (null)

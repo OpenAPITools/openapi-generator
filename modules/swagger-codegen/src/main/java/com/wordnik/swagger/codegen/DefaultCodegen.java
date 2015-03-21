@@ -18,6 +18,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class DefaultCodegen {
   Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
@@ -1060,4 +1063,76 @@ public class DefaultCodegen {
     opList.add(co);
     co.baseName = tag;    
   }
+
+  /* underscore and camelize are copied from Twitter elephant bird
+   * https://github.com/twitter/elephant-bird/blob/master/core/src/main/java/com/twitter/elephantbird/util/Strings.java
+   */
+
+  /**
+   * Underscore the given word.
+   * @param word The word
+   * @return The underscored version of the word
+   */
+  public static String underscore(String word) {
+    String firstPattern = "([A-Z]+)([A-Z][a-z])";
+    String secondPattern = "([a-z\\d])([A-Z])";
+    String replacementPattern = "$1_$2";
+    // Replace package separator with slash.
+    word = word.replaceAll("\\.", "/");
+    // Replace $ with two underscores for inner classes.
+    word = word.replaceAll("\\$", "__");
+    // Replace capital letter with _ plus lowercase letter.
+    word = word.replaceAll(firstPattern, replacementPattern);
+    word = word.replaceAll(secondPattern, replacementPattern);
+    word = word.replace('-', '_');
+    word = word.toLowerCase();
+    return word;
+  }
+
+  public static String camelize(String word) {
+    return camelize(word, false);
+  }
+
+  public static String camelize(String word, boolean lowercaseFirstLetter) {
+    // Replace all slashes with dots (package separator)
+    Pattern p = Pattern.compile("\\/(.?)");
+    Matcher m = p.matcher(word);
+    while (m.find()) {
+      word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/);
+      m = p.matcher(word);
+    }
+
+    // Uppercase the class name.
+    p = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
+    m = p.matcher(word);
+    if (m.find()) {
+      String rep = m.group(1) + m.group(2).toUpperCase() + m.group(3);
+      rep = rep.replaceAll("\\$", "\\\\\\$");
+      word = m.replaceAll(rep);
+    }
+
+    // Replace two underscores with $ to support inner classes.
+    p = Pattern.compile("(__)(.)");
+    m = p.matcher(word);
+    while (m.find()) {
+      word = m.replaceFirst("\\$" + m.group(2).toUpperCase());
+      m = p.matcher(word);
+    }
+
+    // Remove all underscores
+    p = Pattern.compile("(_)(.)");
+    m = p.matcher(word);
+    while (m.find()) {
+      word = m.replaceFirst(m.group(2).toUpperCase());
+      m = p.matcher(word);
+    }
+
+    if (lowercaseFirstLetter) {
+      word = word.substring(0, 1).toLowerCase() + word.substring(1);
+    }
+
+    return word;
+  }
+
+
 }
