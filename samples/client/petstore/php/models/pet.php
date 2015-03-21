@@ -22,43 +22,43 @@
  *
  */
 
-class Order implements ArrayAccess {
+class pet implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
-      'pet_id' => 'int',
-      'quantity' => 'int',
-      'ship_date' => 'DateTime',
-      'status' => 'string',
-      'complete' => 'boolean'
+      'category' => 'Category',
+      'name' => 'string',
+      'photo_urls' => 'array[string]',
+      'tags' => 'array[Tag]',
+      'status' => 'string'
   );
 
   static $attributeMap = array(
       'id' => 'id',
-      'pet_id' => 'petId',
-      'quantity' => 'quantity',
-      'ship_date' => 'shipDate',
-      'status' => 'status',
-      'complete' => 'complete'
+      'category' => 'category',
+      'name' => 'name',
+      'photo_urls' => 'photoUrls',
+      'tags' => 'tags',
+      'status' => 'status'
   );
 
   
   public $id; /* int */
-  public $pet_id; /* int */
-  public $quantity; /* int */
-  public $ship_date; /* DateTime */
+  public $category; /* Category */
+  public $name; /* string */
+  public $photo_urls; /* array[string] */
+  public $tags; /* array[Tag] */
   /**
-  * Order Status
+  * pet status in the store
   */
   public $status; /* string */
-  public $complete; /* boolean */
 
   public function __construct(array $data) {
     $this->id = $data["id"];
-    $this->pet_id = $data["pet_id"];
-    $this->quantity = $data["quantity"];
-    $this->ship_date = $data["ship_date"];
+    $this->category = $data["category"];
+    $this->name = $data["name"];
+    $this->photo_urls = $data["photo_urls"];
+    $this->tags = $data["tags"];
     $this->status = $data["status"];
-    $this->complete = $data["complete"];
   }
 
   public function offsetExists($offset) {
