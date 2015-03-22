@@ -311,8 +311,8 @@ class JavaModelTest extends FlatSpec with Matchers {
 
     val vars = cm.vars
     vars.get(0).baseName should be ("pId")
-    vars.get(0).getter should be ("getpId")
-    vars.get(0).setter should be ("setpId")
+    vars.get(0).getter should be ("getPId")
+    vars.get(0).setter should be ("setPId")
     vars.get(0).datatype should be ("String")
     vars.get(0).name should be ("pId")
     vars.get(0).defaultValue should be ("null")
@@ -331,8 +331,8 @@ class JavaModelTest extends FlatSpec with Matchers {
     val cm = codegen.fromModel("sample", model)
     val vars = cm.vars
     vars.get(0).baseName should be("created-at")
-    vars.get(0).getter should be ("getCreated_at")
-    vars.get(0).setter should be ("setCreated_at")
-    vars.get(0).name should be ("created_at")
+    vars.get(0).getter should be ("getCreatedAt")
+    vars.get(0).setter should be ("setCreatedAt")
+    vars.get(0).name should be ("createdAt")
   }
 }

@@ -350,7 +350,7 @@ public class PetApi {
   }
   
     
-  public void deletePet (String api_key, Long petId) throws ApiException {
+  public void deletePet (String apiKey, Long petId) throws ApiException {
     Object postBody = null;
     
 
@@ -364,7 +364,7 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    headerParams.put("api_key", ApiInvoker.parameterToString(api_key));
+    headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
     
     String[] contentTypes = {
       
