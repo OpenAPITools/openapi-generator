@@ -118,4 +118,49 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
       type = swaggerType;
     return toModelName(type);
   }
+
+  @Override
+  public String toVarName(String name) {
+    // replace - with _ e.g. created-at => created_at
+    name = name.replaceAll("-", "_");
+
+    // if it's all uppper case, do nothing
+    if (name.matches("^[A-Z_]*$"))
+      return name;
+
+    // camelize (lower first character) the variable name
+    // pet_id => petId
+    name = camelize(name, true);
+
+    // for reserved word or word starting with number, append _
+    if(reservedWords.contains(name) || name.matches("^\\d.*"))
+      name = escapeReservedWord(name);
+
+    return name;
+  }
+
+  @Override
+  public String toParamName(String name) {
+    // should be the same as variable name
+    return toVarName(name);
+  }
+ 
+  @Override
+  public String toModelName(String name) {
+    // model name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(name))
+      throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+ 
+    // camelize the model name
+    // phone_number => PhoneNumber
+    return camelize(name);
+  }
+
+  @Override
+  public String toModelFilename(String name) {
+    // should be the same as the model name
+    return toModelName(name);
+  }
+
+
 }
