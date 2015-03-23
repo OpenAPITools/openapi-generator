@@ -139,7 +139,7 @@ public class DefaultCodegen {
   }
 
   public String toApiFilename(String name) {
-    return initialCaps(name) + "Api";
+    return toApiName(name);
   }
 
   public String toApiVarName(String name) {
@@ -376,10 +376,7 @@ public class DefaultCodegen {
   }
 
   public String initialCaps(String name) {
-    if (name.length()>0)
-      return Character.toUpperCase(name.charAt(0)) + name.substring(1);
-    else
-      return name;
+    return StringUtils.capitalize(name);
   }
 
   public String getTypeDeclaration(String name) {
