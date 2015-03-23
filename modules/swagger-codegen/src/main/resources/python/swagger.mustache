@@ -194,10 +194,7 @@ class ApiClient(object):
     if objClass in [int, long, float, dict, list, str, bool]:
       return objClass(obj)
     elif objClass == datetime:
-      # Server will always return a time stamp in UTC, but with
-      # trailing +0000 indicating no offset from UTC. So don't process
-      # last 5 characters.
-      return datetime.datetime.strptime(obj[:-5], "%Y-%m-%dT%H:%M:%S.%f")
+      return self.__parse_string_to_datetime(obj)
 
     instance = objClass()
 
@@ -214,7 +211,7 @@ class ApiClient(object):
               value = value
             setattr(instance, attr, value)
           elif (attrType == 'datetime'):
-            setattr(instance, attr, datetime.datetime.strptime(value[:-5], "%Y-%m-%dT%H:%M:%S.%f"))
+            setattr(instance, attr, self.__parse_string_to_datetime(value))
           elif 'list[' in attrType:
             match = re.match('list\[(.*)\]', attrType)
             subClass = match.group(1)
@@ -230,6 +227,17 @@ class ApiClient(object):
 
     return instance
 
+  def __parse_string_to_datetime(self, string):
+    """
+    Parse datetime in string to datetime.
+
+    The string should be in iso8601 datetime format.
+    """
+    try:
+        from dateutil.parser import parse
+        return parse(string)
+    except ImportError:
+        return string
 
 class MethodRequest(urllib2.Request):
   def __init__(self, *args, **kwargs):
