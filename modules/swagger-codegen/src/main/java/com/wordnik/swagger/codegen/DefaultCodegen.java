@@ -376,7 +376,10 @@ public class DefaultCodegen {
   }
 
   public String initialCaps(String name) {
-    return Character.toUpperCase(name.charAt(0)) + name.substring(1);
+    if (name.length()>0)
+      return Character.toUpperCase(name.charAt(0)) + name.substring(1);
+    else
+      return name;
   }
 
   public String getTypeDeclaration(String name) {
