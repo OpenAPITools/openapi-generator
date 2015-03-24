@@ -22,7 +22,7 @@
  *
  */
 
-class Pet implements ArrayAccess {
+class pet implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'category' => 'Category',
