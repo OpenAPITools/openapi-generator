@@ -83,8 +83,12 @@ public class ApiInvoker {
     DATE_TIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-    // Set the default User-Agent header.
-    INSTANCE.addDefaultHeader("User-Agent", "Android-Java-Swagger");
+    // Set default User-Agent.
+    setUserAgent("Android-Java-Swagger");
+  }
+
+  public static void setUserAgent(String userAgent) {
+    INSTANCE.addDefaultHeader("User-Agent", userAgent);
   }
 
   public static Date parseDateTime(String str) {
