@@ -131,10 +131,14 @@ class ApiClient(object):
       if isinstance(obj, dict):
         objDict = obj
       else:
-        objDict = obj.__dict__
+        # Convert model obj to dict except attributes `swaggerTypes`, `attributeMap`
+        # and attributes which value is not None.
+        # Convert attribute name to json key in model definition for request.
+        objDict = {obj.attributeMap[key]: val
+                   for key, val in obj.__dict__.iteritems()
+                   if key != 'swaggerTypes' and key != 'attributeMap' and val is not None}
       return {key: ApiClient.sanitizeForSerialization(val)
-              for (key, val) in objDict.iteritems()
-              if key != 'swaggerTypes'}
+              for (key, val) in objDict.iteritems()}
 
   def buildMultipartFormData(self, postData, files):
     def escape_quotes(s):
@@ -199,8 +203,8 @@ class ApiClient(object):
     instance = objClass()
 
     for attr, attrType in instance.swaggerTypes.iteritems():
-        if obj is not None and attr in obj and type(obj) in [list, dict]:
-          value = obj[attr]
+        if obj is not None and instance.attributeMap[attr] in obj and type(obj) in [list, dict]:
+          value = obj[instance.attributeMap[attr]]
           if attrType in ['str', 'int', 'long', 'float', 'bool']:
             attrType = eval(attrType)
             try:
