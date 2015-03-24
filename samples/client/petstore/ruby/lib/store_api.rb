@@ -112,19 +112,19 @@ class StoreApi
   end
 
 
-  def self.getOrderById (orderId, opts={})
+  def self.getOrderById (order_id, opts={})
     query_param_keys = []
 
     
     
     # set default values and merge with input
     options = {
-      :'orderId' => orderId
+      :'order_id' => order_id
       
     }.merge(opts)
 
     #resource path
-    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(orderId))
+    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(order_id))
     
     
     # pull querystring keys from options
@@ -154,19 +154,19 @@ class StoreApi
   end
 
 
-  def self.deleteOrder (orderId, opts={})
+  def self.deleteOrder (order_id, opts={})
     query_param_keys = []
 
     
     
     # set default values and merge with input
     options = {
-      :'orderId' => orderId
+      :'order_id' => order_id
       
     }.merge(opts)
 
     #resource path
-    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(orderId))
+    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(order_id))
     
     
     # pull querystring keys from options
