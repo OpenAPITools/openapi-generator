@@ -22,7 +22,7 @@
  *
  */
 
-class User implements ArrayAccess {
+class user implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'username' => 'string',
