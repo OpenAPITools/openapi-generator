@@ -215,19 +215,19 @@ class PetApi
   end
 
 
-  def self.getPetById (petId, opts={})
+  def self.getPetById (pet_id, opts={})
     query_param_keys = []
 
     
     
     # set default values and merge with input
     options = {
-      :'petId' => petId
+      :'pet_id' => pet_id
       
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(petId))
+    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
     
     # pull querystring keys from options
@@ -257,21 +257,21 @@ class PetApi
   end
 
 
-  def self.updatePetWithForm (petId,name,status, opts={})
+  def self.updatePetWithForm (pet_id,name,status, opts={})
     query_param_keys = []
 
     
     
     # set default values and merge with input
     options = {
-      :'petId' => petId,
+      :'pet_id' => pet_id,
       :'name' => name,
       :'status' => status
       
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(petId))
+    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
     
     # pull querystring keys from options
@@ -302,7 +302,7 @@ class PetApi
   end
 
 
-  def self.deletePet (api_key,petId, opts={})
+  def self.deletePet (api_key,pet_id, opts={})
     query_param_keys = []
 
     
@@ -310,12 +310,12 @@ class PetApi
     # set default values and merge with input
     options = {
       :'api_key' => api_key,
-      :'petId' => petId
+      :'pet_id' => pet_id
       
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(petId))
+    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
     
     # pull querystring keys from options
@@ -344,21 +344,21 @@ class PetApi
   end
 
 
-  def self.uploadFile (petId,additionalMetadata,file, opts={})
+  def self.uploadFile (pet_id,additional_metadata,file, opts={})
     query_param_keys = []
 
     
     
     # set default values and merge with input
     options = {
-      :'petId' => petId,
-      :'additionalMetadata' => additionalMetadata,
+      :'pet_id' => pet_id,
+      :'additional_metadata' => additional_metadata,
       :'file' => file
       
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(petId))
+    path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
     
     
     # pull querystring keys from options
@@ -378,7 +378,7 @@ class PetApi
     # form parameters
     form_parameter_hash = {}
     
-    form_parameter_hash["additionalMetadata"] = additionalMetadata
+    form_parameter_hash["additionalMetadata"] = additional_metadata
     form_parameter_hash["file"] = file
 
     
