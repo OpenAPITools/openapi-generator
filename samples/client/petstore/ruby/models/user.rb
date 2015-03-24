@@ -1,17 +1,17 @@
 
 class User
-  attr_accessor :id, :username, :firstName, :lastName, :email, :password, :phone, :userStatus
+  attr_accessor :id, :username, :first_name, :last_name, :email, :password, :phone, :user_status
   # :internal => :external
   def self.attribute_map
     {
       :id => :'id',
       :username => :'username',
-      :firstName => :'firstName',
-      :lastName => :'lastName',
+      :first_name => :'firstName',
+      :last_name => :'lastName',
       :email => :'email',
       :password => :'password',
       :phone => :'phone',
-      :userStatus => :'userStatus'
+      :user_status => :'userStatus'
       
     }
   end
@@ -28,12 +28,12 @@ class User
       @username = attributes["username"]
     end
     
-    if self.class.attribute_map[:"firstName"]
-      @firstName = attributes["firstName"]
+    if self.class.attribute_map[:"first_name"]
+      @first_name = attributes["firstName"]
     end
     
-    if self.class.attribute_map[:"lastName"]
-      @lastName = attributes["lastName"]
+    if self.class.attribute_map[:"last_name"]
+      @last_name = attributes["lastName"]
     end
     
     if self.class.attribute_map[:"email"]
@@ -48,8 +48,8 @@ class User
       @phone = attributes["phone"]
     end
     
-    if self.class.attribute_map[:"userStatus"]
-      @userStatus = attributes["userStatus"]
+    if self.class.attribute_map[:"user_status"]
+      @user_status = attributes["userStatus"]
     end
     
   end
