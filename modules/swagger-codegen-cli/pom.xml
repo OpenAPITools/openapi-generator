@@ -8,13 +8,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>swagger-codegen-distribution</artifactId>
+    <artifactId>swagger-codegen-cli</artifactId>
     <packaging>jar</packaging>
 
     <name>swagger-codegen (executable)</name>
 
     <build>
-        <finalName>swagger-cli</finalName>
+        <finalName>swagger-codegen-cli</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
