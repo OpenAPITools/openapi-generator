@@ -277,6 +277,19 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <!-- Samples -->
+      <id>samples</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>samples</value>
+        </property>
+      </activation>
+      <modules>
+        <module>samples/client/petstore/objc</module>
+      </modules>
+    </profile>
   </profiles>
   <modules>
     <module>modules/swagger-codegen</module>
