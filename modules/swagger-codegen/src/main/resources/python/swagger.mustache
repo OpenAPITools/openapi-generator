@@ -28,18 +28,25 @@ class ApiClient(object):
     headerValue: a header value to pass when making calls to the API
   """
   def __init__(self, host=None, headerName=None, headerValue=None):
-    self.headerName = headerName
-    self.headerValue = headerValue
+    self.defaultHeaders = {}
+    if (headerName is not None):
+      self.defaultHeaders[headerName] = headerValue
     self.host = host
     self.cookie = None
     self.boundary = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
+
+  def setDefaultHeader(headerName, headerValue):
+    self.defaultHeaders[headerName] = headerValue
 
   def callAPI(self, resourcePath, method, queryParams, postData,
               headerParams=None, files=None):
 
     url = self.host + resourcePath
+
+    mergedHeaderParams = self.defaultHeaders.copy()
+    mergedHeaderParams.update(headerParams)
     headers = {}
-    if headerParams:
+    if mergedHeaderParams:
       for param, value in headerParams.iteritems():
         headers[param] = ApiClient.sanitizeForSerialization(value)
 
