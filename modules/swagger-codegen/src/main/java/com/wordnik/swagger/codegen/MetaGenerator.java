@@ -16,6 +16,11 @@ import java.io.File;
 import java.io.Reader;
 import java.util.*;
 
+/**
+ * @deprecated use instead {@link com.wordnik.swagger.codegen.DefaultGenerator}
+ * or cli interface from https://github.com/swagger-api/swagger-codegen/pull/547
+ */
+@Deprecated
 public class MetaGenerator extends AbstractGenerator {
   static Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
   static String configString;
