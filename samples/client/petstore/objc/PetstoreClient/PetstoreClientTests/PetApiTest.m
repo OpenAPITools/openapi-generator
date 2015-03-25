@@ -90,9 +90,7 @@
         [photos addObject:url];
     }
     [petToAdd setPhotoUrls:photos];
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
 
-    static bool hasResponse = false;
     [api addPetWithCompletionBlock:petToAdd completionHandler:^(NSError *error) {
         if(error) {
             XCTFail(@"got error %@", error);
@@ -143,20 +141,15 @@
 
 - (void)testGetPetByStatus {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetByStatus"];
-    static NSMutableArray* pets = nil;
-    static NSError * gError = nil;
     [api findPetsByStatusWithCompletionBlock:@"available" completionHandler:^(NSArray *output, NSError *error) {
         if(error) {
-            gError = error;
+            XCTFail(@"got error %@", error);
         }
         if(output == nil){
-            NSLog(@"failed to fetch pets");
+            XCTFail(@"failed to fetch pets");
         }
         else {
-            pets = [[NSMutableArray alloc]init];
-            for(SWGPet* pet in output) {
-                [pets addObject:[[SWGPet alloc] initWithValues:[pet asDictionary]]];
-            }
+            [expectation fulfill];
         }
     }];
     [self waitForExpectationsWithTimeout:2.0 handler:nil];
