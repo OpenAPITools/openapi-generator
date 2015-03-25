@@ -24,6 +24,7 @@ public class ExampleGenerator {
 
   public List<Map<String, String>> generate(Map<String, String> examples, List<String> mediaTypes, Property property) {
     List<Map<String, String>> output = new ArrayList<Map<String, String>>();
+    Set<String> processedModels = new HashSet<String>();
     if(examples == null ) {
       if(mediaTypes == null) {
         // assume application/json for this
@@ -33,7 +34,7 @@ public class ExampleGenerator {
         Map<String, String> kv = new HashMap<String, String>();
         kv.put("contentType", mediaType);
         if(property != null && mediaType.startsWith("application/json")) {
-          String example = Json.pretty(resolvePropertyToExample(mediaType, property));
+          String example = Json.pretty(resolvePropertyToExample(mediaType, property, processedModels));
 
           if(example != null) {
             example = example.replaceAll("\n", "\\\\n");
@@ -69,7 +70,7 @@ public class ExampleGenerator {
     return output;
   }
 
-  protected Object resolvePropertyToExample(String mediaType, Property property) {
+  protected Object resolvePropertyToExample(String mediaType, Property property, Set<String> processedModels) {
     if(property.getExample() != null) {
       return property.getExample();
     }
@@ -83,7 +84,7 @@ public class ExampleGenerator {
       Property innerType = ((ArrayProperty)property).getItems();
       if(innerType != null) {
         Object[] output = new Object[]{
-          resolvePropertyToExample(mediaType, innerType)
+          resolvePropertyToExample(mediaType, innerType, processedModels)
         };
         return output;
       }
@@ -116,11 +117,11 @@ public class ExampleGenerator {
       Map<String, Object> mp = new HashMap<String, Object>();
       if(property.getName() != null) {
         mp.put(property.getName(),
-          resolvePropertyToExample(mediaType, ((MapProperty)property).getAdditionalProperties()));
+          resolvePropertyToExample(mediaType, ((MapProperty)property).getAdditionalProperties(), processedModels));
       }
       else {
         mp.put("key",
-          resolvePropertyToExample(mediaType, ((MapProperty)property).getAdditionalProperties()));
+          resolvePropertyToExample(mediaType, ((MapProperty)property).getAdditionalProperties(), processedModels));
       }
       return mp;
     }
@@ -128,9 +129,10 @@ public class ExampleGenerator {
       return "{}";
     }
     else if(property instanceof RefProperty) {
-      Model model = examples.get(((RefProperty)property).getSimpleRef());
+      String simpleName = ((RefProperty)property).getSimpleRef();
+      Model model = examples.get(simpleName);
       if(model != null)
-        return resolveModelToExample(mediaType, model);
+        return resolveModelToExample(simpleName, mediaType, model, processedModels);
     }
     else if(property instanceof UUIDProperty) {
       return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
@@ -139,14 +141,20 @@ public class ExampleGenerator {
     return "";
   }
 
-  public Object resolveModelToExample(String mediaType, Model model) {
+  public Object resolveModelToExample(String name, String mediaType, Model model, Set<String> processedModels) {
+    if(processedModels.contains(name)) {
+      return "";
+    }
     if(model instanceof ModelImpl) {
+      processedModels.add(name);
       ModelImpl impl = (ModelImpl) model;
       Map<String, Object> values = new HashMap<String, Object>();
 
-      for(String name : impl.getProperties().keySet()) {
-        Property property = impl.getProperties().get(name);
-        values.put(name, resolvePropertyToExample(mediaType, property));
+      if(impl != null && impl.getProperties() != null) {
+        for(String propertyName : impl.getProperties().keySet()) {
+          Property property = impl.getProperties().get(propertyName);
+          values.put(propertyName, resolvePropertyToExample(mediaType, property, processedModels));
+        }
       }
 
       return values;
