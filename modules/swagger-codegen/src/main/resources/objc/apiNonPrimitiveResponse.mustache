@@ -13,12 +13,11 @@
                     {{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
                     return;
                 }
-                {{#returnBaseType}}
-                {{returnBaseType}} *result = nil;
+                {{#returnType}}{{returnType}} result = nil;
                 if (data) {
-                    result = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}}   alloc]initWithValues: data];
+                    result = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}} alloc] {{#returnContainer}}{{#isMapContainer}}initWithDictionary{{/isMapContainer}}{{#isListContainer}}initWithValues{{/isListContainer}}{{/returnContainer}}{{^returnContainer}}initWithValues  {{/returnContainer}}: data];
                 }
-                {{#returnBaseType}}completionBlock(result , nil);{{/returnBaseType}}
-                {{/returnBaseType}}
+                {{#returnType}}completionBlock(result , nil);{{/returnType}}
+                {{/returnType}}
               }];
     {{/returnTypeIsPrimitive}}
