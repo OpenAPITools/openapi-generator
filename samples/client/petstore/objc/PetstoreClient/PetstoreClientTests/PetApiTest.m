@@ -6,6 +6,7 @@
 - (void)setUp {
     [super setUp];
     api = [[SWGPetApi alloc ]init];
+//    [[SWGApiClient sharedClientFromPool]setLoggingEnabled:true];
     [SWGPetApi setBasePath:@"http://localhost:8002/api"];
 }
 
@@ -14,6 +15,7 @@
 }
 
 - (void)testGetPetById {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
     [api getPetByIdWithCompletionBlock:@1 completionHandler:^(SWGPet *output, NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
@@ -21,10 +23,14 @@
         if(output){
             XCTAssertNotNil([output _id], @"token was nil");
         }
+        [expectation fulfill];
     }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
 }
 
 - (void) testAddPet {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testAddPet"];
+    
     SWGPet * petToAdd = [[SWGPet alloc] init];
     [petToAdd set_id:@1000];
     NSMutableArray* tags = [[NSMutableArray alloc] init];
@@ -53,10 +59,14 @@
         if(error){
             XCTFail(@"got error %@", error);
         }
+        [expectation fulfill];
     }];
+    
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
 }
 
 - (void) testUpdatePet {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testUpdatePet"];
     SWGPet * petToAdd = [[SWGPet alloc] init];
     [petToAdd set_id:[NSNumber numberWithInt:1000]];
     NSMutableArray* tags = [[NSMutableArray alloc] init];
@@ -80,7 +90,8 @@
         [photos addObject:url];
     }
     [petToAdd setPhotoUrls:photos];
-    
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+
     static bool hasResponse = false;
     [api addPetWithCompletionBlock:petToAdd completionHandler:^(NSError *error) {
         if(error) {
@@ -119,16 +130,19 @@
                                                 XCTAssertEqualObjects([pet name], @"programmer", @"pet name was not updated");
                                                 XCTAssertEqualObjects([pet status], @"confused", @"pet status was not updated");
                                             }
+                                            [expectation fulfill];
+
                                         }];
                                     }];
                 }
             }];
         }
     }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
 }
 
 - (void)testGetPetByStatus {
-    bool done = false;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetByStatus"];
     static NSMutableArray* pets = nil;
     static NSError * gError = nil;
     [api findPetsByStatusWithCompletionBlock:@"available" completionHandler:^(NSArray *output, NSError *error) {
@@ -145,22 +159,11 @@
             }
         }
     }];
-    NSDate * loopUntil = [NSDate dateWithTimeIntervalSinceNow:10];
-    while(!done && [loopUntil timeIntervalSinceNow] > 0){
-        if(gError){
-            XCTFail(@"got error %@", gError);
-            done = true;
-        }
-        if(pets){
-            for(SWGPet * pet in pets) {
-                XCTAssertEqualObjects([pet status], @"available", @"got invalid status for pets");
-            }
-            done = true;
-        }
-    }
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
 }
 
 - (void)testGetPetByTags {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetByTags"];
     [api findPetsByTagsWithCompletionBlock:@"tag1,tag2" completionHandler:^(NSArray *output, NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
@@ -176,6 +179,8 @@
                     XCTFail(@"failed to find tag in pet");
             }
         }
+        [expectation fulfill];
     }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
 }
 @end
