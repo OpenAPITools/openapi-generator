@@ -33,22 +33,22 @@ import static com.google.common.base.Joiner.on;
         "specify, and includes default templates to include.")
 public class Meta implements Runnable {
 
-    public static final Logger LOG = LoggerFactory.getLogger(Meta.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Meta.class);
 
-    public static final String TEMPLATE_DIR_CLASSPATH = "codegen";
-    public static final String MUSTACHE_EXTENSION = ".mustache";
+    private static final String TEMPLATE_DIR_CLASSPATH = "codegen";
+    private static final String MUSTACHE_EXTENSION = ".mustache";
 
     @Option(name = {"-o", "--output"}, title = "output directory",
             description = "where to write the generated files (current dir by default)")
-    public String outputFolder = "";
+    private String outputFolder = "";
 
     @Option(name = {"-n", "--name"}, title = "name",
             description = "the human-readable name of the generator")
-    public String name = "default";
+    private String name = "default";
 
     @Option(name = {"-p", "--package"}, title = "package",
             description = "the package to put the main class into (defaults to com.wordnik.swagger.codegen)")
-    public String targetPackage = "com.wordnik.swagger.codegen";
+    private String targetPackage = "com.wordnik.swagger.codegen";
 
     @Override
     public void run() {
