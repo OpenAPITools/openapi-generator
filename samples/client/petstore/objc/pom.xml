@@ -22,47 +22,27 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-version}</version>
         <configuration>
-          <useTestScope>true</useTestScope>
-          <stopWait>15</stopWait>
           <war>${project.build.directory}/swagger-java-jersey-sample-app-${webapp-version}.war</war>
-          <webAppConfig>
-            <contextPath>/</contextPath>
-          </webAppConfig>
-          <stopPort>8079</stopPort>
-          <stopKey>stopit</stopKey>
-          <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>8002</port>
-              <maxIdleTime>60000</maxIdleTime>
-              <confidentialPort>8443</confidentialPort>
-            </connector>
-          </connectors>
+          <stopKey>alpha</stopKey>
+          <stopPort>9099</stopPort>
+          <httpConnector>
+            <port>8002</port>
+          </httpConnector>
         </configuration>
         <executions>
           <execution>
             <id>start-jetty</id>
             <phase>pre-integration-test</phase>
             <goals>
-              <goal>run-war</goal>
-            </goals>
-            <configuration>
-              <scanIntervalSeconds>0</scanIntervalSeconds>
-              <daemon>true</daemon>
-            </configuration>
-          </execution>
-          <execution>
-            <id>stop-jetty</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop</goal>
+              <goal>deploy-war</goal>
             </goals>
           </execution>
-        </executions>
-      </plugin>
+         </executions>
+        </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -110,8 +90,8 @@
       <artifactId>swagger-java-jersey-sample-app</artifactId>
       <version>${webapp-version}</version>
       <type>war</type>
-      <scope>test</scope>
     </dependency>
+  </dependencies>
   <repositories>
     <repository>
       <id>sonatype-snapshots</id>
@@ -123,6 +103,6 @@
   </repositories>
   <properties>
     <webapp-version>1.5.4-M1-SNAPSHOT</webapp-version>
-    <jetty-version>8.1.11.v20130520</jetty-version>
+    <jetty-version>9.2.9.v20150224</jetty-version>
   </properties>
 </project>
