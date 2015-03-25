@@ -745,6 +745,8 @@ public class DefaultCodegen {
             op.isMapContainer = Boolean.TRUE;
           else if ("list".equalsIgnoreCase(cm.containerType))
             op.isListContainer = Boolean.TRUE;
+          else if ("array".equalsIgnoreCase(cm.containerType))
+            op.isListContainer = Boolean.TRUE;
         }
         else
           op.returnSimpleType = true;
