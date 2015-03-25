@@ -1,0 +1,24 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.felixschulze.my-project</groupId>
+  <artifactId>PetstoreClient</artifactId>
+  <packaging>xcode</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Swagger Petstore Client</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>de.felixschulze.maven.plugins.xcode</groupId>
+        <artifactId>xcode-maven-plugin</artifactId>
+        <version>1.2</version>
+        <configuration>
+          <xcodeProject>PetstoreClient.xcodeproj</xcodeProject>
+          <xcodeTarget>PetstoreClient</xcodeTarget>
+          <xcodeConfiguration>Debug</xcodeConfiguration>
+          <xcodeSdk>iphoneos</xcodeSdk>
+        </configuration>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
