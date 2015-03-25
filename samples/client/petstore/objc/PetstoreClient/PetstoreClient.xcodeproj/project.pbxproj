@@ -22,7 +22,8 @@
 		EA6699BD1811D2FB00A70D03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699991811D2FA00A70D03 /* Foundation.framework */; };
 		EA6699BE1811D2FB00A70D03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999D1811D2FA00A70D03 /* UIKit.framework */; };
 		EA6699C61811D2FB00A70D03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA6699C41811D2FB00A70D03 /* InfoPlist.strings */; };
-		EA6699C81811D2FB00A70D03 /* PetstoreClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */; };
+		EA6699C81811D2FB00A70D03 /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699C71811D2FB00A70D03 /* PetApiTest.m */; };
+		EA8CD3ED1AC2763600C47D0B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */; };
 		EAEA85E41811D3AE00F06E69 /* SWGApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */; };
 		EAEA85E51811D3AE00F06E69 /* SWGCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CF1811D3AE00F06E69 /* SWGCategory.m */; };
 		EAEA85E61811D3AE00F06E69 /* SWGDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85D11811D3AE00F06E69 /* SWGDate.m */; };
@@ -73,7 +74,9 @@
 		EA6699BB1811D2FB00A70D03 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		EA6699C31811D2FB00A70D03 /* PetstoreClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PetstoreClientTests-Info.plist"; sourceTree = "<group>"; };
 		EA6699C51811D2FB00A70D03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PetstoreClientTests.m; sourceTree = "<group>"; };
+		EA6699C71811D2FB00A70D03 /* PetApiTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PetApiTest.m; sourceTree = "<group>"; };
+		EA8CD3EB1AC274BE00C47D0B /* PetApiTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PetApiTest.h; sourceTree = "<group>"; };
+		EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGApiClient.h; sourceTree = "<group>"; };
 		EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiClient.m; sourceTree = "<group>"; };
 		EAEA85CE1811D3AE00F06E69 /* SWGCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGCategory.h; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA8CD3ED1AC2763600C47D0B /* SenTestingKit.framework in Frameworks */,
 				EAEA85F11811D8F100F06E69 /* libPods.a in Frameworks */,
 				EA6699BC1811D2FB00A70D03 /* XCTest.framework in Frameworks */,
 				EA6699BE1811D2FB00A70D03 /* UIKit.framework in Frameworks */,
@@ -163,6 +167,7 @@
 		EA6699981811D2FA00A70D03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */,
 				EAEA85F01811D8F100F06E69 /* libPods.a */,
 				EA6699991811D2FA00A70D03 /* Foundation.framework */,
 				EA66999B1811D2FA00A70D03 /* CoreGraphics.framework */,
@@ -203,7 +208,8 @@
 		EA6699C11811D2FB00A70D03 /* PetstoreClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */,
+				EA8CD3EB1AC274BE00C47D0B /* PetApiTest.h */,
+				EA6699C71811D2FB00A70D03 /* PetApiTest.m */,
 				EA6699C21811D2FB00A70D03 /* Supporting Files */,
 			);
 			path = PetstoreClientTests;
@@ -409,7 +415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA6699C81811D2FB00A70D03 /* PetstoreClientTests.m in Sources */,
+				EA6699C81811D2FB00A70D03 /* PetApiTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
