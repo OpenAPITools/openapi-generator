@@ -56,17 +56,14 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(1).isNotContainer should equal (true)
 
     vars.get(2).baseName should be ("createdAt")
-    vars.get(2).complexType should be ("SWGDate")
-    vars.get(2).datatype should be ("SWGDate*")
+    vars.get(2).datatype should be ("NSDate*")
     vars.get(2).name should be ("createdAt")
     vars.get(2).defaultValue should be (null)
-    vars.get(2).baseType should be ("SWGDate")
+    vars.get(2).baseType should be ("NSDate")
     vars.get(2).hasMore should equal (null)
     vars.get(2).required should equal (false)
     vars.get(2).isNotContainer should equal (true)
 
-    (cm.imports.asScala.toSet &
-      Set("SWGDate")).size should be (1)
   }
 
   it should "convert a model with list property" in {
@@ -173,7 +170,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     vars.get(0).baseName should be ("children")
     vars.get(0).complexType should be ("SWGChildren")
-    vars.get(0).datatype should be ("NSArray*")
+    vars.get(0).datatype should be ("NSArray<SWGChildren>*")
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("NSArray")
     vars.get(0).containerType should be ("array")
