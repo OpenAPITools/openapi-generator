@@ -8,7 +8,10 @@ class StoreApi
     URI.encode(string.to_s)
   end
 
-  
+
+  # Returns pet inventories by status
+  # Returns a map of status codes to quantities
+  # @return map[string,int]
   def self.getInventory ( opts={})
     query_param_keys = []
 
@@ -31,15 +34,12 @@ class StoreApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     
@@ -49,7 +49,10 @@ class StoreApi
   
   end
 
-
+  # Place an order for a pet
+  # 
+  # @param body order placed for purchasing the pet
+  # @return Order
   def self.placeOrder (body, opts={})
     query_param_keys = []
 
@@ -73,7 +76,6 @@ class StoreApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
@@ -88,7 +90,6 @@ class StoreApi
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -98,11 +99,9 @@ class StoreApi
       end
     end
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      Order.new(response)
@@ -111,7 +110,10 @@ class StoreApi
   
   end
 
-
+  # Find purchase order by ID
+  # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+  # @param order_id ID of pet that needs to be fetched
+  # @return Order
   def self.getOrderById (order_id, opts={})
     query_param_keys = []
 
@@ -136,15 +138,12 @@ class StoreApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      Order.new(response)
@@ -153,7 +152,10 @@ class StoreApi
   
   end
 
-
+  # Delete purchase order by ID
+  # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  # @param order_id ID of the order that needs to be deleted
+  # @return void
   def self.deleteOrder (order_id, opts={})
     query_param_keys = []
 
@@ -178,20 +180,16 @@ class StoreApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
-
 end
