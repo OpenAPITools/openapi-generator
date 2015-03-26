@@ -1,0 +1,14 @@
+    return [client stringWithCompletionBlock: requestUrl 
+                                      method: @"{{httpMethod}}" 
+                                 queryParams: queryParams 
+                                        body: bodyDictionary 
+                                headerParams: headerParams
+                          requestContentType: requestContentType
+                         responseContentType: responseContentType
+                             completionBlock: ^(NSString *data, NSError *error) {
+                if (error) {
+                    completionBlock(error);
+                    return;
+                }
+                completionBlock(nil);
+                    }];

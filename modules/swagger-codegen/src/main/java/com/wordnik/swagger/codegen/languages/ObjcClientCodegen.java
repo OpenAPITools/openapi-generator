@@ -34,7 +34,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     templateDir = "objc";
     modelPackage = "";
 
-    additionalProperties.put("projectName", "swaggerClient");
+    String appName = System.getProperty("appName");
+    if(appName == null) {
+      appName = "swaggerClient";
+    }
+    additionalProperties.put("projectName", appName);
 
     defaultIncludes = new HashSet<String>(
       Arrays.asList(

@@ -1,3 +1,3 @@
 platform :ios, '6.0'
-xcodeproj 'swaggerClient/swaggerClient.xcodeproj'
+xcodeproj 'PetstoreClient/PetstoreClient.xcodeproj'
 pod 'AFNetworking', '~> 2.1'

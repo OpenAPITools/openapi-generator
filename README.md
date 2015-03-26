@@ -46,7 +46,7 @@ You can build a client against the swagger sample [petstore](http://petstore.swa
 This will run the generator with this command:
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.3-M1-SNAPSHOT.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l java \
   -o samples/client/petstore/java
@@ -97,7 +97,7 @@ You can look at `modules/swagger-codegen/src/main/resources/${your-language}` fo
 If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
 
 ```
-java -cp modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.3-M1-SNAPSHOT.jar \
+java -cp modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   com.wordnik.swagger.codegen.MetaGenerator \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
@@ -200,7 +200,7 @@ You can also use the codegen to generate a server for a couple different framewo
 
 ### node.js
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.3-M1-SNAPSHOT.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l nodejs \
   -o samples/server/petstore/nodejs
@@ -212,7 +212,7 @@ java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distributi
 
 ### scala scalatra
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.3-M1-SNAPSHOT.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l scalatra \
   -o samples/server/petstore/scalatra
@@ -221,7 +221,7 @@ java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distributi
 ### java jax-rs
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.3-M1-SNAPSHOT.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l jaxrs \
   -o samples/server/petstore/jaxrs
