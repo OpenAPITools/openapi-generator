@@ -9,12 +9,17 @@ class {{classname}}
     URI.encode(string.to_s)
   end
 
-  {{#operation}}
+{{#operation}}
+{{newline}}
+  # {{summary}}
+  # {{notes}}{{newLine}}
+{{#allParams}}{{^optional}}{{newLine}}  # @param {{paramName}} {{description}}
+{{/optional}}{{/allParams}}{{#allParams}}{{#optional}}{{newLine}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
+{{/optional}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{newLine}}
   def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}},{{/allParams}} opts={})
     query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
 
     {{#requiredParamCount}}
-    
     # verify existence of params
     {{#requiredParams}}
     raise "{{{paramName}}} is required" if {{{paramName}}}.nil?
@@ -40,7 +45,6 @@ class {{classname}}
     headers = {}
     {{#headerParams}}{{#optional}}headers[:'{{{baseName}}}'] = options[:'{{{paramName}}}'] if options[:'{{{paramName}}}']{{/optional}}{{/headerParams}}
     {{#headerParams}}{{^optional}}headers[:'{{{baseName}}}'] = {{{paramName}}}{{/optional}}{{/headerParams}}
-
     # http body (model)
     post_body = nil
     {{#bodyParam}}
@@ -55,7 +59,6 @@ class {{classname}}
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -65,12 +68,10 @@ class {{classname}}
       end
     end
     {{/bodyParam}}
-
     # form parameters
     form_parameter_hash = {}
     {{#formParams}}{{#optional}}form_parameter_hash["{{baseName}}"] = options[:'{{paramName}}'] if options[:'{{paramName}}']{{/optional}}
     {{^optional}}form_parameter_hash["{{baseName}}"] = {{paramName}}{{/optional}}{{/formParams}}
-
     {{#returnType}}
     response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     {{#returnContainer}}
@@ -81,7 +82,6 @@ class {{classname}}
     {{/returnType}}
   {{newline}}
   end
-
 {{/operation}}
 end
 {{/operations}}

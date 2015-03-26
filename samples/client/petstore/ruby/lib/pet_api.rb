@@ -8,7 +8,11 @@ class PetApi
     URI.encode(string.to_s)
   end
 
-  
+
+  # Update an existing pet
+  # 
+  # @param body Pet object that needs to be added to the store
+  # @return void
   def self.updatePet (body, opts={})
     query_param_keys = []
 
@@ -32,7 +36,6 @@ class PetApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
@@ -47,7 +50,6 @@ class PetApi
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -57,11 +59,9 @@ class PetApi
       end
     end
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -69,7 +69,10 @@ class PetApi
   
   end
 
-
+  # Add a new pet to the store
+  # 
+  # @param body Pet object that needs to be added to the store
+  # @return void
   def self.addPet (body, opts={})
     query_param_keys = []
 
@@ -93,7 +96,6 @@ class PetApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
@@ -108,7 +110,6 @@ class PetApi
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -118,11 +119,9 @@ class PetApi
       end
     end
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -130,7 +129,10 @@ class PetApi
   
   end
 
-
+  # Finds Pets by status
+  # Multiple status values can be provided with comma seperated strings
+  # @param status Status values that need to be considered for filter
+  # @return array[Pet]
   def self.findPetsByStatus (status, opts={})
     query_param_keys = [:status]
 
@@ -154,15 +156,12 @@ class PetApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     
@@ -172,7 +171,10 @@ class PetApi
   
   end
 
-
+  # Finds Pets by tags
+  # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+  # @param tags Tags to filter by
+  # @return array[Pet]
   def self.findPetsByTags (tags, opts={})
     query_param_keys = [:tags]
 
@@ -196,15 +198,12 @@ class PetApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     
@@ -214,7 +213,10 @@ class PetApi
   
   end
 
-
+  # Find pet by ID
+  # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+  # @param pet_id ID of pet that needs to be fetched
+  # @return Pet
   def self.getPetById (pet_id, opts={})
     query_param_keys = []
 
@@ -239,15 +241,12 @@ class PetApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      Pet.new(response)
@@ -256,7 +255,12 @@ class PetApi
   
   end
 
-
+  # Updates a pet in the store with form data
+  # 
+  # @param pet_id ID of pet that needs to be updated
+  # @param name Updated name of the pet
+  # @param status Updated status of the pet
+  # @return void
   def self.updatePetWithForm (pet_id,name,status, opts={})
     query_param_keys = []
 
@@ -283,17 +287,14 @@ class PetApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
     form_parameter_hash["name"] = name
     form_parameter_hash["status"] = status
-
     
     
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -301,7 +302,11 @@ class PetApi
   
   end
 
-
+  # Deletes a pet
+  # 
+  # @param api_key 
+  # @param pet_id Pet id to delete
+  # @return void
   def self.deletePet (api_key,pet_id, opts={})
     query_param_keys = []
 
@@ -327,15 +332,12 @@ class PetApi
     headers = {}
     
     headers[:'api_key'] = api_key
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -343,7 +345,12 @@ class PetApi
   
   end
 
-
+  # uploads an image
+  # 
+  # @param pet_id ID of pet to update
+  # @param additional_metadata Additional data to pass to server
+  # @param file file to upload
+  # @return void
   def self.uploadFile (pet_id,additional_metadata,file, opts={})
     query_param_keys = []
 
@@ -370,22 +377,18 @@ class PetApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
     form_parameter_hash["additionalMetadata"] = additional_metadata
     form_parameter_hash["file"] = file
-
     
     
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
-
 end
