@@ -8,7 +8,11 @@ class UserApi
     URI.encode(string.to_s)
   end
 
-  
+
+  # Create user
+  # This can only be done by the logged in user.
+  # @param body Created user object
+  # @return void
   def self.createUser (body, opts={})
     query_param_keys = []
 
@@ -32,7 +36,6 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
@@ -47,7 +50,6 @@ class UserApi
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -57,11 +59,9 @@ class UserApi
       end
     end
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -69,7 +69,10 @@ class UserApi
   
   end
 
-
+  # Creates list of users with given input array
+  # 
+  # @param body List of user object
+  # @return void
   def self.createUsersWithArrayInput (body, opts={})
     query_param_keys = []
 
@@ -93,7 +96,6 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
@@ -108,7 +110,6 @@ class UserApi
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -118,11 +119,9 @@ class UserApi
       end
     end
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -130,7 +129,10 @@ class UserApi
   
   end
 
-
+  # Creates list of users with given input array
+  # 
+  # @param body List of user object
+  # @return void
   def self.createUsersWithListInput (body, opts={})
     query_param_keys = []
 
@@ -154,7 +156,6 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
@@ -169,7 +170,6 @@ class UserApi
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -179,11 +179,9 @@ class UserApi
       end
     end
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -191,7 +189,11 @@ class UserApi
   
   end
 
-
+  # Logs user into the system
+  # 
+  # @param username The user name for login
+  # @param password The password for login in clear text
+  # @return string
   def self.loginUser (username,password, opts={})
     query_param_keys = [:username,:password]
 
@@ -216,15 +218,12 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      string.new(response)
@@ -233,7 +232,9 @@ class UserApi
   
   end
 
-
+  # Logs out current logged in user session
+  # 
+  # @return void
   def self.logoutUser ( opts={})
     query_param_keys = []
 
@@ -256,15 +257,12 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -272,7 +270,10 @@ class UserApi
   
   end
 
-
+  # Get user by user name
+  # 
+  # @param username The name that needs to be fetched. Use user1 for testing. 
+  # @return User
   def self.getUserByName (username, opts={})
     query_param_keys = []
 
@@ -297,15 +298,12 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
      User.new(response)
@@ -314,7 +312,11 @@ class UserApi
   
   end
 
-
+  # Updated user
+  # This can only be done by the logged in user.
+  # @param username name that need to be deleted
+  # @param body Updated user object
+  # @return void
   def self.updateUser (username,body, opts={})
     query_param_keys = []
 
@@ -340,7 +342,6 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
@@ -355,7 +356,6 @@ class UserApi
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
 	        post_body = body.to_body
@@ -365,11 +365,9 @@ class UserApi
       end
     end
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
@@ -377,7 +375,10 @@ class UserApi
   
   end
 
-
+  # Delete user
+  # This can only be done by the logged in user.
+  # @param username The name that needs to be deleted
+  # @return void
   def self.deleteUser (username, opts={})
     query_param_keys = []
 
@@ -402,20 +403,16 @@ class UserApi
     headers = {}
     
     
-
     # http body (model)
     post_body = nil
     
-
     # form parameters
     form_parameter_hash = {}
     
-
     
     
     Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     
   
   end
-
 end
