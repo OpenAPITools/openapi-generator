@@ -12,7 +12,7 @@ class StoreApi
   # Returns pet inventories by status
   # Returns a map of status codes to quantities
   # @return map[string,int]
-  def self.getInventory ( opts={})
+  def self.getInventory (opts={})
     query_param_keys = []
 
     
