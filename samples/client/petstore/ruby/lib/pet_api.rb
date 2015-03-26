@@ -261,7 +261,7 @@ class PetApi
   # @param name Updated name of the pet
   # @param status Updated status of the pet
   # @return void
-  def self.updatePetWithForm (pet_id,name,status, opts={})
+  def self.updatePetWithForm (pet_id, name, status, opts={})
     query_param_keys = []
 
     
@@ -307,7 +307,7 @@ class PetApi
   # @param api_key 
   # @param pet_id Pet id to delete
   # @return void
-  def self.deletePet (api_key,pet_id, opts={})
+  def self.deletePet (api_key, pet_id, opts={})
     query_param_keys = []
 
     
@@ -351,7 +351,7 @@ class PetApi
   # @param additional_metadata Additional data to pass to server
   # @param file file to upload
   # @return void
-  def self.uploadFile (pet_id,additional_metadata,file, opts={})
+  def self.uploadFile (pet_id, additional_metadata, file, opts={})
     query_param_keys = []
 
     
