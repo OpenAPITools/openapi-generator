@@ -36,10 +36,12 @@ public class {{classname}} {
   }
 
   {{#operation}}
-  {{#errorList}} //error info- code: {{code}} reason: "{{reason}}" model: {{#responseModel}}{{responseModel}}
-  {{/responseModel}}{{^responseModel}}<none>
-  {{/responseModel}}
-  {{/errorList}}  
+  /**
+   * {{summary}}
+   * {{notes}}{{newLine}}
+{{#allParams}}{{newLine}}   * @param {{paramName}} {{description}}
+{{/allParams}}{{newLine}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{newLine}}
+   */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#requiredParamCount}}
