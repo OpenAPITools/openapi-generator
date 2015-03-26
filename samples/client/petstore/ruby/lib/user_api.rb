@@ -194,7 +194,7 @@ class UserApi
   # @param username The user name for login
   # @param password The password for login in clear text
   # @return string
-  def self.loginUser (username,password, opts={})
+  def self.loginUser (username, password, opts={})
     query_param_keys = [:username,:password]
 
     
@@ -235,7 +235,7 @@ class UserApi
   # Logs out current logged in user session
   # 
   # @return void
-  def self.logoutUser ( opts={})
+  def self.logoutUser (opts={})
     query_param_keys = []
 
     
@@ -317,7 +317,7 @@ class UserApi
   # @param username name that need to be deleted
   # @param body Updated user object
   # @return void
-  def self.updateUser (username,body, opts={})
+  def self.updateUser (username, body, opts={})
     query_param_keys = []
 
     
