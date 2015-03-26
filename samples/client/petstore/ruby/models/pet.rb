@@ -1,13 +1,13 @@
 
 class Pet
-  attr_accessor :id, :category, :name, :photoUrls, :tags, :status
+  attr_accessor :id, :category, :name, :photo_urls, :tags, :status
   # :internal => :external
   def self.attribute_map
     {
       :id => :'id',
       :category => :'category',
       :name => :'name',
-      :photoUrls => :'photoUrls',
+      :photo_urls => :'photoUrls',
       :tags => :'tags',
       :status => :'status'
       
@@ -30,9 +30,9 @@ class Pet
       @name = attributes["name"]
     end
     
-    if self.class.attribute_map[:"photoUrls"]
+    if self.class.attribute_map[:"photo_urls"]
       if (value = attributes["photoUrls"]).is_a?(Array)
-        @photoUrls = value
+        @photo_urls = value
       end
     end
     

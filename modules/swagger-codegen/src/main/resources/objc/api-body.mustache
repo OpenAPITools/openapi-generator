@@ -110,18 +110,25 @@ static NSString * basePath = @"{{basePath}}";
     }
     {{/bodyParam}}
     {{^bodyParam}}
-    bodyDictionary = [[NSMutableArray alloc] init];
 
     NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
 
-    {{#formParams}}{{#notFile}}
+    {{#formParams}}
+    {{#notFile}}
     formParams[@"{{paramName}}"] = {{paramName}};
     {{/notFile}}{{#isFile}}
     requestContentType = @"multipart/form-data";
+    if(bodyDictionary == nil) {
+      bodyDictionary = [[NSMutableArray alloc] init];
+    }
     [bodyDictionary addObject:{{paramName}}];
     {{paramName}}.paramName  = @"{{baseName}}";
-    {{/isFile}}{{/formParams}}
+    {{/isFile}}
+    if(bodyDictionary == nil) {
+      bodyDictionary = [[NSMutableArray alloc] init];
+    }
     [bodyDictionary addObject:formParams];
+    {{/formParams}}
     {{/bodyParam}}
 
     {{#requiredParamCount}}
@@ -134,11 +141,26 @@ static NSString * basePath = @"{{basePath}}";
 
     SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
 
-    {{#returnContainer}}{{>apiBodyResponseWithContainer}}{{/returnContainer}}
+    {{#returnContainer}}
+    // response is in a container
+    {{>apiBodyResponseWithContainer}}{{/returnContainer}}
+
     {{#returnSimpleType}}
-    {{#returnTypeIsPrimitive}}{{>apiPrimitiveResponse}}{{/returnTypeIsPrimitive}}
-    {{#returnBaseType}}{{>apiNonPrimitiveResponse}}{{/returnBaseType}}
+    // non container response
+
+    {{#returnTypeIsPrimitive}}
+    // primitive response
+    {{>apiPrimitiveResponse}}{{/returnTypeIsPrimitive}}
+
+    {{#returnBaseType}}
+    // complex response
+    {{>apiNonPrimitiveResponse}}{{/returnBaseType}}
     {{/returnSimpleType}}
+
+    {{^returnSimpleType}}{{^returnContainer}}
+    // it's void
+    {{>voidResponse}}
+    {{/returnContainer}}{{/returnSimpleType}}
 }
 
 {{/operation}}
