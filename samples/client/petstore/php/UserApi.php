@@ -30,11 +30,10 @@ class UserApi {
 	 * createUser
    *
 	 * Create user
-   * body, User: Created user object (required)
-   * 
-	 * @return 
+   *
+   * @param User $body Created user object (required)
+   * @return void
 	 */
-
    public function createUser($body) {
 
   		// parse inputs
@@ -76,11 +75,10 @@ class UserApi {
 	 * createUsersWithArrayInput
    *
 	 * Creates list of users with given input array
-   * body, array[User]: List of user object (required)
-   * 
-	 * @return 
+   *
+   * @param array[User] $body List of user object (required)
+   * @return void
 	 */
-
    public function createUsersWithArrayInput($body) {
 
   		// parse inputs
@@ -122,11 +120,10 @@ class UserApi {
 	 * createUsersWithListInput
    *
 	 * Creates list of users with given input array
-   * body, array[User]: List of user object (required)
-   * 
-	 * @return 
+   *
+   * @param array[User] $body List of user object (required)
+   * @return void
 	 */
-
    public function createUsersWithListInput($body) {
 
   		// parse inputs
@@ -168,12 +165,11 @@ class UserApi {
 	 * loginUser
    *
 	 * Logs user into the system
-   * username, string: The user name for login (required)
-   * * password, string: The password for login in clear text (required)
-   * 
-	 * @return string
+   *
+   * @param string $username The user name for login (required)
+   * @param string $password The password for login in clear text (required)
+   * @return string
 	 */
-
    public function loginUser($username, $password) {
 
   		// parse inputs
@@ -223,10 +219,9 @@ class UserApi {
 	 * logoutUser
    *
 	 * Logs out current logged in user session
-   
-	 * @return 
+   *
+   * @return void
 	 */
-
    public function logoutUser() {
 
   		// parse inputs
@@ -264,11 +259,10 @@ class UserApi {
 	 * getUserByName
    *
 	 * Get user by user name
-   * username, string: The name that needs to be fetched. Use user1 for testing.  (required)
-   * 
-	 * @return User
+   *
+   * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
+   * @return User
 	 */
-
    public function getUserByName($username) {
 
   		// parse inputs
@@ -316,12 +310,11 @@ class UserApi {
 	 * updateUser
    *
 	 * Updated user
-   * username, string: name that need to be deleted (required)
-   * * body, User: Updated user object (required)
-   * 
-	 * @return 
+   *
+   * @param string $username name that need to be deleted (required)
+   * @param User $body Updated user object (required)
+   * @return void
 	 */
-
    public function updateUser($username, $body) {
 
   		// parse inputs
@@ -367,11 +360,10 @@ class UserApi {
 	 * deleteUser
    *
 	 * Delete user
-   * username, string: The name that needs to be deleted (required)
-   * 
-	 * @return 
+   *
+   * @param string $username The name that needs to be deleted (required)
+   * @return void
 	 */
-
    public function deleteUser($username) {
 
   		// parse inputs

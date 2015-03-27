@@ -31,11 +31,10 @@ class {{classname}} {
 	 * {{{nickname}}}
    *
 	 * {{{summary}}}
-   {{#allParams}}* {{paramName}}, {{dataType}}: {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
-   * {{/allParams}}
-	 * @return {{{returnType}}}
+   *
+{{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
+{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 	 */
-
    public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
   		// parse inputs

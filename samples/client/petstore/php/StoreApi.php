@@ -30,10 +30,9 @@ class StoreApi {
 	 * getInventory
    *
 	 * Returns pet inventories by status
-   
-	 * @return map[string,int]
+   *
+   * @return map[string,int]
 	 */
-
    public function getInventory() {
 
   		// parse inputs
@@ -77,11 +76,10 @@ class StoreApi {
 	 * placeOrder
    *
 	 * Place an order for a pet
-   * body, Order: order placed for purchasing the pet (required)
-   * 
-	 * @return Order
+   *
+   * @param Order $body order placed for purchasing the pet (required)
+   * @return Order
 	 */
-
    public function placeOrder($body) {
 
   		// parse inputs
@@ -129,11 +127,10 @@ class StoreApi {
 	 * getOrderById
    *
 	 * Find purchase order by ID
-   * order_id, string: ID of pet that needs to be fetched (required)
-   * 
-	 * @return Order
+   *
+   * @param string $order_id ID of pet that needs to be fetched (required)
+   * @return Order
 	 */
-
    public function getOrderById($order_id) {
 
   		// parse inputs
@@ -181,11 +178,10 @@ class StoreApi {
 	 * deleteOrder
    *
 	 * Delete purchase order by ID
-   * order_id, string: ID of the order that needs to be deleted (required)
-   * 
-	 * @return 
+   *
+   * @param string $order_id ID of the order that needs to be deleted (required)
+   * @return void
 	 */
-
    public function deleteOrder($order_id) {
 
   		// parse inputs
