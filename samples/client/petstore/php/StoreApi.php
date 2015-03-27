@@ -21,24 +21,24 @@
  */
 class StoreApi {
 
-	function __construct($apiClient) {
-	  $this->apiClient = $apiClient;
-	}
+  function __construct($apiClient) {
+    $this->apiClient = $apiClient;
+  }
 
   
-	/**
-	 * getInventory
+  /**
+   * getInventory
    *
-	 * Returns pet inventories by status
+   * Returns pet inventories by status
    *
    * @return map[string,int]
-	 */
+   */
    public function getInventory() {
 
-  		// parse inputs
-  		$resourcePath = "/store/inventory";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "GET";
+      // parse inputs
+      $resourcePath = "/store/inventory";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "GET";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -58,10 +58,10 @@ class StoreApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       if(! $response) {
         return null;
@@ -72,20 +72,20 @@ class StoreApi {
   		return $responseObject;
   }
   
-	/**
-	 * placeOrder
+  /**
+   * placeOrder
    *
-	 * Place an order for a pet
+   * Place an order for a pet
    *
    * @param Order $body order placed for purchasing the pet (required)
    * @return Order
-	 */
+   */
    public function placeOrder($body) {
 
-  		// parse inputs
-  		$resourcePath = "/store/order";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
+      // parse inputs
+      $resourcePath = "/store/order";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "POST";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -109,10 +109,10 @@ class StoreApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       if(! $response) {
         return null;
@@ -123,20 +123,20 @@ class StoreApi {
   		return $responseObject;
   }
   
-	/**
-	 * getOrderById
+  /**
+   * getOrderById
    *
-	 * Find purchase order by ID
+   * Find purchase order by ID
    *
    * @param string $order_id ID of pet that needs to be fetched (required)
    * @return Order
-	 */
+   */
    public function getOrderById($order_id) {
 
-  		// parse inputs
-  		$resourcePath = "/store/order/{orderId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "GET";
+      // parse inputs
+      $resourcePath = "/store/order/{orderId}";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "GET";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -147,9 +147,9 @@ class StoreApi {
       
       // path params
       if($order_id !== null) {
-  			$resourcePath = str_replace("{" . "orderId" . "}",
-  			                            $this->apiClient->toPathValue($order_id), $resourcePath);
-  		}
+        $resourcePath = str_replace("{" . "orderId" . "}",
+                                    $this->apiClient->toPathValue($order_id), $resourcePath);
+      }
       
       
 
@@ -160,10 +160,10 @@ class StoreApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       if(! $response) {
         return null;
@@ -174,20 +174,20 @@ class StoreApi {
   		return $responseObject;
   }
   
-	/**
-	 * deleteOrder
+  /**
+   * deleteOrder
    *
-	 * Delete purchase order by ID
+   * Delete purchase order by ID
    *
    * @param string $order_id ID of the order that needs to be deleted (required)
    * @return void
-	 */
+   */
    public function deleteOrder($order_id) {
 
-  		// parse inputs
-  		$resourcePath = "/store/order/{orderId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "DELETE";
+      // parse inputs
+      $resourcePath = "/store/order/{orderId}";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "DELETE";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -198,9 +198,9 @@ class StoreApi {
       
       // path params
       if($order_id !== null) {
-  			$resourcePath = str_replace("{" . "orderId" . "}",
-  			                            $this->apiClient->toPathValue($order_id), $resourcePath);
-  		}
+        $resourcePath = str_replace("{" . "orderId" . "}",
+                                    $this->apiClient->toPathValue($order_id), $resourcePath);
+      }
       
       
 
@@ -211,10 +211,10 @@ class StoreApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       
   }
