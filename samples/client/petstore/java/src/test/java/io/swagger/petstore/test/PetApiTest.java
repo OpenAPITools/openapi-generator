@@ -1,10 +1,11 @@
 package io.swagger.petstore.test;
 
+import io.swagger.client.ApiException;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.io.*;
 
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -44,7 +45,7 @@ public class PetApiTest {
   }
 
   @Test
-  public void testFindPetByStatus() throws Exception {
+  public void testFindPetsByStatus() throws Exception {
     Pet pet = createRandomPet();
     pet.setName("programmer");
     pet.setStatus(Pet.StatusEnum.available);
@@ -63,6 +64,77 @@ public class PetApiTest {
     }
 
     assertTrue(found);
+  }
+
+  @Test
+  public void testFindPetsByTags() throws Exception {
+    Pet pet = createRandomPet();
+    pet.setName("monster");
+    pet.setStatus(Pet.StatusEnum.available);
+
+    List<Tag> tags = new ArrayList<Tag>();
+    Tag tag1 = new Tag();
+    tag1.setName("friendly");
+    tags.add(tag1);
+    pet.setTags(tags);
+
+    api.updatePet(pet);
+
+    List<Pet> pets = api.findPetsByTags(Arrays.asList(new String[]{"friendly"}));
+    assertNotNull(pets);
+
+    boolean found = false;
+    for(Pet fetched : pets) {
+      if(fetched.getId().equals(pet.getId())) {
+        found = true;
+        break;
+      }
+    }
+    assertTrue(found);
+  }
+
+  @Test
+  public void testUpdatePetWithForm() throws Exception {
+    Pet pet = createRandomPet();
+    pet.setName("frank");
+    api.addPet(pet);
+
+    Pet fetched = api.getPetById(pet.getId());
+    
+    api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null);
+    Pet updated = api.getPetById(fetched.getId());
+
+    assertEquals(updated.getName(), fetched.getName());
+  }
+
+  @Test
+  public void testDeletePet() throws Exception {
+    Pet pet = createRandomPet();
+    api.addPet(pet);
+
+    Pet fetched = api.getPetById(pet.getId());
+    api.deletePet(null, fetched.getId());
+
+    try {
+      fetched = api.getPetById(fetched.getId());
+      fail("expected an error");
+    }
+    catch (ApiException e) {
+      assertEquals(404, e.getCode());
+    }
+  }
+
+  @Test
+  public void testUploadFile() throws Exception {
+    Pet pet = createRandomPet();
+    api.addPet(pet);
+
+    File file = new File("hello.txt");
+    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    writer.write("Hello world!");
+    writer.close();
+
+    api.uploadFile(pet.getId(), "a test file", new File(file.getAbsolutePath()));
   }
 
   private Pet createRandomPet() {
