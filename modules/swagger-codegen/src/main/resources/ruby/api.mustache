@@ -12,10 +12,10 @@ class {{classname}}
 {{#operation}}
 {{newline}}
   # {{summary}}
-  # {{notes}}{{newLine}}
-{{#allParams}}{{^optional}}{{newLine}}  # @param {{paramName}} {{description}}
-{{/optional}}{{/allParams}}{{#allParams}}{{#optional}}{{newLine}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
-{{/optional}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{newLine}}
+  # {{notes}}
+{{#allParams}}{{^optional}}  # @param {{paramName}} {{description}}
+{{/optional}}{{/allParams}}{{#allParams}}{{#optional}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
+{{/optional}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
   def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}, {{/allParams}}opts={})
     query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
 
@@ -61,10 +61,10 @@ class {{classname}}
         post_body = array
       else 
         if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+          post_body = body.to_body
+        else
+          post_body = body
+        end
       end
     end
     {{/bodyParam}}

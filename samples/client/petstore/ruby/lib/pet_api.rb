@@ -52,10 +52,10 @@ class PetApi
         post_body = array
       else 
         if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+          post_body = body.to_body
+        else
+          post_body = body
+        end
       end
     end
     
@@ -112,10 +112,10 @@ class PetApi
         post_body = array
       else 
         if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+          post_body = body.to_body
+        else
+          post_body = body
+        end
       end
     end
     
