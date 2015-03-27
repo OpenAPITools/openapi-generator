@@ -16,6 +16,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.*;
 import org.apache.http.impl.conn.*;
+import org.apache.http.impl.conn.tsccm.*;
 import org.apache.http.params.*;
 import org.apache.http.util.EntityUtils;
 
@@ -364,7 +365,7 @@ public class ApiInvoker {
       schemeRegistry.register(httpsScheme);
       schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
-      ignoreSSLConnectionManager = new SingleClientConnManager(new BasicHttpParams(), schemeRegistry);
+      ignoreSSLConnectionManager = new ThreadSafeClientConnManager(new BasicHttpParams(), schemeRegistry);
     } catch (NoSuchAlgorithmException e) {
       // This will only be thrown if SSL isn't available for some reason.
     } catch (KeyManagementException e) {
