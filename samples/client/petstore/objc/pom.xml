@@ -30,7 +30,7 @@
           <stopKey>alpha</stopKey>
           <stopPort>9099</stopPort>
           <httpConnector>
-            <port>8002</port>
+            <port>8080</port>
           </httpConnector>
         </configuration>
         <executions>
@@ -41,8 +41,8 @@
               <goal>deploy-war</goal>
             </goals>
           </execution>
-         </executions>
-        </plugin>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
