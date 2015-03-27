@@ -30,11 +30,10 @@ class PetApi {
 	 * updatePet
    *
 	 * Update an existing pet
-   * body, Pet: Pet object that needs to be added to the store (required)
-   * 
-	 * @return 
+   *
+   * @param Pet $body Pet object that needs to be added to the store (required)
+   * @return void
 	 */
-
    public function updatePet($body) {
 
   		// parse inputs
@@ -76,11 +75,10 @@ class PetApi {
 	 * addPet
    *
 	 * Add a new pet to the store
-   * body, Pet: Pet object that needs to be added to the store (required)
-   * 
-	 * @return 
+   *
+   * @param Pet $body Pet object that needs to be added to the store (required)
+   * @return void
 	 */
-
    public function addPet($body) {
 
   		// parse inputs
@@ -122,11 +120,10 @@ class PetApi {
 	 * findPetsByStatus
    *
 	 * Finds Pets by status
-   * status, array[string]: Status values that need to be considered for filter (required)
-   * 
-	 * @return array[Pet]
+   *
+   * @param array[string] $status Status values that need to be considered for filter (required)
+   * @return array[Pet]
 	 */
-
    public function findPetsByStatus($status) {
 
   		// parse inputs
@@ -173,11 +170,10 @@ class PetApi {
 	 * findPetsByTags
    *
 	 * Finds Pets by tags
-   * tags, array[string]: Tags to filter by (required)
-   * 
-	 * @return array[Pet]
+   *
+   * @param array[string] $tags Tags to filter by (required)
+   * @return array[Pet]
 	 */
-
    public function findPetsByTags($tags) {
 
   		// parse inputs
@@ -224,11 +220,10 @@ class PetApi {
 	 * getPetById
    *
 	 * Find pet by ID
-   * pet_id, int: ID of pet that needs to be fetched (required)
-   * 
-	 * @return Pet
+   *
+   * @param int $pet_id ID of pet that needs to be fetched (required)
+   * @return Pet
 	 */
-
    public function getPetById($pet_id) {
 
   		// parse inputs
@@ -276,13 +271,12 @@ class PetApi {
 	 * updatePetWithForm
    *
 	 * Updates a pet in the store with form data
-   * pet_id, string: ID of pet that needs to be updated (required)
-   * * name, string: Updated name of the pet (required)
-   * * status, string: Updated status of the pet (required)
-   * 
-	 * @return 
+   *
+   * @param string $pet_id ID of pet that needs to be updated (required)
+   * @param string $name Updated name of the pet (required)
+   * @param string $status Updated status of the pet (required)
+   * @return void
 	 */
-
    public function updatePetWithForm($pet_id, $name, $status) {
 
   		// parse inputs
@@ -330,12 +324,11 @@ class PetApi {
 	 * deletePet
    *
 	 * Deletes a pet
-   * api_key, string:  (required)
-   * * pet_id, int: Pet id to delete (required)
-   * 
-	 * @return 
+   *
+   * @param string $api_key  (required)
+   * @param int $pet_id Pet id to delete (required)
+   * @return void
 	 */
-
    public function deletePet($api_key, $pet_id) {
 
   		// parse inputs
@@ -380,13 +373,12 @@ class PetApi {
 	 * uploadFile
    *
 	 * uploads an image
-   * pet_id, int: ID of pet to update (required)
-   * * additional_metadata, string: Additional data to pass to server (required)
-   * * file, file: file to upload (required)
-   * 
-	 * @return 
+   *
+   * @param int $pet_id ID of pet to update (required)
+   * @param string $additional_metadata Additional data to pass to server (required)
+   * @param file $file file to upload (required)
+   * @return void
 	 */
-
    public function uploadFile($pet_id, $additional_metadata, $file) {
 
   		// parse inputs
