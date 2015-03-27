@@ -6,8 +6,7 @@
 - (void)setUp {
     [super setUp];
     api = [[SWGPetApi alloc ]init];
-//    [[SWGApiClient sharedClientFromPool]setLoggingEnabled:true];
-    [SWGPetApi setBasePath:@"http://localhost:8002/api"];
+    [SWGPetApi setBasePath:@"http://localhost:8080/api"];
 }
 
 - (void)tearDown {

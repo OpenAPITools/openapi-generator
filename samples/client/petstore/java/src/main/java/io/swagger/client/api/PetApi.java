@@ -11,6 +11,7 @@ import io.swagger.client.model.Pet;
 import java.io.File;
 
 import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
 
 import javax.ws.rs.core.MediaType;
 
@@ -76,12 +77,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -126,12 +122,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -178,12 +169,7 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -230,12 +216,7 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -281,12 +262,7 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -340,12 +316,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -392,12 +363,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -431,7 +397,8 @@ public class PetApi {
       mp.field("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
       
       hasFields = true;
-      mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("file", file.getName());
+      mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
       
       if(hasFields)
         postBody = mp;
@@ -451,12 +418,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
