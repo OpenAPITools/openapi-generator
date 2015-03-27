@@ -288,6 +288,7 @@
       </activation>
       <modules>
         <module>samples/client/petstore/objc</module>
+        <module>samples/client/petstore/java</module>
       </modules>
     </profile>
   </profiles>
