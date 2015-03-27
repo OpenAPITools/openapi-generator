@@ -11,6 +11,7 @@ import io.swagger.client.model.User;
 import java.util.*;
 
 import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
 
 import javax.ws.rs.core.MediaType;
 
@@ -76,12 +77,7 @@ public class UserApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -126,12 +122,7 @@ public class UserApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -176,12 +167,7 @@ public class UserApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -230,12 +216,7 @@ public class UserApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -280,12 +261,7 @@ public class UserApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -331,12 +307,7 @@ public class UserApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -382,12 +353,7 @@ public class UserApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -433,12 +399,7 @@ public class UserApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   

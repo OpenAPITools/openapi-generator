@@ -16,6 +16,7 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.MediaType;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -83,11 +84,19 @@ public class ApiInvoker {
       return "";
     } else if (param instanceof Date) {
       return formatDateTime((Date) param);
+    } else if (param instanceof Collection) {
+      StringBuilder b = new StringBuilder();
+      for(Object o : (Collection)param) {
+        if(b.length() > 0) {
+          b.append(",");
+        }
+        b.append(String.valueOf(o));
+      }
+      return b.toString();
     } else {
       return String.valueOf(param);
     }
   }
-
   public void enableDebug() {
     isDebug = true;
   }
@@ -217,7 +226,7 @@ public class ApiInvoker {
     }
     else if ("DELETE".equals(method)) {
       if(body == null)
-        response = builder.delete(ClientResponse.class, serialize(body));
+        response = builder.delete(ClientResponse.class);
       else
         response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
     }
@@ -228,12 +237,26 @@ public class ApiInvoker {
       return null;
     }
     else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
-      return (String) response.getEntity(String.class);
+      if(response.hasEntity()) {
+        return (String) response.getEntity(String.class);
+      }
+      else {
+        return "";
+      }
     }
     else {
+      String message = "error";
+      if(response.hasEntity()) {
+        try{
+          message = String.valueOf(response.getEntity(String.class));
+        }
+        catch (RuntimeException e) {
+          // e.printStackTrace();
+        }
+      }
       throw new ApiException(
                 response.getClientResponseStatus().getStatusCode(),
-                response.getEntity(String.class));
+                message);
     }
   }
 
