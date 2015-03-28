@@ -1,5 +1,6 @@
 #import "SWGApiClient.h"
 #import "SWGFile.h"
+#import "SWGQueryParamCollection.h"
 
 @implementation SWGApiClient
 
@@ -208,14 +209,42 @@ static bool loggingEnabled = true;
             if(counter == 0) separator = @"?";
             else separator = @"&";
             NSString * value;
-            if([[queryParams valueForKey:key] isKindOfClass:[NSString class]]){
+            id queryParamValue = [queryParams valueForKey:key];
+            if([queryParamValue isKindOfClass:[NSString class]]){
                 value = [SWGApiClient escape:[queryParams valueForKey:key]];
+                [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
+                                          [SWGApiClient escape:key], value]];
+            }
+            else if ([queryParamValue isKindOfClass:[SWGQueryParamCollection class]]) {
+                SWGQueryParamCollection* c = (SWGQueryParamCollection* ) queryParamValue;
+                NSString * format = [c format];
+                NSArray * values = [c values];
+                if([format isEqualToString:@"csv"]) {
+                    [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
+                                              [SWGApiClient escape:key], [values componentsJoinedByString:@","]]];
+                }
+                else if([format isEqualToString:@"tsv"]) {
+                    [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
+                                              [SWGApiClient escape:key], [values componentsJoinedByString:@"\t"]]];
+                }
+                else if ([format isEqualToString:@"pipes"]) {
+                    [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
+                                              [SWGApiClient escape:key], [values componentsJoinedByString:@"|"]]];
+                }
+                else if([format isEqualToString:@"multi"]) {
+                    for(id obj in values) {
+                        
+                        [requestUrl appendString: [NSString stringWithFormat:@"%@%@=%@", separator, [SWGApiClient escape:key], obj]];
+                        if(counter > 0) separator = @"&";
+                    }
+                }
             }
             else {
                 value = [NSString stringWithFormat:@"%@", [queryParams valueForKey:key]];
+                [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
+                                          [SWGApiClient escape:key], value]];
             }
-            [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                                      [SWGApiClient escape:key], value]];
+
             counter += 1;
         }
     }
