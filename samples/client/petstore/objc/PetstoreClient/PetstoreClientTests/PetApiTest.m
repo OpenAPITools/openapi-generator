@@ -32,7 +32,7 @@
             [expectation fulfill];
         }];
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void) testUpdatePet {
@@ -84,7 +84,7 @@
             }];
         }
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void)testGetPetByStatus {
@@ -104,15 +104,18 @@
                 XCTFail(@"failed to fetch pets");
             }
             else {
+                bool found = false;
                 for(SWGPet* fetched in output) {
                     if([pet _id] == [fetched _id]) {
-                        [expectation fulfill];
+                        found = true;
                     }
                 }
+                if(found)
+                    [expectation fulfill];
             }
         }];
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void)testGetPetByTags {
@@ -133,8 +136,8 @@
                 XCTFail(@"got error %@", error);
             }
             if(output){
+                bool hasTag = false;
                 for(SWGPet * fetched in output) {
-                    bool hasTag = false;
                     for(SWGTag * tag in [fetched tags]){
                         if(fetched._id == pet._id && [[tag name] isEqualToString:@"tony"])
                             hasTag = true;
@@ -142,11 +145,40 @@
                     if(!hasTag)
                         XCTFail(@"failed to find tag in pet");
                 }
+                if(hasTag)
+                    [expectation fulfill];
             }
-            [expectation fulfill];
         }];
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
+- (void)testDeletePet {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
+    
+    SWGPet* pet = [self createPet];
+    
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
+        if(error){
+            XCTFail(@"got error %@", error);
+        }
+        [api deletePetWithCompletionBlock:@"" petId:[NSString stringWithFormat:@"%@", [pet _id]] completionHandler:^(NSError *error) {
+            if(error){
+                XCTFail(@"got error %@", error);
+            }
+            [api getPetByIdWithCompletionBlock:[pet _id] completionHandler:^(SWGPet *output, NSError *error) {
+                if(error) {
+                    // good
+                    [expectation fulfill];
+
+                }
+                else {
+                    XCTFail(@"expected a failure");
+                }
+            }];
+        }];
+    }];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (SWGPet*) createPet {
