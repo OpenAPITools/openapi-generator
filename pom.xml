@@ -277,8 +277,8 @@
         </plugins>
       </build>
     </profile>
+    <!-- Samples -->
     <profile>
-      <!-- Samples -->
       <id>java-client</id>
       <activation>
         <property>

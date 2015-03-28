@@ -1,5 +1,6 @@
 #import "SWGUserApi.h"
 #import "SWGFile.h"
+#import "SWGQueryParamCollection.h"
 #import "SWGApiClient.h"
 #import "SWGUser.h"
 
@@ -311,10 +312,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSString* responseContentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if(username != nil)
+    if(username != nil) {
+        
         queryParams[@"username"] = username;
-    if(password != nil)
+    }
+    if(password != nil) {
+        
         queryParams[@"password"] = password;
+    }
     
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
