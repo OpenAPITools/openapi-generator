@@ -1,6 +1,7 @@
 {{#operations}}
 #import "{{classname}}.h"
 #import "SWGFile.h"
+#import "SWGQueryParamCollection.h"
 #import "SWGApiClient.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
@@ -71,8 +72,12 @@ static NSString * basePath = @"{{basePath}}";
     NSString* responseContentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    {{#queryParams}}if({{paramName}} != nil)
-        queryParams[@"{{baseName}}"] = {{paramName}};
+    {{#queryParams}}if({{paramName}} != nil) {
+        {{#collectionFormat}}
+        queryParams[@"{{baseName}}"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
+        {{/collectionFormat}}
+        {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
+    }
     {{/queryParams}}
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     {{#headerParams}}if({{paramName}} != nil)
