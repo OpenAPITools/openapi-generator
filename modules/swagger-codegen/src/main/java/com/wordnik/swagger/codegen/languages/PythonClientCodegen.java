@@ -4,6 +4,7 @@ import com.wordnik.swagger.codegen.*;
 import com.wordnik.swagger.models.properties.*;
 
 import java.io.File;
+import java.util.*;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
   String module = "client";
@@ -50,7 +51,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.put("string", "str");
     typeMapping.put("date", "datetime");
 
-    
+    // from https://docs.python.org/release/2.5.4/ref/keywords.html
+    reservedWords = new HashSet<String> (
+      Arrays.asList(
+        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
+        "assert", "else", "if", "pass", "yield", "break", "except", "import",
+        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
+        "return", "def", "for", "lambda", "try"));
+
     supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     supportingFiles.add(new SupportingFile("swagger.mustache", module, "swagger.py"));
     supportingFiles.add(new SupportingFile("__init__.mustache", module, "__init__.py"));
