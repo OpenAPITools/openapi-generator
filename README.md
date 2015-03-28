@@ -52,23 +52,41 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/client/petstore/java
 ```
 
-With a number of options.  You can get the options with the -h flag:
+With a number of options.  You can get the options with the `help generate` command:
+
 ```
-usage: Codegen
- -a,--auth                 addes authorization headers when fetching the
-                           swagger definitions remotely. Pass in a
-                           URL-encoded string of name:header with a comma
-                           separating multiple values
- -d,--debug-info           prints additional info for debugging
- -h,--help                 shows this message
- -i,--input-spec <arg>     location of the swagger spec, as URL or file
- -l,--lang <arg>           client language to generate.
-                           Available languages include:
-                           [android, async-scala, java, jaxrs, nodejs,
-                           objc, scalatra, scala, dynamic-html, html,
-                           swagger, tizen, php, ruby, python]
- -o,--output <arg>         where to write the generated files
- -t,--template-dir <arg>   folder containing the template files
+NAME
+        swagger generate - Generate code with chosen lang
+
+SYNOPSIS
+        swagger generate [(-a <authorization> | --auth <authorization>)]
+                (-i <spec file> | --input-spec <spec file>)
+                (-l <language> | --lang <language>)
+                [(-o <output directory> | --output <output directory>)]
+                [(-t <template directory> | --template-dir <template directory>)]
+                [(-v | --verbose)]
+
+OPTIONS
+        -a <authorization>, --auth <authorization>
+            adds authorization headers when fetching the swagger definitions
+            remotely. Pass in a URL-encoded string of name:header with a comma
+            separating multiple values
+
+        -i <spec file>, --input-spec <spec file>
+            location of the swagger spec, as URL or file (required)
+
+        -l <language>, --lang <language>
+            client language to generate (maybe class name in classpath,
+            required)
+
+        -o <output directory>, --output <output directory>
+            where to write the generated files (current dir by default)
+
+        -t <template directory>, --template-dir <template directory>
+            folder containing the template files
+
+        -v, --verbose
+            verbose mode
  ```
 
 You can then compile and run the client, as well as unit tests against it:
@@ -91,18 +109,17 @@ It's just as easy--just use the `-i` flag to point to either a server or file.
 ### Modifying the client library format
 Don't like the default swagger client syntax?  Want a different language supported?  No problem!  Swagger codegen processes mustache templates with the [jmustache](https://github.com/samskivert/jmustache) engine.  You can modify our templates or make your own.
 
-You can look at `modules/swagger-codegen/src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
+You can look at `modules/swagger-codegen/src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your template folder.  It actually is that easy.
 
 ### Making your own codegen modules
 If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
 
 ```
-java -cp modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
-  com.wordnik.swagger.codegen.MetaGenerator \
+java -jar modules/swagger-codegen-distribution/target/swagger-codegen-cli.jar meta \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
 
-This will write, in the folder `output/myLibrary`, all the files you need to get started, including a README.md.  Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
+This will write, in the folder `output/myLibrary`, all the files you need to get started, including a README.md. Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
 
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
