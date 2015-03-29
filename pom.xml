@@ -277,18 +277,29 @@
         </plugins>
       </build>
     </profile>
+    <!-- Samples -->
     <profile>
-      <!-- Samples -->
-      <id>samples</id>
+      <id>java-client</id>
       <activation>
         <property>
           <name>env</name>
-          <value>samples</value>
+          <value>java</value>
+        </property>
+      </activation>
+      <modules>
+        <module>samples/client/petstore/java</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>objc-client</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>objc</value>
         </property>
       </activation>
       <modules>
         <module>samples/client/petstore/objc</module>
-        <module>samples/client/petstore/java</module>
       </modules>
     </profile>
   </profiles>

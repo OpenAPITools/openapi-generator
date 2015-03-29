@@ -335,4 +335,15 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be ("setCreatedAt")
     vars.get(0).name should be ("createdAt")
   }
+
+  it should "properly escape names per 567" in {
+    val model = new ModelImpl()
+      .description("a sample model")
+      .property("created-at", new DateTimeProperty())
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("with.dots", model)
+    val vars = cm.vars
+    cm.classname should be ("WithDots")
+  }
 }

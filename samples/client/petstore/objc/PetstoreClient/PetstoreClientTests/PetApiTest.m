@@ -6,96 +6,44 @@
 - (void)setUp {
     [super setUp];
     api = [[SWGPetApi alloc ]init];
-    [SWGPetApi setBasePath:@"http://localhost:8080/api"];
 }
 
 - (void)tearDown {
     [super tearDown];
 }
 
-- (void)testGetPetById {
+- (void)testCreateAndGetPet {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
-    [api getPetByIdWithCompletionBlock:@1 completionHandler:^(SWGPet *output, NSError *error) {
-        if(error){
-            XCTFail(@"got error %@", error);
-        }
-        if(output){
-            XCTAssertNotNil([output _id], @"token was nil");
-        }
-        [expectation fulfill];
-    }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
-}
+    SWGPet* pet = [self createPet];
 
-- (void) testAddPet {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"testAddPet"];
-    
-    SWGPet * petToAdd = [[SWGPet alloc] init];
-    [petToAdd set_id:@1000];
-    NSMutableArray* tags = [[NSMutableArray alloc] init];
-    for(int i = 0; i < 5; i++){
-        SWGTag * tag = [[SWGTag alloc] init];
-        [tag set_id:[NSNumber numberWithInt:i]];
-        [tag setName:[NSString stringWithFormat:@"tag-%d", i]];
-        [tags addObject:tag];
-    }
-    [petToAdd setTags:(NSArray<SWGTag>*)tags];
-    [petToAdd setStatus:@"lost"];
-    
-    SWGCategory * category = [[SWGCategory alloc] init];
-    [category setName:@"sold"];
-    [petToAdd setCategory:category];
-    [petToAdd setName:@"dragon"];
-    
-    NSMutableArray* photos = [[NSMutableArray alloc] init];
-    for(int i = 0; i < 10; i++){
-        NSString * url = [NSString stringWithFormat:@"http://foo.com/photo/%d", i];
-        [photos addObject:url];
-    }
-    [petToAdd setPhotoUrls:photos];
-    
-    [api addPetWithCompletionBlock:petToAdd completionHandler:^(NSError *error) {
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
         }
-        [expectation fulfill];
+        NSLog(@"%@", [pet _id]);
+        [api getPetByIdWithCompletionBlock:[pet _id] completionHandler:^(SWGPet *output, NSError *error) {
+            if(error){
+                XCTFail(@"got error %@", error);
+            }
+            if(output){
+                XCTAssertNotNil([output _id], @"token was nil");
+            }
+            [expectation fulfill];
+        }];
     }];
-    
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void) testUpdatePet {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testUpdatePet"];
-    SWGPet * petToAdd = [[SWGPet alloc] init];
-    [petToAdd set_id:[NSNumber numberWithInt:1000]];
-    NSMutableArray* tags = [[NSMutableArray alloc] init];
-    for(int i = 0; i < 5; i++){
-        SWGTag * tag = [[SWGTag alloc] init];
-        [tag set_id:[NSNumber numberWithInt:i]];
-        [tag setName:[NSString stringWithFormat:@"tag-%d", i]];
-        [tags addObject:tag];
-    }
-    [petToAdd setTags:(NSArray<SWGTag>*)tags];
-    [petToAdd setStatus:@"lost"];
-    
-    SWGCategory * category = [[SWGCategory alloc] init];
-    [category setName:@"sold"];
-    [petToAdd setCategory:category];
-    [petToAdd setName:@"dragon"];
-    
-    NSMutableArray* photos = [[NSMutableArray alloc] init];
-    for(int i = 0; i < 10; i++){
-        NSString * url = [NSString stringWithFormat:@"http://foo.com/photo/%d", i];
-        [photos addObject:url];
-    }
-    [petToAdd setPhotoUrls:photos];
+    SWGPet* pet = [self createPet];
 
-    [api addPetWithCompletionBlock:petToAdd completionHandler:^(NSError *error) {
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
         if(error) {
             XCTFail(@"got error %@", error);
         }
         else {
-            [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%@",[petToAdd _id]] completionHandler:^(SWGPet *output, NSError *error) {
+            [api getPetByIdWithCompletionBlock:[NSString stringWithFormat:@"%@",[pet _id]] completionHandler:^(SWGPet *output, NSError *error) {
                 if(error) {
                     XCTFail(@"got error %@", error);
                 }
@@ -105,7 +53,7 @@
                 else {
                     SWGPet* pet = [[SWGPet alloc] initWithDictionary:[output toDictionary] error:nil];
                     NSLog(@"got the pet");
-                    
+
                     [pet setName:@"programmer"];
                     [pet setStatus:@"confused"];
 
@@ -135,44 +83,115 @@
             }];
         }
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void)testGetPetByStatus {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetByStatus"];
-    [api findPetsByStatusWithCompletionBlock:@"available" completionHandler:^(NSArray *output, NSError *error) {
+    SWGPet* pet = [self createPet];
+
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
         if(error) {
             XCTFail(@"got error %@", error);
         }
-        if(output == nil){
-            XCTFail(@"failed to fetch pets");
-        }
-        else {
-            [expectation fulfill];
-        }
+        NSArray* status = [[NSArray alloc] initWithObjects:@"available", nil];
+        [api findPetsByStatusWithCompletionBlock:status completionHandler:^(NSArray *output, NSError *error) {
+            if(error) {
+                XCTFail(@"got error %@", error);
+            }
+            if(output == nil){
+                XCTFail(@"failed to fetch pets");
+            }
+            else {
+                bool found = false;
+                for(SWGPet* fetched in output) {
+                    if([pet _id] == [fetched _id]) {
+                        found = true;
+                    }
+                }
+                if(found)
+                    [expectation fulfill];
+            }
+        }];
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 - (void)testGetPetByTags {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetByTags"];
-    [api findPetsByTagsWithCompletionBlock:@"tag1,tag2" completionHandler:^(NSArray *output, NSError *error) {
+    SWGPet* pet = [self createPet];
+    SWGTag* tag = [[SWGTag alloc] init];
+    tag.name = @"tony";
+    pet.tags = [[NSArray alloc] initWithObjects:tag, nil];
+
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
+        if(error) {
+            XCTFail(@"got error %@", error);
+        }
+        NSArray* tags = [[NSArray alloc] initWithObjects:@"tony", nil];
+
+        [api findPetsByTagsWithCompletionBlock:tags completionHandler:^(NSArray *output, NSError *error) {
+            if(error){
+                XCTFail(@"got error %@", error);
+            }
+            if(output){
+                bool hasTag = false;
+                for(SWGPet * fetched in output) {
+                    for(SWGTag * tag in [fetched tags]){
+                        if(fetched._id == pet._id && [[tag name] isEqualToString:@"tony"])
+                            hasTag = true;
+                    }
+                    if(!hasTag)
+                        XCTFail(@"failed to find tag in pet");
+                }
+                if(hasTag)
+                    [expectation fulfill];
+            }
+        }];
+    }];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
+- (void)testDeletePet {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
+
+    SWGPet* pet = [self createPet];
+
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
         }
-        if(output){
-            for(SWGPet * pet in output) {
-                bool hasTag = false;
-                for(SWGTag * tag in [pet tags]){
-                    if([[tag name] isEqualToString:@"tag1"] || [[tag name] isEqualToString:@"tag2"])
-                        hasTag = true;
-                }
-                if(!hasTag)
-                    XCTFail(@"failed to find tag in pet");
+        [api deletePetWithCompletionBlock:@"" petId:[NSString stringWithFormat:@"%@", [pet _id]] completionHandler:^(NSError *error) {
+            if(error){
+                XCTFail(@"got error %@", error);
             }
-        }
-        [expectation fulfill];
+            [api getPetByIdWithCompletionBlock:[pet _id] completionHandler:^(SWGPet *output, NSError *error) {
+                if(error) {
+                    // good
+                    [expectation fulfill];
+
+                }
+                else {
+                    XCTFail(@"expected a failure");
+                }
+            }];
+        }];
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
+- (SWGPet*) createPet {
+    SWGPet * pet = [[SWGPet alloc] init];
+    pet._id = [[NSNumber alloc] initWithLong:[[NSDate date] timeIntervalSince1970]];
+    pet.name = @"monkey";
+    SWGCategory * category = [[SWGCategory alloc] init];
+    category.name = @"super-happy";
+
+    pet.category = category;
+    pet.status = @"available";
+
+    NSArray * photos = [[NSArray alloc] initWithObjects:@"http://foo.bar.com/3", @"http://foo.bar.com/4", nil];
+    pet.photoUrls = photos;
+    return pet;
 }
 @end

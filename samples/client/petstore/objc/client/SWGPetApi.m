@@ -1,5 +1,6 @@
 #import "SWGPetApi.h"
 #import "SWGFile.h"
+#import "SWGQueryParamCollection.h"
 #import "SWGApiClient.h"
 #import "SWGPet.h"
 #import "SWGFile.h"
@@ -230,8 +231,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSString* responseContentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if(status != nil)
-        queryParams[@"status"] = status;
+    if(status != nil) {
+        
+        queryParams[@"status"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: status format: @"multi"];
+        
+        
+    }
     
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     
@@ -303,8 +308,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSString* responseContentType = @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if(tags != nil)
-        queryParams[@"tags"] = tags;
+    if(tags != nil) {
+        
+        queryParams[@"tags"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: tags format: @"multi"];
+        
+        
+    }
     
     NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
     

@@ -1,5 +1,6 @@
 #import "SWGStoreApi.h"
 #import "SWGFile.h"
+#import "SWGQueryParamCollection.h"
 #import "SWGApiClient.h"
 #import "SWGOrder.h"
 
