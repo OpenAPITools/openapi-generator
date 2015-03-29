@@ -53,6 +53,13 @@ public class ApiInvoker {
     // Use UTC as the default time zone.
     DATE_TIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    // Set default User-Agent.
+    setUserAgent("Java-Swagger");
+  }
+
+  public static void setUserAgent(String userAgent) {
+    INSTANCE.addDefaultHeader("User-Agent", userAgent);
   }
 
   public static Date parseDateTime(String str) {
