@@ -39,7 +39,7 @@
         [tag setName:[NSString stringWithFormat:@"tag-%d", i]];
         [tags addObject:tag];
     }
-    [petToAdd setTags:tags];
+    [petToAdd setTags:(NSArray<SWGTag>*)tags];
     [petToAdd setStatus:@"lost"];
     
     SWGCategory * category = [[SWGCategory alloc] init];
@@ -75,7 +75,7 @@
         [tag setName:[NSString stringWithFormat:@"tag-%d", i]];
         [tags addObject:tag];
     }
-    [petToAdd setTags:tags];
+    [petToAdd setTags:(NSArray<SWGTag>*)tags];
     [petToAdd setStatus:@"lost"];
     
     SWGCategory * category = [[SWGCategory alloc] init];
@@ -103,7 +103,7 @@
                     NSLog(@"failed to fetch pet");
                 }
                 else {
-                    SWGPet* pet = [[SWGPet alloc] initWithValues:[output asDictionary]];
+                    SWGPet* pet = [[SWGPet alloc] initWithDictionary:[output toDictionary] error:nil];
                     NSLog(@"got the pet");
                     
                     [pet setName:@"programmer"];
@@ -122,7 +122,7 @@
                                                 NSLog(@"failed to fetch pet");
                                             }
                                             else {
-                                                SWGPet* pet = [[SWGPet alloc] initWithValues:[output asDictionary]];
+                                                SWGPet* pet = [[SWGPet alloc] initWithDictionary:[output toDictionary] error:nil];
                                                 XCTAssertNotNil([pet _id], @"pet was nil");
                                                 XCTAssertEqualObjects([pet name], @"programmer", @"pet name was not updated");
                                                 XCTAssertEqualObjects([pet status], @"confused", @"pet status was not updated");

@@ -25,11 +25,11 @@
                         {{returnBaseType}}* d = [[{{{returnBaseType}}} alloc]initWithString: dict];
                         {{/returnTypeIsPrimitive}}
                         {{^returnTypeIsPrimitive}}
-                        {{{returnBaseType}}}* d = [[{{{returnBaseType}}} alloc]initWithValues: dict];
+                        {{{returnBaseType}}}* d = [[{{{returnBaseType}}} alloc] initWithDictionary:dict error:nil];
                         {{/returnTypeIsPrimitive}}
                         [objs addObject:d];
                     }
-                    completionBlock(objs, nil);
+                    completionBlock(({{{returnType}}})objs, nil);
                 }
                 {{/returnBaseType}}
                 {{/isListContainer}}
