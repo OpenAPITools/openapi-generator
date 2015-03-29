@@ -1099,6 +1099,21 @@ public class DefaultCodegen {
       m = p.matcher(word);
     }
 
+    // case out dots
+    String[] parts = word.split("\\.");
+    StringBuilder f = new StringBuilder();
+    for(String z : parts) {
+      if(z.length() > 0)
+        f.append(Character.toUpperCase(z.charAt(0))).append(z.substring(1));
+    }
+    word = f.toString();
+
+    m = p.matcher(word);
+    while (m.find()) {
+      word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
+      m = p.matcher(word);
+    }
+
     // Uppercase the class name.
     p = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
     m = p.matcher(word);

@@ -23,6 +23,7 @@
 		EA6699BE1811D2FB00A70D03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999D1811D2FA00A70D03 /* UIKit.framework */; };
 		EA6699C61811D2FB00A70D03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA6699C41811D2FB00A70D03 /* InfoPlist.strings */; };
 		EA6699C81811D2FB00A70D03 /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699C71811D2FB00A70D03 /* PetApiTest.m */; };
+		EA8B8AA41AC6683700638FBB /* SWGQueryParamCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */; };
 		EA8CD3ED1AC2763600C47D0B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */; };
 		EAEA85E41811D3AE00F06E69 /* SWGApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */; };
 		EAEA85E51811D3AE00F06E69 /* SWGCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CF1811D3AE00F06E69 /* SWGCategory.m */; };
@@ -75,6 +76,8 @@
 		EA6699C31811D2FB00A70D03 /* PetstoreClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PetstoreClientTests-Info.plist"; sourceTree = "<group>"; };
 		EA6699C51811D2FB00A70D03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EA6699C71811D2FB00A70D03 /* PetApiTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PetApiTest.m; sourceTree = "<group>"; };
+		EA8B8AA21AC6683700638FBB /* SWGQueryParamCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGQueryParamCollection.h; sourceTree = "<group>"; };
+		EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGQueryParamCollection.m; sourceTree = "<group>"; };
 		EA8CD3EB1AC274BE00C47D0B /* PetApiTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PetApiTest.h; sourceTree = "<group>"; };
 		EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGApiClient.h; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 		EAEA85CB1811D3AE00F06E69 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				EA8B8AA21AC6683700638FBB /* SWGQueryParamCollection.h */,
+				EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */,
 				EAFBEABC1A92C42700A27431 /* SWGApiResponse.h */,
 				EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */,
 				EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */,
@@ -407,6 +412,7 @@
 				EAEA85EC1811D3AE00F06E69 /* SWGStoreApi.m in Sources */,
 				EAEA85E91811D3AE00F06E69 /* SWGOrder.m in Sources */,
 				EAEA85E81811D3AE00F06E69 /* SWGObject.m in Sources */,
+				EA8B8AA41AC6683700638FBB /* SWGQueryParamCollection.m in Sources */,
 				EAEA85E71811D3AE00F06E69 /* SWGFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
