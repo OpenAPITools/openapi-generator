@@ -21,26 +21,25 @@
  */
 class PetApi {
 
-	function __construct($apiClient) {
-	  $this->apiClient = $apiClient;
-	}
+  function __construct($apiClient) {
+    $this->apiClient = $apiClient;
+  }
 
   
-	/**
-	 * updatePet
+  /**
+   * updatePet
    *
-	 * Update an existing pet
-   * body, Pet: Pet object that needs to be added to the store (required)
-   * 
-	 * @return 
-	 */
-
+   * Update an existing pet
+   *
+   * @param Pet $body Pet object that needs to be added to the store (required)
+   * @return void
+   */
    public function updatePet($body) {
 
-  		// parse inputs
-  		$resourcePath = "/pet";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "PUT";
+      // parse inputs
+      $resourcePath = "/pet";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "PUT";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -64,29 +63,28 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       
   }
   
-	/**
-	 * addPet
+  /**
+   * addPet
    *
-	 * Add a new pet to the store
-   * body, Pet: Pet object that needs to be added to the store (required)
-   * 
-	 * @return 
-	 */
-
+   * Add a new pet to the store
+   *
+   * @param Pet $body Pet object that needs to be added to the store (required)
+   * @return void
+   */
    public function addPet($body) {
 
-  		// parse inputs
-  		$resourcePath = "/pet";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
+      // parse inputs
+      $resourcePath = "/pet";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "POST";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -110,29 +108,28 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       
   }
   
-	/**
-	 * findPetsByStatus
+  /**
+   * findPetsByStatus
    *
-	 * Finds Pets by status
-   * status, array[string]: Status values that need to be considered for filter (required)
-   * 
-	 * @return array[Pet]
-	 */
-
+   * Finds Pets by status
+   *
+   * @param array[string] $status Status values that need to be considered for filter (required)
+   * @return array[Pet]
+   */
    public function findPetsByStatus($status) {
 
-  		// parse inputs
-  		$resourcePath = "/pet/findByStatus";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "GET";
+      // parse inputs
+      $resourcePath = "/pet/findByStatus";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "GET";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -141,8 +138,8 @@ class PetApi {
 
       // query params
       if($status !== null) {
-  		  $queryParams['status'] = $this->apiClient->toQueryValue($status);
-  		}
+        $queryParams['status'] = $this->apiClient->toQueryValue($status);
+      }
       
       
       
@@ -155,10 +152,10 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       if(! $response) {
         return null;
@@ -169,21 +166,20 @@ class PetApi {
   		return $responseObject;
   }
   
-	/**
-	 * findPetsByTags
+  /**
+   * findPetsByTags
    *
-	 * Finds Pets by tags
-   * tags, array[string]: Tags to filter by (required)
-   * 
-	 * @return array[Pet]
-	 */
-
+   * Finds Pets by tags
+   *
+   * @param array[string] $tags Tags to filter by (required)
+   * @return array[Pet]
+   */
    public function findPetsByTags($tags) {
 
-  		// parse inputs
-  		$resourcePath = "/pet/findByTags";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "GET";
+      // parse inputs
+      $resourcePath = "/pet/findByTags";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "GET";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -192,8 +188,8 @@ class PetApi {
 
       // query params
       if($tags !== null) {
-  		  $queryParams['tags'] = $this->apiClient->toQueryValue($tags);
-  		}
+        $queryParams['tags'] = $this->apiClient->toQueryValue($tags);
+      }
       
       
       
@@ -206,10 +202,10 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       if(! $response) {
         return null;
@@ -220,21 +216,20 @@ class PetApi {
   		return $responseObject;
   }
   
-	/**
-	 * getPetById
+  /**
+   * getPetById
    *
-	 * Find pet by ID
-   * pet_id, int: ID of pet that needs to be fetched (required)
-   * 
-	 * @return Pet
-	 */
-
+   * Find pet by ID
+   *
+   * @param int $pet_id ID of pet that needs to be fetched (required)
+   * @return Pet
+   */
    public function getPetById($pet_id) {
 
-  		// parse inputs
-  		$resourcePath = "/pet/{petId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "GET";
+      // parse inputs
+      $resourcePath = "/pet/{petId}";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "GET";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -245,9 +240,9 @@ class PetApi {
       
       // path params
       if($pet_id !== null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
-  		}
+        $resourcePath = str_replace("{" . "petId" . "}",
+                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+      }
       
       
 
@@ -258,10 +253,10 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       if(! $response) {
         return null;
@@ -272,23 +267,22 @@ class PetApi {
   		return $responseObject;
   }
   
-	/**
-	 * updatePetWithForm
+  /**
+   * updatePetWithForm
    *
-	 * Updates a pet in the store with form data
-   * pet_id, string: ID of pet that needs to be updated (required)
-   * * name, string: Updated name of the pet (required)
-   * * status, string: Updated status of the pet (required)
-   * 
-	 * @return 
-	 */
-
+   * Updates a pet in the store with form data
+   *
+   * @param string $pet_id ID of pet that needs to be updated (required)
+   * @param string $name Updated name of the pet (required)
+   * @param string $status Updated status of the pet (required)
+   * @return void
+   */
    public function updatePetWithForm($pet_id, $name, $status) {
 
-  		// parse inputs
-  		$resourcePath = "/pet/{petId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
+      // parse inputs
+      $resourcePath = "/pet/{petId}";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "POST";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -299,9 +293,9 @@ class PetApi {
       
       // path params
       if($pet_id !== null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
-  		}
+        $resourcePath = str_replace("{" . "petId" . "}",
+                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+      }
       // form params
       if ($name !== null) {
         $formParams['name'] = $this->apiClient->toFormValue($name);
@@ -318,30 +312,29 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       
   }
   
-	/**
-	 * deletePet
+  /**
+   * deletePet
    *
-	 * Deletes a pet
-   * api_key, string:  (required)
-   * * pet_id, int: Pet id to delete (required)
-   * 
-	 * @return 
-	 */
-
+   * Deletes a pet
+   *
+   * @param string $api_key  (required)
+   * @param int $pet_id Pet id to delete (required)
+   * @return void
+   */
    public function deletePet($api_key, $pet_id) {
 
-  		// parse inputs
-  		$resourcePath = "/pet/{petId}";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "DELETE";
+      // parse inputs
+      $resourcePath = "/pet/{petId}";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "DELETE";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -351,13 +344,13 @@ class PetApi {
       
       // header params
       if($api_key !== null) {
-  		 	$headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
-  		}
+        $headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
+      }
       // path params
       if($pet_id !== null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
-  		}
+        $resourcePath = str_replace("{" . "petId" . "}",
+                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+      }
       
       
 
@@ -368,31 +361,30 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       
   }
   
-	/**
-	 * uploadFile
+  /**
+   * uploadFile
    *
-	 * uploads an image
-   * pet_id, int: ID of pet to update (required)
-   * * additional_metadata, string: Additional data to pass to server (required)
-   * * file, file: file to upload (required)
-   * 
-	 * @return 
-	 */
-
+   * uploads an image
+   *
+   * @param int $pet_id ID of pet to update (required)
+   * @param string $additional_metadata Additional data to pass to server (required)
+   * @param file $file file to upload (required)
+   * @return void
+   */
    public function uploadFile($pet_id, $additional_metadata, $file) {
 
-  		// parse inputs
-  		$resourcePath = "/pet/{petId}/uploadImage";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "POST";
+      // parse inputs
+      $resourcePath = "/pet/{petId}/uploadImage";
+      $resourcePath = str_replace("{format}", "json", $resourcePath);
+      $method = "POST";
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -403,9 +395,9 @@ class PetApi {
       
       // path params
       if($pet_id !== null) {
-  			$resourcePath = str_replace("{" . "petId" . "}",
-  			                            $this->apiClient->toPathValue($pet_id), $resourcePath);
-  		}
+        $resourcePath = str_replace("{" . "petId" . "}",
+                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+      }
       // form params
       if ($additional_metadata !== null) {
         $formParams['additionalMetadata'] = $this->apiClient->toFormValue($additional_metadata);
@@ -422,10 +414,10 @@ class PetApi {
         $body = http_build_query($body);
       }
 
-  		// make the API Call
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
+      // make the API Call
+      $response = $this->apiClient->callAPI($resourcePath, $method,
+                                            $queryParams, $body,
+                                            $headerParams);
 
       
   }
