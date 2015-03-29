@@ -14,9 +14,8 @@
 
 - (void)testCreateAndGetPet {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
-
     SWGPet* pet = [self createPet];
-    
+
     [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
@@ -38,7 +37,7 @@
 - (void) testUpdatePet {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testUpdatePet"];
     SWGPet* pet = [self createPet];
-    
+
     [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
         if(error) {
             XCTFail(@"got error %@", error);
@@ -52,9 +51,9 @@
                     NSLog(@"failed to fetch pet");
                 }
                 else {
-                    SWGPet* pet = [[SWGPet alloc] initWithValues:[output asDictionary]];
+                    SWGPet* pet = [[SWGPet alloc] initWithDictionary:[output toDictionary] error:nil];
                     NSLog(@"got the pet");
-                    
+
                     [pet setName:@"programmer"];
                     [pet setStatus:@"confused"];
 
@@ -71,7 +70,7 @@
                                                 NSLog(@"failed to fetch pet");
                                             }
                                             else {
-                                                SWGPet* pet = [[SWGPet alloc] initWithValues:[output asDictionary]];
+                                                SWGPet* pet = [[SWGPet alloc] initWithDictionary:[output toDictionary] error:nil];
                                                 XCTAssertNotNil([pet _id], @"pet was nil");
                                                 XCTAssertEqualObjects([pet name], @"programmer", @"pet name was not updated");
                                                 XCTAssertEqualObjects([pet status], @"confused", @"pet status was not updated");
@@ -155,9 +154,9 @@
 
 - (void)testDeletePet {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
-    
+
     SWGPet* pet = [self createPet];
-    
+
     [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
         if(error){
             XCTFail(@"got error %@", error);
@@ -187,10 +186,10 @@
     pet.name = @"monkey";
     SWGCategory * category = [[SWGCategory alloc] init];
     category.name = @"super-happy";
-    
+
     pet.category = category;
     pet.status = @"available";
-    
+
     NSArray * photos = [[NSArray alloc] initWithObjects:@"http://foo.bar.com/3", @"http://foo.bar.com/4", nil];
     pet.photoUrls = photos;
     return pet;
