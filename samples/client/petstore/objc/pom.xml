@@ -22,28 +22,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty-version}</version>
-        <configuration>
-          <war>${project.build.directory}/swagger-java-jersey-sample-app-${webapp-version}.war</war>
-          <stopKey>alpha</stopKey>
-          <stopPort>9099</stopPort>
-          <httpConnector>
-            <port>8080</port>
-          </httpConnector>
-        </configuration>
-        <executions>
-          <execution>
-            <id>start-jetty</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>deploy-war</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.2.1</version>
@@ -84,25 +62,4 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>com.wordnik</groupId>
-      <artifactId>swagger-java-jersey-sample-app</artifactId>
-      <version>${webapp-version}</version>
-      <type>war</type>
-    </dependency>
-  </dependencies>
-  <repositories>
-    <repository>
-      <id>sonatype-snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  <properties>
-    <webapp-version>1.5.4-M1-SNAPSHOT</webapp-version>
-    <jetty-version>9.2.9.v20150224</jetty-version>
-  </properties>
 </project>

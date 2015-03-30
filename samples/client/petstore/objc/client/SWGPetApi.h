@@ -51,11 +51,11 @@
  @param status Status values that need to be considered for filter
  
 
- return type: NSArray*
+ return type: NSArray<SWGPet>*
  */
 -(NSNumber*) findPetsByStatusWithCompletionBlock :(NSArray*) status 
     
-    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
     
 
 
@@ -67,11 +67,11 @@
  @param tags Tags to filter by
  
 
- return type: NSArray*
+ return type: NSArray<SWGPet>*
  */
 -(NSNumber*) findPetsByTagsWithCompletionBlock :(NSArray*) tags 
     
-    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
     
 
 

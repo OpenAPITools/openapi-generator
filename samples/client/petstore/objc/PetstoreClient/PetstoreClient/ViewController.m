@@ -20,8 +20,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+/*
     SWGPetApi * api = [[SWGPetApi alloc] init];
-    /*
     [api getPetByIdWithCompletionBlock:@10 completionHandler:^(SWGPet *output, NSError *error) {
         NSLog(@"%@", [output asDictionary]);
         [output set_id:@101];
