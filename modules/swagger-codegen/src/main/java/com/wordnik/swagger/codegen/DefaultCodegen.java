@@ -465,7 +465,7 @@ public class DefaultCodegen {
               System.out.println("failed to process model " + name);
               throw new RuntimeException(e);
             }
-            cp.required = false;
+            cp.required = null;
             if(impl.getRequired() != null) {
               for(String req : impl.getRequired()) {
                 if(key.equals(req))
@@ -879,7 +879,8 @@ public class DefaultCodegen {
     CodegenParameter p = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
     p.baseName = param.getName();
     p.description = param.getDescription();
-    p.required = param.getRequired();
+    if(param.getRequired())
+      p.required = param.getRequired();
     p.jsonSchema = Json.pretty(param);
 
     if(param instanceof SerializableParameter) {
