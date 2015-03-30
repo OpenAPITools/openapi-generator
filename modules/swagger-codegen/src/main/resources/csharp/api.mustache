@@ -40,7 +40,7 @@
       /// <returns></returns>
       public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         // create path and map variables
-        var path = "{{path}}".Replace("{format}","json"){{#pathParams}}.Replace("{" + "{{paramName}}" + "}", apiInvoker.escapeString({{{paramName}}}.ToString())){{/pathParams}};
+        var path = "{{path}}".Replace("{format}","json"){{#pathParams}}.Replace("{" + "{{baseName}}" + "}", apiInvoker.escapeString({{{paramName}}}.ToString())){{/pathParams}};
 
         // query params
         var queryParams = new Dictionary<String, String>();
@@ -56,19 +56,19 @@
 
         {{#queryParams}}if ({{paramName}} != null){
           string paramStr = ({{paramName}} is DateTime) ? ((DateTime)(object){{paramName}}).ToString("u") : Convert.ToString({{paramName}});
-          queryParams.Add("{{paramName}}", paramStr);
+          queryParams.Add("{{baseName}}", paramStr);
 		}
         {{/queryParams}}
 
-        {{#headerParams}}headerParams.Add("{{paramName}}", {{paramName}});
+        {{#headerParams}}headerParams.Add("{{baseName}}", {{paramName}});
         {{/headerParams}}
 
         {{#formParams}}if ({{paramName}} != null){
           if({{paramName}} is byte[]) {
-            formParams.Add("{{paramName}}", {{paramName}});
+            formParams.Add("{{baseName}}", {{paramName}});
           } else {
             string paramStr = ({{paramName}} is DateTime) ? ((DateTime)(object){{paramName}}).ToString("u") : Convert.ToString({{paramName}});
-            formParams.Add("{{paramName}}", paramStr);
+            formParams.Add("{{baseName}}", paramStr);
           }
 		}
         {{/formParams}}
@@ -78,7 +78,7 @@
             var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
             return {{#returnType}}((object)response) as {{{returnType}}}{{/returnType}};
           } else {
-            var response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams, formParams);
+            var response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams, formParams);
             if(response != null){
                return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, typeof({{{returnType}}})){{/returnType}};
             }

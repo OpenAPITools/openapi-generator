@@ -37,10 +37,10 @@
       /// <summary>
       /// Create user This can only be done by the logged in user.
       /// </summary>
-      /// <param name="body">Created user object</param>
+      /// <param name="Body">Created user object</param>
       
       /// <returns></returns>
-      public void  createUser (User body) {
+      public void  createUser (User Body) {
         // create path and map variables
         var path = "/user".Replace("{format}","json");
 
@@ -62,7 +62,7 @@
             var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
             return ;
           } else {
-            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, com.wordnik.swagger.codegen.CodegenParameter@76995893, headerParams, formParams);
+            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, Body, headerParams, formParams);
             if(response != null){
                return ;
             }
@@ -84,10 +84,10 @@
       /// <summary>
       /// Creates list of users with given input array 
       /// </summary>
-      /// <param name="body">List of user object</param>
+      /// <param name="Body">List of user object</param>
       
       /// <returns></returns>
-      public void  createUsersWithArrayInput (array<User> body) {
+      public void  createUsersWithArrayInput (List<User> Body) {
         // create path and map variables
         var path = "/user/createWithArray".Replace("{format}","json");
 
@@ -109,7 +109,7 @@
             var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
             return ;
           } else {
-            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, com.wordnik.swagger.codegen.CodegenParameter@4d8657b9, headerParams, formParams);
+            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, Body, headerParams, formParams);
             if(response != null){
                return ;
             }
@@ -131,10 +131,10 @@
       /// <summary>
       /// Creates list of users with given input array 
       /// </summary>
-      /// <param name="body">List of user object</param>
+      /// <param name="Body">List of user object</param>
       
       /// <returns></returns>
-      public void  createUsersWithListInput (array<User> body) {
+      public void  createUsersWithListInput (List<User> Body) {
         // create path and map variables
         var path = "/user/createWithList".Replace("{format}","json");
 
@@ -156,7 +156,7 @@
             var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
             return ;
           } else {
-            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, com.wordnik.swagger.codegen.CodegenParameter@2ee95a72, headerParams, formParams);
+            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, Body, headerParams, formParams);
             if(response != null){
                return ;
             }
@@ -178,11 +178,11 @@
       /// <summary>
       /// Logs user into the system 
       /// </summary>
-      /// <param name="username">The user name for login</param>
-       /// <param name="password">The password for login in clear text</param>
+      /// <param name="Username">The user name for login</param>
+       /// <param name="Password">The password for login in clear text</param>
       
       /// <returns></returns>
-      public string  loginUser (string username, string password) {
+      public string  loginUser (string Username, string Password) {
         // create path and map variables
         var path = "/user/login".Replace("{format}","json");
 
@@ -193,12 +193,12 @@
 
         
 
-        if (username != null){
-          string paramStr = (username is DateTime) ? ((DateTime)(object)username).ToString("u") : Convert.ToString(username);
+        if (Username != null){
+          string paramStr = (Username is DateTime) ? ((DateTime)(object)Username).ToString("u") : Convert.ToString(Username);
           queryParams.Add("username", paramStr);
 		}
-        if (password != null){
-          string paramStr = (password is DateTime) ? ((DateTime)(object)password).ToString("u") : Convert.ToString(password);
+        if (Password != null){
+          string paramStr = (Password is DateTime) ? ((DateTime)(object)Password).ToString("u") : Convert.ToString(Password);
           queryParams.Add("password", paramStr);
 		}
         
@@ -280,12 +280,12 @@
       /// <summary>
       /// Get user by user name 
       /// </summary>
-      /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+      /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
       
       /// <returns></returns>
-      public User  getUserByName (string username) {
+      public User  getUserByName (string Username) {
         // create path and map variables
-        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(username.ToString()));
+        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(Username.ToString()));
 
         // query params
         var queryParams = new Dictionary<String, String>();
@@ -327,13 +327,13 @@
       /// <summary>
       /// Updated user This can only be done by the logged in user.
       /// </summary>
-      /// <param name="username">name that need to be deleted</param>
-       /// <param name="body">Updated user object</param>
+      /// <param name="Username">name that need to be deleted</param>
+       /// <param name="Body">Updated user object</param>
       
       /// <returns></returns>
-      public void  updateUser (string username, User body) {
+      public void  updateUser (string Username, User Body) {
         // create path and map variables
-        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(username.ToString()));
+        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(Username.ToString()));
 
         // query params
         var queryParams = new Dictionary<String, String>();
@@ -353,7 +353,7 @@
             var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
             return ;
           } else {
-            var response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, com.wordnik.swagger.codegen.CodegenParameter@5a310a6d, headerParams, formParams);
+            var response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, Body, headerParams, formParams);
             if(response != null){
                return ;
             }
@@ -375,12 +375,12 @@
       /// <summary>
       /// Delete user This can only be done by the logged in user.
       /// </summary>
-      /// <param name="username">The name that needs to be deleted</param>
+      /// <param name="Username">The name that needs to be deleted</param>
       
       /// <returns></returns>
-      public void  deleteUser (string username) {
+      public void  deleteUser (string Username) {
         // create path and map variables
-        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(username.ToString()));
+        var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.escapeString(Username.ToString()));
 
         // query params
         var queryParams = new Dictionary<String, String>();

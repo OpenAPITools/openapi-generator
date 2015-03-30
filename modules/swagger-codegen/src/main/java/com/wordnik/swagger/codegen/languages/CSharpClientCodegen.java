@@ -46,7 +46,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     supportingFiles.add(new SupportingFile("apiException.mustache", 
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.cs"));
     supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
-    supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.cs"));
+    supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
@@ -70,7 +70,9 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.put("double", "double?");
     typeMapping.put("number", "double?");
     typeMapping.put("Date", "DateTime");
-    typeMapping.put("file", "byte[]?");
+    typeMapping.put("file", "byte[]");
+    typeMapping.put("array", "List");
+    typeMapping.put("map", "Dictionary");
 
   }
 
