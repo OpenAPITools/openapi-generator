@@ -36,7 +36,7 @@
 
  return type: 
  */
--(NSNumber*) createUsersWithArrayInputWithCompletionBlock :(NSArray*) body 
+-(NSNumber*) createUsersWithArrayInputWithCompletionBlock :(NSArray<SWGUser>*) body 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;
@@ -52,7 +52,7 @@
 
  return type: 
  */
--(NSNumber*) createUsersWithListInputWithCompletionBlock :(NSArray*) body 
+-(NSNumber*) createUsersWithListInputWithCompletionBlock :(NSArray<SWGUser>*) body 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;

@@ -2,15 +2,14 @@
 #import "SWGObject.h"
 
 
+@protocol SWGTag
+@end
+  
 @interface SWGTag : SWGObject
 
-@property(nonatomic) NSNumber* _id;  
-@property(nonatomic) NSString* name;  
-- (id) _id: (NSNumber*) _id     
-    name: (NSString*) name;
-    
 
-- (id) initWithValues: (NSDictionary*)dict;
-- (NSDictionary*) asDictionary;
+@property(nonatomic) NSNumber<Optional>* _id;
+
+@property(nonatomic) NSString<Optional>* name;
 
 @end

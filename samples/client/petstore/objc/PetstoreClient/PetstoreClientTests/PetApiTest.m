@@ -122,6 +122,7 @@
     SWGPet* pet = [self createPet];
     SWGTag* tag = [[SWGTag alloc] init];
     tag.name = @"tony";
+    NSLog(@"%@", pet._id);
     pet.tags = [[NSArray alloc] initWithObjects:tag, nil];
 
     [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
@@ -141,9 +142,9 @@
                         if(fetched._id == pet._id && [[tag name] isEqualToString:@"tony"])
                             hasTag = true;
                     }
-                    if(!hasTag)
-                        XCTFail(@"failed to find tag in pet");
                 }
+                if(!hasTag)
+                    XCTFail(@"failed to find tag in pet");
                 if(hasTag)
                     [expectation fulfill];
             }
