@@ -24,7 +24,7 @@ public class Pet  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -36,7 +36,7 @@ public class Pet  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -72,7 +72,7 @@ public class Pet  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
@@ -85,7 +85,7 @@ public class Pet  {
   /**
    * pet status in the store
    **/
-  @ApiModelProperty(required = false, value = "pet status in the store")
+  @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;

@@ -136,7 +136,7 @@ public class PetApi {
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
     @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value") })
 
-  public Response deletePet(@ApiParam(value = ""  )@HeaderParam("api_key") String api_key,
+  public Response deletePet(@ApiParam(value = ""  )@HeaderParam("api_key") String apiKey,
     @ApiParam(value = "Pet id to delete",required=true ) @PathParam("petId") Long petId)
       throws NotFoundException {
       // do some magic!
