@@ -314,6 +314,20 @@
         <module>samples/server/petstore/jaxrs</module>
       </modules>
     </profile>
+    <profile>
+      <id>samples</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>samples</value>
+        </property>
+      </activation>
+      <modules>
+        <module>samples/client/petstore/java</module>
+        <module>samples/server/petstore/jaxrs</module>
+        <module>samples/client/petstore/objc</module>
+      </modules>
+    </profile>
   </profiles>
   <modules>
     <module>modules/swagger-codegen</module>
