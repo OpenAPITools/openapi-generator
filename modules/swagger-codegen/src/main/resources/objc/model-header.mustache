@@ -12,8 +12,9 @@
 @interface {{classname}} : SWGObject
 
 {{#vars}}
-{{#description}}/* {{{description}}} {{#isNotRequired}}[optional]{{/isNotRequired}} */{{/description}}
-@property(nonatomic) {{{ datatype }}}{{#isNotRequired}}<Optional>{{/isNotRequired}} {{name}};
+{{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
+ */{{/description}}
+@property(nonatomic) {{{ baseType }}}{{^required}}<Optional{{#complexType}}, {{complexType}}{{/complexType}}>{{/required}}* {{name}};
 {{/vars}}
 
 @end
