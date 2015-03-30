@@ -8,33 +8,33 @@ namespace io.swagger.Model {
     
 
     
-    public long? id { get; set; }
+    public long? Id { get; set; }
 
     
 
     
-    public long? petId { get; set; }
+    public long? PetId { get; set; }
 
     
 
     
-    public int? quantity { get; set; }
+    public int? Quantity { get; set; }
 
     
 
     
-    public DateTime shipDate { get; set; }
+    public DateTime ShipDate { get; set; }
 
     
 
     /* Order Status */
     
-    public string status { get; set; }
+    public string Status { get; set; }
 
     
 
     
-    public bool? complete { get; set; }
+    public bool? Complete { get; set; }
 
     
 
@@ -42,17 +42,17 @@ namespace io.swagger.Model {
       var sb = new StringBuilder();
       sb.Append("class Order {\n");
       
-      sb.Append("  id: ").Append(id).Append("\n");
+      sb.Append("  Id: ").Append(Id).Append("\n");
       
-      sb.Append("  petId: ").Append(petId).Append("\n");
+      sb.Append("  PetId: ").Append(PetId).Append("\n");
       
-      sb.Append("  quantity: ").Append(quantity).Append("\n");
+      sb.Append("  Quantity: ").Append(Quantity).Append("\n");
       
-      sb.Append("  shipDate: ").Append(shipDate).Append("\n");
+      sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
       
-      sb.Append("  status: ").Append(status).Append("\n");
+      sb.Append("  Status: ").Append(Status).Append("\n");
       
-      sb.Append("  complete: ").Append(complete).Append("\n");
+      sb.Append("  Complete: ").Append(Complete).Append("\n");
       
       sb.Append("}\n");
       return sb.ToString();

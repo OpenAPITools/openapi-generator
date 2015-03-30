@@ -39,7 +39,7 @@
       /// </summary>
       
       /// <returns></returns>
-      public map<String, int?>  getInventory () {
+      public Dictionary<String, int?>  getInventory () {
         // create path and map variables
         var path = "/store/inventory".Replace("{format}","json");
 
@@ -57,13 +57,13 @@
         
 
         try {
-          if (typeof(map<String, int?>) == typeof(byte[])) {
+          if (typeof(Dictionary<String, int?>) == typeof(byte[])) {
             var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-            return ((object)response) as map<String, int?>;
+            return ((object)response) as Dictionary<String, int?>;
           } else {
             var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
             if(response != null){
-               return (map<String, int?>) ApiInvoker.deserialize(response, typeof(map<String, int?>));
+               return (Dictionary<String, int?>) ApiInvoker.deserialize(response, typeof(Dictionary<String, int?>));
             }
             else {
               return null;
@@ -83,10 +83,10 @@
       /// <summary>
       /// Place an order for a pet 
       /// </summary>
-      /// <param name="body">order placed for purchasing the pet</param>
+      /// <param name="Body">order placed for purchasing the pet</param>
       
       /// <returns></returns>
-      public Order  placeOrder (Order body) {
+      public Order  placeOrder (Order Body) {
         // create path and map variables
         var path = "/store/order".Replace("{format}","json");
 
@@ -108,7 +108,7 @@
             var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
             return ((object)response) as Order;
           } else {
-            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, com.wordnik.swagger.codegen.CodegenParameter@13887906, headerParams, formParams);
+            var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, Body, headerParams, formParams);
             if(response != null){
                return (Order) ApiInvoker.deserialize(response, typeof(Order));
             }
@@ -130,12 +130,12 @@
       /// <summary>
       /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
       /// </summary>
-      /// <param name="orderId">ID of pet that needs to be fetched</param>
+      /// <param name="OrderId">ID of pet that needs to be fetched</param>
       
       /// <returns></returns>
-      public Order  getOrderById (string orderId) {
+      public Order  getOrderById (string OrderId) {
         // create path and map variables
-        var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.escapeString(orderId.ToString()));
+        var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.escapeString(OrderId.ToString()));
 
         // query params
         var queryParams = new Dictionary<String, String>();
@@ -177,12 +177,12 @@
       /// <summary>
       /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
       /// </summary>
-      /// <param name="orderId">ID of the order that needs to be deleted</param>
+      /// <param name="OrderId">ID of the order that needs to be deleted</param>
       
       /// <returns></returns>
-      public void  deleteOrder (string orderId) {
+      public void  deleteOrder (string OrderId) {
         // create path and map variables
-        var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.escapeString(orderId.ToString()));
+        var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.escapeString(OrderId.ToString()));
 
         // query params
         var queryParams = new Dictionary<String, String>();

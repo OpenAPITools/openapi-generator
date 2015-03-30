@@ -8,33 +8,33 @@ namespace io.swagger.Model {
     
 
     
-    public long? id { get; set; }
+    public long? Id { get; set; }
 
     
 
     
-    public Category category { get; set; }
+    public Category Category { get; set; }
 
     
 
     
-    public string name { get; set; }
+    public string Name { get; set; }
 
     
 
     
-    public array<string> photoUrls { get; set; }
+    public List<string> PhotoUrls { get; set; }
 
     
 
     
-    public array<Tag> tags { get; set; }
+    public List<Tag> Tags { get; set; }
 
     
 
     /* pet status in the store */
     
-    public string status { get; set; }
+    public string Status { get; set; }
 
     
 
@@ -42,17 +42,17 @@ namespace io.swagger.Model {
       var sb = new StringBuilder();
       sb.Append("class Pet {\n");
       
-      sb.Append("  id: ").Append(id).Append("\n");
+      sb.Append("  Id: ").Append(Id).Append("\n");
       
-      sb.Append("  category: ").Append(category).Append("\n");
+      sb.Append("  Category: ").Append(Category).Append("\n");
       
-      sb.Append("  name: ").Append(name).Append("\n");
+      sb.Append("  Name: ").Append(Name).Append("\n");
       
-      sb.Append("  photoUrls: ").Append(photoUrls).Append("\n");
+      sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
       
-      sb.Append("  tags: ").Append(tags).Append("\n");
+      sb.Append("  Tags: ").Append(Tags).Append("\n");
       
-      sb.Append("  status: ").Append(status).Append("\n");
+      sb.Append("  Status: ").Append(Status).Append("\n");
       
       sb.Append("}\n");
       return sb.ToString();

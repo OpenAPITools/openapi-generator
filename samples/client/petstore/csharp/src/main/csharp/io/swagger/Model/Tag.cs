@@ -8,12 +8,12 @@ namespace io.swagger.Model {
     
 
     
-    public long? id { get; set; }
+    public long? Id { get; set; }
 
     
 
     
-    public string name { get; set; }
+    public string Name { get; set; }
 
     
 
@@ -21,9 +21,9 @@ namespace io.swagger.Model {
       var sb = new StringBuilder();
       sb.Append("class Tag {\n");
       
-      sb.Append("  id: ").Append(id).Append("\n");
+      sb.Append("  Id: ").Append(Id).Append("\n");
       
-      sb.Append("  name: ").Append(name).Append("\n");
+      sb.Append("  Name: ").Append(Name).Append("\n");
       
       sb.Append("}\n");
       return sb.ToString();
