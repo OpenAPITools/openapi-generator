@@ -47,11 +47,8 @@ class ApiClient(object):
     mergedHeaderParams.update(headerParams)
     headers = {}
     if mergedHeaderParams:
-      for param, value in headerParams.iteritems():
+      for param, value in mergedHeaderParams.iteritems():
         headers[param] = ApiClient.sanitizeForSerialization(value)
-
-    if self.headerName:
-      headers[self.headerName] = ApiClient.sanitizeForSerialization(self.headerValue)
 
     if self.cookie:
       headers['Cookie'] = ApiClient.sanitizeForSerialization(self.cookie)
