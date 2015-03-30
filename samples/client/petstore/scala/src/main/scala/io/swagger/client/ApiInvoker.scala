@@ -17,6 +17,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable.HashMap
 
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.core.JsonGenerator.Feature
 import com.fasterxml.jackson.databind._
 import com.fasterxml.jackson.annotation._
@@ -26,6 +27,7 @@ object ScalaJsonUtil {
   def getJsonMapper = {
     val mapper = new ObjectMapper()
     mapper.registerModule(new DefaultScalaModule())
+    mapper.registerModule(new JodaModule());
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT)
     mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
