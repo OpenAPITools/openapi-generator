@@ -9,10 +9,10 @@ module Swagger
     def initialize
       @format = 'json'
       @scheme = 'http'
-      @host = 'api.wordnik.com'
-      @base_path = '/v4'
+      @host = 'petstore.swagger.io'
+      @base_path = '/v2'
       @user_agent = "ruby-swagger-#{Swagger::VERSION}"
-      @inject_format = true
+      @inject_format = false
       @force_ending_format = false
       @camelize_params = true
     end
