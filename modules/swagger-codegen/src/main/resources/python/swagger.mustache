@@ -103,9 +103,9 @@ class ApiClient(object):
         string -- quoted value
     """
     if type(obj) == list:
-      return urllib.quote(','.join(obj))
+      return ','.join(obj)
     else:
-      return urllib.quote(str(obj))
+      return str(obj)
 
   @staticmethod
   def sanitizeForSerialization(obj):
