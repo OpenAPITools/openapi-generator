@@ -35,7 +35,7 @@ class ApiClient(object):
     self.cookie = None
     self.boundary = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
 
-  def setDefaultHeader(headerName, headerValue):
+  def setDefaultHeader(self, headerName, headerValue):
     self.defaultHeaders[headerName] = headerValue
 
   def callAPI(self, resourcePath, method, queryParams, postData,
