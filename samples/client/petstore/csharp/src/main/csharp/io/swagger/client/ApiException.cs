@@ -1,6 +1,6 @@
 using System;
 
-namespace Com.Wordnik.Petstore {
+namespace io.swagger.client {
   public class ApiException : Exception {
     
   	private int errorCode = 0;
