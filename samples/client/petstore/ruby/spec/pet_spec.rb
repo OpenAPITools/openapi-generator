@@ -64,7 +64,7 @@ describe "Store" do
   end
 
   it "should fetch an order" do
-    item = StoreApi.getOrderById(1)
-    item.id.should == 1
+    item = StoreApi.getOrderById(2)
+    item.id.should == 2
   end
 end
