@@ -5,7 +5,6 @@ describe Swagger::Response do
   before(:each) do
 
     VCR.use_cassette('pet_resource', :record => :new_episodes) do
-      #@raw = Typhoeus::Request.get("http://petstore.swagger.wordnik.com/api/pet.json")
       @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/5")
     end
 
