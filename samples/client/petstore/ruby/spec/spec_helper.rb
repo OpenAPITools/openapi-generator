@@ -14,7 +14,14 @@ Dir[File.join(File.dirname(__FILE__), "../resources/*.rb")].each {|file| require
 
 RSpec.configure do |config|
   # some (optional) config here
+  config.expect_with :rspec do |c|
+    c.syntax = :should
+  end
+  config.mock_with :rspec do |c|
+    c.syntax = :should
+  end
 end
+
 
 WebMock.allow_net_connect! if defined? WebMock
 

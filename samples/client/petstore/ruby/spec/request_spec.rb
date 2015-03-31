@@ -2,9 +2,16 @@ require 'spec_helper'
 
 describe Swagger::Request do
 
-  before(:each) do
+  before(:each) do 
+    Swagger.configure do |config|
+      inject_format = true
+      config.api_key = 'special-key'
+      config.host = 'petstore.swagger.io'
+      config.base_path = '/v2'
+    end
+
     @default_http_method = :get
-    @default_path = "pet/fancy"
+    @default_path = "pet.{format}/fancy"
     @default_params = {
       :params => {:foo => "1", :bar => "2"}
     }
@@ -44,7 +51,7 @@ describe Swagger::Request do
     end
 
     it "constructs a full url" do
-      @request.url.should == "http://petstore.swagger.wordnik.com/api/pet.json/fancy?bar=2&foo=1"
+      @request.url.should == "http://petstore.swagger.io/v2/pet.json/fancy?bar=2&foo=1"
     end
 
   end
@@ -66,13 +73,13 @@ describe Swagger::Request do
   describe "path" do
 
     it "accounts for a total absence of format in the path string" do
-      @request = Swagger::Request.new(:get, "/word/{word}/entries", @default_params.merge({
+      @request = Swagger::Request.new(:get, "/word.{format}/{word}/entries", @default_params.merge({
         :format => "xml",
         :params => {
           :word => "cat"
         }
       }))
-      @request.url.should == "http://petstore.swagger.wordnik.com/api/word.xml/cat/entries"
+      @request.url.should == "http://petstore.swagger.io/v2/word.xml/cat/entries"
     end
 
     it "does string substitution on path params" do
@@ -82,7 +89,7 @@ describe Swagger::Request do
           :word => "cat"
         }
       }))
-      @request.url.should == "http://petstore.swagger.wordnik.com/api/word.xml/cat/entries"
+      @request.url.should == "http://petstore.swagger.io/v2/word.xml/cat/entries"
     end
 
     it "leaves path-bound params out of the query string" do
