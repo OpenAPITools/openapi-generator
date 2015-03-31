@@ -279,6 +279,18 @@
     </profile>
     <!-- Samples -->
     <profile>
+      <id>android-client</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>java</value>
+        </property>
+      </activation>
+      <modules>
+        <module>samples/client/petstore/android-java</module>
+      </modules>
+    </profile>
+    <profile>
       <id>java-client</id>
       <activation>
         <property>
@@ -335,6 +347,7 @@
         </property>
       </activation>
       <modules>
+        <module>samples/client/petstore/android-java</module>
         <module>samples/client/petstore/java</module>
         <module>samples/server/petstore/jaxrs</module>
         <module>samples/client/petstore/objc</module>
