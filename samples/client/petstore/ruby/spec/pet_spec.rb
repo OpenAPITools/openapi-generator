@@ -50,6 +50,7 @@ describe "Pet" do
 
       pet = PetApi.getPetById(100)
       pet.id.should == 100
+      pet.name.should == "Gorilla"
     end
   end
 end
