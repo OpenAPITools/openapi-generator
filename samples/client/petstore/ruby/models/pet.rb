@@ -17,6 +17,7 @@ class Pet
   def initialize(attributes = {})
     return if attributes.empty?
     # Morph attribute keys into undescored rubyish style
+    
     if self.class.attribute_map[:"id"]
       @id = attributes["id"]
     end
