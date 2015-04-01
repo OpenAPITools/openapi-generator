@@ -11,10 +11,17 @@ import com.wordnik.swagger.models.Path;
 import com.wordnik.swagger.models.Swagger;
 import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.util.Json;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.Reader;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -245,10 +252,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
           writeToFile(outputFilename, tmpl.execute(bundle));
           files.add(new File(outputFilename));
         } else {
-          String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
-          FileUtils.writeStringToFile(new File(outputFilename), template);
-          System.out.println("copying file to " + outputFilename);
-          files.add(new File(outputFilename));
+          InputStream in = this.getClass().getClassLoader().getResourceAsStream(config.templateDir() + File.separator + support.templateFile);
+          //new FileInputStream(config.templateDir() + File.separator + support.templateFile);
+          File outputFile = new File(outputFilename);
+          OutputStream out = new FileOutputStream(outputFile);
+          IOUtils.copy(in,out);
+
+          files.add(outputFile);
         }
       }
 
