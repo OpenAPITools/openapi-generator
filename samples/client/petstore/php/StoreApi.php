@@ -42,8 +42,12 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $headerParams['Accept'] = 'application/json,application/xml';
-      $headerParams['Content-Type'] = '';
+      $_header_accept = 'application/json, application/xml';
+      if ($_header_accept !== '') {
+        $headerParams['Accept'] = $_header_accept;
+      }
+      $_header_content_type = array();
+      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
       
@@ -89,8 +93,12 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $headerParams['Accept'] = 'application/json,application/xml';
-      $headerParams['Content-Type'] = '';
+      $_header_accept = 'application/json, application/xml';
+      if ($_header_accept !== '') {
+        $headerParams['Accept'] = $_header_accept;
+      }
+      $_header_content_type = array();
+      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
       
@@ -140,8 +148,12 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $headerParams['Accept'] = 'application/json,application/xml';
-      $headerParams['Content-Type'] = '';
+      $_header_accept = 'application/json, application/xml';
+      if ($_header_accept !== '') {
+        $headerParams['Accept'] = $_header_accept;
+      }
+      $_header_content_type = array();
+      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
       
@@ -191,8 +203,12 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $headerParams['Accept'] = 'application/json,application/xml';
-      $headerParams['Content-Type'] = '';
+      $_header_accept = 'application/json, application/xml';
+      if ($_header_accept !== '') {
+        $headerParams['Accept'] = $_header_accept;
+      }
+      $_header_content_type = array();
+      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
       
