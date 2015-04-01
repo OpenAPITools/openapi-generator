@@ -35,13 +35,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
@@ -104,13 +103,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
@@ -173,13 +171,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
@@ -244,13 +241,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
@@ -292,13 +288,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
@@ -342,13 +337,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
@@ -395,13 +389,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
@@ -465,13 +458,12 @@ class UserApi
     # header parameters
     headers = {}
 
-    _header_accept = 'application/json, application/xml';
-    if (_header_accept != '') {
-      headerParams['Accept'] = _header_accept;
-    }
-    _header_content_type = [();
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
-
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     
     
