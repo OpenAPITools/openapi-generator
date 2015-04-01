@@ -30,8 +30,17 @@ class StoreApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml';
+    if (_header_accept != '') {
+      headerParams['Accept'] = _header_accept;
+    }
+    _header_content_type = [();
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
+
+
     
     
     # http body (model)
@@ -72,8 +81,17 @@ class StoreApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml';
+    if (_header_accept != '') {
+      headerParams['Accept'] = _header_accept;
+    }
+    _header_content_type = [();
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
+
+
     
     
     # http body (model)
@@ -134,8 +152,17 @@ class StoreApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml';
+    if (_header_accept != '') {
+      headerParams['Accept'] = _header_accept;
+    }
+    _header_content_type = [();
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
+
+
     
     
     # http body (model)
@@ -176,8 +203,17 @@ class StoreApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml';
+    if (_header_accept != '') {
+      headerParams['Accept'] = _header_accept;
+    }
+    _header_content_type = [();
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json';
+
+
     
     
     # http body (model)
