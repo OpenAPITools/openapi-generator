@@ -53,18 +53,21 @@ public class SpringfoxServerCodegen extends JavaClientCodegen implements Codegen
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("ApiException.mustache",
+        supportingFiles.add(new SupportingFile("apiException.mustache",
                 (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache",
+        supportingFiles.add(new SupportingFile("apiOriginFilter.mustache",
                 (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
-        supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache",
+        supportingFiles.add(new SupportingFile("apiResponseMessage.mustache",
                 (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
-        supportingFiles.add(new SupportingFile("NotFoundException.mustache",
+        supportingFiles.add(new SupportingFile("notFoundException.mustache",
                 (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
 
-
-        supportingFiles.add(new SupportingFile("SwaggerConfig.mustache",
+        supportingFiles.add(new SupportingFile("swaggerConfig.mustache",
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerConfig.java"));
+        supportingFiles.add(new SupportingFile("webApplication.mustache",
+                (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
+        supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
+                (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebMvcConfiguration.java"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
