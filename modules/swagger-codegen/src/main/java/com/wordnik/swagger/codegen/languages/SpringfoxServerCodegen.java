@@ -10,12 +10,12 @@ import java.util.*;
 import java.io.File;
 
 public class SpringfoxServerCodegen extends JavaClientCodegen implements CodegenConfig {
-    protected String invokerPackage = "com.concur.service.api";
-    protected String groupId = "com.concur.service";
+    protected String invokerPackage = "io.swagger.api";
+    protected String groupId = "io.swagger";
     protected String artifactId = "swagger-server";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/java";
-    protected String title = "Concur Server";
+    protected String title = "Petstore Server";
 
     protected String configPackage = "";
 
@@ -37,9 +37,9 @@ public class SpringfoxServerCodegen extends JavaClientCodegen implements Codegen
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         templateDir = "JavaSpringfox";
-        apiPackage = "com.concur.service.api";
-        modelPackage = "com.concur.service.model";
-        configPackage = "com.concur.service.configuration";
+        apiPackage = "io.swagger.api";
+        modelPackage = "io.swagger.model";
+        configPackage = "io.swagger.configuration";
 
 
         additionalProperties.put("invokerPackage", invokerPackage);

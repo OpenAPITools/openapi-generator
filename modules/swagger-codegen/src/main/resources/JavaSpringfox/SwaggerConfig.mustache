@@ -1,40 +1,28 @@
 package {{configPackage}};
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import springdox.documentation.swagger2.annotations.EnableSwagger2;
-import springdox.documentation.spring.web.plugins.DocumentationConfigurer;
-
-import springdox.documentation.spi.DocumentationType;
-import springdox.documentation.service.ApiInfo;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import java.util.Set;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @Configuration
+@ComponentScan(basePackages = "{{apiPackage}}")
 @EnableWebMvc
 @EnableSwagger2 //Loads the spring beans required by the framework
 public class SwaggerConfig {
-
-private DocumentationConfigurer documentationConfigurer;
-
-    @Autowired
-    public void setDocumentationConfigurer(DocumentationConfigurer configurer){
-        this.documentationConfigurer = documentationConfigurer;
-    }
 
     @Bean
     ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
         "{{appName}}",
         "{{appDescription}}",
-        "1.0.0",
-        "My Apps API terms of service",
+        "{{appVersion}}",
+        "{{infoUrl}}",
         "{{infoEmail}}",
         "{{licenseInfo}}",
         "{{licenseUrl}}" );
@@ -42,14 +30,8 @@ private DocumentationConfigurer documentationConfigurer;
     }
 
     @Bean
-    public DocumentationConfigurer customImplementation(){
-        return new DocumentationConfigurer(DocumentationType.SWAGGER_2)
-            .groupName("default")
-            .includePatterns(".*replace {{appName}} with your api classes.*")
-            .apiInfo(apiInfo());
+    public Docket customImplementation(){
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo());
     }
-
-    @Bean
-    ObjectMapper objectMapper() { return new ObjectMapper(); }
 
 }
