@@ -74,11 +74,6 @@ module Swagger
     def interpreted_path
       p = self.path.dup
 
-      # Fill in the path params
-      self.params.each_pair do |key, value|
-        p = p.gsub("{#{key}}", value.to_s)
-      end
-
       # Stick a .{format} placeholder into the path if there isn't
       # one already or an actual format like json or xml
       # e.g. /words/blah => /words.{format}/blah
