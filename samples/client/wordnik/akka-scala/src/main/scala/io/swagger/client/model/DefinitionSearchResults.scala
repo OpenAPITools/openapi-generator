@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class DefinitionSearchResults (
-  Results: Option[Seq[Definition]],
-  TotalResults: Option[Int])
+  results: Option[Seq[Definition]],
+  totalResults: Option[Int])
    extends ApiModel
 
 

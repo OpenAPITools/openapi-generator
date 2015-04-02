@@ -5,18 +5,18 @@ import org.joda.time.DateTime
 
 
 case class WordOfTheDay (
-  Id: Option[Long],
-  ParentId: Option[String],
-  Category: Option[String],
-  CreatedBy: Option[String],
-  CreatedAt: Option[DateTime],
-  ContentProvider: Option[ContentProvider],
-  HtmlExtra: Option[String],
-  Word: Option[String],
-  Definitions: Option[Seq[SimpleDefinition]],
-  Examples: Option[Seq[SimpleExample]],
-  Note: Option[String],
-  PublishDate: Option[DateTime])
+  id: Option[Long],
+  parentId: Option[String],
+  category: Option[String],
+  createdBy: Option[String],
+  createdAt: Option[DateTime],
+  contentProvider: Option[ContentProvider],
+  htmlExtra: Option[String],
+  word: Option[String],
+  definitions: Option[Seq[SimpleDefinition]],
+  examples: Option[Seq[SimpleExample]],
+  note: Option[String],
+  publishDate: Option[DateTime])
    extends ApiModel
 
 

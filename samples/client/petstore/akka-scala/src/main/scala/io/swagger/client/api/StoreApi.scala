@@ -27,11 +27,11 @@ object StoreApi {
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)
    * 
-   * @param Body order placed for purchasing the pet
+   * @param body order placed for purchasing the pet
    */
-  def placeOrder(Body: Option[Order] = None): ApiRequest[Order] =
+  def placeOrder(body: Option[Order] = None): ApiRequest[Order] =
     ApiRequest[Order](ApiMethods.POST, "http://petstore.swagger.io/v2", "/store/order", "application/json")
-      .withBody(Body)
+      .withBody(body)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       
@@ -43,11 +43,11 @@ object StoreApi {
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid ID supplied)
    * 
-   * @param OrderId ID of pet that needs to be fetched
+   * @param orderId ID of pet that needs to be fetched
    */
-  def getOrderById(OrderId: String): ApiRequest[Order] =
+  def getOrderById(orderId: String): ApiRequest[Order] =
     ApiRequest[Order](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
-      .withPathParam("orderId", OrderId)
+      .withPathParam("orderId", orderId)
       .withErrorResponse[Unit](404)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
@@ -59,11 +59,11 @@ object StoreApi {
    *   code 404 :  (Order not found)
    *   code 400 :  (Invalid ID supplied)
    * 
-   * @param OrderId ID of the order that needs to be deleted
+   * @param orderId ID of the order that needs to be deleted
    */
-  def deleteOrder(OrderId: String): ApiRequest[Unit] =
+  def deleteOrder(orderId: String): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.DELETE, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
-      .withPathParam("orderId", OrderId)
+      .withPathParam("orderId", orderId)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
       

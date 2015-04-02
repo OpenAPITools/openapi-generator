@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class ContentProvider (
-  Id: Option[Int],
-  Name: Option[String])
+  id: Option[Int],
+  name: Option[String])
    extends ApiModel
 
 

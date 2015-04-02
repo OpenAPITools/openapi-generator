@@ -5,13 +5,13 @@ import org.joda.time.DateTime
 
 
 case class Related (
-  Label1: Option[String],
-  RelationshipType: Option[String],
-  Label2: Option[String],
-  Label3: Option[String],
-  Words: Option[Seq[String]],
-  Gram: Option[String],
-  Label4: Option[String])
+  label1: Option[String],
+  relationshipType: Option[String],
+  label2: Option[String],
+  label3: Option[String],
+  words: Option[Seq[String]],
+  gram: Option[String],
+  label4: Option[String])
    extends ApiModel
 
 

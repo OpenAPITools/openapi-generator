@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class Tag (
-  Id: Option[Long],
-  Name: Option[String])
+  id: Option[Long],
+  name: Option[String])
    extends ApiModel
 
 

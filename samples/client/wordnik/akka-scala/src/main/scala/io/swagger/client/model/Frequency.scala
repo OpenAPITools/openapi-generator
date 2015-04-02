@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class Frequency (
-  Count: Option[Long],
-  Year: Option[Int])
+  count: Option[Long],
+  year: Option[Int])
    extends ApiModel
 
 

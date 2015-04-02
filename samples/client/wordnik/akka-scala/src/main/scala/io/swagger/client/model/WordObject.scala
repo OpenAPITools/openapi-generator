@@ -5,12 +5,12 @@ import org.joda.time.DateTime
 
 
 case class WordObject (
-  Id: Option[Long],
-  Word: Option[String],
-  OriginalWord: Option[String],
-  Suggestions: Option[Seq[String]],
-  CanonicalForm: Option[String],
-  Vulgar: Option[String])
+  id: Option[Long],
+  word: Option[String],
+  originalWord: Option[String],
+  suggestions: Option[Seq[String]],
+  canonicalForm: Option[String],
+  vulgar: Option[String])
    extends ApiModel
 
 

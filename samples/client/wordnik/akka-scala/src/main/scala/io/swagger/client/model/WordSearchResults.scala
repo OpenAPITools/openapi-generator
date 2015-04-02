@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class WordSearchResults (
-  SearchResults: Option[Seq[WordSearchResult]],
-  TotalResults: Option[Int])
+  searchResults: Option[Seq[WordSearchResult]],
+  totalResults: Option[Int])
    extends ApiModel
 
 

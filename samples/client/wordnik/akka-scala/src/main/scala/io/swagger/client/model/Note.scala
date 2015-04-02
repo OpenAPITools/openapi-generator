@@ -5,10 +5,10 @@ import org.joda.time.DateTime
 
 
 case class Note (
-  NoteType: Option[String],
-  AppliesTo: Option[Seq[String]],
-  Value: Option[String],
-  Pos: Option[Int])
+  noteType: Option[String],
+  appliesTo: Option[Seq[String]],
+  value: Option[String],
+  pos: Option[Int])
    extends ApiModel
 
 

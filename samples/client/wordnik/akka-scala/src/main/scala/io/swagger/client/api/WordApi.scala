@@ -19,15 +19,15 @@ object WordApi {
    *   code 200 : WordObject (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word String value of WordObject to return
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
-   * @param IncludeSuggestions Return suggestions (for correct spelling, case variants, etc.)
+   * @param word String value of WordObject to return
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param includeSuggestions Return suggestions (for correct spelling, case variants, etc.)
    */
-  def getWord(Word: String, UseCanonical: Option[String] = None, IncludeSuggestions: Option[String] = None): ApiRequest[WordObject] =
+  def getWord(word: String, useCanonical: Option[String] = None, includeSuggestions: Option[String] = None): ApiRequest[WordObject] =
     ApiRequest[WordObject](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("includeSuggestions", IncludeSuggestions)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("includeSuggestions", includeSuggestions)
+      .withPathParam("word", word)
       .withSuccessResponse[WordObject](200)
       .withErrorResponse[Unit](400)
       
@@ -38,15 +38,15 @@ object WordApi {
    *   code 200 : Seq[AudioFile] (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word Word to get audio for.
-   * @param UseCanonical Use the canonical form of the word
-   * @param Limit Maximum number of results to return
+   * @param word Word to get audio for.
+   * @param useCanonical Use the canonical form of the word
+   * @param limit Maximum number of results to return
    */
-  def getAudio(Word: String, UseCanonical: Option[String] = None, Limit: Option[Int] = None): ApiRequest[Seq[AudioFile]] =
+  def getAudio(word: String, useCanonical: Option[String] = None, limit: Option[Int] = None): ApiRequest[Seq[AudioFile]] =
     ApiRequest[Seq[AudioFile]](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/audio", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("limit", Limit)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("limit", limit)
+      .withPathParam("word", word)
       .withSuccessResponse[Seq[AudioFile]](200)
       .withErrorResponse[Unit](400)
       
@@ -58,23 +58,23 @@ object WordApi {
    *   code 400 :  (Invalid word supplied.)
    *   code 404 :  (No definitions found.)
    * 
-   * @param Word Word to return definitions for
-   * @param Limit Maximum number of results to return
-   * @param PartOfSpeech CSV list of part-of-speech types
-   * @param IncludeRelated Return related words with definitions
-   * @param SourceDictionaries Source dictionary to return definitions from.  If &#39;all&#39; is received, results are returned from all sources. If multiple values are received (e.g. &#39;century,wiktionary&#39;), results are returned from the first specified dictionary that has definitions. If left blank, results are returned from the first dictionary that has definitions. By default, dictionaries are searched in this order: ahd, wiktionary, webster, century, wordnet
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
-   * @param IncludeTags Return a closed set of XML tags in response
+   * @param word Word to return definitions for
+   * @param limit Maximum number of results to return
+   * @param partOfSpeech CSV list of part-of-speech types
+   * @param includeRelated Return related words with definitions
+   * @param sourceDictionaries Source dictionary to return definitions from.  If &#39;all&#39; is received, results are returned from all sources. If multiple values are received (e.g. &#39;century,wiktionary&#39;), results are returned from the first specified dictionary that has definitions. If left blank, results are returned from the first dictionary that has definitions. By default, dictionaries are searched in this order: ahd, wiktionary, webster, century, wordnet
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param includeTags Return a closed set of XML tags in response
    */
-  def getDefinitions(Word: String, Limit: Option[Int] = None, PartOfSpeech: Option[String] = None, IncludeRelated: Option[String] = None, SourceDictionaries: Seq[String], UseCanonical: Option[String] = None, IncludeTags: Option[String] = None): ApiRequest[Seq[Definition]] =
+  def getDefinitions(word: String, limit: Option[Int] = None, partOfSpeech: Option[String] = None, includeRelated: Option[String] = None, sourceDictionaries: Seq[String], useCanonical: Option[String] = None, includeTags: Option[String] = None): ApiRequest[Seq[Definition]] =
     ApiRequest[Seq[Definition]](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/definitions", "application/json")
-      .withQueryParam("limit", Limit)
-      .withQueryParam("partOfSpeech", PartOfSpeech)
-      .withQueryParam("includeRelated", IncludeRelated)
-      .withQueryParam("sourceDictionaries", ArrayValues(SourceDictionaries, CSV))
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("includeTags", IncludeTags)
-      .withPathParam("word", Word)
+      .withQueryParam("limit", limit)
+      .withQueryParam("partOfSpeech", partOfSpeech)
+      .withQueryParam("includeRelated", includeRelated)
+      .withQueryParam("sourceDictionaries", ArrayValues(sourceDictionaries, CSV))
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("includeTags", includeTags)
+      .withPathParam("word", word)
       .withSuccessResponse[Seq[Definition]](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
@@ -87,13 +87,13 @@ object WordApi {
    *   code 400 :  (Invalid word supplied.)
    *   code 404 :  (No definitions found.)
    * 
-   * @param Word Word to return
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param word Word to return
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    */
-  def getEtymologies(Word: String, UseCanonical: Option[String] = None): ApiRequest[Seq[String]] =
+  def getEtymologies(word: String, useCanonical: Option[String] = None): ApiRequest[Seq[String]] =
     ApiRequest[Seq[String]](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/etymologies", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withPathParam("word", word)
       .withSuccessResponse[Seq[String]](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
@@ -105,19 +105,19 @@ object WordApi {
    *   code 200 :  (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word Word to return examples for
-   * @param IncludeDuplicates Show duplicate examples from different sources
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
-   * @param Skip Results to skip
-   * @param Limit Maximum number of results to return
+   * @param word Word to return examples for
+   * @param includeDuplicates Show duplicate examples from different sources
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param skip Results to skip
+   * @param limit Maximum number of results to return
    */
-  def getExamples(Word: String, IncludeDuplicates: Option[String] = None, UseCanonical: Option[String] = None, Skip: Option[Int] = None, Limit: Option[Int] = None): ApiRequest[Unit] =
+  def getExamples(word: String, includeDuplicates: Option[String] = None, useCanonical: Option[String] = None, skip: Option[Int] = None, limit: Option[Int] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/examples", "application/json")
-      .withQueryParam("includeDuplicates", IncludeDuplicates)
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("skip", Skip)
-      .withQueryParam("limit", Limit)
-      .withPathParam("word", Word)
+      .withQueryParam("includeDuplicates", includeDuplicates)
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("skip", skip)
+      .withQueryParam("limit", limit)
+      .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
       
@@ -129,17 +129,17 @@ object WordApi {
    *   code 400 :  (Invalid word supplied.)
    *   code 404 :  (No results.)
    * 
-   * @param Word Word to return
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
-   * @param StartYear Starting Year
-   * @param EndYear Ending Year
+   * @param word Word to return
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param startYear Starting Year
+   * @param endYear Ending Year
    */
-  def getWordFrequency(Word: String, UseCanonical: Option[String] = None, StartYear: Option[Int] = None, EndYear: Option[Int] = None): ApiRequest[FrequencySummary] =
+  def getWordFrequency(word: String, useCanonical: Option[String] = None, startYear: Option[Int] = None, endYear: Option[Int] = None): ApiRequest[FrequencySummary] =
     ApiRequest[FrequencySummary](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/frequency", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("startYear", StartYear)
-      .withQueryParam("endYear", EndYear)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("startYear", startYear)
+      .withQueryParam("endYear", endYear)
+      .withPathParam("word", word)
       .withSuccessResponse[FrequencySummary](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
@@ -151,17 +151,17 @@ object WordApi {
    *   code 200 :  (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word Word to get syllables for
-   * @param UseCanonical If true will try to return a correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
-   * @param SourceDictionary Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet.
-   * @param Limit Maximum number of results to return
+   * @param word Word to get syllables for
+   * @param useCanonical If true will try to return a correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param sourceDictionary Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet.
+   * @param limit Maximum number of results to return
    */
-  def getHyphenation(Word: String, UseCanonical: Option[String] = None, SourceDictionary: Option[String] = None, Limit: Option[Int] = None): ApiRequest[Unit] =
+  def getHyphenation(word: String, useCanonical: Option[String] = None, sourceDictionary: Option[String] = None, limit: Option[Int] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/hyphenation", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("sourceDictionary", SourceDictionary)
-      .withQueryParam("limit", Limit)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("sourceDictionary", sourceDictionary)
+      .withQueryParam("limit", limit)
+      .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
       
@@ -172,17 +172,17 @@ object WordApi {
    *   code 200 : Seq[Bigram] (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word Word to fetch phrases for
-   * @param Limit Maximum number of results to return
-   * @param Wlmi Minimum WLMI for the phrase
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param word Word to fetch phrases for
+   * @param limit Maximum number of results to return
+   * @param wlmi Minimum WLMI for the phrase
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    */
-  def getPhrases(Word: String, Limit: Option[Int] = None, Wlmi: Option[Int] = None, UseCanonical: Option[String] = None): ApiRequest[Seq[Bigram]] =
+  def getPhrases(word: String, limit: Option[Int] = None, wlmi: Option[Int] = None, useCanonical: Option[String] = None): ApiRequest[Seq[Bigram]] =
     ApiRequest[Seq[Bigram]](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/phrases", "application/json")
-      .withQueryParam("limit", Limit)
-      .withQueryParam("wlmi", Wlmi)
-      .withQueryParam("useCanonical", UseCanonical)
-      .withPathParam("word", Word)
+      .withQueryParam("limit", limit)
+      .withQueryParam("wlmi", wlmi)
+      .withQueryParam("useCanonical", useCanonical)
+      .withPathParam("word", word)
       .withSuccessResponse[Seq[Bigram]](200)
       .withErrorResponse[Unit](400)
       
@@ -193,19 +193,19 @@ object WordApi {
    *   code 200 :  (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word Word to get pronunciations for
-   * @param UseCanonical If true will try to return a correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
-   * @param SourceDictionary Get from a single dictionary
-   * @param TypeFormat Text pronunciation type
-   * @param Limit Maximum number of results to return
+   * @param word Word to get pronunciations for
+   * @param useCanonical If true will try to return a correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param sourceDictionary Get from a single dictionary
+   * @param typeFormat Text pronunciation type
+   * @param limit Maximum number of results to return
    */
-  def getTextPronunciations(Word: String, UseCanonical: Option[String] = None, SourceDictionary: Option[String] = None, TypeFormat: Option[String] = None, Limit: Option[Int] = None): ApiRequest[Unit] =
+  def getTextPronunciations(word: String, useCanonical: Option[String] = None, sourceDictionary: Option[String] = None, typeFormat: Option[String] = None, limit: Option[Int] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/pronunciations", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("sourceDictionary", SourceDictionary)
-      .withQueryParam("typeFormat", TypeFormat)
-      .withQueryParam("limit", Limit)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("sourceDictionary", sourceDictionary)
+      .withQueryParam("typeFormat", typeFormat)
+      .withQueryParam("limit", limit)
+      .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
       
@@ -216,17 +216,17 @@ object WordApi {
    *   code 200 :  (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word Word to fetch relationships for
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
-   * @param RelationshipTypes Limits the total results per type of relationship type
-   * @param LimitPerRelationshipType Restrict to the supplied relationship types
+   * @param word Word to fetch relationships for
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param relationshipTypes Limits the total results per type of relationship type
+   * @param limitPerRelationshipType Restrict to the supplied relationship types
    */
-  def getRelatedWords(Word: String, UseCanonical: Option[String] = None, RelationshipTypes: Option[String] = None, LimitPerRelationshipType: Option[Int] = None): ApiRequest[Unit] =
+  def getRelatedWords(word: String, useCanonical: Option[String] = None, relationshipTypes: Option[String] = None, limitPerRelationshipType: Option[Int] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/relatedWords", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withQueryParam("relationshipTypes", RelationshipTypes)
-      .withQueryParam("limitPerRelationshipType", LimitPerRelationshipType)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withQueryParam("relationshipTypes", relationshipTypes)
+      .withQueryParam("limitPerRelationshipType", limitPerRelationshipType)
+      .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
       
@@ -237,13 +237,13 @@ object WordApi {
    *   code 200 : Example (success)
    *   code 400 :  (Invalid word supplied.)
    * 
-   * @param Word Word to fetch examples for
-   * @param UseCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
+   * @param word Word to fetch examples for
+   * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    */
-  def getTopExample(Word: String, UseCanonical: Option[String] = None): ApiRequest[Example] =
+  def getTopExample(word: String, useCanonical: Option[String] = None): ApiRequest[Example] =
     ApiRequest[Example](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/topExample", "application/json")
-      .withQueryParam("useCanonical", UseCanonical)
-      .withPathParam("word", Word)
+      .withQueryParam("useCanonical", useCanonical)
+      .withPathParam("word", word)
       .withSuccessResponse[Example](200)
       .withErrorResponse[Unit](400)
       

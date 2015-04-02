@@ -18,11 +18,11 @@ object AccountApi {
    *   code 400 :  (No token supplied.)
    *   code 404 :  (No API account with supplied token.)
    * 
-   * @param ApiKey Wordnik authentication token
+   * @param apiKey Wordnik authentication token
    */
-  def getApiTokenStatus(ApiKey: Option[String] = None): ApiRequest[ApiTokenStatus] =
+  def getApiTokenStatus(apiKey: Option[String] = None): ApiRequest[ApiTokenStatus] =
     ApiRequest[ApiTokenStatus](ApiMethods.GET, "https://api.wordnik.com/v4", "/account.json/apiTokenStatus", "application/json")
-      .withHeaderParam("api_key", ApiKey)
+      .withHeaderParam("api_key", apiKey)
       .withSuccessResponse[ApiTokenStatus](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
@@ -35,13 +35,13 @@ object AccountApi {
    *   code 403 :  (Account not available.)
    *   code 404 :  (User not found.)
    * 
-   * @param Username A confirmed Wordnik username
-   * @param Password The user&#39;s password
+   * @param username A confirmed Wordnik username
+   * @param password The user&#39;s password
    */
-  def authenticate(Username: String, Password: String): ApiRequest[AuthenticationToken] =
+  def authenticate(username: String, password: String): ApiRequest[AuthenticationToken] =
     ApiRequest[AuthenticationToken](ApiMethods.GET, "https://api.wordnik.com/v4", "/account.json/authenticate/{username}", "application/json")
-      .withQueryParam("password", Password)
-      .withPathParam("username", Username)
+      .withQueryParam("password", password)
+      .withPathParam("username", username)
       .withSuccessResponse[AuthenticationToken](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
@@ -54,13 +54,13 @@ object AccountApi {
    *   code 403 :  (Account not available.)
    *   code 404 :  (User not found.)
    * 
-   * @param Username A confirmed Wordnik username
-   * @param Body The user&#39;s password
+   * @param username A confirmed Wordnik username
+   * @param body The user&#39;s password
    */
-  def authenticatePost(Username: String, Body: String): ApiRequest[AuthenticationToken] =
+  def authenticatePost(username: String, body: String): ApiRequest[AuthenticationToken] =
     ApiRequest[AuthenticationToken](ApiMethods.POST, "https://api.wordnik.com/v4", "/account.json/authenticate/{username}", "application/json")
-      .withBody(Body)
-      .withPathParam("username", Username)
+      .withBody(body)
+      .withPathParam("username", username)
       .withSuccessResponse[AuthenticationToken](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
@@ -73,11 +73,11 @@ object AccountApi {
    *   code 403 :  (Not logged in.)
    *   code 404 :  (User not found.)
    * 
-   * @param AuthToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
+   * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
-  def getLoggedInUser(AuthToken: String): ApiRequest[User] =
+  def getLoggedInUser(authToken: String): ApiRequest[User] =
     ApiRequest[User](ApiMethods.GET, "https://api.wordnik.com/v4", "/account.json/user", "application/json")
-      .withHeaderParam("auth_token", AuthToken)
+      .withHeaderParam("auth_token", authToken)
       .withSuccessResponse[User](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
@@ -90,15 +90,15 @@ object AccountApi {
    *   code 403 :  (Not authenticated.)
    *   code 404 :  (User account not found.)
    * 
-   * @param AuthToken auth_token of logged-in user
-   * @param Skip Results to skip
-   * @param Limit Maximum number of results to return
+   * @param authToken auth_token of logged-in user
+   * @param skip Results to skip
+   * @param limit Maximum number of results to return
    */
-  def getWordListsForLoggedInUser(AuthToken: String, Skip: Option[Int] = None, Limit: Option[Int] = None): ApiRequest[Seq[WordList]] =
+  def getWordListsForLoggedInUser(authToken: String, skip: Option[Int] = None, limit: Option[Int] = None): ApiRequest[Seq[WordList]] =
     ApiRequest[Seq[WordList]](ApiMethods.GET, "https://api.wordnik.com/v4", "/account.json/wordLists", "application/json")
-      .withQueryParam("skip", Skip)
-      .withQueryParam("limit", Limit)
-      .withHeaderParam("auth_token", AuthToken)
+      .withQueryParam("skip", skip)
+      .withQueryParam("limit", limit)
+      .withHeaderParam("auth_token", authToken)
       .withSuccessResponse[Seq[WordList]](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)

@@ -5,10 +5,10 @@ import org.joda.time.DateTime
 
 
 case class SimpleDefinition (
-  Text: Option[String],
-  Source: Option[String],
-  Note: Option[String],
-  PartOfSpeech: Option[String])
+  text: Option[String],
+  source: Option[String],
+  note: Option[String],
+  partOfSpeech: Option[String])
    extends ApiModel
 
 

@@ -5,9 +5,9 @@ import org.joda.time.DateTime
 
 
 case class Root (
-  Id: Option[Long],
-  Name: Option[String],
-  Categories: Option[Seq[Category]])
+  id: Option[Long],
+  name: Option[String],
+  categories: Option[Seq[Category]])
    extends ApiModel
 
 

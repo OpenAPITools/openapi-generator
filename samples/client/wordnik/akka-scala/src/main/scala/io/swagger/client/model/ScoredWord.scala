@@ -5,17 +5,17 @@ import org.joda.time.DateTime
 
 
 case class ScoredWord (
-  Position: Option[Int],
-  Id: Option[Long],
-  DocTermCount: Option[Int],
-  Lemma: Option[String],
-  WordType: Option[String],
-  Score: Option[Float],
-  SentenceId: Option[Long],
-  Word: Option[String],
-  Stopword: Option[Boolean],
-  BaseWordScore: Option[Double],
-  PartOfSpeech: Option[String])
+  position: Option[Int],
+  id: Option[Long],
+  docTermCount: Option[Int],
+  lemma: Option[String],
+  wordType: Option[String],
+  score: Option[Float],
+  sentenceId: Option[Long],
+  word: Option[String],
+  stopword: Option[Boolean],
+  baseWordScore: Option[Double],
+  partOfSpeech: Option[String])
    extends ApiModel
 
 

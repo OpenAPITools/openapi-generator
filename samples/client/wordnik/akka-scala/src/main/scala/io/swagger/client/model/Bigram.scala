@@ -5,11 +5,11 @@ import org.joda.time.DateTime
 
 
 case class Bigram (
-  Count: Option[Long],
-  Gram2: Option[String],
-  Gram1: Option[String],
-  Wlmi: Option[Double],
-  Mi: Option[Double])
+  count: Option[Long],
+  gram2: Option[String],
+  gram1: Option[String],
+  wlmi: Option[Double],
+  mi: Option[Double])
    extends ApiModel
 
 

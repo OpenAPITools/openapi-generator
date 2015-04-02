@@ -13,11 +13,11 @@ object UserApi {
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param Body Created user object
+   * @param body Created user object
    */
-  def createUser(Body: Option[User] = None): ApiRequest[Unit] =
+  def createUser(body: Option[User] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user", "application/json")
-      .withBody(Body)
+      .withBody(body)
       .withDefaultSuccessResponse[Unit]
       
   /**
@@ -25,11 +25,11 @@ object UserApi {
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param Body List of user object
+   * @param body List of user object
    */
-  def createUsersWithArrayInput(Body: Seq[User]): ApiRequest[Unit] =
+  def createUsersWithArrayInput(body: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithArray", "application/json")
-      .withBody(Body)
+      .withBody(body)
       .withDefaultSuccessResponse[Unit]
       
   /**
@@ -37,11 +37,11 @@ object UserApi {
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param Body List of user object
+   * @param body List of user object
    */
-  def createUsersWithListInput(Body: Seq[User]): ApiRequest[Unit] =
+  def createUsersWithListInput(body: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithList", "application/json")
-      .withBody(Body)
+      .withBody(body)
       .withDefaultSuccessResponse[Unit]
       
   /**
@@ -50,13 +50,13 @@ object UserApi {
    *   code 200 : String (successful operation)
    *   code 400 :  (Invalid username/password supplied)
    * 
-   * @param Username The user name for login
-   * @param Password The password for login in clear text
+   * @param username The user name for login
+   * @param password The password for login in clear text
    */
-  def loginUser(Username: Option[String] = None, Password: Option[String] = None): ApiRequest[String] =
+  def loginUser(username: Option[String] = None, password: Option[String] = None): ApiRequest[String] =
     ApiRequest[String](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/login", "application/json")
-      .withQueryParam("username", Username)
-      .withQueryParam("password", Password)
+      .withQueryParam("username", username)
+      .withQueryParam("password", password)
       .withSuccessResponse[String](200)
       .withErrorResponse[Unit](400)
       
@@ -76,11 +76,11 @@ object UserApi {
    *   code 200 : User (successful operation)
    *   code 400 :  (Invalid username supplied)
    * 
-   * @param Username The name that needs to be fetched. Use user1 for testing. 
+   * @param username The name that needs to be fetched. Use user1 for testing. 
    */
-  def getUserByName(Username: String): ApiRequest[User] =
+  def getUserByName(username: String): ApiRequest[User] =
     ApiRequest[User](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
-      .withPathParam("username", Username)
+      .withPathParam("username", username)
       .withErrorResponse[Unit](404)
       .withSuccessResponse[User](200)
       .withErrorResponse[Unit](400)
@@ -92,13 +92,13 @@ object UserApi {
    *   code 404 :  (User not found)
    *   code 400 :  (Invalid user supplied)
    * 
-   * @param Username name that need to be deleted
-   * @param Body Updated user object
+   * @param username name that need to be deleted
+   * @param body Updated user object
    */
-  def updateUser(Username: String, Body: Option[User] = None): ApiRequest[Unit] =
+  def updateUser(username: String, body: Option[User] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
-      .withBody(Body)
-      .withPathParam("username", Username)
+      .withBody(body)
+      .withPathParam("username", username)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
       
@@ -109,11 +109,11 @@ object UserApi {
    *   code 404 :  (User not found)
    *   code 400 :  (Invalid username supplied)
    * 
-   * @param Username The name that needs to be deleted
+   * @param username The name that needs to be deleted
    */
-  def deleteUser(Username: String): ApiRequest[Unit] =
+  def deleteUser(username: String): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.DELETE, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
-      .withPathParam("username", Username)
+      .withPathParam("username", username)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
       

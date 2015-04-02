@@ -5,13 +5,13 @@ import org.joda.time.DateTime
 
 
 case class Order (
-  Id: Option[Long],
-  PetId: Option[Long],
-  Quantity: Option[Int],
-  ShipDate: Option[DateTime],
+  id: Option[Long],
+  petId: Option[Long],
+  quantity: Option[Int],
+  shipDate: Option[DateTime],
   /* Order Status */
-  Status: Option[OrderEnums.Status],
-  Complete: Option[Boolean])
+  status: Option[OrderEnums.Status],
+  complete: Option[Boolean])
    extends ApiModel
 
 object OrderEnums {

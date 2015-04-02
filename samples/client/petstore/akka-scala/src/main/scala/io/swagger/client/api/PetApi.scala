@@ -15,11 +15,11 @@ object PetApi {
    *   code 404 :  (Pet not found)
    *   code 400 :  (Invalid ID supplied)
    * 
-   * @param Body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def updatePet(Body: Option[Pet] = None): ApiRequest[Unit] =
+  def updatePet(body: Option[Pet] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(Body)
+      .withBody(body)
       .withErrorResponse[Unit](405)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
@@ -29,11 +29,11 @@ object PetApi {
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
-   * @param Body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def addPet(Body: Option[Pet] = None): ApiRequest[Unit] =
+  def addPet(body: Option[Pet] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(Body)
+      .withBody(body)
       .withErrorResponse[Unit](405)
       
   /**
@@ -43,11 +43,11 @@ object PetApi {
    *   code 200 : Seq[Pet] (successful operation)
    *   code 400 :  (Invalid status value)
    * 
-   * @param Status Status values that need to be considered for filter
+   * @param status Status values that need to be considered for filter
    */
-  def findPetsByStatus(Status: Seq[String]): ApiRequest[Seq[Pet]] =
+  def findPetsByStatus(status: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/findByStatus", "application/json")
-      .withQueryParam("status", ArrayValues(Status, MULTI))
+      .withQueryParam("status", ArrayValues(status, MULTI))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
       
@@ -58,11 +58,11 @@ object PetApi {
    *   code 200 : Seq[Pet] (successful operation)
    *   code 400 :  (Invalid tag value)
    * 
-   * @param Tags Tags to filter by
+   * @param tags Tags to filter by
    */
-  def findPetsByTags(Tags: Seq[String]): ApiRequest[Seq[Pet]] =
+  def findPetsByTags(tags: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/findByTags", "application/json")
-      .withQueryParam("tags", ArrayValues(Tags, MULTI))
+      .withQueryParam("tags", ArrayValues(tags, MULTI))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
       
@@ -77,12 +77,12 @@ object PetApi {
    * Available security schemes:
    *   api_key (apiKey)
    * 
-   * @param PetId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched
    */
-  def getPetById(PetId: Long)(implicit apiKey: ApiKeyValue): ApiRequest[Pet] =
+  def getPetById(petId: Long)(implicit apiKey: ApiKeyValue): ApiRequest[Pet] =
     ApiRequest[Pet](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
-      .withPathParam("petId", PetId)
+      .withPathParam("petId", petId)
       .withErrorResponse[Unit](404)
       .withSuccessResponse[Pet](200)
       .withErrorResponse[Unit](400)
@@ -92,15 +92,15 @@ object PetApi {
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
-   * @param PetId ID of pet that needs to be updated
-   * @param Name Updated name of the pet
-   * @param Status Updated status of the pet
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
    */
-  def updatePetWithForm(PetId: String, Name: Option[String] = None, Status: Option[String] = None): ApiRequest[Unit] =
+  def updatePetWithForm(petId: String, name: Option[String] = None, status: Option[String] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/x-www-form-urlencoded")
-      .withFormParam("name", Name)
-      .withFormParam("status", Status)
-      .withPathParam("petId", PetId)
+      .withFormParam("name", name)
+      .withFormParam("status", status)
+      .withPathParam("petId", petId)
       .withErrorResponse[Unit](405)
       
   /**
@@ -108,13 +108,13 @@ object PetApi {
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
-   * @param ApiKey 
-   * @param PetId Pet id to delete
+   * @param apiKey 
+   * @param petId Pet id to delete
    */
-  def deletePet(ApiKey: Option[String] = None, PetId: Long): ApiRequest[Unit] =
+  def deletePet(apiKey: Option[String] = None, petId: Long): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.DELETE, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
-      .withPathParam("petId", PetId)
-      .withHeaderParam("api_key", ApiKey)
+      .withPathParam("petId", petId)
+      .withHeaderParam("api_key", apiKey)
       .withErrorResponse[Unit](400)
       
   /**
@@ -122,15 +122,15 @@ object PetApi {
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param PetId ID of pet to update
-   * @param AdditionalMetadata Additional data to pass to server
-   * @param File file to upload
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
    */
-  def uploadFile(PetId: Long, AdditionalMetadata: Option[String] = None, File: Option[File] = None): ApiRequest[Unit] =
+  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}/uploadImage", "multipart/form-data")
-      .withFormParam("additionalMetadata", AdditionalMetadata)
-      .withFormParam("file", File)
-      .withPathParam("petId", PetId)
+      .withFormParam("additionalMetadata", additionalMetadata)
+      .withFormParam("file", file)
+      .withPathParam("petId", petId)
       .withDefaultSuccessResponse[Unit]
       
 

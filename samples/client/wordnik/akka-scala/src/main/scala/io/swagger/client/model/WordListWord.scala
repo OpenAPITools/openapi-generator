@@ -5,13 +5,13 @@ import org.joda.time.DateTime
 
 
 case class WordListWord (
-  Id: Option[Long],
-  Word: Option[String],
-  Username: Option[String],
-  UserId: Option[Long],
-  CreatedAt: Option[DateTime],
-  NumberCommentsOnWord: Option[Long],
-  NumberLists: Option[Long])
+  id: Option[Long],
+  word: Option[String],
+  username: Option[String],
+  userId: Option[Long],
+  createdAt: Option[DateTime],
+  numberCommentsOnWord: Option[Long],
+  numberLists: Option[Long])
    extends ApiModel
 
 

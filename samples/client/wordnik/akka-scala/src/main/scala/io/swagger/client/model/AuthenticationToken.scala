@@ -5,9 +5,9 @@ import org.joda.time.DateTime
 
 
 case class AuthenticationToken (
-  Token: Option[String],
-  UserId: Option[Long],
-  UserSignature: Option[String])
+  token: Option[String],
+  userId: Option[Long],
+  userSignature: Option[String])
    extends ApiModel
 
 

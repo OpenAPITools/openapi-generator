@@ -5,11 +5,11 @@ import org.joda.time.DateTime
 
 
 case class FrequencySummary (
-  UnknownYearCount: Option[Int],
-  TotalCount: Option[Long],
-  FrequencyString: Option[String],
-  Word: Option[String],
-  Frequency: Option[Seq[Frequency]])
+  unknownYearCount: Option[Int],
+  totalCount: Option[Long],
+  frequencyString: Option[String],
+  word: Option[String],
+  frequency: Option[Seq[Frequency]])
    extends ApiModel
 
 

@@ -5,7 +5,7 @@ import org.joda.time.DateTime
 
 
 case class StringValue (
-  Word: Option[String])
+  word: Option[String])
    extends ApiModel
 
 

@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class Citation (
-  Cite: Option[String],
-  Source: Option[String])
+  cite: Option[String],
+  source: Option[String])
    extends ApiModel
 
 

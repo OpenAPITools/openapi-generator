@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class ExampleSearchResults (
-  Facets: Option[Seq[Facet]],
-  Examples: Option[Seq[Example]])
+  facets: Option[Seq[Facet]],
+  examples: Option[Seq[Example]])
    extends ApiModel
 
 

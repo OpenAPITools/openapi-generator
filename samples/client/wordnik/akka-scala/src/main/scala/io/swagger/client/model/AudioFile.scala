@@ -5,20 +5,20 @@ import org.joda.time.DateTime
 
 
 case class AudioFile (
-  AttributionUrl: Option[String],
-  CommentCount: Option[Int],
-  VoteCount: Option[Int],
-  FileUrl: Option[String],
-  AudioType: Option[String],
-  Id: Option[Long],
-  Duration: Option[Double],
-  AttributionText: Option[String],
-  CreatedBy: Option[String],
-  Description: Option[String],
-  CreatedAt: Option[DateTime],
-  VoteWeightedAverage: Option[Float],
-  VoteAverage: Option[Float],
-  Word: Option[String])
+  attributionUrl: Option[String],
+  commentCount: Option[Int],
+  voteCount: Option[Int],
+  fileUrl: Option[String],
+  audioType: Option[String],
+  id: Option[Long],
+  duration: Option[Double],
+  attributionText: Option[String],
+  createdBy: Option[String],
+  description: Option[String],
+  createdAt: Option[DateTime],
+  voteWeightedAverage: Option[Float],
+  voteAverage: Option[Float],
+  word: Option[String])
    extends ApiModel
 
 
