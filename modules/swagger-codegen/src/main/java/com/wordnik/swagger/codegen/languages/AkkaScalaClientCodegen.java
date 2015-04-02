@@ -230,7 +230,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
   }
 
   private String formatIdentifier(String name, boolean capitalized) {
-    String identifier = camelize(name);
+    String identifier = camelize(name, true);
     if (capitalized)
       identifier = StringUtils.capitalize(identifier);
     if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !reservedWords.contains(identifier))
