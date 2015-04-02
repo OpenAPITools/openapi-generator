@@ -8,6 +8,7 @@ public class CodegenResponse {
   public List<Map<String, String>> examples;
   public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
   public String dataType, baseType, containerType;
+  public Boolean isDefault;
   public Boolean simpleType;
   public Boolean primitiveType;
   public Boolean isMapContainer;
