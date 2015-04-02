@@ -406,7 +406,7 @@ public class DefaultCodegen {
       m.name = escapeReservedWord(name);
     else
       m.name = name;
-    m.description = model.getDescription();
+    m.description = escapeText(model.getDescription());
     m.classname = toModelName(name);
     m.classVarName = toVarName(name);
     m.modelJson = Json.pretty(model);
