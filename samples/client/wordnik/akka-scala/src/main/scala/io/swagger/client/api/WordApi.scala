@@ -111,8 +111,8 @@ object WordApi {
    * @param Skip Results to skip
    * @param Limit Maximum number of results to return
    */
-  def getExamples(Word: String, IncludeDuplicates: Option[String] = None, UseCanonical: Option[String] = None, Skip: Option[Int] = None, Limit: Option[Int] = None): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/examples", "application/json")
+  def getExamples(Word: String, IncludeDuplicates: Option[String] = None, UseCanonical: Option[String] = None, Skip: Option[Int] = None, Limit: Option[Int] = None): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/examples", "application/json")
       .withQueryParam("includeDuplicates", IncludeDuplicates)
       .withQueryParam("useCanonical", UseCanonical)
       .withQueryParam("skip", Skip)
@@ -156,8 +156,8 @@ object WordApi {
    * @param SourceDictionary Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet.
    * @param Limit Maximum number of results to return
    */
-  def getHyphenation(Word: String, UseCanonical: Option[String] = None, SourceDictionary: Option[String] = None, Limit: Option[Int] = None): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/hyphenation", "application/json")
+  def getHyphenation(Word: String, UseCanonical: Option[String] = None, SourceDictionary: Option[String] = None, Limit: Option[Int] = None): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/hyphenation", "application/json")
       .withQueryParam("useCanonical", UseCanonical)
       .withQueryParam("sourceDictionary", SourceDictionary)
       .withQueryParam("limit", Limit)
@@ -199,8 +199,8 @@ object WordApi {
    * @param TypeFormat Text pronunciation type
    * @param Limit Maximum number of results to return
    */
-  def getTextPronunciations(Word: String, UseCanonical: Option[String] = None, SourceDictionary: Option[String] = None, TypeFormat: Option[String] = None, Limit: Option[Int] = None): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/pronunciations", "application/json")
+  def getTextPronunciations(Word: String, UseCanonical: Option[String] = None, SourceDictionary: Option[String] = None, TypeFormat: Option[String] = None, Limit: Option[Int] = None): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/pronunciations", "application/json")
       .withQueryParam("useCanonical", UseCanonical)
       .withQueryParam("sourceDictionary", SourceDictionary)
       .withQueryParam("typeFormat", TypeFormat)
@@ -221,8 +221,8 @@ object WordApi {
    * @param RelationshipTypes Limits the total results per type of relationship type
    * @param LimitPerRelationshipType Restrict to the supplied relationship types
    */
-  def getRelatedWords(Word: String, UseCanonical: Option[String] = None, RelationshipTypes: Option[String] = None, LimitPerRelationshipType: Option[Int] = None): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/relatedWords", "application/json")
+  def getRelatedWords(Word: String, UseCanonical: Option[String] = None, RelationshipTypes: Option[String] = None, LimitPerRelationshipType: Option[Int] = None): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/word.json/{word}/relatedWords", "application/json")
       .withQueryParam("useCanonical", UseCanonical)
       .withQueryParam("relationshipTypes", RelationshipTypes)
       .withQueryParam("limitPerRelationshipType", LimitPerRelationshipType)

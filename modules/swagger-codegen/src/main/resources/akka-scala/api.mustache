@@ -25,8 +25,8 @@ object {{classname}} {
       {{/pathParams}}{{#headerParams}}.withHeaderParam({{>paramCreation}})
       {{/headerParams}}{{#responses}}{{^isWildcard}}{{#dataType}}.with{{>responseState}}Response[{{dataType}}]({{code}})
       {{/dataType}}{{^dataType}}.with{{>responseState}}Response[Unit]({{code}})
-      {{/dataType}}{{/isWildcard}}{{/responses}}{{#responses}}{{#isWildcard}}{{#dataType}}.withDefault{{>responseState}}Response[{{dataType}}]()
-      {{/dataType}}{{^dataType}}.withDefault{{>responseState}}Response[Unit]()
+      {{/dataType}}{{/isWildcard}}{{/responses}}{{#responses}}{{#isWildcard}}{{#dataType}}.withDefault{{>responseState}}Response[{{dataType}}]
+      {{/dataType}}{{^dataType}}.withDefault{{>responseState}}Response[Unit]
       {{/dataType}}{{/isWildcard}}{{/responses}}{{^responseHeaders.isEmpty}}
   object {{#fnCapitalize}}{{operationId}}{{/fnCapitalize}}Headers { {{#responseHeaders}}
     def {{name}}(r: ApiReturnWithHeaders) = r.get{{^isContainer}}{{baseType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}Header("{{baseName}}"){{/responseHeaders}}
