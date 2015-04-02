@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class Facet (
-  FacetValues: Option[Seq[FacetValue]],
-  Name: Option[String])
+  facetValues: Option[Seq[FacetValue]],
+  name: Option[String])
    extends ApiModel
 
 

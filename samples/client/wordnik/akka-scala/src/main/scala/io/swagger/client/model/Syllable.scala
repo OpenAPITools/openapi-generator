@@ -5,9 +5,9 @@ import org.joda.time.DateTime
 
 
 case class Syllable (
-  Text: Option[String],
-  Seq: Option[Int],
-  Type: Option[String])
+  text: Option[String],
+  seq: Option[Int],
+  `type`: Option[String])
    extends ApiModel
 
 

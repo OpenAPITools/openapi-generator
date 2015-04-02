@@ -5,8 +5,8 @@ import org.joda.time.DateTime
 
 
 case class Label (
-  Text: Option[String],
-  Type: Option[String])
+  text: Option[String],
+  `type`: Option[String])
    extends ApiModel
 
 

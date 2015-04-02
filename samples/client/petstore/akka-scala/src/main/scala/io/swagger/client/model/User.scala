@@ -5,15 +5,15 @@ import org.joda.time.DateTime
 
 
 case class User (
-  Id: Option[Long],
-  Username: Option[String],
-  FirstName: Option[String],
-  LastName: Option[String],
-  Email: Option[String],
-  Password: Option[String],
-  Phone: Option[String],
+  id: Option[Long],
+  username: Option[String],
+  firstName: Option[String],
+  lastName: Option[String],
+  email: Option[String],
+  password: Option[String],
+  phone: Option[String],
   /* User Status */
-  UserStatus: Option[Int])
+  userStatus: Option[Int])
    extends ApiModel
 
 

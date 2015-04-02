@@ -5,9 +5,9 @@ import org.joda.time.DateTime
 
 
 case class PartOfSpeech (
-  Roots: Option[Seq[Root]],
-  StorageAbbr: Option[Seq[String]],
-  AllCategories: Option[Seq[Category]])
+  roots: Option[Seq[Root]],
+  storageAbbr: Option[Seq[String]],
+  allCategories: Option[Seq[Category]])
    extends ApiModel
 
 

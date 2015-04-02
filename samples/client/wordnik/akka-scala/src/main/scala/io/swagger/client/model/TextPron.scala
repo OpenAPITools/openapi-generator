@@ -5,9 +5,9 @@ import org.joda.time.DateTime
 
 
 case class TextPron (
-  Raw: Option[String],
-  Seq: Option[Int],
-  RawType: Option[String])
+  raw: Option[String],
+  seq: Option[Int],
+  rawType: Option[String])
    extends ApiModel
 
 

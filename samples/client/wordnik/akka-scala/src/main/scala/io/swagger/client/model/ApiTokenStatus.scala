@@ -5,12 +5,12 @@ import org.joda.time.DateTime
 
 
 case class ApiTokenStatus (
-  Valid: Option[Boolean],
-  Token: Option[String],
-  ResetsInMillis: Option[Long],
-  RemainingCalls: Option[Long],
-  ExpiresInMillis: Option[Long],
-  TotalRequests: Option[Long])
+  valid: Option[Boolean],
+  token: Option[String],
+  resetsInMillis: Option[Long],
+  remainingCalls: Option[Long],
+  expiresInMillis: Option[Long],
+  totalRequests: Option[Long])
    extends ApiModel
 
 

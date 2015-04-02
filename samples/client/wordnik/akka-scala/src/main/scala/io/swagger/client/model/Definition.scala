@@ -5,22 +5,22 @@ import org.joda.time.DateTime
 
 
 case class Definition (
-  ExtendedText: Option[String],
-  Text: Option[String],
-  SourceDictionary: Option[String],
-  Citations: Option[Seq[Citation]],
-  Labels: Option[Seq[Label]],
-  Score: Option[Float],
-  ExampleUses: Option[Seq[ExampleUsage]],
-  AttributionUrl: Option[String],
-  SeqString: Option[String],
-  AttributionText: Option[String],
-  RelatedWords: Option[Seq[Related]],
-  Sequence: Option[String],
-  Word: Option[String],
-  Notes: Option[Seq[Note]],
-  TextProns: Option[Seq[TextPron]],
-  PartOfSpeech: Option[String])
+  extendedText: Option[String],
+  text: Option[String],
+  sourceDictionary: Option[String],
+  citations: Option[Seq[Citation]],
+  labels: Option[Seq[Label]],
+  score: Option[Float],
+  exampleUses: Option[Seq[ExampleUsage]],
+  attributionUrl: Option[String],
+  seqString: Option[String],
+  attributionText: Option[String],
+  relatedWords: Option[Seq[Related]],
+  sequence: Option[String],
+  word: Option[String],
+  notes: Option[Seq[Note]],
+  textProns: Option[Seq[TextPron]],
+  partOfSpeech: Option[String])
    extends ApiModel
 
 

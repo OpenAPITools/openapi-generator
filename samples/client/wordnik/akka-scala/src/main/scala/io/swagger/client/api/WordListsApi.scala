@@ -16,13 +16,13 @@ object WordListsApi {
    *   code 403 :  (Not authenticated)
    *   code 404 :  (WordList owner not found)
    * 
-   * @param Body WordList to create
-   * @param AuthToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
+   * @param body WordList to create
+   * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
-  def createWordList(Body: Option[WordList] = None, AuthToken: String): ApiRequest[WordList] =
+  def createWordList(body: Option[WordList] = None, authToken: String): ApiRequest[WordList] =
     ApiRequest[WordList](ApiMethods.POST, "https://api.wordnik.com/v4", "/wordLists.json", "application/json")
-      .withBody(Body)
-      .withHeaderParam("auth_token", AuthToken)
+      .withBody(body)
+      .withHeaderParam("auth_token", authToken)
       .withSuccessResponse[WordList](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](403)

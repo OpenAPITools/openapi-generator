@@ -5,13 +5,13 @@ import org.joda.time.DateTime
 
 
 case class Pet (
-  Id: Option[Long],
-  Category: Option[Category],
-  Name: String,
-  PhotoUrls: Seq[String],
-  Tags: Option[Seq[Tag]],
+  id: Option[Long],
+  category: Option[Category],
+  name: String,
+  photoUrls: Seq[String],
+  tags: Option[Seq[Tag]],
   /* pet status in the store */
-  Status: Option[PetEnums.Status])
+  status: Option[PetEnums.Status])
    extends ApiModel
 
 object PetEnums {

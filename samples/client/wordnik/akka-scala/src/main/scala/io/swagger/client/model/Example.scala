@@ -5,18 +5,18 @@ import org.joda.time.DateTime
 
 
 case class Example (
-  Id: Option[Long],
-  ExampleId: Option[Long],
-  Title: Option[String],
-  Text: Option[String],
-  Score: Option[ScoredWord],
-  Sentence: Option[Sentence],
-  Word: Option[String],
-  Provider: Option[ContentProvider],
-  Year: Option[Int],
-  Rating: Option[Float],
-  DocumentId: Option[Long],
-  Url: Option[String])
+  id: Option[Long],
+  exampleId: Option[Long],
+  title: Option[String],
+  text: Option[String],
+  score: Option[ScoredWord],
+  sentence: Option[Sentence],
+  word: Option[String],
+  provider: Option[ContentProvider],
+  year: Option[Int],
+  rating: Option[Float],
+  documentId: Option[Long],
+  url: Option[String])
    extends ApiModel
 
 

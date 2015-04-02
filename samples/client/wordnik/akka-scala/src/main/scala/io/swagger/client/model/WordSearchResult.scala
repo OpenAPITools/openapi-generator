@@ -5,9 +5,9 @@ import org.joda.time.DateTime
 
 
 case class WordSearchResult (
-  Count: Option[Long],
-  Lexicality: Option[Double],
-  Word: Option[String])
+  count: Option[Long],
+  lexicality: Option[Double],
+  word: Option[String])
    extends ApiModel
 
 
