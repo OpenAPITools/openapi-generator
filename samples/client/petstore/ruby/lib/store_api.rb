@@ -4,10 +4,6 @@ class StoreApi
   basePath = "http://petstore.swagger.io/v2"
   # apiInvoker = APIInvoker
 
-  def self.escapeString(string)
-    URI.encode(string.to_s)
-  end
-
 
   # Returns pet inventories by status
   # Returns a map of status codes to quantities
@@ -126,7 +122,7 @@ class StoreApi
     }.merge(opts)
 
     #resource path
-    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(order_id))
+    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id)
     
     
     # pull querystring keys from options
@@ -168,7 +164,7 @@ class StoreApi
     }.merge(opts)
 
     #resource path
-    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', escapeString(order_id))
+    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id)
     
     
     # pull querystring keys from options
