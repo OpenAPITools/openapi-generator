@@ -282,7 +282,7 @@ class UserApi
     }.merge(opts)
 
     #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username)
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
     
     
     # pull querystring keys from options
@@ -326,7 +326,7 @@ class UserApi
     }.merge(opts)
 
     #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username)
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
     
     
     # pull querystring keys from options
@@ -387,7 +387,7 @@ class UserApi
     }.merge(opts)
 
     #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username)
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
     
     
     # pull querystring keys from options

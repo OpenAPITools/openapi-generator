@@ -122,7 +122,7 @@ class StoreApi
     }.merge(opts)
 
     #resource path
-    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id)
+    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
     
     
     # pull querystring keys from options
@@ -164,7 +164,7 @@ class StoreApi
     }.merge(opts)
 
     #resource path
-    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id)
+    path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
     
     
     # pull querystring keys from options

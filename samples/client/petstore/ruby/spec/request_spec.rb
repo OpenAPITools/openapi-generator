@@ -73,20 +73,18 @@ describe Swagger::Request do
   describe "path" do
 
     it "accounts for a total absence of format in the path string" do
-      @request = Swagger::Request.new(:get, "/word.{format}/{word}/entries", @default_params.merge({
+      @request = Swagger::Request.new(:get, "/word.{format}/cat/entries", @default_params.merge({
         :format => "xml",
         :params => {
-          :word => "cat"
         }
       }))
       @request.url.should == "http://petstore.swagger.io/v2/word.xml/cat/entries"
     end
 
-    it "does string substitution on path params" do
-      @request = Swagger::Request.new(:get, "/word.{format}/{word}/entries", @default_params.merge({
+    it "does string substitution (format) on path params" do
+      @request = Swagger::Request.new(:get, "/word.{format}/cat/entries", @default_params.merge({
         :format => "xml",
         :params => {
-          :word => "cat"
         }
       }))
       @request.url.should == "http://petstore.swagger.io/v2/word.xml/cat/entries"
@@ -123,7 +121,7 @@ describe Swagger::Request do
     end
 
     it "URI encodes the path" do
-      @request = Swagger::Request.new(:get, "word.{format}/{word}/definitions", @default_params.merge({
+      @request = Swagger::Request.new(:get, "word.{format}/bill gates/definitions", @default_params.merge({
         :params => {
           :word => "bill gates"
         }
