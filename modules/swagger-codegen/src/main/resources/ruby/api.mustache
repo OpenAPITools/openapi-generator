@@ -5,10 +5,6 @@ class {{classname}}
   basePath = "{{basePath}}"
   # apiInvoker = APIInvoker
 
-  def self.escapeString(string)
-    URI.encode(string.to_s)
-  end
-
 {{#operation}}
 {{newline}}
   # {{summary}}
@@ -33,7 +29,7 @@ class {{classname}}
     }.merge(opts)
 
     #resource path
-    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', escapeString({{paramName}}))
+    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}})
     {{/pathParams}}{{newline}}
     
     # pull querystring keys from options
