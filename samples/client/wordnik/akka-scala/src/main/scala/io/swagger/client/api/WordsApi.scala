@@ -62,8 +62,8 @@ object WordsApi {
    * @param SortOrder Sort direction
    * @param Limit Maximum number of results to return
    */
-  def getRandomWords(HasDictionaryDef: Option[String] = None, IncludePartOfSpeech: Option[String] = None, ExcludePartOfSpeech: Option[String] = None, MinCorpusCount: Option[Int] = None, MaxCorpusCount: Option[Int] = None, MinDictionaryCount: Option[Int] = None, MaxDictionaryCount: Option[Int] = None, MinLength: Option[Int] = None, MaxLength: Option[Int] = None, SortBy: Option[String] = None, SortOrder: Option[String] = None, Limit: Option[Int] = None): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.GET, "https://api.wordnik.com/v4", "/words.json/randomWords", "application/json")
+  def getRandomWords(HasDictionaryDef: Option[String] = None, IncludePartOfSpeech: Option[String] = None, ExcludePartOfSpeech: Option[String] = None, MinCorpusCount: Option[Int] = None, MaxCorpusCount: Option[Int] = None, MinDictionaryCount: Option[Int] = None, MaxDictionaryCount: Option[Int] = None, MinLength: Option[Int] = None, MaxLength: Option[Int] = None, SortBy: Option[String] = None, SortOrder: Option[String] = None, Limit: Option[Int] = None): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/words.json/randomWords", "application/json")
       .withQueryParam("hasDictionaryDef", HasDictionaryDef)
       .withQueryParam("includePartOfSpeech", IncludePartOfSpeech)
       .withQueryParam("excludePartOfSpeech", ExcludePartOfSpeech)
@@ -173,7 +173,7 @@ object WordsApi {
   def getWordOfTheDay(Date: Option[String] = None): ApiRequest[WordOfTheDay] =
     ApiRequest[WordOfTheDay](ApiMethods.GET, "https://api.wordnik.com/v4", "/words.json/wordOfTheDay", "application/json")
       .withQueryParam("date", Date)
-      .withSuccessResponse[WordOfTheDay](0)
+      .withDefaultSuccessResponse[WordOfTheDay]
       
 
 

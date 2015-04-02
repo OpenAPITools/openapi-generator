@@ -126,12 +126,12 @@ object PetApi {
    * @param AdditionalMetadata Additional data to pass to server
    * @param File file to upload
    */
-  def uploadFile(PetId: Long, AdditionalMetadata: Option[String] = None, File: Option[File] = None): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}/uploadImage", "multipart/form-data")
+  def uploadFile(PetId: Long, AdditionalMetadata: Option[String] = None, File: Option[File] = None): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}/uploadImage", "multipart/form-data")
       .withFormParam("additionalMetadata", AdditionalMetadata)
       .withFormParam("file", File)
       .withPathParam("petId", PetId)
-      .withSuccessResponse[Unit](0)
+      .withDefaultSuccessResponse[Unit]
       
 
 

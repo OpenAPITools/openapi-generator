@@ -15,10 +15,10 @@ object UserApi {
    * 
    * @param Body Created user object
    */
-  def createUser(Body: Option[User] = None): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user", "application/json")
+  def createUser(Body: Option[User] = None): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user", "application/json")
       .withBody(Body)
-      .withSuccessResponse[Unit](0)
+      .withDefaultSuccessResponse[Unit]
       
   /**
    * 
@@ -27,10 +27,10 @@ object UserApi {
    * 
    * @param Body List of user object
    */
-  def createUsersWithArrayInput(Body: Seq[User]): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithArray", "application/json")
+  def createUsersWithArrayInput(Body: Seq[User]): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithArray", "application/json")
       .withBody(Body)
-      .withSuccessResponse[Unit](0)
+      .withDefaultSuccessResponse[Unit]
       
   /**
    * 
@@ -39,10 +39,10 @@ object UserApi {
    * 
    * @param Body List of user object
    */
-  def createUsersWithListInput(Body: Seq[User]): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithList", "application/json")
+  def createUsersWithListInput(Body: Seq[User]): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithList", "application/json")
       .withBody(Body)
-      .withSuccessResponse[Unit](0)
+      .withDefaultSuccessResponse[Unit]
       
   /**
    * 
@@ -65,9 +65,9 @@ object UserApi {
    * Expected answers:
    *   code 0 :  (successful operation)
    */
-  def logoutUser(): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/logout", "application/json")
-      .withSuccessResponse[Unit](0)
+  def logoutUser(): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/logout", "application/json")
+      .withDefaultSuccessResponse[Unit]
       
   /**
    * 

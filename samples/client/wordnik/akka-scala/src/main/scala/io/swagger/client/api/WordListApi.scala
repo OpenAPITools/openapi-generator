@@ -42,8 +42,8 @@ object WordListApi {
    * @param Body Updated WordList
    * @param AuthToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
-  def updateWordList(Permalink: String, Body: Option[WordList] = None, AuthToken: String): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.PUT, "https://api.wordnik.com/v4", "/wordList.json/{permalink}", "application/json")
+  def updateWordList(Permalink: String, Body: Option[WordList] = None, AuthToken: String): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.PUT, "https://api.wordnik.com/v4", "/wordList.json/{permalink}", "application/json")
       .withBody(Body)
       .withPathParam("permalink", Permalink)
       .withHeaderParam("auth_token", AuthToken)
@@ -64,8 +64,8 @@ object WordListApi {
    * @param Permalink ID of WordList to delete
    * @param AuthToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
-  def deleteWordList(Permalink: String, AuthToken: String): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.DELETE, "https://api.wordnik.com/v4", "/wordList.json/{permalink}", "application/json")
+  def deleteWordList(Permalink: String, AuthToken: String): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.DELETE, "https://api.wordnik.com/v4", "/wordList.json/{permalink}", "application/json")
       .withPathParam("permalink", Permalink)
       .withHeaderParam("auth_token", AuthToken)
       .withSuccessResponse[Unit](200)
@@ -86,8 +86,8 @@ object WordListApi {
    * @param Body Words to remove from WordList
    * @param AuthToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
-  def deleteWordsFromWordList(Permalink: String, Body: Seq[StringValue], AuthToken: String): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.POST, "https://api.wordnik.com/v4", "/wordList.json/{permalink}/deleteWords", "application/json")
+  def deleteWordsFromWordList(Permalink: String, Body: Seq[StringValue], AuthToken: String): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.POST, "https://api.wordnik.com/v4", "/wordList.json/{permalink}/deleteWords", "application/json")
       .withBody(Body)
       .withPathParam("permalink", Permalink)
       .withHeaderParam("auth_token", AuthToken)
@@ -112,8 +112,8 @@ object WordListApi {
    * @param Limit Maximum number of results to return
    * @param AuthToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
-  def getWordListWords(Permalink: String, SortBy: Option[String] = None, SortOrder: Option[String] = None, Skip: Option[Int] = None, Limit: Option[Int] = None, AuthToken: String): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.GET, "https://api.wordnik.com/v4", "/wordList.json/{permalink}/words", "application/json")
+  def getWordListWords(Permalink: String, SortBy: Option[String] = None, SortOrder: Option[String] = None, Skip: Option[Int] = None, Limit: Option[Int] = None, AuthToken: String): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.GET, "https://api.wordnik.com/v4", "/wordList.json/{permalink}/words", "application/json")
       .withQueryParam("sortBy", SortBy)
       .withQueryParam("sortOrder", SortOrder)
       .withQueryParam("skip", Skip)
@@ -138,8 +138,8 @@ object WordListApi {
    * @param Body Array of words to add to WordList
    * @param AuthToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
-  def addWordsToWordList(Permalink: String, Body: Seq[StringValue], AuthToken: String): ApiRequest[UnitUnit] =
-    ApiRequest[UnitUnit](ApiMethods.POST, "https://api.wordnik.com/v4", "/wordList.json/{permalink}/words", "application/json")
+  def addWordsToWordList(Permalink: String, Body: Seq[StringValue], AuthToken: String): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.POST, "https://api.wordnik.com/v4", "/wordList.json/{permalink}/words", "application/json")
       .withBody(Body)
       .withPathParam("permalink", Permalink)
       .withHeaderParam("auth_token", AuthToken)
