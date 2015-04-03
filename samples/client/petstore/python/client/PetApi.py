@@ -63,7 +63,7 @@ class PetApi(object):
         bodyParam = None
 
         headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'application/json,application/xml'
+        headerParams['Content-Type'] = 'application/json,application/xml,'
 
         
 
@@ -119,7 +119,7 @@ class PetApi(object):
         bodyParam = None
 
         headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'application/json,application/xml'
+        headerParams['Content-Type'] = 'application/json,application/xml,'
 
         
 
@@ -370,7 +370,7 @@ class PetApi(object):
         bodyParam = None
 
         headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'application/x-www-form-urlencoded'
+        headerParams['Content-Type'] = 'application/x-www-form-urlencoded,'
 
         
 
@@ -506,7 +506,7 @@ class PetApi(object):
         bodyParam = None
 
         headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'multipart/form-data'
+        headerParams['Content-Type'] = 'multipart/form-data,'
 
         
 
