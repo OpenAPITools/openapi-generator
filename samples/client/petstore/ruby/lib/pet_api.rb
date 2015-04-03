@@ -32,8 +32,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = ['application/json', 'application/xml', ]
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     
     # http body (model)
@@ -92,8 +100,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = ['application/json', 'application/xml', ]
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     
     # http body (model)
@@ -152,8 +168,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     
     # http body (model)
@@ -194,8 +218,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     
     # http body (model)
@@ -237,8 +269,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     
     # http body (model)
@@ -283,8 +323,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = ['application/x-www-form-urlencoded', ]
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     
     # http body (model)
@@ -328,8 +376,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = []
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     headers[:'api_key'] = api_key
     # http body (model)
@@ -373,8 +429,16 @@ class PetApi
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = 'application/json, application/xml'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = ['multipart/form-data', ]
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     
     
     # http body (model)
