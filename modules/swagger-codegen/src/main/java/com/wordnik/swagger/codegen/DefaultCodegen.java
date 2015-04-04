@@ -312,14 +312,34 @@ public class DefaultCodegen {
       return "null";
     else if(p instanceof DateTimeProperty)
       return "null";
-    else if (p instanceof DoubleProperty)
+    else if (p instanceof DoubleProperty) {
+      DoubleProperty dp = (DoubleProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
-    else if (p instanceof FloatProperty)
+    }
+    else if (p instanceof FloatProperty) {
+      FloatProperty dp = (FloatProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
-    else if (p instanceof IntegerProperty)
+    }
+    else if (p instanceof IntegerProperty) {
+      IntegerProperty dp = (IntegerProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
-    else if (p instanceof LongProperty)
+    }
+    else if (p instanceof LongProperty) {
+      LongProperty dp = (LongProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
+    }
     else if (p instanceof MapProperty) {
       MapProperty ap = (MapProperty) p;
       String inner = getSwaggerType(ap.getAdditionalProperties());
