@@ -253,10 +253,20 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
           writeToFile(outputFilename, tmpl.execute(bundle));
           files.add(new File(outputFilename));
         } else {
-          InputStream in = this.getClass().getClassLoader().getResourceAsStream(config.templateDir() + File.separator + support.templateFile);
+          InputStream in = new FileInputStream(config.templateDir() + File.separator + support.templateFile);
+          if(in == null) {
+            in = this.getClass().getClassLoader().getResourceAsStream(config.templateDir() + File.separator + support.templateFile);
+          }
           File outputFile = new File(outputFilename);
-          OutputStream out = new FileOutputStream(outputFile);
-          IOUtils.copy(in,out);
+          OutputStream out = new FileOutputStream(outputFile, true);
+          if(in != null && out != null)
+            IOUtils.copy(in,out);
+          else {
+            if(in == null)
+              System.out.println("can't open " + config.templateDir() + File.separator + support.templateFile + " for input");
+            if(out == null)
+              System.out.println("can't open " + outputFile + " for output");
+          }
 
           files.add(outputFile);
         }
