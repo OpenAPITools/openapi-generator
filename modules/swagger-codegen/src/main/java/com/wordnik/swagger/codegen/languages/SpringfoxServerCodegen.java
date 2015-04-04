@@ -68,6 +68,8 @@ public class SpringfoxServerCodegen extends JavaClientCodegen implements Codegen
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
         supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebMvcConfiguration.java"));
+        supportingFiles.add(new SupportingFile("swagger.properties",
+                ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
