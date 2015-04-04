@@ -29,4 +29,5 @@ cd $APP_DIR
 ./bin/ruby-petstore.sh
 ./bin/objc-petstore.sh
 ./bin/scala-petstore.sh
+./bin/spring-mvc-petstore-server.sh
 ./bin/tizen-petstore.sh
