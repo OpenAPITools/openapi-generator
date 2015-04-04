@@ -62,7 +62,7 @@
                                         if(error) {
                                             XCTFail(@"got error %@", error);
                                         }
-                                        [api getPetByIdWithCompletionBlock:@1000 completionHandler:^(SWGPet *output, NSError *error) {
+                                        [api getPetByIdWithCompletionBlock:[pet _id] completionHandler:^(SWGPet *output, NSError *error) {
                                             if(error) {
                                                 XCTFail(@"got error %@", error);
                                             }
