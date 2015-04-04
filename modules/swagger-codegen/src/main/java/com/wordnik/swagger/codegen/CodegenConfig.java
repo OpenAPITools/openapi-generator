@@ -22,6 +22,7 @@ public interface CodegenConfig {
   String toApiVarName(String name);
   String toModelName(String name);
   String toParamName(String name);
+  String escapeText(String text);
   String escapeReservedWord(String name);
   String getTypeDeclaration(Property p);
   String getTypeDeclaration(String name);
