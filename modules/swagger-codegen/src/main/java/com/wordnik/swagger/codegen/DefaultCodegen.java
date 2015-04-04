@@ -878,7 +878,7 @@ public class DefaultCodegen {
   public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
     CodegenParameter p = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
     p.baseName = param.getName();
-    p.description = param.getDescription();
+    p.description = escapeText(param.getDescription());
     if(param.getRequired())
       p.required = param.getRequired();
     p.jsonSchema = Json.pretty(param);
