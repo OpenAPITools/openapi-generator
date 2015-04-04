@@ -10,7 +10,7 @@ com.wordnik.swagger.codegen.languages.PythonClientCodegen
 com.wordnik.swagger.codegen.languages.RubyClientCodegen
 com.wordnik.swagger.codegen.languages.ScalaClientCodegen
 com.wordnik.swagger.codegen.languages.ScalatraServerCodegen
-com.wordnik.swagger.codegen.languages.SpringfoxServerCodegen
+com.wordnik.swagger.codegen.languages.SpringMVCServerCodegen
 com.wordnik.swagger.codegen.languages.StaticDocCodegen
 com.wordnik.swagger.codegen.languages.StaticHtmlGenerator
 com.wordnik.swagger.codegen.languages.SwaggerGenerator
