@@ -41,8 +41,16 @@ class {{classname}}
       query_param_keys.include? key
     end
 
-    # header parameters, if any
+    # header parameters
     headers = {}
+
+    _header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
     {{#headerParams}}{{#optional}}headers[:'{{{baseName}}}'] = options[:'{{{paramName}}}'] if options[:'{{{paramName}}}']{{/optional}}{{/headerParams}}
     {{#headerParams}}{{^optional}}headers[:'{{{baseName}}}'] = {{{paramName}}}{{/optional}}{{/headerParams}}
     # http body (model)
