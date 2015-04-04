@@ -34,6 +34,16 @@ class ApiClient(object):
     self.host = host
     self.cookie = None
     self.boundary = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
+    # Set default User-Agent.
+    self.user_agent = 'Python-Swagger'
+
+  @property
+  def user_agent(self):
+    return self.defaultHeaders['User-Agent']
+
+  @user_agent.setter
+  def user_agent(self, value):
+    self.defaultHeaders['User-Agent'] = value
 
   def setDefaultHeader(self, headerName, headerValue):
     self.defaultHeaders[headerName] = headerValue
