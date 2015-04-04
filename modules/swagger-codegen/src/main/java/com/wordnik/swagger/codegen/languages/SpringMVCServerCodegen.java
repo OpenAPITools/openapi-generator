@@ -9,7 +9,7 @@ import com.wordnik.swagger.models.properties.*;
 import java.util.*;
 import java.io.File;
 
-public class SpringfoxServerCodegen extends JavaClientCodegen implements CodegenConfig {
+public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.api";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-server";
@@ -24,19 +24,19 @@ public class SpringfoxServerCodegen extends JavaClientCodegen implements Codegen
     }
 
     public String getName() {
-        return "springfox";
+        return "spring-mvc";
     }
 
     public String getHelp() {
-        return "Generates a Java Springfox Server application.";
+        return "Generates a Java Spring-MVC Server application using the SpringFox integration.";
     }
 
-    public SpringfoxServerCodegen() {
+    public SpringMVCServerCodegen() {
         super();
-        outputFolder = "generated-code/javaSpringfox";
+        outputFolder = "generated-code/javaSpringMVC";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        templateDir = "JavaSpringfox";
+        templateDir = "JavaSpringMVC";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         configPackage = "io.swagger.configuration";
@@ -72,14 +72,14 @@ public class SpringfoxServerCodegen extends JavaClientCodegen implements Codegen
                 ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float")
+          Arrays.asList(
+            "String",
+            "boolean",
+            "Boolean",
+            "Double",
+            "Integer",
+            "Long",
+            "Float")
         );
     }
 
