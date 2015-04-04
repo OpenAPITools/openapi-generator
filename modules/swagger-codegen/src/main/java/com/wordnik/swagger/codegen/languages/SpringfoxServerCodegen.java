@@ -20,7 +20,7 @@ public class SpringfoxServerCodegen extends JavaClientCodegen implements Codegen
     protected String configPackage = "";
 
     public CodegenType getTag() {
-        return CodegenType.OTHER;
+        return CodegenType.SERVER;
     }
 
     public String getName() {

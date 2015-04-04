@@ -67,7 +67,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
           config.additionalProperties().put("appVersion", info.getVersion());
         }
         if (info.getDescription() != null) {
-          config.additionalProperties().put("appDescription", info.getDescription());
+          System.out.println(info.getDescription());
+          System.out.println("escaped");
+          System.out.println(config.escapeText(info.getDescription()));
+          config.additionalProperties().put("appDescription",
+            config.escapeText(info.getDescription()));
         }
         if (info.getContact() != null) {
           Contact contact = info.getContact();
