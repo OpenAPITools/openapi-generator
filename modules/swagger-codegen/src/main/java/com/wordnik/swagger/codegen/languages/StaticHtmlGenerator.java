@@ -33,12 +33,6 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     defaultIncludes = new HashSet<String>();
 
-    String partner = "our Partner";
-
-    if(System.getProperty("partner") != null)
-      partner = System.getProperty("partner");
-
-    additionalProperties.put("partner", partner);
     additionalProperties.put("appName", "Swagger Sample");
     additionalProperties.put("appDescription", "A sample swagger server");
     additionalProperties.put("infoUrl", "https://helloreverb.com");
