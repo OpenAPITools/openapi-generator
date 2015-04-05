@@ -26,7 +26,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.mortbay.jetty</groupId>
+        <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-version}</version>
         <configuration>
@@ -37,13 +37,10 @@
           <webDefaultXml>${project.basedir}/conf/jetty/webdefault.xml</webDefaultXml>
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
-          <connectors>
-            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-              <port>8002</port>
-              <maxIdleTime>60000</maxIdleTime>
-              <confidentialPort>8443</confidentialPort>
-            </connector>
-          </connectors>
+          <httpConnector>
+            <port>8002</port>
+            <idleTimeout>60000</idleTimeout>
+          </httpConnector>
         </configuration>
         <executions>
           <execution>
@@ -214,7 +211,7 @@
   </repositories>
   <properties>
     <swagger-core-version>1.5.3-M1-SNAPSHOT</swagger-core-version>
-    <jetty-version>8.1.11.v20130520</jetty-version>
+    <jetty-version>9.2.9.v20150224</jetty-version>
     <swagger-ui-version>2.1.0-M2</swagger-ui-version>
     <jersey-version>1.13</jersey-version>
     <slf4j-version>1.6.3</slf4j-version>
