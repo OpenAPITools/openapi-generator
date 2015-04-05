@@ -84,12 +84,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -139,12 +134,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -196,12 +186,7 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -253,12 +238,7 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -308,12 +288,7 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -373,12 +348,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -429,12 +399,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -494,12 +459,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   

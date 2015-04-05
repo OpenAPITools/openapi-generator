@@ -24,6 +24,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.net.URLEncoder;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -120,6 +121,15 @@ public class ApiInvoker {
       return "";
     } else if (param instanceof Date) {
       return formatDateTime((Date) param);
+    } else if (param instanceof Collection) {
+      StringBuilder b = new StringBuilder();
+      for(Object o : (Collection)param) {
+        if(b.length() > 0) {
+          b.append(",");
+        }
+        b.append(String.valueOf(o));
+      }
+      return b.toString();
     } else {
       return String.valueOf(param);
     }
@@ -147,7 +157,7 @@ public class ApiInvoker {
 
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
     try{
-      if("List".equals(containerType)) {
+      if("list".equalsIgnoreCase(containerType) || "array".equalsIgnoreCase(containerType)) {
         JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
         List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
         return response;
@@ -307,6 +317,7 @@ public class ApiInvoker {
           HttpEntity resEntity = response.getEntity();
           responseString = EntityUtils.toString(resEntity);
         }
+        return responseString;
       }
       else {
         if(response.getEntity() != null) {
@@ -315,9 +326,8 @@ public class ApiInvoker {
         }
         else
           responseString = "no data";
-        throw new ApiException(code, responseString);
       }
-      return responseString;
+      throw new ApiException(code, responseString);
     }
     catch(IOException e) {
       throw new ApiException(500, e.getMessage());
