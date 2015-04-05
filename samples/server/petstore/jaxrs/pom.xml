@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-server</artifactId>
+  <artifactId>swagger-jaxrs-server</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-server</name>
+  <name>swagger-jaxrs-server</name>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -129,7 +129,7 @@
     </repository>
   </repositories>
   <properties>
-    <swagger-core-version>1.5.3-M1-SNAPSHOT</swagger-core-version>
+    <swagger-core-version>1.5.0-M2</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey-version>1.13</jersey-version>
     <slf4j-version>1.6.3</slf4j-version>
