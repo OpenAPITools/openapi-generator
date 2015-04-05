@@ -15,6 +15,7 @@ class PetApi
   # @return void
   def self.updatePet (body, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -83,6 +84,7 @@ class PetApi
   # @return void
   def self.addPet (body, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -151,6 +153,7 @@ class PetApi
   # @return array[Pet]
   def self.findPetsByStatus (status, opts={})
     query_param_keys = [:status]
+    headerParams = {}
 
     
     
@@ -201,6 +204,7 @@ class PetApi
   # @return array[Pet]
   def self.findPetsByTags (tags, opts={})
     query_param_keys = [:tags]
+    headerParams = {}
 
     
     
@@ -251,6 +255,7 @@ class PetApi
   # @return Pet
   def self.getPetById (pet_id, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -303,6 +308,7 @@ class PetApi
   # @return void
   def self.updatePetWithForm (pet_id, name, status, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -357,6 +363,7 @@ class PetApi
   # @return void
   def self.deletePet (api_key, pet_id, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -409,6 +416,7 @@ class PetApi
   # @return void
   def self.uploadFile (pet_id, additional_metadata, file, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
