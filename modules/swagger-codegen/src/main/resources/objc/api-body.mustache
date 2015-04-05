@@ -129,8 +129,10 @@ static NSString * basePath = @"{{basePath}}";
     if(bodyDictionary == nil) {
       bodyDictionary = [[NSMutableArray alloc] init];
     }
-    [bodyDictionary addObject:{{paramName}}];
-    {{paramName}}.paramName  = @"{{baseName}}";
+    if({{paramName}} != nil) {
+      [bodyDictionary addObject:{{paramName}}];
+      {{paramName}}.paramName  = @"{{baseName}}";
+    }
     {{/isFile}}
     if(bodyDictionary == nil) {
       bodyDictionary = [[NSMutableArray alloc] init];

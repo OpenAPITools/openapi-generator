@@ -65,8 +65,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[@"application/json", @"application/xml", ];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
@@ -146,8 +149,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[@"application/json", @"application/xml", ];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
@@ -227,8 +233,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(status != nil) {
@@ -245,7 +254,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
 
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
 
     
     
@@ -304,8 +313,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if(tags != nil) {
@@ -322,7 +334,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
 
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
 
     
     
@@ -382,8 +394,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
@@ -394,7 +409,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
 
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
 
     
     
@@ -457,8 +472,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[@"application/x-www-form-urlencoded", ];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
@@ -469,7 +487,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
 
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
 
     
     
@@ -533,8 +551,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
@@ -547,7 +568,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
 
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
 
     
     
@@ -596,8 +617,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
-    NSString* requestContentType = @"application/json";
-    NSString* responseContentType = @"application/json";
+    NSArray* requestContentTypes = @[@"multipart/form-data", ];
+    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
+
+    NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
+    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
@@ -608,7 +632,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
 
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init]; 
+    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
 
     
     
@@ -624,8 +648,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     if(bodyDictionary == nil) {
       bodyDictionary = [[NSMutableArray alloc] init];
     }
-    [bodyDictionary addObject:file];
-    file.paramName  = @"file";
+    if(file != nil) {
+      [bodyDictionary addObject:file];
+      file.paramName  = @"file";
+    }
     
     if(bodyDictionary == nil) {
       bodyDictionary = [[NSMutableArray alloc] init];
