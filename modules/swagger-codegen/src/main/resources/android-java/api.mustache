@@ -105,12 +105,7 @@ public class {{classname}} {
         return {{#returnType}}null{{/returnType}};
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return {{#returnType}} null{{/returnType}};
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   {{/operation}}

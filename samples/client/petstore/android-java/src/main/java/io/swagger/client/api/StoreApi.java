@@ -84,12 +84,7 @@ public class StoreApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -139,12 +134,7 @@ public class StoreApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -194,12 +184,7 @@ public class StoreApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -249,12 +234,7 @@ public class StoreApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
