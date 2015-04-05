@@ -253,7 +253,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
           writeToFile(outputFilename, tmpl.execute(bundle));
           files.add(new File(outputFilename));
         } else {
-          InputStream in = new FileInputStream(config.templateDir() + File.separator + support.templateFile);
+          InputStream in = null;
+
+          try {
+            in = new FileInputStream(config.templateDir() + File.separator + support.templateFile);
+          }
+          catch (Exception e) {
+            // continue
+          }
           if(in == null) {
             in = this.getClass().getClassLoader().getResourceAsStream(config.templateDir() + File.separator + support.templateFile);
           }

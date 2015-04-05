@@ -59,7 +59,7 @@ public class PetApi {
     
 
     String[] contentTypes = {
-      "application/json","application/xml"
+      "application/json","application/xml",
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -114,7 +114,7 @@ public class PetApi {
     
 
     String[] contentTypes = {
-      "application/json","application/xml"
+      "application/json","application/xml",
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -338,7 +338,7 @@ public class PetApi {
     
 
     String[] contentTypes = {
-      "application/x-www-form-urlencoded"
+      "application/x-www-form-urlencoded",
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -459,7 +459,7 @@ public class PetApi {
     
 
     String[] contentTypes = {
-      "multipart/form-data"
+      "multipart/form-data",
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 

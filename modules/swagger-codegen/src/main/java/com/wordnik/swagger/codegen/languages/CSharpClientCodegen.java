@@ -9,7 +9,7 @@ import java.io.File;
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String invokerPackage = "io.swagger.client";
   protected String groupId = "io.swagger";
-  protected String artifactId = "swagger-client";
+  protected String artifactId = "swagger-csharp-client";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/csharp";
 
