@@ -154,7 +154,7 @@
 }
 
 - (void)testDeletePet {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testDeletePet"];
 
     SWGPet* pet = [self createPet];
 
@@ -177,6 +177,42 @@
                 }
             }];
         }];
+    }];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
+- (void)testUploadFile {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadFile"];
+
+    NSString* str = @"teststring";
+    NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    
+    SWGFile * file = [[SWGFile alloc] initWithNameData: @"myFile.txt" mimeType:@"text/plain" data:data];
+    
+    [api uploadFileWithCompletionBlock:@1 additionalMetadata:@"special-metadata" file:file completionHandler:^(NSError *error) {
+        if(error) {
+            // good
+            XCTFail(@"expected a failure");
+            
+        }
+        else {
+            [expectation fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
+- (void)TestUploadWithoutFile {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadWithoutFile"];
+    
+    [api uploadFileWithCompletionBlock:@1 additionalMetadata:@"special-metadata" file:nil completionHandler:^(NSError *error) {
+        if(error) {
+            XCTFail(@"failed to upload");
+            
+        }
+        else {
+            [expectation fulfill];
+        }
     }];
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
