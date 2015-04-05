@@ -15,6 +15,7 @@ class UserApi
   # @return void
   def self.createUser (body, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -83,6 +84,7 @@ class UserApi
   # @return void
   def self.createUsersWithArrayInput (body, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -151,6 +153,7 @@ class UserApi
   # @return void
   def self.createUsersWithListInput (body, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -220,6 +223,7 @@ class UserApi
   # @return string
   def self.loginUser (username, password, opts={})
     query_param_keys = [:username,:password]
+    headerParams = {}
 
     
     
@@ -269,6 +273,7 @@ class UserApi
   # @return void
   def self.logoutUser (opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -316,6 +321,7 @@ class UserApi
   # @return User
   def self.getUserByName (username, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -367,6 +373,7 @@ class UserApi
   # @return void
   def self.updateUser (username, body, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -437,6 +444,7 @@ class UserApi
   # @return void
   def self.deleteUser (username, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     

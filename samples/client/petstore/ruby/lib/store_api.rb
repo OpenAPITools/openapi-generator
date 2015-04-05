@@ -14,6 +14,7 @@ class StoreApi
   # @return map[string,int]
   def self.getInventory (opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -63,6 +64,7 @@ class StoreApi
   # @return Order
   def self.placeOrder (body, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -132,6 +134,7 @@ class StoreApi
   # @return Order
   def self.getOrderById (order_id, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
@@ -182,6 +185,7 @@ class StoreApi
   # @return void
   def self.deleteOrder (order_id, opts={})
     query_param_keys = []
+    headerParams = {}
 
     
     
