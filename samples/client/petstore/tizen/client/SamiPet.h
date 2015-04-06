@@ -45,23 +45,23 @@ public:
     SamiPet* fromJson(String* obj);
 
     
-    Long* getId();
-    void setId(Long* pId);
+    Long* getPId();
+    void setPId(Long* pId);
     
-    SamiCategory* getCategory();
-    void setCategory(SamiCategory* pCategory);
+    SamiCategory* getPCategory();
+    void setPCategory(SamiCategory* pCategory);
     
-    String* getName();
-    void setName(String* pName);
+    String* getPName();
+    void setPName(String* pName);
     
-    IList* getPhotoUrls();
-    void setPhotoUrls(IList* pPhotoUrls);
+    IList* getPPhotoUrls();
+    void setPPhotoUrls(IList* pPhotoUrls);
     
-    IList* getTags();
-    void setTags(IList* pTags);
+    IList* getPTags();
+    void setPTags(IList* pTags);
     
-    String* getStatus();
-    void setStatus(String* pStatus);
+    String* getPStatus();
+    void setPStatus(String* pStatus);
     
 
 private:

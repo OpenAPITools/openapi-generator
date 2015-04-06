@@ -63,7 +63,7 @@ class ScalaModelTest extends FlatSpec with Matchers {
     vars.get(2).defaultValue should be ("null")
     vars.get(2).baseType should be ("DateTime")
     vars.get(2).hasMore should equal (null)
-    vars.get(2).required should equal (false)
+    vars.get(2).required should equal (null)
     vars.get(2).isNotContainer should equal (true)
   }
 
@@ -91,7 +91,7 @@ class ScalaModelTest extends FlatSpec with Matchers {
     vars.get(1).defaultValue should be ("new ListBuffer[String]() ")
     vars.get(1).baseType should be ("List")
     vars.get(1).containerType should be ("array")
-    vars.get(1).required should equal (false)
+    vars.get(1).required should equal (null)
     vars.get(1).isContainer should equal (true)
   }
 
@@ -119,7 +119,7 @@ class ScalaModelTest extends FlatSpec with Matchers {
     vars.get(0).defaultValue should be ("new HashMap[String, String]() ")
     vars.get(0).baseType should be ("Map")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
   }
 
@@ -144,7 +144,7 @@ class ScalaModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("children")
     vars.get(0).defaultValue should be ("null")
     vars.get(0).baseType should be ("Children")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isNotContainer should equal (true)
   }
 
@@ -172,7 +172,7 @@ class ScalaModelTest extends FlatSpec with Matchers {
     vars.get(0).defaultValue should be ("new ListBuffer[Children]() ")
     vars.get(0).baseType should be ("List")
     vars.get(0).containerType should be ("array")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
   }
 
@@ -201,7 +201,7 @@ class ScalaModelTest extends FlatSpec with Matchers {
     vars.get(0).defaultValue should be ("new HashMap[String, Children]() ")
     vars.get(0).baseType should be ("Map")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isNotContainer should be (null)
   }

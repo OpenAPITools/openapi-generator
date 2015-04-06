@@ -19,7 +19,7 @@ import string
 from models import *
 
 
-class ApiClient:
+class ApiClient(object):
   """Generic API client for Swagger client library builds
 
   Attributes:
@@ -28,26 +28,40 @@ class ApiClient:
     headerValue: a header value to pass when making calls to the API
   """
   def __init__(self, host=None, headerName=None, headerValue=None):
-    self.headerName = headerName
-    self.headerValue = headerValue
+    self.defaultHeaders = {}
+    if (headerName is not None):
+      self.defaultHeaders[headerName] = headerValue
     self.host = host
     self.cookie = None
     self.boundary = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
+    # Set default User-Agent.
+    self.user_agent = 'Python-Swagger'
+
+  @property
+  def user_agent(self):
+    return self.defaultHeaders['User-Agent']
+
+  @user_agent.setter
+  def user_agent(self, value):
+    self.defaultHeaders['User-Agent'] = value
+
+  def setDefaultHeader(self, headerName, headerValue):
+    self.defaultHeaders[headerName] = headerValue
 
   def callAPI(self, resourcePath, method, queryParams, postData,
               headerParams=None, files=None):
 
     url = self.host + resourcePath
-    headers = {}
-    if headerParams:
-      for param, value in headerParams.iteritems():
-        headers[param] = value
 
-    if self.headerName:
-      headers[self.headerName] = self.headerValue
+    mergedHeaderParams = self.defaultHeaders.copy()
+    mergedHeaderParams.update(headerParams)
+    headers = {}
+    if mergedHeaderParams:
+      for param, value in mergedHeaderParams.iteritems():
+        headers[param] = ApiClient.sanitizeForSerialization(value)
 
     if self.cookie:
-      headers['Cookie'] = self.cookie
+      headers['Cookie'] = ApiClient.sanitizeForSerialization(self.cookie)
 
     data = None
 
@@ -55,8 +69,8 @@ class ApiClient:
       # Need to remove None values, these should not be sent
       sentQueryParams = {}
       for param, value in queryParams.items():
-        if value != None:
-          sentQueryParams[param] = value
+        if value is not None:
+          sentQueryParams[param] = ApiClient.sanitizeForSerialization(value)
       url = url + '?' + urllib.urlencode(sentQueryParams)
 
     if method in ['GET']:
@@ -65,7 +79,7 @@ class ApiClient:
 
     elif method in ['POST', 'PUT', 'DELETE']:
       if postData:
-        postData = self.sanitizeForSerialization(postData)
+        postData = ApiClient.sanitizeForSerialization(postData)
         if 'Content-type' not in headers:
           headers['Content-type'] = 'application/json'
           data = json.dumps(postData)
@@ -103,38 +117,42 @@ class ApiClient:
         string -- quoted value
     """
     if type(obj) == list:
-      return urllib.quote(','.join(obj))
+      return ','.join(obj)
     else:
-      return urllib.quote(str(obj))
+      return str(obj)
 
-  def sanitizeForSerialization(self, obj):
-    """Dump an object into JSON for POSTing."""
+  @staticmethod
+  def sanitizeForSerialization(obj):
+    """
+    Sanitize an object for Request.
 
-    if type(obj) == type(None):
+    If obj is None, return None.
+    If obj is str, int, long, float, bool, return directly.
+    If obj is datetime.datetime, datetime.date convert to string in iso8601 format.
+    If obj is list, santize each element in the list.
+    If obj is dict, return the dict.
+    If obj is swagger model, return the properties dict.
+    """
+    if isinstance(obj, type(None)):
       return None
-    elif type(obj) in [str, int, long, float, bool]:
+    elif isinstance(obj, (str, int, long, float, bool, file)):
       return obj
-    elif type(obj) == list:
-      return [self.sanitizeForSerialization(subObj) for subObj in obj]
-    elif type(obj) == datetime.datetime:
+    elif isinstance(obj, list):
+      return [ApiClient.sanitizeForSerialization(subObj) for subObj in obj]
+    elif isinstance(obj, (datetime.datetime, datetime.date)):
       return obj.isoformat()
     else:
-      if type(obj) == dict:
+      if isinstance(obj, dict):
         objDict = obj
       else:
-        objDict = obj.__dict__
-      return {key: self.sanitizeForSerialization(val)
-        for (key, val) in objDict.iteritems()
-        if key != 'swaggerTypes'}
-
-    if type(postData) == list:
-      # Could be a list of objects
-      if type(postData[0]) in safeToDump:
-        data = json.dumps(postData)
-      else:
-        data = json.dumps([datum.__dict__ for datum in postData])
-    elif type(postData) not in safeToDump:
-      data = json.dumps(postData.__dict__)
+        # Convert model obj to dict except attributes `swaggerTypes`, `attributeMap`
+        # and attributes which value is not None.
+        # Convert attribute name to json key in model definition for request.
+        objDict = {obj.attributeMap[key]: val
+                   for key, val in obj.__dict__.iteritems()
+                   if key != 'swaggerTypes' and key != 'attributeMap' and val is not None}
+      return {key: ApiClient.sanitizeForSerialization(val)
+              for (key, val) in objDict.iteritems()}
 
   def buildMultipartFormData(self, postData, files):
     def escape_quotes(s):
@@ -194,16 +212,13 @@ class ApiClient:
     if objClass in [int, long, float, dict, list, str, bool]:
       return objClass(obj)
     elif objClass == datetime:
-      # Server will always return a time stamp in UTC, but with
-      # trailing +0000 indicating no offset from UTC. So don't process
-      # last 5 characters.
-      return datetime.datetime.strptime(obj[:-5], "%Y-%m-%dT%H:%M:%S.%f")
+      return self.__parse_string_to_datetime(obj)
 
     instance = objClass()
 
     for attr, attrType in instance.swaggerTypes.iteritems():
-        if obj is not None and attr in obj and type(obj) in [list, dict]:
-          value = obj[attr]
+        if obj is not None and instance.attributeMap[attr] in obj and type(obj) in [list, dict]:
+          value = obj[instance.attributeMap[attr]]
           if attrType in ['str', 'int', 'long', 'float', 'bool']:
             attrType = eval(attrType)
             try:
@@ -214,7 +229,7 @@ class ApiClient:
               value = value
             setattr(instance, attr, value)
           elif (attrType == 'datetime'):
-            setattr(instance, attr, datetime.datetime.strptime(value[:-5], "%Y-%m-%dT%H:%M:%S.%f"))
+            setattr(instance, attr, self.__parse_string_to_datetime(value))
           elif 'list[' in attrType:
             match = re.match('list\[(.*)\]', attrType)
             subClass = match.group(1)
@@ -226,10 +241,21 @@ class ApiClient:
                 subValues.append(self.deserialize(subValue, subClass))
             setattr(instance, attr, subValues)
           else:
-            setattr(instance, attr, self.deserialize(value, objClass))
+            setattr(instance, attr, self.deserialize(value, attrType))
 
     return instance
 
+  def __parse_string_to_datetime(self, string):
+    """
+    Parse datetime in string to datetime.
+
+    The string should be in iso8601 datetime format.
+    """
+    try:
+        from dateutil.parser import parse
+        return parse(string)
+    except ImportError:
+        return string
 
 class MethodRequest(urllib2.Request):
   def __init__(self, *args, **kwargs):

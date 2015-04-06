@@ -1,81 +1,12 @@
 {{#models}}
 {{#model}}
-#import "SWGDate.h"
 #import "{{classname}}.h"
 
 @implementation {{classname}}
-
--(id){{#vars}}{{name}}: ({{datatype}}) {{name}}
-    {{/vars}}
-{{newline}}{
-    {{#vars}}_{{name}} = {{name}};
-    {{/vars}}
-
-    return self;
-}
-
--(id) initWithValues:(NSDictionary*)dict
+  
++ (JSONKeyMapper *)keyMapper
 {
-    self = [super init];
-    if(self) {
-        {{#vars}}{{#isPrimitiveType}}_{{name}} = dict[@"{{baseName}}"];{{/isPrimitiveType}}
-        {{#complexType}}
-        id {{name}}_dict = dict[@"{{baseName}}"];
-        {{#isContainer}}
-        if([{{name}}_dict isKindOfClass:[NSArray class]]) {
-            NSMutableArray * objs = [[NSMutableArray alloc] initWithCapacity:[(NSArray*){{name}}_dict count]];
-            if([(NSArray*){{name}}_dict count] > 0) {
-                for (NSDictionary* dict in (NSArray*){{name}}_dict) {
-                    {{{complexType}}}* d = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{complexType}}}{{/instantiationType}} alloc] initWithValues:dict];
-                    [objs addObject:d];
-                }
-                _{{{name}}} = [[NSArray alloc] initWithArray:objs];
-            }
-            else
-                _{{name}} = [[NSArray alloc] init];
-        }
-        else {
-            _{{name}} = [[NSArray alloc] init];
-        }
-        {{/isContainer}}{{#isNotContainer}}
-        if({{name}}_dict != nil)
-            _{{name}} = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{complexType}}} {{/instantiationType}} alloc]initWithValues:{{name}}_dict];
-        {{/isNotContainer}}
-        {{/complexType}}
-        {{/vars}}{{newline}}
-    }
-    return self;
-}
-
--(NSDictionary*) asDictionary {
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    {{#vars}}
-    {{#complexType}}
-    if(_{{name}} != nil){
-        if([_{{name}} isKindOfClass:[NSArray class]]){
-            NSMutableArray * array = [[NSMutableArray alloc] init];
-            for( {{complexType}} *{{name}} in (NSArray*)_{{name}}) {
-                [array addObject:[(SWGObject*){{name}} asDictionary]];
-            }
-            dict[@"{{name}}"] = array;
-        }
-        else if(_{{name}} && [_{{name}} isKindOfClass:[SWGDate class]]) {
-            NSString * dateString = [(SWGDate*)_{{name}} toString];
-            if(dateString){
-                dict[@"{{name}}"] = dateString;
-            }
-        }
-        else {
-        {{/complexType}}
-            if(_{{name}} != nil) dict[@"{{baseName}}"] = {{#complexType}}[(SWGObject*){{/complexType}}_{{name}} {{#complexType}}asDictionary]{{/complexType}};
-        {{#complexType}}
-        }
-    }
-    {{/complexType}}
-    {{/vars}}
-
-    NSDictionary* output = [dict copy];
-    return output;
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
 }
 
 {{/model}}

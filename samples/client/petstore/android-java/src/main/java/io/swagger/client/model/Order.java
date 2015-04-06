@@ -22,7 +22,7 @@ public class Order  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -34,7 +34,7 @@ public class Order  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
@@ -46,7 +46,7 @@ public class Order  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
@@ -58,7 +58,7 @@ public class Order  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public Date getShipDate() {
     return shipDate;
@@ -71,7 +71,7 @@ public class Order  {
   /**
    * Order Status
    **/
-  @ApiModelProperty(required = false, value = "Order Status")
+  @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -83,7 +83,7 @@ public class Order  {
   
   /**
    **/
-  @ApiModelProperty(required = false, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;

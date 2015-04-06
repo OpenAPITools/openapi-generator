@@ -208,83 +208,83 @@ SamiOrder::asJsonObject() {
 
     
     JsonString *pIdKey = new JsonString(L"id");
-    pJsonObject->Add(pIdKey, toJson(getId(), "Long", ""));
+    pJsonObject->Add(pIdKey, toJson(getPId(), "Long", ""));
 
     
     JsonString *pPetIdKey = new JsonString(L"petId");
-    pJsonObject->Add(pPetIdKey, toJson(getPetId(), "Long", ""));
+    pJsonObject->Add(pPetIdKey, toJson(getPPetId(), "Long", ""));
 
     
     JsonString *pQuantityKey = new JsonString(L"quantity");
-    pJsonObject->Add(pQuantityKey, toJson(getQuantity(), "Integer", ""));
+    pJsonObject->Add(pQuantityKey, toJson(getPQuantity(), "Integer", ""));
 
     
     JsonString *pShipDateKey = new JsonString(L"shipDate");
-    pJsonObject->Add(pShipDateKey, toJson(getShipDate(), "DateTime", ""));
+    pJsonObject->Add(pShipDateKey, toJson(getPShipDate(), "DateTime", ""));
 
     
     JsonString *pStatusKey = new JsonString(L"status");
-    pJsonObject->Add(pStatusKey, toJson(getStatus(), "String", ""));
+    pJsonObject->Add(pStatusKey, toJson(getPStatus(), "String", ""));
 
     
     JsonString *pCompleteKey = new JsonString(L"complete");
-    pJsonObject->Add(pCompleteKey, toJson(getComplete(), "Boolean", ""));
+    pJsonObject->Add(pCompleteKey, toJson(getPComplete(), "Boolean", ""));
 
     
     return pJsonObject;
 }
 
 Long*
-SamiOrder::getId() {
+SamiOrder::getPId() {
     return pId;
 }
 void
-SamiOrder::setId(Long* pId) {
+SamiOrder::setPId(Long* pId) {
     this->pId = pId;
 }
 
 Long*
-SamiOrder::getPetId() {
+SamiOrder::getPPetId() {
     return pPetId;
 }
 void
-SamiOrder::setPetId(Long* pPetId) {
+SamiOrder::setPPetId(Long* pPetId) {
     this->pPetId = pPetId;
 }
 
 Integer*
-SamiOrder::getQuantity() {
+SamiOrder::getPQuantity() {
     return pQuantity;
 }
 void
-SamiOrder::setQuantity(Integer* pQuantity) {
+SamiOrder::setPQuantity(Integer* pQuantity) {
     this->pQuantity = pQuantity;
 }
 
 DateTime*
-SamiOrder::getShipDate() {
+SamiOrder::getPShipDate() {
     return pShipDate;
 }
 void
-SamiOrder::setShipDate(DateTime* pShipDate) {
+SamiOrder::setPShipDate(DateTime* pShipDate) {
     this->pShipDate = pShipDate;
 }
 
 String*
-SamiOrder::getStatus() {
+SamiOrder::getPStatus() {
     return pStatus;
 }
 void
-SamiOrder::setStatus(String* pStatus) {
+SamiOrder::setPStatus(String* pStatus) {
     this->pStatus = pStatus;
 }
 
 Boolean*
-SamiOrder::getComplete() {
+SamiOrder::getPComplete() {
     return pComplete;
 }
 void
-SamiOrder::setComplete(Boolean* pComplete) {
+SamiOrder::setPComplete(Boolean* pComplete) {
     this->pComplete = pComplete;
 }
 

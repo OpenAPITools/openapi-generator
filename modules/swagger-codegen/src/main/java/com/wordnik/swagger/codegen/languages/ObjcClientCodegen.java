@@ -34,7 +34,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     templateDir = "objc";
     modelPackage = "";
 
-    additionalProperties.put("projectName", "swaggerClient");
+    String appName = System.getProperty("appName");
+    if(appName == null) {
+      appName = "swaggerClient";
+    }
+    additionalProperties.put("projectName", appName);
 
     defaultIncludes = new HashSet<String>(
       Arrays.asList(
@@ -44,6 +48,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "NSObject", 
         "NSArray",
         "NSNumber",
+        "NSDate",
         "NSDictionary",
         "NSMutableArray",
         "NSMutableDictionary")
@@ -53,6 +58,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "NSNumber",
         "NSString",
         "NSObject",
+        "NSDate",
         "bool")
       );
 
@@ -66,9 +72,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     typeMapping = new HashMap<String, String>();
     typeMapping.put("enum", "NSString");
-    typeMapping.put("Date", "SWGDate");
-    typeMapping.put("DateTime", "SWGDate");
-    // typeMapping.put("Date", "SWGDate");
+    typeMapping.put("Date", "NSDate");
+    typeMapping.put("DateTime", "NSDate");
     typeMapping.put("boolean", "NSNumber");
     typeMapping.put("string", "NSString");
     typeMapping.put("integer", "NSNumber");
@@ -83,13 +88,13 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("object", "NSObject");
 
     importMapping = new HashMap<String, String> ();
-    importMapping.put("Date", "SWGDate");
 
     foundationClasses = new HashSet<String> (
       Arrays.asList(
         "NSNumber",
         "NSObject",
         "NSString",
+        "NSDate",
         "NSDictionary")
       );
 
@@ -98,6 +103,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     supportingFiles.add(new SupportingFile("SWGObject.h", sourceFolder, "SWGObject.h"));
     supportingFiles.add(new SupportingFile("SWGObject.m", sourceFolder, "SWGObject.m"));
+    supportingFiles.add(new SupportingFile("SWGQueryParamCollection.h", sourceFolder, "SWGQueryParamCollection.h"));
+    supportingFiles.add(new SupportingFile("SWGQueryParamCollection.m", sourceFolder, "SWGQueryParamCollection.m"));
     supportingFiles.add(new SupportingFile("SWGApiClient.h", sourceFolder, "SWGApiClient.h"));
     supportingFiles.add(new SupportingFile("SWGApiClient.m", sourceFolder, "SWGApiClient.m"));
     supportingFiles.add(new SupportingFile("SWGFile.h", sourceFolder, "SWGFile.h"));
@@ -147,11 +154,45 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String getTypeDeclaration(Property p) {
-    String swaggerType = getSwaggerType(p);
-    if(languageSpecificPrimitives.contains(swaggerType) && !foundationClasses.contains(swaggerType))
-      return toModelName(swaggerType);
-    else
-      return swaggerType + "*";
+      if (p instanceof ArrayProperty) {
+          ArrayProperty ap = (ArrayProperty) p;
+          Property inner = ap.getItems();
+          String innerType = getSwaggerType(inner);
+
+          // In this codition, type of property p is array of primitive,
+          // return container type with pointer, e.g. `NSArray*'
+          if (languageSpecificPrimitives.contains(innerType))
+              return getSwaggerType(p) + "*";
+
+          // In this codition, type of property p is array of model,
+          // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
+          String innerTypeDeclaration = getTypeDeclaration(inner);
+        
+          if (innerTypeDeclaration.endsWith("*"))
+              innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
+        
+          return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+      }
+      else {
+          String swaggerType = getSwaggerType(p);
+
+          // In this codition, type of p is objective-c primitive type, e.g. `NSSNumber',
+          // return type of p with pointer, e.g. `NSNumber*'
+          if (languageSpecificPrimitives.contains(swaggerType) &&
+              foundationClasses.contains(swaggerType)) {
+              return swaggerType + "*";
+          }
+          // In this codition, type of p is c primitive type, e.g. `bool',
+          // return type of p, e.g. `bool'
+          else if (languageSpecificPrimitives.contains(swaggerType)) {
+              return swaggerType;
+          }
+          // In this codition, type of p is objective-c object type, e.g. `SWGPet',
+          // return type of p with pointer, e.g. `'
+          else {
+              return swaggerType + "*";
+          }
+      }
   }
 
   @Override
@@ -168,7 +209,18 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
   }
 
-  @Override
+    @Override
+    protected void setNonArrayMapProperty(CodegenProperty property, String type) {
+        super.setNonArrayMapProperty(property, type);
+        if("NSDictionary".equals(type)) {
+            property.setter = "initWithDictionary";
+        }
+        else {
+            property.setter = "initWithValues";
+        }
+    }
+
+    @Override
   public String toModelImport(String name) {
     if("".equals(modelPackage()))
       return name;

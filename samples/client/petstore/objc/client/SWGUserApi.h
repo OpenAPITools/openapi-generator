@@ -13,11 +13,8 @@
 /**
 
  Create user
- 
  This can only be done by the logged in user.
- 
 
- 
  @param body Created user object
  
 
@@ -33,16 +30,13 @@
 
  Creates list of users with given input array
  
- 
- 
 
- 
  @param body List of user object
  
 
  return type: 
  */
--(NSNumber*) createUsersWithArrayInputWithCompletionBlock :(NSArray*) body 
+-(NSNumber*) createUsersWithArrayInputWithCompletionBlock :(NSArray<SWGUser>*) body 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;
@@ -52,16 +46,13 @@
 
  Creates list of users with given input array
  
- 
- 
 
- 
  @param body List of user object
  
 
  return type: 
  */
--(NSNumber*) createUsersWithListInputWithCompletionBlock :(NSArray*) body 
+-(NSNumber*) createUsersWithListInputWithCompletionBlock :(NSArray<SWGUser>*) body 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;
@@ -71,12 +62,8 @@
 
  Logs user into the system
  
- 
- 
 
- 
  @param username The user name for login
- 
  @param password The password for login in clear text
  
 
@@ -93,8 +80,6 @@
 
  Logs out current logged in user session
  
- 
- 
 
  
 
@@ -109,10 +94,7 @@
 
  Get user by user name
  
- 
- 
 
- 
  @param username The name that needs to be fetched. Use user1 for testing. 
  
 
@@ -127,13 +109,9 @@
 /**
 
  Updated user
- 
  This can only be done by the logged in user.
- 
 
- 
  @param username name that need to be deleted
- 
  @param body Updated user object
  
 
@@ -149,11 +127,8 @@
 /**
 
  Delete user
- 
  This can only be done by the logged in user.
- 
 
- 
  @param username The name that needs to be deleted
  
 

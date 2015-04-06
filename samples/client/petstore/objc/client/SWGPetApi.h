@@ -15,10 +15,7 @@
 
  Update an existing pet
  
- 
- 
 
- 
  @param body Pet object that needs to be added to the store
  
 
@@ -34,10 +31,7 @@
 
  Add a new pet to the store
  
- 
- 
 
- 
  @param body Pet object that needs to be added to the store
  
 
@@ -52,49 +46,40 @@
 /**
 
  Finds Pets by status
- 
  Multiple status values can be provided with comma seperated strings
- 
 
- 
  @param status Status values that need to be considered for filter
  
 
- return type: NSArray*
+ return type: NSArray<SWGPet>*
  */
 -(NSNumber*) findPetsByStatusWithCompletionBlock :(NSArray*) status 
     
-    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
     
 
 
 /**
 
  Finds Pets by tags
- 
  Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
- 
 
- 
  @param tags Tags to filter by
  
 
- return type: NSArray*
+ return type: NSArray<SWGPet>*
  */
 -(NSNumber*) findPetsByTagsWithCompletionBlock :(NSArray*) tags 
     
-    completionHandler: (void (^)(NSArray* output, NSError* error))completionBlock;
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
     
 
 
 /**
 
  Find pet by ID
- 
  Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
- 
 
- 
  @param petId ID of pet that needs to be fetched
  
 
@@ -110,14 +95,9 @@
 
  Updates a pet in the store with form data
  
- 
- 
 
- 
  @param petId ID of pet that needs to be updated
- 
  @param name Updated name of the pet
- 
  @param status Updated status of the pet
  
 
@@ -135,12 +115,8 @@
 
  Deletes a pet
  
- 
- 
 
- 
  @param api_key 
- 
  @param petId Pet id to delete
  
 
@@ -157,14 +133,9 @@
 
  uploads an image
  
- 
- 
 
- 
  @param petId ID of pet to update
- 
  @param additionalMetadata Additional data to pass to server
- 
  @param file file to upload
  
 

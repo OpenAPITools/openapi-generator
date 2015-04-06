@@ -6,17 +6,17 @@
 {{#models}}
 {{#model}}
 
+@protocol {{classname}}
+@end
+  
 @interface {{classname}} : SWGObject
 
 {{#vars}}
-@property(nonatomic) {{datatype}} {{name}};  {{#description}}/* {{{description}}} {{#isNotRequired}}[optional]{{/isNotRequired}} */{{/description}}{{newline}}
+{{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
+ */{{/description}}
+@property(nonatomic) {{{ baseType }}}{{^required}}<Optional{{#complexType}}, {{complexType}}{{/complexType}}>{{/required}}* {{name}};
 {{/vars}}
-- (id) {{#vars}}{{name}}: ({{datatype}}) {{name}}{{#hasMore}}{{newline}}     {{/hasMore}}{{^hasMore}};{{/hasMore}}
-    {{/vars}}
-{{newline}}
-- (id) initWithValues: (NSDictionary*)dict;
-- (NSDictionary*) asDictionary;
-{{newline}}
+
 @end
 {{/model}}
 {{/models}}

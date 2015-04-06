@@ -208,83 +208,83 @@ SamiPet::asJsonObject() {
 
     
     JsonString *pIdKey = new JsonString(L"id");
-    pJsonObject->Add(pIdKey, toJson(getId(), "Long", ""));
+    pJsonObject->Add(pIdKey, toJson(getPId(), "Long", ""));
 
     
     JsonString *pCategoryKey = new JsonString(L"category");
-    pJsonObject->Add(pCategoryKey, toJson(getCategory(), "SamiCategory", ""));
+    pJsonObject->Add(pCategoryKey, toJson(getPCategory(), "SamiCategory", ""));
 
     
     JsonString *pNameKey = new JsonString(L"name");
-    pJsonObject->Add(pNameKey, toJson(getName(), "String", ""));
+    pJsonObject->Add(pNameKey, toJson(getPName(), "String", ""));
 
     
     JsonString *pPhotoUrlsKey = new JsonString(L"photoUrls");
-    pJsonObject->Add(pPhotoUrlsKey, toJson(getPhotoUrls(), "String", "array"));
+    pJsonObject->Add(pPhotoUrlsKey, toJson(getPPhotoUrls(), "String", "array"));
 
     
     JsonString *pTagsKey = new JsonString(L"tags");
-    pJsonObject->Add(pTagsKey, toJson(getTags(), "SamiTag", "array"));
+    pJsonObject->Add(pTagsKey, toJson(getPTags(), "SamiTag", "array"));
 
     
     JsonString *pStatusKey = new JsonString(L"status");
-    pJsonObject->Add(pStatusKey, toJson(getStatus(), "String", ""));
+    pJsonObject->Add(pStatusKey, toJson(getPStatus(), "String", ""));
 
     
     return pJsonObject;
 }
 
 Long*
-SamiPet::getId() {
+SamiPet::getPId() {
     return pId;
 }
 void
-SamiPet::setId(Long* pId) {
+SamiPet::setPId(Long* pId) {
     this->pId = pId;
 }
 
 SamiCategory*
-SamiPet::getCategory() {
+SamiPet::getPCategory() {
     return pCategory;
 }
 void
-SamiPet::setCategory(SamiCategory* pCategory) {
+SamiPet::setPCategory(SamiCategory* pCategory) {
     this->pCategory = pCategory;
 }
 
 String*
-SamiPet::getName() {
+SamiPet::getPName() {
     return pName;
 }
 void
-SamiPet::setName(String* pName) {
+SamiPet::setPName(String* pName) {
     this->pName = pName;
 }
 
 IList*
-SamiPet::getPhotoUrls() {
+SamiPet::getPPhotoUrls() {
     return pPhotoUrls;
 }
 void
-SamiPet::setPhotoUrls(IList* pPhotoUrls) {
+SamiPet::setPPhotoUrls(IList* pPhotoUrls) {
     this->pPhotoUrls = pPhotoUrls;
 }
 
 IList*
-SamiPet::getTags() {
+SamiPet::getPTags() {
     return pTags;
 }
 void
-SamiPet::setTags(IList* pTags) {
+SamiPet::setPTags(IList* pTags) {
     this->pTags = pTags;
 }
 
 String*
-SamiPet::getStatus() {
+SamiPet::getPStatus() {
     return pStatus;
 }
 void
-SamiPet::setStatus(String* pStatus) {
+SamiPet::setPStatus(String* pStatus) {
     this->pStatus = pStatus;
 }
 

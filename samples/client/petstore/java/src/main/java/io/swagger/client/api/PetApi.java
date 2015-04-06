@@ -11,6 +11,7 @@ import io.swagger.client.model.Pet;
 import java.io.File;
 
 import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
 
 import javax.ws.rs.core.MediaType;
 
@@ -35,7 +36,12 @@ public class PetApi {
   }
 
   
-    
+  /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+   */
   public void updatePet (Pet body) throws ApiException {
     Object postBody = body;
     
@@ -51,7 +57,7 @@ public class PetApi {
     
     
     String[] contentTypes = {
-      "application/json","application/xml"
+      "application/json","application/xml",
     };
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -76,16 +82,16 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
-    
+  /**
+   * Add a new pet to the store
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+   */
   public void addPet (Pet body) throws ApiException {
     Object postBody = body;
     
@@ -101,7 +107,7 @@ public class PetApi {
     
     
     String[] contentTypes = {
-      "application/json","application/xml"
+      "application/json","application/xml",
     };
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -126,16 +132,16 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
-    
+  /**
+   * Finds Pets by status
+   * Multiple status values can be provided with comma seperated strings
+   * @param status Status values that need to be considered for filter
+   * @return List<Pet>
+   */
   public List<Pet> findPetsByStatus (List<String> status) throws ApiException {
     Object postBody = null;
     
@@ -148,8 +154,8 @@ public class PetApi {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    if(!"null".equals(String.valueOf(status)))
-      queryParams.put("status", String.valueOf(status));
+    if (status != null)
+      queryParams.put("status", ApiInvoker.parameterToString(status));
     
     
     String[] contentTypes = {
@@ -178,16 +184,16 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
-    
+  /**
+   * Finds Pets by tags
+   * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+   * @param tags Tags to filter by
+   * @return List<Pet>
+   */
   public List<Pet> findPetsByTags (List<String> tags) throws ApiException {
     Object postBody = null;
     
@@ -200,8 +206,8 @@ public class PetApi {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    if(!"null".equals(String.valueOf(tags)))
-      queryParams.put("tags", String.valueOf(tags));
+    if (tags != null)
+      queryParams.put("tags", ApiInvoker.parameterToString(tags));
     
     
     String[] contentTypes = {
@@ -230,16 +236,16 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
-    
+  /**
+   * Find pet by ID
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return Pet
+   */
   public Pet getPetById (Long petId) throws ApiException {
     Object postBody = null;
     
@@ -281,16 +287,18 @@ public class PetApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
-    
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @return void
+   */
   public void updatePetWithForm (String petId, String name, String status) throws ApiException {
     Object postBody = null;
     
@@ -307,7 +315,7 @@ public class PetApi {
     
     
     String[] contentTypes = {
-      "application/x-www-form-urlencoded"
+      "application/x-www-form-urlencoded",
     };
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -317,17 +325,17 @@ public class PetApi {
       FormDataMultiPart mp = new FormDataMultiPart();
       
       hasFields = true;
-      mp.field("name", name, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("name", ApiInvoker.parameterToString(name), MediaType.MULTIPART_FORM_DATA_TYPE);
       
       hasFields = true;
-      mp.field("status", status, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("status", ApiInvoker.parameterToString(status), MediaType.MULTIPART_FORM_DATA_TYPE);
       
       if(hasFields)
         postBody = mp;
     }
     else {
-      formParams.put("name", name);
-      formParams.put("status", status);
+      formParams.put("name", ApiInvoker.parameterToString(name));
+      formParams.put("status", ApiInvoker.parameterToString(status));
       
     }
 
@@ -340,17 +348,18 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
-    
-  public void deletePet (String api_key, Long petId) throws ApiException {
+  /**
+   * Deletes a pet
+   * 
+   * @param apiKey 
+   * @param petId Pet id to delete
+   * @return void
+   */
+  public void deletePet (String apiKey, Long petId) throws ApiException {
     Object postBody = null;
     
 
@@ -364,7 +373,7 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    headerParams.put("api_key", api_key);
+    headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
     
     String[] contentTypes = {
       
@@ -392,16 +401,18 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
-    
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return void
+   */
   public void uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
     Object postBody = null;
     
@@ -418,7 +429,7 @@ public class PetApi {
     
     
     String[] contentTypes = {
-      "multipart/form-data"
+      "multipart/form-data",
     };
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -428,16 +439,17 @@ public class PetApi {
       FormDataMultiPart mp = new FormDataMultiPart();
       
       hasFields = true;
-      mp.field("additionalMetadata", additionalMetadata, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
       
       hasFields = true;
-      mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("file", file.getName());
+      mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
       
       if(hasFields)
         postBody = mp;
     }
     else {
-      formParams.put("additionalMetadata", additionalMetadata);
+      formParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
       
       
     }
@@ -451,12 +463,7 @@ public class PetApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   

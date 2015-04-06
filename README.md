@@ -13,12 +13,12 @@ The goal of Swagger™ is to define a standard, language-agnostic interface to R
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
-## Compatibility
-The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilities with the swagger specification:
+## Compatability
+The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
 
-Swagger Codegen Version | Release Date | Swagger Spec compatability | Notes
+Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
 ----------------------- | ------------ | -------------------------- | -----
-2.1.2-M1 (master)       | 2015-02-23   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.0-M1](https://github.com/swagger-api/swagger-codegen)
+1.5.0-M2                | 2015-04-06   | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
 2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
@@ -46,29 +46,47 @@ You can build a client against the swagger sample [petstore](http://petstore.swa
 This will run the generator with this command:
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l java \
   -o samples/client/petstore/java
 ```
 
-With a number of options.  You can get the options with the -h flag:
+With a number of options.  You can get the options with the `help generate` command:
+
 ```
-usage: Codegen
- -a,--auth                 addes authorization headers when fetching the
-                           swagger definitions remotely. Pass in a
-                           URL-encoded string of name:header with a comma
-                           separating multiple values
- -d,--debug-info           prints additional info for debugging
- -h,--help                 shows this message
- -i,--input-spec <arg>     location of the swagger spec, as URL or file
- -l,--lang <arg>           client language to generate.
-                           Available languages include:
-                           [android, java, jaxrs, nodejs, objc, scalatra,
-                           scala, dynamic-html, html, swagger, tizen, php,
-                           python]
- -o,--output <arg>         where to write the generated files
- -t,--template-dir <arg>   folder containing the template files
+NAME
+        swagger generate - Generate code with chosen lang
+
+SYNOPSIS
+        swagger generate [(-a <authorization> | --auth <authorization>)]
+                (-i <spec file> | --input-spec <spec file>)
+                (-l <language> | --lang <language>)
+                [(-o <output directory> | --output <output directory>)]
+                [(-t <template directory> | --template-dir <template directory>)]
+                [(-v | --verbose)]
+
+OPTIONS
+        -a <authorization>, --auth <authorization>
+            adds authorization headers when fetching the swagger definitions
+            remotely. Pass in a URL-encoded string of name:header with a comma
+            separating multiple values
+
+        -i <spec file>, --input-spec <spec file>
+            location of the swagger spec, as URL or file (required)
+
+        -l <language>, --lang <language>
+            client language to generate (maybe class name in classpath,
+            required)
+
+        -o <output directory>, --output <output directory>
+            where to write the generated files (current dir by default)
+
+        -t <template directory>, --template-dir <template directory>
+            folder containing the template files
+
+        -v, --verbose
+            verbose mode
  ```
 
 You can then compile and run the client, as well as unit tests against it:
@@ -91,7 +109,17 @@ It's just as easy--just use the `-i` flag to point to either a server or file.
 ### Modifying the client library format
 Don't like the default swagger client syntax?  Want a different language supported?  No problem!  Swagger codegen processes mustache templates with the [jmustache](https://github.com/samskivert/jmustache) engine.  You can modify our templates or make your own.
 
-You can look at `modules/swagger-codegen/src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your tempalte folder.  It actually is that easy.
+You can look at `modules/swagger-codegen/src/main/resources/${your-language}` for examples.  To make your own templates, create your own files and use the `-t` flag to specify your template folder.  It actually is that easy.
+
+### Making your own codegen modules
+If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
+
+```
+java -jar modules/swagger-codegen-distribution/target/swagger-codegen-cli.jar meta \
+  -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
+```
+
+This will write, in the folder `output/myLibrary`, all the files you need to get started, including a README.md. Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
 
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
@@ -116,17 +144,22 @@ There are different aspects of customizing the code generator beyond just creati
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/com/wordnik/swagger/codegen/languages/
 AndroidClientCodegen.java
+AsyncScalaClientCodegen.java
+CSharpClientCodegen.java
 JavaClientCodegen.java
 JaxRSServerCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
 PhpClientCodegen.java
 PythonClientCodegen.java
+RubyClientCodegen.java
 ScalaClientCodegen.java
 ScalatraServerCodegen.java
+SpringMVCServerCodegen.java
 StaticDocCodegen.java
 StaticHtmlGenerator.java
 SwaggerGenerator.java
+SwaggerYamlGenerator.java
 TizenClientCodegen.java
 ```
 
@@ -149,7 +182,7 @@ public class MyObjcCodegen extends ObjcClientCodegen {
 and specify the `classname` when running the generator:
 
 ```
--i com.mycompany.swagger.codegen.MyObjcCodegen
+-l com.mycompany.swagger.codegen.MyObjcCodegen
 ```
 
 Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.
@@ -189,7 +222,7 @@ You can also use the codegen to generate a server for a couple different framewo
 
 ### node.js
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l nodejs \
   -o samples/server/petstore/nodejs
@@ -201,7 +234,7 @@ java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distributi
 
 ### scala scalatra
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l scalatra \
   -o samples/server/petstore/scalatra
@@ -210,12 +243,20 @@ java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distributi
 ### java jax-rs
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-distribution-2.1.2-M1.jar \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l jaxrs \
   -o samples/server/petstore/jaxrs
 ```
 
+### java spring-mvc
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l spring-mvc \
+  -o samples/server/petstore/spring-mvc
+```
 ### To build the codegen library
 
 This will create the swagger-codegen library from source.  

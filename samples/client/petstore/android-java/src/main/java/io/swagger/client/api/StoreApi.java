@@ -10,6 +10,9 @@ import java.util.*;
 import java.util.Map;
 import io.swagger.client.model.Order;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
@@ -46,16 +49,34 @@ public class StoreApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return (Map<String, Integer>) ApiInvoker.deserialize(response, "map", Map.class);
       }
@@ -63,12 +84,7 @@ public class StoreApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -83,16 +99,34 @@ public class StoreApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return (Order) ApiInvoker.deserialize(response, "", Order.class);
       }
@@ -100,12 +134,7 @@ public class StoreApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -120,16 +149,34 @@ public class StoreApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return (Order) ApiInvoker.deserialize(response, "", Order.class);
       }
@@ -137,12 +184,7 @@ public class StoreApi {
         return null;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return  null;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   
@@ -157,16 +199,34 @@ public class StoreApi {
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
+    // header params
     Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     
 
-    String contentType = "application/json";
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -174,12 +234,7 @@ public class StoreApi {
         return ;
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return ;
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   

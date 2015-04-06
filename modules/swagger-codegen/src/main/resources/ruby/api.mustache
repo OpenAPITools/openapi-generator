@@ -5,16 +5,18 @@ class {{classname}}
   basePath = "{{basePath}}"
   # apiInvoker = APIInvoker
 
-  def self.escapeString(string)
-    URI.encode(string.to_s)
-  end
-
-  {{#operation}}
-  def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}},{{/allParams}} opts={})
+{{#operation}}
+{{newline}}
+  # {{summary}}
+  # {{notes}}
+{{#allParams}}{{^optional}}  # @param {{paramName}} {{description}}
+{{/optional}}{{/allParams}}{{#allParams}}{{#optional}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
+{{/optional}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+  def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}, {{/allParams}}opts={})
     query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
+    headerParams = {}
 
     {{#requiredParamCount}}
-    
     # verify existence of params
     {{#requiredParams}}
     raise "{{{paramName}}} is required" if {{{paramName}}}.nil?
@@ -23,28 +25,32 @@ class {{classname}}
     
     # set default values and merge with input
     options = {
-    {{#allParams}}
-      :{{paramName}} => {{paramName}}{{#hasMore}},
-      {{/hasMore}}
-    {{/allParams}}
+      {{#allParams}}:'{{paramName}}' => {{paramName}}{{#hasMore}},{{/hasMore}}
+      {{/allParams}}
     }.merge(opts)
 
     #resource path
-    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', escapeString({{paramName}}))
+    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s)
     {{/pathParams}}{{newline}}
     
     # pull querystring keys from options
     queryopts = options.select do |key,value|
       query_param_keys.include? key
     end
-    
-    {{#headerParams}}headers = {
-      {{{paramName}}}: {{{paramName}}},
-    }
-    {{/headerParams}}
-    {{^headerParams}}headers = nil
-    {{/headerParams}}
-    
+
+    # header parameters
+    headers = {}
+
+    _header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}'
+    if _header_accept != ''
+      headerParams['Accept'] = _header_accept
+    end 
+    _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
+    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
+    {{#headerParams}}{{#optional}}headers[:'{{{baseName}}}'] = options[:'{{{paramName}}}'] if options[:'{{{paramName}}}']{{/optional}}{{/headerParams}}
+    {{#headerParams}}{{^optional}}headers[:'{{{baseName}}}'] = {{{paramName}}}{{/optional}}{{/headerParams}}
+    # http body (model)
     post_body = nil
     {{#bodyParam}}
     if body != nil
@@ -58,28 +64,29 @@ class {{classname}}
           end
         end
         post_body = array
-
       else 
         if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+          post_body = body.to_body
+        else
+          post_body = body
+        end
       end
     end
     {{/bodyParam}}
-
+    # form parameters
+    form_parameter_hash = {}
+    {{#formParams}}{{#optional}}form_parameter_hash["{{baseName}}"] = options[:'{{paramName}}'] if options[:'{{paramName}}']{{/optional}}
+    {{^optional}}form_parameter_hash["{{baseName}}"] = {{paramName}}{{/optional}}{{/formParams}}
     {{#returnType}}
-    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body }).make.body
+    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
     {{#returnContainer}}
     response.map {|response|{{/returnContainer}} {{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}
     {{/returnType}}
     {{^returnType}}
-    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body}).make
+    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
     {{/returnType}}
   {{newline}}
   end
-
 {{/operation}}
 end
 {{/operations}}
