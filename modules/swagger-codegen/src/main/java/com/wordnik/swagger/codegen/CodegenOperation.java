@@ -6,7 +6,8 @@ import java.util.*;
 
 public class CodegenOperation {
   public Boolean hasConsumes, hasProduces, hasParams, returnTypeIsPrimitive,
-    returnSimpleType, subresourceOperation, isMapContainer, isListContainer;
+    returnSimpleType, subresourceOperation, isMapContainer, isListContainer,
+    hasMore = Boolean.TRUE;
   public String path, operationId, returnType, httpMethod, returnBaseType,
     returnContainer, summary, notes, baseName, defaultResponse;
 
@@ -18,6 +19,7 @@ public class CodegenOperation {
   public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
   public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
   public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
+  public List<CodegenSecurity> authMethods;
   public List<String> tags;
   public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
   public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();

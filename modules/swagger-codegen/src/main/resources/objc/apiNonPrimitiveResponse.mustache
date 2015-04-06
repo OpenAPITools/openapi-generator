@@ -1,9 +1,9 @@
     {{^returnTypeIsPrimitive}}
     // comples response type
-    return [client dictionary: requestUrl 
-                       method: @"{{httpMethod}}" 
-                  queryParams: queryParams 
-                         body: bodyDictionary 
+    return [client dictionary: requestUrl
+                       method: @"{{httpMethod}}"
+                  queryParams: queryParams
+                         body: bodyDictionary
                  headerParams: headerParams
            requestContentType: requestContentType
           responseContentType: responseContentType
@@ -13,12 +13,11 @@
                     {{^returnBaseType}}completionBlock(error);{{/returnBaseType}}
                     return;
                 }
-                {{#returnBaseType}}
-                {{returnBaseType}} *result = nil;
+                {{#returnType}}{{returnType}} result = nil;
                 if (data) {
-                    result = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}}   alloc]initWithValues: data];
+                    result = [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}} alloc] {{#returnContainer}}{{#isMapContainer}}initWithDictionary{{/isMapContainer}}{{#isListContainer}} initWithDictionary{{/isListContainer}}{{/returnContainer}}{{^returnContainer}} initWithDictionary{{/returnContainer}}:data error:nil];
                 }
-                {{#returnBaseType}}completionBlock(result , nil);{{/returnBaseType}}
-                {{/returnBaseType}}
+                {{#returnType}}completionBlock(result , nil);{{/returnType}}
+                {{/returnType}}
               }];
     {{/returnTypeIsPrimitive}}

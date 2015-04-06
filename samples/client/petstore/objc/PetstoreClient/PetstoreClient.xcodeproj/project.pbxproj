@@ -18,11 +18,14 @@
 		EA6699B01811D2FA00A70D03 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA6699AE1811D2FA00A70D03 /* Main_iPad.storyboard */; };
 		EA6699B31811D2FA00A70D03 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699B21811D2FA00A70D03 /* ViewController.m */; };
 		EA6699B51811D2FA00A70D03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA6699B41811D2FA00A70D03 /* Images.xcassets */; };
-		EA6699BC1811D2FB00A70D03 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699BB1811D2FB00A70D03 /* XCTest.framework */; };
 		EA6699BD1811D2FB00A70D03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699991811D2FA00A70D03 /* Foundation.framework */; };
 		EA6699BE1811D2FB00A70D03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999D1811D2FA00A70D03 /* UIKit.framework */; };
 		EA6699C61811D2FB00A70D03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA6699C41811D2FB00A70D03 /* InfoPlist.strings */; };
-		EA6699C81811D2FB00A70D03 /* PetstoreClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */; };
+		EA8B8AA41AC6683700638FBB /* SWGQueryParamCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */; };
+		EA8CD3ED1AC2763600C47D0B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */; };
+		EAB26B091AC8DE24002F5C7A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB26B081AC8DE24002F5C7A /* libPods.a */; };
+		EAB26B0C1AC8DF78002F5C7A /* PetApiTest.h in Sources */ = {isa = PBXBuildFile; fileRef = EA8CD3EB1AC274BE00C47D0B /* PetApiTest.h */; };
+		EAB26B0D1AC8DF78002F5C7A /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6699C71811D2FB00A70D03 /* PetApiTest.m */; };
 		EAEA85E41811D3AE00F06E69 /* SWGApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */; };
 		EAEA85E51811D3AE00F06E69 /* SWGCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85CF1811D3AE00F06E69 /* SWGCategory.m */; };
 		EAEA85E61811D3AE00F06E69 /* SWGDate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85D11811D3AE00F06E69 /* SWGDate.m */; };
@@ -35,7 +38,6 @@
 		EAEA85ED1811D3AE00F06E69 /* SWGTag.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85DF1811D3AE00F06E69 /* SWGTag.m */; };
 		EAEA85EE1811D3AE00F06E69 /* SWGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E11811D3AE00F06E69 /* SWGUser.m */; };
 		EAEA85EF1811D3AE00F06E69 /* SWGUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */; };
-		EAEA85F11811D8F100F06E69 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEA85F01811D8F100F06E69 /* libPods.a */; };
 		EAFBEABB1A925B8500A27431 /* test-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EAFBEABA1A925B8500A27431 /* test-1.png */; };
 		EAFBEABE1A92C42700A27431 /* SWGApiResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */; };
 /* End PBXBuildFile section */
@@ -70,10 +72,15 @@
 		EA6699B21811D2FA00A70D03 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		EA6699B41811D2FA00A70D03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EA6699BA1811D2FB00A70D03 /* PetstoreClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetstoreClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA6699BB1811D2FB00A70D03 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		EA6699C31811D2FB00A70D03 /* PetstoreClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PetstoreClientTests-Info.plist"; sourceTree = "<group>"; };
 		EA6699C51811D2FB00A70D03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PetstoreClientTests.m; sourceTree = "<group>"; };
+		EA6699C71811D2FB00A70D03 /* PetApiTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PetApiTest.m; sourceTree = "<group>"; };
+		EA8B8AA21AC6683700638FBB /* SWGQueryParamCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGQueryParamCollection.h; sourceTree = "<group>"; };
+		EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGQueryParamCollection.m; sourceTree = "<group>"; };
+		EA8CD3EB1AC274BE00C47D0B /* PetApiTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PetApiTest.h; sourceTree = "<group>"; };
+		EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		EAB26B081AC8DE24002F5C7A /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "/Users/tony/dev/projects/swagger-api/swagger-codegen/samples/client/petstore/objc/Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<absolute>"; };
+		EAB26B0E1AC8E692002F5C7A /* SWGPet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGPet.h; sourceTree = "<group>"; };
 		EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGApiClient.h; sourceTree = "<group>"; };
 		EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiClient.m; sourceTree = "<group>"; };
 		EAEA85CE1811D3AE00F06E69 /* SWGCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGCategory.h; sourceTree = "<group>"; };
@@ -86,7 +93,6 @@
 		EAEA85D51811D3AE00F06E69 /* SWGObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGObject.m; sourceTree = "<group>"; };
 		EAEA85D61811D3AE00F06E69 /* SWGOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGOrder.h; sourceTree = "<group>"; };
 		EAEA85D71811D3AE00F06E69 /* SWGOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGOrder.m; sourceTree = "<group>"; };
-		EAEA85D81811D3AE00F06E69 /* SWGPet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGPet.h; sourceTree = "<group>"; };
 		EAEA85D91811D3AE00F06E69 /* SWGPet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGPet.m; sourceTree = "<group>"; };
 		EAEA85DA1811D3AE00F06E69 /* SWGPetApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGPetApi.h; sourceTree = "<group>"; };
 		EAEA85DB1811D3AE00F06E69 /* SWGPetApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGPetApi.m; sourceTree = "<group>"; };
@@ -98,7 +104,6 @@
 		EAEA85E11811D3AE00F06E69 /* SWGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGUser.m; sourceTree = "<group>"; };
 		EAEA85E21811D3AE00F06E69 /* SWGUserApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGUserApi.h; sourceTree = "<group>"; };
 		EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGUserApi.m; sourceTree = "<group>"; };
-		EAEA85F01811D8F100F06E69 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "../Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		EAFBEABA1A925B8500A27431 /* test-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test-1.png"; sourceTree = "<group>"; };
 		EAFBEABC1A92C42700A27431 /* SWGApiResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGApiResponse.h; sourceTree = "<group>"; };
 		EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiResponse.m; sourceTree = "<group>"; };
@@ -120,10 +125,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAEA85F11811D8F100F06E69 /* libPods.a in Frameworks */,
-				EA6699BC1811D2FB00A70D03 /* XCTest.framework in Frameworks */,
+				EA8CD3ED1AC2763600C47D0B /* SenTestingKit.framework in Frameworks */,
 				EA6699BE1811D2FB00A70D03 /* UIKit.framework in Frameworks */,
 				EA6699BD1811D2FB00A70D03 /* Foundation.framework in Frameworks */,
+				EAB26B091AC8DE24002F5C7A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,11 +168,11 @@
 		EA6699981811D2FA00A70D03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EAEA85F01811D8F100F06E69 /* libPods.a */,
+				EAB26B081AC8DE24002F5C7A /* libPods.a */,
+				EA8CD3EC1AC2763600C47D0B /* SenTestingKit.framework */,
 				EA6699991811D2FA00A70D03 /* Foundation.framework */,
 				EA66999B1811D2FA00A70D03 /* CoreGraphics.framework */,
 				EA66999D1811D2FA00A70D03 /* UIKit.framework */,
-				EA6699BB1811D2FB00A70D03 /* XCTest.framework */,
 				73DA4F1067C343C3962F1542 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -203,7 +208,8 @@
 		EA6699C11811D2FB00A70D03 /* PetstoreClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				EA6699C71811D2FB00A70D03 /* PetstoreClientTests.m */,
+				EA8CD3EB1AC274BE00C47D0B /* PetApiTest.h */,
+				EA6699C71811D2FB00A70D03 /* PetApiTest.m */,
 				EA6699C21811D2FB00A70D03 /* Supporting Files */,
 			);
 			path = PetstoreClientTests;
@@ -221,6 +227,8 @@
 		EAEA85CB1811D3AE00F06E69 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				EA8B8AA21AC6683700638FBB /* SWGQueryParamCollection.h */,
+				EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */,
 				EAFBEABC1A92C42700A27431 /* SWGApiResponse.h */,
 				EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */,
 				EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */,
@@ -235,7 +243,7 @@
 				EAEA85D51811D3AE00F06E69 /* SWGObject.m */,
 				EAEA85D61811D3AE00F06E69 /* SWGOrder.h */,
 				EAEA85D71811D3AE00F06E69 /* SWGOrder.m */,
-				EAEA85D81811D3AE00F06E69 /* SWGPet.h */,
+				EAB26B0E1AC8E692002F5C7A /* SWGPet.h */,
 				EAEA85D91811D3AE00F06E69 /* SWGPet.m */,
 				EAEA85DA1811D3AE00F06E69 /* SWGPetApi.h */,
 				EAEA85DB1811D3AE00F06E69 /* SWGPetApi.m */,
@@ -262,8 +270,8 @@
 				04DAA264FD78471BBAD25173 /* Check Pods Manifest.lock */,
 				EA6699921811D2FA00A70D03 /* Sources */,
 				EA6699931811D2FA00A70D03 /* Frameworks */,
-				EA6699941811D2FA00A70D03 /* Resources */,
 				3692D11BB04F489DAA7C0B6A /* Copy Pods Resources */,
+				EA6699941811D2FA00A70D03 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -298,6 +306,7 @@
 		EA66998E1811D2FA00A70D03 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0620;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Reverb;
 				TargetAttributes = {
@@ -401,6 +410,7 @@
 				EAEA85EC1811D3AE00F06E69 /* SWGStoreApi.m in Sources */,
 				EAEA85E91811D3AE00F06E69 /* SWGOrder.m in Sources */,
 				EAEA85E81811D3AE00F06E69 /* SWGObject.m in Sources */,
+				EA8B8AA41AC6683700638FBB /* SWGQueryParamCollection.m in Sources */,
 				EAEA85E71811D3AE00F06E69 /* SWGFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,7 +419,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA6699C81811D2FB00A70D03 /* PetstoreClientTests.m in Sources */,
+				EAB26B0C1AC8DF78002F5C7A /* PetApiTest.h in Sources */,
+				EAB26B0D1AC8DF78002F5C7A /* PetApiTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +553,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
 				INFOPLIST_FILE = "PetstoreClient/PetstoreClient-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/tony/dev/projects/swagger-api/swagger-codegen/samples/client/petstore/objc/Pods/../build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -556,6 +571,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
 				INFOPLIST_FILE = "PetstoreClient/PetstoreClient-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/tony/dev/projects/swagger-api/swagger-codegen/samples/client/petstore/objc/Pods/../build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -563,6 +582,7 @@
 		};
 		EA6699CF1811D2FB00A70D03 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E2B6DA00BE52336E23783686 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PetstoreClient.app/PetstoreClient";
@@ -578,6 +598,10 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/tony/dev/projects/swagger-api/swagger-codegen/samples/client/petstore/objc/Pods/../build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -586,6 +610,7 @@
 		};
 		EA6699D01811D2FB00A70D03 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A425648B5C0A4849C7668069 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PetstoreClient.app/PetstoreClient";
@@ -597,6 +622,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PetstoreClient/PetstoreClient-Prefix.pch";
 				INFOPLIST_FILE = "PetstoreClientTests/PetstoreClientTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/tony/dev/projects/swagger-api/swagger-codegen/samples/client/petstore/objc/Pods/../build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

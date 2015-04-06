@@ -23,7 +23,10 @@ public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
 
   public SwaggerGenerator() {
     super();
+    templateDir = "swagger";
     outputFolder = "generated-code/swagger";
+
+    supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
   }
 
   @Override

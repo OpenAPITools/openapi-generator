@@ -58,11 +58,11 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(2).baseName should be ("createdAt")
     vars.get(2).complexType should be (null)
     vars.get(2).datatype should be ("DateTime")
-    vars.get(2).name should be ("createdAt")
+    vars.get(2).name should be ("created_at")
     vars.get(2).defaultValue should be ("null")
     vars.get(2).baseType should be ("DateTime")
     vars.get(2).hasMore should equal (null)
-    vars.get(2).required should equal (false)
+    vars.get(2).required should equal (null)
     vars.get(2).isNotContainer should equal (true)
 
     cm.imports.size() should be (0)
@@ -101,7 +101,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(1).baseType should be ("array")
     vars.get(1).hasMore should be (null)
     vars.get(1).containerType should equal ("array")
-    vars.get(1).required should equal (false)
+    vars.get(1).required should equal (null)
     vars.get(1).isPrimitiveType should equal (true)
     vars.get(1).isContainer should equal (true)
   }
@@ -127,7 +127,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("translations")
     vars.get(0).baseType should be ("map")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isPrimitiveType should equal (true)
   }
@@ -150,7 +150,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).datatype should be ("Children")
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("Children")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isNotContainer should equal (true)
   }
 
@@ -175,7 +175,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("array")
     vars.get(0).containerType should be ("array")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
   }
 
@@ -201,7 +201,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("map")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isNotContainer should be (null)
   }
@@ -245,14 +245,14 @@ class PhpModelTest extends FlatSpec with Matchers {
     val animalPaths = model.getPaths()
     val animalOps = animalPaths.get("/animals")
     animalOps.getPost() should not be (null)
-    val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost())
+    val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), model.getDefinitions())
     animalCo.imports.size should be (1)
     animalCo.imports.contains("Animal") should equal (true)
 
     val insectPaths = model.getPaths()
     val insectOps = insectPaths.get("/insects")
     insectOps.getPost() should not be (null)
-    val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost())
+    val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), model.getDefinitions())
     insectCo.imports.size should be (1)
     insectCo.imports.contains("Insect") should equal (true)
   }

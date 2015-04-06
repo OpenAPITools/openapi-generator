@@ -12,7 +12,7 @@ import java.io.File;
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
   protected String invokerPackage = "io.swagger.api";
   protected String groupId = "io.swagger";
-  protected String artifactId = "swagger-server";
+  protected String artifactId = "swagger-jaxrs-server";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
   protected String title = "Swagger Server";

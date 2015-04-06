@@ -1,0 +1,42 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "{{appName}}",
+    "description": "{{appDescription}}",
+    "version": "{{apiVersion}}"
+  },
+{{#apiInfo}}
+  "produces": ["application/json"],
+  "host": "localhost:{{serverPort}}",
+  "basePath": "{{contextPath}}",
+  "paths": {
+{{#apis}}
+{{#operations}}
+  {{#operation}}
+  "{{{path}}}": {
+    "{{httpMethod}}": {
+      "x-swagger-router-controller": "{{classname}}",
+      "tags": ["{{baseName}}"],
+      "operationId": "{{operationId}}",{{#hasParams}}
+      "parameters": [
+        {{#allParams}}
+        {{{jsonSchema}}}{{#hasMore}},{{/hasMore}}
+        {{/allParams}}
+      ],{{/hasParams}}
+      "responses": {
+        {{#responses}}
+        "{{code}}": {{{jsonSchema}}}
+        {{#hasMore}},{{/hasMore}}
+        {{/responses}}
+      }
+    }
+  } {{#hasMore}},{{/hasMore}}
+  {{/operation}}
+   {{#hasMore}},{{/hasMore}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+  }, "definitions": {
+  {{#models}}{{#model}}"{{classVarName}}": {{{modelJson}}}{{#hasMoreModels}},{{/hasMoreModels}}{{/model}}{{/models}}
+  }
+}

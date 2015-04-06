@@ -6,7 +6,7 @@ module Swagger
     require 'typhoeus'
     require "swagger/version"
 
-    attr_accessor :host, :path, :format, :params, :body, :http_method, :headers
+    attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params
 
 
     # All requests must have an HTTP method and a path
@@ -19,7 +19,8 @@ module Swagger
       # Set default headers
       default_headers = {
         'Content-Type' => "application/#{attributes[:format].downcase}",
-        :api_key => Swagger.configuration.api_key
+        :api_key => Swagger.configuration.api_key,
+        'User-Agent' => Swagger.configuration.user_agent
       }
 
       # api_key from headers hash trumps the default, even if its value is blank
@@ -73,11 +74,6 @@ module Swagger
     def interpreted_path
       p = self.path.dup
 
-      # Fill in the path params
-      self.params.each_pair do |key, value|
-        p = p.gsub("{#{key}}", value.to_s)
-      end
-
       # Stick a .{format} placeholder into the path if there isn't
       # one already or an actual format like json or xml
       # e.g. /words/blah => /words.{format}/blah
@@ -115,9 +111,18 @@ module Swagger
     end
     
     # If body is an object, JSONify it before making the actual request.
-    # 
+    # For form parameters, remove empty value 
     def outgoing_body
-      body.is_a?(String) ? body : body.to_json
+      # http form
+      if @body.nil? && @form_params && !@form_params.empty?
+        data = form_params.dup
+        data.each do |key, value|
+          data[key] = value.to_s if value && !value.is_a?(File) # remove emtpy form parameter
+        end
+        data
+      else # http body is JSON
+        @body.is_a?(String) ? @body : @body.to_json
+      end
     end
     
     # Construct a query string from the query-string-type params
@@ -147,8 +152,9 @@ module Swagger
     end
   
     def make
-      logger = Logger.new STDOUT
-      logger.debug self.url
+      #TODO use configuration setting to determine if debugging
+      #logger = Logger.new STDOUT
+      #logger.debug self.url
       response = case self.http_method.to_sym
       when :get,:GET
         Typhoeus::Request.get(
@@ -158,6 +164,13 @@ module Swagger
 
       when :post,:POST
         Typhoeus::Request.post(
+          self.url,
+          :body => self.outgoing_body,
+          :headers => self.headers.stringify_keys,
+        )
+
+      when :patch,:PATCH
+        Typhoeus::Request.patch(
           self.url,
           :body => self.outgoing_body,
           :headers => self.headers.stringify_keys,

@@ -26,8 +26,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
    **/
-  @ApiModelProperty(required = {{required}}, value = "{{{description}}}")
-  @JsonProperty("{{name}}")
+  @ApiModelProperty({{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @JsonProperty("{{baseName}}")
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }

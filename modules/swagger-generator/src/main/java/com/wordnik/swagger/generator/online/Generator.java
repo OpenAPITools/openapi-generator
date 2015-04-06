@@ -66,6 +66,7 @@ public class Generator {
       List<File> files = new Codegen().opts(clientOptInput).generate();
       if(files.size() > 0) {
         List<File> filesToAdd = new ArrayList<File>();
+        System.out.println("adding to " + outputFolder);
         filesToAdd.add(new File(outputFolder));
         ZipUtil zip = new ZipUtil();
         zip.compressFiles(filesToAdd, outputFilename);

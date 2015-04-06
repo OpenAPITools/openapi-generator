@@ -19,13 +19,15 @@ fi
 
 cd $APP_DIR
 ./bin/android-java-petstore.sh
+./bin/csharp-petstore.sh
 ./bin/dynamic-html.sh
-./bin/html.sh
+./bin/html-petstore.sh
 ./bin/jaxrs-petstore-server.sh
-./bin/java-petstore-filemap.sh
 ./bin/java-petstore.sh
 ./bin/php-petstore.sh
 ./bin/python-petstore.sh
+./bin/ruby-petstore.sh
 ./bin/objc-petstore.sh
 ./bin/scala-petstore.sh
+./bin/spring-mvc-petstore-server.sh
 ./bin/tizen-petstore.sh

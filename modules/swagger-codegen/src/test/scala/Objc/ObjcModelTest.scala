@@ -56,17 +56,14 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(1).isNotContainer should equal (true)
 
     vars.get(2).baseName should be ("createdAt")
-    vars.get(2).complexType should be ("SWGDate")
-    vars.get(2).datatype should be ("SWGDate*")
+    vars.get(2).datatype should be ("NSDate*")
     vars.get(2).name should be ("createdAt")
     vars.get(2).defaultValue should be (null)
-    vars.get(2).baseType should be ("SWGDate")
+    vars.get(2).baseType should be ("NSDate")
     vars.get(2).hasMore should equal (null)
-    vars.get(2).required should equal (false)
+    vars.get(2).required should equal (null)
     vars.get(2).isNotContainer should equal (true)
 
-    (cm.imports.asScala.toSet &
-      Set("SWGDate")).size should be (1)
   }
 
   it should "convert a model with list property" in {
@@ -103,7 +100,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(1).baseType should be ("NSArray")
     vars.get(1).hasMore should be (null)
     vars.get(1).containerType should equal ("array")
-    vars.get(1).required should equal (false)
+    vars.get(1).required should equal (null)
     vars.get(1).isPrimitiveType should equal (true)
     vars.get(1).isContainer should equal (true)
   }
@@ -129,7 +126,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("translations")
     vars.get(0).baseType should be ("NSDictionary")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isPrimitiveType should equal (true)
   }
@@ -152,7 +149,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(0).datatype should be ("SWGChildren*")
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("SWGChildren")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isNotContainer should equal (true)
   }
 
@@ -173,11 +170,11 @@ class ObjcModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     vars.get(0).baseName should be ("children")
     vars.get(0).complexType should be ("SWGChildren")
-    vars.get(0).datatype should be ("NSArray*")
+    vars.get(0).datatype should be ("NSArray<SWGChildren>*")
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("NSArray")
     vars.get(0).containerType should be ("array")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
   }
 
@@ -203,7 +200,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("NSDictionary")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isNotContainer should be (null)
   }
@@ -248,14 +245,14 @@ class ObjcModelTest extends FlatSpec with Matchers {
     val animalPaths = model.getPaths()
     val animalOps = animalPaths.get("/animals")
     animalOps.getPost() should not be (null)
-    val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost())
+    val animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), model.getDefinitions())
     animalCo.imports.size should be (1)
     animalCo.imports.contains("SWGAnimal") should equal (true)
 
     val insectPaths = model.getPaths()
     val insectOps = insectPaths.get("/insects")
     insectOps.getPost() should not be (null)
-    val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost())
+    val insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), model.getDefinitions())
     insectCo.imports.size should be (1)
     insectCo.imports.contains("SWGInsect") should equal (true)
   }
