@@ -4,10 +4,6 @@ class UserApi
   basePath = "http://petstore.swagger.io/v2"
   # apiInvoker = APIInvoker
 
-  def self.escapeString(string)
-    URI.encode(string.to_s)
-  end
-
 
   # Create user
   # This can only be done by the logged in user.
@@ -332,7 +328,7 @@ class UserApi
     }.merge(opts)
 
     #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
     
     
     # pull querystring keys from options
@@ -385,7 +381,7 @@ class UserApi
     }.merge(opts)
 
     #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
     
     
     # pull querystring keys from options
@@ -455,7 +451,7 @@ class UserApi
     }.merge(opts)
 
     #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
     
     
     # pull querystring keys from options

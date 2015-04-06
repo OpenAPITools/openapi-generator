@@ -4,10 +4,6 @@ class PetApi
   basePath = "http://petstore.swagger.io/v2"
   # apiInvoker = APIInvoker
 
-  def self.escapeString(string)
-    URI.encode(string.to_s)
-  end
-
 
   # Update an existing pet
   # 
@@ -266,7 +262,7 @@ class PetApi
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
+    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
     
     
     # pull querystring keys from options
@@ -321,7 +317,7 @@ class PetApi
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
+    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
     
     
     # pull querystring keys from options
@@ -375,7 +371,7 @@ class PetApi
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
+    path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
     
     
     # pull querystring keys from options
@@ -429,7 +425,7 @@ class PetApi
     }.merge(opts)
 
     #resource path
-    path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', escapeString(pet_id))
+    path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
     
     
     # pull querystring keys from options
