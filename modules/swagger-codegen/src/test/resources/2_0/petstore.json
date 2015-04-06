@@ -848,7 +848,6 @@
       }
     },
     "Category": {
-      "description" : "testing category description",
       "properties": {
         "id": {
           "type": "integer",
