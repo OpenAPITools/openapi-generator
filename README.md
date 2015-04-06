@@ -18,7 +18,7 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
 ----------------------- | ------------ | -------------------------- | -----
-2.1.3-M1-SNAPSHOT                | 2015-02-23   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.0-M1](https://github.com/swagger-api/swagger-codegen)
+1.5.0-M2                | 2015-04-06   | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
 2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
@@ -144,17 +144,22 @@ There are different aspects of customizing the code generator beyond just creati
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/com/wordnik/swagger/codegen/languages/
 AndroidClientCodegen.java
+AsyncScalaClientCodegen.java
+CSharpClientCodegen.java
 JavaClientCodegen.java
 JaxRSServerCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
 PhpClientCodegen.java
 PythonClientCodegen.java
+RubyClientCodegen.java
 ScalaClientCodegen.java
 ScalatraServerCodegen.java
+SpringMVCServerCodegen.java
 StaticDocCodegen.java
 StaticHtmlGenerator.java
 SwaggerGenerator.java
+SwaggerYamlGenerator.java
 TizenClientCodegen.java
 ```
 
@@ -244,6 +249,14 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/jaxrs
 ```
 
+### java spring-mvc
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l spring-mvc \
+  -o samples/server/petstore/spring-mvc
+```
 ### To build the codegen library
 
 This will create the swagger-codegen library from source.  
