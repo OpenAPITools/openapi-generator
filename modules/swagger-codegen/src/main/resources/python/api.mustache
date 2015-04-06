@@ -68,12 +68,12 @@ class {{classname}}(object):
 
         {{#queryParams}}
         if ('{{paramName}}' in params):
-            queryParams['{{paramName}}'] = self.apiClient.toPathValue(params['{{paramName}}'])
+            queryParams['{{baseName}}'] = self.apiClient.toPathValue(params['{{paramName}}'])
         {{/queryParams}}
 
         {{#headerParams}}
         if ('{{paramName}}' in params):
-            headerParams['{{paramName}}'] = params['{{paramName}}']
+            headerParams['{{baseName}}'] = params['{{paramName}}']
         {{/headerParams}}
 
         {{#pathParams}}
@@ -86,7 +86,7 @@ class {{classname}}(object):
 
         {{#formParams}}
         if ('{{paramName}}' in params):
-            {{#notFile}}formParams['{{paramName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{paramName}}'] = params['{{paramName}}']{{/isFile}}
+            {{#notFile}}formParams['{{baseName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
         {{/formParams}}
 
         {{#bodyParam}}
