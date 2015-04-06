@@ -114,4 +114,71 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 	// TODO: Support Python def value
     return "null";
   }	
+
+  @Override
+  public String toVarName(String name) {
+    // replace - with _ e.g. created-at => created_at
+    name = name.replaceAll("-", "_");
+
+    // if it's all uppper case, convert to lower case
+    if (name.matches("^[A-Z_]*$"))
+      name = name.toLowerCase();
+
+    // camelize (lower first character) the variable name
+    // petId => pet_id
+    name = underscore(name);
+
+    // for reserved word or word starting with number, append _
+    if(reservedWords.contains(name) || name.matches("^\\d.*"))
+      name = escapeReservedWord(name);
+
+    return name;
+  }
+
+  @Override
+  public String toParamName(String name) {
+    // should be the same as variable name
+    return toVarName(name);
+  }
+
+  @Override
+  public String toModelName(String name) {
+    // model name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(name))
+      throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+
+    // camelize the model name
+    // phone_number => PhoneNumber
+    return camelize(name);
+  }
+
+  @Override
+  public String toModelFilename(String name) {
+    // model name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(name))
+      throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+
+    // underscore the model file name
+    // PhoneNumber.rb => phone_number.rb
+    return underscore(name);
+  }
+
+  @Override
+  public String toApiFilename(String name) {
+    // replace - with _ e.g. created-at => created_at
+    name = name.replaceAll("-", "_");
+
+    // e.g. PhoneNumberApi.rb => phone_number_api.rb
+    return underscore(name) + "_api";
+  }
+
+  @Override
+  public String toApiName(String name) {
+    if(name.length() == 0)
+      return "DefaultApi";
+    // e.g. phone_number_api => PhoneNumberApi 
+    return camelize(name) + "Api";
+  }
+
+
 }

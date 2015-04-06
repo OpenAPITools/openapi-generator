@@ -34,10 +34,10 @@ class User(object):
             'username': 'str',
             
             
-            'firstName': 'str',
+            'first_name': 'str',
             
             
-            'lastName': 'str',
+            'last_name': 'str',
             
             
             'email': 'str',
@@ -49,7 +49,7 @@ class User(object):
             'phone': 'str',
             
             
-            'userStatus': 'int'
+            'user_status': 'int'
             
         }
 
@@ -59,9 +59,9 @@ class User(object):
             
             'username': 'username',
             
-            'firstName': 'firstName',
+            'first_name': 'firstName',
             
-            'lastName': 'lastName',
+            'last_name': 'lastName',
             
             'email': 'email',
             
@@ -69,7 +69,7 @@ class User(object):
             
             'phone': 'phone',
             
-            'userStatus': 'userStatus'
+            'user_status': 'userStatus'
             
         }       
 
@@ -81,10 +81,10 @@ class User(object):
         self.username = None # str
         
         
-        self.firstName = None # str
+        self.first_name = None # str
         
         
-        self.lastName = None # str
+        self.last_name = None # str
         
         
         self.email = None # str
@@ -97,5 +97,5 @@ class User(object):
         
         #User Status
         
-        self.userStatus = None # int
+        self.user_status = None # int
         
