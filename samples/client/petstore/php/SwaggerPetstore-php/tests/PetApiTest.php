@@ -1,6 +1,6 @@
 <?php
 
-require('SwaggerPetstore.php');
+require_once('SwaggerPetstore.php');
 
 class PetApiTest extends \PHPUnit_Framework_TestCase
 {
