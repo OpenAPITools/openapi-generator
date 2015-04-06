@@ -15,24 +15,11 @@
  *  limitations under the License.
  */
 
-/* Autoload the model definition files */
-/**
- *
- * @param string $className the class to attempt to load
- */
-function swagger_autoloader($className) {
-  $currentDir = dirname(__FILE__);
-  if (file_exists($currentDir . '/' . $className . '.php')) {
-    include $currentDir . '/' . $className . '.php';
-  } elseif (file_exists($currentDir . '/models/' . $className . '.php')) {
-    include $currentDir . '/models/' . $className . '.php';
-  }
-}
-spl_autoload_register('swagger_autoloader');
-
+namespace {{invokerPackage}};
 
 class APIClient {
 
+  public static $PATCH = "PATCH";
   public static $POST = "POST";
   public static $GET = "GET";
   public static $PUT = "PUT";
@@ -199,7 +186,7 @@ class APIClient {
    * @return string the serialized object
    */
   public static function toPathValue($value) {
-      return rawurlencode(toString($value));
+      return rawurlencode(self::toString($value));
   }
 
   /**
@@ -214,7 +201,7 @@ class APIClient {
         if (is_array($object)) {
             return implode(',', $object);
         } else {
-            return toString($object);
+            return self::toString($object);
         }
   }
 
@@ -226,7 +213,7 @@ class APIClient {
    * @return string the header string
    */
   public static function toHeaderValue($value) {
-      return toString($value);
+      return self::toString($value);
   }
 
   /**
@@ -237,7 +224,7 @@ class APIClient {
    * @return string the form string
    */
   public static function toFormValue($value) {
-      return toString($value);
+      return self::toString($value);
   }
 
   /**
@@ -292,6 +279,7 @@ class APIClient {
       settype($data, $class);
       $deserialized = $data;
     } else {
+      $class = "{{invokerPackage}}\\models\\".$class;
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
         if (isset($data->$property)) {
@@ -307,20 +295,3 @@ class APIClient {
 
 }
 
-class APIClientException extends Exception {
-  protected $response, $response_info;
-
-  public function __construct($message="", $code=0, $response_info=null, $response=null) {
-    parent::__construct($message, $code);
-    $this->response_info = $response_info;
-    $this->response = $response;
-  }
-
-  public function getResponse() {
-    return $this->response;
-  }
-
-  public function getResponseInfo() {
-    return $this->response_info;
-  }
-}
