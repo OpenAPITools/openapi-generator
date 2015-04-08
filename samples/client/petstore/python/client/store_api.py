@@ -154,14 +154,14 @@ class StoreApi(object):
 
         Args:
             
-            orderId, str: ID of pet that needs to be fetched (required)
+            order_id, str: ID of pet that needs to be fetched (required)
             
             
         
         Returns: Order
         """
 
-        allParams = ['orderId']
+        allParams = ['order_id']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -188,8 +188,8 @@ class StoreApi(object):
         
 
         
-        if ('orderId' in params):
-            replacement = str(self.apiClient.toPathValue(params['orderId']))
+        if ('order_id' in params):
+            replacement = str(self.apiClient.toPathValue(params['order_id']))
             replacement = urllib.quote(replacement)
             resourcePath = resourcePath.replace('{' + 'orderId' + '}',
                                                 replacement)
@@ -219,14 +219,14 @@ class StoreApi(object):
 
         Args:
             
-            orderId, str: ID of the order that needs to be deleted (required)
+            order_id, str: ID of the order that needs to be deleted (required)
             
             
         
         Returns: 
         """
 
-        allParams = ['orderId']
+        allParams = ['order_id']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -253,8 +253,8 @@ class StoreApi(object):
         
 
         
-        if ('orderId' in params):
-            replacement = str(self.apiClient.toPathValue(params['orderId']))
+        if ('order_id' in params):
+            replacement = str(self.apiClient.toPathValue(params['order_id']))
             replacement = urllib.quote(replacement)
             resourcePath = resourcePath.replace('{' + 'orderId' + '}',
                                                 replacement)
