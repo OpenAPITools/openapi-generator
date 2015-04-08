@@ -37,7 +37,7 @@ class Pet(object):
             'name': 'str',
             
             
-            'photoUrls': 'list[str]',
+            'photo_urls': 'list[str]',
             
             
             'tags': 'list[Tag]',
@@ -55,7 +55,7 @@ class Pet(object):
             
             'name': 'name',
             
-            'photoUrls': 'photoUrls',
+            'photo_urls': 'photoUrls',
             
             'tags': 'tags',
             
@@ -74,7 +74,7 @@ class Pet(object):
         self.name = None # str
         
         
-        self.photoUrls = None # list[str]
+        self.photo_urls = None # list[str]
         
         
         self.tags = None # list[Tag]
