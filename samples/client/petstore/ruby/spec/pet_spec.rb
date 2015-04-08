@@ -12,8 +12,9 @@ describe "Pet" do
   describe "pet methods" do
     it "should fetch a pet object" do
       pet = PetApi.getPetById(5)
+      pet.should be_a(Pet)
       pet.id.should == 5
-      pet.name.should == "Dog 2"
+      pet.name.should == "panda"
     end
 
     it "should find pets by status" do
