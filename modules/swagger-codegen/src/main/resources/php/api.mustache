@@ -44,6 +44,7 @@ class {{classname}} {
       $resourcePath = "{{path}}";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "{{httpMethod}}";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -77,16 +78,19 @@ class {{classname}} {
         $body = ${{paramName}};
       }{{/bodyParams}}
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       {{#returnType}}if(! $response) {
