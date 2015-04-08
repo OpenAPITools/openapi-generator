@@ -25,6 +25,16 @@ class APIClient {
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
 
+  /*
+   * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
+   */
+  protected $curl_timeout = 0;
+
+  /*
+   * @var string user agent of the HTTP request, set to "PHP-Swagger" by default
+   */
+  protected $user_agent = "PHP-Swagger";
+
   /**
    * @param string $host the address of the API server
    * @param string $headerName a header to pass on requests 
@@ -54,7 +64,7 @@ class APIClient {
     if (!is_numeric($seconds)) {
       throw new Exception('Timeout variable must be numeric.');
     }
-    $this->curl_timout = $seconds;
+    $this->curl_timeout = $seconds;
   }
 
   /**
@@ -84,15 +94,16 @@ class APIClient {
       $headers[] = $this->headerName . ": " . $this->headerValue;
     }
 
-    if (strpos($headers['Content-Type'], "multipart/form-data") < 0 and (is_object($postData) or is_array($postData))) {
+    if ((isset($headers['Content-Type']) and strpos($headers['Content-Type'], "multipart/form-data")) < 0 and (is_object($postData) or is_array($postData))) {
       $postData = json_encode($this->sanitizeForSerialization($postData));
     }
 
     $url = $this->host . $resourcePath;
 
     $curl = curl_init();
-    if ($this->curl_timout) {
-      curl_setopt($curl, CURLOPT_TIMEOUT, $this->curl_timout);
+    // set timeout, if needed
+    if ($this->curl_timeout != 0) {
+      curl_setopt($curl, CURLOPT_TIMEOUT, $this->curl_timeout);
     }
     // return the result on success, rather than just TRUE
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -120,11 +131,7 @@ class APIClient {
     curl_setopt($curl, CURLOPT_URL, $url);
 
     // Set user agent
-    if ($this->user_agent) {
-      curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent);
-    } else { // use PHP-Swagger as the default user agent
-      curl_setopt($curl, CURLOPT_USERAGENT, 'PHP-Swagger');
-    }
+    curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent);
 
     // Make the request
     $response = curl_exec($curl);
