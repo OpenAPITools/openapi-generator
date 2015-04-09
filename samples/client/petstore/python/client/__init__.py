@@ -3,19 +3,25 @@
 import os
 
 # import models into package
-from .models.User import User
-from .models.Category import Category
-from .models.Pet import Pet
-from .models.Tag import Tag
-from .models.Order import Order
+
+from .models.user import User
+
+from .models.category import Category
+
+from .models.pet import Pet
+
+from .models.tag import Tag
+
+from .models.order import Order
+
 
 # import apis into package
 
-from .UserApi import UserApi
+from .user_api import UserApi
 
-from .PetApi import PetApi
+from .pet_api import PetApi
 
-from .StoreApi import StoreApi
+from .store_api import StoreApi
 
 
 # import ApiClient
