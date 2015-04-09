@@ -31,13 +31,13 @@ class Order(object):
             'id': 'long',
             
             
-            'petId': 'long',
+            'pet_id': 'long',
             
             
             'quantity': 'int',
             
             
-            'shipDate': 'DateTime',
+            'ship_date': 'DateTime',
             
             
             'status': 'str',
@@ -51,11 +51,11 @@ class Order(object):
             
             'id': 'id',
             
-            'petId': 'petId',
+            'pet_id': 'petId',
             
             'quantity': 'quantity',
             
-            'shipDate': 'shipDate',
+            'ship_date': 'shipDate',
             
             'status': 'status',
             
@@ -68,13 +68,13 @@ class Order(object):
         self.id = None # long
         
         
-        self.petId = None # long
+        self.pet_id = None # long
         
         
         self.quantity = None # int
         
         
-        self.shipDate = None # DateTime
+        self.ship_date = None # DateTime
         
         #Order Status
         
