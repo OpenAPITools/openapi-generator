@@ -1,3 +1,0 @@
-coverage_clover:
-    - build/logs/clover-part1.xml
-    - build/logs/clover-part2.xml

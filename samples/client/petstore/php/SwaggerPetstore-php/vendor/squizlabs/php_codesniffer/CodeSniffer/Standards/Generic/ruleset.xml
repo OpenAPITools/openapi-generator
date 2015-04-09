@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="Generic">
- <description>A collection of generic sniffs. This standard is not designed to be used to check code.</description>
-</ruleset>
