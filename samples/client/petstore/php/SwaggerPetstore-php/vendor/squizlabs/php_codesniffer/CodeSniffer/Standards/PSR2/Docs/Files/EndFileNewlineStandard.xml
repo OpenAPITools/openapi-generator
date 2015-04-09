@@ -1,7 +1,0 @@
-<documentation title="End File Newline">
-    <standard>
-    <![CDATA[
-    PHP Files should end with exactly one newline.
-    ]]>
-    </standard>
-</documentation>

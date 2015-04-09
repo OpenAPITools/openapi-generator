@@ -1,7 +1,0 @@
-<documentation title="No End of File Newline">
-    <standard>
-    <![CDATA[
-    Files should not end with a newline character.
-    ]]>
-    </standard>
-</documentation>

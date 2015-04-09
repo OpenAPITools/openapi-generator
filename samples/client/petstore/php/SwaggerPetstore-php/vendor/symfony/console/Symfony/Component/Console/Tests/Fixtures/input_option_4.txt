@@ -1,1 +1,0 @@
- <info>--option_name</info> (-o) option description<comment> (multiple values allowed)</comment>
