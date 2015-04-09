@@ -1,0 +1,22 @@
+<documentation title="Inline Control Structures">
+    <standard>
+    <![CDATA[
+    Control Structures should use braces.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Braces are used around the control structure.">
+        <![CDATA[
+if ($test) <em>{</em>
+    $var = 1;
+<em>}</em>
+        ]]>
+        </code>
+        <code title="Invalid: No braces are used for the control structure..">
+        <![CDATA[
+if ($test)
+    $var = 1;
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

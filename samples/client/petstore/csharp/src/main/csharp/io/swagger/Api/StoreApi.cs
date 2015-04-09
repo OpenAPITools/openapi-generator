@@ -143,7 +143,7 @@ namespace io.swagger.Api {
     /// <returns></returns>
     public Order  getOrderById (string OrderId) {
       // create path and map variables
-      var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.escapeString(OrderId.ToString()));
+      var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
 
       // query params
       var queryParams = new Dictionary<String, String>();
@@ -196,7 +196,7 @@ namespace io.swagger.Api {
     /// <returns></returns>
     public void  deleteOrder (string OrderId) {
       // create path and map variables
-      var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.escapeString(OrderId.ToString()));
+      var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
 
       // query params
       var queryParams = new Dictionary<String, String>();

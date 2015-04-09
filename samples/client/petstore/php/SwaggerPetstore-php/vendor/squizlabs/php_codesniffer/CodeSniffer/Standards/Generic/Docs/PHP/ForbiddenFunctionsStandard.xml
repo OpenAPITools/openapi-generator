@@ -1,0 +1,19 @@
+<documentation title="Forbidden Functions">
+    <standard>
+    <![CDATA[
+    The forbidden functions sizeof() and delete() should not be used.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: count() is used in place of sizeof().">
+        <![CDATA[
+$foo = <em>count</em>($bar);
+        ]]>
+        </code>
+        <code title="Invalid: sizeof() is used.">
+        <![CDATA[
+$foo = <em>sizeof</em>($bar);
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

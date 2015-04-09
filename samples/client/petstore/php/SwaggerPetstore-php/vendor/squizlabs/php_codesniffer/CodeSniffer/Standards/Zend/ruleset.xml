@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ruleset name="Zend">
+ <description>A coding standard based on an early Zend Framework coding standard. Note that this standard is out of date.</description>
+
+ <!-- Include some sniffs from all around the place -->
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+ <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+ <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+ <rule ref="PEAR.Classes.ClassDeclaration"/>
+ <rule ref="PEAR.ControlStructures.ControlSignature"/>
+ <rule ref="PEAR.Functions.FunctionCallSignature"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+ <rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/>
+ <rule ref="Squiz.Functions.GlobalFunction"/>
+
+ <!-- Lines can be 80 chars long, show errors at 120 chars -->
+ <rule ref="Generic.Files.LineLength">
+  <properties>
+   <property name="lineLimit" value="80"/>
+   <property name="absoluteLineLimit" value="120"/>
+  </properties>
+ </rule>
+
+ <!-- Use Unix newlines -->
+ <rule ref="Generic.Files.LineEndings">
+  <properties>
+   <property name="eolChar" value="\n"/>
+  </properties>
+ </rule>
+
+</ruleset>

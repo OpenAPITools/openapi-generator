@@ -1,0 +1,104 @@
+<documentation title="Switch Declarations">
+    <standard>
+    <![CDATA[
+    Case statements should be indented 4 spaces from the switch keyword.  It should also be followed by a space.  Colons in switch declarations should not be preceded by whitespace.  Break statements should be indented 4 more spaces from the case statement.  There must be a comment when falling through from one case into the next.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Case statement indented correctly.">
+        <![CDATA[
+switch ($foo) {
+<em>    </em>case 'bar':
+        break;
+}
+        ]]>
+        </code>
+        <code title="Invalid: Case statement not indented 4 spaces.">
+        <![CDATA[
+switch ($foo) {
+<em></em>case 'bar':
+    break;
+}
+        ]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Case statement followed by 1 space.">
+        <![CDATA[
+switch ($foo) {
+    case<em> </em>'bar':
+        break;
+}
+        ]]>
+        </code>
+        <code title="Invalid: Case statement not followed by 1 space.">
+        <![CDATA[
+switch ($foo) {
+    case<em></em>'bar':
+        break;
+}
+        ]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Colons not prefixed by whitespace.">
+        <![CDATA[
+switch ($foo) {
+    case 'bar'<em></em>:
+        break;
+    default<em></em>:
+        break;
+}
+        ]]>
+        </code>
+        <code title="Invalid: Colons prefixed by whitespace.">
+        <![CDATA[
+switch ($foo) {
+    case 'bar'<em> </em>:
+        break;
+    default<em> </em>:
+        break;
+}
+        ]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Break statement indented correctly.">
+        <![CDATA[
+switch ($foo) {
+    case 'bar':
+<em>        </em>break;
+}
+        ]]>
+        </code>
+        <code title="Invalid: Break statement not indented 4 spaces.">
+        <![CDATA[
+switch ($foo) {
+    case 'bar':
+<em>    </em>break;
+}
+        ]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Comment marking intentional fall-through.">
+        <![CDATA[
+switch ($foo) {
+    case 'bar':
+    <em>// no break</em>
+    default<em></em>:
+        break;
+}
+        ]]>
+        </code>
+        <code title="Invalid: No comment marking intentional fall-through.">
+        <![CDATA[
+switch ($foo) {
+    case 'bar':
+    default<em></em>:
+        break;
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

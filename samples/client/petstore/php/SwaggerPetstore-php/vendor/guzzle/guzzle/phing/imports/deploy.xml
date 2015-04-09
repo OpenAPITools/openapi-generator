@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="../../" default="deploy">
+
+    <property name="git.status" value=""/>
+    <property name="git.currentbranch" value=""/>
+    <target name="check-git-branch-status">
+        <exec command="git status -s -b" outputProperty="git.currentbranch" />
+        <echo msg="${git.currentbranch}"/>
+        <if>
+            <contains string="${git.currentbranch}" substring="${head}"/>
+            <then>
+                <echo>On branch ${head}</echo>
+            </then>
+            <else>
+                <fail message="-Dhead=${head} arg did not match ${git.currentbranch}"/>
+            </else>
+        </if>
+        <exec command="git status -s" outputProperty="git.status" />
+        <if>
+            <equals arg1="${git.status}" arg2="" trim="true"/>
+            <then>
+                <echo>working directory clean</echo>
+            </then>
+            <else>
+                <echo>${git.status}</echo>
+                <fail message="Working directory isn't clean." />
+            </else>
+        </if>
+    </target>
+
+    <property name="version.changelog" value=""/>
+    <property name="version.version" value=""/>
+    <target name="check-changelog-version">
+        <exec executable="fgrep" outputProperty="version.changelog">
+            <arg value="${new.version} ("/>
+            <arg value="${project.basedir}/CHANGELOG.md"/>
+        </exec>
+        <if>
+            <equals arg1="${version.changelog}" arg2="" trim="true"/>
+            <then>
+                <fail message="${new.version} not mentioned in CHANGELOG"/>
+            </then>
+        </if>
+
+        <exec executable="fgrep" outputProperty="version.version">
+            <arg value="const VERSION = '${new.version}'"/>
+            <arg value="${project.basedir}/src/Guzzle/Common/Version.php"/>
+        </exec>
+        <if>
+            <equals arg1="${version.version}" arg2="" trim="true"/>
+            <then>
+                <fail message="${new.version} not mentioned in Guzzle\Common\Version"/>
+            </then>
+        </if>
+
+        <echo>ChangeLog Match: ${version.changelog}</echo>
+        <echo>Guzzle\Common\Version Match: ${version.version}</echo>
+    </target>
+
+    <target name="help" description="HELP AND REMINDERS about what you can do with this project">
+        <echo>releasing: phing -Dnew.version=3.0.x -Dhead=master release</echo>
+        <echo>--</echo>
+        <exec command="phing -l" passthru="true"/>
+    </target>
+
+    <target name="release" depends="check-changelog-version,check-git-branch-status"
+            description="tag, subtree split, package, deploy: Use: phing -Dnew.version=[TAG] -Dhead=[BRANCH] release">
+        <if>
+            <isset property="new.version" />
+            <then>
+                <if>
+                    <contains string="${new.version}" substring="v" casesensitive="false" />
+                    <then>
+                        <fail message="Please specify version as [0-9].[0-9].[0-9]. (I'll add v for you.)"/>
+                    </then>
+                    <else>
+
+                        <echo>BEGINNING RELEASE FOR ${new.version}</echo>
+
+                        <!-- checkout the specified branch -->
+                        <!-- <gitcheckout repository="${repo.dir}" branchname="${head}" gitPath="${cmd.git}" /> -->
+                        <!-- Ensure that the tag exists -->
+                        <!-- push the tag up so subsplit will get it -->
+                        <!--gitpush repository="${repo.dir}" tags="true" gitPath="${cmd.git}" /-->
+
+                        <!-- now do the subsplits -->
+                        <guzzlesubsplit
+                                repository="${repo.dir}"
+                                remote="${guzzle.remote}"
+                                heads="${head}"
+                                tags="v${new.version}"
+                                base="src"
+                                subIndicatorFile="composer.json"
+                                gitPath="${cmd.git}" />
+
+                        <!-- Copy .md files into the PEAR package -->
+                        <copy file="${repo.dir}/LICENSE" tofile=".subsplit/src/Guzzle/LICENSE.md" />
+                        <copy file="${repo.dir}/README.md" tofile=".subsplit/src/Guzzle/README.md" />
+                        <copy file="${repo.dir}/CHANGELOG.md" tofile=".subsplit/src/Guzzle/CHANGELOG.md" />
+
+                        <!-- and now the pear packages -->
+                        <guzzlepear
+                                version="${new.version}"
+                                makephar="true"
+                                />
+                    </else>
+
+                </if>
+            </then>
+
+            <else>
+                <echo>Tip: to create a new release, do: phing -Dnew.version=[TAG] -Dhead=[BRANCH] release</echo>
+            </else>
+
+        </if>
+    </target>
+
+    <target name="pear-channel">
+        <guzzlepear version="${new.version}" deploy="true" makephar="true" />
+    </target>
+
+    <target name="package-phar" description="Create a phar with an autoloader">
+        <pharpackage
+                destfile="${dir.output}/guzzle.phar"
+                basedir="${project.basedir}/.subsplit"
+                stub="phar-stub.php"
+                signature="md5">
+            <fileset dir="${project.basedir}/.subsplit">
+                <include name="src/**/*.php" />
+                <include name="src/**/*.pem" />
+                <include name="vendor/symfony/class-loader/Symfony/Component/ClassLoader/UniversalClassLoader.php" />
+                <include name="vendor/symfony/event-dispatcher/**/*.php" />
+                <include name="vendor/doctrine/common/lib/Doctrine/Common/Cache/*.php" />
+                <include name="vendor/monolog/monolog/src/**/*.php" />
+            </fileset>
+            <metadata>
+                <element name="author" value="Michael Dowling" />
+            </metadata>
+        </pharpackage>
+    </target>
+
+</project>

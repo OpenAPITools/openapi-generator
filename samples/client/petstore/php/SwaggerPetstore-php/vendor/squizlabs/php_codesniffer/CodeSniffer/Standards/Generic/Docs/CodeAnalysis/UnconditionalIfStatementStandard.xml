@@ -1,0 +1,39 @@
+<documentation title="Unconditional If Statements">
+    <standard>
+    <![CDATA[
+    If statements that are always evaluated should not be used.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: An if statement that only executes conditionally.">
+        <![CDATA[
+if (<em>$test</em>) {
+    $var = 1;
+}
+        ]]>
+        </code>
+        <code title="Invalid: An if statement that is always performed.">
+        <![CDATA[
+if (<em>true</em>) {
+    $var = 1;
+}
+        ]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: An if statement that only executes conditionally.">
+        <![CDATA[
+if (<em>$test</em>) {
+    $var = 1;
+}
+        ]]>
+        </code>
+        <code title="Invalid: An if statement that is never performed.">
+        <![CDATA[
+if (<em>false</em>) {
+    $var = 1;
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

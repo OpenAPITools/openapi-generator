@@ -1,0 +1,19 @@
+<documentation title="CSSLint">
+    <standard>
+    <![CDATA[
+    All css files should pass the basic csslint tests.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Valid CSS Syntax is used.">
+        <![CDATA[
+.foo: { width: 100<em></em>%; }
+        ]]>
+        </code>
+        <code title="Invalid: The CSS has a typo in it.">
+        <![CDATA[
+.foo: { width: 100<em> </em>%; }
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

@@ -1,0 +1,23 @@
+<documentation title="PHP Constants">
+    <standard>
+    <![CDATA[
+    The <em>true</em>, <em>false</em> and <em>null</em> constants must always be lowercase.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: lowercase constants">
+        <![CDATA[
+if ($var === <em>false</em> || $var === <em>null</em>) {
+    $var = <em>true</em>;
+}
+        ]]>
+        </code>
+        <code title="Invalid: uppercase constants">
+        <![CDATA[
+if ($var === <em>FALSE</em> || $var === <em>NULL</em>) {
+    $var = <em>TRUE</em>;
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

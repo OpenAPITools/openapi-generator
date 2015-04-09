@@ -1,0 +1,20 @@
+<documentation title="Multiple Statements On a Single Line">
+    <standard>
+    <![CDATA[
+    Multiple statements are not allowed on a single line.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Two statements are spread out on two separate lines.">
+        <![CDATA[
+$foo = 1;
+$bar = 2;
+        ]]>
+        </code>
+        <code title="Invalid: Two statements are combined onto one line.">
+        <![CDATA[
+$foo = 1; $bar = 2;
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

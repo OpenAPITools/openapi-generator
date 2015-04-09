@@ -1,0 +1,19 @@
+<documentation title="Array Bracket Spacing">
+    <standard>
+    <![CDATA[
+    When referencing arrays you should not put whitespace around the opening bracket or before the closing bracket.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: No spaces around the brackets.">
+        <![CDATA[
+$foo<em></em>[<em></em>'bar'<em></em>];
+]]>
+        </code>
+        <code title="Invalid: Spaces around the brackets.">
+        <![CDATA[
+$foo<em> </em>[<em> </em>'bar'<em> </em>];
+]]>
+        </code>
+    </code_comparison>
+</documentation>

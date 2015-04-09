@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<ruleset name="Squiz">
+ <description>The Squiz coding standard.</description>
+
+ <!-- Include some specific sniffs -->
+ <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+ <rule ref="Generic.Commenting.Todo"/>
+ <rule ref="Generic.Commenting.DocComment"/>
+ <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+ <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+ <rule ref="Generic.Formatting.SpaceAfterCast"/>
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="Generic.NamingConventions.ConstructorName"/>
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+ <rule ref="Generic.PHP.DeprecatedFunctions"/>
+ <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+ <rule ref="Generic.PHP.LowerCaseKeyword"/>
+ <rule ref="Generic.PHP.LowerCaseConstant"/>
+ <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+ <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+ <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+ <rule ref="PEAR.ControlStructures.MultiLineCondition"/>
+ <rule ref="PEAR.Files.IncludingFile"/>
+ <rule ref="PEAR.Formatting.MultiLineAssignment"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+ <rule ref="PSR2.Files.EndFileNewline"/>
+ <rule ref="Zend.Files.ClosingTag"/>
+ <rule ref="Zend.Debug.CodeAnalyzer"/>
+
+ <!-- Lines can be 120 chars long, but never show errors -->
+ <rule ref="Generic.Files.LineLength">
+  <properties>
+   <property name="lineLimit" value="120"/>
+   <property name="absoluteLineLimit" value="0"/>
+  </properties>
+ </rule>
+
+ <!-- Use Unix newlines -->
+ <rule ref="Generic.Files.LineEndings">
+  <properties>
+   <property name="eolChar" value="\n"/>
+  </properties>
+ </rule>
+
+ <!-- Have 12 chars padding maximum and always show as errors -->
+ <rule ref="Generic.Formatting.MultipleStatementAlignment">
+  <properties>
+   <property name="maxPadding" value="12"/>
+   <property name="error" value="true"/>
+  </properties>
+ </rule>
+
+ <!-- We allow empty catch statements -->
+ <rule ref="Generic.CodeAnalysis.EmptyStatement.DetectedCATCH">
+   <severity>0</severity>
+ </rule>
+
+ <!-- We don't want gsjlint throwing errors for things we already check -->
+ <rule ref="Generic.Debug.ClosureLinter">
+  <properties>
+   <property name="errorCodes" type="array" value="0210"/>
+   <property name="ignoreCodes" type="array" value="0001,0110,0240"/>
+  </properties>
+ </rule>
+ <rule ref="Generic.Debug.ClosureLinter.ExternalToolError">
+  <message>%2$s</message>
+ </rule>
+
+ <!-- Only one argument per line in multi-line function calls -->
+ <rule ref="PEAR.Functions.FunctionCallSignature">
+  <properties>
+   <property name="allowMultipleArguments" value="false"/>
+  </properties>
+ </rule>
+
+</ruleset>

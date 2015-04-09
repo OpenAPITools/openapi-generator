@@ -1,0 +1,36 @@
+<documentation title="Control Structure Signatures">
+    <standard>
+    <![CDATA[
+    Control structures should use one space around the parentheses in conditions.  The opening brace should be preceded by one space and should be at the end of the line.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Correct spacing around the condition.">
+        <![CDATA[
+if<em> </em>($foo)<em> </em>{
+}
+        ]]>
+        </code>
+        <code title="Invalid: Incorrect spacing around the condition.">
+        <![CDATA[
+if<em></em>($foo)<em></em>{
+}
+        ]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Correct placement of the opening brace.">
+        <![CDATA[
+if ($foo) <em>{</em>
+}
+        ]]>
+        </code>
+        <code title="Invalid: Incorrect placement of the opening brace on a new line.">
+        <![CDATA[
+if ($foo)
+<em>{</em>
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

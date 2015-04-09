@@ -1,0 +1,229 @@
+#!@php_bin@
+<?php
+/**
+ * A commit hook for SVN.
+ *
+ * PHP version 5
+ *
+ * @category  PHP
+ * @package   PHP_CodeSniffer
+ * @author    Jack Bates <ms419@freezone.co.uk>
+ * @author    Greg Sherwood <gsherwood@squiz.net>
+ * @copyright 2006-2014 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
+ * @link      http://pear.php.net/package/PHP_CodeSniffer
+ */
+
+if (is_file(dirname(__FILE__).'/../CodeSniffer/CLI.php') === true) {
+    include_once dirname(__FILE__).'/../CodeSniffer/CLI.php';
+} else {
+    include_once 'PHP/CodeSniffer/CLI.php';
+}
+
+define('PHP_CODESNIFFER_SVNLOOK', '/usr/bin/svnlook');
+
+
+/**
+ * A class to process command line options.
+ *
+ * @category  PHP
+ * @package   PHP_CodeSniffer
+ * @author    Jack Bates <ms419@freezone.co.uk>
+ * @author    Greg Sherwood <gsherwood@squiz.net>
+ * @copyright 2006-2014 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
+ * @version   Release: @package_version@
+ * @link      http://pear.php.net/package/PHP_CodeSniffer
+ */
+class PHP_CodeSniffer_SVN_Hook extends PHP_CodeSniffer_CLI
+{
+
+
+    /**
+     * Get a list of default values for all possible command line arguments.
+     *
+     * @return array
+     */
+    public function getDefaults()
+    {
+        $defaults = parent::getDefaults();
+
+        $defaults['svnArgs'] = array();
+        return $defaults;
+
+    }//end getDefaults()
+
+
+    /**
+     * Processes an unknown command line argument.
+     *
+     * Assumes all unknown arguments are files and folders to check.
+     *
+     * @param string $arg The command line argument.
+     * @param int    $pos The position of the argument on the command line.
+     *
+     * @return void
+     */
+    public function processUnknownArgument($arg, $pos)
+    {
+        $this->values['svnArgs'][] = escapeshellarg($arg);
+
+    }//end processUnknownArgument()
+
+
+    /**
+     * Runs PHP_CodeSniffer over files are directories.
+     *
+     * @param array $values An array of values determined from CLI args.
+     *
+     * @return int The number of error and warning messages shown.
+     * @see    getCommandLineValues()
+     */
+    public function process($values=array())
+    {
+        if (empty($values) === true) {
+            $values = $this->getCommandLineValues();
+        } else {
+            $values       = array_merge($this->getDefaults(), $values);
+            $this->values = $values;
+        }
+
+        // Get list of files in this transaction.
+        $command = PHP_CODESNIFFER_SVNLOOK.' changed '.implode(' ', $values['svnArgs']);
+        $handle  = popen($command, 'r');
+        if ($handle === false) {
+            echo 'ERROR: Could not execute "'.$command.'"'.PHP_EOL.PHP_EOL;
+            exit(2);
+        }
+
+        $contents = stream_get_contents($handle);
+        fclose($handle);
+
+        // Do not check deleted paths.
+        $contents = preg_replace('/^D.*/m', null, $contents);
+
+        // Drop the four characters representing the action which precede the path on
+        // each line.
+        $contents = preg_replace('/^.{4}/m', null, $contents);
+
+        $values['standard'] = $this->validateStandard($values['standard']);
+        foreach ($values['standard'] as $standard) {
+            if (PHP_CodeSniffer::isInstalledStandard($standard) === false) {
+                // They didn't select a valid coding standard, so help them
+                // out by letting them know which standards are installed.
+                echo 'ERROR: the "'.$standard.'" coding standard is not installed. ';
+                $this->printInstalledStandards();
+                exit(2);
+            }
+        }
+
+        $phpcs = new PHP_CodeSniffer(
+            $values['verbosity'],
+            $values['tabWidth'],
+            $values['encoding']
+        );
+
+        // Set file extensions if they were specified. Otherwise,
+        // let PHP_CodeSniffer decide on the defaults.
+        if (empty($values['extensions']) === false) {
+            $phpcs->setAllowedFileExtensions($values['extensions']);
+        } else {
+            $phpcs->setAllowedFileExtensions(array_keys($phpcs->defaultFileExtensions));
+        }
+
+        // Set ignore patterns if they were specified.
+        if (empty($values['ignored']) === false) {
+            $phpcs->setIgnorePatterns($values['ignored']);
+        }
+
+        // Set some convenience member vars.
+        if ($values['errorSeverity'] === null) {
+            $this->errorSeverity = PHPCS_DEFAULT_ERROR_SEV;
+        } else {
+            $this->errorSeverity = $values['errorSeverity'];
+        }
+
+        if ($values['warningSeverity'] === null) {
+            $this->warningSeverity = PHPCS_DEFAULT_WARN_SEV;
+        } else {
+            $this->warningSeverity = $values['warningSeverity'];
+        }
+
+        if (empty($values['reports']) === true) {
+            $this->values['reports']['full'] = $values['reportFile'];
+        }
+
+        // Initialize PHP_CodeSniffer listeners but don't process any files.
+        $phpcs->setCli($this);
+        $phpcs->initStandard($values['standard'], $values['sniffs']);
+
+        // Need double quotes around the following regex beause the vertical whitespace
+        // char is not always treated correctly for whatever reason.
+        foreach (preg_split("/\v|\n/", $contents, -1, PREG_SPLIT_NO_EMPTY) as $path) {
+            // No need to process folders as each changed file is checked.
+            if (substr($path, -1) === '/') {
+                continue;
+            }
+
+            // We need to check ignore rules ourself because they are
+            // not checked when processing a single file.
+            if ($phpcs->shouldProcessFile($path, dirname($path)) === false) {
+                continue;
+            }
+
+            // Get the contents of each file, as it would be after this transaction.
+            $command = PHP_CODESNIFFER_SVNLOOK.' cat '.implode(' ', $values['svnArgs']).' '.escapeshellarg($path);
+            $handle  = popen($command, 'r');
+            if ($handle === false) {
+                echo 'ERROR: Could not execute "'.$command.'"'.PHP_EOL.PHP_EOL;
+                exit(2);
+            }
+
+            $contents = stream_get_contents($handle);
+            fclose($handle);
+
+            $phpcs->processFile($path, $contents);
+        }//end foreach
+
+        return $this->printErrorReport(
+            $phpcs,
+            $values['reports'],
+            $values['showSources'],
+            $values['reportFile'],
+            $values['reportWidth']
+        );
+
+    }//end process()
+
+
+    /**
+     * Prints out the usage information for this script.
+     *
+     * @return void
+     */
+    public function printUsage()
+    {
+        parent::printUsage();
+
+        echo PHP_EOL;
+        echo '    Each additional argument is passed to the `svnlook changed ...`'.PHP_EOL;
+        echo '    and `svnlook cat ...` commands.  The report is printed on standard output,'.PHP_EOL;
+        echo '    however Subversion displays only standard error to the user, so in a'.PHP_EOL;
+        echo '    pre-commit hook, this script should be invoked as follows:'.PHP_EOL;
+        echo PHP_EOL;
+        echo '    '.basename($_SERVER['argv'][0]).' ... "$REPOS" -t "$TXN" >&2 || exit 1'.PHP_EOL;
+
+    }//end printUsage()
+
+
+}//end class
+
+$phpcs = new PHP_CodeSniffer_SVN_Hook();
+
+PHP_CodeSniffer_Reporting::startTiming();
+$phpcs->checkRequirements();
+
+$numErrors = $phpcs->process();
+if ($numErrors !== 0) {
+    exit(1);
+}

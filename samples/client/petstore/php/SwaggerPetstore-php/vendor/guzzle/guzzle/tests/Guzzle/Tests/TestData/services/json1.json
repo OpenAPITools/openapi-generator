@@ -1,0 +1,18 @@
+{
+    "includes": [ "json2.json" ],
+    "services": {
+        "abstract": {
+            "access_key": "xyz",
+            "secret": "abc"
+        },
+        "mock": {
+            "class": "Guzzle\\Tests\\Service\\Mock\\MockClient",
+            "extends": "abstract",
+            "params": {
+                "username": "foo",
+                "password": "baz",
+                "subdomain": "bar"
+            }
+        }
+    }
+}

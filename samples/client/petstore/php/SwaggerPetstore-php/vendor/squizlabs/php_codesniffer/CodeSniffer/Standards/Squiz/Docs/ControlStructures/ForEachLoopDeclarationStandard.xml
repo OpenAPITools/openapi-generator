@@ -1,0 +1,39 @@
+<documentation title="Foreach Loop Declarations">
+    <standard>
+    <![CDATA[
+    There should be a space between each element of a foreach loop and the as keyword should be lowercase.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Correct spacing used.">
+        <![CDATA[
+foreach (<em></em>$foo<em> </em>as<em> </em>$bar<em> </em>=><em> </em>$baz<em></em>) {
+    echo $baz;
+}
+]]>
+        </code>
+        <code title="Invalid: Invalid spacing used.">
+        <![CDATA[
+foreach (<em> </em>$foo<em>  </em>as<em>  </em>$bar<em></em>=><em></em>$baz<em> </em>) {
+    echo $baz;
+}
+]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Lowercase as keyword.">
+        <![CDATA[
+foreach ($foo <em>as</em> $bar => $baz) {
+    echo $baz;
+}
+]]>
+        </code>
+        <code title="Invalid: Uppercase as keyword.">
+        <![CDATA[
+foreach ($foo <em>AS</em> $bar => $baz) {
+    echo $baz;
+}
+]]>
+        </code>
+    </code_comparison>
+</documentation>
