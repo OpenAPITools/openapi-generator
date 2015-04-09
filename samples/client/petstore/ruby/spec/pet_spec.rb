@@ -23,7 +23,7 @@ describe "Pet" do
     end
     
     it "should not find a pet with invalid status" do
-      pets = PetApi.findPetsByStatus('dead')
+      pets = PetApi.findPetsByStatus('invalid-status')
       pets.length.should == 0
     end
 
