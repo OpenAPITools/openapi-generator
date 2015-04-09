@@ -64,6 +64,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("List", "array");
     typeMapping.put("map", "map");
 
+    supportingFiles.add(new SupportingFile("swagger-client.gemspec.mustache", "", "swagger-client.gemspec"));
+    supportingFiles.add(new SupportingFile("swagger-client.mustache", "", "lib/swagger-client.rb"));
     supportingFiles.add(new SupportingFile("swagger.mustache", "", "lib/swagger.rb"));
     supportingFiles.add(new SupportingFile("monkey.mustache", "", "lib/monkey.rb"));
     supportingFiles.add(new SupportingFile("swagger/request.mustache", "", "lib/swagger/request.rb"));
