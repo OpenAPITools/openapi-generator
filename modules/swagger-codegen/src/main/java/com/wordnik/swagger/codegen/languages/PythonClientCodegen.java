@@ -113,7 +113,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
   public String toDefaultValue(Property p) {
 	// TODO: Support Python def value
     return "null";
-  }	
+  }
 
   @Override
   public String toVarName(String name) {
@@ -176,9 +176,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
   public String toApiName(String name) {
     if(name.length() == 0)
       return "DefaultApi";
-    // e.g. phone_number_api => PhoneNumberApi 
+    // e.g. phone_number_api => PhoneNumberApi
     return camelize(name) + "Api";
   }
 
+  @Override
+  public String toApiVarName(String name) {
+      if(name.length() == 0)
+          return "default_api";
+    return underscore(name) + "_api";
+  }
 
 }

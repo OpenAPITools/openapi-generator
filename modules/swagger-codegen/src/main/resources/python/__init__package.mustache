@@ -3,16 +3,14 @@
 import os
 
 # import models into package
-{{#models}}
-{{#model}}
-from .models.{{classname}} import {{classname}}
-{{/model}}
-{{/models}}
+{{#models}}{{#model}}
+from .models.{{classVarName}} import {{classname}}
+{{/model}}{{/models}}
 
 # import apis into package
-{{#apiInfo}}{{#apis}}{{#operations}}
-from .{{classname}} import {{classname}}
-{{/operations}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}
+from .{{classVarName}} import {{classname}}
+{{/apis}}{{/apiInfo}}
 
 # import ApiClient
 from .swagger import ApiClient
