@@ -1,0 +1,27 @@
+# Ingore common cruft
+.DS_STORE
+coverage
+.idea
+
+# Ignore binary files
+guzzle.phar
+guzzle-min.phar
+
+# Ignore potentially sensitive phpunit file
+phpunit.xml
+
+# Ignore composer generated files
+composer.phar
+composer.lock
+composer-test.lock
+vendor/
+
+# Ignore build files
+build/
+phing/build.properties
+
+# Ignore subsplit working directory
+.subsplit
+
+docs/_build
+docs/*.pyc

@@ -1,0 +1,26 @@
+language: php
+
+php:
+  - 5.3.3
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+  - hhvm-nightly
+
+before_script:
+  - ./.travis.install.sh
+
+script:
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.3.3' ]; then phpunit; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.3.3' ]; then ./vendor/bin/phpunit; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.3.3' ]; then ./vendor/bin/phpcs --standard=PSR2 ./src/ ./tests/; fi"
+  - sh -c "if [[ '$TRAVIS_PHP_VERSION' != '5.3.3' && '$TRAVIS_PHP_VERSION' != '5.4.29'  && '$TRAVIS_PHP_VERSION' != '5.5.13' ]]; then php -n ./vendor/bin/athletic -p ./tests/DoctrineTest/InstantiatorPerformance/ -f GroupedFormatter; fi"
+
+after_script:
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.3.3' ]; then wget https://scrutinizer-ci.com/ocular.phar; php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi"
+
+matrix:
+  allow_failures:
+    - php: hhvm-nightly

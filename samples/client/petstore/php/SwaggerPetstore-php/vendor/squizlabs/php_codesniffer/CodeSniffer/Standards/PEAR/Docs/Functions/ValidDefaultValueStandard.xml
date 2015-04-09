@@ -1,0 +1,25 @@
+<documentation title="Default Values in Function Declarations">
+    <standard>
+    <![CDATA[
+    Arguments with default values go at the end of the argument list.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: argument with default value at end of declaration">
+        <![CDATA[
+function connect($dsn, <em>$persistent = false</em>)
+{
+    ...
+}
+        ]]>
+        </code>
+        <code title="Invalid: argument with default value at start of declaration">
+        <![CDATA[
+function connect(<em>$persistent = false</em>, $dsn)
+{
+    ...
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

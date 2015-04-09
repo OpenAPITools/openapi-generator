@@ -1,0 +1,19 @@
+<documentation title="Cast Whitespace">
+    <standard>
+    <![CDATA[
+    Casts should not have whitespace inside the parentheses.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: No spaces.">
+        <![CDATA[
+$foo = (<em></em>int<em></em>)'42';
+]]>
+        </code>
+        <code title="Invalid: Whitespace used inside parentheses.">
+        <![CDATA[
+$foo = (<em> </em>int<em> </em>)'42';
+]]>
+        </code>
+    </code_comparison>
+</documentation>

@@ -1,0 +1,55 @@
+<documentation title="For Loop Declarations">
+    <standard>
+    <![CDATA[
+    In a for loop declaration, there should be no space inside the brackets and there should be 0 spaces before and 1 space after semicolons.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Correct spacing used.">
+        <![CDATA[
+for (<em></em>$i = 0; $i < 10; $i++<em></em>) {
+    echo $i;
+}
+]]>
+        </code>
+        <code title="Invalid: Invalid spacing used inside brackets.">
+        <![CDATA[
+for (<em> </em>$i = 0; $i < 10; $i++<em> </em>) {
+    echo $i;
+}
+]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Correct spacing used.">
+        <![CDATA[
+for ($i = 0<em></em>; $i < 10<em></em>; $i++) {
+    echo $i;
+}
+]]>
+        </code>
+        <code title="Invalid: Invalid spacing used before semicolons.">
+        <![CDATA[
+for ($i = 0<em> </em>; $i < 10<em> </em>; $i++) {
+    echo $i;
+}
+]]>
+        </code>
+    </code_comparison>
+    <code_comparison>
+        <code title="Valid: Correct spacing used.">
+        <![CDATA[
+for ($i = 0;<em> </em>$i < 10;<em> </em>$i++) {
+    echo $i;
+}
+]]>
+        </code>
+        <code title="Invalid: Invalid spacing used after semicolons.">
+        <![CDATA[
+for ($i = 0;<em></em>$i < 10;<em></em>$i++) {
+    echo $i;
+}
+]]>
+        </code>
+    </code_comparison>
+</documentation>

@@ -1,0 +1,19 @@
+<documentation title="Unnecessary String Concatenation">
+    <standard>
+    <![CDATA[
+    Strings should not be concatenated together.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: A string can be concatenated with an expression.">
+        <![CDATA[
+echo '5 + 2 = ' . (5 + 2);
+        ]]>
+        </code>
+        <code title="Invalid: Strings should not be concatenated together.">
+        <![CDATA[
+echo 'Hello' . ' ' . 'World';
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

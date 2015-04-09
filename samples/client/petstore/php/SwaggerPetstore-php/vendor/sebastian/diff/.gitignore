@@ -1,0 +1,10 @@
+.idea
+phpunit.xml
+composer.lock
+composer.phar
+vendor/
+cache.properties
+build/SebastianBergmann
+build/LICENSE
+build/README.md
+build/*.tgz

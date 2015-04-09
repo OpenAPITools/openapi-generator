@@ -1,0 +1,19 @@
+<documentation title="Language Construct Whitespace">
+    <standard>
+    <![CDATA[
+    The php constructs echo, print, return, include, include_once, require, require_once, and new should have one space after them.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: echo statement with a single space after it.">
+        <![CDATA[
+echo<em> </em>"hi";
+]]>
+        </code>
+        <code title="Invalid: echo statement with no space after it.">
+        <![CDATA[
+echo<em></em>"hi";
+]]>
+        </code>
+    </code_comparison>
+</documentation>

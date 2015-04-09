@@ -1,0 +1,176 @@
+{
+    "additionalProperties": true,
+    "name": {
+        "type": "string",
+        "description": "Name of the web service"
+    },
+    "apiVersion": {
+        "type": ["string", "number"],
+        "description": "Version identifier that the service description is compatible with"
+    },
+    "baseUrl": {
+        "type": "string",
+        "description": "Base URL of the web service. Any relative URI specified in an operation will be merged with the baseUrl using the process defined in RFC 2396"
+    },
+    "basePath": {
+        "type": "string",
+        "description": "Alias of baseUrl"
+    },
+    "_description": {
+        "type": "string",
+        "description": "Short summary of the web service. This is actually called 'description' but this JSON schema wont validate using just description."
+    },
+    "operations": {
+        "description": "Operations of the web service",
+        "type": "object",
+        "properties": {
+            "extends": {
+                "type": "string",
+                "description": "Extend from another operation by name. The parent operation must be defined before the child."
+            },
+            "httpMethod": {
+                "type": "string",
+                "description": "HTTP method used with the operation (e.g. GET, POST, PUT, DELETE, PATCH, etc)"
+            },
+            "uri": {
+                "type": "string",
+                "description": "URI of the operation. The uri attribute can contain URI templates. The variables of the URI template are parameters of the operation with a location value of uri"
+            },
+            "summary": {
+                "type": "string",
+                "description": "Short summary of what the operation does"
+            },
+            "class": {
+                "type": "string",
+                "description": "Custom class to instantiate instead of the default Guzzle\\Service\\Command\\OperationCommand"
+            },
+            "responseClass": {
+                "type": "string",
+                "description": "This is what is returned from the method. Can be a primitive, class name, or model name."
+            },
+            "responseNotes": {
+                "type": "string",
+                "description": "A description of the response returned by the operation"
+            },
+            "responseType": {
+                "type": "string",
+                "description": "The type of response that the operation creates. If not specified, this value will be automatically inferred based on whether or not there is a model matching the name, if a matching class name is found, or set to 'primitive' by default.",
+                "enum": [ "primitive", "class", "model", "documentation" ]
+            },
+            "deprecated": {
+                "type": "boolean",
+                "description": "Whether or not the operation is deprecated"
+            },
+            "errorResponses": {
+                "description": "Errors that could occur while executing the operation",
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "number",
+                            "description": "HTTP response status code of the error"
+                        },
+                        "reason": {
+                            "type": "string",
+                            "description": "Response reason phrase or description of the error"
+                        },
+                        "class": {
+                            "type": "string",
+                            "description": "A custom exception class that would be thrown if the error is encountered"
+                        }
+                    }
+                }
+            },
+            "data": {
+                "type": "object",
+                "additionalProperties": "true"
+            },
+            "parameters": {
+                "$ref": "parameters",
+                "description": "Parameters of the operation. Parameters are used to define how input data is serialized into a HTTP request."
+            },
+            "additionalParameters": {
+              "$ref": "parameters",
+              "description": "Validation and serialization rules for any parameter supplied to the operation that was not explicitly defined."
+            }
+        }
+    },
+    "models": {
+        "description": "Schema models that can be referenced throughout the service description. Models can be used to define how an HTTP response is parsed into a Guzzle\\Service\\Resource\\Model object.",
+        "type": "object",
+        "properties": {
+            "$ref": "parameters",
+            "description": "Parameters of the model. When a model is referenced in a responseClass attribute of an operation, parameters define how a HTTP response message is parsed into a Guzzle\\Service\\Resource\\Model."
+        }
+    },
+    "includes": {
+        "description": "Service description files to include and extend from (can be a .json, .js, or .php file)",
+        "type": "array",
+        "items": {
+            "type": "string",
+            "pattern": ".+\\.(js|json|php)$"
+        }
+    },
+    "definitions": {
+        "parameters": {
+            "extends": "http://json-schema.org/schema",
+            "id": "parameters",
+            "name": {
+                "type": "string",
+                "description": "Unique name of the parameter"
+            },
+            "type": {
+                "type": ["string", "array"],
+                "description": "Type of variable (string, number, integer, boolean, object, array, numeric, null, any). Types are using for validation and determining the structure of a parameter. You can use a union type by providing an array of simple types. If one of the union types matches the provided value, then the value is valid."
+            },
+            "instanceOf": {
+                "type": "string",
+                "description": "When the type is an object, you can specify the class that the object must implement"
+            },
+            "required": {
+                "type": "boolean",
+                "description": "Whether or not the parameter is required"
+            },
+            "default": {
+                "description": "Default value to use if no value is supplied"
+            },
+            "static": {
+                "type": "bool",
+                "description": "Set to true to specify that the parameter value cannot be changed from the default setting"
+            },
+            "description": {
+                "type": "string",
+                "description": "Documentation of the parameter"
+            },
+            "location": {
+                "type": "string",
+                "description": "The location of a request used to apply a parameter. Custom locations can be registered with a command, but the defaults are uri, query, statusCode, reasonPhrase, header, body, json, xml, postField, postFile, responseBody"
+            },
+            "sentAs": {
+                "type": "string",
+                "description": "Specifies how the data being modeled is sent over the wire. For example, you may wish to include certain headers in a response model that have a normalized casing of FooBar, but the actual header is x-foo-bar. In this case, sentAs would be set to x-foo-bar."
+            },
+            "filters": {
+                "type": "array",
+                "description": "Array of static method names to to run a parameter value through. Each value in the array must be a string containing the full class path to a static method or an array of complex filter information. You can specify static methods of classes using the full namespace class name followed by ‘::’ (e.g. FooBar::baz()). Some filters require arguments in order to properly filter a value. For complex filters, use a hash containing a ‘method’ key pointing to a static method, and an ‘args’ key containing an array of positional arguments to pass to the method. Arguments can contain keywords that are replaced when filtering a value: '@value‘ is replaced with the value being validated, '@api‘ is replaced with the Parameter object.",
+                "items": {
+                    "type": ["string", {
+                        "object": {
+                            "properties": {
+                                "method": {
+                                    "type": "string",
+                                    "description": "PHP function to call",
+                                    "required": true
+                                },
+                                "args": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }]
+                }
+            }
+        }
+    }
+}

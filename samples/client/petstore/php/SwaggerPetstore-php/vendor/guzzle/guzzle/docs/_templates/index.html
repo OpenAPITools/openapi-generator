@@ -1,0 +1,106 @@
+<script type="text/javascript" src="{{ pathto('_static/prettify.js', 1) }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ pathto('_static/prettify.css', 1) }}" />
+<link rel="stylesheet" type="text/css" href="{{ pathto('_static/homepage.css', 1) }}" />
+
+<div class="jumbotron masthead">
+  <div class="container">
+    <img src="{{ pathto('_static/logo.png', 1) }}" alt="guzzle" width="199" height="260" />
+    <h1>Guzzle</h1>
+    <p>Guzzle is a PHP HTTP client<br />&amp; framework for building RESTful web service clients.</p>
+    <p>
+      <a class="btn btn-primary btn-lg" href="https://github.com/guzzle/guzzle">View Guzzle on GitHub</a>
+      <a class="btn btn-default btn-lg" href="{{ pathto('docs') }}">Read the docs</a>
+    </p>
+    </div>
+</div>
+
+<div class="social">
+  <ul class="social-buttons">
+    <li>
+      <iframe src="http://ghbtns.com/github-btn.html?user=guzzle&repo=guzzle&type=watch&count=true"
+          allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+    </li>
+    <li>
+      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://guzzlephp.org" data-text="Guzzle, PHP HTTP client &amp; framework for building RESTful web service clients" data-via="mtdowling">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </li>
+    <li>
+      <a href="https://twitter.com/mtdowling" class="twitter-follow-button" data-show-count="false">Follow @mtdowling</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </li>
+  </ul>
+</div>
+
+<div class="container">
+
+  <h1>Introducing Guzzle</h1>
+
+  <p>Guzzle takes the pain out of sending HTTP requests and the redundancy out of creating web service clients. It's
+    a framework that includes the tools needed to create a robust web service client, including:
+    Service descriptions for defining the inputs and outputs of an API, resource iterators for traversing
+    paginated resources, batching for sending a large number of requests as efficiently as possible.</p>
+
+  <ul>
+    <li>All the power of cURL with a simple interface.</li>
+    <li>Persistent connections and parallel requests.</li>
+    <li>Streams request and response bodies</li>
+    <li><a href="{{ pathto('webservice-client/guzzle-service-descriptions') }}">Service descriptions</a> for quickly building clients.</li>
+    <li>Powered by the Symfony2 EventDispatcher.</li>
+    <li>Use all of the code or only <a href="https://packagist.org/packages/guzzle/">specific components</a>.</li>
+    <li><a href="{{ pathto('plugins/plugins-overview') }}">Plugins</a> for caching, logging, OAuth, mocks, and more</li>
+    <li>Includes a custom node.js webserver to <a href="{{ pathto('testing/unit-testing') }}">test your clients</a>.</li>
+  </ul>
+
+  <div class="center-announcement">
+    Guzzle is now part of Drupal 8 core and powers the official <a href="https://github.com/aws/aws-sdk-php">AWS SDK for PHP</a>
+  </div>
+
+  <h2>GitHub Example</h2>
+
+  <pre class="prettyprint">&lt;?php
+require_once 'vendor/autoload.php';
+use Guzzle\Http\Client;
+
+// Create a client and provide a base URL
+$client = new Client('https://api.github.com');
+// Create a request with basic Auth
+$request = $client->get('/user')->setAuth('user', 'pass');
+// Send the request and get the response
+$response = $request->send();
+echo $response->getBody();
+// >>> {"type":"User", ...
+echo $response->getHeader('Content-Length');
+// >>> 792
+</pre>
+
+    <h2>Twitter Example</h2>
+    <pre class="prettyprint">&lt;?php
+// Create a client to work with the Twitter API
+$client = new Client('https://api.twitter.com/{version}', array(
+    'version' => '1.1'
+));
+
+// Sign all requests with the OauthPlugin
+$client->addSubscriber(new Guzzle\Plugin\Oauth\OauthPlugin(array(
+    'consumer_key'  => '***',
+    'consumer_secret' => '***',
+    'token'       => '***',
+    'token_secret'  => '***'
+)));
+
+echo $client->get('statuses/user_timeline.json')->send()->getBody();
+// >>> {"public_gists":6,"type":"User" ...
+
+// Create a tweet using POST
+$request = $client->post('statuses/update.json', null, array(
+    'status' => 'Tweeted with Guzzle, http://guzzlephp.org'
+));
+
+// Send the request and parse the JSON response into an array
+$data = $request->send()->json();
+echo $data['text'];
+// >>> Tweeted with Guzzle, http://t.co/kngJMfRk
+</pre>
+</div>
+
+<script type="text/javascript">prettyPrint();</script>

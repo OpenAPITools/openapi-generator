@@ -1,0 +1,10 @@
+/tests export-ignore
+/CodeSniffer/Standards/Generic/Tests export-ignore
+/CodeSniffer/Standards/MySource/Tests export-ignore
+/CodeSniffer/Standards/PEAR/Tests export-ignore
+/CodeSniffer/Standards/PSR1/Tests export-ignore
+/CodeSniffer/Standards/PSR2/Tests export-ignore
+/CodeSniffer/Standards/Squiz/Tests export-ignore
+/CodeSniffer/Standards/Zend/Tests export-ignore
+.travis.yml export-ignore
+package.xml export-ignore

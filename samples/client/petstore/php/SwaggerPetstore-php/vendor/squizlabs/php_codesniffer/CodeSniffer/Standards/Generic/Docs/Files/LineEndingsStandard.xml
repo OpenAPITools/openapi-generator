@@ -1,0 +1,7 @@
+<documentation title="Line Endings">
+    <standard>
+    <![CDATA[
+    Unix-style line endings are preferred ("\n" instead of "\r\n").
+    ]]>
+    </standard>
+</documentation>

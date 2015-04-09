@@ -1,0 +1,117 @@
+<documentation title="Array Declarations">
+    <standard>
+    <![CDATA[
+    This standard covers all array declarations, regardless of the number and type of values contained within the array.
+    ]]>
+    </standard>
+    <standard>
+    <![CDATA[
+    The <em>array</em> keyword must be lowercase.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: array keyword lowercase">
+        <![CDATA[
+$array = <em>a</em>rray('val1', 'val2');
+        ]]>
+        </code>
+        <code title="Invalid: first letter capitalised">
+        <![CDATA[
+$array = <em>A</em>rray('val1', 'val2');
+        ]]>
+        </code>
+    </code_comparison>
+    <standard>
+    <![CDATA[
+    The first array key must begin on the line after the <em>array</em> keyword.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: first key on second line">
+        <![CDATA[
+$array = array(
+          <em>'key1'</em> => 'value1',
+          'key2' => 'value2',
+         );
+        ]]>
+        </code>
+        <code title="Invalid: first key on same line">
+        <![CDATA[
+$array = array(<em>'key1'</em> => 'value1',
+          'key2' => 'value2',
+         );
+        ]]>
+        </code>
+    </code_comparison>
+    <standard>
+    <![CDATA[
+    All array keys must be indented to one space after the start of the <em>array</em> keyword. The closing parenthesis must be aligned with the start of the <em>array</em> keyword.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: aligned correctly">
+        <![CDATA[
+$array = array(
+         <em> </em>'key1' => 'value1',
+         <em> </em>'key2' => 'value2',
+         );
+        ]]>
+        </code>
+        <code title="Invalid: keys and parenthesis aligned incorrectly">
+        <![CDATA[
+$array = array(
+         <em>'</em>key1' => 'value1',
+         <em>'</em>key2' => 'value2',
+);
+        ]]>
+        </code>
+    </code_comparison>
+    <standard>
+    <![CDATA[
+    All double arrow symbols must be aligned to one space after the longest array key. Alignment must be achieved using spaces.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: keys and values aligned">
+        <![CDATA[
+$array = array(
+          'keyTen'<em>    </em>=> 'ValueTen',
+          'keyTwenty'<em> </em>=> 'ValueTwenty',
+         );
+        ]]>
+        </code>
+        <code title="Invalid: alignment incorrect">
+        <![CDATA[
+$array = array(
+          'keyTen'<em> </em>=> 'ValueTen',
+          'keyTwenty'<em> </em>=> 'ValueTwenty',
+         );
+        ]]>
+        </code>
+    </code_comparison>
+    <standard>
+    <![CDATA[
+    All array values must be followed by a comma, including the final value.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: comma after each value">
+        <![CDATA[
+$array = array(
+          'key1' => 'value1',
+          'key2' => 'value2',
+          'key3' => 'value3'<em>,</em>
+         );
+        ]]>
+        </code>
+        <code title="Invalid: no comma after last value">
+        <![CDATA[
+$array = array(
+          'key1' => 'value1',
+          'key2' => 'value2',
+          'key3' => 'value3'<em> </em>
+         );
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

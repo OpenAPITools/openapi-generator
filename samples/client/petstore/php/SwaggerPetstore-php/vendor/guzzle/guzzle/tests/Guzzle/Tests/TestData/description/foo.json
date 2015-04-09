@@ -1,0 +1,8 @@
+{
+    "includes": ["recursive.json"],
+    "operations": {
+        "abstract": {
+            "httpMethod": "POST"
+        }
+    }
+}

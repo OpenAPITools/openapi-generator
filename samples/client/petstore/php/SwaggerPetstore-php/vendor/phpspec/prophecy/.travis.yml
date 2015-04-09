@@ -1,0 +1,9 @@
+language: php
+
+php: [5.3, 5.4, 5.5, hhvm, hhvm-nightly]
+
+sudo: false
+
+before_script: travis_retry composer install --no-interaction --prefer-source
+
+script: vendor/bin/phpspec run -fpretty -v

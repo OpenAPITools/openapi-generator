@@ -1,0 +1,5 @@
+phpunit.xml
+composer.lock
+build
+vendor
+coverage.clover

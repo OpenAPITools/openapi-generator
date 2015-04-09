@@ -1,0 +1,19 @@
+<documentation title="Semicolon Spacing">
+    <standard>
+    <![CDATA[
+    Semicolons should not have spaces before them.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: No space before the semicolon.">
+        <![CDATA[
+echo "hi"<em></em>;
+]]>
+        </code>
+        <code title="Invalid: Space before the semicolon.">
+        <![CDATA[
+echo "hi"<em> </em>;
+]]>
+        </code>
+    </code_comparison>
+</documentation>

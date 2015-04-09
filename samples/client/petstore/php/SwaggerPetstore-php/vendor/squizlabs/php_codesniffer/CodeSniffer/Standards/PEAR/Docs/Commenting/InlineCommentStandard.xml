@@ -1,0 +1,19 @@
+<documentation title="Inline Comments">
+    <standard>
+    <![CDATA[
+    Perl-style # comments are not allowed.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: A // style comment.">
+        <![CDATA[
+<em>//</em> A comment.
+        ]]>
+        </code>
+        <code title="Invalid: A # style comment.">
+        <![CDATA[
+<em>#</em> A comment.
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

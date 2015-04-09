@@ -1,0 +1,25 @@
+<documentation title="Jumbled Incrementers">
+    <standard>
+    <![CDATA[
+    Incrementers in nested loops should use different variable names.
+    ]]>
+    </standard>
+    <code_comparison>
+        <code title="Valid: Two different variables being used to increment.">
+        <![CDATA[
+for ($i = 0; $i < 10; <em>$i++</em>) {
+    for ($j = 0; $j < 10; <em>$j++</em>) {
+    }
+}
+        ]]>
+        </code>
+        <code title="Invalid: Inner incrementer is the same variable name as the outer one.">
+        <![CDATA[
+for ($i = 0; $i < 10; <em>$i++</em>) {
+    for ($j = 0; $j < 10; <em>$i++</em>) {
+    }
+}
+        ]]>
+        </code>
+    </code_comparison>
+</documentation>

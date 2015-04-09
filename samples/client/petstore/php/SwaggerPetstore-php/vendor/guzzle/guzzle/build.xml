@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="guzzle" default="test">
+    <!-- set local values, like git location -->
+    <property file="phing/build.properties.dist" override="true" />
+    <property file="phing/build.properties" override="true" />
+
+    <property name="dir.output" value="${project.basedir}/build/artifacts" />
+    <property name="dir.imports" value="${project.basedir}/phing/imports" />
+    <property name="dir.bin" value="${project.basedir}/bin" />
+    <property name="repo.dir" value="${project.basedir}" />
+
+    <import file="${dir.imports}/dependencies.xml"/>
+    <import file="${dir.imports}/deploy.xml"/>
+
+    <target name="composer-lint" description="lint-check composer.json only">
+        <composerlint dir="${project.basedir}/src" file="{$project.basedir}/composer.json" />
+    </target>
+
+    <target name="test" description="Run unit tests">
+        <exec passthru="true" command="vendor/bin/phpunit" checkReturn="true" />
+    </target>
+
+    <target name="build-init" description="Initialize local phing properties">
+        <copy file="phing/build.properties.dist" tofile="phing/build.properties" overwrite="false" />
+    </target>
+
+    <target name="clean">
+        <delete dir="${dir.output}"/>
+        <delete dir="${project.basedir}/build/pearwork"/>
+    </target>
+
+    <target name="prepare" depends="clean,build-init">
+        <mkdir dir="${dir.output}"/>
+        <mkdir dir="${dir.output}/logs" />
+    </target>
+
+    <target name="coverage" depends="prepare">
+        <exec passthru="true" command="vendor/bin/phpunit --coverage-html=${dir.output}/coverage" />
+    </target>
+
+    <target name="view-coverage">
+        <exec passthru="true" command="open ${dir.output}/coverage/index.html" />
+    </target>
+
+</project>
