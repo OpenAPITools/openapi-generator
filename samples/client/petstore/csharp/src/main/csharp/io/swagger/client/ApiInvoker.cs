@@ -23,6 +23,16 @@
         return str;
       }
 
+      /// <summary>
+      /// if parameter is DateTime, output in ISO8601 format, otherwise just return the string
+      /// </summary>
+      /// <param name="obj"> The parameter (header, path, query, form)
+      /// <returns></returns>
+      public string ParameterToString(object obj)
+      {
+        return (obj is DateTime) ? ((DateTime)obj).ToString ("u") : Convert.ToString (obj);
+      }
+
       public static object deserialize(string json, Type type) {
         try
         {
