@@ -3,20 +3,16 @@
 import os
 
 # import models into package
-from .models.User import User
-from .models.Category import Category
-from .models.Pet import Pet
-from .models.Tag import Tag
-from .models.Order import Order
+{{#models}}
+{{#model}}
+from .models.{{classname}} import {{classname}}
+{{/model}}
+{{/models}}
 
 # import apis into package
-
-from .UserApi import UserApi
-
-from .PetApi import PetApi
-
-from .StoreApi import StoreApi
-
+{{#apiInfo}}{{#apis}}{{#operations}}
+from .{{classname}} import {{classname}}
+{{/operations}}{{/apis}}{{/apiInfo}}
 
 # import ApiClient
 from .swagger import ApiClient

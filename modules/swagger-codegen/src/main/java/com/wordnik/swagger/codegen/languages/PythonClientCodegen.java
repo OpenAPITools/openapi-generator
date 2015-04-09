@@ -27,10 +27,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     modelTemplateFiles.put("model.mustache", ".py");
     apiTemplateFiles.put("api.mustache", ".py");
     templateDir = "python";
-    
+
     apiPackage = module;
     modelPackage = module + ".models";
-    
+
     languageSpecificPrimitives.clear();
     languageSpecificPrimitives.add("int");
     languageSpecificPrimitives.add("float");
@@ -61,8 +61,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     supportingFiles.add(new SupportingFile("swagger.mustache", module, "swagger.py"));
-    supportingFiles.add(new SupportingFile("__init__.mustache", module, "__init__.py"));
-    supportingFiles.add(new SupportingFile("__init__.mustache", modelPackage.replace('.', File.separatorChar), "__init__.py"));
+    supportingFiles.add(new SupportingFile("__init__package.mustache", module, "__init__.py"));
+    supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage.replace('.', File.separatorChar), "__init__.py"));
   }
 
   @Override
@@ -113,5 +113,5 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
   public String toDefaultValue(Property p) {
 	// TODO: Support Python def value
     return "null";
-  }	
+  }
 }
