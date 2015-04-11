@@ -314,7 +314,7 @@ static bool loggingEnabled = true;
         NSString * urlString = [[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString];
 
         // request with multipart form
-        if(file != nil) {
+        if([requestContentType isEqualToString:@"multipart/form-data"]) {
             request = [self.requestSerializer multipartFormRequestWithMethod: @"POST"
                                                                    URLString: urlString
                                                                   parameters: nil
@@ -325,15 +325,17 @@ static bool loggingEnabled = true;
                                                            [formData appendPartWithFormData: data name: key];
                                                        }
 
-                                                       [formData appendPartWithFileData: [file data]
-                                                                                   name: [file paramName]
-                                                                               fileName: [file name]
-                                                                               mimeType: [file mimeType]];
+                                                       if (file) {
+                                                           [formData appendPartWithFileData: [file data]
+                                                                                       name: [file paramName]
+                                                                                   fileName: [file name]
+                                                                                   mimeType: [file mimeType]];
+                                                       }
 
                                                    }
                                                                        error:nil];
         }
-        // request with form parameters
+        // request with form parameters or json
         else {
             NSString* pathWithQueryParams = [self pathWithQueryParamsToString:path queryParams:queryParams];
             NSString* urlString = [[NSURL URLWithString:pathWithQueryParams relativeToURL:self.baseURL] absoluteString];
@@ -470,7 +472,7 @@ static bool loggingEnabled = true;
         NSString * urlString = [[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString];
 
         // request with multipart form
-        if(file != nil) {
+        if([requestContentType isEqualToString:@"multipart/form-data"]) {
             request = [self.requestSerializer multipartFormRequestWithMethod: @"POST"
                                                                    URLString: urlString
                                                                   parameters: nil
@@ -481,15 +483,17 @@ static bool loggingEnabled = true;
                                                            [formData appendPartWithFormData: data name: key];
                                                        }
 
-                                                       [formData appendPartWithFileData: [file data]
-                                                                                   name: [file paramName]
-                                                                               fileName: [file name]
-                                                                               mimeType: [file mimeType]];
+                                                       if (file) {
+                                                           [formData appendPartWithFileData: [file data]
+                                                                                       name: [file paramName]
+                                                                                   fileName: [file name]
+                                                                                   mimeType: [file mimeType]];
+                                                       }
 
                                                    }
                                                                        error:nil];
         }
-        // request with form parameters
+        // request with form parameters or json
         else {
             NSString* pathWithQueryParams = [self pathWithQueryParamsToString:path queryParams:queryParams];
             NSString* urlString = [[NSURL URLWithString:pathWithQueryParams relativeToURL:self.baseURL] absoluteString];
@@ -576,3 +580,11 @@ static bool loggingEnabled = true;
 }
 
 @end
+
+
+
+
+
+
+
+

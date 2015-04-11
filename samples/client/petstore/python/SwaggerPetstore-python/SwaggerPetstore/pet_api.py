@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# coding: utf-8
+
 """
 PetApi.py
 Copyright 2015 Reverb Technologies, Inc.
@@ -272,14 +274,14 @@ class PetApi(object):
 
         Args:
             
-            petId, long: ID of pet that needs to be fetched (required)
+            pet_id, long: ID of pet that needs to be fetched (required)
             
             
         
         Returns: Pet
         """
 
-        allParams = ['petId']
+        allParams = ['pet_id']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -306,8 +308,8 @@ class PetApi(object):
         
 
         
-        if ('petId' in params):
-            replacement = str(self.apiClient.toPathValue(params['petId']))
+        if ('pet_id' in params):
+            replacement = str(self.apiClient.toPathValue(params['pet_id']))
             replacement = urllib.quote(replacement)
             resourcePath = resourcePath.replace('{' + 'petId' + '}',
                                                 replacement)
@@ -337,7 +339,7 @@ class PetApi(object):
 
         Args:
             
-            petId, str: ID of pet that needs to be updated (required)
+            pet_id, str: ID of pet that needs to be updated (required)
             
             
             name, str: Updated name of the pet (required)
@@ -350,7 +352,7 @@ class PetApi(object):
         Returns: 
         """
 
-        allParams = ['petId', 'name', 'status']
+        allParams = ['pet_id', 'name', 'status']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -377,8 +379,8 @@ class PetApi(object):
         
 
         
-        if ('petId' in params):
-            replacement = str(self.apiClient.toPathValue(params['petId']))
+        if ('pet_id' in params):
+            replacement = str(self.apiClient.toPathValue(params['pet_id']))
             replacement = urllib.quote(replacement)
             resourcePath = resourcePath.replace('{' + 'petId' + '}',
                                                 replacement)
@@ -411,14 +413,14 @@ class PetApi(object):
             api_key, str:  (required)
             
             
-            petId, long: Pet id to delete (required)
+            pet_id, long: Pet id to delete (required)
             
             
         
         Returns: 
         """
 
-        allParams = ['api_key', 'petId']
+        allParams = ['api_key', 'pet_id']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -448,8 +450,8 @@ class PetApi(object):
         
 
         
-        if ('petId' in params):
-            replacement = str(self.apiClient.toPathValue(params['petId']))
+        if ('pet_id' in params):
+            replacement = str(self.apiClient.toPathValue(params['pet_id']))
             replacement = urllib.quote(replacement)
             resourcePath = resourcePath.replace('{' + 'petId' + '}',
                                                 replacement)
@@ -473,10 +475,10 @@ class PetApi(object):
 
         Args:
             
-            petId, long: ID of pet to update (required)
+            pet_id, long: ID of pet to update (required)
             
             
-            additionalMetadata, str: Additional data to pass to server (required)
+            additional_metadata, str: Additional data to pass to server (required)
             
             
             file, file: file to upload (required)
@@ -486,7 +488,7 @@ class PetApi(object):
         Returns: 
         """
 
-        allParams = ['petId', 'additionalMetadata', 'file']
+        allParams = ['pet_id', 'additional_metadata', 'file']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -513,16 +515,16 @@ class PetApi(object):
         
 
         
-        if ('petId' in params):
-            replacement = str(self.apiClient.toPathValue(params['petId']))
+        if ('pet_id' in params):
+            replacement = str(self.apiClient.toPathValue(params['pet_id']))
             replacement = urllib.quote(replacement)
             resourcePath = resourcePath.replace('{' + 'petId' + '}',
                                                 replacement)
         
 
         
-        if ('additionalMetadata' in params):
-            formParams['additionalMetadata'] = params['additionalMetadata']
+        if ('additional_metadata' in params):
+            formParams['additionalMetadata'] = params['additional_metadata']
         
         if ('file' in params):
             files['file'] = params['file']

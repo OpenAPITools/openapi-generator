@@ -12,8 +12,9 @@ describe "Pet" do
   describe "pet methods" do
     it "should fetch a pet object" do
       pet = PetApi.getPetById(5)
+      pet.should be_a(Pet)
       pet.id.should == 5
-      pet.name.should == "Dog 2"
+      pet.name.should == "panda"
     end
 
     it "should find pets by status" do
@@ -22,7 +23,7 @@ describe "Pet" do
     end
     
     it "should not find a pet with invalid status" do
-      pets = PetApi.findPetsByStatus('dead')
+      pets = PetApi.findPetsByStatus('invalid-status')
       pets.length.should == 0
     end
 

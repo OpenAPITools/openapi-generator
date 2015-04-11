@@ -43,6 +43,7 @@ class PetApi {
       $resourcePath = "/pet";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "PUT";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -63,16 +64,19 @@ class PetApi {
         $body = $body;
       }
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -92,6 +96,7 @@ class PetApi {
       $resourcePath = "/pet";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "POST";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -112,16 +117,19 @@ class PetApi {
         $body = $body;
       }
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -141,6 +149,7 @@ class PetApi {
       $resourcePath = "/pet/findByStatus";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "GET";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -160,16 +169,19 @@ class PetApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       if(! $response) {
@@ -195,6 +207,7 @@ class PetApi {
       $resourcePath = "/pet/findByTags";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "GET";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -214,16 +227,19 @@ class PetApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       if(! $response) {
@@ -249,6 +265,7 @@ class PetApi {
       $resourcePath = "/pet/{petId}";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "GET";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -269,16 +286,19 @@ class PetApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       if(! $response) {
@@ -306,6 +326,7 @@ class PetApi {
       $resourcePath = "/pet/{petId}";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "POST";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -332,16 +353,19 @@ class PetApi {
       }
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -362,6 +386,7 @@ class PetApi {
       $resourcePath = "/pet/{petId}";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "DELETE";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -385,16 +410,19 @@ class PetApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -416,6 +444,7 @@ class PetApi {
       $resourcePath = "/pet/{petId}/uploadImage";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "POST";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -442,16 +471,19 @@ class PetApi {
       }
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       

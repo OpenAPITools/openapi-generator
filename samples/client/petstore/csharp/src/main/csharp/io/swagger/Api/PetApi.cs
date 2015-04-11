@@ -144,8 +144,7 @@ namespace io.swagger.Api {
       
 
       if (Status != null){
-        string paramStr = (Status is DateTime) ? ((DateTime)(object)Status).ToString("u") : Convert.ToString(Status);
-        queryParams.Add("status", paramStr);
+        queryParams.Add("status", apiInvoker.ParameterToString(Status));
       }
       
 
@@ -201,8 +200,7 @@ namespace io.swagger.Api {
       
 
       if (Tags != null){
-        string paramStr = (Tags is DateTime) ? ((DateTime)(object)Tags).ToString("u") : Convert.ToString(Tags);
-        queryParams.Add("tags", paramStr);
+        queryParams.Add("tags", apiInvoker.ParameterToString(Tags));
       }
       
 
@@ -248,7 +246,7 @@ namespace io.swagger.Api {
     /// <returns></returns>
     public Pet  getPetById (long? PetId) {
       // create path and map variables
-      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.escapeString(PetId.ToString()));
+      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
       // query params
       var queryParams = new Dictionary<String, String>();
@@ -303,7 +301,7 @@ namespace io.swagger.Api {
     /// <returns></returns>
     public void  updatePetWithForm (string PetId, string Name, string Status) {
       // create path and map variables
-      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.escapeString(PetId.ToString()));
+      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
       // query params
       var queryParams = new Dictionary<String, String>();
@@ -320,16 +318,14 @@ namespace io.swagger.Api {
         if(Name is byte[]) {
           formParams.Add("name", Name);
         } else {
-          string paramStr = (Name is DateTime) ? ((DateTime)(object)Name).ToString("u") : Convert.ToString(Name);
-          formParams.Add("name", paramStr);
+          formParams.Add("name", apiInvoker.ParameterToString(Name));
         }
       }
       if (Status != null){
         if(Status is byte[]) {
           formParams.Add("status", Status);
         } else {
-          string paramStr = (Status is DateTime) ? ((DateTime)(object)Status).ToString("u") : Convert.ToString(Status);
-          formParams.Add("status", paramStr);
+          formParams.Add("status", apiInvoker.ParameterToString(Status));
         }
       }
       
@@ -368,7 +364,7 @@ namespace io.swagger.Api {
     /// <returns></returns>
     public void  deletePet (string ApiKey, long? PetId) {
       // create path and map variables
-      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.escapeString(PetId.ToString()));
+      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
       // query params
       var queryParams = new Dictionary<String, String>();
@@ -379,7 +375,7 @@ namespace io.swagger.Api {
 
       
 
-      headerParams.Add("api_key", ApiKey);
+      headerParams.Add("api_key", apiInvoker.ParameterToString(ApiKey));
       
 
       
@@ -419,7 +415,7 @@ namespace io.swagger.Api {
     /// <returns></returns>
     public void  uploadFile (long? PetId, string AdditionalMetadata, byte[] File) {
       // create path and map variables
-      var path = "/pet/{petId}/uploadImage".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.escapeString(PetId.ToString()));
+      var path = "/pet/{petId}/uploadImage".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
       // query params
       var queryParams = new Dictionary<String, String>();
@@ -436,16 +432,14 @@ namespace io.swagger.Api {
         if(AdditionalMetadata is byte[]) {
           formParams.Add("additionalMetadata", AdditionalMetadata);
         } else {
-          string paramStr = (AdditionalMetadata is DateTime) ? ((DateTime)(object)AdditionalMetadata).ToString("u") : Convert.ToString(AdditionalMetadata);
-          formParams.Add("additionalMetadata", paramStr);
+          formParams.Add("additionalMetadata", apiInvoker.ParameterToString(AdditionalMetadata));
         }
       }
       if (File != null){
         if(File is byte[]) {
           formParams.Add("file", File);
         } else {
-          string paramStr = (File is DateTime) ? ((DateTime)(object)File).ToString("u") : Convert.ToString(File);
-          formParams.Add("file", paramStr);
+          formParams.Add("file", apiInvoker.ParameterToString(File));
         }
       }
       
