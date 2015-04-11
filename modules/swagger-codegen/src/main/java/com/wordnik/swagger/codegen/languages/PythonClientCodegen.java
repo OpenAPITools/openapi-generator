@@ -7,7 +7,9 @@ import java.io.File;
 import java.util.*;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
-  String module = "client";
+  protected String module = "SwaggerPetstore";
+  protected String invokerPackage;
+  protected String eggPackage;
 
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -23,13 +25,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
   public PythonClientCodegen() {
     super();
+
+    eggPackage = module + "-python";
+    invokerPackage = eggPackage + "/" + module;
+
     outputFolder = "generated-code/python";
     modelTemplateFiles.put("model.mustache", ".py");
     apiTemplateFiles.put("api.mustache", ".py");
     templateDir = "python";
 
-    apiPackage = module;
-    modelPackage = module + ".models";
+    apiPackage = invokerPackage;
+    modelPackage = invokerPackage + ".models";
 
     languageSpecificPrimitives.clear();
     languageSpecificPrimitives.add("int");
@@ -59,9 +65,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
         "return", "def", "for", "lambda", "try"));
 
-    supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-    supportingFiles.add(new SupportingFile("swagger.mustache", module, "swagger.py"));
-    supportingFiles.add(new SupportingFile("__init__package.mustache", module, "__init__.py"));
+    additionalProperties.put("module", module);
+
+    supportingFiles.add(new SupportingFile("README.mustache", eggPackage, "README.md"));
+    supportingFiles.add(new SupportingFile("setup.mustache", eggPackage, "setup.py"));
+    supportingFiles.add(new SupportingFile("swagger.mustache", invokerPackage, "swagger.py"));
+    supportingFiles.add(new SupportingFile("__init__package.mustache", invokerPackage, "__init__.py"));
     supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage.replace('.', File.separatorChar), "__init__.py"));
   }
 

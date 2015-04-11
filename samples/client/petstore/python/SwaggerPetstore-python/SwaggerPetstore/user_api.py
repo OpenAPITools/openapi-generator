@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# coding: utf-8
+
 """
 UserApi.py
 Copyright 2015 Reverb Technologies, Inc.
