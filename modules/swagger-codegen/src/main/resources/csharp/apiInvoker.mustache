@@ -15,14 +15,41 @@
         return _instance;
       }
 
+      /// <summary>
+      /// Add default header
+      /// </summary>
+      /// <param name="key">  Header field name
+      /// <param name="value"> Header field value
+      /// <returns></returns>
       public void addDefaultHeader(string key, string value) {
          defaultHeaderMap.Add(key, value);
       }
 
+      /// <summary>
+      /// escape string (url-encoded)
+      /// </summary>
+      /// <param name="str"> String to be escaped
+      /// <returns>Escaped string</returns>
       public string escapeString(string str) {
         return str;
       }
 
+      /// <summary>
+      /// if parameter is DateTime, output in ISO8601 format, otherwise just return the string
+      /// </summary>
+      /// <param name="obj"> The parameter (header, path, query, form)
+      /// <returns>Formatted string</returns>
+      public string ParameterToString(object obj)
+      {
+        return (obj is DateTime) ? ((DateTime)obj).ToString ("u") : Convert.ToString (obj);
+      }
+
+      /// <summary>
+      /// Deserialize the JSON string into a proper object
+      /// </summary>
+      /// <param name="json"> JSON string
+      /// <param name="type"> Object type
+      /// <returns>Object representation of the JSON string</returns>
       public static object deserialize(string json, Type type) {
         try
         {
@@ -99,6 +126,7 @@
               case "GET":
                   break;
               case "POST":
+              case "PATCH":
               case "PUT":
               case "DELETE":
                   using (Stream requestStream = client.GetRequestStream())

@@ -43,6 +43,7 @@ class UserApi {
       $resourcePath = "/user";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "POST";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -63,16 +64,19 @@ class UserApi {
         $body = $body;
       }
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -92,6 +96,7 @@ class UserApi {
       $resourcePath = "/user/createWithArray";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "POST";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -112,16 +117,19 @@ class UserApi {
         $body = $body;
       }
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -141,6 +149,7 @@ class UserApi {
       $resourcePath = "/user/createWithList";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "POST";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -161,16 +170,19 @@ class UserApi {
         $body = $body;
       }
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -191,6 +203,7 @@ class UserApi {
       $resourcePath = "/user/login";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "GET";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -213,16 +226,19 @@ class UserApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       if(! $response) {
@@ -247,6 +263,7 @@ class UserApi {
       $resourcePath = "/user/logout";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "GET";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -263,16 +280,19 @@ class UserApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -292,6 +312,7 @@ class UserApi {
       $resourcePath = "/user/{username}";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "GET";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -312,16 +333,19 @@ class UserApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       if(! $response) {
@@ -348,6 +372,7 @@ class UserApi {
       $resourcePath = "/user/{username}";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "PUT";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -372,16 +397,19 @@ class UserApi {
         $body = $body;
       }
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
@@ -401,6 +429,7 @@ class UserApi {
       $resourcePath = "/user/{username}";
       $resourcePath = str_replace("{format}", "json", $resourcePath);
       $method = "DELETE";
+      $httpBody = '';
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
@@ -421,16 +450,19 @@ class UserApi {
       
       
 
+      // for model (json/xml)
+      if (isset($body)) {
+        $httpBody = $body; // $body is the method argument, if present
+      }
+      
       // for HTTP post (form)
-      $body = $body ?: $formParams;
-
       if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
+        $httpBody = http_build_query($formParams);
       }
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
+                                            $queryParams, $httpBody,
                                             $headerParams);
 
       
