@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RestSharp;
 using io.swagger.client;
 using io.swagger.Model;
 
@@ -8,10 +9,12 @@ namespace io.swagger.Api {
   public class StoreApi {
     string basePath;
     private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
+    protected RestClient _client;
 
     public StoreApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
+      _client = new RestClient(basePath);
     }
 
     public ApiInvoker getInvoker() {
@@ -39,40 +42,27 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/store/inventory".Replace("{format}","json");
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/store/inventory", Method.GET);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
       
-
+      // query parameters, if any
       
-
+      // header parameters, if any
+      
+      // form parameters, if any
       
 
       try {
-        if (typeof(Dictionary<String, int?>) == typeof(byte[])) {
-          
-          var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as Dictionary<String, int?>;
-          
-          
-        } else {
-          
-          var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          if (response != null){
-             return (Dictionary<String, int?>) ApiInvoker.deserialize(response, typeof(Dictionary<String, int?>));
-          }
-          else {
-            return null;
-          }
-          
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        IRestResponse response = _client.Execute(_request);
+        return (Dictionary<String, int?>) ApiInvoker.deserialize(response.Content, typeof(Dictionary<String, int?>));
+        //return ((object)response) as Dictionary<String, int?>;
+        
+      } catch (Exception ex) {
+        if(ex != null) {
           return null;
         }
         else {
@@ -92,40 +82,27 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/store/order".Replace("{format}","json");
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/store/order", Method.POST);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
       
-
+      // query parameters, if any
       
-
+      // header parameters, if any
+      
+      // form parameters, if any
       
 
       try {
-        if (typeof(Order) == typeof(byte[])) {
-          
-          var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as Order;
-          
-          
-        } else {
-          
-          var response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, Body, headerParams, formParams);
-          if (response != null){
-             return (Order) ApiInvoker.deserialize(response, typeof(Order));
-          }
-          else {
-            return null;
-          }
-          
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        IRestResponse response = _client.Execute(_request);
+        return (Order) ApiInvoker.deserialize(response.Content, typeof(Order));
+        //return ((object)response) as Order;
+        
+      } catch (Exception ex) {
+        if(ex != null) {
           return null;
         }
         else {
@@ -145,40 +122,27 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/store/order/{orderId}", Method.GET);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      _request.AddUrlSegment("orderId", apiInvoker.ParameterToString(OrderId));
+      // query parameters, if any
       
-
+      // header parameters, if any
       
-
+      // form parameters, if any
       
 
       try {
-        if (typeof(Order) == typeof(byte[])) {
-          
-          var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as Order;
-          
-          
-        } else {
-          
-          var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          if (response != null){
-             return (Order) ApiInvoker.deserialize(response, typeof(Order));
-          }
-          else {
-            return null;
-          }
-          
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        IRestResponse response = _client.Execute(_request);
+        return (Order) ApiInvoker.deserialize(response.Content, typeof(Order));
+        //return ((object)response) as Order;
+        
+      } catch (Exception ex) {
+        if(ex != null) {
           return null;
         }
         else {
@@ -198,35 +162,26 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/store/order/{orderId}", Method.DELETE);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      _request.AddUrlSegment("orderId", apiInvoker.ParameterToString(OrderId));
+      // query parameters, if any
       
-
+      // header parameters, if any
       
-
+      // form parameters, if any
       
 
       try {
-        if (typeof(void) == typeof(byte[])) {
-          
-          
-          apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return;
-          
-        } else {
-          
-          
-          apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, formParams);
-          return;
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        
+        _client.Execute(_request);
+        return;
+      } catch (Exception ex) {
+        if(ex != null) {
           return ;
         }
         else {
