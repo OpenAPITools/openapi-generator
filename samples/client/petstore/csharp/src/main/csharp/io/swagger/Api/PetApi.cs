@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RestSharp;
 using io.swagger.client;
 using io.swagger.Model;
 
@@ -8,10 +9,12 @@ namespace io.swagger.Api {
   public class PetApi {
     string basePath;
     private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
+    protected RestClient _client;
 
     public PetApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
+      _client = new RestClient(basePath);
     }
 
     public ApiInvoker getInvoker() {
@@ -40,35 +43,26 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet".Replace("{format}","json");
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet", Method.PUT);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
       
-
+      // query parameters, if any
       
-
+      // header parameters, if any
+      
+      // form parameters, if any
       
 
       try {
-        if (typeof(void) == typeof(byte[])) {
-          
-          
-          apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return;
-          
-        } else {
-          
-          
-          apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, Body, headerParams, formParams);
-          return;
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        
+        _client.Execute(_request);
+        return;
+      } catch (Exception ex) {
+        if(ex != null) {
           return ;
         }
         else {
@@ -88,35 +82,26 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet".Replace("{format}","json");
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet", Method.POST);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
       
-
+      // query parameters, if any
       
-
+      // header parameters, if any
+      
+      // form parameters, if any
       
 
       try {
-        if (typeof(void) == typeof(byte[])) {
-          
-          
-          apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return;
-          
-        } else {
-          
-          
-          apiInvoker.invokeAPI(basePath, path, "POST", queryParams, Body, headerParams, formParams);
-          return;
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        
+        _client.Execute(_request);
+        return;
+      } catch (Exception ex) {
+        if(ex != null) {
           return ;
         }
         else {
@@ -136,43 +121,27 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet/findByStatus".Replace("{format}","json");
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet/findByStatus", Method.GET);
 
       
 
-      if (Status != null){
-        queryParams.Add("status", apiInvoker.ParameterToString(Status));
-      }
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
       
-
+      // query parameters, if any
+       if (Status != null) _request.AddParameter("status", Status);
+      // header parameters, if any
       
-
+      // form parameters, if any
       
 
       try {
-        if (typeof(List<Pet>) == typeof(byte[])) {
-          
-          var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as List<Pet>;
-          
-          
-        } else {
-          
-          var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          if (response != null){
-             return (List<Pet>) ApiInvoker.deserialize(response, typeof(List<Pet>));
-          }
-          else {
-            return null;
-          }
-          
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        IRestResponse response = _client.Execute(_request);
+        return (List<Pet>) ApiInvoker.deserialize(response.Content, typeof(List<Pet>));
+        //return ((object)response) as List<Pet>;
+        
+      } catch (Exception ex) {
+        if(ex != null) {
           return null;
         }
         else {
@@ -192,43 +161,27 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet/findByTags".Replace("{format}","json");
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet/findByTags", Method.GET);
 
       
 
-      if (Tags != null){
-        queryParams.Add("tags", apiInvoker.ParameterToString(Tags));
-      }
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
       
-
+      // query parameters, if any
+       if (Tags != null) _request.AddParameter("tags", Tags);
+      // header parameters, if any
       
-
+      // form parameters, if any
       
 
       try {
-        if (typeof(List<Pet>) == typeof(byte[])) {
-          
-          var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as List<Pet>;
-          
-          
-        } else {
-          
-          var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          if (response != null){
-             return (List<Pet>) ApiInvoker.deserialize(response, typeof(List<Pet>));
-          }
-          else {
-            return null;
-          }
-          
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        IRestResponse response = _client.Execute(_request);
+        return (List<Pet>) ApiInvoker.deserialize(response.Content, typeof(List<Pet>));
+        //return ((object)response) as List<Pet>;
+        
+      } catch (Exception ex) {
+        if(ex != null) {
           return null;
         }
         else {
@@ -248,40 +201,27 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet/{petId}", Method.GET);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      // query parameters, if any
       
-
+      // header parameters, if any
       
-
+      // form parameters, if any
       
 
       try {
-        if (typeof(Pet) == typeof(byte[])) {
-          
-          var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as Pet;
-          
-          
-        } else {
-          
-          var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          if (response != null){
-             return (Pet) ApiInvoker.deserialize(response, typeof(Pet));
-          }
-          else {
-            return null;
-          }
-          
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        IRestResponse response = _client.Execute(_request);
+        return (Pet) ApiInvoker.deserialize(response.Content, typeof(Pet));
+        //return ((object)response) as Pet;
+        
+      } catch (Exception ex) {
+        if(ex != null) {
           return null;
         }
         else {
@@ -303,49 +243,28 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet/{petId}", Method.POST);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      // query parameters, if any
       
-
+      // header parameters, if any
       
-
-      if (Name != null){
-        if(Name is byte[]) {
-          formParams.Add("name", Name);
-        } else {
-          formParams.Add("name", apiInvoker.ParameterToString(Name));
-        }
-      }
-      if (Status != null){
-        if(Status is byte[]) {
-          formParams.Add("status", Status);
-        } else {
-          formParams.Add("status", apiInvoker.ParameterToString(Status));
-        }
-      }
+      // form parameters, if any
+      if (Name != null) _request.AddFile("name", Name);
+      if (Status != null) _request.AddFile("status", Status);
       
 
       try {
-        if (typeof(void) == typeof(byte[])) {
-          
-          
-          apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return;
-          
-        } else {
-          
-          
-          apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, formParams);
-          return;
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        
+        _client.Execute(_request);
+        return;
+      } catch (Exception ex) {
+        if(ex != null) {
           return ;
         }
         else {
@@ -366,36 +285,26 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet/{petId}", Method.DELETE);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      // query parameters, if any
       
-
-      headerParams.Add("api_key", apiInvoker.ParameterToString(ApiKey));
-      
-
+      // header parameters, if any
+       if (ApiKey != null) _request.AddHeader("api_key", ApiKey);
+      // form parameters, if any
       
 
       try {
-        if (typeof(void) == typeof(byte[])) {
-          
-          
-          apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return;
-          
-        } else {
-          
-          
-          apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, null, headerParams, formParams);
-          return;
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        
+        _client.Execute(_request);
+        return;
+      } catch (Exception ex) {
+        if(ex != null) {
           return ;
         }
         else {
@@ -417,49 +326,28 @@ namespace io.swagger.Api {
       // create path and map variables
       var path = "/pet/{petId}/uploadImage".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("/pet/{petId}/uploadImage", Method.POST);
 
       
 
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      // query parameters, if any
       
-
+      // header parameters, if any
       
-
-      if (AdditionalMetadata != null){
-        if(AdditionalMetadata is byte[]) {
-          formParams.Add("additionalMetadata", AdditionalMetadata);
-        } else {
-          formParams.Add("additionalMetadata", apiInvoker.ParameterToString(AdditionalMetadata));
-        }
-      }
-      if (File != null){
-        if(File is byte[]) {
-          formParams.Add("file", File);
-        } else {
-          formParams.Add("file", apiInvoker.ParameterToString(File));
-        }
-      }
+      // form parameters, if any
+      if (AdditionalMetadata != null) _request.AddFile("additionalMetadata", AdditionalMetadata);
+      if (File != null) _request.AddParameter("file", File);
       
 
       try {
-        if (typeof(void) == typeof(byte[])) {
-          
-          
-          apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return;
-          
-        } else {
-          
-          
-          apiInvoker.invokeAPI(basePath, path, "POST", queryParams, null, headerParams, formParams);
-          return;
-          
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        
+        _client.Execute(_request);
+        return;
+      } catch (Exception ex) {
+        if(ex != null) {
           return ;
         }
         else {

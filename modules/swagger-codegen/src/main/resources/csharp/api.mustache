@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RestSharp;
 using {{invokerPackage}};
 using {{modelPackage}};
 {{#imports}}
@@ -10,10 +11,12 @@ namespace {{package}} {
   public class {{classname}} {
     string basePath;
     private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
+    protected RestClient _client;
 
     public {{classname}}(String basePath = "{{basePath}}")
     {
       this.basePath = basePath;
+      _client = new RestClient(basePath);
     }
 
     public ApiInvoker getInvoker() {
@@ -39,65 +42,33 @@ namespace {{package}} {
     {{#hasMore}} {{/hasMore}}{{/allParams}}
     /// <returns></returns>
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-      // create path and map variables
-      var path = "{{path}}".Replace("{format}","json"){{#pathParams}}.Replace("{" + "{{baseName}}" + "}", apiInvoker.ParameterToString({{{paramName}}})){{/pathParams}};
 
-      // query params
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, object>();
+      var _request = new RestRequest("{{path}}", Method.{{httpMethod}});
 
-      {{#requiredParamCount}}
-      // verify required params are set
-      if ({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
-         throw new ApiException(400, "missing required params");
-      }
-      {{/requiredParamCount}}
+      {{#requiredParams}}
+      // verify required param {{paramName}} is set
+      if ({{paramName}} == null) throw new ApiException(400, "missing required params {{paramName}}");
+      {{/requiredParams}}
 
-      {{#queryParams}}if ({{paramName}} != null){
-        queryParams.Add("{{baseName}}", apiInvoker.ParameterToString({{paramName}}));
-      }
-      {{/queryParams}}
-
-      {{#headerParams}}headerParams.Add("{{baseName}}", apiInvoker.ParameterToString({{paramName}}));
-      {{/headerParams}}
-
-      {{#formParams}}if ({{paramName}} != null){
-        if({{paramName}} is byte[]) {
-          formParams.Add("{{baseName}}", {{paramName}});
-        } else {
-          formParams.Add("{{baseName}}", apiInvoker.ParameterToString({{paramName}}));
-        }
-      }
+      // path (url segment) parameters
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      {{#pathParams}}_request.AddUrlSegment("{{baseName}}", apiInvoker.ParameterToString({{{paramName}}}));{{/pathParams}}
+      // query parameters, if any
+      {{#queryParams}} if ({{paramName}} != null) _request.AddParameter("{{baseName}}", {{paramName}});{{/queryParams}}
+      // header parameters, if any
+      {{#headerParams}} if ({{paramName}} != null) _request.AddHeader("{{baseName}}", {{paramName}});{{/headerParams}}
+      // form parameters, if any
+      {{#formParams}}if ({{paramName}} != null) {{#isFile}}_request.AddParameter("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}_request.AddFile("{{baseName}}", {{paramName}});{{/isFile}}
       {{/formParams}}
 
       try {
-        if (typeof({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}) == typeof(byte[])) {
-          {{#returnType}}
-          var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as {{{returnType}}};
-          {{/returnType}}
-          {{^returnType}}
-          apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return;
-          {{/returnType}}
-        } else {
-          {{#returnType}}
-          var response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams, formParams);
-          if (response != null){
-             return ({{{returnType}}}) ApiInvoker.deserialize(response, typeof({{{returnType}}}));
-          }
-          else {
-            return null;
-          }
-          {{/returnType}}
-          {{^returnType}}
-          apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams, formParams);
-          return;
-          {{/returnType}}
-        }
-      } catch (ApiException ex) {
-        if(ex.ErrorCode == 404) {
+        {{#returnType}}IRestResponse response = _client.Execute(_request);
+        return ({{{returnType}}}) ApiInvoker.deserialize(response.Content, typeof({{{returnType}}}));
+        //return ((object)response) as {{{returnType}}};{{/returnType}}
+        {{^returnType}}_client.Execute(_request);
+        return;{{/returnType}}
+      } catch (Exception ex) {
+        if(ex != null) {
           return {{#returnType}}null{{/returnType}};
         }
         else {
