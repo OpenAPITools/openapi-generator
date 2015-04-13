@@ -84,7 +84,7 @@ class {{classname}} {
       }
       
       // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
+      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
         $httpBody = http_build_query($formParams);
       }
 
