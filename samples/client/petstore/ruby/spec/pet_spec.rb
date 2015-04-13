@@ -2,19 +2,16 @@ require 'spec_helper'
 
 describe "Pet" do
   before do
-    Swagger.configure do |config|
-      config.api_key = 'special-key' 
-      config.host = 'petstore.swagger.io'
-      config.base_path = '/v2'
-    end
+    configure_swagger
+    prepare_pet
   end
   
   describe "pet methods" do
     it "should fetch a pet object" do
-      pet = PetApi.getPetById(5)
+      pet = PetApi.getPetById(10002)
       pet.should be_a(Pet)
-      pet.id.should == 5
-      pet.name.should == "panda"
+      pet.id.should == 10002
+      pet.name.should == "RUBY UNIT TESTING"
     end
 
     it "should find pets by status" do
@@ -37,36 +34,21 @@ describe "Pet" do
     end
     
     it "should update a pet" do
-      pet = Pet.new({'id' => 99, 'name' => 'programmer', 'status' => 'coding'})
+      pet = Pet.new({'id' => 10002, 'status' => 'sold'})
       PetApi.addPet(pet)
       
-      fetched = PetApi.getPetById(99)
-      fetched.id.should == 99
+      fetched = PetApi.getPetById(10002)
+      fetched.id.should == 10002
+      fetched.status.should == 'sold'
     end
 
     it "should create a pet" do 
-      pet = Pet.new('id' => 100, 'name' => "Gorilla")
-      #raise pet.inspect
+      pet = Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
       PetApi.addPet(pet)
 
-      pet = PetApi.getPetById(100)
-      pet.id.should == 100
-      pet.name.should == "Gorilla"
+      pet = PetApi.getPetById(10002)
+      pet.id.should == 10002
+      pet.name.should == "RUBY UNIT TESTING"
     end
-  end
-end
-
-describe "Store" do
-  before do
-    Swagger.configure do |config|
-      config.api_key = 'special-key' 
-      config.host = 'petstore.swagger.io'
-      config.base_path = '/v2'
-    end
-  end
-
-  it "should fetch an order" do
-    item = StoreApi.getOrderById(5)
-    item.id.should == 5
   end
 end
