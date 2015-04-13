@@ -61,8 +61,11 @@ class StoreApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -120,8 +123,11 @@ class StoreApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -182,8 +188,11 @@ class StoreApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -247,8 +256,11 @@ class StoreApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
