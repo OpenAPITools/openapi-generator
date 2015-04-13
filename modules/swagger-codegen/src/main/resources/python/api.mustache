@@ -65,8 +65,11 @@ class {{classname}}(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = '{{#produces}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/produces}}'
-        headerParams['Content-Type'] = '{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}'
+        accepts = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         {{#queryParams}}
         if ('{{paramName}}' in params):

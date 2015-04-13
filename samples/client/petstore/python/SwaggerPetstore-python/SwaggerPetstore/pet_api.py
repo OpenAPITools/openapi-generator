@@ -64,8 +64,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'application/json,application/xml,'
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = ['application/json', 'application/xml', ]
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -120,8 +123,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'application/json,application/xml,'
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = ['application/json', 'application/xml', ]
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -176,8 +182,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
         if ('status' in params):
@@ -238,8 +247,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
         if ('tags' in params):
@@ -300,8 +312,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -371,8 +386,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'application/x-www-form-urlencoded,'
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = ['application/x-www-form-urlencoded', ]
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -439,8 +457,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = ''
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = []
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
@@ -507,8 +528,11 @@ class PetApi(object):
         files = {}
         bodyParam = None
 
-        headerParams['Accept'] = 'application/json,application/xml'
-        headerParams['Content-Type'] = 'multipart/form-data,'
+        accepts = ['application/json', 'application/xml']
+        headerParams['Accept'] = ', '.join(accepts)
+
+        content_types = ['multipart/form-data', ]
+        headerParams['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         
 
