@@ -18,7 +18,6 @@ class PetApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -28,10 +27,8 @@ class PetApi
     _header_content_type = ['application/json', 'application/xml', ]
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -72,7 +69,6 @@ class PetApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -82,10 +78,8 @@ class PetApi
     _header_content_type = ['application/json', 'application/xml', ]
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -125,7 +119,6 @@ class PetApi
 
     # query parameters
     query_params = {}
-
     query_params[:'status'] = opts[:'status'] if opts[:'status']
 
     # header parameters
@@ -137,10 +130,8 @@ class PetApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -162,7 +153,6 @@ class PetApi
 
     # query parameters
     query_params = {}
-
     query_params[:'tags'] = opts[:'tags'] if opts[:'tags']
 
     # header parameters
@@ -174,10 +164,8 @@ class PetApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -201,7 +189,6 @@ class PetApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -211,10 +198,8 @@ class PetApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -240,7 +225,6 @@ class PetApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -250,10 +234,8 @@ class PetApi
     _header_content_type = ['application/x-www-form-urlencoded', ]
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
     form_params["name"] = opts[:'name'] if opts[:'name']
     form_params["status"] = opts[:'status'] if opts[:'status']
 
@@ -279,7 +261,6 @@ class PetApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -288,12 +269,10 @@ class PetApi
 
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
-
     header_params[:'api_key'] = opts[:'api_key'] if opts[:'api_key']
 
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -305,7 +284,7 @@ class PetApi
   # 
   # @param pet_id ID of pet to update
   # @param [Hash] opts the optional parameters
-  # @option opts [string] :additionalMetadata Additional data to pass to server
+  # @option opts [string] :additional_metadata Additional data to pass to server
   # @option opts [file] :file file to upload
   # @return void
   def self.uploadFile(pet_id, opts = {})
@@ -318,7 +297,6 @@ class PetApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -328,10 +306,8 @@ class PetApi
     _header_content_type = ['multipart/form-data', ]
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
     form_params["additionalMetadata"] = opts[:'additional_metadata'] if opts[:'additional_metadata']
     form_params["file"] = opts[:'file'] if opts[:'file']
 

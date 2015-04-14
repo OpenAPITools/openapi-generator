@@ -10,7 +10,7 @@ class {{classname}}
   # {{notes}}
 {{#allParams}}{{#required}}  # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}  # @param [Hash] opts the optional parameters
-{{#allParams}}{{^required}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
+{{#allParams}}{{^required}}  # @option opts [{{dataType}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
   def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
     # verify existence of params{{#allParams}}{{#required}}
@@ -20,8 +20,7 @@ class {{classname}}
     path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
     # query parameters
-    query_params = {}
-{{#queryParams}}{{#required}}
+    query_params = {}{{#queryParams}}{{#required}}
     query_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/queryParams}}{{#queryParams}}{{^required}}
     query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/queryParams}}
 
@@ -32,14 +31,12 @@ class {{classname}}
     header_params['Accept'] = _header_accept if _header_accept != ''
 
     _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
-{{#headerParams}}{{#required}}
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'{{#headerParams}}{{#required}}
     header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
     header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
 
     # form parameters
-    form_params = {}
-{{#formParams}}{{#required}}
+    form_params = {}{{#formParams}}{{#required}}
     form_params["{{baseName}}"] = {{paramName}}{{/required}}{{/formParams}}{{#formParams}}{{^required}}
     form_params["{{baseName}}"] = opts[:'{{paramName}}'] if opts[:'{{paramName}}']{{/required}}{{/formParams}}
 

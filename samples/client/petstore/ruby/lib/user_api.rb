@@ -18,7 +18,6 @@ class UserApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -28,10 +27,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -72,7 +69,6 @@ class UserApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -82,10 +78,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -126,7 +120,6 @@ class UserApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -136,10 +129,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -180,7 +171,6 @@ class UserApi
 
     # query parameters
     query_params = {}
-
     query_params[:'username'] = opts[:'username'] if opts[:'username']
     query_params[:'password'] = opts[:'password'] if opts[:'password']
 
@@ -193,10 +183,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -218,7 +206,6 @@ class UserApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -228,10 +215,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -254,7 +239,6 @@ class UserApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -264,10 +248,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -292,7 +274,6 @@ class UserApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -302,10 +283,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
@@ -347,7 +326,6 @@ class UserApi
     # query parameters
     query_params = {}
 
-
     # header parameters
     header_params = {}
 
@@ -357,10 +335,8 @@ class UserApi
     _header_content_type = []
     header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
-
     # form parameters
     form_params = {}
-
 
     # http body (model)
     post_body = nil
