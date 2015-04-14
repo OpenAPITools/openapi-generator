@@ -266,6 +266,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     else
       return paramName;
   }
+  
+  @Override
+  public String toParamName(String name) {
+    // should be the same as variable name
+    return toVarName(name);
+  }
 
   public String escapeReservedWord(String name) {
     return "_" + name;
