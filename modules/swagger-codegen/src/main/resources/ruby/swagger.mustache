@@ -7,6 +7,8 @@ require 'logger'
 
 module Swagger
     
+  @configuration = Configuration.new
+
   class << self
     attr_accessor :logger
     
@@ -27,7 +29,6 @@ module Swagger
     #   end
     #
     def configure
-      self.configuration ||= Configuration.new
       yield(configuration) if block_given?
 
       # Configure logger.  Default to use Rails
