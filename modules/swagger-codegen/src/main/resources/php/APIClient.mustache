@@ -289,8 +289,8 @@ class APIClient {
       $class = "{{invokerPackage}}\\models\\".$class;
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
-        if (isset($data->$property)) {
-          $original_property_name = $instance::$attributeMap[$property];
+        $original_property_name = $instance::$attributeMap[$property];
+        if (isset($original_property_name)) {
           $instance->$property = self::deserialize($data->$original_property_name, $type);
         }
       }
