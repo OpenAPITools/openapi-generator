@@ -4,55 +4,47 @@ require "uri"
 class {{classname}}
   basePath = "{{basePath}}"
   # apiInvoker = APIInvoker
-
 {{#operation}}
 {{newline}}
   # {{summary}}
   # {{notes}}
-{{#allParams}}{{^optional}}  # @param {{paramName}} {{description}}
-{{/optional}}{{/allParams}}{{#allParams}}{{#optional}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
-{{/optional}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-  def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}, {{/allParams}}opts={})
-    query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
-    headerParams = {}
+{{#allParams}}{{#required}}  # @param {{paramName}} {{description}}
+{{/required}}{{/allParams}}  # @param [Hash] opts the optional parameters
+{{#allParams}}{{^required}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
+{{/required}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+  def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+    # verify existence of params{{#allParams}}{{#required}}
+    raise "{{{paramName}}} is required" if {{{paramName}}}.nil?{{/required}}{{/allParams}}
 
-    {{#requiredParamCount}}
-    # verify existence of params
-    {{#requiredParams}}
-    raise "{{{paramName}}} is required" if {{{paramName}}}.nil?
-    {{/requiredParams}}
-    {{/requiredParamCount}}
-    
-    # set default values and merge with input
-    options = {
-      {{#allParams}}:'{{paramName}}' => {{paramName}}{{#hasMore}},{{/hasMore}}
-      {{/allParams}}
-    }.merge(opts)
+    # resource path
+    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
-    #resource path
-    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s)
-    {{/pathParams}}{{newline}}
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
+    # query parameters
+    query_params = {}
+{{#queryParams}}{{#required}}
+    query_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/queryParams}}{{#queryParams}}{{^required}}
+    query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/queryParams}}
 
     # header parameters
-    headers = {}
+    header_params = {}
 
     _header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}'
-    if _header_accept != ''
-      headerParams['Accept'] = _header_accept
-    end 
-    _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Accept'] = _header_accept if _header_accept != ''
 
-    {{#headerParams}}{{#optional}}headers[:'{{{baseName}}}'] = options[:'{{{paramName}}}'] if options[:'{{{paramName}}}']{{/optional}}{{/headerParams}}
-    {{#headerParams}}{{^optional}}headers[:'{{{baseName}}}'] = {{{paramName}}}{{/optional}}{{/headerParams}}
+    _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+{{#headerParams}}{{#required}}
+    header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
+    header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
+
+    # form parameters
+    form_params = {}
+{{#formParams}}{{#required}}
+    form_params["{{baseName}}"] = {{paramName}}{{/required}}{{/formParams}}{{#formParams}}{{^required}}
+    form_params["{{baseName}}"] = opts[:'{{paramName}}'] if opts[:'{{paramName}}']{{/required}}{{/formParams}}
+
     # http body (model)
-    post_body = nil
-    {{#bodyParam}}
+    post_body = nil{{#bodyParam}}
     if body != nil
       if body.is_a?(Array)
         array = Array.new
@@ -71,21 +63,11 @@ class {{classname}}
           post_body = body
         end
       end
-    end
-    {{/bodyParam}}
-    # form parameters
-    form_parameter_hash = {}
-    {{#formParams}}{{#optional}}form_parameter_hash["{{baseName}}"] = options[:'{{paramName}}'] if options[:'{{paramName}}']{{/optional}}
-    {{^optional}}form_parameter_hash["{{baseName}}"] = {{paramName}}{{/optional}}{{/formParams}}
-    {{#returnType}}
-    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
-    {{#returnContainer}}
-    response.map {|response|{{/returnContainer}} {{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}
-    {{/returnType}}
-    {{^returnType}}
-    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    {{/returnType}}
-  {{newline}}
+    end{{/bodyParam}}
+
+{{#returnType}}
+    response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+    {{#returnContainer}}response.map {|response| {{/returnContainer}}{{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}{{/returnType}}{{^returnType}}    Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make{{/returnType}}
   end
 {{/operation}}
 end
