@@ -93,12 +93,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       }
 
       StringBuilder hostBuilder = new StringBuilder();
+      String scheme;
       if (swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
-        hostBuilder.append(swagger.getSchemes().get(0).toValue());
-        hostBuilder.append("://");
+        scheme = swagger.getSchemes().get(0).toValue();
       } else {
-        hostBuilder.append("https://");
+        scheme = "https";
       }
+      hostBuilder.append(scheme);
+      hostBuilder.append("://");
       if (swagger.getHost() != null) {
         hostBuilder.append(swagger.getHost());
       } else {
@@ -209,6 +211,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         bundle.put("host", swagger.getHost());
       }
       bundle.put("basePath", basePath);
+      bundle.put("scheme", scheme);
       bundle.put("contextPath", contextPath);
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
