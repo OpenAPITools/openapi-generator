@@ -8,21 +8,21 @@
 @interface SWGUser : SWGObject
 
 
-@property(nonatomic) NSNumber<Optional>* _id;
+@property(nonatomic) NSNumber* _id;
 
-@property(nonatomic) NSString<Optional>* username;
+@property(nonatomic) NSString* username;
 
-@property(nonatomic) NSString<Optional>* firstName;
+@property(nonatomic) NSString* firstName;
 
-@property(nonatomic) NSString<Optional>* lastName;
+@property(nonatomic) NSString* lastName;
 
-@property(nonatomic) NSString<Optional>* email;
+@property(nonatomic) NSString* email;
 
-@property(nonatomic) NSString<Optional>* password;
+@property(nonatomic) NSString* password;
 
-@property(nonatomic) NSString<Optional>* phone;
+@property(nonatomic) NSString* phone;
 /* User Status [optional]
  */
-@property(nonatomic) NSNumber<Optional>* userStatus;
+@property(nonatomic) NSNumber* userStatus;
 
 @end
