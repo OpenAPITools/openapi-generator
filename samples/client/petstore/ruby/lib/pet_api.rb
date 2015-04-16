@@ -9,7 +9,7 @@ class PetApi
   # @param [Hash] opts the optional parameters
   # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return void
-  def self.updatePet(opts = {})
+  def self.update_pet(opts = {})
     # verify existence of params
 
     # resource path
@@ -61,7 +61,7 @@ class PetApi
   # @param [Hash] opts the optional parameters
   # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return void
-  def self.addPet(opts = {})
+  def self.add_pet(opts = {})
     # verify existence of params
 
     # resource path
@@ -113,7 +113,7 @@ class PetApi
   # @param [Hash] opts the optional parameters
   # @option opts [array[string]] :status Status values that need to be considered for filter
   # @return array[Pet]
-  def self.findPetsByStatus(opts = {})
+  def self.find_pets_by_status(opts = {})
     # verify existence of params
 
     # resource path
@@ -147,7 +147,7 @@ class PetApi
   # @param [Hash] opts the optional parameters
   # @option opts [array[string]] :tags Tags to filter by
   # @return array[Pet]
-  def self.findPetsByTags(opts = {})
+  def self.find_pets_by_tags(opts = {})
     # verify existence of params
 
     # resource path
@@ -181,7 +181,7 @@ class PetApi
   # @param pet_id ID of pet that needs to be fetched
   # @param [Hash] opts the optional parameters
   # @return Pet
-  def self.getPetById(pet_id, opts = {})
+  def self.get_pet_by_id(pet_id, opts = {})
     # verify existence of params
     raise "pet_id is required" if pet_id.nil?
 
@@ -217,7 +217,7 @@ class PetApi
   # @option opts [string] :name Updated name of the pet
   # @option opts [string] :status Updated status of the pet
   # @return void
-  def self.updatePetWithForm(pet_id, opts = {})
+  def self.update_pet_with_form(pet_id, opts = {})
     # verify existence of params
     raise "pet_id is required" if pet_id.nil?
 
@@ -253,7 +253,7 @@ class PetApi
   # @param [Hash] opts the optional parameters
   # @option opts [string] :api_key 
   # @return void
-  def self.deletePet(pet_id, opts = {})
+  def self.delete_pet(pet_id, opts = {})
     # verify existence of params
     raise "pet_id is required" if pet_id.nil?
 
@@ -289,7 +289,7 @@ class PetApi
   # @option opts [string] :additional_metadata Additional data to pass to server
   # @option opts [file] :file file to upload
   # @return void
-  def self.uploadFile(pet_id, opts = {})
+  def self.upload_file(pet_id, opts = {})
     # verify existence of params
     raise "pet_id is required" if pet_id.nil?
 

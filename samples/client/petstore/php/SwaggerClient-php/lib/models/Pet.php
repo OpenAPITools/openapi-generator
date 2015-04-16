@@ -22,7 +22,7 @@
  *
  */
 
-namespace SwaggerPetstore\models;
+namespace SwaggerClient\models;
 
 use \ArrayAccess;
 

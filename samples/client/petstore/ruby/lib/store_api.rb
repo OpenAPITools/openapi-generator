@@ -8,7 +8,7 @@ class StoreApi
   # Returns a map of status codes to quantities
   # @param [Hash] opts the optional parameters
   # @return map[string,int]
-  def self.getInventory(opts = {})
+  def self.get_inventory(opts = {})
     # verify existence of params
 
     # resource path
@@ -41,7 +41,7 @@ class StoreApi
   # @param [Hash] opts the optional parameters
   # @option opts [Order] :body order placed for purchasing the pet
   # @return Order
-  def self.placeOrder(opts = {})
+  def self.place_order(opts = {})
     # verify existence of params
 
     # resource path
@@ -94,7 +94,7 @@ class StoreApi
   # @param order_id ID of pet that needs to be fetched
   # @param [Hash] opts the optional parameters
   # @return Order
-  def self.getOrderById(order_id, opts = {})
+  def self.get_order_by_id(order_id, opts = {})
     # verify existence of params
     raise "order_id is required" if order_id.nil?
 
@@ -128,7 +128,7 @@ class StoreApi
   # @param order_id ID of the order that needs to be deleted
   # @param [Hash] opts the optional parameters
   # @return void
-  def self.deleteOrder(order_id, opts = {})
+  def self.delete_order(order_id, opts = {})
     # verify existence of params
     raise "order_id is required" if order_id.nil?
 

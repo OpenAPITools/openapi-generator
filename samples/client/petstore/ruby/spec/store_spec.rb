@@ -7,7 +7,7 @@ describe "Store" do
   end
 
   it "should fetch an order" do
-    item = StoreApi.getOrderById(10002)
+    item = StoreApi.get_order_by_id(10002)
     item.id.should == 10002
   end
 end

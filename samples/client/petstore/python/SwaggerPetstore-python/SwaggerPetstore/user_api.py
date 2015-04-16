@@ -33,7 +33,7 @@ class UserApi(object):
 
     
     
-    def createUser(self, **kwargs):
+    def create_user(self, **kwargs):
         """Create user
 
         Args:
@@ -50,7 +50,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method createUser" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method create_user" % key)
             params[key] = val
         del params['kwargs']
 
@@ -92,7 +92,7 @@ class UserApi(object):
         
         
     
-    def createUsersWithArrayInput(self, **kwargs):
+    def create_users_with_array_input(self, **kwargs):
         """Creates list of users with given input array
 
         Args:
@@ -109,7 +109,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithArrayInput" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method create_users_with_array_input" % key)
             params[key] = val
         del params['kwargs']
 
@@ -151,7 +151,7 @@ class UserApi(object):
         
         
     
-    def createUsersWithListInput(self, **kwargs):
+    def create_users_with_list_input(self, **kwargs):
         """Creates list of users with given input array
 
         Args:
@@ -168,7 +168,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method createUsersWithListInput" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method create_users_with_list_input" % key)
             params[key] = val
         del params['kwargs']
 
@@ -210,7 +210,7 @@ class UserApi(object):
         
         
     
-    def loginUser(self, **kwargs):
+    def login_user(self, **kwargs):
         """Logs user into the system
 
         Args:
@@ -230,7 +230,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method loginUser" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method login_user" % key)
             params[key] = val
         del params['kwargs']
 
@@ -281,7 +281,7 @@ class UserApi(object):
         
         
     
-    def logoutUser(self, **kwargs):
+    def logout_user(self, **kwargs):
         """Logs out current logged in user session
 
         Args:
@@ -295,7 +295,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method logoutUser" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method logout_user" % key)
             params[key] = val
         del params['kwargs']
 
@@ -334,7 +334,7 @@ class UserApi(object):
         
         
     
-    def getUserByName(self, **kwargs):
+    def get_user_by_name(self, **kwargs):
         """Get user by user name
 
         Args:
@@ -351,7 +351,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method getUserByName" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method get_user_by_name" % key)
             params[key] = val
         del params['kwargs']
 
@@ -402,7 +402,7 @@ class UserApi(object):
         
         
     
-    def updateUser(self, **kwargs):
+    def update_user(self, **kwargs):
         """Updated user
 
         Args:
@@ -422,7 +422,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method updateUser" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method update_user" % key)
             params[key] = val
         del params['kwargs']
 
@@ -470,7 +470,7 @@ class UserApi(object):
         
         
     
-    def deleteUser(self, **kwargs):
+    def delete_user(self, **kwargs):
         """Delete user
 
         Args:
@@ -487,7 +487,7 @@ class UserApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method deleteUser" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method delete_user" % key)
             params[key] = val
         del params['kwargs']
 
