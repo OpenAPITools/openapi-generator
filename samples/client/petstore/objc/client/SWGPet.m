@@ -9,7 +9,7 @@
 
 + (BOOL)propertyIsOptional:(NSString *)propertyName
 {
-  NSArray *optionalProperties = @[@"category", @"tags", @"status", @"photoUrls", @"_id"];
+  NSArray *optionalProperties = @[@"_id", @"category", @"tags", @"status"];
 
   if ([optionalProperties containsObject:propertyName]) {
     return YES;
