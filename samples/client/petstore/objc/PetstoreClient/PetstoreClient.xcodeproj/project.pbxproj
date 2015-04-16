@@ -39,7 +39,6 @@
 		EAEA85EE1811D3AE00F06E69 /* SWGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E11811D3AE00F06E69 /* SWGUser.m */; };
 		EAEA85EF1811D3AE00F06E69 /* SWGUserApi.m in Sources */ = {isa = PBXBuildFile; fileRef = EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */; };
 		EAFBEABB1A925B8500A27431 /* test-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EAFBEABA1A925B8500A27431 /* test-1.png */; };
-		EAFBEABE1A92C42700A27431 /* SWGApiResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,8 +104,6 @@
 		EAEA85E21811D3AE00F06E69 /* SWGUserApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGUserApi.h; sourceTree = "<group>"; };
 		EAEA85E31811D3AE00F06E69 /* SWGUserApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGUserApi.m; sourceTree = "<group>"; };
 		EAFBEABA1A925B8500A27431 /* test-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test-1.png"; sourceTree = "<group>"; };
-		EAFBEABC1A92C42700A27431 /* SWGApiResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGApiResponse.h; sourceTree = "<group>"; };
-		EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,8 +226,6 @@
 			children = (
 				EA8B8AA21AC6683700638FBB /* SWGQueryParamCollection.h */,
 				EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */,
-				EAFBEABC1A92C42700A27431 /* SWGApiResponse.h */,
-				EAFBEABD1A92C42700A27431 /* SWGApiResponse.m */,
 				EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */,
 				EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */,
 				EAEA85CE1811D3AE00F06E69 /* SWGCategory.h */,
@@ -400,7 +395,6 @@
 				EA6699B31811D2FA00A70D03 /* ViewController.m in Sources */,
 				EA6699AA1811D2FA00A70D03 /* AppDelegate.m in Sources */,
 				EAEA85EE1811D3AE00F06E69 /* SWGUser.m in Sources */,
-				EAFBEABE1A92C42700A27431 /* SWGApiResponse.m in Sources */,
 				EAEA85EF1811D3AE00F06E69 /* SWGUserApi.m in Sources */,
 				EAEA85EB1811D3AE00F06E69 /* SWGPetApi.m in Sources */,
 				EAEA85E61811D3AE00F06E69 /* SWGDate.m in Sources */,
