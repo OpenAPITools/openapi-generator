@@ -47,10 +47,10 @@ end
 # always delete and then re-create the pet object with 10002
 def prepare_pet
   # remove the pet
-  PetApi.deletePet('special-key', 10002)
+  PetApi.deletePet(10002, :api_key => 'special-key')
   # recreate the pet
   pet = Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
-  PetApi.addPet(pet)
+  PetApi.addPet(:body => pet)
 end
 
 # always delete and then re-create the store order 
@@ -61,7 +61,7 @@ def prepare_store
 		  "shipDate" => "2015-04-06T23:42:01.678Z",
 		  "status" => "placed",
 		  "complete" => false)
-  StoreApi.placeOrder(order)
+  StoreApi.placeOrder(:body => order)
 end
 
 configure_swagger
