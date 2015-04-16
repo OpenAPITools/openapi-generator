@@ -5,6 +5,9 @@
 #import "SWGUser.h"
 
 
+@interface SWGUserApi ()
+    @property (readwrite, nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@end
 
 @implementation SWGUserApi
 static NSString * basePath = @"http://petstore.swagger.io/v2";
@@ -32,18 +35,19 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [[self apiClient] setHeaderValue:value forKey:key];
+    [self.defaultHeaders setValue:value forKey:key];
 }
 
 -(id) init {
     self = [super init];
+    self.defaultHeaders = [NSMutableDictionary dictionary];
     [self apiClient];
     return self;
 }
 
 -(void) setHeaderValue:(NSString*) value
            forKey:(NSString*)key {
-    [[self apiClient] setHeaderValue:value forKey:key];
+    [self.defaultHeaders setValue:value forKey:key];
 }
 
 -(unsigned long) requestQueueSize {
@@ -72,7 +76,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
@@ -156,7 +161,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
@@ -240,7 +246,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
@@ -333,7 +340,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         queryParams[@"password"] = password;
     }
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
@@ -405,7 +413,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
@@ -467,7 +476,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
@@ -544,7 +554,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
@@ -629,7 +640,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     
-    NSMutableDictionary* headerParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
     
 
     id bodyDictionary = nil;
