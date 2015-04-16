@@ -37,7 +37,6 @@ public class ExampleGenerator {
           String example = Json.pretty(resolvePropertyToExample(mediaType, property, processedModels));
 
           if(example != null) {
-            example = example.replaceAll("\n", "\\\\n");
             kv.put("example", example);
             output.add(kv);
           }
@@ -45,7 +44,6 @@ public class ExampleGenerator {
         else if(property != null && mediaType.startsWith("application/xml")) {
           String example = new XmlExampleGenerator(this.examples).toXml(property);
           if(example != null) {
-            example = example.replaceAll("\n", "\\\\n");
             kv.put("example", example);
             output.add(kv);
           }
