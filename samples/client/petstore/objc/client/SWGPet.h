@@ -10,17 +10,17 @@
 @interface SWGPet : SWGObject
 
 
-@property(nonatomic) NSNumber<Optional>* _id;
+@property(nonatomic) NSNumber* _id;
 
-@property(nonatomic) SWGCategory<Optional, SWGCategory>* category;
+@property(nonatomic) SWGCategory* category;
 
 @property(nonatomic) NSString* name;
 
 @property(nonatomic) NSArray* photoUrls;
 
-@property(nonatomic) NSArray<Optional, SWGTag>* tags;
+@property(nonatomic) NSArray<SWGTag>* tags;
 /* pet status in the store [optional]
  */
-@property(nonatomic) NSString<Optional>* status;
+@property(nonatomic) NSString* status;
 
 @end

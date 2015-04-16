@@ -54,7 +54,7 @@
                 <argument>PetstoreClient</argument>
                 <argument>test</argument>
                 <argument>-destination</argument>
-                <argument>platform=iOS Simulator,name=iPhone 6,OS=8.2</argument>
+                <argument>platform=iOS Simulator,name=iPhone 6,OS=8.3</argument>
               </arguments>
             </configuration>
           </execution>

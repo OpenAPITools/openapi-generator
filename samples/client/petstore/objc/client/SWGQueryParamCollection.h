@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 @interface SWGQueryParamCollection : NSObject
 
 @property(nonatomic, readonly) NSArray* values;

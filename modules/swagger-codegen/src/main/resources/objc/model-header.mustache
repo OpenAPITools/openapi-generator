@@ -14,7 +14,7 @@
 {{#vars}}
 {{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
  */{{/description}}
-@property(nonatomic) {{{ baseType }}}{{^required}}<Optional{{#complexType}}, {{complexType}}{{/complexType}}>{{/required}}* {{name}};
+@property(nonatomic) {{{ datatype }}} {{name}};
 {{/vars}}
 
 @end
