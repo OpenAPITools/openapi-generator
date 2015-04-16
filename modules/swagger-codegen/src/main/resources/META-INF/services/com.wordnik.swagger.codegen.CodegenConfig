@@ -7,6 +7,7 @@ com.wordnik.swagger.codegen.languages.NodeJSServerCodegen
 com.wordnik.swagger.codegen.languages.ObjcClientCodegen
 com.wordnik.swagger.codegen.languages.PhpClientCodegen
 com.wordnik.swagger.codegen.languages.PythonClientCodegen
+com.wordnik.swagger.codegen.languages.Python3ClientCodegen
 com.wordnik.swagger.codegen.languages.RubyClientCodegen
 com.wordnik.swagger.codegen.languages.ScalaClientCodegen
 com.wordnik.swagger.codegen.languages.ScalatraServerCodegen
