@@ -186,4 +186,13 @@ public class Python3ClientCodegen extends DefaultCodegen implements CodegenConfi
     return underscore(name) + "_api";
   }
 
+  @Override
+  public String toOperationId(String operationId) {
+    // method name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(operationId))
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+
+    return underscore(operationId);
+  }
+
 }

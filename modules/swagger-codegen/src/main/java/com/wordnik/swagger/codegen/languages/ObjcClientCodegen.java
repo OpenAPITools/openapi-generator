@@ -276,4 +276,14 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   public String escapeReservedWord(String name) {
     return "_" + name;
   }
+
+  @Override
+  public String toOperationId(String operationId) {
+    // method name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(operationId))
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+
+    return camelize(operationId, true);
+  }
+
 }
