@@ -8,9 +8,9 @@ module Swagger
     # Defaults go in here..
     def initialize
       @format = 'json'
-      @scheme = 'http'
-      @host = 'petstore.swagger.io'
-      @base_path = '/v2'
+      @scheme = '{{scheme}}'
+      @host = '{{host}}'
+      @base_path = '{{contextPath}}'
       @user_agent = "ruby-swagger-#{Swagger::VERSION}"
       @inject_format = false
       @force_ending_format = false
