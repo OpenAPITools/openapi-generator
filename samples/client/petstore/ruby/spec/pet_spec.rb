@@ -15,17 +15,17 @@ describe "Pet" do
     end
 
     it "should find pets by status" do
-      pets = PetApi.findPetsByStatus('available')
+      pets = PetApi.findPetsByStatus(:status => 'available')
       pets.length.should >= 3
     end
     
     it "should not find a pet with invalid status" do
-      pets = PetApi.findPetsByStatus('invalid-status')
+      pets = PetApi.findPetsByStatus(:status => 'invalid-status')
       pets.length.should == 0
     end
 
     it "should find a pet by status" do
-      pets = PetApi.findPetsByStatus("available,sold")
+      pets = PetApi.findPetsByStatus(:status => "available,sold")
       pets.map {|pet| 
         if(pet.status != 'available' && pet.status != 'sold') 
           raise "pet status wasn't right"
@@ -35,7 +35,7 @@ describe "Pet" do
     
     it "should update a pet" do
       pet = Pet.new({'id' => 10002, 'status' => 'sold'})
-      PetApi.addPet(pet)
+      PetApi.addPet(:body => pet)
       
       fetched = PetApi.getPetById(10002)
       fetched.id.should == 10002
@@ -44,7 +44,7 @@ describe "Pet" do
 
     it "should create a pet" do 
       pet = Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
-      PetApi.addPet(pet)
+      PetApi.addPet(:body => pet)
 
       pet = PetApi.getPetById(10002)
       pet.id.should == 10002

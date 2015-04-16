@@ -64,22 +64,23 @@ class StoreApi
 
     # http body (model)
     post_body = nil
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
+    _body_param = opts[:'body']
+    if _body_param != nil
+      if _body_param.is_a?(Array)
+        _array = Array.new
+        _body_param.each do |item|
+          if item.respond_to?(:to_body)
+            _array.push item.to_body
           else
-            array.push item
+            _array.push item
           end
         end
-        post_body = array
+        post_body = _array
       else 
-        if body.respond_to?("to_body".to_sym)
-          post_body = body.to_body
+        if _body_param.respond_to?(:to_body)
+          post_body = _body_param.to_body
         else
-          post_body = body
+          post_body = _body_param
         end
       end
     end
