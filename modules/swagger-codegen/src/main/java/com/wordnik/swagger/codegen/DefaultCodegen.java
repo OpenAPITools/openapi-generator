@@ -838,7 +838,8 @@ public class DefaultCodegen {
     // op.cookieParams = cookieParams;
     op.formParams = addHasMore(formParams);
     // legacy support
-    op.nickname = operationId;
+    op.nickname = op.operationId;
+
 
     if(op.allParams.size() > 0) 
       op.hasParams = true;

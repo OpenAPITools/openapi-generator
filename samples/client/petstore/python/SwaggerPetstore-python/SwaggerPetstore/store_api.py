@@ -33,7 +33,7 @@ class StoreApi(object):
 
     
     
-    def getInventory(self, **kwargs):
+    def get_inventory(self, **kwargs):
         """Returns pet inventories by status
 
         Args:
@@ -47,7 +47,7 @@ class StoreApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method getInventory" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method get_inventory" % key)
             params[key] = val
         del params['kwargs']
 
@@ -92,7 +92,7 @@ class StoreApi(object):
         
         
     
-    def placeOrder(self, **kwargs):
+    def place_order(self, **kwargs):
         """Place an order for a pet
 
         Args:
@@ -109,7 +109,7 @@ class StoreApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method placeOrder" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method place_order" % key)
             params[key] = val
         del params['kwargs']
 
@@ -157,7 +157,7 @@ class StoreApi(object):
         
         
     
-    def getOrderById(self, **kwargs):
+    def get_order_by_id(self, **kwargs):
         """Find purchase order by ID
 
         Args:
@@ -174,7 +174,7 @@ class StoreApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method getOrderById" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method get_order_by_id" % key)
             params[key] = val
         del params['kwargs']
 
@@ -225,7 +225,7 @@ class StoreApi(object):
         
         
     
-    def deleteOrder(self, **kwargs):
+    def delete_order(self, **kwargs):
         """Delete purchase order by ID
 
         Args:
@@ -242,7 +242,7 @@ class StoreApi(object):
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method deleteOrder" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method delete_order" % key)
             params[key] = val
         del params['kwargs']
 
