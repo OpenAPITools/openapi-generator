@@ -9,6 +9,18 @@
   return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
 }
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName
+{
+  NSArray *optionalProperties = @[{{#vars}}{{^required}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/required}}{{/vars}}];
+
+  if ([optionalProperties containsObject:propertyName]) {
+    return YES;
+  }
+  else {
+    return NO;
+  }
+}
+
 {{/model}}
 @end
 {{/models}}
