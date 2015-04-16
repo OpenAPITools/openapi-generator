@@ -43,6 +43,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     defaultIncludes = new HashSet<String>(
       Arrays.asList(
         "bool",
+        "BOOL",
         "int",
         "NSString",
         "NSObject", 
@@ -59,22 +60,32 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         "NSString",
         "NSObject",
         "NSDate",
-        "bool")
+        "bool",
+        "BOOL")
       );
 
+    // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
     reservedWords = new HashSet<String>(
       Arrays.asList(
-        "void", "char", "short", "int", "void", "char", "short", "int",
-        "long", "float", "double", "signed", "unsigned", "id", "const",
-        "volatile", "in", "out", "inout", "bycopy", "byref", "oneway",
-        "self", "super", "description"
+              "auto",     "else",              "long",      "switch",
+              "break",    "enum",              "register",  "typedef",
+              "case",     "extern",            "return",    "union",
+              "char",     "float",             "short",     "unsigned",
+              "const",    "for",               "signed",    "void",
+              "continue", "goto",              "sizeof",    "volatile",
+              "default",  "if", "id",          "static",    "while",
+              "do",       "int",               "struct",    "_Packed",
+              "double",   "protocol",          "interface", "implementation",
+              "NSObject", "NSInteger",         "NSNumber",  "CGFloat",
+              "property", "nonatomic",         "retain",    "strong",
+              "weak",     "unsafe_unretained", "readwrite", "readonly"
       ));
 
     typeMapping = new HashMap<String, String>();
     typeMapping.put("enum", "NSString");
     typeMapping.put("Date", "NSDate");
     typeMapping.put("DateTime", "NSDate");
-    typeMapping.put("boolean", "NSNumber");
+    typeMapping.put("boolean", "BOOL");
     typeMapping.put("string", "NSString");
     typeMapping.put("integer", "NSNumber");
     typeMapping.put("int", "NSNumber");
@@ -188,7 +199,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
               return swaggerType;
           }
           // In this codition, type of p is objective-c object type, e.g. `SWGPet',
-          // return type of p with pointer, e.g. `'
+          // return type of p with pointer, e.g. `SWGPet*'
           else {
               return swaggerType + "*";
           }
@@ -197,16 +208,26 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String toModelName(String type) {
+    type = type.replaceAll("[^0-9a-zA-Z_]", "_");
+
+    // language build-in classes
     if(typeMapping.keySet().contains(type) ||
       foundationClasses.contains(type) ||
       importMapping.values().contains(type) ||
       defaultIncludes.contains(type) ||
       languageSpecificPrimitives.contains(type)) {
-      return Character.toUpperCase(type.charAt(0)) + type.substring(1);
+      return camelize(type);
     }
+    // custom classes
     else {
-      return PREFIX + Character.toUpperCase(type.charAt(0)) + type.substring(1);
+      return PREFIX + camelize(type);
     }
+  }
+
+  @Override
+  public String toModelFilename(String name) {
+    // should be the same as the model name
+    return toModelName(name);
   }
 
     @Override
@@ -244,27 +265,33 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
-  public String toModelFilename(String name) {
-    return PREFIX + initialCaps(name);
-  }
-
-  @Override
   public String toApiName(String name) {
-    return PREFIX + initialCaps(name) + "Api";
+    return PREFIX + camelize(name) + "Api";
   }
 
   public String toApiFilename(String name) {
-    return PREFIX + initialCaps(name) + "Api";
+    return PREFIX + camelize(name) + "Api";
   }
 
   @Override
   public String toVarName(String name) {
-    String paramName = name.replaceAll("[^a-zA-Z0-9_]","");
-    if(paramName.startsWith("new") || reservedWords.contains(paramName)) {
-      return escapeReservedWord(paramName);
-    }
-    else
-      return paramName;
+    // replace non-word characters to `_`
+    // e.g. `created-at` to `created_at`
+    name = name.replaceAll("[^a-zA-Z0-9_]","_");
+
+    // if it's all upper case, do noting
+    if (name.matches("^[A-Z_]$"))
+      return name;
+
+    // camelize (lower first character) the variable name
+    // e.g. `pet_id` to `petId`
+    name = camelize(name, true);
+
+    // for reserved word or word starting with number, prepend `_`
+    if (reservedWords.contains(name) || name.matches("^\\d.*"))
+      name = escapeReservedWord(name);
+
+    return name;
   }
   
   @Override
