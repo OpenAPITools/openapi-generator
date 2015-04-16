@@ -8,17 +8,17 @@
 @interface SWGOrder : SWGObject
 
 
-@property(nonatomic) NSNumber<Optional>* _id;
+@property(nonatomic) NSNumber* _id;
 
-@property(nonatomic) NSNumber<Optional>* petId;
+@property(nonatomic) NSNumber* petId;
 
-@property(nonatomic) NSNumber<Optional>* quantity;
+@property(nonatomic) NSNumber* quantity;
 
-@property(nonatomic) NSDate<Optional>* shipDate;
+@property(nonatomic) NSDate* shipDate;
 /* Order Status [optional]
  */
-@property(nonatomic) NSString<Optional>* status;
+@property(nonatomic) NSString* status;
 
-@property(nonatomic) NSNumber<Optional>* complete;
+@property(nonatomic) NSNumber* complete;
 
 @end

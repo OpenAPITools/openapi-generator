@@ -8,8 +8,8 @@
 @interface SWGCategory : SWGObject
 
 
-@property(nonatomic) NSNumber<Optional>* _id;
+@property(nonatomic) NSNumber* _id;
 
-@property(nonatomic) NSString<Optional>* name;
+@property(nonatomic) NSString* name;
 
 @end
