@@ -22,11 +22,11 @@
  *
  */
 
-namespace SwaggerPetstore\models;
+namespace SwaggerClient\models;
 
 use \ArrayAccess;
 
-class Category implements ArrayAccess {
+class Tag implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
       'name' => 'string'

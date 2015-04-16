@@ -22,28 +22,47 @@
  *
  */
 
-namespace SwaggerPetstore\models;
+namespace SwaggerClient\models;
 
 use \ArrayAccess;
 
-class Tag implements ArrayAccess {
+class Order implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
-      'name' => 'string'
+      'pet_id' => 'int',
+      'quantity' => 'int',
+      'ship_date' => 'DateTime',
+      'status' => 'string',
+      'complete' => 'boolean'
   );
 
   static $attributeMap = array(
       'id' => 'id',
-      'name' => 'name'
+      'pet_id' => 'petId',
+      'quantity' => 'quantity',
+      'ship_date' => 'shipDate',
+      'status' => 'status',
+      'complete' => 'complete'
   );
 
   
   public $id; /* int */
-  public $name; /* string */
+  public $pet_id; /* int */
+  public $quantity; /* int */
+  public $ship_date; /* DateTime */
+  /**
+  * Order Status
+  */
+  public $status; /* string */
+  public $complete; /* boolean */
 
   public function __construct(array $data = null) {
     $this->id = $data["id"];
-    $this->name = $data["name"];
+    $this->pet_id = $data["pet_id"];
+    $this->quantity = $data["quantity"];
+    $this->ship_date = $data["ship_date"];
+    $this->status = $data["status"];
+    $this->complete = $data["complete"];
   }
 
   public function offsetExists($offset) {

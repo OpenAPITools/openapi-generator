@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-namespace SwaggerPetstore;
+namespace SwaggerClient;
 
 class APIClient {
 
@@ -94,7 +94,7 @@ class APIClient {
       $headers[] = $this->headerName . ": " . $this->headerValue;
     }
 
-    if ((isset($headers['Content-Type']) and strpos($headers['Content-Type'], "multipart/form-data") < 0) and (is_object($postData) or is_array($postData))) {
+    if ((isset($headerName['Content-Type']) and strpos($headerName['Content-Type'], "multipart/form-data") === FALSE) and (is_object($postData) or is_array($postData))) {
       $postData = json_encode($this->sanitizeForSerialization($postData));
     }
 
@@ -286,11 +286,11 @@ class APIClient {
       settype($data, $class);
       $deserialized = $data;
     } else {
-      $class = "SwaggerPetstore\\models\\".$class;
+      $class = "SwaggerClient\\models\\".$class;
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
-        if (isset($data->$property)) {
-          $original_property_name = $instance::$attributeMap[$property];
+        $original_property_name = $instance::$attributeMap[$property];
+        if (isset($original_property_name)) {
           $instance->$property = self::deserialize($data->$original_property_name, $type);
         }
       }
