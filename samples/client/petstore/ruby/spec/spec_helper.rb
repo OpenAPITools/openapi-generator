@@ -28,22 +28,40 @@ def help
   exit
 end
 
+# no longer reading credentials (not used) from file (20150413)
 # Parse ~/.swagger.yml for user credentials
-begin
-  CREDENTIALS = YAML::load_file(File.join(ENV['HOME'], ".swagger.yml")).symbolize_keys
-rescue
-  help
-end
+#begin
+#  CREDENTIALS = YAML::load_file(File.join(ENV['HOME'], ".swagger.yml")).symbolize_keys
+#rescue
+#  help
+#end
 
 def configure_swagger
   Swagger.configure do |config|
-    config.api_key = "special-key"
-    config.username = ""
-    config.password = ""
-
-    config.host = 'petstore.swagger.wordnik.com'
-    config.base_path = '/api'
+    config.api_key = 'special-key'
+    config.host = 'petstore.swagger.io'
+    config.base_path = '/v2'
   end
+end
+
+# always delete and then re-create the pet object with 10002
+def prepare_pet
+  # remove the pet
+  PetApi.deletePet('special-key', 10002)
+  # recreate the pet
+  pet = Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
+  PetApi.addPet(pet)
+end
+
+# always delete and then re-create the store order 
+def prepare_store
+  order = Order.new("id" => 10002,
+		  "petId" => 10002,
+		  "quantity" => 789,
+		  "shipDate" => "2015-04-06T23:42:01.678Z",
+		  "status" => "placed",
+		  "complete" => false)
+  StoreApi.placeOrder(order)
 end
 
 configure_swagger
