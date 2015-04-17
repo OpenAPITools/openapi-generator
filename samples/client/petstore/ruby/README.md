@@ -11,14 +11,14 @@ gem build swagger-client.gemspec
 Then you can either install the gem:
 
 ```shell
-gem install ./swagger-client-4.06.08.gem
+gem install ./swagger-client-1.0.0.gem
 ```
 
 or publish the gem to a gem server like [RubyGems](https://rubygems.org/).
 
 Finally add this to your Gemfile:
 
-    gem 'swagger-client', '~> 4.06.08'
+    gem 'swagger-client', '~> 1.0.0'
 
 ### Host as a git repository
 
