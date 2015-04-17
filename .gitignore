@@ -28,3 +28,6 @@ target
 .lib
 atlassian-ide-plugin.xml
 .DS_Store
+
+samples/client/petstore/php/SwaggerClient-php/composer.lock
+samples/client/petstore/php/SwaggerClient-php/vendor/
