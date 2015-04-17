@@ -94,7 +94,11 @@ class APIClient {
       $headers[] = $this->headerName . ": " . $this->headerValue;
     }
 
-    if ((isset($headerName['Content-Type']) and strpos($headerName['Content-Type'], "multipart/form-data") === FALSE) and (is_object($postData) or is_array($postData))) {
+    // form data
+    if ($postData and in_array('Content-Type: application/x-www-form-urlencoded', $headers)) {
+      $postData = http_build_query($postData);
+    }
+    else if ((is_object($postData) or is_array($postData)) and !in_array('Content-Type: multipart/form-data', $headers)) { // json model
       $postData = json_encode($this->sanitizeForSerialization($postData));
     }
 
