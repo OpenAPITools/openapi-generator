@@ -1,18 +1,16 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "swagger/version"
+require "swagger-client/swagger/version"
 
 Gem::Specification.new do |s|
   s.name        = "swagger-client"
-  s.version     = Swagger::VERSION
+  s.version     = SwaggerClient::Swagger::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Zeke Sikelianos", "Tony Tam"]
   s.email       = ["zeke@wordnik.com", "tony@wordnik.com"]
   s.homepage    = "http://developer.wordnik.com"
   s.summary     = %q{A ruby wrapper for the swagger APIs}
   s.description = %q{This gem maps to a swagger API}
-
-  s.rubyforge_project = "swagger-client"
 
   s.add_dependency 'typhoeus', '>=0.2.1'
   s.add_dependency 'addressable', '>=2.2.4'
