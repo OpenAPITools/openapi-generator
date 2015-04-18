@@ -1,5 +1,26 @@
-require 'monkey'
-require 'swagger'
+# Swagger common files
+require '{{gemName}}/monkey'
+require '{{gemName}}/swagger'
+require '{{gemName}}/swagger/configuration'
+require '{{gemName}}/swagger/request'
+require '{{gemName}}/swagger/response'
+require '{{gemName}}/swagger/version'
 
-Dir[File.join(File.dirname(__FILE__), "../lib/*.rb")].each {|file| require file if file !~ /swagger-client\.rb\z/ }
-Dir[File.join(File.dirname(__FILE__), "../models/*.rb")].each {|file| require file }
+# Models
+{{#models}}
+{{#model}}
+require '{{importPath}}'
+{{/model}}
+{{/models}}
+
+# APIs
+{{#apiInfo}}
+{{#apis}}
+require '{{importPath}}'
+{{/apis}}
+{{/apiInfo}}
+
+module {{moduleName}}
+  # Initialize the default configuration
+  Swagger.configuration ||= Swagger::Configuration.new
+end
