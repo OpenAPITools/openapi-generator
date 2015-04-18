@@ -428,6 +428,7 @@ public class DefaultCodegen {
       m.name = name;
     m.description = escapeText(model.getDescription());
     m.classname = toModelName(name);
+    m.importPath = toModelImport(name);
     m.classVarName = toVarName(name);
     m.modelJson = Json.pretty(model);
     m.externalDocs = model.getExternalDocs();
