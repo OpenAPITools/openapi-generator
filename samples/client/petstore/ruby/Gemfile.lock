@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    swagger-client (4.06.08)
+    swagger-client (1.0.0)
       addressable (>= 2.2.4)
       json (>= 1.4.6)
       typhoeus (>= 0.2.1)
