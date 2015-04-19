@@ -58,6 +58,12 @@ static NSString * basePath = @"{{basePath}}";
 
 
 {{#operation}}
+/*!
+ * {{{summary}}}
+ * {{{notes}}}
+{{#allParams}} * \param {{paramName}} {{{description}}}
+{{/allParams}} * \returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+ */
 -(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
         {{/allParams}}
         {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock{{/returnBaseType}}
