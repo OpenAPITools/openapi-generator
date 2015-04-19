@@ -38,7 +38,12 @@ public class PetApi {
   }
 
   
-  
+  /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+   */
   public void  updatePet (Pet body) throws ApiException {
     Object postBody = body;
 
@@ -88,7 +93,12 @@ public class PetApi {
     }
   }
   
-  
+  /**
+   * Add a new pet to the store
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+   */
   public void  addPet (Pet body) throws ApiException {
     Object postBody = body;
 
@@ -138,7 +148,12 @@ public class PetApi {
     }
   }
   
-  
+  /**
+   * Finds Pets by status
+   * Multiple status values can be provided with comma seperated strings
+   * @param status Status values that need to be considered for filter
+   * @return List<Pet>
+   */
   public List<Pet>  findPetsByStatus (List<String> status) throws ApiException {
     Object postBody = null;
 
@@ -190,7 +205,12 @@ public class PetApi {
     }
   }
   
-  
+  /**
+   * Finds Pets by tags
+   * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+   * @param tags Tags to filter by
+   * @return List<Pet>
+   */
   public List<Pet>  findPetsByTags (List<String> tags) throws ApiException {
     Object postBody = null;
 
@@ -242,7 +262,12 @@ public class PetApi {
     }
   }
   
-  
+  /**
+   * Find pet by ID
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return Pet
+   */
   public Pet  getPetById (Long petId) throws ApiException {
     Object postBody = null;
 
@@ -292,7 +317,14 @@ public class PetApi {
     }
   }
   
-  
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @return void
+   */
   public void  updatePetWithForm (String petId, String name, String status) throws ApiException {
     Object postBody = null;
 
@@ -352,7 +384,13 @@ public class PetApi {
     }
   }
   
-  
+  /**
+   * Deletes a pet
+   * 
+   * @param apiKey 
+   * @param petId Pet id to delete
+   * @return void
+   */
   public void  deletePet (String apiKey, Long petId) throws ApiException {
     Object postBody = null;
 
@@ -403,7 +441,14 @@ public class PetApi {
     }
   }
   
-  
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return void
+   */
   public void  uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
     Object postBody = null;
 
