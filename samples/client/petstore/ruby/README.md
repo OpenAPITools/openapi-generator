@@ -42,7 +42,7 @@ ruby -Ilib script.rb
 ```ruby
 require 'swagger-client'
 
-Swagger.configure do |config|
+SwaggerClient::Swagger.configure do |config|
   config.api_key = 'special-key'
   config.host = 'petstore.swagger.io'
   config.base_path = '/v2'
@@ -52,6 +52,6 @@ end
 ## Getting Started
 
 ```ruby
-pet = PetApi.getPetById(5)
+pet = SwaggerClient::PetApi.get_pet_by_id(5)
 puts pet.to_body
 ```
