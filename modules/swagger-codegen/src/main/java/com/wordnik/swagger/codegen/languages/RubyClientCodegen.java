@@ -8,7 +8,7 @@ import java.util.*;
 import java.io.File;
 
 public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
-  protected String gemName = "swagger-client";
+  protected String gemName = "swagger_client";
   protected String moduleName = null;
   protected String libFolder = "lib";
 
@@ -25,7 +25,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   /**
-   * Generate Ruby module name from the gem name, e.g. use "SwaggerClient" for "swagger-client".
+   * Generate Ruby module name from the gem name, e.g. use "SwaggerClient" for "swagger_client".
    */
   public String generateModuleName() {
     return camelize(gemName.replaceAll("[^\\w]+", "_"));
@@ -72,8 +72,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     String baseFolder = "lib/" + gemName;
     String swaggerFolder = baseFolder + "/swagger";
     String modelFolder = baseFolder + "/models";
-    supportingFiles.add(new SupportingFile("swagger-client.gemspec.mustache", "", gemName + ".gemspec"));
-    supportingFiles.add(new SupportingFile("swagger-client.mustache", "lib", gemName + ".rb"));
+    supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
+    supportingFiles.add(new SupportingFile("swagger_client.mustache", "lib", gemName + ".rb"));
     supportingFiles.add(new SupportingFile("monkey.mustache", baseFolder, "monkey.rb"));
     supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
     supportingFiles.add(new SupportingFile("swagger/request.mustache", swaggerFolder, "request.rb"));
