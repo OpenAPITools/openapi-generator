@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    swagger-client (1.0.0)
+    swagger_client (1.0.0)
       addressable (>= 2.2.4)
       json (>= 1.4.6)
       typhoeus (>= 0.2.1)
@@ -56,6 +56,6 @@ DEPENDENCIES
   autotest-growl
   autotest-rails-pure
   rspec (>= 2.5.0)
-  swagger-client!
+  swagger_client!
   vcr (>= 1.5.1)
   webmock (>= 1.6.2)

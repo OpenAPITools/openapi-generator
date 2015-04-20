@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'swagger-client'
+require 'swagger_client'
 require 'vcr'
 require 'typhoeus'
 require 'json'
