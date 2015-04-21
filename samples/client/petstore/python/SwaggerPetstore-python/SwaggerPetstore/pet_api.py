@@ -35,13 +35,12 @@ class PetApi(object):
     
     def update_pet(self, **kwargs):
         """Update an existing pet
+        
 
         Args:
-            
             body, Pet: Pet object that needs to be added to the store (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -94,13 +93,12 @@ class PetApi(object):
     
     def add_pet(self, **kwargs):
         """Add a new pet to the store
+        
 
         Args:
-            
             body, Pet: Pet object that needs to be added to the store (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -153,13 +151,12 @@ class PetApi(object):
     
     def find_pets_by_status(self, **kwargs):
         """Finds Pets by status
+        Multiple status values can be provided with comma seperated strings
 
         Args:
-            
             status, list[str]: Status values that need to be considered for filter (required)
             
-            
-        
+
         Returns: list[Pet]
         """
 
@@ -218,13 +215,12 @@ class PetApi(object):
     
     def find_pets_by_tags(self, **kwargs):
         """Finds Pets by tags
+        Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
         Args:
-            
             tags, list[str]: Tags to filter by (required)
             
-            
-        
+
         Returns: list[Pet]
         """
 
@@ -283,13 +279,12 @@ class PetApi(object):
     
     def get_pet_by_id(self, **kwargs):
         """Find pet by ID
+        Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
         Args:
-            
             pet_id, long: ID of pet that needs to be fetched (required)
             
-            
-        
+
         Returns: Pet
         """
 
@@ -351,19 +346,14 @@ class PetApi(object):
     
     def update_pet_with_form(self, **kwargs):
         """Updates a pet in the store with form data
+        
 
         Args:
-            
             pet_id, str: ID of pet that needs to be updated (required)
-            
-            
             name, str: Updated name of the pet (required)
-            
-            
             status, str: Updated status of the pet (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -425,16 +415,13 @@ class PetApi(object):
     
     def delete_pet(self, **kwargs):
         """Deletes a pet
+        
 
         Args:
-            
             api_key, str:  (required)
-            
-            
             pet_id, long: Pet id to delete (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -493,19 +480,14 @@ class PetApi(object):
     
     def upload_file(self, **kwargs):
         """uploads an image
+        
 
         Args:
-            
             pet_id, long: ID of pet to update (required)
-            
-            
             additional_metadata, str: Additional data to pass to server (required)
-            
-            
             file, file: file to upload (required)
             
-            
-        
+
         Returns: 
         """
 

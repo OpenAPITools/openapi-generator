@@ -18,6 +18,12 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
+  /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+   */
   def updatePet (body: Pet)  = {
     // create path and map variables
     val path = "/pet".replaceAll("\\{format\\}","json")
@@ -53,6 +59,12 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Add a new pet to the store
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+   */
   def addPet (body: Pet)  = {
     // create path and map variables
     val path = "/pet".replaceAll("\\{format\\}","json")
@@ -88,6 +100,12 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Finds Pets by status
+   * Multiple status values can be provided with comma seperated strings
+   * @param status Status values that need to be considered for filter
+   * @return List[Pet]
+   */
   def findPetsByStatus (status: List[String]) : Option[List[Pet]] = {
     // create path and map variables
     val path = "/pet/findByStatus".replaceAll("\\{format\\}","json")
@@ -122,6 +140,12 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Finds Pets by tags
+   * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+   * @param tags Tags to filter by
+   * @return List[Pet]
+   */
   def findPetsByTags (tags: List[String]) : Option[List[Pet]] = {
     // create path and map variables
     val path = "/pet/findByTags".replaceAll("\\{format\\}","json")
@@ -156,6 +180,12 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Find pet by ID
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return Pet
+   */
   def getPetById (petId: Long) : Option[Pet] = {
     // create path and map variables
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
@@ -191,6 +221,14 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @return void
+   */
   def updatePetWithForm (petId: String, name: String, status: String)  = {
     // create path and map variables
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
@@ -225,6 +263,13 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Deletes a pet
+   * 
+   * @param api_key 
+   * @param petId Pet id to delete
+   * @return void
+   */
   def deletePet (api_key: String, petId: Long)  = {
     // create path and map variables
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
@@ -260,6 +305,14 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return void
+   */
   def uploadFile (petId: Long, additionalMetadata: String, file: File)  = {
     // create path and map variables
     val path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))

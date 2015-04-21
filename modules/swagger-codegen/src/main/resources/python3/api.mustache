@@ -32,14 +32,13 @@ class {{classname}}(object):
     {{newline}}
     {{#operation}}
     def {{nickname}}(self, {{#requiredParams}}{{paramName}}{{#defaultValue}} = None{{/defaultValue}}, {{/requiredParams}}**kwargs):
-        """{{summary}}
+        """{{{summary}}}
+        {{{notes}}}
 
         Args:
-            {{#allParams}}
-            {{paramName}}, {{dataType}}: {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
-            {{newline}}
+            {{#allParams}}{{paramName}}, {{dataType}}: {{{description}}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
             {{/allParams}}
-        {{newline}}
+
         Returns: {{returnType}}
         """
 

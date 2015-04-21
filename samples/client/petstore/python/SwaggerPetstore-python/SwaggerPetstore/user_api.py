@@ -35,13 +35,12 @@ class UserApi(object):
     
     def create_user(self, **kwargs):
         """Create user
+        This can only be done by the logged in user.
 
         Args:
-            
             body, User: Created user object (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -94,13 +93,12 @@ class UserApi(object):
     
     def create_users_with_array_input(self, **kwargs):
         """Creates list of users with given input array
+        
 
         Args:
-            
             body, list[User]: List of user object (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -153,13 +151,12 @@ class UserApi(object):
     
     def create_users_with_list_input(self, **kwargs):
         """Creates list of users with given input array
+        
 
         Args:
-            
             body, list[User]: List of user object (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -212,16 +209,13 @@ class UserApi(object):
     
     def login_user(self, **kwargs):
         """Logs user into the system
+        
 
         Args:
-            
             username, str: The user name for login (required)
-            
-            
             password, str: The password for login in clear text (required)
             
-            
-        
+
         Returns: str
         """
 
@@ -283,10 +277,11 @@ class UserApi(object):
     
     def logout_user(self, **kwargs):
         """Logs out current logged in user session
+        
 
         Args:
             
-        
+
         Returns: 
         """
 
@@ -336,13 +331,12 @@ class UserApi(object):
     
     def get_user_by_name(self, **kwargs):
         """Get user by user name
+        
 
         Args:
-            
             username, str: The name that needs to be fetched. Use user1 for testing.  (required)
             
-            
-        
+
         Returns: User
         """
 
@@ -404,16 +398,13 @@ class UserApi(object):
     
     def update_user(self, **kwargs):
         """Updated user
+        This can only be done by the logged in user.
 
         Args:
-            
             username, str: name that need to be deleted (required)
-            
-            
             body, User: Updated user object (required)
             
-            
-        
+
         Returns: 
         """
 
@@ -472,13 +463,12 @@ class UserApi(object):
     
     def delete_user(self, **kwargs):
         """Delete user
+        This can only be done by the logged in user.
 
         Args:
-            
             username, str: The name that needs to be deleted (required)
             
-            
-        
+
         Returns: 
         """
 
