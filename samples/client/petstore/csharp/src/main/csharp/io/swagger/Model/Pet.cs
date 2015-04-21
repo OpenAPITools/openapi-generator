@@ -18,12 +18,12 @@ namespace io.swagger.Model {
     
 
     
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     
 
     
-    public List<string?> PhotoUrls { get; set; }
+    public List<string> PhotoUrls { get; set; }
 
     
 
@@ -34,7 +34,7 @@ namespace io.swagger.Model {
 
     /* pet status in the store */
     
-    public string? Status { get; set; }
+    public string Status { get; set; }
 
     
 

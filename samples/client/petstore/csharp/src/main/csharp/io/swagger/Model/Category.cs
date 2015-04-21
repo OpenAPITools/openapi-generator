@@ -13,7 +13,7 @@ namespace io.swagger.Model {
     
 
     
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     
 
