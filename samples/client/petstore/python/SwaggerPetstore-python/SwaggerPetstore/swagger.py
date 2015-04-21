@@ -85,6 +85,8 @@ class ApiClient(object):
         if 'Content-Type' not in headers:
           headers['Content-Type'] = 'application/json'
           data = json.dumps(postData)
+        elif headers['Content-Type'] == 'application/json':
+          data = json.dumps(postData)
         elif headers['Content-Type'] == 'multipart/form-data':
           data = self.buildMultipartFormData(postData, files)
           headers['Content-Type'] = 'multipart/form-data; boundary={0}'.format(self.boundary)
