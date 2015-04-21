@@ -17,6 +17,12 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   
+  /**
+   * Create user
+   * This can only be done by the logged in user.
+   * @param body Created user object
+   * @return void
+   */
   def createUser (body: User)  = {
     // create path and map variables
     val path = "/user".replaceAll("\\{format\\}","json")
@@ -52,6 +58,12 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object
+   * @return void
+   */
   def createUsersWithArrayInput (body: List[User])  = {
     // create path and map variables
     val path = "/user/createWithArray".replaceAll("\\{format\\}","json")
@@ -87,6 +99,12 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object
+   * @return void
+   */
   def createUsersWithListInput (body: List[User])  = {
     // create path and map variables
     val path = "/user/createWithList".replaceAll("\\{format\\}","json")
@@ -122,6 +140,13 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Logs user into the system
+   * 
+   * @param username The user name for login
+   * @param password The password for login in clear text
+   * @return String
+   */
   def loginUser (username: String, password: String) : Option[String] = {
     // create path and map variables
     val path = "/user/login".replaceAll("\\{format\\}","json")
@@ -157,6 +182,11 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Logs out current logged in user session
+   * 
+   * @return void
+   */
   def logoutUser ()  = {
     // create path and map variables
     val path = "/user/logout".replaceAll("\\{format\\}","json")
@@ -189,6 +219,12 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @return User
+   */
   def getUserByName (username: String) : Option[User] = {
     // create path and map variables
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
@@ -224,6 +260,13 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Updated user
+   * This can only be done by the logged in user.
+   * @param username name that need to be deleted
+   * @param body Updated user object
+   * @return void
+   */
   def updateUser (username: String, body: User)  = {
     // create path and map variables
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
@@ -261,6 +304,12 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     }
   }
   
+  /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return void
+   */
   def deleteUser (username: String)  = {
     // create path and map variables
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
