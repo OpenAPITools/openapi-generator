@@ -141,7 +141,7 @@ namespace io.swagger.Api {
     /// <param name="OrderId">ID of pet that needs to be fetched</param>
     
     /// <returns></returns>
-    public Order  GetOrderById (string OrderId) {
+    public Order  GetOrderById (string? OrderId) {
       // create path and map variables
       var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
 
@@ -194,7 +194,7 @@ namespace io.swagger.Api {
     /// <param name="OrderId">ID of the order that needs to be deleted</param>
     
     /// <returns></returns>
-    public void  DeleteOrder (string OrderId) {
+    public void  DeleteOrder (string? OrderId) {
       // create path and map variables
       var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
 
