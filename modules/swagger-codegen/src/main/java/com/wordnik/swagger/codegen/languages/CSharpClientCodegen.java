@@ -50,8 +50,17 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
+        "string",
+        "bool?",
+        "double?",
+        "int?",
+        "long?",
+        "float?",
+        "byte[]",
+        "List",
+        "Dictionary",
+        "DateTime",
         "String",
-        "boolean",
         "Boolean",
         "Double",
         "Integer",
@@ -63,6 +72,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     instantiationTypes.put("map", "Dictionary");
 
     typeMapping = new HashMap<String, String>();
+    typeMapping.put("string", "string");
     typeMapping.put("boolean", "bool?");
     typeMapping.put("integer", "int?");
     typeMapping.put("float", "float?");
@@ -161,7 +171,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     }
     else
       type = swaggerType;
-    return type;
+    return toModelName(type);
   }
 
   @Override
