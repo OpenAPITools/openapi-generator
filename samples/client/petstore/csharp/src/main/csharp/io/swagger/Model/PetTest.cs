@@ -4,11 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace io.swagger.Model {
-  public class Tag {
+  public class PetTest {
     
 
     
     public long? Id { get; set; }
+
+    
+
+    
+    public Category Category { get; set; }
 
     
 
@@ -19,9 +24,11 @@ namespace io.swagger.Model {
 
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class Tag {\n");
+      sb.Append("class PetTest {\n");
       
       sb.Append("  Id: ").Append(Id).Append("\n");
+      
+      sb.Append("  Category: ").Append(Category).Append("\n");
       
       sb.Append("  Name: ").Append(Name).Append("\n");
       

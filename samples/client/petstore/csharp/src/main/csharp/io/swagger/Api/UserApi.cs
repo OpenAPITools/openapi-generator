@@ -181,7 +181,7 @@ namespace io.swagger.Api {
      /// <param name="Password">The password for login in clear text</param>
     
     /// <returns></returns>
-    public string?  LoginUser (string? Username, string? Password) {
+    public string  LoginUser (string Username, string Password) {
       // create path and map variables
       var path = "/user/login".Replace("{format}","json");
 
@@ -205,17 +205,17 @@ namespace io.swagger.Api {
       
 
       try {
-        if (typeof(string?) == typeof(byte[])) {
+        if (typeof(string) == typeof(byte[])) {
           
           var response = apiInvoker.invokeBinaryAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
-          return ((object)response) as string?;
+          return ((object)response) as string;
           
           
         } else {
           
           var response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, null, headerParams, formParams);
           if (response != null){
-             return (string?) ApiInvoker.deserialize(response, typeof(string?));
+             return (string) ApiInvoker.deserialize(response, typeof(string));
           }
           else {
             return null;
@@ -287,7 +287,7 @@ namespace io.swagger.Api {
     /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
     
     /// <returns></returns>
-    public User  GetUserByName (string? Username) {
+    public User  GetUserByName (string Username) {
       // create path and map variables
       var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.ParameterToString(Username));
 
@@ -341,7 +341,7 @@ namespace io.swagger.Api {
      /// <param name="Body">Updated user object</param>
     
     /// <returns></returns>
-    public void  UpdateUser (string? Username, User Body) {
+    public void  UpdateUser (string Username, User Body) {
       // create path and map variables
       var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.ParameterToString(Username));
 
@@ -389,7 +389,7 @@ namespace io.swagger.Api {
     /// <param name="Username">The name that needs to be deleted</param>
     
     /// <returns></returns>
-    public void  DeleteUser (string? Username) {
+    public void  DeleteUser (string Username) {
       // create path and map variables
       var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.ParameterToString(Username));
 

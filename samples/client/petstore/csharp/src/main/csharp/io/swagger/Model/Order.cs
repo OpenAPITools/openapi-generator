@@ -29,7 +29,7 @@ namespace io.swagger.Model {
 
     /* Order Status */
     
-    public string? Status { get; set; }
+    public string Status { get; set; }
 
     
 
