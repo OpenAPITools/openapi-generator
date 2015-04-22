@@ -1,19 +1,33 @@
 package com.wordnik.swagger.codegen.examples;
 
-import com.wordnik.swagger.models.*;
-import com.wordnik.swagger.models.properties.*;
-import com.wordnik.swagger.util.Json;
-
-import java.text.SimpleDateFormat;
-
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
- 
-
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.wordnik.swagger.models.Model;
+import com.wordnik.swagger.models.ModelImpl;
+import com.wordnik.swagger.models.properties.ArrayProperty;
+import com.wordnik.swagger.models.properties.BooleanProperty;
+import com.wordnik.swagger.models.properties.DateProperty;
+import com.wordnik.swagger.models.properties.DateTimeProperty;
+import com.wordnik.swagger.models.properties.DecimalProperty;
+import com.wordnik.swagger.models.properties.DoubleProperty;
+import com.wordnik.swagger.models.properties.FileProperty;
+import com.wordnik.swagger.models.properties.FloatProperty;
+import com.wordnik.swagger.models.properties.IntegerProperty;
+import com.wordnik.swagger.models.properties.LongProperty;
+import com.wordnik.swagger.models.properties.MapProperty;
+import com.wordnik.swagger.models.properties.ObjectProperty;
+import com.wordnik.swagger.models.properties.Property;
+import com.wordnik.swagger.models.properties.RefProperty;
+import com.wordnik.swagger.models.properties.StringProperty;
+import com.wordnik.swagger.models.properties.UUIDProperty;
+import com.wordnik.swagger.util.Json;
 
 public class ExampleGenerator {
   protected Map<String, Model> examples;
@@ -22,7 +36,7 @@ public class ExampleGenerator {
     this.examples = examples;
   }
 
-  public List<Map<String, String>> generate(Map<String, String> examples, List<String> mediaTypes, Property property) {
+  public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Property property) {
     List<Map<String, String>> output = new ArrayList<Map<String, String>>();
     Set<String> processedModels = new HashSet<String>();
     if(examples == null ) {
@@ -37,7 +51,6 @@ public class ExampleGenerator {
           String example = Json.pretty(resolvePropertyToExample(mediaType, property, processedModels));
 
           if(example != null) {
-            example = example.replaceAll("\n", "\\\\n");
             kv.put("example", example);
             output.add(kv);
           }
@@ -45,7 +58,6 @@ public class ExampleGenerator {
         else if(property != null && mediaType.startsWith("application/xml")) {
           String example = new XmlExampleGenerator(this.examples).toXml(property);
           if(example != null) {
-            example = example.replaceAll("\n", "\\\\n");
             kv.put("example", example);
             output.add(kv);
           }
@@ -53,12 +65,10 @@ public class ExampleGenerator {
       }
     }
     else {
-      for(String key: examples.keySet()) {
-        String value = examples.get(key);
-
-        Map<String, String> kv = new HashMap<String, String>();
-        kv.put("contentType", key);
-        kv.put("example", value);
+      for(Map.Entry<String, Object> entry: examples.entrySet()) {
+        final Map<String, String> kv = new HashMap<String, String>();
+        kv.put("contentType", entry.getKey());
+        kv.put("example", Json.pretty(entry.getValue()));
         output.add(kv);
       }
     }
