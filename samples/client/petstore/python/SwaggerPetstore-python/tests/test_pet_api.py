@@ -47,7 +47,7 @@ class PetApiTests(unittest.TestCase):
     def setUpFiles(self):
         self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
         self.test_file_dir = os.path.realpath(self.test_file_dir)
-        self.foo = os.path.join(self.test_file_dir, "foo.txt")
+        self.foo = os.path.join(self.test_file_dir, "foo.png")
 
     def test_1_add_pet(self):
         try:
