@@ -17,19 +17,7 @@ class StoreApiTest extends FlatSpec with Matchers {
 
   api.apiInvoker.defaultHeaders += "api_key" -> "special-key"
 
-  it should "fetch an order" in {
-    api.getOrderById("1") match {
-      case Some(order) => {
-        order.id should be(1)
-        order.petId should be(1)
-        order.quantity should be(2)
-        order.shipDate should not be (null)
-      }
-      case None => fail("didn't find order")
-    }
-  }
-
-  it should "place an order" in {
+  it should "place and fetch an order" in {
     val now = new org.joda.time.DateTime
     val order = Order (
       petId = 10,
@@ -46,9 +34,10 @@ class StoreApiTest extends FlatSpec with Matchers {
         order.id should be(1000)
         order.petId should be(10)
         order.quantity should be(101)
-        order.shipDate.equals(now) should be (true)
+        // use `getMillis` to compare across timezones
+        order.shipDate.getMillis.equals(now.getMillis) should be (true)
       }
-      case None =>
+      case None => fail("didn't find order created")
     }
   }
 
@@ -65,12 +54,13 @@ class StoreApiTest extends FlatSpec with Matchers {
     api.placeOrder(order)
 
     api.getOrderById("1001") match {
-      case Some(order) => {
-        order.id should be(1001)
-        order.petId should be(10)
-        order.quantity should be(101)
-        order.shipDate.equals(now) should be (true)
-      }
+      case Some(order) => order.id should be(1001)
+      case None => fail("didn't find order created")
+    }
+
+    api.deleteOrder("1001")
+    api.getOrderById("1001") match {
+      case Some(order) => fail("order should have been deleted")
       case None =>
     }
   }
