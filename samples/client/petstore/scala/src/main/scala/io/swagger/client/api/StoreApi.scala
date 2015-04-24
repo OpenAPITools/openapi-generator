@@ -4,6 +4,11 @@ import io.swagger.client.model.Order
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException
 
+import com.sun.jersey.multipart.FormDataMultiPart
+import com.sun.jersey.multipart.file.FileDataBodyPart
+
+import javax.ws.rs.core.MediaType
+
 import java.io.File
 import java.util.Date
 
@@ -26,24 +31,33 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     // create path and map variables
     val path = "/store/inventory".replaceAll("\\{format\\}","json")
 
-    
-    val contentType = {
-      
-      "application/json"
-    }
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
 
     
 
     
     
     
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
 
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
            Some(ApiInvoker.deserialize(s, "map", classOf[Integer]).asInstanceOf[Map[String, Integer]])
          
@@ -65,27 +79,33 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     // create path and map variables
     val path = "/store/order".replaceAll("\\{format\\}","json")
 
-    
-    val contentType = {
-      if(body != null && body.isInstanceOf[File] )
-        "multipart/form-data"
-      else "application/json"
-      
-      
-    }
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
 
     
 
     
     
     
+
+    var postBody: AnyRef = body
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
 
     try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
            Some(ApiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
          
@@ -109,24 +129,33 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     
 
-    
-    val contentType = {
-      
-      "application/json"
-    }
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
 
     
 
     
     
     
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
 
     try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, None, headerParams.toMap, contentType) match {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
            Some(ApiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
          
@@ -150,24 +179,33 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     
 
-    
-    val contentType = {
-      
-      "application/json"
-    }
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
 
     
 
     
     
     
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
 
     try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, None, headerParams.toMap, contentType) match {
+      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
            
         case _ => None
