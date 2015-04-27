@@ -20,6 +20,7 @@
   {{#operations}}{{#operation}}
   <div class="method">
     <div class="method-path"><pre class="{{httpMethod}}"><code class="huge"><span>{{httpMethod}}</span>: {{path}}</code></pre></div>
+    <div class="method-tags"> {{#tags}}<span class="method-tag">{{this}}</span>{{/tags}}</div>
     <div class="method-summary"><span class="nickname">{{nickname}}</span> {{summary}}</div>
     <div class="method-notes">{{notes}}</div>
 
