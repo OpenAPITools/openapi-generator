@@ -80,7 +80,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.put("double", "double?");
     typeMapping.put("number", "double?");
     typeMapping.put("Date", "DateTime");
-    typeMapping.put("file", "byte[]");
+    typeMapping.put("file", "string"); // path to file
     typeMapping.put("array", "List");
     typeMapping.put("map", "Dictionary");
 

@@ -8,31 +8,33 @@ namespace io.swagger.Api {
   
   public class StoreApi {
     string basePath;
-    private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
-    protected RestClient _client;
+    protected RestClient restClient;
 
     public StoreApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      _client = new RestClient(basePath);
+      this.restClient = new RestClient(basePath);
     }
 
-    public ApiInvoker getInvoker() {
-      return apiInvoker;
-    }
-
-    // Sets the endpoint base url for the services being accessed
-    public void setBasePath(string basePath) {
+    /// <summary>
+    /// Sets the endpoint base url for the services being accessed
+    /// </summary>
+    /// <param name="basePath"> Base URL
+    /// <returns></returns>
+    public void SetBasePath(string basePath) {
       this.basePath = basePath;
     }
 
-    // Gets the endpoint base url for the services being accessed
-    public String getBasePath() {
-      return basePath;
+    /// <summary>
+    /// Gets the endpoint base url for the services being accessed
+    /// <returns>Base URL</returns>
+    /// </summary>
+    public String GetBasePath() {
+      return this.basePath;
     }
 
     
-
+    
     /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
     /// </summary>
@@ -55,10 +57,11 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (Dictionary<String, int?>) ApiInvoker.deserialize(response.Content, typeof(Dictionary<String, int?>));
+        IRestResponse response = restClient.Execute(_request);
+        return (Dictionary<String, int?>) ApiInvoker.Deserialize(response.Content, typeof(Dictionary<String, int?>));
         //return ((object)response) as Dictionary<String, int?>;
         
       } catch (Exception ex) {
@@ -71,7 +74,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Place an order for a pet 
     /// </summary>
@@ -95,10 +98,13 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (Order) ApiInvoker.deserialize(response.Content, typeof(Order));
+        IRestResponse response = restClient.Execute(_request);
+        return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
         //return ((object)response) as Order;
         
       } catch (Exception ex) {
@@ -111,7 +117,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
@@ -128,17 +134,18 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("orderId", apiInvoker.ParameterToString(OrderId));
+      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
       
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (Order) ApiInvoker.deserialize(response.Content, typeof(Order));
+        IRestResponse response = restClient.Execute(_request);
+        return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
         //return ((object)response) as Order;
         
       } catch (Exception ex) {
@@ -151,7 +158,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     /// </summary>
@@ -168,17 +175,18 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("orderId", apiInvoker.ParameterToString(OrderId));
+      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
       
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
