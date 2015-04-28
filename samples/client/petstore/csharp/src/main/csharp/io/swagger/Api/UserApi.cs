@@ -8,31 +8,33 @@ namespace io.swagger.Api {
   
   public class UserApi {
     string basePath;
-    private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
-    protected RestClient _client;
+    protected RestClient restClient;
 
     public UserApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      _client = new RestClient(basePath);
+      this.restClient = new RestClient(basePath);
     }
 
-    public ApiInvoker getInvoker() {
-      return apiInvoker;
-    }
-
-    // Sets the endpoint base url for the services being accessed
-    public void setBasePath(string basePath) {
+    /// <summary>
+    /// Sets the endpoint base url for the services being accessed
+    /// </summary>
+    /// <param name="basePath"> Base URL
+    /// <returns></returns>
+    public void SetBasePath(string basePath) {
       this.basePath = basePath;
     }
 
-    // Gets the endpoint base url for the services being accessed
-    public String getBasePath() {
-      return basePath;
+    /// <summary>
+    /// Gets the endpoint base url for the services being accessed
+    /// <returns>Base URL</returns>
+    /// </summary>
+    public String GetBasePath() {
+      return this.basePath;
     }
 
     
-
+    
     /// <summary>
     /// Create user This can only be done by the logged in user.
     /// </summary>
@@ -56,10 +58,13 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -71,7 +76,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
@@ -95,10 +100,13 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -110,7 +118,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
@@ -134,10 +142,13 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -149,12 +160,12 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Logs user into the system 
     /// </summary>
     /// <param name="Username">The user name for login</param>
-     /// <param name="Password">The password for login in clear text</param>
+    /// <param name="Password">The password for login in clear text</param>
     
     /// <returns></returns>
     public string  LoginUser (string Username, string Password) {
@@ -174,10 +185,11 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (string) ApiInvoker.deserialize(response.Content, typeof(string));
+        IRestResponse response = restClient.Execute(_request);
+        return (string) ApiInvoker.Deserialize(response.Content, typeof(string));
         //return ((object)response) as string;
         
       } catch (Exception ex) {
@@ -190,7 +202,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Logs out current logged in user session 
     /// </summary>
@@ -213,10 +225,11 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -228,7 +241,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Get user by user name 
     /// </summary>
@@ -245,17 +258,18 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", apiInvoker.ParameterToString(Username));
+      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
       
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (User) ApiInvoker.deserialize(response.Content, typeof(User));
+        IRestResponse response = restClient.Execute(_request);
+        return (User) ApiInvoker.Deserialize(response.Content, typeof(User));
         //return ((object)response) as User;
         
       } catch (Exception ex) {
@@ -268,12 +282,12 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Updated user This can only be done by the logged in user.
     /// </summary>
     /// <param name="Username">name that need to be deleted</param>
-     /// <param name="Body">Updated user object</param>
+    /// <param name="Body">Updated user object</param>
     
     /// <returns></returns>
     public void  UpdateUser (string Username, User Body) {
@@ -286,17 +300,20 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", apiInvoker.ParameterToString(Username));
+      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
       
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -308,7 +325,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Delete user This can only be done by the logged in user.
     /// </summary>
@@ -325,17 +342,18 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", apiInvoker.ParameterToString(Username));
+      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
       
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {

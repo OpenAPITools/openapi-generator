@@ -10,36 +10,38 @@ namespace {{package}} {
   {{#operations}}
   public class {{classname}} {
     string basePath;
-    private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
-    protected RestClient _client;
+    protected RestClient restClient;
 
     public {{classname}}(String basePath = "{{basePath}}")
     {
       this.basePath = basePath;
-      _client = new RestClient(basePath);
+      this.restClient = new RestClient(basePath);
     }
 
-    public ApiInvoker getInvoker() {
-      return apiInvoker;
-    }
-
-    // Sets the endpoint base url for the services being accessed
-    public void setBasePath(string basePath) {
+    /// <summary>
+    /// Sets the endpoint base url for the services being accessed
+    /// </summary>
+    /// <param name="basePath"> Base URL
+    /// <returns></returns>
+    public void SetBasePath(string basePath) {
       this.basePath = basePath;
     }
 
-    // Gets the endpoint base url for the services being accessed
-    public String getBasePath() {
-      return basePath;
+    /// <summary>
+    /// Gets the endpoint base url for the services being accessed
+    /// <returns>Base URL</returns>
+    /// </summary>
+    public String GetBasePath() {
+      return this.basePath;
     }
 
     {{#operation}}
-
+    
     /// <summary>
     /// {{summary}} {{notes}}
     /// </summary>
     {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-    {{#hasMore}} {{/hasMore}}{{/allParams}}
+    {{/allParams}}
     /// <returns></returns>
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
@@ -52,20 +54,23 @@ namespace {{package}} {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      {{#pathParams}}_request.AddUrlSegment("{{baseName}}", apiInvoker.ParameterToString({{{paramName}}}));{{/pathParams}}
+      {{#pathParams}}_request.AddUrlSegment("{{baseName}}", ApiInvoker.ParameterToString({{{paramName}}}));{{/pathParams}}
       // query parameters, if any
       {{#queryParams}} if ({{paramName}} != null) _request.AddParameter("{{baseName}}", {{paramName}});{{/queryParams}}
       // header parameters, if any
       {{#headerParams}} if ({{paramName}} != null) _request.AddHeader("{{baseName}}", {{paramName}});{{/headerParams}}
       // form parameters, if any
-      {{#formParams}}if ({{paramName}} != null) {{#isFile}}_request.AddParameter("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}_request.AddFile("{{baseName}}", {{paramName}});{{/isFile}}
+      {{#formParams}}if ({{paramName}} != null) {{#isFile}}_request.AddFile("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}_request.AddParameter("{{baseName}}", {{paramName}});{{/isFile}}
       {{/formParams}}
+      {{#bodyParam}}
+      _request.AddParameter("application/json", ApiInvoker.Serialize({{paramName}}), ParameterType.RequestBody);
+      {{/bodyParam}}
 
       try {
-        {{#returnType}}IRestResponse response = _client.Execute(_request);
-        return ({{{returnType}}}) ApiInvoker.deserialize(response.Content, typeof({{{returnType}}}));
+        {{#returnType}}IRestResponse response = restClient.Execute(_request);
+        return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));
         //return ((object)response) as {{{returnType}}};{{/returnType}}
-        {{^returnType}}_client.Execute(_request);
+        {{^returnType}}restClient.Execute(_request);
         return;{{/returnType}}
       } catch (Exception ex) {
         if(ex != null) {

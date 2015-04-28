@@ -8,31 +8,33 @@ namespace io.swagger.Api {
   
   public class PetApi {
     string basePath;
-    private readonly ApiInvoker apiInvoker = ApiInvoker.GetInstance();
-    protected RestClient _client;
+    protected RestClient restClient;
 
     public PetApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      _client = new RestClient(basePath);
+      this.restClient = new RestClient(basePath);
     }
 
-    public ApiInvoker getInvoker() {
-      return apiInvoker;
-    }
-
-    // Sets the endpoint base url for the services being accessed
-    public void setBasePath(string basePath) {
+    /// <summary>
+    /// Sets the endpoint base url for the services being accessed
+    /// </summary>
+    /// <param name="basePath"> Base URL
+    /// <returns></returns>
+    public void SetBasePath(string basePath) {
       this.basePath = basePath;
     }
 
-    // Gets the endpoint base url for the services being accessed
-    public String getBasePath() {
-      return basePath;
+    /// <summary>
+    /// Gets the endpoint base url for the services being accessed
+    /// <returns>Base URL</returns>
+    /// </summary>
+    public String GetBasePath() {
+      return this.basePath;
     }
 
     
-
+    
     /// <summary>
     /// Update an existing pet 
     /// </summary>
@@ -56,10 +58,13 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -71,7 +76,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Add a new pet to the store 
     /// </summary>
@@ -95,10 +100,13 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -110,7 +118,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Finds Pets by status Multiple status values can be provided with comma seperated strings
     /// </summary>
@@ -134,10 +142,11 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (List<Pet>) ApiInvoker.deserialize(response.Content, typeof(List<Pet>));
+        IRestResponse response = restClient.Execute(_request);
+        return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
         //return ((object)response) as List<Pet>;
         
       } catch (Exception ex) {
@@ -150,7 +159,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     /// </summary>
@@ -174,10 +183,11 @@ namespace io.swagger.Api {
       
       // form parameters, if any
       
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (List<Pet>) ApiInvoker.deserialize(response.Content, typeof(List<Pet>));
+        IRestResponse response = restClient.Execute(_request);
+        return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
         //return ((object)response) as List<Pet>;
         
       } catch (Exception ex) {
@@ -190,7 +200,7 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     /// </summary>
@@ -207,17 +217,18 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
       
+      
 
       try {
-        IRestResponse response = _client.Execute(_request);
-        return (Pet) ApiInvoker.deserialize(response.Content, typeof(Pet));
+        IRestResponse response = restClient.Execute(_request);
+        return (Pet) ApiInvoker.Deserialize(response.Content, typeof(Pet));
         //return ((object)response) as Pet;
         
       } catch (Exception ex) {
@@ -230,13 +241,13 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Updates a pet in the store with form data 
     /// </summary>
     /// <param name="PetId">ID of pet that needs to be updated</param>
-     /// <param name="Name">Updated name of the pet</param>
-     /// <param name="Status">Updated status of the pet</param>
+    /// <param name="Name">Updated name of the pet</param>
+    /// <param name="Status">Updated status of the pet</param>
     
     /// <returns></returns>
     public void  UpdatePetWithForm (string PetId, string Name, string Status) {
@@ -249,19 +260,20 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
-      if (Name != null) _request.AddFile("name", Name);
-      if (Status != null) _request.AddFile("status", Status);
+      if (Name != null) _request.AddParameter("name", Name);
+      if (Status != null) _request.AddParameter("status", Status);
+      
       
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -273,12 +285,12 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// Deletes a pet 
     /// </summary>
     /// <param name="ApiKey"></param>
-     /// <param name="PetId">Pet id to delete</param>
+    /// <param name="PetId">Pet id to delete</param>
     
     /// <returns></returns>
     public void  DeletePet (string ApiKey, long? PetId) {
@@ -291,17 +303,18 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId));
       // query parameters, if any
       
       // header parameters, if any
        if (ApiKey != null) _request.AddHeader("api_key", ApiKey);
       // form parameters, if any
       
+      
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
@@ -313,13 +326,13 @@ namespace io.swagger.Api {
       }
     }
     
-
+    
     /// <summary>
     /// uploads an image 
     /// </summary>
     /// <param name="PetId">ID of pet to update</param>
-     /// <param name="AdditionalMetadata">Additional data to pass to server</param>
-     /// <param name="File">file to upload</param>
+    /// <param name="AdditionalMetadata">Additional data to pass to server</param>
+    /// <param name="File">file to upload</param>
     
     /// <returns></returns>
     public void  UploadFile (long? PetId, string AdditionalMetadata, byte[] File) {
@@ -332,19 +345,20 @@ namespace io.swagger.Api {
 
       // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", apiInvoker.ParameterToString(PetId));
+      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId));
       // query parameters, if any
       
       // header parameters, if any
       
       // form parameters, if any
-      if (AdditionalMetadata != null) _request.AddFile("additionalMetadata", AdditionalMetadata);
-      if (File != null) _request.AddParameter("file", File);
+      if (AdditionalMetadata != null) _request.AddParameter("additionalMetadata", AdditionalMetadata);
+      if (File != null) _request.AddFile("file", File);
+      
       
 
       try {
         
-        _client.Execute(_request);
+        restClient.Execute(_request);
         return;
       } catch (Exception ex) {
         if(ex != null) {
