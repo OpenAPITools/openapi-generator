@@ -15,6 +15,14 @@
 
     <build>
         <finalName>swagger-codegen-cli</finalName>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <excludes>
+              <exclude>logback.xml</exclude>
+            </excludes>
+          </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
