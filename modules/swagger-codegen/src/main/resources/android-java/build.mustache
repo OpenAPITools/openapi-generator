@@ -1,48 +1,43 @@
-apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.0"
-
+    buildToolsVersion '22.0.0'
     defaultConfig {
-        applicationId "{{invokerPackage}}"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
-        versionName "{{artifactVersion}}"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
-        exclude 'META-INF/services/com.fasterxml.jackson.core.ObjectCodec'
     }
 }
 
 ext {
-    swagger_annotations_version = '1.5.3-M1'
-    jackson_version = '2.5.2'
-    apache_httpclient_version = '4.3.5.1'
-    apache_httpmime_version = '4.4.1'
+    swagger_annotations_version = "1.5.3-M1"
+    jackson_version = "2.5.2"
+    httpclient_version = "4.3.3"
+    junit_version = "4.8.1"
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
     compile "com.wordnik:swagger-annotations:$swagger_annotations_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    compile "org.apache.httpcomponents:httpclient-android:$apache_httpclient_version"
-    compile "org.apache.httpcomponents:httpmime:$apache_httpmime_version"
+    compile "org.apache.httpcomponents:httpcore:$httpclient_version"
+    compile "org.apache.httpcomponents:httpclient:$httpclient_version"
+    compile "org.apache.httpcomponents:httpmime:$httpclient_version"
+    testCompile "junit:junit:$junit_version"
 }
