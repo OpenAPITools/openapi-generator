@@ -38,10 +38,8 @@ namespace io.swagger.Api {
     /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
     /// </summary>
-    /// <returns></returns>
-    public Dictionary<String, int?>  GetInventory () {
-      // create path and map variables
-      var path = "/store/inventory".Replace("{format}","json");
+    /// <returns>Dictionary<String, int?></returns>
+    public Dictionary<String, int?> GetInventory () {
 
       var _request = new RestRequest("/store/inventory", Method.GET);
 
@@ -55,10 +53,9 @@ namespace io.swagger.Api {
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (Dictionary<String, int?>) ApiInvoker.Deserialize(response.Content, typeof(Dictionary<String, int?>));
-        //return ((object)response) as Dictionary<String, int?>;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -74,10 +71,8 @@ namespace io.swagger.Api {
     /// Place an order for a pet 
     /// </summary>
     /// <param name="Body">order placed for purchasing the pet</param>
-    /// <returns></returns>
-    public Order  PlaceOrder (Order Body) {
-      // create path and map variables
-      var path = "/store/order".Replace("{format}","json");
+    /// <returns>Order</returns>
+    public Order PlaceOrder (Order Body) {
 
       var _request = new RestRequest("/store/order", Method.POST);
 
@@ -88,15 +83,13 @@ namespace io.swagger.Api {
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
-        //return ((object)response) as Order;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -112,13 +105,14 @@ namespace io.swagger.Api {
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
     /// <param name="OrderId">ID of pet that needs to be fetched</param>
-    /// <returns></returns>
-    public Order  GetOrderById (string OrderId) {
-      // create path and map variables
-      var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
+    /// <returns>Order</returns>
+    public Order GetOrderById (string OrderId) {
 
       var _request = new RestRequest("/store/order/{orderId}", Method.GET);
 
+      
+      // verify the required parameter 'OrderId' is set
+      if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling GetOrderById");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -130,10 +124,9 @@ namespace io.swagger.Api {
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
-        //return ((object)response) as Order;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -150,12 +143,13 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="OrderId">ID of the order that needs to be deleted</param>
     /// <returns></returns>
-    public void  DeleteOrder (string OrderId) {
-      // create path and map variables
-      var path = "/store/order/{orderId}".Replace("{format}","json").Replace("{" + "orderId" + "}", apiInvoker.ParameterToString(OrderId));
+    public void DeleteOrder (string OrderId) {
 
       var _request = new RestRequest("/store/order/{orderId}", Method.DELETE);
 
+      
+      // verify the required parameter 'OrderId' is set
+      if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling DeleteOrder");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -167,7 +161,7 @@ namespace io.swagger.Api {
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {

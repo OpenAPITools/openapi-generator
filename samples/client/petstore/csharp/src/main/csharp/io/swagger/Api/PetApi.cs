@@ -40,9 +40,7 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    public void  UpdatePet (Pet Body) {
-      // create path and map variables
-      var path = "/pet".Replace("{format}","json");
+    public void UpdatePet (Pet Body) {
 
       var _request = new RestRequest("/pet", Method.PUT);
 
@@ -53,12 +51,11 @@ namespace io.swagger.Api {
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -77,9 +74,7 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    public void  AddPet (Pet Body) {
-      // create path and map variables
-      var path = "/pet".Replace("{format}","json");
+    public void AddPet (Pet Body) {
 
       var _request = new RestRequest("/pet", Method.POST);
 
@@ -90,12 +85,11 @@ namespace io.swagger.Api {
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -113,10 +107,8 @@ namespace io.swagger.Api {
     /// Finds Pets by status Multiple status values can be provided with comma seperated strings
     /// </summary>
     /// <param name="Status">Status values that need to be considered for filter</param>
-    /// <returns></returns>
-    public List<Pet>  FindPetsByStatus (List<string> Status) {
-      // create path and map variables
-      var path = "/pet/findByStatus".Replace("{format}","json");
+    /// <returns>List<Pet></returns>
+    public List<Pet> FindPetsByStatus (List<string> Status) {
 
       var _request = new RestRequest("/pet/findByStatus", Method.GET);
 
@@ -131,10 +123,9 @@ namespace io.swagger.Api {
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
-        //return ((object)response) as List<Pet>;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -150,10 +141,8 @@ namespace io.swagger.Api {
     /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     /// </summary>
     /// <param name="Tags">Tags to filter by</param>
-    /// <returns></returns>
-    public List<Pet>  FindPetsByTags (List<string> Tags) {
-      // create path and map variables
-      var path = "/pet/findByTags".Replace("{format}","json");
+    /// <returns>List<Pet></returns>
+    public List<Pet> FindPetsByTags (List<string> Tags) {
 
       var _request = new RestRequest("/pet/findByTags", Method.GET);
 
@@ -168,10 +157,9 @@ namespace io.swagger.Api {
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
-        //return ((object)response) as List<Pet>;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -187,13 +175,14 @@ namespace io.swagger.Api {
     /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     /// </summary>
     /// <param name="PetId">ID of pet that needs to be fetched</param>
-    /// <returns></returns>
-    public Pet  GetPetById (long? PetId) {
-      // create path and map variables
-      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
+    /// <returns>Pet</returns>
+    public Pet GetPetById (long? PetId) {
 
       var _request = new RestRequest("/pet/{petId}", Method.GET);
 
+      
+      // verify the required parameter 'PetId' is set
+      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling GetPetById");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -205,10 +194,9 @@ namespace io.swagger.Api {
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (Pet) ApiInvoker.Deserialize(response.Content, typeof(Pet));
-        //return ((object)response) as Pet;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -227,12 +215,13 @@ namespace io.swagger.Api {
     /// <param name="Name">Updated name of the pet</param>
     /// <param name="Status">Updated status of the pet</param>
     /// <returns></returns>
-    public void  UpdatePetWithForm (string PetId, string Name, string Status) {
-      // create path and map variables
-      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
+    public void UpdatePetWithForm (string PetId, string Name, string Status) {
 
       var _request = new RestRequest("/pet/{petId}", Method.POST);
 
+      
+      // verify the required parameter 'PetId' is set
+      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UpdatePetWithForm");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -246,7 +235,7 @@ namespace io.swagger.Api {
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -266,12 +255,13 @@ namespace io.swagger.Api {
     /// <param name="ApiKey"></param>
     /// <param name="PetId">Pet id to delete</param>
     /// <returns></returns>
-    public void  DeletePet (string ApiKey, long? PetId) {
-      // create path and map variables
-      var path = "/pet/{petId}".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
+    public void DeletePet (string ApiKey, long? PetId) {
 
       var _request = new RestRequest("/pet/{petId}", Method.DELETE);
 
+      
+      // verify the required parameter 'PetId' is set
+      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling DeletePet");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -284,7 +274,7 @@ namespace io.swagger.Api {
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -305,12 +295,13 @@ namespace io.swagger.Api {
     /// <param name="AdditionalMetadata">Additional data to pass to server</param>
     /// <param name="File">file to upload</param>
     /// <returns></returns>
-    public void  UploadFile (long? PetId, string AdditionalMetadata, byte[] File) {
-      // create path and map variables
-      var path = "/pet/{petId}/uploadImage".Replace("{format}","json").Replace("{" + "petId" + "}", apiInvoker.ParameterToString(PetId));
+    public void UploadFile (long? PetId, string AdditionalMetadata, string File) {
 
       var _request = new RestRequest("/pet/{petId}/uploadImage", Method.POST);
 
+      
+      // verify the required parameter 'PetId' is set
+      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UploadFile");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -319,12 +310,12 @@ namespace io.swagger.Api {
       
       
       if (AdditionalMetadata != null) _request.AddParameter("additionalMetadata", ApiInvoker.ParameterToString(AdditionalMetadata)); // form parameter
-      if (File != null) _request.AddFile("file", File); // form parameter
+      if (File != null) _request.AddFile("file", File);
       
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {

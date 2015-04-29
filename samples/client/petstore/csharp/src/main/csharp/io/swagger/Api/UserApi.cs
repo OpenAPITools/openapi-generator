@@ -40,9 +40,7 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Body">Created user object</param>
     /// <returns></returns>
-    public void  CreateUser (User Body) {
-      // create path and map variables
-      var path = "/user".Replace("{format}","json");
+    public void CreateUser (User Body) {
 
       var _request = new RestRequest("/user", Method.POST);
 
@@ -53,12 +51,11 @@ namespace io.swagger.Api {
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -77,9 +74,7 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Body">List of user object</param>
     /// <returns></returns>
-    public void  CreateUsersWithArrayInput (List<User> Body) {
-      // create path and map variables
-      var path = "/user/createWithArray".Replace("{format}","json");
+    public void CreateUsersWithArrayInput (List<User> Body) {
 
       var _request = new RestRequest("/user/createWithArray", Method.POST);
 
@@ -90,12 +85,11 @@ namespace io.swagger.Api {
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -114,9 +108,7 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Body">List of user object</param>
     /// <returns></returns>
-    public void  CreateUsersWithListInput (List<User> Body) {
-      // create path and map variables
-      var path = "/user/createWithList".Replace("{format}","json");
+    public void CreateUsersWithListInput (List<User> Body) {
 
       var _request = new RestRequest("/user/createWithList", Method.POST);
 
@@ -127,12 +119,11 @@ namespace io.swagger.Api {
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -151,11 +142,8 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Username">The user name for login</param>
     /// <param name="Password">The password for login in clear text</param>
-    
-    /// <returns></returns>
-    public string  LoginUser (string Username, string Password) {
-      // create path and map variables
-      var path = "/user/login".Replace("{format}","json");
+    /// <returns>string</returns>
+    public string LoginUser (string Username, string Password) {
 
       var _request = new RestRequest("/user/login", Method.GET);
 
@@ -171,10 +159,9 @@ namespace io.swagger.Api {
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (string) ApiInvoker.Deserialize(response.Content, typeof(string));
-        //return ((object)response) as string;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -190,9 +177,7 @@ namespace io.swagger.Api {
     /// Logs out current logged in user session 
     /// </summary>
     /// <returns></returns>
-    public void  LogoutUser () {
-      // create path and map variables
-      var path = "/user/logout".Replace("{format}","json");
+    public void LogoutUser () {
 
       var _request = new RestRequest("/user/logout", Method.GET);
 
@@ -206,7 +191,7 @@ namespace io.swagger.Api {
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -224,12 +209,14 @@ namespace io.swagger.Api {
     /// Get user by user name 
     /// </summary>
     /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
-    public User  GetUserByName (string Username) {
-      // create path and map variables
-      var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.ParameterToString(Username));
+    /// <returns>User</returns>
+    public User GetUserByName (string Username) {
 
       var _request = new RestRequest("/user/{username}", Method.GET);
 
+      
+      // verify the required parameter 'Username' is set
+      if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling GetUserByName");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -241,10 +228,9 @@ namespace io.swagger.Api {
       
 
       try {
+        // make the HTTP request
         IRestResponse response = restClient.Execute(_request);
         return (User) ApiInvoker.Deserialize(response.Content, typeof(User));
-        //return ((object)response) as User;
-        
       } catch (Exception ex) {
         if(ex != null) {
           return null;
@@ -262,12 +248,13 @@ namespace io.swagger.Api {
     /// <param name="Username">name that need to be deleted</param>
     /// <param name="Body">Updated user object</param>
     /// <returns></returns>
-    public void  UpdateUser (string Username, User Body) {
-      // create path and map variables
-      var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.ParameterToString(Username));
+    public void UpdateUser (string Username, User Body) {
 
       var _request = new RestRequest("/user/{username}", Method.PUT);
 
+      
+      // verify the required parameter 'Username' is set
+      if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling UpdateUser");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -276,12 +263,11 @@ namespace io.swagger.Api {
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
@@ -300,12 +286,13 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Username">The name that needs to be deleted</param>
     /// <returns></returns>
-    public void  DeleteUser (string Username) {
-      // create path and map variables
-      var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.ParameterToString(Username));
+    public void DeleteUser (string Username) {
 
       var _request = new RestRequest("/user/{username}", Method.DELETE);
 
+      
+      // verify the required parameter 'Username' is set
+      if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling DeleteUser");
       
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
@@ -317,7 +304,7 @@ namespace io.swagger.Api {
       
 
       try {
-        
+        // make the HTTP request
         restClient.Execute(_request);
         return;
       } catch (Exception ex) {
