@@ -40,10 +40,9 @@ namespace {{package}} {
     /// <summary>
     /// {{summary}} {{notes}}
     /// </summary>
-    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-    {{/allParams}}
-    /// <returns></returns>
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+{{#allParams}}    /// <param name="{{paramName}}">{{description}}</param>
+{{/allParams}}    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
       var _request = new RestRequest("{{path}}", Method.{{httpMethod}});
 
@@ -52,18 +51,17 @@ namespace {{package}} {
       if ({{paramName}} == null) throw new ApiException(400, "missing required params {{paramName}}");
       {{/requiredParams}}
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      {{#pathParams}}_request.AddUrlSegment("{{baseName}}", ApiInvoker.ParameterToString({{{paramName}}}));{{/pathParams}}
-      // query parameters, if any
-      {{#queryParams}} if ({{paramName}} != null) _request.AddParameter("{{baseName}}", {{paramName}});{{/queryParams}}
-      // header parameters, if any
-      {{#headerParams}} if ({{paramName}} != null) _request.AddHeader("{{baseName}}", {{paramName}});{{/headerParams}}
-      // form parameters, if any
-      {{#formParams}}if ({{paramName}} != null) {{#isFile}}_request.AddFile("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}_request.AddParameter("{{baseName}}", {{paramName}});{{/isFile}}
+      {{#pathParams}}_request.AddUrlSegment("{{baseName}}", ApiInvoker.ParameterToString({{{paramName}}})); // path (url segment) parameter
+      {{/pathParams}}
+      {{#queryParams}} if ({{paramName}} != null) _request.AddParameter("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // query parameter
+      {{/queryParams}}
+      {{#headerParams}} if ({{paramName}} != null) _request.AddHeader("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // header parameter
+      {{/headerParams}}
+      {{#formParams}}if ({{paramName}} != null) {{#isFile}}_request.AddFile("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}_request.AddParameter("{{baseName}}", ApiInvoker.ParameterToString({{paramName}}));{{/isFile}} // form parameter
       {{/formParams}}
       {{#bodyParam}}
-      _request.AddParameter("application/json", ApiInvoker.Serialize({{paramName}}), ParameterType.RequestBody);
+      _request.AddParameter("application/json", ApiInvoker.Serialize({{paramName}}), ParameterType.RequestBody); // HTTP request body (model)
       {{/bodyParam}}
 
       try {
