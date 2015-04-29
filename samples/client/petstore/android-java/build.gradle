@@ -41,3 +41,15 @@ dependencies {
     compile "org.apache.httpcomponents:httpmime:$httpclient_version"
     testCompile "junit:junit:$junit_version"
 }
+
+afterEvaluate {
+    android.libraryVariants.all { variant ->
+        def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
+        task.description = "Create jar artifact for ${variant.name}"
+        task.dependsOn variant.javaCompile
+        task.from variant.javaCompile.destinationDir
+        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
+        task.archiveName = "${project.name}-${variant.baseName}.jar"
+        artifacts.add('archives', task);
+    }
+}
