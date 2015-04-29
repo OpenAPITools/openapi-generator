@@ -11,7 +11,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
   protected String groupId = "io.swagger";
   protected String artifactId = "swagger-android-client";
   protected String artifactVersion = "1.0.0";
-  protected String sourceFolder = "src/main/java";
+  protected String projectFolder = "src/main";
+  protected String sourceFolder = projectFolder + "/java";
 
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -51,6 +52,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     additionalProperties.put("artifactVersion", artifactVersion);
 
     supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+    supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
     supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
     supportingFiles.add(new SupportingFile("httpPatch.mustache", 
