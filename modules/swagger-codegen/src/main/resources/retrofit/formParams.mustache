@@ -1,0 +1,1 @@
+{{#isFormParam}}{{#notFile}}{{#isMultipart}}@Part{{/isMultipart}}{{^isMultipart}}@Field{{/isMultipart}}("{{paramName}}") {{{dataType}}} {{paramName}}{{/notFile}}{{#isFile}}{{#isMultipart}}@Part{{/isMultipart}}{{^isMultipart}}@Field{{/isMultipart}}("{{paramName}}") TypedFile {{paramName}}{{/isFile}}{{/isFormParam}}
