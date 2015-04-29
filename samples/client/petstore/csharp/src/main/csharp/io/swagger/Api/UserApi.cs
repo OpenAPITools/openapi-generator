@@ -39,7 +39,6 @@ namespace io.swagger.Api {
     /// Create user This can only be done by the logged in user.
     /// </summary>
     /// <param name="Body">Created user object</param>
-    
     /// <returns></returns>
     public void  CreateUser (User Body) {
       // create path and map variables
@@ -49,17 +48,13 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
-      // query parameters, if any
-      
-      // header parameters, if any
-      
-      // form parameters, if any
       
       
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
       
 
       try {
@@ -81,7 +76,6 @@ namespace io.swagger.Api {
     /// Creates list of users with given input array 
     /// </summary>
     /// <param name="Body">List of user object</param>
-    
     /// <returns></returns>
     public void  CreateUsersWithArrayInput (List<User> Body) {
       // create path and map variables
@@ -91,17 +85,13 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
-      // query parameters, if any
-      
-      // header parameters, if any
-      
-      // form parameters, if any
       
       
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
       
 
       try {
@@ -123,7 +113,6 @@ namespace io.swagger.Api {
     /// Creates list of users with given input array 
     /// </summary>
     /// <param name="Body">List of user object</param>
-    
     /// <returns></returns>
     public void  CreateUsersWithListInput (List<User> Body) {
       // create path and map variables
@@ -133,17 +122,13 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
-      // query parameters, if any
-      
-      // header parameters, if any
-      
-      // form parameters, if any
       
       
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
       
 
       try {
@@ -176,14 +161,12 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
-      // query parameters, if any
-       if (Username != null) _request.AddParameter("username", Username); if (Password != null) _request.AddParameter("password", Password);
-      // header parameters, if any
+       if (Username != null) _request.AddParameter("username", ApiInvoker.ParameterToString(Username)); // query parameter
+       if (Password != null) _request.AddParameter("password", ApiInvoker.ParameterToString(Password)); // query parameter
       
-      // form parameters, if any
+      
       
       
 
@@ -206,7 +189,6 @@ namespace io.swagger.Api {
     /// <summary>
     /// Logs out current logged in user session 
     /// </summary>
-    
     /// <returns></returns>
     public void  LogoutUser () {
       // create path and map variables
@@ -216,14 +198,10 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
-      // query parameters, if any
       
-      // header parameters, if any
       
-      // form parameters, if any
       
       
 
@@ -246,8 +224,6 @@ namespace io.swagger.Api {
     /// Get user by user name 
     /// </summary>
     /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
-    
-    /// <returns></returns>
     public User  GetUserByName (string Username) {
       // create path and map variables
       var path = "/user/{username}".Replace("{format}","json").Replace("{" + "username" + "}", apiInvoker.ParameterToString(Username));
@@ -256,14 +232,11 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username));
-      // query parameters, if any
+      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
       
-      // header parameters, if any
       
-      // form parameters, if any
+      
       
       
 
@@ -288,7 +261,6 @@ namespace io.swagger.Api {
     /// </summary>
     /// <param name="Username">name that need to be deleted</param>
     /// <param name="Body">Updated user object</param>
-    
     /// <returns></returns>
     public void  UpdateUser (string Username, User Body) {
       // create path and map variables
@@ -298,17 +270,14 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username));
-      // query parameters, if any
-      
-      // header parameters, if any
-      
-      // form parameters, if any
+      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
       
       
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
+      
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
       
 
       try {
@@ -330,7 +299,6 @@ namespace io.swagger.Api {
     /// Delete user This can only be done by the logged in user.
     /// </summary>
     /// <param name="Username">The name that needs to be deleted</param>
-    
     /// <returns></returns>
     public void  DeleteUser (string Username) {
       // create path and map variables
@@ -340,14 +308,11 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username));
-      // query parameters, if any
+      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
       
-      // header parameters, if any
       
-      // form parameters, if any
+      
       
       
 

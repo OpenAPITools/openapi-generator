@@ -38,7 +38,6 @@ namespace io.swagger.Api {
     /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
     /// </summary>
-    
     /// <returns></returns>
     public Dictionary<String, int?>  GetInventory () {
       // create path and map variables
@@ -48,14 +47,10 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
-      // query parameters, if any
       
-      // header parameters, if any
       
-      // form parameters, if any
       
       
 
@@ -79,7 +74,6 @@ namespace io.swagger.Api {
     /// Place an order for a pet 
     /// </summary>
     /// <param name="Body">order placed for purchasing the pet</param>
-    
     /// <returns></returns>
     public Order  PlaceOrder (Order Body) {
       // create path and map variables
@@ -89,17 +83,13 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
-      // query parameters, if any
-      
-      // header parameters, if any
-      
-      // form parameters, if any
       
       
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody);
+      
+      
+      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // HTTP request body (model)
       
 
       try {
@@ -122,7 +112,6 @@ namespace io.swagger.Api {
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
     /// <param name="OrderId">ID of pet that needs to be fetched</param>
-    
     /// <returns></returns>
     public Order  GetOrderById (string OrderId) {
       // create path and map variables
@@ -132,14 +121,11 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId));
-      // query parameters, if any
+      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId)); // path (url segment) parameter
       
-      // header parameters, if any
       
-      // form parameters, if any
+      
       
       
 
@@ -163,7 +149,6 @@ namespace io.swagger.Api {
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     /// </summary>
     /// <param name="OrderId">ID of the order that needs to be deleted</param>
-    
     /// <returns></returns>
     public void  DeleteOrder (string OrderId) {
       // create path and map variables
@@ -173,14 +158,11 @@ namespace io.swagger.Api {
 
       
 
-      // path (url segment) parameters
       _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId));
-      // query parameters, if any
+      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId)); // path (url segment) parameter
       
-      // header parameters, if any
       
-      // form parameters, if any
+      
       
       
 
