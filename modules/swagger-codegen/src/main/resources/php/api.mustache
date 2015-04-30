@@ -39,6 +39,12 @@ class {{classname}} {
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
    public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+      {{#allParams}}{{#required}}
+      // verify the required parameter '{{paramName}}' is set
+      if (${{paramName}} === null) {
+        throw new \Exception("Missing the required parameter ${{paramName}} when calling {{nickname}}");
+      }
+      {{/required}}{{/allParams}}
 
       // parse inputs
       $resourcePath = "{{path}}";
