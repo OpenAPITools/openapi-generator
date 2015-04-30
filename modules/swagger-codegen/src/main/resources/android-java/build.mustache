@@ -50,7 +50,7 @@ android {
 ext {
     swagger_annotations_version = "1.5.3-M1"
     jackson_version = "2.5.2"
-    httpclient_android_version = "4.3.5.1"
+    httpclient_version = "4.4.1"
     httpcore_version = "4.4.1"
     httpmime_version = "4.4.1"
     junit_version = "4.8.1"
@@ -61,7 +61,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    compile "org.apache.httpcomponents:httpclient-android:$httpclient_android_version"
+    compile "org.apache.httpcomponents:httpclient:$httpclient_version"
     compile ("org.apache.httpcomponents:httpcore:$httpcore_version") {
         exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
     }
