@@ -13,8 +13,10 @@ class {{classname}}
 {{#allParams}}{{^required}}  # @option opts [{{dataType}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
   def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
-    # verify existence of params{{#allParams}}{{#required}}
-    raise "{{{paramName}}} is required" if {{{paramName}}}.nil?{{/required}}{{/allParams}}
+    {{#allParams}}{{#required}}
+    # verify the required parameter '{{paramName}}' is set
+    raise "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?
+    {{/required}}{{/allParams}}
 
     # resource path
     path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
