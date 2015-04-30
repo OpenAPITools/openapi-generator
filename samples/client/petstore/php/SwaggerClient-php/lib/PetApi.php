@@ -38,6 +38,7 @@ class PetApi {
    * @return void
    */
    public function updatePet($body) {
+      
 
       // parse inputs
       $resourcePath = "/pet";
@@ -91,6 +92,7 @@ class PetApi {
    * @return void
    */
    public function addPet($body) {
+      
 
       // parse inputs
       $resourcePath = "/pet";
@@ -144,6 +146,7 @@ class PetApi {
    * @return array[Pet]
    */
    public function findPetsByStatus($status) {
+      
 
       // parse inputs
       $resourcePath = "/pet/findByStatus";
@@ -202,6 +205,7 @@ class PetApi {
    * @return array[Pet]
    */
    public function findPetsByTags($tags) {
+      
 
       // parse inputs
       $resourcePath = "/pet/findByTags";
@@ -260,6 +264,12 @@ class PetApi {
    * @return Pet
    */
    public function getPetById($pet_id) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling getPetById");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}";
@@ -321,6 +331,12 @@ class PetApi {
    * @return void
    */
    public function updatePetWithForm($pet_id, $name, $status) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling updatePetWithForm");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}";
@@ -381,6 +397,12 @@ class PetApi {
    * @return void
    */
    public function deletePet($api_key, $pet_id) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling deletePet");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}";
@@ -439,6 +461,12 @@ class PetApi {
    * @return void
    */
    public function uploadFile($pet_id, $additional_metadata, $file) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling uploadFile");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}/uploadImage";
