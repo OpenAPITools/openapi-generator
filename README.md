@@ -19,7 +19,7 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
 ----------------------- | ------------ | -------------------------- | -----
 2.1.0-M2                | 2015-04-06   | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
-2.0.18                  | 2015-02-09   | 1.1, 1.2      | [tag v2.0.18](https://github.com/swagger-api/swagger-codegen/tree/v2.0.18)
+2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/2.0.17)
 1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
 
