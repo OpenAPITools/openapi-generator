@@ -13,6 +13,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
   protected String artifactVersion = "1.0.0";
   protected String projectFolder = "src/main";
   protected String sourceFolder = projectFolder + "/java";
+  protected Boolean useAndroidMavenGradlePlugin = true;
 
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -50,7 +51,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     additionalProperties.put("groupId", groupId);
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
-
+    additionalProperties.put("useAndroidMavenGradlePlugin", useAndroidMavenGradlePlugin);
+    
+    supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
     supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
     supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
     supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
