@@ -149,4 +149,31 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     return toModelName(name);
   }
 
+  @Override
+  public String toApiFilename(String name) {
+    // replace - with _ e.g. created-at => created_at
+    name = name.replaceAll("-", "_");
+
+    // e.g. phone_number_api.rb => PhoneNumberApi.rb
+    return camelize(name) + "Api";
+  }
+
+  @Override
+  public String toApiName(String name) {
+    if(name.length() == 0)
+      return "DefaultApi";
+    // e.g. phone_number_api => PhoneNumberApi 
+    return camelize(name) + "Api";
+  }
+
+  @Override
+  public String toOperationId(String operationId) {
+    // method name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(operationId))
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+
+    return underscore(operationId);
+  }
+
+
 }
