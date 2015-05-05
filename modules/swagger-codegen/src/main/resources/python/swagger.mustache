@@ -17,8 +17,7 @@ import datetime
 import mimetypes
 import random
 import string
-
-from models import *
+import models
 
 
 class ApiClient(object):
@@ -211,7 +210,7 @@ class ApiClient(object):
       if (objClass in ['int', 'float', 'long', 'dict', 'list', 'str', 'bool', 'datetime']):
         objClass = eval(objClass)
       else:  # not a native type, must be model class
-        objClass = eval(objClass + '.' + objClass)
+        objClass = eval('models.' + objClass)
 
     if objClass in [int, long, float, dict, list, str, bool]:
       return objClass(obj)
