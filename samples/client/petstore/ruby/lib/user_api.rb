@@ -4,418 +4,347 @@ class UserApi
   basePath = "http://petstore.swagger.io/v2"
   # apiInvoker = APIInvoker
 
-  def self.escapeString(string)
-    URI.encode(string.to_s)
-  end
+  # Create user
+  # This can only be done by the logged in user.
+  # @param [Hash] opts the optional parameters
+  # @option opts [User] :body Created user object
+  # @return void
+  def self.create_user(opts = {})
+    # verify existence of params
 
-  
-  def self.createUser (body, opts={})
-    query_param_keys = []
-
-    
-    
-    # set default values and merge with input
-    options = {
-      :'body' => body
-      
-    }.merge(opts)
-
-    #resource path
+    # resource path
     path = "/user".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
 
-    # header parameters, if any
-    headers = {}
-    
-    
+    # query parameters
+    query_params = {}
+
+    # header parameters
+    header_params = {}
+
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
+    # form parameters
+    form_params = {}
 
     # http body (model)
     post_body = nil
-    
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
+    _body_param = opts[:'body']
+    if _body_param != nil
+      if _body_param.is_a?(Array)
+        _array = Array.new
+        _body_param.each do |item|
+          if item.respond_to?(:to_body)
+            _array.push item.to_body
           else
-            array.push item
+            _array.push item
           end
         end
-        post_body = array
-
+        post_body = _array
       else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+        if _body_param.respond_to?(:to_body)
+          post_body = _body_param.to_body
+        else
+          post_body = _body_param
+        end
       end
     end
-    
 
-    # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    
-  
+    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
+  # Creates list of users with given input array
+  # 
+  # @param [Hash] opts the optional parameters
+  # @option opts [array[User]] :body List of user object
+  # @return void
+  def self.create_users_with_array_input(opts = {})
+    # verify existence of params
 
-  def self.createUsersWithArrayInput (body, opts={})
-    query_param_keys = []
-
-    
-    
-    # set default values and merge with input
-    options = {
-      :'body' => body
-      
-    }.merge(opts)
-
-    #resource path
+    # resource path
     path = "/user/createWithArray".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
 
-    # header parameters, if any
-    headers = {}
-    
-    
+    # query parameters
+    query_params = {}
+
+    # header parameters
+    header_params = {}
+
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
+    # form parameters
+    form_params = {}
 
     # http body (model)
     post_body = nil
-    
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
+    _body_param = opts[:'body']
+    if _body_param != nil
+      if _body_param.is_a?(Array)
+        _array = Array.new
+        _body_param.each do |item|
+          if item.respond_to?(:to_body)
+            _array.push item.to_body
           else
-            array.push item
+            _array.push item
           end
         end
-        post_body = array
-
+        post_body = _array
       else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+        if _body_param.respond_to?(:to_body)
+          post_body = _body_param.to_body
+        else
+          post_body = _body_param
+        end
       end
     end
-    
 
-    # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    
-  
+    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
+  # Creates list of users with given input array
+  # 
+  # @param [Hash] opts the optional parameters
+  # @option opts [array[User]] :body List of user object
+  # @return void
+  def self.create_users_with_list_input(opts = {})
+    # verify existence of params
 
-  def self.createUsersWithListInput (body, opts={})
-    query_param_keys = []
-
-    
-    
-    # set default values and merge with input
-    options = {
-      :'body' => body
-      
-    }.merge(opts)
-
-    #resource path
+    # resource path
     path = "/user/createWithList".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
 
-    # header parameters, if any
-    headers = {}
-    
-    
+    # query parameters
+    query_params = {}
+
+    # header parameters
+    header_params = {}
+
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
+    # form parameters
+    form_params = {}
 
     # http body (model)
     post_body = nil
-    
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
+    _body_param = opts[:'body']
+    if _body_param != nil
+      if _body_param.is_a?(Array)
+        _array = Array.new
+        _body_param.each do |item|
+          if item.respond_to?(:to_body)
+            _array.push item.to_body
           else
-            array.push item
+            _array.push item
           end
         end
-        post_body = array
-
+        post_body = _array
       else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+        if _body_param.respond_to?(:to_body)
+          post_body = _body_param.to_body
+        else
+          post_body = _body_param
+        end
       end
     end
-    
 
-    # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    
-    Swagger::Request.new(:POST, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    
-  
+    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
+  # Logs user into the system
+  # 
+  # @param [Hash] opts the optional parameters
+  # @option opts [string] :username The user name for login
+  # @option opts [string] :password The password for login in clear text
+  # @return string
+  def self.login_user(opts = {})
+    # verify existence of params
 
-  def self.loginUser (username,password, opts={})
-    query_param_keys = [:username,:password]
-
-    
-    
-    # set default values and merge with input
-    options = {
-      :'username' => username,
-      :'password' => password
-      
-    }.merge(opts)
-
-    #resource path
+    # resource path
     path = "/user/login".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
 
-    # header parameters, if any
-    headers = {}
-    
-    
+    # query parameters
+    query_params = {}
+    query_params[:'username'] = opts[:'username'] if opts[:'username']
+    query_params[:'password'] = opts[:'password'] if opts[:'password']
+
+    # header parameters
+    header_params = {}
+
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
+    # form parameters
+    form_params = {}
 
     # http body (model)
     post_body = nil
-    
 
-    # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
-     string.new(response)
-    
-    
-  
+    response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+    string.new(response)
   end
 
+  # Logs out current logged in user session
+  # 
+  # @param [Hash] opts the optional parameters
+  # @return void
+  def self.logout_user(opts = {})
+    # verify existence of params
 
-  def self.logoutUser ( opts={})
-    query_param_keys = []
-
-    
-    
-    # set default values and merge with input
-    options = {
-      
-    }.merge(opts)
-
-    #resource path
+    # resource path
     path = "/user/logout".sub('{format}','json')
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
 
-    # header parameters, if any
-    headers = {}
-    
-    
+    # query parameters
+    query_params = {}
 
-    # http body (model)
-    post_body = nil
-    
+    # header parameters
+    header_params = {}
+
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    
-    Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    
-  
-  end
-
-
-  def self.getUserByName (username, opts={})
-    query_param_keys = []
-
-    
-    
-    # set default values and merge with input
-    options = {
-      :'username' => username
-      
-    }.merge(opts)
-
-    #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
-    
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
-
-    # header parameters, if any
-    headers = {}
-    
-    
+    form_params = {}
 
     # http body (model)
     post_body = nil
-    
+
+    Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
+
+  # Get user by user name
+  # 
+  # @param username The name that needs to be fetched. Use user1 for testing. 
+  # @param [Hash] opts the optional parameters
+  # @return User
+  def self.get_user_by_name(username, opts = {})
+    # verify existence of params
+    raise "username is required" if username.nil?
+
+    # resource path
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+
+    # query parameters
+    query_params = {}
+
+    # header parameters
+    header_params = {}
+
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
 
     # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    response = Swagger::Request.new(:GET, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
-     User.new(response)
-    
-    
-  
-  end
-
-
-  def self.updateUser (username,body, opts={})
-    query_param_keys = []
-
-    
-    
-    # set default values and merge with input
-    options = {
-      :'username' => username,
-      :'body' => body
-      
-    }.merge(opts)
-
-    #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
-    
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
-
-    # header parameters, if any
-    headers = {}
-    
-    
+    form_params = {}
 
     # http body (model)
     post_body = nil
-    
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
+
+    response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+    User.new(response)
+  end
+
+  # Updated user
+  # This can only be done by the logged in user.
+  # @param username name that need to be deleted
+  # @param [Hash] opts the optional parameters
+  # @option opts [User] :body Updated user object
+  # @return void
+  def self.update_user(username, opts = {})
+    # verify existence of params
+    raise "username is required" if username.nil?
+
+    # resource path
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+
+    # query parameters
+    query_params = {}
+
+    # header parameters
+    header_params = {}
+
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
+    # form parameters
+    form_params = {}
+
+    # http body (model)
+    post_body = nil
+    _body_param = opts[:'body']
+    if _body_param != nil
+      if _body_param.is_a?(Array)
+        _array = Array.new
+        _body_param.each do |item|
+          if item.respond_to?(:to_body)
+            _array.push item.to_body
           else
-            array.push item
+            _array.push item
           end
         end
-        post_body = array
-
+        post_body = _array
       else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
+        if _body_param.respond_to?(:to_body)
+          post_body = _body_param.to_body
+        else
+          post_body = _body_param
+        end
       end
     end
-    
 
-    # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    
-    Swagger::Request.new(:PUT, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    
-  
+    Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
+  # Delete user
+  # This can only be done by the logged in user.
+  # @param username The name that needs to be deleted
+  # @param [Hash] opts the optional parameters
+  # @return void
+  def self.delete_user(username, opts = {})
+    # verify existence of params
+    raise "username is required" if username.nil?
 
-  def self.deleteUser (username, opts={})
-    query_param_keys = []
+    # resource path
+    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
-    
-    
-    # set default values and merge with input
-    options = {
-      :'username' => username
-      
-    }.merge(opts)
+    # query parameters
+    query_params = {}
 
-    #resource path
-    path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', escapeString(username))
-    
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
+    # header parameters
+    header_params = {}
 
-    # header parameters, if any
-    headers = {}
-    
-    
+    _header_accept = 'application/json, application/xml'
+    header_params['Accept'] = _header_accept if _header_accept != ''
+
+    _header_content_type = []
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+
+    # form parameters
+    form_params = {}
 
     # http body (model)
     post_body = nil
-    
 
-    # form parameters
-    form_parameter_hash = {}
-    
-
-    
-    
-    Swagger::Request.new(:DELETE, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    
-  
+    Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
-
 end

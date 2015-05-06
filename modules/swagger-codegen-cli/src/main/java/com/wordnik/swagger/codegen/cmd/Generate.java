@@ -31,28 +31,28 @@ public class Generate implements Runnable {
     public static final String TEMPLATE_DIR_PARAM = "templateDir";
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
-    public boolean verbose;
+    private boolean verbose;
 
     @Option(name = {"-l", "--lang"}, title = "language", required = true,
             description = "client language to generate (maybe class name in classpath, required)")
-    public String lang;
+    private String lang;
 
     @Option(name = {"-o", "--output"}, title = "output directory",
             description = "where to write the generated files (current dir by default)")
-    public String output = "";
+    private String output = "";
 
     @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
             description = "location of the swagger spec, as URL or file (required)")
-    public String spec;
+    private String spec;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
             description = "folder containing the template files")
-    public String templateDir;
+    private String templateDir;
 
     @Option(name = {"-a", "--auth"}, title = "authorization",
             description = "adds authorization headers when fetching the swagger definitions remotely. " +
                     "Pass in a URL-encoded string of name:header with a comma separating multiple values")
-    public String auth;
+    private String auth;
 
     @Override
     public void run() {

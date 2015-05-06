@@ -9,9 +9,10 @@ import java.io.File;
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String invokerPackage = "io.swagger.client";
   protected String groupId = "io.swagger";
-  protected String artifactId = "swagger-client";
+  protected String artifactId = "swagger-android-client";
   protected String artifactVersion = "1.0.0";
-  protected String sourceFolder = "src/main/java";
+  protected String projectFolder = "src/main";
+  protected String sourceFolder = projectFolder + "/java";
 
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -50,7 +51,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
 
-    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+    supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+    supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
     supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
     supportingFiles.add(new SupportingFile("httpPatch.mustache", 
@@ -160,6 +162,15 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
   public String toModelFilename(String name) {
     // should be the same as the model name
     return toModelName(name);
+  }
+
+  @Override
+  public String toOperationId(String operationId) {
+    // method name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(operationId))
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+
+    return camelize(operationId, true);
   }
 
 

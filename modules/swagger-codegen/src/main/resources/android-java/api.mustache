@@ -39,10 +39,12 @@ public class {{classname}} {
   }
 
   {{#operation}}
-  {{#errorList}} //error info- code: {{code}} reason: "{{reason}}" model: {{#responseModel}}{{responseModel}}
-  {{/responseModel}}{{^responseModel}}<none>
-  {{/responseModel}}
-  {{/errorList}}
+  /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}}
+{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
 
@@ -105,12 +107,7 @@ public class {{classname}} {
         return {{#returnType}}null{{/returnType}};
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-        return {{#returnType}} null{{/returnType}};
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   {{/operation}}

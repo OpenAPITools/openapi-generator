@@ -74,11 +74,6 @@ module Swagger
     def interpreted_path
       p = self.path.dup
 
-      # Fill in the path params
-      self.params.each_pair do |key, value|
-        p = p.gsub("{#{key}}", value.to_s)
-      end
-
       # Stick a .{format} placeholder into the path if there isn't
       # one already or an actual format like json or xml
       # e.g. /words/blah => /words.{format}/blah
@@ -157,8 +152,9 @@ module Swagger
     end
   
     def make
-      logger = Logger.new STDOUT
-      logger.debug self.url
+      #TODO use configuration setting to determine if debugging
+      #logger = Logger.new STDOUT
+      #logger.debug self.url
       response = case self.http_method.to_sym
       when :get,:GET
         Typhoeus::Request.get(

@@ -64,6 +64,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("List", "array");
     typeMapping.put("map", "map");
 
+    supportingFiles.add(new SupportingFile("swagger-client.gemspec.mustache", "", "swagger-client.gemspec"));
+    supportingFiles.add(new SupportingFile("swagger-client.mustache", "", "lib/swagger-client.rb"));
     supportingFiles.add(new SupportingFile("swagger.mustache", "", "lib/swagger.rb"));
     supportingFiles.add(new SupportingFile("monkey.mustache", "", "lib/monkey.rb"));
     supportingFiles.add(new SupportingFile("swagger/request.mustache", "", "lib/swagger/request.rb"));
@@ -186,5 +188,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     // e.g. phone_number_api => PhoneNumberApi 
     return camelize(name) + "Api";
   }
+
+  @Override
+  public String toOperationId(String operationId) {
+    // method name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(operationId))
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+
+    return underscore(operationId); 
+  }
+
 
 }

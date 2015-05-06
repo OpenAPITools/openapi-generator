@@ -27,7 +27,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public PhpClientCodegen() {
     super();
-    modelPackage = "models";
+
+    invokerPackage = camelize("SwaggerClient"); 
+
+    String packagePath = invokerPackage + "-php";
+
+    modelPackage = packagePath + "/lib/models";
+    apiPackage = packagePath + "/lib";
     outputFolder = "generated-code/php";
     modelTemplateFiles.put("model.mustache", ".php");
     apiTemplateFiles.put("api.mustache", ".php");
@@ -59,7 +65,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("List", "array");
     typeMapping.put("map", "map");
 
-    supportingFiles.add(new SupportingFile("Swagger.mustache", "", "Swagger.php"));
+    supportingFiles.add(new SupportingFile("composer.mustache", packagePath, "composer.json"));
+    supportingFiles.add(new SupportingFile("APIClient.mustache", packagePath + "/lib", "APIClient.php"));
+    supportingFiles.add(new SupportingFile("APIClientException.mustache", packagePath + "/lib", "APIClientException.php"));
+    supportingFiles.add(new SupportingFile("require.mustache", packagePath, invokerPackage + ".php"));
   }
 
   @Override

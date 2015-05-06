@@ -4,84 +4,69 @@ require "uri"
 class {{classname}}
   basePath = "{{basePath}}"
   # apiInvoker = APIInvoker
+{{#operation}}
+{{newline}}
+  # {{summary}}
+  # {{notes}}
+{{#allParams}}{{#required}}  # @param {{paramName}} {{description}}
+{{/required}}{{/allParams}}  # @param [Hash] opts the optional parameters
+{{#allParams}}{{^required}}  # @option opts [{{dataType}}] :{{paramName}} {{description}}
+{{/required}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+  def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+    # verify existence of params{{#allParams}}{{#required}}
+    raise "{{{paramName}}} is required" if {{{paramName}}}.nil?{{/required}}{{/allParams}}
 
-  def self.escapeString(string)
-    URI.encode(string.to_s)
-  end
+    # resource path
+    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
-  {{#operation}}
-  def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}},{{/allParams}} opts={})
-    query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
+    # query parameters
+    query_params = {}{{#queryParams}}{{#required}}
+    query_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/queryParams}}{{#queryParams}}{{^required}}
+    query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/queryParams}}
 
-    {{#requiredParamCount}}
-    
-    # verify existence of params
-    {{#requiredParams}}
-    raise "{{{paramName}}} is required" if {{{paramName}}}.nil?
-    {{/requiredParams}}
-    {{/requiredParamCount}}
-    
-    # set default values and merge with input
-    options = {
-      {{#allParams}}:'{{paramName}}' => {{paramName}}{{#hasMore}},{{/hasMore}}
-      {{/allParams}}
-    }.merge(opts)
+    # header parameters
+    header_params = {}
 
-    #resource path
-    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', escapeString({{paramName}}))
-    {{/pathParams}}{{newline}}
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
+    _header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}'
+    header_params['Accept'] = _header_accept if _header_accept != ''
 
-    # header parameters, if any
-    headers = {}
-    {{#headerParams}}{{#optional}}headers[:'{{{baseName}}}'] = options[:'{{{paramName}}}'] if options[:'{{{paramName}}}']{{/optional}}{{/headerParams}}
-    {{#headerParams}}{{^optional}}headers[:'{{{baseName}}}'] = {{{paramName}}}{{/optional}}{{/headerParams}}
-
-    # http body (model)
-    post_body = nil
-    {{#bodyParam}}
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
-          else
-            array.push item
-          end
-        end
-        post_body = array
-
-      else 
-        if body.respond_to?("to_body".to_sym)
-	        post_body = body.to_body
-	      else
-	        post_body = body
-	      end
-      end
-    end
-    {{/bodyParam}}
+    _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
+    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'{{#headerParams}}{{#required}}
+    header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
+    header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
 
     # form parameters
-    form_parameter_hash = {}
-    {{#formParams}}{{#optional}}form_parameter_hash["{{baseName}}"] = options[:'{{paramName}}'] if options[:'{{paramName}}']{{/optional}}
-    {{^optional}}form_parameter_hash["{{baseName}}"] = {{paramName}}{{/optional}}{{/formParams}}
+    form_params = {}{{#formParams}}{{#required}}
+    form_params["{{baseName}}"] = {{paramName}}{{/required}}{{/formParams}}{{#formParams}}{{^required}}
+    form_params["{{baseName}}"] = opts[:'{{paramName}}'] if opts[:'{{paramName}}']{{/required}}{{/formParams}}
 
-    {{#returnType}}
-    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
-    {{#returnContainer}}
-    response.map {|response|{{/returnContainer}} {{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}
-    {{/returnType}}
-    {{^returnType}}
-    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    {{/returnType}}
-  {{newline}}
+    # http body (model)
+    post_body = nil{{#bodyParam}}
+    _body_param = {{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}
+    if _body_param != nil
+      if _body_param.is_a?(Array)
+        _array = Array.new
+        _body_param.each do |item|
+          if item.respond_to?(:to_body)
+            _array.push item.to_body
+          else
+            _array.push item
+          end
+        end
+        post_body = _array
+      else 
+        if _body_param.respond_to?(:to_body)
+          post_body = _body_param.to_body
+        else
+          post_body = _body_param
+        end
+      end
+    end{{/bodyParam}}
+
+{{#returnType}}
+    response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+    {{#returnContainer}}response.map {|response| {{/returnContainer}}{{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}{{/returnType}}{{^returnType}}    Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make{{/returnType}}
   end
-
 {{/operation}}
 end
 {{/operations}}

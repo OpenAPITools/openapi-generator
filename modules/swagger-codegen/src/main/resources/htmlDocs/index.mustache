@@ -13,13 +13,14 @@
     <div class="license-info">{{{licenseInfo}}}</div>
     <div class="license-url">{{{licenseUrl}}}</div>
   <h2>Access</h2>
-  <div class="method-summary">Access to the API requires an api key to be provided by {{partner}} for all requests.  The api key is passed as a header with the name `api_key` and the value provided by Reverb Technologies, Inc.  Unless otherwise agreed upon, access to the Reverb API is intended solely for usage by {{partner}} and not third parties.</div>
+  <div class="method-summary">Customize this message as you see fit!</div>
   <h2>Methods</h2>
   {{#apiInfo}}
   {{#apis}}
   {{#operations}}{{#operation}}
   <div class="method">
     <div class="method-path"><pre class="{{httpMethod}}"><code class="huge"><span>{{httpMethod}}</span>: {{path}}</code></pre></div>
+    <div class="method-tags"> {{#tags}}<span class="method-tag">{{this}}</span>{{/tags}}</div>
     <div class="method-summary"><span class="nickname">{{nickname}}</span> {{summary}}</div>
     <div class="method-notes">{{notes}}</div>
 

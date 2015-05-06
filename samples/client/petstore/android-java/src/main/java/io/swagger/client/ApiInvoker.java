@@ -16,6 +16,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.*;
 import org.apache.http.impl.conn.*;
+import org.apache.http.impl.conn.tsccm.*;
 import org.apache.http.params.*;
 import org.apache.http.util.EntityUtils;
 
@@ -24,6 +25,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.net.URLEncoder;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +72,7 @@ public class ApiInvoker {
    * ISO 8601 date time format.
    * @see https://en.wikipedia.org/wiki/ISO_8601
    */
-  public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+  public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
   /**
    * ISO 8601 date format.
@@ -82,6 +84,13 @@ public class ApiInvoker {
     // Use UTC as the default time zone.
     DATE_TIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    // Set default User-Agent.
+    setUserAgent("Android-Java-Swagger");
+  }
+
+  public static void setUserAgent(String userAgent) {
+    INSTANCE.addDefaultHeader("User-Agent", userAgent);
   }
 
   public static Date parseDateTime(String str) {
@@ -113,6 +122,15 @@ public class ApiInvoker {
       return "";
     } else if (param instanceof Date) {
       return formatDateTime((Date) param);
+    } else if (param instanceof Collection) {
+      StringBuilder b = new StringBuilder();
+      for(Object o : (Collection)param) {
+        if(b.length() > 0) {
+          b.append(",");
+        }
+        b.append(String.valueOf(o));
+      }
+      return b.toString();
     } else {
       return String.valueOf(param);
     }
@@ -140,7 +158,7 @@ public class ApiInvoker {
 
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
     try{
-      if("List".equals(containerType)) {
+      if("list".equalsIgnoreCase(containerType) || "array".equalsIgnoreCase(containerType)) {
         JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
         List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
         return response;
@@ -300,6 +318,7 @@ public class ApiInvoker {
           HttpEntity resEntity = response.getEntity();
           responseString = EntityUtils.toString(resEntity);
         }
+        return responseString;
       }
       else {
         if(response.getEntity() != null) {
@@ -308,9 +327,8 @@ public class ApiInvoker {
         }
         else
           responseString = "no data";
-        throw new ApiException(code, responseString);
       }
-      return responseString;
+      throw new ApiException(code, responseString);
     }
     catch(IOException e) {
       throw new ApiException(500, e.getMessage());
@@ -364,7 +382,7 @@ public class ApiInvoker {
       schemeRegistry.register(httpsScheme);
       schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
-      ignoreSSLConnectionManager = new SingleClientConnManager(new BasicHttpParams(), schemeRegistry);
+      ignoreSSLConnectionManager = new ThreadSafeClientConnManager(new BasicHttpParams(), schemeRegistry);
     } catch (NoSuchAlgorithmException e) {
       // This will only be thrown if SSL isn't available for some reason.
     } catch (KeyManagementException e) {

@@ -11,12 +11,20 @@ import com.wordnik.swagger.models.Path;
 import com.wordnik.swagger.models.Swagger;
 import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.util.Json;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.Reader;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -60,7 +68,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
           config.additionalProperties().put("appVersion", info.getVersion());
         }
         if (info.getDescription() != null) {
-          config.additionalProperties().put("appDescription", info.getDescription());
+          config.additionalProperties().put("appDescription",
+            config.escapeText(info.getDescription()));
         }
         if (info.getContact() != null) {
           Contact contact = info.getContact();
@@ -84,12 +93,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       }
 
       StringBuilder hostBuilder = new StringBuilder();
+      String scheme;
       if (swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
-        hostBuilder.append(swagger.getSchemes().get(0).toValue());
-        hostBuilder.append("://");
+        scheme = swagger.getSchemes().get(0).toValue();
       } else {
-        hostBuilder.append("https://");
+        scheme = "https";
       }
+      hostBuilder.append(scheme);
+      hostBuilder.append("://");
       if (swagger.getHost() != null) {
         hostBuilder.append(swagger.getHost());
       } else {
@@ -146,6 +157,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       for (String tag : paths.keySet()) {
         List<CodegenOperation> ops = paths.get(tag);
         Map<String, Object> operation = processOperations(config, tag, ops);
+
         operation.put("basePath", basePath);
         operation.put("contextPath", contextPath);
         operation.put("baseName", tag);
@@ -199,6 +211,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         bundle.put("host", swagger.getHost());
       }
       bundle.put("basePath", basePath);
+      bundle.put("scheme", scheme);
       bundle.put("contextPath", contextPath);
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
@@ -245,10 +258,29 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
           writeToFile(outputFilename, tmpl.execute(bundle));
           files.add(new File(outputFilename));
         } else {
-          String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
-          FileUtils.writeStringToFile(new File(outputFilename), template);
-          System.out.println("copying file to " + outputFilename);
-          files.add(new File(outputFilename));
+          InputStream in = null;
+
+          try {
+            in = new FileInputStream(config.templateDir() + File.separator + support.templateFile);
+          }
+          catch (Exception e) {
+            // continue
+          }
+          if(in == null) {
+            in = this.getClass().getClassLoader().getResourceAsStream(config.templateDir() + File.separator + support.templateFile);
+          }
+          File outputFile = new File(outputFilename);
+          OutputStream out = new FileOutputStream(outputFile, false);
+          if(in != null && out != null)
+            IOUtils.copy(in,out);
+          else {
+            if(in == null)
+              System.out.println("can't open " + config.templateDir() + File.separator + support.templateFile + " for input");
+            if(out == null)
+              System.out.println("can't open " + outputFile + " for output");
+          }
+
+          files.add(outputFile);
         }
       }
 
@@ -336,9 +368,23 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     Map<String, Object> operations = new HashMap<String, Object>();
     Map<String, Object> objs = new HashMap<String, Object>();
     objs.put("classname", config.toApiName(tag));
+
+    // check for operationId uniqueness
+    Set<String> opIds = new HashSet<String>();
+    int counter = 0;
+    for(CodegenOperation op : ops) {
+      String opId = op.nickname;
+      if(opIds.contains(opId)) {
+        counter ++;
+        op.nickname += "_" + counter;
+      }
+      opIds.add(opId);
+    }
     objs.put("operation", ops);
+
     operations.put("operations", objs);
     operations.put("package", config.apiPackage());
+
 
     Set<String> allImports = new LinkedHashSet<String>();
     for (CodegenOperation op : ops) {
