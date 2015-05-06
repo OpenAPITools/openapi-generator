@@ -65,7 +65,7 @@ public class DefaultCodegen {
   // override with any special text escaping logic
   public String escapeText(String input) {
     if(input != null) {
-      String output = input.replaceAll("\n", " ");
+      String output = input.replaceAll("\n", "\\\\n");
       output = output.replace("\"", "\\\"");
       return output;
     }
@@ -312,14 +312,34 @@ public class DefaultCodegen {
       return "null";
     else if(p instanceof DateTimeProperty)
       return "null";
-    else if (p instanceof DoubleProperty)
+    else if (p instanceof DoubleProperty) {
+      DoubleProperty dp = (DoubleProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
-    else if (p instanceof FloatProperty)
+    }
+    else if (p instanceof FloatProperty) {
+      FloatProperty dp = (FloatProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
-    else if (p instanceof IntegerProperty)
+    }
+    else if (p instanceof IntegerProperty) {
+      IntegerProperty dp = (IntegerProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
-    else if (p instanceof LongProperty)
+    }
+    else if (p instanceof LongProperty) {
+      LongProperty dp = (LongProperty) p;
+      if(dp.getDefault() != null) {
+        return dp.getDefault().toString();
+      }
       return "null";
+    }
     else if (p instanceof MapProperty) {
       MapProperty ap = (MapProperty) p;
       String inner = getSwaggerType(ap.getAdditionalProperties());
@@ -406,7 +426,7 @@ public class DefaultCodegen {
       m.name = escapeReservedWord(name);
     else
       m.name = name;
-    m.description = model.getDescription();
+    m.description = escapeText(model.getDescription());
     m.classname = toModelName(name);
     m.classVarName = toVarName(name);
     m.modelJson = Json.pretty(model);
@@ -465,7 +485,7 @@ public class DefaultCodegen {
               System.out.println("failed to process model " + name);
               throw new RuntimeException(e);
             }
-            cp.required = false;
+            cp.required = null;
             if(impl.getRequired() != null) {
               for(String req : impl.getRequired()) {
                 if(key.equals(req))
@@ -672,11 +692,11 @@ public class DefaultCodegen {
       for(String key: operation.getConsumes()) {
         Map<String, String> mediaType = new HashMap<String, String>();
         mediaType.put("mediaType", key);
-        count += 1;
         if (count < operation.getConsumes().size())
           mediaType.put("hasMore", "true");
         else
           mediaType.put("hasMore", null);
+        count += 1;
         c.add(mediaType);
       }
       op.consumes = c;
@@ -818,7 +838,8 @@ public class DefaultCodegen {
     // op.cookieParams = cookieParams;
     op.formParams = addHasMore(formParams);
     // legacy support
-    op.nickname = operationId;
+    op.nickname = op.operationId;
+
 
     if(op.allParams.size() > 0) 
       op.hasParams = true;
@@ -878,8 +899,9 @@ public class DefaultCodegen {
   public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
     CodegenParameter p = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
     p.baseName = param.getName();
-    p.description = param.getDescription();
-    p.required = param.getRequired();
+    p.description = escapeText(param.getDescription());
+    if(param.getRequired())
+      p.required = param.getRequired();
     p.jsonSchema = Json.pretty(param);
 
     if(param instanceof SerializableParameter) {
@@ -1096,6 +1118,21 @@ public class DefaultCodegen {
     Matcher m = p.matcher(word);
     while (m.find()) {
       word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/);
+      m = p.matcher(word);
+    }
+
+    // case out dots
+    String[] parts = word.split("\\.");
+    StringBuilder f = new StringBuilder();
+    for(String z : parts) {
+      if(z.length() > 0)
+        f.append(Character.toUpperCase(z.charAt(0))).append(z.substring(1));
+    }
+    word = f.toString();
+
+    m = p.matcher(word);
+    while (m.find()) {
+      word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
       m = p.matcher(word);
     }
 

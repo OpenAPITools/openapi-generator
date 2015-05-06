@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.0'
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 22
+    }
+}
+
+ext {
+    swagger_annotations_version = "1.5.3-M1"
+    jackson_version = "2.5.2"
+    httpclient_version = "4.3.3"
+    junit_version = "4.8.1"
+}
+
+dependencies {
+    compile "com.wordnik:swagger-annotations:$swagger_annotations_version"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "org.apache.httpcomponents:httpcore:$httpclient_version"
+    compile "org.apache.httpcomponents:httpclient:$httpclient_version"
+    compile "org.apache.httpcomponents:httpmime:$httpclient_version"
+    testCompile "junit:junit:$junit_version"
+}
+
+afterEvaluate {
+    android.libraryVariants.all { variant ->
+        def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
+        task.description = "Create jar artifact for ${variant.name}"
+        task.dependsOn variant.javaCompile
+        task.from variant.javaCompile.destinationDir
+        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
+        task.archiveName = "${project.name}-${variant.baseName}.jar"
+        artifacts.add('archives', task);
+    }
+}

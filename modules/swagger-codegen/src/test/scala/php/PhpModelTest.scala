@@ -62,7 +62,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(2).defaultValue should be ("null")
     vars.get(2).baseType should be ("DateTime")
     vars.get(2).hasMore should equal (null)
-    vars.get(2).required should equal (false)
+    vars.get(2).required should equal (null)
     vars.get(2).isNotContainer should equal (true)
 
     cm.imports.size() should be (0)
@@ -101,7 +101,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(1).baseType should be ("array")
     vars.get(1).hasMore should be (null)
     vars.get(1).containerType should equal ("array")
-    vars.get(1).required should equal (false)
+    vars.get(1).required should equal (null)
     vars.get(1).isPrimitiveType should equal (true)
     vars.get(1).isContainer should equal (true)
   }
@@ -127,7 +127,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("translations")
     vars.get(0).baseType should be ("map")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isPrimitiveType should equal (true)
   }
@@ -150,7 +150,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).datatype should be ("Children")
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("Children")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isNotContainer should equal (true)
   }
 
@@ -175,7 +175,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("array")
     vars.get(0).containerType should be ("array")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
   }
 
@@ -201,7 +201,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be ("children")
     vars.get(0).baseType should be ("map")
     vars.get(0).containerType should be ("map")
-    vars.get(0).required should equal (false)
+    vars.get(0).required should equal (null)
     vars.get(0).isContainer should equal (true)
     vars.get(0).isNotContainer should be (null)
   }

@@ -43,29 +43,29 @@ public:
     SamiUser* fromJson(String* obj);
 
     
-    Long* getpId();
-    void setpId(Long* pId);
+    Long* getPId();
+    void setPId(Long* pId);
     
-    String* getpUsername();
-    void setpUsername(String* pUsername);
+    String* getPUsername();
+    void setPUsername(String* pUsername);
     
-    String* getpFirstName();
-    void setpFirstName(String* pFirstName);
+    String* getPFirstName();
+    void setPFirstName(String* pFirstName);
     
-    String* getpLastName();
-    void setpLastName(String* pLastName);
+    String* getPLastName();
+    void setPLastName(String* pLastName);
     
-    String* getpEmail();
-    void setpEmail(String* pEmail);
+    String* getPEmail();
+    void setPEmail(String* pEmail);
     
-    String* getpPassword();
-    void setpPassword(String* pPassword);
+    String* getPPassword();
+    void setPPassword(String* pPassword);
     
-    String* getpPhone();
-    void setpPhone(String* pPhone);
+    String* getPPhone();
+    void setPPhone(String* pPhone);
     
-    Integer* getpUserStatus();
-    void setpUserStatus(Integer* pUserStatus);
+    Integer* getPUserStatus();
+    void setPUserStatus(Integer* pUserStatus);
     
 
 private:

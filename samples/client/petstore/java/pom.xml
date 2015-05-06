@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-client</artifactId>
+  <artifactId>swagger-java-client</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-client</name>
+  <name>swagger-java-client</name>
   <version>1.0.0</version>
   <scm>
     <connection>scm:git:git@github.com:wordnik/swagger-mustache.git</connection>
@@ -157,11 +157,10 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-annotations-version>1.5.0-M1</swagger-annotations-version>
-    <jersey-version>1.7</jersey-version>
-    <jackson-version>2.1.4</jackson-version>
+    <swagger-annotations-version>1.5.3-M1</swagger-annotations-version>
+    <jersey-version>1.18</jersey-version>
+    <jackson-version>2.4.2</jackson-version>
     <jodatime-version>2.3</jodatime-version>
-    <junit-version>4.8.1</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.8.1</junit-version>
   </properties>

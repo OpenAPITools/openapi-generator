@@ -11,6 +11,7 @@ import java.util.*;
 {{/imports}}
 
 import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
 
 import javax.ws.rs.core.MediaType;
 
@@ -36,10 +37,12 @@ public class {{classname}} {
   }
 
   {{#operation}}
-  {{#errorList}} //error info- code: {{code}} reason: "{{reason}}" model: {{#responseModel}}{{responseModel}}
-  {{/responseModel}}{{^responseModel}}<none>
-  {{/responseModel}}
-  {{/errorList}}  
+  /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}}
+{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#requiredParamCount}}
@@ -77,7 +80,8 @@ public class {{classname}} {
       mp.field("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), MediaType.MULTIPART_FORM_DATA_TYPE);
       {{/notFile}}{{#isFile}}
       hasFields = true;
-      mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("{{baseName}}", file.getName());
+      mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE));
       {{/isFile}}{{/formParams}}
       if(hasFields)
         postBody = mp;
@@ -96,12 +100,7 @@ public class {{classname}} {
         return {{#returnType}}null{{/returnType}};
       }
     } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return {{#returnType}} null{{/returnType}};
-      }
-      else {
-        throw ex;
-      }
+      throw ex;
     }
   }
   {{/operation}}

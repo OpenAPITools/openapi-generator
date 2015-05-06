@@ -9,7 +9,7 @@ import java.io.File;
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String invokerPackage = "io.swagger.client";
   protected String groupId = "io.swagger";
-  protected String artifactId = "swagger-client";
+  protected String artifactId = "swagger-java-client";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
 
@@ -160,4 +160,15 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
       type = swaggerType;
     return toModelName(type);
   }
+
+  @Override
+  public String toOperationId(String operationId) {
+    // method name cannot use reserved keyword, e.g. return
+    if(reservedWords.contains(operationId))
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+
+    return camelize(operationId, true);
+  }
+
+
 }

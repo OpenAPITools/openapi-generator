@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "JSONModel.h"
 
-@interface SWGObject : NSObject
-- (id) initWithValues:(NSDictionary*)dict;
-- (NSDictionary*) asDictionary;
+@interface SWGObject : JSONModel
 @end

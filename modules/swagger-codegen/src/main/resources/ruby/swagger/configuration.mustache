@@ -8,11 +8,11 @@ module Swagger
     # Defaults go in here..
     def initialize
       @format = 'json'
-      @scheme = 'http'
-      @host = 'api.wordnik.com'
-      @base_path = '/v4'
+      @scheme = '{{scheme}}'
+      @host = '{{host}}'
+      @base_path = '{{contextPath}}'
       @user_agent = "ruby-swagger-#{Swagger::VERSION}"
-      @inject_format = true
+      @inject_format = false
       @force_ending_format = false
       @camelize_params = true
     end

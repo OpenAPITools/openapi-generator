@@ -2,10 +2,15 @@ require 'spec_helper'
 
 describe Swagger::Response do
 
+  before do
+    configure_swagger
+    prepare_pet
+  end
+
   before(:each) do
 
     VCR.use_cassette('pet_resource', :record => :new_episodes) do
-      @raw = Typhoeus::Request.get("http://petstore.swagger.wordnik.com/api/pet.json")
+      @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/10002")
     end
 
     @response = Swagger::Response.new(@raw)
@@ -14,7 +19,7 @@ describe Swagger::Response do
   describe "initialization" do
     it "sets body" do
       @response.body.class.should == Hash
-      @response.body.has_key?('apis').should == true
+      @response.body.has_key?('name').should == true
     end
 
     it "sets code" do
@@ -35,7 +40,8 @@ describe Swagger::Response do
 
     it "recognizes xml" do
       VCR.use_cassette('xml_response_request', :record => :new_episodes) do
-        @raw = Typhoeus::Request.get("http://petstore.swagger.wordnik.com/api/pet.xml")
+        @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/10002",
+                                    :headers => {'Accept'=> "application/xml"})
       end
       @response = Swagger::Response.new(@raw)
       @response.format.should == 'xml'

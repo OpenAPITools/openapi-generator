@@ -1,6 +1,7 @@
 package com.wordnik.swagger.codegen.languages;
 
 import com.wordnik.swagger.codegen.*;
+import com.wordnik.swagger.models.Operation;
 import com.wordnik.swagger.models.properties.*;
 import com.wordnik.swagger.util.Json;
 
@@ -8,6 +9,7 @@ import java.util.*;
 import java.io.File;
 
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
+  private static final String ALL_OPERATIONS = "";
   protected String invokerPackage = "com.wordnik.client";
   protected String groupId = "com.wordnik";
   protected String artifactId = "swagger-client";
@@ -33,12 +35,6 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     defaultIncludes = new HashSet<String>();
 
-    String partner = "our Partner";
-
-    if(System.getProperty("partner") != null)
-      partner = System.getProperty("partner");
-
-    additionalProperties.put("partner", partner);
     additionalProperties.put("appName", "Swagger Sample");
     additionalProperties.put("appDescription", "A sample swagger server");
     additionalProperties.put("infoUrl", "https://helloreverb.com");
@@ -81,5 +77,21 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
       op.httpMethod = op.httpMethod.toLowerCase();
     }
     return objs;
+  }
+
+  @Override
+  public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+    List<CodegenOperation> opList = operations.get(ALL_OPERATIONS);
+    if(opList == null) {
+      opList = new ArrayList<CodegenOperation>();
+      operations.put(ALL_OPERATIONS, opList);
+    }
+    for (CodegenOperation addedOperation: opList){
+      if (addedOperation.operationId.equals(co.operationId) && addedOperation.path.equals(co.path) && addedOperation.httpMethod.equals(co.httpMethod)) {
+        addedOperation.tags.addAll(co.tags);
+        return;
+      }
+    }
+    opList.add(co);
   }
 }

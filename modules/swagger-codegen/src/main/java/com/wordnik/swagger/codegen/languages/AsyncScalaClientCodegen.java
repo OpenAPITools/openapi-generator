@@ -9,7 +9,7 @@ import java.io.File;
 public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String invokerPackage = "io.swagger.client";
   protected String groupId = "com.wordnik";
-  protected String artifactId = "swagger-client";
+  protected String artifactId = "swagger-async-scala-client";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/scala";
   protected String clientName = "SwaggerClient";
