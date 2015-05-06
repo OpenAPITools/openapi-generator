@@ -1,4 +1,4 @@
-package WWW::Swagger::Swagger;
+package WWW::SwaggerClient::Swagger;
 
 use strict;
 use warnings;
@@ -17,7 +17,7 @@ use Scalar::Util;
 my $ua = LWP::UserAgent->new;
 my $http_user_agent = 'Perl-Swagger'; # HTTP user-agent
 my $http_timeout; #timeout
-my $base_url;
+my $base_url = "http://petstore.swagger.io/v2";
 
 
 sub new
@@ -79,6 +79,7 @@ sub call_api {
  
   $ua->timeout($http_timeout); 
   $ua->agent($http_user_agent);
+  
   my $_response = $ua->request($_request);
 
   if (!$_response->is_success) {
@@ -91,8 +92,8 @@ sub call_api {
 
 
 # Build a JSON POST object
-#sub sanitize_for_serialization
-#{
+sub sanitize_for_serialization
+{
 #  my $data = shift;
 #  if (is_scalar($data) || null === $data) {
 #    $sanitized = $data;
@@ -114,7 +115,7 @@ sub call_api {
 #  }
 #
 #  return $sanitized;
-#}
+}
 
 
 #  Take value and turn it into a string suitable for inclusion in
@@ -184,8 +185,8 @@ sub to_string {
 # @param object $object object or primitive to be deserialized
 # @param string $class class name is passed as a string
 # @return object an instance of $class
-#sub deserialize
-#{
+sub deserialize
+{
 #  my ($data, $class) = @_;
 #  if (null === $data) {
 #    $deserialized = null;
@@ -224,6 +225,6 @@ sub to_string {
 #  }
 #
 #  return $deserialized;
-#}
+}
 
 1;
