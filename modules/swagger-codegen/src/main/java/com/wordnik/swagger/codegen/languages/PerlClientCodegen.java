@@ -8,7 +8,7 @@ import java.util.*;
 import java.io.File;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
-  protected String invokerPackage = "com.wordnik.client";
+  protected String invokerPackage = "SwaggerClient";
   protected String groupId = "com.wordnik";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
@@ -59,7 +59,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("List", "array");
     typeMapping.put("map", "map");
 
-    supportingFiles.add(new SupportingFile("Swagger.mustache", "", "Swagger.pl"));
+    supportingFiles.add(new SupportingFile("APIClient.mustache", "lib/WWW/" + invokerPackage, "APIClient.pm"));
   }
 
   @Override
@@ -69,11 +69,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
   
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/WWW/Swagger/" + apiPackage().replace('.', File.separatorChar);
+    return outputFolder + "/lib/WWW/" + invokerPackage + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/WWW/Swagger/" + modelPackage().replace('.', File.separatorChar);
+    return outputFolder + "/lib/WWW/" + invokerPackage + "/" + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override

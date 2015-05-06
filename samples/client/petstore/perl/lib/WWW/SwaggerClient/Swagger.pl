@@ -1,4 +1,4 @@
-package WWW::Swagger::Swagger;
+package WWW::SwaggerClient::Swagger;
 
 use strict;
 use warnings;
@@ -79,6 +79,7 @@ sub call_api {
  
   $ua->timeout($http_timeout); 
   $ua->agent($http_user_agent);
+  
   my $_response = $ua->request($_request);
 
   if (!$_response->is_success) {
