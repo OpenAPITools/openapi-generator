@@ -171,8 +171,8 @@ sub new {
     #
     # Finds Pets by status
     # 
-    # @param array[string] $status Status values that need to be considered for filter (required)
-    # @return array[Pet]
+    # @param ARRAY[string] $status Status values that need to be considered for filter (required)
+    # @return ARRAY[Pet]
     #
     sub find_pets_by_status {
       my ($self, %args) = @_;
@@ -215,7 +215,7 @@ sub new {
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('array[Pet]', $response);
+  		my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
   		return $_response_object;
       
   }
@@ -225,8 +225,8 @@ sub new {
     #
     # Finds Pets by tags
     # 
-    # @param array[string] $tags Tags to filter by (required)
-    # @return array[Pet]
+    # @param ARRAY[string] $tags Tags to filter by (required)
+    # @return ARRAY[Pet]
     #
     sub find_pets_by_tags {
       my ($self, %args) = @_;
@@ -269,7 +269,7 @@ sub new {
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('array[Pet]', $response);
+  		my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
   		return $_response_object;
       
   }
@@ -279,7 +279,7 @@ sub new {
     #
     # Find pet by ID
     # 
-    # @param int $pet_id ID of pet that needs to be fetched (required)
+    # @param Math::BigInt $pet_id ID of pet that needs to be fetched (required)
     # @return Pet
     #
     sub get_pet_by_id {
@@ -411,7 +411,7 @@ sub new {
     # Deletes a pet
     # 
     # @param string $api_key  (required)
-    # @param int $pet_id Pet id to delete (required)
+    # @param Math::BigInt $pet_id Pet id to delete (required)
     # @return void
     #
     sub delete_pet {
@@ -472,7 +472,7 @@ sub new {
     #
     # uploads an image
     # 
-    # @param int $pet_id ID of pet to update (required)
+    # @param Math::BigInt $pet_id ID of pet to update (required)
     # @param string $additional_metadata Additional data to pass to server (required)
     # @param file $file file to upload (required)
     # @return void

@@ -65,7 +65,7 @@ sub _deserialize {
       
   if ($type eq 'DateTime') {
     return DateTime->from_epoch(epoch => str2time($data));
-  } elsif ( grep( /^$type$/, ('string', 'int', 'float', 'bool')) ) {
+  } elsif ( grep( /^$type$/, ('int', 'Math::BigInt', 'double', 'string', 'boolean'))) {
     return $data;
   } else { # hash(model)
     my $_instance = eval "WWW::SwaggerClient::Object::$type->new()";

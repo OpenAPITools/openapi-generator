@@ -120,7 +120,7 @@ sub new {
     #
     # Creates list of users with given input array
     # 
-    # @param array[User] $body List of user object (required)
+    # @param ARRAY[User] $body List of user object (required)
     # @return void
     #
     sub create_users_with_array_input {
@@ -171,7 +171,7 @@ sub new {
     #
     # Creates list of users with given input array
     # 
-    # @param array[User] $body List of user object (required)
+    # @param ARRAY[User] $body List of user object (required)
     # @return void
     #
     sub create_users_with_list_input {
