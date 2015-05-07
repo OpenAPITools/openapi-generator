@@ -29,7 +29,7 @@ sub TO_JSON {
   my $self = shift;
   my $_data = {};
   foreach my $_key (keys $self->get_attribute_map) {
-    if (defined $self->{$self->get_attribute_map->{$_key}}) {
+    if (defined $self->{$_key}) {
       $_data->{$self->get_attribute_map->{$_key}} = $self->{$_key};
     }
   }
