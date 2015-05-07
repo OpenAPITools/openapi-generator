@@ -199,7 +199,6 @@ sub to_string {
 
 # Deserialize a JSON string into an object
 #  
-# @param object $object object or primitive to be deserialized
 # @param string $class class name is passed as a string
 # @param string $data data of the body
 # @return object an instance of $class
@@ -211,8 +210,8 @@ sub deserialize
 
   if (not defined $data) {
     return undef;
-  } elsif (substr($class, 0, 4) eq 'map[') { #TODO map
-    $_result = $data;
+  } elsif ( lc(substr($class, 0, 4)) eq 'map[') { #hash
+    $_result = \(json_decode $data);
   } elsif ( lc(substr($class, 0, 6)) eq 'array[' ) { # array of data
     return $data if $data eq '[]'; # return if empty array
 
@@ -228,7 +227,7 @@ sub deserialize
   } elsif (grep /^$data$/, ('string', 'int', 'float', 'bool')) { #TODO revise the primitive type
     $_result= $data;
   } else { # model
-    my $_instance = use_module("WWW::SwaggerClient::Model::$class")->new;
+    my $_instance = use_module("WWW::SwaggerClient::Object::$class")->new;
     $_result = $_instance->from_hash(decode_json $data);
   }
 

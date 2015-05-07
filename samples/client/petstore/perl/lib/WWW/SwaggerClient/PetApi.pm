@@ -201,7 +201,7 @@ sub new {
 
        # query params
       if ( exists $args->{'status'}) {
-        $query_params->{'status'} = WWW::SwaggerClient::APIClient::to_query_value($args->{'status'});
+        $query_params->{'status'} = WWW::::APIClient::to_query_value($args->{'status'});
       }
       
       
@@ -255,7 +255,7 @@ sub new {
 
        # query params
       if ( exists $args->{'tags'}) {
-        $query_params->{'tags'} = WWW::SwaggerClient::APIClient::to_query_value($args->{'tags'});
+        $query_params->{'tags'} = WWW::::APIClient::to_query_value($args->{'tags'});
       }
       
       

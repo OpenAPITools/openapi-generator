@@ -98,21 +98,21 @@ sub new {
 
       {{#queryParams}} # query params
       if ( exists $args->{'{{paramName}}'}) {
-        $query_params->{'{{baseName}}'} = WWW::SwaggerClient::APIClient::to_query_value($args->{'{{paramName}}'});
+        $query_params->{'{{baseName}}'} = WWW::{{invokerPacakge}}::APIClient::to_query_value($args->{'{{paramName}}'});
       }{{/queryParams}}
       {{#headerParams}} # header params
       if ( exists $args->{'{{paramName}}'}) {
-        $header_params->{'{{baseName}}'} = WWW::SwaggerClient::APIClient::to_header_value($args->{'{{paramName}}'});
+        $header_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_header_value($args->{'{{paramName}}'});
       }{{/headerParams}}
       {{#pathParams}} # path params
       if ( exists $args->{'{{paramName}}'}) {
         my $_base_variable = "{" . "{{baseName}}" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'{{paramName}}'});
+        my $_base_value = WWW::{{invokerPackage}}::APIClient::to_path_value($args->{'{{paramName}}'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }{{/pathParams}}
       {{#formParams}} # form params
       if ( exists $args->{'{{paramName}}'} ) {
-        $form_params->{'{{baseName}}'} = {{#isFile}}'@' . {{/isFile}}WWW::SwaggerClient::APIClient::to_form_value($args->{'{{paramName}}'});
+        $form_params->{'{{baseName}}'} = {{#isFile}}'@' . {{/isFile}}WWW::{{invokerPackage}}::APIClient::to_form_value($args->{'{{paramName}}'});
       }{{/formParams}}
       my $_body_data;
       {{#bodyParams}} # body params

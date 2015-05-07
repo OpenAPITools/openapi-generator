@@ -253,10 +253,10 @@ sub new {
 
        # query params
       if ( exists $args->{'username'}) {
-        $query_params->{'username'} = WWW::SwaggerClient::APIClient::to_query_value($args->{'username'});
+        $query_params->{'username'} = WWW::::APIClient::to_query_value($args->{'username'});
       } # query params
       if ( exists $args->{'password'}) {
-        $query_params->{'password'} = WWW::SwaggerClient::APIClient::to_query_value($args->{'password'});
+        $query_params->{'password'} = WWW::::APIClient::to_query_value($args->{'password'});
       }
       
       
