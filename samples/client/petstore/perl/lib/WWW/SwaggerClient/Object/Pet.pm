@@ -20,11 +20,11 @@ use base "WWW::SwaggerClient::Object::BaseObject";
 #
 
 my $swagger_types = {
-      'id' => 'int',
+      'id' => 'Math::BigInt',
       'category' => 'Category',
       'name' => 'string',
-      'photo_urls' => 'array[string]',
-      'tags' => 'array[Tag]',
+      'photo_urls' => 'ARRAY[string]',
+      'tags' => 'ARRAY[Tag]',
       'status' => 'string'
 };
 

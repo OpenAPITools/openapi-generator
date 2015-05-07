@@ -38,7 +38,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     reservedWords = new HashSet<String> (
       Arrays.asList(
-        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
+  "else",  "lock",  "qw",
+  "__END__", "elsif", "lt", "qx",
+  "__FILE__", "eq", "m", "s",
+  "__LINE__", "exp", "ne", "sub",
+  "__PACKAGE__", "for", "no", "tr",
+  "and", "foreach", "or", "unless",
+  "cmp", "ge", "package", "until",
+  "continue", "gt", "q", "while",
+  "CORE", "if", "qq", "xor",
+  "do", "le", "qr", "y"
+      )  
     );
 
     additionalProperties.put("invokerPackage", invokerPackage);
@@ -47,17 +57,25 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     additionalProperties.put("artifactVersion", artifactVersion);
 
     languageSpecificPrimitives.add("int");
-    languageSpecificPrimitives.add("array");
-    languageSpecificPrimitives.add("map");
+    languageSpecificPrimitives.add("Math::BigInt");
+    languageSpecificPrimitives.add("double");
     languageSpecificPrimitives.add("string");
+    languageSpecificPrimitives.add("boolean");
     languageSpecificPrimitives.add("DateTime");
+    languageSpecificPrimitives.add("ARRAY");
+    languageSpecificPrimitives.add("HASH");
 
-    typeMapping.put("long", "int");
     typeMapping.put("integer", "int");
-    typeMapping.put("Array", "array");
-    typeMapping.put("String", "string");
-    typeMapping.put("List", "array");
-    typeMapping.put("map", "map");
+    typeMapping.put("long", "Math::BigInt");
+    typeMapping.put("float", "double");
+    typeMapping.put("double", "double");
+    typeMapping.put("boolean", "boolean");
+    typeMapping.put("string", "string");
+    typeMapping.put("date", "DateTime");
+    typeMapping.put("dateTime", "DateTime");
+    typeMapping.put("password", "string");
+    typeMapping.put("array", "ARRAY");
+    typeMapping.put("map", "HASH");
 
     supportingFiles.add(new SupportingFile("APIClient.mustache", "lib/WWW/" + invokerPackage, "APIClient.pm"));
     supportingFiles.add(new SupportingFile("BaseObject.mustache", "lib/WWW/" + invokerPackage, "Object/BaseObject.pm"));

@@ -65,7 +65,7 @@ sub new {
     #
     # Returns pet inventories by status
     # 
-    # @return map[string,int]
+    # @return HASH[string,int]
     #
     sub get_inventory {
       my ($self, %args) = @_;
@@ -105,7 +105,7 @@ sub new {
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('map[string,int]', $response);
+  		my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
   		return $_response_object;
       
   }
