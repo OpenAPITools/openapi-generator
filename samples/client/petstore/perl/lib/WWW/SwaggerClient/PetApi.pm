@@ -279,7 +279,7 @@ sub new {
     #
     # Find pet by ID
     # 
-    # @param Math::BigInt $pet_id ID of pet that needs to be fetched (required)
+    # @param int $pet_id ID of pet that needs to be fetched (required)
     # @return Pet
     #
     sub get_pet_by_id {
@@ -411,7 +411,7 @@ sub new {
     # Deletes a pet
     # 
     # @param string $api_key  (required)
-    # @param Math::BigInt $pet_id Pet id to delete (required)
+    # @param int $pet_id Pet id to delete (required)
     # @return void
     #
     sub delete_pet {
@@ -472,7 +472,7 @@ sub new {
     #
     # uploads an image
     # 
-    # @param Math::BigInt $pet_id ID of pet to update (required)
+    # @param int $pet_id ID of pet to update (required)
     # @param string $additional_metadata Additional data to pass to server (required)
     # @param file $file file to upload (required)
     # @return void

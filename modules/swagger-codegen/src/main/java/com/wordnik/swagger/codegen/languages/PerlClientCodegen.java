@@ -57,7 +57,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     additionalProperties.put("artifactVersion", artifactVersion);
 
     languageSpecificPrimitives.add("int");
-    languageSpecificPrimitives.add("Math::BigInt");
     languageSpecificPrimitives.add("double");
     languageSpecificPrimitives.add("string");
     languageSpecificPrimitives.add("boolean");
@@ -66,7 +65,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     languageSpecificPrimitives.add("HASH");
 
     typeMapping.put("integer", "int");
-    typeMapping.put("long", "Math::BigInt");
+    typeMapping.put("long", "int");
     typeMapping.put("float", "double");
     typeMapping.put("double", "double");
     typeMapping.put("boolean", "boolean");
