@@ -693,12 +693,10 @@ public class DefaultCodegen {
         Map<String, String> mediaType = new HashMap<String, String>();
         mediaType.put("mediaType", key);
         count += 1;
-        if (count < operation.getConsumes().size()) {
+        if (count < operation.getConsumes().size())
           mediaType.put("hasMore", "true");
-        }
-        else {
+        else
           mediaType.put("hasMore", null);
-        }
         c.add(mediaType);
       }
       op.consumes = c;
