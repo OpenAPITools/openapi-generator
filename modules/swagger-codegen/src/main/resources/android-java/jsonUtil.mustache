@@ -33,33 +33,23 @@ public class JsonUtil {
   }
 
   public static Type getListTypeForDeserialization(Class cls) {
-    Type type = null;
-    switch (cls.getSimpleName()) {
-      {{#models}}{{#model}}
-      case "{{classname}}":
-        type = new TypeToken<List<{{classname}}>>(){}.getType();
-        break;
-      {{/model}}{{/models}}
-      default:
-        type = new TypeToken<List<Object>>(){}.getType();
-        break;
+    String className = cls.getSimpleName();
+    {{#models}}{{#model}}
+    if ("{{classname}}".equalsIgnoreCase(className)) {
+      return new TypeToken<List<{{classname}}>>(){}.getType();
     }
-    return type;
+    {{/model}}{{/models}}
+    return new TypeToken<List<Object>>(){}.getType();
   }
 
   public static Type getTypeForDeserialization(Class cls) {
-    Type type = null;
-    switch (cls.getSimpleName()) {
-      {{#models}}{{#model}}
-      case "{{classname}}":
-        type = new TypeToken<{{classname}}>(){}.getType();
-      break;
-      {{/model}}{{/models}}
-      default:
-        type = new TypeToken<Object>(){}.getType();
-        break;
+    String className = cls.getSimpleName();
+    {{#models}}{{#model}}
+    if ("{{classname}}".equalsIgnoreCase(className)) {
+      return new TypeToken<{{classname}}>(){}.getType();
     }
-    return type;
+    {{/model}}{{/models}}
+    return new TypeToken<Object>(){}.getType();
   }
 
 };
