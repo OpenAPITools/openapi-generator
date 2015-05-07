@@ -1,11 +1,5 @@
 package io.swagger.client;
 
-
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import org.apache.http.*;
 import org.apache.http.client.*;
 import org.apache.http.client.methods.*;
@@ -54,6 +48,8 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import com.google.gson.JsonParseException;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE = new ApiInvoker();
@@ -156,11 +152,13 @@ public class ApiInvoker {
     return str;
   }
 
+  public <T> T submitUrl(String url){
+    Type typeOfT = new TypeToken<RestResponse<T>>(){}.getType();
+  }
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
     try{
       if("list".equalsIgnoreCase(containerType) || "array".equalsIgnoreCase(containerType)) {
-        JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
-        List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
+        List response = (List<?>) JsonUtil.getGson().fromJson(json, cls);
         return response;
       }
       else if(String.class.equals(cls)) {
@@ -170,10 +168,10 @@ public class ApiInvoker {
           return json;
       }
       else {
-        return JsonUtil.getJsonMapper().readValue(json, cls);
+        return JsonUtil.getGson().fromJson(json, cls);
       }
     }
-    catch (IOException e) {
+    catch (JsonParseException e) {
       throw new ApiException(500, e.getMessage());
     }
   }
@@ -181,7 +179,7 @@ public class ApiInvoker {
   public static String serialize(Object obj) throws ApiException {
     try {
       if (obj != null)
-        return JsonUtil.getJsonMapper().writeValueAsString(obj);
+        return JsonUtil.getGson().toJson(obj);
       else
         return null;
     }
