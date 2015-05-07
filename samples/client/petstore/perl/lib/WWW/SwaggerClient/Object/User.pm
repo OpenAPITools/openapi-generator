@@ -20,7 +20,7 @@ use base "WWW::SwaggerClient::Object::BaseObject";
 #
 
 my $swagger_types = {
-      'id' => 'Math::BigInt',
+      'id' => 'int',
       'username' => 'string',
       'first_name' => 'string',
       'last_name' => 'string',

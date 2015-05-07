@@ -15,7 +15,7 @@ use DateTime;
 
 my $api = WWW::SwaggerClient::PetApi->new();
 
-my $pet_id = 88;
+my $pet_id = 10008;
 
 my $category =  WWW::SwaggerClient::Object::Category->new('id' => '2', 'name' => 'perl');
 my $tag =  WWW::SwaggerClient::Object::Tag->new('id' => '1', 'name' => 'just kidding'); 
@@ -30,7 +30,7 @@ $new_pet = $new_pet->from_hash($pet->to_hash);
 print "new_pet(hash):".Dumper($new_pet->to_hash);
 
 print "\nTest Petstore endpoints\n";
-print "\nupload_file:".Dumper $api->upload_file(pet_id => $pet_id, additional_metadata => 'testabc', file => '/var/tmp/f5.jpg');
+print "\nupload_file:".Dumper $api->upload_file(pet_id => $pet_id, additional_metadata => 'testabc', file => './test.pl');
 print "\nadd_pet:".Dumper $api->add_pet(body => $pet);
 print "\nget_pet_by_id:".Dumper $api->get_pet_by_id(pet_id => $pet_id);
 print "\nupdate_pet_with_form:".Dumper $api->update_pet_with_form(pet_id => $pet_id, name => 'test_name', status => 'test status');
