@@ -28,17 +28,13 @@ android {
 ext {
     swagger_annotations_version = "1.5.3-M1"
     gson_version = "2.3.1"
-    jackson_version = "2.5.2"
     httpclient_version = "4.3.3"
     junit_version = "4.8.1"
 }
 
 dependencies {
     compile "com.wordnik:swagger-annotations:$swagger_annotations_version"
-    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.google.code.gson:gson:$gson_version"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     compile "org.apache.httpcomponents:httpcore:$httpclient_version"
     compile "org.apache.httpcomponents:httpclient:$httpclient_version"
     compile "org.apache.httpcomponents:httpmime:$httpclient_version"

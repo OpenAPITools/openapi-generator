@@ -152,14 +152,10 @@ public class ApiInvoker {
     return str;
   }
 
-  public <T> T submitUrl(String url){
-    Type typeOfT = new TypeToken<RestResponse<T>>(){}.getType();
-  }
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
     try{
       if("list".equalsIgnoreCase(containerType) || "array".equalsIgnoreCase(containerType)) {
-        List response = (List<?>) JsonUtil.getGson().fromJson(json, cls);
-        return response;
+        return JsonUtil.deserializeToList(json, cls);
       }
       else if(String.class.equals(cls)) {
         if(json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1)
@@ -168,7 +164,7 @@ public class ApiInvoker {
           return json;
       }
       else {
-        return JsonUtil.getGson().fromJson(json, cls);
+        return JsonUtil.deserializeToObject(json, cls);
       }
     }
     catch (JsonParseException e) {
@@ -179,7 +175,7 @@ public class ApiInvoker {
   public static String serialize(Object obj) throws ApiException {
     try {
       if (obj != null)
-        return JsonUtil.getGson().toJson(obj);
+        return JsonUtil.serialize(obj);
       else
         return null;
     }
