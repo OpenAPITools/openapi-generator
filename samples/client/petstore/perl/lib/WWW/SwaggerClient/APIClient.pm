@@ -7,7 +7,7 @@ use utf8;
 use LWP::UserAgent;
 use HTTP::Headers;
 use HTTP::Response;
-use HTTP::Request::Common;
+use HTTP::Request::Common qw(DELETE POST GET HEAD PUT);
 use HTTP::Status;
 use URI::Query;
 use JSON;
@@ -75,7 +75,8 @@ sub call_api {
   }
 
   # body data
-  my $_body_data = %$post_params ? $post_params : to_json($body_data->to_hash);
+  $body_data = to_json($body_data->to_hash) if defined $body_data && $body_data->can('to_hash'); # model to json string
+  my $_body_data = %$post_params ? $post_params : $body_data;
 
   # Make the HTTP request
   my $_request;
@@ -84,6 +85,7 @@ sub call_api {
       # multipart
       my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
+
       $_request = POST($_url, Accept => $header_params->{Accept},
         Content_Type => $_content_type, Content => $_body_data);
     }
@@ -98,9 +100,17 @@ sub call_api {
       $_request = GET($_url, Accept => $header_params->{'Accept'},
         Content_Type => $header_params->{'Content-Type'});
     }
-    case 'PUT' {
-
+    case 'HEAD' {
+      $_request = HEAD($_url, Accept => $header_params->{'Accept'},
+        Content_Type => $header_params->{'Content-Type'});
     }
+    case 'DELETE' { #TODO support form data
+      $_request = DELETE($_url, Accept => $header_params->{'Accept'},
+        Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
+    }
+    case 'PATCH' { #TODO
+    }
+
   }
  
   $ua->timeout($http_timeout); 
@@ -109,8 +119,7 @@ sub call_api {
   my $_response = $ua->request($_request);
 
   unless ($_response->is_success) {
-    croak("Can't connect to the server");
-    #croak("Can't connect to the api ($_response{code}): $_response{message}");
+    croak("API Exception(".$_response->code."): ".$_response->message);
   }
      
   return $_response->content;
