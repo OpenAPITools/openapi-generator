@@ -45,21 +45,17 @@ our @EXPORT_OK = qw(
 sub new {
     my $class   = shift;
     my $default_api_client = WWW::SwaggerClient::APIClient->new;
-    #TODO fix default
-    #my (%arg) = (
-    #    'api_client' => $default_api_client,
-    #    @_
-    #);
+    my (%self) = (
+        'api_client' => $default_api_client,
+        @_
+    );
 
-    #croak("You must supply an API client")
-    #  unless $options->{api_client};
+    #my $self = {
+    #    #api_client => $options->{api_client}
+    #    api_client => $default_api_client
+    #}; 
 
-    my $self = {
-        #api_client => $options->{api_client}
-        api_client => $default_api_client
-    }; 
-
-    bless $self, $class;
+    bless \%self, $class;
 
 }
 
@@ -72,7 +68,7 @@ sub new {
     # @return map[string,int]
     #
     sub get_inventory {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -123,7 +119,7 @@ sub new {
     # @return Order
     #
     sub place_order {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -149,8 +145,8 @@ sub new {
       
       my $_body_data;
        # body params
-      if ( exists $args->{'body'}) {
-        $_body_data = $args->{'body'};
+      if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
       }
 
       # for HTTP post (form)
@@ -177,11 +173,11 @@ sub new {
     # @return Order
     #
     sub get_order_by_id {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'order_id' is set
-      unless (exists $args->{'order_id'}) {
+      unless (exists $args{'order_id'}) {
         croak("Missing the required parameter 'order_id' when calling get_order_by_id");
       }
       
@@ -205,9 +201,9 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'order_id'}) {
+      if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'order_id'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
@@ -238,11 +234,11 @@ sub new {
     # @return void
     #
     sub delete_order {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'order_id' is set
-      unless (exists $args->{'order_id'}) {
+      unless (exists $args{'order_id'}) {
         croak("Missing the required parameter 'order_id' when calling delete_order");
       }
       
@@ -266,9 +262,9 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'order_id'}) {
+      if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'order_id'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       

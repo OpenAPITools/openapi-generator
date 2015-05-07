@@ -49,21 +49,17 @@ our @EXPORT_OK = qw(
 sub new {
     my $class   = shift;
     my $default_api_client = WWW::SwaggerClient::APIClient->new;
-    #TODO fix default
-    #my (%arg) = (
-    #    'api_client' => $default_api_client,
-    #    @_
-    #);
+    my (%self) = (
+        'api_client' => $default_api_client,
+        @_
+    );
 
-    #croak("You must supply an API client")
-    #  unless $options->{api_client};
+    #my $self = {
+    #    #api_client => $options->{api_client}
+    #    api_client => $default_api_client
+    #}; 
 
-    my $self = {
-        #api_client => $options->{api_client}
-        api_client => $default_api_client
-    }; 
-
-    bless $self, $class;
+    bless \%self, $class;
 
 }
 
@@ -77,7 +73,7 @@ sub new {
     # @return void
     #
     sub create_user {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -103,8 +99,8 @@ sub new {
       
       my $_body_data;
        # body params
-      if ( exists $args->{'body'}) {
-        $_body_data = $args->{'body'};
+      if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
       }
 
       # for HTTP post (form)
@@ -128,7 +124,7 @@ sub new {
     # @return void
     #
     sub create_users_with_array_input {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -154,8 +150,8 @@ sub new {
       
       my $_body_data;
        # body params
-      if ( exists $args->{'body'}) {
-        $_body_data = $args->{'body'};
+      if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
       }
 
       # for HTTP post (form)
@@ -179,7 +175,7 @@ sub new {
     # @return void
     #
     sub create_users_with_list_input {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -205,8 +201,8 @@ sub new {
       
       my $_body_data;
        # body params
-      if ( exists $args->{'body'}) {
-        $_body_data = $args->{'body'};
+      if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
       }
 
       # for HTTP post (form)
@@ -231,7 +227,7 @@ sub new {
     # @return string
     #
     sub login_user {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -252,11 +248,11 @@ sub new {
       $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
        # query params
-      if ( exists $args->{'username'}) {
-        $query_params->{'username'} = WWW::::APIClient::to_query_value($args->{'username'});
+      if ( exists $args{'username'}) {
+        $query_params->{'username'} = WWW::::APIClient::to_query_value($args{'username'});
       } # query params
-      if ( exists $args->{'password'}) {
-        $query_params->{'password'} = WWW::::APIClient::to_query_value($args->{'password'});
+      if ( exists $args{'password'}) {
+        $query_params->{'password'} = WWW::::APIClient::to_query_value($args{'password'});
       }
       
       
@@ -287,7 +283,7 @@ sub new {
     # @return void
     #
     sub logout_user {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -335,11 +331,11 @@ sub new {
     # @return User
     #
     sub get_user_by_name {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'username' is set
-      unless (exists $args->{'username'}) {
+      unless (exists $args{'username'}) {
         croak("Missing the required parameter 'username' when calling get_user_by_name");
       }
       
@@ -363,9 +359,9 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'username'}) {
+      if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'username'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
@@ -397,11 +393,11 @@ sub new {
     # @return void
     #
     sub update_user {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'username' is set
-      unless (exists $args->{'username'}) {
+      unless (exists $args{'username'}) {
         croak("Missing the required parameter 'username' when calling update_user");
       }
       
@@ -425,16 +421,16 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'username'}) {
+      if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'username'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
        # body params
-      if ( exists $args->{'body'}) {
-        $_body_data = $args->{'body'};
+      if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
       }
 
       # for HTTP post (form)
@@ -458,11 +454,11 @@ sub new {
     # @return void
     #
     sub delete_user {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'username' is set
-      unless (exists $args->{'username'}) {
+      unless (exists $args{'username'}) {
         croak("Missing the required parameter 'username' when calling delete_user");
       }
       
@@ -486,9 +482,9 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'username'}) {
+      if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'username'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       

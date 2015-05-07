@@ -43,24 +43,24 @@ my $attribute_map = {
 
 # new object
 sub new { 
-    my ($class, $args) = @_; 
+    my ($class, %args) = @_; 
     my $self = { 
         #
-        'id' => $args->{'id'}, 
+        'id' => $args{'id'}, 
         #
-        'username' => $args->{'username'}, 
+        'username' => $args{'username'}, 
         #
-        'first_name' => $args->{'firstName'}, 
+        'first_name' => $args{'firstName'}, 
         #
-        'last_name' => $args->{'lastName'}, 
+        'last_name' => $args{'lastName'}, 
         #
-        'email' => $args->{'email'}, 
+        'email' => $args{'email'}, 
         #
-        'password' => $args->{'password'}, 
+        'password' => $args{'password'}, 
         #
-        'phone' => $args->{'phone'}, 
+        'phone' => $args{'phone'}, 
         #User Status
-        'user_status' => $args->{'userStatus'}
+        'user_status' => $args{'userStatus'}
     }; 
 
     return bless $self, $class; 
