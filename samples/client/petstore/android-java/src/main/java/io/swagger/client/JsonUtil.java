@@ -33,65 +33,55 @@ public class JsonUtil {
   }
 
   public static Type getListTypeForDeserialization(Class cls) {
-    Type type = null;
-    switch (cls.getSimpleName()) {
-      
-      case "User":
-        type = new TypeToken<List<User>>(){}.getType();
-        break;
-      
-      case "Category":
-        type = new TypeToken<List<Category>>(){}.getType();
-        break;
-      
-      case "Pet":
-        type = new TypeToken<List<Pet>>(){}.getType();
-        break;
-      
-      case "Tag":
-        type = new TypeToken<List<Tag>>(){}.getType();
-        break;
-      
-      case "Order":
-        type = new TypeToken<List<Order>>(){}.getType();
-        break;
-      
-      default:
-        type = new TypeToken<List<Object>>(){}.getType();
-        break;
+    String className = cls.getSimpleName();
+    
+    if ("User".equalsIgnoreCase(className)) {
+      return new TypeToken<List<User>>(){}.getType();
     }
-    return type;
+    
+    if ("Category".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Category>>(){}.getType();
+    }
+    
+    if ("Pet".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Pet>>(){}.getType();
+    }
+    
+    if ("Tag".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Tag>>(){}.getType();
+    }
+    
+    if ("Order".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Order>>(){}.getType();
+    }
+    
+    return new TypeToken<List<Object>>(){}.getType();
   }
 
   public static Type getTypeForDeserialization(Class cls) {
-    Type type = null;
-    switch (cls.getSimpleName()) {
-      
-      case "User":
-        type = new TypeToken<User>(){}.getType();
-      break;
-      
-      case "Category":
-        type = new TypeToken<Category>(){}.getType();
-      break;
-      
-      case "Pet":
-        type = new TypeToken<Pet>(){}.getType();
-      break;
-      
-      case "Tag":
-        type = new TypeToken<Tag>(){}.getType();
-      break;
-      
-      case "Order":
-        type = new TypeToken<Order>(){}.getType();
-      break;
-      
-      default:
-        type = new TypeToken<Object>(){}.getType();
-        break;
+    String className = cls.getSimpleName();
+    
+    if ("User".equalsIgnoreCase(className)) {
+      return new TypeToken<User>(){}.getType();
     }
-    return type;
+    
+    if ("Category".equalsIgnoreCase(className)) {
+      return new TypeToken<Category>(){}.getType();
+    }
+    
+    if ("Pet".equalsIgnoreCase(className)) {
+      return new TypeToken<Pet>(){}.getType();
+    }
+    
+    if ("Tag".equalsIgnoreCase(className)) {
+      return new TypeToken<Tag>(){}.getType();
+    }
+    
+    if ("Order".equalsIgnoreCase(className)) {
+      return new TypeToken<Order>(){}.getType();
+    }
+    
+    return new TypeToken<Object>(){}.getType();
   }
 
 };
