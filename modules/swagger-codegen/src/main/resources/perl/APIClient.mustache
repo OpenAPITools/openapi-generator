@@ -75,15 +75,24 @@ sub call_api {
   }
 
   # body data
-  my $_body_data = $post_params ? $post_params : $body_data;
+  my $_body_data = %$post_params ? $post_params : to_json($body_data->to_hash);
 
   # Make the HTTP request
   my $_request;
   switch ($method) {
     case 'POST' {
-      #TODO: multipart
+      # multipart
+      my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+          'form-data' : $header_params->{'Content-Type'};
       $_request = POST($_url, Accept => $header_params->{Accept},
-        Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
+        Content_Type => $_content_type, Content => $_body_data);
+    }
+    case 'PUT' {
+      # multipart
+      my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+          'form-data' : $header_params->{'Content-Type'};
+      $_request = PUT($_url, Accept => $header_params->{Accept},
+        Content_Type => $_content_type, Content => $_body_data);
     }
     case 'GET' {
       $_request = GET($_url, Accept => $header_params->{'Accept'},
