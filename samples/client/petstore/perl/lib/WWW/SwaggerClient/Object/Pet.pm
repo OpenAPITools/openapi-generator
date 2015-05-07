@@ -58,59 +58,14 @@ sub new {
     return bless $self, $class; 
 }  
 
-# return json string
-sub to_hash {
-  return decode_json(JSON->new->convert_blessed->encode( shift ));
+# get swagger type of the attribute
+sub get_swagger_types {
+  return $swagger_types;
 }
 
-# used by JSON for serialization
-sub TO_JSON { 
-  my $self = shift;
-  my $_data = {};
-  foreach my $_key (keys $attribute_map) {
-    if (defined $self->{$attribute_map->{$_key}}) {
-      $_data->{$attribute_map->{$_key}} = $self->{$_key};
-    }
-  }
-  return $_data;
+# get attribute mappping
+sub get_attribute_map {
+  return $attribute_map;
 }
-
-# from json string
-sub from_hash {
-  my ($self, $hash) = @_;
-  # loop through attributes and use swagger_types to deserialize the data
-  while ( my ($_key, $_type) = each $swagger_types) {
-    if ($_type =~ /^array\[/i) { # array
-      my $_subclass = substr($_type, 6, -1);
-      my @_array = ();
-      foreach my $_element (@{$hash->{$attribute_map->{$_key}}}) {
-        push @_array, $self->_deserialize($_subclass, $_element);
-      }
-      $self->{$_key} = \@_array;
-    } elsif (defined $hash->{$_key}) { #hash(model), primitive, datetime
-      $self->{$_key} = $self->_deserialize($_type, $hash->{$_key});
-    } else {
-      $log->debugf("warning: %s not defined\n", $_key);
-    }
-  }
-
-  return $self;
-}
-  
-# deserialize non-array data
-sub _deserialize {
-  my ($self, $type, $data) = @_;
-  $log->debugf("deserializing %s with %s",Dumper($data), $type);
-      
-  if ($type eq 'DateTime') {
-    return DateTime->from_epoch(epoch => str2time($data));
-  } elsif ( grep( /^$type$/, ('string', 'int', 'float', 'bool')) ) {
-    return $data;
-  } else { # hash(model)
-    my $_instance = eval "WWW::SwaggerClient::Object::$type->new()";
-    return $_instance->from_hash($data);
-  }
-}
-
 
 1;
