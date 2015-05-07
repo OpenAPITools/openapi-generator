@@ -33,10 +33,10 @@ my $attribute_map = {
 
 # new object
 sub new { 
-    my ($class, $args) = @_; 
+    my ($class, %args) = @_; 
     my $self = { 
         {{#vars}}#{{#description}}{{{description}}}{{/description}}
-        '{{name}}' => $args->{'{{baseName}}'}{{#hasMore}}, 
+        '{{name}}' => $args{'{{baseName}}'}{{#hasMore}}, 
         {{/hasMore}}{{/vars}}
     }; 
 

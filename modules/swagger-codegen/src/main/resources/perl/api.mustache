@@ -43,21 +43,17 @@ our @EXPORT_OK = qw(
 sub new {
     my $class   = shift;
     my $default_api_client = WWW::{{invokerPackage}}::APIClient->new;
-    #TODO fix default
-    #my (%arg) = (
-    #    'api_client' => $default_api_client,
-    #    @_
-    #);
+    my (%self) = (
+        'api_client' => $default_api_client,
+        @_
+    );
 
-    #croak("You must supply an API client")
-    #  unless $options->{api_client};
+    #my $self = {
+    #    #api_client => $options->{api_client}
+    #    api_client => $default_api_client
+    #}; 
 
-    my $self = {
-        #api_client => $options->{api_client}
-        api_client => $default_api_client
-    }; 
-
-    bless $self, $class;
+    bless \%self, $class;
 
 }
 
@@ -71,11 +67,11 @@ sub new {
  {{/allParams}}   # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     #
     sub {{nickname}} {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
-      unless (exists $args->{'{{paramName}}'}) {
+      unless (exists $args{'{{paramName}}'}) {
         croak("Missing the required parameter '{{paramName}}' when calling {{nickname}}");
       }
       {{/required}}{{/allParams}}
@@ -97,31 +93,31 @@ sub new {
       $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       {{#queryParams}} # query params
-      if ( exists $args->{'{{paramName}}'}) {
-        $query_params->{'{{baseName}}'} = WWW::{{invokerPacakge}}::APIClient::to_query_value($args->{'{{paramName}}'});
+      if ( exists $args{'{{paramName}}'}) {
+        $query_params->{'{{baseName}}'} = WWW::{{invokerPacakge}}::APIClient::to_query_value($args{'{{paramName}}'});
       }{{/queryParams}}
       {{#headerParams}} # header params
-      if ( exists $args->{'{{paramName}}'}) {
-        $header_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_header_value($args->{'{{paramName}}'});
+      if ( exists $args{'{{paramName}}'}) {
+        $header_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_header_value($args{'{{paramName}}'});
       }{{/headerParams}}
       {{#pathParams}} # path params
-      if ( exists $args->{'{{paramName}}'}) {
+      if ( exists $args{'{{paramName}}'}) {
         my $_base_variable = "{" . "{{baseName}}" . "}";
-        my $_base_value = WWW::{{invokerPackage}}::APIClient::to_path_value($args->{'{{paramName}}'});
+        my $_base_value = WWW::{{invokerPackage}}::APIClient::to_path_value($args{'{{paramName}}'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }{{/pathParams}}
       {{#formParams}} # form params
-      if ( exists $args->{'{{paramName}}'} ) {
+      if ( exists $args{'{{paramName}}'} ) {
         {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
-        push $form_params->{'{{baseName}}'}, $args->{'{{paramName}}'};
+        push $form_params->{'{{baseName}}'}, $args{'{{paramName}}'};
         {{/isFile}}
-        {{^isFile}}$form_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_form_value($args->{'{{paramName}}'});
+        {{^isFile}}$form_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_form_value($args{'{{paramName}}'});
         {{/isFile}}
       }{{/formParams}}
       my $_body_data;
       {{#bodyParams}} # body params
-      if ( exists $args->{'{{paramName}}'}) {
-        $_body_data = $args->{'{{paramName}}'};
+      if ( exists $args{'{{paramName}}'}) {
+        $_body_data = $args{'{{paramName}}'};
       }{{/bodyParams}}
 
       # for HTTP post (form)

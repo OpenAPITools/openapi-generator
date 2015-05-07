@@ -39,20 +39,20 @@ my $attribute_map = {
 
 # new object
 sub new { 
-    my ($class, $args) = @_; 
+    my ($class, %args) = @_; 
     my $self = { 
         #
-        'id' => $args->{'id'}, 
+        'id' => $args{'id'}, 
         #
-        'pet_id' => $args->{'petId'}, 
+        'pet_id' => $args{'petId'}, 
         #
-        'quantity' => $args->{'quantity'}, 
+        'quantity' => $args{'quantity'}, 
         #
-        'ship_date' => $args->{'shipDate'}, 
+        'ship_date' => $args{'shipDate'}, 
         #Order Status
-        'status' => $args->{'status'}, 
+        'status' => $args{'status'}, 
         #
-        'complete' => $args->{'complete'}
+        'complete' => $args{'complete'}
     }; 
 
     return bless $self, $class; 

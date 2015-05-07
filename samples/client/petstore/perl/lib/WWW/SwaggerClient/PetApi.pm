@@ -49,21 +49,17 @@ our @EXPORT_OK = qw(
 sub new {
     my $class   = shift;
     my $default_api_client = WWW::SwaggerClient::APIClient->new;
-    #TODO fix default
-    #my (%arg) = (
-    #    'api_client' => $default_api_client,
-    #    @_
-    #);
+    my (%self) = (
+        'api_client' => $default_api_client,
+        @_
+    );
 
-    #croak("You must supply an API client")
-    #  unless $options->{api_client};
+    #my $self = {
+    #    #api_client => $options->{api_client}
+    #    api_client => $default_api_client
+    #}; 
 
-    my $self = {
-        #api_client => $options->{api_client}
-        api_client => $default_api_client
-    }; 
-
-    bless $self, $class;
+    bless \%self, $class;
 
 }
 
@@ -77,7 +73,7 @@ sub new {
     # @return void
     #
     sub update_pet {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -103,8 +99,8 @@ sub new {
       
       my $_body_data;
        # body params
-      if ( exists $args->{'body'}) {
-        $_body_data = $args->{'body'};
+      if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
       }
 
       # for HTTP post (form)
@@ -128,7 +124,7 @@ sub new {
     # @return void
     #
     sub add_pet {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -154,8 +150,8 @@ sub new {
       
       my $_body_data;
        # body params
-      if ( exists $args->{'body'}) {
-        $_body_data = $args->{'body'};
+      if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
       }
 
       # for HTTP post (form)
@@ -179,7 +175,7 @@ sub new {
     # @return array[Pet]
     #
     sub find_pets_by_status {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -200,8 +196,8 @@ sub new {
       $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
        # query params
-      if ( exists $args->{'status'}) {
-        $query_params->{'status'} = WWW::::APIClient::to_query_value($args->{'status'});
+      if ( exists $args{'status'}) {
+        $query_params->{'status'} = WWW::::APIClient::to_query_value($args{'status'});
       }
       
       
@@ -233,7 +229,7 @@ sub new {
     # @return array[Pet]
     #
     sub find_pets_by_tags {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
 
@@ -254,8 +250,8 @@ sub new {
       $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
        # query params
-      if ( exists $args->{'tags'}) {
-        $query_params->{'tags'} = WWW::::APIClient::to_query_value($args->{'tags'});
+      if ( exists $args{'tags'}) {
+        $query_params->{'tags'} = WWW::::APIClient::to_query_value($args{'tags'});
       }
       
       
@@ -287,11 +283,11 @@ sub new {
     # @return Pet
     #
     sub get_pet_by_id {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'pet_id' is set
-      unless (exists $args->{'pet_id'}) {
+      unless (exists $args{'pet_id'}) {
         croak("Missing the required parameter 'pet_id' when calling get_pet_by_id");
       }
       
@@ -315,9 +311,9 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'pet_id'}) {
+      if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'pet_id'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
@@ -350,11 +346,11 @@ sub new {
     # @return void
     #
     sub update_pet_with_form {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'pet_id' is set
-      unless (exists $args->{'pet_id'}) {
+      unless (exists $args{'pet_id'}) {
         croak("Missing the required parameter 'pet_id' when calling update_pet_with_form");
       }
       
@@ -378,20 +374,20 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'pet_id'}) {
+      if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'pet_id'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
        # form params
-      if ( exists $args->{'name'} ) {
+      if ( exists $args{'name'} ) {
         
-        $form_params->{'name'} = WWW::SwaggerClient::APIClient::to_form_value($args->{'name'});
+        $form_params->{'name'} = WWW::SwaggerClient::APIClient::to_form_value($args{'name'});
         
       } # form params
-      if ( exists $args->{'status'} ) {
+      if ( exists $args{'status'} ) {
         
-        $form_params->{'status'} = WWW::SwaggerClient::APIClient::to_form_value($args->{'status'});
+        $form_params->{'status'} = WWW::SwaggerClient::APIClient::to_form_value($args{'status'});
         
       }
       my $_body_data;
@@ -419,11 +415,11 @@ sub new {
     # @return void
     #
     sub delete_pet {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'pet_id' is set
-      unless (exists $args->{'pet_id'}) {
+      unless (exists $args{'pet_id'}) {
         croak("Missing the required parameter 'pet_id' when calling delete_pet");
       }
       
@@ -446,13 +442,13 @@ sub new {
 
       
        # header params
-      if ( exists $args->{'api_key'}) {
-        $header_params->{'api_key'} = WWW::SwaggerClient::APIClient::to_header_value($args->{'api_key'});
+      if ( exists $args{'api_key'}) {
+        $header_params->{'api_key'} = WWW::SwaggerClient::APIClient::to_header_value($args{'api_key'});
       }
        # path params
-      if ( exists $args->{'pet_id'}) {
+      if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'pet_id'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
@@ -482,11 +478,11 @@ sub new {
     # @return void
     #
     sub upload_file {
-      my ($self, $args) = @_;
+      my ($self, %args) = @_;
 
       
       # verify the required parameter 'pet_id' is set
-      unless (exists $args->{'pet_id'}) {
+      unless (exists $args{'pet_id'}) {
         croak("Missing the required parameter 'pet_id' when calling upload_file");
       }
       
@@ -510,20 +506,20 @@ sub new {
       
       
        # path params
-      if ( exists $args->{'pet_id'}) {
+      if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args->{'pet_id'});
+        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
        # form params
-      if ( exists $args->{'additional_metadata'} ) {
+      if ( exists $args{'additional_metadata'} ) {
         
-        $form_params->{'additionalMetadata'} = WWW::SwaggerClient::APIClient::to_form_value($args->{'additional_metadata'});
+        $form_params->{'additionalMetadata'} = WWW::SwaggerClient::APIClient::to_form_value($args{'additional_metadata'});
         
       } # form params
-      if ( exists $args->{'file'} ) {
+      if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
-        push $form_params->{'file'}, $args->{'file'};
+        push $form_params->{'file'}, $args{'file'};
         
         
       }

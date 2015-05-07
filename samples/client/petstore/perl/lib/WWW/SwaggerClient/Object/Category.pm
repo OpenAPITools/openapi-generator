@@ -31,12 +31,12 @@ my $attribute_map = {
 
 # new object
 sub new { 
-    my ($class, $args) = @_; 
+    my ($class, %args) = @_; 
     my $self = { 
         #
-        'id' => $args->{'id'}, 
+        'id' => $args{'id'}, 
         #
-        'name' => $args->{'name'}
+        'name' => $args{'name'}
     }; 
 
     return bless $self, $class; 
