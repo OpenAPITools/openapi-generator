@@ -112,7 +112,11 @@ sub new {
       }{{/pathParams}}
       {{#formParams}} # form params
       if ( exists $args->{'{{paramName}}'} ) {
-        $form_params->{'{{baseName}}'} = {{#isFile}}'@' . {{/isFile}}WWW::{{invokerPackage}}::APIClient::to_form_value($args->{'{{paramName}}'});
+        {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
+        push $form_params->{'{{baseName}}'}, $args->{'{{paramName}}'};
+        {{/isFile}}
+        {{^isFile}}$form_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_form_value($args->{'{{paramName}}'});
+        {{/isFile}}
       }{{/formParams}}
       my $_body_data;
       {{#bodyParams}} # body params

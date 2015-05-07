@@ -385,10 +385,14 @@ sub new {
       }
        # form params
       if ( exists $args->{'name'} ) {
+        
         $form_params->{'name'} = WWW::SwaggerClient::APIClient::to_form_value($args->{'name'});
+        
       } # form params
       if ( exists $args->{'status'} ) {
+        
         $form_params->{'status'} = WWW::SwaggerClient::APIClient::to_form_value($args->{'status'});
+        
       }
       my $_body_data;
       
@@ -513,10 +517,15 @@ sub new {
       }
        # form params
       if ( exists $args->{'additional_metadata'} ) {
+        
         $form_params->{'additionalMetadata'} = WWW::SwaggerClient::APIClient::to_form_value($args->{'additional_metadata'});
+        
       } # form params
       if ( exists $args->{'file'} ) {
-        $form_params->{'file'} = '@' . WWW::SwaggerClient::APIClient::to_form_value($args->{'file'});
+        $form_params->{'file'} = [] unless defined $form_params->{'file'};
+        push $form_params->{'file'}, $args->{'file'};
+        
+        
       }
       my $_body_data;
       

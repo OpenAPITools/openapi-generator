@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 #
-
+use lib 'lib';
 use strict;
 use warnings;
 use WWW::SwaggerClient::PetApi;
@@ -15,46 +15,26 @@ use DateTime;
 
 my $api = WWW::SwaggerClient::PetApi->new();
 
-#print WWW::SwaggerClient::APIClient::to_form_value('testing 123');
-
 my $pet_id = 88;
-my $dt = DateTime->new(
-  year      => 1972,
-  month     => 12,
-  day       => 31,
-  hour      => 23,
-  minute    => 59,
-  second    => 30,
-  time_zone => 'UTC'
-);
 
-print "dt = $dt\n";
-print "dt = ".$dt->datetime()."\n";
-
-
-my $category =  WWW::SwaggerClient::Object::Category->new({'id' => '2', 'name' => 'pending'});
-my $tag =  WWW::SwaggerClient::Object::Tag->new({'id' => '1', 'name' => 'just kidding', 
-    "photoUrls" => ['123', 'oop']});
+my $category =  WWW::SwaggerClient::Object::Category->new({'id' => '2', 'name' => 'perl'});
+my $tag =  WWW::SwaggerClient::Object::Tag->new({'id' => '1', 'name' => 'just kidding'}); 
 my $pet =  WWW::SwaggerClient::Object::Pet->new({'id' => $pet_id, 'name' => 'perl test', 
-    "photoUrls" => ['123', 'oop'], 'tags' => [$tag], 'status' => 'pending'});
+    "photoUrls" => ['123', 'oop'], 'tags' => [$tag], 'status' => 'pending', 'category' => $category});
 
-print Dumper $pet;
+print "\npet(object)=".Dumper $pet;
 my $json = JSON->new->convert_blessed;
 
-#print $json->convert_blessed->encode($pet);
-#print $json->get_convert_blessed;
-print Dumper($pet->to_hash);
-#my $pet2 = WWW::SwaggerClient::Model::Pet->from_json($pet->to_hash);
-my $pet2 = WWW::SwaggerClient::Object::Pet->new();
-$pet2 = $pet2->from_hash($pet->to_hash);
-#$pet2->from_json($pet->to_hash);
-print Dumper($pet2->to_hash);
-#exit;
-print "============================\n";
-print Dumper $api->add_pet({body => $pet});
-#print Dumper $api->get_pet_by_id({pet_id => $pet_id});
-#print Dumper $api->update_pet_with_form({pet_id => $pet_id, name => 'test_name', status => 'test status'});
-#print Dumper $api->delete_pet({pet_id => $pet_id});
+my $new_pet = WWW::SwaggerClient::Object::Pet->new();
+$new_pet = $new_pet->from_hash($pet->to_hash);
+print "new_pet(hash):".Dumper($new_pet->to_hash);
+
+print "\nTest Petstore endpoints\n";
+#print "\nupload_file:".Dumper $api->upload_file({pet_id => $pet_id, additional_metadata => 'testabc', file => '/var/tmp/f5.jpg'});
+print "\nadd_pet:".Dumper $api->add_pet({body => $pet});
+print "\nget_pet_by_id:".Dumper $api->get_pet_by_id({pet_id => $pet_id});
+print "\nupdate_pet_with_form:".Dumper $api->update_pet_with_form({pet_id => $pet_id, name => 'test_name', status => 'test status'});
+print "\ndelete_pet:".Dumper $api->delete_pet({pet_id => $pet_id});
 
 
 
