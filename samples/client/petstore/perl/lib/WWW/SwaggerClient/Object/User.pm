@@ -1,4 +1,4 @@
-package WWW::SwaggerClient::Model::Category;
+package WWW::SwaggerClient::Object::User;
 
 require 5.6.0;
 use strict;
@@ -8,7 +8,10 @@ use JSON qw(decode_json);
 use Data::Dumper;
 use Module::Runtime qw(use_module);
 use Log::Any qw($log);
+use Date::Parse;
+use DateTime;
 
+use base "WWW::SwaggerClient::Object::BaseObject";
 
 #
 #
@@ -18,12 +21,24 @@ use Log::Any qw($log);
 
 my $swagger_types = {
       'id' => 'int',
-      'name' => 'string'
+      'username' => 'string',
+      'first_name' => 'string',
+      'last_name' => 'string',
+      'email' => 'string',
+      'password' => 'string',
+      'phone' => 'string',
+      'user_status' => 'int'
 };
 
 my $attribute_map = {
       'id' => 'id',
-      'name' => 'name'
+      'username' => 'username',
+      'first_name' => 'firstName',
+      'last_name' => 'lastName',
+      'email' => 'email',
+      'password' => 'password',
+      'phone' => 'phone',
+      'user_status' => 'userStatus'
 };
 
 # new object
@@ -33,7 +48,19 @@ sub new {
         #
         'id' => $args->{'id'}, 
         #
-        'name' => $args->{'name'}
+        'username' => $args->{'username'}, 
+        #
+        'first_name' => $args->{'firstName'}, 
+        #
+        'last_name' => $args->{'lastName'}, 
+        #
+        'email' => $args->{'email'}, 
+        #
+        'password' => $args->{'password'}, 
+        #
+        'phone' => $args->{'phone'}, 
+        #User Status
+        'user_status' => $args->{'userStatus'}
     }; 
 
     return bless $self, $class; 
@@ -88,7 +115,7 @@ sub _deserialize {
   } elsif ( grep( /^$type$/, ('string', 'int', 'float', 'bool')) ) {
     return $data;
   } else { # hash(model)
-    my $_instance = eval "WWW::SwaggerClient::Model::$type->new()";
+    my $_instance = eval "WWW::SwaggerClient::Object::$type->new()";
     return $_instance->from_hash($data);
   }
 }

@@ -1,4 +1,4 @@
-package WWW::SwaggerClient::Model::Pet;
+package WWW::SwaggerClient::Object::Pet;
 
 require 5.6.0;
 use strict;
@@ -8,7 +8,10 @@ use JSON qw(decode_json);
 use Data::Dumper;
 use Module::Runtime qw(use_module);
 use Log::Any qw($log);
+use Date::Parse;
+use DateTime;
 
+use base "WWW::SwaggerClient::Object::BaseObject";
 
 #
 #
@@ -104,7 +107,7 @@ sub _deserialize {
   } elsif ( grep( /^$type$/, ('string', 'int', 'float', 'bool')) ) {
     return $data;
   } else { # hash(model)
-    my $_instance = eval "WWW::SwaggerClient::Model::$type->new()";
+    my $_instance = eval "WWW::SwaggerClient::Object::$type->new()";
     return $_instance->from_hash($data);
   }
 }

@@ -27,9 +27,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public PerlClientCodegen() {
     super();
-    modelPackage = "Model";
+    modelPackage = "Object";
     outputFolder = "generated-code/perl";
-    modelTemplateFiles.put("model.mustache", ".pm");
+    modelTemplateFiles.put("object.mustache", ".pm");
     apiTemplateFiles.put("api.mustache", ".pm");
     templateDir = "perl";
 
@@ -60,6 +60,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("map", "map");
 
     supportingFiles.add(new SupportingFile("APIClient.mustache", "lib/WWW/" + invokerPackage, "APIClient.pm"));
+    supportingFiles.add(new SupportingFile("BaseObject.mustache", "lib/WWW/" + invokerPackage, "Object/BaseObject.pm"));
   }
 
   @Override

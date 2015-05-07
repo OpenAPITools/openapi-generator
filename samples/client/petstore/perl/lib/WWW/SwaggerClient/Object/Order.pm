@@ -1,4 +1,4 @@
-package WWW::SwaggerClient::Model::User;
+package WWW::SwaggerClient::Object::Order;
 
 require 5.6.0;
 use strict;
@@ -8,7 +8,10 @@ use JSON qw(decode_json);
 use Data::Dumper;
 use Module::Runtime qw(use_module);
 use Log::Any qw($log);
+use Date::Parse;
+use DateTime;
 
+use base "WWW::SwaggerClient::Object::BaseObject";
 
 #
 #
@@ -18,24 +21,20 @@ use Log::Any qw($log);
 
 my $swagger_types = {
       'id' => 'int',
-      'username' => 'string',
-      'first_name' => 'string',
-      'last_name' => 'string',
-      'email' => 'string',
-      'password' => 'string',
-      'phone' => 'string',
-      'user_status' => 'int'
+      'pet_id' => 'int',
+      'quantity' => 'int',
+      'ship_date' => 'DateTime',
+      'status' => 'string',
+      'complete' => 'boolean'
 };
 
 my $attribute_map = {
       'id' => 'id',
-      'username' => 'username',
-      'first_name' => 'firstName',
-      'last_name' => 'lastName',
-      'email' => 'email',
-      'password' => 'password',
-      'phone' => 'phone',
-      'user_status' => 'userStatus'
+      'pet_id' => 'petId',
+      'quantity' => 'quantity',
+      'ship_date' => 'shipDate',
+      'status' => 'status',
+      'complete' => 'complete'
 };
 
 # new object
@@ -45,19 +44,15 @@ sub new {
         #
         'id' => $args->{'id'}, 
         #
-        'username' => $args->{'username'}, 
+        'pet_id' => $args->{'petId'}, 
         #
-        'first_name' => $args->{'firstName'}, 
+        'quantity' => $args->{'quantity'}, 
         #
-        'last_name' => $args->{'lastName'}, 
+        'ship_date' => $args->{'shipDate'}, 
+        #Order Status
+        'status' => $args->{'status'}, 
         #
-        'email' => $args->{'email'}, 
-        #
-        'password' => $args->{'password'}, 
-        #
-        'phone' => $args->{'phone'}, 
-        #User Status
-        'user_status' => $args->{'userStatus'}
+        'complete' => $args->{'complete'}
     }; 
 
     return bless $self, $class; 
@@ -112,7 +107,7 @@ sub _deserialize {
   } elsif ( grep( /^$type$/, ('string', 'int', 'float', 'bool')) ) {
     return $data;
   } else { # hash(model)
-    my $_instance = eval "WWW::SwaggerClient::Model::$type->new()";
+    my $_instance = eval "WWW::SwaggerClient::Object::$type->new()";
     return $_instance->from_hash($data);
   }
 }

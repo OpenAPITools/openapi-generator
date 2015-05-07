@@ -1,4 +1,4 @@
-package WWW::SwaggerClient::Swagger;
+package WWW::{{invokerPackage}}::APIClient;
 
 use strict;
 use warnings;
@@ -7,17 +7,22 @@ use utf8;
 use LWP::UserAgent;
 use HTTP::Headers;
 use HTTP::Response;
+use HTTP::Request::Common;
 use HTTP::Status;
 use URI::Query;
 use JSON;
-
+use URI::Escape;
 use Scalar::Util;
+use Log::Any qw($log);
+use Carp;
+use Switch;
+use Module::Runtime qw(use_module);
 
 # class variables
 my $ua = LWP::UserAgent->new;
 my $http_user_agent = 'Perl-Swagger'; # HTTP user-agent
 my $http_timeout; #timeout
-my $base_url = "http://petstore.swagger.io/v2";
+my $base_url = "{{basePath}}";
 
 
 sub new
@@ -65,7 +70,7 @@ sub call_api {
   my $_url = $base_url . $resource_path;
 
   # build query 
-  if ($query_params) {
+  if (%$query_params) {
     $_url = ($_url . '?' . eval { URI::Query->new($query_params)->stringify });
   }
 
@@ -73,17 +78,30 @@ sub call_api {
   my $_body_data = $post_params ? $post_params : $body_data;
 
   # Make the HTTP request
-  my $_request = HTTP::Request->new(
-    $method, $_url, $headers, $_body_data
-  );
+  my $_request;
+  switch ($method) {
+    case 'POST' {
+      #TODO: multipart
+      $_request = POST($_url, Accept => $header_params->{Accept},
+        Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
+    }
+    case 'GET' {
+      $_request = GET($_url, Accept => $header_params->{'Accept'},
+        Content_Type => $header_params->{'Content-Type'});
+    }
+    case 'PUT' {
+
+    }
+  }
  
   $ua->timeout($http_timeout); 
   $ua->agent($http_user_agent);
   
   my $_response = $ua->request($_request);
 
-  if (!$_response->is_success) {
-    #TODO croak("Can't connect ot the api ($_response{code}): $_response{message}");
+  unless ($_response->is_success) {
+    croak("Can't connect to the server");
+    #croak("Can't connect to the api ($_response{code}): $_response{message}");
   }
      
   return $_response->content;
@@ -179,52 +197,42 @@ sub to_string {
   }
 }
 
-  
 # Deserialize a JSON string into an object
 #  
-# @param object $object object or primitive to be deserialized
 # @param string $class class name is passed as a string
+# @param string $data data of the body
 # @return object an instance of $class
 sub deserialize
 {
-#  my ($data, $class) = @_;
-#  if (null === $data) {
-#    $deserialized = null;
-#  } elseif (substr($class, 0, 4) == 'map[') {
-#    $inner = substr($class, 4, -1);
-#    $values = array();
-#    if(strrpos($inner, ",") !== false) {
-#      $subClass_array = explode(',', $inner, 2);
-#      $subClass = $subClass_array[1];
-#      foreach ($data as $key => $value) {
-#        $values[] = array($key => self::deserialize($value, $subClass));
-#      }        
-#    }
-#    $deserialized = $values;
-#  } elseif (strcasecmp(substr($class, 0, 6),'array[') == 0) {
-#    $subClass = substr($class, 6, -1);
-#    $values = array();
-#    foreach ($data as $key => $value) {
-#      $values[] = self::deserialize($value, $subClass);
-#    }
-#    $deserialized = $values;
-#  } elseif ($class == 'DateTime') {
-#    $deserialized = new \DateTime($data);
-#  } elseif (in_array($class, array('string', 'int', 'float', 'bool'))) {
-#    settype($data, $class);
-#    $deserialized = $data;
-#  } else {
-#    $instance = new $class();
-#    foreach ($instance::$swaggerTypes as $property => $type) {
-#      if (isset($data->$property)) {
-#        $original_property_name = $instance::$attributeMap[$property];
-#        $instance->$property = self::deserialize($data->$original_property_name, $type);
-#      }
-#    }
-#    $deserialized = $instance;
-#  }
-#
-#  return $deserialized;
+  my ($self, $class, $data) = @_;
+  $log->debugf("deserializing %s for %s", $data, $class);
+  my $_result;
+
+  if (not defined $data) {
+    return undef;
+  } elsif ( lc(substr($class, 0, 4)) eq 'map[') { #hash
+    $_result = \(json_decode $data);
+  } elsif ( lc(substr($class, 0, 6)) eq 'array[' ) { # array of data
+    return $data if $data eq '[]'; # return if empty array
+
+    my $_sub_class = substr($class, 6, -1);
+    my @_json_data = json_decode $data;
+    my @_values = ();
+    foreach my $_value (@_json_data) {
+      push @_values, $self->deserialize($_sub_class, $_value);
+    }
+    $_result = \@_values;
+  } elsif ($class eq 'DateTime') {
+    $_result = DateTime->from_epoch(epoch => str2time($data));
+  } elsif (grep /^$data$/, ('string', 'int', 'float', 'bool')) { #TODO revise the primitive type
+    $_result= $data;
+  } else { # model
+    my $_instance = use_module("WWW::{{invokerPackage}}::Object::$class")->new;
+    $_result = $_instance->from_hash(decode_json $data);
+  }
+
+  return $_result;
+
 }
 
 1;
