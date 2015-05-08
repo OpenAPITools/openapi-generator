@@ -1,17 +1,23 @@
 package {{invokerPackage}};
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
+
+import com.fasterxml.jackson.datatype.joda.*;
 
 public class JsonUtil {
-  public static GsonBuilder gsonBuilder;
+  public static ObjectMapper mapper;
 
   static {
-    gsonBuilder = new GsonBuilder();
-    gsonBuilder.serializeNulls();
-  }
+  	mapper = new ObjectMapper();
+	  mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	  mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	  mapper.registerModule(new JodaModule());
+	}
 
-  public static Gson getGson() {
-    return gsonBuilder.create();
-  }
-};
+	public static ObjectMapper getJsonMapper() {
+		return mapper;
+	}
+}
