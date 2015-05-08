@@ -1,4 +1,4 @@
-package Java
+package scala
 
 import com.wordnik.swagger.codegen.languages.ScalaClientCodegen
 import com.wordnik.swagger.util.Json
@@ -218,8 +218,8 @@ class ScalaModelTest extends FlatSpec with Matchers {
     cm.description should be ("an array model")
     cm.vars.size should be (0)
     cm.parent should be ("ListBuffer[Children]")
-    cm.imports.size should be (3)
-    (cm.imports.asScala.toSet & Set("List", "ListBuffer", "Children")).size should be (3)
+    cm.imports.size should be (2)
+    (cm.imports.asScala.toSet & Set("ListBuffer", "Children")).size should be (2)
   }
 
   it should "convert an map model" in {
