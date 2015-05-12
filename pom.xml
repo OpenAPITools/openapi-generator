@@ -303,6 +303,18 @@
       </modules>
     </profile>
     <profile>
+      <id>scala-client</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>scala</value>
+        </property>
+      </activation>
+      <modules>
+        <module>samples/client/petstore/scala</module>
+      </modules>
+    </profile>
+    <profile>
       <id>objc-client</id>
       <activation>
         <property>
@@ -361,6 +373,7 @@
       <modules>
         <module>samples/client/petstore/android-java</module>
         <module>samples/client/petstore/java</module>
+        <module>samples/client/petstore/scala</module>
         <module>samples/server/petstore/jaxrs</module>
         <module>samples/server/petstore/spring-mvc</module>
         <module>samples/client/petstore/objc</module>
