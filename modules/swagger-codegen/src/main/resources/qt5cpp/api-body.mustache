@@ -1,0 +1,107 @@
+#include "{{classname}}.h"
+#include "{{prefix}}Helpers.h"
+
+#include <QJsonArray>
+#include <QJsonDocument>
+
+namespace Swagger {
+{{classname}}::{{classname}}() {}
+
+{{classname}}::~{{classname}}() {}
+
+{{classname}}::{{classname}}(QString host, QString basePath) {
+    this->host = host;
+    this->basePath = basePath;
+}
+
+{{#operations}}
+{{#operation}}
+void
+{{classname}}::{{nickname}}({{#allParams}}{{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    QString fullPath;
+    fullPath.append(this->host).append(this->basePath).append("{{path}}");
+
+    {{#pathParams}}
+    QString {{paramName}}PathParam("{"); {{paramName}}PathParam.append("{{paramName}}").append("}");
+    fullPath.replace({{paramName}}PathParam, stringValue({{paramName}}));
+    {{/pathParams}}
+
+    {{#queryParams}}if(fullPath.compare("?") > 0) fullPath.append("?");
+    else fullPath.append("&");
+    fullPath.append(QUrl::toPercentEncoding("{{paramName}}"))
+        .append("=")
+        .append(QUrl::toPercentEncoding(stringValue({{paramName}})));
+    {{/queryParams}}
+
+    // qDebug() << fullPath;
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "{{httpMethod}}");
+
+    {{#bodyParams}}
+    // body
+    input.request_body.append({{paramName}}.asJson());
+    {{/bodyParams}}
+
+    {{#headerParams}}
+    input.headers
+    {{/headerParams}}
+
+    connect(worker,
+            &HttpRequestWorker::on_execution_finished,
+            this,
+            &{{classname}}::{{nickname}}Callback);
+
+    worker->execute(&input);
+}
+
+void
+{{classname}}::{{nickname}}Callback(HttpRequestWorker * worker) {
+    QString msg;
+    if (worker->error_type == QNetworkReply::NoError) {
+        msg = QString("Success! %1 bytes").arg(worker->response.length());
+    }
+    else {
+        msg = "Error: " + worker->error_str;
+    }
+
+    // return type: {{{returnType}}}
+
+    {{#returnType}}
+    {{#isListContainer}}
+    {{{returnType}}} output = {{{defaultResponse}}};
+    QString json(worker->response);
+    QByteArray array (json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonArray jsonArray = doc.array();
+
+    foreach(QJsonValue obj, jsonArray) {
+        {{returnBaseType}}* o = new {{returnBaseType}}();
+        QJsonObject jv = obj.toObject();
+        QJsonObject * ptr = (QJsonObject*)&jv;
+        o->fromJsonObject(*ptr);
+        output->append(o);
+    }
+
+
+    // void toJsonArray(QList<void*>* value, QJsonArray* output, QString innerName, QString innerType);
+    {{/isListContainer}}
+
+    {{^isListContainer}}{{#returnTypeIsPrimitive}}
+    {{returnType}} output;  // TODO 
+
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}QString json(worker->response);
+    {{returnType}} output = new {{returnBaseType}}(&json);
+
+    {{/returnTypeIsPrimitive}}
+    {{/isListContainer}}{{/returnType}}
+
+    worker->deleteLater();
+
+    {{#returnType}}emit {{nickname}}Signal(output);{{/returnType}}
+    {{^returnType}}emit {{nickname}}Signal();{{/returnType}}
+}
+{{/operation}}
+{{/operations}}
+} /* namespace Swagger */
