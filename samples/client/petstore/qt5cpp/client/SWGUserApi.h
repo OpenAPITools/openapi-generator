@@ -23,8 +23,8 @@ public:
     QString basePath;
 
     void createUser(SWGUser body);
-    void createUsersWithArrayInput(QList&lt;SWGUser*&gt;* body);
-    void createUsersWithListInput(QList&lt;SWGUser*&gt;* body);
+    void createUsersWithArrayInput(QList<SWGUser*>* body);
+    void createUsersWithListInput(QList<SWGUser*>* body);
     void loginUser(QString* username, QString* password);
     void logoutUser();
     void getUserByName(QString* username);

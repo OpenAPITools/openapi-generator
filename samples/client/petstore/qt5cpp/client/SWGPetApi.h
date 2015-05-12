@@ -24,8 +24,8 @@ public:
 
     void updatePet(SWGPet body);
     void addPet(SWGPet body);
-    void findPetsByStatus(QList&lt;QString*&gt;* status);
-    void findPetsByTags(QList&lt;QString*&gt;* tags);
+    void findPetsByStatus(QList<QString*>* status);
+    void findPetsByTags(QList<QString*>* tags);
     void getPetById(qint64 petId);
     void updatePetWithForm(QString* petId, QString* name, QString* status);
     void deletePet(QString* api_key, qint64 petId);
