@@ -86,8 +86,8 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login") @RequestParam("username") String username,
-    @ApiParam(value = "The password for login in clear text") @RequestParam("password") String password)
+  public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login") @RequestParam(value = "username", required = false) String username,
+    @ApiParam(value = "The password for login in clear text") @RequestParam(value = "password", required = false) String password)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<String>(HttpStatus.OK);

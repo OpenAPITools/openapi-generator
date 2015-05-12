@@ -73,7 +73,7 @@ public class PetApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Pet> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter") @RequestParam("status") List<String> status)
+  public ResponseEntity<Pet> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter") @RequestParam(value = "status", required = false) List<String> status)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Pet>(HttpStatus.OK);
@@ -89,7 +89,7 @@ public class PetApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Pet> findPetsByTags(@ApiParam(value = "Tags to filter by") @RequestParam("tags") List<String> tags)
+  public ResponseEntity<Pet> findPetsByTags(@ApiParam(value = "Tags to filter by") @RequestParam(value = "tags", required = false) List<String> tags)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Pet>(HttpStatus.OK);
