@@ -52,6 +52,12 @@ namespace {{package}} {
       if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
       {{/required}}{{/allParams}}
 
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
+
       _request.AddUrlSegment("format", "json"); // set format to json by default
       {{#pathParams}}_request.AddUrlSegment("{{baseName}}", ApiInvoker.ParameterToString({{{paramName}}})); // path (url segment) parameter
       {{/pathParams}}

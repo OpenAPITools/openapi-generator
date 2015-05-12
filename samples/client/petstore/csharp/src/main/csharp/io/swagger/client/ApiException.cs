@@ -1,6 +1,6 @@
 using System;
 
-namespace io.swagger.client {
+namespace IO.Swagger.Client {
   public class ApiException : Exception {
     
   	private int errorCode = 0;
