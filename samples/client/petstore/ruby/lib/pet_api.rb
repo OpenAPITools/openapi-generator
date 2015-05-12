@@ -10,7 +10,7 @@ class PetApi
   # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return void
   def self.update_pet(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/pet".sub('{format}','json')
@@ -62,7 +62,7 @@ class PetApi
   # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return void
   def self.add_pet(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/pet".sub('{format}','json')
@@ -114,7 +114,7 @@ class PetApi
   # @option opts [array[string]] :status Status values that need to be considered for filter
   # @return array[Pet]
   def self.find_pets_by_status(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/pet/findByStatus".sub('{format}','json')
@@ -148,7 +148,7 @@ class PetApi
   # @option opts [array[string]] :tags Tags to filter by
   # @return array[Pet]
   def self.find_pets_by_tags(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/pet/findByTags".sub('{format}','json')
@@ -182,8 +182,10 @@ class PetApi
   # @param [Hash] opts the optional parameters
   # @return Pet
   def self.get_pet_by_id(pet_id, opts = {})
-    # verify existence of params
-    raise "pet_id is required" if pet_id.nil?
+    
+    # verify the required parameter 'pet_id' is set
+    raise "Missing the required parameter 'pet_id' when calling get_pet_by_id" if pet_id.nil?
+    
 
     # resource path
     path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
@@ -218,8 +220,10 @@ class PetApi
   # @option opts [string] :status Updated status of the pet
   # @return void
   def self.update_pet_with_form(pet_id, opts = {})
-    # verify existence of params
-    raise "pet_id is required" if pet_id.nil?
+    
+    # verify the required parameter 'pet_id' is set
+    raise "Missing the required parameter 'pet_id' when calling update_pet_with_form" if pet_id.nil?
+    
 
     # resource path
     path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
@@ -254,8 +258,10 @@ class PetApi
   # @option opts [string] :api_key 
   # @return void
   def self.delete_pet(pet_id, opts = {})
-    # verify existence of params
-    raise "pet_id is required" if pet_id.nil?
+    
+    # verify the required parameter 'pet_id' is set
+    raise "Missing the required parameter 'pet_id' when calling delete_pet" if pet_id.nil?
+    
 
     # resource path
     path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
@@ -290,8 +296,10 @@ class PetApi
   # @option opts [file] :file file to upload
   # @return void
   def self.upload_file(pet_id, opts = {})
-    # verify existence of params
-    raise "pet_id is required" if pet_id.nil?
+    
+    # verify the required parameter 'pet_id' is set
+    raise "Missing the required parameter 'pet_id' when calling upload_file" if pet_id.nil?
+    
 
     # resource path
     path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)

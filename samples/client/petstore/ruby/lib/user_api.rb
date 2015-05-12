@@ -10,7 +10,7 @@ class UserApi
   # @option opts [User] :body Created user object
   # @return void
   def self.create_user(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/user".sub('{format}','json')
@@ -62,7 +62,7 @@ class UserApi
   # @option opts [array[User]] :body List of user object
   # @return void
   def self.create_users_with_array_input(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/user/createWithArray".sub('{format}','json')
@@ -114,7 +114,7 @@ class UserApi
   # @option opts [array[User]] :body List of user object
   # @return void
   def self.create_users_with_list_input(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/user/createWithList".sub('{format}','json')
@@ -167,7 +167,7 @@ class UserApi
   # @option opts [string] :password The password for login in clear text
   # @return string
   def self.login_user(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/user/login".sub('{format}','json')
@@ -201,7 +201,7 @@ class UserApi
   # @param [Hash] opts the optional parameters
   # @return void
   def self.logout_user(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/user/logout".sub('{format}','json')
@@ -233,8 +233,10 @@ class UserApi
   # @param [Hash] opts the optional parameters
   # @return User
   def self.get_user_by_name(username, opts = {})
-    # verify existence of params
-    raise "username is required" if username.nil?
+    
+    # verify the required parameter 'username' is set
+    raise "Missing the required parameter 'username' when calling get_user_by_name" if username.nil?
+    
 
     # resource path
     path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
@@ -268,8 +270,10 @@ class UserApi
   # @option opts [User] :body Updated user object
   # @return void
   def self.update_user(username, opts = {})
-    # verify existence of params
-    raise "username is required" if username.nil?
+    
+    # verify the required parameter 'username' is set
+    raise "Missing the required parameter 'username' when calling update_user" if username.nil?
+    
 
     # resource path
     path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
@@ -321,8 +325,10 @@ class UserApi
   # @param [Hash] opts the optional parameters
   # @return void
   def self.delete_user(username, opts = {})
-    # verify existence of params
-    raise "username is required" if username.nil?
+    
+    # verify the required parameter 'username' is set
+    raise "Missing the required parameter 'username' when calling delete_user" if username.nil?
+    
 
     # resource path
     path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)

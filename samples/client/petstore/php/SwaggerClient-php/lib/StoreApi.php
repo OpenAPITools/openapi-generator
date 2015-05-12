@@ -37,6 +37,7 @@ class StoreApi {
    * @return map[string,int]
    */
    public function getInventory() {
+      
 
       // parse inputs
       $resourcePath = "/store/inventory";
@@ -92,6 +93,7 @@ class StoreApi {
    * @return Order
    */
    public function placeOrder($body) {
+      
 
       // parse inputs
       $resourcePath = "/store/order";
@@ -151,6 +153,12 @@ class StoreApi {
    * @return Order
    */
    public function getOrderById($order_id) {
+      
+      // verify the required parameter 'order_id' is set
+      if ($order_id === null) {
+        throw new \Exception("Missing the required parameter $order_id when calling getOrderById");
+      }
+      
 
       // parse inputs
       $resourcePath = "/store/order/{orderId}";
@@ -210,6 +218,12 @@ class StoreApi {
    * @return void
    */
    public function deleteOrder($order_id) {
+      
+      // verify the required parameter 'order_id' is set
+      if ($order_id === null) {
+        throw new \Exception("Missing the required parameter $order_id when calling deleteOrder");
+      }
+      
 
       // parse inputs
       $resourcePath = "/store/order/{orderId}";
