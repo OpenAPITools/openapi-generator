@@ -1169,4 +1169,13 @@ public class DefaultCodegen {
   }
 
 
+  public String apiFilename(String templateName, String tag)
+  {
+    String suffix = apiTemplateFiles().get(templateName);
+    return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+  }
+
+  public boolean shouldOverwrite( String filename ){
+    return true;
+  }
 }

@@ -130,7 +130,6 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     return toModelName(name);
   }
 
-
   @Override
   public String getTypeDeclaration(Property p) {
     if(p instanceof ArrayProperty) {
