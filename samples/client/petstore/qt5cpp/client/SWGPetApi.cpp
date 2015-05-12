@@ -23,8 +23,6 @@ SWGPetApi::updatePet(SWGPet body) {
 
     
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "PUT");
 
@@ -53,8 +51,6 @@ SWGPetApi::updatePetCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -70,8 +66,6 @@ SWGPetApi::addPet(SWGPet body) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
@@ -101,8 +95,6 @@ SWGPetApi::addPetCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -123,8 +115,6 @@ SWGPetApi::findPetsByStatus(QList&lt;QString*&gt;* status) {
         .append("=")
         .append(QUrl::toPercentEncoding(stringValue(status)));
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
@@ -151,9 +141,6 @@ SWGPetApi::findPetsByStatusCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: QList<SWGPet*>*
-
-    
     
     QList<SWGPet*>* output = new QList<SWGPet*>();
     QString json(worker->response);
@@ -168,9 +155,6 @@ SWGPetApi::findPetsByStatusCallback(HttpRequestWorker * worker) {
         o->fromJsonObject(*ptr);
         output->append(o);
     }
-
-
-    // void toJsonArray(QList<void*>* value, QJsonArray* output, QString innerName, QString innerType);
     
 
     
@@ -193,8 +177,6 @@ SWGPetApi::findPetsByTags(QList&lt;QString*&gt;* tags) {
         .append("=")
         .append(QUrl::toPercentEncoding(stringValue(tags)));
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
@@ -221,9 +203,6 @@ SWGPetApi::findPetsByTagsCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: QList<SWGPet*>*
-
-    
     
     QList<SWGPet*>* output = new QList<SWGPet*>();
     QString json(worker->response);
@@ -238,9 +217,6 @@ SWGPetApi::findPetsByTagsCallback(HttpRequestWorker * worker) {
         o->fromJsonObject(*ptr);
         output->append(o);
     }
-
-
-    // void toJsonArray(QList<void*>* value, QJsonArray* output, QString innerName, QString innerType);
     
 
     
@@ -261,8 +237,6 @@ SWGPetApi::getPetById(qint64 petId) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
@@ -289,9 +263,6 @@ SWGPetApi::getPetByIdCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: SWGPet*
-
-    
     
 
     
@@ -318,8 +289,6 @@ SWGPetApi::updatePetWithForm(QString* petId, QString* name, QString* status) {
 
     
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
@@ -345,8 +314,6 @@ SWGPetApi::updatePetWithFormCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -365,8 +332,6 @@ SWGPetApi::deletePet(QString* api_key, qint64 petId) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "DELETE");
@@ -395,8 +360,6 @@ SWGPetApi::deletePetCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -415,8 +378,6 @@ SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGFile* file) 
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
@@ -442,8 +403,6 @@ SWGPetApi::uploadFileCallback(HttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    // return type: 
 
     
 

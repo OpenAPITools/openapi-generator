@@ -23,8 +23,6 @@ SWGStoreApi::getInventory() {
 
     
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
@@ -50,9 +48,6 @@ SWGStoreApi::getInventoryCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: QMap<String, qint32>*
-
-    
     
 
     
@@ -75,8 +70,6 @@ SWGStoreApi::placeOrder(SWGOrder body) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
@@ -106,9 +99,6 @@ SWGStoreApi::placeOrderCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: SWGOrder*
-
-    
     
 
     
@@ -135,8 +125,6 @@ SWGStoreApi::getOrderById(QString* orderId) {
 
     
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
@@ -162,9 +150,6 @@ SWGStoreApi::getOrderByIdCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: SWGOrder*
-
-    
     
 
     
@@ -191,8 +176,6 @@ SWGStoreApi::deleteOrder(QString* orderId) {
 
     
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "DELETE");
 
@@ -217,8 +200,6 @@ SWGStoreApi::deleteOrderCallback(HttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    // return type: 
 
     
 
