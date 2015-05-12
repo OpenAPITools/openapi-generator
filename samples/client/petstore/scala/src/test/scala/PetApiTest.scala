@@ -15,17 +15,7 @@ class PetApiTest extends FlatSpec with Matchers {
   behavior of "PetApi"
   val api = new PetApi
 
-  it should "fetch a pet" in {
-    api.getPetById(1) match {
-      case Some(pet) => {
-        pet should not be (null)
-        pet.id should be(1)
-      }
-      case None => fail("didn't find pet 1")
-    }
-  }
-
-  it should "add a new pet" in {
+  it should "add and fetch a pet" in {
     val pet = Pet(
       1000,
       Category(1, "sold"),
