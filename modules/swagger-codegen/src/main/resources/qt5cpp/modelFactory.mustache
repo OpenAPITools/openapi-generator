@@ -1,0 +1,18 @@
+#ifndef ModelFactory_H_
+#define ModelFactory_H_
+
+{{#models}}{{#model}}
+#include "{{classname}}.h"{{/model}}{{/models}}
+
+namespace Swagger {
+  void*
+  create(QString type) {
+    {{#models}}{{#model}}if(QString("{{classname}}").compare(type) == 0) {
+      return new {{classname}}();
+    }
+    {{/model}}{{/models}}
+    return NULL;
+  }
+} /* namespace Swagger */
+
+#endif /* ModelFactory_H_ */
