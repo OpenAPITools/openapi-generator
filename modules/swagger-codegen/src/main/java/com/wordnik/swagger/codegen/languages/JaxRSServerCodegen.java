@@ -31,9 +31,14 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
 
   public JaxRSServerCodegen() {
     super();
+
     outputFolder = "generated-code/javaJaxRS";
     modelTemplateFiles.put("model.mustache", ".java");
     apiTemplateFiles.put("api.mustache", ".java");
+    apiTemplateFiles.put("apiService.mustache", ".java");
+    apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
+    apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
+
     templateDir = "JavaJaxRS";
     apiPackage = "io.swagger.api";
     modelPackage = "io.swagger.model";
@@ -145,5 +150,30 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
       }
     }
     return objs;
+  }
+
+  @Override
+  public String apiFilename(String templateName, String tag) {
+
+    String result = super.apiFilename(templateName, tag);
+
+    if( templateName.endsWith( "Impl.mustache")){
+       int ix = result.lastIndexOf( '/' );
+       result = result.substring( 0, ix ) + "/impl" + result.substring( ix, result.length()-5 ) + "ServiceImpl.java";
+    } else if( templateName.endsWith( "Service.mustache")){
+      int ix = result.lastIndexOf( '.' );
+      result = result.substring( 0, ix ) + "Service.java";
+    }
+    else if( templateName.endsWith( "Factory.mustache")){
+      int ix = result.lastIndexOf( '/' );
+      result = result.substring( 0, ix ) + "/factories" + result.substring( ix, result.length()-5 ) + "ServiceFactory.java";
+    }
+
+    return result;
+  }
+
+  public boolean shouldOverwrite( String filename ){
+
+    return !filename.endsWith( "ServiceImpl.java") && !filename.endsWith( "ServiceFactory.java");
   }
 }
