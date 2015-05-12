@@ -33,8 +33,6 @@ void
         .append(QUrl::toPercentEncoding(stringValue({{paramName}})));
     {{/queryParams}}
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "{{httpMethod}}");
 
@@ -65,10 +63,7 @@ void
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: {{{returnType}}}
-
-    {{#returnType}}
-    {{#isListContainer}}
+    {{#returnType}}{{#isListContainer}}
     {{{returnType}}} output = {{{defaultResponse}}};
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
@@ -82,9 +77,6 @@ void
         o->fromJsonObject(*ptr);
         output->append(o);
     }
-
-
-    // void toJsonArray(QList<void*>* value, QJsonArray* output, QString innerName, QString innerType);
     {{/isListContainer}}
 
     {{^isListContainer}}{{#returnTypeIsPrimitive}}

@@ -23,8 +23,6 @@ SWGUserApi::createUser(SWGUser body) {
 
     
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
@@ -53,8 +51,6 @@ SWGUserApi::createUserCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -70,8 +66,6 @@ SWGUserApi::createUsersWithArrayInput(QList&lt;SWGUser*&gt;* body) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
@@ -101,8 +95,6 @@ SWGUserApi::createUsersWithArrayInputCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -118,8 +110,6 @@ SWGUserApi::createUsersWithListInput(QList&lt;SWGUser*&gt;* body) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
@@ -149,8 +139,6 @@ SWGUserApi::createUsersWithListInputCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -177,8 +165,6 @@ SWGUserApi::loginUser(QString* username, QString* password) {
         .append(QUrl::toPercentEncoding(stringValue(password)));
     
 
-    // qDebug() << fullPath;
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
@@ -204,9 +190,6 @@ SWGUserApi::loginUserCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: QString*
-
-    
     
 
     
@@ -229,8 +212,6 @@ SWGUserApi::logoutUser() {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
@@ -257,8 +238,6 @@ SWGUserApi::logoutUserCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -277,8 +256,6 @@ SWGUserApi::getUserByName(QString* username) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
@@ -305,9 +282,6 @@ SWGUserApi::getUserByNameCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: SWGUser*
-
-    
     
 
     
@@ -333,8 +307,6 @@ SWGUserApi::updateUser(QString* username, SWGUser body) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "PUT");
@@ -364,8 +336,6 @@ SWGUserApi::updateUserCallback(HttpRequestWorker * worker) {
         msg = "Error: " + worker->error_str;
     }
 
-    // return type: 
-
     
 
     worker->deleteLater();
@@ -384,8 +354,6 @@ SWGUserApi::deleteUser(QString* username) {
     
 
     
-
-    // qDebug() << fullPath;
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "DELETE");
@@ -411,8 +379,6 @@ SWGUserApi::deleteUserCallback(HttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    // return type: 
 
     
 
