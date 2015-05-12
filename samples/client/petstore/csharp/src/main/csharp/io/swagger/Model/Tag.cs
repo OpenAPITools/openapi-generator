@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace io.swagger.Model {
+namespace IO.Swagger.Model {
   [DataContract]
   public class Tag {
     

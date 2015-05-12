@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using RestSharp;
-using io.swagger.client;
-using io.swagger.Model;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
-namespace io.swagger.Api {
+namespace IO.Swagger.Api {
   
   public class UserApi {
     string basePath;
@@ -46,6 +46,12 @@ namespace io.swagger.Api {
 
       
 
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
+
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
       
@@ -80,6 +86,12 @@ namespace io.swagger.Api {
 
       
 
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
+
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
       
@@ -113,6 +125,12 @@ namespace io.swagger.Api {
       var _request = new RestRequest("/user/createWithList", Method.POST);
 
       
+
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
@@ -149,6 +167,12 @@ namespace io.swagger.Api {
 
       
 
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
+
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
        if (Username != null) _request.AddParameter("username", ApiInvoker.ParameterToString(Username)); // query parameter
@@ -182,6 +206,12 @@ namespace io.swagger.Api {
       var _request = new RestRequest("/user/logout", Method.GET);
 
       
+
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
       
@@ -218,6 +248,12 @@ namespace io.swagger.Api {
       // verify the required parameter 'Username' is set
       if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling GetUserByName");
       
+
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
       _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
@@ -257,6 +293,12 @@ namespace io.swagger.Api {
       if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling UpdateUser");
       
 
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
+
       _request.AddUrlSegment("format", "json"); // set format to json by default
       _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
       
@@ -294,6 +336,12 @@ namespace io.swagger.Api {
       // verify the required parameter 'Username' is set
       if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling DeleteUser");
       
+
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
 
       _request.AddUrlSegment("format", "json"); // set format to json by default
       _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter

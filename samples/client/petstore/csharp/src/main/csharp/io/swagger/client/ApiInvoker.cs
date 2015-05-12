@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace io.swagger.client {
+namespace IO.Swagger.Client {
   public class ApiInvoker {
     private static Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
 
