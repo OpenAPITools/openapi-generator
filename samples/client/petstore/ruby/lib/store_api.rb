@@ -9,7 +9,7 @@ class StoreApi
   # @param [Hash] opts the optional parameters
   # @return map[string,int]
   def self.get_inventory(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/store/inventory".sub('{format}','json')
@@ -42,7 +42,7 @@ class StoreApi
   # @option opts [Order] :body order placed for purchasing the pet
   # @return Order
   def self.place_order(opts = {})
-    # verify existence of params
+    
 
     # resource path
     path = "/store/order".sub('{format}','json')
@@ -95,8 +95,10 @@ class StoreApi
   # @param [Hash] opts the optional parameters
   # @return Order
   def self.get_order_by_id(order_id, opts = {})
-    # verify existence of params
-    raise "order_id is required" if order_id.nil?
+    
+    # verify the required parameter 'order_id' is set
+    raise "Missing the required parameter 'order_id' when calling get_order_by_id" if order_id.nil?
+    
 
     # resource path
     path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
@@ -129,8 +131,10 @@ class StoreApi
   # @param [Hash] opts the optional parameters
   # @return void
   def self.delete_order(order_id, opts = {})
-    # verify existence of params
-    raise "order_id is required" if order_id.nil?
+    
+    # verify the required parameter 'order_id' is set
+    raise "Missing the required parameter 'order_id' when calling delete_order" if order_id.nil?
+    
 
     # resource path
     path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
