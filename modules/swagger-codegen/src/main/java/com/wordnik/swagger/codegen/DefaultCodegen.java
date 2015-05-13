@@ -1,5 +1,7 @@
 package com.wordnik.swagger.codegen;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.wordnik.swagger.codegen.examples.ExampleGenerator;
 import com.wordnik.swagger.models.*;
 import com.wordnik.swagger.models.auth.ApiKeyAuthDefinition;
@@ -15,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.*;
 
@@ -160,6 +163,7 @@ public class DefaultCodegen {
   }
 
   public String toParamName(String name) {
+    name = removeNonNameElementToCamelCase(name);
     if(reservedWords.contains(name)) {
       return escapeReservedWord(name);
     }
@@ -680,6 +684,7 @@ public class DefaultCodegen {
       operationId = builder.toString();
       LOGGER.warn("generated operationId " + operationId);
     }
+    operationId = removeNonNameElementToCamelCase(operationId);
     op.path = path;
     op.operationId = toOperationId(operationId);
     op.summary = escapeText(operation.getSummary());
@@ -1106,6 +1111,26 @@ public class DefaultCodegen {
     word = word.replace('-', '_');
     word = word.toLowerCase();
     return word;
+  }
+
+  /**
+   * Remove characters not suitable for variable or method name from the input and camelize it
+   * @param name
+   * @return
+   */
+  public String removeNonNameElementToCamelCase(String name) {
+    String nonNameElementPattern = "[-_:;#]";
+    name = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() {
+      @Nullable
+      @Override
+      public String apply(String input) {
+        return StringUtils.capitalize(input);
+      }
+    }), "");
+    if (name.length() > 0) {
+      name = name.substring(0, 1).toLowerCase() + name.substring(1);
+    }
+    return name;
   }
 
   public static String camelize(String word) {
