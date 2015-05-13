@@ -18,4 +18,5 @@ com.wordnik.swagger.codegen.languages.StaticDocCodegen
 com.wordnik.swagger.codegen.languages.StaticHtmlGenerator
 com.wordnik.swagger.codegen.languages.SwaggerGenerator
 com.wordnik.swagger.codegen.languages.SwaggerYamlGenerator
+com.wordnik.swagger.codegen.languages.SwiftGenerator
 com.wordnik.swagger.codegen.languages.TizenClientCodegen
