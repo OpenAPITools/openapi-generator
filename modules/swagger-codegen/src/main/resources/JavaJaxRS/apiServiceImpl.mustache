@@ -19,8 +19,9 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 
 {{#operations}}
-public class {{classname}}ServiceImpl implements {{classname}}Service {
+public class {{classname}}ServiceImpl extends {{classname}}Service {
   {{#operation}}
+      @Override
       public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{#hasMore}},{{/hasMore}}{{/allParams}})
       throws NotFoundException {
       // do some magic!
