@@ -113,9 +113,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
       if(languageSpecificPrimitives.contains(type)) {
         return type;
       }
+    } else {
+      type = toModelName(swaggerType);
     }
-    else
-      type = swaggerType;
     return type;
   }
 
@@ -133,15 +133,19 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     if (name.matches("^[A-Z_]*$"))
       name = name.toLowerCase();
 
-    // camelize (lower first character) the variable name
+    // underscore the variable name
     // petId => pet_id
-    name = underscore(name);
+    name = underscore(dropDots(name));
 
     // for reserved word or word starting with number, append _
     if(reservedWords.contains(name) || name.matches("^\\d.*"))
       name = escapeReservedWord(name);
 
     return name;
+  }
+
+  private static String dropDots(String str) {
+    return str.replaceAll("\\.", "_");
   }
 
   @Override
@@ -168,8 +172,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
       throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
 
     // underscore the model file name
-    // PhoneNumber.rb => phone_number.rb
-    return underscore(name);
+    // PhoneNumber => phone_number
+    return underscore(dropDots(name));
   }
 
   @Override
