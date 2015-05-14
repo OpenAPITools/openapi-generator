@@ -60,18 +60,13 @@ namespace IO.Swagger.Api {
       _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -100,18 +95,13 @@ namespace IO.Swagger.Api {
       _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -140,18 +130,13 @@ namespace IO.Swagger.Api {
       _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -182,18 +167,12 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (string) ApiInvoker.Deserialize(response.Content, typeof(string));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content);
       }
+      return (string) ApiInvoker.Deserialize(response.Content, typeof(string));
     }
     
     
@@ -220,18 +199,13 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -263,18 +237,12 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (User) ApiInvoker.Deserialize(response.Content, typeof(User));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content);
       }
+      return (User) ApiInvoker.Deserialize(response.Content, typeof(User));
     }
     
     
@@ -308,18 +276,13 @@ namespace IO.Swagger.Api {
       _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -351,18 +314,13 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.Content);
       }
+      
+      return;
     }
     
   }
