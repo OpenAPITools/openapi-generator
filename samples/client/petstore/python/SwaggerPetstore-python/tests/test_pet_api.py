@@ -10,9 +10,9 @@ $ nosetests -v
 import os
 import time
 import unittest
-import urllib2
 
 import SwaggerPetstore
+from SwaggerPetstore.rest import ErrorResponse
 
 HOST = 'http://petstore.swagger.io/v2'
 
@@ -52,7 +52,7 @@ class PetApiTests(unittest.TestCase):
     def test_1_add_pet(self):
         try:
             self.pet_api.add_pet(body=self.pet)
-        except (urllib2.HTTPError, urllib2.URLError) as e:
+        except ErrorResponse as e:
             self.fail("add_pet() raised {0} unexpectedly".format(type(e)))
 
     def test_2_get_pet_by_id(self):
@@ -65,19 +65,19 @@ class PetApiTests(unittest.TestCase):
         try:
             self.pet.name = "hello kity with updated"
             self.pet_api.update_pet(body=self.pet)
-        except (urllib2.HTTPError, urllib2.URLError) as e:
+        except ErrorResponse as e:
             self.fail("update_pet() raised {0} unexpectedly".format(type(e)))
 
     def test_4_find_pets_by_status(self):
         self.assertIn(
             dir(self.pet),
-            map(dir, self.pet_api.find_pets_by_status(status=["sold"]))
+            list(map(dir, self.pet_api.find_pets_by_status(status=["sold"])))
         )
 
     def test_5_find_pets_by_tags(self):
         self.assertIn(
             dir(self.pet),
-            map(dir, self.pet_api.find_pets_by_tags(tags=["blank"]))
+            list(map(dir, self.pet_api.find_pets_by_tags(tags=["blank"])))
         )
 
     def test_6_update_pet_with_form(self):
@@ -87,7 +87,7 @@ class PetApiTests(unittest.TestCase):
             self.pet_api.update_pet_with_form(
                 pet_id=self.pet.id, name=name, status=status
             )
-        except (urllib2.HTTPError, urllib2.URLError) as e:
+        except ErrorResponse as e:
             self.fail("update_pet_with_form() raised {0} unexpectedly".format(type(e)))
 
     def test_7_upload_file(self):
@@ -98,14 +98,14 @@ class PetApiTests(unittest.TestCase):
                 additional_metadata=additional_metadata,
                 file=self.foo
             )
-        except (urllib2.HTTPError, urllib2.URLError) as e:
+        except ErrorResponse as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
 
     def test_8_delete_pet(self):
         try:
             api_key = "special-key"
             self.pet_api.delete_pet(pet_id=self.pet.id, api_key=api_key)
-        except (urllib2.HTTPError, urllib2.URLError) as e:
+        except ErrorResponse as e:
             self.fail("delete_pet() raised {0} unexpectedly".format(type(e)))
 
 

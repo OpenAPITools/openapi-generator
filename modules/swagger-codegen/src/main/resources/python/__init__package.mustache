@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 """Add all of the modules in the current directory to __all__"""
+from __future__ import absolute_import
+
 import os
 
 # import models into package
@@ -9,7 +11,7 @@ from .models.{{classVarName}} import {{classname}}
 
 # import apis into package
 {{#apiInfo}}{{#apis}}
-from .{{classVarName}} import {{classname}}
+from .apis.{{classVarName}} import {{classname}}
 {{/apis}}{{/apiInfo}}
 
 # import ApiClient

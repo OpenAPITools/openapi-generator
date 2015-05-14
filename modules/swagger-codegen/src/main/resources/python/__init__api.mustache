@@ -4,12 +4,12 @@ from __future__ import absolute_import
 
 import os
 
-{{#models}}{{#model}}
+{{#apiInfo}}{{#apis}}
 from .{{classVarName}} import {{classname}}
-{{/model}}{{/models}}
+{{/apis}}{{/apiInfo}}
 
 __all__ = []
 
 for module in os.listdir(os.path.dirname(__file__)):
-  if module != '__init__.py' and module[-3:] == '.py':
-    __all__.append(module[:-3])
+    if module != '__init__.py' and module[-3:] == '.py':
+        __all__.append(module[:-3])

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 """Add all of the modules in the current directory to __all__"""
+from __future__ import absolute_import
+
 import os
 
 
