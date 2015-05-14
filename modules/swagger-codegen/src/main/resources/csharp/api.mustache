@@ -70,19 +70,13 @@ namespace {{package}} {
       {{#bodyParam}}_request.AddParameter("application/json", ApiInvoker.Serialize({{paramName}}), ParameterType.RequestBody); // http body (model) parameter
       {{/bodyParam}}
 
-      try {
-        // make the HTTP request
-        {{#returnType}}IRestResponse response = restClient.Execute(_request);
-        return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}restClient.Execute(_request);
-        return;{{/returnType}}
-      } catch (Exception ex) {
-        if(ex != null) {
-          return {{#returnType}}null{{/returnType}};
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content);
       }
+      {{#returnType}}return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
+      return;{{/returnType}}
     }
     {{/operation}}
   }

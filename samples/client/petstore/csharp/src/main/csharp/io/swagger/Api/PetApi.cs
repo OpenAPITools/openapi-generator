@@ -60,18 +60,13 @@ namespace IO.Swagger.Api {
       _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -100,18 +95,13 @@ namespace IO.Swagger.Api {
       _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -140,18 +130,12 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content);
       }
+      return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
     }
     
     
@@ -180,18 +164,12 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content);
       }
+      return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
     }
     
     
@@ -223,18 +201,12 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (Pet) ApiInvoker.Deserialize(response.Content, typeof(Pet));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content);
       }
+      return (Pet) ApiInvoker.Deserialize(response.Content, typeof(Pet));
     }
     
     
@@ -270,18 +242,13 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -315,18 +282,13 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content);
       }
+      
+      return;
     }
     
     
@@ -362,18 +324,13 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content);
       }
+      
+      return;
     }
     
   }

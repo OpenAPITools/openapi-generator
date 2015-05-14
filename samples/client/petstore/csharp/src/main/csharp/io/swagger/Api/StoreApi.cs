@@ -58,18 +58,12 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (Dictionary<String, int?>) ApiInvoker.Deserialize(response.Content, typeof(Dictionary<String, int?>));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content);
       }
+      return (Dictionary<String, int?>) ApiInvoker.Deserialize(response.Content, typeof(Dictionary<String, int?>));
     }
     
     
@@ -98,18 +92,12 @@ namespace IO.Swagger.Api {
       _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content);
       }
+      return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
     }
     
     
@@ -141,18 +129,12 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        IRestResponse response = restClient.Execute(_request);
-        return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
-      } catch (Exception ex) {
-        if(ex != null) {
-          return null;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content);
       }
+      return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
     }
     
     
@@ -184,18 +166,13 @@ namespace IO.Swagger.Api {
       
       
 
-      try {
-        // make the HTTP request
-        restClient.Execute(_request);
-        return;
-      } catch (Exception ex) {
-        if(ex != null) {
-          return ;
-        }
-        else {
-          throw ex;
-        }
+      // make the HTTP request
+      IRestResponse response = restClient.Execute(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content);
       }
+      
+      return;
     }
     
   }
