@@ -39,9 +39,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     apiTemplateFiles.put("api.mustache", ".php");
     templateDir = "php";
 
-    typeMapping.clear();
-    languageSpecificPrimitives.clear();
-
     reservedWords = new HashSet<String> (
       Arrays.asList(
         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
@@ -52,18 +49,39 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
 
-    languageSpecificPrimitives.add("int");
-    languageSpecificPrimitives.add("array");
-    languageSpecificPrimitives.add("map");
-    languageSpecificPrimitives.add("string");
-    languageSpecificPrimitives.add("DateTime");
+    // ref: http://php.net/manual/en/language.types.intro.php
+    languageSpecificPrimitives = new HashSet<String>(
+      Arrays.asList(
+        "boolean",
+        "int",
+        "integer",
+        "double",
+        "float",
+        "string",
+        "object",
+        "DateTime",
+        "mixed",
+        "number")
+    );
 
-    typeMapping.put("long", "int");
+    instantiationTypes.put("array", "array");
+    instantiationTypes.put("map", "map");
+
+    // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+    typeMapping = new HashMap<String, String>();
     typeMapping.put("integer", "int");
-    typeMapping.put("Array", "array");
-    typeMapping.put("String", "string");
-    typeMapping.put("List", "array");
+    typeMapping.put("long", "int");
+    typeMapping.put("float", "float");
+    typeMapping.put("double", "double");
+    typeMapping.put("string", "string");
+    typeMapping.put("byte", "int");
+    typeMapping.put("boolean", "boolean");
+    typeMapping.put("date", "DateTime");
+    typeMapping.put("datetime", "DateTime");
+    typeMapping.put("file", "string");
     typeMapping.put("map", "map");
+    typeMapping.put("array", "array");
+    typeMapping.put("list", "array");
 
     supportingFiles.add(new SupportingFile("composer.mustache", packagePath, "composer.json"));
     supportingFiles.add(new SupportingFile("APIClient.mustache", packagePath + "/lib", "APIClient.php"));
@@ -109,12 +127,15 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
       if(languageSpecificPrimitives.contains(type)) {
         return type;
       }
+      else if (instantiationTypes.containsKey(type)) {
+	return type;
+      }
     }
     else
       type = swaggerType;
     if(type == null)
       return null;
-    return type;
+    return toModelName(type);
   }
 
   public String toDefaultValue(Property p) {
