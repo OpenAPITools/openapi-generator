@@ -457,7 +457,7 @@ class PetApi {
    *
    * @param int $pet_id ID of pet to update (required)
    * @param string $additional_metadata Additional data to pass to server (required)
-   * @param file $file file to upload (required)
+   * @param string $file file to upload (required)
    * @return void
    */
    public function uploadFile($pet_id, $additional_metadata, $file) {
