@@ -1,13 +1,8 @@
-function main() {}
-
 window.onhashchange = function() {
   choose(window.location.href.toString());
 }
 
-var url = 'http://motyar.blogspot.com/search?q={term}', selectionImage;
-
-function showModel(e, model) {
-}
+var selectionImage;
 
 function choose(url) {
   var f = url.split("/").slice(-1)[0].split("?")[0];
@@ -20,8 +15,8 @@ function choose(url) {
     // rebind the models
     $(".model a").on("click", function(e){
       e.preventDefault();
-      var model = $(this).parent().attr("id")
-      var parentOffset = $(this).parent().offset(); 
+      var model = $(this).parent().attr("data-model")
+      var parentOffset = $(this).parent().offset();
       var encodedWord = encodeURI(model);
 
       if(!selectionImage) {
@@ -33,7 +28,7 @@ function choose(url) {
         $('div.model-container').append(selectionImage);
       }
 
-      selectionImage.load("/models/" + encodedWord + ".html")
+      selectionImage.load("models/" + encodedWord + ".html")
       selectionImage.attr('href',url.replace('{term}',encodeURI(model))).css({
         left: e.pageX + 20,
         top:  e.pageY - 10,
