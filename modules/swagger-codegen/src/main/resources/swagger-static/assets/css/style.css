@@ -151,15 +151,31 @@
   padding-top: 20px;
 }
 
-.param {
+li.parameter {
+  list-style: none;
   display: block;
-  float: left;
-  width: 220px;
-  clear: left;
+  padding-left: 1em;
+}
+
+.param{
+  display: block;
+}
+
+.param-name {
+  margin-left: 1em;
+}
+
+.param-in {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.param-type {
+  margin-left: 1em;
+  font-style: italic;
 }
 
 .param-description {
-  float: left;
+  display: block;
   font-family: 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif;
 }
 
