@@ -904,6 +904,10 @@ public class DefaultCodegen {
       p.required = param.getRequired();
     p.jsonSchema = Json.pretty(param);
 
+    if(param instanceof QueryParameter) {
+        p.defaultValue = ((QueryParameter)param).getDefaultValue();
+    }
+
     if(param instanceof SerializableParameter) {
       SerializableParameter qp = (SerializableParameter) param;
       Property property = null;
