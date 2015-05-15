@@ -23,7 +23,6 @@ class Pet(object):
     Do not edit the class manually.
     """
 
-
     def __init__(self):
         """
         Swagger model
@@ -32,59 +31,40 @@ class Pet(object):
         :param dict attributeMap: The key is attribute name and the value is json key in definition.
         """
         self.swagger_types = {
-            
             'id': 'int',
-            
-            
             'category': 'Category',
-            
-            
             'name': 'str',
-            
-            
             'photo_urls': 'list[str]',
-            
-            
             'tags': 'list[Tag]',
-            
-            
             'status': 'str'
-            
         }
 
         self.attribute_map = {
-            
             'id': 'id',
-            
             'category': 'category',
-            
             'name': 'name',
-            
             'photo_urls': 'photoUrls',
-            
             'tags': 'tags',
-            
             'status': 'status'
-            
         }
+        
+        
+        self.id = None  # int
+        
+        
+        self.category = None  # Category
+        
+        
+        self.name = None  # str
+        
+        
+        self.photo_urls = None  # list[str]
+        
+        
+        self.tags = None  # list[Tag]
+        
+        # pet status in the store
+        self.status = None  # str
+        
 
-        
-        
-        self.id = None # int
-        
-        
-        self.category = None # Category
-        
-        
-        self.name = None # str
-        
-        
-        self.photo_urls = None # list[str]
-        
-        
-        self.tags = None # list[Tag]
-        
-        #pet status in the store
-        
-        self.status = None # str
-        
+

@@ -23,7 +23,6 @@ class User(object):
     Do not edit the class manually.
     """
 
-
     def __init__(self):
         """
         Swagger model
@@ -32,75 +31,50 @@ class User(object):
         :param dict attributeMap: The key is attribute name and the value is json key in definition.
         """
         self.swagger_types = {
-            
             'id': 'int',
-            
-            
             'username': 'str',
-            
-            
             'first_name': 'str',
-            
-            
             'last_name': 'str',
-            
-            
             'email': 'str',
-            
-            
             'password': 'str',
-            
-            
             'phone': 'str',
-            
-            
             'user_status': 'int'
-            
         }
 
         self.attribute_map = {
-            
             'id': 'id',
-            
             'username': 'username',
-            
             'first_name': 'firstName',
-            
             'last_name': 'lastName',
-            
             'email': 'email',
-            
             'password': 'password',
-            
             'phone': 'phone',
-            
             'user_status': 'userStatus'
-            
         }
+        
+        
+        self.id = None  # int
+        
+        
+        self.username = None  # str
+        
+        
+        self.first_name = None  # str
+        
+        
+        self.last_name = None  # str
+        
+        
+        self.email = None  # str
+        
+        
+        self.password = None  # str
+        
+        
+        self.phone = None  # str
+        
+        # User Status
+        self.user_status = None  # int
+        
 
-        
-        
-        self.id = None # int
-        
-        
-        self.username = None # str
-        
-        
-        self.first_name = None # str
-        
-        
-        self.last_name = None # str
-        
-        
-        self.email = None # str
-        
-        
-        self.password = None # str
-        
-        
-        self.phone = None # str
-        
-        #User Status
-        
-        self.user_status = None # int
-        
+

@@ -1,0 +1,4 @@
+nose
+tox
+coverage
+randomize

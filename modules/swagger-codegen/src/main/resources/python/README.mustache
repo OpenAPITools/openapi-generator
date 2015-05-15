@@ -38,5 +38,22 @@ TODO
 
 ## Tests
 
-TODO
+We use some external dependencies, multiple interpreters and code coverage analysis while running test suite.
+Our Makefile handles much of this for you as long as you're running it inside of a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/):
+
+```sh
+$ make test
+[... magically installs dependencies and runs tests on your virtualenv]
+Ran 182 tests in 1.633s
+OK (SKIP=6)
+```
+
+You can test in various python versions using:
+
+```sh
+$ make test-all
+[... tox creates a virtualenv for every platform and runs tests inside of each]
+py27: commands succeeded
+py34: commands succeeded
+```
 

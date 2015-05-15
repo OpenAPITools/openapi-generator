@@ -25,7 +25,6 @@ class {{classname}}(object):
     Do not edit the class manually.
     """
 
-
     def __init__(self):
         """
         Swagger model
@@ -34,22 +33,19 @@ class {{classname}}(object):
         :param dict attributeMap: The key is attribute name and the value is json key in definition.
         """
         self.swagger_types = {
-            {{#vars}}
-            '{{name}}': '{{{datatype}}}'{{#hasMore}},
-            {{/hasMore}}
-            {{/vars}}{{newline}}
+            {{#vars}}'{{name}}': '{{{datatype}}}'{{#hasMore}},
+            {{/hasMore}}{{/vars}}
         }
 
         self.attribute_map = {
-            {{#vars}}
-            '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}
-            {{/vars}}
+            {{#vars}}'{{name}}': '{{baseName}}'{{#hasMore}},
+            {{/hasMore}}{{/vars}}
         }
-
         {{#vars}}
-        {{#description}}#{{description}}
-        {{/description}}
-        self.{{name}} = None # {{{datatype}}}
+        {{#description}}# {{description}}{{/description}}
+        self.{{name}} = None  # {{{datatype}}}
         {{/vars}}
 {{/model}}
 {{/models}}
+
+

@@ -23,7 +23,6 @@ class Category(object):
     Do not edit the class manually.
     """
 
-
     def __init__(self):
         """
         Swagger model
@@ -32,26 +31,20 @@ class Category(object):
         :param dict attributeMap: The key is attribute name and the value is json key in definition.
         """
         self.swagger_types = {
-            
             'id': 'int',
-            
-            
             'name': 'str'
-            
         }
 
         self.attribute_map = {
-            
             'id': 'id',
-            
             'name': 'name'
-            
         }
+        
+        
+        self.id = None  # int
+        
+        
+        self.name = None  # str
+        
 
-        
-        
-        self.id = None # int
-        
-        
-        self.name = None # str
-        
+
