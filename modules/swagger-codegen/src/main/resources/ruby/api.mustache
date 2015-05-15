@@ -29,11 +29,13 @@ class {{classname}}
     # header parameters
     header_params = {}
 
-    _header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'{{#headerParams}}{{#required}}
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type){{#headerParams}}{{#required}}
     header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
     header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
 

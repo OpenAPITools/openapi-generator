@@ -208,5 +208,31 @@ module Swagger
       @response.headers.gsub(/\n/, '<br/>') # <- This is for Typhoeus
     end
 
+    # return 'Accept' based on an array of accept provided
+    # @param [Array] header_accept_array Array fo 'Accept'
+    # @return String Accept (e.g. application/json)
+    def self.select_header_accept header_accept_array
+      if header_accept_array.empty?
+        return
+      elsif header_accept_array.any?{ |s| s.casecmp('application/json')==0 }
+        'application/json' # look for json data by default
+      else
+        header_accept_array.join(',')
+      end
+    end
+
+    # return the content type based on an array of content-type provided
+    # @param [Array] content_type_array Array fo content-type
+    # @return String Content-Type (e.g. application/json)
+    def self.select_header_content_type content_type_array
+      if content_type_array.empty?
+        'application/json' # use application/json by default
+      elsif content_type_array.any?{ |s| s.casecmp('application/json')==0 }
+        'application/json' # use application/json if it's included
+      else
+        content_type_array[0]; # otherwise, use the first one
+      end
+    end
+
   end
 end
