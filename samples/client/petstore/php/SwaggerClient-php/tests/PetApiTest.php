@@ -9,15 +9,26 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public static function setUpBeforeClass() {
     // initialize the API client
     $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    // new pet
     $new_pet_id = 10005;
     $new_pet = new SwaggerClient\models\Pet;
     $new_pet->id = $new_pet_id;
     $new_pet->name = "PHP Unit Test";
+    // new tag
+    $tag= new SwaggerClient\models\Tag;
+    $tag->id = $new_pet_id; // use the same id as pet
+    $tag->name = "test php tag";
+    // new category
+    $category = new SwaggerClient\models\Category;
+    $category->id = $new_pet_id; // use the same id as pet
+    $category->name = "test php category";
+
+    $new_pet->tags = [$tag];
+    $new_pet->category = $category;
+
     $pet_api = new SwaggerClient\PetAPI($api_client);
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
-    // return nothing (void)
-    //$this->assertSame($add_response, NULL);
   }
 
   // test getPetById with a Pet object (id 10005)
@@ -31,6 +42,10 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $response = $pet_api->getPetById($pet_id);
     $this->assertSame($response->id, $pet_id);
     $this->assertSame($response->name, 'PHP Unit Test');
+    $this->assertSame($response->category->id, $pet_id);
+    $this->assertSame($response->category->name, 'test php category');
+    $this->assertSame($response->tags[0]->id, $pet_id);
+    $this->assertSame($response->tags[0]->name, 'test php tag');
   }
 
   // test getPetByStatus and verify by the "id" of the response
@@ -110,6 +125,19 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $response = $pet_api->getPetById($new_pet_id);
     $this->assertSame($response->id, $new_pet_id);
     $this->assertSame($response->name, 'PHP Unit Test');
+  }
+
+  // test 
+  public function testUploadFile()
+  {
+    // initialize the API client
+    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    $pet_api = new SwaggerClient\PetAPI($api_client);
+    // upload file
+    $pet_id = 10001;
+    $add_response = $pet_api->uploadFile($pet_id, "test meta", "./composer.json");
+    // return nothing (void)
+    $this->assertSame($add_response, NULL);
   }
 
 }
