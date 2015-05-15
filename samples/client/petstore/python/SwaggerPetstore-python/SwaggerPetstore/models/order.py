@@ -23,7 +23,6 @@ class Order(object):
     Do not edit the class manually.
     """
 
-
     def __init__(self):
         """
         Swagger model
@@ -32,59 +31,40 @@ class Order(object):
         :param dict attributeMap: The key is attribute name and the value is json key in definition.
         """
         self.swagger_types = {
-            
             'id': 'int',
-            
-            
             'pet_id': 'int',
-            
-            
             'quantity': 'int',
-            
-            
             'ship_date': 'DateTime',
-            
-            
             'status': 'str',
-            
-            
             'complete': 'bool'
-            
         }
 
         self.attribute_map = {
-            
             'id': 'id',
-            
             'pet_id': 'petId',
-            
             'quantity': 'quantity',
-            
             'ship_date': 'shipDate',
-            
             'status': 'status',
-            
             'complete': 'complete'
-            
         }
+        
+        
+        self.id = None  # int
+        
+        
+        self.pet_id = None  # int
+        
+        
+        self.quantity = None  # int
+        
+        
+        self.ship_date = None  # DateTime
+        
+        # Order Status
+        self.status = None  # str
+        
+        
+        self.complete = None  # bool
+        
 
-        
-        
-        self.id = None # int
-        
-        
-        self.pet_id = None # int
-        
-        
-        self.quantity = None # int
-        
-        
-        self.ship_date = None # DateTime
-        
-        #Order Status
-        
-        self.status = None # str
-        
-        
-        self.complete = None # bool
-        
+

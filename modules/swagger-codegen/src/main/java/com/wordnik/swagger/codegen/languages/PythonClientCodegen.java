@@ -70,6 +70,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     supportingFiles.add(new SupportingFile("setup.mustache", eggPackage, "setup.py"));
     supportingFiles.add(new SupportingFile("swagger.mustache", invokerPackage, "swagger.py"));
     supportingFiles.add(new SupportingFile("rest.mustache", invokerPackage, "rest.py"));
+    supportingFiles.add(new SupportingFile("util.mustache", invokerPackage, "util.py"));
     supportingFiles.add(new SupportingFile("__init__package.mustache", invokerPackage, "__init__.py"));
     supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage.replace('.', File.separatorChar), "__init__.py"));
     supportingFiles.add(new SupportingFile("__init__api.mustache", apiPackage.replace('.', File.separatorChar), "__init__.py"));
