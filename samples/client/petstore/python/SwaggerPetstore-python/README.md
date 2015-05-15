@@ -44,8 +44,9 @@ Our Makefile handles much of this for you as long as you're running it inside of
 ```sh
 $ make test
 [... magically installs dependencies and runs tests on your virtualenv]
-Ran 182 tests in 1.633s
-OK (SKIP=6)
+Ran 7 tests in 19.289s
+
+OK
 ```
 
 You can test in various python versions using:
@@ -53,6 +54,8 @@ You can test in various python versions using:
 ```sh
 $ make test-all
 [... tox creates a virtualenv for every platform and runs tests inside of each]
-py27: commands succeeded
-py34: commands succeeded
+  py27: commands succeeded
+  py34: commands succeeded
+  congratulations :)
 ```
+
