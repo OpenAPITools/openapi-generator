@@ -34,7 +34,7 @@ private:
     void deleteOrderCallback (HttpRequestWorker * worker);
     
 signals:
-    void getInventorySignal(QMap<String, qint32>* summary);
+    void getInventorySignal(QMap<QString, qint32>* summary);
     void placeOrderSignal(SWGOrder* summary);
     void getOrderByIdSignal(SWGOrder* summary);
     void deleteOrderSignal();

@@ -155,6 +155,11 @@ stringValue(qint32 value) {
 }
 
 QString
+stringValue(qint64 value) {
+    return QString::number(value);
+}
+
+QString
 stringValue(bool value) {
     return QString(value ? "true" : "false");
 }

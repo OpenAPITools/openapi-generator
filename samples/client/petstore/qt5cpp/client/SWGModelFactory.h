@@ -9,8 +9,7 @@
 #include "SWGOrder.h"
 
 namespace Swagger {
-  void*
-  create(QString type) {
+  inline void* create(QString type) {
     if(QString("SWGUser").compare(type) == 0) {
       return new SWGUser();
     }
@@ -27,6 +26,18 @@ namespace Swagger {
       return new SWGOrder();
     }
     
+    return NULL;
+  }
+
+  inline void* create(QString json, QString type) {
+    void* val = create(type);
+    if(val != NULL) {
+      SWGObject* obj = static_cast<SWGObject*>(val);
+      return obj->fromJson(json);
+    }
+    if(type.startsWith("QString")) {
+      return new QString();
+    }
     return NULL;
   }
 } /* namespace Swagger */

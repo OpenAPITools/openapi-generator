@@ -13,11 +13,10 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-
 enum HttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
 
 
-class HttpRequestInputFileElement {
+class SWGHttpRequestInputFileElement {
 
 public:
     QString variable_name;
@@ -36,7 +35,7 @@ public:
     HttpRequestVarLayout var_layout;
     QMap<QString, QString> vars;
     QMap<QString, QString> headers;
-    QList<HttpRequestInputFileElement> files;
+    QList<SWGHttpRequestInputFileElement> files;
     QByteArray request_body;
 
     HttpRequestInput();

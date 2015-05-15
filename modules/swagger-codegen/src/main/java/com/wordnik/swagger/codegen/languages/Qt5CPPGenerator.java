@@ -130,10 +130,12 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("boolean", "bool");
     typeMapping.put("array", "QList");
     typeMapping.put("map", "QMap");
-    // typeMapping.put("number", "Long");
+    typeMapping.put("file", "SWGHttpRequestInputFileElement");
     typeMapping.put("object", PREFIX + "Object");
 
     importMapping = new HashMap<String, String>();
+
+    importMapping.put("SWGHttpRequestInputFileElement", "#include \"" + PREFIX + "HttpRequest.h\"");
 
     namespaces = new HashMap<String, String> ();
 
@@ -210,7 +212,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
     else if (p instanceof MapProperty) {
       MapProperty mp = (MapProperty) p;
       Property inner = mp.getAdditionalProperties();
-      return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">*";
+      return getSwaggerType(p) + "<QString, " + getTypeDeclaration(inner) + ">*";
     }
     if(foundationClasses.contains(swaggerType))
       return swaggerType + "*";
@@ -243,7 +245,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
     else if (p instanceof MapProperty) {
       MapProperty ap = (MapProperty) p;
       String inner = getSwaggerType(ap.getAdditionalProperties());
-      return "NULL";
+      return "new QMap<QString, " + inner + ">()";
     }
     else if (p instanceof ArrayProperty) {
       ArrayProperty ap = (ArrayProperty) p;
