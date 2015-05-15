@@ -26,7 +26,7 @@ void HttpRequestInput::add_var(QString key, QString value) {
 }
 
 void HttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
-    HttpRequestInputFileElement file;
+    SWGHttpRequestInputFileElement file;
     file.variable_name = variable_name;
     file.local_filename = local_filename;
     file.request_filename = request_filename;
@@ -173,7 +173,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
         }
 
         // add files
-        for (QList<HttpRequestInputFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
+        for (QList<SWGHttpRequestInputFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
             QFileInfo fi(file_info->local_filename);
 
             // ensure necessary variables are available

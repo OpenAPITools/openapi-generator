@@ -1,5 +1,6 @@
 #include "SWGStoreApi.h"
 #include "SWGHelpers.h"
+#include "SWGModelFactory.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -19,13 +20,14 @@ SWGStoreApi::getInventory() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/inventory");
 
-    
-
-    
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
+    
+
+    
+
+    
     
 
     
@@ -51,9 +53,22 @@ SWGStoreApi::getInventoryCallback(HttpRequestWorker * worker) {
     
 
     
-    QString json(worker->response);
-    QMap&lt;String, qint32&gt;* output = new QMap(&json);
+     
+    QMap<QString, qint32>* output = new QMap<QString, qint32>();
 
+    QString json(worker->response);
+    QByteArray array (json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonObject obj = doc.object();
+
+    foreach(QString key, obj.keys()) {
+        qint32* val;
+        setValue(&val, obj[key], "QMap", "");
+        output->insert(key, *val);
+    }
+
+
+    
     
     
 
@@ -67,16 +82,20 @@ SWGStoreApi::placeOrder(SWGOrder body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 
-    
-
-    
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
     
-    // body
-    input.request_body.append(body.asJson());
+
+    
+
+    
+    
+    
+    
+    QString output = body.asJson();
+    input.request_body.append(output);
+
     
 
     
@@ -102,9 +121,11 @@ SWGStoreApi::placeOrderCallback(HttpRequestWorker * worker) {
     
 
     
+    
+    
     QString json(worker->response);
-    SWGOrder* output = new SWGOrder(&json);
-
+    SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    
     
     
 
@@ -118,6 +139,9 @@ SWGStoreApi::getOrderById(QString* orderId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
     
     QString orderIdPathParam("{"); orderIdPathParam.append("orderId").append("}");
     fullPath.replace(orderIdPathParam, stringValue(orderId));
@@ -125,9 +149,7 @@ SWGStoreApi::getOrderById(QString* orderId) {
 
     
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
+    
     
 
     
@@ -153,9 +175,11 @@ SWGStoreApi::getOrderByIdCallback(HttpRequestWorker * worker) {
     
 
     
+    
+    
     QString json(worker->response);
-    SWGOrder* output = new SWGOrder(&json);
-
+    SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    
     
     
 
@@ -169,6 +193,9 @@ SWGStoreApi::deleteOrder(QString* orderId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "DELETE");
+
     
     QString orderIdPathParam("{"); orderIdPathParam.append("orderId").append("}");
     fullPath.replace(orderIdPathParam, stringValue(orderId));
@@ -176,9 +203,7 @@ SWGStoreApi::deleteOrder(QString* orderId) {
 
     
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "DELETE");
-
+    
     
 
     

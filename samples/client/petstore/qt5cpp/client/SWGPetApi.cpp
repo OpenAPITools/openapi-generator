@@ -1,5 +1,6 @@
 #include "SWGPetApi.h"
 #include "SWGHelpers.h"
+#include "SWGModelFactory.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -19,16 +20,20 @@ SWGPetApi::updatePet(SWGPet body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
-    
-
-    
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "PUT");
 
     
-    // body
-    input.request_body.append(body.asJson());
+
+    
+
+    
+    
+    
+    
+    QString output = body.asJson();
+    input.request_body.append(output);
+
     
 
     
@@ -63,16 +68,20 @@ SWGPetApi::addPet(SWGPet body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
-    
-
-    
-
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
     
-    // body
-    input.request_body.append(body.asJson());
+
+    
+
+    
+    
+    
+    
+    QString output = body.asJson();
+    input.request_body.append(output);
+
     
 
     
@@ -103,22 +112,64 @@ SWGPetApi::addPetCallback(HttpRequestWorker * worker) {
     emit addPetSignal();
 }
 void
-SWGPetApi::findPetsByStatus(QList&lt;QString*&gt;* status) {
+SWGPetApi::findPetsByStatus(QList<QString*>* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
-
-    
-
-    if(fullPath.compare("?") > 0) fullPath.append("?");
-    else fullPath.append("&");
-    fullPath.append(QUrl::toPercentEncoding("status"))
-        .append("=")
-        .append(QUrl::toPercentEncoding(stringValue(status)));
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
+    
+
+    
+
+    
+    
+
+    
+
+    if(status->size() > 0) {
+      if(QString("multi").indexOf("multi") == 0) {
+        foreach(QString* t, *status) {
+          if(fullPath.indexOf("?") > 0)
+            fullPath.append("&");
+          else 
+            fullPath.append("?");
+          fullPath.append("status=").append(stringValue(t));
+        }
+      }
+      else if (QString("multi").indexOf("ssv") == 0) {
+        if(fullPath.indexOf("?") > 0)
+          fullPath.append("&");
+        else 
+          fullPath.append("?");
+        fullPath.append("status=");
+        qint32 count = 0;
+        foreach(QString* t, *status) {
+          if(count > 0) {
+            fullPath.append(" ");
+          }
+          fullPath.append(stringValue(t));
+        }
+      }
+      else if (QString("multi").indexOf("tsv") == 0) {
+        if(fullPath.indexOf("?") > 0)
+          fullPath.append("&");
+        else 
+          fullPath.append("?");
+        fullPath.append("status=");
+        qint32 count = 0;
+        foreach(QString* t, *status) {
+          if(count > 0) {
+            fullPath.append("\t");
+          }
+          fullPath.append(stringValue(t));
+        }
+      }
+    }
+
+    
+    
     
 
     
@@ -165,22 +216,64 @@ SWGPetApi::findPetsByStatusCallback(HttpRequestWorker * worker) {
     
 }
 void
-SWGPetApi::findPetsByTags(QList&lt;QString*&gt;* tags) {
+SWGPetApi::findPetsByTags(QList<QString*>* tags) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
-
-    
-
-    if(fullPath.compare("?") > 0) fullPath.append("?");
-    else fullPath.append("&");
-    fullPath.append(QUrl::toPercentEncoding("tags"))
-        .append("=")
-        .append(QUrl::toPercentEncoding(stringValue(tags)));
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
+    
+
+    
+
+    
+    
+
+    
+
+    if(tags->size() > 0) {
+      if(QString("multi").indexOf("multi") == 0) {
+        foreach(QString* t, *tags) {
+          if(fullPath.indexOf("?") > 0)
+            fullPath.append("&");
+          else 
+            fullPath.append("?");
+          fullPath.append("tags=").append(stringValue(t));
+        }
+      }
+      else if (QString("multi").indexOf("ssv") == 0) {
+        if(fullPath.indexOf("?") > 0)
+          fullPath.append("&");
+        else 
+          fullPath.append("?");
+        fullPath.append("tags=");
+        qint32 count = 0;
+        foreach(QString* t, *tags) {
+          if(count > 0) {
+            fullPath.append(" ");
+          }
+          fullPath.append(stringValue(t));
+        }
+      }
+      else if (QString("multi").indexOf("tsv") == 0) {
+        if(fullPath.indexOf("?") > 0)
+          fullPath.append("&");
+        else 
+          fullPath.append("?");
+        fullPath.append("tags=");
+        qint32 count = 0;
+        foreach(QString* t, *tags) {
+          if(count > 0) {
+            fullPath.append("\t");
+          }
+          fullPath.append(stringValue(t));
+        }
+      }
+    }
+
+    
+    
     
 
     
@@ -231,6 +324,9 @@ SWGPetApi::getPetById(qint64 petId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
     fullPath.replace(petIdPathParam, stringValue(petId));
@@ -238,9 +334,7 @@ SWGPetApi::getPetById(qint64 petId) {
 
     
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
+    
     
 
     
@@ -266,9 +360,11 @@ SWGPetApi::getPetByIdCallback(HttpRequestWorker * worker) {
     
 
     
+    
+    
     QString json(worker->response);
-    SWGPet* output = new SWGPet(&json);
-
+    SWGPet* output = static_cast<SWGPet*>(create(json, QString("SWGPet")));
+    
     
     
 
@@ -282,16 +378,25 @@ SWGPetApi::updatePetWithForm(QString* petId, QString* name, QString* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "POST");
+
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
     fullPath.replace(petIdPathParam, stringValue(petId));
     
 
     
+    if(name != NULL) {
+        input.add_var("name", *name);
+    }
+    
+    if(status != NULL) {
+        input.add_var("status", *status);
+    }
+    
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "POST");
-
+    
     
 
     
@@ -326,6 +431,9 @@ SWGPetApi::deletePet(QString* api_key, qint64 petId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "DELETE");
+
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
     fullPath.replace(petIdPathParam, stringValue(petId));
@@ -333,13 +441,11 @@ SWGPetApi::deletePet(QString* api_key, qint64 petId) {
 
     
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "DELETE");
-
+    
     
 
     
-    input.headers
+    // TODO: add header support
     
 
     connect(worker,
@@ -368,9 +474,12 @@ SWGPetApi::deletePetCallback(HttpRequestWorker * worker) {
     emit deletePetSignal();
 }
 void
-SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGFile* file) {
+SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestInputFileElement* file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "POST");
 
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
@@ -378,10 +487,12 @@ SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGFile* file) 
     
 
     
+    if(additionalMetadata != NULL) {
+        input.add_var("additionalMetadata", *additionalMetadata);
+    }
+    
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "POST");
-
+    
     
 
     

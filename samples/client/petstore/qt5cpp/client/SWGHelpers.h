@@ -10,6 +10,7 @@ namespace Swagger {
     bool isCompatibleJsonValue(QString type);
     QString stringValue(QString* value);
     QString stringValue(qint32 value);
+    QString stringValue(qint64 value);
     QString stringValue(bool value);
 }
 

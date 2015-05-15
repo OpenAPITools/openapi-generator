@@ -5,7 +5,7 @@
 
 #include "SWGPet.h"
 #include <QString>
-#include "SWGFile.h"
+#include "SWGHttpRequest.h"
 
 #include <QObject>
 
@@ -29,7 +29,7 @@ public:
     void getPetById(qint64 petId);
     void updatePetWithForm(QString* petId, QString* name, QString* status);
     void deletePet(QString* api_key, qint64 petId);
-    void uploadFile(qint64 petId, QString* additionalMetadata, SWGFile* file);
+    void uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestInputFileElement* file);
     
 private:
     void updatePetCallback (HttpRequestWorker * worker);
