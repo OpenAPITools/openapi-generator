@@ -20,20 +20,20 @@ SWGPetApi::updatePet(SWGPet body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
+    
+
+    
+
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "PUT");
 
     
 
     
-
-    
-    
     
     
     QString output = body.asJson();
     input.request_body.append(output);
-
     
 
     
@@ -68,20 +68,20 @@ SWGPetApi::addPet(SWGPet body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
+    
+
+    
+
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
     
 
     
-
-    
-    
     
     
     QString output = body.asJson();
     input.request_body.append(output);
-
     
 
     
@@ -115,11 +115,6 @@ void
 SWGPetApi::findPetsByStatus(QList<QString*>* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
-
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
-    
 
     
 
@@ -170,6 +165,12 @@ SWGPetApi::findPetsByStatus(QList<QString*>* status) {
 
     
     
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
+    
+
     
 
     
@@ -220,11 +221,6 @@ SWGPetApi::findPetsByTags(QList<QString*>* tags) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
-    
-
     
 
     
@@ -274,6 +270,12 @@ SWGPetApi::findPetsByTags(QList<QString*>* tags) {
 
     
     
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
+    
+
     
 
     
@@ -324,9 +326,6 @@ SWGPetApi::getPetById(qint64 petId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
     fullPath.replace(petIdPathParam, stringValue(petId));
@@ -334,7 +333,11 @@ SWGPetApi::getPetById(qint64 petId) {
 
     
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
     
+
     
 
     
@@ -378,13 +381,15 @@ SWGPetApi::updatePetWithForm(QString* petId, QString* name, QString* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "POST");
-
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
     fullPath.replace(petIdPathParam, stringValue(petId));
     
+
+    
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "POST");
 
     
     if(name != NULL) {
@@ -396,7 +401,6 @@ SWGPetApi::updatePetWithForm(QString* petId, QString* name, QString* status) {
     }
     
 
-    
     
 
     
@@ -431,9 +435,6 @@ SWGPetApi::deletePet(QString* api_key, qint64 petId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "DELETE");
-
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
     fullPath.replace(petIdPathParam, stringValue(petId));
@@ -441,7 +442,11 @@ SWGPetApi::deletePet(QString* api_key, qint64 petId) {
 
     
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "DELETE");
+
     
+
     
 
     
@@ -478,13 +483,15 @@ SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestI
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "POST");
-
     
     QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
     fullPath.replace(petIdPathParam, stringValue(petId));
     
+
+    
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "POST");
 
     
     if(additionalMetadata != NULL) {
@@ -492,7 +499,6 @@ SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestI
     }
     
 
-    
     
 
     

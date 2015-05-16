@@ -20,20 +20,20 @@ SWGUserApi::createUser(SWGUser body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
 
+    
+
+    
+
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
     
 
     
-
-    
-    
     
     
     QString output = body.asJson();
     input.request_body.append(output);
-
     
 
     
@@ -68,14 +68,15 @@ SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>* body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
 
+    
+
+    
+
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
     
 
-    
-
-    
     
     
     QJsonArray* bodyArray = new QJsonArray();
@@ -120,14 +121,15 @@ SWGUserApi::createUsersWithListInput(QList<SWGUser*>* body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
 
+    
+
+    
+
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
     
 
-    
-
-    
     
     
     QJsonArray* bodyArray = new QJsonArray();
@@ -172,11 +174,6 @@ SWGUserApi::loginUser(QString* username, QString* password) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/login");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
-    
-
     
 
     
@@ -204,6 +201,12 @@ SWGUserApi::loginUser(QString* username, QString* password) {
 
     
     
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
+    
+
     
 
     
@@ -247,14 +250,15 @@ SWGUserApi::logoutUser() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/logout");
 
+    
+
+    
+
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
     
 
-    
-
-    
     
 
     
@@ -289,9 +293,6 @@ SWGUserApi::getUserByName(QString* username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
     
     QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, stringValue(username));
@@ -299,7 +300,11 @@ SWGUserApi::getUserByName(QString* username) {
 
     
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
     
+
     
 
     
@@ -343,9 +348,6 @@ SWGUserApi::updateUser(QString* username, SWGUser body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "PUT");
-
     
     QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, stringValue(username));
@@ -353,13 +355,16 @@ SWGUserApi::updateUser(QString* username, SWGUser body) {
 
     
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "PUT");
+
     
+
     
     
     
     QString output = body.asJson();
     input.request_body.append(output);
-
     
 
     
@@ -394,9 +399,6 @@ SWGUserApi::deleteUser(QString* username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "DELETE");
-
     
     QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, stringValue(username));
@@ -404,7 +406,11 @@ SWGUserApi::deleteUser(QString* username) {
 
     
 
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "DELETE");
+
     
+
     
 
     
