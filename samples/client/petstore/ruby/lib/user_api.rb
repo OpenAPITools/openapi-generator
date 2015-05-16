@@ -21,11 +21,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
@@ -73,11 +75,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
@@ -125,11 +129,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
@@ -180,11 +186,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
@@ -212,11 +220,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
@@ -247,11 +257,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
@@ -284,11 +296,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
@@ -339,11 +353,13 @@ class UserApi
     # header parameters
     header_params = {}
 
-    _header_accept = 'application/json, application/xml'
-    header_params['Accept'] = _header_accept if _header_accept != ''
+    # HTTP header 'Accept' (if needed)
+    _header_accept = ['application/json', 'application/xml']
+    _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+    # HTTP header 'Content-Type'
     _header_content_type = []
-    header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+    header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
     # form parameters
     form_params = {}
