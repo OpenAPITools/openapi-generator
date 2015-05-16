@@ -22,19 +22,10 @@ void
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("{{path}}");
 
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "{{httpMethod}}");
-
     {{#pathParams}}
     QString {{paramName}}PathParam("{"); {{paramName}}PathParam.append("{{paramName}}").append("}");
     fullPath.replace({{paramName}}PathParam, stringValue({{paramName}}));
     {{/pathParams}}
-
-    {{#formParams}}{{^isFile}}
-    if({{paramName}} != NULL) {
-        input.add_var("{{paramName}}", *{{paramName}});
-    }
-    {{/isFile}}{{/formParams}}
 
     {{#queryParams}}
     {{^collectionFormat}}
@@ -91,6 +82,16 @@ void
 
     {{/collectionFormat}}
     {{/queryParams}}
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "{{httpMethod}}");
+
+    {{#formParams}}{{^isFile}}
+    if({{paramName}} != NULL) {
+        input.add_var("{{paramName}}", *{{paramName}});
+    }
+    {{/isFile}}{{/formParams}}
+
     {{#bodyParams}}
     {{#isContainer}}
     QJsonArray* {{paramName}}Array = new QJsonArray();
@@ -104,7 +105,6 @@ void
     {{^isContainer}}
     QString output = {{paramName}}.asJson();
     input.request_body.append(output);
-
     {{/isContainer}}{{/bodyParams}}
 
     {{#headerParams}}
