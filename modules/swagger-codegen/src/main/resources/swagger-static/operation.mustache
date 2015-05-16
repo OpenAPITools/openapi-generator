@@ -17,34 +17,17 @@
   <h3 class="section">Parameters</h3>
   <ul>
   	{{#allParams}}
-	  <div class="parameter">
-      {{#isContainer}}
-        {{#complexType}}
-          <!-- container / complex -->
-        {{/complexType}}
-        {{#simpleType}}
-          <!-- container / simple -->
-      <div class="param">{{paramName}}&nbsp;:&nbsp;{{dataType}}&nbsp;({{type}})</div>
-        <span>{{#optional}}optional{{/optional}}</span>
-      </div>
-        {{/simpleType}}
-      {{/isContainer}}
-      {{#isNotContainer}}
-        {{#simpleType}}
-          <!-- not container / simple -->
-      <div class="param">{{paramName}}&nbsp;:&nbsp;{{dataType}}&nbsp;({{type}})</div>
-        <span>{{#optional}}optional{{/optional}}</span>
-      </div>
-        {{/simpleType}}
-      {{/isNotContainer}}
-
-      {{#foo}}
-	    <div class="param">{{paramName}}&nbsp;:&nbsp;{{#complexType}}&nbsp;<div class="model" id="{{complexType}}"><a href="#">{{dataType}}</a>{{/complexType}}{{#simpleType}}{{dataType}}{{/simpleType}}&nbsp;({{type}})</div>
-	      <span>{{#optional}}optional{{/optional}}</span>
-	    </div>
-      {{/foo}}
-	    <p class="param-description">{{description}}</p>
-	  </div>
+	  <li class="parameter">
+      {{#isFormParam}}<span class="param-in">Form: </span>{{/isFormParam}}
+      {{#isQueryParam}}<span class="param-in">Query: </span>{{/isQueryParam}}
+      {{#isPathParam}}<span class="param-in">Path: </span>{{/isPathParam}}
+      {{#isHeaderParam}}<span class="param-in">Header: </span>{{/isHeaderParam}}
+      {{#isBodyParam}}<span class="param-in">Body: </span>{{/isBodyParam}}
+      <span class="param-name">{{paramName}}</span>
+      <span class="param-type">{{dataType}}{{#baseType}}({{baseType}}){{/baseType}}</span>
+      {{#optional}}<span class="param-optional-flag">(optional)</span>{{/optional}}
+      <p class="param-description">{{description}}</p>
+	  </li>
     {{/allParams}}
   </ul>
   {{/operation}}
