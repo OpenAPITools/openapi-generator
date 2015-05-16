@@ -38,8 +38,7 @@ TODO
 
 ## Tests
 
-We use some external dependencies, multiple interpreters and code coverage analysis while running test suite.
-Our Makefile handles much of this for you as long as you're running it inside of a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/):
+You can run the tests in the current python platform:
 
 ```sh
 $ make test
@@ -48,8 +47,21 @@ Ran 7 tests in 19.289s
 
 OK
 ```
+or
 
-You can test in various python versions using:
+```
+$ mvn integration-test -rf :PythonPetstoreClientTests
+Using 2195432783 as seed
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 37.594 s
+[INFO] Finished at: 2015-05-16T18:00:35+08:00
+[INFO] Final Memory: 11M/156M
+[INFO] ------------------------------------------------------------------------
+```
+If you want to run the tests in all the python platforms,
+make sure you are running it inside of a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/):
 
 ```sh
 $ make test-all
