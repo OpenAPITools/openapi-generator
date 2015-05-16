@@ -94,8 +94,8 @@ class PetApiTests(unittest.TestCase):
 
         fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
         self.assertEqual(self.pet.id, fetched.id)
-        self.assertEqual(self.pet.name, fetched.name)
-        self.assertEqual(self.pet.status, fetched.status)
+        self.assertEqual(name, fetched.name)
+        self.assertEqual(status, fetched.status)
 
     def test_upload_file(self):
         try:
