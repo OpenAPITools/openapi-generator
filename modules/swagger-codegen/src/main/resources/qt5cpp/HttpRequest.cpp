@@ -103,6 +103,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
     response = "";
     error_type = QNetworkReply::NoError;
     error_str = "";
+    bool isFormData = false;
 
 
     // decide on the variable layout
@@ -124,6 +125,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
 
         if (input->vars.count() > 0) {
             bool first = true;
+            isFormData = true;
             foreach (QString key, input->vars.keys()) {
                 if (!first) {
                     request_content.append("&");
@@ -250,7 +252,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
         request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str());
     }
 
-    if (request_content.size() > 0) {
+    if (request_content.size() > 0 && !isFormData) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     }
     else if (input->var_layout == URL_ENCODED) {
