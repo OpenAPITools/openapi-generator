@@ -44,7 +44,6 @@ void PetApiTests::getPetByIdTest() {
     timer.setSingleShot(true);
 
     auto validator = [](SWGPet* pet) {
-        qDebug() << pet->asJson();
         QVERIFY(pet->getId() == 3);
         loop.quit();
     };
