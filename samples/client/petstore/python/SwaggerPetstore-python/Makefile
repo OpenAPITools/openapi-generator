@@ -8,7 +8,7 @@ ifndef VIRTUAL_ENV
      http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 endif
 
-setup: virtualenv $(SETUP_OUT)
+setup: $(SETUP_OUT)
 
 $(SETUP_OUT): setup.py setup.cfg
 		python setup.py develop
@@ -19,17 +19,19 @@ $(REQUIREMENTS_OUT): $(REQUIREMENTS_FILE)
 		python setup.py develop
 
 clean:
+		rm -rf $(REQUIREMENTS_OUT)
+		rm -rf $(SETUP_OUT)
+		rm -rf .tox
+		rm -rf .coverage
 		find . -name "*.py[oc]" -delete
 		find . -name "__pycache__" -delete
-		rm -f $(REQUIREMENTS_OUT)
-		rm -rf $(SETUP_OUT)
 
 requirements: setup $(REQUIREMENTS_OUT)
 
-test: requirements
+test: clean requirements
 		nosetests
 
-test-all: requirements
+test-all: virtualenv clean requirements
 		tox
 
 
