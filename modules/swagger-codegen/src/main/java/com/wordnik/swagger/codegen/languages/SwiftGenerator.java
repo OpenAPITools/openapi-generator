@@ -63,6 +63,8 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
     supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));
     supportingFiles.add(new SupportingFile("Models.mustache", sourceFolder, "Models.swift"));
     supportingFiles.add(new SupportingFile("APIs.mustache", sourceFolder, "APIs.swift"));
+    supportingFiles.add(new SupportingFile("DecodableDictionary.mustache", sourceFolder, "DecodableDictionary.swift"));
+    supportingFiles.add(new SupportingFile("DecodableArray.mustache", sourceFolder, "DecodableArray.swift"));
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
@@ -138,11 +140,11 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
     if (p instanceof ArrayProperty) {
       ArrayProperty ap = (ArrayProperty) p;
       Property inner = ap.getItems();
-      return "[" + getTypeDeclaration(inner) + "]";
+      return "DecodableArray<" + getTypeDeclaration(inner) + ">";
     } else if (p instanceof MapProperty) {
       MapProperty mp = (MapProperty) p;
       Property inner = mp.getAdditionalProperties();
-      return "[String:" + getTypeDeclaration(inner) + "]";
+      return "DecodableDictionary<String, " + getTypeDeclaration(inner) + ">";
     }
     return super.getTypeDeclaration(p);
   }

@@ -30,7 +30,7 @@ extension {{projectName}}API {
 
          :returns: Promise<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Empty{{/returnType}}>> {{description}}
          */
-        func {{operationId}}({{#allParams}}{{^secondaryParam}}#{{/secondaryParam}}{{paramName}}: {{dataType}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Empty{{/returnType}}> {
+        func {{operationId}}({{#allParams}}{{^secondaryParam}}#{{/secondaryParam}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Empty{{/returnType}}> {
             {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{path}}"{{#pathParams}}
             path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}})", options: .LiteralSearch, range: nil){{/pathParams}}
             let url = {{projectName}}API.basePath + path
