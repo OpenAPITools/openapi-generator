@@ -4,6 +4,7 @@ require 'swagger/request'
 require 'swagger/response'
 require 'swagger/version'
 require 'logger'
+require 'json'
 
 module Swagger
     
