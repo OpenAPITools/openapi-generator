@@ -21,9 +21,9 @@ class RequestBuilder<T: JSONDecodable> {
     let parameters: [String:AnyObject]?
     let isBody: Bool
     let method: String
-    let URLString: URLStringConvertible
+    let URLString: String
     
-    required init(method: String, URLString: URLStringConvertible, parameters: [String:AnyObject]?, isBody: Bool) {
+    required init(method: String, URLString: String, parameters: [String:AnyObject]?, isBody: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -40,7 +40,7 @@ class RequestBuilder<T: JSONDecodable> {
     }
     
     func addCredential() -> Self {
-        self.credential = OneteamAPI.credential
+        self.credential = {{projectName}}API.credential
         return self
     }
 }

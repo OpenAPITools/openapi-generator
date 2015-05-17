@@ -43,6 +43,12 @@ extension Request {
     }
 }
 
+extension String: JSONDecodable {
+    static func decode(source: AnyObject) -> String? {
+        return source.description
+    }
+}
+
 extension Array: JSONEncodable {
     func encode() -> AnyObject {
         if Element.self is JSONEncodable {
@@ -50,6 +56,33 @@ extension Array: JSONEncodable {
         } else {
             return self.map { ($0 as! AnyObject) }
         }
+    }
+}
+
+extension Dictionary: JSONEncodable, JSONDecodable {
+    static func decode(source: AnyObject) -> [Key:Value]? {
+        return nil
+    }
+
+    func encode() -> AnyObject {
+        var dictionary = [NSObject:AnyObject]()
+        for (key, value) in self {
+            let keyObject: NSObject
+            if Key.self is JSONEncodable {
+                keyObject = (key as! JSONEncodable).encode() as! NSObject
+            } else {
+                keyObject = key as! NSObject
+            }
+            let valueObject: AnyObject
+            if Value.self is JSONEncodable {
+                valueObject = (value as! JSONEncodable).encode()
+            } else {
+                valueObject = value as! NSObject
+            }
+            
+            dictionary[keyObject] = valueObject
+        }
+        return dictionary
     }
 }
 
