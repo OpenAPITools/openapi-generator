@@ -57,7 +57,7 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
 
     sourceFolder = appName + "/" + sourceFolder;
 
-    supportingFiles.add(new SupportingFile("Cartfile.mustache", appName, "Cartfile"));
+    supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
     supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
     supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache", sourceFolder, "AlamofireImplementations.swift"));
     supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));

@@ -35,14 +35,15 @@ extension {{projectName}}API {
             path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}})", options: .LiteralSearch, range: nil){{/pathParams}}
             let url = {{projectName}}API.basePath + path
             {{#bodyParam}}
-            let parameters = {{paramName}}.encode() as! [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
+            let parameters = {{paramName}}{{^required}}?{{/required}}.encode() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
             let nillableParameters: [String:AnyObject?] = {{^queryParams}}[:]{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
                 "{{paramName}}": {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
             ]{{/hasMore}}{{/queryParams}}
             let parameters = APIHelper.rejectNil(nillableParameters){{/bodyParam}}
 
-            return {{projectName}}API.requestBuilderFactory.getBuilder()
-                (method: "{{httpMethod}}", URLString: url, parameters: parameters, isBody: {{^queryParams}}true{{/queryParams}}{{#queryParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/queryParams}})
+            let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Empty{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.getBuilder()
+
+            return requestBuilder(method: "{{httpMethod}}", URLString: url, parameters: parameters, isBody: {{^queryParams}}true{{/queryParams}}{{#queryParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/queryParams}})
         }
     {{/operation}}
     }

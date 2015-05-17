@@ -14,7 +14,7 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
 }
 
 class AlamofireRequestBuilder<T: JSONDecodable>: RequestBuilder<T> {
-    required init(method: String, URLString: URLStringConvertible, parameters: [String : AnyObject]?, isBody: Bool) {
+    required init(method: String, URLString: String, parameters: [String : AnyObject]?, isBody: Bool) {
         super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody)
     }
 
