@@ -1,7 +1,6 @@
-require 'json'
-#
+# base class containing fundamental method such as to_hash, build_from_hash and more
 class BaseObject
-  
+
   # return the object in the form of hash
   def to_body
     body = {}
@@ -13,6 +12,7 @@ class BaseObject
 
   # build the object from hash
   def build_from_hash(attributes)
+    return nil unless attributes.is_a?(Hash)
     self.class.swagger_types.each_pair do |key, type|
       if type =~ /^array\[(.*)\]/i
         if attributes[self.class.attribute_map[key]].is_a?(Array)
@@ -30,7 +30,6 @@ class BaseObject
     self
   end
 
-  # deserialize value based on type
   def _deserialize(type, value)
     case type.to_sym
     when :DateTime
@@ -53,9 +52,7 @@ class BaseObject
     end
   end
 
-  #def to_json
-  #  self.to_hash.to_json
-  #end
+
 
   # to_body is an alias to to_body (backward compatibility)
   def to_hash

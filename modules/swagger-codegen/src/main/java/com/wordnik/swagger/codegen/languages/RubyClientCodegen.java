@@ -72,7 +72,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     supportingFiles.add(new SupportingFile("swagger/response.mustache", "", "lib/swagger/response.rb"));
     supportingFiles.add(new SupportingFile("swagger/version.mustache", "", "lib/swagger/version.rb"));
     supportingFiles.add(new SupportingFile("swagger/configuration.mustache", "", "lib/swagger/configuration.rb"));
-    supportingFiles.add(new SupportingFile("base_object.mustache", "", "lib/model/base_object.rb"));
+    supportingFiles.add(new SupportingFile("base_object.mustache", "", "models/base_object.rb"));
   }
 
   @Override
