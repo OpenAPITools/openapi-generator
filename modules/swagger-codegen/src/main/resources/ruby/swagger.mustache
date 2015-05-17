@@ -75,31 +75,6 @@ module Swagger
       Swagger.configuration.auth_token = response_body['token']
     end
 
-    # static method to convert object (array, hash, object, etc) to JSON string
-    # @param model object to be converted into JSON string
-    # @return string JSON string representation of the object
-    def self.object_to_http_body model
-      return if model.nil?
-      _body = nil
-      if model.is_a?(Array)
-        _body = model.map{|m| object_to_hash(m) }
-      else
-        _body = object_to_hash(model)
-      end
-      _body.to_json
-    end
-
-    # static method to convert object(non-array) to hash
-    # @param obj object to be converted into JSON string
-    # @return string JSON string representation of the object
-    def self.object_to_hash obj
-      if obj.respond_to?(:to_hash)
-        obj.to_hash
-      else
-        obj
-      end
-    end
-
   end
   
 end
