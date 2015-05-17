@@ -28,7 +28,7 @@ module Swagger
     # If body is JSON, parse it
     # Otherwise return raw string
     def body
-      JSON.parse raw.body
+      JSON.parse(raw.body, :symbolize_names => true)
     rescue
       raw.body
     end

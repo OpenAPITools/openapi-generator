@@ -49,8 +49,12 @@ def prepare_pet
   # remove the pet
   PetApi.delete_pet(10002)
   # recreate the pet
-  pet = Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
-  PetApi.add_pet(:body => pet)
+  category = Category.new('id' => 20002, 'name' => 'category test')
+  tag = Tag.new('id' => 30002, 'name' => 'tag test')
+  pet = Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING", 'photo_urls' => 'photo url',
+                'category' => category, 'tags' => [tag], 'status' => 'pending')
+
+  PetApi.add_pet(:'body'=> pet)
 end
 
 # always delete and then re-create the store order 

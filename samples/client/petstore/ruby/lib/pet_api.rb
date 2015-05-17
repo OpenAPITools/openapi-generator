@@ -33,29 +33,10 @@ class PetApi
     form_params = {}
 
     # http body (model)
-    post_body = nil
-    _body_param = opts[:'body']
-    if _body_param != nil
-      if _body_param.is_a?(Array)
-        _array = Array.new
-        _body_param.each do |item|
-          if item.respond_to?(:to_body)
-            _array.push item.to_body
-          else
-            _array.push item
-          end
-        end
-        post_body = _array
-      else 
-        if _body_param.respond_to?(:to_body)
-          post_body = _body_param.to_body
-        else
-          post_body = _body_param
-        end
-      end
-    end
+    post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+    
 
-    Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Add a new pet to the store
@@ -87,29 +68,10 @@ class PetApi
     form_params = {}
 
     # http body (model)
-    post_body = nil
-    _body_param = opts[:'body']
-    if _body_param != nil
-      if _body_param.is_a?(Array)
-        _array = Array.new
-        _body_param.each do |item|
-          if item.respond_to?(:to_body)
-            _array.push item.to_body
-          else
-            _array.push item
-          end
-        end
-        post_body = _array
-      else 
-        if _body_param.respond_to?(:to_body)
-          post_body = _body_param.to_body
-        else
-          post_body = _body_param
-        end
-      end
-    end
+    post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+    
 
-    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Finds Pets by status
@@ -143,9 +105,10 @@ class PetApi
 
     # http body (model)
     post_body = nil
+    
 
     response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    response.map {|response| Pet.new(response) }
+    response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
   end
 
   # Finds Pets by tags
@@ -179,9 +142,10 @@ class PetApi
 
     # http body (model)
     post_body = nil
+    
 
     response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    response.map {|response| Pet.new(response) }
+    response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
   end
 
   # Find pet by ID
@@ -217,9 +181,10 @@ class PetApi
 
     # http body (model)
     post_body = nil
+    
 
     response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    Pet.new(response)
+    obj = Pet.new() and obj.build_from_hash(response)
   end
 
   # Updates a pet in the store with form data
@@ -259,8 +224,9 @@ class PetApi
 
     # http body (model)
     post_body = nil
+    
 
-    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Deletes a pet
@@ -298,8 +264,9 @@ class PetApi
 
     # http body (model)
     post_body = nil
+    
 
-    Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # uploads an image
@@ -339,7 +306,8 @@ class PetApi
 
     # http body (model)
     post_body = nil
+    
 
-    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 end
