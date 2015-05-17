@@ -43,9 +43,34 @@ extension Request {
     }
 }
 
+
+extension Bool: JSONDecodable {
+    static func decode(source: AnyObject) -> Bool? {
+        return source as? Bool
+    }
+}
+
+extension Float: JSONDecodable {
+    static func decode(source: AnyObject) -> Float? {
+        return source as? Float
+    }
+}
+
+extension Int: JSONDecodable {
+    static func decode(source: AnyObject) -> Int? {
+        return source as? Int
+    }
+}
+
+extension Double: JSONDecodable {
+    static func decode(source: AnyObject) -> Double? {
+        return source as? Double
+    }
+}
+
 extension String: JSONDecodable {
     static func decode(source: AnyObject) -> String? {
-        return source.description
+        return source as? String
     }
 }
 
@@ -59,11 +84,7 @@ extension Array: JSONEncodable {
     }
 }
 
-extension Dictionary: JSONEncodable, JSONDecodable {
-    static func decode(source: AnyObject) -> [Key:Value]? {
-        return nil
-    }
-
+extension Dictionary: JSONEncodable {
     func encode() -> AnyObject {
         var dictionary = [NSObject:AnyObject]()
         for (key, value) in self {
