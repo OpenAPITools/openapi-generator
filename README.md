@@ -8,7 +8,7 @@ This is the swagger codegen project, which allows generation of client libraries
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
-## Compatability
+## Compatibility
 The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
 
 Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
