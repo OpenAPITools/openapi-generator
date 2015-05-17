@@ -53,7 +53,8 @@ def prepare_pet
   tag = Tag.new('id' => 30002, 'name' => 'tag test')
   pet = Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING", 'photo_urls' => 'photo url',
                 'category' => category, 'tags' => [tag], 'status' => 'pending')
-  PetApi.add_pet(:body => pet)
+
+  PetApi.add_pet(:'body'=> pet)
 end
 
 # always delete and then re-create the store order 

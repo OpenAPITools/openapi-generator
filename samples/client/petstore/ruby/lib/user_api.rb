@@ -33,29 +33,10 @@ class UserApi
     form_params = {}
 
     # http body (model)
-    post_body = nil
-    _body_param = opts[:'body']
-    if _body_param != nil
-      if _body_param.is_a?(Array)
-        _array = Array.new
-        _body_param.each do |item|
-          if item.respond_to?(:to_body)
-            _array.push item.to_body
-          else
-            _array.push item
-          end
-        end
-        post_body = _array
-      else 
-        if _body_param.respond_to?(:to_body)
-          post_body = _body_param.to_body
-        else
-          post_body = _body_param
-        end
-      end
-    end
+    post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+    
 
-    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Creates list of users with given input array
@@ -87,29 +68,10 @@ class UserApi
     form_params = {}
 
     # http body (model)
-    post_body = nil
-    _body_param = opts[:'body']
-    if _body_param != nil
-      if _body_param.is_a?(Array)
-        _array = Array.new
-        _body_param.each do |item|
-          if item.respond_to?(:to_body)
-            _array.push item.to_body
-          else
-            _array.push item
-          end
-        end
-        post_body = _array
-      else 
-        if _body_param.respond_to?(:to_body)
-          post_body = _body_param.to_body
-        else
-          post_body = _body_param
-        end
-      end
-    end
+    post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+    
 
-    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Creates list of users with given input array
@@ -141,29 +103,10 @@ class UserApi
     form_params = {}
 
     # http body (model)
-    post_body = nil
-    _body_param = opts[:'body']
-    if _body_param != nil
-      if _body_param.is_a?(Array)
-        _array = Array.new
-        _body_param.each do |item|
-          if item.respond_to?(:to_body)
-            _array.push item.to_body
-          else
-            _array.push item
-          end
-        end
-        post_body = _array
-      else 
-        if _body_param.respond_to?(:to_body)
-          post_body = _body_param.to_body
-        else
-          post_body = _body_param
-        end
-      end
-    end
+    post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+    
 
-    Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Logs user into the system
@@ -199,9 +142,10 @@ class UserApi
 
     # http body (model)
     post_body = nil
+    
 
     response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    string.new(response)
+    obj = string.new() and obj.build_from_hash(response)
   end
 
   # Logs out current logged in user session
@@ -233,8 +177,9 @@ class UserApi
 
     # http body (model)
     post_body = nil
+    
 
-    Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Get user by user name
@@ -270,9 +215,10 @@ class UserApi
 
     # http body (model)
     post_body = nil
+    
 
     response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    User.new(response)
+    obj = User.new() and obj.build_from_hash(response)
   end
 
   # Updated user
@@ -308,29 +254,10 @@ class UserApi
     form_params = {}
 
     # http body (model)
-    post_body = nil
-    _body_param = opts[:'body']
-    if _body_param != nil
-      if _body_param.is_a?(Array)
-        _array = Array.new
-        _body_param.each do |item|
-          if item.respond_to?(:to_body)
-            _array.push item.to_body
-          else
-            _array.push item
-          end
-        end
-        post_body = _array
-      else 
-        if _body_param.respond_to?(:to_body)
-          post_body = _body_param.to_body
-        else
-          post_body = _body_param
-        end
-      end
-    end
+    post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+    
 
-    Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 
   # Delete user
@@ -366,7 +293,8 @@ class UserApi
 
     # http body (model)
     post_body = nil
+    
 
-    Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 end

@@ -68,7 +68,6 @@ class Pet < BaseObject
     
     if attributes[:'tags']
       if (value = attributes[:'tags']).is_a?(Array)
-        #@tags = value.map{ |v| Tag.new(v) }
         @tags = value
       end
     end

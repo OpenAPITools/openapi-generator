@@ -19,7 +19,7 @@ describe Swagger::Response do
   describe "initialization" do
     it "sets body" do
       @response.body.class.should == Hash
-      @response.body.has_key?('name').should == true
+      @response.body.has_key?(:'name').should == true
     end
 
     it "sets code" do
