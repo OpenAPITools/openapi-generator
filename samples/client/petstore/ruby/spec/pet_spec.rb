@@ -34,27 +34,15 @@ describe "Pet" do
       pet.tags[0].object_id.should_not == pet2.tags[0].object_id
       pet.tags[1].object_id.should_not == pet2.tags[1].object_id
       pet.category.object_id.should_not == pet2.category.object_id
-
-      puts pet.to_json
-      pet_array = [pet, pet2]
-      puts pet_array.map{ |v| 
-        if v.respond_to?(:to_hash)
-          v.to_hash
-        else
-          v
-        end
-      }.to_json
-
     end
 
     it "should fetch a pet object" do
       pet = PetApi.get_pet_by_id(10002)
-      print pet.inspect
       pet.should be_a(Pet)
       pet.id.should == 10002
       pet.name.should == "RUBY UNIT TESTING"
-      pet.tags[0].name.should == "RUBY UNIT TESTING"
-      pet.category.name.should == "RUBY UNIT TESTING"
+      pet.tags[0].name.should == "tag test"
+      pet.category.name.should == "category test"
     end
 
     it "should find pets by status" do

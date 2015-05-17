@@ -32,7 +32,7 @@ class BaseObject
 
   # deserialize value based on type
   def _deserialize(type, value)
-    case type
+    case type.to_sym
     when :DateTime
       DateTime.parse(value)
     when :string

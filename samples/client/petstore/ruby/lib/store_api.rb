@@ -33,9 +33,10 @@ class StoreApi
 
     # http body (model)
     post_body = nil
+    
 
     response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    response.map {|response| map.new(response) }
+    response.map {|response| obj = map.new() and obj.build_from_hash(response) }
   end
 
   # Place an order for a pet
@@ -67,30 +68,11 @@ class StoreApi
     form_params = {}
 
     # http body (model)
-    post_body = nil
-    _body_param = opts[:'body']
-    if _body_param != nil
-      if _body_param.is_a?(Array)
-        _array = Array.new
-        _body_param.each do |item|
-          if item.respond_to?(:to_body)
-            _array.push item.to_body
-          else
-            _array.push item
-          end
-        end
-        post_body = _array
-      else 
-        if _body_param.respond_to?(:to_body)
-          post_body = _body_param.to_body
-        else
-          post_body = _body_param
-        end
-      end
-    end
+    post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+    
 
     response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    Order.new(response)
+    obj = Order.new() and obj.build_from_hash(response)
   end
 
   # Find purchase order by ID
@@ -126,9 +108,10 @@ class StoreApi
 
     # http body (model)
     post_body = nil
+    
 
     response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-    Order.new(response)
+    obj = Order.new() and obj.build_from_hash(response)
   end
 
   # Delete purchase order by ID
@@ -164,7 +147,8 @@ class StoreApi
 
     # http body (model)
     post_body = nil
+    
 
-    Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+        Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
   end
 end
