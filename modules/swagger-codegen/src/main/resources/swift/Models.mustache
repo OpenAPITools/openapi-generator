@@ -5,17 +5,12 @@
 //
 
 import Foundation
-import SwiftyJSON
-
-protocol JSONDecodable {
-    static func decode(source: AnyObject) -> Self?
-}
 
 protocol JSONEncodable {
     func encode() -> AnyObject
 }
 
-class Response<T: JSONDecodable> {
+class Response<T> {
     let statusCode: Int
     let header: [String: String]
     let body: T
@@ -36,12 +31,38 @@ class Response<T: JSONDecodable> {
     }
 }
 
-final class Empty: JSONDecodable {
-    private init() { }
-
-    static let instance = Empty()
-
-    static func decode(source: AnyObject) -> Empty? {
-        return instance
+class Decoders {
+    static private var decoders = Dictionary<String, ((AnyObject) -> AnyObject)>()
+    
+    static func addDecoder<T>(#clazz: T.Type, decoder: ((AnyObject) -> T)) {
+        let key = "\(T.self)"
+        decoders[key] = { decoder($0) as! AnyObject }
+    }
+    
+    static func decode<T>(#clazz: [T].Type, source: AnyObject) -> [T] {
+        let array = source as! [AnyObject]
+        return array.map { Decoders.decode(clazz: T.self, source: $0) }
+    }
+    
+    static func decode<T, Key: Hashable>(#clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
+        let sourceDictinoary = source as! [Key: AnyObject]
+        var dictionary = [Key:T]()
+        for (key, value) in sourceDictinoary {
+            dictionary[key] = Decoders.decode(clazz: T.self, source: value)
+        }
+        return dictionary
+    }
+    
+    static func decode<T>(#clazz: T.Type, source: AnyObject) -> T {
+        if source is T {
+            return source as! T
+        }
+        
+        let key = "\(T.self)"
+        if let decoder = decoders[key] {
+           return decoder(source) as! T
+        } else {
+            fatalError("Source \(source) is not convertible to type \(clazz): Maybe swagger file is insufficient")
+        }
     }
 }

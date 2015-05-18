@@ -13,10 +13,23 @@ class {{projectName}}API {
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 
     class APIBase {
+        func toParameters(encodable: JSONEncodable?) -> [String: AnyObject]? {
+            let encoded: AnyObject? = encodable?.encode()
+            
+            if encoded! is [AnyObject] {
+                var dictionary = [String:AnyObject]()
+                for (index, item) in enumerate(encoded as! [AnyObject]) {
+                    dictionary["\(index)"] = item
+                }
+                return dictionary
+            } else {
+                return encoded as? [String:AnyObject]
+            }
+        }
     }
 }
 
-class RequestBuilder<T: JSONDecodable> {
+class RequestBuilder<T> {
     var credential: NSURLCredential?
     var headers: [String:String] = [:]
     let parameters: [String:AnyObject]?
@@ -47,6 +60,6 @@ class RequestBuilder<T: JSONDecodable> {
 }
 
 protocol RequestBuilderFactory {
-    func getBuilder<T: JSONDecodable>() -> RequestBuilder<T>.Type
+    func getBuilder<T>() -> RequestBuilder<T>.Type
 }
 

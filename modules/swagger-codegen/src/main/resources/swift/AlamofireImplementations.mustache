@@ -8,7 +8,7 @@ import Alamofire
 import PromiseKit
 
 class AlamofireRequestBuilderFactory: RequestBuilderFactory {
-    func getBuilder<T: JSONDecodable>() -> RequestBuilder<T>.Type {
+    func getBuilder<T>() -> RequestBuilder<T>.Type {
         return AlamofireRequestBuilder<T>.self
     }
 }
@@ -16,7 +16,7 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
 // Store manager to retain its reference
 private var managerStore: [String: Alamofire.Manager] = [:]
 
-class AlamofireRequestBuilder<T: JSONDecodable>: RequestBuilder<T> {
+class AlamofireRequestBuilder<T>: RequestBuilder<T> {
     required init(method: String, URLString: String, parameters: [String : AnyObject]?, isBody: Bool) {
         super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody)
     }
@@ -49,19 +49,16 @@ class AlamofireRequestBuilder<T: JSONDecodable>: RequestBuilder<T> {
                 defer.reject(error)
                 return
             }
-            
-            if Empty.instance is T {
-                let response = Response(response: res!, body: Empty.instance as! T)
+
+            if () is T {
+                let response = Response(response: res!, body: () as! T)
                 defer.fulfill(response)
                 return
             }
             if let json: AnyObject = json {
-                if let body = T.decode(json) {
-                    let response = Response(response: res!, body: body)
-                    defer.fulfill(response)
-                } else {
-                    defer.reject(NSError(domain: "localhost", code: 500, userInfo: ["reason": "cannot convertible: \(json)"]))
-                }
+                let body = Decoders.decode(clazz: T.self, source: json)
+                let response = Response(response: res!, body: body)
+                defer.fulfill(response)
                 return
             }
             
