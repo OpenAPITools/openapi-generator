@@ -11,20 +11,20 @@ class {{projectName}}API {
     static let basePath = "{{^basePathOverride}}{{basePath}}{{/basePathOverride}}{{basePathOverride}}"
     static var credential: NSURLCredential?
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
+}
 
-    class APIBase {
-        func toParameters(encodable: JSONEncodable?) -> [String: AnyObject]? {
-            let encoded: AnyObject? = encodable?.encode()
-            
-            if encoded! is [AnyObject] {
-                var dictionary = [String:AnyObject]()
-                for (index, item) in enumerate(encoded as! [AnyObject]) {
-                    dictionary["\(index)"] = item
-                }
-                return dictionary
-            } else {
-                return encoded as? [String:AnyObject]
+class APIBase {
+    func toParameters(encodable: JSONEncodable?) -> [String: AnyObject]? {
+        let encoded: AnyObject? = encodable?.encode()
+
+        if encoded! is [AnyObject] {
+            var dictionary = [String:AnyObject]()
+            for (index, item) in enumerate(encoded as! [AnyObject]) {
+                dictionary["\(index)"] = item
             }
+            return dictionary
+        } else {
+            return encoded as? [String:AnyObject]
         }
     }
 }
@@ -62,4 +62,5 @@ class RequestBuilder<T> {
 protocol RequestBuilderFactory {
     func getBuilder<T>() -> RequestBuilder<T>.Type
 }
+
 

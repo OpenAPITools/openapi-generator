@@ -6,7 +6,6 @@
 
 import Alamofire
 import PromiseKit
-import SwiftyJSON
 
 extension Bool: JSONEncodable {
     func encode() -> AnyObject { return self }
@@ -28,63 +27,26 @@ extension String: JSONEncodable {
     func encode() -> AnyObject { return self }
 }
 
+private func encodeIfPossible<T>(object: T) -> AnyObject {
+    if object is JSONEncodable {
+        return (object as! JSONEncodable).encode()
+    } else {
+        return object as! AnyObject
+    }
+}
+
 extension Array: JSONEncodable {
     func encode() -> AnyObject {
-        if Element.self is JSONEncodable {
-            return self.map { ($0 as! JSONEncodable).encode() }
-        } else {
-            return self.map { ($0 as! AnyObject) }
+        return self.map(encodeIfPossible)
+    }
+}
+
+extension Dictionary: JSONEncodable {
+    func encode() -> AnyObject {
+        var dictionary = [NSObject:AnyObject]()
+        for (key, value) in self {
+            dictionary[key as! NSObject] = encodeIfPossible(value)
         }
+        return dictionary
     }
 }
-
-extension JSON {
-    func decode() -> Bool? {
-        return self.bool
-    }
-    func decode() -> Bool {
-        return self.boolValue
-    }
-    func decode() -> Int? {
-        return self.int
-    }
-    func decode() -> Int {
-        return self.intValue
-    }
-    func decode() -> Float? {
-        return self.float
-    }
-    func decode() -> Float {
-        return self.floatValue
-    }
-    func decode() -> Double? {
-        return self.double
-    }
-    func decode() -> Double {
-        return self.doubleValue
-    }
-    func decode() -> String? {
-        return self.string
-    }
-    func decode() -> String {
-        return self.stringValue
-    }
-    func decode<T>() -> [T]? {
-        return self.array?.map({ $0 as! T })
-    }
-    static let DateFormat: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        return formatter
-    }()
-    func decode() -> NSDate? {
-        return JSON.DateFormat.dateFromString(self.string ?? "")
-    }
-    func decode() -> NSData? {
-        return self.rawData(options: .allZeros, error: nil)
-    }
-    func decode() -> NSData {
-        return self.decode()!
-    }
-}
-
