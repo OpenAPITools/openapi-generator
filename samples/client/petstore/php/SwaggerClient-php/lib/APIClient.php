@@ -142,20 +142,21 @@ class APIClient {
     $response_info = curl_getinfo($curl);
 
     // Handle the response
-    if ($response === false) { // error, likely in the client side
-      throw new APIClientException("API Error ($url): ".curl_error($curl), 0, $response_info, $response);
+    if ($response_info['http_code'] == 0) {
+      throw new APIClientException("TIMEOUT: api call to " . $url .
+        " took more than 5s to return", 0, $response_info, $response);
     } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
       $data = json_decode($response);
       if (json_last_error() > 0) { // if response is a string
         $data = $response;
       }
-    } else if ($response_info['http_code'] == 401) { // server returns 401
+    } else if ($response_info['http_code'] == 401) {
       throw new APIClientException("Unauthorized API request to " . $url .
           ": " . serialize($response), 0, $response_info, $response);
-    } else if ($response_info['http_code'] == 404) { // server returns 404
+    } else if ($response_info['http_code'] == 404) {
       $data = null;
     } else {
-      throw new APIClientException("Can't connect to the API: " . $url .
+      throw new APIClientException("Can't connect to the api: " . $url .
         " response code: " .
         $response_info['http_code'], 0, $response_info, $response);
     }
@@ -260,7 +261,6 @@ class APIClient {
    * @param string $class class name is passed as a string
    * @return object an instance of $class
    */
-
   public static function deserialize($data, $class)
   {
     if (null === $data) {
@@ -301,6 +301,38 @@ class APIClient {
     }
 
     return $deserialized;
+  }
+
+  /*
+   * return the header 'Accept' based on an array of Accept provided
+   *
+   * @param array[string] $accept Array of header
+   * @return string Accept (e.g. application/json)
+   */
+  public static function selectHeaderAccept($accept) {
+    if (count($accept) === 0 or (count($accept) === 1 and $accept[0] === '')) {
+      return NULL;
+    } elseif (preg_grep("/application\/json/i", $accept)) {
+      return 'application/json';
+    } else {
+      return implode(',', $accept);
+    }
+  }
+
+  /*
+   * return the content type based on an array of content-type provided
+   *
+   * @param array[string] content_type_array Array fo content-type
+   * @return string Content-Type (e.g. application/json)
+   */
+  public static function selectHeaderContentType($content_type) {
+    if (count($content_type) === 0 or (count($content_type) === 1 and $content_type[0] === '')) {
+      return 'application/json';
+    } elseif (preg_grep("/application\/json/i", $content_type)) {
+      return 'application/json';
+    } else {
+      return implode(',', $content_type);
+    }
   }
 
 }

@@ -261,7 +261,6 @@ class APIClient {
    * @param string $class class name is passed as a string
    * @return object an instance of $class
    */
-
   public static function deserialize($data, $class)
   {
     if (null === $data) {
@@ -302,6 +301,38 @@ class APIClient {
     }
 
     return $deserialized;
+  }
+
+  /*
+   * return the header 'Accept' based on an array of Accept provided
+   *
+   * @param array[string] $accept Array of header
+   * @return string Accept (e.g. application/json)
+   */
+  public static function selectHeaderAccept($accept) {
+    if (count($accept) === 0 or (count($accept) === 1 and $accept[0] === '')) {
+      return NULL;
+    } elseif (preg_grep("/application\/json/i", $accept)) {
+      return 'application/json';
+    } else {
+      return implode(',', $accept);
+    }
+  }
+
+  /*
+   * return the content type based on an array of content-type provided
+   *
+   * @param array[string] content_type_array Array fo content-type
+   * @return string Content-Type (e.g. application/json)
+   */
+  public static function selectHeaderContentType($content_type) {
+    if (count($content_type) === 0 or (count($content_type) === 1 and $content_type[0] === '')) {
+      return 'application/json';
+    } elseif (preg_grep("/application\/json/i", $content_type)) {
+      return 'application/json';
+    } else {
+      return implode(',', $content_type);
+    }
   }
 
 }
