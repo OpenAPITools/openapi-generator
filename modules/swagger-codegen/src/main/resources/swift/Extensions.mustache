@@ -8,10 +8,6 @@ import Alamofire
 import PromiseKit
 import SwiftyJSON
 
-extension Request {
-}
-
-
 extension Bool: JSONEncodable {
     func encode() -> AnyObject { return self }
 }
@@ -30,6 +26,16 @@ extension Double: JSONEncodable {
 
 extension String: JSONEncodable {
     func encode() -> AnyObject { return self }
+}
+
+extension Array: JSONEncodable {
+    func encode() -> AnyObject {
+        if Element.self is JSONEncodable {
+            return self.map { ($0 as! JSONEncodable).encode() }
+        } else {
+            return self.map { ($0 as! AnyObject) }
+        }
+    }
 }
 
 extension JSON {
