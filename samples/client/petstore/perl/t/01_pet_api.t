@@ -1,4 +1,4 @@
-use Test::More tests => 25;
+use Test::More tests => 31;
 use Test::Exception;
 
 use lib 'lib';
@@ -11,6 +11,16 @@ use_ok('WWW::SwaggerClient::Object::Pet');
 use_ok('WWW::SwaggerClient::Object::Tag');
 use_ok('WWW::SwaggerClient::Object::Category');
 my $api = WWW::SwaggerClient::PetApi->new();
+
+# test select_header_content_type
+is $api->{api_client}->select_header_content_type('application/xml', 'Application/JSON'), 'application/json', 'get the proper content type application/json but not application/xml';
+is $api->{api_client}->select_header_content_type('application/xml'), 'application/xml', 'get the proper content type application/json'; 
+is $api->{api_client}->select_header_content_type(''), 'application/json', 'get the proper content type application/json (default)'; 
+
+# test select_header_accept
+is $api->{api_client}->select_header_accept('application/xml', 'Application/JSON'), 'application/json', 'get the proper accept application/json but not application/xml';
+is $api->{api_client}->select_header_content_type('application/xml'), 'application/xml', 'get the proper accept application/json'; 
+is $api->{api_client}->select_header_accept(''), undef, 'get the proper accept "undef" (default)';
 
 my $pet_id = 10008;
 

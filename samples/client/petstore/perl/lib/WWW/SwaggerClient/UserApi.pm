@@ -86,12 +86,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
       
@@ -137,12 +137,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
       
@@ -188,12 +188,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
       
@@ -240,12 +240,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
        # query params
       if ( exists $args{'username'}) {
@@ -296,12 +296,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
       
@@ -349,12 +349,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
       
@@ -411,12 +411,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
       
@@ -472,12 +472,12 @@ sub new {
       my $header_params = {};
       my $form_params = {};
 
-      my $_header_accept = 'application/json, application/xml';
-      if ($_header_accept ne '') {
+      # 'Accept' and 'Content-Type' header
+      my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+      if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      my @_header_content_type = ();
-      $header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
       
