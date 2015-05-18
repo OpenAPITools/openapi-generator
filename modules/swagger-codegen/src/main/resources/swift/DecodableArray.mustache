@@ -5,7 +5,7 @@
 //
 
 
-final class DecodableArray<T: JSONDecodable>: JSONEncodable, JSONDecodable,  ArrayLiteralConvertible {
+final class DecodableArray<T where T: JSONDecodable, T: JSONEncodable>: JSONEncodable, JSONDecodable,  ArrayLiteralConvertible {
     let value: [T]
     
     required init(arrayLiteral elements: T...) {
@@ -23,6 +23,6 @@ final class DecodableArray<T: JSONDecodable>: JSONEncodable, JSONDecodable,  Arr
     }
 
     func encode() -> AnyObject {
-        return value.encode()
+        return value.map { $0.encode() }
     }
 }

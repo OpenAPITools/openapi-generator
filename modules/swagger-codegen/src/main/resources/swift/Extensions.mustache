@@ -44,67 +44,39 @@ extension Request {
 }
 
 
-extension Bool: JSONDecodable {
+extension Bool: JSONEncodable, JSONDecodable {
     static func decode(source: AnyObject) -> Bool? {
         return source as? Bool
     }
+    func encode() -> AnyObject { return self }
 }
 
-extension Float: JSONDecodable {
+extension Float: JSONEncodable, JSONDecodable {
     static func decode(source: AnyObject) -> Float? {
         return source as? Float
     }
+    func encode() -> AnyObject { return self }
 }
 
-extension Int: JSONDecodable {
+extension Int: JSONEncodable, JSONDecodable {
     static func decode(source: AnyObject) -> Int? {
         return source as? Int
     }
+    func encode() -> AnyObject { return self }
 }
 
-extension Double: JSONDecodable {
+extension Double: JSONEncodable, JSONDecodable {
     static func decode(source: AnyObject) -> Double? {
         return source as? Double
     }
+    func encode() -> AnyObject { return self }
 }
 
-extension String: JSONDecodable {
+extension String: JSONEncodable, JSONDecodable {
     static func decode(source: AnyObject) -> String? {
         return source as? String
     }
-}
-
-extension Array: JSONEncodable {
-    func encode() -> AnyObject {
-        if Element.self is JSONEncodable {
-            return self.map { ($0 as! JSONEncodable).encode() }
-        } else {
-            return self.map { ($0 as! AnyObject) }
-        }
-    }
-}
-
-extension Dictionary: JSONEncodable {
-    func encode() -> AnyObject {
-        var dictionary = [NSObject:AnyObject]()
-        for (key, value) in self {
-            let keyObject: NSObject
-            if Key.self is JSONEncodable {
-                keyObject = (key as! JSONEncodable).encode() as! NSObject
-            } else {
-                keyObject = key as! NSObject
-            }
-            let valueObject: AnyObject
-            if Value.self is JSONEncodable {
-                valueObject = (value as! JSONEncodable).encode()
-            } else {
-                valueObject = value as! NSObject
-            }
-            
-            dictionary[keyObject] = valueObject
-        }
-        return dictionary
-    }
+    func encode() -> AnyObject { return self }
 }
 
 extension JSON {

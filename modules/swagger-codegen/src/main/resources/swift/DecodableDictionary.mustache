@@ -6,7 +6,7 @@
 
 import Foundation
 
-final class DecodableDictionary<Key, Value where Key: Hashable, Key: JSONDecodable, Value: JSONDecodable>: JSONEncodable, JSONDecodable, DictionaryLiteralConvertible {
+final class DecodableDictionary<Key, Value where Key: Hashable, Key: JSONEncodable, Key: JSONDecodable, Value: JSONEncodable, Value: JSONDecodable>: JSONEncodable, JSONDecodable, DictionaryLiteralConvertible {
     let value: [Key:Value]
     
     init(dictionaryLiteral elements: (Key, Value)...) {
@@ -33,6 +33,12 @@ final class DecodableDictionary<Key, Value where Key: Hashable, Key: JSONDecodab
     }
 
     func encode() -> AnyObject {
-        return value.encode()
+        var destination = [String: AnyObject]()
+        for (key, value) in self.value {
+            let keyStr = "\(key.encode())"
+            let valueObj: AnyObject = value.encode()
+            destination[keyStr] = valueObj
+        }
+        return destination
     }
 }
