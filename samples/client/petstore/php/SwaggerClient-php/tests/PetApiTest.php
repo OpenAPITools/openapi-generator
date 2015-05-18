@@ -31,6 +31,22 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $add_response = $pet_api->addPet($new_pet);
   }
 
+  // test static functions defined in APIClient
+  public function testAPIClient()
+  { 
+    # test selectHeaderAccept
+    $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderAccept(array('application/xml','application/json')));
+    $this->assertSame(NULL, SwaggerClient\APIClient::selectHeaderAccept(array()));
+    $this->assertSame('application/yaml,application/xml', SwaggerClient\APIClient::selectHeaderAccept(array('application/yaml','application/xml')));
+   
+    # test selectHeaderContentType
+    $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array('application/xml','application/json')));
+    $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array()));
+    $this->assertSame('application/yaml,application/xml', SwaggerClient\APIClient::selectHeaderContentType(array('application/yaml','application/xml')));
+   
+
+  }
+
   // test getPetById with a Pet object (id 10005)
   public function testGetPetById()
   {

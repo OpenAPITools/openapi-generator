@@ -48,12 +48,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('application/json','application/xml',);
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml',));
 
       
       
@@ -100,12 +99,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('application/json','application/xml',);
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml',));
 
       
       
@@ -152,12 +150,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       // query params
       if($status !== null) {
@@ -209,12 +206,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       // query params
       if($tags !== null) {
@@ -271,12 +267,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       
       
@@ -336,12 +331,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('application/x-www-form-urlencoded',);
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/x-www-form-urlencoded',));
 
       
       
@@ -400,12 +394,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       
       // header params
@@ -462,12 +455,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('multipart/form-data',);
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('multipart/form-data',));
 
       
       
