@@ -11,7 +11,7 @@ module SwaggerClient
     # @option opts [User] :body Created user object
     # @return void
     def self.create_user(opts = {})
-      # verify existence of params
+      
 
       # resource path
       path = "/user".sub('{format}','json')
@@ -22,40 +22,23 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = nil
-      _body_param = opts[:'body']
-      if _body_param != nil
-        if _body_param.is_a?(Array)
-          _array = Array.new
-          _body_param.each do |item|
-            if item.respond_to?(:to_body)
-              _array.push item.to_body
-            else
-              _array.push item
-            end
-          end
-          post_body = _array
-        else 
-          if _body_param.respond_to?(:to_body)
-            post_body = _body_param.to_body
-          else
-            post_body = _body_param
-          end
-        end
-      end
+      post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+      
 
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-    end
+            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
 
     # Creates list of users with given input array
     # 
@@ -63,7 +46,7 @@ module SwaggerClient
     # @option opts [array[User]] :body List of user object
     # @return void
     def self.create_users_with_array_input(opts = {})
-      # verify existence of params
+      
 
       # resource path
       path = "/user/createWithArray".sub('{format}','json')
@@ -74,40 +57,23 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = nil
-      _body_param = opts[:'body']
-      if _body_param != nil
-        if _body_param.is_a?(Array)
-          _array = Array.new
-          _body_param.each do |item|
-            if item.respond_to?(:to_body)
-              _array.push item.to_body
-            else
-              _array.push item
-            end
-          end
-          post_body = _array
-        else 
-          if _body_param.respond_to?(:to_body)
-            post_body = _body_param.to_body
-          else
-            post_body = _body_param
-          end
-        end
-      end
+      post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+      
 
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-    end
+            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
 
     # Creates list of users with given input array
     # 
@@ -115,7 +81,7 @@ module SwaggerClient
     # @option opts [array[User]] :body List of user object
     # @return void
     def self.create_users_with_list_input(opts = {})
-      # verify existence of params
+      
 
       # resource path
       path = "/user/createWithList".sub('{format}','json')
@@ -126,40 +92,23 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = nil
-      _body_param = opts[:'body']
-      if _body_param != nil
-        if _body_param.is_a?(Array)
-          _array = Array.new
-          _body_param.each do |item|
-            if item.respond_to?(:to_body)
-              _array.push item.to_body
-            else
-              _array.push item
-            end
-          end
-          post_body = _array
-        else 
-          if _body_param.respond_to?(:to_body)
-            post_body = _body_param.to_body
-          else
-            post_body = _body_param
-          end
-        end
-      end
+      post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+      
 
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-    end
+            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
 
     # Logs user into the system
     # 
@@ -168,7 +117,7 @@ module SwaggerClient
     # @option opts [string] :password The password for login in clear text
     # @return string
     def self.login_user(opts = {})
-      # verify existence of params
+      
 
       # resource path
       path = "/user/login".sub('{format}','json')
@@ -181,28 +130,31 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
+      
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-      string.new(response)
-    end
+      obj = string.new() and obj.build_from_hash(response)
+  end
 
     # Logs out current logged in user session
     # 
     # @param [Hash] opts the optional parameters
     # @return void
     def self.logout_user(opts = {})
-      # verify existence of params
+      
 
       # resource path
       path = "/user/logout".sub('{format}','json')
@@ -213,20 +165,23 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
+      
 
-      Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-    end
+            Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
 
     # Get user by user name
     # 
@@ -234,8 +189,10 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return User
     def self.get_user_by_name(username, opts = {})
-      # verify existence of params
-      raise "username is required" if username.nil?
+      
+      # verify the required parameter 'username' is set
+      raise "Missing the required parameter 'username' when calling get_user_by_name" if username.nil?
+      
 
       # resource path
       path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
@@ -246,21 +203,24 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
+      
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-      User.new(response)
-    end
+      obj = User.new() and obj.build_from_hash(response)
+  end
 
     # Updated user
     # This can only be done by the logged in user.
@@ -269,8 +229,10 @@ module SwaggerClient
     # @option opts [User] :body Updated user object
     # @return void
     def self.update_user(username, opts = {})
-      # verify existence of params
-      raise "username is required" if username.nil?
+      
+      # verify the required parameter 'username' is set
+      raise "Missing the required parameter 'username' when calling update_user" if username.nil?
+      
 
       # resource path
       path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
@@ -281,40 +243,23 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = nil
-      _body_param = opts[:'body']
-      if _body_param != nil
-        if _body_param.is_a?(Array)
-          _array = Array.new
-          _body_param.each do |item|
-            if item.respond_to?(:to_body)
-              _array.push item.to_body
-            else
-              _array.push item
-            end
-          end
-          post_body = _array
-        else 
-          if _body_param.respond_to?(:to_body)
-            post_body = _body_param.to_body
-          else
-            post_body = _body_param
-          end
-        end
-      end
+      post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+      
 
-      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-    end
+            Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
 
     # Delete user
     # This can only be done by the logged in user.
@@ -322,8 +267,10 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return void
     def self.delete_user(username, opts = {})
-      # verify existence of params
-      raise "username is required" if username.nil?
+      
+      # verify the required parameter 'username' is set
+      raise "Missing the required parameter 'username' when calling delete_user" if username.nil?
+      
 
       # resource path
       path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
@@ -334,19 +281,22 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
+      
 
-      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-    end
+            Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
   end
 end

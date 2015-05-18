@@ -1,16 +1,17 @@
 require 'logger'
+require 'json'
 
 module SwaggerClient
   module Swagger
     class << self
       attr_accessor :logger
-    
+
       # A Swagger configuration object. Must act like a hash and return sensible
       # values for all Swagger configuration options. See Swagger::Configuration.
       attr_accessor :configuration
 
       attr_accessor :resources
-    
+
       # Call this method to modify defaults in your initializers.
       #
       # @example
@@ -38,31 +39,31 @@ module SwaggerClient
         configuration.base_path = "/#{configuration.base_path}".gsub(/\/+/, '/')
         configuration.base_path = "" if configuration.base_path == "/"
       end
-    
+
       def authenticated?
         Swagger.configuration.auth_token.present?
       end
-    
+
       def de_authenticate
         Swagger.configuration.auth_token = nil
       end
-    
+
       def authenticate
         return if Swagger.authenticated?
-      
+
         if Swagger.configuration.username.blank? || Swagger.configuration.password.blank?
           raise ClientError, "Username and password are required to authenticate."
         end
-      
+
         request = Swagger::Request.new(
-          :get, 
-          "account/authenticate/{username}", 
+          :get,
+          "account/authenticate/{username}",
           :params => {
-            :username => Swagger.configuration.username, 
+            :username => Swagger.configuration.username,
             :password => Swagger.configuration.password
           }
         )
-      
+
         response_body = request.response.body
         Swagger.configuration.auth_token = response_body['token']
       end

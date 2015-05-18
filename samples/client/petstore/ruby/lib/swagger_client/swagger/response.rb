@@ -17,7 +17,7 @@ module SwaggerClient
       def code
         raw.code
       end
-    
+
       # Account for error messages that take different forms...
       def error_message
         body['message']
@@ -28,12 +28,12 @@ module SwaggerClient
       # If body is JSON, parse it
       # Otherwise return raw string
       def body
-        JSON.parse raw.body
+        JSON.parse(raw.body, :symbolize_names => true)
       rescue
         raw.body
       end
 
-      # `headers_hash` is a Typhoeus-specific extension of Hash, 
+      # `headers_hash` is a Typhoeus-specific extension of Hash,
       # so simplify it back into a regular old Hash.
       def headers
         h = {}

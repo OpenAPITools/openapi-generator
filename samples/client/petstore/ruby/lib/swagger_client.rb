@@ -7,6 +7,7 @@ require 'swagger_client/swagger/response'
 require 'swagger_client/swagger/version'
 
 # Models
+require 'swagger_client/models/base_object'
 require 'swagger_client/models/user'
 require 'swagger_client/models/category'
 require 'swagger_client/models/pet'

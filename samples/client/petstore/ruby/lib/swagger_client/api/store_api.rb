@@ -10,7 +10,7 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return map[string,int]
     def self.get_inventory(opts = {})
-      # verify existence of params
+      
 
       # resource path
       path = "/store/inventory".sub('{format}','json')
@@ -21,21 +21,24 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
+      
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-      response.map {|response| map.new(response) }
-    end
+      response.map {|response| obj = map.new() and obj.build_from_hash(response) }
+  end
 
     # Place an order for a pet
     # 
@@ -43,7 +46,7 @@ module SwaggerClient
     # @option opts [Order] :body order placed for purchasing the pet
     # @return Order
     def self.place_order(opts = {})
-      # verify existence of params
+      
 
       # resource path
       path = "/store/order".sub('{format}','json')
@@ -54,41 +57,24 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = nil
-      _body_param = opts[:'body']
-      if _body_param != nil
-        if _body_param.is_a?(Array)
-          _array = Array.new
-          _body_param.each do |item|
-            if item.respond_to?(:to_body)
-              _array.push item.to_body
-            else
-              _array.push item
-            end
-          end
-          post_body = _array
-        else 
-          if _body_param.respond_to?(:to_body)
-            post_body = _body_param.to_body
-          else
-            post_body = _body_param
-          end
-        end
-      end
+      post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+      
 
       response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-      Order.new(response)
-    end
+      obj = Order.new() and obj.build_from_hash(response)
+  end
 
     # Find purchase order by ID
     # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
@@ -96,8 +82,10 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return Order
     def self.get_order_by_id(order_id, opts = {})
-      # verify existence of params
-      raise "order_id is required" if order_id.nil?
+      
+      # verify the required parameter 'order_id' is set
+      raise "Missing the required parameter 'order_id' when calling get_order_by_id" if order_id.nil?
+      
 
       # resource path
       path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
@@ -108,21 +96,24 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
+      
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-      Order.new(response)
-    end
+      obj = Order.new() and obj.build_from_hash(response)
+  end
 
     # Delete purchase order by ID
     # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -130,8 +121,10 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return void
     def self.delete_order(order_id, opts = {})
-      # verify existence of params
-      raise "order_id is required" if order_id.nil?
+      
+      # verify the required parameter 'order_id' is set
+      raise "Missing the required parameter 'order_id' when calling delete_order" if order_id.nil?
+      
 
       # resource path
       path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
@@ -142,19 +135,22 @@ module SwaggerClient
       # header parameters
       header_params = {}
 
-      _header_accept = 'application/json, application/xml'
-      header_params['Accept'] = _header_accept if _header_accept != ''
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
+      # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
+      
 
-      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-    end
+            Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+  end
   end
 end
