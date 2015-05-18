@@ -253,4 +253,39 @@ sub deserialize
 
 }
 
+# return 'Accept' based on an array of accept provided
+# @param [Array] header_accept_array Array fo 'Accept'
+# @return String Accept (e.g. application/json)
+sub select_header_accept
+{
+  my ($self, @header) = @_;
+
+  if (@header == 0 || (@header == 1 && $header[0] eq '')) {
+    return undef;
+  } elsif (grep(/^application\/json$/i, @header)) {
+    return 'application/json';
+  } else {
+    return join(',', @header);
+  }
+
+}
+
+# return the content type based on an array of content-type provided
+# @param [Array] content_type_array Array fo content-type
+# @return String Content-Type (e.g. application/json)
+sub select_header_content_type
+{
+  my ($self, @header) = @_;
+
+  if (@header == 0 || (@header == 1 && $header[0] eq '')) {
+    return 'application/json'; # default to application/json
+  } elsif (grep(/^application\/json$/i, @header)) {
+    return 'application/json';
+  } else {
+    return join(',', @header);
+  }
+
+}
+
+
 1;
