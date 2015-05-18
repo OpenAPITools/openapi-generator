@@ -7,11 +7,14 @@
 
 import SwiftyJSON
 
+extension JSON {
+}
+
 extension {{projectName}}API {
     {{#description}}
 
     /** {{description}} */{{/description}}
-    final class {{classname}}: JSONEncodable, JSONDecodable {
+    final class {{classname}}: JSONEncodable {
     {{#vars}}{{#isEnum}}
         enum {{datatypeWithEnum}}: String { {{#allowableValues}}{{#values}}
             case {{enum}} = "{{raw}}"{{/values}}{{/allowableValues}}
