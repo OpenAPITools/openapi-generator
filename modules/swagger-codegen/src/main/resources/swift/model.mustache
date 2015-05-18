@@ -5,45 +5,31 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
-import SwiftyJSON
+import Foundation
 
-extension JSON {
-}
+{{#description}}
 
-extension {{projectName}}API {
-    {{#description}}
+/** {{description}} */{{/description}}
+final class {{classname}}: JSONEncodable {
+{{#vars}}{{#isEnum}}
+    enum {{datatypeWithEnum}}: String { {{#allowableValues}}{{#values}}
+        case {{enum}} = "{{raw}}"{{/values}}{{/allowableValues}}
+    }
+    {{/isEnum}}{{/vars}}
+    {{#vars}}{{#isEnum}}{{#description}}/** {{description}} */
+    {{/description}}var {{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}{{^isEnum}}{{#description}}/** {{description}} */
+    {{/description}}var {{name}}: {{{datatype}}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}
+    {{/vars}}
 
-    /** {{description}} */{{/description}}
-    final class {{classname}}: JSONEncodable {
-    {{#vars}}{{#isEnum}}
-        enum {{datatypeWithEnum}}: String { {{#allowableValues}}{{#values}}
-            case {{enum}} = "{{raw}}"{{/values}}{{/allowableValues}}
-        }
-        {{/isEnum}}{{/vars}}
-        {{#vars}}{{#isEnum}}{{#description}}/** {{description}} */
-        {{/description}}var {{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}{{^isEnum}}{{#description}}/** {{description}} */
-        {{/description}}var {{name}}: {{{datatype}}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}
-        {{/vars}}
-
-        // MARK: JSONDecodable
-        static func decode(source: AnyObject) -> {{classname}}? {
-            let json = JSON(source)
-            var instance = {{classname}}(){{#vars}}{{#isEnum}}
-            instance.{{name}} = {{datatypeWithEnum}}(rawValue: json["{{name}}"].string ?? ""){{/isEnum}}{{^isEnum}}
-            instance.{{name}} = json["{{name}}"].decode(){{/isEnum}}{{/vars}}
-            return instance
-        }
-
-        // MARK: JSONEncodable
-        func encode() -> AnyObject {
-            var nillableDictionary = [String:AnyObject?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}
-            nillableDictionary["{{name}}"] = self.{{name}}{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
-            nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.rawValue{{/isEnum}}{{^isPrimitiveType}}
-            nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encode(){{/isPrimitiveType}}{{/isNotContainer}}{{#isContainer}}
-            nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encode(){{/isContainer}}{{/vars}}
-            let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-            return dictionary
-        }
-    }{{/model}}
-}
+    // MARK: JSONEncodable
+    func encode() -> AnyObject {
+        var nillableDictionary = [String:AnyObject?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}
+        nillableDictionary["{{name}}"] = self.{{name}}{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
+        nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.rawValue{{/isEnum}}{{^isPrimitiveType}}
+        nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encode(){{/isPrimitiveType}}{{/isNotContainer}}{{#isContainer}}
+        nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encode(){{/isContainer}}{{/vars}}
+        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        return dictionary
+    }
+}{{/model}}
 {{/models}}
