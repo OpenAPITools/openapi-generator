@@ -86,8 +86,6 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      #my @_header_content_type = ();
-      #$header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
@@ -139,8 +137,6 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      #my @_header_content_type = ();
-      #$header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
@@ -200,8 +196,6 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      #my @_header_content_type = ();
-      #$header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
@@ -263,8 +257,6 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      #my @_header_content_type = ();
-      #$header_params->{'Content-Type'} = scalar(@_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
