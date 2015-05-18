@@ -99,6 +99,7 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("array", "Array");
     typeMapping.put("List", "Array");
     typeMapping.put("map", "Dictionary");
+    typeMapping.put("date", "NSDate");
     typeMapping.put("Date", "NSDate");
     typeMapping.put("DateTime", "NSDate");
     typeMapping.put("boolean", "Bool");
