@@ -24,21 +24,21 @@ module SwaggerClient
         if attributes[:headers].present? && attributes[:headers].has_key?(:api_key)
           default_headers.delete(:api_key)
         end
-      
+
         # api_key from params hash trumps all others (headers and default_headers)
         if attributes[:params].present? && attributes[:params].has_key?(:api_key)
           default_headers.delete(:api_key)
           attributes[:headers].delete(:api_key) if attributes[:headers].present?
         end
-      
+
         # Merge argument headers into defaults
         attributes[:headers] = default_headers.merge(attributes[:headers] || {})
-      
+
         # Stick in the auth token if there is one
         if Swagger.authenticated?
           attributes[:headers].merge!({:auth_token => Swagger.configuration.auth_token})
         end
-            
+
         self.http_method = http_method.to_sym
         self.path = path
         attributes.each do |name, value|
@@ -47,20 +47,20 @@ module SwaggerClient
       end
 
       # Construct a base URL
-      def url(options = {})  
+      def url(options = {})
         u = Addressable::URI.new(
           :scheme => Swagger.configuration.scheme,
           :host => Swagger.configuration.host,
           :path => self.interpreted_path,
           :query => self.query_string.sub(/\?/, '')
         ).to_s
-      
+
         # Drop trailing question mark, if present
         u.sub! /\?$/, ''
-      
+
         # Obfuscate API key?
         u.sub! /api\_key=\w+/, 'api_key=YOUR_API_KEY' if options[:obfuscated]
-      
+
         u
       end
 
@@ -83,18 +83,18 @@ module SwaggerClient
         # e.g. /words/blah => /words/blah.{format}
         if Swagger.configuration.force_ending_format
           unless ['.json', '.xml', '{format}'].any? {|s| p.downcase.include? s }
-            p = "#{p}.#{format}"   
+            p = "#{p}.#{format}"
           end
         end
 
         p = p.sub("{format}", self.format.to_s)
-      
+
         URI.encode [Swagger.configuration.base_path, p].join("/").gsub(/\/+/, '/')
       end
-  
+
       # Massage the request body into a state of readiness
       # If body is a hash, camelize all keys then convert to a json string
-      def body=(value)      
+      def body=(value)
         if value.is_a?(Hash)
           value = value.inject({}) do |memo, (k,v)|
             memo[k.to_s.camelize(:lower).to_sym] = v
@@ -103,9 +103,9 @@ module SwaggerClient
         end
         @body = value
       end
-    
+
       # If body is an object, JSONify it before making the actual request.
-      # For form parameters, remove empty value 
+      # For form parameters, remove empty value
       def outgoing_body
         # http form
         if @body.nil? && @form_params && !@form_params.empty?
@@ -118,7 +118,7 @@ module SwaggerClient
           @body.is_a?(String) ? @body : @body.to_json
         end
       end
-    
+
       # Construct a query string from the query-string-type params
       def query_string
         # Iterate over all params,
@@ -133,17 +133,17 @@ module SwaggerClient
           end
           query_values[key] = value.to_s
         end
-    
+
         # We don't want to end up with '?' as our query string
         # if there aren't really any params
         return "" if query_values.blank?
-    
+
         # Addressable requires query_values to be set after initialization..
         qs = Addressable::URI.new
         qs.query_values = query_values
         qs.to_s
       end
-  
+
       def make
         #TODO use configuration setting to determine if debugging
         #logger = Logger.new STDOUT
@@ -175,7 +175,7 @@ module SwaggerClient
             :body => self.outgoing_body,
             :headers => self.headers.stringify_keys,
           )
-      
+
         when :delete,:DELETE
           Typhoeus::Request.delete(
             self.url,
@@ -185,21 +185,73 @@ module SwaggerClient
         end
         Response.new(response)
       end
-  
+
       def response
         self.make
       end
-  
+
       def response_code_pretty
         return unless @response.present?
-        @response.code.to_s    
+        @response.code.to_s
       end
-  
+
       def response_headers_pretty
         return unless @response.present?
         # JSON.pretty_generate(@response.headers).gsub(/\n/, '<br/>') # <- This was for RestClient
         @response.headers.gsub(/\n/, '<br/>') # <- This is for Typhoeus
       end
+
+      # return 'Accept' based on an array of accept provided
+      # @param [Array] header_accept_array Array fo 'Accept'
+      # @return String Accept (e.g. application/json)
+      def self.select_header_accept header_accept_array
+        if header_accept_array.empty?
+          return
+        elsif header_accept_array.any?{ |s| s.casecmp('application/json')==0 }
+          'application/json' # look for json data by default
+        else
+          header_accept_array.join(',')
+        end
+      end
+
+      # return the content type based on an array of content-type provided
+      # @param [Array] content_type_array Array fo content-type
+      # @return String Content-Type (e.g. application/json)
+      def self.select_header_content_type content_type_array
+        if content_type_array.empty?
+          'application/json' # use application/json by default
+        elsif content_type_array.any?{ |s| s.casecmp('application/json')==0 }
+          'application/json' # use application/json if it's included
+        else
+          content_type_array[0]; # otherwise, use the first one
+        end
+      end
+
+      # static method to convert object (array, hash, object, etc) to JSON string
+      # @param model object to be converted into JSON string
+      # @return string JSON string representation of the object
+      def self.object_to_http_body model
+        return if model.nil?
+        _body = nil
+        if model.is_a?(Array)
+          _body = model.map{|m| object_to_hash(m) }
+        else
+          _body = object_to_hash(model)
+        end
+        _body.to_json
+      end
+
+      # static method to convert object(non-array) to hash
+      # @param obj object to be converted into JSON string
+      # @return string JSON string representation of the object
+      def self.object_to_hash obj
+        if obj.respond_to?(:to_hash)
+          obj.to_hash
+        else
+          obj
+        end
+      end
+
     end
   end
 end

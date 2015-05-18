@@ -1,35 +1,44 @@
 module SwaggerClient
-  class Category
+  # 
+  class Category < BaseObject
     attr_accessor :id, :name
-    # :internal => :external
+    # attribute mapping from ruby-style variable name to JSON key
     def self.attribute_map
       {
-        :id => :'id',
-        :name => :'name'
+        
+        # 
+        :'id' => :'id',
+        
+        # 
+        :'name' => :'name'
+        
+      }
+    end
+
+    # attribute type
+    def self.swagger_types
+      {
+        :'id' => :'int',
+        :'name' => :'string'
         
       }
     end
 
     def initialize(attributes = {})
-      return if attributes.empty?
-      # Morph attribute keys into undescored rubyish style
-      
-      if self.class.attribute_map[:"id"]
-        @id = attributes["id"]
-      end
-      
-      if self.class.attribute_map[:"name"]
-        @name = attributes["name"]
-      end
-      
-    end
+      return if !attributes.is_a?(Hash) || attributes.empty?
 
-    def to_body
-      body = {}
-      self.class.attribute_map.each_pair do |key, value|
-        body[value] = self.send(key) unless self.send(key).nil?
+      # convert string to symbol for hash key
+      attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+
+      
+      if attributes[:'id']
+        @id = attributes[:'id']
       end
-      body
+      
+      if attributes[:'name']
+        @name = attributes[:'name']
+      end
+      
     end
   end
 end

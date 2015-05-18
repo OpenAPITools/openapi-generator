@@ -1,55 +1,76 @@
 module SwaggerClient
-  class Order
+  # 
+  class Order < BaseObject
     attr_accessor :id, :pet_id, :quantity, :ship_date, :status, :complete
-    # :internal => :external
+    # attribute mapping from ruby-style variable name to JSON key
     def self.attribute_map
       {
-        :id => :'id',
-        :pet_id => :'petId',
-        :quantity => :'quantity',
-        :ship_date => :'shipDate',
-        :status => :'status',
-        :complete => :'complete'
+        
+        # 
+        :'id' => :'id',
+        
+        # 
+        :'pet_id' => :'petId',
+        
+        # 
+        :'quantity' => :'quantity',
+        
+        # 
+        :'ship_date' => :'shipDate',
+        
+        # Order Status
+        :'status' => :'status',
+        
+        # 
+        :'complete' => :'complete'
+        
+      }
+    end
+
+    # attribute type
+    def self.swagger_types
+      {
+        :'id' => :'int',
+        :'pet_id' => :'int',
+        :'quantity' => :'int',
+        :'ship_date' => :'DateTime',
+        :'status' => :'string',
+        :'complete' => :'boolean'
         
       }
     end
 
     def initialize(attributes = {})
-      return if attributes.empty?
-      # Morph attribute keys into undescored rubyish style
-      
-      if self.class.attribute_map[:"id"]
-        @id = attributes["id"]
-      end
-      
-      if self.class.attribute_map[:"pet_id"]
-        @pet_id = attributes["petId"]
-      end
-      
-      if self.class.attribute_map[:"quantity"]
-        @quantity = attributes["quantity"]
-      end
-      
-      if self.class.attribute_map[:"ship_date"]
-        @ship_date = attributes["shipDate"]
-      end
-      
-      if self.class.attribute_map[:"status"]
-        @status = attributes["status"]
-      end
-      
-      if self.class.attribute_map[:"complete"]
-        @complete = attributes["complete"]
-      end
-      
-    end
+      return if !attributes.is_a?(Hash) || attributes.empty?
 
-    def to_body
-      body = {}
-      self.class.attribute_map.each_pair do |key, value|
-        body[value] = self.send(key) unless self.send(key).nil?
+      # convert string to symbol for hash key
+      attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+
+      
+      if attributes[:'id']
+        @id = attributes[:'id']
       end
-      body
+      
+      if attributes[:'petId']
+        @pet_id = attributes[:'petId']
+      end
+      
+      if attributes[:'quantity']
+        @quantity = attributes[:'quantity']
+      end
+      
+      if attributes[:'shipDate']
+        @ship_date = attributes[:'shipDate']
+      end
+      
+      if attributes[:'status']
+        @status = attributes[:'status']
+      end
+      
+      if attributes[:'complete']
+        @complete = attributes[:'complete']
+      end
+      
     end
   end
 end
