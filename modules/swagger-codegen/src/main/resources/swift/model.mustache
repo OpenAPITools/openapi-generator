@@ -10,7 +10,7 @@ import Foundation
 {{#description}}
 
 /** {{description}} */{{/description}}
-final class {{classname}}: JSONEncodable {
+class {{classname}}: JSONEncodable {
 {{#vars}}{{#isEnum}}
     enum {{datatypeWithEnum}}: String { {{#allowableValues}}{{#values}}
         case {{enum}} = "{{raw}}"{{/values}}{{/allowableValues}}
