@@ -150,7 +150,7 @@ class StoreApi {
       
       // verify the required parameter 'order_id' is set
       if ($order_id === null) {
-        throw new \Exception("Missing the required parameter $order_id when calling getOrderById");
+        throw new \InvalidArgumentException('Missing the required parameter $order_id when calling getOrderById');
       }
       
 
@@ -212,7 +212,7 @@ class StoreApi {
       
       // verify the required parameter 'order_id' is set
       if ($order_id === null) {
-        throw new \Exception("Missing the required parameter $order_id when calling deleteOrder");
+        throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
       }
       
 
