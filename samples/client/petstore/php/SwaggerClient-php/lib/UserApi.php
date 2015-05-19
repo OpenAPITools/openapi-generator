@@ -300,7 +300,7 @@ class UserApi {
       
       // verify the required parameter 'username' is set
       if ($username === null) {
-        throw new \Exception("Missing the required parameter $username when calling getUserByName");
+        throw new \InvalidArgumentException('Missing the required parameter $username when calling getUserByName');
       }
       
 
@@ -363,7 +363,7 @@ class UserApi {
       
       // verify the required parameter 'username' is set
       if ($username === null) {
-        throw new \Exception("Missing the required parameter $username when calling updateUser");
+        throw new \InvalidArgumentException('Missing the required parameter $username when calling updateUser');
       }
       
 
@@ -423,7 +423,7 @@ class UserApi {
       
       // verify the required parameter 'username' is set
       if ($username === null) {
-        throw new \Exception("Missing the required parameter $username when calling deleteUser");
+        throw new \InvalidArgumentException('Missing the required parameter $username when calling deleteUser');
       }
       
 

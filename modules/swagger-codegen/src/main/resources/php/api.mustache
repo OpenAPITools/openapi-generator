@@ -42,7 +42,7 @@ class {{classname}} {
       {{#allParams}}{{#required}}
       // verify the required parameter '{{paramName}}' is set
       if (${{paramName}} === null) {
-        throw new \Exception("Missing the required parameter ${{paramName}} when calling {{nickname}}");
+        throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{nickname}}');
       }
       {{/required}}{{/allParams}}
 

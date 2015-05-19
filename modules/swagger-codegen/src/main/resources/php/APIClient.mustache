@@ -55,7 +55,7 @@ class APIClient {
    */
   public function addDefaultHeader($header_name, $header_value) {
     if (!is_string($header_name)) 
-      throw new exception('heaer name must be a string.');
+      throw new \InvalidArgumentException('Header name must be a string.');
 
     self::$default_header[$header_name] =  $header_value;
   }
@@ -85,7 +85,7 @@ class APIClient {
    */
   public function setUserAgent($user_agent) {
     if (!is_string($user_agent))
-      throw new exception('user-agent must be a string.');
+      throw new \InvalidArgumentException('User-agent must be a string.');
 
     $this->user_agent= $user_agent;
   }
@@ -95,7 +95,7 @@ class APIClient {
    */
   public function setTimeout($seconds) {
     if (!is_numeric($seconds))
-      throw new Exception('Timeout variable must be numeric.');
+      throw new \InvalidArgumentException('Timeout variable must be numeric.');
 
     $this->curl_timeout = $seconds;
   }
@@ -167,7 +167,7 @@ class APIClient {
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
     } else if ($method != self::$GET) {
-      throw new Exception('Method ' . $method . ' is not recognized.');
+      throw new APIClientException('Method ' . $method . ' is not recognized.');
     }
     curl_setopt($curl, CURLOPT_URL, $url);
 

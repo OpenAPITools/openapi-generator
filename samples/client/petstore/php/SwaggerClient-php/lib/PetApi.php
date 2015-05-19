@@ -255,7 +255,7 @@ class PetApi {
       
       // verify the required parameter 'pet_id' is set
       if ($pet_id === null) {
-        throw new \Exception("Missing the required parameter $pet_id when calling getPetById");
+        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetById');
       }
       
 
@@ -319,7 +319,7 @@ class PetApi {
       
       // verify the required parameter 'pet_id' is set
       if ($pet_id === null) {
-        throw new \Exception("Missing the required parameter $pet_id when calling updatePetWithForm");
+        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling updatePetWithForm');
       }
       
 
@@ -382,7 +382,7 @@ class PetApi {
       
       // verify the required parameter 'pet_id' is set
       if ($pet_id === null) {
-        throw new \Exception("Missing the required parameter $pet_id when calling deletePet");
+        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
       }
       
 
@@ -443,7 +443,7 @@ class PetApi {
       
       // verify the required parameter 'pet_id' is set
       if ($pet_id === null) {
-        throw new \Exception("Missing the required parameter $pet_id when calling uploadFile");
+        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling uploadFile');
       }
       
 
