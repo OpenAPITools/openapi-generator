@@ -24,6 +24,8 @@ class APIClient {
   public static $GET = "GET";
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
+  
+  private static $default_header = array();
 
   /*
    * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
@@ -46,24 +48,55 @@ class APIClient {
   }
 
   /**
-   * Set the user agent of the API client
+   * add default header 
    *
-   *  @param string $user_agent The user agent of the API client
+   * @param string $header_name header name (e.g. Token)
+   * @param string $header_value header value (e.g. 1z8wp3)
+   */
+  public function addDefaultHeader($header_name, $header_value) {
+    if (!is_string($header_name)) 
+      throw new exception('heaer name must be a string.');
+
+    self::$default_header[$header_name] =  $header_value;
+  }
+
+  /**
+   * get the default header 
+   *
+   * @return array default header
+   */
+  public function getDefaultHeader() {
+    return self::$default_header;
+  }
+
+  /**
+   * delete the default header based on header name
+   *
+   * @param string $header_name header name (e.g. Token)
+   */
+  public function deleteDefaultHeader($header_name) {
+    unset(self::$default_header[$header_name]);
+  }
+
+  /**
+   * set the user agent of the api client
+   *
+   *  @param string $user_agent the user agent of the api client
    */
   public function setUserAgent($user_agent) {
-    if (!is_string($user_agent)) {
-      throw new Exception('User-agent must be a string.');
-    }
+    if (!is_string($user_agent))
+      throw new exception('user-agent must be a string.');
+
     $this->user_agent= $user_agent;
   }
 
   /**
    *  @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
-  */
+   */
   public function setTimeout($seconds) {
-    if (!is_numeric($seconds)) {
+    if (!is_numeric($seconds))
       throw new Exception('Timeout variable must be numeric.');
-    }
+
     $this->curl_timeout = $seconds;
   }
 
@@ -83,6 +116,9 @@ class APIClient {
     # Allow API key from $headerParams to override default
     $added_api_key = False;
     if ($headerParams != null) {
+      # add default header
+      $headerParams = array_merge((array)self::$default_header, $headerParams);
+
       foreach ($headerParams as $key => $val) {
         $headers[] = "$key: $val";
         if ($key == $this->headerName) {
@@ -111,6 +147,7 @@ class APIClient {
     }
     // return the result on success, rather than just TRUE
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
     if (! empty($queryParams)) {

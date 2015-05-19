@@ -43,8 +43,16 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array('application/xml','application/json')));
     $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array()));
     $this->assertSame('application/yaml,application/xml', SwaggerClient\APIClient::selectHeaderContentType(array('application/yaml','application/xml')));
-   
 
+    # test addDefaultHeader and getDefaultHeader
+    SwaggerClient\APIClient::addDefaultHeader('test1', 'value1');
+    SwaggerClient\APIClient::addDefaultHeader('test2', 200);
+    $this->assertSame('value1', SwaggerClient\APIClient::getDefaultHeader()['test1']);
+    $this->assertSame(200, SwaggerClient\APIClient::getDefaultHeader()['test2']);
+
+    # test deleteDefaultHeader
+    SwaggerClient\APIClient::deleteDefaultHeader('test2');
+    $this->assertFalse(isset(SwaggerClient\APIClient::getDefaultHeader()['test2']));
   }
 
   // test getPetById with a Pet object (id 10005)
