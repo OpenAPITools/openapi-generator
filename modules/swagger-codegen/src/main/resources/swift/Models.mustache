@@ -69,18 +69,27 @@ class Decoders {
     }
 
     static func decodeOptional<T>(#clazz: T.Type, source: AnyObject?) -> T? {
+        if source is NSNull {
+            return nil
+        }
         return source.map { (source: AnyObject) -> T in
             Decoders.decode(clazz: clazz, source: source)
         }
     }
 
     static func decodeOptional<T>(#clazz: [T].Type, source: AnyObject?) -> [T]? {
+        if source is NSNull {
+            return nil
+        }
         return source.map { (someSource: AnyObject) -> [T] in
             Decoders.decode(clazz: clazz, source: someSource)
         }
     }
 
     static func decodeOptional<T, Key: Hashable>(#clazz: [Key:T].Type, source: AnyObject?) -> [Key:T]? {
+        if source is NSNull {
+            return nil
+        }
         return source.map { (someSource: AnyObject) -> [Key:T] in
             Decoders.decode(clazz: clazz, source: someSource)
         }
