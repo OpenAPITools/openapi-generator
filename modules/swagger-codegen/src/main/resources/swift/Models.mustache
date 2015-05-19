@@ -97,12 +97,17 @@ class Decoders {
 	
     static private func initialize() {
         dispatch_once(&once) {
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+            let dateTimeFormatter = NSDateFormatter()
+            dateTimeFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
             // Decoder for NSDate
             Decoders.addDecoder(clazz: NSDate.self) { (source: AnyObject) -> NSDate in
                 let sourceString = source as! String
-                return formatter.dateFromString(sourceString)!
+                if count(sourceString) == 10 {
+                    return dateFormatter.dateFromString(sourceString)!
+                }
+                return dateTimeFormatter.dateFromString(sourceString)!
             } {{#models}}{{#model}}
 
 			// Decoder for {{{classname}}}
