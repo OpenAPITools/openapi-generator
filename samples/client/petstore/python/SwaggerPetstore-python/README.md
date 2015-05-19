@@ -38,6 +38,8 @@ TODO
 
 ## Tests
 
+(Make sure you are running it inside of a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/))
+
 You can run the tests in the current python platform:
 
 ```sh
@@ -60,8 +62,7 @@ Using 2195432783 as seed
 [INFO] Final Memory: 11M/156M
 [INFO] ------------------------------------------------------------------------
 ```
-If you want to run the tests in all the python platforms,
-make sure you are running it inside of a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/):
+If you want to run the tests in all the python platforms:
 
 ```sh
 $ make test-all

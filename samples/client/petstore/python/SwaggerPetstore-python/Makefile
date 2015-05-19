@@ -8,7 +8,7 @@ ifndef VIRTUAL_ENV
      http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 endif
 
-setup: $(SETUP_OUT)
+setup: virtualenv $(SETUP_OUT)
 
 $(SETUP_OUT): setup.py setup.cfg
 		python setup.py develop
@@ -31,7 +31,7 @@ requirements: setup $(REQUIREMENTS_OUT)
 test: clean requirements
 		nosetests
 
-test-all: virtualenv clean requirements
+test-all: clean requirements
 		tox
 
 
