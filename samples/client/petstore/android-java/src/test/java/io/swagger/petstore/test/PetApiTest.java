@@ -100,11 +100,11 @@ public class PetApiTest {
     api.addPet(pet);
 
     Pet fetched = api.getPetById(pet.getId());
-    
+    assertEquals("frank", fetched.getName());
+
     api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null);
     Pet updated = api.getPetById(fetched.getId());
-
-    assertEquals(updated.getName(), fetched.getName());
+    assertEquals("furt", updated.getName());
   }
 
   @Test
