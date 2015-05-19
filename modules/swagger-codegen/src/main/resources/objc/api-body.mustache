@@ -69,6 +69,11 @@ static NSString * basePath = @"{{basePath}}";
         {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock{{/returnBaseType}}
         {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock{{/returnBaseType}} {
 
+    {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    NSAssert({{paramName}} != nil, @"Missing the required parameter `{{paramName}}` when calling {{nickname}}");
+    {{/required}}{{/allParams}}
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@{{path}}", basePath];
 
     // remove format in URL if needed

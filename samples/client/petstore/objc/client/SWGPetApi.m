@@ -67,6 +67,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         completionHandler: (void (^)(NSError* error))completionBlock {
 
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
 
     // remove format in URL if needed
@@ -157,6 +159,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         
         completionHandler: (void (^)(NSError* error))completionBlock {
+
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
 
@@ -249,6 +253,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock
          {
 
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByStatus", basePath];
 
     // remove format in URL if needed
@@ -335,6 +341,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock
          {
+
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByTags", basePath];
 
@@ -423,6 +431,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         completionHandler: (void (^)(SWGPet* output, NSError* error))completionBlock
          {
 
+    
+    // verify the required parameter 'petId' is set
+    NSAssert(petId != nil, @"Missing the required parameter `petId` when calling getPetById");
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
 
     // remove format in URL if needed
@@ -509,6 +522,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         
         completionHandler: (void (^)(NSError* error))completionBlock {
+
+    
+    // verify the required parameter 'petId' is set
+    NSAssert(petId != nil, @"Missing the required parameter `petId` when calling updatePetWithForm");
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
 
@@ -597,6 +615,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         completionHandler: (void (^)(NSError* error))completionBlock {
 
+    
+    // verify the required parameter 'petId' is set
+    NSAssert(petId != nil, @"Missing the required parameter `petId` when calling deletePet");
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
 
     // remove format in URL if needed
@@ -671,6 +694,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         
         completionHandler: (void (^)(NSError* error))completionBlock {
+
+    
+    // verify the required parameter 'petId' is set
+    NSAssert(petId != nil, @"Missing the required parameter `petId` when calling uploadFile");
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}/uploadImage", basePath];
 
