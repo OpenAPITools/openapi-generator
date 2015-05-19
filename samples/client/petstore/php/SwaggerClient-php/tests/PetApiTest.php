@@ -93,7 +93,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     // create updated pet object
     $updated_pet = new SwaggerClient\models\Pet;
     $updated_pet->id = $pet_id;
-    $updated_pet->status = "pending"; // new status
+    $updated_pet->name = 'updatePet'; // new name
+    $updated_pet->status = 'pending'; // new status
     // update Pet (model/json)
     $update_response = $pet_api->updatePet($updated_pet);
     // return nothing (void)
@@ -102,6 +103,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $response = $pet_api->getPetById($pet_id);
     $this->assertSame($response->id, $pet_id);
     $this->assertSame($response->status, 'pending');
+    $this->assertSame($response->name, 'updatePet');
   }
 
   // test updatePet and verify by the "id" of the response
@@ -112,15 +114,13 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $pet_id = 10001;  // ID of pet that needs to be fetched
     $pet_api = new SwaggerClient\PetAPI($api_client);
     // update Pet (form)
-    $update_response = $pet_api->updatePetWithForm($pet_id, null, 'sold');
+    $update_response = $pet_api->updatePetWithForm($pet_id, 'update pet with form', 'sold');
     // return nothing (void)
     $this->assertSame($update_response, NULL);
-    // TODO commented out for the time being since it's broken
-    // https://github.com/swagger-api/swagger-codegen/issues/656
-    // verify updated Pet
-    //$response = $pet_api->getPetById($pet_id);
-    //$this->assertSame($response->id, $pet_id);
-    //$this->assertSame($response->status, 'sold');
+    $response = $pet_api->getPetById($pet_id);
+    $this->assertSame($response->id, $pet_id);
+    $this->assertSame($response->name, 'update pet with form');
+    $this->assertSame($response->status, 'sold');
   }
 
   // test addPet and verify by the "id" and "name" of the response
