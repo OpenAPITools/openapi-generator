@@ -1,8 +1,6 @@
 package com.wordnik.swagger.codegen.languages;
 
 import com.wordnik.swagger.models.Operation;
-import com.wordnik.swagger.models.Path;
-import com.wordnik.swagger.util.Json;
 import com.wordnik.swagger.codegen.*;
 import com.wordnik.swagger.models.properties.*;
 
@@ -14,7 +12,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
   protected String groupId = "io.swagger";
   protected String artifactId = "swagger-jaxrs-server";
   protected String artifactVersion = "1.0.0";
-  protected String sourceFolder = "src/main/java";
   protected String title = "Swagger Server";
 
   public CodegenType getTag() {
@@ -32,7 +29,9 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
   public JaxRSServerCodegen() {
     super();
 
-    outputFolder = "generated-code/javaJaxRS";
+    sourceFolder = "src/gen/java";
+
+    outputFolder = System.getProperty( "swagger.codegen.jaxrs.genfolder", "generated-code/javaJaxRS" );
     modelTemplateFiles.put("model.mustache", ".java");
     apiTemplateFiles.put("api.mustache", ".java");
     apiTemplateFiles.put("apiService.mustache", ".java");
@@ -40,8 +39,8 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
 
     templateDir = "JavaJaxRS";
-    apiPackage = "io.swagger.api";
-    modelPackage = "io.swagger.model";
+    apiPackage = System.getProperty( "swagger.codegen.jaxrs.apipackage", "io.swagger.api") ;
+    modelPackage = System.getProperty( "swagger.codegen.jaxrs.modelpackage", "io.swagger.model" );
 
     additionalProperties.put("invokerPackage", invokerPackage);
     additionalProperties.put("groupId", groupId);
@@ -158,18 +157,33 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     String result = super.apiFilename(templateName, tag);
 
     if( templateName.endsWith( "Impl.mustache")){
-       int ix = result.lastIndexOf( '/' );
-       result = result.substring( 0, ix ) + "/impl" + result.substring( ix, result.length()-5 ) + "ServiceImpl.java";
-    } else if( templateName.endsWith( "Service.mustache")){
-      int ix = result.lastIndexOf( '.' );
-      result = result.substring( 0, ix ) + "Service.java";
+      int ix = result.lastIndexOf( '/' );
+      result = result.substring( 0, ix ) + "/impl" + result.substring( ix, result.length()-5 ) + "ServiceImpl.java";
+
+      String output = System.getProperty( "swagger.codegen.jaxrs.impl.source" );
+      if( output != null ){
+        result = result.replace( apiFileFolder(), implFileFolder(output));
+      }
     }
     else if( templateName.endsWith( "Factory.mustache")){
       int ix = result.lastIndexOf( '/' );
       result = result.substring( 0, ix ) + "/factories" + result.substring( ix, result.length()-5 ) + "ServiceFactory.java";
+
+      String output = System.getProperty( "swagger.codegen.jaxrs.impl.source" );
+      if( output != null ){
+        result = result.replace( apiFileFolder(), implFileFolder(output));
+      }
+    }
+    else if( templateName.endsWith( "Service.mustache")) {
+        int ix = result.lastIndexOf('.');
+        result = result.substring(0, ix) + "Service.java";
     }
 
     return result;
+  }
+
+  private String implFileFolder(String output) {
+    return outputFolder + "/" + output + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   public boolean shouldOverwrite( String filename ){
