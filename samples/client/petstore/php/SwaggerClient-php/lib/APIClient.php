@@ -68,6 +68,19 @@ class APIClient {
   }
 
   /**
+   * Get API key (with prefix if set)
+   * @param string key name
+   * @return string
+   */
+  public function getApiKeyWithPrefix($apiKey) {
+    if (Configuration::$apiKeyPrefix[$apiKey]) {
+      return Configuration::$apiKeyPrefix[$apiKey]." ".Configuration::$apiKey[$apiKey];
+    } else {
+      return Configuration::$apiKey[$apiKey];
+    }
+  }
+
+  /**
    * update hearder and query param based on authentication setting
    * 
    * @param array $headerParams
@@ -85,25 +98,26 @@ class APIClient {
       switch($auth) {
         
         case 'api_key':
-           $headerParams['api_key'] = Configuration::$apiKey['api_key'];
-           
-           break;
+          $headerParams['api_key'] = $this->getApiKeyWithPrefix('api_key');
+          
+          break;
         
         case 'api_secret':
-           $queryParams['api_secret'] = Configuration::$apiKey['api_secret'];
-           
-           break;
+          $queryParams['api_secret'] = $this->getApiKeyWithPrefix('api_secret');
+          
+          break;
         
         case 'petstore_auth':
-           
-           #TODO support oauth
-           break;
+          
+          //TODO support oauth
+          break;
         
+        default:
+          //TODO show warning about security definition not found
       }
     }
   }
   
-
   /**
    * @param string $resourcePath path to method endpoint
    * @param string $method method to call
@@ -116,6 +130,9 @@ class APIClient {
     $headerParams, $authSettings) {
 
     $headers = array();
+
+    # determine authentication setting
+    $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # Allow API key from $headerParams to override default
     $added_api_key = False;
