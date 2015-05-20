@@ -103,11 +103,6 @@ class APIClient {
           
           break;
         
-        case 'api_secret':
-          $queryParams['api_secret'] = $this->getApiKeyWithPrefix('api_secret');
-          
-          break;
-        
         case 'petstore_auth':
           
           //TODO support oauth

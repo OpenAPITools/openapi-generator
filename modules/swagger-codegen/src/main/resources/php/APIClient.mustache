@@ -99,7 +99,7 @@ class APIClient {
       switch($auth) {
         {{#authMethods}}
         case '{{name}}':
-          {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInQuery}}{{#isBasic}}$headerParams['Authorization'] = base64_encode(Configuraiton::$username.":"Configuration::$password){{/isBasic}}{{/isApiKey}}
+          {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$headerParams['Authorization'] = 'Basic '.base64_encode(Configuration::$username.":".Configuration::$password);{{/isBasic}}
           {{#isOAuth}}//TODO support oauth{{/isOAuth}}
           break;
         {{/authMethods}}
