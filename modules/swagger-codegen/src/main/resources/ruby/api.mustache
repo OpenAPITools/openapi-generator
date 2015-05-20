@@ -51,7 +51,8 @@ module {{moduleName}}
       {{/bodyParam}}
 
       {{#returnType}}response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-      {{#returnContainer}}response.map {|response| {{/returnContainer}}obj = {{returnBaseType}}.new() and obj.build_from_hash(response){{#returnContainer}} }{{/returnContainer}}{{/returnType}}{{^returnType}}      Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make{{/returnType}}
+      {{#returnContainer}}response.map {|response| {{/returnContainer}}obj = {{returnBaseType}}.new() and obj.build_from_hash(response){{#returnContainer}} }{{/returnContainer}}{{/returnType}}{{^returnType}}      Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil{{/returnType}}
   end
 {{/operation}}
   end
