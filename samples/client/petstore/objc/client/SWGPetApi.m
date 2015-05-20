@@ -587,11 +587,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 /*!
  * Deletes a pet
  * 
- * \param api_key 
+ * \param apiKey 
  * \param petId Pet id to delete
  * \returns void
  */
--(NSNumber*) deletePetWithCompletionBlock: (NSString*) api_key
+-(NSNumber*) deletePetWithCompletionBlock: (NSString*) apiKey
          petId: (NSNumber*) petId
         
         
@@ -616,8 +616,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
-    if(api_key != nil)
-        headerParams[@"api_key"] = api_key;
+    if(apiKey != nil)
+        headerParams[@"api_key"] = apiKey;
     
 
     id bodyDictionary = nil;

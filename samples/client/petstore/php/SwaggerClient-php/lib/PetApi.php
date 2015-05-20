@@ -38,6 +38,7 @@ class PetApi {
    * @return void
    */
    public function updatePet($body) {
+      
 
       // parse inputs
       $resourcePath = "/pet";
@@ -67,11 +68,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -91,6 +90,7 @@ class PetApi {
    * @return void
    */
    public function addPet($body) {
+      
 
       // parse inputs
       $resourcePath = "/pet";
@@ -120,11 +120,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -144,6 +142,7 @@ class PetApi {
    * @return array[Pet]
    */
    public function findPetsByStatus($status) {
+      
 
       // parse inputs
       $resourcePath = "/pet/findByStatus";
@@ -172,11 +171,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -202,6 +199,7 @@ class PetApi {
    * @return array[Pet]
    */
    public function findPetsByTags($tags) {
+      
 
       // parse inputs
       $resourcePath = "/pet/findByTags";
@@ -230,11 +228,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -260,6 +256,12 @@ class PetApi {
    * @return Pet
    */
    public function getPetById($pet_id) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling getPetById");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}";
@@ -289,11 +291,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -321,6 +321,12 @@ class PetApi {
    * @return void
    */
    public function updatePetWithForm($pet_id, $name, $status) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling updatePetWithForm");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}";
@@ -356,11 +362,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -381,6 +385,12 @@ class PetApi {
    * @return void
    */
    public function deletePet($api_key, $pet_id) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling deletePet");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}";
@@ -413,11 +423,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -435,10 +443,16 @@ class PetApi {
    *
    * @param int $pet_id ID of pet to update (required)
    * @param string $additional_metadata Additional data to pass to server (required)
-   * @param file $file file to upload (required)
+   * @param string $file file to upload (required)
    * @return void
    */
    public function uploadFile($pet_id, $additional_metadata, $file) {
+      
+      // verify the required parameter 'pet_id' is set
+      if ($pet_id === null) {
+        throw new \Exception("Missing the required parameter $pet_id when calling uploadFile");
+      }
+      
 
       // parse inputs
       $resourcePath = "/pet/{petId}/uploadImage";
@@ -474,11 +488,9 @@ class PetApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call

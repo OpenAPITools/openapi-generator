@@ -1,0 +1,47 @@
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ * 
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+#include <QJsonObject>
+
+{{/model}}{{/models}}
+{{#imports}}{{{import}}}
+{{/imports}}
+
+#include "SWGObject.h"
+
+{{#models}}{{#model}}
+namespace Swagger {
+
+class {{classname}}: public SWGObject {
+public:
+    {{classname}}();
+    {{classname}}(QString* json);
+    virtual ~{{classname}}();
+    void init();
+    void cleanup();
+
+    QString asJson ();
+    QJsonObject* asJsonObject();
+    void fromJsonObject(QJsonObject &json);
+    {{classname}}* fromJson(QString &jsonString);
+
+    {{#vars}}{{{datatype}}} {{getter}}();
+    void {{setter}}({{{datatype}}} {{name}});
+    {{/vars}}
+
+private:
+    {{#vars}}{{{datatype}}} {{name}};
+    {{/vars}}
+};
+
+} /* namespace Swagger */
+
+#endif /* {{classname}}_H_ */
+{{/model}}
+{{/models}}

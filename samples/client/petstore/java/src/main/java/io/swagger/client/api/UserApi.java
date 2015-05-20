@@ -299,6 +299,11 @@ public class UserApi {
   public User getUserByName (String username) throws ApiException {
     Object postBody = null;
     
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
+    }
+    
 
     // create path and map variables
     String path = "/user/{username}".replaceAll("\\{format\\}","json")
@@ -351,6 +356,11 @@ public class UserApi {
   public void updateUser (String username, User body) throws ApiException {
     Object postBody = body;
     
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
+    }
+    
 
     // create path and map variables
     String path = "/user/{username}".replaceAll("\\{format\\}","json")
@@ -401,6 +411,11 @@ public class UserApi {
    */
   public void deleteUser (String username) throws ApiException {
     Object postBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
+    }
     
 
     // create path and map variables

@@ -45,7 +45,6 @@ public class StoreApi {
    */
   public Map<String, Integer>  getInventory () throws ApiException {
     Object postBody = null;
-
     
 
     // create path and map variables
@@ -100,7 +99,6 @@ public class StoreApi {
    */
   public Order  placeOrder (Order body) throws ApiException {
     Object postBody = body;
-
     
 
     // create path and map variables
@@ -155,7 +153,11 @@ public class StoreApi {
    */
   public Order  getOrderById (String orderId) throws ApiException {
     Object postBody = null;
-
+    
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
+       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
+    }
     
 
     // create path and map variables
@@ -210,7 +212,11 @@ public class StoreApi {
    */
   public void  deleteOrder (String orderId) throws ApiException {
     Object postBody = null;
-
+    
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
+       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
+    }
     
 
     // create path and map variables

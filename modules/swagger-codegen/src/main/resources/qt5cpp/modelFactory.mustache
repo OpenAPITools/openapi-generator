@@ -1,0 +1,29 @@
+#ifndef ModelFactory_H_
+#define ModelFactory_H_
+
+{{#models}}{{#model}}
+#include "{{classname}}.h"{{/model}}{{/models}}
+
+namespace Swagger {
+  inline void* create(QString type) {
+    {{#models}}{{#model}}if(QString("{{classname}}").compare(type) == 0) {
+      return new {{classname}}();
+    }
+    {{/model}}{{/models}}
+    return NULL;
+  }
+
+  inline void* create(QString json, QString type) {
+    void* val = create(type);
+    if(val != NULL) {
+      SWGObject* obj = static_cast<SWGObject*>(val);
+      return obj->fromJson(json);
+    }
+    if(type.startsWith("QString")) {
+      return new QString();
+    }
+    return NULL;
+  }
+} /* namespace Swagger */
+
+#endif /* ModelFactory_H_ */

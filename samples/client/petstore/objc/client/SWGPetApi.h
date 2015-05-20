@@ -116,13 +116,13 @@
  Deletes a pet
  
 
- @param api_key 
+ @param apiKey 
  @param petId Pet id to delete
  
 
  return type: 
  */
--(NSNumber*) deletePetWithCompletionBlock :(NSString*) api_key 
+-(NSNumber*) deletePetWithCompletionBlock :(NSString*) apiKey 
      petId:(NSNumber*) petId 
     
     
