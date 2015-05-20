@@ -37,8 +37,9 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Add a new pet to the store
     # 
@@ -72,8 +73,9 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Finds Pets by status
     # Multiple status values can be provided with comma seperated strings
@@ -110,7 +112,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
-  end
+    end
 
     # Finds Pets by tags
     # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
@@ -147,7 +149,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
-  end
+    end
 
     # Find pet by ID
     # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -186,7 +188,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = Pet.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Updates a pet in the store with form data
     # 
@@ -227,8 +229,9 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Deletes a pet
     # 
@@ -267,8 +270,9 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # uploads an image
     # 
@@ -309,7 +313,8 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
   end
 end
