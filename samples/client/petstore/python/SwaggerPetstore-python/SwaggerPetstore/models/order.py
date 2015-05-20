@@ -85,3 +85,11 @@ class Order(object):
         
         self.complete = None # bool
         
+
+    def __repr__(self):
+        properties = []
+        for p in self.__dict__:
+            if p != 'swaggerTypes' and p != 'attributeMap':
+                properties.append('{prop}={val!r}'.format(prop=p, val=self.__dict__[p]))
+
+        return '<{name} {props}>'.format(name=__name__, props=' '.join(properties))
