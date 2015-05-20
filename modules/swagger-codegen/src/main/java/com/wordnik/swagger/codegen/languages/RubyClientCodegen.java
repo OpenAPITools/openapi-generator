@@ -8,10 +8,9 @@ import java.util.*;
 import java.io.File;
 
 public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
-  protected String invokerPackage = "com.wordnik.client";
-  protected String groupId = "com.wordnik";
-  protected String artifactId = "swagger-client";
-  protected String artifactVersion = "1.0.0";
+  protected String gemName = "swagger_client";
+  protected String moduleName = null;
+  protected String libFolder = "lib";
 
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -25,10 +24,18 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     return "Generates a Ruby client library.";
   }
 
+  /**
+   * Generate Ruby module name from the gem name, e.g. use "SwaggerClient" for "swagger_client".
+   */
+  public String generateModuleName() {
+    return camelize(gemName.replaceAll("[^\\w]+", "_"));
+  }
+
   public RubyClientCodegen() {
     super();
-    modelPackage = "models";
-    apiPackage = "lib";
+    moduleName = generateModuleName();
+    modelPackage = gemName + "/models";
+    apiPackage = gemName + "/api";
     outputFolder = "generated-code/ruby";
     modelTemplateFiles.put("model.mustache", ".rb");
     apiTemplateFiles.put("api.mustache", ".rb");
@@ -39,17 +46,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     reservedWords = new HashSet<String> (
       Arrays.asList(
-        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__", 
+        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
         "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-        "break", "do", "false", "next", "rescue", "then", "when", "END", "case", 
+        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
         "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
         "if", "not", "return", "undef", "yield")
     );
 
-    additionalProperties.put("invokerPackage", invokerPackage);
-    additionalProperties.put("groupId", groupId);
-    additionalProperties.put("artifactId", artifactId);
-    additionalProperties.put("artifactVersion", artifactVersion);
+    additionalProperties.put("gemName", gemName);
+    additionalProperties.put("moduleName", moduleName);
 
     languageSpecificPrimitives.add("int");
     languageSpecificPrimitives.add("array");
@@ -64,14 +69,18 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("List", "array");
     typeMapping.put("map", "map");
 
-    supportingFiles.add(new SupportingFile("swagger-client.gemspec.mustache", "", "swagger-client.gemspec"));
-    supportingFiles.add(new SupportingFile("swagger-client.mustache", "", "lib/swagger-client.rb"));
-    supportingFiles.add(new SupportingFile("swagger.mustache", "", "lib/swagger.rb"));
-    supportingFiles.add(new SupportingFile("monkey.mustache", "", "lib/monkey.rb"));
-    supportingFiles.add(new SupportingFile("swagger/request.mustache", "", "lib/swagger/request.rb"));
-    supportingFiles.add(new SupportingFile("swagger/response.mustache", "", "lib/swagger/response.rb"));
-    supportingFiles.add(new SupportingFile("swagger/version.mustache", "", "lib/swagger/version.rb"));
-    supportingFiles.add(new SupportingFile("swagger/configuration.mustache", "", "lib/swagger/configuration.rb"));
+    String baseFolder = "lib/" + gemName;
+    String swaggerFolder = baseFolder + "/swagger";
+    String modelFolder = baseFolder + "/models";
+    supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
+    supportingFiles.add(new SupportingFile("swagger_client.mustache", "lib", gemName + ".rb"));
+    supportingFiles.add(new SupportingFile("monkey.mustache", baseFolder, "monkey.rb"));
+    supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
+    supportingFiles.add(new SupportingFile("swagger/request.mustache", swaggerFolder, "request.rb"));
+    supportingFiles.add(new SupportingFile("swagger/response.mustache", swaggerFolder, "response.rb"));
+    supportingFiles.add(new SupportingFile("swagger/version.mustache", swaggerFolder, "version.rb"));
+    supportingFiles.add(new SupportingFile("swagger/configuration.mustache", swaggerFolder, "configuration.rb"));
+    supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));
   }
 
   @Override
@@ -81,11 +90,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+    return outputFolder + File.separatorChar + "lib" + File.separatorChar + gemName + File.separatorChar + "api";
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    return outputFolder + File.separatorChar + "lib" + File.separatorChar + gemName + File.separatorChar + "models";
   }
 
   @Override
@@ -149,13 +158,13 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     // should be the same as variable name
     return toVarName(name);
   }
- 
+
   @Override
   public String toModelName(String name) {
     // model name cannot use reserved keyword, e.g. return
     if(reservedWords.contains(name))
       throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
- 
+
     // camelize the model name
     // phone_number => PhoneNumber
     return camelize(name);
@@ -166,11 +175,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     // model name cannot use reserved keyword, e.g. return
     if(reservedWords.contains(name))
       throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
- 
+
     // underscore the model file name
     // PhoneNumber.rb => phone_number.rb
     return underscore(name);
-  } 
+  }
 
   @Override
   public String toApiFilename(String name) {
@@ -185,7 +194,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
   public String toApiName(String name) {
     if(name.length() == 0)
       return "DefaultApi";
-    // e.g. phone_number_api => PhoneNumberApi 
+    // e.g. phone_number_api => PhoneNumberApi
     return camelize(name) + "Api";
   }
 
@@ -195,8 +204,17 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     if(reservedWords.contains(operationId))
       throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
 
-    return underscore(operationId); 
+    return underscore(operationId);
   }
 
+  @Override
+  public String toModelImport(String name) {
+    return modelPackage() + "/" + toModelFilename(name);
+  }
+
+  @Override
+  public String toApiImport(String name) {
+    return apiPackage() + "/" + toApiFilename(name);
+  }
 
 }

@@ -45,12 +45,12 @@ public class {{classname}} {
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-    {{#requiredParamCount}}
-    // verify required params are set
-    if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
-       throw new ApiException(400, "missing required params");
+    {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+       throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
     }
-    {{/requiredParamCount}}
+    {{/required}}{{/allParams}}
 
     // create path and map variables
     String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}

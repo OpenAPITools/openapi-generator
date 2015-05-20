@@ -1,0 +1,34 @@
+#ifndef _SWG_{{classname}}_H_
+#define _SWG_{{classname}}_H_
+
+#include "{{prefix}}HttpRequest.h"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+#include <QObject>
+
+namespace Swagger {
+
+class {{classname}}: public QObject {
+    Q_OBJECT
+
+public:
+    {{classname}}();
+    {{classname}}(QString host, QString basePath);
+    ~{{classname}}();
+
+    QString host;
+    QString basePath;
+
+    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{/operation}}{{/operations}}
+private:
+    {{#operations}}{{#operation}}void {{nickname}}Callback (HttpRequestWorker * worker);
+    {{/operation}}{{/operations}}
+signals:
+    {{#operations}}{{#operation}}void {{nickname}}Signal({{#returnType}}{{{returnType}}} summary{{/returnType}});
+    {{/operation}}{{/operations}}
+};
+}
+#endif

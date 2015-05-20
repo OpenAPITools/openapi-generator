@@ -37,6 +37,7 @@ class StoreApi {
    * @return map[string,int]
    */
    public function getInventory() {
+      
 
       // parse inputs
       $resourcePath = "/store/inventory";
@@ -62,11 +63,9 @@ class StoreApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -92,6 +91,7 @@ class StoreApi {
    * @return Order
    */
    public function placeOrder($body) {
+      
 
       // parse inputs
       $resourcePath = "/store/order";
@@ -121,11 +121,9 @@ class StoreApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -151,6 +149,12 @@ class StoreApi {
    * @return Order
    */
    public function getOrderById($order_id) {
+      
+      // verify the required parameter 'order_id' is set
+      if ($order_id === null) {
+        throw new \Exception("Missing the required parameter $order_id when calling getOrderById");
+      }
+      
 
       // parse inputs
       $resourcePath = "/store/order/{orderId}";
@@ -180,11 +184,9 @@ class StoreApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
@@ -210,6 +212,12 @@ class StoreApi {
    * @return void
    */
    public function deleteOrder($order_id) {
+      
+      // verify the required parameter 'order_id' is set
+      if ($order_id === null) {
+        throw new \Exception("Missing the required parameter $order_id when calling deleteOrder");
+      }
+      
 
       // parse inputs
       $resourcePath = "/store/order/{orderId}";
@@ -239,11 +247,9 @@ class StoreApi {
       // for model (json/xml)
       if (isset($_tempBody)) {
         $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      }
-      
-      // for HTTP post (form)
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") !== FALSE) {
-        $httpBody = http_build_query($formParams);
+      } else if (count($formParams) > 0) {
+        // for HTTP post (form)
+        $httpBody = $formParams;
       }
 
       // make the API Call
