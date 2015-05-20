@@ -37,8 +37,9 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Creates list of users with given input array
     # 
@@ -72,8 +73,9 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Creates list of users with given input array
     # 
@@ -107,8 +109,9 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Logs user into the system
     # 
@@ -147,7 +150,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = string.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Logs out current logged in user session
     # 
@@ -180,8 +183,9 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Get user by user name
     # 
@@ -220,7 +224,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = User.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Updated user
     # This can only be done by the logged in user.
@@ -258,8 +262,9 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Delete user
     # This can only be done by the logged in user.
@@ -296,7 +301,8 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
   end
 end

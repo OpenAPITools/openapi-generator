@@ -38,7 +38,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       response.map {|response| obj = map.new() and obj.build_from_hash(response) }
-  end
+    end
 
     # Place an order for a pet
     # 
@@ -74,7 +74,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = Order.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Find purchase order by ID
     # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
@@ -113,7 +113,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = Order.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Delete purchase order by ID
     # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -150,7 +150,8 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
   end
 end
