@@ -1,4 +1,4 @@
-module {{moduleName}}
+module SwaggerClient
   module Swagger
     class Response
       require 'json'

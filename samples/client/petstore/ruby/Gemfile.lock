@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    swagger-client (4.06.08)
-      addressable (>= 2.2.4)
-      json (>= 1.4.6)
-      typhoeus (>= 0.2.1)
+    swagger_client (1.0.0)
+      addressable (~> 2.2, >= 2.2.4)
+      json (~> 1.4, >= 1.4.6)
+      typhoeus (~> 0.2, >= 0.2.1)
 
 GEM
   remote: http://rubygems.org/
@@ -51,11 +51,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  autotest
-  autotest-fsevent
-  autotest-growl
-  autotest-rails-pure
-  rspec (>= 2.5.0)
-  swagger-client!
-  vcr (>= 1.5.1)
-  webmock (>= 1.6.2)
+  autotest (~> 4.4, >= 4.4.6)
+  autotest-fsevent (~> 0.2, >= 0.2.10)
+  autotest-growl (~> 0.2, >= 0.2.16)
+  autotest-rails-pure (~> 4.1, >= 4.1.2)
+  rspec (~> 3.2, >= 3.2.0)
+  swagger_client!
+  vcr (~> 2.9, >= 2.9.3)
+  webmock (~> 1.6, >= 1.6.2)

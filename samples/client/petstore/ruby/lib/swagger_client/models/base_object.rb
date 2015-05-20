@@ -1,4 +1,4 @@
-module {{moduleName}}
+module SwaggerClient
   # base class containing fundamental method such as to_hash, build_from_hash and more
   class BaseObject
 
@@ -48,7 +48,7 @@ module {{moduleName}}
           false
         end
       else # model
-        _model = {{moduleName}}.const_get(type).new
+        _model = SwaggerClient.const_get(type).new
         _model.build_from_hash(value)
       end
     end

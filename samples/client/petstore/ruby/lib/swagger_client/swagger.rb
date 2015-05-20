@@ -1,7 +1,7 @@
 require 'logger'
 require 'json'
 
-module {{moduleName}}
+module SwaggerClient
   module Swagger
     class << self
       attr_accessor :logger
