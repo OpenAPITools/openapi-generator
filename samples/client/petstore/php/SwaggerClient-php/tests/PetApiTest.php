@@ -31,6 +31,36 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $add_response = $pet_api->addPet($new_pet);
   }
 
+  public function testConfiguration() 
+  {
+    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    SwaggerClient\Configuration::$apiKey['api_key'] = '123456';
+    $headerParams = array('test1' => 'value1');
+    $queryParams = array('test2' => 'value2');
+    $authSettings = array('api_key', 'unknown');
+    
+    # test prefix
+    SwaggerClient\Configuration::$apiKeyPrefix['api_key'] = 'PREFIX';
+    $this->assertSame('PREFIX', SwaggerClient\Configuration::$apiKeyPrefix['api_key']);
+
+    # update parameters based on auth setting
+    $api_client->updateParamsForAuth($headerParams, $queryParams, $authSettings);
+
+    # test api key 
+    $this->assertSame($headerParams['test1'], 'value1');
+    $this->assertSame($headerParams['api_key'], 'PREFIX 123456');
+    $this->assertSame($queryParams['test2'], 'value2');
+
+    # test http basic auth
+    SwaggerClient\Configuration::$username = 'test_username';
+    SwaggerClient\Configuration::$password = 'test_password';
+    $this->assertSame('test_username', SwaggerClient\Configuration::$username);
+    $this->assertSame('test_password', SwaggerClient\Configuration::$password);
+
+
+
+  }
+
   // test getPetById with a Pet object (id 10005)
   public function testGetPetById()
   {

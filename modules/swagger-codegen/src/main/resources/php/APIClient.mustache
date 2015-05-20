@@ -68,6 +68,19 @@ class APIClient {
   }
 
   /**
+   * Get API key (with prefix if set)
+   * @param string key name
+   * @return string
+   */
+  public function getApiKeyWithPrefix($apiKey) {
+    if (Configuration::$apiKeyPrefix[$apiKey]) {
+      return Configuration::$apiKeyPrefix[$apiKey]." ".Configuration::$apiKey[$apiKey];
+    } else {
+      return Configuration::$apiKey[$apiKey];
+    }
+  }
+
+  /**
    * update hearder and query param based on authentication setting
    * 
    * @param array $headerParams
@@ -85,15 +98,16 @@ class APIClient {
       switch($auth) {
         {{#authMethods}}
         case '{{name}}':
-           {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = Configuration::$apiKey['{{keyParamName}}'];{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = Configuration::$apiKey['{{keyParamName}}'];{{/isKeyInQuery}}{{#isBasic}}$headerParams['Authorization'] = base64_encode(Configuraiton::$username.":"Configuration::$password){{/isBasic}}{{/isApiKey}}
-           {{#isOAuth}}#TODO support oauth{{/isOAuth}}
-           break;
+          {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInQuery}}{{#isBasic}}$headerParams['Authorization'] = base64_encode(Configuraiton::$username.":"Configuration::$password){{/isBasic}}{{/isApiKey}}
+          {{#isOAuth}}//TODO support oauth{{/isOAuth}}
+          break;
         {{/authMethods}}
+        default:
+          //TODO show warning about security definition not found
       }
     }
   }
   
-
   /**
    * @param string $resourcePath path to method endpoint
    * @param string $method method to call
@@ -106,6 +120,9 @@ class APIClient {
     $headerParams, $authSettings) {
 
     $headers = array();
+
+    # determine authentication setting
+    $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # Allow API key from $headerParams to override default
     $added_api_key = False;
