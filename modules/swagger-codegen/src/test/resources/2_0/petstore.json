@@ -429,6 +429,9 @@
         "security": [
           {
             "api_key": []
+          },
+          {
+            "api_secret": []
           }
         ]
       }
@@ -801,6 +804,11 @@
       "type": "apiKey",
       "name": "api_key",
       "in": "header"
+    },
+    "api_secret": {
+      "type": "apiKey",
+      "name": "api_secret",
+      "in": "query"
     },
     "petstore_auth": {
       "type": "oauth2",

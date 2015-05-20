@@ -68,6 +68,8 @@ class APIClient {
   }
 
   /**
+   * update hearder and query param based on authentication setting
+   * 
    * @param array $headerParams
    * @param array $queryParams
    * @param array $authSettings
@@ -79,16 +81,22 @@ class APIClient {
 
     // one endpoint can have more than 1 auth settings
     foreach($authSettings as $auth) {
-      // determine which auth scheme  to use
+      // determine which one to use
       switch($auth) {
         
         case 'api_key':
-           $headerParams['api_key'] = Configuration::$api_key;
+           $headerParams['api_key'] = Configuration::$apiKey['api_key'];
+           
+           break;
+        
+        case 'api_secret':
+           $queryParams['api_secret'] = Configuration::$apiKey['api_secret'];
            
            break;
         
         case 'petstore_auth':
            
+           #TODO support oauth
            break;
         
       }
