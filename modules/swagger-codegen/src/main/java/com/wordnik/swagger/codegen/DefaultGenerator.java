@@ -428,6 +428,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       CodegenModel cm = config.fromModel(key, mm);
       Map<String, Object> mo = new HashMap<String, Object>();
       mo.put("model", cm);
+      mo.put("importPath", config.toModelImport(key));
       models.add(mo);
       allImports.addAll(cm.imports);
     }
