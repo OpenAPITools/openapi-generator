@@ -79,6 +79,44 @@ static bool loggingEnabled = true;
     }
 }
 
+/*
+ * Detect `Accept` from acceptArray
+ */
++ (NSString *) selectHeaderAccept:(NSArray *)acceptArray
+{
+    // if acceptArray is nil or empty, return `application/json`
+    if (acceptArray == nil || [acceptArray count] == 0) {
+        return @"application/json";
+    }
+
+    // if `application/json` in acceptArray, return it
+    if ([acceptArray containsObject:[@"application/json" lowercaseString]]) {
+        return @"application/json";
+    }
+    else {
+        return [acceptArray componentsJoinedByString:@", "];
+    }
+}
+
+/*
+ * Detect `Content-Type` from contentTypeArray
+ */
++ (NSString *) selectHeaderContentType:(NSArray *)contentTypeArray
+{
+  // if contentTypeArray is nil or empty, return `application/json`
+  if (contentTypeArray == nil || [contentTypeArray count] == 0) {
+    return @"application/json";
+  }
+
+  // if `application/json` in contentTypeArray, return it
+  if ([contentTypeArray containsObject:[@"application/json" lowercaseString]]) {
+    return @"applications/json";
+  }
+  else {
+    return contentTypeArray[0];
+  }
+}
+
 -(void)setHeaderValue:(NSString*) value
                forKey:(NSString*) forKey {
     [self.requestSerializer setValue:value forHTTPHeaderField:forKey];
