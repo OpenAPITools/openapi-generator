@@ -68,6 +68,8 @@ class APIClient {
   }
 
   /**
+   * update hearder and query param based on authentication setting
+   * 
    * @param array $headerParams
    * @param array $queryParams
    * @param array $authSettings
@@ -83,7 +85,8 @@ class APIClient {
       switch($auth) {
         {{#authMethods}}
         case '{{name}}':
-           {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = Configuration::$api_key;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = Configuration::$api_key;{{/isKeyInQuery}}{{#isBasic}}$headerParams['Authorization'] = base64_encode(Configuraiton::$username.":"Configuration::$password){{/isBasic}}{{/isApiKey}}
+           {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = Configuration::$apiKey['{{keyParamName}}'];{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = Configuration::$apiKey['{{keyParamName}}'];{{/isKeyInQuery}}{{#isBasic}}$headerParams['Authorization'] = base64_encode(Configuraiton::$username.":"Configuration::$password){{/isBasic}}{{/isApiKey}}
+           {{#isOAuth}}#TODO support oauth{{/isOAuth}}
            break;
         {{/authMethods}}
       }
