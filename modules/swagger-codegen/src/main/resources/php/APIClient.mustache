@@ -68,6 +68,30 @@ class APIClient {
   }
 
   /**
+   * @param array $headerParams
+   * @param array $queryParams
+   * @param array $authSettings
+   */
+  public function updateParamsForAuth(&$headerParams, &$queryParams, $authSettings)
+  {
+    if (count($authSettings) == 0)
+      return;
+
+    // one endpoint can have more than 1 auth settings
+    foreach($authSettings as $auth) {
+      // determine which one to use
+      switch($auth) {
+        {{#authMethods}}
+        case '{{name}}':
+           {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = Configuration::$api_key;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = Configuration::$api_key;{{/isKeyInQuery}}{{#isBasic}}$headerParams['Authorization'] = base64_encode(Configuraiton::$username.":"Configuration::$password){{/isBasic}}{{/isApiKey}}
+           break;
+        {{/authMethods}}
+      }
+    }
+  }
+  
+
+  /**
    * @param string $resourcePath path to method endpoint
    * @param string $method method to call
    * @param array $queryParams parameters to be place in query URL
@@ -76,7 +100,7 @@ class APIClient {
    * @return mixed
    */
   public function callAPI($resourcePath, $method, $queryParams, $postData,
-    $headerParams) {
+    $headerParams, $authSettings) {
 
     $headers = array();
 

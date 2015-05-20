@@ -68,6 +68,35 @@ class APIClient {
   }
 
   /**
+   * @param array $headerParams
+   * @param array $queryParams
+   * @param array $authSettings
+   */
+  public function updateParamsForAuth(&$headerParams, &$queryParams, $authSettings)
+  {
+    if (count($authSettings) == 0)
+      return;
+
+    // one endpoint can have more than 1 auth settings
+    foreach($authSettings as $auth) {
+      // determine which auth scheme  to use
+      switch($auth) {
+        
+        case 'api_key':
+           $headerParams['api_key'] = Configuration::$api_key;
+           
+           break;
+        
+        case 'petstore_auth':
+           
+           break;
+        
+      }
+    }
+  }
+  
+
+  /**
    * @param string $resourcePath path to method endpoint
    * @param string $method method to call
    * @param array $queryParams parameters to be place in query URL
@@ -76,7 +105,7 @@ class APIClient {
    * @return mixed
    */
   public function callAPI($resourcePath, $method, $queryParams, $postData,
-    $headerParams) {
+    $headerParams, $authSettings) {
 
     $headers = array();
 
@@ -142,20 +171,21 @@ class APIClient {
     $response_info = curl_getinfo($curl);
 
     // Handle the response
-    if ($response === false) { // error, likely in the client side
-      throw new APIClientException("API Error ($url): ".curl_error($curl), 0, $response_info, $response);
+    if ($response_info['http_code'] == 0) {
+      throw new APIClientException("TIMEOUT: api call to " . $url .
+        " took more than 5s to return", 0, $response_info, $response);
     } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
       $data = json_decode($response);
       if (json_last_error() > 0) { // if response is a string
         $data = $response;
       }
-    } else if ($response_info['http_code'] == 401) { // server returns 401
+    } else if ($response_info['http_code'] == 401) {
       throw new APIClientException("Unauthorized API request to " . $url .
           ": " . serialize($response), 0, $response_info, $response);
-    } else if ($response_info['http_code'] == 404) { // server returns 404
+    } else if ($response_info['http_code'] == 404) {
       $data = null;
     } else {
-      throw new APIClientException("Can't connect to the API: " . $url .
+      throw new APIClientException("Can't connect to the api: " . $url .
         " response code: " .
         $response_info['http_code'], 0, $response_info, $response);
     }
