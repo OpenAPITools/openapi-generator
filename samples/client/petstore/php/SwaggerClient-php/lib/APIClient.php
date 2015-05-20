@@ -36,13 +36,14 @@ class APIClient {
   protected $user_agent = "PHP-Swagger";
 
   /**
-   * @param string $host the address of the API server
-   * @param string $headerName a header to pass on requests 
+   * @param string $host Base url of the API server (optional)
    */
-  function __construct($host, $headerName = null, $headerValue = null) {
-    $this->host = $host;
-    $this->headerName = $headerName;
-    $this->headerValue = $headerValue;
+  function __construct($host = null) {
+    if ($host == null) {
+      $this->host = 'http://petstore.swagger.io/v2';
+    } else {
+      $this->host = $host;
+    }
   }
 
   /**
@@ -134,18 +135,11 @@ class APIClient {
     # determine authentication setting
     $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
-    # Allow API key from $headerParams to override default
-    $added_api_key = False;
+    # construct the http header
     if ($headerParams != null) {
       foreach ($headerParams as $key => $val) {
         $headers[] = "$key: $val";
-        if ($key == $this->headerName) {
-          $added_api_key = True;
-        }
       }
-    }
-    if (! $added_api_key && $this->headerName != null) {
-      $headers[] = $this->headerName . ": " . $this->headerValue;
     }
 
     // form data
