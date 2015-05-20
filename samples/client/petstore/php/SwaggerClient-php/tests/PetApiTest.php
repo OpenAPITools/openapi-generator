@@ -35,6 +35,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   {
     $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
     SwaggerClient\Configuration::$apiKey['api_key'] = '123456';
+
     $headerParams = array('test1' => 'value1');
     $queryParams = array('test2' => 'value2');
     $authSettings = array('api_key', 'unknown');
@@ -62,8 +63,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   // test getPetById with a Pet object (id 10005)
   public function testGetPetById()
   {
-    // initialize the API client
-    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    // initialize the API client without host
+    $api_client = new SwaggerClient\APIClient();
     SwaggerClient\Configuration::$apiKey['api_key'] = '111222333444555';
     $pet_id = 10005;  // ID of pet that needs to be fetched
     $pet_api = new SwaggerClient\PetAPI($api_client);

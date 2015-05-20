@@ -69,7 +69,7 @@ class StoreApi {
       }
 
       // authentication setting, if any
-      $authSettings = array('api_key', 'api_secret');
+      $authSettings = array('api_key');
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
