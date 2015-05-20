@@ -71,7 +71,7 @@ class APIClient {
   /**
    * Get API key (with prefix if set)
    * @param string key name
-   * @return string
+   * @return string API key with the prefix
    */
   public function getApiKeyWithPrefix($apiKey) {
     if (Configuration::$apiKeyPrefix[$apiKey]) {
@@ -84,9 +84,9 @@ class APIClient {
   /**
    * update hearder and query param based on authentication setting
    * 
-   * @param array $headerParams
-   * @param array $queryParams
-   * @param array $authSettings
+   * @param array $headerParams header parameters (by ref)
+   * @param array $queryParams query parameters (by ref)
+   * @param array $authSettings array of authentication scheme (e.g ['api_key'])
    */
   public function updateParamsForAuth(&$headerParams, &$queryParams, $authSettings)
   {
