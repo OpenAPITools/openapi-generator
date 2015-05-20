@@ -78,12 +78,6 @@ static NSString * basePath = @"{{basePath}}";
     {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [SWGApiClient escape:{{paramName}}]];
     {{/pathParams}}
 
-    NSArray* requestContentTypes = @[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}];
-    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
-
-    NSArray* responseContentTypes = @[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}];
-    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
-
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     {{#queryParams}}if({{paramName}} != nil) {
         {{#collectionFormat}}
@@ -97,6 +91,16 @@ static NSString * basePath = @"{{basePath}}";
     {{#headerParams}}if({{paramName}} != nil)
         headerParams[@"{{baseName}}"] = {{paramName}};
     {{/headerParams}}
+    
+    // HTTP header `Accept` 
+    NSArray *headerAccept = @[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
+    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+
+    // HTTP header `Content-Type`
+    NSArray *headerContentType = @[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}];
+    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
+    NSString *requestContentType = headerParams[@"Content-Type"];
 
     id bodyDictionary = nil;
     {{#bodyParam}}
