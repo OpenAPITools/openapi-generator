@@ -84,6 +84,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("list", "array");
 
     supportingFiles.add(new SupportingFile("composer.mustache", packagePath, "composer.json"));
+    supportingFiles.add(new SupportingFile("configuration.mustache", packagePath + "/lib", "Configuration.php"));
     supportingFiles.add(new SupportingFile("APIClient.mustache", packagePath + "/lib", "APIClient.php"));
     supportingFiles.add(new SupportingFile("APIClientException.mustache", packagePath + "/lib", "APIClientException.php"));
     supportingFiles.add(new SupportingFile("require.mustache", packagePath, invokerPackage + ".php"));
