@@ -23,7 +23,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $category->id = $new_pet_id; // use the same id as pet
     $category->name = "test php category";
 
-    $new_pet->tags = [$tag];
+    $new_pet->tags = array($tag);
     $new_pet->category = $category;
 
     $pet_api = new SwaggerClient\PetAPI($api_client);
@@ -47,12 +47,14 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     # test addDefaultHeader and getDefaultHeader
     SwaggerClient\APIClient::addDefaultHeader('test1', 'value1');
     SwaggerClient\APIClient::addDefaultHeader('test2', 200);
-    $this->assertSame('value1', SwaggerClient\APIClient::getDefaultHeader()['test1']);
-    $this->assertSame(200, SwaggerClient\APIClient::getDefaultHeader()['test2']);
+    $defaultHeader = SwaggerClient\APIClient::getDefaultHeader();
+    $this->assertSame('value1', $defaultHeader['test1']);
+    $this->assertSame(200, $defaultHeader['test2']);
 
     # test deleteDefaultHeader
     SwaggerClient\APIClient::deleteDefaultHeader('test2');
-    $this->assertFalse(isset(SwaggerClient\APIClient::getDefaultHeader()['test2']));
+    $defaultHeader = SwaggerClient\APIClient::getDefaultHeader();
+    $this->assertFalse(isset($defaultHeader['test2']));
 
   }
 
