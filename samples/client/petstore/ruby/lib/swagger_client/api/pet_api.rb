@@ -9,7 +9,7 @@ module SwaggerClient
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Pet] :body Pet object that needs to be added to the store
-    # @return void
+    # @return [nil]
     def self.update_pet(opts = {})
       
 
@@ -45,7 +45,7 @@ module SwaggerClient
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Pet] :body Pet object that needs to be added to the store
-    # @return void
+    # @return [nil]
     def self.add_pet(opts = {})
       
 
@@ -81,7 +81,7 @@ module SwaggerClient
     # Multiple status values can be provided with comma seperated strings
     # @param [Hash] opts the optional parameters
     # @option opts [array[string]] :status Status values that need to be considered for filter
-    # @return array[Pet]
+    # @return [array[Pet]]
     def self.find_pets_by_status(opts = {})
       
 
@@ -118,7 +118,7 @@ module SwaggerClient
     # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     # @param [Hash] opts the optional parameters
     # @option opts [array[string]] :tags Tags to filter by
-    # @return array[Pet]
+    # @return [array[Pet]]
     def self.find_pets_by_tags(opts = {})
       
 
@@ -155,7 +155,7 @@ module SwaggerClient
     # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
-    # @return Pet
+    # @return [Pet]
     def self.get_pet_by_id(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
@@ -196,7 +196,7 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [string] :name Updated name of the pet
     # @option opts [string] :status Updated status of the pet
-    # @return void
+    # @return [nil]
     def self.update_pet_with_form(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
@@ -238,7 +238,7 @@ module SwaggerClient
     # @param pet_id Pet id to delete
     # @param [Hash] opts the optional parameters
     # @option opts [string] :api_key 
-    # @return void
+    # @return [nil]
     def self.delete_pet(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
@@ -280,7 +280,7 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [string] :additional_metadata Additional data to pass to server
     # @option opts [file] :file file to upload
-    # @return void
+    # @return [nil]
     def self.upload_file(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
