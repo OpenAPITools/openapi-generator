@@ -6,118 +6,109 @@ server communication, and is invariant across implementations. Specifics of
 the methods and models for each application are generated from the Swagger
 templates."""
 
-import sys
+from __future__ import absolute_import
+from . import models
+from .rest import RESTClient
+
 import os
 import re
 import urllib
-import urllib2
-import httplib
 import json
 import datetime
 import mimetypes
 import random
-import string
-import models
+
+# python 2 and python 3 compatibility library
+from six import iteritems
+
+try:
+  # for python3
+  from urllib.parse import quote
+except ImportError:
+  # for python2
+  from urllib import quote
 
 
 class ApiClient(object):
-  """Generic API client for Swagger client library builds
-
-  Attributes:
-    host: The base path for the server to call
-    headerName: a header to pass when making calls to the API
-    headerValue: a header value to pass when making calls to the API
   """
-  def __init__(self, host=None, headerName=None, headerValue=None):
-    self.defaultHeaders = {}
-    if (headerName is not None):
-      self.defaultHeaders[headerName] = headerValue
+  Generic API client for Swagger client library builds
+
+  :param host: The base path for the server to call
+  :param header_name: a header to pass when making calls to the API
+  :param header_value: a header value to pass when making calls to the API
+  """
+  def __init__(self, host=None, header_name=None, header_value=None):
+    self.default_headers = {}
+    if header_name is not None:
+      self.default_headers[header_name] = header_value
     self.host = host
     self.cookie = None
-    self.boundary = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
     # Set default User-Agent.
     self.user_agent = 'Python-Swagger'
 
   @property
   def user_agent(self):
-    return self.defaultHeaders['User-Agent']
+    return self.default_headers['User-Agent']
 
   @user_agent.setter
   def user_agent(self, value):
-    self.defaultHeaders['User-Agent'] = value
+    self.default_headers['User-Agent'] = value
 
-  def setDefaultHeader(self, headerName, headerValue):
-    self.defaultHeaders[headerName] = headerValue
+  def set_default_header(self, header_name, header_value):
+    self.default_headers[header_name] = header_value
 
-  def callAPI(self, resourcePath, method, queryParams, postData,
-              headerParams=None, files=None):
+  def call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
+               body=None, post_params=None, files=None, response=None):
 
-    url = self.host + resourcePath
-
-    mergedHeaderParams = self.defaultHeaders.copy()
-    mergedHeaderParams.update(headerParams)
-    headers = {}
-    if mergedHeaderParams:
-      for param, value in mergedHeaderParams.iteritems():
-        headers[param] = ApiClient.sanitizeForSerialization(value)
-
+    # headers parameters
+    headers = self.default_headers.copy()
+    headers.update(header_params)
     if self.cookie:
-      headers['Cookie'] = ApiClient.sanitizeForSerialization(self.cookie)
+      headers['Cookie'] = self.cookie
+    if headers:
+      headers = ApiClient.sanitize_for_serialization(headers)
 
-    data = None
+    # path parameters
+    if path_params:
+      path_params = ApiClient.sanitize_for_serialization(path_params)
+      for k, v in iteritems(path_params):
+        replacement = quote(str(self.to_path_value(v)))
+        resource_path = resource_path.replace('{' + k + '}', replacement)
 
-    if queryParams:
-      # Need to remove None values, these should not be sent
-      sentQueryParams = {}
-      for param, value in queryParams.items():
-        if value is not None:
-          sentQueryParams[param] = ApiClient.sanitizeForSerialization(value)
-      url = url + '?' + urllib.urlencode(sentQueryParams)
+    # query parameters
+    if query_params:
+      query_params = ApiClient.sanitize_for_serialization(query_params)
+      query_params = {k: self.to_path_value(v) for k, v in iteritems(query_params)}
 
-    if method in ['GET']:
-      #Options to add statements later on and for compatibility
-      pass
+    # post parameters
+    if post_params:
+      post_params = self.prepare_post_parameters(post_params, files)
+      post_params = ApiClient.sanitize_for_serialization(post_params)
 
-    elif method in ['POST', 'PUT', 'DELETE']:
-      if postData:
-        postData = ApiClient.sanitizeForSerialization(postData)
-        if 'Content-Type' not in headers:
-          headers['Content-Type'] = 'application/json'
-          data = json.dumps(postData)
-        elif headers['Content-Type'] == 'application/json':
-          data = json.dumps(postData)
-        elif headers['Content-Type'] == 'multipart/form-data':
-          data = self.buildMultipartFormData(postData, files)
-          headers['Content-Type'] = 'multipart/form-data; boundary={0}'.format(self.boundary)
-          headers['Content-length'] = str(len(data))
-        else:
-            data = urllib.urlencode(postData)
+    # body
+    if body:
+      body = ApiClient.sanitize_for_serialization(body)
 
+    # request url
+    url = self.host + resource_path
+
+    # perform request and return response
+    response_data = self.request(method, url, query_params=query_params, headers=headers,
+                                 post_params=post_params, body=body)
+
+    # deserialize response data
+    if response:
+      return self.deserialize(response_data, response)
     else:
-      raise Exception('Method ' + method + ' is not recognized.')
+      return None
 
-    request = MethodRequest(method=method, url=url, headers=headers,
-                            data=data)
+  def to_path_value(self, obj):
+    """
+    Convert a string or object to a path-friendly value
+    
+    :param obj: object or string value
 
-    # Make the request
-    response = urllib2.urlopen(request)
-    if 'Set-Cookie' in response.headers:
-      self.cookie = response.headers['Set-Cookie']
-    string = response.read()
-
-    try:
-      data = json.loads(string)
-    except ValueError:  # PUT requests don't return anything
-      data = None
-
-    return data
-
-  def toPathValue(self, obj):
-    """Convert a string or object to a path-friendly value
-    Args:
-        obj -- object or string value
-    Returns:
-        string -- quoted value
+    :return string: quoted value
     """
     if type(obj) == list:
       return ','.join(obj)
@@ -125,12 +116,12 @@ class ApiClient(object):
       return str(obj)
 
   @staticmethod
-  def sanitizeForSerialization(obj):
+  def sanitize_for_serialization(obj):
     """
     Sanitize an object for Request.
 
     If obj is None, return None.
-    If obj is str, int, long, float, bool, return directly.
+    If obj is str, int, float, bool, return directly.
     If obj is datetime.datetime, datetime.date convert to string in iso8601 format.
     If obj is list, santize each element in the list.
     If obj is dict, return the dict.
@@ -138,113 +129,80 @@ class ApiClient(object):
     """
     if isinstance(obj, type(None)):
       return None
-    elif isinstance(obj, (str, int, long, float, bool, file)):
+    elif isinstance(obj, (str, int, float, bool, tuple)):
       return obj
     elif isinstance(obj, list):
-      return [ApiClient.sanitizeForSerialization(subObj) for subObj in obj]
+      return [ApiClient.sanitize_for_serialization(sub_obj) for sub_obj in obj]
     elif isinstance(obj, (datetime.datetime, datetime.date)):
       return obj.isoformat()
     else:
       if isinstance(obj, dict):
-        objDict = obj
+        obj_dict = obj
       else:
-        # Convert model obj to dict except attributes `swaggerTypes`, `attributeMap`
+        # Convert model obj to dict except attributes `swagger_types`, `attribute_map`
         # and attributes which value is not None.
         # Convert attribute name to json key in model definition for request.
-        objDict = {obj.attributeMap[key]: val
-                   for key, val in obj.__dict__.iteritems()
-                   if key != 'swaggerTypes' and key != 'attributeMap' and val is not None}
-      return {key: ApiClient.sanitizeForSerialization(val)
-              for (key, val) in objDict.iteritems()}
+        obj_dict = {obj.attribute_map[key]: val
+                    for key, val in iteritems(obj.__dict__)
+                    if key != 'swagger_types' and key != 'attribute_map' and val is not None}
+      return {key: ApiClient.sanitize_for_serialization(val)
+              for key, val in iteritems(obj_dict)}
 
-  def buildMultipartFormData(self, postData, files):
-    def escape_quotes(s):
-      return s.replace('"', '\\"')
+  def deserialize(self, obj, obj_class):
+    """
+    Derialize a JSON string into an object.
 
-    lines = []
+    :param obj: string or object to be deserialized
+    :param obj_class: class literal for deserialzied object, or string of class name
 
-    for name, value in postData.items():
-      lines.extend((
-        '--{0}'.format(self.boundary),
-        'Content-Disposition: form-data; name="{0}"'.format(escape_quotes(name)),
-        '',
-        str(value),
-      ))
-
-    for name, filepath in files.items():
-      f = open(filepath, 'r')
-      filename = filepath.split('/')[-1]
-      mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
-      lines.extend((
-        '--{0}'.format(self.boundary),
-        'Content-Disposition: form-data; name="{0}"; filename="{1}"'.format(escape_quotes(name), escape_quotes(filename)),
-        'Content-Type: {0}'.format(mimetype),
-        '',
-        f.read()
-      ))
-
-    lines.extend((
-      '--{0}--'.format(self.boundary),
-      ''
-    ))
-    return '\r\n'.join(lines)
-
-  def deserialize(self, obj, objClass):
-    """Derialize a JSON string into an object.
-
-    Args:
-        obj -- string or object to be deserialized
-        objClass -- class literal for deserialzied object, or string
-            of class name
-    Returns:
-        object -- deserialized object"""
-
-    # Have to accept objClass as string or actual type. Type could be a
+    :return object: deserialized object
+    """
+    # Have to accept obj_class as string or actual type. Type could be a
     # native Python type, or one of the model classes.
-    if type(objClass) == str:
-      if 'list[' in objClass:
-        match = re.match('list\[(.*)\]', objClass)
-        subClass = match.group(1)
-        return [self.deserialize(subObj, subClass) for subObj in obj]
+    if type(obj_class) == str:
+      if 'list[' in obj_class:
+        match = re.match('list\[(.*)\]', obj_class)
+        sub_class = match.group(1)
+        return [self.deserialize(sub_obj, sub_class) for sub_obj in obj]
 
-      if (objClass in ['int', 'float', 'long', 'dict', 'list', 'str', 'bool', 'datetime']):
-        objClass = eval(objClass)
+      if obj_class in ['int', 'float', 'dict', 'list', 'str', 'bool', 'datetime']:
+        obj_class = eval(obj_class)
       else:  # not a native type, must be model class
-        objClass = eval('models.' + objClass)
+        obj_class = eval('models.' + obj_class)
 
-    if objClass in [int, long, float, dict, list, str, bool]:
-      return objClass(obj)
-    elif objClass == datetime:
+    if obj_class in [int, float, dict, list, str, bool]:
+      return obj_class(obj)
+    elif obj_class == datetime:
       return self.__parse_string_to_datetime(obj)
 
-    instance = objClass()
+    instance = obj_class()
 
-    for attr, attrType in instance.swaggerTypes.iteritems():
-        if obj is not None and instance.attributeMap[attr] in obj and type(obj) in [list, dict]:
-          value = obj[instance.attributeMap[attr]]
-          if attrType in ['str', 'int', 'long', 'float', 'bool']:
-            attrType = eval(attrType)
+    for attr, attr_type in iteritems(instance.swagger_types):
+        if obj is not None and instance.attribute_map[attr] in obj and type(obj) in [list, dict]:
+          value = obj[instance.attribute_map[attr]]
+          if attr_type in ['str', 'int', 'float', 'bool']:
+            attr_type = eval(attr_type)
             try:
-              value = attrType(value)
+              value = attr_type(value)
             except UnicodeEncodeError:
               value = unicode(value)
             except TypeError:
               value = value
             setattr(instance, attr, value)
-          elif (attrType == 'datetime'):
+          elif attr_type == 'datetime':
             setattr(instance, attr, self.__parse_string_to_datetime(value))
-          elif 'list[' in attrType:
-            match = re.match('list\[(.*)\]', attrType)
-            subClass = match.group(1)
-            subValues = []
+          elif 'list[' in attr_type:
+            match = re.match('list\[(.*)\]', attr_type)
+            sub_class = match.group(1)
+            sub_values = []
             if not value:
               setattr(instance, attr, None)
             else:
-              for subValue in value:
-                subValues.append(self.deserialize(subValue, subClass))
-            setattr(instance, attr, subValues)
+              for sub_value in value:
+                sub_values.append(self.deserialize(sub_value, sub_class))
+              setattr(instance, attr, sub_values)
           else:
-            setattr(instance, attr, self.deserialize(value, attrType))
+            setattr(instance, attr, self.deserialize(value, attr_type))
 
     return instance
 
@@ -260,16 +218,42 @@ class ApiClient(object):
     except ImportError:
         return string
 
-class MethodRequest(urllib2.Request):
-  def __init__(self, *args, **kwargs):
-    """Construct a MethodRequest. Usage is the same as for
-    `urllib2.Request` except it also takes an optional `method`
-    keyword argument. If supplied, `method` will be used instead of
-    the default."""
+  def request(self, method, url, query_params=None, headers=None, post_params=None, body=None):
+    """
+    Perform http request using RESTClient.
+    """
+    if method == "GET":
+      return RESTClient.GET(url, query_params=query_params, headers=headers)
+    elif method == "HEAD":
+      return RESTClient.HEAD(url, query_params=query_params, headers=headers)
+    elif method == "POST":
+      return RESTClient.POST(url, headers=headers, post_params=post_params, body=body)
+    elif method == "PUT":
+      return RESTClient.PUT(url, headers=headers, post_params=post_params, body=body)
+    elif method == "PATCH":
+      return RESTClient.PATCH(url, headers=headers, post_params=post_params, body=body)
+    elif method == "DELETE":
+      return RESTClient.DELETE(url, query_params=query_params, headers=headers)
+    else:
+      raise ValueError("http method must be `GET`, `HEAD`, `POST`, `PATCH`, `PUT` or `DELETE`")
 
-    if 'method' in kwargs:
-      self.method = kwargs.pop('method')
-    return urllib2.Request.__init__(self, *args, **kwargs)
+  def prepare_post_parameters(self, post_params=None, files=None):
+    params = {}
 
-  def get_method(self):
-    return getattr(self, 'method', urllib2.Request.get_method(self))
+    if post_params:
+      params.update(post_params)
+
+    if files:
+      for k, v in iteritems(files):
+        with open(v, 'rb') as f:
+          filename = os.path.basename(f.name)
+          filedata = f.read()
+          mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+        params[k] = tuple([filename, filedata, mimetype])
+
+    return params
+
+
+
+
+
