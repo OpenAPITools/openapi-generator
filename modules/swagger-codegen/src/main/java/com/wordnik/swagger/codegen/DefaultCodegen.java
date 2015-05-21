@@ -166,6 +166,9 @@ public class DefaultCodegen {
     return name;
   }
 
+  public String toEnumName(CodegenProperty property) {
+    return StringUtils.capitalize(property.name) + "Enum";
+  }
 
   public String escapeReservedWord(String name) {
     throw new RuntimeException("reserved word " + name + " not allowed");
@@ -470,6 +473,7 @@ public class DefaultCodegen {
       }
       if(impl.getProperties() != null && impl.getProperties().size() > 0) {
         m.hasVars = true;
+        m.hasEnums = false;
         for(String key: impl.getProperties().keySet()) {
           Property prop = impl.getProperties().get(key);
 
@@ -497,6 +501,8 @@ public class DefaultCodegen {
             }
             m.vars.add(cp);
             count += 1;
+            if (cp.isEnum)
+              m.hasEnums = true;
             if(count != impl.getProperties().keySet().size())
               cp.hasMore = new Boolean(true);
             if(cp.isContainer != null) {
@@ -589,7 +595,7 @@ public class DefaultCodegen {
 
     // this can cause issues for clients which don't support enums
     if(property.isEnum)
-      property.datatypeWithEnum = StringUtils.capitalize(property.name) + "Enum";
+      property.datatypeWithEnum = toEnumName(property);
     else
       property.datatypeWithEnum = property.datatype;
 
@@ -722,7 +728,6 @@ public class DefaultCodegen {
 
     if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
       Response methodResponse = findMethodResponse(operation.getResponses());
-      CodegenResponse methodCodegenResponse = null;
 
       for (Map.Entry<String, Response> entry : operation.getResponses().entrySet()) {
         Response response = entry.getValue();
@@ -732,9 +737,7 @@ public class DefaultCodegen {
             !defaultIncludes.contains(r.baseType) &&
             !languageSpecificPrimitives.contains(r.baseType))
           imports.add(r.baseType);
-
-        if (response == methodResponse)
-          methodCodegenResponse = r;
+        r.isDefault = response == methodResponse;
         op.responses.add(r);
       }
       op.responses.get(op.responses.size() - 1).hasMore = false;
@@ -918,6 +921,19 @@ public class DefaultCodegen {
         collectionFormat = qp.getCollectionFormat();
         CodegenProperty pr = fromProperty("inner", inner);
         p.baseType = pr.datatype;
+        p.isContainer = true;
+        imports.add(pr.baseType);
+      }
+      else if("object".equals(qp.getType())) {
+        Property inner = qp.getItems();
+        if(inner == null) {
+          LOGGER.warn("warning!  No inner type supplied for map parameter \"" + qp.getName() + "\", using String");
+          inner = new StringProperty().description("//TODO automatically added by swagger-codegen");
+        }
+        property = new MapProperty(inner);
+        collectionFormat = qp.getCollectionFormat();
+        CodegenProperty pr = fromProperty("inner", inner);
+        p.baseType = pr.datatype;
         imports.add(pr.baseType);
       }
       else
@@ -926,6 +942,7 @@ public class DefaultCodegen {
         LOGGER.warn("warning!  Property type \"" + qp.getType() + "\" not found for parameter \"" + param.getName() + "\", using String");
         property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + qp.getType() + " but not supported");
       }
+      property.setRequired(param.getRequired());
       CodegenProperty model = fromProperty(qp.getName(), property);
       p.collectionFormat = collectionFormat;
       p.dataType = model.datatype;
@@ -949,6 +966,7 @@ public class DefaultCodegen {
         else {
           // TODO: missing format, so this will not always work
           Property prop = PropertyBuilder.build(impl.getType(), null, null);
+          prop.setRequired(bp.getRequired());
           CodegenProperty cp = fromProperty("property", prop);
           if(cp != null) {
             p.dataType = cp.datatype;
@@ -962,6 +980,7 @@ public class DefaultCodegen {
         CodegenModel cm = fromModel(bp.getName(), impl);
         // get the single property
         ArrayProperty ap = new ArrayProperty().items(impl.getItems());
+        ap.setRequired(param.getRequired());
         CodegenProperty cp = fromProperty("inner", ap);
         if(cp.complexType != null) {
           imports.add(cp.complexType);
