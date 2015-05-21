@@ -303,18 +303,6 @@
       </modules>
     </profile>
     <profile>
-      <id>scala-client</id>
-      <activation>
-        <property>
-          <name>env</name>
-          <value>scala</value>
-        </property>
-      </activation>
-      <modules>
-        <module>samples/client/petstore/scala</module>
-      </modules>
-    </profile>
-    <profile>
       <id>objc-client</id>
       <activation>
         <property>
@@ -373,7 +361,6 @@
       <modules>
         <module>samples/client/petstore/android-java</module>
         <module>samples/client/petstore/java</module>
-        <module>samples/client/petstore/scala</module>
         <module>samples/server/petstore/jaxrs</module>
         <module>samples/server/petstore/spring-mvc</module>
         <module>samples/client/petstore/objc</module>
@@ -453,7 +440,7 @@
     <swagger-parser-version>1.0.6-SNAPSHOT</swagger-parser-version>
     <scala-version>2.10.4</scala-version>
     <felix-version>2.3.4</felix-version>
-    <swagger-core-version>1.5.1-M2</swagger-core-version>
+    <swagger-core-version>1.5.2-M2</swagger-core-version>
     <scala-test-version>2.1.4</scala-test-version>
     <commons-io-version>2.3</commons-io-version>
     <commons-cli-version>1.2</commons-cli-version>
