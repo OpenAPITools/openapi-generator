@@ -120,8 +120,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     supportingFiles.add(new SupportingFile("SWGApiClient.m", sourceFolder, "SWGApiClient.m"));
     supportingFiles.add(new SupportingFile("SWGFile.h", sourceFolder, "SWGFile.h"));
     supportingFiles.add(new SupportingFile("SWGFile.m", sourceFolder, "SWGFile.m"));
-    supportingFiles.add(new SupportingFile("SWGDate.h", sourceFolder, "SWGDate.h"));
-    supportingFiles.add(new SupportingFile("SWGDate.m", sourceFolder, "SWGDate.m"));
+    supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", sourceFolder, "JSONValueTransformer+ISO8601.m"));
+    supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", sourceFolder, "JSONValueTransformer+ISO8601.h"));
     supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
   }
 
