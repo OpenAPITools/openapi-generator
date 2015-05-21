@@ -70,7 +70,7 @@ public class PetApi {
     
     @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value") })
 
-  public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter") @QueryParam("status") List<String> status)
+  public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue="available") @QueryParam("status") List<String> status)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

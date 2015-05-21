@@ -57,6 +57,7 @@ public class StoreApi {
     
     method = RequestMethod.POST)
   public ResponseEntity<Order> placeOrder(
+
 @ApiParam(value = "order placed for purchasing the pet"  ) Order body)
       throws NotFoundException {
       // do some magic!
@@ -74,7 +75,8 @@ public class StoreApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") String orderId
+  public ResponseEntity<Order> getOrderById(
+@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") String orderId
 )
       throws NotFoundException {
       // do some magic!
@@ -91,7 +93,8 @@ public class StoreApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
-  public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId
+  public ResponseEntity<Void> deleteOrder(
+@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId
 )
       throws NotFoundException {
       // do some magic!
