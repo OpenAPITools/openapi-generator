@@ -74,7 +74,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -124,7 +125,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -176,7 +178,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
       }
@@ -228,7 +231,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
       }
@@ -284,7 +288,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
       }
@@ -350,7 +355,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -408,7 +414,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -475,7 +482,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
