@@ -91,18 +91,20 @@ class {{classname}} {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       {{#returnType}}if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                '{{returnType}}');
-  		return $responseObject;{{/returnType}}
+      $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
+      return $responseObject;{{/returnType}}
   }
   {{/operation}}
 {{newline}}

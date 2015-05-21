@@ -53,13 +53,15 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     # test deleteDefaultHeader
     SwaggerClient\APIClient::deleteDefaultHeader('test2');
     $this->assertFalse(isset(SwaggerClient\APIClient::getDefaultHeader()['test2']));
+
   }
 
   // test getPetById with a Pet object (id 10005)
   public function testGetPetById()
   {
-    // initialize the API client
-    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    // initialize the API client without host
+    $api_client = new SwaggerClient\APIClient();
+    SwaggerClient\Configuration::$apiKey['api_key'] = '111222333444555';
     $pet_id = 10005;  // ID of pet that needs to be fetched
     $pet_api = new SwaggerClient\PetAPI($api_client);
     // return Pet (model)

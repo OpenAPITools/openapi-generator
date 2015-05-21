@@ -67,18 +67,20 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('api_key');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'map[string,int]');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'map[string,int]');
+      return $responseObject;
   }
   
   /**
@@ -124,18 +126,20 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Order');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'Order');
+      return $responseObject;
   }
   
   /**
@@ -186,18 +190,20 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Order');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'Order');
+      return $responseObject;
   }
   
   /**
@@ -248,10 +254,13 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }

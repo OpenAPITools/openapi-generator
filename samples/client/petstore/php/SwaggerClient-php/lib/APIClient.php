@@ -38,13 +38,14 @@ class APIClient {
   protected $user_agent = "PHP-Swagger";
 
   /**
-   * @param string $host the address of the API server
-   * @param string $headerName a header to pass on requests 
+   * @param string $host Base url of the API server (optional)
    */
-  function __construct($host, $headerName = null, $headerValue = null) {
-    $this->host = $host;
-    $this->headerName = $headerName;
-    $this->headerValue = $headerValue;
+  function __construct($host = null) {
+    if ($host == null) {
+      $this->host = 'http://petstore.swagger.io/v2';
+    } else {
+      $this->host = $host;
+    }
   }
 
   /**
@@ -101,6 +102,52 @@ class APIClient {
   }
 
   /**
+   * Get API key (with prefix if set)
+   * @param string key name
+   * @return string API key with the prefix
+   */
+  public function getApiKeyWithPrefix($apiKey) {
+    if (Configuration::$apiKeyPrefix[$apiKey]) {
+      return Configuration::$apiKeyPrefix[$apiKey]." ".Configuration::$apiKey[$apiKey];
+    } else {
+      return Configuration::$apiKey[$apiKey];
+    }
+  }
+
+  /**
+   * update hearder and query param based on authentication setting
+   * 
+   * @param array $headerParams header parameters (by ref)
+   * @param array $queryParams query parameters (by ref)
+   * @param array $authSettings array of authentication scheme (e.g ['api_key'])
+   */
+  public function updateParamsForAuth(&$headerParams, &$queryParams, $authSettings)
+  {
+    if (count($authSettings) == 0)
+      return;
+
+    // one endpoint can have more than 1 auth settings
+    foreach($authSettings as $auth) {
+      // determine which one to use
+      switch($auth) {
+        
+        case 'api_key':
+          $headerParams['api_key'] = $this->getApiKeyWithPrefix('api_key');
+          
+          break;
+        
+        case 'petstore_auth':
+          
+          //TODO support oauth
+          break;
+        
+        default:
+          //TODO show warning about security definition not found
+      }
+    }
+  }
+  
+  /**
    * @param string $resourcePath path to method endpoint
    * @param string $method method to call
    * @param array $queryParams parameters to be place in query URL
@@ -109,25 +156,21 @@ class APIClient {
    * @return mixed
    */
   public function callAPI($resourcePath, $method, $queryParams, $postData,
-    $headerParams) {
+    $headerParams, $authSettings) {
 
     $headers = array();
 
-    # Allow API key from $headerParams to override default
-    $added_api_key = False;
+    # determine authentication setting
+    $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
+
+    # construct the http header
     if ($headerParams != null) {
       # add default header
       $headerParams = array_merge((array)self::$default_header, $headerParams);
 
       foreach ($headerParams as $key => $val) {
         $headers[] = "$key: $val";
-        if ($key == $this->headerName) {
-          $added_api_key = True;
-        }
       }
-    }
-    if (! $added_api_key && $this->headerName != null) {
-      $headers[] = $this->headerName . ": " . $this->headerValue;
     }
 
     // form data

@@ -72,10 +72,13 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -123,10 +126,13 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -174,10 +180,13 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -228,18 +237,20 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'string');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'string');
+      return $responseObject;
   }
   
   /**
@@ -280,10 +291,13 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -336,18 +350,20 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'User');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'User');
+      return $responseObject;
   }
   
   /**
@@ -403,10 +419,13 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -459,10 +478,13 @@ class UserApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
