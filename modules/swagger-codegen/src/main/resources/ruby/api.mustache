@@ -12,7 +12,7 @@ module {{moduleName}}
 {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{dataType}}] :{{paramName}} {{description}}
-{{/required}}{{/allParams}}    # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set

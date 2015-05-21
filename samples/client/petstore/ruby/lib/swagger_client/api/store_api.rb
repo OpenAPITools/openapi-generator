@@ -8,7 +8,7 @@ module SwaggerClient
     # Returns pet inventories by status
     # Returns a map of status codes to quantities
     # @param [Hash] opts the optional parameters
-    # @return map[string,int]
+    # @return [map[string,int]]
     def self.get_inventory(opts = {})
       
 
@@ -44,7 +44,7 @@ module SwaggerClient
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Order] :body order placed for purchasing the pet
-    # @return Order
+    # @return [Order]
     def self.place_order(opts = {})
       
 
@@ -80,7 +80,7 @@ module SwaggerClient
     # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     # @param order_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
-    # @return Order
+    # @return [Order]
     def self.get_order_by_id(order_id, opts = {})
       
       # verify the required parameter 'order_id' is set
@@ -119,7 +119,7 @@ module SwaggerClient
     # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     # @param order_id ID of the order that needs to be deleted
     # @param [Hash] opts the optional parameters
-    # @return void
+    # @return [nil]
     def self.delete_order(order_id, opts = {})
       
       # verify the required parameter 'order_id' is set

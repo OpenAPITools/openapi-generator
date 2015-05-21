@@ -9,7 +9,7 @@ module SwaggerClient
     # This can only be done by the logged in user.
     # @param [Hash] opts the optional parameters
     # @option opts [User] :body Created user object
-    # @return void
+    # @return [nil]
     def self.create_user(opts = {})
       
 
@@ -45,7 +45,7 @@ module SwaggerClient
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [array[User]] :body List of user object
-    # @return void
+    # @return [nil]
     def self.create_users_with_array_input(opts = {})
       
 
@@ -81,7 +81,7 @@ module SwaggerClient
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [array[User]] :body List of user object
-    # @return void
+    # @return [nil]
     def self.create_users_with_list_input(opts = {})
       
 
@@ -118,7 +118,7 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [string] :username The user name for login
     # @option opts [string] :password The password for login in clear text
-    # @return string
+    # @return [string]
     def self.login_user(opts = {})
       
 
@@ -155,7 +155,7 @@ module SwaggerClient
     # Logs out current logged in user session
     # 
     # @param [Hash] opts the optional parameters
-    # @return void
+    # @return [nil]
     def self.logout_user(opts = {})
       
 
@@ -191,7 +191,7 @@ module SwaggerClient
     # 
     # @param username The name that needs to be fetched. Use user1 for testing. 
     # @param [Hash] opts the optional parameters
-    # @return User
+    # @return [User]
     def self.get_user_by_name(username, opts = {})
       
       # verify the required parameter 'username' is set
@@ -231,7 +231,7 @@ module SwaggerClient
     # @param username name that need to be deleted
     # @param [Hash] opts the optional parameters
     # @option opts [User] :body Updated user object
-    # @return void
+    # @return [nil]
     def self.update_user(username, opts = {})
       
       # verify the required parameter 'username' is set
@@ -270,7 +270,7 @@ module SwaggerClient
     # This can only be done by the logged in user.
     # @param username The name that needs to be deleted
     # @param [Hash] opts the optional parameters
-    # @return void
+    # @return [nil]
     def self.delete_user(username, opts = {})
       
       # verify the required parameter 'username' is set
