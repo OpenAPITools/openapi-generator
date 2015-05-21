@@ -730,11 +730,11 @@ public class DefaultCodegen {
       for(String key: operation.getConsumes()) {
         Map<String, String> mediaType = new HashMap<String, String>();
         mediaType.put("mediaType", key);
+        count += 1;
         if (count < operation.getConsumes().size())
           mediaType.put("hasMore", "true");
         else
           mediaType.put("hasMore", null);
-        count += 1;
         c.add(mediaType);
       }
       op.consumes = c;
