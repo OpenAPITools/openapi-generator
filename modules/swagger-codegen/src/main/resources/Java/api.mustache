@@ -92,7 +92,8 @@ public class {{classname}} {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
       }
