@@ -1,21 +1,17 @@
 using System;
 
-namespace io.swagger.client {
+namespace IO.Swagger.Client {
+
   public class ApiException : Exception {
-    
-  	private int errorCode = 0;
+
+    public int ErrorCode { get; set; }
 
     public ApiException() {}
 
-    public int ErrorCode { 
-    	get
-    	{
-    		return errorCode;
-    	}
+    public ApiException(int errorCode, string message) : base(message) {
+      this.ErrorCode = errorCode;
     }
 
-    public ApiException(int errorCode, string message) : base(message) {
-    	this.errorCode = errorCode;
-    }
   }
+
 }
