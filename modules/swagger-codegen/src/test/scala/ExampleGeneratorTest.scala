@@ -42,17 +42,17 @@ class ExampleGeneratorTest extends FlatSpec with Matchers {
       item.get("contentType") match {
         case `xml` => {
           types += xml
-          example should be ("<Pair>\\n" +
-                             "  <Node>\\n" +
-                             "    <name>string</name>\\n" +
-                             "    <wrappedChildren>\\n" +
-                             "    </wrappedChildren>\\n" +
-                             "  </Node>\\n" +
-                             "  <Node>\\n" +
-                             "    <name>string</name>\\n" +
-                             "    <wrappedChildren>\\n" +
-                             "    </wrappedChildren>\\n" +
-                             "  </Node>\\n" +
+          example should be ("<Pair>\n" +
+                             "  <Node>\n" +
+                             "    <name>string</name>\n" +
+                             "    <wrappedChildren>\n" +
+                             "    </wrappedChildren>\n" +
+                             "  </Node>\n" +
+                             "  <Node>\n" +
+                             "    <name>string</name>\n" +
+                             "    <wrappedChildren>\n" +
+                             "    </wrappedChildren>\n" +
+                             "  </Node>\n" +
                              "</Pair>")
         }
         case `json` => {
