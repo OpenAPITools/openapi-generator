@@ -66,7 +66,7 @@ class PetApi(object):
         accepts = ['application/json', 'application/xml']
         header_params['Accept'] = ', '.join(accepts)
 
-        content_types = ['application/json', 'application/xml', ]
+        content_types = ['application/json', 'application/xml']
         header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
@@ -105,7 +105,7 @@ class PetApi(object):
         accepts = ['application/json', 'application/xml']
         header_params['Accept'] = ', '.join(accepts)
 
-        content_types = ['application/json', 'application/xml', ]
+        content_types = ['application/json', 'application/xml']
         header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
@@ -277,7 +277,7 @@ class PetApi(object):
         accepts = ['application/json', 'application/xml']
         header_params['Accept'] = ', '.join(accepts)
 
-        content_types = ['application/x-www-form-urlencoded', ]
+        content_types = ['application/x-www-form-urlencoded']
         header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
@@ -335,7 +335,7 @@ class PetApi(object):
 
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server 
-        :param file file: file to upload 
+        :param File file: file to upload 
         
         :return: None
         """
@@ -366,7 +366,7 @@ class PetApi(object):
         accepts = ['application/json', 'application/xml']
         header_params['Accept'] = ', '.join(accepts)
 
-        content_types = ['multipart/form-data', ]
+        content_types = ['multipart/form-data']
         header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
