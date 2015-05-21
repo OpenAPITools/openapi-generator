@@ -7,7 +7,7 @@ import java.util.*;
 import java.io.File;
 
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
-  protected String invokerPackage = "io.swagger.client";
+  protected String invokerPackage = "IO.Swagger.Client";
   protected String groupId = "io.swagger";
   protected String artifactId = "swagger-csharp-client";
   protected String artifactVersion = "1.0.0";
@@ -31,8 +31,8 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     modelTemplateFiles.put("model.mustache", ".cs");
     apiTemplateFiles.put("api.mustache", ".cs");
     templateDir = "csharp";
-    apiPackage = "io.swagger.Api";
-    modelPackage = "io.swagger.Model";
+    apiPackage = "IO.Swagger.Api";
+    modelPackage = "IO.Swagger.Model";
 
     reservedWords = new HashSet<String> (
       Arrays.asList(
@@ -80,7 +80,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.put("double", "double?");
     typeMapping.put("number", "double?");
     typeMapping.put("Date", "DateTime");
-    typeMapping.put("file", "byte[]");
+    typeMapping.put("file", "string"); // path to file
     typeMapping.put("array", "List");
     typeMapping.put("map", "Dictionary");
 

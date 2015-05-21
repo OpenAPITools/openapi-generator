@@ -2,21 +2,22 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
-namespace io.swagger.Model {
+namespace IO.Swagger.Model {
+  [DataContract]
   public class Category {
     
-
     
+    [DataMember(Name="id", EmitDefaultValue=false)]
     public long? Id { get; set; }
 
     
-
     
+    [DataMember(Name="name", EmitDefaultValue=false)]
     public string Name { get; set; }
 
     
-
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class Category {\n");
