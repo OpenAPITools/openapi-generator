@@ -939,6 +939,15 @@ public class DefaultCodegen {
       p.required = param.getRequired();
     p.jsonSchema = Json.pretty(param);
 
+    // move the defaultValue for headers, forms and params
+    if(param instanceof QueryParameter) {
+        p.defaultValue = ((QueryParameter)param).getDefaultValue();
+    } else if(param instanceof HeaderParameter) {
+    	p.defaultValue = ((HeaderParameter)param).getDefaultValue();
+    } else if(param instanceof FormParameter) {
+    	p.defaultValue = ((FormParameter)param).getDefaultValue();
+    }
+
     if(param instanceof SerializableParameter) {
       SerializableParameter qp = (SerializableParameter) param;
       Property property = null;
