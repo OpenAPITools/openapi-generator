@@ -69,7 +69,7 @@
     <div class="field-items">
       <div class="param">status (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be considered for filter </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be considered for filter default: available</div>
       
     </div>  <!-- field-items -->
     <h3 class="field-label">Return type</h3>
@@ -98,16 +98,8 @@
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code>&lt;Pet&gt;
   &lt;id&gt;123456&lt;/id&gt;
-  &lt;Category&gt;
-    &lt;id&gt;123456&lt;/id&gt;
-    &lt;name&gt;string&lt;/name&gt;
-  &lt;/Category&gt;
   &lt;name&gt;doggie&lt;/name&gt;
   &lt;photoUrls&gt;string&lt;/photoUrls&gt;
-  &lt;Tag&gt;
-    &lt;id&gt;123456&lt;/id&gt;
-    &lt;name&gt;string&lt;/name&gt;
-  &lt;/Tag&gt;
   &lt;status&gt;string&lt;/status&gt;
 &lt;/Pet&gt;</code></pre>
     
@@ -153,16 +145,8 @@
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code>&lt;Pet&gt;
   &lt;id&gt;123456&lt;/id&gt;
-  &lt;Category&gt;
-    &lt;id&gt;123456&lt;/id&gt;
-    &lt;name&gt;string&lt;/name&gt;
-  &lt;/Category&gt;
   &lt;name&gt;doggie&lt;/name&gt;
   &lt;photoUrls&gt;string&lt;/photoUrls&gt;
-  &lt;Tag&gt;
-    &lt;id&gt;123456&lt;/id&gt;
-    &lt;name&gt;string&lt;/name&gt;
-  &lt;/Tag&gt;
   &lt;status&gt;string&lt;/status&gt;
 &lt;/Pet&gt;</code></pre>
     
@@ -208,16 +192,8 @@
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code>&lt;Pet&gt;
   &lt;id&gt;123456&lt;/id&gt;
-  &lt;Category&gt;
-    &lt;id&gt;123456&lt;/id&gt;
-    &lt;name&gt;string&lt;/name&gt;
-  &lt;/Category&gt;
   &lt;name&gt;doggie&lt;/name&gt;
   &lt;photoUrls&gt;string&lt;/photoUrls&gt;
-  &lt;Tag&gt;
-    &lt;id&gt;123456&lt;/id&gt;
-    &lt;name&gt;string&lt;/name&gt;
-  &lt;/Tag&gt;
   &lt;status&gt;string&lt;/status&gt;
 &lt;/Pet&gt;</code></pre>
     
@@ -356,7 +332,7 @@
   &quot;complete&quot; : true,
   &quot;status&quot; : &quot;aeiou&quot;,
   &quot;quantity&quot; : 123,
-  &quot;shipDate&quot; : &quot;2015-05-21T05:19:00.242+0000&quot;
+  &quot;shipDate&quot; : &quot;2015-05-21T05:49:06.118+0000&quot;
 }</code></pre>
     
     <h3 class="field-label">Example data</h3>
@@ -365,7 +341,7 @@
   &lt;id&gt;123456&lt;/id&gt;
   &lt;petId&gt;123456&lt;/petId&gt;
   &lt;quantity&gt;0&lt;/quantity&gt;
-  &lt;shipDate&gt;2015-05-20T22:19:00.244Z&lt;/shipDate&gt;
+  &lt;shipDate&gt;2015-05-20T22:49:06.120Z&lt;/shipDate&gt;
   &lt;status&gt;string&lt;/status&gt;
   &lt;complete&gt;true&lt;/complete&gt;
 &lt;/Order&gt;</code></pre>
@@ -399,7 +375,7 @@
   &quot;complete&quot; : true,
   &quot;status&quot; : &quot;aeiou&quot;,
   &quot;quantity&quot; : 123,
-  &quot;shipDate&quot; : &quot;2015-05-21T05:19:00.245+0000&quot;
+  &quot;shipDate&quot; : &quot;2015-05-21T05:49:06.121+0000&quot;
 }</code></pre>
     
     <h3 class="field-label">Example data</h3>
@@ -408,7 +384,7 @@
   &lt;id&gt;123456&lt;/id&gt;
   &lt;petId&gt;123456&lt;/petId&gt;
   &lt;quantity&gt;0&lt;/quantity&gt;
-  &lt;shipDate&gt;2015-05-20T22:19:00.246Z&lt;/shipDate&gt;
+  &lt;shipDate&gt;2015-05-20T22:49:06.122Z&lt;/shipDate&gt;
   &lt;status&gt;string&lt;/status&gt;
   &lt;complete&gt;true&lt;/complete&gt;
 &lt;/Order&gt;</code></pre>
