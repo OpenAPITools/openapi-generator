@@ -167,6 +167,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         operation.put("classVarName", config.toApiVarName(tag));
         operation.put("importPath", config.toApiImport(tag));
 
+        processMimeTypes(swagger.getConsumes(), operation, "consumes");
+        processMimeTypes(swagger.getProduces(), operation, "produces");
+
         allOperations.add(new HashMap<String, Object>(operation));
         for (int i = 0; i < allOperations.size(); i++) {
           Map<String, Object> oo = (Map<String, Object>) allOperations.get(i);
@@ -290,6 +293,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       e.printStackTrace();
     }
     return files;
+  }
+
+  private void processMimeTypes(List<String> mimeTypeList, Map<String, Object> operation, String source) {
+    if(mimeTypeList != null && mimeTypeList.size() > 0) {
+      List<Map<String, String>> c = new ArrayList<Map<String, String>>();
+      int count = 0;
+      for(String key: mimeTypeList) {
+        Map<String, String> mediaType = new HashMap<String, String>();
+        mediaType.put("mediaType", key);
+        count += 1;
+        if (count < mimeTypeList.size()) {
+          mediaType.put("hasMore", "true");
+        }
+        else {
+          mediaType.put("hasMore", null);
+        }
+        c.add(mediaType);
+      }
+      operation.put(source, c);
+      String flagFieldName = "has" + source.substring(0, 1).toUpperCase() + source.substring(1);
+      operation.put(flagFieldName, true);
+    }
   }
 
   public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
