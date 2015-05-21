@@ -31,6 +31,8 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+import io.swagger.client.auth.Authentication;
+
 public class ApiInvoker {
   private static ApiInvoker INSTANCE = new ApiInvoker();
   private Map<String, Client> hostMap = new HashMap<String, Client>();
@@ -162,11 +164,12 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames) throws ApiException {
+    processAuthParams(authNames, queryParams, headerParams);
+
     Client client = getClient(host);
 
     StringBuilder b = new StringBuilder();
-
     for(String key : queryParams.keySet()) {
       String value = queryParams.get(key);
       if (value != null){
@@ -264,6 +267,14 @@ public class ApiInvoker {
       throw new ApiException(
                 response.getClientResponseStatus().getStatusCode(),
                 message);
+    }
+  }
+
+  private void processAuthParams(String[] authNames, Map<String, String> queryParams, Map<String, String> headerParams) {
+    for(String authName : authNames) {
+      Authentication auth = Configuration.getAuthentication(authName);
+      if(auth == null) throw new RuntimeException("Authentication has not been setup for " + authName);
+      auth.processParams(queryParams, headerParams);
     }
   }
 

@@ -74,7 +74,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -124,7 +125,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -174,7 +176,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -229,7 +232,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (String) ApiInvoker.deserialize(response, "", String.class);
       }
@@ -278,7 +282,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -334,7 +339,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (User) ApiInvoker.deserialize(response, "", User.class);
       }
@@ -391,7 +397,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
@@ -447,7 +454,8 @@ public class UserApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
