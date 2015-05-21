@@ -179,11 +179,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         for (String templateName : config.apiTemplateFiles().keySet()) {
-          String suffix = config.apiTemplateFiles().get(templateName);
-          String filename = config.apiFileFolder() +
-                  File.separator +
-                  config.toApiFilename(tag) +
-                  suffix;
+
+          String filename = config.apiFilename( templateName, tag );
+          if( new File( filename ).exists() && !config.shouldOverwrite( filename )){
+            continue;
+          }
 
           String template = readTemplate(config.templateDir() + File.separator + templateName);
           Template tmpl = Mustache.compiler()
