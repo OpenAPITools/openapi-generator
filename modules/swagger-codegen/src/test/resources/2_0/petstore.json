@@ -720,6 +720,18 @@
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/User"
+            },
+            "examples": {
+              "application/json": {
+                "id": 1,
+                "username": "johnp",
+                "firstName": "John",
+                "lastName": "Public",
+                "email": "johnp@swagger.io",
+                "password": "-secret-",
+                "phone": "0123456789",
+                "userStatus": 0
+              }
             }
           },
           "400": {
