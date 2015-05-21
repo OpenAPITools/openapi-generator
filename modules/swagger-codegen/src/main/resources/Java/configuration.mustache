@@ -1,0 +1,25 @@
+package {{invokerPackage}};
+
+import java.util.Map;
+import java.util.HashMap;
+
+import {{invokerPackage}}.auth.Authentication;
+import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.ApiKeyAuth;
+
+public class Configuration {
+  private static final Map<String, Authentication> AUTH;
+
+  static {
+    AUTH = new HashMap<String, Authentication>();
+    {{#authMethods}}
+    {{#isBasic}}AUTH.put("{{name}}", new HttpBasicAuth());{{/isBasic}}
+    {{#isApiKey}}AUTH.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}
+    {{#isOAuth}}// TODO: support oauth{{/isOAuth}}
+    {{/authMethods}}
+  }
+
+  public static Authentication getAuthentication(String authName) {
+    return AUTH.get(authName);
+  }
+}
