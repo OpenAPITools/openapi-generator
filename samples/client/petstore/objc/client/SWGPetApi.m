@@ -75,7 +75,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSArray* requestContentTypes = @[@"application/json", @"application/xml", ];
+    NSArray* requestContentTypes = @[@"application/json", @"application/xml"];
     NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
 
     NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
@@ -166,7 +166,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSArray* requestContentTypes = @[@"application/json", @"application/xml", ];
+    NSArray* requestContentTypes = @[@"application/json", @"application/xml"];
     NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
 
     NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
@@ -519,7 +519,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
-    NSArray* requestContentTypes = @[@"application/x-www-form-urlencoded", ];
+    NSArray* requestContentTypes = @[@"application/x-www-form-urlencoded"];
     NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
 
     NSArray* responseContentTypes = @[@"application/json", @"application/xml"];
@@ -681,7 +681,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
-    NSArray* requestContentTypes = @[@"multipart/form-data", ];
+    NSArray* requestContentTypes = @[@"multipart/form-data"];
     NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
 
     NSArray* responseContentTypes = @[@"application/json", @"application/xml"];

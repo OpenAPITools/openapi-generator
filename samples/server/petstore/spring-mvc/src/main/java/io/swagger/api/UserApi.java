@@ -40,7 +40,8 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
-  public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object"  ) User body)
+  public ResponseEntity<Void> createUser(
+@ApiParam(value = "Created user object"  ) User body)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -55,7 +56,8 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
-  public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object"  ) List<User> body)
+  public ResponseEntity<Void> createUsersWithArrayInput(
+@ApiParam(value = "List of user object"  ) List<User> body)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -70,7 +72,8 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
-  public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object"  ) List<User> body)
+  public ResponseEntity<Void> createUsersWithListInput(
+@ApiParam(value = "List of user object"  ) List<User> body)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -86,8 +89,10 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login") @RequestParam(value = "username", required = false) String username,
-    @ApiParam(value = "The password for login in clear text") @RequestParam(value = "password", required = false) String password)
+  public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login") @RequestParam(value = "username", required = false) String username
+,
+    @ApiParam(value = "The password for login in clear text") @RequestParam(value = "password", required = false) String password
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<String>(HttpStatus.OK);
@@ -119,7 +124,8 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username)
+  public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<User>(HttpStatus.OK);
@@ -135,8 +141,10 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.PUT)
-  public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,
-    @ApiParam(value = "Updated user object"  ) User body)
+  public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username
+,
+    
+@ApiParam(value = "Updated user object"  ) User body)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -152,7 +160,8 @@ public class UserApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
-  public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username)
+  public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
