@@ -34,13 +34,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     apiTemplateFiles.put("api.mustache", ".py");
     templateDir = "python";
 
-    apiPackage = invokerPackage;
+    apiPackage = invokerPackage + ".apis";
     modelPackage = invokerPackage + ".models";
 
     languageSpecificPrimitives.clear();
     languageSpecificPrimitives.add("int");
     languageSpecificPrimitives.add("float");
-    languageSpecificPrimitives.add("long");
     languageSpecificPrimitives.add("list");
     languageSpecificPrimitives.add("bool");
     languageSpecificPrimitives.add("str");
@@ -49,7 +48,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.clear();
     typeMapping.put("integer", "int");
     typeMapping.put("float", "float");
-    typeMapping.put("long", "long");
+    typeMapping.put("long", "int");
     typeMapping.put("double", "float");
     typeMapping.put("array", "list");
     typeMapping.put("map", "map");
@@ -70,8 +69,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     supportingFiles.add(new SupportingFile("README.mustache", eggPackage, "README.md"));
     supportingFiles.add(new SupportingFile("setup.mustache", eggPackage, "setup.py"));
     supportingFiles.add(new SupportingFile("swagger.mustache", invokerPackage, "swagger.py"));
+    supportingFiles.add(new SupportingFile("rest.mustache", invokerPackage, "rest.py"));
+    supportingFiles.add(new SupportingFile("util.mustache", invokerPackage, "util.py"));
     supportingFiles.add(new SupportingFile("__init__package.mustache", invokerPackage, "__init__.py"));
     supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage.replace('.', File.separatorChar), "__init__.py"));
+    supportingFiles.add(new SupportingFile("__init__api.mustache", apiPackage.replace('.', File.separatorChar), "__init__.py"));
   }
 
   @Override
