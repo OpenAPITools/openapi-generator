@@ -1,11 +1,13 @@
 package com.wordnik.swagger.codegen;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CodegenResponse {
   public String code, message;
   public Boolean hasMore;
-  public List<Map<String, String>> examples;
+  public List<Map<String, Object>> examples;
   public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
   public String dataType, baseType, containerType;
   public Boolean isDefault;
