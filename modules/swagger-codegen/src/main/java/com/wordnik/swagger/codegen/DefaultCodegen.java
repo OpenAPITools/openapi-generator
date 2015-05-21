@@ -1024,13 +1024,13 @@ public class DefaultCodegen {
     return secs;
   }
 
-  protected List<Map<String, String>> toExamples(Map<String, String> examples) {
+  protected List<Map<String, String>> toExamples(Map<String, Object> examples) {
     if(examples == null)
       return null;
 
     List<Map<String, String>> output = new ArrayList<Map<String, String>>();
     for(String key: examples.keySet()) {
-      String value = examples.get(key);
+      String value = String.valueOf(examples.get(key));
 
       Map<String, String> kv = new HashMap<String, String>();
       kv.put("contentType", key);

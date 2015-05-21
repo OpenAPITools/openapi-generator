@@ -22,7 +22,7 @@ public class ExampleGenerator {
     this.examples = examples;
   }
 
-  public List<Map<String, String>> generate(Map<String, String> examples, List<String> mediaTypes, Property property) {
+  public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Property property) {
     List<Map<String, String>> output = new ArrayList<Map<String, String>>();
     Set<String> processedModels = new HashSet<String>();
     if(examples == null ) {
@@ -54,7 +54,7 @@ public class ExampleGenerator {
     }
     else {
       for(String key: examples.keySet()) {
-        String value = examples.get(key);
+        String value = String.valueOf(examples.get(key));
 
         Map<String, String> kv = new HashMap<String, String>();
         kv.put("contentType", key);
