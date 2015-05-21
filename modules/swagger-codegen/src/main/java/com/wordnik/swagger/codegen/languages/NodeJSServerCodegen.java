@@ -1,11 +1,19 @@
 package com.wordnik.swagger.codegen.languages;
 
-import com.wordnik.swagger.codegen.*;
-import com.wordnik.swagger.util.Json;
-import com.wordnik.swagger.models.properties.*;
-
-import java.util.*;
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import com.wordnik.swagger.codegen.CodegenConfig;
+import com.wordnik.swagger.codegen.CodegenOperation;
+import com.wordnik.swagger.codegen.CodegenParameter;
+import com.wordnik.swagger.codegen.CodegenResponse;
+import com.wordnik.swagger.codegen.CodegenType;
+import com.wordnik.swagger.codegen.DefaultCodegen;
+import com.wordnik.swagger.codegen.SupportingFile;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
   protected String apiVersion = "1.0.0";
@@ -156,8 +164,10 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
   @Override
   public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-    Map<String, Object> objectMap = (Map<String, Object>)objs.get("operations");
-    List<CodegenOperation> operations = (List<CodegenOperation>)objectMap.get("operation");
+    @SuppressWarnings("unchecked")
+    Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+    @SuppressWarnings("unchecked")
+    List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
     for(CodegenOperation operation : operations) {
       operation.httpMethod = operation.httpMethod.toLowerCase();
       List<CodegenParameter> params = operation.allParams;
@@ -170,20 +180,14 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             resp.code = "default";
         }
       }
-      if(operation.examples != null && operation.examples.size() > 0) {
-        List<Map<String, String>> examples = operation.examples;
-        for(int i = examples.size() - 1; i >= 0; i--) {
-          Map<String, String> example = examples.get(i);
-          String contentType = example.get("contentType");
-          if(contentType != null && contentType.indexOf("application/json") == 0) {
-            String jsonExample = example.get("example");
-            if(jsonExample != null) {
-              jsonExample = jsonExample.replaceAll("\\\\n", "\n");
-              example.put("example", jsonExample);
-            }            
+      if(operation.examples != null && !operation.examples.isEmpty()) {
+        // Leave application/json* items only
+        for (Iterator<Map<String, String>> it = operation.examples.iterator(); it.hasNext();) {
+          final Map<String, String> example = it.next();
+          final String contentType = example.get("contentType");
+          if (contentType == null || !contentType.startsWith("application/json")) {
+            it.remove();
           }
-          else
-            examples.remove(i);
         }
       }
     }
