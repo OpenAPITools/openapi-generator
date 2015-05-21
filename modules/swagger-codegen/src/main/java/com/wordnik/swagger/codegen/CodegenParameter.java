@@ -2,7 +2,8 @@ package com.wordnik.swagger.codegen;
 
 public class CodegenParameter {
   public Boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
-    isCookieParam, isBodyParam, isFile, notFile, hasMore, isContainer, secondaryParam;
+    isCookieParam, isBodyParam, isFile, notFile, hasMore, isContainer, secondaryParam,
+    isPrimitiveType, notPrimitiveType;
   public String baseName, paramName, dataType, collectionFormat, description, baseType;
   public String jsonSchema;
 
@@ -34,6 +35,8 @@ public class CodegenParameter {
     output.isBodyParam = this.isBodyParam;
     output.required = this.required;
     output.jsonSchema = this.jsonSchema;
+    output.isPrimitiveType = this.isPrimitiveType;
+    output.notPrimitiveType = this.notPrimitiveType;
 
     return output;
   }
