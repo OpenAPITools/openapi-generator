@@ -1,9 +1,15 @@
+group = 'io.swagger'
+project.version = '1.0.0'
+
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.2'
+        
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+        
     }
 }
 
@@ -13,7 +19,9 @@ allprojects {
     }
 }
 
+
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 22
@@ -21,6 +29,17 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
+    }
+
+    // Rename the aar correctly
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                def fileName = "${project.name}-${variant.baseName}-${version}.aar"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
     }
 }
 
@@ -37,7 +56,12 @@ dependencies {
     compile "com.google.code.gson:gson:$gson_version"
     compile "org.apache.httpcomponents:httpcore:$httpclient_version"
     compile "org.apache.httpcomponents:httpclient:$httpclient_version"
-    compile "org.apache.httpcomponents:httpmime:$httpclient_version"
+    compile ("org.apache.httpcomponents:httpcore:$httpcore_version") {
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+    }
+    compile ("org.apache.httpcomponents:httpmime:$httpmime_version") {
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+    }
     testCompile "junit:junit:$junit_version"
 }
 
@@ -48,7 +72,16 @@ afterEvaluate {
         task.dependsOn variant.javaCompile
         task.from variant.javaCompile.destinationDir
         task.destinationDir = project.file("${project.buildDir}/outputs/jar")
-        task.archiveName = "${project.name}-${variant.baseName}.jar"
+        task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
         artifacts.add('archives', task);
     }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
 }
