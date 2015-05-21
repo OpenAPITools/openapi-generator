@@ -6,11 +6,9 @@
     <version>2.1.1-M2-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
-  <groupId>com.wordnik</groupId>
   <artifactId>swagger-generator</artifactId>
   <packaging>war</packaging>
   <name>swagger-generator</name>
-  <version>2.1.1-M2-SNAPSHOT</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <resources>
