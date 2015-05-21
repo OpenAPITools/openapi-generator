@@ -10,9 +10,9 @@ $ nosetests -v
 import os
 import time
 import unittest
-import urllib2
 
 import SwaggerPetstore
+from SwaggerPetstore.rest import ErrorResponse
 
 HOST = 'http://petstore.swagger.io/v2'
 
@@ -31,15 +31,15 @@ class PetApiTests(unittest.TestCase):
 
     def setUpModels(self):
         self.category = SwaggerPetstore.Category()
-        self.category.id = 1010
+        self.category.id = int(time.time())
         self.category.name = "dog"
         self.tag = SwaggerPetstore.Tag()
-        self.tag.id = 1010
+        self.tag.id = int(time.time())
         self.tag.name = "blank"
         self.pet = SwaggerPetstore.Pet()
-        self.pet.id = 1010
+        self.pet.id = int(time.time())
         self.pet.name = "hello kity"
-        self.pet.photo_urls = ["sample urls"]
+        self.pet.photo_urls = ["http://foo.bar.com/1", "http://foo.bar.com/2"]
         self.pet.status = "sold"
         self.pet.category = self.category
         self.pet.tags = [self.tag]
@@ -49,48 +49,55 @@ class PetApiTests(unittest.TestCase):
         self.test_file_dir = os.path.realpath(self.test_file_dir)
         self.foo = os.path.join(self.test_file_dir, "foo.png")
 
-    def test_1_add_pet(self):
-        try:
-            self.pet_api.add_pet(body=self.pet)
-        except (urllib2.HTTPError, urllib2.URLError) as e:
-            self.fail("add_pet() raised {0} unexpectedly".format(type(e)))
+    def test_add_pet_and_get_pet_by_id(self):
+        self.pet_api.add_pet(body=self.pet)
 
-    def test_2_get_pet_by_id(self):
-        self.assertEqual(
-            dir(self.pet_api.get_pet_by_id(pet_id=self.pet.id)),
-            dir(self.pet)
-        )
+        fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+        self.assertIsNotNone(fetched)
+        self.assertEqual(self.pet.id, fetched.id)
+        self.assertIsNotNone(fetched.category)
+        self.assertEqual(self.pet.category.name, fetched.category.name)
 
-    def test_3_update_pet(self):
-        try:
-            self.pet.name = "hello kity with updated"
-            self.pet_api.update_pet(body=self.pet)
-        except (urllib2.HTTPError, urllib2.URLError) as e:
-            self.fail("update_pet() raised {0} unexpectedly".format(type(e)))
+    def test_update_pet(self):
+        self.pet.name = "hello kity with updated"
+        self.pet_api.update_pet(body=self.pet)
 
-    def test_4_find_pets_by_status(self):
+        fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+        self.assertIsNotNone(fetched)
+        self.assertEqual(self.pet.id, fetched.id)
+        self.assertEqual(self.pet.name, fetched.name)
+        self.assertIsNotNone(fetched.category)
+        self.assertEqual(fetched.category.name, self.pet.category.name)
+
+    def test_find_pets_by_status(self):
+        self.pet_api.add_pet(body=self.pet)
+        
         self.assertIn(
-            dir(self.pet),
-            map(dir, self.pet_api.find_pets_by_status(status=["sold"]))
+            self.pet.id,
+            list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_status(status=[self.pet.status])))
         )
 
-    def test_5_find_pets_by_tags(self):
+    def test_find_pets_by_tags(self):
+        self.pet_api.add_pet(body=self.pet)
+        
         self.assertIn(
-            dir(self.pet),
-            map(dir, self.pet_api.find_pets_by_tags(tags=["blank"]))
+            self.pet.id,
+            list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_tags(tags=[self.tag.name])))
         )
 
-    def test_6_update_pet_with_form(self):
-        try:
-            name = "hello kity with form updated"
-            status = "pending"
-            self.pet_api.update_pet_with_form(
-                pet_id=self.pet.id, name=name, status=status
-            )
-        except (urllib2.HTTPError, urllib2.URLError) as e:
-            self.fail("update_pet_with_form() raised {0} unexpectedly".format(type(e)))
+    def test_update_pet_with_form(self):
+        self.pet_api.add_pet(body=self.pet)
+        
+        name = "hello kity with form updated"
+        status = "pending"
+        self.pet_api.update_pet_with_form(pet_id=self.pet.id, name=name, status=status)
 
-    def test_7_upload_file(self):
+        fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+        self.assertEqual(self.pet.id, fetched.id)
+        self.assertEqual(name, fetched.name)
+        self.assertEqual(status, fetched.status)
+
+    def test_upload_file(self):
         try:
             additional_metadata = "special"
             self.pet_api.upload_file(
@@ -98,16 +105,23 @@ class PetApiTests(unittest.TestCase):
                 additional_metadata=additional_metadata,
                 file=self.foo
             )
-        except (urllib2.HTTPError, urllib2.URLError) as e:
+        except ErrorResponse as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
 
-    def test_8_delete_pet(self):
+    def test_delete_pet(self):
+        self.pet_api.add_pet(body=self.pet)
+        self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
+        
         try:
-            api_key = "special-key"
-            self.pet_api.delete_pet(pet_id=self.pet.id, api_key=api_key)
-        except (urllib2.HTTPError, urllib2.URLError) as e:
-            self.fail("delete_pet() raised {0} unexpectedly".format(type(e)))
-
+            self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+            raise "expected an error"
+        except ErrorResponse as e:
+            self.assertEqual(404, e.status)
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
+
+

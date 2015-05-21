@@ -27,30 +27,15 @@
         <version>1.2.1</version>
         <executions>
           <execution>
-            <id>nose-install</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>pip</executable>
-              <arguments>
-                <argument>install</argument>
-                <argument>nose</argument>
-                <argument>--user</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
             <id>nose-test</id>
             <phase>integration-test</phase>
             <goals>
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>nosetests</executable>
+              <executable>make</executable>
               <arguments>
-                <argument>-v</argument>
+                <argument>test</argument>
               </arguments>
             </configuration>
           </execution>
