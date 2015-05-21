@@ -72,10 +72,13 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -123,10 +126,13 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -173,18 +179,20 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'array[Pet]');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'array[Pet]');
+      return $responseObject;
   }
   
   /**
@@ -229,18 +237,20 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'array[Pet]');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'array[Pet]');
+      return $responseObject;
   }
   
   /**
@@ -291,18 +301,20 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('api_key', 'petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Pet');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'Pet');
+      return $responseObject;
   }
   
   /**
@@ -361,10 +373,13 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -421,10 +436,13 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
@@ -485,10 +503,13 @@ class PetApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('petstore_auth');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }
