@@ -27,7 +27,7 @@ module SwaggerClient
       _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['application/json', 'application/xml', ]
+      _header_content_type = ['application/json', 'application/xml']
       header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
@@ -62,7 +62,7 @@ module SwaggerClient
       _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['application/json', 'application/xml', ]
+      _header_content_type = ['application/json', 'application/xml']
       header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
@@ -215,7 +215,7 @@ module SwaggerClient
       _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['application/x-www-form-urlencoded', ]
+      _header_content_type = ['application/x-www-form-urlencoded']
       header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters
@@ -297,7 +297,7 @@ module SwaggerClient
       _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['multipart/form-data', ]
+      _header_content_type = ['multipart/form-data']
       header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
 
       # form parameters

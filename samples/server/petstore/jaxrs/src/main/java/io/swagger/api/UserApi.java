@@ -21,6 +21,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 
 @Path("/user")
+
+
 @com.wordnik.swagger.annotations.Api(value = "/user", description = "the user API")
 public class UserApi {
   

@@ -21,12 +21,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 
 @Path("/pet")
+
+
 @com.wordnik.swagger.annotations.Api(value = "/pet", description = "the pet API")
 public class PetApi {
   
   @PUT
   
-  @Consumes({ "application/json", "application/xml",  })
+  @Consumes({ "application/json", "application/xml" })
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = Void.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
@@ -45,7 +47,7 @@ public class PetApi {
   
   @POST
   
-  @Consumes({ "application/json", "application/xml",  })
+  @Consumes({ "application/json", "application/xml" })
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
@@ -113,7 +115,7 @@ public class PetApi {
   
   @POST
   @Path("/{petId}")
-  @Consumes({ "application/x-www-form-urlencoded",  })
+  @Consumes({ "application/x-www-form-urlencoded" })
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 
@@ -146,7 +148,7 @@ public class PetApi {
   
   @POST
   @Path("/{petId}/uploadImage")
-  @Consumes({ "multipart/form-data",  })
+  @Consumes({ "multipart/form-data" })
   @Produces({ "application/json", "application/xml" })
   @com.wordnik.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = Void.class)
   @com.wordnik.swagger.annotations.ApiResponses(value = { 

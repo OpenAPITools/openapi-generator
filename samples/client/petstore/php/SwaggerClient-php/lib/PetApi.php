@@ -52,7 +52,7 @@ class PetApi {
       if ($_header_accept !== '') {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('application/json','application/xml',);
+      $_header_content_type = array('application/json','application/xml');
       $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
@@ -104,7 +104,7 @@ class PetApi {
       if ($_header_accept !== '') {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('application/json','application/xml',);
+      $_header_content_type = array('application/json','application/xml');
       $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
@@ -340,7 +340,7 @@ class PetApi {
       if ($_header_accept !== '') {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('application/x-www-form-urlencoded',);
+      $_header_content_type = array('application/x-www-form-urlencoded');
       $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
@@ -466,7 +466,7 @@ class PetApi {
       if ($_header_accept !== '') {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array('multipart/form-data',);
+      $_header_content_type = array('multipart/form-data');
       $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
 
       
