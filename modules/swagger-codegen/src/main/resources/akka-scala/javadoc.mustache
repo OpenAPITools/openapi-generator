@@ -1,0 +1,21 @@
+{{^notes.isEmpty}}
+{{notes}}
+{{/notes.isEmpty}}
+
+Expected answers:
+{{#responses}}
+  code {{code}} : {{dataType}} {{^message.isEmpty}}({{message}}){{/message.isEmpty}}{{^headers.isEmpty}}
+             Headers :{{#headers}}
+               {{baseName}} - {{description}}{{/headers}}{{/headers.isEmpty}}
+{{/responses}}
+{{#authMethods.0}}
+
+Available security schemes:
+{{#authMethods}}
+  {{name}} ({{type}})
+{{/authMethods}}
+{{/authMethods.0}}
+
+{{#allParams}}
+@param {{paramName}} {{description}}
+{{/allParams}}
