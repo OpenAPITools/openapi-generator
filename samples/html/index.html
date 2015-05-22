@@ -69,7 +69,7 @@
     <div class="field-items">
       <div class="param">status (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be considered for filter </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be considered for filter default: available</div>
       
     </div>  <!-- field-items -->
     <h3 class="field-label">Return type</h3>
@@ -79,11 +79,29 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ]</code></pre>
+    <pre class="example"><code>[ {
+  &quot;tags&quot; : [ {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  } ],
+  &quot;id&quot; : 123456789,
+  &quot;category&quot; : {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  },
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
+} ]</code></pre>
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code><Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet></code></pre>
+    <pre class="example"><code>&lt;Pet&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;name&gt;doggie&lt;/name&gt;
+  &lt;photoUrls&gt;string&lt;/photoUrls&gt;
+  &lt;status&gt;string&lt;/status&gt;
+&lt;/Pet&gt;</code></pre>
     
   </div> <!-- method -->
   <hr>
@@ -108,11 +126,29 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ]</code></pre>
+    <pre class="example"><code>[ {
+  &quot;tags&quot; : [ {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  } ],
+  &quot;id&quot; : 123456789,
+  &quot;category&quot; : {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  },
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
+} ]</code></pre>
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code><Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet></code></pre>
+    <pre class="example"><code>&lt;Pet&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;name&gt;doggie&lt;/name&gt;
+  &lt;photoUrls&gt;string&lt;/photoUrls&gt;
+  &lt;status&gt;string&lt;/status&gt;
+&lt;/Pet&gt;</code></pre>
     
   </div> <!-- method -->
   <hr>
@@ -137,11 +173,29 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n}</code></pre>
+    <pre class="example"><code>{
+  &quot;tags&quot; : [ {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  } ],
+  &quot;id&quot; : 123456789,
+  &quot;category&quot; : {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  },
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
+}</code></pre>
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code><Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet></code></pre>
+    <pre class="example"><code>&lt;Pet&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;name&gt;doggie&lt;/name&gt;
+  &lt;photoUrls&gt;string&lt;/photoUrls&gt;
+  &lt;status&gt;string&lt;/status&gt;
+&lt;/Pet&gt;</code></pre>
     
   </div> <!-- method -->
   <hr>
@@ -241,11 +295,13 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{\n  "key" : 123\n}</code></pre>
+    <pre class="example"><code>{
+  &quot;key&quot; : 123
+}</code></pre>
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>not implemented com.wordnik.swagger.models.properties.MapProperty@5076b51c</code></pre>
+    <pre class="example"><code>not implemented com.wordnik.swagger.models.properties.MapProperty@3e</code></pre>
     
   </div> <!-- method -->
   <hr>
@@ -270,11 +326,25 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-12T09:58:06.953+0000"\n}</code></pre>
+    <pre class="example"><code>{
+  &quot;id&quot; : 123456789,
+  &quot;petId&quot; : 123456789,
+  &quot;complete&quot; : true,
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;quantity&quot; : 123,
+  &quot;shipDate&quot; : &quot;2015-05-21T05:49:06.118+0000&quot;
+}</code></pre>
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code><Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-12T05:58:06.956Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order></code></pre>
+    <pre class="example"><code>&lt;Order&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;petId&gt;123456&lt;/petId&gt;
+  &lt;quantity&gt;0&lt;/quantity&gt;
+  &lt;shipDate&gt;2015-05-20T22:49:06.120Z&lt;/shipDate&gt;
+  &lt;status&gt;string&lt;/status&gt;
+  &lt;complete&gt;true&lt;/complete&gt;
+&lt;/Order&gt;</code></pre>
     
   </div> <!-- method -->
   <hr>
@@ -299,11 +369,25 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-12T09:58:06.957+0000"\n}</code></pre>
+    <pre class="example"><code>{
+  &quot;id&quot; : 123456789,
+  &quot;petId&quot; : 123456789,
+  &quot;complete&quot; : true,
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;quantity&quot; : 123,
+  &quot;shipDate&quot; : &quot;2015-05-21T05:49:06.121+0000&quot;
+}</code></pre>
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code><Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-12T05:58:06.957Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order></code></pre>
+    <pre class="example"><code>&lt;Order&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;petId&gt;123456&lt;/petId&gt;
+  &lt;quantity&gt;0&lt;/quantity&gt;
+  &lt;shipDate&gt;2015-05-20T22:49:06.122Z&lt;/shipDate&gt;
+  &lt;status&gt;string&lt;/status&gt;
+  &lt;complete&gt;true&lt;/complete&gt;
+&lt;/Order&gt;</code></pre>
     
   </div> <!-- method -->
   <hr>
@@ -415,7 +499,7 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>"aeiou"</code></pre>
+    <pre class="example"><code>&quot;aeiou&quot;</code></pre>
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
@@ -462,11 +546,16 @@
     
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{\n  "id" : 123456789,\n  "lastName" : "aeiou",\n  "phone" : "aeiou",\n  "username" : "aeiou",\n  "email" : "aeiou",\n  "userStatus" : 123,\n  "firstName" : "aeiou",\n  "password" : "aeiou"\n}</code></pre>
-    
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code><User>\n  <id>123456</id>\n  <username>string</username>\n  <firstName>string</firstName>\n  <lastName>string</lastName>\n  <email>string</email>\n  <password>string</password>\n  <phone>string</phone>\n  <userStatus>0</userStatus>\n</User></code></pre>
+    <pre class="example"><code>{
+  &quot;id&quot; : 1,
+  &quot;username&quot; : &quot;johnp&quot;,
+  &quot;firstName&quot; : &quot;John&quot;,
+  &quot;lastName&quot; : &quot;Public&quot;,
+  &quot;email&quot; : &quot;johnp@swagger.io&quot;,
+  &quot;password&quot; : &quot;-secret-&quot;,
+  &quot;phone&quot; : &quot;0123456789&quot;,
+  &quot;userStatus&quot; : 0
+}</code></pre>
     
   </div> <!-- method -->
   <hr>

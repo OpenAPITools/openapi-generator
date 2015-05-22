@@ -123,7 +123,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param status Status values that need to be considered for filter
    * @return List[Pet]
    */
-  def findPetsByStatus (status: List[String]) : Option[List[Pet]] = {
+  def findPetsByStatus (status: List[String] = available) : Option[List[Pet]] = {
     // create path and map variables
     val path = "/pet/findByStatus".replaceAll("\\{format\\}","json")
 

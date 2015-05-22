@@ -66,6 +66,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         completionHandler: (void (^)(NSError* error))completionBlock {
 
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user", basePath];
 
     // remove format in URL if needed
@@ -161,6 +163,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         completionHandler: (void (^)(NSError* error))completionBlock {
 
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/createWithArray", basePath];
 
     // remove format in URL if needed
@@ -255,6 +259,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         
         completionHandler: (void (^)(NSError* error))completionBlock {
+
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/createWithList", basePath];
 
@@ -353,6 +359,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         completionHandler: (void (^)(NSString* output, NSError* error))completionBlock
          {
 
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/login", basePath];
 
     // remove format in URL if needed
@@ -443,6 +451,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         (void (^)(NSError* error))completionBlock {
 
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/logout", basePath];
 
     // remove format in URL if needed
@@ -514,6 +524,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         completionHandler: (void (^)(SWGUser* output, NSError* error))completionBlock
          {
+
+    
+    // verify the required parameter 'username' is set
+    NSAssert(username != nil, @"Missing the required parameter `username` when calling getUserByName");
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
@@ -603,6 +618,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         
         completionHandler: (void (^)(NSError* error))completionBlock {
+
+    
+    // verify the required parameter 'username' is set
+    NSAssert(username != nil, @"Missing the required parameter `username` when calling updateUser");
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 
@@ -699,6 +719,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         
         completionHandler: (void (^)(NSError* error))completionBlock {
+
+    
+    // verify the required parameter 'username' is set
+    NSAssert(username != nil, @"Missing the required parameter `username` when calling deleteUser");
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
 

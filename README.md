@@ -150,8 +150,11 @@ JavaClientCodegen.java
 JaxRSServerCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
+PerlClientCodegen.java
 PhpClientCodegen.java
+Python3ClientCodegen.java
 PythonClientCodegen.java
+Qt5CPPGenerator.java
 RubyClientCodegen.java
 ScalaClientCodegen.java
 ScalatraServerCodegen.java

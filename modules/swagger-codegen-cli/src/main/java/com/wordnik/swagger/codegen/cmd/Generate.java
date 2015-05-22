@@ -54,9 +54,15 @@ public class Generate implements Runnable {
                     "Pass in a URL-encoded string of name:header with a comma separating multiple values")
     private String auth;
 
+    @Option( name= {"-D"}, title = "system properties", description = "sets specified system properties in " +
+            "the format of name=value,name=value")
+    private String systemProperties;
+
     @Override
     public void run() {
         verbosed(verbose);
+
+        setSystemProperties();
 
         ClientOptInput input = new ClientOptInput();
 
@@ -75,6 +81,17 @@ public class Generate implements Runnable {
 
         Swagger swagger = new SwaggerParser().read(spec, input.getAuthorizationValues(), true);
         new DefaultGenerator().opts(input.opts(new ClientOpts()).swagger(swagger)).generate();
+    }
+
+    private void setSystemProperties() {
+        if( systemProperties != null && systemProperties.length() > 0 ){
+            for( String property : systemProperties.split(",")) {
+                int ix = property.indexOf('=');
+                if( ix > 0 && ix < property.length()-1 ){
+                    System.setProperty( property.substring(0, ix), property.substring(ix+1) );
+                }
+            }
+        }
     }
 
     /**

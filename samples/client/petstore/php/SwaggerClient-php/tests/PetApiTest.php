@@ -31,11 +31,37 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $add_response = $pet_api->addPet($new_pet);
   }
 
+  // test static functions defined in APIClient
+  public function testAPIClient()
+  { 
+    # test selectHeaderAccept
+    $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderAccept(array('application/xml','application/json')));
+    $this->assertSame(NULL, SwaggerClient\APIClient::selectHeaderAccept(array()));
+    $this->assertSame('application/yaml,application/xml', SwaggerClient\APIClient::selectHeaderAccept(array('application/yaml','application/xml')));
+   
+    # test selectHeaderContentType
+    $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array('application/xml','application/json')));
+    $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array()));
+    $this->assertSame('application/yaml,application/xml', SwaggerClient\APIClient::selectHeaderContentType(array('application/yaml','application/xml')));
+
+    # test addDefaultHeader and getDefaultHeader
+    SwaggerClient\APIClient::addDefaultHeader('test1', 'value1');
+    SwaggerClient\APIClient::addDefaultHeader('test2', 200);
+    $this->assertSame('value1', SwaggerClient\APIClient::getDefaultHeader()['test1']);
+    $this->assertSame(200, SwaggerClient\APIClient::getDefaultHeader()['test2']);
+
+    # test deleteDefaultHeader
+    SwaggerClient\APIClient::deleteDefaultHeader('test2');
+    $this->assertFalse(isset(SwaggerClient\APIClient::getDefaultHeader()['test2']));
+
+  }
+
   // test getPetById with a Pet object (id 10005)
   public function testGetPetById()
   {
-    // initialize the API client
-    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    // initialize the API client without host
+    $api_client = new SwaggerClient\APIClient();
+    SwaggerClient\Configuration::$apiKey['api_key'] = '111222333444555';
     $pet_id = 10005;  // ID of pet that needs to be fetched
     $pet_api = new SwaggerClient\PetAPI($api_client);
     // return Pet (model)
@@ -77,7 +103,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     // create updated pet object
     $updated_pet = new SwaggerClient\models\Pet;
     $updated_pet->id = $pet_id;
-    $updated_pet->status = "pending"; // new status
+    $updated_pet->name = 'updatePet'; // new name
+    $updated_pet->status = 'pending'; // new status
     // update Pet (model/json)
     $update_response = $pet_api->updatePet($updated_pet);
     // return nothing (void)
@@ -86,6 +113,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $response = $pet_api->getPetById($pet_id);
     $this->assertSame($response->id, $pet_id);
     $this->assertSame($response->status, 'pending');
+    $this->assertSame($response->name, 'updatePet');
   }
 
   // test updatePet and verify by the "id" of the response
@@ -96,15 +124,13 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $pet_id = 10001;  // ID of pet that needs to be fetched
     $pet_api = new SwaggerClient\PetAPI($api_client);
     // update Pet (form)
-    $update_response = $pet_api->updatePetWithForm($pet_id, null, 'sold');
+    $update_response = $pet_api->updatePetWithForm($pet_id, 'update pet with form', 'sold');
     // return nothing (void)
     $this->assertSame($update_response, NULL);
-    // TODO commented out for the time being since it's broken
-    // https://github.com/swagger-api/swagger-codegen/issues/656
-    // verify updated Pet
-    //$response = $pet_api->getPetById($pet_id);
-    //$this->assertSame($response->id, $pet_id);
-    //$this->assertSame($response->status, 'sold');
+    $response = $pet_api->getPetById($pet_id);
+    $this->assertSame($response->id, $pet_id);
+    $this->assertSame($response->name, 'update pet with form');
+    $this->assertSame($response->status, 'sold');
   }
 
   // test addPet and verify by the "id" and "name" of the response

@@ -2,52 +2,52 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
-namespace io.swagger.Model {
+namespace IO.Swagger.Model {
+  [DataContract]
   public class User {
     
-
     
+    [DataMember(Name="id", EmitDefaultValue=false)]
     public long? Id { get; set; }
 
     
-
     
+    [DataMember(Name="username", EmitDefaultValue=false)]
     public string Username { get; set; }
 
     
-
     
+    [DataMember(Name="firstName", EmitDefaultValue=false)]
     public string FirstName { get; set; }
 
     
-
     
+    [DataMember(Name="lastName", EmitDefaultValue=false)]
     public string LastName { get; set; }
 
     
-
     
+    [DataMember(Name="email", EmitDefaultValue=false)]
     public string Email { get; set; }
 
     
-
     
+    [DataMember(Name="password", EmitDefaultValue=false)]
     public string Password { get; set; }
 
     
-
     
+    [DataMember(Name="phone", EmitDefaultValue=false)]
     public string Phone { get; set; }
 
     
-
     /* User Status */
-    
+    [DataMember(Name="userStatus", EmitDefaultValue=false)]
     public int? UserStatus { get; set; }
 
     
-
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class User {\n");

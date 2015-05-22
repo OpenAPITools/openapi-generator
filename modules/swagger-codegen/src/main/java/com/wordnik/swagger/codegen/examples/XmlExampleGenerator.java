@@ -8,6 +8,8 @@ import com.wordnik.swagger.models.properties.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.codehaus.plexus.util.StringUtils;
+
 public class XmlExampleGenerator {
   public static String NEWLINE = "\n";
   public static String TAG_START = "<";
@@ -16,6 +18,7 @@ public class XmlExampleGenerator {
   protected Map<String, Model> examples;
   protected SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
   protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  private static String EMPTY = "";
 
   public XmlExampleGenerator(Map<String, Model> examples) {
     this.examples = examples;
@@ -24,29 +27,36 @@ public class XmlExampleGenerator {
   }
 
   public String toXml(Property property) {
-    return toXml(null, property, 0);
+    return toXml(null, property, 0, Collections.<String>emptySet());
   }
 
-  protected String toXml(Model model, int indent) {
+  protected String toXml(Model model, int indent, Collection<String> path) {
     if(model instanceof RefModel) {
       RefModel ref = (RefModel) model;
       Model actualModel = examples.get(ref.getSimpleRef());
       if(actualModel instanceof ModelImpl)
-        return modelImplToXml((ModelImpl)actualModel, indent);
+        return modelImplToXml((ModelImpl) actualModel, indent, path);
     }
     else if(model instanceof ModelImpl) {
-      return modelImplToXml((ModelImpl)model, indent);
+      return modelImplToXml((ModelImpl) model, indent, path);
     }
     return null;
   }
 
-  protected String modelImplToXml(ModelImpl model, int indent) {
+  protected String modelImplToXml(ModelImpl model, int indent, Collection<String> path) {
+    final String modelName = model.getName();
+    if (path.contains(modelName)) {
+      return EMPTY;
+    }
+    final Set<String> selfPath = new HashSet<String>(path);
+    selfPath.add(modelName);
+
     StringBuilder sb = new StringBuilder();
     // attributes
     Map<String, Property> attributes = new LinkedHashMap<String, Property>();
     Map<String, Property> elements = new LinkedHashMap<String, Property>();
 
-    String name = model.getName();
+    String name = modelName;
     String namespace;
     String prefix;
     Boolean wrapped;
@@ -67,13 +77,17 @@ public class XmlExampleGenerator {
     sb.append(name);
     for(String pName : attributes.keySet()) {
       Property p = attributes.get(pName);
-      sb.append(" ").append(pName).append("=").append(quote(toXml(null, p, 0)));
+      sb.append(" ").append(pName).append("=").append(quote(toXml(null, p, 0, selfPath)));
     }
     sb.append(CLOSE_TAG);
     sb.append(NEWLINE);
     for(String pName : elements.keySet()) {
       Property p = elements.get(pName);
-      sb.append(toXml(pName, p, indent + 1));
+      final String asXml = toXml(pName, p, indent + 1, selfPath);
+      if (StringUtils.isEmpty(asXml)) {
+        continue;
+      }
+      sb.append(asXml);
       sb.append(NEWLINE);
     }
     sb.append(indent(indent)).append(TAG_END).append(name).append(CLOSE_TAG);
@@ -85,7 +99,7 @@ public class XmlExampleGenerator {
     return "\"" + string + "\"";
   }
 
-  protected String toXml(String name, Property property, int indent) {
+  protected String toXml(String name, Property property, int indent, Collection<String> path) {
     if(property == null) {
       return "";
     }
@@ -98,12 +112,16 @@ public class XmlExampleGenerator {
       if(property.getXml() != null && property.getXml().getWrapped())
         wrapped = true;
       if(wrapped) {
+        String prefix = EMPTY;
         if(name != null) {
           sb.append(indent(indent));
           sb.append(openTag(name));
-          sb.append(NEWLINE);
+          prefix = NEWLINE;
         }
-        sb.append(toXml(name, inner, indent + 1));
+        final String asXml = toXml(name, inner, indent + 1, path);
+        if (StringUtils.isNotEmpty(asXml)) {
+          sb.append(prefix).append(asXml);
+        }
         if(name != null) {
           sb.append(NEWLINE);
           sb.append(indent(indent));
@@ -111,12 +129,12 @@ public class XmlExampleGenerator {
         }
       }
       else
-        sb.append(toXml(name, inner, indent));
+        sb.append(toXml(name, inner, indent, path));
     }
     else if(property instanceof RefProperty) {
       RefProperty ref = (RefProperty) property;
       Model actualModel = examples.get(ref.getSimpleRef());
-      sb.append(toXml(actualModel, indent));
+      sb.append(toXml(actualModel, indent, path));
     }
     else {
       if(name != null) {

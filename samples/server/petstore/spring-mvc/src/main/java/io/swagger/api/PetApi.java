@@ -40,9 +40,11 @@ public class PetApi {
     @ApiResponse(code = 400, message = "Invalid ID supplied") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
-    consumes = { "application/json", "application/xml",  },
+    consumes = { "application/json", "application/xml" },
     method = RequestMethod.PUT)
-  public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
+  public ResponseEntity<Void> updatePet(
+
+@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -55,9 +57,11 @@ public class PetApi {
     @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
-    consumes = { "application/json", "application/xml",  },
+    consumes = { "application/json", "application/xml" },
     method = RequestMethod.POST)
-  public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
+  public ResponseEntity<Void> addPet(
+
+@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -73,7 +77,9 @@ public class PetApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Pet> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter") @RequestParam(value = "status", required = false) List<String> status)
+  public ResponseEntity<Pet> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue = "available") @RequestParam(value = "status", required = false, defaultValue="available") List<String> status
+
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Pet>(HttpStatus.OK);
@@ -89,7 +95,9 @@ public class PetApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Pet> findPetsByTags(@ApiParam(value = "Tags to filter by") @RequestParam(value = "tags", required = false) List<String> tags)
+  public ResponseEntity<Pet> findPetsByTags(@ApiParam(value = "Tags to filter by") @RequestParam(value = "tags", required = false) List<String> tags
+
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Pet>(HttpStatus.OK);
@@ -106,7 +114,9 @@ public class PetApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("petId") Long petId)
+  public ResponseEntity<Pet> getPetById(
+@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("petId") Long petId
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Pet>(HttpStatus.OK);
@@ -119,13 +129,19 @@ public class PetApi {
     @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "/{petId}", 
     produces = { "application/json", "application/xml" }, 
-    consumes = { "application/x-www-form-urlencoded",  },
+    consumes = { "application/x-www-form-urlencoded" },
     method = RequestMethod.POST)
-  public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") String petId,
+  public ResponseEntity<Void> updatePetWithForm(
+@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") String petId
+,
     
-@ApiParam(value = "Updated name of the pet" )@RequestPart("name")  String name,
+
+
+@ApiParam(value = "Updated name of the pet" ) @RequestPart(value="name", required=false)  String name,
     
-@ApiParam(value = "Updated status of the pet" )@RequestPart("status")  String status)
+
+
+@ApiParam(value = "Updated status of the pet" ) @RequestPart(value="status", required=false)  String status)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -140,8 +156,12 @@ public class PetApi {
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
-  public ResponseEntity<Void> deletePet(@ApiParam(value = ""  )@RequestHeader("apiKey") String apiKey,
-    @ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId)
+  public ResponseEntity<Void> deletePet(
+@ApiParam(value = ""  ) @RequestHeader(value="apiKey", required=false) String apiKey
+,
+    
+@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -154,12 +174,18 @@ public class PetApi {
     @ApiResponse(code = 0, message = "successful operation") })
   @RequestMapping(value = "/{petId}/uploadImage", 
     produces = { "application/json", "application/xml" }, 
-    consumes = { "multipart/form-data",  },
+    consumes = { "multipart/form-data" },
     method = RequestMethod.POST)
-  public ResponseEntity<Void> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,
+  public ResponseEntity<Void> uploadFile(
+@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId
+,
     
-@ApiParam(value = "Additional data to pass to server" )@RequestPart("additionalMetadata")  String additionalMetadata,
-    @ApiParam(value = "file detail") @RequestPart("file") MultipartFile fileDetail)
+
+
+@ApiParam(value = "Additional data to pass to server" ) @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,
+    
+
+@ApiParam(value = "file detail") @RequestPart("file") MultipartFile fileDetail)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);

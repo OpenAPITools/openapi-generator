@@ -165,6 +165,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         operation.putAll(config.additionalProperties());
         operation.put("classname", config.toApiName(tag));
         operation.put("classVarName", config.toApiVarName(tag));
+        operation.put("importPath", config.toApiImport(tag));
+
+        processMimeTypes(swagger.getConsumes(), operation, "consumes");
+        processMimeTypes(swagger.getProduces(), operation, "produces");
 
         allOperations.add(new HashMap<String, Object>(operation));
         for (int i = 0; i < allOperations.size(); i++) {
@@ -175,11 +179,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         for (String templateName : config.apiTemplateFiles().keySet()) {
-          String suffix = config.apiTemplateFiles().get(templateName);
-          String filename = config.apiFileFolder() +
-                  File.separator +
-                  config.toApiFilename(tag) +
-                  suffix;
+
+          String filename = config.apiFilename( templateName, tag );
+          if( new File( filename ).exists() && !config.shouldOverwrite( filename )){
+            continue;
+          }
 
           String template = readTemplate(config.templateDir() + File.separator + templateName);
           Template tmpl = Mustache.compiler()
@@ -217,6 +221,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       bundle.put("models", allModels);
       bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
       bundle.put("modelPackage", config.modelPackage());
+      bundle.put("authMethods", config.fromSecurity(swagger.getSecurityDefinitions()));
       if (swagger.getExternalDocs() != null) {
         bundle.put("externalDocs", swagger.getExternalDocs());
       }
@@ -289,6 +294,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       e.printStackTrace();
     }
     return files;
+  }
+
+  private void processMimeTypes(List<String> mimeTypeList, Map<String, Object> operation, String source) {
+    if(mimeTypeList != null && mimeTypeList.size() > 0) {
+      List<Map<String, String>> c = new ArrayList<Map<String, String>>();
+      int count = 0;
+      for(String key: mimeTypeList) {
+        Map<String, String> mediaType = new HashMap<String, String>();
+        mediaType.put("mediaType", key);
+        count += 1;
+        if (count < mimeTypeList.size()) {
+          mediaType.put("hasMore", "true");
+        }
+        else {
+          mediaType.put("hasMore", null);
+        }
+        c.add(mediaType);
+      }
+      operation.put(source, c);
+      String flagFieldName = "has" + source.substring(0, 1).toUpperCase() + source.substring(1);
+      operation.put(flagFieldName, true);
+    }
   }
 
   public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
@@ -427,6 +454,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       CodegenModel cm = config.fromModel(key, mm);
       Map<String, Object> mo = new HashMap<String, Object>();
       mo.put("model", cm);
+      mo.put("importPath", config.toModelImport(key));
       models.add(mo);
       allImports.addAll(cm.imports);
     }

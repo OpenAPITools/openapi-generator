@@ -42,7 +42,7 @@ class {{classname}} {
       {{#allParams}}{{#required}}
       // verify the required parameter '{{paramName}}' is set
       if (${{paramName}} === null) {
-        throw new \Exception("Missing the required parameter ${{paramName}} when calling {{nickname}}");
+        throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{nickname}}');
       }
       {{/required}}{{/allParams}}
 
@@ -54,12 +54,11 @@ class {{classname}} {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}});
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
 
       {{#queryParams}}// query params
       if(${{paramName}} !== null) {
@@ -92,18 +91,20 @@ class {{classname}} {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       {{#returnType}}if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                '{{returnType}}');
-  		return $responseObject;{{/returnType}}
+      $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
+      return $responseObject;{{/returnType}}
   }
   {{/operation}}
 {{newline}}
