@@ -6,11 +6,13 @@ import java.util.HashMap;
 import io.swagger.client.auth.Authentication;
 import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
+import io.swagger.client.auth.OAuth;
 
 public class Configuration {
   private static final Map<String, Authentication> AUTH;
 
   static {
+    // setup authentications
     AUTH = new HashMap<String, Authentication>();
     
     
@@ -19,7 +21,7 @@ public class Configuration {
     
     
     
-    // TODO: support oauth
+    AUTH.put("petstore_auth", new OAuth());
     
   }
 
