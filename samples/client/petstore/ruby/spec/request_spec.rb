@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SwaggerClient::Swagger::Request do
 
-  before(:each) do 
+  before(:each) do
     SwaggerClient::Swagger.configure do |config|
       inject_format = true
       config.api_key = 'special-key'
@@ -22,7 +22,7 @@ describe SwaggerClient::Swagger::Request do
     it "sets default response format to json" do
       @request.format.should == 'json'
     end
-    
+
     it "allows params to be nil" do
       @request = SwaggerClient::Swagger::Request.new(@default_http_method, @default_path, :params => nil)
       @request.query_string.should == ""
@@ -55,7 +55,7 @@ describe SwaggerClient::Swagger::Request do
     end
 
   end
-  
+
   describe "body" do
 
     it "camelCases parameters" do
@@ -67,7 +67,7 @@ describe SwaggerClient::Swagger::Request do
       }))
       @request.body.keys.should == [:badDog, :goodDog]
     end
-    
+
   end
 
   describe "path" do
@@ -140,7 +140,7 @@ describe SwaggerClient::Swagger::Request do
       @request.query_string.should =~ /\?limit=100/
       @request.url.should =~ /\?limit=100/
     end
-    
+
     it "camelCases parameters" do
       @request = SwaggerClient::Swagger::Request.new(@default_http_method, @default_path, @default_params.merge({
         :params => {
@@ -150,50 +150,11 @@ describe SwaggerClient::Swagger::Request do
       }))
       @request.query_string.should == "?badDog=bud&goodDog=dud"
     end
-    
+
     it "converts boolean values to their string representation" do
       params = {:stringy => "fish", :truthy => true, :falsey => false}
       @request = SwaggerClient::Swagger::Request.new(:get, 'fakeMethod', :params => params)
       @request.query_string.should == "?falsey=false&stringy=fish&truthy=true"
-    end
-    
-  end
-  
-  describe "API key" do
-    
-    it "is inferred from the Swagger base configuration by default" do
-      SwaggerClient::Swagger.configure {|c| c.api_key = "xyz" }
-      SwaggerClient::Swagger::Request.new(:get, "word/json").headers[:api_key].should == "xyz"
-    end
-    
-    it "can be obfuscated for public display" do
-      @request = SwaggerClient::Swagger::Request.new(:get, "words/fancy", @default_params.merge({
-        :params => {
-          :word => "dog",
-          :api_key => "123456"
-        }
-      }))
-
-      @request.url.should =~ /api\_key=123456/
-      @request.url(:obfuscated => true).should =~ /api\_key=YOUR\_API\_KEY/
-    end
-
-    it "allows a key in the params to override the configuration-level key, even if it's blank" do
-      SwaggerClient::Swagger.configure {|c| c.api_key = "abc" }
-      @request_with_key = SwaggerClient::Swagger::Request.new(:get, "word/json", :params => {:api_key => "jkl"})
-      @request_with_key.headers[:api_key].should be_nil
-      @request_with_key.params[:api_key].should == "jkl"
-      
-      @request_without_key = SwaggerClient::Swagger::Request.new(:get, "word/json", :params => {:api_key => nil})
-      @request_without_key.headers[:api_key].should be_nil
-      @request_without_key.params[:api_key].should be_nil
-    end
-
-    it "allows a key in the headers to override the configuration-level key, even if it's blank" do
-      SwaggerClient::Swagger.configure {|c| c.api_key = "hij" }
-      SwaggerClient::Swagger::Request.new(:get, "word/json").headers[:api_key].should == "hij"
-      SwaggerClient::Swagger::Request.new(:get, "word/json", :headers => {:api_key => "jkl"}).headers[:api_key].should == "jkl"
-      SwaggerClient::Swagger::Request.new(:get, "word/json", :headers => {:api_key => nil}).headers[:api_key].should be_nil
     end
 
   end
