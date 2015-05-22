@@ -6,16 +6,18 @@ import java.util.HashMap;
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+import {{invokerPackage}}.auth.OAuth;
 
 public class Configuration {
   private static final Map<String, Authentication> AUTH;
 
   static {
+    // setup authentications
     AUTH = new HashMap<String, Authentication>();
     {{#authMethods}}
     {{#isBasic}}AUTH.put("{{name}}", new HttpBasicAuth());{{/isBasic}}
     {{#isApiKey}}AUTH.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}
-    {{#isOAuth}}// TODO: support oauth{{/isOAuth}}
+    {{#isOAuth}}AUTH.put("{{name}}", new OAuth());{{/isOAuth}}
     {{/authMethods}}
   }
 

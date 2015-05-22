@@ -61,6 +61,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
     supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
     supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+    supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
