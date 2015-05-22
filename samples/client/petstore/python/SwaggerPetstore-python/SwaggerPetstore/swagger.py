@@ -253,7 +253,28 @@ class ApiClient(object):
 
     return params
 
+  @staticmethod
+  def select_header_accept(accepts):
+    """
+    Return `Accept` based on an array of accepts provided
+    """
+    if not accepts:
+      return 'application/json'
+    if 'application/json'.lower() in accepts:
+      return 'application/json'
+    else:
+      return ', '.join(accepts)
 
-
+  @staticmethod
+  def select_header_content_type(content_types):
+    """
+    Return `Content-Type` baseed on an array of content_types provided
+    """
+    if not content_types:
+      return 'application/json'
+    if 'application/json'.lower() in content_types:
+      return 'application/json'
+    else:
+      return content_types[0]
 
 
