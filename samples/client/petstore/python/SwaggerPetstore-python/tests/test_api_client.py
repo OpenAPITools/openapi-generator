@@ -22,6 +22,10 @@ class ApiClientTests(unittest.TestCase):
         self.api_client = SwaggerPetstore.ApiClient(HOST)
 
     def test_select_header_accept(self):
+        accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
+        accept = SwaggerPetstore.ApiClient.select_header_accept(accepts)
+        self.assertEqual(accept, 'application/json')
+        
         accepts = ['application/json', 'application/xml']
         accept = SwaggerPetstore.ApiClient.select_header_accept(accepts)
         self.assertEqual(accept, 'application/json')
@@ -39,6 +43,10 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual(accept, None)
 
     def test_select_header_content_type(self):
+        content_types = ['APPLICATION/JSON', 'APPLICATION/XML']
+        content_type = SwaggerPetstore.ApiClient.select_header_content_type(content_types)
+        self.assertEqual(content_type, 'application/json')
+        
         content_types = ['application/json', 'application/xml']
         content_type = SwaggerPetstore.ApiClient.select_header_content_type(content_types)
         self.assertEqual(content_type, 'application/json')
