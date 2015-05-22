@@ -24,8 +24,17 @@ namespace SwaggerClient;
 
 class UserApi {
 
-  function __construct($apiClient) {
-    $this->apiClient = $apiClient;
+  function __construct($apiClient = null) {
+    if (null === $apiClient) {
+      if (Configuration::$apiClient === null) {
+        Configuration::$apiClient = new APIClient(); // create a new API client if not present
+        $this->apiClient = Configuration::$apiClient;
+      }
+      else
+        $this->apiClient = Configuration::$apiClient; // use the default one
+    } else {
+      $this->apiClient = $apiClient; // use the one provided by the user
+    }
   }
 
   
