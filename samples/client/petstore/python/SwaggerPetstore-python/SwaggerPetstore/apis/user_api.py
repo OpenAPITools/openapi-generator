@@ -29,6 +29,8 @@ from six import iteritems
 
 from ..util import remove_none
 
+from ..swagger import ApiClient
+
 class UserApi(object):
 
     def __init__(self, api_client):
@@ -63,11 +65,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = params.get('body')
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -102,11 +106,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = params.get('body')
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -141,11 +147,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = params.get('body')
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -181,11 +189,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = None
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -221,11 +231,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = None
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -264,11 +276,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = None
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -310,11 +324,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = params.get('body')
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -353,11 +369,13 @@ class UserApi(object):
         files = remove_none(dict())
         body_params = None
 
+        # HTTP header `Accept`
         accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
+        # HTTP header `Content-Type`
         content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
