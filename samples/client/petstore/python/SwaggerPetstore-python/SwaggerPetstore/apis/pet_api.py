@@ -238,17 +238,12 @@ class PetApi(object):
         body_params = None
 
         # HTTP header `Accept`
-        accepts = []
+        accepts = ['application/json', 'application/xml']
         header_params['Accept'] = ApiClient.select_header_accept(accepts)
 
         # HTTP header `Content-Type`
         content_types = []
         header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
-
-        print('-----------------------------')
-        print('header_params: ', header_params)
-        print('-----------------------------')
-        return
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
