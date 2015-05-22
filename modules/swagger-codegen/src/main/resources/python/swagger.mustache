@@ -105,7 +105,7 @@ class ApiClient(object):
   def to_path_value(self, obj):
     """
     Convert a string or object to a path-friendly value
-    
+
     :param obj: object or string value
 
     :return string: quoted value
@@ -259,8 +259,11 @@ class ApiClient(object):
     Return `Accept` based on an array of accepts provided
     """
     if not accepts:
-      return 
-    if 'application/json'.lower() in accepts:
+      return
+
+    accepts = list(map(lambda x: x.lower(), accepts))
+
+    if 'application/json' in accepts:
       return 'application/json'
     else:
       return ', '.join(accepts)
@@ -272,9 +275,10 @@ class ApiClient(object):
     """
     if not content_types:
       return 'application/json'
-    if 'application/json'.lower() in content_types:
+
+    content_types = list(map(lambda x: x.lower(), content_types))
+
+    if 'application/json' in content_types:
       return 'application/json'
     else:
       return content_types[0]
-
-
