@@ -259,7 +259,7 @@ class ApiClient(object):
     Return `Accept` based on an array of accepts provided
     """
     if not accepts:
-      return 'application/json'
+      return 
     if 'application/json'.lower() in accepts:
       return 'application/json'
     else:

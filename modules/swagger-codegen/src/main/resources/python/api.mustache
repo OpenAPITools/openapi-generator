@@ -71,12 +71,12 @@ class {{classname}}(object):
         body_params = {{#bodyParam}}params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}
 
         # HTTP header `Accept`
-        accepts = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
-        header_params['Accept'] = ApiClient.select_header_accept(accepts)
+        header_params['Accept'] = ApiClient.select_header_accept([{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
+        if not header_params['Accept']:
+            del header_params['Accept']
 
         # HTTP header `Content-Type`
-        content_types = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-        header_params['Content-Type'] = ApiClient.select_header_content_type(content_types)
+        header_params['Content-Type'] = ApiClient.select_header_content_type([{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
