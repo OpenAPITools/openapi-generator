@@ -6,11 +6,9 @@
     <relativePath>../..</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.wordnik</groupId>
   <artifactId>swagger-codegen</artifactId>
   <packaging>jar</packaging>
   <name>swagger-codegen (core library)</name>
-  <version>2.1.1-M2-SNAPSHOT</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <defaultGoal>install</defaultGoal>

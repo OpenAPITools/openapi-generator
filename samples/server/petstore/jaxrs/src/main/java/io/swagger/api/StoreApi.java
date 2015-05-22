@@ -21,6 +21,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 
 @Path("/store")
+
+
 @com.wordnik.swagger.annotations.Api(value = "/store", description = "the store API")
 public class StoreApi {
   

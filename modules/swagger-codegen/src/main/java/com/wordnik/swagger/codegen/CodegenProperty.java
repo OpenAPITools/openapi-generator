@@ -16,7 +16,10 @@ public class CodegenProperty {
   public String example;
 
   public String jsonSchema;
-  public Double minimum, maximum, exclusiveMinimum, exclusiveMaximum;
+  public Double minimum;
+  public Double maximum;
+  public Boolean exclusiveMinimum;
+  public Boolean exclusiveMaximum;
   public Boolean hasMore = null, required = null, secondaryParam = null;
   public Boolean isPrimitiveType, isContainer, isNotContainer;
   public boolean isEnum;

@@ -24,6 +24,8 @@ class APIClient {
   public static $GET = "GET";
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
+  
+  private static $default_header = array();
 
   /*
    * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
@@ -36,37 +38,115 @@ class APIClient {
   protected $user_agent = "PHP-Swagger";
 
   /**
-   * @param string $host the address of the API server
-   * @param string $headerName a header to pass on requests 
+   * @param string $host Base url of the API server (optional)
    */
-  function __construct($host, $headerName = null, $headerValue = null) {
-    $this->host = $host;
-    $this->headerName = $headerName;
-    $this->headerValue = $headerValue;
+  function __construct($host = null) {
+    if ($host == null) {
+      $this->host = 'http://petstore.swagger.io/v2';
+    } else {
+      $this->host = $host;
+    }
   }
 
   /**
-   * Set the user agent of the API client
+   * add default header 
    *
-   *  @param string $user_agent The user agent of the API client
+   * @param string $header_name header name (e.g. Token)
+   * @param string $header_value header value (e.g. 1z8wp3)
+   */
+  public function addDefaultHeader($header_name, $header_value) {
+    if (!is_string($header_name)) 
+      throw new \InvalidArgumentException('Header name must be a string.');
+
+    self::$default_header[$header_name] =  $header_value;
+  }
+
+  /**
+   * get the default header 
+   *
+   * @return array default header
+   */
+  public function getDefaultHeader() {
+    return self::$default_header;
+  }
+
+  /**
+   * delete the default header based on header name
+   *
+   * @param string $header_name header name (e.g. Token)
+   */
+  public function deleteDefaultHeader($header_name) {
+    unset(self::$default_header[$header_name]);
+  }
+
+  /**
+   * set the user agent of the api client
+   *
+   *  @param string $user_agent the user agent of the api client
    */
   public function setUserAgent($user_agent) {
-    if (!is_string($user_agent)) {
-      throw new Exception('User-agent must be a string.');
-    }
+    if (!is_string($user_agent))
+      throw new \InvalidArgumentException('User-agent must be a string.');
+
     $this->user_agent= $user_agent;
   }
 
   /**
    *  @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
-  */
+   */
   public function setTimeout($seconds) {
-    if (!is_numeric($seconds)) {
-      throw new Exception('Timeout variable must be numeric.');
-    }
+    if (!is_numeric($seconds))
+      throw new \InvalidArgumentException('Timeout variable must be numeric.');
+
     $this->curl_timeout = $seconds;
   }
 
+  /**
+   * Get API key (with prefix if set)
+   * @param string key name
+   * @return string API key with the prefix
+   */
+  public function getApiKeyWithPrefix($apiKey) {
+    if (Configuration::$apiKeyPrefix[$apiKey]) {
+      return Configuration::$apiKeyPrefix[$apiKey]." ".Configuration::$apiKey[$apiKey];
+    } else {
+      return Configuration::$apiKey[$apiKey];
+    }
+  }
+
+  /**
+   * update hearder and query param based on authentication setting
+   * 
+   * @param array $headerParams header parameters (by ref)
+   * @param array $queryParams query parameters (by ref)
+   * @param array $authSettings array of authentication scheme (e.g ['api_key'])
+   */
+  public function updateParamsForAuth(&$headerParams, &$queryParams, $authSettings)
+  {
+    if (count($authSettings) == 0)
+      return;
+
+    // one endpoint can have more than 1 auth settings
+    foreach($authSettings as $auth) {
+      // determine which one to use
+      switch($auth) {
+        
+        case 'api_key':
+          $headerParams['api_key'] = $this->getApiKeyWithPrefix('api_key');
+          
+          break;
+        
+        case 'petstore_auth':
+          
+          //TODO support oauth
+          break;
+        
+        default:
+          //TODO show warning about security definition not found
+      }
+    }
+  }
+  
   /**
    * @param string $resourcePath path to method endpoint
    * @param string $method method to call
@@ -76,22 +156,21 @@ class APIClient {
    * @return mixed
    */
   public function callAPI($resourcePath, $method, $queryParams, $postData,
-    $headerParams) {
+    $headerParams, $authSettings) {
 
     $headers = array();
 
-    # Allow API key from $headerParams to override default
-    $added_api_key = False;
+    # determine authentication setting
+    $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
+
+    # construct the http header
     if ($headerParams != null) {
+      # add default header
+      $headerParams = array_merge((array)self::$default_header, $headerParams);
+
       foreach ($headerParams as $key => $val) {
         $headers[] = "$key: $val";
-        if ($key == $this->headerName) {
-          $added_api_key = True;
-        }
       }
-    }
-    if (! $added_api_key && $this->headerName != null) {
-      $headers[] = $this->headerName . ": " . $this->headerValue;
     }
 
     // form data
@@ -111,6 +190,7 @@ class APIClient {
     }
     // return the result on success, rather than just TRUE
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
     if (! empty($queryParams)) {
@@ -130,7 +210,7 @@ class APIClient {
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
     } else if ($method != self::$GET) {
-      throw new Exception('Method ' . $method . ' is not recognized.');
+      throw new APIClientException('Method ' . $method . ' is not recognized.');
     }
     curl_setopt($curl, CURLOPT_URL, $url);
 
@@ -142,20 +222,21 @@ class APIClient {
     $response_info = curl_getinfo($curl);
 
     // Handle the response
-    if ($response === false) { // error, likely in the client side
-      throw new APIClientException("API Error ($url): ".curl_error($curl), 0, $response_info, $response);
+    if ($response_info['http_code'] == 0) {
+      throw new APIClientException("TIMEOUT: api call to " . $url .
+        " took more than 5s to return", 0, $response_info, $response);
     } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
       $data = json_decode($response);
       if (json_last_error() > 0) { // if response is a string
         $data = $response;
       }
-    } else if ($response_info['http_code'] == 401) { // server returns 401
+    } else if ($response_info['http_code'] == 401) {
       throw new APIClientException("Unauthorized API request to " . $url .
           ": " . serialize($response), 0, $response_info, $response);
-    } else if ($response_info['http_code'] == 404) { // server returns 404
+    } else if ($response_info['http_code'] == 404) {
       $data = null;
     } else {
-      throw new APIClientException("Can't connect to the API: " . $url .
+      throw new APIClientException("Can't connect to the api: " . $url .
         " response code: " .
         $response_info['http_code'], 0, $response_info, $response);
     }
@@ -260,7 +341,6 @@ class APIClient {
    * @param string $class class name is passed as a string
    * @return object an instance of $class
    */
-
   public static function deserialize($data, $class)
   {
     if (null === $data) {
@@ -301,6 +381,38 @@ class APIClient {
     }
 
     return $deserialized;
+  }
+
+  /*
+   * return the header 'Accept' based on an array of Accept provided
+   *
+   * @param array[string] $accept Array of header
+   * @return string Accept (e.g. application/json)
+   */
+  public static function selectHeaderAccept($accept) {
+    if (count($accept) === 0 or (count($accept) === 1 and $accept[0] === '')) {
+      return NULL;
+    } elseif (preg_grep("/application\/json/i", $accept)) {
+      return 'application/json';
+    } else {
+      return implode(',', $accept);
+    }
+  }
+
+  /*
+   * return the content type based on an array of content-type provided
+   *
+   * @param array[string] content_type_array Array fo content-type
+   * @return string Content-Type (e.g. application/json)
+   */
+  public static function selectHeaderContentType($content_type) {
+    if (count($content_type) === 0 or (count($content_type) === 1 and $content_type[0] === '')) {
+      return 'application/json';
+    } elseif (preg_grep("/application\/json/i", $content_type)) {
+      return 'application/json';
+    } else {
+      return implode(',', $content_type);
+    }
   }
 
 }

@@ -47,12 +47,11 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       
       
@@ -68,18 +67,20 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array('api_key');
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'map[string,int]');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'map[string,int]');
+      return $responseObject;
   }
   
   /**
@@ -101,12 +102,11 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       
       
@@ -126,18 +126,20 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Order');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'Order');
+      return $responseObject;
   }
   
   /**
@@ -152,7 +154,7 @@ class StoreApi {
       
       // verify the required parameter 'order_id' is set
       if ($order_id === null) {
-        throw new \Exception("Missing the required parameter $order_id when calling getOrderById");
+        throw new \InvalidArgumentException('Missing the required parameter $order_id when calling getOrderById');
       }
       
 
@@ -164,12 +166,11 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       
       
@@ -189,18 +190,20 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       if(! $response) {
         return null;
       }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'Order');
-  		return $responseObject;
+      $responseObject = $this->apiClient->deserialize($response,'Order');
+      return $responseObject;
   }
   
   /**
@@ -215,7 +218,7 @@ class StoreApi {
       
       // verify the required parameter 'order_id' is set
       if ($order_id === null) {
-        throw new \Exception("Missing the required parameter $order_id when calling deleteOrder");
+        throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
       }
       
 
@@ -227,12 +230,11 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = 'application/json, application/xml';
-      if ($_header_accept !== '') {
+      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $_header_content_type = array();
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
       
       
@@ -252,10 +254,13 @@ class StoreApi {
         $httpBody = $formParams;
       }
 
+      // authentication setting, if any
+      $authSettings = array();
+
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
                                             $queryParams, $httpBody,
-                                            $headerParams);
+                                            $headerParams, $authSettings);
 
       
   }

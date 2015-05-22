@@ -64,6 +64,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         (void (^)(NSDictionary* output, NSError* error))completionBlock
          {
 
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/inventory", basePath];
 
     // remove format in URL if needed
@@ -141,6 +143,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
          {
+
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order", basePath];
 
@@ -251,6 +255,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
          {
 
+    
+    // verify the required parameter 'orderId' is set
+    NSAssert(orderId != nil, @"Missing the required parameter `orderId` when calling getOrderById");
+    
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
     // remove format in URL if needed
@@ -337,6 +346,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         
         
         completionHandler: (void (^)(NSError* error))completionBlock {
+
+    
+    // verify the required parameter 'orderId' is set
+    NSAssert(orderId != nil, @"Missing the required parameter `orderId` when calling deleteOrder");
+    
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/order/{orderId}", basePath];
 
