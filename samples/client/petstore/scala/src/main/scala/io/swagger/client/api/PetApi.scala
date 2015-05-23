@@ -123,7 +123,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param status Status values that need to be considered for filter
    * @return List[Pet]
    */
-  def findPetsByStatus (status: List[String] = available) : Option[List[Pet]] = {
+  def findPetsByStatus (status: List[String] /* = available */) : Option[List[Pet]] = {
     // create path and map variables
     val path = "/pet/findByStatus".replaceAll("\\{format\\}","json")
 
@@ -325,11 +325,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Deletes a pet
    * 
-   * @param api_key 
+   * @param apiKey 
    * @param petId Pet id to delete
    * @return void
    */
-  def deletePet (api_key: String, petId: Long)  = {
+  def deletePet (apiKey: String, petId: Long)  = {
     // create path and map variables
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 
@@ -347,7 +347,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     
     
-    headerParams += "api_key" -> api_key
+    headerParams += "api_key" -> apiKey
     
 
     var postBody: AnyRef = null
