@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
@@ -195,47 +196,42 @@ public class ApiInvoker {
       response = (ClientResponse) builder.get(ClientResponse.class);
     }
     else if ("POST".equals(method)) {
-      if(body == null)
+      if (contentType.startsWith("application/x-www-form-urlencoded")) {
+        String encodedFormParams = this
+            .getXWWWFormUrlencodedParams(formParams);
+        response = builder.type(contentType).post(ClientResponse.class,
+            encodedFormParams);
+      } else if (body == null) {
         response = builder.post(ClientResponse.class, null);
-      else if(body instanceof FormDataMultiPart) {
+      } else if(body instanceof FormDataMultiPart) {
         response = builder.type(contentType).post(ClientResponse.class, body);
       }
       else
         response = builder.type(contentType).post(ClientResponse.class, serialize(body));
     }
     else if ("PUT".equals(method)) {
-      if(body == null)
+      if ("application/x-www-form-urlencoded".equals(contentType)) {
+          String encodedFormParams = this
+              .getXWWWFormUrlencodedParams(formParams);
+          response = builder.type(contentType).put(ClientResponse.class,
+              encodedFormParams);
+      } else if(body == null) {
         response = builder.put(ClientResponse.class, serialize(body));
-      else {
-        if("application/x-www-form-urlencoded".equals(contentType)) {
-          StringBuilder formParamBuilder = new StringBuilder();
-
-          // encode the form params
-          for(String key : formParams.keySet()) {
-            String value = formParams.get(key);
-            if(value != null && !"".equals(value.trim())) {
-              if(formParamBuilder.length() > 0) {
-                formParamBuilder.append("&");
-              }
-              try {
-                formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
-              }
-              catch (Exception e) {
-                // move on to next
-              }
-            }
-          }
-          response = builder.type(contentType).put(ClientResponse.class, formParamBuilder.toString());
-        }
-        else
+      } else {
           response = builder.type(contentType).put(ClientResponse.class, serialize(body));
       }
     }
     else if ("DELETE".equals(method)) {
-      if(body == null)
+      if ("application/x-www-form-urlencoded".equals(contentType)) {
+        String encodedFormParams = this
+            .getXWWWFormUrlencodedParams(formParams);
+        response = builder.type(contentType).delete(ClientResponse.class,
+            encodedFormParams);
+      } else if(body == null) {
         response = builder.delete(ClientResponse.class);
-      else
+      } else {
         response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
+      }
     }
     else {
       throw new ApiException(500, "unknown method type " + method);
@@ -266,6 +262,31 @@ public class ApiInvoker {
                 message);
     }
   }
+
+  private String getXWWWFormUrlencodedParams(Map<String, String> formParams) {
+    StringBuilder formParamBuilder = new StringBuilder();
+
+    for (Entry<String, String> param : formParams.entrySet()) {
+      String keyStr = ApiInvoker.parameterToString(param.getKey());
+      String valueStr = ApiInvoker.parameterToString(param.getValue());
+
+      try {
+        formParamBuilder.append(URLEncoder.encode(keyStr, "utf8"))
+            .append("=")
+            .append(URLEncoder.encode(valueStr, "utf8"));
+        formParamBuilder.append("&");
+      } catch (UnsupportedEncodingException e) {
+        // move on to next
+      }
+    }
+    String encodedFormParams = formParamBuilder.toString();
+    if (encodedFormParams.endsWith("&")) {
+      encodedFormParams = encodedFormParams.substring(0,
+          encodedFormParams.length() - 1);
+    }
+    return encodedFormParams;
+  }
+
 
   private Client getClient(String host) {
     if(!hostMap.containsKey(host)) {
