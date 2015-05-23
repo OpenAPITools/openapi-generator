@@ -1,8 +1,8 @@
 module SwaggerClient
   module Swagger
     class Configuration
-      attr_accessor :format, :api_key, :username, :password, :auth_token, :scheme, :host, :base_path, :user_agent, :logger, :inject_format, :force_ending_format, :camelize_params, :user_agent
-    
+      attr_accessor :format, :api_key, :api_key_prefix, :username, :password, :auth_token, :scheme, :host, :base_path, :user_agent, :logger, :inject_format, :force_ending_format, :camelize_params, :user_agent
+
       # Defaults go in here..
       def initialize
         @format = 'json'
@@ -13,6 +13,8 @@ module SwaggerClient
         @inject_format = false
         @force_ending_format = false
         @camelize_params = true
+        @api_key = {}
+        @api_key_prefix = {}
       end
     end
   end

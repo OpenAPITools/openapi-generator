@@ -13,23 +13,13 @@ module SwaggerClient
         attributes[:format] ||= Swagger.configuration.format
         attributes[:params] ||= {}
 
+        update_params_for_auth(attributes)
+
         # Set default headers
         default_headers = {
           'Content-Type' => "application/#{attributes[:format].downcase}",
-          :api_key => Swagger.configuration.api_key,
           'User-Agent' => Swagger.configuration.user_agent
         }
-
-        # api_key from headers hash trumps the default, even if its value is blank
-        if attributes[:headers].present? && attributes[:headers].has_key?(:api_key)
-          default_headers.delete(:api_key)
-        end
-
-        # api_key from params hash trumps all others (headers and default_headers)
-        if attributes[:params].present? && attributes[:params].has_key?(:api_key)
-          default_headers.delete(:api_key)
-          attributes[:headers].delete(:api_key) if attributes[:headers].present?
-        end
 
         # Merge argument headers into defaults
         attributes[:headers] = default_headers.merge(attributes[:headers] || {})
@@ -46,6 +36,33 @@ module SwaggerClient
         end
       end
 
+      def update_params_for_auth(attributes)
+        (attributes[:auth_names] || []).each do |auth_name|
+          case auth_name
+          
+          when 'api_key'
+            attributes[:headers] ||= {}
+            attributes[:headers]['api_key'] = get_api_key_with_prefix('api_key')
+            
+            
+          
+          when 'petstore_auth'
+            
+            
+            # TODO: support oauth
+          
+          end
+        end
+      end
+
+      def get_api_key_with_prefix(param_name)
+        if Swagger.configuration.api_key_prefix[param_name].present?
+          "#{Swagger.configuration.api_key_prefix[param_name]} #{Swagger.configuration.api_key[param_name]}"
+        else
+          Swagger.configuration.api_key[param_name]
+        end
+      end
+
       # Construct a base URL
       def url(options = {})
         u = Addressable::URI.new(
@@ -57,9 +74,6 @@ module SwaggerClient
 
         # Drop trailing question mark, if present
         u.sub! /\?$/, ''
-
-        # Obfuscate API key?
-        u.sub! /api\_key=\w+/, 'api_key=YOUR_API_KEY' if options[:obfuscated]
 
         u
       end
@@ -129,7 +143,7 @@ module SwaggerClient
           next if self.path.include? "{#{key}}"                                   # skip path params
           next if value.blank? && value.class != FalseClass                       # skip empties
           if Swagger.configuration.camelize_params
-            key = key.to_s.camelize(:lower).to_sym unless key.to_sym == :api_key    # api_key is not a camelCased param
+            key = key.to_s.camelize(:lower).to_sym
           end
           query_values[key] = value.to_s
         end
