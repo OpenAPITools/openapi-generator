@@ -9,7 +9,7 @@ module SwaggerClient
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Pet] :body Pet object that needs to be added to the store
-    # @return void
+    # @return [nil]
     def self.update_pet(opts = {})
       
 
@@ -37,14 +37,15 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Add a new pet to the store
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Pet] :body Pet object that needs to be added to the store
-    # @return void
+    # @return [nil]
     def self.add_pet(opts = {})
       
 
@@ -72,14 +73,15 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Finds Pets by status
     # Multiple status values can be provided with comma seperated strings
     # @param [Hash] opts the optional parameters
     # @option opts [array[string]] :status Status values that need to be considered for filter
-    # @return array[Pet]
+    # @return [array[Pet]]
     def self.find_pets_by_status(opts = {})
       
 
@@ -110,13 +112,13 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
-  end
+    end
 
     # Finds Pets by tags
     # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     # @param [Hash] opts the optional parameters
     # @option opts [array[string]] :tags Tags to filter by
-    # @return array[Pet]
+    # @return [array[Pet]]
     def self.find_pets_by_tags(opts = {})
       
 
@@ -147,13 +149,13 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
-  end
+    end
 
     # Find pet by ID
     # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
-    # @return Pet
+    # @return [Pet]
     def self.get_pet_by_id(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
@@ -186,7 +188,7 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = Pet.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Updates a pet in the store with form data
     # 
@@ -194,7 +196,7 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [string] :name Updated name of the pet
     # @option opts [string] :status Updated status of the pet
-    # @return void
+    # @return [nil]
     def self.update_pet_with_form(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
@@ -227,15 +229,16 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Deletes a pet
     # 
     # @param pet_id Pet id to delete
     # @param [Hash] opts the optional parameters
     # @option opts [string] :api_key 
-    # @return void
+    # @return [nil]
     def self.delete_pet(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
@@ -267,8 +270,9 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # uploads an image
     # 
@@ -276,7 +280,7 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [string] :additional_metadata Additional data to pass to server
     # @option opts [file] :file file to upload
-    # @return void
+    # @return [nil]
     def self.upload_file(pet_id, opts = {})
       
       # verify the required parameter 'pet_id' is set
@@ -309,7 +313,8 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
   end
 end

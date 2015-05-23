@@ -12,7 +12,7 @@ module {{moduleName}}
 {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{dataType}}] :{{paramName}} {{description}}
-{{/required}}{{/allParams}}    # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
@@ -51,8 +51,9 @@ module {{moduleName}}
       {{/bodyParam}}
 
       {{#returnType}}response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
-      {{#returnContainer}}response.map {|response| {{/returnContainer}}obj = {{returnBaseType}}.new() and obj.build_from_hash(response){{#returnContainer}} }{{/returnContainer}}{{/returnType}}{{^returnType}}      Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make{{/returnType}}
-  end
+      {{#returnContainer}}response.map {|response| {{/returnContainer}}obj = {{returnBaseType}}.new() and obj.build_from_hash(response){{#returnContainer}} }{{/returnContainer}}{{/returnType}}{{^returnType}}Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil{{/returnType}}
+    end
 {{/operation}}
   end
 {{/operations}}
