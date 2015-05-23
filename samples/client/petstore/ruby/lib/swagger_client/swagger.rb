@@ -16,9 +16,9 @@ module SwaggerClient
       #
       # @example
       #   Swagger.configure do |config|
-      #     config.api_key = '1234567890abcdef'     # required
-      #     config.username = 'wordlover'           # optional, but needed for user-related functions
-      #     config.password = 'i<3words'            # optional, but needed for user-related functions
+      #     config.api_key['api_key'] = '1234567890abcdef'     # api key authentication
+      #     config.username = 'wordlover'           # http basic authentication
+      #     config.password = 'i<3words'            # http basic authentication
       #     config.format = 'json'                  # optional, defaults to 'json'
       #   end
       #
