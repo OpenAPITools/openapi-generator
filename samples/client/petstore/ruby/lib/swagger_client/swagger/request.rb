@@ -5,15 +5,13 @@ module SwaggerClient
       require 'addressable/uri'
       require 'typhoeus'
 
-      attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params
+      attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params, :auth_names
 
       # All requests must have an HTTP method and a path
       # Optionals parameters are :params, :headers, :body, :format, :host
       def initialize(http_method, path, attributes={})
         attributes[:format] ||= Swagger.configuration.format
         attributes[:params] ||= {}
-
-        update_params_for_auth(attributes)
 
         # Set default headers
         default_headers = {
@@ -34,21 +32,17 @@ module SwaggerClient
         attributes.each do |name, value|
           send("#{name.to_s.underscore.to_sym}=", value)
         end
+
+        update_params_for_auth!
       end
 
-      def update_params_for_auth(attributes)
-        (attributes[:auth_names] || []).each do |auth_name|
+      def update_params_for_auth!
+        (@auth_names || []).each do |auth_name|
           case auth_name
-          
           when 'api_key'
-            attributes[:headers] ||= {}
-            attributes[:headers]['api_key'] = get_api_key_with_prefix('api_key')
-            
-            
-          
+            @headers ||= {}
+            @headers['api_key'] = get_api_key_with_prefix('api_key')
           when 'petstore_auth'
-            
-            
             # TODO: support oauth
           
           end
