@@ -928,6 +928,8 @@ public class DefaultCodegen {
       CodegenProperty model = fromProperty(qp.getName(), property);
       p.collectionFormat = collectionFormat;
       p.dataType = model.datatype;
+      p.isPrimitiveType = languageSpecificPrimitives.contains(p.dataType);
+      p.notPrimitiveType = !p.isPrimitiveType;
       p.paramName = toParamName(qp.getName());
 
       if(model.complexType != null) {
