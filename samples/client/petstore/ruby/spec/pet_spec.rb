@@ -75,7 +75,9 @@ describe "Pet" do
 
     it "should create a pet" do
       pet = SwaggerClient::Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
-      SwaggerClient::PetApi.add_pet(:body => pet)
+      result = SwaggerClient::PetApi.add_pet(:body => pet)
+      # nothing is returned
+      result.should be_nil
 
       pet = SwaggerClient::PetApi.get_pet_by_id(10002)
       pet.id.should == 10002
