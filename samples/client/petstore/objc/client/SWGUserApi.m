@@ -83,14 +83,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
@@ -180,14 +188,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
@@ -277,14 +293,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
@@ -384,14 +408,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
@@ -468,14 +500,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
@@ -546,14 +586,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
@@ -640,14 +688,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
@@ -741,14 +797,22 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[@"application/json", @"application/xml"];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     id bodyDictionary = nil;
     
