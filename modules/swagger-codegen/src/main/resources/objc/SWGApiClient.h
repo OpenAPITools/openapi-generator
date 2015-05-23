@@ -48,8 +48,8 @@ extern NSString *const SWGResponseObjectErrorKey;
 
 +(void) configureCacheReachibilityForHost:(NSString*)host;
 
-+(NSString *) selectHeaderAccept:(NSArray *)headerAcceptArray;
-+(NSString *) selectHeaderContentType:(NSArray *)headerContentTypeArray;
++(NSString *) selectHeaderAccept:(NSArray *)accepts;
++(NSString *) selectHeaderContentType:(NSArray *)contentTypes;
 
 -(void)setHeaderValue:(NSString*) value
                 forKey:(NSString*) forKey;
