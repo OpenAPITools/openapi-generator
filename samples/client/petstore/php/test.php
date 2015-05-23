@@ -3,12 +3,13 @@
 require_once('SwaggerClient-php/SwaggerClient.php');
 
 // initialize the API client
-$api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
-$api_client->addDefaultHeader("test1", "value1");
+//$api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+//$api_client->addDefaultHeader("test1", "value1");
 
 $petId = 10005; // ID of pet that needs to be fetched
 try {
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    //$pet_api = new SwaggerClient\PetAPI($api_client);
+    $pet_api = new SwaggerClient\PetAPI();
     // return Pet (model)
     $response = $pet_api->getPetById($petId);
     var_dump($response);
