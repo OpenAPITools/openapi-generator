@@ -53,10 +53,13 @@ namespace {{invokerPackage}} {
     /// <param name="json"> JSON string
     /// <param name="type"> Object type
     /// <returns>Object representation of the JSON string</returns>
-    public static object Deserialize(string json, Type type) {
+    public static object Deserialize(string content, Type type) {
+      if (type.GetType() == typeof(Object))
+        return (Object)content;
+
       try
       {
-          return JsonConvert.DeserializeObject(json, type);
+          return JsonConvert.DeserializeObject(content, type);
       }
       catch (IOException e) {
         throw new ApiException(500, e.Message);
