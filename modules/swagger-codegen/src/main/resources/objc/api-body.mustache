@@ -98,14 +98,22 @@ static NSString * basePath = @"{{basePath}}";
     {{/headerParams}}
     
     // HTTP header `Accept` 
-    NSArray *headerAccept = @[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}];
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:headerAccept];
-    NSString *responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
 
-    // HTTP header `Content-Type`
-    NSArray *headerContentType = @[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}];
-    headerParams[@"Content-Type"] = [SWGApiClient selectHeaderContentType:headerContentType];
-    NSString *requestContentType = headerParams[@"Content-Type"];
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     id bodyDictionary = nil;
     {{#bodyParam}}
