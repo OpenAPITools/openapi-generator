@@ -29,6 +29,8 @@ from six import iteritems
 
 from ..util import remove_none
 
+from ..swagger import ApiClient
+
 class StoreApi(object):
 
     def __init__(self, api_client):
@@ -62,11 +64,13 @@ class StoreApi(object):
         files = remove_none(dict())
         body_params = None
 
-        accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        # HTTP header `Accept`
+        header_params['Accept'] = ApiClient.select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
 
-        content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = ApiClient.select_header_content_type([])
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -103,11 +107,13 @@ class StoreApi(object):
         files = remove_none(dict())
         body_params = params.get('body')
 
-        accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        # HTTP header `Accept`
+        header_params['Accept'] = ApiClient.select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
 
-        content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = ApiClient.select_header_content_type([])
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -148,11 +154,13 @@ class StoreApi(object):
         files = remove_none(dict())
         body_params = None
 
-        accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        # HTTP header `Accept`
+        header_params['Accept'] = ApiClient.select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
 
-        content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = ApiClient.select_header_content_type([])
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
@@ -193,11 +201,13 @@ class StoreApi(object):
         files = remove_none(dict())
         body_params = None
 
-        accepts = ['application/json', 'application/xml']
-        header_params['Accept'] = ', '.join(accepts)
+        # HTTP header `Accept`
+        header_params['Accept'] = ApiClient.select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
 
-        content_types = []
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = ApiClient.select_header_content_type([])
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,

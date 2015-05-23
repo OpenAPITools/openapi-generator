@@ -29,6 +29,8 @@ from six import iteritems
 
 from ..util import remove_none
 
+from ..swagger import ApiClient
+
 {{#operations}}
 class {{classname}}(object):
 
@@ -68,11 +70,13 @@ class {{classname}}(object):
         files = remove_none(dict({{#formParams}}{{#isFile}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/isFile}}{{/formParams}}))
         body_params = {{#bodyParam}}params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}
 
-        accepts = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
-        header_params['Accept'] = ', '.join(accepts)
+        # HTTP header `Accept`
+        header_params['Accept'] = ApiClient.select_header_accept([{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
+        if not header_params['Accept']:
+            del header_params['Accept']
 
-        content_types = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-        header_params['Content-Type'] = content_types[0] if len(content_types) > 0 else 'application/json'
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = ApiClient.select_header_content_type([{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
