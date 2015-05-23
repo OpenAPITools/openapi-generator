@@ -24,7 +24,32 @@ namespace SwaggerClient;
 
 class StoreApi {
 
-  function __construct($apiClient) {
+  function __construct($apiClient = null) {
+    if (null === $apiClient) {
+      if (Configuration::$apiClient === null) {
+        Configuration::$apiClient = new APIClient(); // create a new API client if not present
+        $this->apiClient = Configuration::$apiClient;
+      }
+      else
+        $this->apiClient = Configuration::$apiClient; // use the default one
+    } else {
+      $this->apiClient = $apiClient; // use the one provided by the user
+    }
+  }
+
+  private $apiClient; // instance of the APIClient
+
+  /**
+   * get the API client
+   */
+  public function getApiClient() {
+    return $this->apiClient;
+  }
+
+  /**
+   * set the API client
+   */
+  public function setApiClient($apiClient) {
     $this->apiClient = $apiClient;
   }
 
