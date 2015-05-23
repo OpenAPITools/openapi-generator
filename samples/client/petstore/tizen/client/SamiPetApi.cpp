@@ -380,7 +380,7 @@ deletePetProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiErro
 }
 
 void 
-SamiPetApi::deletePetWithCompletion(String* api_key, Long* petId, void(*success)(SamiError*)) {
+SamiPetApi::deletePetWithCompletion(String* apiKey, Long* petId, void(*success)(SamiError*)) {
   client = new SamiApiClient();
 
   client->success(&deletePetProcessor, (void(*)(void*, SamiError*))success);
@@ -388,7 +388,7 @@ SamiPetApi::deletePetWithCompletion(String* api_key, Long* petId, void(*success)
   headerParams->Construct();
 
   
-    headerParams->Add(new String("api_key"), api_key);
+    headerParams->Add(new String("api_key"), apiKey);
   
   
 
