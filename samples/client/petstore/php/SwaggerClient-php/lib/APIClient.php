@@ -41,7 +41,7 @@ class APIClient {
    * @param string $host Base url of the API server (optional)
    */
   function __construct($host = null) {
-    if ($host == null) {
+    if ($host === null) {
       $this->host = 'http://petstore.swagger.io/v2';
     } else {
       $this->host = $host;
@@ -107,10 +107,12 @@ class APIClient {
    * @return string API key with the prefix
    */
   public function getApiKeyWithPrefix($apiKey) {
-    if (Configuration::$apiKeyPrefix[$apiKey]) {
+    if (isset(Configuration::$apiKeyPrefix[$apiKey])) {
       return Configuration::$apiKeyPrefix[$apiKey]." ".Configuration::$apiKey[$apiKey];
-    } else {
+    } else if (isset(Configuration::$apiKey[$apiKey])) {
       return Configuration::$apiKey[$apiKey];
+    } else {
+      return;
     }
   }
 
@@ -373,7 +375,7 @@ class APIClient {
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
         $original_property_name = $instance::$attributeMap[$property];
-        if (isset($original_property_name)) {
+        if (isset($original_property_name) && isset($data->$original_property_name)) {
           $instance->$property = self::deserialize($data->$original_property_name, $type);
         }
       }
