@@ -5,7 +5,7 @@ describe SwaggerClient::Swagger::Request do
   before(:each) do
     SwaggerClient::Swagger.configure do |config|
       inject_format = true
-      config.api_key = 'special-key'
+      config.api_key['api_key'] = 'special-key'
       config.host = 'petstore.swagger.io'
       config.base_path = '/v2'
     end
@@ -157,6 +157,28 @@ describe SwaggerClient::Swagger::Request do
       @request.query_string.should == "?falsey=false&stringy=fish&truthy=true"
     end
 
+  end
+
+  describe "#update_params_for_auth!" do
+    it "sets header api-key parameter with prefix" do
+      SwaggerClient::Swagger.configure do |config|
+        inject_format = true
+        config.api_key_prefix['api_key'] = 'PREFIX'
+      end
+      @request.auth_names = ['api_key', 'unknown']
+      @request.update_params_for_auth!
+      @request.headers['api_key'].should == 'PREFIX special-key'
+    end
+
+    it "sets header api-key parameter without prefix" do
+      SwaggerClient::Swagger.configure do |config|
+        inject_format = true
+        config.api_key_prefix['api_key'] = nil
+      end
+      @request.auth_names = ['api_key', 'unknown']
+      @request.update_params_for_auth!
+      @request.headers['api_key'].should == 'special-key'
+    end
   end
 
 end

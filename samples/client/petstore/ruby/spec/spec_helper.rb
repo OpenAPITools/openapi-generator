@@ -38,7 +38,7 @@ end
 
 def configure_swagger
   SwaggerClient::Swagger.configure do |config|
-    config.api_key = 'special-key'
+    config.api_key['api_key'] = 'special-key'
     config.host = 'petstore.swagger.io'
     config.base_path = '/v2'
   end
