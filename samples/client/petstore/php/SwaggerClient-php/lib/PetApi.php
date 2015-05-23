@@ -24,7 +24,6 @@ namespace SwaggerClient;
 
 class PetApi {
 
-
   function __construct($apiClient = null) {
     if (null === $apiClient) {
       if (Configuration::$apiClient === null) {
@@ -38,8 +37,7 @@ class PetApi {
     }
   }
 
-  
-  private $apiClient;
+  private $apiClient; // instance of the APIClient
 
   /**
    * get the API client
@@ -51,10 +49,11 @@ class PetApi {
   /**
    * set the API client
    */
-  public function getApiClient($apiClient) {
+  public function setApiClient($apiClient) {
     $this->apiClient = $apiClient;
   }
 
+  
   /**
    * updatePet
    *
