@@ -92,14 +92,35 @@ class APIClient {
   }
 
   /**
-   *  @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
+   * get the user agent of the api client
+   * 
+   * @return string user agent
+   */
+  public function getUserAgent($user_agent) {
+    return $this->user_agent;
+  }
+
+  /**
+   * set the HTTP timeout value
+   *
+   * @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
    */
   public function setTimeout($seconds) {
-    if (!is_numeric($seconds))
-      throw new \InvalidArgumentException('Timeout variable must be numeric.');
+    if (!is_numeric($seconds) || $seconds < 0)
+      throw new \InvalidArgumentException('Timeout value must be numeric and a non-negative number.');
 
     $this->curl_timeout = $seconds;
   }
+
+  /**
+   * get the HTTP timeout value
+   *
+   * @return string HTTP timeout value
+   */
+  public function getTimeout() {
+    return $this->curl_timeout;
+  }
+
 
   /**
    * Get API key (with prefix if set)

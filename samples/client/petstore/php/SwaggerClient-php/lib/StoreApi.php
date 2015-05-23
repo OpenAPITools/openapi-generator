@@ -37,6 +37,22 @@ class StoreApi {
     }
   }
 
+  private $apiClient; // instance of the APIClient
+
+  /**
+   * get the API client
+   */
+  public function getApiClient() {
+    return $this->apiClient;
+  }
+
+  /**
+   * set the API client
+   */
+  public function setApiClient($apiClient) {
+    $this->apiClient = $apiClient;
+  }
+
   
   /**
    * getInventory
