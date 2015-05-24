@@ -64,13 +64,19 @@ public class {{classname}} {
     {{#queryParams}}if ({{paramName}} != null)
       queryParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
     {{/queryParams}}
+
+    final String[] accepts = {
+      {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
+    };
+    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
+    };
+    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
+
     {{#headerParams}}headerParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
     {{/headerParams}}
-    String[] contentTypes = {
-      {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
-    };
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
@@ -92,7 +98,7 @@ public class {{classname}} {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
         return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
       }
