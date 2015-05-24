@@ -16,6 +16,7 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.MediaType;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -105,6 +106,31 @@ public class ApiInvoker {
       return String.valueOf(param);
     }
   }
+
+  public static String selectHeaderAccept(String[] accepts) {
+    if (accepts.length == 0) return "application/json";
+    if (Arrays.asList(accepts).contains("application/json")) return "application/json";
+    return joinString(accepts, ",");
+  }
+
+  public static String selectHeaderContentType(String[] contentTypes) {
+    if (contentTypes.length == 0) return "application/json";
+    if (Arrays.asList(contentTypes).contains("application/json")) return "application/json";
+    return contentTypes[0];
+  }
+
+  public static String joinString(String[] array, String separator) {
+    int len = array.length;
+    if (len == 0) return "";
+
+    StringBuilder out = new StringBuilder();
+    out.append(array[0]);
+    for (int i = 1; i < len; i++) {
+      out.append(separator).append(array[i]);
+    }
+    return out.toString();
+  }
+
   public void enableDebug() {
     isDebug = true;
   }
@@ -163,7 +189,7 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String accept, String contentType) throws ApiException {
     Client client = getClient(host);
 
     StringBuilder b = new StringBuilder();
@@ -180,7 +206,7 @@ public class ApiInvoker {
     }
     String querystring = b.toString();
 
-    Builder builder = client.resource(host + path + querystring).accept("application/json");
+    Builder builder = client.resource(host + path + querystring).accept(accept);
     for(String key : headerParams.keySet()) {
       builder = builder.header(key, headerParams.get(key));
     }
