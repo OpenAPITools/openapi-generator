@@ -31,10 +31,15 @@ from ..util import remove_none
 
 from ..swagger import ApiClient
 
+from .. import config
+
 class PetApi(object):
 
-    def __init__(self, api_client):
-        self.api_client = api_client
+    def __init__(self, api_client=None):
+        if api_client:
+            self.api_client = api_client
+        else:
+            self.api_client = config.api_client
     
     def update_pet(self, **kwargs):
         """
