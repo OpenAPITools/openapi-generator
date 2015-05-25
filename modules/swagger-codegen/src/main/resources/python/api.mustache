@@ -31,11 +31,16 @@ from ..util import remove_none
 
 from ..swagger import ApiClient
 
+from .. import config
+
 {{#operations}}
 class {{classname}}(object):
 
-    def __init__(self, api_client):
-        self.api_client = api_client
+    def __init__(self, api_client=None):
+        if api_client:
+            self.api_client = api_client
+        else:
+            self.api_client = config.api_client
     {{#operation}}
     def {{nickname}}(self, {{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}**kwargs):
         """
