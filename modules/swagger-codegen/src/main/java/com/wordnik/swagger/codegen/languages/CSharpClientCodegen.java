@@ -46,6 +46,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     supportingFiles.add(new SupportingFile("apiException.mustache", 
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.cs"));
     supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
+    supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
     supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
 
     languageSpecificPrimitives = new HashSet<String>(
