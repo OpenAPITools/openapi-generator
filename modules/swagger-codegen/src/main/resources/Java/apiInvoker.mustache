@@ -109,13 +109,13 @@ public class ApiInvoker {
 
   public static String selectHeaderAccept(String[] accepts) {
     if (accepts.length == 0) return "application/json";
-    if (Arrays.asList(accepts).contains("application/json")) return "application/json";
-    return joinString(accepts, ",");
+    if (StringUtil.containsIgnoreCase(accepts, "application/json")) return "application/json";
+    return StringUtil.join(accepts, ",");
   }
 
   public static String selectHeaderContentType(String[] contentTypes) {
     if (contentTypes.length == 0) return "application/json";
-    if (Arrays.asList(contentTypes).contains("application/json")) return "application/json";
+    if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
     return contentTypes[0];
   }
 

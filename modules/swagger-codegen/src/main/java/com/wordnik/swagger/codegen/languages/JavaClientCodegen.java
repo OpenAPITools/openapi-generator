@@ -51,11 +51,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     additionalProperties.put("artifactVersion", artifactVersion);
 
     supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-    supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
+    supportingFiles.add(new SupportingFile("apiInvoker.mustache",
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
-    supportingFiles.add(new SupportingFile("JsonUtil.mustache", 
+    supportingFiles.add(new SupportingFile("JsonUtil.mustache",
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
-    supportingFiles.add(new SupportingFile("apiException.mustache", 
+    supportingFiles.add(new SupportingFile("StringUtil.mustache",
+      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "StringUtil.java"));
+    supportingFiles.add(new SupportingFile("apiException.mustache",
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
 
     languageSpecificPrimitives = new HashSet<String>(
