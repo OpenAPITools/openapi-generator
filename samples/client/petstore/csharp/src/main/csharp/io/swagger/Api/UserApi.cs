@@ -8,12 +8,12 @@ namespace IO.Swagger.Api {
   
   public class UserApi {
     string basePath;
-    protected RestClient restClient;
+    public ApiInvoker apiClient {get; set;}
 
     public UserApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      this.restClient = new RestClient(basePath);
+      this.apiClient = new ApiInvoker(basePath);
     }
 
     /// <summary>
@@ -42,26 +42,27 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void CreateUser (User Body) {
 
-      var _request = new RestRequest("/user", Method.POST);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/user";
+      path = path.Replace("{format}", "json");
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
+      postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.Content);
       }
@@ -77,26 +78,27 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void CreateUsersWithArrayInput (List<User> Body) {
 
-      var _request = new RestRequest("/user/createWithArray", Method.POST);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/user/createWithArray";
+      path = path.Replace("{format}", "json");
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
+      postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/createWithArray", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content);
       }
@@ -112,26 +114,27 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void CreateUsersWithListInput (List<User> Body) {
 
-      var _request = new RestRequest("/user/createWithList", Method.POST);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/user/createWithList";
+      path = path.Replace("{format}", "json");
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
+      postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/createWithList", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.Content);
       }
@@ -148,31 +151,32 @@ namespace IO.Swagger.Api {
     /// <returns>string</returns>
     public string LoginUser (string Username, string Password) {
 
-      var _request = new RestRequest("/user/login", Method.GET);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var path = "/user/login";
+      path = path.Replace("{format}", "json");
       
-       if (Username != null) _request.AddParameter("username", ApiInvoker.ParameterToString(Username)); // query parameter
-       if (Password != null) _request.AddParameter("password", ApiInvoker.ParameterToString(Password)); // query parameter
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
+       if (Username != null) queryParams.Add("username", apiClient.ParameterToString(Username)); // query parameter
+       if (Password != null) queryParams.Add("password", apiClient.ParameterToString(Password)); // query parameter
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/login", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content);
       }
-      return (string) ApiInvoker.Deserialize(response.Content, typeof(string));
+      return (string) apiClient.Deserialize(response.Content, typeof(string));
     }
     
     
@@ -182,25 +186,26 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void LogoutUser () {
 
-      var _request = new RestRequest("/user/logout", Method.GET);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var path = "/user/logout";
+      path = path.Replace("{format}", "json");
       
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/logout", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.Content);
       }
@@ -216,33 +221,34 @@ namespace IO.Swagger.Api {
     /// <returns>User</returns>
     public User GetUserByName (string Username) {
 
-      var _request = new RestRequest("/user/{username}", Method.GET);
-
       
       // verify the required parameter 'Username' is set
       if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling GetUserByName");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
+      var path = "/user/{username}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "username" + "}", apiClient.ParameterToString(Username));
       
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/{username}", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content);
       }
-      return (User) ApiInvoker.Deserialize(response.Content, typeof(User));
+      return (User) apiClient.Deserialize(response.Content, typeof(User));
     }
     
     
@@ -254,30 +260,31 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void UpdateUser (string Username, User Body) {
 
-      var _request = new RestRequest("/user/{username}", Method.PUT);
-
       
       // verify the required parameter 'Username' is set
       if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling UpdateUser");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/user/{username}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "username" + "}", apiClient.ParameterToString(Username));
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
+      postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/{username}", Method.PUT, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.Content);
       }
@@ -293,29 +300,30 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void DeleteUser (string Username) {
 
-      var _request = new RestRequest("/user/{username}", Method.DELETE);
-
       
       // verify the required parameter 'Username' is set
       if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling DeleteUser");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("username", ApiInvoker.ParameterToString(Username)); // path (url segment) parameter
+      var path = "/user/{username}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "username" + "}", apiClient.ParameterToString(Username));
       
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/{username}", Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.Content);
       }

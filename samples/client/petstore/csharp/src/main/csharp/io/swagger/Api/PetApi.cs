@@ -8,12 +8,12 @@ namespace IO.Swagger.Api {
   
   public class PetApi {
     string basePath;
-    protected RestClient restClient;
+    public ApiInvoker apiClient {get; set;}
 
     public PetApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      this.restClient = new RestClient(basePath);
+      this.apiClient = new ApiInvoker(basePath);
     }
 
     /// <summary>
@@ -42,26 +42,27 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void UpdatePet (Pet Body) {
 
-      var _request = new RestRequest("/pet", Method.PUT);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/pet";
+      path = path.Replace("{format}", "json");
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
+      postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet", Method.PUT, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content);
       }
@@ -77,26 +78,27 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void AddPet (Pet Body) {
 
-      var _request = new RestRequest("/pet", Method.POST);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/pet";
+      path = path.Replace("{format}", "json");
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
+      postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content);
       }
@@ -112,30 +114,31 @@ namespace IO.Swagger.Api {
     /// <returns>List<Pet></returns>
     public List<Pet> FindPetsByStatus (List<string> Status) {
 
-      var _request = new RestRequest("/pet/findByStatus", Method.GET);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var path = "/pet/findByStatus";
+      path = path.Replace("{format}", "json");
       
-       if (Status != null) _request.AddParameter("status", ApiInvoker.ParameterToString(Status)); // query parameter
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
+       if (Status != null) queryParams.Add("status", apiClient.ParameterToString(Status)); // query parameter
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/findByStatus", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content);
       }
-      return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
+      return (List<Pet>) apiClient.Deserialize(response.Content, typeof(List<Pet>));
     }
     
     
@@ -146,30 +149,31 @@ namespace IO.Swagger.Api {
     /// <returns>List<Pet></returns>
     public List<Pet> FindPetsByTags (List<string> Tags) {
 
-      var _request = new RestRequest("/pet/findByTags", Method.GET);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var path = "/pet/findByTags";
+      path = path.Replace("{format}", "json");
       
-       if (Tags != null) _request.AddParameter("tags", ApiInvoker.ParameterToString(Tags)); // query parameter
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
+       if (Tags != null) queryParams.Add("tags", apiClient.ParameterToString(Tags)); // query parameter
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/findByTags", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content);
       }
-      return (List<Pet>) ApiInvoker.Deserialize(response.Content, typeof(List<Pet>));
+      return (List<Pet>) apiClient.Deserialize(response.Content, typeof(List<Pet>));
     }
     
     
@@ -180,33 +184,34 @@ namespace IO.Swagger.Api {
     /// <returns>Pet</returns>
     public Pet GetPetById (long? PetId) {
 
-      var _request = new RestRequest("/pet/{petId}", Method.GET);
-
       
       // verify the required parameter 'PetId' is set
       if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling GetPetById");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId)); // path (url segment) parameter
+      var path = "/pet/{petId}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "petId" + "}", apiClient.ParameterToString(PetId));
       
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content);
       }
-      return (Pet) ApiInvoker.Deserialize(response.Content, typeof(Pet));
+      return (Pet) apiClient.Deserialize(response.Content, typeof(Pet));
     }
     
     
@@ -219,31 +224,32 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void UpdatePetWithForm (string PetId, string Name, string Status) {
 
-      var _request = new RestRequest("/pet/{petId}", Method.POST);
-
       
       // verify the required parameter 'PetId' is set
       if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UpdatePetWithForm");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/pet/{petId}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "petId" + "}", apiClient.ParameterToString(PetId));
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId)); // path (url segment) parameter
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
-      
-      if (Name != null) _request.AddParameter("name", ApiInvoker.ParameterToString(Name)); // form parameter
-      if (Status != null) _request.AddParameter("status", ApiInvoker.ParameterToString(Status)); // form parameter
+      if (Name != null) formParams.Add("name", apiClient.ParameterToString(Name)); // form parameter
+      if (Status != null) formParams.Add("status", apiClient.ParameterToString(Status)); // form parameter
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content);
       }
@@ -260,30 +266,31 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void DeletePet (string ApiKey, long? PetId) {
 
-      var _request = new RestRequest("/pet/{petId}", Method.DELETE);
-
       
       // verify the required parameter 'PetId' is set
       if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling DeletePet");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/pet/{petId}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "petId" + "}", apiClient.ParameterToString(PetId));
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId)); // path (url segment) parameter
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
-      
-       if (ApiKey != null) _request.AddHeader("api_key", ApiInvoker.ParameterToString(ApiKey)); // header parameter
+       if (ApiKey != null) headerParams.Add("api_key", apiClient.ParameterToString(ApiKey)); // header parameter
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}", Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content);
       }
@@ -301,31 +308,32 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void UploadFile (long? PetId, string AdditionalMetadata, string File) {
 
-      var _request = new RestRequest("/pet/{petId}/uploadImage", Method.POST);
-
       
       // verify the required parameter 'PetId' is set
       if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UploadFile");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/pet/{petId}/uploadImage";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "petId" + "}", apiClient.ParameterToString(PetId));
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("petId", ApiInvoker.ParameterToString(PetId)); // path (url segment) parameter
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
-      
-      if (AdditionalMetadata != null) _request.AddParameter("additionalMetadata", ApiInvoker.ParameterToString(AdditionalMetadata)); // form parameter
-      if (File != null) _request.AddFile("file", File);
+      if (AdditionalMetadata != null) formParams.Add("additionalMetadata", apiClient.ParameterToString(AdditionalMetadata)); // form parameter
+      if (File != null) fileParams.Add("file", File);
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}/uploadImage", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content);
       }

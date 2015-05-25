@@ -8,12 +8,12 @@ namespace IO.Swagger.Api {
   
   public class StoreApi {
     string basePath;
-    protected RestClient restClient;
+    public ApiInvoker apiClient {get; set;}
 
     public StoreApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      this.restClient = new RestClient(basePath);
+      this.apiClient = new ApiInvoker(basePath);
     }
 
     /// <summary>
@@ -41,29 +41,30 @@ namespace IO.Swagger.Api {
     /// <returns>Dictionary<String, int?></returns>
     public Dictionary<String, int?> GetInventory () {
 
-      var _request = new RestRequest("/store/inventory", Method.GET);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var path = "/store/inventory";
+      path = path.Replace("{format}", "json");
       
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/inventory", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content);
       }
-      return (Dictionary<String, int?>) ApiInvoker.Deserialize(response.Content, typeof(Dictionary<String, int?>));
+      return (Dictionary<String, int?>) apiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>));
     }
     
     
@@ -74,30 +75,31 @@ namespace IO.Swagger.Api {
     /// <returns>Order</returns>
     public Order PlaceOrder (Order Body) {
 
-      var _request = new RestRequest("/store/order", Method.POST);
-
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
+      var path = "/store/order";
+      path = path.Replace("{format}", "json");
+      
 
-      _request.AddUrlSegment("format", "json"); // set format to json by default
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
-      
-      _request.AddParameter("application/json", ApiInvoker.Serialize(Body), ParameterType.RequestBody); // http body (model) parameter
+      postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/order", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content);
       }
-      return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
+      return (Order) apiClient.Deserialize(response.Content, typeof(Order));
     }
     
     
@@ -108,33 +110,34 @@ namespace IO.Swagger.Api {
     /// <returns>Order</returns>
     public Order GetOrderById (string OrderId) {
 
-      var _request = new RestRequest("/store/order/{orderId}", Method.GET);
-
       
       // verify the required parameter 'OrderId' is set
       if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling GetOrderById");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId)); // path (url segment) parameter
+      var path = "/store/order/{orderId}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "orderId" + "}", apiClient.ParameterToString(OrderId));
       
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/order/{orderId}", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content);
       }
-      return (Order) ApiInvoker.Deserialize(response.Content, typeof(Order));
+      return (Order) apiClient.Deserialize(response.Content, typeof(Order));
     }
     
     
@@ -145,29 +148,30 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public void DeleteOrder (string OrderId) {
 
-      var _request = new RestRequest("/store/order/{orderId}", Method.DELETE);
-
       
       // verify the required parameter 'OrderId' is set
       if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling DeleteOrder");
       
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      _request.AddUrlSegment("orderId", ApiInvoker.ParameterToString(OrderId)); // path (url segment) parameter
+      var path = "/store/order/{orderId}";
+      path = path.Replace("{format}", "json");
+      path = path.Replace("{" + "orderId" + "}", apiClient.ParameterToString(OrderId));
       
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
       
       
       
       
 
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/order/{orderId}", Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content);
       }

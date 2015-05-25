@@ -5,10 +5,54 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using RestSharp;
 
 namespace {{invokerPackage}} {
   public class ApiInvoker {
-    private static Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
+    public ApiInvoker() {
+      this.basePath = "{{basePath}}";
+    }
+
+    public ApiInvoker(String basePath) {
+      this.basePath = basePath;
+    }
+
+    public string basePath { get; set; }
+    public RestClient restClient { get; set; }
+    private Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
+
+    public Object CallApi(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody, 
+      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, String> FileParams) {
+
+      var request = new RestRequest(Path, Method);
+
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in this.defaultHeaderMap)
+        request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+
+      // add header parameter, if any
+      foreach(KeyValuePair<string, string> param in HeaderParams)
+        request.AddHeader(param.Key, param.Value);
+     
+      // add query parameter, if any
+      foreach(KeyValuePair<string, string> param in QueryParams)
+        request.AddUrlSegment(param.Key, param.Value);
+
+      // add form parameter, if any
+      foreach(KeyValuePair<string, string> param in FormParams)
+        request.AddParameter(param.Key, param.Value);
+
+      // add file parameter, if any
+      foreach(KeyValuePair<string, string> param in FormParams)
+        request.AddFile(param.Key, param.Value);
+
+      if (PostBody == null) {
+        request.AddParameter("application/json", PostBody, ParameterType.RequestBody); // http body (model) parameter
+      }
+
+      return (Object)restClient.Execute(request);
+
+    }
 
     /// <summary>
     /// Add default header
@@ -16,7 +60,7 @@ namespace {{invokerPackage}} {
     /// <param name="key">  Header field name
     /// <param name="value"> Header field value
     /// <returns></returns>
-    public static void AddDefaultHeader(string key, string value) {
+    public void AddDefaultHeader(string key, string value) {
        defaultHeaderMap.Add(key, value);
     }
 
@@ -24,7 +68,7 @@ namespace {{invokerPackage}} {
     /// Get default header
     /// </summary>
     /// <returns>Dictionary of default header</returns>
-    public static Dictionary<String, String> GetDefaultHeader() {
+    public Dictionary<String, String> GetDefaultHeader() {
        return defaultHeaderMap;
     }
 
@@ -33,7 +77,7 @@ namespace {{invokerPackage}} {
     /// </summary>
     /// <param name="str"> String to be escaped
     /// <returns>Escaped string</returns>
-    public static string EscapeString(string str) {
+    public string EscapeString(string str) {
       return str;
     }
 
@@ -42,7 +86,7 @@ namespace {{invokerPackage}} {
     /// </summary>
     /// <param name="obj"> The parameter (header, path, query, form)
     /// <returns>Formatted string</returns>
-    public static string ParameterToString(object obj)
+    public string ParameterToString(object obj)
     {
       return (obj is DateTime) ? ((DateTime)obj).ToString ("u") : Convert.ToString (obj);
     }
@@ -53,7 +97,7 @@ namespace {{invokerPackage}} {
     /// <param name="json"> JSON string
     /// <param name="type"> Object type
     /// <returns>Object representation of the JSON string</returns>
-    public static object Deserialize(string content, Type type) {
+    public object Deserialize(string content, Type type) {
       if (type.GetType() == typeof(Object))
         return (Object)content;
 
@@ -71,7 +115,7 @@ namespace {{invokerPackage}} {
     /// </summary>
     /// <param name="obj"> Object 
     /// <returns>JSON string</returns>
-    public static string Serialize(object obj) {
+    public string Serialize(object obj) {
       try
       {
           return obj != null ? JsonConvert.SerializeObject(obj) : null;
