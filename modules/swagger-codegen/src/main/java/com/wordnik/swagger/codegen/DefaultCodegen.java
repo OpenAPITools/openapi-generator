@@ -77,6 +77,11 @@ public class DefaultCodegen {
   protected String templateDir;
   protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
   protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
+  protected List<CliOption> cliOptions = new ArrayList<CliOption>();
+
+  public List<CliOption> cliOptions() {
+    return cliOptions;
+  }
 
   public void processOpts(){
     if(additionalProperties.containsKey("templateDir")) {
