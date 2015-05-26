@@ -7,6 +7,9 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
   // add a new pet (id 10005) to ensure the pet object is available for all the tests
   public static function setUpBeforeClass() {
+    // enable debugging 
+    //SwaggerClient\Configuration::$debug = true;
+
     // skip initializing the API client as it should be automatic
     //$api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
     // new pet

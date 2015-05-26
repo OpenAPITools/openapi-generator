@@ -6,6 +6,9 @@ require_once('SwaggerClient-php/SwaggerClient.php');
 //$api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
 //$api_client->addDefaultHeader("test1", "value1");
 
+// to enable logging
+//SwaggerClient\Configuration::$debug = true;
+
 $petId = 10005; // ID of pet that needs to be fetched
 try {
     //$pet_api = new SwaggerClient\PetAPI($api_client);
