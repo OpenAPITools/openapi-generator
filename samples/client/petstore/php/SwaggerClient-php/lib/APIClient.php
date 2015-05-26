@@ -245,12 +245,7 @@ class APIClient {
       error_log("[DEBUG] HTTP Request body  ~BEGIN~\n".print_r($postData, true)."\n~END~\n", 3, Configuration::$debug_file);
 
       curl_setopt($curl, CURLOPT_VERBOSE, 1);
-      try {
-        $fp = fopen(Configuration::$debug_file, 'w');
-        curl_setopt($curl, CURLOPT_STDERR, $fp);
-      } catch ( \Exception $e ) {
-        error_log("Exception in enabling curl debug: ".print_r($e, true), 3, Configuration::$debug_file);
-      }
+      curl_setopt($curl, CURLOPT_STDERR, fopen(Configuration::$debug_file, 'a'));
     } else {
       curl_setopt($curl, CURLOPT_VERBOSE, 0);
     }
