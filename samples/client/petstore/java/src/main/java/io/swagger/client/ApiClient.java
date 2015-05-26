@@ -75,6 +75,10 @@ public class ApiClient {
     return this;
   }
 
+  public boolean isDebug() {
+    return isDebug;
+  }
+
   public ApiClient enableDebug() {
     isDebug = true;
     return this;

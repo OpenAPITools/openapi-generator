@@ -1,6 +1,8 @@
 package io.swagger.petstore.test;
 
 import io.swagger.client.ApiException;
+import io.swagger.client.ApiClient;
+import io.swagger.client.Configuration;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 
@@ -16,6 +18,33 @@ public class PetApiTest {
   @Before
   public void setup() {
     api = new PetApi();
+  }
+
+  @Test
+  public void testApiClient() {
+    // the default api client is used
+    assertEquals(Configuration.getDefaultApiClient(), api.getApiClient());
+    assertNotNull(api.getApiClient());
+    assertEquals("http://petstore.swagger.io/v2", api.getApiClient().getBasePath());
+    assertFalse(api.getApiClient().isDebug());
+
+    ApiClient oldClient = api.getApiClient();
+
+    ApiClient newClient = new ApiClient();
+    newClient.setBasePath("http://example.com");
+    newClient.enableDebug();
+
+    // set api client via constructor
+    api = new PetApi(newClient);
+    assertNotNull(api.getApiClient());
+    assertEquals("http://example.com", api.getApiClient().getBasePath());
+    assertTrue(api.getApiClient().isDebug());
+
+    // set api client via setter method
+    api.setApiClient(oldClient);
+    assertNotNull(api.getApiClient());
+    assertEquals("http://petstore.swagger.io/v2", api.getApiClient().getBasePath());
+    assertFalse(api.getApiClient().isDebug());
   }
 
   @Test
