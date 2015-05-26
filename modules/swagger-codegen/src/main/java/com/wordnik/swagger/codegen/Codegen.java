@@ -47,7 +47,6 @@ public class Codegen extends DefaultGenerator {
     options.addOption("l", "lang", true, "client language to generate.\nAvailable languages include:\n\t[" + configString + "]");
     options.addOption("o", "output", true, "where to write the generated files");
     options.addOption("i", "input-spec", true, "location of the swagger spec, as URL or file");
-    options.addOption("t", "template-dir", true, "folder containing the template files");
     options.addOption("d", "debug-info", false, "prints additional info for debugging");
     options.addOption("a", "auth", true, "adds authorization headers when fetching the swagger definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values");
 
@@ -114,8 +113,6 @@ public class Codegen extends DefaultGenerator {
       }
       if (cmd.hasOption("i"))
         swagger = new SwaggerParser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), true);
-      if (cmd.hasOption("t"))
-        clientOpts.getProperties().put("templateDir", String.valueOf(cmd.getOptionValue("t")));
       
       //add all passed cliOptions to clientOpts.properties
       for (CliOption langCliOption : clientOptInput.getConfig().cliOptions()) {
