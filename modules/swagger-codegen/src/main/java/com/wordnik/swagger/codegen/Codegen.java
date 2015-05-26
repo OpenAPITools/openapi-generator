@@ -51,6 +51,30 @@ public class Codegen extends DefaultGenerator {
     options.addOption("d", "debug-info", false, "prints additional info for debugging");
     options.addOption("a", "auth", true, "adds authorization headers when fetching the swagger definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values");
 
+    //adding additional options from language specific configs
+    Option existingOption;
+    for (Map.Entry<String, CodegenConfig> configEntry : configs.entrySet()) {
+      for (CliOption langCliOption : configEntry.getValue().cliOptions()) {
+        //lang specific option
+        if (langCliOption.isLangSpecific()) {
+          //option exists, update description
+          if (options.hasOption(langCliOption.getOpt())) {
+            existingOption = options.getOption(langCliOption.getOpt());
+            existingOption.setDescription(existingOption.getDescription() + "\n" + configEntry.getKey() + ": " + langCliOption.getDescription());
+          } else {
+            //new option, prepend 'lang: ' to the description and add
+            langCliOption.setDescription(configEntry.getKey() + ": " + langCliOption.getDescription());
+            options.addOption((Option) langCliOption);
+          }
+        } else {
+          //not lang specific, add if not already there
+          if (!options.hasOption(langCliOption.getOpt())) {
+            options.addOption((Option) langCliOption);
+          }
+        }
+      }
+    }
+    
     ClientOptInput clientOptInput = new ClientOptInput();
     ClientOpts clientOpts = new ClientOpts();
     Swagger swagger = null;
@@ -92,6 +116,13 @@ public class Codegen extends DefaultGenerator {
         swagger = new SwaggerParser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), true);
       if (cmd.hasOption("t"))
         clientOpts.getProperties().put("templateDir", String.valueOf(cmd.getOptionValue("t")));
+      
+      //add all passed cliOptions to clientOpts.properties
+      for (CliOption langCliOption : clientOptInput.getConfig().cliOptions()) {
+        if (cmd.hasOption(langCliOption.getOpt())) {
+          clientOpts.getProperties().put(langCliOption.getOpt(), String.valueOf(cmd.getOptionValue(langCliOption.getOpt())));
+        }
+      }
     }
     catch (Exception e) {
       usage(options);
