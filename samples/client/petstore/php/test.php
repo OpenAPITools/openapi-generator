@@ -8,6 +8,7 @@ require_once('SwaggerClient-php/SwaggerClient.php');
 
 // to enable logging
 //SwaggerClient\Configuration::$debug = true;
+//SwaggerClient\Configuration::$debug_file = '/var/tmp/php_debug.log';
 
 $petId = 10005; // ID of pet that needs to be fetched
 try {
