@@ -108,7 +108,7 @@ public class ApiInvoker {
   }
 
   public static String selectHeaderAccept(String[] accepts) {
-    if (accepts.length == 0) return "application/json";
+    if (accepts.length == 0) return null;
     if (StringUtil.containsIgnoreCase(accepts, "application/json")) return "application/json";
     return StringUtil.join(accepts, ",");
   }
@@ -194,7 +194,11 @@ public class ApiInvoker {
     }
     String querystring = b.toString();
 
-    Builder builder = client.resource(host + path + querystring).accept(accept);
+    Builder builder;
+    if (accept == null)
+      builder = client.resource(host + path + querystring).getRequestBuilder();
+    else
+      builder = client.resource(host + path + querystring).accept(accept);
     for(String key : headerParams.keySet()) {
       builder = builder.header(key, headerParams.get(key));
     }

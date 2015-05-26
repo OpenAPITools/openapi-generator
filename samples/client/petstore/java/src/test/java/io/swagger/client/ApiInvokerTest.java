@@ -19,7 +19,7 @@ public class ApiInvokerTest {
     assertEquals("text/plain,application/xml", ApiInvoker.selectHeaderAccept(accepts));
 
     accepts = new String[] { };
-    assertEquals("application/json", ApiInvoker.selectHeaderAccept(accepts));
+    assertNull(ApiInvoker.selectHeaderAccept(accepts));
   }
 
   @Test
