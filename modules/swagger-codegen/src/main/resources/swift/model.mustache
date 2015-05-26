@@ -22,12 +22,12 @@ class {{classname}}: JSONEncodable {
     {{/vars}}
 
     // MARK: JSONEncodable
-    func encode() -> AnyObject {
+    func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}
         nillableDictionary["{{name}}"] = self.{{name}}{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
         nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.rawValue{{/isEnum}}{{^isPrimitiveType}}
-        nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encode(){{/isPrimitiveType}}{{/isNotContainer}}{{#isContainer}}
-        nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encode(){{/isContainer}}{{/vars}}
+        nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encodeToJSON(){{/isPrimitiveType}}{{/isNotContainer}}{{#isContainer}}
+        nillableDictionary["{{name}}"] = self.{{name}}{{^required}}?{{/required}}.encodeToJSON(){{/isContainer}}{{/vars}}
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

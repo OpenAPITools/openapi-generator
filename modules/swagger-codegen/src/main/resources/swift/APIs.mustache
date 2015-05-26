@@ -15,7 +15,7 @@ class {{projectName}}API {
 
 class APIBase {
     func toParameters(encodable: JSONEncodable?) -> [String: AnyObject]? {
-        let encoded: AnyObject? = encodable?.encode()
+        let encoded: AnyObject? = encodable?.encodeToJSON()
 
         if encoded! is [AnyObject] {
             var dictionary = [String:AnyObject]()

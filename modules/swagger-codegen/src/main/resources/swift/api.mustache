@@ -35,7 +35,7 @@ extension {{projectName}}API {
             path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}})", options: .LiteralSearch, range: nil){{/pathParams}}
             let url = {{projectName}}API.basePath + path
             {{#bodyParam}}
-            let parameters = {{paramName}}{{^required}}?{{/required}}.encode() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
+            let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
             let nillableParameters: [String:AnyObject?] = {{^queryParams}}[:]{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
                 "{{paramName}}": {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
             ]{{/hasMore}}{{/queryParams}}
