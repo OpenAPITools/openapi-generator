@@ -34,6 +34,9 @@ class Configuration {
   // an instance of APIClient
   public static $apiClient;
 
+  public static $debug = false; // by default debugging is disabled
+  public static $debug_file = 'php://output'; //output debug log to STDOUT by default
+
  /*
   *  manually initalize  API client
   */

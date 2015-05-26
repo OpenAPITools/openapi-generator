@@ -240,9 +240,29 @@ class APIClient {
     // Set user agent
     curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent);
 
+    // debugging for curl
+    if (Configuration::$debug) {
+      error_log("[DEBUG] HTTP Request body  ~BEGIN~\n".print_r($postData, true)."\n~END~\n", 3, Configuration::$debug_file);
+
+      curl_setopt($curl, CURLOPT_VERBOSE, 1);
+      try {
+        $fp = fopen(Configuration::$debug_file, 'w');
+        curl_setopt($curl, CURLOPT_STDERR, $fp);
+      } catch ( \Exception $e ) {
+        error_log("Exception in enabling curl debug: ".print_r($e, true), 3, Configuration::$debug_file);
+      }
+    } else {
+      curl_setopt($curl, CURLOPT_VERBOSE, 0);
+    }
+
     // Make the request
     $response = curl_exec($curl);
     $response_info = curl_getinfo($curl);
+
+    // debug HTTP response body
+    if (Configuration::$debug) {
+        error_log("[DEBUG] HTTP Response body ~BEGIN~\n".print_r($response, true)."\n~END~\n", 3, Configuration::$debug_file);
+    }
 
     // Handle the response
     if ($response_info['http_code'] == 0) {
