@@ -29,65 +29,82 @@ import java.net.URLEncoder;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
-public class ApiInvoker {
-  private static ApiInvoker INSTANCE = new ApiInvoker();
+public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean isDebug = false;
+  private String basePath = "http://petstore.swagger.io/v2";
 
-  /**
-   * ISO 8601 date time format.
-   * @see https://en.wikipedia.org/wiki/ISO_8601
-   */
-  public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+  private DateFormat dateFormat;
+  private DateFormat datetimeFormat;
 
-  /**
-   * ISO 8601 date format.
-   * @see https://en.wikipedia.org/wiki/ISO_8601
-   */
-  public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+  public ApiClient() {
+    // Use ISO 8601 format for date and datetime.
+    // See https://en.wikipedia.org/wiki/ISO_8601
+    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    this.datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-  static {
     // Use UTC as the default time zone.
-    DATE_TIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+    this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    this.datetimeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
     // Set default User-Agent.
     setUserAgent("Java-Swagger");
   }
 
-  public static void setUserAgent(String userAgent) {
-    INSTANCE.addDefaultHeader("User-Agent", userAgent);
+  public String getBasePath() {
+    return basePath;
   }
 
-  public static Date parseDateTime(String str) {
+  public ApiClient setBasePath(String basePath) {
+    this.basePath = basePath;
+    return this;
+  }
+
+  public ApiClient setUserAgent(String userAgent) {
+    addDefaultHeader("User-Agent", userAgent);
+    return this;
+  }
+
+  public ApiClient addDefaultHeader(String key, String value) {
+    defaultHeaderMap.put(key, value);
+    return this;
+  }
+
+  public ApiClient enableDebug() {
+    isDebug = true;
+    return this;
+  }
+
+  public Date parseDateTime(String str) {
     try {
-      return DATE_TIME_FORMAT.parse(str);
+      return datetimeFormat.parse(str);
     } catch (java.text.ParseException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public static Date parseDate(String str) {
+  public Date parseDate(String str) {
     try {
-      return DATE_FORMAT.parse(str);
+      return dateFormat.parse(str);
     } catch (java.text.ParseException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public static String formatDateTime(Date datetime) {
-    return DATE_TIME_FORMAT.format(datetime);
+  public String formatDateTime(Date datetime) {
+    return datetimeFormat.format(datetime);
   }
 
-  public static String formatDate(Date date) {
-    return DATE_FORMAT.format(date);
+  public String formatDate(Date date) {
+    return dateFormat.format(date);
   }
 
-  public static String parameterToString(Object param) {
+  public String parameterToString(Object param) {
     if (param == null) {
       return "";
     } else if (param instanceof Date) {
@@ -105,17 +122,6 @@ public class ApiInvoker {
       return String.valueOf(param);
     }
   }
-  public void enableDebug() {
-    isDebug = true;
-  }
-
-  public static ApiInvoker getInstance() {
-    return INSTANCE;
-  }
-
-  public void addDefaultHeader(String key, String value) {
-     defaultHeaderMap.put(key, value);
-  }
 
   public String escapeString(String str) {
     try{
@@ -126,7 +132,7 @@ public class ApiInvoker {
     }
   }
 
-  public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
+  public Object deserialize(String json, String containerType, Class cls) throws ApiException {
     if(null != containerType) {
         containerType = containerType.toLowerCase();
     }
@@ -151,7 +157,7 @@ public class ApiInvoker {
     }
   }
 
-  public static String serialize(Object obj) throws ApiException {
+  public String serialize(Object obj) throws ApiException {
     try {
       if (obj != null)
         return JsonUtil.getJsonMapper().writeValueAsString(obj);
@@ -163,8 +169,8 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-    Client client = getClient(host);
+  public String invokeAPI(String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    Client client = getClient();
 
     StringBuilder b = new StringBuilder();
 
@@ -180,7 +186,7 @@ public class ApiInvoker {
     }
     String querystring = b.toString();
 
-    Builder builder = client.resource(host + path + querystring).accept("application/json");
+    Builder builder = client.resource(basePath + path + querystring).accept("application/json");
     for(String key : headerParams.keySet()) {
       builder = builder.header(key, headerParams.get(key));
     }
@@ -236,6 +242,7 @@ public class ApiInvoker {
     else {
       throw new ApiException(500, "unknown method type " + method);
     }
+
     if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
       return null;
     }
@@ -267,8 +274,8 @@ public class ApiInvoker {
     StringBuilder formParamBuilder = new StringBuilder();
 
     for (Entry<String, String> param : formParams.entrySet()) {
-      String keyStr = ApiInvoker.parameterToString(param.getKey());
-      String valueStr = ApiInvoker.parameterToString(param.getValue());
+      String keyStr = parameterToString(param.getKey());
+      String valueStr = parameterToString(param.getValue());
 
       try {
         formParamBuilder.append(URLEncoder.encode(keyStr, "utf8"))
@@ -287,14 +294,13 @@ public class ApiInvoker {
     return encodedFormParams;
   }
 
-
-  private Client getClient(String host) {
-    if(!hostMap.containsKey(host)) {
+  private Client getClient() {
+    if(!hostMap.containsKey(basePath)) {
       Client client = Client.create();
       if(isDebug)
         client.addFilter(new LoggingFilter());
-      hostMap.put(host, client);
+      hostMap.put(basePath, client);
     }
-    return hostMap.get(host);
+    return hostMap.get(basePath);
   }
 }
