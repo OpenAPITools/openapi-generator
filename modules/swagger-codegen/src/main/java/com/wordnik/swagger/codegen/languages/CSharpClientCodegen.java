@@ -60,7 +60,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         "byte[]",
         "List",
         "Dictionary",
-        "DateTime",
+        "DateTime?",
         "String",
         "Boolean",
         "Double",
@@ -80,9 +80,11 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.put("long", "long?");
     typeMapping.put("double", "double?");
     typeMapping.put("number", "double?");
-    typeMapping.put("Date", "DateTime");
+    typeMapping.put("datetime", "DateTime?");
+    typeMapping.put("date", "DateTime?");
     typeMapping.put("file", "string"); // path to file
     typeMapping.put("array", "List");
+    typeMapping.put("list", "List");
     typeMapping.put("map", "Dictionary");
     typeMapping.put("object", "Object");
 
@@ -166,8 +168,8 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
   public String getSwaggerType(Property p) {
     String swaggerType = super.getSwaggerType(p);
     String type = null;
-    if(typeMapping.containsKey(swaggerType)) {
-      type = typeMapping.get(swaggerType);
+    if(typeMapping.containsKey(swaggerType.toLowerCase())) {
+      type = typeMapping.get(swaggerType.toLowerCase());
       if(languageSpecificPrimitives.contains(type))
         return type;
     }

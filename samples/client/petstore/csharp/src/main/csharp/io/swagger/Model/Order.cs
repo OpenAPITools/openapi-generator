@@ -25,7 +25,7 @@ namespace IO.Swagger.Model {
     
     
     [DataMember(Name="shipDate", EmitDefaultValue=false)]
-    public DateTime ShipDate { get; set; }
+    public DateTime? ShipDate { get; set; }
 
     
     /* Order Status */
