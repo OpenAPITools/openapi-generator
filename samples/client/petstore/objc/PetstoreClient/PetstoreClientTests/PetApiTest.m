@@ -12,6 +12,16 @@
     [super tearDown];
 }
 
+- (void)testCreatePetApi {
+    SWGPetApi *api1 = [[SWGPetApi alloc] init];
+    SWGPetApi *api2 = [[SWGPetApi alloc] init];
+    XCTAssertEqual(api1.apiClient, api2.apiClient);
+    
+    SWGApiClient *client = [[SWGApiClient alloc] init];
+    SWGPetApi *api3 = [[SWGPetApi alloc] initWithApiClient:client];
+    XCTAssertNotEqual(api1.apiClient, api3.apiClient);
+}
+
 - (void)testCreateAndGetPet {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
     SWGPet* pet = [self createPet];

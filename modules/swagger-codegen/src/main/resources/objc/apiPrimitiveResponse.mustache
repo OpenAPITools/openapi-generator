@@ -1,5 +1,5 @@
         // primitive response type
-    {{#returnBaseType}}return [client stringWithCompletionBlock: requestUrl 
+    {{#returnBaseType}}return [self.apiClient stringWithCompletionBlock: requestUrl 
                                               method: @"{{httpMethod}}" 
                                          queryParams: queryParams 
                                                 body: bodyDictionary 
@@ -17,7 +17,7 @@
     {{/returnBaseType}}
     {{^returnBaseType}}
     // no return base type
-    return [client stringWithCompletionBlock: requestUrl 
+    return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"{{httpMethod}}" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
