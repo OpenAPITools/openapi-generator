@@ -27,9 +27,8 @@ use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
 
-
-
 use WWW::SwaggerClient::APIClient;
+use WWW::SwaggerClient::Configuration;
 
 our @EXPORT_OK = qw(
   create_user 
@@ -45,7 +44,7 @@ our @EXPORT_OK = qw(
 
 sub new {
     my $class   = shift;
-    my $default_api_client = WWW::SwaggerClient::APIClient->new;
+    my $default_api_client = $WWW::SwaggerClient::Configuration::api_client ? $WWW::SwaggerClient::Configuration::api_client  : WWW::SwaggerClient::APIClient->new;
     my (%self) = (
         'api_client' => $default_api_client,
         @_

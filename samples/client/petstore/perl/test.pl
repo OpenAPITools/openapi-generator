@@ -6,12 +6,15 @@ use strict;
 use warnings;
 use WWW::SwaggerClient::PetApi;
 use WWW::SwaggerClient::APIClient;
+use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::Object::Pet;
 use WWW::SwaggerClient::Object::Tag;
 use WWW::SwaggerClient::Object::Category;
 use JSON;
 use Data::Dumper;
 use DateTime;
+
+$WWW::SwaggerClient::Configuration::http_user_agent = 'Perl-Swagger-Test';
 
 my $api = WWW::SwaggerClient::PetApi->new();
 
