@@ -28,6 +28,7 @@ except ImportError:
   # for python2
   from urllib import quote
 
+from . import config
 
 class ApiClient(object):
   """
@@ -37,7 +38,7 @@ class ApiClient(object):
   :param header_name: a header to pass when making calls to the API
   :param header_value: a header value to pass when making calls to the API
   """
-  def __init__(self, host=None, header_name=None, header_value=None):
+  def __init__(self, host=config.HOST, header_name=None, header_value=None):
     self.default_headers = {}
     if header_name is not None:
       self.default_headers[header_name] = header_value
@@ -279,3 +280,23 @@ class ApiClient(object):
       return 'application/json'
     else:
       return content_types[0]
+
+  def get_api_key_with_prefix(api_key):
+    """
+    Get API key (with prefix if possible)
+    """
+    if config.api_prefix[api_key]:
+      return config.api_prefix[api_key] + config.api_key[api_key]
+    else:
+      return config.api_key[api_key]
+
+  def update_params_for_auth(headers, querys, auths):
+    """
+    Update header and query params based on authentication setting
+    """
+    auths_map = {
+      {{#authMethods}}
+        
+      {{/authMethods}}
+    }
+
