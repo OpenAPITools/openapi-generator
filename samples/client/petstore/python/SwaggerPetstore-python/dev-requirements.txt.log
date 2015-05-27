@@ -1,5 +1,0 @@
-Requirement already satisfied (use --upgrade to upgrade): nose in /Users/geekerzp/.virtualenvs/python2/lib/python2.7/site-packages (from -r dev-requirements.txt (line 1))
-Requirement already satisfied (use --upgrade to upgrade): tox in /Users/geekerzp/.virtualenvs/python2/lib/python2.7/site-packages (from -r dev-requirements.txt (line 2))
-Requirement already satisfied (use --upgrade to upgrade): coverage in /Users/geekerzp/.virtualenvs/python2/lib/python2.7/site-packages (from -r dev-requirements.txt (line 3))
-Requirement already satisfied (use --upgrade to upgrade): randomize in /Users/geekerzp/.virtualenvs/python2/lib/python2.7/site-packages (from -r dev-requirements.txt (line 4))
-Cleaning up...
