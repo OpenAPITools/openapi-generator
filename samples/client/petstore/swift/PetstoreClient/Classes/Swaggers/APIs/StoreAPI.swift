@@ -18,9 +18,11 @@ extension PetstoreClientAPI {
          
          - GET /store/inventory
          - Returns a map of status codes to quantities
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@303a0946]
-         - examples: [{example={\n  "key" : 123\n}, contentType=application/json}, {example=not implemented com.wordnik.swagger.models.properties.MapProperty@2e030ea9, contentType=application/xml}]
-         - examples: [{example={\n  "key" : 123\n}, contentType=application/json}, {example=not implemented com.wordnik.swagger.models.properties.MapProperty@2e030ea9, contentType=application/xml}]
+         - API Key:
+           - type: apiKey api_key 
+           - name: api_key
+         - examples: [{example={\n  "key" : 123\n}, contentType=application/json}, {example=not implemented com.wordnik.swagger.models.properties.MapProperty@710b8fa2, contentType=application/xml}]
+         - examples: [{example={\n  "key" : 123\n}, contentType=application/json}, {example=not implemented com.wordnik.swagger.models.properties.MapProperty@710b8fa2, contentType=application/xml}]
 
          :returns: Promise<Response<[String:Int]>> 
          */
@@ -42,8 +44,8 @@ extension PetstoreClientAPI {
          
          - POST /store/order
          - 
-         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T03:28:27.397+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T12:28:27.400Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
-         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T03:28:27.397+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T12:28:27.400Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
+         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T04:07:45.188+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T13:07:45.190Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
+         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T04:07:45.188+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T13:07:45.190Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
          
          :param: body (body) order placed for purchasing the pet
 
@@ -66,8 +68,8 @@ extension PetstoreClientAPI {
          
          - GET /store/order/{orderId}
          - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T03:28:27.402+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T12:28:27.402Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
-         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T03:28:27.402+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T12:28:27.402Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
+         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T04:07:45.191+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T13:07:45.192Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
+         - examples: [{example={\n  "id" : 123456789,\n  "petId" : 123456789,\n  "complete" : true,\n  "status" : "aeiou",\n  "quantity" : 123,\n  "shipDate" : "2015-05-27T04:07:45.191+0000"\n}, contentType=application/json}, {example=<Order>\n  <id>123456</id>\n  <petId>123456</petId>\n  <quantity>0</quantity>\n  <shipDate>2015-05-27T13:07:45.192Z</shipDate>\n  <status>string</status>\n  <complete>true</complete>\n</Order>, contentType=application/xml}]
          
          :param: orderId (path) ID of pet that needs to be fetched
 

@@ -18,7 +18,9 @@ extension PetstoreClientAPI {
          
          - PUT /pet
          - 
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@5fd7e9cb]
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          
          :param: body (body) Pet object that needs to be added to the store
 
@@ -41,7 +43,9 @@ extension PetstoreClientAPI {
          
          - POST /pet
          - 
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@58363f95]
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          
          :param: body (body) Pet object that needs to be added to the store
 
@@ -64,7 +68,9 @@ extension PetstoreClientAPI {
          
          - GET /pet/findByStatus
          - Multiple status values can be provided with comma seperated strings
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@51887c71]
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
          - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
          
@@ -92,7 +98,9 @@ extension PetstoreClientAPI {
          
          - GET /pet/findByTags
          - Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@4ede45aa]
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
          - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
          
@@ -120,8 +128,12 @@ extension PetstoreClientAPI {
          
          - GET /pet/{petId}
          - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@62afc459, com.wordnik.swagger.codegen.CodegenSecurity@183e1ad]
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@62afc459, com.wordnik.swagger.codegen.CodegenSecurity@183e1ad]
+         - API Key:
+           - type: apiKey api_key 
+           - name: api_key
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          - examples: [{example={\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n}, contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
          - examples: [{example={\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n}, contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
          
@@ -148,7 +160,9 @@ extension PetstoreClientAPI {
          
          - POST /pet/{petId}
          - 
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@795525a1]
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          
          :param: petId (path) ID of pet that needs to be updated
          :param: name (form) Updated name of the pet
@@ -175,7 +189,9 @@ extension PetstoreClientAPI {
          
          - DELETE /pet/{petId}
          - 
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@4519ab42]
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          
          :param: petId (path) Pet id to delete
 
@@ -200,7 +216,9 @@ extension PetstoreClientAPI {
          
          - POST /pet/{petId}/uploadImage
          - 
-         - authMethods: [com.wordnik.swagger.codegen.CodegenSecurity@183a9d7f]
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
          
          :param: petId (path) ID of pet to update
          :param: additionalMetadata (form) Additional data to pass to server
