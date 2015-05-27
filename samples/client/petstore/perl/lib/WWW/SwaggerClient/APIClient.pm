@@ -15,20 +15,16 @@ use URI::Escape;
 use Scalar::Util;
 use Log::Any qw($log);
 use Carp;
-use Switch;
 use Module::Runtime qw(use_module);
-
-# class variables
-my $ua = LWP::UserAgent->new;
-my $http_user_agent = 'Perl-Swagger'; # HTTP user-agent
-my $http_timeout; #timeout
-my $base_url = "http://petstore.swagger.io/v2";
-
 
 sub new
 {
   my $class = shift;
-  my %args = @_;
+  my (%args) = (
+    'ua' => LWP::UserAgent->new,
+    'base_url' => 'http://petstore.swagger.io/v2',
+    @_
+  );
 
   return bless \%args, $class;
 }
@@ -38,8 +34,8 @@ sub new
 # @param string $user_agent The user agent of the API client
 #
 sub set_user_agent {
-  my $user_agent = shift;
-  $http_user_agent= $user_agent;
+  my ($self, $user_agent) = @_;
+  $self->{http_user_agent}= $user_agent;
 }
 
 # Set timeout
@@ -47,11 +43,11 @@ sub set_user_agent {
 # @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
 # 
 sub set_timeout {
-  my $seconds = shift;
+  my ($self, $seconds) = @_;
   if (!looks_like_number($seconds)) {
     croak('Timeout variable must be numeric.');
   }
-  $http_timeout = $seconds;
+  $self->{http_timeout} = $seconds;
 }
 
 # make the HTTP request
@@ -67,7 +63,7 @@ sub call_api {
 
   my $headers = HTTP::Headers->new(%$header_params);
 
-  my $_url = $base_url . $resource_path;
+  my $_url = $self->{base_url} . $resource_path;
 
   # build query 
   if (%$query_params) {
@@ -80,43 +76,42 @@ sub call_api {
 
   # Make the HTTP request
   my $_request;
-  switch ($method) {
-    case 'POST' {
+  if ($method eq 'POST') {
       # multipart
       my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
 
       $_request = POST($_url, Accept => $header_params->{Accept},
         Content_Type => $_content_type, Content => $_body_data);
-    }
-    case 'PUT' {
+  }
+  elsif ($method eq 'PUT') {
       # multipart
       my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
       $_request = PUT($_url, Accept => $header_params->{Accept},
         Content_Type => $_content_type, Content => $_body_data);
-    }
-    case 'GET' {
+  }
+  elsif ($method eq 'GET') {
       $_request = GET($_url, Accept => $header_params->{'Accept'},
         Content_Type => $header_params->{'Content-Type'});
-    }
-    case 'HEAD' {
+  }
+  elsif ($method eq 'HEAD') {
       $_request = HEAD($_url, Accept => $header_params->{'Accept'},
         Content_Type => $header_params->{'Content-Type'});
-    }
-    case 'DELETE' { #TODO support form data
+  }
+  elsif ($method eq 'DELETE') { #TODO support form data
       $_request = DELETE($_url, Accept => $header_params->{'Accept'},
         Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
-    }
-    case 'PATCH' { #TODO
-    }
-
+  }
+  elsif ($method eq 'PATCH') { #TODO
+  }
+  else {
   }
  
-  $ua->timeout($http_timeout); 
-  $ua->agent($http_user_agent);
+  $self->{ua}->timeout($self->{http_timeout} || $WWW::SwaggerClient::Configuration::http_timeout); 
+  $self->{ua}->agent($self->{http_user_agent} || $WWW::SwaggerClient::Configuration::http_user_agent);
   
-  my $_response = $ua->request($_request);
+  my $_response = $self->{ua}->request($_request);
 
   unless ($_response->is_success) {
     croak("API Exception(".$_response->code."): ".$_response->message);
@@ -126,41 +121,13 @@ sub call_api {
 
 }
 
-
-# Build a JSON POST object
-sub sanitize_for_serialization
-{
-#  my $data = shift;
-#  if (is_scalar($data) || null === $data) {
-#    $sanitized = $data;
-#  } else if ($data instanceof \DateTime) {
-#    $sanitized = $data->format(\DateTime::ISO8601);
-#  } else if (is_array($data)) {
-#    foreach ($data as $property => $value) {
-#      $data[$property] = $this->sanitizeForSerialization($value);
-#    }
-#    $sanitized = $data;
-#  } else if (is_object($data)) {
-#    $values = array();
-#    foreach (array_keys($data::$swaggerTypes) as $property) {
-#      $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$property);
-#    }
-#    $sanitized = $values;
-#  } else {
-#    $sanitized = (string)$data;
-#  }
-#
-#  return $sanitized;
-}
-
-
 #  Take value and turn it into a string suitable for inclusion in
 #  the path, by url-encoding.
 #  @param string $value a string which will be part of the path
 #  @return string the serialized object
 sub to_path_value {
-    my $value = shift;
-    return uri_escape(to_string($value));
+    my ($self, $value) = @_;
+    return uri_escape($self->to_string($value));
 }
 
 
@@ -171,11 +138,11 @@ sub to_path_value {
 # @param object $object an object to be serialized to a string
 # @return string the serialized object
 sub to_query_value {
-      my $object = shift;
+      my ($self, $object) = @_;
       if (is_array($object)) {
           return implode(',', $object);
       } else {
-          return toString($object);
+          return $self->to_string($object);
       }
 }
 
@@ -186,8 +153,8 @@ sub to_query_value {
 # @param string $value a string which will be part of the header
 # @return string the header string
 sub to_header_value {
-    my $value = shift;
-    return to_string($value);
+    my ($self, $value) = @_;
+    return $self->to_string($value);
 }
 
 # Take value and turn it into a string suitable for inclusion in
@@ -196,8 +163,8 @@ sub to_header_value {
 # @param string $value the value of the form parameter
 # @return string the form string
 sub to_form_value {
-    my $value = shift;
-    return to_string($value);
+    my ($self, $value) = @_;
+    return $self->to_string($value);
 }
 
 # Take value and turn it into a string suitable for inclusion in
@@ -206,7 +173,7 @@ sub to_form_value {
 # @param string $value the value of the parameter
 # @return string the header string
 sub to_string {
-  my $value = shift;
+  my ($self, $value) = @_;
   if (ref($value) eq "DateTime") { # datetime in ISO8601 format
     return $value->datetime();
   }
