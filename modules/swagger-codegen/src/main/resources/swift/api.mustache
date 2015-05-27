@@ -21,7 +21,9 @@ extension {{projectName}}API {
          - {{{notes}}}{{/notes}}{{#subresourceOperation}}
          - subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
          - defaultResponse: {{defaultResponse}}{{/defaultResponse}}{{#authMethods}}
-         - authMethods: {{authMethods}}{{/authMethods}}{{#responseHeaders}}
+         - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+           - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
+           - name: {{name}}{{/authMethods}}{{#responseHeaders}}
          - responseHeaders: {{responseHeaders}}{{/responseHeaders}}{{#examples}}
          - examples: {{{examples}}}{{/examples}}{{#externalDocs}}
          - externalDocs: {{externalDocs}}{{/externalDocs}}{{#hasParams}}
