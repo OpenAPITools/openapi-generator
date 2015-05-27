@@ -62,11 +62,12 @@ class ApiClient(object):
                body=None, post_params=None, files=None, response=None, auth_settings=None):
 
     # headers parameters
-    headers_params = self.default_headers.copy().update(header_params)
+    header_params = header_params or {}
+    header_params.update(self.default_headers)
     if self.cookie:
-      headers_params['Cookie'] = self.cookie
-    if headers_params:
-      headers_params = ApiClient.sanitize_for_serialization(headers_params)
+      header_params['Cookie'] = self.cookie
+    if header_params:
+      header_params = ApiClient.sanitize_for_serialization(header_params)
 
     # path parameters
     if path_params:
@@ -86,7 +87,7 @@ class ApiClient(object):
       post_params = self.sanitize_for_serialization(post_params)
 
     # auth setting
-    self.update_params_for_auth(headers_params, query_params, auth_settings)
+    self.update_params_for_auth(header_params, query_params, auth_settings)
 
     # body
     if body:
@@ -96,7 +97,7 @@ class ApiClient(object):
     url = self.host + resource_path
 
     # perform request and return response
-    response_data = self.request(method, url, query_params=query_params, headers=headers_params,
+    response_data = self.request(method, url, query_params=query_params, headers=header_params,
                                  post_params=post_params, body=body)
 
     # deserialize response data
@@ -299,5 +300,6 @@ class ApiClient(object):
           querys[auth_setting['key']] = auth_setting['value']
         else:
           raise ValueError('Authentication token must be in `query` or `header`')
+
 
 
