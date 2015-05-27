@@ -32,12 +32,12 @@ extension {{projectName}}API {
 
          :returns: Promise<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> {{description}}
          */
-        func {{operationId}}({{#allParams}}{{^secondaryParam}}#{{/secondaryParam}}{{paramName}}: {{{dataType}}}{{#supressRequired}}?{{/supressRequired}}{{^supressRequired}}{{^required}}?{{/required}}{{/supressRequired}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
+        func {{operationId}}({{#allParams}}{{^secondaryParam}}#{{/secondaryParam}}{{paramName}}: {{{dataType}}}{{#suppressRequired}}?{{/suppressRequired}}{{^suppressRequired}}{{^required}}?{{/required}}{{/suppressRequired}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
             {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{path}}"{{#pathParams}}
             path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}})", options: .LiteralSearch, range: nil){{/pathParams}}
             let url = {{projectName}}API.basePath + path
             {{#bodyParam}}
-            let parameters = {{paramName}}{{#supressRequired}}?{{/supressRequired}}{{^supressRequired}}{{^required}}?{{/required}}{{/supressRequired}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
+            let parameters = {{paramName}}{{#suppressRequired}}?{{/suppressRequired}}{{^suppressRequired}}{{^required}}?{{/required}}{{/suppressRequired}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
             let nillableParameters: [String:AnyObject?] = {{^queryParams}}[:]{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
                 "{{paramName}}": {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
             ]{{/hasMore}}{{/queryParams}}
