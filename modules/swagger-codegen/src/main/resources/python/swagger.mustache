@@ -87,7 +87,7 @@ class ApiClient(object):
       post_params = self.sanitize_for_serialization(post_params)
 
     # auth setting
-    self.update_params_for_auth(header_params, query_params, auth_settings)
+    self.update_params_for_auth(headers, query_params, auth_settings)
 
     # body
     if body:
