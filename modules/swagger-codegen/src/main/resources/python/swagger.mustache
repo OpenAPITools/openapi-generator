@@ -62,12 +62,11 @@ class ApiClient(object):
                body=None, post_params=None, files=None, response=None, auth_settings=None):
 
     # headers parameters
-    headers = self.default_headers.copy()
-    headers.update(header_params)
+    headers_params = self.default_headers.copy().update(header_params)
     if self.cookie:
-      headers['Cookie'] = self.cookie
-    if headers:
-      headers = self.sanitize_for_serialization(headers)
+      headers_params['Cookie'] = self.cookie
+    if headers_params:
+      headers_params = ApiClient.sanitize_for_serialization(headers_params)
 
     # path parameters
     if path_params:
@@ -87,7 +86,7 @@ class ApiClient(object):
       post_params = self.sanitize_for_serialization(post_params)
 
     # auth setting
-    self.update_params_for_auth(headers, query_params, auth_settings)
+    self.update_params_for_auth(headers_params, query_params, auth_settings)
 
     # body
     if body:
@@ -97,7 +96,7 @@ class ApiClient(object):
     url = self.host + resource_path
 
     # perform request and return response
-    response_data = self.request(method, url, query_params=query_params, headers=headers,
+    response_data = self.request(method, url, query_params=query_params, headers=headers_params,
                                  post_params=post_params, body=body)
 
     # deserialize response data
