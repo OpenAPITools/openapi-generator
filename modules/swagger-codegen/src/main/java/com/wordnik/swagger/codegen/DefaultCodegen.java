@@ -87,6 +87,14 @@ public class DefaultCodegen {
     if(additionalProperties.containsKey("t")) {
       this.setTemplateDir((String)additionalProperties.get("t"));
     }
+    
+    if(additionalProperties.containsKey("modelPackage")) {
+      this.setModelPackage((String)additionalProperties.get("modelPackage"));
+    }
+    
+    if(additionalProperties.containsKey("apiPackage")) {
+      this.setApiPackage((String)additionalProperties.get("apiPackage"));
+    }
   }
 
   // override with any special post-processing
@@ -181,6 +189,14 @@ public class DefaultCodegen {
 
   public void setTemplateDir(String templateDir) {
     this.templateDir = templateDir;
+  }
+
+  public void setModelPackage(String modelPackage) {
+    this.modelPackage = modelPackage;
+  }
+
+  public void setApiPackage(String apiPackage) {
+    this.apiPackage = apiPackage;
   }
 
   public String toApiFilename(String name) {
@@ -288,6 +304,8 @@ public class DefaultCodegen {
     importMapping.put("LocalTime", "org.joda.time.*");
     
     cliOptions.add(new CliOption("t", "template-dir", true, "folder containing the template files"));
+    cliOptions.add(new CliOption("modelPackage", "model-package", true, "Package for generated models"));
+    cliOptions.add(new CliOption("apiPackage", "api-package", true, "Package for generated api classes"));
   }
 
 
