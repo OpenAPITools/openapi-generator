@@ -28,9 +28,6 @@ use Carp qw( croak );
 use Log::Any qw($log);
 
 
-#use WWW::Swagger::Model::Category;
-#use WWW::Swagger::Model::Pet;
-
 
 use WWW::SwaggerClient::APIClient;
 
@@ -95,9 +92,6 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
-
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
@@ -144,13 +138,10 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -200,18 +191,15 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'order_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -261,18 +249,15 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'order_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       

@@ -28,9 +28,6 @@ use Carp qw( croak );
 use Log::Any qw($log);
 
 
-#use WWW::Swagger::Model::Category;
-#use WWW::Swagger::Model::Pet;
-
 {{#operations}}
 
 use WWW::{{invokerPackage}}::APIClient;
@@ -92,36 +89,33 @@ sub new {
       }
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type({{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}});
 
-      {{#queryParams}} # query params
+      {{#queryParams}}# query params
       if ( exists $args{'{{paramName}}'}) {
-        $query_params->{'{{baseName}}'} = WWW::{{invokerPacakge}}::APIClient::to_query_value($args{'{{paramName}}'});
+        $query_params->{'{{baseName}}'} = $self->{api_client}->to_query_value($args{'{{paramName}}'});
       }{{/queryParams}}
-      {{#headerParams}} # header params
+      {{#headerParams}}# header params
       if ( exists $args{'{{paramName}}'}) {
-        $header_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_header_value($args{'{{paramName}}'});
+        $header_params->{'{{baseName}}'} = $self->{api_client}->to_header_value($args{'{{paramName}}'});
       }{{/headerParams}}
-      {{#pathParams}} # path params
+      {{#pathParams}}# path params
       if ( exists $args{'{{paramName}}'}) {
         my $_base_variable = "{" . "{{baseName}}" . "}";
-        my $_base_value = WWW::{{invokerPackage}}::APIClient::to_path_value($args{'{{paramName}}'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'{{paramName}}'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }{{/pathParams}}
-      {{#formParams}} # form params
+      {{#formParams}}# form params
       if ( exists $args{'{{paramName}}'} ) {
         {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
         push $form_params->{'{{baseName}}'}, $args{'{{paramName}}'};
         {{/isFile}}
-        {{^isFile}}$form_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_form_value($args{'{{paramName}}'});
+        {{^isFile}}$form_params->{'{{baseName}}'} = $self->{api_client}->to_form_value($args{'{{paramName}}'});
         {{/isFile}}
       }{{/formParams}}
       my $_body_data;
-      {{#bodyParams}} # body params
+      {{#bodyParams}}# body params
       if ( exists $args{'{{paramName}}'}) {
         $_body_data = $args{'{{paramName}}'};
       }{{/bodyParams}}
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,

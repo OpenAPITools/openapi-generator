@@ -28,9 +28,6 @@ use Carp qw( croak );
 use Log::Any qw($log);
 
 
-#use WWW::Swagger::Model::Category;
-#use WWW::Swagger::Model::Pet;
-
 
 use WWW::SwaggerClient::APIClient;
 
@@ -98,13 +95,10 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       
@@ -149,13 +143,10 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       
@@ -200,13 +191,10 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       
@@ -247,21 +235,18 @@ sub new {
       }
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-       # query params
+      # query params
       if ( exists $args{'username'}) {
-        $query_params->{'username'} = WWW::::APIClient::to_query_value($args{'username'});
-      } # query params
+        $query_params->{'username'} = $self->{api_client}->to_query_value($args{'username'});
+      }# query params
       if ( exists $args{'password'}) {
-        $query_params->{'password'} = WWW::::APIClient::to_query_value($args{'password'});
+        $query_params->{'password'} = $self->{api_client}->to_query_value($args{'password'});
       }
       
       
       
       my $_body_data;
       
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -310,9 +295,6 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
-
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
@@ -358,18 +340,15 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -420,21 +399,18 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       
@@ -481,18 +457,15 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
-
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
 
       # make the API Call
       
