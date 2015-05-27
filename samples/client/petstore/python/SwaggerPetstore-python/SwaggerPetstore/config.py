@@ -1,20 +1,22 @@
 import base64
+import urllib3
 
 
 def get_api_key_with_prefix(key):
     global api_key
     global api_key_prefix
 
-    if api_key_prefix[key]:
+    if api_key.get(key) and api_key_prefix.get(key):
       return api_key_prefix[key] + ' ' + api_key[key]
-    else:
+    elif api_key.get(key):
       return api_key[key]
 
 def get_basic_auth_token():
     global username
     global password
 
-    return base64.base64encode('Basic ' + username + password)
+    if username and password:
+        return urllib3.util.make_headers(basic_auth=username + ':' + password).get('authorization')
 
 def auth_settings():
     return { 
