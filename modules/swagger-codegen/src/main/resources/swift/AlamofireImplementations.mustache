@@ -45,7 +45,8 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             }
             if res!.statusCode >= 400 {
                 //TODO: Add error entity
-                let error = NSError(domain: res!.URL!.URLString, code: res!.statusCode, userInfo: [:])
+                let userInfo: [NSObject : AnyObject] = (json != nil) ? ["data": json!] : [:]
+                let error = NSError(domain: res!.URL!.URLString, code: res!.statusCode, userInfo: userInfo)
                 defer.reject(error)
                 return
             }
