@@ -1,2 +1,49 @@
+import base64
+
+
+def get_api_key_with_prefix(key):
+    global api_key
+    global api_key_prefix
+
+    if api_key_prefix[key]:
+      return api_key_prefix[key] + ' ' + api_key[key]
+    else:
+      return api_key[key]
+
+def get_basic_auth_token():
+    global username
+    global password
+
+    return base64.base64encode('Basic ' + username + password)
+
+def auth_settings():
+    return { {{#authMethods}}{{#isApiKey}}
+               '{{name}}': {
+                   'type': 'api_key',
+                   'in': {{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
+                   'key': '{{keyParamName}}',
+                   'value': get_api_key_with_prefix('{{keyParamName}}')
+               },
+             {{/isApiKey}}{{#isBasic}}
+               '{{name}}': {
+                   'type': 'basic',
+                   'in': 'header',
+                   'key': 'Authorization',
+                   'value': get_basic_auth_token()
+               },
+             {{/isBasic}}{{/authMethods}}
+           }
+
+
+
 # Default Base url
-HOST = "{{basePath}}"
+host = "{{basePath}}"
+
+# Authentication settings
+
+api_key = {}
+api_key_prefix = {}
+username = ''
+password = ''
+
+
