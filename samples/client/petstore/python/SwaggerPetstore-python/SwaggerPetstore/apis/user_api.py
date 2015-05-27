@@ -76,9 +76,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def create_users_with_array_input(self, **kwargs):
         """
@@ -117,9 +120,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def create_users_with_list_input(self, **kwargs):
         """
@@ -158,9 +164,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def login_user(self, **kwargs):
         """
@@ -200,9 +209,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='str')
+                                            response='str', auth_settings=auth_settings)
         
         return response
         
@@ -242,9 +254,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def get_user_by_name(self, username, **kwargs):
         """
@@ -287,9 +302,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='User')
+                                            response='User', auth_settings=auth_settings)
         
         return response
         
@@ -335,9 +353,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def delete_user(self, username, **kwargs):
         """
@@ -380,9 +401,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
 
 

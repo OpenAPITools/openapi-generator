@@ -12,6 +12,7 @@ import time
 import unittest
 
 import SwaggerPetstore
+import SwaggerPetstore.config
 
 HOST = 'http://petstore.swagger.io/v2'
 
@@ -20,6 +21,31 @@ class ApiClientTests(unittest.TestCase):
 
     def setUp(self):
         self.api_client = SwaggerPetstore.ApiClient(HOST)
+
+    def test_configuratjion(self):
+        SwaggerPetstore.config.api_key['api_key'] = '123456'
+        SwaggerPetstore.config.api_key_prefix['api_key'] = 'PREFIX'
+        SwaggerPetstore.config.username = 'test_username'
+        SwaggerPetstore.config.password = 'test_password'
+
+        header_params = {'test1': 'value1'}
+        query_params = {'test2': 'value2'}
+        auth_settings = ['api_key', 'unknown']
+
+        # test prefix
+        self.assertEqual('PREFIX', SwaggerPetstore.config.api_key_prefix['api_key'])
+
+        # update parameters based on auth setting
+        self.api_client.update_params_for_auth(header_params, query_params, auth_settings)
+
+        # test api key auth
+        self.assertEqual(header_params['test1'], 'value1')
+        self.assertEqual(header_params['api_key'], 'PREFIX 123456')
+        self.assertEqual(query_params['test2'], 'value2')
+
+        # test basic auth
+        self.assertEqual('test_username', SwaggerPetstore.config.username)
+        self.assertEqual('test_password', SwaggerPetstore.config.password)
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']

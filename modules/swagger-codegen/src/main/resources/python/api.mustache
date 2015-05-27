@@ -81,9 +81,12 @@ class {{classname}}(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
 
+        # Authentication setting
+        auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}})
+                                            response={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}}, auth_settings=auth_settings)
         {{#returnType}}
         return response
         {{/returnType}}{{/operation}}
