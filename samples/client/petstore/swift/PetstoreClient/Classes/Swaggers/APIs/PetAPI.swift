@@ -141,7 +141,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Pet>> 
          */
-        func getPetById(#petId: Int) -> RequestBuilder<Pet> {
+        func getPetById(#petId: Int?) -> RequestBuilder<Pet> {
             var path = "/pet/{petId}"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -170,7 +170,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func updatePetWithForm(#petId: String, name: String?, status: String?) -> RequestBuilder<Void> {
+        func updatePetWithForm(#petId: String?, name: String?, status: String?) -> RequestBuilder<Void> {
             var path = "/pet/{petId}"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -197,7 +197,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func deletePet(#petId: Int) -> RequestBuilder<Void> {
+        func deletePet(#petId: Int?) -> RequestBuilder<Void> {
             var path = "/pet/{petId}"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -226,7 +226,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func uploadFile(#petId: Int, additionalMetadata: String?, file: NSData?) -> RequestBuilder<Void> {
+        func uploadFile(#petId: Int?, additionalMetadata: String?, file: NSData?) -> RequestBuilder<Void> {
             var path = "/pet/{petId}/uploadImage"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path

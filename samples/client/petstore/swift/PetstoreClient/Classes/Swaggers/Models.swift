@@ -149,8 +149,8 @@ class Decoders {
                 var instance = Pet()
                 instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
                 instance.category = Decoders.decodeOptional(clazz: Category.self, source: sourceDictionary["category"])
-                instance.name = Decoders.decode(clazz: String.self, source: sourceDictionary["name"]!)
-                instance.photoUrls = Decoders.decode(clazz: Array.self, source: sourceDictionary["photoUrls"]!)
+                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
+                instance.photoUrls = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["photoUrls"])
                 instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"])
                 instance.status = (sourceDictionary["status"] as? String).map { Pet.Status(rawValue: $0)! } 
                 return instance

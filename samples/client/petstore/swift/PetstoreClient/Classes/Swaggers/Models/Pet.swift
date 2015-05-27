@@ -18,8 +18,8 @@ class Pet: JSONEncodable {
     
     var id: Int?
     var category: Category?
-    var name: String!
-    var photoUrls: [String]!
+    var name: String?
+    var photoUrls: [String]?
     var tags: [Tag]?
     /** pet status in the store */
     var status: Status?
@@ -31,7 +31,7 @@ class Pet: JSONEncodable {
         nillableDictionary["id"] = self.id
         nillableDictionary["category"] = self.category?.encodeToJSON()
         nillableDictionary["name"] = self.name
-        nillableDictionary["photoUrls"] = self.photoUrls.encodeToJSON()
+        nillableDictionary["photoUrls"] = self.photoUrls?.encodeToJSON()
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]

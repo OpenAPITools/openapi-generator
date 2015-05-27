@@ -141,7 +141,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<User>> 
          */
-        func getUserByName(#username: String) -> RequestBuilder<User> {
+        func getUserByName(#username: String?) -> RequestBuilder<User> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -166,7 +166,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func updateUser(#username: String, body: User?) -> RequestBuilder<Void> {
+        func updateUser(#username: String?, body: User?) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -189,7 +189,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func deleteUser(#username: String) -> RequestBuilder<Void> {
+        func deleteUser(#username: String?) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
