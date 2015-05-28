@@ -59,11 +59,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     instantiationTypes.put("array", "ArrayList");
     instantiationTypes.put("map", "HashMap");
     
-    cliOptions.add(new CliOption("invokerPackage", "invoker-package", true, "Root package for generated code", true));
-    cliOptions.add(new CliOption("groupId", "group-id", true, "groupId in pom.xml", true));
-    cliOptions.add(new CliOption("artifactId", "artifact-id", true, "groupId in pom.xml", true));
-    cliOptions.add(new CliOption("artifactVersion", "artifact-version", true, "artifact version in pom.xml", true));
-    cliOptions.add(new CliOption("sourceFolder", "source-folder", true, "Source folder for generated code", true));
+    cliOptions.add(new CliOption("invokerPackage", "root package for generated code"));
+    cliOptions.add(new CliOption("groupId", "groupId in generated pom.xml"));
+    cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
+    cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
+    cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
   }
 
   @Override
