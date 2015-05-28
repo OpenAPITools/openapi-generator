@@ -1,4 +1,4 @@
-package WWW::SwaggerClient::APIClient;
+package WWW::SwaggerClient::ApiClient;
 
 use strict;
 use warnings;
