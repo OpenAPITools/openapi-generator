@@ -85,7 +85,7 @@ public class DefaultCodegen {
 
   public void processOpts(){
     if(additionalProperties.containsKey("templateDir")) {
-      this.setTemplateDir((String)additionalProperties.get("t"));
+      this.setTemplateDir((String)additionalProperties.get("templateDir"));
     }
     
     if(additionalProperties.containsKey("modelPackage")) {
