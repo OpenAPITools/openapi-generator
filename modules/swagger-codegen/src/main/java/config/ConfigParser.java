@@ -15,7 +15,7 @@ public class ConfigParser {
 
   public static Config read(String location) {
 
-    System.out.println("reading cofig from " + location);
+    System.out.println("reading config from " + location);
 
     ObjectMapper mapper = new ObjectMapper();
     
