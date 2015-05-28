@@ -6,12 +6,12 @@ use strict;
 use warnings;
 
 use_ok('WWW::SwaggerClient::PetApi');
-use_ok('WWW::SwaggerClient::APIClient');
+use_ok('WWW::SwaggerClient::ApiClient');
 use_ok('WWW::SwaggerClient::Object::Pet');
 use_ok('WWW::SwaggerClient::Object::Tag');
 use_ok('WWW::SwaggerClient::Object::Category');
 
-my $api_client = WWW::SwaggerClient::APIClient->new('base_url' => 'http://testing');
+my $api_client = WWW::SwaggerClient::ApiClient->new('base_url' => 'http://testing');
 my $pet_api = WWW::SwaggerClient::PetApi->new('api_client' => $api_client);
 is $pet_api->{api_client}->{base_url}, 'http://testing', 'get the proper base URL from api client';
 

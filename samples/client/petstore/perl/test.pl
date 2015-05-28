@@ -5,7 +5,7 @@ use lib 'lib';
 use strict;
 use warnings;
 use WWW::SwaggerClient::PetApi;
-use WWW::SwaggerClient::APIClient;
+use WWW::SwaggerClient::ApiClient;
 use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::Object::Pet;
 use WWW::SwaggerClient::Object::Tag;

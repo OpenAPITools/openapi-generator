@@ -27,7 +27,7 @@ use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
 
-use WWW::{{invokerPackage}}::APIClient;
+use WWW::{{invokerPackage}}::ApiClient;
 use WWW::{{invokerPackage}}::Configuration;
 
 {{#operations}}
@@ -38,7 +38,7 @@ our @EXPORT_OK = qw(
 
 sub new {
     my $class   = shift;
-    my $default_api_client = $WWW::{{invokerPackage}}::Configuration::api_client ? $WWW::{{invokerPackage}}::Configuration::api_client  : WWW::{{invokerPackage}}::APIClient->new;
+    my $default_api_client = $WWW::{{invokerPackage}}::Configuration::api_client ? $WWW::{{invokerPackage}}::Configuration::api_client  : WWW::{{invokerPackage}}::ApiClient->new;
     my (%self) = (
         'api_client' => $default_api_client,
         @_

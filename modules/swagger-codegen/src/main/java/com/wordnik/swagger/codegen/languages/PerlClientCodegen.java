@@ -76,7 +76,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("array", "ARRAY");
     typeMapping.put("map", "HASH");
 
-    supportingFiles.add(new SupportingFile("APIClient.mustache", "lib/WWW/" + invokerPackage, "APIClient.pm"));
+    supportingFiles.add(new SupportingFile("ApiClient.mustache", "lib/WWW/" + invokerPackage, "ApiClient.pm"));
     supportingFiles.add(new SupportingFile("Configuration.mustache", "lib/WWW/" + invokerPackage, "Configuration.pm"));
     supportingFiles.add(new SupportingFile("BaseObject.mustache", "lib/WWW/" + invokerPackage, "Object/BaseObject.pm"));
   }
