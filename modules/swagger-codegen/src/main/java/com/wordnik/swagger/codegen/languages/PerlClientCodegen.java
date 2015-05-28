@@ -27,7 +27,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public PerlClientCodegen() {
     super();
-    modelPackage = "Object";
+    modelPackage = "/Object";
     outputFolder = "generated-code/perl";
     modelTemplateFiles.put("object.mustache", ".pm");
     apiTemplateFiles.put("api.mustache", ".pm");
@@ -76,9 +76,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("array", "ARRAY");
     typeMapping.put("map", "HASH");
 
-    supportingFiles.add(new SupportingFile("ApiClient.mustache", "lib/WWW/" + invokerPackage, "ApiClient.pm"));
-    supportingFiles.add(new SupportingFile("Configuration.mustache", "lib/WWW/" + invokerPackage, "Configuration.pm"));
-    supportingFiles.add(new SupportingFile("BaseObject.mustache", "lib/WWW/" + invokerPackage, "Object/BaseObject.pm"));
+    supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "ApiClient.pm"));
+    supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "Configuration.pm"));
+    supportingFiles.add(new SupportingFile("BaseObject.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "Object/BaseObject.pm"));
   }
 
   @Override
@@ -88,11 +88,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
   
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/lib/WWW/" + invokerPackage + apiPackage().replace('.', File.separatorChar);
+    return (outputFolder + "/lib/WWW/" + invokerPackage + apiPackage()).replace('/', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/lib/WWW/" + invokerPackage + "/" + modelPackage().replace('.', File.separatorChar);
+    return (outputFolder + "/lib/WWW/" + invokerPackage + modelPackage()).replace('/', File.separatorChar);
   }
 
   @Override
