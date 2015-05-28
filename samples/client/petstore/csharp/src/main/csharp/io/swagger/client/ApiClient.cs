@@ -7,14 +7,16 @@ using System.Text;
 using Newtonsoft.Json;
 using RestSharp;
 
-namespace {{invokerPackage}} {
-  public class ApiInvoker {
-    public ApiInvoker() {
-      this.basePath = "{{basePath}}";
+namespace IO.Swagger.Client {
+  public class ApiClient {
+    public ApiClient() {
+      this.basePath = "http://petstore.swagger.io/v2";
+      this.restClient = new RestClient(this.basePath);
     }
 
-    public ApiInvoker(String basePath) {
+    public ApiClient(String basePath) {
       this.basePath = basePath;
+      this.restClient = new RestClient(this.basePath);
     }
 
     public string basePath { get; set; }
@@ -43,10 +45,10 @@ namespace {{invokerPackage}} {
         request.AddParameter(param.Key, param.Value);
 
       // add file parameter, if any
-      foreach(KeyValuePair<string, string> param in FormParams)
+      foreach(KeyValuePair<string, string> param in FileParams)
         request.AddFile(param.Key, param.Value);
 
-      if (PostBody == null) {
+      if (PostBody != null) {
         request.AddParameter("application/json", PostBody, ParameterType.RequestBody); // http body (model) parameter
       }
 

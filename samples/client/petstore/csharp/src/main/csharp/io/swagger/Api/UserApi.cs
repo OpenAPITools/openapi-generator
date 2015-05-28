@@ -8,12 +8,25 @@ namespace IO.Swagger.Api {
   
   public class UserApi {
     string basePath;
-    public ApiInvoker apiClient {get; set;}
+    public ApiClient apiClient {get; set;}
 
     public UserApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      this.apiClient = new ApiInvoker(basePath);
+      this.apiClient = new ApiClient(basePath);
+    }
+
+    /// <summary>
+    /// Create a new object 
+    /// </summary>
+    /// <param name="apiClient"> an instance of ApiClient
+    /// <returns></returns>
+    public UserApi(ApiClient apiClient = null) {
+      if (apiClient == null) { // use the default one in Configuration
+        this.apiClient = Configuration.apiClient; 
+      } else {
+        this.apiClient = apiClient;
+      }
     }
 
     /// <summary>
@@ -33,7 +46,6 @@ namespace IO.Swagger.Api {
       return this.basePath;
     }
 
-    
     
     /// <summary>
     /// Create user This can only be done by the logged in user.
@@ -61,7 +73,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.Content);
@@ -69,7 +81,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Creates list of users with given input array 
@@ -97,7 +108,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/createWithArray", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content);
@@ -105,7 +116,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Creates list of users with given input array 
@@ -133,7 +143,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/createWithList", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.Content);
@@ -141,7 +151,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Logs user into the system 
@@ -171,14 +180,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/login", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content);
       }
       return (string) apiClient.Deserialize(response.Content, typeof(string));
     }
-    
     
     /// <summary>
     /// Logs out current logged in user session 
@@ -204,7 +212,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/logout", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.Content);
@@ -212,7 +220,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Get user by user name 
@@ -243,14 +250,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/{username}", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content);
       }
       return (User) apiClient.Deserialize(response.Content, typeof(User));
     }
-    
     
     /// <summary>
     /// Updated user This can only be done by the logged in user.
@@ -283,7 +289,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/{username}", Method.PUT, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.Content);
@@ -291,7 +297,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Delete user This can only be done by the logged in user.
@@ -322,7 +327,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/user/{username}", Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.Content);

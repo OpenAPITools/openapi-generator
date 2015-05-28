@@ -8,12 +8,25 @@ namespace IO.Swagger.Api {
   
   public class StoreApi {
     string basePath;
-    public ApiInvoker apiClient {get; set;}
+    public ApiClient apiClient {get; set;}
 
     public StoreApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      this.apiClient = new ApiInvoker(basePath);
+      this.apiClient = new ApiClient(basePath);
+    }
+
+    /// <summary>
+    /// Create a new object 
+    /// </summary>
+    /// <param name="apiClient"> an instance of ApiClient
+    /// <returns></returns>
+    public StoreApi(ApiClient apiClient = null) {
+      if (apiClient == null) { // use the default one in Configuration
+        this.apiClient = Configuration.apiClient; 
+      } else {
+        this.apiClient = apiClient;
+      }
     }
 
     /// <summary>
@@ -33,7 +46,6 @@ namespace IO.Swagger.Api {
       return this.basePath;
     }
 
-    
     
     /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -59,14 +71,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/inventory", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content);
       }
       return (Dictionary<String, int?>) apiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>));
     }
-    
     
     /// <summary>
     /// Place an order for a pet 
@@ -94,14 +105,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/order", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content);
       }
       return (Order) apiClient.Deserialize(response.Content, typeof(Order));
     }
-    
     
     /// <summary>
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
@@ -132,14 +142,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/order/{orderId}", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content);
       }
       return (Order) apiClient.Deserialize(response.Content, typeof(Order));
     }
-    
     
     /// <summary>
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -170,7 +179,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/store/order/{orderId}", Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content);
