@@ -106,9 +106,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     instantiationTypes.put("array", "NSMutableArray");
     instantiationTypes.put("map", "NSMutableDictionary");
     
-    cliOptions.add(new CliOption("classPrefix", "class-prefix", true, "prefix for generated classes", true));
-    cliOptions.add(new CliOption("sourceFolder", "source-folder", true, "source folder for generated code", true));
-    cliOptions.add(new CliOption("projectName", "project-name", true, "name of the Xcode project in generated Podfile", true));
+    cliOptions.add(new CliOption("classPrefix", "prefix for generated classes"));
+    cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+    cliOptions.add(new CliOption("projectName", "name of the Xcode project in generated Podfile"));
   }
 
   @Override

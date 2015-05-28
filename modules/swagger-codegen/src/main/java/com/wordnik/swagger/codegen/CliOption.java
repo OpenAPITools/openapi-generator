@@ -5,40 +5,24 @@
  */
 package com.wordnik.swagger.codegen;
 
-import org.apache.commons.cli.Option;
+public class CliOption {
+  private final String opt;
+  private String description;
 
-public class CliOption extends Option {
-
-  private Boolean langSpecific = false;
-
-  public CliOption(String opt, String description) throws IllegalArgumentException {
-    super(opt, description);
+  public CliOption(String opt, String description) {
+    this.opt = opt;
+    this.description = description;
   }
 
-  public CliOption(String opt, boolean hasArg, String description) throws IllegalArgumentException {
-    super(opt, hasArg, description);
+  public String getOpt() {
+    return opt;
   }
 
-  public CliOption(String opt, String longOpt, boolean hasArg, String description) throws IllegalArgumentException {
-    super(opt, longOpt, hasArg, description);
+  public String getDescription() {
+    return description;
   }
 
-  public CliOption(String opt, String description, Boolean langSpecific) throws IllegalArgumentException {
-    this(opt, description);
-    this.langSpecific = langSpecific;
-  }
-
-  public CliOption(String opt, boolean hasArg, String description, Boolean langSpecific) throws IllegalArgumentException {
-    this(opt, hasArg, description);
-    this.langSpecific = langSpecific;
-  }
-
-  public CliOption(String opt, String longOpt, boolean hasArg, String description, Boolean langSpecific) throws IllegalArgumentException {
-    this(opt, longOpt, hasArg, description);
-    this.langSpecific = langSpecific;
-  }
-
-  public Boolean isLangSpecific() {
-    return langSpecific;
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

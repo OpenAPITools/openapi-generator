@@ -303,8 +303,8 @@ public class DefaultCodegen {
     importMapping.put("LocalDate", "org.joda.time.*");
     importMapping.put("LocalTime", "org.joda.time.*");
     
-    cliOptions.add(new CliOption("modelPackage", "model-package", true, "Package for generated models"));
-    cliOptions.add(new CliOption("apiPackage", "api-package", true, "Package for generated api classes"));
+    cliOptions.add(new CliOption("modelPackage", "package for generated models"));
+    cliOptions.add(new CliOption("apiPackage", "package for generated api classes"));
   }
 
 
