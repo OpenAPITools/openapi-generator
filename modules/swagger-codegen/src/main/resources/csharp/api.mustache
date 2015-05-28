@@ -10,12 +10,25 @@ namespace {{package}} {
   {{#operations}}
   public class {{classname}} {
     string basePath;
-    public ApiInvoker apiClient {get; set;}
+    public ApiClient apiClient {get; set;}
 
     public {{classname}}(String basePath = "{{basePath}}")
     {
       this.basePath = basePath;
-      this.apiClient = new ApiInvoker(basePath);
+      this.apiClient = new ApiClient(basePath);
+    }
+
+    /// <summary>
+    /// Create a new object 
+    /// </summary>
+    /// <param name="apiClient"> an instance of ApiClient
+    /// <returns></returns>
+    public {{classname}}(ApiClient apiClient = null) {
+      if (apiClient == null) { // use the default one in Configuration
+        this.apiClient = Configuration.apiClient; 
+      } else {
+        this.apiClient = apiClient;
+      }
     }
 
     /// <summary>
@@ -36,7 +49,6 @@ namespace {{package}} {
     }
 
     {{#operation}}
-    
     /// <summary>
     /// {{summary}} {{notes}}
     /// </summary>
@@ -71,7 +83,7 @@ namespace {{package}} {
       {{/bodyParam}}
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("{{path}}", Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content);

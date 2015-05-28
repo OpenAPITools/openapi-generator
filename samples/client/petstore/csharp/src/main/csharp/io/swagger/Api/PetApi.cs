@@ -8,12 +8,25 @@ namespace IO.Swagger.Api {
   
   public class PetApi {
     string basePath;
-    public ApiInvoker apiClient {get; set;}
+    public ApiClient apiClient {get; set;}
 
     public PetApi(String basePath = "http://petstore.swagger.io/v2")
     {
       this.basePath = basePath;
-      this.apiClient = new ApiInvoker(basePath);
+      this.apiClient = new ApiClient(basePath);
+    }
+
+    /// <summary>
+    /// Create a new object 
+    /// </summary>
+    /// <param name="apiClient"> an instance of ApiClient
+    /// <returns></returns>
+    public PetApi(ApiClient apiClient = null) {
+      if (apiClient == null) { // use the default one in Configuration
+        this.apiClient = Configuration.apiClient; 
+      } else {
+        this.apiClient = apiClient;
+      }
     }
 
     /// <summary>
@@ -33,7 +46,6 @@ namespace IO.Swagger.Api {
       return this.basePath;
     }
 
-    
     
     /// <summary>
     /// Update an existing pet 
@@ -61,7 +73,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet", Method.PUT, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content);
@@ -69,7 +81,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Add a new pet to the store 
@@ -97,7 +108,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content);
@@ -105,7 +116,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Finds Pets by status Multiple status values can be provided with comma seperated strings
@@ -133,14 +143,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/findByStatus", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content);
       }
       return (List<Pet>) apiClient.Deserialize(response.Content, typeof(List<Pet>));
     }
-    
     
     /// <summary>
     /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
@@ -168,14 +177,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/findByTags", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content);
       }
       return (List<Pet>) apiClient.Deserialize(response.Content, typeof(List<Pet>));
     }
-    
     
     /// <summary>
     /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -206,14 +214,13 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}", Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content);
       }
       return (Pet) apiClient.Deserialize(response.Content, typeof(Pet));
     }
-    
     
     /// <summary>
     /// Updates a pet in the store with form data 
@@ -248,7 +255,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content);
@@ -256,7 +263,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// Deletes a pet 
@@ -289,7 +295,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}", Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content);
@@ -297,7 +303,6 @@ namespace IO.Swagger.Api {
       
       return;
     }
-    
     
     /// <summary>
     /// uploads an image 
@@ -332,7 +337,7 @@ namespace IO.Swagger.Api {
       
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi("/pet/{petId}/uploadImage", Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content);
