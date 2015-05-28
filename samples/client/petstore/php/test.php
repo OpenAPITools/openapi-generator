@@ -3,7 +3,7 @@
 require_once('SwaggerClient-php/SwaggerClient.php');
 
 // initialize the API client
-//$api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+//$api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
 //$api_client->addDefaultHeader("test1", "value1");
 
 // to enable logging

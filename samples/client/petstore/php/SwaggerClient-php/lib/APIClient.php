@@ -17,7 +17,7 @@
 
 namespace SwaggerClient;
 
-class APIClient {
+class ApiClient {
 
   public static $PATCH = "PATCH";
   public static $POST = "POST";
@@ -178,7 +178,7 @@ class APIClient {
    * @param array $headerParams parameters to be place in request header
    * @return mixed
    */
-  public function callAPI($resourcePath, $method, $queryParams, $postData,
+  public function callApi($resourcePath, $method, $queryParams, $postData,
     $headerParams, $authSettings) {
 
     $headers = array();
@@ -233,7 +233,7 @@ class APIClient {
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
     } else if ($method != self::$GET) {
-      throw new APIClientException('Method ' . $method . ' is not recognized.');
+      throw new ApiException('Method ' . $method . ' is not recognized.');
     }
     curl_setopt($curl, CURLOPT_URL, $url);
 
@@ -261,7 +261,7 @@ class APIClient {
 
     // Handle the response
     if ($response_info['http_code'] == 0) {
-      throw new APIClientException("TIMEOUT: api call to " . $url .
+      throw new ApiException("TIMEOUT: api call to " . $url .
         " took more than 5s to return", 0, $response_info, $response);
     } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
       $data = json_decode($response);
@@ -269,12 +269,12 @@ class APIClient {
         $data = $response;
       }
     } else if ($response_info['http_code'] == 401) {
-      throw new APIClientException("Unauthorized API request to " . $url .
+      throw new ApiException("Unauthorized API request to " . $url .
           ": " . serialize($response), 0, $response_info, $response);
     } else if ($response_info['http_code'] == 404) {
       $data = null;
     } else {
-      throw new APIClientException("Can't connect to the api: " . $url .
+      throw new ApiException("Can't connect to the api: " . $url .
         " response code: " .
         $response_info['http_code'], 0, $response_info, $response);
     }
