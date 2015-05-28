@@ -26,7 +26,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public ObjcClientCodegen() {
     super();
-    outputFolder = "generated-code/objc";
+    outputFolder = "generated-code" + File.separator + "objc";
     modelTemplateFiles.put("model-header.mustache", ".h");
     modelTemplateFiles.put("model-body.mustache", ".m");
     apiTemplateFiles.put("api-header.mustache", ".h");
