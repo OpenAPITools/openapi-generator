@@ -31,7 +31,7 @@ class Configuration {
   public static $username = '';
   public static $password = '';
 
-  // an instance of APIClient
+  // an instance of ApiClient
   public static $apiClient;
 
   // debugging
@@ -39,11 +39,11 @@ class Configuration {
   public static $debug_file = 'php://output'; //output debug log to STDOUT by default
 
  /*
-  *  manually initalize  API client
+  *  manually initalize  Api client
   */
   public static function init() {
     if (self::$apiClient === null)
-      self::$apiClient = new APIClient();
+      self::$apiClient = new ApiClient();
   }
 
 }

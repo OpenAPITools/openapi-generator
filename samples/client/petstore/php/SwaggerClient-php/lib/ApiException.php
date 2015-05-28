@@ -19,7 +19,7 @@ namespace SwaggerClient;
 
 use \Exception;
 
-class APIClientException extends Exception {
+class ApiException extends Exception {
   protected $response, $response_info;
 
   public function __construct($message="", $code=0, $response_info=null, $response=null) {
