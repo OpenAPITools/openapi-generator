@@ -61,7 +61,9 @@ public class Generate implements Runnable {
             "the format of name=value,name=value")
     private String systemProperties;
     
-    @Option( name= {"-c", "--config"}, title = "configuration file", description = "path to json configuration file")
+    @Option( name= {"-c", "--config"}, title = "configuration file", description = "Path to json configuration file. " +
+            "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} " +
+            "Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.")
     private String configFile;
 
     @Override
