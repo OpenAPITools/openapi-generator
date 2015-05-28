@@ -47,33 +47,10 @@ public class Codegen extends DefaultGenerator {
     options.addOption("l", "lang", true, "client language to generate.\nAvailable languages include:\n\t[" + configString + "]");
     options.addOption("o", "output", true, "where to write the generated files");
     options.addOption("i", "input-spec", true, "location of the swagger spec, as URL or file");
+    options.addOption("t", "template-dir", true, "folder containing the template files");
     options.addOption("d", "debug-info", false, "prints additional info for debugging");
     options.addOption("a", "auth", true, "adds authorization headers when fetching the swagger definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values");
 
-    //adding additional options from language specific configs
-    Option existingOption;
-    for (Map.Entry<String, CodegenConfig> configEntry : configs.entrySet()) {
-      for (CliOption langCliOption : configEntry.getValue().cliOptions()) {
-        //lang specific option
-        if (langCliOption.isLangSpecific()) {
-          //option exists, update description
-          if (options.hasOption(langCliOption.getOpt())) {
-            existingOption = options.getOption(langCliOption.getOpt());
-            existingOption.setDescription(existingOption.getDescription() + "\n" + configEntry.getKey() + ": " + langCliOption.getDescription());
-          } else {
-            //new option, prepend 'lang: ' to the description and add
-            langCliOption.setDescription(configEntry.getKey() + ": " + langCliOption.getDescription());
-            options.addOption((Option) langCliOption);
-          }
-        } else {
-          //not lang specific, add if not already there
-          if (!options.hasOption(langCliOption.getOpt())) {
-            options.addOption((Option) langCliOption);
-          }
-        }
-      }
-    }
-    
     ClientOptInput clientOptInput = new ClientOptInput();
     ClientOpts clientOpts = new ClientOpts();
     Swagger swagger = null;
@@ -113,13 +90,8 @@ public class Codegen extends DefaultGenerator {
       }
       if (cmd.hasOption("i"))
         swagger = new SwaggerParser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), true);
-      
-      //add all passed cliOptions to clientOpts.properties
-      for (CliOption langCliOption : clientOptInput.getConfig().cliOptions()) {
-        if (cmd.hasOption(langCliOption.getOpt())) {
-          clientOpts.getProperties().put(langCliOption.getOpt(), String.valueOf(cmd.getOptionValue(langCliOption.getOpt())));
-        }
-      }
+      if (cmd.hasOption("t"))
+        clientOpts.getProperties().put("templateDir", String.valueOf(cmd.getOptionValue("t")));
     }
     catch (Exception e) {
       usage(options);
