@@ -84,7 +84,7 @@ public class DefaultCodegen {
   }
 
   public void processOpts(){
-    if(additionalProperties.containsKey("t")) {
+    if(additionalProperties.containsKey("templateDir")) {
       this.setTemplateDir((String)additionalProperties.get("t"));
     }
     
@@ -303,7 +303,6 @@ public class DefaultCodegen {
     importMapping.put("LocalDate", "org.joda.time.*");
     importMapping.put("LocalTime", "org.joda.time.*");
     
-    cliOptions.add(new CliOption("t", "template-dir", true, "folder containing the template files"));
     cliOptions.add(new CliOption("modelPackage", "model-package", true, "Package for generated models"));
     cliOptions.add(new CliOption("apiPackage", "api-package", true, "Package for generated api classes"));
   }
