@@ -41,7 +41,7 @@ class APIClient {
    * @param string $host Base url of the API server (optional)
    */
   function __construct($host = null) {
-    if ($host == null) {
+    if ($host === null) {
       $this->host = 'http://petstore.swagger.io/v2';
     } else {
       $this->host = $host;
@@ -92,14 +92,35 @@ class APIClient {
   }
 
   /**
-   *  @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
+   * get the user agent of the api client
+   * 
+   * @return string user agent
+   */
+  public function getUserAgent($user_agent) {
+    return $this->user_agent;
+  }
+
+  /**
+   * set the HTTP timeout value
+   *
+   * @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
    */
   public function setTimeout($seconds) {
-    if (!is_numeric($seconds))
-      throw new \InvalidArgumentException('Timeout variable must be numeric.');
+    if (!is_numeric($seconds) || $seconds < 0)
+      throw new \InvalidArgumentException('Timeout value must be numeric and a non-negative number.');
 
     $this->curl_timeout = $seconds;
   }
+
+  /**
+   * get the HTTP timeout value
+   *
+   * @return string HTTP timeout value
+   */
+  public function getTimeout() {
+    return $this->curl_timeout;
+  }
+
 
   /**
    * Get API key (with prefix if set)
@@ -107,10 +128,12 @@ class APIClient {
    * @return string API key with the prefix
    */
   public function getApiKeyWithPrefix($apiKey) {
-    if (Configuration::$apiKeyPrefix[$apiKey]) {
+    if (isset(Configuration::$apiKeyPrefix[$apiKey])) {
       return Configuration::$apiKeyPrefix[$apiKey]." ".Configuration::$apiKey[$apiKey];
-    } else {
+    } else if (isset(Configuration::$apiKey[$apiKey])) {
       return Configuration::$apiKey[$apiKey];
+    } else {
+      return;
     }
   }
 
@@ -373,7 +396,7 @@ class APIClient {
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
         $original_property_name = $instance::$attributeMap[$property];
-        if (isset($original_property_name)) {
+        if (isset($original_property_name) && isset($data->$original_property_name)) {
           $instance->$property = self::deserialize($data->$original_property_name, $type);
         }
       }

@@ -9,7 +9,7 @@ module SwaggerClient
     # This can only be done by the logged in user.
     # @param [Hash] opts the optional parameters
     # @option opts [User] :body Created user object
-    # @return void
+    # @return [nil]
     def self.create_user(opts = {})
       
 
@@ -37,14 +37,15 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Creates list of users with given input array
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [array[User]] :body List of user object
-    # @return void
+    # @return [nil]
     def self.create_users_with_array_input(opts = {})
       
 
@@ -72,14 +73,15 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Creates list of users with given input array
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [array[User]] :body List of user object
-    # @return void
+    # @return [nil]
     def self.create_users_with_list_input(opts = {})
       
 
@@ -107,15 +109,16 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Logs user into the system
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [string] :username The user name for login
     # @option opts [string] :password The password for login in clear text
-    # @return string
+    # @return [string]
     def self.login_user(opts = {})
       
 
@@ -147,12 +150,12 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = string.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Logs out current logged in user session
     # 
     # @param [Hash] opts the optional parameters
-    # @return void
+    # @return [nil]
     def self.logout_user(opts = {})
       
 
@@ -180,14 +183,15 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Get user by user name
     # 
     # @param username The name that needs to be fetched. Use user1 for testing. 
     # @param [Hash] opts the optional parameters
-    # @return User
+    # @return [User]
     def self.get_user_by_name(username, opts = {})
       
       # verify the required parameter 'username' is set
@@ -220,14 +224,14 @@ module SwaggerClient
 
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
       obj = User.new() and obj.build_from_hash(response)
-  end
+    end
 
     # Updated user
     # This can only be done by the logged in user.
     # @param username name that need to be deleted
     # @param [Hash] opts the optional parameters
     # @option opts [User] :body Updated user object
-    # @return void
+    # @return [nil]
     def self.update_user(username, opts = {})
       
       # verify the required parameter 'username' is set
@@ -258,14 +262,15 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-            Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
 
     # Delete user
     # This can only be done by the logged in user.
     # @param username The name that needs to be deleted
     # @param [Hash] opts the optional parameters
-    # @return void
+    # @return [nil]
     def self.delete_user(username, opts = {})
       
       # verify the required parameter 'username' is set
@@ -296,7 +301,8 @@ module SwaggerClient
       post_body = nil
       
 
-            Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
-  end
+      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      nil
+    end
   end
 end

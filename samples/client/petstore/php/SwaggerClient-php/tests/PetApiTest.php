@@ -7,8 +7,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
   // add a new pet (id 10005) to ensure the pet object is available for all the tests
   public static function setUpBeforeClass() {
-    // initialize the API client
-    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    // skip initializing the API client as it should be automatic
+    //$api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
     // new pet
     $new_pet_id = 10005;
     $new_pet = new SwaggerClient\models\Pet;
@@ -23,10 +23,10 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $category->id = $new_pet_id; // use the same id as pet
     $category->name = "test php category";
 
-    $new_pet->tags = [$tag];
+    $new_pet->tags = array($tag);
     $new_pet->category = $category;
 
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    $pet_api = new SwaggerClient\PetAPI();
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
   }
@@ -34,25 +34,50 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   // test static functions defined in APIClient
   public function testAPIClient()
   { 
-    # test selectHeaderAccept
+    // test selectHeaderAccept
     $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderAccept(array('application/xml','application/json')));
     $this->assertSame(NULL, SwaggerClient\APIClient::selectHeaderAccept(array()));
     $this->assertSame('application/yaml,application/xml', SwaggerClient\APIClient::selectHeaderAccept(array('application/yaml','application/xml')));
    
-    # test selectHeaderContentType
+    // test selectHeaderContentType
     $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array('application/xml','application/json')));
     $this->assertSame('application/json', SwaggerClient\APIClient::selectHeaderContentType(array()));
     $this->assertSame('application/yaml,application/xml', SwaggerClient\APIClient::selectHeaderContentType(array('application/yaml','application/xml')));
 
-    # test addDefaultHeader and getDefaultHeader
+    // test addDefaultHeader and getDefaultHeader
     SwaggerClient\APIClient::addDefaultHeader('test1', 'value1');
     SwaggerClient\APIClient::addDefaultHeader('test2', 200);
-    $this->assertSame('value1', SwaggerClient\APIClient::getDefaultHeader()['test1']);
-    $this->assertSame(200, SwaggerClient\APIClient::getDefaultHeader()['test2']);
+    $defaultHeader = SwaggerClient\APIClient::getDefaultHeader();
+    $this->assertSame('value1', $defaultHeader['test1']);
+    $this->assertSame(200, $defaultHeader['test2']);
 
-    # test deleteDefaultHeader
+    // test deleteDefaultHeader
     SwaggerClient\APIClient::deleteDefaultHeader('test2');
-    $this->assertFalse(isset(SwaggerClient\APIClient::getDefaultHeader()['test2']));
+    $defaultHeader = SwaggerClient\APIClient::getDefaultHeader();
+    $this->assertFalse(isset($defaultHeader['test2']));
+
+    $pet_api = new SwaggerClient\PetAPI();
+    $pet_api2 = new SwaggerClient\PetAPI();
+    $apiClient3 = new SwaggerClient\APIClient();
+    $apiClient3->setUserAgent = 'api client 3';
+    $apiClient4 = new SwaggerClient\APIClient();
+    $apiClient4->setUserAgent = 'api client 4';
+    $pet_api3 = new SwaggerClient\PetAPI($apiClient3);
+
+    // same default api client
+    $this->assertSame($pet_api->getApiClient(), $pet_api2->getApiClient());
+    // confirm using the default api client in the Configuration
+    $this->assertSame($pet_api->getApiClient(), SwaggerClient\Configuration::$apiClient);
+    // 2 different api clients are not the same 
+    $this->assertNotEquals($apiClient3, $apiClient4);
+    // customized pet api not using the default (configuration) api client
+    $this->assertNotEquals($pet_api3->getApiClient(), SwaggerClient\Configuration::$apiClient);
+    // customied pet api not using the old pet api's api client
+    $this->assertNotEquals($pet_api2->getApiClient(), $pet_api3->getApiClient());
+
+    // both pet api and pet api2 share the same api client and confirm using timeout value
+    $pet_api->getApiClient()->setTimeout(999);
+    $this->assertSame(999, $pet_api2->getApiClient()->getTimeout());
 
   }
 

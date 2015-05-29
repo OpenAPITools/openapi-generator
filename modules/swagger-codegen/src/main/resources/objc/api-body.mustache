@@ -83,12 +83,6 @@ static NSString * basePath = @"{{basePath}}";
     {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [SWGApiClient escape:{{paramName}}]];
     {{/pathParams}}
 
-    NSArray* requestContentTypes = @[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}];
-    NSString* requestContentType = [requestContentTypes count] > 0 ? requestContentTypes[0] : @"application/json";
-
-    NSArray* responseContentTypes = @[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}];
-    NSString* responseContentType = [responseContentTypes count] > 0 ? responseContentTypes[0] : @"application/json";
-
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     {{#queryParams}}if({{paramName}} != nil) {
         {{#collectionFormat}}
@@ -102,6 +96,24 @@ static NSString * basePath = @"{{basePath}}";
     {{#headerParams}}if({{paramName}} != nil)
         headerParams[@"{{baseName}}"] = {{paramName}};
     {{/headerParams}}
+    
+    // HTTP header `Accept` 
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     id bodyDictionary = nil;
     {{#bodyParam}}
