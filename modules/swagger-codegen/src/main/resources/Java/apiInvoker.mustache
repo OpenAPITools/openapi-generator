@@ -166,7 +166,7 @@ public class ApiInvoker {
   }
 
   public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames) throws ApiException {
-    processAuthParams(authNames, queryParams, headerParams);
+    updateParamsForAuth(authNames, queryParams, headerParams);
 
     Client client = getClient(host);
 
@@ -266,11 +266,12 @@ public class ApiInvoker {
     }
   }
 
-  private void processAuthParams(String[] authNames, Map<String, String> queryParams, Map<String, String> headerParams) {
+  /* Update hearder and query params based on authentication settings. */
+  private void updateParamsForAuth(String[] authNames, Map<String, String> queryParams, Map<String, String> headerParams) {
     for (String authName : authNames) {
       Authentication auth = Configuration.getAuthentication(authName);
       if (auth == null) throw new RuntimeException("Authentication has not been setup for " + authName);
-      auth.processParams(queryParams, headerParams);
+      auth.applyToParams(queryParams, headerParams);
     }
   }
 

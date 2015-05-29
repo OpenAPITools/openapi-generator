@@ -39,7 +39,7 @@ public class ApiKeyAuth implements Authentication {
   }
 
   @Override
-  public void processParams(Map<String, String> queryParams, Map<String, String> headerParams) {
+  public void applyToParams(Map<String, String> queryParams, Map<String, String> headerParams) {
     String value;
     if (apiKeyPrefix != null) {
       value = apiKeyPrefix + " " + apiKey;

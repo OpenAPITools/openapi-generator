@@ -15,13 +15,13 @@ public class HttpBasicAuthTest {
   }
 
   @Test
-  public void testProcessParams() {
+  public void testApplyToParams() {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
     auth.setUsername("my-username");
     auth.setPassword("my-password");
-    auth.processParams(queryParams, headerParams);
+    auth.applyToParams(queryParams, headerParams);
 
     // no changes to query parameters
     assertEquals(0, queryParams.size());

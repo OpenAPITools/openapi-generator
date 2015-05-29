@@ -8,13 +8,13 @@ import org.junit.*;
 
 public class ApiKeyAuthTest {
   @Test
-  public void testProcessParamsInQuery() {
+  public void testApplyToParamsInQuery() {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
     ApiKeyAuth auth = new ApiKeyAuth("query", "api_key");
     auth.setApiKey("my-api-key");
-    auth.processParams(queryParams, headerParams);
+    auth.applyToParams(queryParams, headerParams);
 
     assertEquals(1, queryParams.size());
     assertEquals("my-api-key", queryParams.get("api_key"));
@@ -23,14 +23,14 @@ public class ApiKeyAuthTest {
   }
 
   @Test
-  public void testProcessParamsInHeaderWithPrefix() {
+  public void testApplyToParamsInHeaderWithPrefix() {
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
 
     ApiKeyAuth auth = new ApiKeyAuth("header", "X-API-TOKEN");
     auth.setApiKey("my-api-token");
     auth.setApiKeyPrefix("Token");
-    auth.processParams(queryParams, headerParams);
+    auth.applyToParams(queryParams, headerParams);
 
     // no changes to query parameters
     assertEquals(0, queryParams.size());
