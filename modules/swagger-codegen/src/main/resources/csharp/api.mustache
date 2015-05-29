@@ -9,7 +9,16 @@ using {{modelPackage}};
 
 namespace {{package}} {
   {{#operations}}
-  public class {{classname}} {
+
+  public interface I{{classname}} {
+    {{#operation}}
+    {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+    {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{/operation}}
+  }
+
+  public class {{classname}} : I{{classname}} {
     string basePath;
     protected RestClient restClient;
 
