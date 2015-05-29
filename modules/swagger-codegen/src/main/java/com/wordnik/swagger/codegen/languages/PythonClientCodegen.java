@@ -27,7 +27,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     super();
 
     eggPackage = module + "-python";
-    invokerPackage = eggPackage + "/" + module;
+    
+    invokerPackage = eggPackage + "." + module;
+    invokerPackage = invokerPackage.replace('.', File.separatorChar);
 
     outputFolder = "generated-code/python";
     modelTemplateFiles.put("model.mustache", ".py");
