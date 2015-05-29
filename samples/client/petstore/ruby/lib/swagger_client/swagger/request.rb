@@ -36,6 +36,7 @@ module SwaggerClient
         update_params_for_auth!
       end
 
+      # Update hearder and query params based on authentication settings.
       def update_params_for_auth!
         (@auth_names || []).each do |auth_name|
           case auth_name
@@ -49,6 +50,8 @@ module SwaggerClient
         end
       end
 
+      # Get API key (with prefix if set).
+      # @param [String] param_name the parameter name of API key auth
       def get_api_key_with_prefix(param_name)
         if Swagger.configuration.api_key_prefix[param_name].present?
           "#{Swagger.configuration.api_key_prefix[param_name]} #{Swagger.configuration.api_key[param_name]}"
