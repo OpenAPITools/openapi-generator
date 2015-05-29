@@ -3,6 +3,8 @@ package com.wordnik.swagger.codegen;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,12 +14,17 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.wordnik.swagger.codegen.examples.ExampleGenerator;
 import com.wordnik.swagger.models.ArrayModel;
+import com.wordnik.swagger.models.ComposedModel;
 import com.wordnik.swagger.models.Model;
 import com.wordnik.swagger.models.ModelImpl;
 import com.wordnik.swagger.models.Operation;
@@ -53,8 +60,9 @@ import com.wordnik.swagger.models.properties.RefProperty;
 import com.wordnik.swagger.models.properties.StringProperty;
 import com.wordnik.swagger.util.Json;
 
+
 public class DefaultCodegen {
-  Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
   protected String outputFolder = "";
   protected Set<String> defaultIncludes = new HashSet<String>();
@@ -192,6 +200,7 @@ public class DefaultCodegen {
   }
 
   public String toParamName(String name) {
+    name = removeNonNameElementToCamelCase(name);
     if(reservedWords.contains(name)) {
       return escapeReservedWord(name);
     }
@@ -466,100 +475,28 @@ public class DefaultCodegen {
     m.classVarName = toVarName(name);
     m.modelJson = Json.pretty(model);
     m.externalDocs = model.getExternalDocs();
-    int count = 0;
     if(model instanceof ArrayModel) {
       ArrayModel am = (ArrayModel) model;
       ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
-      CodegenProperty cp = fromProperty(name, arrayProperty);
-      if(cp.complexType != null && !defaultIncludes.contains(cp.complexType))
-        m.imports.add(cp.complexType);
-      m.parent = toInstantiationType(arrayProperty);
-      String containerType = cp.containerType;
-      if(instantiationTypes.containsKey(containerType))
-        m.imports.add(instantiationTypes.get(containerType));
-      if(typeMapping.containsKey(containerType)) {
-        containerType = typeMapping.get(containerType);
-        cp.containerType = containerType;
-        m.imports.add(containerType);
-      }
+      addParentContainer(m, name, arrayProperty);
     }
     else if (model instanceof RefModel) {
       // TODO
-    }
-    else {
+    } else if (model instanceof ComposedModel) {
+      final ComposedModel composed = (ComposedModel) model;
+      final RefModel parent = (RefModel) composed.getParent();
+      final String parentModel = toModelName(parent.getSimpleRef());
+      m.parent = parentModel;
+      addImport(m, parentModel);
+      final ModelImpl child = (ModelImpl) composed.getChild();
+      addVars(m, child.getProperties(), child.getRequired());
+    } else {
       ModelImpl impl = (ModelImpl) model;
       if(impl.getAdditionalProperties() != null) {
         MapProperty mapProperty = new MapProperty(impl.getAdditionalProperties());
-        CodegenProperty cp = fromProperty(name, mapProperty);
-        if(cp.complexType != null && !defaultIncludes.contains(cp.complexType))
-          m.imports.add(cp.complexType);
-        m.parent = toInstantiationType(mapProperty);
-        String containerType = cp.containerType;
-        if(instantiationTypes.containsKey(containerType))
-          m.imports.add(instantiationTypes.get(containerType));
-        if(typeMapping.containsKey(containerType)) {
-          containerType = typeMapping.get(containerType);
-          cp.containerType = containerType;
-          m.imports.add(containerType);
-        }
+        addParentContainer(m, name, mapProperty);
       }
-      if(impl.getProperties() != null && impl.getProperties().size() > 0) {
-        m.hasVars = true;
-        m.hasEnums = false;
-        for(String key: impl.getProperties().keySet()) {
-          Property prop = impl.getProperties().get(key);
-
-          if(prop == null) {
-            LOGGER.warn("null property for " + key);
-          }
-          else {
-            CodegenProperty cp;
-            try{
-              cp = fromProperty(key, prop);
-            }
-            catch(Exception e) {
-              System.out.println("failed to process model " + name);
-              throw new RuntimeException(e);
-            }
-            cp.required = null;
-            if(impl.getRequired() != null) {
-              for(String req : impl.getRequired()) {
-                if(key.equals(req))
-                  cp.required = true;
-              }
-            }
-            if(cp.complexType != null && !defaultIncludes.contains(cp.complexType)) {
-              m.imports.add(cp.complexType);
-            }
-            m.vars.add(cp);
-            count += 1;
-            if (cp.isEnum)
-              m.hasEnums = true;
-            if(count != impl.getProperties().keySet().size())
-              cp.hasMore = new Boolean(true);
-            if(cp.isContainer != null) {
-              String arrayImport = typeMapping.get("array");
-              if(arrayImport != null &&
-                !languageSpecificPrimitives.contains(arrayImport) && 
-                !defaultIncludes.contains(arrayImport))
-                m.imports.add(arrayImport);
-            }
-
-            if(cp.complexType != null &&
-              !languageSpecificPrimitives.contains(cp.complexType) && 
-              !defaultIncludes.contains(cp.complexType))
-              m.imports.add(cp.complexType);
-
-            if(cp.baseType != null &&
-              !languageSpecificPrimitives.contains(cp.baseType) && 
-              !defaultIncludes.contains(cp.baseType))
-              m.imports.add(cp.baseType);
-          }
-        }
-      }
-      else {
-        m.emptyVars = true;
-      }
+      addVars(m, impl.getProperties(), impl.getRequired());
     }
     return m;
   }
@@ -718,6 +655,7 @@ public class DefaultCodegen {
       operationId = builder.toString();
       LOGGER.warn("generated operationId " + operationId);
     }
+    operationId = removeNonNameElementToCamelCase(operationId);
     op.path = path;
     op.operationId = toOperationId(operationId);
     op.summary = escapeText(operation.getSummary());
@@ -1141,6 +1079,62 @@ public class DefaultCodegen {
     co.baseName = tag;    
   }
 
+  private void addParentContainer(CodegenModel m, String name, Property property) {
+    final CodegenProperty tmp = fromProperty(name, property);
+    addImport(m, tmp.complexType);
+    m.parent = toInstantiationType(property);
+    final String containerType = tmp.containerType;
+    final String instantiationType = instantiationTypes.get(containerType);
+    if (instantiationType != null) {
+      addImport(m, instantiationType);
+    }
+    final String mappedType = typeMapping.get(containerType);
+    if (mappedType != null) {
+      addImport(m, mappedType);
+    }
+  }
+
+  private void addImport(CodegenModel m, String type) {
+    if (type != null && !languageSpecificPrimitives.contains(type) && !defaultIncludes.contains(type)) {
+      m.imports.add(type);
+    }
+  }
+
+  private void addVars(CodegenModel m, Map<String, Property> properties, Collection<String> required) {
+    if (properties != null && properties.size() > 0) {
+      m.hasVars = true;
+      m.hasEnums = false;
+      final int totalCount = properties.size();
+      final Set<String> mandatory = required == null ? Collections.<String> emptySet() : new HashSet<String>(required);
+      int count = 0;
+      for (Map.Entry<String, Property> entry : properties.entrySet()) {
+        final String key = entry.getKey();
+        final Property prop = entry.getValue();
+
+        if (prop == null) {
+          LOGGER.warn("null property for " + key);
+        } else {
+          final CodegenProperty cp = fromProperty(key, prop);
+          cp.required = mandatory.contains(key) ? true : null;
+          if (cp.isEnum) {
+            m.hasEnums = true;
+          }
+          count += 1;
+          if (count != totalCount)
+            cp.hasMore = true;
+          if (cp.isContainer != null) {
+            addImport(m, typeMapping.get("array"));
+          }
+          addImport(m, cp.baseType);
+          addImport(m, cp.complexType);
+          m.vars.add(cp);
+        }
+      }
+    } else {
+      m.emptyVars = true;
+    }
+  }
+
   /* underscore and camelize are copied from Twitter elephant bird
    * https://github.com/twitter/elephant-bird/blob/master/core/src/main/java/com/twitter/elephantbird/util/Strings.java
    */
@@ -1164,6 +1158,26 @@ public class DefaultCodegen {
     word = word.replace('-', '_');
     word = word.toLowerCase();
     return word;
+  }
+
+  /**
+   * Remove characters not suitable for variable or method name from the input and camelize it
+   * @param name
+   * @return
+   */
+  public String removeNonNameElementToCamelCase(String name) {
+    String nonNameElementPattern = "[-_:;#]";
+    name = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() {
+      @Nullable
+      @Override
+      public String apply(String input) {
+        return StringUtils.capitalize(input);
+      }
+    }), "");
+    if (name.length() > 0) {
+      name = name.substring(0, 1).toLowerCase() + name.substring(1);
+    }
+    return name;
   }
 
   public static String camelize(String word) {

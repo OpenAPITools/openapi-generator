@@ -31,6 +31,16 @@ class Configuration {
   public static $username = '';
   public static $password = '';
 
+  // an instance of APIClient
+  public static $apiClient;
+
+ /*
+  *  manually initalize  API client
+  */
+  public static function init() {
+    if (self::$apiClient === null)
+      self::$apiClient = new APIClient();
+  }
 
 }
 

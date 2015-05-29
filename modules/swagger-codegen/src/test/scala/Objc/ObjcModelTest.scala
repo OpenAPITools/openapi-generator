@@ -1,4 +1,4 @@
-package objc
+package Objc
 
 import com.wordnik.swagger.codegen.languages.ObjcClientCodegen
 import com.wordnik.swagger.util.Json
@@ -217,8 +217,8 @@ class ObjcModelTest extends FlatSpec with Matchers {
     cm.description should be ("an array model")
     cm.vars.size should be (0)
     cm.parent should be ("NSMutableArray")
-    cm.imports.size should be (3)
-    (cm.imports.asScala.toSet & Set("SWGChildren", "NSArray", "NSMutableArray")).size should be (3)
+    cm.imports.size should be (1)
+    (cm.imports.asScala.toSet & Set("SWGChildren")).size should be (1)
   }
 
   it should "convert an map model" in {
@@ -234,8 +234,8 @@ class ObjcModelTest extends FlatSpec with Matchers {
     cm.description should be ("an map model")
     cm.vars.size should be (0)
     cm.parent should be ("NSMutableDictionary")
-    cm.imports.size should be (3)
-    (cm.imports.asScala.toSet & Set("SWGChildren", "NSDictionary", "NSMutableDictionary")).size should be (3)
+    cm.imports.size should be (1)
+    (cm.imports.asScala.toSet & Set("SWGChildren")).size should be (1)
   }
 
   it should "create proper imports per #316" in {

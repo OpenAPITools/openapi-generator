@@ -431,7 +431,7 @@ SWGPetApi::updatePetWithFormCallback(HttpRequestWorker * worker) {
     emit updatePetWithFormSignal();
 }
 void
-SWGPetApi::deletePet(QString* api_key, qint64 petId) {
+SWGPetApi::deletePet(QString* apiKey, qint64 petId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 

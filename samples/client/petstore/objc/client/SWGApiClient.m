@@ -79,6 +79,51 @@ static bool loggingEnabled = true;
     }
 }
 
+/*
+ * Detect `Accept` from accepts
+ */
++ (NSString *) selectHeaderAccept:(NSArray *)accepts
+{
+    if (accepts == nil || [accepts count] == 0) {
+        return @"";
+    }
+    
+    NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
+    [accepts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [lowerAccepts addObject:[obj lowercaseString]];
+    }];
+
+    
+    if ([lowerAccepts containsObject:@"application/json"]) {
+        return @"application/json";
+    }
+    else {
+        return [lowerAccepts componentsJoinedByString:@", "];
+    }
+}
+
+/*
+ * Detect `Content-Type` from contentTypes
+ */
++ (NSString *) selectHeaderContentType:(NSArray *)contentTypes
+{
+    if (contentTypes == nil || [contentTypes count] == 0) {
+        return @"application/json";
+    }
+    
+    NSMutableArray *lowerContentTypes = [[NSMutableArray alloc] initWithCapacity:[contentTypes count]];
+    [contentTypes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [lowerContentTypes addObject:[obj lowercaseString]];
+    }];
+
+    if ([lowerContentTypes containsObject:@"application/json"]) {
+        return @"application/json";
+    }
+    else {
+        return lowerContentTypes[0];
+    }
+}
+
 -(void)setHeaderValue:(NSString*) value
                forKey:(NSString*) forKey {
     [self.requestSerializer setValue:value forHTTPHeaderField:forKey];

@@ -83,6 +83,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.put("file", "string"); // path to file
     typeMapping.put("array", "List");
     typeMapping.put("map", "Dictionary");
+    typeMapping.put("object", "Object");
 
   }
 
