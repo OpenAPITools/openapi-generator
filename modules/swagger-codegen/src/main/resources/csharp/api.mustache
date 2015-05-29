@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using RestSharp;
 using {{invokerPackage}};
 using {{modelPackage}};
@@ -103,7 +104,49 @@ namespace {{package}} {
       {{#returnType}}return ({{{returnType}}}) apiClient.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
       return;{{/returnType}}
     }
+	
+	 /// <summary>
+    /// {{summary}} {{notes}}
+    /// </summary>
+{{#allParams}}    /// <param name="{{paramName}}">{{description}}</param>
+{{/allParams}}
+    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    public async {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+
+      var _request = new RestRequest("{{path}}", Method.{{httpMethod}});
+
+      {{#allParams}}{{#required}}
+      // verify the required parameter '{{paramName}}' is set
+      if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
+      {{/required}}{{/allParams}}
+
+      // add default header, if any
+      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
+      {
+        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+      }
+
+      _request.AddUrlSegment("format", "json"); // set format to json by default
+      {{#pathParams}}_request.AddUrlSegment("{{baseName}}", ApiInvoker.ParameterToString({{{paramName}}})); // path (url segment) parameter
+      {{/pathParams}}
+      {{#queryParams}} if ({{paramName}} != null) _request.AddParameter("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // query parameter
+      {{/queryParams}}
+      {{#headerParams}} if ({{paramName}} != null) _request.AddHeader("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // header parameter
+      {{/headerParams}}
+      {{#formParams}}if ({{paramName}} != null) {{#isFile}}_request.AddFile("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}_request.AddParameter("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // form parameter{{/isFile}}
+      {{/formParams}}
+      {{#bodyParam}}_request.AddParameter("application/json", ApiInvoker.Serialize({{paramName}}), ParameterType.RequestBody); // http body (model) parameter
+      {{/bodyParam}}
+
+      // make the HTTP request
+      IRestResponse response = await restClient.ExecuteTaskAsync(_request);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content);
+      }
+      {{#returnType}}return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
+      return;{{/returnType}}
+    }
     {{/operation}}
-  }
+  }  
   {{/operations}}
 }
