@@ -6,20 +6,14 @@ using IO.Swagger.Model;
 
 namespace IO.Swagger.Api {
   
+  /// <summary>
+  /// Represents a collection of functions to interact with the API endpoints
+  /// </summary>
   public class StoreApi {
-    string basePath;
-    public ApiClient apiClient {get; set;}
-
-    public StoreApi(String basePath = "http://petstore.swagger.io/v2")
-    {
-      this.basePath = basePath;
-      this.apiClient = new ApiClient(basePath);
-    }
-
     /// <summary>
-    /// Create a new object 
+    /// Initializes a new instance of the <see cref="StoreApi"/> class.
     /// </summary>
-    /// <param name="apiClient"> an instance of ApiClient
+    /// <param name="apiClient"> an instance of ApiClient (optional)
     /// <returns></returns>
     public StoreApi(ApiClient apiClient = null) {
       if (apiClient == null) { // use the default one in Configuration
@@ -30,21 +24,36 @@ namespace IO.Swagger.Api {
     }
 
     /// <summary>
-    /// Sets the endpoint base url for the services being accessed
+    /// Initializes a new instance of the <see cref="StoreApi"/> class.
     /// </summary>
-    /// <param name="basePath"> Base URL
     /// <returns></returns>
-    public void SetBasePath(string basePath) {
-      this.basePath = basePath;
+    public StoreApi(String basePath)
+    {
+      this.apiClient = new ApiClient(basePath);
     }
 
     /// <summary>
-    /// Gets the endpoint base url for the services being accessed
-    /// <returns>Base URL</returns>
+    /// Sets the base path of the API client.
     /// </summary>
-    public String GetBasePath() {
-      return this.basePath;
+    /// <value>The base path</value>
+    public void SetBasePath(String basePath) {
+      this.apiClient.basePath = basePath;
     }
+
+    /// <summary>
+    /// Gets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public String GetBasePath(String basePath) {
+      return this.apiClient.basePath;
+    }
+
+    /// <summary>
+    /// Gets or sets the API client.
+    /// </summary>
+    /// <value>The API client</value>
+    public ApiClient apiClient {get; set;}
+
 
     
     /// <summary>
@@ -70,8 +79,11 @@ namespace IO.Swagger.Api {
       
       
 
+      // authentication setting, if any
+      String[] authSettings = new String[] { "api_key" };
+
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content);
@@ -104,8 +116,11 @@ namespace IO.Swagger.Api {
       postBody = apiClient.Serialize(Body); // http body (model) parameter
       
 
+      // authentication setting, if any
+      String[] authSettings = new String[] {  };
+
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content);
@@ -141,8 +156,11 @@ namespace IO.Swagger.Api {
       
       
 
+      // authentication setting, if any
+      String[] authSettings = new String[] {  };
+
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content);
@@ -178,8 +196,11 @@ namespace IO.Swagger.Api {
       
       
 
+      // authentication setting, if any
+      String[] authSettings = new String[] {  };
+
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content);

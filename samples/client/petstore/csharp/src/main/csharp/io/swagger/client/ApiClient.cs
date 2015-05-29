@@ -8,25 +8,40 @@ using Newtonsoft.Json;
 using RestSharp;
 
 namespace IO.Swagger.Client {
+  /// <summary>
+  /// API client is mainly responible for making the HTTP call to the API backend
+  /// </summary>
   public class ApiClient {
-    public ApiClient() {
-      this.basePath = "http://petstore.swagger.io/v2";
-      this.restClient = new RestClient(this.basePath);
-    }
 
-    public ApiClient(String basePath) {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApiClient"/> class.
+    /// </summary>
+    /// <param name="basePath">The base path.</param>
+    public ApiClient(String basePath="http://petstore.swagger.io/v2") {
       this.basePath = basePath;
       this.restClient = new RestClient(this.basePath);
     }
 
+    /// <summary>
+    /// Gets or sets the base path.
+    /// </summary>
+    /// <value>The base path.</value> 
     public string basePath { get; set; }
+
+    /// <summary>
+    /// Gets or sets the RestClient
+    /// </summary>
+    /// <value>The RestClient.</value> 
     public RestClient restClient { get; set; }
+
     private Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
 
     public Object CallApi(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody, 
-      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, String> FileParams) {
+      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, String> FileParams, String[] AuthSettings) {
 
       var request = new RestRequest(Path, Method);
+
+      UpdateParamsForAuth(QueryParams, HeaderParams, AuthSettings);
 
       // add default header, if any
       foreach(KeyValuePair<string, string> defaultHeader in this.defaultHeaderMap)
@@ -126,5 +141,64 @@ namespace IO.Swagger.Client {
         throw new ApiException(500, e.Message);
       }
     }
+
+    /// <summary>
+    /// Get the API key with prefix
+    /// </summary>
+    /// <param name="obj"> Object 
+    /// <returns>API key with prefix</returns>
+    public string GetApiKeyWithPrefix (string apiKey)
+    {
+      var apiKeyValue = "";
+      Configuration.apiKey.TryGetValue (apiKey, out apiKeyValue);
+      var apiKeyPrefix = "";
+      if (Configuration.apiKeyPrefix.TryGetValue (apiKey, out apiKeyPrefix)) {
+        return apiKeyPrefix + " " + apiKeyValue;
+      } else {
+        return apiKeyValue;
+      }
+    }
+
+    /// <summary>
+    /// Update parameters based on authentication
+    /// </summary>
+    /// <param name="QueryParams">Query parameters</param>
+    /// <param name="HeaderParams">Header parameters</param>
+    /// <param name="AuthSettings">Authentication settings</param>
+    public void UpdateParamsForAuth(Dictionary<String, String> QueryParams, Dictionary<String, String> HeaderParams, string[] AuthSettings) {
+      if (AuthSettings == null || AuthSettings.Length == 0)
+        return;
+  
+      foreach (string auth in AuthSettings) {
+        // determine which one to use
+        switch(auth) {
+          
+          case "api_key":
+            HeaderParams["api_key"] = GetApiKeyWithPrefix("api_key");
+            
+            break;
+          
+          case "petstore_auth":
+            
+            //TODO support oauth
+            break;
+          
+          default:
+            //TODO show warning about security definition not found
+          break;
+        }
+      }
+
+    }
+
+    /// <summary>
+    /// Encode string in base64 format 
+    /// </summary>
+    /// <param name="text">String to be encoded</param>
+    public static string Base64Encode(string text) {
+      var textByte = System.Text.Encoding.UTF8.GetBytes(text);
+      return System.Convert.ToBase64String(textByte);
+    }
+
   }
 }
