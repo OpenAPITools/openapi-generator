@@ -27,8 +27,9 @@ public class HttpBasicAuth implements Authentication {
 
   @Override
   public void applyToParams(Map<String, String> queryParams, Map<String, String> headerParams) {
+    String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
     try {
-      headerParams.put("Authorization", "Basic " + DatatypeConverter.printBase64Binary((username + ":" + password).getBytes("UTF-8")));
+      headerParams.put("Authorization", "Basic " + DatatypeConverter.printBase64Binary(str.getBytes("UTF-8")));
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
