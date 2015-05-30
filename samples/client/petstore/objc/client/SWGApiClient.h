@@ -54,11 +54,16 @@ extern NSString *const SWGResponseObjectErrorKey;
 -(void)setHeaderValue:(NSString*) value
                 forKey:(NSString*) forKey;
 
+- (void) updateHeaderParams:(NSDictionary **)headers
+                queryParams:(NSDictionary **)querys
+           WithAuthSettings:(NSArray *)authSettings;
+
 -(NSNumber*)  dictionary:(NSString*) path
                   method:(NSString*) method
              queryParams:(NSDictionary*) queryParams
                     body:(id) body
             headerParams:(NSDictionary*) headerParams
+            authSettings: (NSArray *) authSettings
       requestContentType:(NSString*) requestContentType
      responseContentType:(NSString*) responseContentType
          completionBlock:(void (^)(NSDictionary*, NSError *))completionBlock;
@@ -68,8 +73,18 @@ extern NSString *const SWGResponseObjectErrorKey;
                             queryParams:(NSDictionary*) queryParams
                                    body:(id) body
                            headerParams:(NSDictionary*) headerParams
+                           authSettings: (NSArray *) authSettings
                      requestContentType:(NSString*) requestContentType
                     responseContentType:(NSString*) responseContentType
                         completionBlock:(void (^)(NSString*, NSError *))completionBlock;
 @end
+
+
+
+
+
+
+
+
+
 

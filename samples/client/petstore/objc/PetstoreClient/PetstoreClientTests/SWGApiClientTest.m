@@ -1,8 +1,11 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "SWGApiClient.h"
+#import "SWGConfiguration.h"
 
 @interface SWGApiClientTest : XCTestCase
+
+@property (nonatomic) SWGApiClient *apiClient;
 
 @end
 
@@ -10,7 +13,7 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    self.apiClient = [[SWGApiClient alloc] init];
 }
 
 - (void)tearDown {
@@ -54,6 +57,45 @@
     
     contentTypes = @[];
     XCTAssertEqualObjects([SWGApiClient selectHeaderContentType:contentTypes], @"application/json");
+}
+
+- (void)testConfiguration {
+    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    [config setValue:@"123456" forApiKeyField:@"api_key"];
+    [config setValue:@"PREFIX" forApiKeyPrefixField:@"api_key"];
+    config.username = @"test_username";
+    config.password = @"test_password";
+    
+    NSDictionary *headerParams = @{@"test1": @"value1"};
+    NSDictionary *queryParams = @{@"test2": @"value2"};
+    NSArray *authSettings = @[@"api_key", @"unknown"];
+    
+    // test prefix
+    XCTAssertEqualObjects(@"PREFIX", config.apiKeyPrefix[@"api_key"]);
+    [self.apiClient updateHeaderParams:&headerParams
+                           queryParams:&queryParams
+                      WithAuthSettings:authSettings];
+    
+    // test api key auth
+    XCTAssertEqualObjects(headerParams[@"test1"], @"value1");
+    XCTAssertEqualObjects(headerParams[@"api_key"], @"PREFIX 123456");
+    XCTAssertEqualObjects(queryParams[@"test2"], @"value2");
+    
+    // test basic auth
+    XCTAssertEqualObjects(@"test_username", config.username);
+    XCTAssertEqualObjects(@"test_password", config.password);
+}
+
+- (void)testGetBasicAuthToken {
+    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    config.username = @"test_username";
+    config.password = @"test_password";
+    
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", config.username, config.password];
+    NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
+    basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
+    
+    XCTAssertEqualObjects(basicAuthCredentials, [config getBasicAuthToken]);
 }
 
 @end
