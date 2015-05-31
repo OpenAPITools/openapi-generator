@@ -187,13 +187,10 @@ class APIClient {
     $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # construct the http header
-    if ($headerParams != null) {
-      # add default header
-      $headerParams = array_merge((array)self::$default_header, $headerParams);
+    $headerParams = array_merge((array)self::$default_header, (array)$headerParams);
 
-      foreach ($headerParams as $key => $val) {
-        $headers[] = "$key: $val";
-      }
+    foreach ($headerParams as $key => $val) {
+      $headers[] = "$key: $val";
     }
 
     // form data
@@ -390,7 +387,7 @@ class APIClient {
       $deserialized = $values;
     } elseif ($class == 'DateTime') {
       $deserialized = new \DateTime($data);
-    } elseif (in_array($class, array('string', 'int', 'float', 'double', 'bool'))) {
+    } elseif (in_array($class, array('string', 'int', 'float', 'double', 'bool', 'object'))) {
       settype($data, $class);
       $deserialized = $data;
     } else {
