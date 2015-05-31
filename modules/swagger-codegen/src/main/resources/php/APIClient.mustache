@@ -182,7 +182,7 @@ class APIClient {
     $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # construct the http header
-    if ($headerParams != null) {
+    if ($headerParams !== null) {
       # add default header
       $headerParams = array_merge((array)self::$default_header, $headerParams);
 

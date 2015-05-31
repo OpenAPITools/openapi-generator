@@ -2,6 +2,8 @@
 //require_once('vendor/autoload.php');
 require_once('SwaggerClient-php/SwaggerClient.php');
 
+$c = array_merge((array)$a, (array)$b);
+
 // initialize the API client
 //$api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
 //$api_client->addDefaultHeader("test1", "value1");
@@ -11,6 +13,8 @@ try {
     // get pet by id
     //$pet_api = new SwaggerClient\PetAPI($api_client);
     $pet_api = new SwaggerClient\PetAPI();
+    // test default header
+    $pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
     // return Pet (model)
     $response = $pet_api->getPetById($petId);
     var_dump($response);
