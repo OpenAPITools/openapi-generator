@@ -283,7 +283,9 @@ class APIClient {
     } else if (is_object($data)) {
       $values = array();
       foreach (array_keys($data::$swaggerTypes) as $property) {
-        $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$property);
+        if ($data->$property !== null) {
+          $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$property);
+        }
       }
       $sanitized = $values;
     } else {
