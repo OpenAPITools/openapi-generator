@@ -182,13 +182,10 @@ class APIClient {
     $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # construct the http header
-    if ($headerParams !== null) {
-      # add default header
-      $headerParams = array_merge((array)self::$default_header, $headerParams);
+    $headerParams = array_merge((array)self::$default_header, (array)$headerParams);
 
-      foreach ($headerParams as $key => $val) {
-        $headers[] = "$key: $val";
-      }
+    foreach ($headerParams as $key => $val) {
+      $headers[] = "$key: $val";
     }
 
     // form data
