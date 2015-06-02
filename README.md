@@ -60,6 +60,8 @@ NAME
 
 SYNOPSIS
         swagger generate [(-a <authorization> | --auth <authorization>)]
+                [(-c <configuration file> | --config <configuration file>)]
+                [-D <system properties>]
                 (-i <spec file> | --input-spec <spec file>)
                 (-l <language> | --lang <language>)
                 [(-o <output directory> | --output <output directory>)]
@@ -71,6 +73,16 @@ OPTIONS
             adds authorization headers when fetching the swagger definitions
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
+
+        -c <configuration file>, --config <configuration file>
+            Path to json configuration file. File content should be in a json
+            format {"optionKey":"optionValue", "optionKey1":"optionValue1"...}
+            Supported options can be different for each language. Run
+            config-help -l {lang} command for language specific config options.
+
+        -D <system properties>
+            sets specified system properties in the format of
+            name=value,name=value
 
         -i <spec file>, --input-spec <spec file>
             location of the swagger spec, as URL or file (required)
@@ -166,8 +178,60 @@ SwaggerYamlGenerator.java
 TizenClientCodegen.java
 ```
 
-Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc., you may want to extend these.
+Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc. you can use a json config file to pass the values.
 
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l java \
+  -o samples/client/petstore/java \
+  -c path/to/config.json
+```
+Supported config options can be different per language. Running `config-help -l {lang}` will show available options.
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jarr config-help -l java
+```
+
+Output
+
+```
+CONFIG OPTIONS
+	modelPackage
+	    package for generated models
+
+	apiPackage
+	    package for generated api classes
+
+	invokerPackage
+	    root package for generated code
+
+	groupId
+	    groupId in generated pom.xml
+
+	artifactId
+	    artifactId in generated pom.xml
+
+	artifactVersion
+	    artifact version in generated pom.xml
+
+	sourceFolder
+	    source folder for generated code
+```
+
+Your config file for java can look like
+
+```
+{
+  "groupId":"com.my.company",
+  "artifactId":"MyClent",
+  "artifactVersion":"1.2.0"
+}
+```
+
+For all the unspecified options default values will be used.
+
+Another way to override default options is to extend config class for specific language.
 To change, for example, the prefix for the Objective-C generated files, simply subclass the ObjcClientCodegen.java:
 
 ```
@@ -273,7 +337,7 @@ Note!  The templates are included in the library generated.  If you want to modi
 License
 -------
 
-Copyright 2015 Reverb Technologies, Inc.
+Copyright 2015 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
