@@ -29,7 +29,7 @@ from six import iteritems
 
 from ..util import remove_none
 
-from .. import config
+from ..api_client import ApiClient
 
 class UserApi(object):
 

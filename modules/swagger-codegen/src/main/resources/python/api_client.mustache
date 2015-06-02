@@ -28,7 +28,7 @@ except ImportError:
   # for python2
   from urllib import quote
 
-from . import config
+from . import configuration
 
 class ApiClient(object):
   """
@@ -38,7 +38,7 @@ class ApiClient(object):
   :param header_name: a header to pass when making calls to the API
   :param header_value: a header value to pass when making calls to the API
   """
-  def __init__(self, host=config.host, header_name=None, header_value=None):
+  def __init__(self, host=configuration.host, header_name=None, header_value=None):
     self.default_headers = {}
     if header_name is not None:
       self.default_headers[header_name] = header_value
@@ -292,7 +292,7 @@ class ApiClient(object):
       return
     
     for auth in auth_settings:
-      auth_setting = config.auth_settings().get(auth)
+      auth_setting = configuration.auth_settings().get(auth)
       if auth_setting:
         if auth_setting['in'] == 'header':
           headers[auth_setting['key']] = auth_setting['value']

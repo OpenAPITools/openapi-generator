@@ -120,7 +120,7 @@ class RESTClientObject(object):
         r = RESTResponse(r)
 
         if r.status not in range(200, 206):
-            raise ErrorResponse(r)
+            raise ApiException(r)
 
         return self.process_response(r)
 
@@ -157,7 +157,7 @@ class RESTClientObject(object):
         return self.request("PATCH", url, headers=headers, post_params=post_params, body=body)
 
 
-class ErrorResponse(Exception):
+class ApiException(Exception):
     """
     Non-2xx HTTP response
     """
