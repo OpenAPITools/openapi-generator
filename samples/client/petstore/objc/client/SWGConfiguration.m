@@ -78,13 +78,6 @@
                     @"value": [self getApiKeyWithPrefix:@"api_key"]
                 },
               
-                @"basic_auth": @{
-                    @"type": @"basic",
-                    @"in": @"header",
-                    @"key": @"Authorization",
-                    @"value": [self getBasicAuthToken]
-                },
-              
             };
 }
 
