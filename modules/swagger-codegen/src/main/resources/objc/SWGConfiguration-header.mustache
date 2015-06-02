@@ -44,6 +44,11 @@
 - (NSString *) getApiKeyWithPrefix:(NSString *) key;
 
 /**
+ * Get Basic Auth token
+ */
+- (NSString *) getBasicAuthToken;
+
+/**
  * Get Authentication Setings
  */
 - (NSDictionary *) authSettings;
