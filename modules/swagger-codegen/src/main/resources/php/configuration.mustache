@@ -19,28 +19,44 @@ namespace {{invokerPackage}};
 
 class Configuration {
 
-  public static $PATCH = "PATCH";
-  public static $POST = "POST";
-  public static $GET = "GET";
-  public static $PUT = "PUT";
-  public static $DELETE = "DELETE";
-
-  // authentication setting
+  /**
+   * Associate array to store API key(s)
+   */
   public static $apiKey = array();
+
+  /**
+   * Associate array to store API prefix (e.g. Bearer)
+   */
   public static $apiKeyPrefix = array();
+
+  /**
+   * Username for HTTP basic authentication
+   */
   public static $username = '';
+
+  /**
+   * Password for HTTP basic authentication
+   */
   public static $password = '';
 
-  // an instance of ApiClient
+  /**
+   * The default instance of ApiClient
+   */
   public static $apiClient;
 
-  // debugging
-  public static $debug = false; // by default debugging is disabled
-  public static $debug_file = 'php://output'; //output debug log to STDOUT by default
+  /**
+   * Debug switch (default set to false)
+   */
+  public static $debug = false;
 
- /*
-  *  manually initalize  Api client
-  */
+  /**
+   * Debug file location (log to STDOUT by default)
+   */
+  public static $debug_file = 'php://output';
+
+  /*
+   *  manually initalize  ApiClient
+   */
   public static function init() {
     if (self::$apiClient === null)
       self::$apiClient = new ApiClient();

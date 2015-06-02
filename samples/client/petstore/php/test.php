@@ -17,8 +17,15 @@ try {
     // return Pet (model)
     $response = $pet_api->getPetById($petId);
     var_dump($response);
-} catch (Exception $e) {
+
+    // test upload file (exception)
+    $upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
+
+} catch (SwaggerClient\ApiException $e) {
     echo 'Caught exception: ', $e->getMessage(), "\n";
+    echo 'HTTP response headers: ', $e->getResponseHeaders(), "\n";
+    echo 'HTTP response body: ', $e->getResponseBody(), "\n";
+    echo 'HTTP status code: ', $e->getCode(), "\n";
 }
 
 ?>
