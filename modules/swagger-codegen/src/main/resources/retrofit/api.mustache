@@ -1,0 +1,29 @@
+package {{package}};
+
+import {{modelPackage}}.*;
+
+import retrofit.http.*;
+import retrofit.mime.*;
+import java.util.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{#operations}}
+public interface {{classname}} {
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}}
+{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   */
+  {{#formParams}}{{#-first}}
+  {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
+  @{{httpMethod}}("{{path}}")  
+  {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}
+    {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+  );{{/hasMore}}{{/allParams}}  
+  {{/operation}}
+}
+{{/operations}}
