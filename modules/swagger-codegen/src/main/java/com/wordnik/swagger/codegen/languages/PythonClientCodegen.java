@@ -85,11 +85,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+    return outputFolder + File.separatorChar + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    return outputFolder + File.separatorChar + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override
