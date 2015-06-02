@@ -47,6 +47,14 @@
     }
 }
 
+- (NSString *) getBasicAuthToken {
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", self.username, self.password];
+    NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
+    basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
+    
+    return basicAuthCredentials;
+}
+
 #pragma mark - Setter Methods
 
 - (void) setValue:(NSString *)value forApiKeyField:(NSString *)field {
