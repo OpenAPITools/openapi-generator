@@ -157,7 +157,7 @@ public class ApiClient {
       }
     }
     catch (IOException e) {
-      throw new ApiException(500, e.getMessage());
+      throw new ApiException(500, e.getMessage(), null, json);
     }
   }
 
@@ -260,9 +260,11 @@ public class ApiClient {
     }
     else {
       String message = "error";
+      String respBody = null;
       if(response.hasEntity()) {
         try{
-          message = String.valueOf(response.getEntity(String.class));
+          respBody = String.valueOf(response.getEntity(String.class));
+          message = respBody;
         }
         catch (RuntimeException e) {
           // e.printStackTrace();
@@ -270,7 +272,9 @@ public class ApiClient {
       }
       throw new ApiException(
                 response.getClientResponseStatus().getStatusCode(),
-                message);
+                message,
+                response.getHeaders(),
+                respBody);
     }
   }
 
