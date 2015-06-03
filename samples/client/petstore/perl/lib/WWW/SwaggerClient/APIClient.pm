@@ -82,7 +82,6 @@ sub call_api {
 
   # Make the HTTP request
   my $_request;
-  use Data::Dumper;
   if ($method eq 'POST') {
       # multipart
       my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
@@ -92,8 +91,7 @@ sub call_api {
       
       #$_request = POST($_url, Accept => $header_params->{Accept},
       #  Content_Type => $_content_type, Content => $_body_data);
-      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data );
-      print Dumper($_request);
+      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data )
 
   }
   elsif ($method eq 'PUT') {
