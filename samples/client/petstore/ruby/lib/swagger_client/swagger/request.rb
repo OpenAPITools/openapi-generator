@@ -159,39 +159,40 @@ module SwaggerClient
         #TODO use configuration setting to determine if debugging
         #logger = Logger.new STDOUT
         #logger.debug self.url
+
+        request_options = {
+          :ssl_verifypeer => Swagger.configuration.verify_ssl,
+          :headers => self.headers.stringify_keys
+        }
         response = case self.http_method.to_sym
         when :get,:GET
           Typhoeus::Request.get(
             self.url,
-            :headers => self.headers.stringify_keys,
+            request_options
           )
 
         when :post,:POST
           Typhoeus::Request.post(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
 
         when :patch,:PATCH
           Typhoeus::Request.patch(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
 
         when :put,:PUT
           Typhoeus::Request.put(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
 
         when :delete,:DELETE
           Typhoeus::Request.delete(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
         end
         Response.new(response)
