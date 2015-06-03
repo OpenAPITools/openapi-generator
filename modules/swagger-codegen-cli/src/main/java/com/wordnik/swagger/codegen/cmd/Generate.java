@@ -1,10 +1,13 @@
 package com.wordnik.swagger.codegen.cmd;
 
+import com.wordnik.swagger.codegen.CliOption;
 import com.wordnik.swagger.codegen.ClientOptInput;
 import com.wordnik.swagger.codegen.ClientOpts;
 import com.wordnik.swagger.codegen.CodegenConfig;
 import com.wordnik.swagger.codegen.DefaultGenerator;
 import com.wordnik.swagger.models.Swagger;
+import config.Config;
+import config.ConfigParser;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import io.swagger.parser.SwaggerParser;
@@ -57,6 +60,11 @@ public class Generate implements Runnable {
     @Option( name= {"-D"}, title = "system properties", description = "sets specified system properties in " +
             "the format of name=value,name=value")
     private String systemProperties;
+    
+    @Option( name= {"-c", "--config"}, title = "configuration file", description = "Path to json configuration file. " +
+            "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} " +
+            "Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.")
+    private String configFile;
 
     @Override
     public void run() {
@@ -75,6 +83,17 @@ public class Generate implements Runnable {
 
         if (null != templateDir) {
             config.additionalProperties().put(TEMPLATE_DIR_PARAM, new File(templateDir).getAbsolutePath());
+        }
+        
+        if(null != configFile){
+            Config genConfig = ConfigParser.read(configFile);
+            if (null != genConfig) {
+                for (CliOption langCliOption : config.cliOptions()) {
+                    if (genConfig.hasOption(langCliOption.getOpt())) {
+                       config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
+                    }
+                }
+            }
         }
 
         input.setConfig(config);
