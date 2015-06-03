@@ -84,45 +84,31 @@ sub call_api {
   my $_request;
   if ($method eq 'POST') {
       # multipart
-      my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+      $header_params->{'Content-Type'} = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
-      $header_params->{'Content-Type'} = $_content_type;
-      my $headers = HTTP::Headers->new(%$header_params);
       
-      #$_request = POST($_url, Accept => $header_params->{Accept},
-      #  Content_Type => $_content_type, Content => $_body_data);
-      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data )
+      $_request = POST($_url, %$header_params, Content => $_body_data);
 
   }
   elsif ($method eq 'PUT') {
       # multipart
-      my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+      $header_params->{'Content-Type'}  = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
-      $header_params->{'Content-Type'} = $_content_type;
-      my $headers = HTTP::Headers->new(%$header_params);
 
-      #$_request = PUT($_url, Accept => $header_params->{Accept},
-      #  Content_Type => $_content_type, Content => $_body_data);
-      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data )
+      $_request = PUT($_url, %$header_params, Content => $_body_data);
 
   }
   elsif ($method eq 'GET') {
       my $headers = HTTP::Headers->new(%$header_params);
-      #$_request = GET($_url, Accept => $header_params->{'Accept'},
-      #  Content_Type => $header_params->{'Content-Type'});
-      $_request = HTTP::Request->new( $method, $_url, $headers)
+      $_request = GET($_url, %$header_params);
   }
   elsif ($method eq 'HEAD') {
       my $headers = HTTP::Headers->new(%$header_params);
-      #$_request = HEAD($_url, Accept => $header_params->{'Accept'},
-      #  Content_Type => $header_params->{'Content-Type'});
-      $_request = HTTP::Request->new( $method, $_url, $headers)
+      $_request = HEAD($_url,%$header_params); 
   }
   elsif ($method eq 'DELETE') { #TODO support form data
       my $headers = HTTP::Headers->new(%$header_params);
-      #$_request = DELETE($_url, Accept => $header_params->{'Accept'},
-      #  Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
-      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data )
+      $_request = DELETE($_url, %$headers);
   }
   elsif ($method eq 'PATCH') { #TODO
   }
