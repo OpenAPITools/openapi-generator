@@ -18,6 +18,10 @@ $WWW::SwaggerClient::Configuration::http_user_agent = 'Perl-Swagger-Test';
 $WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'ZZZZZZZZZZZZZZ';
 $WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = 'BEARER';
 
+$WWW::SwaggerClient::Configuration::username = 'username';
+$WWW::SwaggerClient::Configuration::password = 'password';
+
+
 my $api = WWW::SwaggerClient::PetApi->new();
 
 my $pet_id = 10008;
