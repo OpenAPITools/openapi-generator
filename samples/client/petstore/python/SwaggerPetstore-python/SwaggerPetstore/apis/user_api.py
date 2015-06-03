@@ -27,8 +27,6 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from ..util import remove_none
-
 from ..api_client import ApiClient
 
 class UserApi(object):
@@ -61,13 +59,20 @@ class UserApi(object):
         resource_path = '/user'.replace('{format}', 'json')
         method = 'POST'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -105,13 +110,20 @@ class UserApi(object):
         resource_path = '/user/createWithArray'.replace('{format}', 'json')
         method = 'POST'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -149,13 +161,20 @@ class UserApi(object):
         resource_path = '/user/createWithList'.replace('{format}', 'json')
         method = 'POST'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -194,13 +213,23 @@ class UserApi(object):
         resource_path = '/user/login'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict(username=params.get('username'), password=params.get('password')))
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        query_params = {}
+        
+        if 'username' in params:
+            query_params['username'] = params['username']
+        
+        if 'password' in params:
+            query_params['password'] = params['password']
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -239,13 +268,17 @@ class UserApi(object):
         resource_path = '/user/logout'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -287,13 +320,20 @@ class UserApi(object):
         resource_path = '/user/{username}'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict(username=params.get('username')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        if 'username' in params:
+            path_params['username'] = params['username']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -338,13 +378,23 @@ class UserApi(object):
         resource_path = '/user/{username}'.replace('{format}', 'json')
         method = 'PUT'
 
-        path_params = remove_none(dict(username=params.get('username')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        if 'username' in params:
+            path_params['username'] = params['username']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -386,13 +436,20 @@ class UserApi(object):
         resource_path = '/user/{username}'.replace('{format}', 'json')
         method = 'DELETE'
 
-        path_params = remove_none(dict(username=params.get('username')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        if 'username' in params:
+            path_params['username'] = params['username']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
