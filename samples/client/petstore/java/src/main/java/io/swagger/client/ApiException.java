@@ -27,31 +27,21 @@ public class ApiException extends Exception {
     return code;
   }
 
-  public void setCode(int code) {
-    this.code = code;
-  }
-
   public String getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
+  /**
+   * Get the HTTP response headers.
+   */
   public Map<String, List<String>> getResponseHeaders() {
     return responseHeaders;
   }
 
-  public void setResponseHeaders(Map<String, List<String>> responseHeaders) {
-    this.responseHeaders = responseHeaders;
-  }
-
+  /**
+   * Get the HTTP response body.
+   */
   public String getResponseBody() {
     return responseBody;
-  }
-
-  public void setResponseBody(String responseBody) {
-    this.responseBody = responseBody;
   }
 }

@@ -26,25 +26,25 @@ public class PetApiTest {
     assertEquals(Configuration.getDefaultApiClient(), api.getApiClient());
     assertNotNull(api.getApiClient());
     assertEquals("http://petstore.swagger.io/v2", api.getApiClient().getBasePath());
-    assertFalse(api.getApiClient().isDebug());
+    assertFalse(api.getApiClient().isDebugging());
 
     ApiClient oldClient = api.getApiClient();
 
     ApiClient newClient = new ApiClient();
     newClient.setBasePath("http://example.com");
-    newClient.enableDebug();
+    newClient.setDebugging(true);
 
     // set api client via constructor
     api = new PetApi(newClient);
     assertNotNull(api.getApiClient());
     assertEquals("http://example.com", api.getApiClient().getBasePath());
-    assertTrue(api.getApiClient().isDebug());
+    assertTrue(api.getApiClient().isDebugging());
 
     // set api client via setter method
     api.setApiClient(oldClient);
     assertNotNull(api.getApiClient());
     assertEquals("http://petstore.swagger.io/v2", api.getApiClient().getBasePath());
-    assertFalse(api.getApiClient().isDebug());
+    assertFalse(api.getApiClient().isDebugging());
   }
 
   @Test
@@ -129,7 +129,7 @@ public class PetApiTest {
     api.addPet(pet);
 
     Pet fetched = api.getPetById(pet.getId());
-    
+
     api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null);
     Pet updated = api.getPetById(fetched.getId());
 
