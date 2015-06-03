@@ -83,7 +83,7 @@ namespace {{package}} {
       // make the HTTP request
       IRestResponse response = restClient.Execute(_request);
       if (((int)response.StatusCode) >= 400) {
-        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content);
+        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
       }
       {{#returnType}}return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
       return;{{/returnType}}
@@ -125,7 +125,7 @@ namespace {{package}} {
       // make the HTTP request
       IRestResponse response = await restClient.ExecuteTaskAsync(_request);
       if (((int)response.StatusCode) >= 400) {
-        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content);
+        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
       }
       {{#returnType}}return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
       return;{{/returnType}}
