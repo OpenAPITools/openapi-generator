@@ -22,7 +22,7 @@ class ApiClientTests(unittest.TestCase):
     def setUp(self):
         self.api_client = SwaggerPetstore.ApiClient(HOST)
 
-    def test_configuratjion(self):
+    def test_configuration(self):
         SwaggerPetstore.configuration.api_key['api_key'] = '123456'
         SwaggerPetstore.configuration.api_key_prefix['api_key'] = 'PREFIX'
         SwaggerPetstore.configuration.username = 'test_username'
