@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use utf8;
 
+use MIME::Base64;
 use LWP::UserAgent;
 use HTTP::Headers;
 use HTTP::Response;
@@ -61,9 +62,11 @@ sub set_timeout {
 # @return mixed
 sub call_api {
   my $self = shift;
-  my ($resource_path, $method, $query_params, $post_params, $header_params, $body_data) = @_;
+  my ($resource_path, $method, $query_params, $post_params, $header_params, $body_data, $auth_settings) = @_;
 
-  my $headers = HTTP::Headers->new(%$header_params);
+  # update parameters based on authentication settings
+  $self->update_params_for_auth($header_params, $query_params, $auth_settings); 
+
 
   my $_url = $self->{base_url} . $resource_path;
 
@@ -72,38 +75,56 @@ sub call_api {
     $_url = ($_url . '?' . eval { URI::Query->new($query_params)->stringify });
   }
 
+
   # body data
   $body_data = to_json($body_data->to_hash) if defined $body_data && $body_data->can('to_hash'); # model to json string
   my $_body_data = %$post_params ? $post_params : $body_data;
 
   # Make the HTTP request
   my $_request;
+  use Data::Dumper;
   if ($method eq 'POST') {
       # multipart
       my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
+      $header_params->{'Content-Type'} = $_content_type;
+      my $headers = HTTP::Headers->new(%$header_params);
+      
+      #$_request = POST($_url, Accept => $header_params->{Accept},
+      #  Content_Type => $_content_type, Content => $_body_data);
+      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data );
+      print Dumper($_request);
 
-      $_request = POST($_url, Accept => $header_params->{Accept},
-        Content_Type => $_content_type, Content => $_body_data);
   }
   elsif ($method eq 'PUT') {
       # multipart
       my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
-      $_request = PUT($_url, Accept => $header_params->{Accept},
-        Content_Type => $_content_type, Content => $_body_data);
+      $header_params->{'Content-Type'} = $_content_type;
+      my $headers = HTTP::Headers->new(%$header_params);
+
+      #$_request = PUT($_url, Accept => $header_params->{Accept},
+      #  Content_Type => $_content_type, Content => $_body_data);
+      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data )
+
   }
   elsif ($method eq 'GET') {
-      $_request = GET($_url, Accept => $header_params->{'Accept'},
-        Content_Type => $header_params->{'Content-Type'});
+      my $headers = HTTP::Headers->new(%$header_params);
+      #$_request = GET($_url, Accept => $header_params->{'Accept'},
+      #  Content_Type => $header_params->{'Content-Type'});
+      $_request = HTTP::Request->new( $method, $_url, $headers)
   }
   elsif ($method eq 'HEAD') {
-      $_request = HEAD($_url, Accept => $header_params->{'Accept'},
-        Content_Type => $header_params->{'Content-Type'});
+      my $headers = HTTP::Headers->new(%$header_params);
+      #$_request = HEAD($_url, Accept => $header_params->{'Accept'},
+      #  Content_Type => $header_params->{'Content-Type'});
+      $_request = HTTP::Request->new( $method, $_url, $headers)
   }
   elsif ($method eq 'DELETE') { #TODO support form data
-      $_request = DELETE($_url, Accept => $header_params->{'Accept'},
-        Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
+      my $headers = HTTP::Headers->new(%$header_params);
+      #$_request = DELETE($_url, Accept => $header_params->{'Accept'},
+      #  Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
+      $_request = HTTP::Request->new( $method, $_url, $headers, $_body_data )
   }
   elsif ($method eq 'PATCH') { #TODO
   }
@@ -254,6 +275,49 @@ sub select_header_content_type
     return join(',', @header);
   }
 
+}
+
+# Get API key (with prefix if set)
+# @param string key name
+# @return string API key with the prefix
+sub get_api_key_with_prefix
+{
+    my ($self, $api_key) = @_;
+    if ($WWW::SwaggerClient::Configuration::api_key_prefix->{$api_key}) {
+      return $WWW::SwaggerClient::Configuration::api_key_prefix->{$api_key}." ".$WWW::SwaggerClient::Configuration::api_key->{$api_key};
+    } else {
+      return $WWW::SwaggerClient::Configuration::api_key->{$api_key};
+    }
+}
+
+# update hearder and query param based on authentication setting
+#  
+# @param array $headerParams header parameters (by ref)
+# @param array $queryParams query parameters (by ref)
+# @param array $authSettings array of authentication scheme (e.g ['api_key'])
+sub update_params_for_auth {
+  my ($self, $header_params, $query_params, $auth_settings) = @_;
+
+  return if (!defined($auth_settings) || scalar(@$auth_settings) == 0);
+
+  # one endpoint can have more than 1 auth settings
+  foreach my $auth (@$auth_settings) {
+    # determine which one to use
+    if (!defined($auth)) {
+    }
+    elsif ($auth eq 'api_key') {
+      $header_params->{'api_key'} = $self->get_api_key_with_prefix('api_key');
+        
+    }
+    elsif ($auth eq 'petstore_auth') {
+      
+        # TODO support oauth
+    }
+    
+    else {
+      # TODO show warning about security definition not found
+    }
+  }
 }
 
 

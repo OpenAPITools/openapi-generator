@@ -116,18 +116,21 @@ sub new {
         $_body_data = $args{'{{paramName}}'};
       }{{/bodyParams}}
 
+      # authentication setting, if any
+      my $auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+
       # make the API Call
       {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('{{returnType}}', $response);
-  		return $_response_object;{{/returnType}}
+      my $_response_object = $self->{api_client}->deserialize('{{returnType}}', $response);
+      return $_response_object;{{/returnType}}
       {{^returnType}}$self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       {{/returnType}}
   }
