@@ -119,14 +119,16 @@ module SwaggerClient
       # For form parameters, remove empty value
       def outgoing_body
         # http form
-        if @body.nil? && @form_params && !@form_params.empty?
+        if headers['Content-Type'] == 'application/x-www-form-urlencoded'
           data = form_params.dup
           data.each do |key, value|
             data[key] = value.to_s if value && !value.is_a?(File) # remove emtpy form parameter
           end
           data
-        else # http body is JSON
+        elsif @body # http body is JSON
           @body.is_a?(String) ? @body : @body.to_json
+        else
+          nil
         end
       end
 
