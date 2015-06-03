@@ -68,7 +68,8 @@ public class {{classname}} {
     {{#queryParams}}if ({{paramName}} != null)
       queryParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/queryParams}}
-    {{#headerParams}}headerParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{#headerParams}}if ({{paramName}} != null)
+      headerParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
     String[] contentTypes = {
       {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
@@ -80,18 +81,23 @@ public class {{classname}} {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
       {{#formParams}}{{#notFile}}
-      hasFields = true;
-      mp.field("{{baseName}}", apiClient.parameterToString({{paramName}}), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.field("{{baseName}}", apiClient.parameterToString({{paramName}}), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       {{/notFile}}{{#isFile}}
-      hasFields = true;
-      mp.field("{{baseName}}", file.getName());
-      mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE));
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.field("{{baseName}}", {{paramName}}.getName());
+        mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE));
+      }
       {{/isFile}}{{/formParams}}
       if(hasFields)
         postBody = mp;
     }
     else {
-      {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{/notFile}}
+      {{#formParams}}{{#notFile}}if ({{paramName}} != null)
+        formParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{/notFile}}
       {{/formParams}}
     }
 
