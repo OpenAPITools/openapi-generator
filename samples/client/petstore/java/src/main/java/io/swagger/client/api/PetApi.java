@@ -338,18 +338,24 @@ public class PetApi {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
       
-      hasFields = true;
-      mp.field("name", apiClient.parameterToString(name), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if (name != null) {
+        hasFields = true;
+        mp.field("name", apiClient.parameterToString(name), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       
-      hasFields = true;
-      mp.field("status", apiClient.parameterToString(status), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if (status != null) {
+        hasFields = true;
+        mp.field("status", apiClient.parameterToString(status), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       
       if(hasFields)
         postBody = mp;
     }
     else {
-      formParams.put("name", apiClient.parameterToString(name));
-      formParams.put("status", apiClient.parameterToString(status));
+      if (name != null)
+        formParams.put("name", apiClient.parameterToString(name));
+      if (status != null)
+        formParams.put("status", apiClient.parameterToString(status));
       
     }
 
@@ -392,7 +398,8 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    headerParams.put("api_key", apiClient.parameterToString(apiKey));
+    if (apiKey != null)
+      headerParams.put("api_key", apiClient.parameterToString(apiKey));
     
     String[] contentTypes = {
       
@@ -462,18 +469,23 @@ public class PetApi {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
       
-      hasFields = true;
-      mp.field("additionalMetadata", apiClient.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if (additionalMetadata != null) {
+        hasFields = true;
+        mp.field("additionalMetadata", apiClient.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       
-      hasFields = true;
-      mp.field("file", file.getName());
-      mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
+      if (file != null) {
+        hasFields = true;
+        mp.field("file", file.getName());
+        mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
+      }
       
       if(hasFields)
         postBody = mp;
     }
     else {
-      formParams.put("additionalMetadata", apiClient.parameterToString(additionalMetadata));
+      if (additionalMetadata != null)
+        formParams.put("additionalMetadata", apiClient.parameterToString(additionalMetadata));
       
       
     }
