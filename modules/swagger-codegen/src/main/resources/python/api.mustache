@@ -27,8 +27,6 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from ..util import remove_none
-
 from ..api_client import ApiClient
 
 {{#operations}}
@@ -66,13 +64,32 @@ class {{classname}}(object):
         resource_path = '{{path}}'.replace('{format}', 'json')
         method = '{{httpMethod}}'
 
-        path_params = remove_none(dict({{#pathParams}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/pathParams}}))
-        query_params = remove_none(dict({{#queryParams}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/queryParams}}))
-        header_params = remove_none(dict({{#headerParams}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/headerParams}}))
-        form_params = remove_none(dict({{#formParams}}{{^isFile}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/isFile}}{{/formParams}}))
-        files = remove_none(dict({{#formParams}}{{#isFile}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/isFile}}{{/formParams}}))
-        body_params = {{#bodyParam}}params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}
-
+        path_params = {}
+        {{#pathParams}}
+        if '{{paramName}}' in params:
+            path_params['{{baseName}}'] = params['{{paramName}}']  
+        {{/pathParams}}
+        query_params = {}
+        {{#queryParams}}
+        if '{{paramName}}' in params:
+            query_params['{{baseName}}'] = params['{{paramName}}']
+        {{/queryParams}}
+        header_params = {}
+        {{#headerParams}}
+        if '{{paramName}}' in params:
+            header_params['{{baseName}}'] = params['{{paramName}}']
+        {{/headerParams}}
+        form_params = {}
+        files = {}
+        {{#formParams}}
+        if '{{paramName}}' in params:
+            {{#notFile}}form_params['{{baseName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+        {{/formParams}}
+        body_params = None
+        {{#bodyParam}}
+        if '{{paramName}}' in params:
+            body_params = params['{{paramName}}']
+        {{/bodyParam}}
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept([{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
         if not header_params['Accept']:

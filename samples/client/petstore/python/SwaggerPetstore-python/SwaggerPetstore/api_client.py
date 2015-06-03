@@ -248,11 +248,12 @@ class ApiClient(object):
 
     if files:
       for k, v in iteritems(files):
-        with open(v, 'rb') as f:
-          filename = os.path.basename(f.name)
-          filedata = f.read()
-          mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
-        params[k] = tuple([filename, filedata, mimetype])
+        if v:
+          with open(v, 'rb') as f:
+            filename = os.path.basename(f.name)
+            filedata = f.read()
+            mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+            params[k] = tuple([filename, filedata, mimetype])
 
     return params
 
