@@ -53,7 +53,7 @@ namespace {{invokerPackage}} {
      
       // add query parameter, if any
       foreach(KeyValuePair<string, string> param in QueryParams)
-        request.AddUrlSegment(param.Key, param.Value);
+        request.AddQueryParameter(param.Key, param.Value);
 
       // add form parameter, if any
       foreach(KeyValuePair<string, string> param in FormParams)
@@ -99,13 +99,21 @@ namespace {{invokerPackage}} {
     }
 
     /// <summary>
-    /// if parameter is DateTime, output in ISO8601 format, otherwise just return the string
+    /// if parameter is DateTime, output in ISO8601 format
+    /// if parameter is a list of string, join the list with ","
+    /// otherwise just return the string
     /// </summary>
     /// <param name="obj"> The parameter (header, path, query, form)
     /// <returns>Formatted string</returns>
     public string ParameterToString(object obj)
     {
-      return (obj is DateTime) ? ((DateTime)obj).ToString ("u") : Convert.ToString (obj);
+      if (obj is DateTime) {
+        return ((DateTime)obj).ToString ("u");
+      } else if (obj is List<string>) {
+        return String.Join(",", obj as List<string>);
+      } else {
+	return Convert.ToString (obj);
+      }
     }
 
     /// <summary>
