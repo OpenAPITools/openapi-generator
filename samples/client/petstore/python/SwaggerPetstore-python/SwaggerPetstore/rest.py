@@ -190,7 +190,10 @@ class ApiException(Exception):
         """
         Custom error response messages
         """
-        return "({0})\nReason: {1}\nHeader: {2}\nBody: {3}\n".\
+        return "({0})\n"\
+            "Reason: {1}\n"\
+            "HTTP response headers: {2}\n"\
+            "HTTP response body: {3}\n".\
             format(self.status, self.reason, self.headers, self.body)
 
 class RESTClient(object):
