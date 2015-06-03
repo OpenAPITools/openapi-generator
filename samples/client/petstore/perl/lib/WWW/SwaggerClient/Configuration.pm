@@ -12,5 +12,11 @@ our $api_client;
 our $http_timeout = 180;
 our $http_user_agent = 'Perl-Swagger';
 
+# authenticaiton setting
+our $api_key = {};
+our $api_key_prefix = {};
+our $username;
+our $password;
+
 
 1;

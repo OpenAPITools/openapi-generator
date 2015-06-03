@@ -91,15 +91,18 @@ sub new {
       my $_body_data;
       
 
+      # authentication setting, if any
+      my $auth_settings = ['api_key'];
+
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
+      return $_response_object;
       
   }
   
@@ -142,15 +145,18 @@ sub new {
         $_body_data = $args{'body'};
       }
 
+      # authentication setting, if any
+      my $auth_settings = [];
+
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('Order', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('Order', $response);
+      return $_response_object;
       
   }
   
@@ -200,15 +206,18 @@ sub new {
       my $_body_data;
       
 
+      # authentication setting, if any
+      my $auth_settings = [];
+
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('Order', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('Order', $response);
+      return $_response_object;
       
   }
   
@@ -258,11 +267,14 @@ sub new {
       my $_body_data;
       
 
+      # authentication setting, if any
+      my $auth_settings = [];
+
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }

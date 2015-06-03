@@ -15,6 +15,8 @@ use Data::Dumper;
 use DateTime;
 
 $WWW::SwaggerClient::Configuration::http_user_agent = 'Perl-Swagger-Test';
+$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'ZZZZZZZZZZZZZZ';
+$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = 'BEARER';
 
 my $api = WWW::SwaggerClient::PetApi->new();
 
