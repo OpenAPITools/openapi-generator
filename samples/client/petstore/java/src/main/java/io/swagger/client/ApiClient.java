@@ -36,21 +36,18 @@ import java.text.ParseException;
 public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private boolean isDebug = false;
+  private boolean debugging = false;
   private String basePath = "http://petstore.swagger.io/v2";
 
   private DateFormat dateFormat;
-  private DateFormat datetimeFormat;
 
   public ApiClient() {
     // Use ISO 8601 format for date and datetime.
     // See https://en.wikipedia.org/wiki/ISO_8601
-    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    this.datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     // Use UTC as the default time zone.
     this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    this.datetimeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
     // Set default User-Agent.
     setUserAgent("Java-Swagger");
@@ -65,33 +62,60 @@ public class ApiClient {
     return this;
   }
 
+  /**
+   * Set the User-Agent header's value (by adding to the default header map).
+   */
   public ApiClient setUserAgent(String userAgent) {
     addDefaultHeader("User-Agent", userAgent);
     return this;
   }
 
+  /**
+   * Add a default header.
+   *
+   * @param key The header's key
+   * @param value The header's value
+   */
   public ApiClient addDefaultHeader(String key, String value) {
     defaultHeaderMap.put(key, value);
     return this;
   }
 
-  public boolean isDebug() {
-    return isDebug;
+  /**
+   * Check that whether debugging is enabled for this API client.
+   */
+  public boolean isDebugging() {
+    return debugging;
   }
 
-  public ApiClient enableDebug() {
-    isDebug = true;
+  /**
+   * Enable/disable debugging for this API client.
+   *
+   * @param debugging To enable (true) or disable (false) debugging
+   */
+  public ApiClient setDebugging(boolean debugging) {
+    this.debugging = debugging;
     return this;
   }
 
-  public Date parseDateTime(String str) {
-    try {
-      return datetimeFormat.parse(str);
-    } catch (java.text.ParseException e) {
-      throw new RuntimeException(e);
-    }
+  /**
+   * Get the date format used to parse/format date parameters.
+   */
+  public DateFormat getDateFormat() {
+    return dateFormat;
   }
 
+  /**
+   * Set the date format used to parse/format date parameters.
+   */
+  public ApiClient getDateFormat(DateFormat dateFormat) {
+    this.dateFormat = dateFormat;
+    return this;
+  }
+
+  /**
+   * Parse the given string into Date object.
+   */
   public Date parseDate(String str) {
     try {
       return dateFormat.parse(str);
@@ -100,19 +124,21 @@ public class ApiClient {
     }
   }
 
-  public String formatDateTime(Date datetime) {
-    return datetimeFormat.format(datetime);
-  }
-
+  /**
+   * Format the given Date object into string.
+   */
   public String formatDate(Date date) {
     return dateFormat.format(date);
   }
 
+  /**
+   * Format the given parameter object into string.
+   */
   public String parameterToString(Object param) {
     if (param == null) {
       return "";
     } else if (param instanceof Date) {
-      return formatDateTime((Date) param);
+      return formatDate((Date) param);
     } else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection)param) {
@@ -127,15 +153,25 @@ public class ApiClient {
     }
   }
 
+  /**
+   * Escape the given string to be used as URL query value.
+   */
   public String escapeString(String str) {
-    try{
+    try {
       return URLEncoder.encode(str, "utf8").replaceAll("\\+", "%20");
-    }
-    catch(UnsupportedEncodingException e) {
+    } catch (UnsupportedEncodingException e) {
       return str;
     }
   }
 
+  /**
+   * Deserialize the given JSON string to Java object.
+   *
+   * @param json The JSON string
+   * @param containerType The container type, one of "list", "array" or ""
+   * @param cls The type of the Java object
+   * @return The deserialized Java object
+   */
   public Object deserialize(String json, String containerType, Class cls) throws ApiException {
     if(null != containerType) {
         containerType = containerType.toLowerCase();
@@ -161,6 +197,9 @@ public class ApiClient {
     }
   }
 
+  /**
+   * Serialize the given Java object into JSON string.
+   */
   public String serialize(Object obj) throws ApiException {
     try {
       if (obj != null)
@@ -173,6 +212,18 @@ public class ApiClient {
     }
   }
 
+  /**
+   * Invoke API by sending HTTP request with the given options.
+   *
+   * @param path The sub-path of the HTTP URL
+   * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
+   * @param queryParams The query parameters
+   * @param body The request body object
+   * @param headerParams The header parameters
+   * @param formParams The form parameters
+   * @param contentType The request Content-Type
+   * @return The response body in type of string
+   */
   public String invokeAPI(String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
     Client client = getClient();
 
@@ -278,6 +329,9 @@ public class ApiClient {
     }
   }
 
+  /**
+   * Encode the given form parameters as request body.
+   */
   private String getXWWWFormUrlencodedParams(Map<String, String> formParams) {
     StringBuilder formParamBuilder = new StringBuilder();
 
@@ -302,10 +356,13 @@ public class ApiClient {
     return encodedFormParams;
   }
 
+  /**
+   * Get an existing client or create a new client to handle HTTP request.
+   */
   private Client getClient() {
     if(!hostMap.containsKey(basePath)) {
       Client client = Client.create();
-      if(isDebug)
+      if (debugging)
         client.addFilter(new LoggingFilter());
       hostMap.put(basePath, client);
     }
