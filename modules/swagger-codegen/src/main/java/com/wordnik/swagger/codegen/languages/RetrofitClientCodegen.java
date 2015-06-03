@@ -1,12 +1,13 @@
 package com.wordnik.swagger.codegen.languages;
 
 import com.wordnik.swagger.codegen.*;
+import com.wordnik.swagger.models.Operation;
 import com.wordnik.swagger.models.properties.*;
 
 import java.util.*;
 import java.io.File;
 
-public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class RetrofitClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String invokerPackage = "io.swagger.client";
   protected String groupId = "io.swagger";
   protected String artifactId = "swagger-java-client";
@@ -18,19 +19,19 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   public String getName() {
-    return "java";
+    return "retrofit";
   }
 
   public String getHelp() {
-    return "Generates a Java client library.";
+    return "Generates a Retrofit client library.";
   }
 
-  public JavaClientCodegen() {
+  public RetrofitClientCodegen() {
     super();
     outputFolder = "generated-code/java";
     modelTemplateFiles.put("model.mustache", ".java");
     apiTemplateFiles.put("api.mustache", ".java");
-    templateDir = "Java";
+    templateDir = "retrofit";
     apiPackage = "io.swagger.client.api";
     modelPackage = "io.swagger.client.model";
 
@@ -45,6 +46,15 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         "native", "super", "while")
     );
 
+    additionalProperties.put("invokerPackage", invokerPackage);
+    additionalProperties.put("groupId", groupId);
+    additionalProperties.put("artifactId", artifactId);
+    additionalProperties.put("artifactVersion", artifactVersion);
+
+    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+    supportingFiles.add(new SupportingFile("service.mustache", 
+      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ServiceGenerator.java"));
+
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
         "String",
@@ -58,64 +68,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
       );
     instantiationTypes.put("array", "ArrayList");
     instantiationTypes.put("map", "HashMap");
-    
-    cliOptions.add(new CliOption("invokerPackage", "root package for generated code"));
-    cliOptions.add(new CliOption("groupId", "groupId in generated pom.xml"));
-    cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
-    cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
-    cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
   }
-
-  @Override
-  public void processOpts() {
-    super.processOpts();
-    
-    if(additionalProperties.containsKey("invokerPackage")) {
-      this.setInvokerPackage((String)additionalProperties.get("invokerPackage"));
-    }
-    else{
-      //not set, use default to be passed to template
-      additionalProperties.put("invokerPackage", invokerPackage);
-    }
-    
-    if(additionalProperties.containsKey("groupId")) {
-      this.setGroupId((String)additionalProperties.get("groupId"));
-    }
-    else{
-      //not set, use to be passed to template
-      additionalProperties.put("groupId", groupId);
-    }
-    
-    if(additionalProperties.containsKey("artifactId")) {
-      this.setArtifactId((String)additionalProperties.get("artifactId"));
-    }
-    else{
-      //not set, use to be passed to template
-      additionalProperties.put("artifactId", artifactId);
-    }
-    
-    if(additionalProperties.containsKey("artifactVersion")) {
-      this.setArtifactVersion((String)additionalProperties.get("artifactVersion"));
-    }
-    else{
-      //not set, use to be passed to template
-      additionalProperties.put("artifactVersion", artifactVersion);
-    }
-    
-    if(additionalProperties.containsKey("sourceFolder")) {
-      this.setSourceFolder((String)additionalProperties.get("sourceFolder"));
-    }
-
-    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-    supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
-    supportingFiles.add(new SupportingFile("JsonUtil.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
-    supportingFiles.add(new SupportingFile("apiException.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
-  }
-  
-  
 
   @Override
   public String escapeReservedWord(String name) {
@@ -174,6 +127,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     return toModelName(name);
   }
 
+
   @Override
   public String getTypeDeclaration(Property p) {
     if(p instanceof ArrayProperty) {
@@ -213,23 +167,24 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     return camelize(operationId, true);
   }
 
-  public void setInvokerPackage(String invokerPackage) {
-    this.invokerPackage = invokerPackage;
-  }
-
-  public void setGroupId(String groupId) {
-    this.groupId = groupId;
-  }
-
-  public void setArtifactId(String artifactId) {
-    this.artifactId = artifactId;
-  }
-
-  public void setArtifactVersion(String artifactVersion) {
-    this.artifactVersion = artifactVersion;
-  }
-
-  public void setSourceFolder(String sourceFolder) {
-    this.sourceFolder = sourceFolder;
+  public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    Map<String, Object> operations = (Map<String, Object>)objs.get("operations");
+    if(operations != null) {
+      List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+      for(CodegenOperation operation : ops) {
+        if (operation.hasConsumes == Boolean.TRUE) {
+          Map<String, String> firstType = operation.consumes.get(0);
+          if (firstType != null) {
+            if ("multipart/form-data".equals(firstType.get("mediaType"))) {
+              operation.isMultipart = Boolean.TRUE;
+            }
+          }
+        }
+        if(operation.returnType == null) {
+          operation.returnType = "Void";        
+        }
+      }
+    }
+    return objs;
   }
 }
