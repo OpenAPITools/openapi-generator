@@ -27,8 +27,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public PerlClientCodegen() {
     super();
-    modelPackage = "/Object";
-    outputFolder = "generated-code/perl";
+    modelPackage = File.separatorChar + "Object";
+    outputFolder = "generated-code" + File.separatorChar + "perl";
     modelTemplateFiles.put("object.mustache", ".pm");
     apiTemplateFiles.put("api.mustache", ".pm");
     templateDir = "perl";
@@ -63,6 +63,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     languageSpecificPrimitives.add("DateTime");
     languageSpecificPrimitives.add("ARRAY");
     languageSpecificPrimitives.add("HASH");
+    languageSpecificPrimitives.add("object");
 
     typeMapping.put("integer", "int");
     typeMapping.put("long", "int");
@@ -75,6 +76,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("password", "string");
     typeMapping.put("array", "ARRAY");
     typeMapping.put("map", "HASH");
+    typeMapping.put("object", "object");
 
     supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "ApiClient.pm"));
     supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "Configuration.pm"));

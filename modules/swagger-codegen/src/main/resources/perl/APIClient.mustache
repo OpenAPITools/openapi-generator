@@ -216,7 +216,7 @@ sub deserialize
     $_result = \@_values;
   } elsif ($class eq 'DateTime') {
     $_result = DateTime->from_epoch(epoch => str2time($data));
-  } elsif (grep /^$data$/, ('string', 'int', 'float', 'bool')) { #TODO revise the primitive type
+  } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) { #TODO revise the primitive type
     $_result= $data;
   } else { # model
     my $_instance = use_module("WWW::{{invokerPackage}}::Object::$class")->new;
