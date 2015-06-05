@@ -1,9 +1,12 @@
 #import <Foundation/Foundation.h>
 #import "SWGUser.h"
 #import "SWGObject.h"
+#import "SWGApiClient.h"
 
 
 @interface SWGUserApi: NSObject
+
+@property(nonatomic, assign)SWGApiClient *apiClient;
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;

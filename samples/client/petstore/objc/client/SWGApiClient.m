@@ -134,10 +134,12 @@ static bool loggingEnabled = true;
 }
 
 +(NSNumber*) nextRequestId {
-    long nextId = ++requestId;
-    if(loggingEnabled)
-        NSLog(@"got id %ld", nextId);
-    return [NSNumber numberWithLong:nextId];
+    @synchronized(self) {
+        long nextId = ++requestId;
+        if(loggingEnabled)
+            NSLog(@"got id %ld", nextId);
+        return [NSNumber numberWithLong:nextId];
+    }
 }
 
 +(NSNumber*) queueRequest {
