@@ -16,15 +16,12 @@ import org.junit.*;
 public class PetApiTest {
   PetApi api = null;
 
-  @BeforeClass
-  public static void initAuth() {
-    ApiKeyAuth apiKeyAuth = (ApiKeyAuth) Configuration.getAuthentication("api_key");
-    apiKeyAuth.setApiKey("special-key");
-  }
-
   @Before
   public void setup() {
     api = new PetApi();
+    // setup authentication
+    ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
+    apiKeyAuth.setApiKey("special-key");
   }
 
   @Test
