@@ -2,10 +2,13 @@
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 #import "SWGObject.h"
+#import "SWGApiClient.h"
 {{newline}}
 
 {{#operations}}
 @interface {{classname}}: NSObject
+
+@property(nonatomic, assign)SWGApiClient *apiClient;
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;
