@@ -1,8 +1,9 @@
-    return [client stringWithCompletionBlock: requestUrl 
+    return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"{{httpMethod}}" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
                                 headerParams: headerParams
+                                authSettings: authSettings
                           requestContentType: requestContentType
                          responseContentType: responseContentType
                              completionBlock: ^(NSString *data, NSError *error) {

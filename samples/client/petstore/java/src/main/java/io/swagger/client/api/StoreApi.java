@@ -1,7 +1,8 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiException;
-import io.swagger.client.ApiInvoker;
+import io.swagger.client.ApiClient;
+import io.swagger.client.Configuration;
 
 import io.swagger.client.model.*;
 
@@ -20,19 +21,22 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class StoreApi {
-  String basePath = "http://petstore.swagger.io/v2";
-  ApiInvoker apiInvoker = ApiInvoker.getInstance();
+  private ApiClient apiClient;
 
-  public ApiInvoker getInvoker() {
-    return apiInvoker;
+  public StoreApi() {
+    this(Configuration.getDefaultApiClient());
   }
 
-  public void setBasePath(String basePath) {
-    this.basePath = basePath;
+  public StoreApi(ApiClient apiClient) {
+    this.apiClient = apiClient;
   }
 
-  public String getBasePath() {
-    return basePath;
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
+
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
   }
 
   
@@ -74,9 +78,9 @@ public class StoreApi {
 
     try {
       String[] authNames = new String[] { "api_key" };
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
-        return (Map<String, Integer>) ApiInvoker.deserialize(response, "map", Map.class);
+        return (Map<String, Integer>) apiClient.deserialize(response, "map", Map.class);
       }
       else {
         return null;
@@ -125,9 +129,9 @@ public class StoreApi {
 
     try {
       String[] authNames = new String[] {  };
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
-        return (Order) ApiInvoker.deserialize(response, "", Order.class);
+        return (Order) apiClient.deserialize(response, "", Order.class);
       }
       else {
         return null;
@@ -154,7 +158,7 @@ public class StoreApi {
 
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -182,9 +186,9 @@ public class StoreApi {
 
     try {
       String[] authNames = new String[] {  };
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
-        return (Order) ApiInvoker.deserialize(response, "", Order.class);
+        return (Order) apiClient.deserialize(response, "", Order.class);
       }
       else {
         return null;
@@ -211,7 +215,7 @@ public class StoreApi {
 
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -239,7 +243,7 @@ public class StoreApi {
 
     try {
       String[] authNames = new String[] {  };
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      String response = apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }

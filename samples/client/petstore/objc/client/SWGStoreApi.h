@@ -1,10 +1,14 @@
 #import <Foundation/Foundation.h>
 #import "SWGOrder.h"
 #import "SWGObject.h"
+#import "SWGApiClient.h"
 
 
 @interface SWGStoreApi: NSObject
 
+@property(nonatomic, assign)SWGApiClient *apiClient;
+
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient;
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;
 +(SWGStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;

@@ -2,10 +2,14 @@
 #import "SWGPet.h"
 #import "SWGFile.h"
 #import "SWGObject.h"
+#import "SWGApiClient.h"
 
 
 @interface SWGPetApi: NSObject
 
+@property(nonatomic, assign)SWGApiClient *apiClient;
+
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient;
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;

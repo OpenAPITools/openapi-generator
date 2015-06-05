@@ -77,10 +77,23 @@ public class DefaultCodegen {
   protected String templateDir;
   protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
   protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
+  protected List<CliOption> cliOptions = new ArrayList<CliOption>();
+
+  public List<CliOption> cliOptions() {
+    return cliOptions;
+  }
 
   public void processOpts(){
     if(additionalProperties.containsKey("templateDir")) {
       this.setTemplateDir((String)additionalProperties.get("templateDir"));
+    }
+    
+    if(additionalProperties.containsKey("modelPackage")) {
+      this.setModelPackage((String)additionalProperties.get("modelPackage"));
+    }
+    
+    if(additionalProperties.containsKey("apiPackage")) {
+      this.setApiPackage((String)additionalProperties.get("apiPackage"));
     }
   }
 
@@ -176,6 +189,14 @@ public class DefaultCodegen {
 
   public void setTemplateDir(String templateDir) {
     this.templateDir = templateDir;
+  }
+
+  public void setModelPackage(String modelPackage) {
+    this.modelPackage = modelPackage;
+  }
+
+  public void setApiPackage(String apiPackage) {
+    this.apiPackage = apiPackage;
   }
 
   public String toApiFilename(String name) {
@@ -281,6 +302,9 @@ public class DefaultCodegen {
     importMapping.put("LocalDateTime", "org.joda.time.*");
     importMapping.put("LocalDate", "org.joda.time.*");
     importMapping.put("LocalTime", "org.joda.time.*");
+    
+    cliOptions.add(new CliOption("modelPackage", "package for generated models"));
+    cliOptions.add(new CliOption("apiPackage", "package for generated api classes"));
   }
 
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BA525648922D4C0E9F44D4F1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73DA4F1067C343C3962F1542 /* libPods.a */; };
+		CF0560EB1B1855CF00C0D4EC /* SWGConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0560EA1B1855CF00C0D4EC /* SWGConfiguration.m */; };
 		CF31D0991B105E4B00509935 /* SWGApiClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF31D0981B105E4B00509935 /* SWGApiClientTest.m */; };
 		CFD1B6701B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */; };
 		CFD1B6711B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */; };
@@ -56,6 +57,8 @@
 /* Begin PBXFileReference section */
 		73DA4F1067C343C3962F1542 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A425648B5C0A4849C7668069 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CF0560E91B1855CF00C0D4EC /* SWGConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGConfiguration.h; sourceTree = "<group>"; };
+		CF0560EA1B1855CF00C0D4EC /* SWGConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGConfiguration.m; sourceTree = "<group>"; };
 		CF31D0981B105E4B00509935 /* SWGApiClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiClientTest.m; sourceTree = "<group>"; };
 		CFD1B66E1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSONValueTransformer+ISO8601.h"; sourceTree = "<group>"; };
 		CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSONValueTransformer+ISO8601.m"; sourceTree = "<group>"; };
@@ -234,6 +237,8 @@
 				EA8B8AA31AC6683700638FBB /* SWGQueryParamCollection.m */,
 				EAEA85CC1811D3AE00F06E69 /* SWGApiClient.h */,
 				EAEA85CD1811D3AE00F06E69 /* SWGApiClient.m */,
+				CF0560E91B1855CF00C0D4EC /* SWGConfiguration.h */,
+				CF0560EA1B1855CF00C0D4EC /* SWGConfiguration.m */,
 				EAEA85CE1811D3AE00F06E69 /* SWGCategory.h */,
 				EAEA85CF1811D3AE00F06E69 /* SWGCategory.m */,
 				EAEA85D21811D3AE00F06E69 /* SWGFile.h */,
@@ -395,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAEA85E51811D3AE00F06E69 /* SWGCategory.m in Sources */,
+				CF0560EB1B1855CF00C0D4EC /* SWGConfiguration.m in Sources */,
 				EAEA85ED1811D3AE00F06E69 /* SWGTag.m in Sources */,
 				EA6699B31811D2FA00A70D03 /* ViewController.m in Sources */,
 				EA6699AA1811D2FA00A70D03 /* AppDelegate.m in Sources */,
