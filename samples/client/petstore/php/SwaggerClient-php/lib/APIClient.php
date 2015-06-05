@@ -381,17 +381,16 @@ class ApiClient {
   {
     if (null === $data) {
       $deserialized = null;
-    } elseif (substr($class, 0, 4) == 'map[') {
+    } elseif (substr($class, 0, 4) == 'map[') { # for associative array e.g. map[string,int]
       $inner = substr($class, 4, -1);
-      $values = array();
+      $deserialized = array();
       if(strrpos($inner, ",") !== false) {
         $subClass_array = explode(',', $inner, 2);
         $subClass = $subClass_array[1];
         foreach ($data as $key => $value) {
-          $values[] = array($key => self::deserialize($value, $subClass));
+          $deserialized[$key] = self::deserialize($value, $subClass);
         }        
       }
-      $deserialized = $values;
     } elseif (strcasecmp(substr($class, 0, 6),'array[') == 0) {
       $subClass = substr($class, 6, -1);
       $values = array();

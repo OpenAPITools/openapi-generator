@@ -181,7 +181,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertSame($response->name, 'PHP Unit Test');
   }
 
-  // test 
+  // test upload file
   public function testUploadFile()
   {
     // initialize the API client
@@ -192,6 +192,20 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $add_response = $pet_api->uploadFile($pet_id, "test meta", "./composer.json");
     // return nothing (void)
     $this->assertSame($add_response, NULL);
+  }
+
+  // test get inventory
+  public function testGetInventory()
+  {
+    // initialize the API client
+    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
+    $store_api = new SwaggerClient\StoreAPI($api_client);
+    // get inventory
+    $get_response = $store_api->getInventory();
+
+    $this->assertInternalType("int", $get_response['sold']);
+    $this->assertInternalType("int", $get_response['pending']);
+
   }
 
 }
