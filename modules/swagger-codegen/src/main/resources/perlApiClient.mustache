@@ -1,9 +1,10 @@
-package WWW::{{invokerPackage}}::APIClient;
+package WWW::{{invokerPackage}}::ApiClient;
 
 use strict;
 use warnings;
 use utf8;
 
+use MIME::Base64;
 use LWP::UserAgent;
 use HTTP::Headers;
 use HTTP::Response;
@@ -15,20 +16,18 @@ use URI::Escape;
 use Scalar::Util;
 use Log::Any qw($log);
 use Carp;
-use Switch;
 use Module::Runtime qw(use_module);
 
-# class variables
-my $ua = LWP::UserAgent->new;
-my $http_user_agent = 'Perl-Swagger'; # HTTP user-agent
-my $http_timeout; #timeout
-my $base_url = "{{basePath}}";
-
+use WWW::{{invokerPackage}}::Configuration;
 
 sub new
 {
   my $class = shift;
-  my %args = @_;
+  my (%args) = (
+    'ua' => LWP::UserAgent->new,
+    'base_url' => '{{basePath}}',
+    @_
+  );
 
   return bless \%args, $class;
 }
@@ -38,8 +37,8 @@ sub new
 # @param string $user_agent The user agent of the API client
 #
 sub set_user_agent {
-  my $user_agent = shift;
-  $http_user_agent= $user_agent;
+  my ($self, $user_agent) = @_;
+  $self->{http_user_agent}= $user_agent;
 }
 
 # Set timeout
@@ -47,11 +46,11 @@ sub set_user_agent {
 # @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
 # 
 sub set_timeout {
-  my $seconds = shift;
+  my ($self, $seconds) = @_;
   if (!looks_like_number($seconds)) {
     croak('Timeout variable must be numeric.');
   }
-  $http_timeout = $seconds;
+  $self->{http_timeout} = $seconds;
 }
 
 # make the HTTP request
@@ -63,16 +62,19 @@ sub set_timeout {
 # @return mixed
 sub call_api {
   my $self = shift;
-  my ($resource_path, $method, $query_params, $post_params, $header_params, $body_data) = @_;
+  my ($resource_path, $method, $query_params, $post_params, $header_params, $body_data, $auth_settings) = @_;
 
-  my $headers = HTTP::Headers->new(%$header_params);
+  # update parameters based on authentication settings
+  $self->update_params_for_auth($header_params, $query_params, $auth_settings); 
 
-  my $_url = $base_url . $resource_path;
+
+  my $_url = $self->{base_url} . $resource_path;
 
   # build query 
   if (%$query_params) {
     $_url = ($_url . '?' . eval { URI::Query->new($query_params)->stringify });
   }
+
 
   # body data
   $body_data = to_json($body_data->to_hash) if defined $body_data && $body_data->can('to_hash'); # model to json string
@@ -80,43 +82,43 @@ sub call_api {
 
   # Make the HTTP request
   my $_request;
-  switch ($method) {
-    case 'POST' {
+  if ($method eq 'POST') {
       # multipart
-      my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+      $header_params->{'Content-Type'} = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
           'form-data' : $header_params->{'Content-Type'};
-
-      $_request = POST($_url, Accept => $header_params->{Accept},
-        Content_Type => $_content_type, Content => $_body_data);
-    }
-    case 'PUT' {
-      # multipart
-      my $_content_type = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
-          'form-data' : $header_params->{'Content-Type'};
-      $_request = PUT($_url, Accept => $header_params->{Accept},
-        Content_Type => $_content_type, Content => $_body_data);
-    }
-    case 'GET' {
-      $_request = GET($_url, Accept => $header_params->{'Accept'},
-        Content_Type => $header_params->{'Content-Type'});
-    }
-    case 'HEAD' {
-      $_request = HEAD($_url, Accept => $header_params->{'Accept'},
-        Content_Type => $header_params->{'Content-Type'});
-    }
-    case 'DELETE' { #TODO support form data
-      $_request = DELETE($_url, Accept => $header_params->{'Accept'},
-        Content_Type => $header_params->{'Content-Type'}, Content => $_body_data);
-    }
-    case 'PATCH' { #TODO
-    }
+      
+      $_request = POST($_url, %$header_params, Content => $_body_data);
 
   }
+  elsif ($method eq 'PUT') {
+      # multipart
+      $header_params->{'Content-Type'}  = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+          'form-data' : $header_params->{'Content-Type'};
+
+      $_request = PUT($_url, %$header_params, Content => $_body_data);
+
+  }
+  elsif ($method eq 'GET') {
+      my $headers = HTTP::Headers->new(%$header_params);
+      $_request = GET($_url, %$header_params);
+  }
+  elsif ($method eq 'HEAD') {
+      my $headers = HTTP::Headers->new(%$header_params);
+      $_request = HEAD($_url,%$header_params); 
+  }
+  elsif ($method eq 'DELETE') { #TODO support form data
+      my $headers = HTTP::Headers->new(%$header_params);
+      $_request = DELETE($_url, %$headers);
+  }
+  elsif ($method eq 'PATCH') { #TODO
+  }
+  else {
+  }
  
-  $ua->timeout($http_timeout); 
-  $ua->agent($http_user_agent);
+  $self->{ua}->timeout($self->{http_timeout} || $WWW::{{invokerPackage}}::Configuration::http_timeout); 
+  $self->{ua}->agent($self->{http_user_agent} || $WWW::{{invokerPackage}}::Configuration::http_user_agent);
   
-  my $_response = $ua->request($_request);
+  my $_response = $self->{ua}->request($_request);
 
   unless ($_response->is_success) {
     croak("API Exception(".$_response->code."): ".$_response->message);
@@ -126,41 +128,13 @@ sub call_api {
 
 }
 
-
-# Build a JSON POST object
-sub sanitize_for_serialization
-{
-#  my $data = shift;
-#  if (is_scalar($data) || null === $data) {
-#    $sanitized = $data;
-#  } else if ($data instanceof \DateTime) {
-#    $sanitized = $data->format(\DateTime::ISO8601);
-#  } else if (is_array($data)) {
-#    foreach ($data as $property => $value) {
-#      $data[$property] = $this->sanitizeForSerialization($value);
-#    }
-#    $sanitized = $data;
-#  } else if (is_object($data)) {
-#    $values = array();
-#    foreach (array_keys($data::$swaggerTypes) as $property) {
-#      $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$property);
-#    }
-#    $sanitized = $values;
-#  } else {
-#    $sanitized = (string)$data;
-#  }
-#
-#  return $sanitized;
-}
-
-
 #  Take value and turn it into a string suitable for inclusion in
 #  the path, by url-encoding.
 #  @param string $value a string which will be part of the path
 #  @return string the serialized object
 sub to_path_value {
-    my $value = shift;
-    return uri_escape(to_string($value));
+    my ($self, $value) = @_;
+    return uri_escape($self->to_string($value));
 }
 
 
@@ -171,11 +145,11 @@ sub to_path_value {
 # @param object $object an object to be serialized to a string
 # @return string the serialized object
 sub to_query_value {
-      my $object = shift;
+      my ($self, $object) = @_;
       if (is_array($object)) {
           return implode(',', $object);
       } else {
-          return toString($object);
+          return $self->to_string($object);
       }
 }
 
@@ -186,8 +160,8 @@ sub to_query_value {
 # @param string $value a string which will be part of the header
 # @return string the header string
 sub to_header_value {
-    my $value = shift;
-    return to_string($value);
+    my ($self, $value) = @_;
+    return $self->to_string($value);
 }
 
 # Take value and turn it into a string suitable for inclusion in
@@ -196,8 +170,8 @@ sub to_header_value {
 # @param string $value the value of the form parameter
 # @return string the form string
 sub to_form_value {
-    my $value = shift;
-    return to_string($value);
+    my ($self, $value) = @_;
+    return $self->to_string($value);
 }
 
 # Take value and turn it into a string suitable for inclusion in
@@ -206,7 +180,7 @@ sub to_form_value {
 # @param string $value the value of the parameter
 # @return string the header string
 sub to_string {
-  my $value = shift;
+  my ($self, $value) = @_;
   if (ref($value) eq "DateTime") { # datetime in ISO8601 format
     return $value->datetime();
   }
@@ -242,7 +216,7 @@ sub deserialize
     $_result = \@_values;
   } elsif ($class eq 'DateTime') {
     $_result = DateTime->from_epoch(epoch => str2time($data));
-  } elsif (grep /^$data$/, ('string', 'int', 'float', 'bool')) { #TODO revise the primitive type
+  } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) { #TODO revise the primitive type
     $_result= $data;
   } else { # model
     my $_instance = use_module("WWW::{{invokerPackage}}::Object::$class")->new;
@@ -285,6 +259,45 @@ sub select_header_content_type
     return join(',', @header);
   }
 
+}
+
+# Get API key (with prefix if set)
+# @param string key name
+# @return string API key with the prefix
+sub get_api_key_with_prefix
+{
+    my ($self, $api_key) = @_;
+    if ($WWW::{{invokerPackage}}::Configuration::api_key_prefix->{$api_key}) {
+      return $WWW::{{invokerPackage}}::Configuration::api_key_prefix->{$api_key}." ".$WWW::{{invokerPackage}}::Configuration::api_key->{$api_key};
+    } else {
+      return $WWW::{{invokerPackage}}::Configuration::api_key->{$api_key};
+    }
+}
+
+# update hearder and query param based on authentication setting
+#  
+# @param array $headerParams header parameters (by ref)
+# @param array $queryParams query parameters (by ref)
+# @param array $authSettings array of authentication scheme (e.g ['api_key'])
+sub update_params_for_auth {
+  my ($self, $header_params, $query_params, $auth_settings) = @_;
+
+  return if (!defined($auth_settings) || scalar(@$auth_settings) == 0);
+
+  # one endpoint can have more than 1 auth settings
+  foreach my $auth (@$auth_settings) {
+    # determine which one to use
+    if (!defined($auth)) {
+    }
+    {{#authMethods}}elsif ($auth eq '{{name}}') {
+      {{#isApiKey}}{{#isKeyInHeader}}$header_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$query_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$header_params->{'Authorization'} = 'Basic '.encode_base64($WWW::{{invokerPackage}}::Configuration::username.":".$WWW::{{invokerPackage}}::Configuration::password);{{/isBasic}}
+        {{#isOAuth}}# TODO support oauth{{/isOAuth}}
+    }
+    {{/authMethods}}
+    else {
+      # TODO show warning about security definition not found
+    }
+  }
 }
 
 

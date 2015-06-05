@@ -1,6 +1,6 @@
     {{^returnTypeIsPrimitive}}
     // comples response type
-    return [client dictionary: requestUrl
+    return [self.apiClient dictionary: requestUrl
                        method: @"{{httpMethod}}"
                   queryParams: queryParams
                          body: bodyDictionary

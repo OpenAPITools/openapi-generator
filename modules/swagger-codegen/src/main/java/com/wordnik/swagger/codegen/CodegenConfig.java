@@ -27,6 +27,7 @@ public interface CodegenConfig {
   String getTypeDeclaration(Property p);
   String getTypeDeclaration(String name);
   void processOpts();
+  List<CliOption> cliOptions();
   String generateExamplePath(String path, Operation operation);
 
   Set<String> reservedWords();

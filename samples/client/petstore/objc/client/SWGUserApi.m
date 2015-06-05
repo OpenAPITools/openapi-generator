@@ -1,7 +1,6 @@
 #import "SWGUserApi.h"
 #import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
-#import "SWGApiClient.h"
 #import "SWGUser.h"
 
 
@@ -10,7 +9,33 @@
 @end
 
 @implementation SWGUserApi
+
 static NSString * basePath = @"http://petstore.swagger.io/v2";
+
+#pragma mark - Initialize methods
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+        self.defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+- (id) initWithApiClient:(SWGApiClient *)apiClient {
+    self = [super init];
+    if (self) {
+        if (apiClient) {
+            self.apiClient = apiClient;
+        }
+        else {
+            self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+        }
+        self.defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
 
 +(SWGUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGUserApi* singletonAPI = nil;
@@ -30,19 +55,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return basePath;
 }
 
--(SWGApiClient*) apiClient {
-    return [SWGApiClient sharedClientFromPool:basePath];
-}
-
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
     [self.defaultHeaders setValue:value forKey:key];
-}
-
--(id) init {
-    self = [super init];
-    self.defaultHeaders = [NSMutableDictionary dictionary];
-    [self apiClient];
-    return self;
 }
 
 -(void) setHeaderValue:(NSString*) value
@@ -134,15 +148,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
 
     
     // it's void
-        return [client stringWithCompletionBlock: requestUrl 
+        return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"POST" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
@@ -239,15 +251,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
 
     
     // it's void
-        return [client stringWithCompletionBlock: requestUrl 
+        return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"POST" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
@@ -344,15 +354,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
 
     
     // it's void
-        return [client stringWithCompletionBlock: requestUrl 
+        return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"POST" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
@@ -436,8 +444,6 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
@@ -446,7 +452,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     // primitive response
             // primitive response type
-    return [client stringWithCompletionBlock: requestUrl 
+    return [self.apiClient stringWithCompletionBlock: requestUrl 
                                               method: @"GET" 
                                          queryParams: queryParams 
                                                 body: bodyDictionary 
@@ -464,6 +470,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
     
     
+
 
     
     // complex response
@@ -528,15 +535,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
 
     
     // it's void
-        return [client stringWithCompletionBlock: requestUrl 
+        return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"GET" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
@@ -614,8 +619,6 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
@@ -627,7 +630,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // complex response
         
     // comples response type
-    return [client dictionary: requestUrl
+    return [self.apiClient dictionary: requestUrl
                        method: @"GET"
                   queryParams: queryParams
                          body: bodyDictionary
@@ -739,15 +742,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
 
     
     // it's void
-        return [client stringWithCompletionBlock: requestUrl 
+        return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"PUT" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
@@ -825,15 +826,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     
 
     
 
     
     // it's void
-        return [client stringWithCompletionBlock: requestUrl 
+        return [self.apiClient stringWithCompletionBlock: requestUrl 
                                       method: @"DELETE" 
                                  queryParams: queryParams 
                                         body: bodyDictionary 
@@ -854,3 +853,6 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
 
 @end
+
+
+

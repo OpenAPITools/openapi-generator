@@ -37,7 +37,8 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      auth_names = ['petstore_auth']
+      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       nil
     end
 
@@ -73,7 +74,8 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      auth_names = ['petstore_auth']
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       nil
     end
 
@@ -110,7 +112,8 @@ module SwaggerClient
       post_body = nil
       
 
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+      auth_names = ['petstore_auth']
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
       response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
     end
 
@@ -147,7 +150,8 @@ module SwaggerClient
       post_body = nil
       
 
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+      auth_names = ['petstore_auth']
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
       response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
     end
 
@@ -186,7 +190,8 @@ module SwaggerClient
       post_body = nil
       
 
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+      auth_names = ['api_key', 'petstore_auth']
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
       obj = Pet.new() and obj.build_from_hash(response)
     end
 
@@ -229,7 +234,8 @@ module SwaggerClient
       post_body = nil
       
 
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      auth_names = ['petstore_auth']
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       nil
     end
 
@@ -270,7 +276,8 @@ module SwaggerClient
       post_body = nil
       
 
-      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      auth_names = ['petstore_auth']
+      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       nil
     end
 
@@ -313,7 +320,8 @@ module SwaggerClient
       post_body = nil
       
 
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      auth_names = ['petstore_auth']
+      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       nil
     end
   end
