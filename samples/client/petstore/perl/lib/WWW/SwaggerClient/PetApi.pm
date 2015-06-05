@@ -27,12 +27,8 @@ use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
 
-
-#use WWW::Swagger::Model::Category;
-#use WWW::Swagger::Model::Pet;
-
-
-use WWW::SwaggerClient::APIClient;
+use WWW::SwaggerClient::ApiClient;
+use WWW::SwaggerClient::Configuration;
 
 our @EXPORT_OK = qw(
   update_pet 
@@ -48,7 +44,7 @@ our @EXPORT_OK = qw(
 
 sub new {
     my $class   = shift;
-    my $default_api_client = WWW::SwaggerClient::APIClient->new;
+    my $default_api_client = $WWW::SwaggerClient::Configuration::api_client ? $WWW::SwaggerClient::Configuration::api_client  : WWW::SwaggerClient::ApiClient->new;
     my (%self) = (
         'api_client' => $default_api_client,
         @_
@@ -91,26 +87,26 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml', );
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml');
 
       
       
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['petstore_auth'];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -142,26 +138,26 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml', );
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml');
 
       
       
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['petstore_auth'];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -195,9 +191,9 @@ sub new {
       }
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-       # query params
+      # query params
       if ( exists $args{'status'}) {
-        $query_params->{'status'} = WWW::::APIClient::to_query_value($args{'status'});
+        $query_params->{'status'} = $self->{api_client}->to_query_value($args{'status'});
       }
       
       
@@ -205,18 +201,18 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['petstore_auth'];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
+      return $_response_object;
       
   }
   
@@ -249,9 +245,9 @@ sub new {
       }
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-       # query params
+      # query params
       if ( exists $args{'tags'}) {
-        $query_params->{'tags'} = WWW::::APIClient::to_query_value($args{'tags'});
+        $query_params->{'tags'} = $self->{api_client}->to_query_value($args{'tags'});
       }
       
       
@@ -259,18 +255,18 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['petstore_auth'];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
+      return $_response_object;
       
   }
   
@@ -310,28 +306,28 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['api_key', 'petstore_auth'];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('Pet', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('Pet', $response);
+      return $_response_object;
       
   }
   
@@ -369,38 +365,38 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded', );
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
 
       
       
-       # path params
+      # path params
       if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
-       # form params
+      # form params
       if ( exists $args{'name'} ) {
         
-        $form_params->{'name'} = WWW::SwaggerClient::APIClient::to_form_value($args{'name'});
+        $form_params->{'name'} = $self->{api_client}->to_form_value($args{'name'});
         
-      } # form params
+      }# form params
       if ( exists $args{'status'} ) {
         
-        $form_params->{'status'} = WWW::SwaggerClient::APIClient::to_form_value($args{'status'});
+        $form_params->{'status'} = $self->{api_client}->to_form_value($args{'status'});
         
       }
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['petstore_auth'];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -441,28 +437,28 @@ sub new {
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
       
-       # header params
+      # header params
       if ( exists $args{'api_key'}) {
-        $header_params->{'api_key'} = WWW::SwaggerClient::APIClient::to_header_value($args{'api_key'});
+        $header_params->{'api_key'} = $self->{api_client}->to_header_value($args{'api_key'});
       }
-       # path params
+      # path params
       if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['petstore_auth'];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -501,22 +497,22 @@ sub new {
       if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
       }
-      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('multipart/form-data', );
+      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('multipart/form-data');
 
       
       
-       # path params
+      # path params
       if ( exists $args{'pet_id'}) {
         my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'pet_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
-       # form params
+      # form params
       if ( exists $args{'additional_metadata'} ) {
         
-        $form_params->{'additionalMetadata'} = WWW::SwaggerClient::APIClient::to_form_value($args{'additional_metadata'});
+        $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
         
-      } # form params
+      }# form params
       if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
         push $form_params->{'file'}, $args{'file'};
@@ -526,14 +522,14 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['petstore_auth'];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
