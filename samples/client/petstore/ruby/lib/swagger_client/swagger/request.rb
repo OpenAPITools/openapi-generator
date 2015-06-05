@@ -5,7 +5,7 @@ module SwaggerClient
       require 'addressable/uri'
       require 'typhoeus'
 
-      attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params
+      attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params, :auth_names
 
       # All requests must have an HTTP method and a path
       # Optionals parameters are :params, :headers, :body, :format, :host
@@ -16,20 +16,8 @@ module SwaggerClient
         # Set default headers
         default_headers = {
           'Content-Type' => "application/#{attributes[:format].downcase}",
-          :api_key => Swagger.configuration.api_key,
           'User-Agent' => Swagger.configuration.user_agent
         }
-
-        # api_key from headers hash trumps the default, even if its value is blank
-        if attributes[:headers].present? && attributes[:headers].has_key?(:api_key)
-          default_headers.delete(:api_key)
-        end
-
-        # api_key from params hash trumps all others (headers and default_headers)
-        if attributes[:params].present? && attributes[:params].has_key?(:api_key)
-          default_headers.delete(:api_key)
-          attributes[:headers].delete(:api_key) if attributes[:headers].present?
-        end
 
         # Merge argument headers into defaults
         attributes[:headers] = default_headers.merge(attributes[:headers] || {})
@@ -44,6 +32,32 @@ module SwaggerClient
         attributes.each do |name, value|
           send("#{name.to_s.underscore.to_sym}=", value)
         end
+
+        update_params_for_auth!
+      end
+
+      # Update hearder and query params based on authentication settings.
+      def update_params_for_auth!
+        (@auth_names || []).each do |auth_name|
+          case auth_name
+          when 'api_key'
+            @headers ||= {}
+            @headers['api_key'] = get_api_key_with_prefix('api_key')
+          when 'petstore_auth'
+            # TODO: support oauth
+          
+          end
+        end
+      end
+
+      # Get API key (with prefix if set).
+      # @param [String] param_name the parameter name of API key auth
+      def get_api_key_with_prefix(param_name)
+        if Swagger.configuration.api_key_prefix[param_name].present?
+          "#{Swagger.configuration.api_key_prefix[param_name]} #{Swagger.configuration.api_key[param_name]}"
+        else
+          Swagger.configuration.api_key[param_name]
+        end
       end
 
       # Construct a base URL
@@ -57,9 +71,6 @@ module SwaggerClient
 
         # Drop trailing question mark, if present
         u.sub! /\?$/, ''
-
-        # Obfuscate API key?
-        u.sub! /api\_key=\w+/, 'api_key=YOUR_API_KEY' if options[:obfuscated]
 
         u
       end
@@ -108,14 +119,16 @@ module SwaggerClient
       # For form parameters, remove empty value
       def outgoing_body
         # http form
-        if @body.nil? && @form_params && !@form_params.empty?
+        if headers['Content-Type'] == 'application/x-www-form-urlencoded'
           data = form_params.dup
           data.each do |key, value|
             data[key] = value.to_s if value && !value.is_a?(File) # remove emtpy form parameter
           end
           data
-        else # http body is JSON
+        elsif @body # http body is JSON
           @body.is_a?(String) ? @body : @body.to_json
+        else
+          nil
         end
       end
 
@@ -129,7 +142,7 @@ module SwaggerClient
           next if self.path.include? "{#{key}}"                                   # skip path params
           next if value.blank? && value.class != FalseClass                       # skip empties
           if Swagger.configuration.camelize_params
-            key = key.to_s.camelize(:lower).to_sym unless key.to_sym == :api_key    # api_key is not a camelCased param
+            key = key.to_s.camelize(:lower).to_sym
           end
           query_values[key] = value.to_s
         end
@@ -148,39 +161,40 @@ module SwaggerClient
         #TODO use configuration setting to determine if debugging
         #logger = Logger.new STDOUT
         #logger.debug self.url
+
+        request_options = {
+          :ssl_verifypeer => Swagger.configuration.verify_ssl,
+          :headers => self.headers.stringify_keys
+        }
         response = case self.http_method.to_sym
         when :get,:GET
           Typhoeus::Request.get(
             self.url,
-            :headers => self.headers.stringify_keys,
+            request_options
           )
 
         when :post,:POST
           Typhoeus::Request.post(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
 
         when :patch,:PATCH
           Typhoeus::Request.patch(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
 
         when :put,:PUT
           Typhoeus::Request.put(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
 
         when :delete,:DELETE
           Typhoeus::Request.delete(
             self.url,
-            :body => self.outgoing_body,
-            :headers => self.headers.stringify_keys,
+            request_options.merge(:body => self.outgoing_body)
           )
         end
         Response.new(response)
