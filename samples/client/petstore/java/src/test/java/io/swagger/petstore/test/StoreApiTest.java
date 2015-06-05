@@ -1,8 +1,10 @@
 package io.swagger.petstore.test;
 
 import io.swagger.client.ApiException;
+import io.swagger.client.Configuration;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
+import io.swagger.client.auth.*;
 
 import java.util.*;
 import java.io.*;
@@ -16,6 +18,9 @@ public class StoreApiTest {
   @Before
   public void setup() {
     api = new StoreApi();
+    // setup authentication
+    ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
+    apiKeyAuth.setApiKey("special-key");
   }
 
   @Test
