@@ -47,26 +47,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         "native", "super", "while")
     );
 
-    additionalProperties.put("invokerPackage", invokerPackage);
-    additionalProperties.put("groupId", groupId);
-    additionalProperties.put("artifactId", artifactId);
-    additionalProperties.put("artifactVersion", artifactVersion);
-
-    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-    additionalProperties.put("useAndroidMavenGradlePlugin", useAndroidMavenGradlePlugin);
-    
-    supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-    supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
-    supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-    supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
-    supportingFiles.add(new SupportingFile("httpPatch.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "HttpPatch.java"));
-    supportingFiles.add(new SupportingFile("jsonUtil.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
-    supportingFiles.add(new SupportingFile("apiException.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
-
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
         "String",
@@ -80,6 +60,13 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
       );
     instantiationTypes.put("array", "ArrayList");
     instantiationTypes.put("map", "HashMap");
+    
+    cliOptions.add(new CliOption("invokerPackage", "root package to use for the generated code"));
+    cliOptions.add(new CliOption("groupId", "groupId for use in the generated build.gradle and pom.xml"));
+    cliOptions.add(new CliOption("artifactId", "artifactId for use in the generated build.gradle and pom.xml"));
+    cliOptions.add(new CliOption("artifactVersion", "artifact version for use in the generated build.gradle and pom.xml"));
+    cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+    cliOptions.add(new CliOption("useAndroidMavenGradlePlugin", "A flag to toggle android-maven gradle plugin. Default is true."));
   }
 
   @Override
@@ -177,6 +164,96 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     return camelize(operationId, true);
   }
+  
+  @Override
+  public void processOpts() {
+    super.processOpts();
+    
+    if(additionalProperties.containsKey("invokerPackage")) {
+      this.setInvokerPackage((String)additionalProperties.get("invokerPackage"));
+    }
+    else{
+      //not set, use default to be passed to template
+      additionalProperties.put("invokerPackage", invokerPackage);
+    }
+    
+    if(additionalProperties.containsKey("groupId")) {
+      this.setGroupId((String)additionalProperties.get("groupId"));
+    }
+    else{
+      //not set, use to be passed to template
+      additionalProperties.put("groupId", groupId);
+    }
+    
+    if(additionalProperties.containsKey("artifactId")) {
+      this.setArtifactId((String)additionalProperties.get("artifactId"));
+    }
+    else{
+      //not set, use to be passed to template
+      additionalProperties.put("artifactId", artifactId);
+    }
+    
+    if(additionalProperties.containsKey("artifactVersion")) {
+      this.setArtifactVersion((String)additionalProperties.get("artifactVersion"));
+    }
+    else{
+      //not set, use to be passed to template
+      additionalProperties.put("artifactVersion", artifactVersion);
+    }
+    
+    if(additionalProperties.containsKey("sourceFolder")) {
+      this.setSourceFolder((String)additionalProperties.get("sourceFolder"));
+    }
 
+    if(additionalProperties.containsKey("useAndroidMavenGradlePlugin")) {
+      this.setUseAndroidMavenGradlePlugin((Boolean)additionalProperties.get("useAndroidMavenGradlePlugin"));
+    }
+    else{
+      additionalProperties.put("useAndroidMavenGradlePlugin", useAndroidMavenGradlePlugin);
+    }
+        
+    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+    additionalProperties.put("useAndroidMavenGradlePlugin", useAndroidMavenGradlePlugin);
+
+    supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+    supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+    supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+    supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+        (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
+    supportingFiles.add(new SupportingFile("httpPatch.mustache",
+        (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "HttpPatch.java"));
+    supportingFiles.add(new SupportingFile("jsonUtil.mustache",
+        (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
+    supportingFiles.add(new SupportingFile("apiException.mustache",
+        (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
+  }
+
+  public Boolean getUseAndroidMavenGradlePlugin() {
+    return useAndroidMavenGradlePlugin;
+  }
+
+  public void setUseAndroidMavenGradlePlugin(Boolean useAndroidMavenGradlePlugin) {
+    this.useAndroidMavenGradlePlugin = useAndroidMavenGradlePlugin;
+  }
+
+  public void setInvokerPackage(String invokerPackage) {
+    this.invokerPackage = invokerPackage;
+  }
+
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
+  }
+
+  public void setArtifactId(String artifactId) {
+    this.artifactId = artifactId;
+  }
+
+  public void setArtifactVersion(String artifactVersion) {
+    this.artifactVersion = artifactVersion;
+  }
+
+  public void setSourceFolder(String sourceFolder) {
+    this.sourceFolder = sourceFolder;
+  }
 
 }
