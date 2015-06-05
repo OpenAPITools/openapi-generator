@@ -12,6 +12,16 @@
     [super tearDown];
 }
 
+- (void)testCreatePetApi {
+    SWGPetApi *api1 = [[SWGPetApi alloc] init];
+    SWGPetApi *api2 = [[SWGPetApi alloc] init];
+    XCTAssertEqual(api1.apiClient, api2.apiClient);
+    
+    SWGApiClient *client = [[SWGApiClient alloc] init];
+    SWGPetApi *api3 = [[SWGPetApi alloc] initWithApiClient:client];
+    XCTAssertNotEqual(api1.apiClient, api3.apiClient);
+}
+
 - (void)testCreateAndGetPet {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetById"];
     SWGPet* pet = [self createPet];
@@ -27,6 +37,24 @@
             }
             if(output){
                 XCTAssertNotNil([output _id], @"token was nil");
+                
+                // test category of pet is correct
+                XCTAssertEqualObjects(output.category._id, pet.category._id);
+                XCTAssertEqualObjects(output.category.name, pet.category.name);
+                
+                // test tags of pet is correct
+                XCTAssertTrue([output.tags isKindOfClass:[NSArray class]]);
+                [pet.tags enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    SWGTag *foundTag = [[SWGTag alloc] init];
+                    for (SWGTag *tag in output.tags) {
+                        if ([tag _id] == [obj _id]) {
+                            foundTag = tag;
+                        }
+                    }
+                    XCTAssertNotNil(foundTag);
+                    XCTAssertEqualObjects([foundTag _id], [obj _id]);
+                    XCTAssertEqualObjects([foundTag name], [obj name]);
+                }];
             }
             [expectation fulfill];
         }];
@@ -221,10 +249,20 @@
     SWGPet * pet = [[SWGPet alloc] init];
     pet._id = [[NSNumber alloc] initWithLong:[[NSDate date] timeIntervalSince1970]];
     pet.name = @"monkey";
+    
     SWGCategory * category = [[SWGCategory alloc] init];
+    category._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
     category.name = @"super-happy";
-
     pet.category = category;
+    
+    SWGTag *tag1 = [[SWGTag alloc] init];
+    tag1._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
+    tag1.name = @"test tag 1";
+    SWGTag *tag2 = [[SWGTag alloc] init];
+    tag2._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
+    tag2.name = @"test tag 2";
+    pet.tags = (NSArray<SWGTag> *)[[NSArray alloc] initWithObjects:tag1, tag2, nil];
+
     pet.status = @"available";
 
     NSArray * photos = [[NSArray alloc] initWithObjects:@"http://foo.bar.com/3", @"http://foo.bar.com/4", nil];
