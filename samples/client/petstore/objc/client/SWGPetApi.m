@@ -38,6 +38,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return self;
 }
 
+#pragma mark -
+
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static SWGPetApi* singletonAPI = nil;
 
@@ -115,6 +117,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     id __body = body;
@@ -160,6 +165,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                  queryParams: queryParams 
                                         body: bodyDictionary 
                                 headerParams: headerParams
+                                authSettings: authSettings
                           requestContentType: requestContentType
                          responseContentType: responseContentType
                              completionBlock: ^(NSString *data, NSError *error) {
@@ -218,6 +224,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     id __body = body;
@@ -263,6 +272,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                  queryParams: queryParams 
                                         body: bodyDictionary 
                                 headerParams: headerParams
+                                authSettings: authSettings
                           requestContentType: requestContentType
                          responseContentType: responseContentType
                              completionBlock: ^(NSString *data, NSError *error) {
@@ -327,6 +337,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     
@@ -346,6 +359,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                   queryParams: queryParams 
                          body: bodyDictionary 
                  headerParams: headerParams
+                 authSettings: authSettings
            requestContentType: requestContentType
           responseContentType: responseContentType
               completionBlock: ^(NSDictionary *data, NSError *error) {
@@ -427,6 +441,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     
@@ -446,6 +463,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                   queryParams: queryParams 
                          body: bodyDictionary 
                  headerParams: headerParams
+                 authSettings: authSettings
            requestContentType: requestContentType
           responseContentType: responseContentType
               completionBlock: ^(NSDictionary *data, NSError *error) {
@@ -525,6 +543,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"api_key", @"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     
@@ -552,6 +573,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                   queryParams: queryParams
                          body: bodyDictionary
                  headerParams: headerParams
+                 authSettings: authSettings
            requestContentType: requestContentType
           responseContentType: responseContentType
               completionBlock: ^(NSDictionary *data, NSError *error) {
@@ -627,6 +649,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/x-www-form-urlencoded"]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     
@@ -665,6 +690,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                  queryParams: queryParams 
                                         body: bodyDictionary 
                                 headerParams: headerParams
+                                authSettings: authSettings
                           requestContentType: requestContentType
                          responseContentType: responseContentType
                              completionBlock: ^(NSString *data, NSError *error) {
@@ -731,6 +757,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     
@@ -753,6 +782,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                  queryParams: queryParams 
                                         body: bodyDictionary 
                                 headerParams: headerParams
+                                authSettings: authSettings
                           requestContentType: requestContentType
                          responseContentType: responseContentType
                              completionBlock: ^(NSString *data, NSError *error) {
@@ -819,6 +849,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"multipart/form-data"]];
 
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+    
     id bodyDictionary = nil;
     
     
@@ -864,6 +897,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                  queryParams: queryParams 
                                         body: bodyDictionary 
                                 headerParams: headerParams
+                                authSettings: authSettings
                           requestContentType: requestContentType
                          responseContentType: responseContentType
                              completionBlock: ^(NSString *data, NSError *error) {
