@@ -1,4 +1,4 @@
-use Test::More tests => 31;
+use Test::More tests => 33;
 use Test::Exception;
 
 use lib 'lib';
@@ -6,11 +6,18 @@ use strict;
 use warnings;
 
 use_ok('WWW::SwaggerClient::PetApi');
-use_ok('WWW::SwaggerClient::APIClient');
+use_ok('WWW::SwaggerClient::ApiClient');
 use_ok('WWW::SwaggerClient::Object::Pet');
 use_ok('WWW::SwaggerClient::Object::Tag');
 use_ok('WWW::SwaggerClient::Object::Category');
+
+my $api_client = WWW::SwaggerClient::ApiClient->new('base_url' => 'http://testing');
+my $pet_api = WWW::SwaggerClient::PetApi->new('api_client' => $api_client);
+is $pet_api->{api_client}->{base_url}, 'http://testing', 'get the proper base URL from api client';
+
 my $api = WWW::SwaggerClient::PetApi->new();
+
+is $api->{api_client}->{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
 
 # test select_header_content_type
 is $api->{api_client}->select_header_content_type('application/xml', 'Application/JSON'), 'application/json', 'get the proper content type application/json but not application/xml';
