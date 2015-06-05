@@ -1,7 +1,8 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiException;
-import io.swagger.client.ApiInvoker;
+import io.swagger.client.ApiClient;
+import io.swagger.client.Configuration;
 
 import io.swagger.client.model.*;
 
@@ -20,19 +21,22 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class PetApi {
-  String basePath = "http://petstore.swagger.io/v2";
-  ApiInvoker apiInvoker = ApiInvoker.getInstance();
+  private ApiClient apiClient;
 
-  public ApiInvoker getInvoker() {
-    return apiInvoker;
+  public PetApi() {
+    this(Configuration.getDefaultApiClient());
   }
 
-  public void setBasePath(String basePath) {
-    this.basePath = basePath;
+  public PetApi(ApiClient apiClient) {
+    this.apiClient = apiClient;
   }
 
-  public String getBasePath() {
-    return basePath;
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
+
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
   }
 
   
@@ -56,17 +60,17 @@ public class PetApi {
 
     
 
+    
+
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       "application/json", "application/xml"
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
@@ -80,7 +84,7 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "PUT", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
         return ;
       }
@@ -112,17 +116,17 @@ public class PetApi {
 
     
 
+    
+
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       "application/json", "application/xml"
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
@@ -136,7 +140,7 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
         return ;
       }
@@ -167,20 +171,20 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     if (status != null)
-      queryParams.put("status", ApiInvoker.parameterToString(status));
+      queryParams.put("status", apiClient.parameterToString(status));
+    
+
     
 
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
@@ -194,9 +198,9 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+        return (List<Pet>) apiClient.deserialize(response, "array", Pet.class);
       }
       else {
         return null;
@@ -225,20 +229,20 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     if (tags != null)
-      queryParams.put("tags", ApiInvoker.parameterToString(tags));
+      queryParams.put("tags", apiClient.parameterToString(tags));
+    
+
     
 
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
@@ -252,9 +256,9 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+        return (List<Pet>) apiClient.deserialize(response, "array", Pet.class);
       }
       else {
         return null;
@@ -281,7 +285,7 @@ public class PetApi {
 
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -290,17 +294,17 @@ public class PetApi {
 
     
 
+    
+
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
@@ -314,9 +318,9 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
-        return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
+        return (Pet) apiClient.deserialize(response, "", Pet.class);
       }
       else {
         return null;
@@ -345,7 +349,7 @@ public class PetApi {
 
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -354,39 +358,45 @@ public class PetApi {
 
     
 
+    
+
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       "application/x-www-form-urlencoded"
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
       
-      hasFields = true;
-      mp.field("name", ApiInvoker.parameterToString(name), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if (name != null) {
+        hasFields = true;
+        mp.field("name", apiClient.parameterToString(name), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       
-      hasFields = true;
-      mp.field("status", ApiInvoker.parameterToString(status), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if (status != null) {
+        hasFields = true;
+        mp.field("status", apiClient.parameterToString(status), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       
       if(hasFields)
         postBody = mp;
     }
     else {
-      formParams.put("name", ApiInvoker.parameterToString(name));
-      formParams.put("status", ApiInvoker.parameterToString(status));
+      if (name != null)
+        formParams.put("name", apiClient.parameterToString(name));
+      if (status != null)
+        formParams.put("status", apiClient.parameterToString(status));
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
         return ;
       }
@@ -416,7 +426,7 @@ public class PetApi {
 
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -425,18 +435,19 @@ public class PetApi {
 
     
 
+    if (apiKey != null)
+      headerParams.put("api_key", apiClient.parameterToString(apiKey));
+    
+
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
@@ -450,7 +461,7 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
         return ;
       }
@@ -481,7 +492,7 @@ public class PetApi {
 
     // create path and map variables
     String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -490,40 +501,45 @@ public class PetApi {
 
     
 
+    
+
     final String[] accepts = {
       "application/json", "application/xml"
     };
-    final String accept = ApiInvoker.selectHeaderAccept(accepts);
+    final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
       "multipart/form-data"
     };
-    final String contentType = ApiInvoker.selectHeaderContentType(contentTypes);
-
-    
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
       
-      hasFields = true;
-      mp.field("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if (additionalMetadata != null) {
+        hasFields = true;
+        mp.field("additionalMetadata", apiClient.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       
-      hasFields = true;
-      mp.field("file", file.getName());
-      mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
+      if (file != null) {
+        hasFields = true;
+        mp.field("file", file.getName());
+        mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
+      }
       
       if(hasFields)
         postBody = mp;
     }
     else {
-      formParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
+      if (additionalMetadata != null)
+        formParams.put("additionalMetadata", apiClient.parameterToString(additionalMetadata));
       
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType);
+      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType);
       if(response != null){
         return ;
       }

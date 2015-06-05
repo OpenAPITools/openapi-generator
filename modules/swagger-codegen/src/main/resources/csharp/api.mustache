@@ -8,35 +8,56 @@ using {{modelPackage}};
 
 namespace {{package}} {
   {{#operations}}
+  /// <summary>
+  /// Represents a collection of functions to interact with the API endpoints
+  /// </summary>
   public class {{classname}} {
-    string basePath;
-    protected RestClient restClient;
-
-    public {{classname}}(String basePath = "{{basePath}}")
-    {
-      this.basePath = basePath;
-      this.restClient = new RestClient(basePath);
-    }
-
     /// <summary>
-    /// Sets the endpoint base url for the services being accessed
+    /// Initializes a new instance of the <see cref="{{classname}}"/> class.
     /// </summary>
-    /// <param name="basePath"> Base URL
+    /// <param name="apiClient"> an instance of ApiClient (optional)
     /// <returns></returns>
-    public void SetBasePath(string basePath) {
-      this.basePath = basePath;
+    public {{classname}}(ApiClient apiClient = null) {
+      if (apiClient == null) { // use the default one in Configuration
+        this.apiClient = Configuration.apiClient; 
+      } else {
+        this.apiClient = apiClient;
+      }
     }
 
     /// <summary>
-    /// Gets the endpoint base url for the services being accessed
-    /// <returns>Base URL</returns>
+    /// Initializes a new instance of the <see cref="{{classname}}"/> class.
     /// </summary>
-    public String GetBasePath() {
-      return this.basePath;
+    /// <returns></returns>
+    public {{classname}}(String basePath)
+    {
+      this.apiClient = new ApiClient(basePath);
     }
+
+    /// <summary>
+    /// Sets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public void SetBasePath(String basePath) {
+      this.apiClient.basePath = basePath;
+    }
+
+    /// <summary>
+    /// Gets the base path of the API client.
+    /// </summary>
+    /// <value>The base path</value>
+    public String GetBasePath(String basePath) {
+      return this.apiClient.basePath;
+    }
+
+    /// <summary>
+    /// Gets or sets the API client.
+    /// </summary>
+    /// <value>The API client</value>
+    public ApiClient apiClient {get; set;}
+
 
     {{#operation}}
-    
     /// <summary>
     /// {{summary}} {{notes}}
     /// </summary>
@@ -45,37 +66,41 @@ namespace {{package}} {
     /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
     public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
-      var _request = new RestRequest("{{path}}", Method.{{httpMethod}});
-
       {{#allParams}}{{#required}}
       // verify the required parameter '{{paramName}}' is set
       if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
       {{/required}}{{/allParams}}
 
-      // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in ApiInvoker.GetDefaultHeader())
-      {
-        _request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-      }
-
-      _request.AddUrlSegment("format", "json"); // set format to json by default
-      {{#pathParams}}_request.AddUrlSegment("{{baseName}}", ApiInvoker.ParameterToString({{{paramName}}})); // path (url segment) parameter
+      var path = "{{path}}";
+      path = path.Replace("{format}", "json");
+      {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", apiClient.ParameterToString({{{paramName}}}));
       {{/pathParams}}
-      {{#queryParams}} if ({{paramName}} != null) _request.AddParameter("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // query parameter
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
+      {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // query parameter
       {{/queryParams}}
-      {{#headerParams}} if ({{paramName}} != null) _request.AddHeader("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // header parameter
+      {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // header parameter
       {{/headerParams}}
-      {{#formParams}}if ({{paramName}} != null) {{#isFile}}_request.AddFile("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}_request.AddParameter("{{baseName}}", ApiInvoker.ParameterToString({{paramName}})); // form parameter{{/isFile}}
+      {{#formParams}}if ({{paramName}} != null) {{#isFile}}fileParams.Add("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}formParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
       {{/formParams}}
-      {{#bodyParam}}_request.AddParameter("application/json", ApiInvoker.Serialize({{paramName}}), ParameterType.RequestBody); // http body (model) parameter
+      {{#bodyParam}}postBody = apiClient.Serialize({{paramName}}); // http body (model) parameter
       {{/bodyParam}}
 
+      // authentication setting, if any
+      String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+
       // make the HTTP request
-      IRestResponse response = restClient.Execute(_request);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content);
       }
-      {{#returnType}}return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
+      {{#returnType}}return ({{{returnType}}}) apiClient.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
       return;{{/returnType}}
     }
     {{/operation}}

@@ -41,11 +41,14 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
     additionalProperties.put("invokerPackage", invokerPackage);
 
-    supportingFiles.add(new SupportingFile("apiInvoker.mustache", 
-      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.cs"));
-    supportingFiles.add(new SupportingFile("apiException.mustache", 
+    supportingFiles.add(new SupportingFile("Configuration.mustache", 
+      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Configuration.cs"));
+    supportingFiles.add(new SupportingFile("ApiClient.mustache", 
+      (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiClient.cs"));
+    supportingFiles.add(new SupportingFile("ApiException.mustache", 
       (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.cs"));
     supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
+    supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
     supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
 
     languageSpecificPrimitives = new HashSet<String>(
@@ -59,7 +62,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         "byte[]",
         "List",
         "Dictionary",
-        "DateTime",
+        "DateTime?",
         "String",
         "Boolean",
         "Double",
@@ -79,9 +82,11 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     typeMapping.put("long", "long?");
     typeMapping.put("double", "double?");
     typeMapping.put("number", "double?");
-    typeMapping.put("Date", "DateTime");
+    typeMapping.put("datetime", "DateTime?");
+    typeMapping.put("date", "DateTime?");
     typeMapping.put("file", "string"); // path to file
     typeMapping.put("array", "List");
+    typeMapping.put("list", "List");
     typeMapping.put("map", "Dictionary");
     typeMapping.put("object", "Object");
 
@@ -94,11 +99,11 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+    return (outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', '/')).replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    return (outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/')).replace('.', File.separatorChar);
   }
 
   @Override
@@ -165,8 +170,8 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
   public String getSwaggerType(Property p) {
     String swaggerType = super.getSwaggerType(p);
     String type = null;
-    if(typeMapping.containsKey(swaggerType)) {
-      type = typeMapping.get(swaggerType);
+    if(typeMapping.containsKey(swaggerType.toLowerCase())) {
+      type = typeMapping.get(swaggerType.toLowerCase());
       if(languageSpecificPrimitives.contains(type))
         return type;
     }

@@ -27,14 +27,10 @@ use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
 
-
-#use WWW::Swagger::Model::Category;
-#use WWW::Swagger::Model::Pet;
+use WWW::{{invokerPackage}}::ApiClient;
+use WWW::{{invokerPackage}}::Configuration;
 
 {{#operations}}
-
-use WWW::{{invokerPackage}}::APIClient;
-
 our @EXPORT_OK = qw(
   {{#operation}}{{{nickname}}} 
   {{/operation}}
@@ -42,7 +38,7 @@ our @EXPORT_OK = qw(
 
 sub new {
     my $class   = shift;
-    my $default_api_client = WWW::{{invokerPackage}}::APIClient->new;
+    my $default_api_client = $WWW::{{invokerPackage}}::Configuration::api_client ? $WWW::{{invokerPackage}}::Configuration::api_client  : WWW::{{invokerPackage}}::ApiClient->new;
     my (%self) = (
         'api_client' => $default_api_client,
         @_
@@ -92,49 +88,49 @@ sub new {
       }
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type({{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}});
 
-      {{#queryParams}} # query params
+      {{#queryParams}}# query params
       if ( exists $args{'{{paramName}}'}) {
-        $query_params->{'{{baseName}}'} = WWW::{{invokerPacakge}}::APIClient::to_query_value($args{'{{paramName}}'});
+        $query_params->{'{{baseName}}'} = $self->{api_client}->to_query_value($args{'{{paramName}}'});
       }{{/queryParams}}
-      {{#headerParams}} # header params
+      {{#headerParams}}# header params
       if ( exists $args{'{{paramName}}'}) {
-        $header_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_header_value($args{'{{paramName}}'});
+        $header_params->{'{{baseName}}'} = $self->{api_client}->to_header_value($args{'{{paramName}}'});
       }{{/headerParams}}
-      {{#pathParams}} # path params
+      {{#pathParams}}# path params
       if ( exists $args{'{{paramName}}'}) {
         my $_base_variable = "{" . "{{baseName}}" . "}";
-        my $_base_value = WWW::{{invokerPackage}}::APIClient::to_path_value($args{'{{paramName}}'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'{{paramName}}'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }{{/pathParams}}
-      {{#formParams}} # form params
+      {{#formParams}}# form params
       if ( exists $args{'{{paramName}}'} ) {
         {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
         push $form_params->{'{{baseName}}'}, $args{'{{paramName}}'};
         {{/isFile}}
-        {{^isFile}}$form_params->{'{{baseName}}'} = WWW::{{invokerPackage}}::APIClient::to_form_value($args{'{{paramName}}'});
+        {{^isFile}}$form_params->{'{{baseName}}'} = $self->{api_client}->to_form_value($args{'{{paramName}}'});
         {{/isFile}}
       }{{/formParams}}
       my $_body_data;
-      {{#bodyParams}} # body params
+      {{#bodyParams}}# body params
       if ( exists $args{'{{paramName}}'}) {
         $_body_data = $args{'{{paramName}}'};
       }{{/bodyParams}}
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
 
       # make the API Call
       {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('{{returnType}}', $response);
-  		return $_response_object;{{/returnType}}
+      my $_response_object = $self->{api_client}->deserialize('{{returnType}}', $response);
+      return $_response_object;{{/returnType}}
       {{^returnType}}$self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       {{/returnType}}
   }
