@@ -39,6 +39,8 @@ static NSString * basePath = @"{{basePath}}";
     return self;
 }
 
+#pragma mark -
+
 +({{classname}}*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static {{classname}}* singletonAPI = nil;
 
@@ -129,6 +131,9 @@ static NSString * basePath = @"{{basePath}}";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
+    // Authentication setting
+    NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+    
     id bodyDictionary = nil;
     {{#bodyParam}}
     id __body = {{paramName}};

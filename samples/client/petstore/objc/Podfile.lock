@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - ISO8601 (0.2.0)
+  - ISO8601 (0.3.0)
   - JSONModel (1.1.0)
 
 DEPENDENCIES:
@@ -30,7 +30,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  ISO8601: 962282de75074c38bbfaa7b133b0e743ed6deb8d
+  ISO8601: 8d8a22d5edf0554a1cf75bac028c76c1dc0ffaef
   JSONModel: ec77e9865236a7a09d9cf7668df6b4b328d9ec1d
 
 COCOAPODS: 0.37.1
