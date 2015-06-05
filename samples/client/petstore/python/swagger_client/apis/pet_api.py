@@ -46,12 +46,21 @@ class PetApi(object):
         Update an existing pet
         
 
-        :param Pet body: Pet object that needs to be added to the store (optional)
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.update_pet(callback=callback_function)
+
+        :param Pet body: Pet object that needs to be added to the store 
         
         :return: None
+                 If the method called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -90,19 +99,33 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response_type=None, auth_settings=auth_settings)
+                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+        return response
         
     def add_pet(self, **kwargs):
         """
         Add a new pet to the store
         
 
+<<<<<<< HEAD
         :param Pet body: Pet object that needs to be added to the store (optional)
+=======
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.add_pet(callback=callback_function)
+
+        :param Pet body: Pet object that needs to be added to the store 
+>>>>>>> support asynchronous request in python client
         
         :return: None
+                 If the method called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -141,19 +164,37 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
+<<<<<<< HEAD
                                             response_type=None, auth_settings=auth_settings)
+=======
+                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+        return response
+>>>>>>> support asynchronous request in python client
         
     def find_pets_by_status(self, **kwargs):
         """
         Finds Pets by status
         Multiple status values can be provided with comma seperated strings
 
+<<<<<<< HEAD
         :param list[str] status: Status values that need to be considered for filter (optional)
+=======
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.find_pets_by_status(callback=callback_function)
+
+        :param list[str] status: Status values that need to be considered for filter 
+>>>>>>> support asynchronous request in python client
         
         :return: list[Pet]
+                 If the method called asynchronously, returns the request thread.
         """
         
         all_params = ['status']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -192,8 +233,12 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
+<<<<<<< HEAD
                                             response_type='list[Pet]', auth_settings=auth_settings)
         
+=======
+                                            response='list[Pet]', auth_settings=auth_settings, callback=params.get('callback'))
+>>>>>>> support asynchronous request in python client
         return response
         
     def find_pets_by_tags(self, **kwargs):
@@ -201,12 +246,25 @@ class PetApi(object):
         Finds Pets by tags
         Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
+<<<<<<< HEAD
         :param list[str] tags: Tags to filter by (optional)
+=======
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.find_pets_by_tags(callback=callback_function)
+
+        :param list[str] tags: Tags to filter by 
+>>>>>>> support asynchronous request in python client
         
         :return: list[Pet]
+                 If the method called asynchronously, returns the request thread.
         """
         
         all_params = ['tags']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -245,8 +303,12 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
+<<<<<<< HEAD
                                             response_type='list[Pet]', auth_settings=auth_settings)
         
+=======
+                                            response='list[Pet]', auth_settings=auth_settings, callback=params.get('callback'))
+>>>>>>> support asynchronous request in python client
         return response
         
     def get_pet_by_id(self, pet_id, **kwargs):
@@ -254,9 +316,17 @@ class PetApi(object):
         Find pet by ID
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_pet_by_id(pet_id, callback=callback_function)
+
         :param int pet_id: ID of pet that needs to be fetched (required)
         
         :return: Pet
+                 If the method called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set
@@ -264,6 +334,7 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
         
         all_params = ['pet_id']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -302,8 +373,12 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
+<<<<<<< HEAD
                                             response_type='Pet', auth_settings=auth_settings)
         
+=======
+                                            response='Pet', auth_settings=auth_settings, callback=params.get('callback'))
+>>>>>>> support asynchronous request in python client
         return response
         
     def update_pet_with_form(self, pet_id, **kwargs):
@@ -311,11 +386,19 @@ class PetApi(object):
         Updates a pet in the store with form data
         
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.update_pet_with_form(pet_id, callback=callback_function)
+
         :param str pet_id: ID of pet that needs to be updated (required)
         :param str name: Updated name of the pet (optional)
         :param str status: Updated status of the pet (optional)
         
         :return: None
+                 If the method called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set
@@ -323,6 +406,7 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
         
         all_params = ['pet_id', 'name', 'status']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -367,24 +451,46 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
+<<<<<<< HEAD
                                             response_type=None, auth_settings=auth_settings)
+=======
+                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+        return response
+>>>>>>> support asynchronous request in python client
         
     def delete_pet(self, pet_id, **kwargs):
         """
         Deletes a pet
         
 
+<<<<<<< HEAD
+=======
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_pet(pet_id, callback=callback_function)
+
+        :param str api_key:  
+>>>>>>> support asynchronous request in python client
         :param int pet_id: Pet id to delete (required)
         :param str api_key:  (optional)
         
         :return: None
+                 If the method called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set
         if pet_id is None:
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
         
+<<<<<<< HEAD
         all_params = ['pet_id', 'api_key']
+=======
+        all_params = ['api_key', 'pet_id']
+        all_params.append('callback')
+>>>>>>> support asynchronous request in python client
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -426,18 +532,31 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
+<<<<<<< HEAD
                                             response_type=None, auth_settings=auth_settings)
+=======
+                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+        return response
+>>>>>>> support asynchronous request in python client
         
     def upload_file(self, pet_id, **kwargs):
         """
         uploads an image
         
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when recives response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.upload_file(pet_id, callback=callback_function)
+
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server (optional)
         :param file file: file to upload (optional)
         
         :return: None
+                 If the method called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set
@@ -445,6 +564,7 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
         
         all_params = ['pet_id', 'additional_metadata', 'file']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -489,7 +609,12 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
+<<<<<<< HEAD
                                             response_type=None, auth_settings=auth_settings)
+=======
+                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+        return response
+>>>>>>> support asynchronous request in python client
         
 
 
