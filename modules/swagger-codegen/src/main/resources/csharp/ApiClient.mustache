@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -36,7 +37,16 @@ namespace {{invokerPackage}} {
 
     private Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
 
-    public Object CallApi(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody, 
+    public Object CallApi(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody,
+      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, String> FileParams, String[] AuthSettings) {
+      var response = Task.Run(async () => {
+                            var resp = await CallApiAsync(Path, Method, QueryParams, PostBody, HeaderParams, FormParams, FileParams, AuthSettings);
+                            return resp;
+                            });
+        return response.Result;
+    }
+
+    public async Task<Object> CallApiAsync(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody,
       Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, String> FileParams, String[] AuthSettings) {
 
       var request = new RestRequest(Path, Method);
@@ -67,7 +77,7 @@ namespace {{invokerPackage}} {
         request.AddParameter("application/json", PostBody, ParameterType.RequestBody); // http body (model) parameter
       }
 
-      return (Object)restClient.Execute(request);
+      return (Object) await restClient.ExecuteTaskAsync(request);
 
     }
 
