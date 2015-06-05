@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using RestSharp;
 using {{invokerPackage}};
 using {{modelPackage}};
@@ -8,10 +9,30 @@ using {{modelPackage}};
 
 namespace {{package}} {
   {{#operations}}
+
+  public interface I{{classname}} {
+    {{#operation}}
+    /// <summary>
+    /// {{summary}} {{notes}}
+    /// </summary>
+    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
+    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+    /// <summary>
+    /// {{summary}} {{notes}}
+    /// </summary>
+    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
+    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{/operation}}
+  }
+
   /// <summary>
   /// Represents a collection of functions to interact with the API endpoints
   /// </summary>
-  public class {{classname}} {
+  public class {{classname}} : I{{classname}} {
+
     /// <summary>
     /// Initializes a new instance of the <see cref="{{classname}}"/> class.
     /// </summary>
@@ -61,8 +82,7 @@ namespace {{package}} {
     /// <summary>
     /// {{summary}} {{notes}}
     /// </summary>
-{{#allParams}}    /// <param name="{{paramName}}">{{description}}</param>
-{{/allParams}}
+    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
     /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
     public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
@@ -98,12 +118,56 @@ namespace {{package}} {
       IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
-        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content);
+        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
       }
       {{#returnType}}return ({{{returnType}}}) apiClient.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
       return;{{/returnType}}
     }
+	
+	 /// <summary>
+    /// {{summary}} {{notes}}
+    /// </summary>
+    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
+    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    public async {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+
+      {{#allParams}}{{#required}}
+          // verify the required parameter '{{paramName}}' is set
+          if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
+      {{/required}}{{/allParams}}
+
+      var path = "{{path}}";
+      path = path.Replace("{format}", "json");
+      {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", apiClient.ParameterToString({{{paramName}}}));
+      {{/pathParams}}
+
+      var queryParams = new Dictionary<String, String>();
+      var headerParams = new Dictionary<String, String>();
+      var formParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, String>();
+      String postBody = null;
+
+      {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // query parameter
+      {{/queryParams}}
+      {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // header parameter
+      {{/headerParams}}
+      {{#formParams}}if ({{paramName}} != null) {{#isFile}}fileParams.Add("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}formParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
+      {{/formParams}}
+      {{#bodyParam}}postBody = apiClient.Serialize({{paramName}}); // http body (model) parameter
+      {{/bodyParam}}
+
+      // authentication setting, if any
+      String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+
+      // make the HTTP request
+      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      if (((int)response.StatusCode) >= 400) {
+        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
+      }
+      {{#returnType}}return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
+      return;{{/returnType}}
+    }
     {{/operation}}
-  }
+  }  
   {{/operations}}
 }
