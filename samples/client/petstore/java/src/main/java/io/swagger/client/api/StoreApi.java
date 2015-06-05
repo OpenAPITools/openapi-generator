@@ -77,7 +77,8 @@ public class StoreApi {
     }
 
     try {
-      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] { "api_key" };
+      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (Map<String, Integer>) apiClient.deserialize(response, "map", Map.class);
       }
@@ -127,7 +128,8 @@ public class StoreApi {
     }
 
     try {
-      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (Order) apiClient.deserialize(response, "", Order.class);
       }
@@ -183,7 +185,8 @@ public class StoreApi {
     }
 
     try {
-      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return (Order) apiClient.deserialize(response, "", Order.class);
       }
@@ -239,7 +242,8 @@ public class StoreApi {
     }
 
     try {
-      String response = apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+      String[] authNames = new String[] {  };
+      String response = apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if(response != null){
         return ;
       }
