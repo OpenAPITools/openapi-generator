@@ -19,6 +19,7 @@ import datetime
 import mimetypes
 import random
 import tempfile
+import threading
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -60,8 +61,8 @@ class ApiClient(object):
   def set_default_header(self, header_name, header_value):
     self.default_headers[header_name] = header_value
 
-  def call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
-               body=None, post_params=None, files=None, response_type=None, auth_settings=None):
+  def __call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
+                 body=None, post_params=None, files=None, response=None, auth_settings=None, callback=None):
 
     # headers parameters
     header_params = header_params or {}
@@ -105,10 +106,15 @@ class ApiClient(object):
     self.last_response = response_data
 
     # deserialize response data
-    if response_type:
-      return self.deserialize(response_data, response_type)
+    if response:
+      deserialized_data = self.deserialize(response_data, response)
     else:
-      return None
+      deserialized_data = None
+
+    if callback:
+      callback(deserialized_data)
+    else:
+      return deserialized_data
 
   def to_path_value(self, obj):
     """
@@ -212,7 +218,26 @@ class ApiClient(object):
     else:
       return self.__deserialize_model(data, klass)
 
-  def request(self, method, url, query_params=None, headers=None, post_params=None, body=None):
+  def call_api(self, resource_path, method,
+               path_params=None, query_params=None, header_params=None,
+               body=None, post_params=None, files=None,
+               response=None, auth_settings=None, callback=None):
+    if callback is None:
+      return self.__call_api(resource_path, method,
+                             path_params, query_params, header_params,
+                             body, post_params, files,
+                             response, auth_settings, callback)
+    else:
+      thread = threading.Thread(target=self.__call_api,
+                                args=(resource_path, method,
+                                      path_params, query_params, header_params,
+                                      body, post_params, files,
+                                      response, auth_settings, callback))
+      thread.start()
+      return thread
+
+  def request(self, method, url, query_params=None, headers=None,
+              post_params=None, body=None):
     """
     Perform http request using RESTClient.
     """
