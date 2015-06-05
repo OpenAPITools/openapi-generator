@@ -1,7 +1,8 @@
 package {{package}};
 
 import {{invokerPackage}}.ApiException;
-import {{invokerPackage}}.ApiInvoker;
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.Configuration;
 
 import {{modelPackage}}.*;
 
@@ -21,19 +22,22 @@ import java.util.HashMap;
 
 {{#operations}}
 public class {{classname}} {
-  String basePath = "{{basePath}}";
-  ApiInvoker apiInvoker = ApiInvoker.getInstance();
+  private ApiClient apiClient;
 
-  public ApiInvoker getInvoker() {
-    return apiInvoker;
+  public {{classname}}() {
+    this(Configuration.getDefaultApiClient());
   }
 
-  public void setBasePath(String basePath) {
-    this.basePath = basePath;
+  public {{classname}}(ApiClient apiClient) {
+    this.apiClient = apiClient;
   }
 
-  public String getBasePath() {
-    return basePath;
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
+
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
   }
 
   {{#operation}}
@@ -54,7 +58,7 @@ public class {{classname}} {
 
     // create path and map variables
     String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}
-      .replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+      .replaceAll("\\{" + "{{paramName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -62,9 +66,10 @@ public class {{classname}} {
     Map<String, String> formParams = new HashMap<String, String>();
 
     {{#queryParams}}if ({{paramName}} != null)
-      queryParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
+      queryParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/queryParams}}
-    {{#headerParams}}headerParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
+    {{#headerParams}}if ({{paramName}} != null)
+      headerParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
     String[] contentTypes = {
       {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
@@ -76,25 +81,30 @@ public class {{classname}} {
       boolean hasFields = false;
       FormDataMultiPart mp = new FormDataMultiPart();
       {{#formParams}}{{#notFile}}
-      hasFields = true;
-      mp.field("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), MediaType.MULTIPART_FORM_DATA_TYPE);
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.field("{{baseName}}", apiClient.parameterToString({{paramName}}), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
       {{/notFile}}{{#isFile}}
-      hasFields = true;
-      mp.field("{{baseName}}", file.getName());
-      mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE));
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.field("{{baseName}}", {{paramName}}.getName());
+        mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE));
+      }
       {{/isFile}}{{/formParams}}
       if(hasFields)
         postBody = mp;
     }
     else {
-      {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));{{/notFile}}
+      {{#formParams}}{{#notFile}}if ({{paramName}} != null)
+        formParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{/notFile}}
       {{/formParams}}
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType);
+      String response = apiClient.invokeAPI(path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
+        return {{#returnType}}({{{returnType}}}) apiClient.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
       }
       else {
         return {{#returnType}}null{{/returnType}};
