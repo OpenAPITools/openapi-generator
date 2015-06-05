@@ -36,7 +36,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     moduleName = generateModuleName();
     modelPackage = gemName + "/models";
     apiPackage = gemName + "/api";
-    outputFolder = "generated-code/ruby";
+    outputFolder = "generated-code" + File.separatorChar + "ruby";
     modelTemplateFiles.put("model.mustache", ".rb");
     apiTemplateFiles.put("api.mustache", ".rb");
     templateDir = "ruby";
@@ -69,17 +69,17 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("List", "array");
     typeMapping.put("map", "map");
 
-    String baseFolder = "lib/" + gemName;
-    String swaggerFolder = baseFolder + "/swagger";
-    String modelFolder = baseFolder + "/models";
+    String baseFolder = "lib" + File.separatorChar + gemName;
+    String swaggerFolder = baseFolder + File.separatorChar + "swagger";
+    String modelFolder = baseFolder + File.separatorChar + "models";
     supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
     supportingFiles.add(new SupportingFile("swagger_client.mustache", "lib", gemName + ".rb"));
     supportingFiles.add(new SupportingFile("monkey.mustache", baseFolder, "monkey.rb"));
     supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
-    supportingFiles.add(new SupportingFile("swagger/request.mustache", swaggerFolder, "request.rb"));
-    supportingFiles.add(new SupportingFile("swagger/response.mustache", swaggerFolder, "response.rb"));
-    supportingFiles.add(new SupportingFile("swagger/version.mustache", swaggerFolder, "version.rb"));
-    supportingFiles.add(new SupportingFile("swagger/configuration.mustache", swaggerFolder, "configuration.rb"));
+    supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "request.mustache", swaggerFolder, "request.rb"));
+    supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "response.mustache", swaggerFolder, "response.rb"));
+    supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "version.mustache", swaggerFolder, "version.rb"));
+    supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "configuration.mustache", swaggerFolder, "configuration.rb"));
     supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));
   }
 
