@@ -27,7 +27,7 @@ class UserApi {
   function __construct($apiClient = null) {
     if (null === $apiClient) {
       if (Configuration::$apiClient === null) {
-        Configuration::$apiClient = new APIClient(); // create a new API client if not present
+        Configuration::$apiClient = new ApiClient(); // create a new API client if not present
         $this->apiClient = Configuration::$apiClient;
       }
       else
@@ -37,7 +37,7 @@ class UserApi {
     }
   }
 
-  private $apiClient; // instance of the APIClient
+  private $apiClient; // instance of the ApiClient
 
   /**
    * get the API client
