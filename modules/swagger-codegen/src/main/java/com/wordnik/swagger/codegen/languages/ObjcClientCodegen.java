@@ -1,6 +1,5 @@
 package com.wordnik.swagger.codegen.languages;
 
-import com.wordnik.swagger.util.Json;
 import com.wordnik.swagger.codegen.*;
 import com.wordnik.swagger.models.properties.*;
 
@@ -10,7 +9,8 @@ import java.io.File;
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected Set<String> foundationClasses = new HashSet<String>();
   protected String sourceFolder = "client";
-  protected static String PREFIX = "SWG";
+  protected String classPrefix = "SWG";
+  protected String projectName = "swaggerClient";
 
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -26,19 +26,13 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public ObjcClientCodegen() {
     super();
-    outputFolder = "generated-code/objc";
+    outputFolder = "generated-code" + File.separator + "objc";
     modelTemplateFiles.put("model-header.mustache", ".h");
     modelTemplateFiles.put("model-body.mustache", ".m");
     apiTemplateFiles.put("api-header.mustache", ".h");
     apiTemplateFiles.put("api-body.mustache", ".m");
     templateDir = "objc";
     modelPackage = "";
-
-    String appName = System.getProperty("appName");
-    if(appName == null) {
-      appName = "swaggerClient";
-    }
-    additionalProperties.put("projectName", appName);
 
     defaultIncludes = new HashSet<String>(
       Arrays.asList(
@@ -111,7 +105,31 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     instantiationTypes.put("array", "NSMutableArray");
     instantiationTypes.put("map", "NSMutableDictionary");
+    
+    cliOptions.add(new CliOption("classPrefix", "prefix for generated classes"));
+    cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+    cliOptions.add(new CliOption("projectName", "name of the Xcode project in generated Podfile"));
+  }
 
+  @Override
+  public void processOpts() {
+    super.processOpts();
+    
+    if(additionalProperties.containsKey("sourceFolder")) {
+      this.setSourceFolder((String)additionalProperties.get("sourceFolder"));
+    }
+    
+    if(additionalProperties.containsKey("classPrefix")) {
+      this.setClassPrefix((String)additionalProperties.get("classPrefix"));
+    }
+    
+    if(additionalProperties.containsKey("projectName")) {
+      this.setProjectName((String)additionalProperties.get("projectName"));
+    }
+    else{
+      additionalProperties.put("projectName", projectName);
+    }
+    
     supportingFiles.add(new SupportingFile("SWGObject.h", sourceFolder, "SWGObject.h"));
     supportingFiles.add(new SupportingFile("SWGObject.m", sourceFolder, "SWGObject.m"));
     supportingFiles.add(new SupportingFile("SWGQueryParamCollection.h", sourceFolder, "SWGQueryParamCollection.h"));
@@ -122,6 +140,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     supportingFiles.add(new SupportingFile("SWGFile.m", sourceFolder, "SWGFile.m"));
     supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", sourceFolder, "JSONValueTransformer+ISO8601.m"));
     supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", sourceFolder, "JSONValueTransformer+ISO8601.h"));
+    supportingFiles.add(new SupportingFile("SWGConfiguration-body.mustache", sourceFolder, "SWGConfiguration.m"));
+    supportingFiles.add(new SupportingFile("SWGConfiguration-header.mustache", sourceFolder, "SWGConfiguration.h"));
     supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
   }
 
@@ -220,7 +240,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
     // custom classes
     else {
-      return PREFIX + camelize(type);
+      return classPrefix + camelize(type);
     }
   }
 
@@ -266,11 +286,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String toApiName(String name) {
-    return PREFIX + camelize(name) + "Api";
+    return classPrefix + camelize(name) + "Api";
   }
 
   public String toApiFilename(String name) {
-    return PREFIX + camelize(name) + "Api";
+    return classPrefix + camelize(name) + "Api";
   }
 
   @Override
@@ -313,4 +333,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     return camelize(operationId, true);
   }
 
+  public void setSourceFolder(String sourceFolder) {
+    this.sourceFolder = sourceFolder;
+  }
+
+  public void setClassPrefix(String classPrefix) {
+    this.classPrefix = classPrefix;
+  }
+
+  public void setProjectName(String projectName) {
+    this.projectName = projectName;
+  }
 }

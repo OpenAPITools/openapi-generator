@@ -36,7 +36,8 @@ module SwaggerClient
       post_body = nil
       
 
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+      auth_names = ['api_key']
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
       response.map {|response| obj = map.new() and obj.build_from_hash(response) }
     end
 
@@ -72,7 +73,8 @@ module SwaggerClient
       post_body = Swagger::Request.object_to_http_body(opts[:'body'])
       
 
-      response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+      auth_names = []
+      response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
       obj = Order.new() and obj.build_from_hash(response)
     end
 
@@ -111,7 +113,8 @@ module SwaggerClient
       post_body = nil
       
 
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body}).make.body
+      auth_names = []
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
       obj = Order.new() and obj.build_from_hash(response)
     end
 
@@ -150,7 +153,8 @@ module SwaggerClient
       post_body = nil
       
 
-      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body}).make
+      auth_names = []
+      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       nil
     end
   end

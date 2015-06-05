@@ -27,6 +27,7 @@ cd $APP_DIR
 ./bin/qt5-petstore.sh
 ./bin/php-petstore.sh
 ./bin/python-petstore.sh
+./bin/retrofit-petstore.sh
 ./bin/ruby-petstore.sh
 ./bin/objc-petstore.sh
 ./bin/scala-petstore.sh

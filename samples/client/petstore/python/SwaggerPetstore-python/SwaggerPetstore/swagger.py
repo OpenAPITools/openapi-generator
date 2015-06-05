@@ -66,28 +66,28 @@ class ApiClient(object):
     if self.cookie:
       headers['Cookie'] = self.cookie
     if headers:
-      headers = ApiClient.sanitize_for_serialization(headers)
+      headers = self.sanitize_for_serialization(headers)
 
     # path parameters
     if path_params:
-      path_params = ApiClient.sanitize_for_serialization(path_params)
+      path_params = self.sanitize_for_serialization(path_params)
       for k, v in iteritems(path_params):
         replacement = quote(str(self.to_path_value(v)))
         resource_path = resource_path.replace('{' + k + '}', replacement)
 
     # query parameters
     if query_params:
-      query_params = ApiClient.sanitize_for_serialization(query_params)
+      query_params = self.sanitize_for_serialization(query_params)
       query_params = {k: self.to_path_value(v) for k, v in iteritems(query_params)}
 
     # post parameters
     if post_params:
       post_params = self.prepare_post_parameters(post_params, files)
-      post_params = ApiClient.sanitize_for_serialization(post_params)
+      post_params = self.sanitize_for_serialization(post_params)
 
     # body
     if body:
-      body = ApiClient.sanitize_for_serialization(body)
+      body = self.sanitize_for_serialization(body)
 
     # request url
     url = self.host + resource_path
@@ -115,8 +115,7 @@ class ApiClient(object):
     else:
       return str(obj)
 
-  @staticmethod
-  def sanitize_for_serialization(obj):
+  def sanitize_for_serialization(self, obj):
     """
     Sanitize an object for Request.
 
@@ -132,7 +131,7 @@ class ApiClient(object):
     elif isinstance(obj, (str, int, float, bool, tuple)):
       return obj
     elif isinstance(obj, list):
-      return [ApiClient.sanitize_for_serialization(sub_obj) for sub_obj in obj]
+      return [self.sanitize_for_serialization(sub_obj) for sub_obj in obj]
     elif isinstance(obj, (datetime.datetime, datetime.date)):
       return obj.isoformat()
     else:
@@ -145,7 +144,7 @@ class ApiClient(object):
         obj_dict = {obj.attribute_map[key]: val
                     for key, val in iteritems(obj.__dict__)
                     if key != 'swagger_types' and key != 'attribute_map' and val is not None}
-      return {key: ApiClient.sanitize_for_serialization(val)
+      return {key: self.sanitize_for_serialization(val)
               for key, val in iteritems(obj_dict)}
 
   def deserialize(self, obj, obj_class):
@@ -253,8 +252,7 @@ class ApiClient(object):
 
     return params
 
-  @staticmethod
-  def select_header_accept(accepts):
+  def select_header_accept(self, accepts):
     """
     Return `Accept` based on an array of accepts provided
     """
@@ -268,8 +266,7 @@ class ApiClient(object):
     else:
       return ', '.join(accepts)
 
-  @staticmethod
-  def select_header_content_type(content_types):
+  def select_header_content_type(self, content_types):
     """
     Return `Content-Type` baseed on an array of content_types provided
     """

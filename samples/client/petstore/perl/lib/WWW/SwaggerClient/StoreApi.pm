@@ -27,12 +27,8 @@ use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
 
-
-#use WWW::Swagger::Model::Category;
-#use WWW::Swagger::Model::Pet;
-
-
-use WWW::SwaggerClient::APIClient;
+use WWW::SwaggerClient::ApiClient;
+use WWW::SwaggerClient::Configuration;
 
 our @EXPORT_OK = qw(
   get_inventory 
@@ -44,7 +40,7 @@ our @EXPORT_OK = qw(
 
 sub new {
     my $class   = shift;
-    my $default_api_client = WWW::SwaggerClient::APIClient->new;
+    my $default_api_client = $WWW::SwaggerClient::Configuration::api_client ? $WWW::SwaggerClient::Configuration::api_client  : WWW::SwaggerClient::ApiClient->new;
     my (%self) = (
         'api_client' => $default_api_client,
         @_
@@ -95,18 +91,18 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = ['api_key'];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
+      return $_response_object;
       
   }
   
@@ -144,23 +140,23 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('Order', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('Order', $response);
+      return $_response_object;
       
   }
   
@@ -200,28 +196,28 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'order_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('Order', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('Order', $response);
+      return $_response_object;
       
   }
   
@@ -261,24 +257,24 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'order_id'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }

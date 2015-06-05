@@ -60,10 +60,10 @@ dependencies {
     compile "com.google.code.gson:gson:$gson_version"
     compile "org.apache.httpcomponents:httpcore:$httpclient_version"
     compile "org.apache.httpcomponents:httpclient:$httpclient_version"
-    compile ("org.apache.httpcomponents:httpcore:$httpcore_version") {
+    compile ("org.apache.httpcomponents:httpcore:$httpclient_version") {
         exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
     }
-    compile ("org.apache.httpcomponents:httpmime:$httpmime_version") {
+    compile ("org.apache.httpcomponents:httpmime:$httpclient_version") {
         exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
     }
     testCompile "junit:junit:$junit_version"

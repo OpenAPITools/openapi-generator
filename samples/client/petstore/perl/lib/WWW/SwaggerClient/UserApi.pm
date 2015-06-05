@@ -27,12 +27,8 @@ use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
 
-
-#use WWW::Swagger::Model::Category;
-#use WWW::Swagger::Model::Pet;
-
-
-use WWW::SwaggerClient::APIClient;
+use WWW::SwaggerClient::ApiClient;
+use WWW::SwaggerClient::Configuration;
 
 our @EXPORT_OK = qw(
   create_user 
@@ -48,7 +44,7 @@ our @EXPORT_OK = qw(
 
 sub new {
     my $class   = shift;
-    my $default_api_client = WWW::SwaggerClient::APIClient->new;
+    my $default_api_client = $WWW::SwaggerClient::Configuration::api_client ? $WWW::SwaggerClient::Configuration::api_client  : WWW::SwaggerClient::ApiClient->new;
     my (%self) = (
         'api_client' => $default_api_client,
         @_
@@ -98,19 +94,19 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -149,19 +145,19 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -200,19 +196,19 @@ sub new {
       
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -247,12 +243,12 @@ sub new {
       }
       $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-       # query params
+      # query params
       if ( exists $args{'username'}) {
-        $query_params->{'username'} = WWW::::APIClient::to_query_value($args{'username'});
-      } # query params
+        $query_params->{'username'} = $self->{api_client}->to_query_value($args{'username'});
+      }# query params
       if ( exists $args{'password'}) {
-        $query_params->{'password'} = WWW::::APIClient::to_query_value($args{'password'});
+        $query_params->{'password'} = $self->{api_client}->to_query_value($args{'password'});
       }
       
       
@@ -260,18 +256,18 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('string', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('string', $response);
+      return $_response_object;
       
   }
   
@@ -310,14 +306,14 @@ sub new {
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -358,28 +354,28 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       if (!$response) {
         return;
       }
-  		my $_response_object = $self->{api_client}->deserialize('User', $response);
-  		return $_response_object;
+      my $_response_object = $self->{api_client}->deserialize('User', $response);
+      return $_response_object;
       
   }
   
@@ -420,27 +416,27 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
-       # body params
+      # body params
       if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
       }
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }
@@ -481,24 +477,24 @@ sub new {
 
       
       
-       # path params
+      # path params
       if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
-        my $_base_value = WWW::SwaggerClient::APIClient::to_path_value($args{'username'});
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
       }
       
       my $_body_data;
       
 
-      # for HTTP post (form)
-      #$_body_data = $_body ? undef : $form_params;
+      # authentication setting, if any
+      my $auth_settings = [];
 
       # make the API Call
       
       $self->{api_client}->call_api($_resource_path, $_method,
                                              $query_params, $form_params,
-                                             $header_params, $_body_data);
+                                             $header_params, $_body_data, $auth_settings);
       return;
       
   }

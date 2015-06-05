@@ -1,5 +1,6 @@
 package com.wordnik.swagger.codegen;
 
+import com.wordnik.swagger.codegen.cmd.ConfigHelp;
 import com.wordnik.swagger.codegen.cmd.Generate;
 import com.wordnik.swagger.codegen.cmd.Langs;
 import com.wordnik.swagger.codegen.cmd.Meta;
@@ -27,7 +28,8 @@ public class SwaggerCodegen {
                         Generate.class,
                         Meta.class,
                         Langs.class,
-                        Help.class
+                        Help.class,
+                        ConfigHelp.class
                 );
 
         builder.build().parse(args).run();

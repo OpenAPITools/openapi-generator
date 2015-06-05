@@ -2,7 +2,6 @@
 #import "{{classname}}.h"
 #import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
-#import "SWGApiClient.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 {{newline}}
@@ -12,7 +11,35 @@
 @end
 
 @implementation {{classname}}
+
 static NSString * basePath = @"{{basePath}}";
+
+#pragma mark - Initialize methods
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+        self.defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+- (id) initWithApiClient:(SWGApiClient *)apiClient {
+    self = [super init];
+    if (self) {
+        if (apiClient) {
+            self.apiClient = apiClient;
+        }
+        else {
+            self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+        }
+        self.defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+#pragma mark -
 
 +({{classname}}*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
     static {{classname}}* singletonAPI = nil;
@@ -32,19 +59,8 @@ static NSString * basePath = @"{{basePath}}";
     return basePath;
 }
 
--(SWGApiClient*) apiClient {
-    return [SWGApiClient sharedClientFromPool:basePath];
-}
-
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
     [self.defaultHeaders setValue:value forKey:key];
-}
-
--(id) init {
-    self = [super init];
-    self.defaultHeaders = [NSMutableDictionary dictionary];
-    [self apiClient];
-    return self;
 }
 
 -(void) setHeaderValue:(NSString*) value
@@ -115,6 +131,9 @@ static NSString * basePath = @"{{basePath}}";
     // request content type
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
+    // Authentication setting
+    NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+    
     id bodyDictionary = nil;
     {{#bodyParam}}
     id __body = {{paramName}};
@@ -177,8 +196,6 @@ static NSString * basePath = @"{{basePath}}";
     {{/requiredParams}}
     {{/requiredParamCount}}
 
-    SWGApiClient* client = [SWGApiClient sharedClientFromPool:basePath];
-
     {{#returnContainer}}
     // response is in a container
     {{>apiBodyResponseWithContainer}}{{/returnContainer}}
@@ -206,3 +223,6 @@ static NSString * basePath = @"{{basePath}}";
 {{newline}}
 {{/operations}}
 @end
+
+
+

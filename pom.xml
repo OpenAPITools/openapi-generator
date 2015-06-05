@@ -351,6 +351,18 @@
       </modules>
     </profile>
     <profile>
+      <id>retrofit-client</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>java</value>
+        </property>
+      </activation>
+      <modules>
+        <module>samples/client/petstore/retrofit</module>
+      </modules>
+    </profile>
+    <profile>
       <id>spring-mvc</id>
       <activation>
         <property>

@@ -23,44 +23,42 @@ class ApiClientTests(unittest.TestCase):
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
-        accept = SwaggerPetstore.ApiClient.select_header_accept(accepts)
+        accept = self.api_client.select_header_accept(accepts)
         self.assertEqual(accept, 'application/json')
         
         accepts = ['application/json', 'application/xml']
-        accept = SwaggerPetstore.ApiClient.select_header_accept(accepts)
+        accept = self.api_client.select_header_accept(accepts)
         self.assertEqual(accept, 'application/json')
 
         accepts = ['application/xml', 'application/json']
-        accept = SwaggerPetstore.ApiClient.select_header_accept(accepts)
+        accept = self.api_client.select_header_accept(accepts)
         self.assertEqual(accept, 'application/json')
 
         accepts = ['text/plain', 'application/xml']
-        accept = SwaggerPetstore.ApiClient.select_header_accept(accepts)
+        accept = self.api_client.select_header_accept(accepts)
         self.assertEqual(accept, 'text/plain, application/xml')
 
         accepts = []
-        accept = SwaggerPetstore.ApiClient.select_header_accept(accepts)
+        accept = self.api_client.select_header_accept(accepts)
         self.assertEqual(accept, None)
 
     def test_select_header_content_type(self):
         content_types = ['APPLICATION/JSON', 'APPLICATION/XML']
-        content_type = SwaggerPetstore.ApiClient.select_header_content_type(content_types)
+        content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, 'application/json')
         
         content_types = ['application/json', 'application/xml']
-        content_type = SwaggerPetstore.ApiClient.select_header_content_type(content_types)
+        content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, 'application/json')
         
         content_types = ['application/xml', 'application/json']
-        content_type = SwaggerPetstore.ApiClient.select_header_content_type(content_types)
+        content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, 'application/json')
         
         content_types = ['text/plain', 'application/xml']
-        content_type = SwaggerPetstore.ApiClient.select_header_content_type(content_types)
+        content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, 'text/plain')
         
         content_types = []
-        content_type = SwaggerPetstore.ApiClient.select_header_content_type(content_types)
+        content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, 'application/json')
-        
-
