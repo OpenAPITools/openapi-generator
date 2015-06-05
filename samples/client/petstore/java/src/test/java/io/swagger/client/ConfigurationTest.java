@@ -53,4 +53,12 @@ public class ConfigurationTest {
     auth.setApiKey(null);
     auth.setApiKeyPrefix(null);
   }
+
+  @Test
+  public void testDefaultApiClient() {
+    ApiClient apiClient = Configuration.getDefaultApiClient();
+    assertNotNull(apiClient);
+    assertEquals("http://petstore.swagger.io/v2", apiClient.getBasePath());
+    assertFalse(apiClient.isDebugging());
+  }
 }

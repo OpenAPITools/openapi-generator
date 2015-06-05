@@ -36,32 +36,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     reservedWords = new HashSet<String> (
       Arrays.asList(
-        "abstract", "continue", "for", "new", "switch", "assert", 
-        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private", 
-        "this", "break", "double", "implements", "protected", "throw", "byte", "else", 
-        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", 
-        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", 
-        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", 
+        "abstract", "continue", "for", "new", "switch", "assert",
+        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
+        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
+        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
+        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
+        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
         "native", "super", "while")
     );
-
-    additionalProperties.put("invokerPackage", invokerPackage);
-    additionalProperties.put("groupId", groupId);
-    additionalProperties.put("artifactId", artifactId);
-    additionalProperties.put("artifactVersion", artifactVersion);
-
-    final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator);
-    final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", java.io.File.separator);
-
-    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-    supportingFiles.add(new SupportingFile("apiInvoker.mustache", invokerFolder, "ApiInvoker.java"));
-    supportingFiles.add(new SupportingFile("JsonUtil.mustache", invokerFolder, "JsonUtil.java"));
-    supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
-    supportingFiles.add(new SupportingFile("configuration.mustache", invokerFolder, "Configuration.java"));
-    supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
-    supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
-    supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-    supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
@@ -76,7 +58,69 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
       );
     instantiationTypes.put("array", "ArrayList");
     instantiationTypes.put("map", "HashMap");
+
+    cliOptions.add(new CliOption("invokerPackage", "root package for generated code"));
+    cliOptions.add(new CliOption("groupId", "groupId in generated pom.xml"));
+    cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
+    cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
+    cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
   }
+
+  @Override
+  public void processOpts() {
+    super.processOpts();
+
+    if(additionalProperties.containsKey("invokerPackage")) {
+      this.setInvokerPackage((String)additionalProperties.get("invokerPackage"));
+    }
+    else{
+      //not set, use default to be passed to template
+      additionalProperties.put("invokerPackage", invokerPackage);
+    }
+
+    if(additionalProperties.containsKey("groupId")) {
+      this.setGroupId((String)additionalProperties.get("groupId"));
+    }
+    else{
+      //not set, use to be passed to template
+      additionalProperties.put("groupId", groupId);
+    }
+
+    if(additionalProperties.containsKey("artifactId")) {
+      this.setArtifactId((String)additionalProperties.get("artifactId"));
+    }
+    else{
+      //not set, use to be passed to template
+      additionalProperties.put("artifactId", artifactId);
+    }
+
+    if(additionalProperties.containsKey("artifactVersion")) {
+      this.setArtifactVersion((String)additionalProperties.get("artifactVersion"));
+    }
+    else{
+      //not set, use to be passed to template
+      additionalProperties.put("artifactVersion", artifactVersion);
+    }
+
+    if(additionalProperties.containsKey("sourceFolder")) {
+      this.setSourceFolder((String)additionalProperties.get("sourceFolder"));
+    }
+
+    final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
+    supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+    supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+    supportingFiles.add(new SupportingFile("JsonUtil.mustache", invokerFolder, "JsonUtil.java"));
+    supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
+    supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
+
+    final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
+    supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+    supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
+    supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+    supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
+  }
+
+
 
   @Override
   public String escapeReservedWord(String name) {
@@ -174,5 +218,23 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     return camelize(operationId, true);
   }
 
+  public void setInvokerPackage(String invokerPackage) {
+    this.invokerPackage = invokerPackage;
+  }
 
+  public void setGroupId(String groupId) {
+    this.groupId = groupId;
+  }
+
+  public void setArtifactId(String artifactId) {
+    this.artifactId = artifactId;
+  }
+
+  public void setArtifactVersion(String artifactVersion) {
+    this.artifactVersion = artifactVersion;
+  }
+
+  public void setSourceFolder(String sourceFolder) {
+    this.sourceFolder = sourceFolder;
+  }
 }

@@ -1,6 +1,7 @@
 #import "SWGApiClient.h"
 #import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
+#import "SWGConfiguration.h"
 
 @implementation SWGApiClient
 
@@ -15,9 +16,21 @@ static NSOperationQueue* sharedQueue;
 static void (^reachabilityChangeBlock)(int);
 static bool loggingEnabled = true;
 
+#pragma mark - Log Methods
+
 +(void)setLoggingEnabled:(bool) state {
     loggingEnabled = state;
 }
+
+- (void)logRequest:(NSURLRequest*)request {
+    NSLog(@"request: %@", [self descriptionForRequest:request]);
+}
+
+- (void)logResponse:(id)data forRequest:(NSURLRequest*)request error:(NSError*)error {
+    NSLog(@"request: %@  response: %@ ",  [self descriptionForRequest:request], data );
+}
+
+#pragma mark -
 
 +(void)clearCache {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
@@ -134,10 +147,12 @@ static bool loggingEnabled = true;
 }
 
 +(NSNumber*) nextRequestId {
-    long nextId = ++requestId;
-    if(loggingEnabled)
-        NSLog(@"got id %ld", nextId);
-    return [NSNumber numberWithLong:nextId];
+    @synchronized(self) {
+        long nextId = ++requestId;
+        if(loggingEnabled)
+            NSLog(@"got id %ld", nextId);
+        return [NSNumber numberWithLong:nextId];
+    }
 }
 
 +(NSNumber*) queueRequest {
@@ -303,19 +318,47 @@ static bool loggingEnabled = true;
     return [[request URL] absoluteString];
 }
 
-- (void)logRequest:(NSURLRequest*)request {
-    NSLog(@"request: %@", [self descriptionForRequest:request]);
+
+/**
+ * Update header and query params based on authentication settings
+ */
+- (void) updateHeaderParams:(NSDictionary *__autoreleasing *)headers
+                queryParams:(NSDictionary *__autoreleasing *)querys
+           WithAuthSettings:(NSArray *)authSettings {
+    
+    if (!authSettings || [authSettings count] == 0) {
+        return;
+    }
+    
+    NSMutableDictionary *headersWithAuth = [NSMutableDictionary dictionaryWithDictionary:*headers];
+    NSMutableDictionary *querysWithAuth = [NSMutableDictionary dictionaryWithDictionary:*querys];
+    
+    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    for (NSString *auth in authSettings) {
+        NSDictionary *authSetting = [[config authSettings] objectForKey:auth];
+        
+        if (authSetting) {
+            if ([authSetting[@"in"] isEqualToString:@"header"]) {
+                [headersWithAuth setObject:authSetting[@"value"] forKey:authSetting[@"key"]];
+            }
+            else if ([authSetting[@"in"] isEqualToString:@"query"]) {
+                [querysWithAuth setObject:authSetting[@"value"] forKey:authSetting[@"key"]];
+            }
+        }
+    }
+    
+    *headers = [NSDictionary dictionaryWithDictionary:headersWithAuth];
+    *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
-- (void)logResponse:(id)data forRequest:(NSURLRequest*)request error:(NSError*)error {
-    NSLog(@"request: %@  response: %@ ",  [self descriptionForRequest:request], data );
-}
+#pragma mark - Perform Request Methods
 
 -(NSNumber*)  dictionary: (NSString*) path
                   method: (NSString*) method
              queryParams: (NSDictionary*) queryParams
                     body: (id) body
             headerParams: (NSDictionary*) headerParams
+            authSettings: (NSArray *) authSettings
       requestContentType: (NSString*) requestContentType
      responseContentType: (NSString*) responseContentType
          completionBlock: (void (^)(NSDictionary*, NSError *))completionBlock {
@@ -340,6 +383,9 @@ static bool loggingEnabled = true;
     else {
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
+    
+    // auth setting
+    [self updateHeaderParams:&headerParams queryParams:&queryParams WithAuthSettings:authSettings];
 
     NSMutableURLRequest * request = nil;
     if (body != nil && [body isKindOfClass:[NSArray class]]){
@@ -474,6 +520,7 @@ static bool loggingEnabled = true;
                             queryParams: (NSDictionary*) queryParams
                                    body: (id) body
                            headerParams: (NSDictionary*) headerParams
+                           authSettings: (NSArray *) authSettings
                      requestContentType: (NSString*) requestContentType
                     responseContentType: (NSString*) responseContentType
                         completionBlock: (void (^)(NSString*, NSError *))completionBlock {
@@ -498,6 +545,9 @@ static bool loggingEnabled = true;
     else {
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
+    
+    // auth setting
+    [self updateHeaderParams:&headerParams queryParams:&queryParams WithAuthSettings:authSettings];
 
     NSMutableURLRequest * request = nil;
     if (body != nil && [body isKindOfClass:[NSArray class]]){
