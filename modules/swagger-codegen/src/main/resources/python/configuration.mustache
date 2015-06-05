@@ -1,6 +1,6 @@
+from __future__ import absolute_import
 import base64
 import urllib3
-
 
 def get_api_key_with_prefix(key):
     global api_key
@@ -35,11 +35,12 @@ def auth_settings():
              {{/isBasic}}{{/authMethods}}
            }
 
-
-
 # Default Base url
 host = "{{basePath}}"
 
+# Default api client
+api_client = None
+             
 # Authentication settings
 
 api_key = {}

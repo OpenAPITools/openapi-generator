@@ -27,6 +27,7 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
+from .. import configuration
 from ..api_client import ApiClient
 
 class StoreApi(object):
@@ -35,7 +36,10 @@ class StoreApi(object):
         if api_client:
             self.api_client = api_client
         else:
-            self.api_client = config.api_client
+            if not configuration.api_client:
+                configuration.api_client = ApiClient('http://petstore.swagger.io/v2')
+            self.api_client = configuration.api_client
+    
     
     def get_inventory(self, **kwargs):
         """
