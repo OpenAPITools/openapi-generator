@@ -82,6 +82,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("map", "map");
     typeMapping.put("array", "array");
     typeMapping.put("list", "array");
+    typeMapping.put("object", "object");
 
     supportingFiles.add(new SupportingFile("composer.mustache", packagePath.replace('/', File.separatorChar), "composer.json"));
     supportingFiles.add(new SupportingFile("configuration.mustache", (packagePath + "/lib").replace('/', File.separatorChar), "Configuration.php"));
