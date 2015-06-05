@@ -83,11 +83,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("array", "array");
     typeMapping.put("list", "array");
 
-    supportingFiles.add(new SupportingFile("composer.mustache", packagePath, "composer.json"));
-    supportingFiles.add(new SupportingFile("configuration.mustache", packagePath + "/lib", "Configuration.php"));
-    supportingFiles.add(new SupportingFile("APIClient.mustache", packagePath + "/lib", "APIClient.php"));
-    supportingFiles.add(new SupportingFile("APIClientException.mustache", packagePath + "/lib", "APIClientException.php"));
-    supportingFiles.add(new SupportingFile("require.mustache", packagePath, invokerPackage + ".php"));
+    supportingFiles.add(new SupportingFile("composer.mustache", packagePath.replace('/', File.separatorChar), "composer.json"));
+    supportingFiles.add(new SupportingFile("configuration.mustache", (packagePath + "/lib").replace('/', File.separatorChar), "Configuration.php"));
+    supportingFiles.add(new SupportingFile("ApiClient.mustache", (packagePath + "/lib").replace('/', File.separatorChar), "ApiClient.php"));
+    supportingFiles.add(new SupportingFile("ApiException.mustache", (packagePath + "/lib").replace('/', File.separatorChar), "ApiException.php"));
+    supportingFiles.add(new SupportingFile("require.mustache", packagePath.replace('/', File.separatorChar), invokerPackage + ".php"));
   }
 
   @Override
@@ -97,11 +97,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
   
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+    return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
   }
 
   @Override

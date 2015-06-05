@@ -19,20 +19,40 @@ namespace {{invokerPackage}};
 
 use \Exception;
 
-class APIClientException extends Exception {
-  protected $response, $response_info;
+class ApiException extends Exception {
 
-  public function __construct($message="", $code=0, $response_info=null, $response=null) {
+  /**
+   * The HTTP body of the server response.
+   */
+  protected $response_body;
+
+  /**
+   * The HTTP header of the server response.
+   */
+  protected $response_headers;
+
+  public function __construct($message="", $code=0, $responseHeaders=null, $responseBody=null) {
     parent::__construct($message, $code);
-    $this->response_info = $response_info;
-    $this->response = $response;
+    $this->response_headers = $responseHeaders;
+    $this->response_body = $responseBody;
   }
 
-  public function getResponse() {
-    return $this->response;
+  /**
+   * Get the HTTP response header
+   *
+   * @return string HTTP response header
+   */
+  public function getResponseHeaders() {
+    return $this->response_headers;
   }
 
-  public function getResponseInfo() {
-    return $this->response_info;
+  /**
+   * Get the HTTP response body
+   *
+   * @return string HTTP response body
+   */
+  public function getResponseBody() {
+    return $this->response_body;
   }
+
 }

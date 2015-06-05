@@ -17,7 +17,7 @@
 
 namespace SwaggerClient;
 
-class APIClient {
+class ApiClient {
 
   public static $PATCH = "PATCH";
   public static $POST = "POST";
@@ -178,7 +178,7 @@ class APIClient {
    * @param array $headerParams parameters to be place in request header
    * @return mixed
    */
-  public function callAPI($resourcePath, $method, $queryParams, $postData,
+  public function callApi($resourcePath, $method, $queryParams, $postData,
     $headerParams, $authSettings) {
 
     $headers = array();
@@ -233,35 +233,49 @@ class APIClient {
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
       curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
     } else if ($method != self::$GET) {
-      throw new APIClientException('Method ' . $method . ' is not recognized.');
+      throw new ApiException('Method ' . $method . ' is not recognized.');
     }
     curl_setopt($curl, CURLOPT_URL, $url);
 
     // Set user agent
     curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent);
 
+    // debugging for curl
+    if (Configuration::$debug) {
+      error_log("[DEBUG] HTTP Request body  ~BEGIN~\n".print_r($postData, true)."\n~END~\n", 3, Configuration::$debug_file);
+
+      curl_setopt($curl, CURLOPT_VERBOSE, 1);
+      curl_setopt($curl, CURLOPT_STDERR, fopen(Configuration::$debug_file, 'a'));
+    } else {
+      curl_setopt($curl, CURLOPT_VERBOSE, 0);
+    }
+
+    // obtain the HTTP response headers
+    curl_setopt($curl, CURLOPT_HEADER, 1);
+
     // Make the request
     $response = curl_exec($curl);
+    $http_header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $http_header = substr($response, 0, $http_header_size);
+    $http_body = substr($response, $http_header_size);
     $response_info = curl_getinfo($curl);
+
+    // debug HTTP response body
+    if (Configuration::$debug) {
+        error_log("[DEBUG] HTTP Response body ~BEGIN~\n".print_r($http_body, true)."\n~END~\n", 3, Configuration::$debug_file);
+    }
 
     // Handle the response
     if ($response_info['http_code'] == 0) {
-      throw new APIClientException("TIMEOUT: api call to " . $url .
-        " took more than 5s to return", 0, $response_info, $response);
+      throw new ApiException("API call to $url timed out: ".serialize($response_info), 0, null, null);
     } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
-      $data = json_decode($response);
+      $data = json_decode($http_body);
       if (json_last_error() > 0) { // if response is a string
-        $data = $response;
+        $data = $http_body;
       }
-    } else if ($response_info['http_code'] == 401) {
-      throw new APIClientException("Unauthorized API request to " . $url .
-          ": " . serialize($response), 0, $response_info, $response);
-    } else if ($response_info['http_code'] == 404) {
-      $data = null;
     } else {
-      throw new APIClientException("Can't connect to the api: " . $url .
-        " response code: " .
-        $response_info['http_code'], 0, $response_info, $response);
+      throw new ApiException("[".$response_info['http_code']."] Error connecting to the API ($url)",
+        $response_info['http_code'], $http_header, $http_body);
     }
     return $data;
   }
