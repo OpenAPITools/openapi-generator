@@ -1,6 +1,6 @@
+from __future__ import absolute_import
 import base64
 import urllib3
-
 
 def get_api_key_with_prefix(key):
     global api_key
@@ -28,14 +28,17 @@ def auth_settings():
              
            }
 
-
-
 # Default Base url
 host = "http://petstore.swagger.io/v2"
 
+# Default api client
+api_client = None
+             
 # Authentication settings
 
 api_key = {}
 api_key_prefix = {}
 username = ''
 password = ''
+
+

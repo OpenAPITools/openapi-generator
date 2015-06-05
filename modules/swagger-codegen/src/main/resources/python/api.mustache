@@ -27,6 +27,7 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
+from .. import configuration
 from ..api_client import ApiClient
 
 {{#operations}}
@@ -36,7 +37,10 @@ class {{classname}}(object):
         if api_client:
             self.api_client = api_client
         else:
-            self.api_client = config.api_client
+            if not configuration.api_client:
+                configuration.api_client = ApiClient('{{basePath}}')
+            self.api_client = configuration.api_client
+    
     {{#operation}}
     def {{nickname}}(self, {{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}**kwargs):
         """

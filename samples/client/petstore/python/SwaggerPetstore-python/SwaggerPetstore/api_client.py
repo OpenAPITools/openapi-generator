@@ -67,7 +67,7 @@ class ApiClient(object):
     if self.cookie:
       header_params['Cookie'] = self.cookie
     if header_params:
-      header_params = ApiClient.sanitize_for_serialization(header_params)
+      header_params = self.sanitize_for_serialization(header_params)
 
     # path parameters
     if path_params:
@@ -301,6 +301,3 @@ class ApiClient(object):
           querys[auth_setting['key']] = auth_setting['value']
         else:
           raise ValueError('Authentication token must be in `query` or `header`')
-
-
-
