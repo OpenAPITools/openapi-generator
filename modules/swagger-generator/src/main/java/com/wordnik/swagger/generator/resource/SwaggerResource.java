@@ -5,7 +5,7 @@ import com.wordnik.swagger.generator.util.*;
 import com.wordnik.swagger.annotations.*;
 import com.wordnik.swagger.generator.model.*;
 import com.wordnik.swagger.generator.exception.BadRequestException;
-import com.wordnik.swagger.online.Generator;
+import com.wordnik.swagger.generator.online.Generator;
 
 import java.io.File;
 import java.util.*;
