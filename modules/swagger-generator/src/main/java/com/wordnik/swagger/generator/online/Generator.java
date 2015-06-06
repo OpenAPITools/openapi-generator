@@ -1,4 +1,4 @@
-package com.wordnik.swagger.online;
+package com.wordnik.swagger.generator.online;
 
 import io.swagger.parser.SwaggerParser;
 
