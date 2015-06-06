@@ -238,6 +238,36 @@ public class ApiClient {
   }
 
   /**
+   * Select the Accept header's value from the given accepts array:
+   *   if JSON exists in the given array, use it;
+   *   otherwise use all of them (joining into a string)
+   *
+   * @param accepts The accepts array to select from
+   * @return The Accept header to use. If the given array is empty,
+   *   null will be returned (not to set the Accept header explicitly).
+   */
+  public String selectHeaderAccept(String[] accepts) {
+    if (accepts.length == 0) return null;
+    if (StringUtil.containsIgnoreCase(accepts, "application/json")) return "application/json";
+    return StringUtil.join(accepts, ",");
+  }
+
+  /**
+   * Select the Content-Type header's value from the given array:
+   *   if JSON exists in the given array, use it;
+   *   otherwise use the first one of the array.
+   *
+   * @param contentTypes The Content-Type array to select from
+   * @return The Content-Type header to use. If the given array is empty,
+   *   JSON will be used.
+   */
+  public String selectHeaderContentType(String[] contentTypes) {
+    if (contentTypes.length == 0) return "application/json";
+    if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
+    return contentTypes[0];
+  }
+
+  /**
    * Escape the given string to be used as URL query value.
    */
   public String escapeString(String str) {
@@ -305,11 +335,12 @@ public class ApiClient {
    * @param body The request body object
    * @param headerParams The header parameters
    * @param formParams The form parameters
-   * @param contentType The request Content-Type
+   * @param accept The request's Accept header
+   * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
    * @return The response body in type of string
    */
-  public String invokeAPI(String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames) throws ApiException {
+  public String invokeAPI(String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String accept, String contentType, String[] authNames) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     Client client = getClient();
@@ -327,16 +358,21 @@ public class ApiClient {
     }
     String querystring = b.toString();
 
-    Builder builder = client.resource(basePath + path + querystring).accept("application/json");
+    Builder builder;
+    if (accept == null)
+      builder = client.resource(basePath + path + querystring).getRequestBuilder();
+    else
+      builder = client.resource(basePath + path + querystring).accept(accept);
+
     for(String key : headerParams.keySet()) {
       builder = builder.header(key, headerParams.get(key));
     }
-
     for(String key : defaultHeaderMap.keySet()) {
       if(!headerParams.containsKey(key)) {
         builder = builder.header(key, defaultHeaderMap.get(key));
       }
     }
+
     ClientResponse response = null;
 
     if("GET".equals(method)) {
