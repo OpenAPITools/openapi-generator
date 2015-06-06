@@ -1,4 +1,4 @@
-import com.wordnik.swagger.online._
+import com.wordnik.swagger.generator.online._
 import com.wordnik.swagger.generator.model._
 import com.wordnik.swagger.util.Json
 
