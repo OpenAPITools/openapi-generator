@@ -27,9 +27,8 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from ..util import remove_none
-
-from .. import config
+from .. import configuration
+from ..api_client import ApiClient
 
 class StoreApi(object):
 
@@ -37,7 +36,10 @@ class StoreApi(object):
         if api_client:
             self.api_client = api_client
         else:
-            self.api_client = config.api_client
+            if not configuration.api_client:
+                configuration.api_client = ApiClient('http://petstore.swagger.io/v2')
+            self.api_client = configuration.api_client
+    
     
     def get_inventory(self, **kwargs):
         """
@@ -60,13 +62,17 @@ class StoreApi(object):
         resource_path = '/store/inventory'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -75,9 +81,12 @@ class StoreApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = ['api_key']
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='map(String, int)')
+                                            response='map(String, int)', auth_settings=auth_settings)
         
         return response
         
@@ -103,13 +112,20 @@ class StoreApi(object):
         resource_path = '/store/order'.replace('{format}', 'json')
         method = 'POST'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -118,9 +134,12 @@ class StoreApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Order')
+                                            response='Order', auth_settings=auth_settings)
         
         return response
         
@@ -150,13 +169,20 @@ class StoreApi(object):
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict(orderId=params.get('order_id')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        if 'order_id' in params:
+            path_params['orderId'] = params['order_id']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -165,9 +191,12 @@ class StoreApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Order')
+                                            response='Order', auth_settings=auth_settings)
         
         return response
         
@@ -197,13 +226,20 @@ class StoreApi(object):
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
         method = 'DELETE'
 
-        path_params = remove_none(dict(orderId=params.get('order_id')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        if 'order_id' in params:
+            path_params['orderId'] = params['order_id']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -212,9 +248,12 @@ class StoreApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
 
 

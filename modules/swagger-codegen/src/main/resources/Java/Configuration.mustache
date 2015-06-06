@@ -9,7 +9,7 @@ public class Configuration {
    */
   public static ApiClient getDefaultApiClient() {
     return defaultApiClient;
-  }
+   }
 
   /**
    * Set the default API client, which would be used when creating API

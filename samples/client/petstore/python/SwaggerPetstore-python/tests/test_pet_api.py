@@ -12,8 +12,7 @@ import time
 import unittest
 
 import SwaggerPetstore
-from SwaggerPetstore.rest import ErrorResponse
-from SwaggerPetstore import config
+from SwaggerPetstore.rest import ApiException
 
 HOST = 'http://petstore.swagger.io/v2'
 
@@ -62,11 +61,11 @@ class PetApiTests(unittest.TestCase):
         # same default api client
         self.assertEqual(pet_api.api_client, pet_api2.api_client)
         # confirm using the default api client in the config module
-        self.assertEqual(pet_api.api_client, config.api_client)
+        self.assertEqual(pet_api.api_client, SwaggerPetstore.configuration.api_client)
         # 2 different api clients are not the same
         self.assertNotEqual(api_client3, api_client4)
         # customized pet api not using the default api client
-        self.assertNotEqual(pet_api3.api_client, config.api_client)
+        self.assertNotEqual(pet_api3.api_client, SwaggerPetstore.configuration.api_client)
         # customized pet api not using the old pet api's api client
         self.assertNotEqual(pet_api3.api_client, pet_api2.api_client)
 
@@ -126,7 +125,7 @@ class PetApiTests(unittest.TestCase):
                 additional_metadata=additional_metadata,
                 file=self.foo
             )
-        except ErrorResponse as e:
+        except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
 
     def test_delete_pet(self):
@@ -136,7 +135,7 @@ class PetApiTests(unittest.TestCase):
         try:
             self.pet_api.get_pet_by_id(pet_id=self.pet.id)
             raise "expected an error"
-        except ErrorResponse as e:
+        except ApiException as e:
             self.assertEqual(404, e.status)
 
 if __name__ == '__main__':

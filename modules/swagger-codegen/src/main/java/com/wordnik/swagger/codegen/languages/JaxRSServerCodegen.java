@@ -27,7 +27,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
   }
 
   public JaxRSServerCodegen() {
-    super();
+    super.processOpts();
 
     sourceFolder = "src/gen/java";
 
@@ -37,7 +37,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     apiTemplateFiles.put("apiService.mustache", ".java");
     apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
     apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-
     templateDir = "JavaJaxRS";
     apiPackage = System.getProperty( "swagger.codegen.jaxrs.apipackage", "io.swagger.api") ;
     modelPackage = System.getProperty( "swagger.codegen.jaxrs.modelpackage", "io.swagger.model" );
@@ -47,6 +46,24 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     additionalProperties.put("artifactId", artifactId);
     additionalProperties.put("artifactVersion", artifactVersion);
     additionalProperties.put("title", title);
+
+
+    languageSpecificPrimitives = new HashSet<String>(
+      Arrays.asList(
+        "String",
+        "boolean",
+        "Boolean",
+        "Double",
+        "Integer",
+        "Long",
+        "Float")
+      );
+  }
+
+
+  @Override
+  public void processOpts() {
+    super.processOpts();
 
     supportingFiles.clear();
     supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -62,16 +79,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     supportingFiles.add(new SupportingFile("web.mustache", 
       ("src/main/webapp/WEB-INF"), "web.xml"));
 
-    languageSpecificPrimitives = new HashSet<String>(
-      Arrays.asList(
-        "String",
-        "boolean",
-        "Boolean",
-        "Double",
-        "Integer",
-        "Long",
-        "Float")
-      );
   }
 
   @Override
