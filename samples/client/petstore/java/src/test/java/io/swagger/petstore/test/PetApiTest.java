@@ -5,6 +5,7 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
+import io.swagger.client.auth.*;
 
 import java.util.*;
 import java.io.*;
@@ -18,6 +19,9 @@ public class PetApiTest {
   @Before
   public void setup() {
     api = new PetApi();
+    // setup authentication
+    ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
+    apiKeyAuth.setApiKey("special-key");
   }
 
   @Test

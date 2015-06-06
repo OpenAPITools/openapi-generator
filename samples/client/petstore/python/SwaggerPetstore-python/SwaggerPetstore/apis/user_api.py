@@ -27,9 +27,8 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from ..util import remove_none
-
-from .. import config
+from .. import configuration
+from ..api_client import ApiClient
 
 class UserApi(object):
 
@@ -37,7 +36,10 @@ class UserApi(object):
         if api_client:
             self.api_client = api_client
         else:
-            self.api_client = config.api_client
+            if not configuration.api_client:
+                configuration.api_client = ApiClient('http://petstore.swagger.io/v2')
+            self.api_client = configuration.api_client
+    
     
     def create_user(self, **kwargs):
         """
@@ -61,13 +63,20 @@ class UserApi(object):
         resource_path = '/user'.replace('{format}', 'json')
         method = 'POST'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -76,9 +85,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def create_users_with_array_input(self, **kwargs):
         """
@@ -102,13 +114,20 @@ class UserApi(object):
         resource_path = '/user/createWithArray'.replace('{format}', 'json')
         method = 'POST'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -117,9 +136,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def create_users_with_list_input(self, **kwargs):
         """
@@ -143,13 +165,20 @@ class UserApi(object):
         resource_path = '/user/createWithList'.replace('{format}', 'json')
         method = 'POST'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -158,9 +187,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def login_user(self, **kwargs):
         """
@@ -185,13 +217,23 @@ class UserApi(object):
         resource_path = '/user/login'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict(username=params.get('username'), password=params.get('password')))
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        query_params = {}
+        
+        if 'username' in params:
+            query_params['username'] = params['username']
+        
+        if 'password' in params:
+            query_params['password'] = params['password']
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -200,9 +242,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='str')
+                                            response='str', auth_settings=auth_settings)
         
         return response
         
@@ -227,13 +272,17 @@ class UserApi(object):
         resource_path = '/user/logout'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict())
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -242,9 +291,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def get_user_by_name(self, username, **kwargs):
         """
@@ -272,13 +324,20 @@ class UserApi(object):
         resource_path = '/user/{username}'.replace('{format}', 'json')
         method = 'GET'
 
-        path_params = remove_none(dict(username=params.get('username')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        if 'username' in params:
+            path_params['username'] = params['username']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -287,9 +346,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='User')
+                                            response='User', auth_settings=auth_settings)
         
         return response
         
@@ -320,13 +382,23 @@ class UserApi(object):
         resource_path = '/user/{username}'.replace('{format}', 'json')
         method = 'PUT'
 
-        path_params = remove_none(dict(username=params.get('username')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
-        body_params = params.get('body')
-
+        path_params = {}
+        
+        if 'username' in params:
+            path_params['username'] = params['username']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
+        body_params = None
+        
+        if 'body' in params:
+            body_params = params['body']
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -335,9 +407,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
     def delete_user(self, username, **kwargs):
         """
@@ -365,13 +440,20 @@ class UserApi(object):
         resource_path = '/user/{username}'.replace('{format}', 'json')
         method = 'DELETE'
 
-        path_params = remove_none(dict(username=params.get('username')))
-        query_params = remove_none(dict())
-        header_params = remove_none(dict())
-        form_params = remove_none(dict())
-        files = remove_none(dict())
+        path_params = {}
+        
+        if 'username' in params:
+            path_params['username'] = params['username']  
+        
+        query_params = {}
+        
+        header_params = {}
+        
+        form_params = {}
+        files = {}
+        
         body_params = None
-
+        
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(['application/json', 'application/xml'])
         if not header_params['Accept']:
@@ -380,9 +462,12 @@ class UserApi(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([])
 
+        # Authentication setting
+        auth_settings = []
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None)
+                                            response=None, auth_settings=auth_settings)
         
 
 

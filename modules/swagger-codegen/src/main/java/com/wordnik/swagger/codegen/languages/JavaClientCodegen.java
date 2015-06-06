@@ -106,17 +106,19 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
       this.setSourceFolder((String)additionalProperties.get("sourceFolder"));
     }
 
+    final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
     supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-    supportingFiles.add(new SupportingFile("ApiClient.mustache",
-      (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiClient.java"));
-    supportingFiles.add(new SupportingFile("Configuration.mustache",
-      (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Configuration.java"));
-    supportingFiles.add(new SupportingFile("JsonUtil.mustache",
-      (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
-    supportingFiles.add(new SupportingFile("StringUtil.mustache",
-      (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "StringUtil.java"));
-    supportingFiles.add(new SupportingFile("apiException.mustache",
-      (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
+    supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+    supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
+    supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
+    supportingFiles.add(new SupportingFile("JsonUtil.mustache", invokerFolder, "JsonUtil.java"));
+    supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+
+    final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
+    supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+    supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
+    supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+    supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
   }
 
 

@@ -1,4 +1,10 @@
 # coding: utf-8
+
+"""
+Credit: this file (rest.py) is modified based on rest.py in Dropbox Python SDK:
+https://www.dropbox.com/developers/core/sdks/python
+"""
+
 import sys
 import io
 import json
@@ -120,7 +126,7 @@ class RESTClientObject(object):
         r = RESTResponse(r)
 
         if r.status not in range(200, 206):
-            raise ErrorResponse(r)
+            raise ApiException(r)
 
         return self.process_response(r)
 
@@ -157,7 +163,7 @@ class RESTClientObject(object):
         return self.request("PATCH", url, headers=headers, post_params=post_params, body=body)
 
 
-class ErrorResponse(Exception):
+class ApiException(Exception):
     """
     Non-2xx HTTP response
     """
@@ -184,7 +190,10 @@ class ErrorResponse(Exception):
         """
         Custom error response messages
         """
-        return "({0})\nReason: {1}\nHeader: {2}\nBody: {3}\n".\
+        return "({0})\n"\
+            "Reason: {1}\n"\
+            "HTTP response headers: {2}\n"\
+            "HTTP response body: {3}\n".\
             format(self.status, self.reason, self.headers, self.body)
 
 class RESTClient(object):

@@ -27,9 +27,8 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from ..util import remove_none
-
-from .. import config
+from .. import configuration
+from ..api_client import ApiClient
 
 {{#operations}}
 class {{classname}}(object):
@@ -38,7 +37,10 @@ class {{classname}}(object):
         if api_client:
             self.api_client = api_client
         else:
-            self.api_client = config.api_client
+            if not configuration.api_client:
+                configuration.api_client = ApiClient('{{basePath}}')
+            self.api_client = configuration.api_client
+    
     {{#operation}}
     def {{nickname}}(self, {{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}**kwargs):
         """
@@ -66,13 +68,32 @@ class {{classname}}(object):
         resource_path = '{{path}}'.replace('{format}', 'json')
         method = '{{httpMethod}}'
 
-        path_params = remove_none(dict({{#pathParams}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/pathParams}}))
-        query_params = remove_none(dict({{#queryParams}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/queryParams}}))
-        header_params = remove_none(dict({{#headerParams}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/headerParams}}))
-        form_params = remove_none(dict({{#formParams}}{{^isFile}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/isFile}}{{/formParams}}))
-        files = remove_none(dict({{#formParams}}{{#isFile}}{{baseName}}=params.get('{{paramName}}'){{#hasMore}}, {{/hasMore}}{{/isFile}}{{/formParams}}))
-        body_params = {{#bodyParam}}params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}
-
+        path_params = {}
+        {{#pathParams}}
+        if '{{paramName}}' in params:
+            path_params['{{baseName}}'] = params['{{paramName}}']  
+        {{/pathParams}}
+        query_params = {}
+        {{#queryParams}}
+        if '{{paramName}}' in params:
+            query_params['{{baseName}}'] = params['{{paramName}}']
+        {{/queryParams}}
+        header_params = {}
+        {{#headerParams}}
+        if '{{paramName}}' in params:
+            header_params['{{baseName}}'] = params['{{paramName}}']
+        {{/headerParams}}
+        form_params = {}
+        files = {}
+        {{#formParams}}
+        if '{{paramName}}' in params:
+            {{#notFile}}form_params['{{baseName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+        {{/formParams}}
+        body_params = None
+        {{#bodyParam}}
+        if '{{paramName}}' in params:
+            body_params = params['{{paramName}}']
+        {{/bodyParam}}
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept([{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
         if not header_params['Accept']:
@@ -81,9 +102,12 @@ class {{classname}}(object):
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type([{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
 
+        # Authentication setting
+        auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
+
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}})
+                                            response={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}}, auth_settings=auth_settings)
         {{#returnType}}
         return response
         {{/returnType}}{{/operation}}

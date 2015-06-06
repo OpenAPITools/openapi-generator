@@ -13,4 +13,4 @@ from .apis.pet_api import PetApi
 from .apis.store_api import StoreApi
 
 # import ApiClient
-from .swagger import ApiClient
+from .api_client import ApiClient
