@@ -5,7 +5,7 @@
     <version>5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.wordnik</groupId>
+  <groupId>io.swagger</groupId>
   <artifactId>swagger-codegen-project</artifactId>
   <packaging>pom</packaging>
   <name>swagger-codegen-project</name>
@@ -137,7 +137,7 @@
               <mode>development</mode>
               <url>${project.url}</url>
               <implementation-version>${project.version}</implementation-version>
-              <package>com.wordnik</package>
+              <package>io.swagger</package>
             </manifestEntries>
           </archive>
         </configuration>
@@ -462,10 +462,10 @@
     </repository>
   </repositories>
   <properties>
-    <swagger-parser-version>1.0.7</swagger-parser-version>
+    <swagger-parser-version>1.0.8-SNAPSHOT</swagger-parser-version>
     <scala-version>2.11.1</scala-version>
     <felix-version>2.3.4</felix-version>
-    <swagger-core-version>1.5.2-M2</swagger-core-version>
+    <swagger-core-version>1.5.0</swagger-core-version>
     <scala-test-version>2.1.4</scala-test-version>
     <commons-io-version>2.3</commons-io-version>
     <commons-cli-version>1.2</commons-cli-version>
