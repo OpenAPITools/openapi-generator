@@ -8,7 +8,7 @@ import java.io.File;
 
 public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String invokerPackage = "io.swagger.client";
-  protected String groupId = "com.wordnik";
+  protected String groupId = "io.swagger";
   protected String artifactId = "swagger-scala-client";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/scala";

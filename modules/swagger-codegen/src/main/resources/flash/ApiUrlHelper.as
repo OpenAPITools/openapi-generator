@@ -1,5 +1,5 @@
-package com.wordnik.swagger.common {
-import com.wordnik.swagger.common.ApiUserCredentials;
+package io.swagger.common {
+import io.swagger.common.ApiUserCredentials;
 
 /**
  * @private

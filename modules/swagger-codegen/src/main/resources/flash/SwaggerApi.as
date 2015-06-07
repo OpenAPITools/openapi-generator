@@ -1,6 +1,6 @@
-package com.wordnik.swagger.common
+package io.swagger.common
 {
-	import com.wordnik.swagger.common.ApiUserCredentials;
+	import io.swagger.common.ApiUserCredentials;
 	
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;

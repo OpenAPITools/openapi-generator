@@ -1,4 +1,4 @@
-package com.wordnik.swagger.common {
+package io.swagger.common {
 
 /**
  * Api account credentials.

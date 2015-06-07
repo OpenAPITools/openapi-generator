@@ -12,6 +12,12 @@ namespace IO.Swagger.Client {
     public int ErrorCode { get; set; }
 
     /// <summary>
+    /// Gets or sets the error content (body json object)
+    /// </summary>
+    /// <value>The error content (Http response body).</value>
+    public dynamic ErrorContent { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ApiException"/> class.
     /// </summary>
     /// <param name="basePath">The base path.</param>
@@ -24,6 +30,11 @@ namespace IO.Swagger.Client {
     /// <param name="message">Error message.</param>
     public ApiException(int errorCode, string message) : base(message) {
       this.ErrorCode = errorCode;
+    }
+
+    public ApiException(int errorCode, string message, dynamic errorContent = null) : base(message) {
+       this.ErrorCode = errorCode;
+       this.ErrorContent = errorContent;
     }
 
   }

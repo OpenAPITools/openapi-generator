@@ -154,7 +154,7 @@ Great for creating libraries on your ci server, from the [Swagger Editor](http:/
 There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:
 
 ```
-$ ls -1 modules/swagger-codegen/src/main/java/com/wordnik/swagger/codegen/languages/
+$ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
 AndroidClientCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
@@ -237,7 +237,7 @@ To change, for example, the prefix for the Objective-C generated files, simply s
 ```
 package com.mycompany.swagger.codegen;
 
-import com.wordnik.swagger.codegen.languages.*;
+import io.swagger.codegen.languages.*;
 
 public class MyObjcCodegen extends ObjcClientCodegen {
   static {

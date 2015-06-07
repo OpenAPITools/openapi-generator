@@ -40,7 +40,6 @@ public class UserApi  {
 
     public Response createUser(@ApiParam(value = "Created user object"  ) User body)
     throws NotFoundException {
-    // do some magic!
     return delegate.createUser(body);
     }
     @POST
@@ -53,7 +52,6 @@ public class UserApi  {
 
     public Response createUsersWithArrayInput(@ApiParam(value = "List of user object"  ) List<User> body)
     throws NotFoundException {
-    // do some magic!
     return delegate.createUsersWithArrayInput(body);
     }
     @POST
@@ -66,7 +64,6 @@ public class UserApi  {
 
     public Response createUsersWithListInput(@ApiParam(value = "List of user object"  ) List<User> body)
     throws NotFoundException {
-    // do some magic!
     return delegate.createUsersWithListInput(body);
     }
     @GET
@@ -82,7 +79,6 @@ public class UserApi  {
     public Response loginUser(@ApiParam(value = "The user name for login") @QueryParam("username") String username,
     @ApiParam(value = "The password for login in clear text") @QueryParam("password") String password)
     throws NotFoundException {
-    // do some magic!
     return delegate.loginUser(username,password);
     }
     @GET
@@ -95,7 +91,6 @@ public class UserApi  {
 
     public Response logoutUser()
     throws NotFoundException {
-    // do some magic!
     return delegate.logoutUser();
     }
     @GET
@@ -112,7 +107,6 @@ public class UserApi  {
 
     public Response getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathParam("username") String username)
     throws NotFoundException {
-    // do some magic!
     return delegate.getUserByName(username);
     }
     @PUT
@@ -128,7 +122,6 @@ public class UserApi  {
     public Response updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathParam("username") String username,
     @ApiParam(value = "Updated user object"  ) User body)
     throws NotFoundException {
-    // do some magic!
     return delegate.updateUser(username,body);
     }
     @DELETE
@@ -143,7 +136,6 @@ public class UserApi  {
 
     public Response deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathParam("username") String username)
     throws NotFoundException {
-    // do some magic!
     return delegate.deleteUser(username);
     }
 }

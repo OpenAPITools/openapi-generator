@@ -44,7 +44,6 @@ public class PetApi  {
 
     public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
     throws NotFoundException {
-    // do some magic!
     return delegate.updatePet(body);
     }
     @POST
@@ -57,7 +56,6 @@ public class PetApi  {
 
     public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
     throws NotFoundException {
-    // do some magic!
     return delegate.addPet(body);
     }
     @GET
@@ -72,7 +70,6 @@ public class PetApi  {
 
     public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue="available") @QueryParam("status") List<String> status)
     throws NotFoundException {
-    // do some magic!
     return delegate.findPetsByStatus(status);
     }
     @GET
@@ -87,7 +84,6 @@ public class PetApi  {
 
     public Response findPetsByTags(@ApiParam(value = "Tags to filter by") @QueryParam("tags") List<String> tags)
     throws NotFoundException {
-    // do some magic!
     return delegate.findPetsByTags(tags);
     }
     @GET
@@ -104,7 +100,6 @@ public class PetApi  {
 
     public Response getPetById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathParam("petId") Long petId)
     throws NotFoundException {
-    // do some magic!
     return delegate.getPetById(petId);
     }
     @POST
@@ -119,7 +114,6 @@ public class PetApi  {
     @ApiParam(value = "Updated name of the pet" )@FormParam("name")  String name,
     @ApiParam(value = "Updated status of the pet" )@FormParam("status")  String status)
     throws NotFoundException {
-    // do some magic!
     return delegate.updatePetWithForm(petId,name,status);
     }
     @DELETE
@@ -133,7 +127,6 @@ public class PetApi  {
     public Response deletePet(@ApiParam(value = ""  )@HeaderParam("api_key") String apiKey,
     @ApiParam(value = "Pet id to delete",required=true ) @PathParam("petId") Long petId)
     throws NotFoundException {
-    // do some magic!
     return delegate.deletePet(apiKey,petId);
     }
     @POST
@@ -149,7 +142,6 @@ public class PetApi  {
     @ApiParam(value = "file to upload") @FormDataParam("file") InputStream inputStream,
     @ApiParam(value = "file detail") @FormDataParam("file") FormDataContentDisposition fileDetail)
     throws NotFoundException {
-    // do some magic!
     return delegate.uploadFile(petId,additionalMetadata,fileDetail);
     }
 }
