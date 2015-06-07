@@ -18,7 +18,7 @@ setup(
     name="SwaggerPetstore",
     version="1.0.0",
     description="Swagger Petstore",
-    author_email="apiteam@wordnik.com",
+    author_email="apiteam@swagger.io",
     url="",
     keywords=["Swagger", "Swagger Petstore"],
     install_requires=REQUIRES,

@@ -26,7 +26,7 @@ public class SwaggerConfig {
         "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters",
         "1.0.0",
         "",
-        "apiteam@wordnik.com",
+        "apiteam@swagger.io",
         "Apache 2.0",
         "http://www.apache.org/licenses/LICENSE-2.0.html" );
         return apiInfo;
