@@ -1,6 +1,6 @@
 package python
 
-import com.wordnik.swagger.codegen.languages.{PythonClientCodegen}
+import io.swagger.codegen.languages.{PythonClientCodegen}
 import io.swagger.parser.SwaggerParser
 import org.junit.runner.RunWith
 
