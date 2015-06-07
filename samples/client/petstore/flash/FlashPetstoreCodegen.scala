@@ -19,7 +19,7 @@ import com.wordnik.swagger.codegen.BasicFlashCodegen
 object FlashPetstoreCodegen extends BasicFlashCodegen {
   def main(args: Array[String]) = generateClient(args)
 
-  override def packageName = "com.wordnik.client"
+  override def packageName = "io.swagger.client"
 
   override def destinationRoot = "samples/client/petstore/flash"
 

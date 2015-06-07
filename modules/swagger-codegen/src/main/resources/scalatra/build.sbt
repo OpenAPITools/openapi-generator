@@ -8,7 +8,7 @@ assemblySettings
 
 scalariformSettings
 
-organization := "com.wordnik"
+organization := "io.swagger"
 
 seq(webSettings :_*)
 
