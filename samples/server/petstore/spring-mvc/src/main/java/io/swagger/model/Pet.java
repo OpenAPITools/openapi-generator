@@ -4,7 +4,7 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.*;
 
-import com.wordnik.swagger.annotations.*;
+import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
