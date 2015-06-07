@@ -8,7 +8,7 @@ import java.util.*;
 import java.io.File;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
-  protected String invokerPackage = "com.wordnik.client";
+  protected String invokerPackage = "io.swagger.client";
   protected String groupId = "io.swagger";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";

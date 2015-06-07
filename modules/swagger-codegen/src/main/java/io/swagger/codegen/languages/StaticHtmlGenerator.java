@@ -10,7 +10,7 @@ import java.io.File;
 
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
   private static final String ALL_OPERATIONS = "";
-  protected String invokerPackage = "com.wordnik.client";
+  protected String invokerPackage = "io.swagger.client";
   protected String groupId = "io.swagger";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
