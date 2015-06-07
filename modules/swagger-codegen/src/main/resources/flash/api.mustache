@@ -15,26 +15,26 @@ import flash.utils.Dictionary;
 import flash.events.EventDispatcher;
 
 {{#operations}}
-public class {{classname}} extends SwaggerApi {
+    public class {{classname}} extends SwaggerApi {
     /**
     * Constructor for the {{classname}} api client
     * @param apiCredentials Wrapper object for tokens and hostName required towards authentication
     * @param eventDispatcher Optional event dispatcher that when provided is used by the SDK to dispatch any Response
     */
     public function {{classname}}(apiCredentials: ApiUserCredentials, eventDispatcher: EventDispatcher = null) {
-        super(apiCredentials, eventDispatcher);
+    super(apiCredentials, eventDispatcher);
     }
 
-{{#operation}}
+    {{#operation}}
         public static const event_{{nickname}}: String = "{{nickname}}";
-{{/operation}}
+    {{/operation}}
 
-{{#operation}}
+    {{#operation}}
 
-    /*
-     * Returns {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
-     */
-    public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
+        /*
+        * Returns {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
+        */
+        public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
         // create path and map variables
         var path: String = "{{path}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{paramName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
 
@@ -43,14 +43,14 @@ public class {{classname}} extends SwaggerApi {
         var headerParams: Dictionary = new Dictionary();
 
         {{#requiredParamCount}}
-        // verify required params are set
-        if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
-            throw new ApiError(400, "missing required params");
+            // verify required params are set
+            if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
+        throw new ApiError(400, "missing required params");
         }
         {{/requiredParamCount}}
 
         {{#queryParams}}if("null" != String({{paramName}}))
-            queryParams["{{paramName}}"] = toPathValue({{paramName}});
+        queryParams["{{paramName}}"] = toPathValue({{paramName}});
         {{/queryParams}}
 
         {{#headerParams}}headerParams["{{paramName}}"] = toPathValue({{paramName}});
@@ -66,8 +66,8 @@ public class {{classname}} extends SwaggerApi {
         token.returnType = {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null {{/returnType}};
         return requestId;
 
-    }
+        }
     {{/operation}}
-}
-        {{/operations}}
+    }
+{{/operations}}
 }

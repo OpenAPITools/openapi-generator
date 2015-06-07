@@ -1,22 +1,16 @@
 package io.swagger.client.api
 
-import io.swagger.client.model.WordList
-import io.swagger.client.model.StringValue
-import io.swagger.client.core._
-import io.swagger.client.core.CollectionFormats._
-import io.swagger.client.core.ApiKeyLocations._
-
 object WordListApi {
 
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : WordList (success)
-   *   code 400 :  (Invalid ID supplied)
-   *   code 403 :  (Not Authorized to access WordList)
-   *   code 404 :  (WordList not found)
-   * 
+   * code 200 : WordList (success)
+   * code 400 :  (Invalid ID supplied)
+   * code 403 :  (Not Authorized to access WordList)
+   * code 404 :  (WordList not found)
+   *
    * @param permalink permalink of WordList to fetch
    * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
@@ -28,16 +22,16 @@ object WordListApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid ID supplied)
-   *   code 403 :  (Not Authorized to update WordList)
-   *   code 404 :  (WordList not found)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid ID supplied)
+   * code 403 :  (Not Authorized to update WordList)
+   * code 404 :  (WordList not found)
+   *
    * @param permalink permalink of WordList to update
    * @param body Updated WordList
    * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
@@ -51,16 +45,16 @@ object WordListApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid ID supplied)
-   *   code 403 :  (Not Authorized to delete WordList)
-   *   code 404 :  (WordList not found)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid ID supplied)
+   * code 403 :  (Not Authorized to delete WordList)
+   * code 404 :  (WordList not found)
+   *
    * @param permalink ID of WordList to delete
    * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
@@ -72,16 +66,16 @@ object WordListApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid permalink supplied)
-   *   code 403 :  (Not Authorized to modify WordList)
-   *   code 404 :  (WordList not found)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid permalink supplied)
+   * code 403 :  (Not Authorized to modify WordList)
+   * code 404 :  (WordList not found)
+   *
    * @param permalink permalink of WordList to use
    * @param body Words to remove from WordList
    * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
@@ -95,16 +89,16 @@ object WordListApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid ID supplied)
-   *   code 403 :  (Not Authorized to access WordList)
-   *   code 404 :  (WordList not found)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid ID supplied)
+   * code 403 :  (Not Authorized to access WordList)
+   * code 404 :  (WordList not found)
+   *
    * @param permalink ID of WordList to use
    * @param sortBy Field to sort by
    * @param sortOrder Direction to sort
@@ -124,16 +118,16 @@ object WordListApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid permalink supplied)
-   *   code 403 :  (Not Authorized to access WordList)
-   *   code 404 :  (WordList not found)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid permalink supplied)
+   * code 403 :  (Not Authorized to access WordList)
+   * code 404 :  (WordList not found)
+   *
    * @param permalink permalink of WordList to user
    * @param body Array of words to add to WordList
    * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
@@ -147,7 +141,6 @@ object WordListApi {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
 
 
 }

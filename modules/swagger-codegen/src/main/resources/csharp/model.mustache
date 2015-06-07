@@ -6,44 +6,52 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 {{#models}}
-{{#model}}
-namespace {{package}} {
+    {{#model}}
+        namespace {{package}} {
 
-  /// <summary>
-  /// {{description}}
-  /// </summary>
-  [DataContract]
-  public class {{classname}} {
-    {{#vars}}
-    {{#description}}/* {{{description}}} */{{/description}}
-    [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
-    public {{{datatype}}} {{name}} { get; set; }
+        ///
+        <summary>
+            /// {{description}}
+            ///
+        </summary>
+        [DataContract]
+        public class {{classname}} {
+        {{#vars}}
+            {{#description}}/* {{{description}}} */{{/description}}
+            [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
+            public {{{datatype}}} {{name}} { get; set; }
 
-    {{/vars}}
+        {{/vars}}
 
-    /// <summary>
-    /// Get the string presentation of the object
-    /// </summary>
-    /// <returns>String presentation of the object</returns>
-    public override string ToString()  {
-      var sb = new StringBuilder();
-      sb.Append("class {{classname}} {\n");
-      {{#vars}}
-      sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
-      {{/vars}}
-      sb.Append("}\n");
-      return sb.ToString();
-    }
+        ///
+        <summary>
+            /// Get the string presentation of the object
+            ///
+        </summary>
+        ///
+        <returns>String presentation of the object</returns>
+        public override string ToString()  {
+        var sb = new StringBuilder();
+        sb.Append("class {{classname}} {\n");
+        {{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+        {{/vars}}
+        sb.Append("}\n");
+        return sb.ToString();
+        }
 
-    /// <summary>
-    /// Get the JSON string presentation of the object
-    /// </summary>
-    /// <returns>JSON string presentation of the object</returns>
-    public string ToJson() {
-      return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
+        ///
+        <summary>
+            /// Get the JSON string presentation of the object
+            ///
+        </summary>
+        ///
+        <returns>JSON string presentation of the object</returns>
+        public string ToJson() {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
 
-}
-  {{/model}}
-  {{/models}}
+        }
+    {{/model}}
+{{/models}}
 }

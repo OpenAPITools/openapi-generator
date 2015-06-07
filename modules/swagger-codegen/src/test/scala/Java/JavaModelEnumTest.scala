@@ -4,8 +4,8 @@ import io.swagger.codegen.languages.JavaClientCodegen
 import io.swagger.models._
 import io.swagger.models.properties._
 import org.junit.runner.RunWith
-import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
+import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.JavaConverters._
 
@@ -23,8 +23,8 @@ class JavaModelEnumTest extends FlatSpec with Matchers {
 
     cm.vars.size should be(1)
     val enumVar = cm.vars.get(0)
-    enumVar.baseName should be ("name")
-    enumVar.datatype should be ("String")
+    enumVar.baseName should be("name")
+    enumVar.datatype should be("String")
     enumVar.datatypeWithEnum should be("NameEnum")
     enumVar.name should be("name")
     enumVar.defaultValue should be("null")

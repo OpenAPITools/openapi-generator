@@ -1,24 +1,14 @@
 package io.swagger.client.api
 
-import io.swagger.client.model.WordObject
-import io.swagger.client.model.AudioFile
-import io.swagger.client.model.Definition
-import io.swagger.client.model.FrequencySummary
-import io.swagger.client.model.Bigram
-import io.swagger.client.model.Example
-import io.swagger.client.core._
-import io.swagger.client.core.CollectionFormats._
-import io.swagger.client.core.ApiKeyLocations._
-
 object WordApi {
 
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : WordObject (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 : WordObject (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word String value of WordObject to return
    * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    * @param includeSuggestions Return suggestions (for correct spelling, case variants, etc.)
@@ -30,14 +20,14 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[WordObject](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
    * The metadata includes a time-expiring fileUrl which allows reading the audio file directly from the API.  Currently only audio pronunciations from the American Heritage Dictionary in mp3 format are supported.
-   * 
+   *
    * Expected answers:
-   *   code 200 : Seq[AudioFile] (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 : Seq[AudioFile] (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word Word to get audio for.
    * @param useCanonical Use the canonical form of the word
    * @param limit Maximum number of results to return
@@ -49,15 +39,15 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[Seq[AudioFile]](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : Seq[Definition] (success)
-   *   code 400 :  (Invalid word supplied.)
-   *   code 404 :  (No definitions found.)
-   * 
+   * code 200 : Seq[Definition] (success)
+   * code 400 :  (Invalid word supplied.)
+   * code 404 :  (No definitions found.)
+   *
    * @param word Word to return definitions for
    * @param limit Maximum number of results to return
    * @param partOfSpeech CSV list of part-of-speech types
@@ -78,15 +68,15 @@ object WordApi {
       .withSuccessResponse[Seq[Definition]](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : Seq[String] (success)
-   *   code 400 :  (Invalid word supplied.)
-   *   code 404 :  (No definitions found.)
-   * 
+   * code 200 : Seq[String] (success)
+   * code 400 :  (Invalid word supplied.)
+   * code 404 :  (No definitions found.)
+   *
    * @param word Word to return
    * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    */
@@ -97,14 +87,14 @@ object WordApi {
       .withSuccessResponse[Seq[String]](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word Word to return examples for
    * @param includeDuplicates Show duplicate examples from different sources
    * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
@@ -120,15 +110,15 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : FrequencySummary (success)
-   *   code 400 :  (Invalid word supplied.)
-   *   code 404 :  (No results.)
-   * 
+   * code 200 : FrequencySummary (success)
+   * code 400 :  (Invalid word supplied.)
+   * code 404 :  (No results.)
+   *
    * @param word Word to return
    * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    * @param startYear Starting Year
@@ -143,14 +133,14 @@ object WordApi {
       .withSuccessResponse[FrequencySummary](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word Word to get syllables for
    * @param useCanonical If true will try to return a correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    * @param sourceDictionary Get from a single dictionary. Valid options: ahd, century, wiktionary, webster, and wordnet.
@@ -164,14 +154,14 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : Seq[Bigram] (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 : Seq[Bigram] (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word Word to fetch phrases for
    * @param limit Maximum number of results to return
    * @param wlmi Minimum WLMI for the phrase
@@ -185,14 +175,14 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[Seq[Bigram]](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word Word to get pronunciations for
    * @param useCanonical If true will try to return a correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    * @param sourceDictionary Get from a single dictionary
@@ -208,14 +198,14 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word Word to fetch relationships for
    * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    * @param relationshipTypes Limits the total results per type of relationship type
@@ -229,14 +219,14 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : Example (success)
-   *   code 400 :  (Invalid word supplied.)
-   * 
+   * code 200 : Example (success)
+   * code 400 :  (Invalid word supplied.)
+   *
    * @param word Word to fetch examples for
    * @param useCanonical If true will try to return the correct word root (&#39;cats&#39; -&gt; &#39;cat&#39;). If false returns exactly what was requested.
    */
@@ -246,7 +236,6 @@ object WordApi {
       .withPathParam("word", word)
       .withSuccessResponse[Example](200)
       .withErrorResponse[Unit](400)
-      
 
 
 }

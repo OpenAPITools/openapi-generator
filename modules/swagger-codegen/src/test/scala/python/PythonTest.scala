@@ -1,12 +1,10 @@
 package python
 
-import io.swagger.codegen.languages.{PythonClientCodegen}
+import io.swagger.codegen.languages.PythonClientCodegen
 import io.swagger.parser.SwaggerParser
 import org.junit.runner.RunWith
-
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
 
 @RunWith(classOf[JUnitRunner])
 class PythonTest extends FlatSpec with Matchers {

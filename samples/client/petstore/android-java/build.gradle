@@ -7,9 +7,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.2'
-        
+
         classpath 'com.github.dcendents:android-maven-plugin:1.2'
-        
+
     }
 }
 
@@ -56,10 +56,10 @@ dependencies {
     compile "com.google.code.gson:gson:$gson_version"
     compile "org.apache.httpcomponents:httpcore:$httpclient_version"
     compile "org.apache.httpcomponents:httpclient:$httpclient_version"
-    compile ("org.apache.httpcomponents:httpcore:$httpclient_version") {
+    compile("org.apache.httpcomponents:httpcore:$httpclient_version") {
         exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
     }
-    compile ("org.apache.httpcomponents:httpmime:$httpclient_version") {
+    compile("org.apache.httpcomponents:httpmime:$httpclient_version") {
         exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
     }
     testCompile "junit:junit:$junit_version"
