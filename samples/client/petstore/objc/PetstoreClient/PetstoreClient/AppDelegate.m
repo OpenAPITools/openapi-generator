@@ -3,7 +3,7 @@
 //  PetstoreClient
 //
 //  Created by Tony Tam on 10/18/13.
-//  Copyright (c) 2013 Reverb. All rights reserved.
+//  Copyright (c) 2015 SmartBear Software. All rights reserved.
 //
 
 #import "AppDelegate.h"
