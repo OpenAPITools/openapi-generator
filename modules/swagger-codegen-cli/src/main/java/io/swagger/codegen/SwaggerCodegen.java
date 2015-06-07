@@ -1,17 +1,17 @@
 package io.swagger.codegen;
 
+import io.airlift.airline.Cli;
+import io.airlift.airline.Help;
 import io.swagger.codegen.cmd.ConfigHelp;
 import io.swagger.codegen.cmd.Generate;
 import io.swagger.codegen.cmd.Langs;
 import io.swagger.codegen.cmd.Meta;
-import io.airlift.airline.Cli;
-import io.airlift.airline.Help;
 
 /**
  * User: lanwen
  * Date: 24.03.15
  * Time: 17:56
- *
+ * <p/>
  * Command line interface for swagger codegen
  * use `swagger-codegen-cli.jar help` for more info
  *

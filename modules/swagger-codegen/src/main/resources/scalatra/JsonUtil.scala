@@ -1,7 +1,5 @@
 package json
 
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.fasterxml.jackson.core.JsonGenerator.Feature
 import com.fasterxml.jackson.databind._
 
 object JsonUtil {

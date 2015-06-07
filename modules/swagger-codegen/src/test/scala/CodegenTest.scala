@@ -18,25 +18,25 @@ class CodegenTest extends FlatSpec with Matchers {
     val p = model.getPaths().get(path).getPost()
     val op = codegen.fromOperation(path, "post", p, model.getDefinitions())
 
-    op.operationId should be ("uploadFile")
-    op.httpMethod should be ("POST")
-    op.hasConsumes should equal (true)
+    op.operationId should be("uploadFile")
+    op.httpMethod should be("POST")
+    op.hasConsumes should equal(true)
     op.consumes.size should be(1)
-    op.consumes.get(0).get("mediaType") should be ("multipart/form-data")
+    op.consumes.get(0).get("mediaType") should be("multipart/form-data")
 
-    op.hasProduces should equal (true)
+    op.hasProduces should equal(true)
     val allParams = op.allParams
-    allParams.size should be (3)
+    allParams.size should be(3)
 
     val formParams = op.formParams
-    formParams.size should be (2)
+    formParams.size should be(2)
 
     val file = formParams.get(1)
-    file.isFormParam should equal (true)
-    file.dataType should be ("file")
-    file.required should equal (null)
-    file.isFile should equal (true)
-    file.hasMore should be (null)
+    file.isFormParam should equal(true)
+    file.dataType should be("file")
+    file.required should equal(null)
+    file.isFile should equal(true)
+    file.hasMore should be(null)
   }
 
   it should "read formParam values from a 2.0 spec" in {
@@ -48,45 +48,45 @@ class CodegenTest extends FlatSpec with Matchers {
     val p = model.getPaths().get(path).getPost()
     val op = codegen.fromOperation(path, "post", p, model.getDefinitions())
 
-    op.operationId should be ("updatePetWithForm")
-    op.httpMethod should be ("POST")
-    op.hasConsumes should equal (true)
+    op.operationId should be("updatePetWithForm")
+    op.httpMethod should be("POST")
+    op.hasConsumes should equal(true)
     op.consumes.size should be(1)
-    op.consumes.get(0).get("mediaType") should be ("application/x-www-form-urlencoded")
+    op.consumes.get(0).get("mediaType") should be("application/x-www-form-urlencoded")
 
-    op.hasProduces should equal (true)
+    op.hasProduces should equal(true)
     op.produces.size should be(2)
-    op.produces.get(0).get("mediaType") should be ("application/json")
-    op.produces.get(0).get("hasMore") should be ("true")
-    op.produces.get(1).get("mediaType") should be ("application/xml")
+    op.produces.get(0).get("mediaType") should be("application/json")
+    op.produces.get(0).get("hasMore") should be("true")
+    op.produces.get(1).get("mediaType") should be("application/xml")
 
     val pathParams = op.pathParams
-    pathParams.size should be (1)
+    pathParams.size should be(1)
 
     val idParam = pathParams.get(0)
-    idParam.isPathParam should equal (true)
-    idParam.dataType should be ("String")
-    idParam.required should equal (true)
-    idParam.hasMore should be (null)
+    idParam.isPathParam should equal(true)
+    idParam.dataType should be("String")
+    idParam.required should equal(true)
+    idParam.hasMore should be(null)
 
     val allParams = op.allParams
-    allParams.size should be (3)
+    allParams.size should be(3)
 
     val formParams = op.formParams
-    formParams.size should be (2)
+    formParams.size should be(2)
     val nameParam = formParams.get(0)
-    nameParam.isFormParam should equal (true)
-    nameParam.notFile should equal (true)
-    nameParam.dataType should be ("String")
-    nameParam.required should equal (null)
-    nameParam.hasMore should equal (true)
+    nameParam.isFormParam should equal(true)
+    nameParam.notFile should equal(true)
+    nameParam.dataType should be("String")
+    nameParam.required should equal(null)
+    nameParam.hasMore should equal(true)
 
     val statusParam = formParams.get(1)
-    statusParam.isFormParam should equal (true)
-    statusParam.notFile should equal (true)
-    statusParam.dataType should be ("String")
-    statusParam.required should equal (null)    
-    statusParam.hasMore should be (null)    
+    statusParam.isFormParam should equal(true)
+    statusParam.notFile should equal(true)
+    statusParam.dataType should be("String")
+    statusParam.required should equal(null)
+    statusParam.hasMore should be(null)
   }
 
   it should "handle required parameters from a 2.0 spec as required when figuring out Swagger types" in {

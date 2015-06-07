@@ -4,10 +4,10 @@ import ch.lambdaj.function.convert.Converter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.codegen.DefaultGenerator;
-import io.swagger.codegen.SupportingFile;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import io.swagger.codegen.DefaultGenerator;
+import io.swagger.codegen.SupportingFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -81,8 +81,9 @@ public class Meta implements Runnable {
     /**
      * Converter method to process supporting files: execute with mustache,
      * or simply copy to destination directory
+     *
      * @param targetDir - destination directory
-     * @param data - map with additional params needed to process templates
+     * @param data      - map with additional params needed to process templates
      * @return converter object to pass to lambdaj
      */
     private Converter<SupportingFile, File> processFiles(final File targetDir, final Map<String, Object> data) {
@@ -121,6 +122,7 @@ public class Meta implements Runnable {
 
     /**
      * Creates mustache loader for template using classpath loader
+     *
      * @param generator - class with reader getter
      * @return loader for template
      */
@@ -135,6 +137,7 @@ public class Meta implements Runnable {
 
     /**
      * Converts package name to path on file system
+     *
      * @param packageName - package name to convert
      * @return relative path
      */

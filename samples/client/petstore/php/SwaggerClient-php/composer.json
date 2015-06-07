@@ -27,6 +27,8 @@
     "squizlabs/php_codesniffer": "~2.0"
   },
   "autoload": {
-    "psr-4": { "SwaggerClient\\" : "lib/" }
+    "psr-4": {
+      "SwaggerClient\\": "lib/"
+    }
   }
 }

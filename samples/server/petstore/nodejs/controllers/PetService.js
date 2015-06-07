@@ -1,112 +1,104 @@
 'use strict';
 
-exports.updatePet = function(body) {
+exports.updatePet = function (body) {
 
-  var examples = {};
-  
+    var examples = {};
 
-  
+
 }
-exports.addPet = function(body) {
+exports.addPet = function (body) {
 
-  var examples = {};
-  
+    var examples = {};
 
-  
+
 }
-exports.findPetsByStatus = function(status) {
+exports.findPetsByStatus = function (status) {
 
-  var examples = {};
-  
-  examples['application/json'] = [ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
-  "id" : 123456789,
-  "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
-  },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-} ];
-  
+    var examples = {};
 
-  
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
-  
+    examples['application/json'] = [{
+        "tags": [{
+            "id": 123456789,
+            "name": "aeiou"
+        }],
+        "id": 123456789,
+        "category": {
+            "id": 123456789,
+            "name": "aeiou"
+        },
+        "status": "aeiou",
+        "name": "doggie",
+        "photoUrls": ["aeiou"]
+    }];
+
+
+    if (Object.keys(examples).length > 0)
+        return examples[Object.keys(examples)[0]];
+
 }
-exports.findPetsByTags = function(tags) {
+exports.findPetsByTags = function (tags) {
 
-  var examples = {};
-  
-  examples['application/json'] = [ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
-  "id" : 123456789,
-  "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
-  },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-} ];
-  
+    var examples = {};
 
-  
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
-  
+    examples['application/json'] = [{
+        "tags": [{
+            "id": 123456789,
+            "name": "aeiou"
+        }],
+        "id": 123456789,
+        "category": {
+            "id": 123456789,
+            "name": "aeiou"
+        },
+        "status": "aeiou",
+        "name": "doggie",
+        "photoUrls": ["aeiou"]
+    }];
+
+
+    if (Object.keys(examples).length > 0)
+        return examples[Object.keys(examples)[0]];
+
 }
-exports.getPetById = function(petId) {
+exports.getPetById = function (petId) {
 
-  var examples = {};
-  
-  examples['application/json'] = {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
-  "id" : 123456789,
-  "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
-  },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-};
-  
+    var examples = {};
 
-  
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
-  
+    examples['application/json'] = {
+        "tags": [{
+            "id": 123456789,
+            "name": "aeiou"
+        }],
+        "id": 123456789,
+        "category": {
+            "id": 123456789,
+            "name": "aeiou"
+        },
+        "status": "aeiou",
+        "name": "doggie",
+        "photoUrls": ["aeiou"]
+    };
+
+
+    if (Object.keys(examples).length > 0)
+        return examples[Object.keys(examples)[0]];
+
 }
-exports.updatePetWithForm = function(petId, name, status) {
+exports.updatePetWithForm = function (petId, name, status) {
 
-  var examples = {};
-  
+    var examples = {};
 
-  
+
 }
-exports.deletePet = function(api_key, petId) {
+exports.deletePet = function (api_key, petId) {
 
-  var examples = {};
-  
+    var examples = {};
 
-  
+
 }
-exports.uploadFile = function(petId, additionalMetadata, file) {
+exports.uploadFile = function (petId, additionalMetadata, file) {
 
-  var examples = {};
-  
+    var examples = {};
 
-  
+
 }

@@ -6,16 +6,16 @@ public class WebApplication extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { SwaggerConfig.class };
+        return new Class[]{SwaggerConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] { WebMvcConfiguration.class };
+        return new Class<?>[]{WebMvcConfiguration.class};
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/" };
+        return new String[]{"/"};
     }
 }

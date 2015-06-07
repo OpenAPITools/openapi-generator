@@ -1,7 +1,5 @@
 package io.swagger.client;
 
-import org.apache.http.client.methods.*;
-
 public class HttpPatch extends HttpPost {
     public static final String METHOD_PATCH = "PATCH";
 

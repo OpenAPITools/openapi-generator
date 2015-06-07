@@ -1,64 +1,105 @@
 package io.swagger.codegen;
 
-import io.swagger.models.*;
+import io.swagger.models.Model;
+import io.swagger.models.Operation;
+import io.swagger.models.Swagger;
 import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.properties.*;
+import io.swagger.models.properties.Property;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface CodegenConfig {
-  CodegenType getTag();
-  String getName();
-  String getHelp();
-  Map<String, Object> additionalProperties();
-  String apiPackage();
-  String apiFileFolder();
-  String fileSuffix();
-  String outputFolder();
-  String templateDir();
-  String modelFileFolder();
-  String modelPackage();
-  String toApiName(String name);
-  String toApiVarName(String name);
-  String toModelName(String name);
-  String toParamName(String name);
-  String escapeText(String text);
-  String escapeReservedWord(String name);
-  String getTypeDeclaration(Property p);
-  String getTypeDeclaration(String name);
-  void processOpts();
-  List<CliOption> cliOptions();
-  String generateExamplePath(String path, Operation operation);
+    CodegenType getTag();
 
-  Set<String> reservedWords();
+    String getName();
 
-  List<SupportingFile> supportingFiles();
+    String getHelp();
 
-  void setOutputDir(String dir);
-  String getOutputDir();
+    Map<String, Object> additionalProperties();
 
-  CodegenModel fromModel(String name, Model model);
-  CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions);
-  List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);
+    String apiPackage();
 
-  Set<String> defaultIncludes();
-  Map<String, String> typeMapping();
-  Map<String, String> instantiationTypes();
-  Map<String, String> importMapping();
-  Map<String, String> apiTemplateFiles();
-  Map<String, String> modelTemplateFiles();
-  void processSwagger(Swagger swagger);
+    String apiFileFolder();
 
-  String toApiFilename(String name);
-  String toModelFilename(String name);
-  String toModelImport(String name);
-  String toApiImport(String name);
-  void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
-  Map<String, Object> postProcessModels(Map<String, Object> objs);
-  Map<String, Object> postProcessOperations(Map<String, Object> objs);
-  Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
+    String fileSuffix();
 
-  String apiFilename(String templateName, String tag);
+    String outputFolder();
 
-  boolean shouldOverwrite(String filename);
+    String templateDir();
+
+    String modelFileFolder();
+
+    String modelPackage();
+
+    String toApiName(String name);
+
+    String toApiVarName(String name);
+
+    String toModelName(String name);
+
+    String toParamName(String name);
+
+    String escapeText(String text);
+
+    String escapeReservedWord(String name);
+
+    String getTypeDeclaration(Property p);
+
+    String getTypeDeclaration(String name);
+
+    void processOpts();
+
+    List<CliOption> cliOptions();
+
+    String generateExamplePath(String path, Operation operation);
+
+    Set<String> reservedWords();
+
+    List<SupportingFile> supportingFiles();
+
+    String getOutputDir();
+
+    void setOutputDir(String dir);
+
+    CodegenModel fromModel(String name, Model model);
+
+    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions);
+
+    List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);
+
+    Set<String> defaultIncludes();
+
+    Map<String, String> typeMapping();
+
+    Map<String, String> instantiationTypes();
+
+    Map<String, String> importMapping();
+
+    Map<String, String> apiTemplateFiles();
+
+    Map<String, String> modelTemplateFiles();
+
+    void processSwagger(Swagger swagger);
+
+    String toApiFilename(String name);
+
+    String toModelFilename(String name);
+
+    String toModelImport(String name);
+
+    String toApiImport(String name);
+
+    void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
+
+    Map<String, Object> postProcessModels(Map<String, Object> objs);
+
+    Map<String, Object> postProcessOperations(Map<String, Object> objs);
+
+    Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
+
+    String apiFilename(String templateName, String tag);
+
+    boolean shouldOverwrite(String filename);
 }

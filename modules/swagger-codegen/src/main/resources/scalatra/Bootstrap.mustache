@@ -5,16 +5,16 @@ import javax.servlet.ServletContext
 import org.scalatra.LifeCycle
 
 class ScalatraBootstrap extends LifeCycle {
-  implicit val swagger = new SwaggerApp
+implicit val swagger = new SwaggerApp
 
-  override def init(context: ServletContext) {
-    implicit val system = ActorSystem("appActorSystem")
-    try {
-      {{#apiInfo}}{{#apis}}context mount (new {{classname}}, "/{{baseName}}/*")
-      {{/apis}}{{/apiInfo}}
-      context mount (new ResourcesApp, "/api-docs/*")
-    } catch {
-      case e: Throwable => e.printStackTrace()
-    }
-  }
+override def init(context: ServletContext) {
+implicit val system = ActorSystem("appActorSystem")
+try {
+{{#apiInfo}}{{#apis}}context mount (new {{classname}}, "/{{baseName}}/*")
+{{/apis}}{{/apiInfo}}
+context mount (new ResourcesApp, "/api-docs/*")
+} catch {
+case e: Throwable => e.printStackTrace()
+}
+}
 }

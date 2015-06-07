@@ -1,36 +1,36 @@
-        // primitive response type
-    {{#returnBaseType}}return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                              method: @"{{httpMethod}}" 
-                                         queryParams: queryParams 
-                                                body: bodyDictionary 
-                                        headerParams: headerParams
-                                        authSettings: authSettings
-                                  requestContentType: requestContentType
-                                 responseContentType: responseContentType
-                                     completionBlock: ^(NSString *data, NSError *error) {
-                         if (error) {
-                             completionBlock(nil, error);
-                             return;
-                         }
-                        {{returnBaseType}} *result = data ? [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}} alloc]initWithString: data] : nil;
-                        completionBlock(result, nil);
-                     }];
-    {{/returnBaseType}}
-    {{^returnBaseType}}
+// primitive response type
+{{#returnBaseType}}return [self.apiClient stringWithCompletionBlock: requestUrl
+method: @"{{httpMethod}}"
+queryParams: queryParams
+body: bodyDictionary
+headerParams: headerParams
+authSettings: authSettings
+requestContentType: requestContentType
+responseContentType: responseContentType
+completionBlock: ^(NSString *data, NSError *error) {
+if (error) {
+completionBlock(nil, error);
+return;
+}
+{{returnBaseType}} *result = data ? [[{{#instantiationType}}NSClassFromString(@"{{{instantiationType}}}") {{/instantiationType}}{{^instantiationType}}{{{returnBaseType}}} {{/instantiationType}} alloc]initWithString: data] : nil;
+completionBlock(result, nil);
+}];
+{{/returnBaseType}}
+{{^returnBaseType}}
     // no return base type
-    return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"{{httpMethod}}" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-    {{/returnBaseType}}
+    return [self.apiClient stringWithCompletionBlock: requestUrl
+    method: @"{{httpMethod}}"
+    queryParams: queryParams
+    body: bodyDictionary
+    headerParams: headerParams
+    requestContentType: requestContentType
+    responseContentType: responseContentType
+    completionBlock: ^(NSString *data, NSError *error) {
+    if (error) {
+    completionBlock(error);
+    return;
+    }
+    completionBlock(nil);
+    }];
+{{/returnBaseType}}
     

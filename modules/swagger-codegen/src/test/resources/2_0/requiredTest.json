@@ -77,7 +77,9 @@
   },
   "definitions": {
     "CustomModel": {
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "properties": {
         "id": {
           "type": "integer",

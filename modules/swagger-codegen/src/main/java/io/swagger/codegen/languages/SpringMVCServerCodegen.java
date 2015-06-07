@@ -1,13 +1,20 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.util.Json;
-import io.swagger.codegen.*;
-import io.swagger.models.properties.*;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.Property;
 
-import java.util.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.api";
@@ -18,18 +25,6 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     protected String title = "Petstore Server";
 
     protected String configPackage = "";
-
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
-    }
-
-    public String getName() {
-        return "spring-mvc";
-    }
-
-    public String getHelp() {
-        return "Generates a Java Spring-MVC Server application using the SpringFox integration.";
-    }
 
     public SpringMVCServerCodegen() {
         super.processOpts();
@@ -51,15 +46,27 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         additionalProperties.put("configPackage", configPackage);
 
         languageSpecificPrimitives = new HashSet<String>(
-          Arrays.asList(
-            "String",
-            "boolean",
-            "Boolean",
-            "Double",
-            "Integer",
-            "Long",
-            "Float")
+                Arrays.asList(
+                        "String",
+                        "boolean",
+                        "Boolean",
+                        "Double",
+                        "Integer",
+                        "Long",
+                        "Float")
         );
+    }
+
+    public CodegenType getTag() {
+        return CodegenType.SERVER;
+    }
+
+    public String getName() {
+        return "spring-mvc";
+    }
+
+    public String getHelp() {
+        return "Generates a Java Spring-MVC Server application using the SpringFox integration.";
     }
 
     @Override
@@ -93,12 +100,11 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
 
     @Override
     public String getTypeDeclaration(Property p) {
-        if(p instanceof ArrayProperty) {
+        if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
             return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        }
-        else if (p instanceof MapProperty) {
+        } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
 
@@ -110,21 +116,24 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         String basePath = resourcePath;
-        if(basePath.startsWith("/"))
+        if (basePath.startsWith("/")) {
             basePath = basePath.substring(1);
+        }
         int pos = basePath.indexOf("/");
-        if(pos > 0)
+        if (pos > 0) {
             basePath = basePath.substring(0, pos);
+        }
 
-        if(basePath == "")
+        if (basePath == "") {
             basePath = "default";
-        else {
-            if(co.path.startsWith("/" + basePath))
+        } else {
+            if (co.path.startsWith("/" + basePath)) {
                 co.path = co.path.substring(("/" + basePath).length());
+            }
             co.subresourceOperation = !co.path.isEmpty();
         }
         List<CodegenOperation> opList = operations.get(basePath);
-        if(opList == null) {
+        if (opList == null) {
             opList = new ArrayList<CodegenOperation>();
             operations.put(basePath, opList);
         }
@@ -133,32 +142,30 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     }
 
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>)objs.get("operations");
-        if(operations != null) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for(CodegenOperation operation : ops) {
-                if(operation.returnType == null)
+            for (CodegenOperation operation : ops) {
+                if (operation.returnType == null) {
                     operation.returnType = "Void";
-                else if(operation.returnType.startsWith("List")) {
+                } else if (operation.returnType.startsWith("List")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
-                    if(end > 0) {
+                    if (end > 0) {
                         operation.returnType = rt.substring("List<".length(), end);
                         operation.returnContainer = "List";
                     }
-                }
-                else if(operation.returnType.startsWith("Map")) {
+                } else if (operation.returnType.startsWith("Map")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
-                    if(end > 0) {
+                    if (end > 0) {
                         operation.returnType = rt.substring("Map<".length(), end);
                         operation.returnContainer = "Map";
                     }
-                }
-                else if(operation.returnType.startsWith("Set")) {
+                } else if (operation.returnType.startsWith("Set")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
-                    if(end > 0) {
+                    if (end > 0) {
                         operation.returnType = rt.substring("Set<".length(), end);
                         operation.returnContainer = "Set";
                     }

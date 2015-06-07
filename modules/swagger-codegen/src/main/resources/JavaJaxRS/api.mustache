@@ -27,26 +27,26 @@ import javax.ws.rs.*;
 {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 @io.swagger.annotations.Api(value = "/{{baseName}}", description = "the {{baseName}} API")
 {{#operations}}
-public class {{classname}}  {
+    public class {{classname}}  {
 
-   private final {{classname}}Service delegate = {{classname}}ServiceFactory.get{{classname}}();
+    private final {{classname}}Service delegate = {{classname}}ServiceFactory.get{{classname}}();
 
-{{#operation}}
-    @{{httpMethod}}
-    {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
-    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
-    {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
-    @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
-    @io.swagger.annotations.ApiResponses(value = { {{#responses}}
-        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
-        {{/hasMore}}{{/responses}} })
+    {{#operation}}
+        @{{httpMethod}}
+        {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
+        {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+        {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+        @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
+        @io.swagger.annotations.ApiResponses(value = { {{#responses}}
+            @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
+            {{/hasMore}}{{/responses}} })
 
-    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-    {{/hasMore}}{{/allParams}})
-    throws NotFoundException {
-    return delegate.{{nickname}}({{#allParams}}{{#isFile}}fileDetail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+        public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+        {{/hasMore}}{{/allParams}})
+        throws NotFoundException {
+        return delegate.{{nickname}}({{#allParams}}{{#isFile}}fileDetail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+        }
+    {{/operation}}
     }
-{{/operation}}
-}
 {{/operations}}
 

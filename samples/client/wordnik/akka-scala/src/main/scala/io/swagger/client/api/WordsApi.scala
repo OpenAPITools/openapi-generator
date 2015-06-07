@@ -1,22 +1,14 @@
 package io.swagger.client.api
 
-import io.swagger.client.model.WordObject
-import io.swagger.client.model.DefinitionSearchResults
-import io.swagger.client.model.WordSearchResults
-import io.swagger.client.model.WordOfTheDay
-import io.swagger.client.core._
-import io.swagger.client.core.CollectionFormats._
-import io.swagger.client.core.ApiKeyLocations._
-
 object WordsApi {
 
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : WordObject (success)
-   *   code 404 :  (No word found.)
-   * 
+   * code 200 : WordObject (success)
+   * code 404 :  (No word found.)
+   *
    * @param hasDictionaryDef Only return words with dictionary definitions
    * @param includePartOfSpeech CSV part-of-speech values to include
    * @param excludePartOfSpeech CSV part-of-speech values to exclude
@@ -40,15 +32,15 @@ object WordsApi {
       .withQueryParam("maxLength", maxLength)
       .withSuccessResponse[WordObject](200)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 :  (success)
-   *   code 400 :  (Invalid term supplied.)
-   *   code 404 :  (No results.)
-   * 
+   * code 200 :  (success)
+   * code 400 :  (Invalid term supplied.)
+   * code 404 :  (No results.)
+   *
    * @param hasDictionaryDef Only return words with dictionary definitions
    * @param includePartOfSpeech CSV part-of-speech values to include
    * @param excludePartOfSpeech CSV part-of-speech values to exclude
@@ -79,14 +71,14 @@ object WordsApi {
       .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : DefinitionSearchResults (success)
-   *   code 400 :  (Invalid term supplied.)
-   * 
+   * code 200 : DefinitionSearchResults (success)
+   * code 400 :  (Invalid term supplied.)
+   *
    * @param query Search term
    * @param findSenseForWord Restricts words and finds closest sense
    * @param includeSourceDictionaries Only include these comma-delimited source dictionaries
@@ -124,14 +116,14 @@ object WordsApi {
       .withQueryParam("limit", limit)
       .withSuccessResponse[DefinitionSearchResults](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : WordSearchResults (success)
-   *   code 400 :  (Invalid query supplied.)
-   * 
+   * code 200 : WordSearchResults (success)
+   * code 400 :  (Invalid query supplied.)
+   *
    * @param query Search query
    * @param caseSensitive Search case sensitive
    * @param includePartOfSpeech Only include these comma-delimited parts of speech
@@ -161,20 +153,19 @@ object WordsApi {
       .withPathParam("query", query)
       .withSuccessResponse[WordSearchResults](200)
       .withErrorResponse[Unit](400)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 0 : WordOfTheDay (success)
-   * 
+   * code 0 : WordOfTheDay (success)
+   *
    * @param date Fetches by date in yyyy-MM-dd
    */
   def getWordOfTheDay(date: Option[String] = None): ApiRequest[WordOfTheDay] =
     ApiRequest[WordOfTheDay](ApiMethods.GET, "https://api.wordnik.com/v4", "/words.json/wordOfTheDay", "application/json")
       .withQueryParam("date", date)
       .withDefaultSuccessResponse[WordOfTheDay]
-      
 
 
 }

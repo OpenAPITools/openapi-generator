@@ -1,21 +1,8 @@
-import io.swagger.client.SwaggerClient
-import io.swagger.client.api._
-import com.wordnik.swagger.client._
-import com.wordnik.swagger.client.ClientResponseReaders.Json4sFormatsReader._
-import com.wordnik.swagger.client.RequestWriters.Json4sFormatsWriter._
-
-import org.json4s.Formats
+import java.net.URI
 
 import scala.concurrent._
 import scala.concurrent.duration._
-import scala.util.{Success, Failure}
-import scala.concurrent.ExecutionContext.Implicits.global
-import java.net.URI
-
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
+import scala.util.{Failure, Success}
 
 @RunWith(classOf[JUnitRunner])
 class SimpleTest extends FlatSpec with Matchers {
