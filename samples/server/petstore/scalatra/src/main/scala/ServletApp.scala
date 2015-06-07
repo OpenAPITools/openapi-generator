@@ -31,9 +31,9 @@ class SwaggerApp extends Swagger(apiInfo = ApiSwagger.apiInfo, apiVersion = "1.0
 object ApiSwagger {
   val apiInfo = ApiInfo(
     """Swagger Petstore""",
-    """This is a sample server Petstore server.  You can find out more about Swagger at <a href="http://swagger.wordnik.com">http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key "special-key" to test the authorization filters""",
+    """This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://webchat.freenode.net/?channels=swagger).  For this sample, you can use the api key `special-key` to test the authorization filters""",
     """""",
-    """hello@helloreverb.com""",
+    """apiteam@swagger.io""",
     """Apache 2.0""",
     """http://www.apache.org/licenses/LICENSE-2.0.html""")
 }

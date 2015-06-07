@@ -72,8 +72,8 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
     additionalProperties.put("appName", "Swagger Sample");
     additionalProperties.put("appName", "Swagger Sample");
     additionalProperties.put("appDescription", "A sample swagger server");
-    additionalProperties.put("infoUrl", "http://developers.helloreverb.com");
-    additionalProperties.put("infoEmail", "hello@helloreverb.com");
+    additionalProperties.put("infoUrl", "http://swagger.io");
+    additionalProperties.put("infoEmail", "apiteam@swagger.io");
     additionalProperties.put("licenseInfo", "All rights reserved");
     additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
     additionalProperties.put("invokerPackage", invokerPackage);

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2015 Reverb, Inc.
+ *  Copyright 2015 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -32,8 +32,8 @@ public class Bootstrap extends HttpServlet {
     bc.setTitle("Swagger Generator");
     bc.setDescription("This is an online swagger codegen server.  You can find out more " + 
       "at <a href=\"https://github.com/wordnik/swagger-generator\">https://github.com/swagger-api/swagger-codegen</a> or on irc.freenode.net, #swagger." +
-      "http://helloreverb.com/terms/");
-    bc.setTermsOfServiceUrl("http://helloreverb.com/terms/");
+      "http://swagger.io/terms/");
+    bc.setTermsOfServiceUrl("http://swagger.io/terms/");
     bc.setContact("apiteam@swagger.io");
     bc.setLicense("Apache 2.0");
     bc.setVersion("1.0.0");
