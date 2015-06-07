@@ -9,17 +9,17 @@
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>
       <param-value>
-        com.wordnik.swagger.jaxrs.json,
-        com.wordnik.swagger.generator.resource
+        io.swagger.jaxrs.json,
+        io.swagger.generator.resource
       </param-value>
     </init-param>
     <init-param>
       <param-name>jersey.config.server.provider.classnames</param-name>
       <param-value>
-        com.wordnik.swagger.online.ExceptionWriter,
-        com.wordnik.swagger.jersey.listing.ApiListingResourceJSON,
-        com.wordnik.swagger.jersey.listing.JerseyApiDeclarationProvider,
-        com.wordnik.swagger.jersey.listing.JerseyResourceListingProvider
+        io.swagger.online.ExceptionWriter,
+        io.swagger.jersey.listing.ApiListingResourceJSON,
+        io.swagger.jersey.listing.JerseyApiDeclarationProvider,
+        io.swagger.jersey.listing.JerseyResourceListingProvider
       </param-value>
     </init-param>
     <init-param>
@@ -36,11 +36,11 @@
 
   <filter>
     <filter-name>ApiOriginFilter</filter-name>
-    <filter-class>com.wordnik.swagger.generator.util.ApiOriginFilter</filter-class>
+    <filter-class>io.swagger.generator.util.ApiOriginFilter</filter-class>
   </filter>
   <servlet>
     <servlet-name>Bootstrap</servlet-name>
-    <servlet-class>com.wordnik.swagger.generator.Bootstrap</servlet-class>
+    <servlet-class>io.swagger.generator.Bootstrap</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
   <filter-mapping>

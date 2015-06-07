@@ -17,6 +17,5 @@ class SwaggerMigratorTest extends FlatSpec with Matchers {
   it should "read a 1.2 spec" in {
     val loader = new SwaggerParser()
     val swagger = loader.read("src/test/resources/1_2/petstore-1.2/api-docs")
-    Json.prettyPrint(swagger)
   }
 }

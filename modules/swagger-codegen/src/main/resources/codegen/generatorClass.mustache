@@ -1,7 +1,7 @@
 package {{generatorPackage}};
 
-import com.wordnik.swagger.codegen.*;
-import com.wordnik.swagger.models.properties.*;
+import io.swagger.codegen.*;
+import io.swagger.models.properties.*;
 
 import java.util.*;
 import java.io.File;
@@ -16,7 +16,7 @@ public class {{generatorClass}} extends DefaultCodegen implements CodegenConfig 
    * Configures the type of generator.
    * 
    * @return  the CodegenType for this generator
-   * @see     com.wordnik.swagger.codegen.CodegenType
+   * @see     io.swagger.codegen.CodegenType
    */
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -173,7 +173,7 @@ public class {{generatorClass}} extends DefaultCodegen implements CodegenConfig 
    * either language specific types via `typeMapping` or into complex models if there is not a mapping.
    *
    * @return a string value of the type or complex model for this property
-   * @see com.wordnik.swagger.models.properties.Property
+   * @see io.swagger.models.properties.Property
    */
   @Override
   public String getSwaggerType(Property p) {

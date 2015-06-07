@@ -1,11 +1,11 @@
-package com.wordnik.swagger.common
+package io.swagger.common
 {
 import asaxb.xml.bind.ASAXBContext;
 import asaxb.xml.bind.Unmarshaller;
 
-import com.wordnik.swagger.event.ApiClientEvent;
-import com.wordnik.swagger.event.Response;
-import com.wordnik.swagger.common.ApiUserCredentials;
+import io.swagger.event.ApiClientEvent;
+import io.swagger.event.Response;
+import io.swagger.common.ApiUserCredentials;
 
 import flash.events.EventDispatcher;
 import flash.utils.Dictionary;

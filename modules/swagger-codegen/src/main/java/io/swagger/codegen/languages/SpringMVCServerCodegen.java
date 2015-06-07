@@ -32,7 +32,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     }
 
     public SpringMVCServerCodegen() {
-        super();
+        super.processOpts();
         outputFolder = "generated-code/javaSpringMVC";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
@@ -49,6 +49,22 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         additionalProperties.put("title", title);
         additionalProperties.put("apiPackage", apiPackage);
         additionalProperties.put("configPackage", configPackage);
+
+        languageSpecificPrimitives = new HashSet<String>(
+          Arrays.asList(
+            "String",
+            "boolean",
+            "Boolean",
+            "Double",
+            "Integer",
+            "Long",
+            "Float")
+        );
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -73,16 +89,6 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         supportingFiles.add(new SupportingFile("swagger.properties",
                 ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
 
-        languageSpecificPrimitives = new HashSet<String>(
-          Arrays.asList(
-            "String",
-            "boolean",
-            "Boolean",
-            "Double",
-            "Integer",
-            "Long",
-            "Float")
-        );
     }
 
     @Override

@@ -1,5 +1,5 @@
-package com.wordnik.swagger.event {
-import com.wordnik.swagger.event.Response;
+package io.swagger.event {
+import io.swagger.event.Response;
 
 import flash.events.Event;
 

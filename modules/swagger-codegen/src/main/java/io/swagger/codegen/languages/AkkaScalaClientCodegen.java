@@ -22,7 +22,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
   protected String mainPackage = "io.swagger.client";
 
   protected String invokerPackage = mainPackage + ".core";
-  protected String groupId = "com.wordnik";
+  protected String groupId = "io.swagger";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/scala";

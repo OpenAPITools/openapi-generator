@@ -1,4 +1,4 @@
-package com.wordnik.swagger.event {
+package io.swagger.event {
 
 /**
  * Response contains info on the result of an API invocation.

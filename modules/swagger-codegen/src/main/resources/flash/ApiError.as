@@ -1,4 +1,4 @@
-package com.wordnik.swagger.exception
+package io.swagger.exception
 {
 	public class ApiError extends Error
 	{		

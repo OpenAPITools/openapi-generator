@@ -40,7 +40,6 @@ public class StoreApi  {
 
     public Response getInventory()
     throws NotFoundException {
-    // do some magic!
     return delegate.getInventory();
     }
     @POST
@@ -55,7 +54,6 @@ public class StoreApi  {
 
     public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet"  ) Order body)
     throws NotFoundException {
-    // do some magic!
     return delegate.placeOrder(body);
     }
     @GET
@@ -72,7 +70,6 @@ public class StoreApi  {
 
     public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathParam("orderId") String orderId)
     throws NotFoundException {
-    // do some magic!
     return delegate.getOrderById(orderId);
     }
     @DELETE
@@ -87,7 +84,6 @@ public class StoreApi  {
 
     public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathParam("orderId") String orderId)
     throws NotFoundException {
-    // do some magic!
     return delegate.deleteOrder(orderId);
     }
 }

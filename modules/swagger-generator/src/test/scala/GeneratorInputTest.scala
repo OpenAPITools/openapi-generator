@@ -1,6 +1,6 @@
-import com.wordnik.swagger.generator.online._
-import com.wordnik.swagger.generator.model._
-import com.wordnik.swagger.util.Json
+import io.swagger.generator.online._
+import io.swagger.generator.model._
+import io.swagger.util.Json
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

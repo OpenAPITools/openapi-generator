@@ -5,7 +5,7 @@
       <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
     </layout>
   </appender>
-  <logger name="com.wordnik" level="DEBUG"/>
+  <logger name="io.swagger" level="DEBUG"/>
   <root level="error">
     <appender-ref ref="STDOUT" />
   </root>
