@@ -31,18 +31,18 @@
       "grantTypes": {
         "implicit": {
           "loginEndpoint": {
-            "url": "http://petstore.swagger.wordnik.com/oauth/dialog"
+            "url": "http://petstore.swagger.io/api/oauth/dialog"
           },
           "tokenName": "access_token"
         },
         "authorization_code": {
           "tokenRequestEndpoint": {
-            "url": "http://petstore.swagger.wordnik.com/oauth/requestToken",
+            "url": "http://petstore.swagger.io/api/oauth/requestToken",
             "clientIdName": "client_id",
             "clientSecretName": "client_secret"
           },
           "tokenEndpoint": {
-            "url": "http://petstore.swagger.wordnik.com/oauth/token",
+            "url": "http://petstore.swagger.io/api/oauth/token",
             "tokenName": "access_code"
           }
         }
@@ -53,7 +53,7 @@
     "title": "Swagger Sample App",
     "description": "This is a sample server Petstore server.  You can find out more about Swagger \n    at <a href=\"http://swagger.wordnik.com\">http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.  For this sample,\n    you can use the api key \"special-key\" to test the authorization filters",
     "termsOfServiceUrl": "http://swagger.io/terms/",
-    "contact": "apiteam@wordnik.com",
+    "contact": "apiteam@swagger.io",
     "license": "Apache 2.0",
     "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
   }

@@ -6,7 +6,7 @@
     "title": "Swagger Petstore",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
-      "email": "apiteam@wordnik.com"
+      "email": "apiteam@swagger.io"
     },
     "license": {
       "name": "Apache 2.0",
