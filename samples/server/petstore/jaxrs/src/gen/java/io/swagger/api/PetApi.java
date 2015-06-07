@@ -4,7 +4,7 @@ import io.swagger.model.*;
 import io.swagger.api.PetApiService;
 import io.swagger.api.factories.PetApiServiceFactory;
 
-import com.wordnik.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiParam;
 
 import com.sun.jersey.multipart.FormDataParam;
 
@@ -25,7 +25,7 @@ import javax.ws.rs.*;
 @Path("/pet")
 
 
-@com.wordnik.swagger.annotations.Api(value = "/pet", description = "the pet API")
+@io.swagger.annotations.Api(value = "/pet", description = "the pet API")
 public class PetApi  {
 
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
@@ -34,13 +34,13 @@ public class PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = Void.class)
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 405, message = "Validation exception"),
+    @io.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = Void.class)
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception"),
         
-        @com.wordnik.swagger.annotations.ApiResponse(code = 404, message = "Pet not found"),
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found"),
         
-        @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied") })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied") })
 
     public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
     throws NotFoundException {
@@ -50,9 +50,9 @@ public class PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class)
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
+    @io.swagger.annotations.ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class)
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
 
     public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
     throws NotFoundException {
@@ -62,11 +62,11 @@ public class PetApi  {
     @Path("/findByStatus")
     
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma seperated strings", response = Pet.class, responseContainer = "List")
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
+    @io.swagger.annotations.ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma seperated strings", response = Pet.class, responseContainer = "List")
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
         
-        @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value") })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value") })
 
     public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue="available") @QueryParam("status") List<String> status)
     throws NotFoundException {
@@ -76,11 +76,11 @@ public class PetApi  {
     @Path("/findByTags")
     
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "Finds Pets by tags", notes = "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List")
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
+    @io.swagger.annotations.ApiOperation(value = "Finds Pets by tags", notes = "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List")
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
         
-        @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value") })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value") })
 
     public Response findPetsByTags(@ApiParam(value = "Tags to filter by") @QueryParam("tags") List<String> tags)
     throws NotFoundException {
@@ -90,13 +90,13 @@ public class PetApi  {
     @Path("/{petId}")
     
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "Find pet by ID", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = Pet.class)
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 404, message = "Pet not found"),
+    @io.swagger.annotations.ApiOperation(value = "Find pet by ID", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = Pet.class)
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found"),
         
-        @com.wordnik.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
         
-        @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied") })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied") })
 
     public Response getPetById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathParam("petId") Long petId)
     throws NotFoundException {
@@ -106,9 +106,9 @@ public class PetApi  {
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class)
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
+    @io.swagger.annotations.ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class)
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
 
     public Response updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathParam("petId") String petId,
     @ApiParam(value = "Updated name of the pet" )@FormParam("name")  String name,
@@ -120,9 +120,9 @@ public class PetApi  {
     @Path("/{petId}")
     
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "Deletes a pet", notes = "", response = Void.class)
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value") })
+    @io.swagger.annotations.ApiOperation(value = "Deletes a pet", notes = "", response = Void.class)
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value") })
 
     public Response deletePet(@ApiParam(value = ""  )@HeaderParam("api_key") String apiKey,
     @ApiParam(value = "Pet id to delete",required=true ) @PathParam("petId") Long petId)
@@ -133,9 +133,9 @@ public class PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json", "application/xml" })
-    @com.wordnik.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = Void.class)
-    @com.wordnik.swagger.annotations.ApiResponses(value = { 
-        @com.wordnik.swagger.annotations.ApiResponse(code = 0, message = "successful operation") })
+    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = Void.class)
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 0, message = "successful operation") })
 
     public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathParam("petId") Long petId,
     @ApiParam(value = "Additional data to pass to server" )@FormParam("additionalMetadata")  String additionalMetadata,

@@ -1,7 +1,7 @@
 package io.swagger.client.model;
 
 
-import com.wordnik.swagger.annotations.*;
+import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
