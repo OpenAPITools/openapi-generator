@@ -1,5 +1,5 @@
-import com.wordnik.swagger.codegen.DefaultCodegen
-import com.wordnik.swagger.models.properties.Property
+import io.swagger.codegen.DefaultCodegen
+import io.swagger.models.properties.Property
 import io.swagger.parser._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

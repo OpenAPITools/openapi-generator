@@ -1,9 +1,9 @@
 package php
 
-import com.wordnik.swagger.codegen.languages.PhpClientCodegen
-import com.wordnik.swagger.util.Json
-import com.wordnik.swagger.models._
-import com.wordnik.swagger.models.properties._
+import io.swagger.codegen.languages.PhpClientCodegen
+import io.swagger.util.Json
+import io.swagger.models._
+import io.swagger.models.properties._
 
 import io.swagger.parser.SwaggerParser
 

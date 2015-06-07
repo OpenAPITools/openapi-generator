@@ -1,7 +1,7 @@
-import com.wordnik.swagger.models._
+import io.swagger.models._
 import io.swagger.parser._
 
-import com.wordnik.swagger.util.Json
+import io.swagger.util.Json
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

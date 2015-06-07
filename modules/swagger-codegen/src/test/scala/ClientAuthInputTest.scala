@@ -1,6 +1,6 @@
-import com.wordnik.swagger.codegen._
+import io.swagger.codegen._
 
-import com.wordnik.swagger.models.auth.AuthorizationValue
+import io.swagger.models.auth.AuthorizationValue
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner

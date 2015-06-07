@@ -6,11 +6,11 @@ import org.junit.runner.RunWith
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.scalatest.junit.JUnitRunner
-import com.wordnik.swagger.codegen.languages.JavaClientCodegen
-import com.wordnik.swagger.models.ComposedModel
-import com.wordnik.swagger.models.ModelImpl
-import com.wordnik.swagger.models.RefModel
-import com.wordnik.swagger.models.properties.StringProperty
+import io.swagger.codegen.languages.JavaClientCodegen
+import io.swagger.models.ComposedModel
+import io.swagger.models.ModelImpl
+import io.swagger.models.RefModel
+import io.swagger.models.properties.StringProperty
 
 @RunWith(classOf[JUnitRunner])
 class JavaInheritanceTest extends FlatSpec with Matchers {

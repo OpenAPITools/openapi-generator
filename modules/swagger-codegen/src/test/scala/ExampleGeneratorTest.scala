@@ -7,13 +7,13 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.scalatest.junit.JUnitRunner
 
-import com.wordnik.swagger.codegen.examples.ExampleGenerator
-import com.wordnik.swagger.models.Model
-import com.wordnik.swagger.models.ModelImpl
-import com.wordnik.swagger.models.Xml
-import com.wordnik.swagger.models.properties.ArrayProperty
-import com.wordnik.swagger.models.properties.RefProperty
-import com.wordnik.swagger.models.properties.StringProperty
+import io.swagger.codegen.examples.ExampleGenerator
+import io.swagger.models.Model
+import io.swagger.models.ModelImpl
+import io.swagger.models.Xml
+import io.swagger.models.properties.ArrayProperty
+import io.swagger.models.properties.RefProperty
+import io.swagger.models.properties.StringProperty
 
 @RunWith(classOf[JUnitRunner])
 class ExampleGeneratorTest extends FlatSpec with Matchers {

@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>com.wordnik</groupId>
+    <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen-project</artifactId>
-    <version>2.1.1-M2-SNAPSHOT</version>
+    <version>2.1.1</version>
     <relativePath>../..</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -52,7 +52,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>com.wordnik.swagger.codegen.Codegen</mainClass>
+          <mainClass>io.swagger.codegen.Codegen</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -125,7 +125,7 @@
               <mode>development</mode>
               <url>${project.url}</url>
               <implementation-version>${project.version}</implementation-version>
-              <package>com.wordnik</package>
+              <package>io.swagger</package>
             </manifestEntries>
           </archive>
         </configuration>
@@ -178,7 +178,9 @@
                 </goals>
               </execution>
             </executions>
-            <configuration />
+            <configuration>
+              <scala-version>${scala-version}</scala-version>
+            </configuration>
           </plugin>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
@@ -277,6 +279,7 @@
       <groupId>io.swagger</groupId>
       <artifactId>swagger-parser</artifactId>
       <version>${swagger-parser-version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.swagger</groupId>
@@ -333,6 +336,12 @@
       <artifactId>scalatest_2.11</artifactId>
       <version>${scala-test-version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.scala-lang</groupId>
+        <artifactId>scala-library</artifactId>
+        <version>${scala-version}</version>
+        <scope>test</scope>
     </dependency>
   </dependencies>
   <repositories>
