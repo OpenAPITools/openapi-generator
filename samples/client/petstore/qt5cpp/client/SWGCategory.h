@@ -1,47 +1,48 @@
 /*
- * SWGCategory.h
- * 
- * 
- */
+* SWGCategory.h
+*
+* 
+*/
 
 #ifndef SWGCategory_H_
 #define SWGCategory_H_
 
-#include <QJsonObject>
+#include
+<QJsonObject>
 
 
 #include <QString>
 
-#include "SWGObject.h"
+    #include "SWGObject.h"
 
 
-namespace Swagger {
+        namespace Swagger {
 
-class SWGCategory: public SWGObject {
-public:
+        class SWGCategory: public SWGObject {
+        public:
     SWGCategory();
     SWGCategory(QString* json);
-    virtual ~SWGCategory();
-    void init();
-    void cleanup();
+        virtual ~SWGCategory();
+        void init();
+        void cleanup();
 
-    QString asJson ();
-    QJsonObject* asJsonObject();
-    void fromJsonObject(QJsonObject &json);
+        QString asJson ();
+        QJsonObject* asJsonObject();
+        void fromJsonObject(QJsonObject &json);
     SWGCategory* fromJson(QString &jsonString);
 
     qint64 getId();
-    void setId(qint64 id);
+        void setId(qint64 id);
     QString* getName();
-    void setName(QString* name);
+        void setName(QString* name);
     
 
-private:
+        private:
     qint64 id;
     QString* name;
     
-};
+        };
 
-} /* namespace Swagger */
+        } /* namespace Swagger */
 
-#endif /* SWGCategory_H_ */
+        #endif /* SWGCategory_H_ */
