@@ -1,5 +1,8 @@
 package io.swagger.petstore.test;
 
+import io.swagger.client.api.*;
+import io.swagger.client.model.*;
+
 import io.swagger.client.ApiException;
 
 import java.io.BufferedWriter;
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.*;
 import static org.junit.Assert.*;
 
 public class PetApiTest {
