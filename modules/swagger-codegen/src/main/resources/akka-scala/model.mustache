@@ -1,0 +1,30 @@
+package {{package}}
+
+import {{invokerPackage}}.ApiModel
+import org.joda.time.DateTime
+
+{{#models}}
+{{#model}}
+
+case class {{classname}} (
+  {{#vars}}{{#description}}/* {{{description}}} */
+  {{/description}}{{name}}: {{^required}}Option[{{/required}}{{^isEnum}}{{datatype}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
+  {{/vars}} extends ApiModel
+
+{{#hasEnums}}
+object {{classname}}Enums {
+
+  {{#vars}}{{#isEnum}}type {{datatypeWithEnum}} = {{datatypeWithEnum}}.Value
+  {{/isEnum}}{{/vars}}
+  {{#vars}}{{#isEnum}}object {{datatypeWithEnum}} extends Enumeration {
+{{#_enum}}
+    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
+{{/_enum}}
+  }
+
+  {{/isEnum}}{{/vars}}
+}
+{{/hasEnums}}
+{{/model}}
+{{/models}}
+

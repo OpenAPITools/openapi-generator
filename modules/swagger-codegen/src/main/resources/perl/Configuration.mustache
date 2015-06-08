@@ -1,0 +1,22 @@
+package WWW::{{invokerPackage}}::Configuration;
+
+use strict;
+use warnings;
+use utf8;
+
+use Log::Any qw($log);
+use Carp;
+
+# class/static variables
+our $api_client;
+our $http_timeout = 180;
+our $http_user_agent = 'Perl-Swagger';
+
+# authenticaiton setting
+our $api_key = {};
+our $api_key_prefix = {};
+our $username;
+our $password;
+
+
+1;

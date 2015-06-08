@@ -1,21 +1,61 @@
 using System;
 
-namespace io.swagger.client {
-  public class ApiException : Exception {
-    
-  	private int errorCode = 0;
+namespace IO.Swagger.Client {
+///
+<summary>
+    /// API Exception
+    ///
+</summary>
+public class ApiException : Exception {
+///
+<summary>
+    /// Gets or sets the error code (HTTP status code)
+    ///
+</summary>
+///
+<value>The error code (HTTP status code).</value>
+public int ErrorCode { get; set; }
 
-    public ApiException() {}
+///
+<summary>
+    /// Gets or sets the error content (body json object)
+    ///
+</summary>
+///
+<value>The error content (Http response body).</value>
+public dynamic ErrorContent { get; private set; }
 
-    public int ErrorCode { 
-    	get
-    	{
-    		return errorCode;
-    	}
-    }
+///
+<summary>
+    /// Initializes a new instance of the
+    <see cref="ApiException"/>
+    class.
+    ///
+</summary>
+///
+<param name="basePath">The base path.</param>
+public ApiException() {}
 
-    public ApiException(int errorCode, string message) : base(message) {
-    	this.errorCode = errorCode;
-    }
-  }
+///
+<summary>
+    /// Initializes a new instance of the
+    <see cref="ApiException"/>
+    class.
+    ///
+</summary>
+///
+<param name="errorCode">HTTP status code.</param>
+///
+<param name="message">Error message.</param>
+public ApiException(int errorCode, string message) : base(message) {
+this.ErrorCode = errorCode;
+}
+
+public ApiException(int errorCode, string message, dynamic errorContent = null) : base(message) {
+this.ErrorCode = errorCode;
+this.ErrorContent = errorContent;
+}
+
+}
+
 }

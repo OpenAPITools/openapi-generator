@@ -1,92 +1,61 @@
 require "uri"
 
+module {{moduleName}}
 {{#operations}}
-class {{classname}}
-  basePath = "{{basePath}}"
-  # apiInvoker = APIInvoker
+    class {{classname}}
+    basePath = "{{basePath}}"
+    # apiInvoker = APIInvoker
+    {{#operation}}
+        {{newline}}
+        # {{summary}}
+        # {{notes}}
+        {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
+        {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
+        {{#allParams}}{{^required}}    # @option opts [{{dataType}}] :{{paramName}} {{description}}
+        {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
+        def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+        {{#allParams}}{{#required}}
+            # verify the required parameter '{{paramName}}' is set
+            raise "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?
+        {{/required}}{{/allParams}}
 
-{{#operation}}
-{{newline}}
-  # {{summary}}
-  # {{notes}}
-{{#allParams}}{{^optional}}  # @param {{paramName}} {{description}}
-{{/optional}}{{/allParams}}{{#allParams}}{{#optional}}  # @option opts [{{dataType}}] :{{baseName}} {{description}}
-{{/optional}}{{/allParams}}  # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-  def self.{{nickname}} ({{#allParams}}{{paramName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}, {{/allParams}}opts={})
-    query_param_keys = [{{#queryParams}}:{{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}}]
-    headerParams = {}
+        # resource path
+        path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
-    {{#requiredParamCount}}
-    # verify existence of params
-    {{#requiredParams}}
-    raise "{{{paramName}}} is required" if {{{paramName}}}.nil?
-    {{/requiredParams}}
-    {{/requiredParamCount}}
-    
-    # set default values and merge with input
-    options = {
-      {{#allParams}}:'{{paramName}}' => {{paramName}}{{#hasMore}},{{/hasMore}}
-      {{/allParams}}
-    }.merge(opts)
+        # query parameters
+        query_params = {}{{#queryParams}}{{#required}}
+            query_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/queryParams}}{{#queryParams}}{{^required}}
+            query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/queryParams}}
 
-    #resource path
-    path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s)
-    {{/pathParams}}{{newline}}
-    
-    # pull querystring keys from options
-    queryopts = options.select do |key,value|
-      query_param_keys.include? key
-    end
+        # header parameters
+        header_params = {}
 
-    # header parameters
-    headers = {}
+        # HTTP header 'Accept' (if needed)
+        _header_accept = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
+        _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
-    _header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}'
-    if _header_accept != ''
-      headerParams['Accept'] = _header_accept
-    end 
-    _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-    headerParams['Content-Type'] = _header_content_type.length > 0 ? _header_content_type[0] : 'application/json'
+        # HTTP header 'Content-Type'
+        _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
+        header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type){{#headerParams}}{{#required}}
+            header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
+            header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
 
-    {{#headerParams}}{{#optional}}headers[:'{{{baseName}}}'] = options[:'{{{paramName}}}'] if options[:'{{{paramName}}}']{{/optional}}{{/headerParams}}
-    {{#headerParams}}{{^optional}}headers[:'{{{baseName}}}'] = {{{paramName}}}{{/optional}}{{/headerParams}}
-    # http body (model)
-    post_body = nil
-    {{#bodyParam}}
-    if body != nil
-      if body.is_a?(Array)
-        array = Array.new
-        body.each do |item|
-          if item.respond_to?("to_body".to_sym)
-            array.push item.to_body
-          else
-            array.push item
-          end
+        # form parameters
+        form_params = {}{{#formParams}}{{#required}}
+            form_params["{{baseName}}"] = {{paramName}}{{/required}}{{/formParams}}{{#formParams}}{{^required}}
+            form_params["{{baseName}}"] = opts[:'{{paramName}}'] if opts[:'{{paramName}}']{{/required}}{{/formParams}}
+
+        # http body (model)
+        {{^bodyParam}}post_body = nil
+        {{/bodyParam}}{{#bodyParam}}post_body = Swagger::Request.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
+        {{/bodyParam}}
+
+        auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
+        {{#returnType}}response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
+        {{#returnContainer}}response.map {|response| {{/returnContainer}}obj = {{returnBaseType}}.new() and obj.build_from_hash(response){{#returnContainer}} }{{/returnContainer}}{{/returnType}}{{^returnType}}Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+        nil{{/returnType}}
         end
-        post_body = array
-      else 
-        if body.respond_to?("to_body".to_sym)
-          post_body = body.to_body
-        else
-          post_body = body
-        end
-      end
+    {{/operation}}
     end
-    {{/bodyParam}}
-    # form parameters
-    form_parameter_hash = {}
-    {{#formParams}}{{#optional}}form_parameter_hash["{{baseName}}"] = options[:'{{paramName}}'] if options[:'{{paramName}}']{{/optional}}
-    {{^optional}}form_parameter_hash["{{baseName}}"] = {{paramName}}{{/optional}}{{/formParams}}
-    {{#returnType}}
-    response = Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make.body
-    {{#returnContainer}}
-    response.map {|response|{{/returnContainer}} {{returnBaseType}}.new(response){{#returnContainer}} }{{/returnContainer}}
-    {{/returnType}}
-    {{^returnType}}
-    Swagger::Request.new(:{{httpMethod}}, path, {:params=>queryopts,:headers=>headers, :body=>post_body, :form_params => form_parameter_hash }).make
-    {{/returnType}}
-  {{newline}}
-  end
-{{/operation}}
-end
 {{/operations}}
+end

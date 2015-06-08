@@ -1,10 +1,24 @@
-#import "SWGCategory.h"
+    
+        #import "SWGCategory.h"
 
-@implementation SWGCategory
-  
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"name": @"name" }];
-}
+        @implementation SWGCategory
 
-@end
+        + (JSONKeyMapper *)keyMapper
+        {
+        return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"name": @"name" }];
+        }
+
+        + (BOOL)propertyIsOptional:(NSString *)propertyName
+        {
+        NSArray *optionalProperties = @[@"_id", @"name"];
+
+        if ([optionalProperties containsObject:propertyName]) {
+        return YES;
+        }
+        else {
+        return NO;
+        }
+        }
+
+    
+    @end

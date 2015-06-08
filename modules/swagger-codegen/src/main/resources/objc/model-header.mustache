@@ -1,22 +1,23 @@
-#import <Foundation/Foundation.h>
+#import
+<Foundation/Foundation.h>
 #import "SWGObject.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 {{newline}}
 {{#models}}
-{{#model}}
+    {{#model}}
 
-@protocol {{classname}}
-@end
-  
-@interface {{classname}} : SWGObject
+        @protocol {{classname}}
+        @end
 
-{{#vars}}
-{{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
- */{{/description}}
-@property(nonatomic) {{{ baseType }}}{{^required}}<Optional{{#complexType}}, {{complexType}}{{/complexType}}>{{/required}}* {{name}};
-{{/vars}}
+        @interface {{classname}} : SWGObject
 
-@end
-{{/model}}
+        {{#vars}}
+            {{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
+            */{{/description}}
+            @property(nonatomic) {{{ datatype }}} {{name}};
+        {{/vars}}
+
+        @end
+    {{/model}}
 {{/models}}

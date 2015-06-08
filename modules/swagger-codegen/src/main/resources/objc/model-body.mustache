@@ -1,14 +1,26 @@
 {{#models}}
-{{#model}}
-#import "{{classname}}.h"
+    {{#model}}
+        #import "{{classname}}.h"
 
-@implementation {{classname}}
-  
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
-}
+        @implementation {{classname}}
 
-{{/model}}
-@end
+        + (JSONKeyMapper *)keyMapper
+        {
+        return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
+        }
+
+        + (BOOL)propertyIsOptional:(NSString *)propertyName
+        {
+        NSArray *optionalProperties = @[{{#vars}}{{^required}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/required}}{{/vars}}];
+
+        if ([optionalProperties containsObject:propertyName]) {
+        return YES;
+        }
+        else {
+        return NO;
+        }
+        }
+
+    {{/model}}
+    @end
 {{/models}}
