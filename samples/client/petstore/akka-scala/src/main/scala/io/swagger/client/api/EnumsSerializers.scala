@@ -1,5 +1,7 @@
 package io.swagger.client.api
 
+import io.swagger.client.model._
+import org.json4s._
 import scala.reflect.ClassTag
 
 object EnumsSerializers {
@@ -9,14 +11,16 @@ object EnumsSerializers {
     new EnumNameSerializer(OrderEnums.Status)
 
 
-  private class EnumNameSerializer[E <: Enumeration : ClassTag](enum: E)
+
+  private class EnumNameSerializer[E <: Enumeration: ClassTag](enum: E)
     extends Serializer[E#Value] {
+    import JsonDSL._
 
     val EnumerationClass = classOf[E#Value]
 
     def deserialize(implicit format: Formats):
     PartialFunction[(TypeInfo, JValue), E#Value] = {
-      case (t@TypeInfo(EnumerationClass, _), json) if isValid(json) => {
+      case (t @ TypeInfo(EnumerationClass, _), json) if isValid(json) => {
         json match {
           case JString(value) =>
             enum.withName(value)
