@@ -1,9 +1,13 @@
 package io.swagger.petstore.test;
 
 import io.swagger.client.ServiceGenerator;
+import io.swagger.client.api.*;
+import io.swagger.client.model.*;
+
 
 import java.util.Arrays;
 
+import org.junit.*;
 import static org.junit.Assert.*;
 
 public class UserApiTest {
