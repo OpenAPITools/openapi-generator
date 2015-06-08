@@ -2,31 +2,18 @@ package io.swagger.client.core
 
 import java.io.File
 import java.net.URLEncoder
-
 import scala.util.Try
 
 sealed trait ApiReturnWithHeaders {
   def headers: Map[String, String]
-
   def header(name: String): Option[String] = headers.get(name)
-
   def getStringHeader(name: String) = header(name)
-
   def getIntHeader(name: String) = castedHeader(name, java.lang.Integer.parseInt)
-
   def getLongHeader(name: String) = castedHeader(name, java.lang.Long.parseLong)
-
   def getFloatHeader(name: String) = castedHeader(name, java.lang.Float.parseFloat)
-
   def getDoubleHeader(name: String) = castedHeader(name, java.lang.Double.parseDouble)
-
   def getBooleanHeader(name: String) = castedHeader(name, java.lang.Boolean.parseBoolean)
-
-  private def castedHeader[U](name: String, conversion: String => U): Option[U] = {
-    Try {
-      header(name).map(conversion)
-    }.get
-  }
+  private def castedHeader[U](name: String, conversion: String => U): Option[U] = { Try { header(name).map( conversion ) }.get }
 }
 
 sealed case class ApiResponse[T](code: Int, content: T, headers: Map[String, String] = Map.empty)
@@ -80,7 +67,6 @@ object ApiKeyLocations {
   case object QUERY extends ApiKeyLocation
 
   case object HEADER extends ApiKeyLocation
-
 }
 
 
@@ -177,5 +163,4 @@ object ParametersMap {
     }
 
   }
-
 }
