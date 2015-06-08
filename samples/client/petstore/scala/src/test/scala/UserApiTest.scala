@@ -1,4 +1,14 @@
+import io.swagger.client._
+import io.swagger.client.api._
+import io.swagger.client.model._
+ 
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
+import org.scalatest._
 
+import scala.collection.mutable.{ ListBuffer, HashMap }
+import scala.collection.JavaConverters._
+import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class UserApiTest extends FlatSpec with Matchers {
