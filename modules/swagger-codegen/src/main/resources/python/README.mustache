@@ -67,8 +67,8 @@ If you want to run the tests in all the python platforms:
 ```sh
 $ make test-all
 [... tox creates a virtualenv for every platform and runs tests inside of each]
-  py27: commands succeeded
-  py34: commands succeeded
-  congratulations :)
+py27: commands succeeded
+py34: commands succeeded
+congratulations :)
 ```
 

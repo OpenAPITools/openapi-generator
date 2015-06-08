@@ -7,14 +7,15 @@
 #include <QString>
 #include "SWGHttpRequest.h"
 
-#include <QObject>
+#include
+<QObject>
 
-namespace Swagger {
+    namespace Swagger {
 
-class SWGPetApi: public QObject {
+    class SWGPetApi: public QObject {
     Q_OBJECT
 
-public:
+    public:
     SWGPetApi();
     SWGPetApi(QString host, QString basePath);
     ~SWGPetApi();
@@ -27,11 +28,16 @@ public:
     void findPetsByStatus(QList<QString*>* status);
     void findPetsByTags(QList<QString*>* tags);
     void getPetById(qint64 petId);
-    void updatePetWithForm(QString* petId, QString* name, QString* status);
-    void deletePet(QString* apiKey, qint64 petId);
-    void uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestInputFileElement* file);
+    void updatePetWithForm(QString* petId
+        , QString* name
+        , QString* status);
+    void deletePet(QString* apiKey
+        , qint64 petId);
+    void uploadFile(qint64 petId
+        , QString* additionalMetadata
+        , SWGHttpRequestInputFileElement* file);
     
-private:
+    private:
     void updatePetCallback (HttpRequestWorker * worker);
     void addPetCallback (HttpRequestWorker * worker);
     void findPetsByStatusCallback (HttpRequestWorker * worker);
@@ -41,7 +47,7 @@ private:
     void deletePetCallback (HttpRequestWorker * worker);
     void uploadFileCallback (HttpRequestWorker * worker);
     
-signals:
+    signals:
     void updatePetSignal();
     void addPetSignal();
     void findPetsByStatusSignal(QList<SWGPet*>* summary);
@@ -51,6 +57,6 @@ signals:
     void deletePetSignal();
     void uploadFileSignal();
     
-};
-}
-#endif
+    };
+    }
+    #endif

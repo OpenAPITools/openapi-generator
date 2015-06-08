@@ -4,8 +4,8 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
+@Override
+public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+configurer.enable();
+}
 }

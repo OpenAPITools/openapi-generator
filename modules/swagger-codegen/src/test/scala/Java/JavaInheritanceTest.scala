@@ -1,16 +1,13 @@
 package Java
 
-import scala.collection.JavaConverters._
-
+import io.swagger.codegen.languages.JavaClientCodegen
+import io.swagger.models.{ComposedModel, ModelImpl, RefModel}
+import io.swagger.models.properties.StringProperty
 import org.junit.runner.RunWith
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
-import com.wordnik.swagger.codegen.languages.JavaClientCodegen
-import com.wordnik.swagger.models.ComposedModel
-import com.wordnik.swagger.models.ModelImpl
-import com.wordnik.swagger.models.RefModel
-import com.wordnik.swagger.models.properties.StringProperty
+
+import scala.collection.JavaConverters._
 
 @RunWith(classOf[JUnitRunner])
 class JavaInheritanceTest extends FlatSpec with Matchers {
@@ -23,6 +20,6 @@ class JavaInheritanceTest extends FlatSpec with Matchers {
     cm.name should be("sample")
     cm.classname should be("Sample")
     cm.parent should be("Base")
-    cm.imports.asScala should be (Set("Base"))
+    cm.imports.asScala should be(Set("Base"))
   }
 }

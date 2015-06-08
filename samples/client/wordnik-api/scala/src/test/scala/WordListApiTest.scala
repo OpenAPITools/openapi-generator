@@ -1,13 +1,4 @@
-import com.wordnik.client.api._
-import com.wordnik.client.model._
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest._
-
-import scala.collection.mutable.{ ListBuffer, HashMap }
-import scala.collection.JavaConversions._
-import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class WordListApiTest extends FlatSpec with Matchers with BaseApiTest {
@@ -23,17 +14,17 @@ class WordListApiTest extends FlatSpec with Matchers with BaseApiTest {
   val wordListsApi = new WordListsApi
 
   val wordList = WordList(
-      0,    //  id
-      null, //  permalink
-      "my test list", // name
-      new java.util.Date, //created at
-      null,   // updated at
-      null,   //  lastActivityAt
-      null,   //  username
-      0,      //  user id
-      "some words I want to play with", // description
-      0,      //  words in list
-      "PUBLIC") //  type
+    0, //  id
+    null, //  permalink
+    "my test list", // name
+    new java.util.Date, //created at
+    null, // updated at
+    null, //  lastActivityAt
+    null, //  username
+    0, //  user id
+    "some words I want to play with", // description
+    0, //  words in list
+    "PUBLIC") //  type
 
   var sampleList = wordListsApi.createWordList(wordList, auth.token) match {
     case Some(wl) => wl

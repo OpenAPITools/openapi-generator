@@ -8,7 +8,7 @@ import flash.events.Event;
  * If a custom dispatcher has been assigned by the consumer on the generated client then the dispatcher dispatches
  * the ApiClientEvent to indicate success or failure of the invocation using the Response
  */
-public class ApiClientEvent extends Event{
+public class ApiClientEvent extends Event {
 
     /**
      * Event type to indicate a unsuccessful invocation
@@ -19,18 +19,17 @@ public class ApiClientEvent extends Event{
      * Event type to indicate a successful invocation
      */
     public static const SUCCESS_EVENT:String = "successfulInvocation";
-    
+
+    public function ApiClientEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) {
+        super(type, bubbles, cancelable);
+    }
     /**
      * The Response object which contains response info
      */
-    public var response: Response;
+    public var response:Response;
     /**
      * Any additional info
      */
     public var message:String;
-
-    public function ApiClientEvent(type:String,bubbles:Boolean = false,cancelable:Boolean = false) {
-        super(type, bubbles, cancelable);
-    }
 }
 }

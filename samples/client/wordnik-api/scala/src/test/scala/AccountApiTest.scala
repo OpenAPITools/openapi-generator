@@ -1,13 +1,4 @@
-import com.wordnik.client.api._
-import com.wordnik.client.model._
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest._
-
-import scala.collection.mutable.{ ListBuffer, HashMap }
-import scala.collection.JavaConversions._
-import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class AccountApiTest extends FlatSpec with Matchers with BaseApiTest {
@@ -59,13 +50,13 @@ class AccountApiTest extends FlatSpec with Matchers with BaseApiTest {
       case None => fail("ooops")
     }
   }
-  
+
   it should "get the logged in user" in {
     api.getLoggedInUser(auth.token) match {
       case Some(user) => {
         user.id should not be (0)
-        user.username should be (USER_NAME)
-        user.status should be (0)
+        user.username should be(USER_NAME)
+        user.status should be(0)
         user.email should not be (null)
       }
       case None => fail("didn't get user")

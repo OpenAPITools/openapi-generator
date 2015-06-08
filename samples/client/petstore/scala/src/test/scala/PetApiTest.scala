@@ -1,7 +1,7 @@
 import io.swagger.client._
 import io.swagger.client.api._
 import io.swagger.client.model._
-
+ 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest._
@@ -59,7 +59,7 @@ class PetApiTest extends FlatSpec with Matchers {
       }
       case None => fail("didn't find pet created")
     }
-    val updatedPet = pet.copy(status="fulfilled")
+    val updatedPet = pet.copy(status = "fulfilled")
     api.updatePet(updatedPet)
     api.getPetById(1000) match {
       case Some(pet) => {
@@ -85,7 +85,7 @@ class PetApiTest extends FlatSpec with Matchers {
       case Some(pets) => {
         pets.foreach(pet => {
           val tags = (for (tag <- pet.tags) yield tag.name).toSet
-          if ((tags & Set("tag1", "tag2")).size == 0) 
+          if ((tags & Set("tag1", "tag2")).size == 0)
             fail("unexpected tags in " + tags)
         })
       }

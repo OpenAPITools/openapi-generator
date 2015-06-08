@@ -4,29 +4,6 @@ import java.io.File
 import java.security.cert.X509Certificate
 import javax.net.ssl._
 
-import akka.actor.ActorSystem
-import akka.io.IO
-import akka.pattern.ask
-import akka.util.Timeout
-import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
-import org.json4s.JsonAST.JString
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
-import org.json4s.jackson.Serialization
-import spray.can.Http
-import spray.can.Http.HostConnectorSetup
-import spray.client.pipelining
-import spray.client.pipelining._
-import spray.http.HttpEncodings._
-import spray.http.HttpHeaders.{RawHeader, `Accept-Encoding`}
-import spray.http.Uri.Query
-import spray.http._
-import spray.http.parser.HttpParser
-import spray.httpx.encoding.{Deflate, Encoder, Gzip}
-import spray.httpx.unmarshalling._
-import spray.io.ClientSSLEngineProvider
-
 import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
 import scala.util.control.NonFatal
@@ -35,11 +12,11 @@ object ApiInvoker {
 
   def apply()(implicit system: ActorSystem): ApiInvoker =
     apply(DefaultFormats + DateTimeSerializer)
+
   def apply(serializers: Traversable[Serializer[_]])(implicit system: ActorSystem): ApiInvoker =
     apply(DefaultFormats + DateTimeSerializer ++ serializers)
-  def apply(formats: Formats)(implicit system: ActorSystem): ApiInvoker = new ApiInvoker(formats)
 
-  case class CustomStatusCode(value: Int, reason: String = "Application-defined status code", isSuccess: Boolean = true)
+  def apply(formats: Formats)(implicit system: ActorSystem): ApiInvoker = new ApiInvoker(formats)
 
   def addCustomStatusCode(code: CustomStatusCode): Unit = addCustomStatusCode(code.value, code.reason, code.isSuccess)
 
@@ -49,11 +26,13 @@ object ApiInvoker {
     }
   }
 
+  case class CustomStatusCode(value: Int, reason: String = "Application-defined status code", isSuccess: Boolean = true)
+
   /**
    * Allows request execution without calling apiInvoker.execute(request)
    * request.response can be used to get a future of the ApiResponse generated.
    * request.result can be used to get a future of the expected ApiResponse content. If content doesn't match, a
-   *    Future will failed with a ClassCastException
+   * Future will failed with a ClassCastException
    * @param request the apiRequest to be executed
    */
   implicit class ApiRequestImprovements[T](request: ApiRequest[T]) {
@@ -84,128 +63,16 @@ object ApiInvoker {
     case d: DateTime =>
       JString(ISODateTimeFormat.dateTimeParser().print(d))
   }))
+
 }
 
 class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends UntrustedSslContext with CustomContentTypes {
 
-  import io.swagger.client.core.ApiInvoker._
-  import io.swagger.client.core.ParametersMap._
-
   implicit val ec = system.dispatcher
   implicit val jsonFormats = formats
-
-  def settings = ApiSettings(system)
-
-  import spray.http.MessagePredicate._
-
-  val CompressionFilter = MessagePredicate({ _ => settings.compressionEnabled}) &&
+  val CompressionFilter = MessagePredicate({ _ => settings.compressionEnabled }) &&
     Encoder.DefaultFilter &&
     minEntitySize(settings.compressionSizeThreshold)
-
-  settings.customCodes.foreach(addCustomStatusCode)
-
-  private def addAuthentication(credentialsSeq: Seq[Credentials]): pipelining.RequestTransformer =
-    request =>
-      credentialsSeq.foldLeft(request) {
-        case (req, BasicCredentials(login, password)) =>
-          req ~> addCredentials(BasicHttpCredentials(login, password))
-        case (req, ApiKeyCredentials(keyValue, keyName, ApiKeyLocations.HEADER)) =>
-          req ~> addHeader(RawHeader(keyName, keyValue.value))
-        case (req, _) => req
-      }
-
-  private def addHeaders(headers: Map[String, Any]): pipelining.RequestTransformer = { request =>
-
-    val rawHeaders = for {
-      (name, value) <- headers.asFormattedParams
-      header = RawHeader(name, String.valueOf(value))
-    } yield header
-
-    request.withHeaders(rawHeaders.toList)
-  }
-
-  private def bodyPart(name: String, value: Any): BodyPart = {
-    value match {
-      case f: File =>
-        BodyPart(f, name)
-      case v: String =>
-        BodyPart(HttpEntity(String.valueOf(v)))
-      case NumericValue(v) =>
-        BodyPart(HttpEntity(String.valueOf(v)))
-      case m: ApiModel =>
-        BodyPart(HttpEntity(Serialization.write(m)))
-    }
-  }
-
-  private def formDataContent(request: ApiRequest[_]) = {
-    val params = request.formParams.asFormattedParams
-    if (params.isEmpty)
-      None
-    else
-      Some(
-        normalizedContentType(request.contentType).mediaType match {
-          case MediaTypes.`multipart/form-data` =>
-            MultipartFormData(params.map { case (name, value) => (name, bodyPart(name, value))})
-          case MediaTypes.`application/x-www-form-urlencoded` =>
-            FormData(params.mapValues(String.valueOf))
-          case m: MediaType => // Default : application/x-www-form-urlencoded.
-            FormData(params.mapValues(String.valueOf))
-        }
-      )
-  }
-
-  private def bodyContent(request: ApiRequest[_]): Option[Any] = {
-    request.bodyParam.map(Extraction.decompose).map(compact)
-  }
-
-  private def createRequest(uri: Uri, request: ApiRequest[_]): HttpRequest = {
-
-    val builder = new RequestBuilder(request.method.toSprayMethod)
-    val httpRequest = request.method.toSprayMethod match {
-      case HttpMethods.GET | HttpMethods.DELETE => builder.apply(uri)
-      case HttpMethods.POST | HttpMethods.PUT =>
-        formDataContent(request) orElse bodyContent(request) match {
-          case Some(c: FormData) =>
-            builder.apply(uri, c)
-          case Some(c: MultipartFormData) =>
-            builder.apply(uri, c)
-          case Some(c: String) =>
-            builder.apply(uri, HttpEntity(normalizedContentType(request.contentType), c))
-          case _ =>
-            builder.apply(uri, HttpEntity(normalizedContentType(request.contentType), " "))
-        }
-      case _ => builder.apply(uri)
-    }
-
-    httpRequest ~>
-      addHeaders(request.headerParams) ~>
-      addAuthentication(request.credentials) ~>
-      encode(Gzip(CompressionFilter))
-  }
-
-  def makeQuery(r: ApiRequest[_]): Query = {
-    r.credentials.foldLeft(r.queryParams) {
-      case (params, ApiKeyCredentials(key, keyName, ApiKeyLocations.QUERY)) =>
-        params + (keyName -> key.value)
-      case (params, _) => params
-    }.asFormattedParams
-      .mapValues(String.valueOf)
-      .foldRight[Query](Uri.Query.Empty) {
-      case ((name, value), acc) => acc.+:(name, value)
-    }
-  }
-
-  def makeUri(r: ApiRequest[_]): Uri = {
-    val opPath = r.operationPath.replaceAll("\\{format\\}", "json")
-    val opPathWithParams = r.pathParams.asFormattedParams
-      .mapValues(String.valueOf)
-      .foldLeft(opPath) {
-      case (path, (name, value)) => path.replaceAll(s"\\{$name\\}", value)
-    }
-    val query = makeQuery(r)
-
-    Uri(r.basePath + opPathWithParams).withQuery(query)
-  }
 
   def execute[T](r: ApiRequest[T]): Future[ApiResponse[T]] = {
     try {
@@ -233,9 +100,116 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends Untrust
     }
   }
 
+  settings.customCodes.foreach(addCustomStatusCode)
+
+  def settings = ApiSettings(system)
+
+  private def createRequest(uri: Uri, request: ApiRequest[_]): HttpRequest = {
+
+    val builder = new RequestBuilder(request.method.toSprayMethod)
+    val httpRequest = request.method.toSprayMethod match {
+      case HttpMethods.GET | HttpMethods.DELETE => builder.apply(uri)
+      case HttpMethods.POST | HttpMethods.PUT =>
+        formDataContent(request) orElse bodyContent(request) match {
+          case Some(c: FormData) =>
+            builder.apply(uri, c)
+          case Some(c: MultipartFormData) =>
+            builder.apply(uri, c)
+          case Some(c: String) =>
+            builder.apply(uri, HttpEntity(normalizedContentType(request.contentType), c))
+          case _ =>
+            builder.apply(uri, HttpEntity(normalizedContentType(request.contentType), " "))
+        }
+      case _ => builder.apply(uri)
+    }
+
+    httpRequest ~>
+      addHeaders(request.headerParams) ~>
+      addAuthentication(request.credentials) ~>
+      encode(Gzip(CompressionFilter))
+  }
+
+  private def addAuthentication(credentialsSeq: Seq[Credentials]): pipelining.RequestTransformer =
+    request =>
+      credentialsSeq.foldLeft(request) {
+        case (req, BasicCredentials(login, password)) =>
+          req ~> addCredentials(BasicHttpCredentials(login, password))
+        case (req, ApiKeyCredentials(keyValue, keyName, ApiKeyLocations.HEADER)) =>
+          req ~> addHeader(RawHeader(keyName, keyValue.value))
+        case (req, _) => req
+      }
+
+  private def addHeaders(headers: Map[String, Any]): pipelining.RequestTransformer = { request =>
+
+    val rawHeaders = for {
+      (name, value) <- headers.asFormattedParams
+      header = RawHeader(name, String.valueOf(value))
+    } yield header
+
+    request.withHeaders(rawHeaders.toList)
+  }
+
+  private def formDataContent(request: ApiRequest[_]) = {
+    val params = request.formParams.asFormattedParams
+    if (params.isEmpty)
+      None
+    else
+      Some(
+        normalizedContentType(request.contentType).mediaType match {
+          case MediaTypes.`multipart/form-data` =>
+            MultipartFormData(params.map { case (name, value) => (name, bodyPart(name, value)) })
+          case MediaTypes.`application/x-www-form-urlencoded` =>
+            FormData(params.mapValues(String.valueOf))
+          case m: MediaType => // Default : application/x-www-form-urlencoded.
+            FormData(params.mapValues(String.valueOf))
+        }
+      )
+  }
+
+  private def bodyPart(name: String, value: Any): BodyPart = {
+    value match {
+      case f: File =>
+        BodyPart(f, name)
+      case v: String =>
+        BodyPart(HttpEntity(String.valueOf(v)))
+      case NumericValue(v) =>
+        BodyPart(HttpEntity(String.valueOf(v)))
+      case m: ApiModel =>
+        BodyPart(HttpEntity(Serialization.write(m)))
+    }
+  }
+
+  private def bodyContent(request: ApiRequest[_]): Option[Any] = {
+    request.bodyParam.map(Extraction.decompose).map(compact)
+  }
+
+  def makeUri(r: ApiRequest[_]): Uri = {
+    val opPath = r.operationPath.replaceAll("\\{format\\}", "json")
+    val opPathWithParams = r.pathParams.asFormattedParams
+      .mapValues(String.valueOf)
+      .foldLeft(opPath) {
+      case (path, (name, value)) => path.replaceAll(s"\\{$name\\}", value)
+    }
+    val query = makeQuery(r)
+
+    Uri(r.basePath + opPathWithParams).withQuery(query)
+  }
+
+  def makeQuery(r: ApiRequest[_]): Query = {
+    r.credentials.foldLeft(r.queryParams) {
+      case (params, ApiKeyCredentials(key, keyName, ApiKeyLocations.QUERY)) =>
+        params + (keyName -> key.value)
+      case (params, _) => params
+    }.asFormattedParams
+      .mapValues(String.valueOf)
+      .foldRight[Query](Uri.Query.Empty) {
+      case ((name, value), acc) => acc.+:(name, value)
+    }
+  }
+
   def unmarshallApiResponse[T](request: ApiRequest[T])(response: HttpResponse): ApiResponse[T] = {
     request.responseForCode(response.status.intValue) match {
-      case Some( (manifest: Manifest[T], state: ResponseState) ) =>
+      case Some((manifest: Manifest[T], state: ResponseState)) =>
         entityUnmarshaller(manifest)(response.entity) match {
           case Right(value) ⇒
             state match {

@@ -1,9 +1,7 @@
-package com.wordnik.swagger.common
-{
-	public interface ListWrapper
-	{
-		
-		function getList(): Array;
-		
-	}
+package io.swagger.common {
+public interface ListWrapper {
+
+    function getList():Array;
+
+}
 }

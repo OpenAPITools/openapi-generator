@@ -19,22 +19,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @PropertySource("classpath:swagger.properties")
 @Import(SwaggerUiConfiguration.class)
 public class SwaggerConfig {
-    @Bean
-    ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo(
-        "{{appName}}",
-        "{{{appDescription}}}",
-        "{{appVersion}}",
-        "{{infoUrl}}",
-        "{{infoEmail}}",
-        "{{licenseInfo}}",
-        "{{licenseUrl}}" );
-        return apiInfo;
-    }
+@Bean
+ApiInfo apiInfo() {
+ApiInfo apiInfo = new ApiInfo(
+"{{appName}}",
+"{{{appDescription}}}",
+"{{appVersion}}",
+"{{infoUrl}}",
+"{{infoEmail}}",
+"{{licenseInfo}}",
+"{{licenseUrl}}" );
+return apiInfo;
+}
 
-    @Bean
-    public Docket customImplementation(){
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo());
-    }
+@Bean
+public Docket customImplementation(){
+return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo());
+}
 
 }
