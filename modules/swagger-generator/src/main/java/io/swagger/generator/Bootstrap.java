@@ -29,8 +29,7 @@ public class Bootstrap extends HttpServlet {
         bc.setBasePath("/api");
         bc.setTitle("Swagger Generator");
         bc.setDescription("This is an online swagger codegen server.  You can find out more " +
-                "at <a href=\"https://github.com/wordnik/swagger-generator\">https://github.com/swagger-api/swagger-codegen</a> or on irc.freenode.net, #swagger." +
-                "http://swagger.io/terms/");
+                "at https://github.com/swagger-api/swagger-codegen or on [irc.freenode.net, #swagger](http://swagger.io/irc/).");
         bc.setTermsOfServiceUrl("http://swagger.io/terms/");
         bc.setContact("apiteam@swagger.io");
         bc.setLicense("Apache 2.0");
