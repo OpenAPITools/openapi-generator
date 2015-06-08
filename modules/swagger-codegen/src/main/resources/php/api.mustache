@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2015 Reverb Technologies, Inc.
+ *  Copyright 2015 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,108 +30,108 @@ class {{classname}} {
       if (Configuration::$apiClient === null) {
         Configuration::$apiClient = new ApiClient(); // create a new API client if not present
         $this->apiClient = Configuration::$apiClient;
-      }
-      else
-        $this->apiClient = Configuration::$apiClient; // use the default one
-    } else {
-      $this->apiClient = $apiClient; // use the one provided by the user
-    }
-  }
+}
+else
+$this->apiClient = Configuration::$apiClient; // use the default one
+} else {
+$this->apiClient = $apiClient; // use the one provided by the user
+}
+}
 
-  private $apiClient; // instance of the ApiClient
+private $apiClient; // instance of the ApiClient
 
-  /**
-   * get the API client
-   */
-  public function getApiClient() {
-    return $this->apiClient;
-  }
+/**
+* get the API client
+*/
+public function getApiClient() {
+return $this->apiClient;
+}
 
-  /**
-   * set the API client
-   */
-  public function setApiClient($apiClient) {
-    $this->apiClient = $apiClient;
-  }
+/**
+* set the API client
+*/
+public function setApiClient($apiClient) {
+$this->apiClient = $apiClient;
+}
 
-  {{#operation}}
-  /**
-   * {{{nickname}}}
-   *
-   * {{{summary}}}
-   *
-{{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
-{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-   */
-   public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-      {{#allParams}}{{#required}}
-      // verify the required parameter '{{paramName}}' is set
-      if (${{paramName}} === null) {
+{{#operation}}
+    /**
+    * {{{nickname}}}
+    *
+    * {{{summary}}}
+    *
+    {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
+    {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    */
+    public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    {{#allParams}}{{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if (${{paramName}} === null) {
         throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{nickname}}');
-      }
-      {{/required}}{{/allParams}}
+        }
+    {{/required}}{{/allParams}}
 
-      // parse inputs
-      $resourcePath = "{{path}}";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "{{httpMethod}}";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
+    // parse inputs
+    $resourcePath = "{{path}}";
+    $resourcePath = str_replace("{format}", "json", $resourcePath);
+    $method = "{{httpMethod}}";
+    $httpBody = '';
+    $queryParams = array();
+    $headerParams = array();
+    $formParams = array();
+    $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
+    if (!is_null($_header_accept)) {
+    $headerParams['Accept'] = $_header_accept;
+    }
+    $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
 
-      {{#queryParams}}// query params
-      if(${{paramName}} !== null) {
-        $queryParams['{{baseName}}'] = $this->apiClient->toQueryValue(${{paramName}});
-      }{{/queryParams}}
-      {{#headerParams}}// header params
-      if(${{paramName}} !== null) {
-        $headerParams['{{baseName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
-      }{{/headerParams}}
-      {{#pathParams}}// path params
-      if(${{paramName}} !== null) {
-        $resourcePath = str_replace("{" . "{{baseName}}" . "}",
-                                    $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
-      }{{/pathParams}}
-      {{#formParams}}// form params
-      if (${{paramName}} !== null) {
-        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->toFormValue(${{paramName}});
-      }{{/formParams}}
-      {{#bodyParams}}// body params
-      $_tempBody = null;
-      if (isset(${{paramName}})) {
-        $_tempBody = ${{paramName}};
-      }{{/bodyParams}}
+    {{#queryParams}}// query params
+    if(${{paramName}} !== null) {
+    $queryParams['{{baseName}}'] = $this->apiClient->toQueryValue(${{paramName}});
+    }{{/queryParams}}
+    {{#headerParams}}// header params
+    if(${{paramName}} !== null) {
+    $headerParams['{{baseName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
+    }{{/headerParams}}
+    {{#pathParams}}// path params
+    if(${{paramName}} !== null) {
+    $resourcePath = str_replace("{" . "{{baseName}}" . "}",
+    $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
+    }{{/pathParams}}
+    {{#formParams}}// form params
+    if (${{paramName}} !== null) {
+    $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->toFormValue(${{paramName}});
+    }{{/formParams}}
+    {{#bodyParams}}// body params
+    $_tempBody = null;
+    if (isset(${{paramName}})) {
+    $_tempBody = ${{paramName}};
+    }{{/bodyParams}}
 
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
+    // for model (json/xml)
+    if (isset($_tempBody)) {
+    $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+    } else if (count($formParams) > 0) {
+    // for HTTP post (form)
+    $httpBody = $formParams;
+    }
 
-      // authentication setting, if any
-      $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
+    // authentication setting, if any
+    $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
 
-      // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+    // make the API Call
+    $response = $this->apiClient->callAPI($resourcePath, $method,
+    $queryParams, $httpBody,
+    $headerParams, $authSettings);
 
-      {{#returnType}}if(! $response) {
-        return null;
-      }
+    {{#returnType}}if(! $response) {
+    return null;
+    }
 
-      $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
-      return $responseObject;{{/returnType}}
-  }
-  {{/operation}}
+    $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
+    return $responseObject;{{/returnType}}
+    }
+{{/operation}}
 {{newline}}
 {{/operations}}
 }

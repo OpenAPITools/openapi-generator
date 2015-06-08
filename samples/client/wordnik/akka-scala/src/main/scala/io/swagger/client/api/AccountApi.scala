@@ -1,23 +1,15 @@
 package io.swagger.client.api
 
-import io.swagger.client.model.ApiTokenStatus
-import io.swagger.client.model.AuthenticationToken
-import io.swagger.client.model.User
-import io.swagger.client.model.WordList
-import io.swagger.client.core._
-import io.swagger.client.core.CollectionFormats._
-import io.swagger.client.core.ApiKeyLocations._
-
 object AccountApi {
 
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : ApiTokenStatus (Usage statistics for the supplied API key)
-   *   code 400 :  (No token supplied.)
-   *   code 404 :  (No API account with supplied token.)
-   * 
+   * code 200 : ApiTokenStatus (Usage statistics for the supplied API key)
+   * code 400 :  (No token supplied.)
+   * code 404 :  (No API account with supplied token.)
+   *
    * @param apiKey Wordnik authentication token
    */
   def getApiTokenStatus(apiKey: Option[String] = None): ApiRequest[ApiTokenStatus] =
@@ -26,15 +18,15 @@ object AccountApi {
       .withSuccessResponse[ApiTokenStatus](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : AuthenticationToken (A valid authentication token)
-   *   code 403 :  (Account not available.)
-   *   code 404 :  (User not found.)
-   * 
+   * code 200 : AuthenticationToken (A valid authentication token)
+   * code 403 :  (Account not available.)
+   * code 404 :  (User not found.)
+   *
    * @param username A confirmed Wordnik username
    * @param password The user&#39;s password
    */
@@ -45,15 +37,15 @@ object AccountApi {
       .withSuccessResponse[AuthenticationToken](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : AuthenticationToken (A valid authentication token)
-   *   code 403 :  (Account not available.)
-   *   code 404 :  (User not found.)
-   * 
+   * code 200 : AuthenticationToken (A valid authentication token)
+   * code 403 :  (Account not available.)
+   * code 404 :  (User not found.)
+   *
    * @param username A confirmed Wordnik username
    * @param body The user&#39;s password
    */
@@ -64,15 +56,15 @@ object AccountApi {
       .withSuccessResponse[AuthenticationToken](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
    * Requires a valid auth_token to be set.
-   * 
+   *
    * Expected answers:
-   *   code 200 : User (The logged-in user)
-   *   code 403 :  (Not logged in.)
-   *   code 404 :  (User not found.)
-   * 
+   * code 200 : User (The logged-in user)
+   * code 403 :  (Not logged in.)
+   * code 404 :  (User not found.)
+   *
    * @param authToken The auth token of the logged-in user, obtained by calling /account.json/authenticate/{username} (described above)
    */
   def getLoggedInUser(authToken: String): ApiRequest[User] =
@@ -81,15 +73,15 @@ object AccountApi {
       .withSuccessResponse[User](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
+
   /**
-   * 
-   * 
+   *
+   *
    * Expected answers:
-   *   code 200 : Seq[WordList] (success)
-   *   code 403 :  (Not authenticated.)
-   *   code 404 :  (User account not found.)
-   * 
+   * code 200 : Seq[WordList] (success)
+   * code 403 :  (Not authenticated.)
+   * code 404 :  (User account not found.)
+   *
    * @param authToken auth_token of logged-in user
    * @param skip Results to skip
    * @param limit Maximum number of results to return
@@ -102,7 +94,6 @@ object AccountApi {
       .withSuccessResponse[Seq[WordList]](200)
       .withErrorResponse[Unit](403)
       .withErrorResponse[Unit](404)
-      
 
 
 }

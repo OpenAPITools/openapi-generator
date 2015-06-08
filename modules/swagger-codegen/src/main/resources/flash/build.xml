@@ -62,11 +62,11 @@
             <arg line="-doc-sources ${sourcepath}"/>
             <arg line="-source-path ${sourcepath}"/>
             <arg line="-footer 'Copyright Wordnik'"/>
-            <arg line="-package com.wordnik.swagger.api 'Contains the apis which are used by clients to make calls to the services deployed'"/>
-            <arg line="-package com.wordnik.swagger.codegen.model 'Contains common classes which encapsulate data elements required'"/>
-            <arg line="-package com.wordnik.swagger.common 'Contains classes which are used by the api classes to invoke the deployed api like SwaggerApi - a base class, ApiUserCredentials, etc.'"/>
-            <arg line="-package com.wordnik.swagger.event 'Results of calls made to Wordnik are returned via dispatched events. This package contains such event classes. Right now thats just ApiClientEvent and Response.'"/>
-            <arg line="-package com.wordnik.swagger.exception 'Contains classes that encapsulate the errors generated'"/>
+            <arg line="-package io.swagger.api 'Contains the apis which are used by clients to make calls to the services deployed'"/>
+            <arg line="-package io.swagger.codegen.model 'Contains common classes which encapsulate data elements required'"/>
+            <arg line="-package io.swagger.common 'Contains classes which are used by the api classes to invoke the deployed api like SwaggerApi - a base class, ApiUserCredentials, etc.'"/>
+            <arg line="-package io.swagger.event 'Results of calls made to Wordnik are returned via dispatched events. This package contains such event classes. Right now thats just ApiClientEvent and Response.'"/>
+            <arg line="-package io.swagger.exception 'Contains classes that encapsulate the errors generated'"/>
 
             <arg value="-window-title"/>
             <arg value="${title}"/>

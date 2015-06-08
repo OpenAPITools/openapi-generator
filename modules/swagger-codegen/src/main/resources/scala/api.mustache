@@ -16,77 +16,77 @@ import java.util.Date
 import scala.collection.mutable.HashMap
 
 {{#operations}}
-class {{classname}}(val defBasePath: String = "{{basePath}}",
-                        defApiInvoker: ApiInvoker = ApiInvoker) {
-  var basePath = defBasePath
-  var apiInvoker = defApiInvoker
+    class {{classname}}(val defBasePath: String = "{{basePath}}",
+    defApiInvoker: ApiInvoker = ApiInvoker) {
+    var basePath = defBasePath
+    var apiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
+    def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
 
-  {{#operation}}
-  /**
-   * {{summary}}
-   * {{notes}}
-{{#allParams}}   * @param {{paramName}} {{description}}
-{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-   */
-  def {{nickname}} ({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} /* = {{{defaultValue}}} */{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
-    // create path and map variables
-    val path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escape({{paramName}}))
+    {{#operation}}
+        /**
+        * {{summary}}
+        * {{notes}}
+        {{#allParams}}   * @param {{paramName}} {{description}}
+        {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+        */
+        def {{nickname}} ({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} /* = {{{defaultValue}}} */{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
+        // create path and map variables
+        val path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escape({{paramName}}))
 
-    {{/pathParams}}
+        {{/pathParams}}
 
-    val contentTypes = List({{#consumes}}"{{mediaType}}", {{/consumes}}"application/json")
-    val contentType = contentTypes(0)
+        val contentTypes = List({{#consumes}}"{{mediaType}}", {{/consumes}}"application/json")
+        val contentType = contentTypes(0)
 
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
+        // query params
+        val queryParams = new HashMap[String, String]
+        val headerParams = new HashMap[String, String]
+        val formParams = new HashMap[String, String]
 
-    {{#requiredParamCount}}
-    // verify required params are set
-    (List({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}).filter(_ != null)).size match {
-       case {{requiredParamCount}} => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
-    {{/requiredParamCount}}
+        {{#requiredParamCount}}
+            // verify required params are set
+            (List({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}).filter(_ != null)).size match {
+        case {{requiredParamCount}} => // all required values set
+        case _ => throw new Exception("missing required params")
+        }
+        {{/requiredParamCount}}
 
-    {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
-    {{/queryParams}}
-    
-    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}
-    {{/headerParams}}
+        {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
+        {{/queryParams}}
 
-    var postBody: AnyRef = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
+        {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}
+        {{/headerParams}}
 
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      {{#formParams}}{{#notFile}}
-      mp.field("{{baseName}}", {{paramName}}.toString(), MediaType.MULTIPART_FORM_DATA_TYPE)
-      {{/notFile}}{{#isFile}}
-      mp.field("{{baseName}}", file.getName)
-      mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE))
-      {{/isFile}}{{/formParams}}
-      postBody = mp
-    }
-    else {
-      {{#formParams}}{{#notFile}}formParams += "{{baseName}}" -> {{paramName}}.toString(){{/notFile}}
-      {{/formParams}}
-    }
+        var postBody: AnyRef = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        if(contentType.startsWith("multipart/form-data")) {
+        val mp = new FormDataMultiPart()
+        {{#formParams}}{{#notFile}}
+            mp.field("{{baseName}}", {{paramName}}.toString(), MediaType.MULTIPART_FORM_DATA_TYPE)
+        {{/notFile}}{{#isFile}}
+            mp.field("{{baseName}}", file.getName)
+            mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE))
+        {{/isFile}}{{/formParams}}
+        postBody = mp
+        }
+        else {
+        {{#formParams}}{{#notFile}}formParams += "{{baseName}}" -> {{paramName}}.toString(){{/notFile}}
+        {{/formParams}}
+        }
+
+        try {
+        apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
-          {{#returnType}} Some(ApiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
-        {{/returnType}} 
+        {{#returnType}} Some(ApiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
+        {{/returnType}}
         case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
+        }
+        } catch {
+        case ex: ApiException if ex.code == 404 => None
+        case ex: ApiException => throw ex
+        }
+        }
+    {{/operation}}
     }
-  }
-  {{/operation}}
-}
 {{/operations}}

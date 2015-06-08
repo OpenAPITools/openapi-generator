@@ -1,56 +1,57 @@
-#import <Foundation/Foundation.h>
+#import
+<Foundation/Foundation.h>
 
 @interface SWGConfiguration : NSObject
 
 
 /**
- * Api key values for Api Key type Authentication
- *
- * To add or remove api key, use `setValue:forApiKeyField:`.
- */
+* Api key values for Api Key type Authentication
+*
+* To add or remove api key, use `setValue:forApiKeyField:`.
+*/
 @property (readonly, nonatomic, strong) NSDictionary *apiKey;
 
 /**
- * Api key prefix values to be prepend to the respective api key
- *
- * To add or remove prefix, use `setValue:forApiKeyPrefixField:`.
- */
+* Api key prefix values to be prepend to the respective api key
+*
+* To add or remove prefix, use `setValue:forApiKeyPrefixField:`.
+*/
 @property (readonly, nonatomic, strong) NSDictionary *apiKeyPrefix;
 
 /**
- * Usename and Password for Basic type Authentication
- */
+* Usename and Password for Basic type Authentication
+*/
 @property (nonatomic) NSString *username;
 @property (nonatomic) NSString *password;
 
 /**
- * Get configuration singleton instance
- */
+* Get configuration singleton instance
+*/
 + (instancetype) sharedConfig;
 
 /**
- * Sets field in `apiKey`
- */
+* Sets field in `apiKey`
+*/
 - (void) setValue:(NSString *)value forApiKeyField:(NSString*)field;
 
 /**
- * Sets field in `apiKeyPrefix`
- */
+* Sets field in `apiKeyPrefix`
+*/
 - (void) setValue:(NSString *)value forApiKeyPrefixField:(NSString *)field;
 
 /**
- * Get API key (with prefix if set)
- */
+* Get API key (with prefix if set)
+*/
 - (NSString *) getApiKeyWithPrefix:(NSString *) key;
 
 /**
- * Get Basic Auth token
- */
+* Get Basic Auth token
+*/
 - (NSString *) getBasicAuthToken;
 
 /**
- * Get Authentication Setings
- */
+* Get Authentication Setings
+*/
 - (NSDictionary *) authSettings;
 
 @end

@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2015 Reverb Technologies, Inc.
+ *  Copyright 2015 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,25 +34,25 @@ class ApiException extends Exception {
   public function __construct($message="", $code=0, $responseHeaders=null, $responseBody=null) {
     parent::__construct($message, $code);
     $this->response_headers = $responseHeaders;
-    $this->response_body = $responseBody;
-  }
+$this->response_body = $responseBody;
+}
 
-  /**
-   * Get the HTTP response header
-   *
-   * @return string HTTP response header
-   */
-  public function getResponseHeaders() {
-    return $this->response_headers;
-  }
+/**
+* Get the HTTP response header
+*
+* @return string HTTP response header
+*/
+public function getResponseHeaders() {
+return $this->response_headers;
+}
 
-  /**
-   * Get the HTTP response body
-   *
-   * @return string HTTP response body
-   */
-  public function getResponseBody() {
-    return $this->response_body;
-  }
+/**
+* Get the HTTP response body
+*
+* @return string HTTP response body
+*/
+public function getResponseBody() {
+return $this->response_body;
+}
 
 }

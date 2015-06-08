@@ -1,5 +1,5 @@
 {
-    "require": {
-        "silex/silex": "~1.2"
-    }
+  "require": {
+    "silex/silex": "~1.2"
+  }
 }

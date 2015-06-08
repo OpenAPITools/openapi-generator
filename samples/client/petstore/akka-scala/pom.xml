@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.wordnik</groupId>
+    <groupId>io.swagger</groupId>
     <artifactId>swagger-client</artifactId>
     <packaging>jar</packaging>
     <name>swagger-client</name>
@@ -162,7 +162,7 @@
             <version>${scala-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.wordnik</groupId>
+            <groupId>io.swagger</groupId>
             <artifactId>swagger-core</artifactId>
             <version>${swagger-core-version}</version>
         </dependency>
@@ -217,7 +217,7 @@
         <akka-version>2.3.9</akka-version>
         <joda-version>1.2</joda-version>
         <joda-time-version>2.2</joda-time-version>
-        <swagger-core-version>1.5.0-M1</swagger-core-version>
+        <swagger-core-version>1.5.0</swagger-core-version>
         <maven-plugin.version>1.0.0</maven-plugin.version>
 
         <junit-version>4.8.1</junit-version>

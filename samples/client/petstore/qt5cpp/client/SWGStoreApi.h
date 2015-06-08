@@ -7,14 +7,15 @@
 #include "SWGOrder.h"
 #include <QString>
 
-#include <QObject>
+#include
+<QObject>
 
-namespace Swagger {
+    namespace Swagger {
 
-class SWGStoreApi: public QObject {
+    class SWGStoreApi: public QObject {
     Q_OBJECT
 
-public:
+    public:
     SWGStoreApi();
     SWGStoreApi(QString host, QString basePath);
     ~SWGStoreApi();
@@ -27,18 +28,18 @@ public:
     void getOrderById(QString* orderId);
     void deleteOrder(QString* orderId);
     
-private:
+    private:
     void getInventoryCallback (HttpRequestWorker * worker);
     void placeOrderCallback (HttpRequestWorker * worker);
     void getOrderByIdCallback (HttpRequestWorker * worker);
     void deleteOrderCallback (HttpRequestWorker * worker);
     
-signals:
+    signals:
     void getInventorySignal(QMap<QString, qint32>* summary);
     void placeOrderSignal(SWGOrder* summary);
     void getOrderByIdSignal(SWGOrder* summary);
     void deleteOrderSignal();
     
-};
-}
-#endif
+    };
+    }
+    #endif

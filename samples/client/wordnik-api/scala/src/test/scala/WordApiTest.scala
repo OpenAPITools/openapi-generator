@@ -1,17 +1,3 @@
-import com.wordnik.client.api._
-import com.wordnik.client.model._
-
-import com.wordnik.swagger.core._
-import com.wordnik.swagger.core.util.JsonUtil
-
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest._
-
-import scala.collection.mutable.{ ListBuffer, HashMap }
-import scala.collection.JavaConversions._
-import scala.beans.BeanProperty
-
 import scala.io.Source
 
 @RunWith(classOf[JUnitRunner])
@@ -41,8 +27,8 @@ class WordApiTest extends FlatSpec with Matchers with BaseApiTest {
     api.getWord("cAt", "false", "true") match {
       case Some(word) => {
         word.word should be("cAt")
-        word.suggestions.size should be (1)
-        word.suggestions(0) should be ("cat")
+        word.suggestions.size should be(1)
+        word.suggestions(0) should be("cat")
         word should not be (null)
       }
       case None => fail("didn't find word cAt")
@@ -126,7 +112,7 @@ class WordApiTest extends FlatSpec with Matchers with BaseApiTest {
     api.getRelatedWords("cat", null, null) match {
       case Some(relateds) => {
         var count = 0
-        relateds.foreach(related =>{
+        relateds.foreach(related => {
           related.words.size should (be <= 10)
         })
       }

@@ -1,60 +1,64 @@
 /*
- * SamiTag.h
- * 
- * 
- */
+* SamiTag.h
+*
+* 
+*/
 
 #ifndef SamiTag_H_
 #define SamiTag_H_
 
-#include <FApp.h>
-#include <FBase.h>
-#include <FSystem.h>
-#include <FWebJson.h>
-#include "SamiHelpers.h"
-#include "SamiObject.h"
+#include
+<FApp.h>
+    #include
+<FBase.h>
+    #include
+<FSystem.h>
+    #include
+<FWebJson.h>
+    #include "SamiHelpers.h"
+    #include "SamiObject.h"
 
-using namespace Tizen::Web::Json;
+    using namespace Tizen::Web::Json;
 
 
 using Tizen::Base::Long;
 using Tizen::Base::String;
 
 
-namespace Swagger {
+        namespace Swagger {
 
-class SamiTag: public SamiObject {
-public:
+        class SamiTag: public SamiObject {
+        public:
     SamiTag();
     SamiTag(String* json);
-    virtual ~SamiTag();
+        virtual ~SamiTag();
 
-    void init();
+        void init();
 
-    void cleanup();
+        void cleanup();
 
-    String asJson ();
+        String asJson ();
 
-    JsonObject* asJsonObject();
+        JsonObject* asJsonObject();
 
-    void fromJsonObject(IJsonValue* json);
+        void fromJsonObject(IJsonValue* json);
 
     SamiTag* fromJson(String* obj);
 
     
-    Long* getPId();
-    void setPId(Long* pId);
+        Long* getPId();
+            void setPId(Long* pId);
     
-    String* getPName();
-    void setPName(String* pName);
+        String* getPName();
+            void setPName(String* pName);
     
 
-private:
+        private:
     Long* pId;
     String* pName;
     
-};
+        };
 
-} /* namespace Swagger */
+        } /* namespace Swagger */
 
-#endif /* SamiTag_H_ */
+        #endif /* SamiTag_H_ */

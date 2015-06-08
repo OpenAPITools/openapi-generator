@@ -1,19 +1,11 @@
-import scala.collection.JavaConverters.asScalaBufferConverter
-import scala.collection.JavaConverters.mapAsJavaMapConverter
-import scala.collection.JavaConverters.seqAsJavaListConverter
-
+import io.swagger.codegen.examples.ExampleGenerator
+import io.swagger.models.{Model, ModelImpl, Xml}
+import io.swagger.models.properties.{ArrayProperty, RefProperty, StringProperty}
 import org.junit.runner.RunWith
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
 
-import com.wordnik.swagger.codegen.examples.ExampleGenerator
-import com.wordnik.swagger.models.Model
-import com.wordnik.swagger.models.ModelImpl
-import com.wordnik.swagger.models.Xml
-import com.wordnik.swagger.models.properties.ArrayProperty
-import com.wordnik.swagger.models.properties.RefProperty
-import com.wordnik.swagger.models.properties.StringProperty
+import scala.collection.JavaConverters.{asScalaBufferConverter, mapAsJavaMapConverter, seqAsJavaListConverter}
 
 @RunWith(classOf[JUnitRunner])
 class ExampleGeneratorTest extends FlatSpec with Matchers {
@@ -42,18 +34,18 @@ class ExampleGeneratorTest extends FlatSpec with Matchers {
       item.get("contentType") match {
         case `xml` => {
           types += xml
-          example should be ("<Pair>\n" +
-                             "  <Node>\n" +
-                             "    <name>string</name>\n" +
-                             "    <wrappedChildren>\n" +
-                             "    </wrappedChildren>\n" +
-                             "  </Node>\n" +
-                             "  <Node>\n" +
-                             "    <name>string</name>\n" +
-                             "    <wrappedChildren>\n" +
-                             "    </wrappedChildren>\n" +
-                             "  </Node>\n" +
-                             "</Pair>")
+          example should be("<Pair>\n" +
+            "  <Node>\n" +
+            "    <name>string</name>\n" +
+            "    <wrappedChildren>\n" +
+            "    </wrappedChildren>\n" +
+            "  </Node>\n" +
+            "  <Node>\n" +
+            "    <name>string</name>\n" +
+            "    <wrappedChildren>\n" +
+            "    </wrappedChildren>\n" +
+            "  </Node>\n" +
+            "</Pair>")
         }
         case `json` => {
           types += json
@@ -62,6 +54,6 @@ class ExampleGeneratorTest extends FlatSpec with Matchers {
         }
       }
     }
-    types should be (expectedTypes)
+    types should be(expectedTypes)
   }
 }

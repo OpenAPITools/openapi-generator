@@ -1,22 +1,24 @@
-#import "SWGTag.h"
+    
+        #import "SWGTag.h"
 
-@implementation SWGTag
-  
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"name": @"name" }];
-}
+        @implementation SWGTag
 
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"_id", @"name"];
+        + (JSONKeyMapper *)keyMapper
+        {
+        return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"name": @"name" }];
+        }
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
+        + (BOOL)propertyIsOptional:(NSString *)propertyName
+        {
+        NSArray *optionalProperties = @[@"_id", @"name"];
 
-@end
+        if ([optionalProperties containsObject:propertyName]) {
+        return YES;
+        }
+        else {
+        return NO;
+        }
+        }
+
+    
+    @end

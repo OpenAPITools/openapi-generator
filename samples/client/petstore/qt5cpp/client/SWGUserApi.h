@@ -7,14 +7,15 @@
 #include <QList>
 #include <QString>
 
-#include <QObject>
+#include
+<QObject>
 
-namespace Swagger {
+    namespace Swagger {
 
-class SWGUserApi: public QObject {
+    class SWGUserApi: public QObject {
     Q_OBJECT
 
-public:
+    public:
     SWGUserApi();
     SWGUserApi(QString host, QString basePath);
     ~SWGUserApi();
@@ -25,13 +26,15 @@ public:
     void createUser(SWGUser body);
     void createUsersWithArrayInput(QList<SWGUser*>* body);
     void createUsersWithListInput(QList<SWGUser*>* body);
-    void loginUser(QString* username, QString* password);
+    void loginUser(QString* username
+        , QString* password);
     void logoutUser();
     void getUserByName(QString* username);
-    void updateUser(QString* username, SWGUser body);
+    void updateUser(QString* username
+        , SWGUser body);
     void deleteUser(QString* username);
     
-private:
+    private:
     void createUserCallback (HttpRequestWorker * worker);
     void createUsersWithArrayInputCallback (HttpRequestWorker * worker);
     void createUsersWithListInputCallback (HttpRequestWorker * worker);
@@ -41,7 +44,7 @@ private:
     void updateUserCallback (HttpRequestWorker * worker);
     void deleteUserCallback (HttpRequestWorker * worker);
     
-signals:
+    signals:
     void createUserSignal();
     void createUsersWithArrayInputSignal();
     void createUsersWithListInputSignal();
@@ -51,6 +54,6 @@ signals:
     void updateUserSignal();
     void deleteUserSignal();
     
-};
-}
-#endif
+    };
+    }
+    #endif

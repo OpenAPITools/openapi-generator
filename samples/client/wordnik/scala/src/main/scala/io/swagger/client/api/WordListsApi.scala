@@ -1,51 +1,46 @@
 package io.swagger.client.api
 
-import io.swagger.client.model.WordList
-import io.swagger.client.ApiInvoker
-import io.swagger.client.ApiException
-
 import java.io.File
-import java.util.Date
 
 import scala.collection.mutable.HashMap
 
 class WordListsApi(val defBasePath: String = "https://api.wordnik.com/v4",
-                        defApiInvoker: ApiInvoker = ApiInvoker) {
+                   defApiInvoker: ApiInvoker = ApiInvoker) {
   var basePath = defBasePath
   var apiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
+  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
 
-  
-  def createWordList (body: WordList, auth_token: String) : Option[WordList] = {
+
+  def createWordList(body: WordList, auth_token: String): Option[WordList] = {
     // create path and map variables
-    val path = "/wordLists.json".replaceAll("\\{format\\}","json")
+    val path = "/wordLists.json".replaceAll("\\{format\\}", "json")
 
-    
+
     val contentType = {
-      if(body != null && body.isInstanceOf[File] )
+      if (body != null && body.isInstanceOf[File])
         "multipart/form-data"
       else "application/json"
-      
-      
+
+
     }
 
     // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
 
-    
 
-    
-    
+
+
+
     headerParams += "auth_token" -> auth_token
-    
+
 
     try {
       apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, body, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "", classOf[WordList]).asInstanceOf[WordList])
-         
+          Some(ApiInvoker.deserialize(s, "", classOf[WordList]).asInstanceOf[WordList])
+
         case _ => None
       }
     } catch {
@@ -53,5 +48,5 @@ class WordListsApi(val defBasePath: String = "https://api.wordnik.com/v4",
       case ex: ApiException => throw ex
     }
   }
-  
+
 }

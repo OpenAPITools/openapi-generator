@@ -1,22 +1,24 @@
-#import "SWGUser.h"
+    
+        #import "SWGUser.h"
 
-@implementation SWGUser
-  
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"username": @"username", @"firstName": @"firstName", @"lastName": @"lastName", @"email": @"email", @"password": @"password", @"phone": @"phone", @"userStatus": @"userStatus" }];
-}
+        @implementation SWGUser
 
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"_id", @"username", @"firstName", @"lastName", @"email", @"password", @"phone", @"userStatus"];
+        + (JSONKeyMapper *)keyMapper
+        {
+        return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"username": @"username", @"firstName": @"firstName", @"lastName": @"lastName", @"email": @"email", @"password": @"password", @"phone": @"phone", @"userStatus": @"userStatus" }];
+        }
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
+        + (BOOL)propertyIsOptional:(NSString *)propertyName
+        {
+        NSArray *optionalProperties = @[@"_id", @"username", @"firstName", @"lastName", @"email", @"password", @"phone", @"userStatus"];
 
-@end
+        if ([optionalProperties containsObject:propertyName]) {
+        return YES;
+        }
+        else {
+        return NO;
+        }
+        }
+
+    
+    @end
