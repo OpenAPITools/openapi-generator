@@ -6,1020 +6,999 @@
 <body>
 <h1>Swagger Petstore</h1>
 
-<div class="app-desc">This is a sample server Petstore server. You can find out more about Swagger at <a
-        href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger. For this sample, you can use
-    the api key \"special-key\" to test the authorization filters for
-</div>
+<div class="app-desc">This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters for </div>
 
-<div class="app-desc">Contact Info: <a href="apiteam@swagger.io">apiteam@swagger.io</a></div>
-<div class="app-desc">Version: 1.0.0</div>
+    <div class="app-desc">Contact Info: <a href="apiteam@swagger.io">apiteam@swagger.io</a></div>
+    <div class="app-desc">Version: 1.0.0</div>
 <div class="license-info">Apache 2.0</div>
 <div class="license-url">http://www.apache.org/licenses/LICENSE-2.0.html</div>
 <h2>Access</h2>
 
 <div class="method-summary">Customize this message as you see fit!</div>
 <h2>Methods</h2>
-
-
-<div class="method">
-    <div class="method-path">
-        <pre class="put"><code class="huge"><span>put</span>: /pet</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">updatePet</span> Update an existing pet</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">body (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added
-            to the store
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="post"><code class="huge"><span>post</span>: /pet</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">addPet</span> Add a new pet to the store</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">body (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added
-            to the store
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /pet/findByStatus</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">findPetsByStatus</span> Finds Pets by status</div>
-    <div class="method-notes">Multiple status values can be provided with comma seperated strings</div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">status (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be
-            considered for filter default: available
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#array">array[Pet]</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-        &quot;tags&quot; : [ {
-        &quot;id&quot; : 123456789,
-        &quot;name&quot; : &quot;aeiou&quot;
-        } ],
-        &quot;id&quot; : 123456789,
-        &quot;category&quot; : {
-        &quot;id&quot; : 123456789,
-        &quot;name&quot; : &quot;aeiou&quot;
-        },
-        &quot;status&quot; : &quot;aeiou&quot;,
-        &quot;name&quot; : &quot;doggie&quot;,
-        &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
-        } ]</code></pre>
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>&lt;Pet&gt;
-        &lt;id&gt;123456&lt;/id&gt;
-        &lt;name&gt;doggie&lt;/name&gt;
-        &lt;photoUrls&gt;string&lt;/photoUrls&gt;
-        &lt;status&gt;string&lt;/status&gt;
-        &lt;/Pet&gt;</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /pet/findByTags</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">findPetsByTags</span> Finds Pets by tags</div>
-    <div class="method-notes">Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for
-        testing.
-    </div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">tags (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Tags to filter by</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#array">array[Pet]</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>[ {
-        &quot;tags&quot; : [ {
-        &quot;id&quot; : 123456789,
-        &quot;name&quot; : &quot;aeiou&quot;
-        } ],
-        &quot;id&quot; : 123456789,
-        &quot;category&quot; : {
-        &quot;id&quot; : 123456789,
-        &quot;name&quot; : &quot;aeiou&quot;
-        },
-        &quot;status&quot; : &quot;aeiou&quot;,
-        &quot;name&quot; : &quot;doggie&quot;,
-        &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
-        } ]</code></pre>
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>&lt;Pet&gt;
-        &lt;id&gt;123456&lt;/id&gt;
-        &lt;name&gt;doggie&lt;/name&gt;
-        &lt;photoUrls&gt;string&lt;/photoUrls&gt;
-        &lt;status&gt;string&lt;/status&gt;
-        &lt;/Pet&gt;</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /pet/{petId}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">getPetById</span> Find pet by ID</div>
-    <div class="method-notes">Returns a pet when ID &lt; 10. ID &gt; 10 or nonintegers will simulate API error
-        conditions
-    </div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">petId (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be
-            fetched
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#">Pet</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-        &quot;tags&quot; : [ {
-        &quot;id&quot; : 123456789,
-        &quot;name&quot; : &quot;aeiou&quot;
-        } ],
-        &quot;id&quot; : 123456789,
-        &quot;category&quot; : {
-        &quot;id&quot; : 123456789,
-        &quot;name&quot; : &quot;aeiou&quot;
-        },
-        &quot;status&quot; : &quot;aeiou&quot;,
-        &quot;name&quot; : &quot;doggie&quot;,
-        &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
-        }</code></pre>
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>&lt;Pet&gt;
-        &lt;id&gt;123456&lt;/id&gt;
-        &lt;name&gt;doggie&lt;/name&gt;
-        &lt;photoUrls&gt;string&lt;/photoUrls&gt;
-        &lt;status&gt;string&lt;/status&gt;
-        &lt;/Pet&gt;</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="post"><code class="huge"><span>post</span>: /pet/{petId}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">updatePetWithForm</span> Updates a pet in the store with form
-        data
-    </div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">petId (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be
-            updated
-        </div>
-        <div class="param">name (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated name of the pet</div>
-        <div class="param">status (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated status of the pet</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="delete"><code class="huge"><span>delete</span>: /pet/{petId}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">deletePet</span> Deletes a pet</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">apiKey (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Header Parameter</span> &mdash;  </div>
-        <div class="param">petId (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Pet id to delete</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="post"><code class="huge"><span>post</span>: /pet/{petId}/uploadImage</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Pet</span></div>
-    <div class="method-summary"><span class="nickname">uploadFile</span> uploads an image</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">petId (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to update</div>
-        <div class="param">additionalMetadata (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Additional data to pass to server
-        </div>
-        <div class="param">file (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; file to upload</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /store/inventory</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Store</span></div>
-    <div class="method-summary"><span class="nickname">getInventory</span> Returns pet inventories by status</div>
-    <div class="method-notes">Returns a map of status codes to quantities</div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#map">map[String, Integer]</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-        &quot;key&quot; : 123
-        }</code></pre>
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>not implemented io.swagger.models.properties.MapProperty@3e</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="post"><code class="huge"><span>post</span>: /store/order</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Store</span></div>
-    <div class="method-summary"><span class="nickname">placeOrder</span> Place an order for a pet</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">body (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; order placed for purchasing the
-            pet
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#">Order</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-        &quot;id&quot; : 123456789,
-        &quot;petId&quot; : 123456789,
-        &quot;complete&quot; : true,
-        &quot;status&quot; : &quot;aeiou&quot;,
-        &quot;quantity&quot; : 123,
-        &quot;shipDate&quot; : &quot;2015-06-07T07:07:24.098+0000&quot;
-        }</code></pre>
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>&lt;Order&gt;
-        &lt;id&gt;123456&lt;/id&gt;
-        &lt;petId&gt;123456&lt;/petId&gt;
-        &lt;quantity&gt;0&lt;/quantity&gt;
-        &lt;shipDate&gt;2015-06-07T00:07:24.100Z&lt;/shipDate&gt;
-        &lt;status&gt;string&lt;/status&gt;
-        &lt;complete&gt;true&lt;/complete&gt;
-        &lt;/Order&gt;</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /store/order/{orderId}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Store</span></div>
-    <div class="method-summary"><span class="nickname">getOrderById</span> Find purchase order by ID</div>
-    <div class="method-notes">For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will
-        generated exceptions
-    </div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">orderId (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be
-            fetched
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#">Order</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-        &quot;id&quot; : 123456789,
-        &quot;petId&quot; : 123456789,
-        &quot;complete&quot; : true,
-        &quot;status&quot; : &quot;aeiou&quot;,
-        &quot;quantity&quot; : 123,
-        &quot;shipDate&quot; : &quot;2015-06-07T07:07:24.102+0000&quot;
-        }</code></pre>
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>&lt;Order&gt;
-        &lt;id&gt;123456&lt;/id&gt;
-        &lt;petId&gt;123456&lt;/petId&gt;
-        &lt;quantity&gt;0&lt;/quantity&gt;
-        &lt;shipDate&gt;2015-06-07T00:07:24.102Z&lt;/shipDate&gt;
-        &lt;status&gt;string&lt;/status&gt;
-        &lt;complete&gt;true&lt;/complete&gt;
-        &lt;/Order&gt;</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="delete"><code class="huge"><span>delete</span>: /store/order/{orderId}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">Store</span></div>
-    <div class="method-summary"><span class="nickname">deleteOrder</span> Delete purchase order by ID</div>
-    <div class="method-notes">For valid response try integer IDs with value &lt; 1000. Anything above 1000 or
-        nonintegers will generate API errors
-    </div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">orderId (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of the order that needs to be
-            deleted
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="post"><code class="huge"><span>post</span>: /user</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">createUser</span> Create user</div>
-    <div class="method-notes">This can only be done by the logged in user.</div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">body (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Created user object</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="post"><code class="huge"><span>post</span>: /user/createWithArray</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">createUsersWithArrayInput</span> Creates list of users with given
-        input array
-    </div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">body (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="post"><code class="huge"><span>post</span>: /user/createWithList</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">createUsersWithListInput</span> Creates list of users with given
-        input array
-    </div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">body (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /user/login</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">loginUser</span> Logs user into the system</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">username (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The user name for login</div>
-        <div class="param">password (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The password for login in clear
-            text
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#">String</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>&quot;aeiou&quot;</code></pre>
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>string</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /user/logout</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">logoutUser</span> Logs out current logged in user session</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="get"><code class="huge"><span>get</span>: /user/{username}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">getUserByName</span> Get user by user name</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">username (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be
-            fetched. Use user1 for testing.
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#">User</a></div>
-
-
-    <h3 class="field-label">Example data</h3>
-
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-        &quot;id&quot; : 1,
-        &quot;username&quot; : &quot;johnp&quot;,
-        &quot;firstName&quot; : &quot;John&quot;,
-        &quot;lastName&quot; : &quot;Public&quot;,
-        &quot;email&quot; : &quot;johnp@swagger.io&quot;,
-        &quot;password&quot; : &quot;-secret-&quot;,
-        &quot;phone&quot; : &quot;0123456789&quot;,
-        &quot;userStatus&quot; : 0
-        }</code></pre>
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="put"><code class="huge"><span>put</span>: /user/{username}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">updateUser</span> Updated user</div>
-    <div class="method-notes">This can only be done by the logged in user.</div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">username (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be deleted
-        </div>
-        <div class="param">body (optional)</div>
-
-        <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Updated user object</div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
-<div class="method">
-    <div class="method-path">
-        <pre class="delete"><code class="huge"><span>delete</span>: /user/{username}</code></pre>
-    </div>
-    <div class="method-tags"><span class="method-tag">User</span></div>
-    <div class="method-summary"><span class="nickname">deleteUser</span> Delete user</div>
-    <div class="method-notes">This can only be done by the logged in user.</div>
-
-    <h3 class="field-label">Parameters</h3>
-
-    <div class="field-items">
-        <div class="param">username (required)</div>
-
-        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be deleted
-        </div>
-
-    </div>
-    <!-- field-items -->
-    <h3 class="field-label">Return type</h3>
-
-    <div class="return-type"><a href="#"></a></div>
-
-
-</div>
-<!-- method -->
-<hr>
-
+    
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="put"><code class="huge"><span>put</span>: /pet</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">updatePet</span> Update an existing pet</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">body (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added to the store </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="post"><code class="huge"><span>post</span>: /pet</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">addPet</span> Add a new pet to the store</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">body (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added to the store </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /pet/findByStatus</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">findPetsByStatus</span> Finds Pets by status</div>
+                <div class="method-notes">Multiple status values can be provided with comma seperated strings</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">status (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be considered for filter 
+        default: available</div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#array">array[Pet]</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>[ {
+  &quot;tags&quot; : [ {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  } ],
+  &quot;id&quot; : 123456789,
+  &quot;category&quot; : {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  },
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
+} ]</code></pre>
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/xml</div>
+                    <pre class="example"><code>&lt;Pet&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;name&gt;doggie&lt;/name&gt;
+  &lt;photoUrls&gt;string&lt;/photoUrls&gt;
+  &lt;status&gt;string&lt;/status&gt;
+&lt;/Pet&gt;</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /pet/findByTags</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">findPetsByTags</span> Finds Pets by tags</div>
+                <div class="method-notes">Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">tags (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Tags to filter by </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#array">array[Pet]</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>[ {
+  &quot;tags&quot; : [ {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  } ],
+  &quot;id&quot; : 123456789,
+  &quot;category&quot; : {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  },
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
+} ]</code></pre>
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/xml</div>
+                    <pre class="example"><code>&lt;Pet&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;name&gt;doggie&lt;/name&gt;
+  &lt;photoUrls&gt;string&lt;/photoUrls&gt;
+  &lt;status&gt;string&lt;/status&gt;
+&lt;/Pet&gt;</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /pet/{petId}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">getPetById</span> Find pet by ID</div>
+                <div class="method-notes">Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">petId (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be fetched </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#">Pet</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>{
+  &quot;tags&quot; : [ {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  } ],
+  &quot;id&quot; : 123456789,
+  &quot;category&quot; : {
+    &quot;id&quot; : 123456789,
+    &quot;name&quot; : &quot;aeiou&quot;
+  },
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;aeiou&quot; ]
+}</code></pre>
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/xml</div>
+                    <pre class="example"><code>&lt;Pet&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;name&gt;doggie&lt;/name&gt;
+  &lt;photoUrls&gt;string&lt;/photoUrls&gt;
+  &lt;status&gt;string&lt;/status&gt;
+&lt;/Pet&gt;</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="post"><code class="huge"><span>post</span>: /pet/{petId}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">updatePetWithForm</span> Updates a pet in the store with form data</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">petId (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be updated </div>
+                        <div class="param">name (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated name of the pet </div>
+                        <div class="param">status (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated status of the pet </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="delete"><code class="huge"><span>delete</span>: /pet/{petId}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">deletePet</span> Deletes a pet</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">apiKey (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Header Parameter</span> &mdash;  </div>
+                        <div class="param">petId (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Pet id to delete </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="post"><code class="huge"><span>post</span>: /pet/{petId}/uploadImage</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Pet</span></div>
+                <div class="method-summary"><span class="nickname">uploadFile</span> uploads an image</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">petId (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to update </div>
+                        <div class="param">additionalMetadata (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Additional data to pass to server </div>
+                        <div class="param">file (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; file to upload </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /store/inventory</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Store</span></div>
+                <div class="method-summary"><span class="nickname">getInventory</span> Returns pet inventories by status</div>
+                <div class="method-notes">Returns a map of status codes to quantities</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#map">map[String, Integer]</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>{
+  &quot;key&quot; : 123
+}</code></pre>
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/xml</div>
+                    <pre class="example"><code>not implemented io.swagger.models.properties.MapProperty@3e</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="post"><code class="huge"><span>post</span>: /store/order</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Store</span></div>
+                <div class="method-summary"><span class="nickname">placeOrder</span> Place an order for a pet</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">body (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; order placed for purchasing the pet </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#">Order</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>{
+  &quot;id&quot; : 123456789,
+  &quot;petId&quot; : 123456789,
+  &quot;complete&quot; : true,
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;quantity&quot; : 123,
+  &quot;shipDate&quot; : &quot;2015-06-08T03:22:06.881+0000&quot;
+}</code></pre>
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/xml</div>
+                    <pre class="example"><code>&lt;Order&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;petId&gt;123456&lt;/petId&gt;
+  &lt;quantity&gt;0&lt;/quantity&gt;
+  &lt;shipDate&gt;2015-06-07T20:22:06.883Z&lt;/shipDate&gt;
+  &lt;status&gt;string&lt;/status&gt;
+  &lt;complete&gt;true&lt;/complete&gt;
+&lt;/Order&gt;</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /store/order/{orderId}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Store</span></div>
+                <div class="method-summary"><span class="nickname">getOrderById</span> Find purchase order by ID</div>
+                <div class="method-notes">For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">orderId (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be fetched </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#">Order</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>{
+  &quot;id&quot; : 123456789,
+  &quot;petId&quot; : 123456789,
+  &quot;complete&quot; : true,
+  &quot;status&quot; : &quot;aeiou&quot;,
+  &quot;quantity&quot; : 123,
+  &quot;shipDate&quot; : &quot;2015-06-08T03:22:06.884+0000&quot;
+}</code></pre>
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/xml</div>
+                    <pre class="example"><code>&lt;Order&gt;
+  &lt;id&gt;123456&lt;/id&gt;
+  &lt;petId&gt;123456&lt;/petId&gt;
+  &lt;quantity&gt;0&lt;/quantity&gt;
+  &lt;shipDate&gt;2015-06-07T20:22:06.884Z&lt;/shipDate&gt;
+  &lt;status&gt;string&lt;/status&gt;
+  &lt;complete&gt;true&lt;/complete&gt;
+&lt;/Order&gt;</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="delete"><code class="huge"><span>delete</span>: /store/order/{orderId}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">Store</span></div>
+                <div class="method-summary"><span class="nickname">deleteOrder</span> Delete purchase order by ID</div>
+                <div class="method-notes">For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">orderId (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of the order that needs to be deleted </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="post"><code class="huge"><span>post</span>: /user</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">createUser</span> Create user</div>
+                <div class="method-notes">This can only be done by the logged in user.</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">body (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Created user object </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="post"><code class="huge"><span>post</span>: /user/createWithArray</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">createUsersWithArrayInput</span> Creates list of users with given input array</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">body (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="post"><code class="huge"><span>post</span>: /user/createWithList</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">createUsersWithListInput</span> Creates list of users with given input array</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">body (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /user/login</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">loginUser</span> Logs user into the system</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">username (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The user name for login </div>
+                        <div class="param">password (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The password for login in clear text </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#">String</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>&quot;aeiou&quot;</code></pre>
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/xml</div>
+                    <pre class="example"><code>string</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /user/logout</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">logoutUser</span> Logs out current logged in user session</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="get"><code class="huge"><span>get</span>: /user/{username}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">getUserByName</span> Get user by user name</div>
+                <div class="method-notes"></div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">username (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing.  </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#">User</a></div>
+
+                
+                    <h3 class="field-label">Example data</h3>
+
+                    <div class="example-data-content-type">Content-Type: application/json</div>
+                    <pre class="example"><code>{
+  &quot;id&quot; : 1,
+  &quot;username&quot; : &quot;johnp&quot;,
+  &quot;firstName&quot; : &quot;John&quot;,
+  &quot;lastName&quot; : &quot;Public&quot;,
+  &quot;email&quot; : &quot;johnp@swagger.io&quot;,
+  &quot;password&quot; : &quot;-secret-&quot;,
+  &quot;phone&quot; : &quot;0123456789&quot;,
+  &quot;userStatus&quot; : 0
+}</code></pre>
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="put"><code class="huge"><span>put</span>: /user/{username}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">updateUser</span> Updated user</div>
+                <div class="method-notes">This can only be done by the logged in user.</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">username (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be deleted </div>
+                        <div class="param">body (optional)</div>
+
+    <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Updated user object </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+            <div class="method">
+                <div class="method-path">
+                    <pre class="delete"><code class="huge"><span>delete</span>: /user/{username}</code></pre>
+                </div>
+                <div class="method-tags"> <span class="method-tag">User</span></div>
+                <div class="method-summary"><span class="nickname">deleteUser</span> Delete user</div>
+                <div class="method-notes">This can only be done by the logged in user.</div>
+
+                <h3 class="field-label">Parameters</h3>
+
+                <div class="field-items">
+                        <div class="param">username (required)</div>
+
+    <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be deleted </div>
+                    
+                </div>
+                <!-- field-items -->
+                <h3 class="field-label">Return type</h3>
+
+                <div class="return-type"><a href="#"></a></div>
+
+                
+            </div>
+            <!-- method -->
+            <hr>
+        
+    
 
 <h2>Models</h2>
+    
+        <div class="model">
+            <h3 class="field-label"><a name="User">User</a></h3>
 
+            <div class="field-items">
+                
+                    <div class="param">id </div>
+                    <div class="param-desc"><span class="param-type">Long</span> </div>
+                
+                    <div class="param">username </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+                    <div class="param">firstName </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+                    <div class="param">lastName </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+                    <div class="param">email </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+                    <div class="param">password </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+                    <div class="param">phone </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+                    <div class="param">userStatus </div>
+                    <div class="param-desc"><span class="param-type">Integer</span> User Status</div>
+                
+            </div>
+            <!-- field-items -->
+        </div>
+    
+    
+        <div class="model">
+            <h3 class="field-label"><a name="Category">Category</a></h3>
 
-<div class="model">
-    <h3 class="field-label"><a name="User">User</a></h3>
+            <div class="field-items">
+                
+                    <div class="param">id </div>
+                    <div class="param-desc"><span class="param-type">Long</span> </div>
+                
+                    <div class="param">name </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+            </div>
+            <!-- field-items -->
+        </div>
+    
+    
+        <div class="model">
+            <h3 class="field-label"><a name="Pet">Pet</a></h3>
 
-    <div class="field-items">
-        <div class="param">id</div>
-        <div class="param-desc"><span class="param-type">Long</span></div>
-        <div class="param">username</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-        <div class="param">firstName</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-        <div class="param">lastName</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-        <div class="param">email</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-        <div class="param">password</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-        <div class="param">phone</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-        <div class="param">userStatus</div>
-        <div class="param-desc"><span class="param-type">Integer</span> User Status</div>
+            <div class="field-items">
+                
+                    <div class="param">id </div>
+                    <div class="param-desc"><span class="param-type">Long</span> </div>
+                
+                    <div class="param">category </div>
+                    <div class="param-desc"><span class="param-type">Category</span> </div>
+                
+                    <div class="param">name </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+                    <div class="param">photoUrls </div>
+                    <div class="param-desc"><span class="param-type">array[String]</span> </div>
+                
+                    <div class="param">tags </div>
+                    <div class="param-desc"><span class="param-type">array[Tag]</span> </div>
+                
+                    <div class="param">status </div>
+                    <div class="param-desc"><span class="param-type">String</span> pet status in the store</div>
+                
+            </div>
+            <!-- field-items -->
+        </div>
+    
+    
+        <div class="model">
+            <h3 class="field-label"><a name="Tag">Tag</a></h3>
 
-    </div>
-    <!-- field-items -->
-</div>
+            <div class="field-items">
+                
+                    <div class="param">id </div>
+                    <div class="param-desc"><span class="param-type">Long</span> </div>
+                
+                    <div class="param">name </div>
+                    <div class="param-desc"><span class="param-type">String</span> </div>
+                
+            </div>
+            <!-- field-items -->
+        </div>
+    
+    
+        <div class="model">
+            <h3 class="field-label"><a name="Order">Order</a></h3>
 
-
-<div class="model">
-    <h3 class="field-label"><a name="Category">Category</a></h3>
-
-    <div class="field-items">
-        <div class="param">id</div>
-        <div class="param-desc"><span class="param-type">Long</span></div>
-        <div class="param">name</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-
-    </div>
-    <!-- field-items -->
-</div>
-
-
-<div class="model">
-    <h3 class="field-label"><a name="Pet">Pet</a></h3>
-
-    <div class="field-items">
-        <div class="param">id</div>
-        <div class="param-desc"><span class="param-type">Long</span></div>
-        <div class="param">category</div>
-        <div class="param-desc"><span class="param-type">Category</span></div>
-        <div class="param">name</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-        <div class="param">photoUrls</div>
-        <div class="param-desc"><span class="param-type">array[String]</span></div>
-        <div class="param">tags</div>
-        <div class="param-desc"><span class="param-type">array[Tag]</span></div>
-        <div class="param">status</div>
-        <div class="param-desc"><span class="param-type">String</span> pet status in the store</div>
-
-    </div>
-    <!-- field-items -->
-</div>
-
-
-<div class="model">
-    <h3 class="field-label"><a name="Tag">Tag</a></h3>
-
-    <div class="field-items">
-        <div class="param">id</div>
-        <div class="param-desc"><span class="param-type">Long</span></div>
-        <div class="param">name</div>
-        <div class="param-desc"><span class="param-type">String</span></div>
-
-    </div>
-    <!-- field-items -->
-</div>
-
-
-<div class="model">
-    <h3 class="field-label"><a name="Order">Order</a></h3>
-
-    <div class="field-items">
-        <div class="param">id</div>
-        <div class="param-desc"><span class="param-type">Long</span></div>
-        <div class="param">petId</div>
-        <div class="param-desc"><span class="param-type">Long</span></div>
-        <div class="param">quantity</div>
-        <div class="param-desc"><span class="param-type">Integer</span></div>
-        <div class="param">shipDate</div>
-        <div class="param-desc"><span class="param-type">Date</span></div>
-        <div class="param">status</div>
-        <div class="param-desc"><span class="param-type">String</span> Order Status</div>
-        <div class="param">complete</div>
-        <div class="param-desc"><span class="param-type">Boolean</span></div>
-
-    </div>
-    <!-- field-items -->
-</div>
-
-
+            <div class="field-items">
+                
+                    <div class="param">id </div>
+                    <div class="param-desc"><span class="param-type">Long</span> </div>
+                
+                    <div class="param">petId </div>
+                    <div class="param-desc"><span class="param-type">Long</span> </div>
+                
+                    <div class="param">quantity </div>
+                    <div class="param-desc"><span class="param-type">Integer</span> </div>
+                
+                    <div class="param">shipDate </div>
+                    <div class="param-desc"><span class="param-type">Date</span> </div>
+                
+                    <div class="param">status </div>
+                    <div class="param-desc"><span class="param-type">String</span> Order Status</div>
+                
+                    <div class="param">complete </div>
+                    <div class="param-desc"><span class="param-type">Boolean</span> </div>
+                
+            </div>
+            <!-- field-items -->
+        </div>
+    
 <style>
-    body {
-        font-family: Trebuchet MS, sans-serif;
-        font-size: 15px;
-        color: #444;
-        margin-right: 24px;
-    }
+        body {
+font-family: Trebuchet MS, sans-serif;
+font-size: 15px;
+color: #444;
+margin-right: 24px;
+}
 
-    h1 {
-        font-size: 25px;
-    }
+h1    {
+font-size: 25px;
+}
+h2    {
+font-size: 20px;
+}
+h3    {
+font-size: 16px;
+font-weight: bold;
+}
+hr    {
+height: 1px;
+border: 0;
+color: #ddd;
+background-color: #ddd;
+display: none;
+}
 
-    h2 {
-        font-size: 20px;
-    }
+.app-desc {
+clear: both;
+margin-left: 20px;
+}
+.param-name {
+width: 100%;
+}
+.license-info {
+margin-left: 20px;
+}
 
-    h3 {
-        font-size: 16px;
-        font-weight: bold;
-    }
+.license-url {
+margin-left: 20px;
+}
 
-    hr {
-        height: 1px;
-        border: 0;
-        color: #ddd;
-        background-color: #ddd;
-        display: none;
-    }
+.model {
+margin: 0 0 0px 20px;
+}
 
-    .app-desc {
-        clear: both;
-        margin-left: 20px;
-    }
+.method {
+margin-left: 20px;
+}
 
-    .param-name {
-        width: 100%;
-    }
+.method-notes    {
+margin: 10px 0 20px 0;
+font-size: 90%;
+color: #555;
+}
 
-    .license-info {
-        margin-left: 20px;
-    }
+pre {
+padding: 10px;
+margin-bottom: 2px;
+}
 
-    .license-url {
-        margin-left: 20px;
-    }
+pre.get {
+background-color: #0f6ab4;
+}
 
-    .model {
-        margin: 0 0 0px 20px;
-    }
+pre.post {
+background-color: #10a54a;
+}
 
-    .method {
-        margin-left: 20px;
-    }
+pre.put {
+background-color: #c5862b;
+}
 
-    .method-notes {
-        margin: 10px 0 20px 0;
-        font-size: 90%;
-        color: #555;
-    }
+pre.delete {
+background-color: #a41e22;
+}
 
-    pre {
-        padding: 10px;
-        margin-bottom: 2px;
-    }
+.huge    {
+color: #fff;
+}
 
-    pre.get {
-        background-color: #0f6ab4;
-    }
+pre.example {
+background-color: #f3f3f3;
+padding: 10px;
+border: 1px solid #ddd;
+}
 
-    pre.post {
-        background-color: #10a54a;
-    }
+code {
+white-space: pre;
+}
 
-    pre.put {
-        background-color: #c5862b;
-    }
+.nickname {
+font-weight: bold;
+}
 
-    pre.delete {
-        background-color: #a41e22;
-    }
+.method-path {
+font-size: 1.5em;
+background-color: #0f6ab4;
+}
 
-    .huge {
-        color: #fff;
-    }
+.parameter {
+width: 500px;
+}
 
-    pre.example {
-        background-color: #f3f3f3;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
+.param {
+width: 500px;
+padding: 10px 0 0 20px;
+font-weight: bold;
+}
 
-    code {
-        white-space: pre;
-    }
+.param-desc {
+width: 700px;
+padding: 0 0 0 20px;
+color: #777;
+}
 
-    .nickname {
-        font-weight: bold;
-    }
+.param-type {
+font-style: italic;
+}
 
-    .method-path {
-        font-size: 1.5em;
-        background-color: #0f6ab4;
-    }
+.field-label {
+padding: 0;
+margin: 0;
+clear: both;
+}
 
-    .parameter {
-        width: 500px;
-    }
+.field-items    {
+padding: 0 0 15px 0;
+margin-bottom: 15px;
+}
 
-    .param {
-        width: 500px;
-        padding: 10px 0 0 20px;
-        font-weight: bold;
-    }
+.return-type {
+clear: both;
+padding-bottom: 10px;
+}
 
-    .param-desc {
-        width: 700px;
-        padding: 0 0 0 20px;
-        color: #777;
-    }
+.param-header {
+font-weight: bold;
+}
 
-    .param-type {
-        font-style: italic;
-    }
+.method-tags {
+text-align: right;
+}
 
-    .field-label {
-        padding: 0;
-        margin: 0;
-        clear: both;
-    }
-
-    .field-items {
-        padding: 0 0 15px 0;
-        margin-bottom: 15px;
-    }
-
-    .return-type {
-        clear: both;
-        padding-bottom: 10px;
-    }
-
-    .param-header {
-        font-weight: bold;
-    }
-
-    .method-tags {
-        text-align: right;
-    }
-
-    .method-tag {
-        background: none repeat scroll 0% 0% #24A600;
-        border-radius: 3px;
-        padding: 2px 10px;
-        margin: 2px;
-        color: #FFF;
-        display: inline-block;
-        text-decoration: none;
-    }
+.method-tag {
+background: none repeat scroll 0% 0% #24A600;
+border-radius: 3px;
+padding: 2px 10px;
+margin: 2px;
+color: #FFF;
+display: inline-block;
+text-decoration: none;
+}
 </style>
 </body>
 </html>

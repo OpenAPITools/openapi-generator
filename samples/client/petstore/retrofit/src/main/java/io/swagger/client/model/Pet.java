@@ -1,119 +1,113 @@
 package io.swagger.client.model;
 
-import com.google.gson.annotations.SerializedName;
 import io.swagger.client.model.Category;
 import io.swagger.client.model.Tag;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
-
-@ApiModel(description = "")
-public class Pet {
-
+    
+    @ApiModel(description = "")
+    public class Pet  {
+    
 
     /**
-     **/
+    **/
     @ApiModelProperty(value = "")
     @SerializedName("id")
-    private Long id = null;
+        private Long id = null;
 
     /**
-     **/
+    **/
     @ApiModelProperty(value = "")
     @SerializedName("category")
-    private Category category = null;
+        private Category category = null;
 
     /**
-     **/
+    **/
     @ApiModelProperty(required = true, value = "")
     @SerializedName("name")
-    private String name = null;
+        private String name = null;
 
     /**
-     **/
+    **/
     @ApiModelProperty(required = true, value = "")
     @SerializedName("photoUrls")
-    private List<String> photoUrls = new ArrayList<String>();
+        private List<String> photoUrls = new ArrayList<String>() ;
 
     /**
-     **/
+    **/
     @ApiModelProperty(value = "")
     @SerializedName("tags")
-    private List<Tag> tags = new ArrayList<Tag>();
+        private List<Tag> tags = new ArrayList<Tag>() ;
+        public enum StatusEnum {
+         available,  pending,  sold, 
+        };
+
     /**
-     * pet status in the store
-     **/
+        * pet status in the store
+    **/
     @ApiModelProperty(value = "pet status in the store")
     @SerializedName("status")
-    private StatusEnum status = null;
+        private StatusEnum status = null;
 
-    ;
-
-    public Long getId() {
+    
+        public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
+        }
+        public void setId(Long id) {
         this.id = id;
-    }
-
-    public Category getCategory() {
+        }
+    
+        public Category getCategory() {
         return category;
-    }
-
-    public void setCategory(Category category) {
+        }
+        public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public String getName() {
+        }
+    
+        public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
+        }
+        public void setName(String name) {
         this.name = name;
-    }
-
-    public List<String> getPhotoUrls() {
+        }
+    
+        public List<String> getPhotoUrls() {
         return photoUrls;
-    }
-
-    public void setPhotoUrls(List<String> photoUrls) {
+        }
+        public void setPhotoUrls(List<String> photoUrls) {
         this.photoUrls = photoUrls;
-    }
-
-    public List<Tag> getTags() {
+        }
+    
+        public List<Tag> getTags() {
         return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
+        }
+        public void setTags(List<Tag> tags) {
         this.tags = tags;
-    }
-
-    public StatusEnum getStatus() {
+        }
+    
+        public StatusEnum getStatus() {
         return status;
-    }
-
-    public void setStatus(StatusEnum status) {
+        }
+        public void setStatus(StatusEnum status) {
         this.status = status;
-    }
-
+        }
+    
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class Pet {\n");
-
-        sb.append("  id: ").append(id).append("\n");
-        sb.append("  category: ").append(category).append("\n");
-        sb.append("  name: ").append(name).append("\n");
-        sb.append("  photoUrls: ").append(photoUrls).append("\n");
-        sb.append("  tags: ").append(tags).append("\n");
-        sb.append("  status: ").append(status).append("\n");
-        sb.append("}\n");
-        return sb.toString();
+    public String toString()  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Pet {\n");
+    
+    sb.append("  id: ").append(id).append("\n");
+    sb.append("  category: ").append(category).append("\n");
+    sb.append("  name: ").append(name).append("\n");
+    sb.append("  photoUrls: ").append(photoUrls).append("\n");
+    sb.append("  tags: ").append(tags).append("\n");
+    sb.append("  status: ").append(status).append("\n");
+    sb.append("}\n");
+    return sb.toString();
     }
-
-    public enum StatusEnum {
-        available, pending, sold,
     }
-}
+    

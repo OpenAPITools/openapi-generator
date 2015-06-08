@@ -1,22 +1,24 @@
-#import "SWGPet.h"
+    
+        #import "SWGPet.h"
 
-@implementation SWGPet
-  
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"category": @"category", @"name": @"name", @"photoUrls": @"photoUrls", @"tags": @"tags", @"status": @"status" }];
-}
+        @implementation SWGPet
 
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"_id", @"category", @"tags", @"status"];
+        + (JSONKeyMapper *)keyMapper
+        {
+        return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"category": @"category", @"name": @"name", @"photoUrls": @"photoUrls", @"tags": @"tags", @"status": @"status" }];
+        }
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
+        + (BOOL)propertyIsOptional:(NSString *)propertyName
+        {
+        NSArray *optionalProperties = @[@"_id", @"category", @"tags", @"status"];
 
-@end
+        if ([optionalProperties containsObject:propertyName]) {
+        return YES;
+        }
+        else {
+        return NO;
+        }
+        }
+
+    
+    @end
