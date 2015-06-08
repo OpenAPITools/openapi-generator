@@ -11,7 +11,7 @@ import io.swagger.codegen.cmd.Meta;
  * User: lanwen
  * Date: 24.03.15
  * Time: 17:56
- * <p/>
+ * <p>
  * Command line interface for swagger codegen
  * use `swagger-codegen-cli.jar help` for more info
  *
