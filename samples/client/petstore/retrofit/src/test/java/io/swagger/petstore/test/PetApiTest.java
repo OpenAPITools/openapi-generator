@@ -1,6 +1,9 @@
 package io.swagger.petstore.test;
 
 import io.swagger.client.ServiceGenerator;
+import io.swagger.client.api.*;
+import io.swagger.client.model.*;
+
 import retrofit.RetrofitError;
 import retrofit.mime.TypedFile;
 
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.*;
 import static org.junit.Assert.*;
 
 public class PetApiTest {
@@ -107,7 +111,7 @@ public class PetApiTest {
         api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null);
         Pet updated = api.getPetById(fetched.getId());
 
-        assertEquals(updated.getName(), fetched.getName());
+        assertEquals(updated.getName(), "furt");
     }
 
     @Test
