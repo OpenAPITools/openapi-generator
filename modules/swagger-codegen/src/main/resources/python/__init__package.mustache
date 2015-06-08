@@ -1,0 +1,10 @@
+from __future__ import absolute_import
+
+# import models into sdk package
+{{#models}}{{#model}}from .models.{{classVarName}} import {{classname}}
+{{/model}}{{/models}}
+# import apis into sdk package
+{{#apiInfo}}{{#apis}}from .apis.{{classVarName}} import {{classname}}
+{{/apis}}{{/apiInfo}}
+# import ApiClient
+from .api_client import ApiClient

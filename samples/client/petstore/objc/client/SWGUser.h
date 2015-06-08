@@ -1,28 +1,40 @@
-#import <Foundation/Foundation.h>
+#import
+<Foundation/Foundation.h>
 #import "SWGObject.h"
 
+    
 
-@protocol SWGUser
-@end
-  
-@interface SWGUser : SWGObject
+        @protocol SWGUser
+        @end
 
+        @interface SWGUser : SWGObject
 
-@property(nonatomic) NSNumber<Optional>* _id;
+        
+            
+            @property(nonatomic) NSNumber* _id;
+        
+            
+            @property(nonatomic) NSString* username;
+        
+            
+            @property(nonatomic) NSString* firstName;
+        
+            
+            @property(nonatomic) NSString* lastName;
+        
+            
+            @property(nonatomic) NSString* email;
+        
+            
+            @property(nonatomic) NSString* password;
+        
+            
+            @property(nonatomic) NSString* phone;
+        
+            /* User Status [optional]
+            */
+            @property(nonatomic) NSNumber* userStatus;
+        
 
-@property(nonatomic) NSString<Optional>* username;
-
-@property(nonatomic) NSString<Optional>* firstName;
-
-@property(nonatomic) NSString<Optional>* lastName;
-
-@property(nonatomic) NSString<Optional>* email;
-
-@property(nonatomic) NSString<Optional>* password;
-
-@property(nonatomic) NSString<Optional>* phone;
-/* User Status [optional]
- */
-@property(nonatomic) NSNumber<Optional>* userStatus;
-
-@end
+        @end
+    

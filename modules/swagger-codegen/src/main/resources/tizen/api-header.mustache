@@ -1,37 +1,40 @@
 #ifndef {{classname}}_H_
 #define {{classname}}_H_
 
-#include <FNet.h>
-#include "{{prefix}}ApiClient.h"
-#include "{{prefix}}Error.h"
+#include
+<FNet.h>
+    #include "{{prefix}}ApiClient.h"
+    #include "{{prefix}}Error.h"
 
-{{#imports}}{{{import}}}
-{{/imports}}
+    {{#imports}}{{{import}}}
+    {{/imports}}
 
-using namespace Tizen::Net::Http;
+    using namespace Tizen::Net::Http;
 
-namespace Swagger {
+    namespace Swagger {
 
-{{#operations}}
-class {{classname}} {
-public:
-  {{classname}}();
-  virtual ~{{classname}}();
+    {{#operations}}
+        class {{classname}} {
+        public:
+        {{classname}}();
+        virtual ~{{classname}}();
 
-  {{#operation}}
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
-  {{nickname}}WithCompletion({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}},{{/hasParams}} {{#returnType}}void (* handler)({{returnType}}, {{prefix}}Error*){{/returnType}}{{^returnType}}void(* handler)({{prefix}}Error*){{/returnType}});
-  {{/operation}}
-  static String getBasePath() {
-    return L"{{basePath}}";
-  }
+        {{#operation}}
+            {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
+            {{nickname}}WithCompletion({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}
+            , {{/hasMore}}{{/allParams}}{{#hasParams}},{{/hasParams}} {{#returnType}}void (* handler)({{returnType}}
+            , {{prefix}}Error*){{/returnType}}{{^returnType}}void(* handler)({{prefix}}Error*){{/returnType}});
+        {{/operation}}
+        static String getBasePath() {
+        return L"{{basePath}}";
+        }
 
-private:
-  {{prefix}}ApiClient* client;
-};
+        private:
+        {{prefix}}ApiClient* client;
+        };
 
 
-{{/operations}}
-} /* namespace Swagger */
+    {{/operations}}
+    } /* namespace Swagger */
 
-#endif /* {{classname}}_H_ */
+    #endif /* {{classname}}_H_ */

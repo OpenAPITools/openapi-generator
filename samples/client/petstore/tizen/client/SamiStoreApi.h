@@ -1,45 +1,52 @@
 #ifndef SamiStoreApi_H_
 #define SamiStoreApi_H_
 
-#include <FNet.h>
-#include "SamiApiClient.h"
-#include "SamiError.h"
+#include
+<FNet.h>
+    #include "SamiApiClient.h"
+    #include "SamiError.h"
 
-using Tizen::Base::Integer;
-#include "SamiOrder.h"
-using Tizen::Base::String;
+    using Tizen::Base::Integer;
+    #include "SamiOrder.h"
+    using Tizen::Base::String;
+    
 
-using namespace Tizen::Net::Http;
+    using namespace Tizen::Net::Http;
 
-namespace Swagger {
+    namespace Swagger {
 
-class SamiStoreApi {
-public:
-  SamiStoreApi();
-  virtual ~SamiStoreApi();
+    
+        class SamiStoreApi {
+        public:
+        SamiStoreApi();
+        virtual ~SamiStoreApi();
 
-  
-  HashMap* 
-  getInventoryWithCompletion( void (* handler)(HashMap*, SamiError*));
-  
-  SamiOrder* 
-  placeOrderWithCompletion(SamiOrder* body, void (* handler)(SamiOrder*, SamiError*));
-  
-  SamiOrder* 
-  getOrderByIdWithCompletion(String* orderId, void (* handler)(SamiOrder*, SamiError*));
-  
-  void 
-  deleteOrderWithCompletion(String* orderId, void(* handler)(SamiError*));
-  
-  static String getBasePath() {
-    return L"http://petstore.swagger.io/v2";
-  }
+        
+            HashMap* 
+            getInventoryWithCompletion( void (* handler)(HashMap*
+            , SamiError*));
+        
+            SamiOrder* 
+            placeOrderWithCompletion(SamiOrder* body, void (* handler)(SamiOrder*
+            , SamiError*));
+        
+            SamiOrder* 
+            getOrderByIdWithCompletion(String* orderId, void (* handler)(SamiOrder*
+            , SamiError*));
+        
+            void 
+            deleteOrderWithCompletion(String* orderId, void(* handler)(SamiError*));
+        
+        static String getBasePath() {
+        return L"http://petstore.swagger.io/v2";
+        }
 
-private:
-  SamiApiClient* client;
-};
+        private:
+        SamiApiClient* client;
+        };
 
 
-} /* namespace Swagger */
+    
+    } /* namespace Swagger */
 
-#endif /* SamiStoreApi_H_ */
+    #endif /* SamiStoreApi_H_ */

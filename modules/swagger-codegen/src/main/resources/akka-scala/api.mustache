@@ -1,0 +1,43 @@
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{invokerPackage}}._
+import {{invokerPackage}}.CollectionFormats._
+import {{invokerPackage}}.ApiKeyLocations._
+
+{{#operations}}
+object {{classname}} {
+
+{{#operation}}
+{{#javadocRenderer}}
+{{>javadoc}}
+{{/javadocRenderer}}
+  def {{operationId}}({{>methodParameters}}): ApiRequest[{{>operationReturnType}}] =
+    ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, "{{basePath}}", "{{path}}", {{#consumes.0}}"{{mediaType}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})
+      {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}})
+      {{/isApiKey}}{{#isBasic}}.withCredentials(basicAuth)
+      {{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
+      {{/bodyParam}}{{#formParams}}.withFormParam({{>paramCreation}})
+      {{/formParams}}{{#queryParams}}.withQueryParam({{>paramCreation}})
+      {{/queryParams}}{{#pathParams}}.withPathParam({{>paramCreation}})
+      {{/pathParams}}{{#headerParams}}.withHeaderParam({{>paramCreation}})
+      {{/headerParams}}{{#responses}}{{^isWildcard}}{{#dataType}}.with{{>responseState}}Response[{{dataType}}]({{code}})
+      {{/dataType}}{{^dataType}}.with{{>responseState}}Response[Unit]({{code}})
+      {{/dataType}}{{/isWildcard}}{{/responses}}{{#responses}}{{#isWildcard}}{{#dataType}}.withDefault{{>responseState}}Response[{{dataType}}]
+      {{/dataType}}{{^dataType}}.withDefault{{>responseState}}Response[Unit]
+      {{/dataType}}{{/isWildcard}}{{/responses}}{{^responseHeaders.isEmpty}}
+  object {{#fnCapitalize}}{{operationId}}{{/fnCapitalize}}Headers { {{#responseHeaders}}
+    def {{name}}(r: ApiReturnWithHeaders) = r.get{{^isContainer}}{{baseType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}Header("{{baseName}}"){{/responseHeaders}}
+  }
+  {{/responseHeaders.isEmpty}}
+{{/operation}}
+
+{{#unknownStatusCodes}}
+  ApiInvoker.addCustomStatusCode({{value}}, isSuccess = false)
+{{/unknownStatusCodes}}
+
+}
+
+{{/operations}}

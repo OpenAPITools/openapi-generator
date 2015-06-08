@@ -1,13 +1,4 @@
-import com.wordnik.client.api._
-import com.wordnik.client.model._
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest._
-
-import scala.collection.mutable.{ ListBuffer, HashMap }
-import scala.collection.JavaConversions._
-import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
 class WordsApiTest extends FlatSpec with Matchers with BaseApiTest {

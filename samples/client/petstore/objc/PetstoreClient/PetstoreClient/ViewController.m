@@ -3,11 +3,12 @@
 //  PetstoreClient
 //
 //  Created by Tony Tam on 10/18/13.
-//  Copyright (c) 2013 Reverb. All rights reserved.
+//  Copyright (c) 2015 SmartBear Software. All rights reserved.
 //
 
 #import "ViewController.h"
 #import "SWGPetApi.h"
+#import "SWGConfiguration.h"
 
 @interface ViewController ()
 
@@ -53,6 +54,14 @@
 //                     }
      ];
     */
+    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    config.username = @"foo";
+    config.password = @"bar";
+    SWGPetApi *api = [[SWGPetApi alloc] init];
+    [api addPetWithCompletionBlock:nil
+                 completionHandler:^(NSError *error) {
+                     
+                 }];
 }
 
 - (void)didReceiveMemoryWarning

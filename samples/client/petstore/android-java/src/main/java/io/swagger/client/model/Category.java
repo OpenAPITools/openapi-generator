@@ -1,44 +1,44 @@
 package io.swagger.client.model;
 
 
-import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
+    
+    @ApiModel(description = "")
+    public class Category  {
+    
+        @SerializedName("id")
+        private Long id = null;
+        @SerializedName("name")
+        private String name = null;
 
-@ApiModel(description = "")
-public class Category  {
-  
-  private Long id = null;
-  private String name = null;
+    
+        /**
+        **/
+        @ApiModelProperty(value = "")
+        public Long getId() {
+        return id;
+        }
+        public void setId(Long id) {
+        this.id = id;
+        }
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("id")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
+    
+        /**
+        **/
+        @ApiModelProperty(value = "")
+        public String getName() {
+        return name;
+        }
+        public void setName(String name) {
+        this.name = name;
+        }
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("name")
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
+    
 
-  
-
-  @Override
-  public String toString()  {
+    @Override
+    public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Category {\n");
     
@@ -46,5 +46,6 @@ public class Category  {
     sb.append("  name: ").append(name).append("\n");
     sb.append("}\n");
     return sb.toString();
-  }
-}
+    }
+    }
+    

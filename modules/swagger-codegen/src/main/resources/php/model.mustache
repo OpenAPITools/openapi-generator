@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2015 Reverb Technologies, Inc.
+ *  Copyright 2015 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  */
 
 {{#models}}
-{{#model}}
+    {{#model}}
 /**
  * {{description}}
  *
@@ -31,40 +31,40 @@ use \ArrayAccess;
 class {{classname}} implements ArrayAccess {
   static $swaggerTypes = array(
       {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
-      {{/hasMore}}{{/vars}}
-  );
+    {{/hasMore}}{{/vars}}
+    );
 
-  static $attributeMap = array(
-      {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
-      {{/hasMore}}{{/vars}}
-  );
+    static $attributeMap = array(
+    {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
+    {{/hasMore}}{{/vars}}
+    );
 
-  {{#vars}}{{#description}}
-  /**
-  * {{{description}}}
-  */{{/description}}
-  public ${{name}}; /* {{{datatype}}} */{{/vars}}
+    {{#vars}}{{#description}}
+        /**
+        * {{{description}}}
+        */{{/description}}
+    public ${{name}}; /* {{{datatype}}} */{{/vars}}
 
-  public function __construct(array $data = null) {
+    public function __construct(array $data = null) {
     {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
     {{/hasMore}}{{/vars}}
-  }
+    }
 
-  public function offsetExists($offset) {
+    public function offsetExists($offset) {
     return isset($this->$offset);
-  }
+    }
 
-  public function offsetGet($offset) {
+    public function offsetGet($offset) {
     return $this->$offset;
-  }
+    }
 
-  public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value) {
     $this->$offset = $value;
-  }
+    }
 
-  public function offsetUnset($offset) {
+    public function offsetUnset($offset) {
     unset($this->$offset);
-  }
-}
-{{/model}}
+    }
+    }
+    {{/model}}
 {{/models}}

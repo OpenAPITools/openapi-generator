@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2015 Reverb Technologies, Inc.
+ *  Copyright 2015 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,79 +25,113 @@ namespace {{invokerPackage}};
 {{#operations}}
 class {{classname}} {
 
-  function __construct($apiClient) {
-    $this->apiClient = $apiClient;
-  }
+  function __construct($apiClient = null) {
+    if (null === $apiClient) {
+      if (Configuration::$apiClient === null) {
+        Configuration::$apiClient = new ApiClient(); // create a new API client if not present
+        $this->apiClient = Configuration::$apiClient;
+}
+else
+$this->apiClient = Configuration::$apiClient; // use the default one
+} else {
+$this->apiClient = $apiClient; // use the one provided by the user
+}
+}
 
-  {{#operation}}
-  /**
-   * {{{nickname}}}
-   *
-   * {{{summary}}}
-   *
-{{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
-{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-   */
-   public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+private $apiClient; // instance of the ApiClient
 
-      // parse inputs
-      $resourcePath = "{{path}}";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "{{httpMethod}}";
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = '{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}';
-      if ($_header_accept !== '') {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $_header_content_type = array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}});
-      $headerParams['Content-Type'] = count($_header_content_type) > 0 ? $_header_content_type[0] : 'application/json';
+/**
+* get the API client
+*/
+public function getApiClient() {
+return $this->apiClient;
+}
 
-      {{#queryParams}}// query params
-      if(${{paramName}} !== null) {
-        $queryParams['{{baseName}}'] = $this->apiClient->toQueryValue(${{paramName}});
-      }{{/queryParams}}
-      {{#headerParams}}// header params
-      if(${{paramName}} !== null) {
-        $headerParams['{{baseName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
-      }{{/headerParams}}
-      {{#pathParams}}// path params
-      if(${{paramName}} !== null) {
-        $resourcePath = str_replace("{" . "{{baseName}}" . "}",
-                                    $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
-      }{{/pathParams}}
-      {{#formParams}}// form params
-      if (${{paramName}} !== null) {
-        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->toFormValue(${{paramName}});
-      }{{/formParams}}
-      {{#bodyParams}}// body params
-      $body = null;
-      if (isset(${{paramName}})) {
-        $body = ${{paramName}};
-      }{{/bodyParams}}
+/**
+* set the API client
+*/
+public function setApiClient($apiClient) {
+$this->apiClient = $apiClient;
+}
 
-      // for HTTP post (form)
-      $body = $body ?: $formParams;
+{{#operation}}
+    /**
+    * {{{nickname}}}
+    *
+    * {{{summary}}}
+    *
+    {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
+    {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    */
+    public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    {{#allParams}}{{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if (${{paramName}} === null) {
+        throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{nickname}}');
+        }
+    {{/required}}{{/allParams}}
 
-      if (strpos($headerParams['Content-Type'], "application/x-www-form-urlencoded") > -1) {
-        $body = http_build_query($body);
-      }
+    // parse inputs
+    $resourcePath = "{{path}}";
+    $resourcePath = str_replace("{format}", "json", $resourcePath);
+    $method = "{{httpMethod}}";
+    $httpBody = '';
+    $queryParams = array();
+    $headerParams = array();
+    $formParams = array();
+    $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
+    if (!is_null($_header_accept)) {
+    $headerParams['Accept'] = $_header_accept;
+    }
+    $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
 
-      // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $body,
-                                            $headerParams);
+    {{#queryParams}}// query params
+    if(${{paramName}} !== null) {
+    $queryParams['{{baseName}}'] = $this->apiClient->toQueryValue(${{paramName}});
+    }{{/queryParams}}
+    {{#headerParams}}// header params
+    if(${{paramName}} !== null) {
+    $headerParams['{{baseName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
+    }{{/headerParams}}
+    {{#pathParams}}// path params
+    if(${{paramName}} !== null) {
+    $resourcePath = str_replace("{" . "{{baseName}}" . "}",
+    $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
+    }{{/pathParams}}
+    {{#formParams}}// form params
+    if (${{paramName}} !== null) {
+    $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->toFormValue(${{paramName}});
+    }{{/formParams}}
+    {{#bodyParams}}// body params
+    $_tempBody = null;
+    if (isset(${{paramName}})) {
+    $_tempBody = ${{paramName}};
+    }{{/bodyParams}}
 
-      {{#returnType}}if(! $response) {
-        return null;
-      }
+    // for model (json/xml)
+    if (isset($_tempBody)) {
+    $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+    } else if (count($formParams) > 0) {
+    // for HTTP post (form)
+    $httpBody = $formParams;
+    }
 
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                '{{returnType}}');
-  		return $responseObject;{{/returnType}}
-  }
-  {{/operation}}
+    // authentication setting, if any
+    $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
+
+    // make the API Call
+    $response = $this->apiClient->callAPI($resourcePath, $method,
+    $queryParams, $httpBody,
+    $headerParams, $authSettings);
+
+    {{#returnType}}if(! $response) {
+    return null;
+    }
+
+    $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
+    return $responseObject;{{/returnType}}
+    }
+{{/operation}}
 {{newline}}
 {{/operations}}
 }
