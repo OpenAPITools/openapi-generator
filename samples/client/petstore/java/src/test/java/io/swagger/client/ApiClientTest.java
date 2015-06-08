@@ -4,7 +4,9 @@ import io.swagger.client.auth.*;
 
 import java.util.Map;
 
+import org.junit.*;
 import static org.junit.Assert.*;
+
 
 public class ApiClientTest {
     ApiClient apiClient = null;

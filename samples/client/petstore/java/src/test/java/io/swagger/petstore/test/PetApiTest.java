@@ -3,7 +3,10 @@ package io.swagger.petstore.test;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
+
+import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.*;
 import static org.junit.Assert.*;
 
 public class PetApiTest {

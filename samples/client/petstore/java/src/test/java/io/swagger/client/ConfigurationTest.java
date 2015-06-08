@@ -1,6 +1,8 @@
 package io.swagger.client;
 
+import org.junit.*;
 import static org.junit.Assert.*;
+
 
 public class ConfigurationTest {
     @Test

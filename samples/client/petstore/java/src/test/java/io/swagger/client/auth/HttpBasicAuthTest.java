@@ -3,7 +3,9 @@ package io.swagger.client.auth;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.*;
 import static org.junit.Assert.*;
+
 
 public class HttpBasicAuthTest {
     HttpBasicAuth auth = null;
