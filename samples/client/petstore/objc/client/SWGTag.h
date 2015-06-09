@@ -1,21 +1,15 @@
-#import
-<Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 #import "SWGObject.h"
 
-    
 
-        @protocol SWGTag
-        @end
+@protocol SWGTag
+@end
+  
+@interface SWGTag : SWGObject
 
-        @interface SWGTag : SWGObject
 
-        
-            
-            @property(nonatomic) NSNumber* _id;
-        
-            
-            @property(nonatomic) NSString* name;
-        
+@property(nonatomic) NSNumber* _id;
 
-        @end
-    
+@property(nonatomic) NSString* name;
+
+@end

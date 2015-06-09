@@ -500,7 +500,7 @@ namespace IO.Swagger.Api {
       
 
       // authentication setting, if any
-      String[] authSettings = new String[] { "api_key", "petstore_auth" };
+      String[] authSettings = new String[] { "petstore_auth", "api_key" };
 
       // make the HTTP request
       IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
@@ -540,7 +540,7 @@ namespace IO.Swagger.Api {
       
 
       // authentication setting, if any
-      String[] authSettings = new String[] { "api_key", "petstore_auth" };
+      String[] authSettings = new String[] { "petstore_auth", "api_key" };
 
       // make the HTTP request
       IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);

@@ -1,55 +1,54 @@
 /*
-* SWGUser.h
-*
-* 
-*/
+ * SWGUser.h
+ * 
+ * 
+ */
 
 #ifndef SWGUser_H_
 #define SWGUser_H_
 
-#include
-<QJsonObject>
+#include <QJsonObject>
 
 
 #include <QString>
 
-    #include "SWGObject.h"
+#include "SWGObject.h"
 
 
-        namespace Swagger {
+namespace Swagger {
 
-        class SWGUser: public SWGObject {
-        public:
+class SWGUser: public SWGObject {
+public:
     SWGUser();
     SWGUser(QString* json);
-        virtual ~SWGUser();
-        void init();
-        void cleanup();
+    virtual ~SWGUser();
+    void init();
+    void cleanup();
 
-        QString asJson ();
-        QJsonObject* asJsonObject();
-        void fromJsonObject(QJsonObject &json);
+    QString asJson ();
+    QJsonObject* asJsonObject();
+    void fromJsonObject(QJsonObject &json);
     SWGUser* fromJson(QString &jsonString);
 
     qint64 getId();
-        void setId(qint64 id);
+    void setId(qint64 id);
     QString* getUsername();
-        void setUsername(QString* username);
+    void setUsername(QString* username);
     QString* getFirstName();
-        void setFirstName(QString* firstName);
+    void setFirstName(QString* firstName);
     QString* getLastName();
-        void setLastName(QString* lastName);
+    void setLastName(QString* lastName);
     QString* getEmail();
-        void setEmail(QString* email);
+    void setEmail(QString* email);
     QString* getPassword();
-        void setPassword(QString* password);
+    void setPassword(QString* password);
     QString* getPhone();
-        void setPhone(QString* phone);
+    void setPhone(QString* phone);
     qint32 getUserStatus();
-        void setUserStatus(qint32 userStatus);
+    void setUserStatus(qint32 userStatus);
     
 
-        private:
+private:
     qint64 id;
     QString* username;
     QString* firstName;
@@ -59,8 +58,8 @@
     QString* phone;
     qint32 userStatus;
     
-        };
+};
 
-        } /* namespace Swagger */
+} /* namespace Swagger */
 
-        #endif /* SWGUser_H_ */
+#endif /* SWGUser_H_ */
