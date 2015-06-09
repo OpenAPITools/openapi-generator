@@ -31,23 +31,23 @@ import static org.springframework.http.MediaType.*;
 @RequestMapping(value = "/{{baseName}}", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/{{baseName}}", description = "the {{baseName}} API")
 {{#operations}}
-    public class {{classname}} {
-    {{#operation}}
+public class {{classname}} {
+  {{#operation}}
 
-        @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
-        @ApiResponses(value = { {{#responses}}
-            @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},{{/hasMore}}{{/responses}} })
-        @RequestMapping(value = "{{path}}",
-        {{#hasProduces}}produces = { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
-        {{#hasConsumes}}consumes = { {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
-        method = RequestMethod.{{httpMethod}})
-        public ResponseEntity<{{returnType}}> {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}})
-        throws NotFoundException {
-        // do some magic!
-        return new ResponseEntity<{{returnType}}>(HttpStatus.OK);
-        }
+  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
+  @ApiResponses(value = { {{#responses}}
+    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},{{/hasMore}}{{/responses}} })
+  @RequestMapping(value = "{{path}}", 
+    {{#hasProduces}}produces = { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
+    {{#hasConsumes}}consumes = { {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
+    method = RequestMethod.{{httpMethod}})
+  public ResponseEntity<{{returnType}}> {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}})
+      throws NotFoundException {
+      // do some magic!
+      return new ResponseEntity<{{returnType}}>(HttpStatus.OK);
+  }
 
-    {{/operation}}
-    }
+  {{/operation}}
+}
 {{/operations}}

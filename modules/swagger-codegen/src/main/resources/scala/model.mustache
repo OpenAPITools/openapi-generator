@@ -5,11 +5,11 @@ package {{package}}
 
 {{#models}}
 
-    {{#model}}
+{{#model}}
 
-        case class {{classname}} (
-        {{#vars}}{{#description}}/* {{{description}}} */
-        {{/description}}{{name}}: {{{datatype}}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
-        {{/vars}}
-    {{/model}}
+case class {{classname}} (
+  {{#vars}}{{#description}}/* {{{description}}} */
+  {{/description}}{{name}}: {{{datatype}}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
+  {{/vars}}
+{{/model}}
 {{/models}}
