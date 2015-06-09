@@ -1,78 +1,74 @@
 /*
-* SamiUser.h
-*
-* 
-*/
+ * SamiUser.h
+ * 
+ * 
+ */
 
 #ifndef SamiUser_H_
 #define SamiUser_H_
 
-#include
-<FApp.h>
-    #include
-<FBase.h>
-    #include
-<FSystem.h>
-    #include
-<FWebJson.h>
-    #include "SamiHelpers.h"
-    #include "SamiObject.h"
+#include <FApp.h>
+#include <FBase.h>
+#include <FSystem.h>
+#include <FWebJson.h>
+#include "SamiHelpers.h"
+#include "SamiObject.h"
 
-    using namespace Tizen::Web::Json;
+using namespace Tizen::Web::Json;
 
 
+using Tizen::Base::Integer;
 using Tizen::Base::Long;
 using Tizen::Base::String;
-using Tizen::Base::Integer;
 
 
-        namespace Swagger {
+namespace Swagger {
 
-        class SamiUser: public SamiObject {
-        public:
+class SamiUser: public SamiObject {
+public:
     SamiUser();
     SamiUser(String* json);
-        virtual ~SamiUser();
+    virtual ~SamiUser();
 
-        void init();
+    void init();
 
-        void cleanup();
+    void cleanup();
 
-        String asJson ();
+    String asJson ();
 
-        JsonObject* asJsonObject();
+    JsonObject* asJsonObject();
 
-        void fromJsonObject(IJsonValue* json);
+    void fromJsonObject(IJsonValue* json);
 
     SamiUser* fromJson(String* obj);
 
     
-        Long* getPId();
-            void setPId(Long* pId);
+    Long* getPId();
+    void setPId(Long* pId);
     
-        String* getPUsername();
-            void setPUsername(String* pUsername);
+    String* getPUsername();
+    void setPUsername(String* pUsername);
     
-        String* getPFirstName();
-            void setPFirstName(String* pFirstName);
+    String* getPFirstName();
+    void setPFirstName(String* pFirstName);
     
-        String* getPLastName();
-            void setPLastName(String* pLastName);
+    String* getPLastName();
+    void setPLastName(String* pLastName);
     
-        String* getPEmail();
-            void setPEmail(String* pEmail);
+    String* getPEmail();
+    void setPEmail(String* pEmail);
     
-        String* getPPassword();
-            void setPPassword(String* pPassword);
+    String* getPPassword();
+    void setPPassword(String* pPassword);
     
-        String* getPPhone();
-            void setPPhone(String* pPhone);
+    String* getPPhone();
+    void setPPhone(String* pPhone);
     
-        Integer* getPUserStatus();
-            void setPUserStatus(Integer* pUserStatus);
+    Integer* getPUserStatus();
+    void setPUserStatus(Integer* pUserStatus);
     
 
-        private:
+private:
     Long* pId;
     String* pUsername;
     String* pFirstName;
@@ -82,8 +78,8 @@ using Tizen::Base::Integer;
     String* pPhone;
     Integer* pUserStatus;
     
-        };
+};
 
-        } /* namespace Swagger */
+} /* namespace Swagger */
 
-        #endif /* SamiUser_H_ */
+#endif /* SamiUser_H_ */

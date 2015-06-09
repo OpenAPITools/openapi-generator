@@ -6,24 +6,24 @@ archivesBaseName = 'swagger-gen-groovy'
 version = '0.1'
 
 buildscript {
-repositories {
-maven { url 'http://repo.jfrog.org/artifactory/gradle-plugins' }
-}
-dependencies {
-classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.0.16')
-}
-}
-
-repositories {
-mavenCentral()
-mavenLocal()
-mavenCentral(artifactUrls: ['http://maven.springframework.org/milestone'])
-maven { url  "http://$artifactory:8080/artifactory/repo" }
+    repositories {
+        maven { url 'http://repo.jfrog.org/artifactory/gradle-plugins' }
+    }
+    dependencies {
+        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.0.16')
+    }
 }
 
+repositories {
+  mavenCentral()
+  mavenLocal()
+  mavenCentral(artifactUrls: ['http://maven.springframework.org/milestone'])
+  maven { url  "http://$artifactory:8080/artifactory/repo" }
+}
+
 dependencies {
-groovy "org.codehaus.groovy:groovy-all:2.0.5"
-compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.6'
+    groovy "org.codehaus.groovy:groovy-all:2.0.5"
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.6'
 
 
 }

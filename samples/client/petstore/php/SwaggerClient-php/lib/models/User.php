@@ -15,7 +15,6 @@
  *  limitations under the License.
  */
 
-    
 /**
  * 
  *
@@ -30,40 +29,40 @@ use \ArrayAccess;
 class User implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
-    'username' => 'string',
-    'first_name' => 'string',
-    'last_name' => 'string',
-    'email' => 'string',
-    'password' => 'string',
-    'phone' => 'string',
-    'user_status' => 'int'
-    );
+      'username' => 'string',
+      'first_name' => 'string',
+      'last_name' => 'string',
+      'email' => 'string',
+      'password' => 'string',
+      'phone' => 'string',
+      'user_status' => 'int'
+  );
 
-    static $attributeMap = array(
-    'id' => 'id',
-    'username' => 'username',
-    'first_name' => 'firstName',
-    'last_name' => 'lastName',
-    'email' => 'email',
-    'password' => 'password',
-    'phone' => 'phone',
-    'user_status' => 'userStatus'
-    );
+  static $attributeMap = array(
+      'id' => 'id',
+      'username' => 'username',
+      'first_name' => 'firstName',
+      'last_name' => 'lastName',
+      'email' => 'email',
+      'password' => 'password',
+      'phone' => 'phone',
+      'user_status' => 'userStatus'
+  );
 
-    
-    public $id; /* int */
-    public $username; /* string */
-    public $first_name; /* string */
-    public $last_name; /* string */
-    public $email; /* string */
-    public $password; /* string */
-    public $phone; /* string */
-        /**
-        * User Status
-        */
-    public $user_status; /* int */
+  
+  public $id; /* int */
+  public $username; /* string */
+  public $first_name; /* string */
+  public $last_name; /* string */
+  public $email; /* string */
+  public $password; /* string */
+  public $phone; /* string */
+  /**
+  * User Status
+  */
+  public $user_status; /* int */
 
-    public function __construct(array $data = null) {
+  public function __construct(array $data = null) {
     $this->id = $data["id"];
     $this->username = $data["username"];
     $this->first_name = $data["first_name"];
@@ -72,22 +71,21 @@ class User implements ArrayAccess {
     $this->password = $data["password"];
     $this->phone = $data["phone"];
     $this->user_status = $data["user_status"];
-    }
+  }
 
-    public function offsetExists($offset) {
+  public function offsetExists($offset) {
     return isset($this->$offset);
-    }
+  }
 
-    public function offsetGet($offset) {
+  public function offsetGet($offset) {
     return $this->$offset;
-    }
+  }
 
-    public function offsetSet($offset, $value) {
+  public function offsetSet($offset, $value) {
     $this->$offset = $value;
-    }
+  }
 
-    public function offsetUnset($offset) {
+  public function offsetUnset($offset) {
     unset($this->$offset);
-    }
-    }
-    
+  }
+}

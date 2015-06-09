@@ -6,15 +6,14 @@
 {{#imports}}{{{import}}}
 {{/imports}}
 
-#include
-<QObject>
+#include <QObject>
 
-    namespace Swagger {
+namespace Swagger {
 
-    class {{classname}}: public QObject {
+class {{classname}}: public QObject {
     Q_OBJECT
 
-    public:
+public:
     {{classname}}();
     {{classname}}(QString host, QString basePath);
     ~{{classname}}();
@@ -22,15 +21,14 @@
     QString host;
     QString basePath;
 
-    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}
-        , {{/hasMore}}{{/allParams}});
+    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}{{/operations}}
-    private:
+private:
     {{#operations}}{{#operation}}void {{nickname}}Callback (HttpRequestWorker * worker);
     {{/operation}}{{/operations}}
-    signals:
+signals:
     {{#operations}}{{#operation}}void {{nickname}}Signal({{#returnType}}{{{returnType}}} summary{{/returnType}});
     {{/operation}}{{/operations}}
-    };
-    }
-    #endif
+};
+}
+#endif
