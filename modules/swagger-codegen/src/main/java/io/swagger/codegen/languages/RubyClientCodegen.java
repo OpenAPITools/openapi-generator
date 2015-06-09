@@ -93,6 +93,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         // use constant model/api package (folder path)
         setModelPackage("models");
         setApiPackage("api");
+
         supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("swagger_client.mustache", libFolder, gemName + ".rb"));
         String baseFolder = libFolder + File.separator + gemName;
