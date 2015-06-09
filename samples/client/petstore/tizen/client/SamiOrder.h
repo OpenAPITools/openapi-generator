@@ -1,74 +1,70 @@
 /*
-* SamiOrder.h
-*
-* 
-*/
+ * SamiOrder.h
+ * 
+ * 
+ */
 
 #ifndef SamiOrder_H_
 #define SamiOrder_H_
 
-#include
-<FApp.h>
-    #include
-<FBase.h>
-    #include
-<FSystem.h>
-    #include
-<FWebJson.h>
-    #include "SamiHelpers.h"
-    #include "SamiObject.h"
+#include <FApp.h>
+#include <FBase.h>
+#include <FSystem.h>
+#include <FWebJson.h>
+#include "SamiHelpers.h"
+#include "SamiObject.h"
 
-    using namespace Tizen::Web::Json;
+using namespace Tizen::Web::Json;
 
 
+using Tizen::Base::Integer;
 using Tizen::Base::Long;
-using Tizen::Base::DateTime;
 using Tizen::Base::String;
 using Tizen::Base::Boolean;
-using Tizen::Base::Integer;
+using Tizen::Base::DateTime;
 
 
-        namespace Swagger {
+namespace Swagger {
 
-        class SamiOrder: public SamiObject {
-        public:
+class SamiOrder: public SamiObject {
+public:
     SamiOrder();
     SamiOrder(String* json);
-        virtual ~SamiOrder();
+    virtual ~SamiOrder();
 
-        void init();
+    void init();
 
-        void cleanup();
+    void cleanup();
 
-        String asJson ();
+    String asJson ();
 
-        JsonObject* asJsonObject();
+    JsonObject* asJsonObject();
 
-        void fromJsonObject(IJsonValue* json);
+    void fromJsonObject(IJsonValue* json);
 
     SamiOrder* fromJson(String* obj);
 
     
-        Long* getPId();
-            void setPId(Long* pId);
+    Long* getPId();
+    void setPId(Long* pId);
     
-        Long* getPPetId();
-            void setPPetId(Long* pPetId);
+    Long* getPPetId();
+    void setPPetId(Long* pPetId);
     
-        Integer* getPQuantity();
-            void setPQuantity(Integer* pQuantity);
+    Integer* getPQuantity();
+    void setPQuantity(Integer* pQuantity);
     
-        DateTime* getPShipDate();
-            void setPShipDate(DateTime* pShipDate);
+    DateTime* getPShipDate();
+    void setPShipDate(DateTime* pShipDate);
     
-        String* getPStatus();
-            void setPStatus(String* pStatus);
+    String* getPStatus();
+    void setPStatus(String* pStatus);
     
-        Boolean* getPComplete();
-            void setPComplete(Boolean* pComplete);
+    Boolean* getPComplete();
+    void setPComplete(Boolean* pComplete);
     
 
-        private:
+private:
     Long* pId;
     Long* pPetId;
     Integer* pQuantity;
@@ -76,8 +72,8 @@ using Tizen::Base::Integer;
     String* pStatus;
     Boolean* pComplete;
     
-        };
+};
 
-        } /* namespace Swagger */
+} /* namespace Swagger */
 
-        #endif /* SamiOrder_H_ */
+#endif /* SamiOrder_H_ */

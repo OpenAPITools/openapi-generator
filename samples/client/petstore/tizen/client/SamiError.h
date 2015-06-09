@@ -1,15 +1,14 @@
 #ifndef SamiError_H_
 #define SamiError_H_
 
-#include
-<FBase.h>
+#include <FBase.h>
 
-    using namespace Tizen::Base;
+using namespace Tizen::Base;
 
-    namespace Swagger {
+namespace Swagger {
 
-    class SamiError {
-    public:
+class SamiError {
+public:
     SamiError();
     SamiError(int code, String* message);
     virtual ~SamiError();
@@ -21,16 +20,16 @@
 
     int getCode();
     void setCode(int pCode);
-
+    
     String* getMessage();
     void setMessage(String* pMessage);
+    
 
-
-    private:
+private:
     int pCode;
     String* pMessage;
-    };
+};
 
-    } /* namespace Swagger */
+} /* namespace Swagger */
 
-    #endif /* SamiError_H_ */
+#endif /* SamiError_H_ */

@@ -327,7 +327,7 @@ class PetApi {
       }
 
       // authentication setting, if any
-      $authSettings = array('api_key', 'petstore_auth');
+      $authSettings = array('petstore_auth', 'api_key');
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,

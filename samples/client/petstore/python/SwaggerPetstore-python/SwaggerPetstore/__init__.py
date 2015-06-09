@@ -9,8 +9,8 @@ from .models.order import Order
 
 # import apis into sdk package
 from .apis.user_api import UserApi
-from .apis.pet_api import PetApi
 from .apis.store_api import StoreApi
+from .apis.pet_api import PetApi
 
 # import ApiClient
 from .api_client import ApiClient
