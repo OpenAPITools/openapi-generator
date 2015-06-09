@@ -1,4 +1,6 @@
 package io.swagger.common {
+import io.swagger.common.ApiUserCredentials;
+
 /**
  * @private
  * Internal class for the Rest client
@@ -10,17 +12,17 @@ internal class ApiUrlHelper {
 
     private static const HTTP_URL_PREFIX:String = "http://";
 
-    internal static function appendTokenInfo(restUrl:String, requestHeader:Object, credentials:ApiUserCredentials):String {
+    internal static function appendTokenInfo(restUrl:String, requestHeader: Object, credentials: ApiUserCredentials): String {
         //checks for the presence api credentials on client initialization and not repeated here
-        if (restUrl.indexOf("?") == -1) {
+        if(restUrl.indexOf("?") == -1){
             restUrl += ( "?" + API_URL_KEY + "=" + credentials.apiToken );
         }
-        else {
+        else{
             restUrl += ( "&" + API_URL_KEY + "=" + credentials.apiToken );
         }
         requestHeader.api_key = credentials.apiToken;
 
-        if (credentials.authToken != null && credentials.authToken != "") {
+        if(credentials.authToken != null && credentials.authToken != ""){
             restUrl += ( "&" + AUTH_TOKEN_URL_KEY + "=" + credentials.authToken );
             requestHeader.auth_token = credentials.authToken;
         }
@@ -28,7 +30,7 @@ internal class ApiUrlHelper {
         return restUrl;
     }
 
-    internal static function getProxyUrl(hostName:String, proxyPath:String):String {
+    internal static function getProxyUrl(hostName: String, proxyPath: String): String{
         if (hostName(hostName.length - 1) == "/") //remove trailing slash
         {
             hostName = hostName.substring(0, hostName.length - 1);
