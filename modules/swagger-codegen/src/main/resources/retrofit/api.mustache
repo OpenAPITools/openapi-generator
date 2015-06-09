@@ -10,20 +10,20 @@ import java.util.*;
 {{/imports}}
 
 {{#operations}}
-    public interface {{classname}} {
-    {{#operation}}
-        /**
-        * {{summary}}
-        * {{notes}}
-        {{#allParams}}   * @param {{paramName}} {{description}}
-        {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-        */
-        {{#formParams}}{{#-first}}
-            {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
-        @{{httpMethod}}("{{path}}")
-        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}
-        {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
-            );{{/hasMore}}{{/allParams}}
-    {{/operation}}
-    }
+public interface {{classname}} {
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}}
+{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   */
+  {{#formParams}}{{#-first}}
+  {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
+  @{{httpMethod}}("{{path}}")  
+  {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}
+    {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+  );{{/hasMore}}{{/allParams}}  
+  {{/operation}}
+}
 {{/operations}}

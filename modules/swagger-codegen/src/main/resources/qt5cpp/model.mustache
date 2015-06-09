@@ -1,62 +1,58 @@
 {{#models}}{{#model}}/*
-* {{classname}}.h
-*
-* {{description}}
-*/
+ * {{classname}}.h
+ * 
+ * {{description}}
+ */
 
 #ifndef {{classname}}_H_
 #define {{classname}}_H_
 
-#include
-<FApp.h>
-    #include
-<FBase.h>
-    #include
-<FSystem.h>
-    #include
-<FWebJson.h>
-    #include "{{prefix}}Helpers.h"
-    #include "{{prefix}}Object.h"
+#include <FApp.h>
+#include <FBase.h>
+#include <FSystem.h>
+#include <FWebJson.h>
+#include "{{prefix}}Helpers.h"
+#include "{{prefix}}Object.h"
 
-    using namespace Tizen::Web::Json;
+using namespace Tizen::Web::Json;
 
 {{/model}}{{/models}}
 {{#imports}}{{{import}}}
 {{/imports}}
 
 {{#models}}{{#model}}
-        namespace Swagger {
+namespace Swagger {
 
-        class {{classname}}: public {{prefix}}Object {
-        public:
+class {{classname}}: public {{prefix}}Object {
+public:
     {{classname}}();
     {{classname}}(String* json);
-        virtual ~{{classname}}();
+    virtual ~{{classname}}();
 
-        void init();
+    void init();
 
-        void cleanup();
+    void cleanup();
 
-        String asJson ();
+    String asJson ();
 
-        JsonObject* asJsonObject();
+    JsonObject* asJsonObject();
 
-        void fromJsonObject(IJsonValue* json);
+    void fromJsonObject(IJsonValue* json);
 
     {{classname}}* fromJson(String* obj);
 
     {{#vars}}
-        {{datatype}} {{getter}}();
-            void {{setter}}({{datatype}} {{name}});
+    {{datatype}} {{getter}}();
+    void {{setter}}({{datatype}} {{name}});
     {{/vars}}
 
-        private:
+private:
     {{#vars}}{{datatype}} {{name}};
     {{/vars}}
-        };
+};
 
-        } /* namespace Swagger */
+} /* namespace Swagger */
 
-        #endif /* {{classname}}_H_ */
+#endif /* {{classname}}_H_ */
 {{/model}}
 {{/models}}

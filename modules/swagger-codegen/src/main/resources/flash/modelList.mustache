@@ -5,19 +5,19 @@ import io.swagger.common.ListWrapper;
 {{/imports}}
 
 {{#models}}
-    {{#model}}
-        public class {{classname}}List implements ListWrapper {
+{{#model}}
+    public class {{classname}}List implements ListWrapper {
         // This declaration below of _{{name}}_obj_class is to force flash compiler to include this class
         private var _{{classVarName}}_obj_class: {{package}}.{{classname}} = null;
         [XmlElements(name="{{classVarName}}", type="{{package}}.{{classname}}")]
         public var {{classVarName}}: Array = new Array();
 
         public function getList(): Array{
-        return {{classVarName}};
+            return {{classVarName}};
         }
 
-        }
-    {{/model}}
-{{/models}}
+}
+{{/model}}
+        {{/models}}
 
 }

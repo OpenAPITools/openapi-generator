@@ -8,22 +8,18 @@ require 'swagger_client/swagger/version'
 
 # Models
 require 'swagger_client/models/base_object'
-    require 'swagger_client/models/user'
-    require 'swagger_client/models/category'
-    require 'swagger_client/models/pet'
-    require 'swagger_client/models/tag'
-    require 'swagger_client/models/order'
+require 'swagger_client/models/user'
+require 'swagger_client/models/category'
+require 'swagger_client/models/pet'
+require 'swagger_client/models/tag'
+require 'swagger_client/models/order'
 
 # APIs
-    
-        require 'swagger_client/api/user_api'
-    
-        require 'swagger_client/api/pet_api'
-    
-        require 'swagger_client/api/store_api'
-    
+require 'swagger_client/api/user_api'
+require 'swagger_client/api/store_api'
+require 'swagger_client/api/pet_api'
 
 module SwaggerClient
-# Initialize the default configuration
-Swagger.configuration ||= Swagger::Configuration.new
+  # Initialize the default configuration
+  Swagger.configuration ||= Swagger::Configuration.new
 end

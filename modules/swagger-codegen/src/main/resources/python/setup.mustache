@@ -3,18 +3,18 @@ from setuptools import setup, find_packages
 
 {{#apiInfo}}{{#apis}}{{^hasMore}}
 
-    # To install the library, open a Terminal shell, then run this
-    # file by typing:
-    #
-    # python setup.py install
-    #
-    # You need to have the setuptools module installed.
-    # Try reading the setuptools documentation:
-    # http://pypi.python.org/pypi/setuptools
+# To install the library, open a Terminal shell, then run this
+# file by typing:
+#
+# python setup.py install
+#
+# You need to have the setuptools module installed.
+# Try reading the setuptools documentation:
+# http://pypi.python.org/pypi/setuptools
 
-    REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi"]
+REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi"]
 
-    setup(
+setup(
     name="{{module}}",
     version="{{version}}",
     description="{{appName}}",
@@ -27,7 +27,7 @@ from setuptools import setup, find_packages
     long_description="""\
     {{appDescription}}
     """
-    )
+)
 
 {{/hasMore}}{{/apis}}{{/apiInfo}}
 

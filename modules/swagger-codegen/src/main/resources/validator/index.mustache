@@ -33,6 +33,8 @@
             font-weight: bold;
         }
 
+
+
         body {
             font-family: "Droid Sans", sans-serif;
             font-size: 0.9em;
@@ -153,7 +155,7 @@
             margin-bottom: 15px;
         }
 
-        #content .head-info {
+        #content .head-info{
             font-size: 1.2em;
         }
 
@@ -175,7 +177,6 @@
             border-color: gray;
             background-color: white;
         }
-
         table#validation-results th {
             border-width: 1px;
             padding: 10px;
@@ -185,18 +186,15 @@
             text-align: left;
             font-weight: bold;;
         }
-
         table#validation-results td {
             border-width: 1px;
             padding: 10px;
             border-style: solid;
             border-color: gray;
         }
-
         table#validation-results tr:nth-child(even) {
             background-color: rgb(240, 240, 230);
         }
-
         table#validation-results tr:nth-child(odd) {
             background-color: rgb(250, 250, 240);
         }
@@ -249,12 +247,12 @@
         </thead>
         <tbody>
         {{#messages}}
-            <tr>
-                <td>{{level}}</td>
-                <td>{{elementType}}</td>
-                <td>{{elementId}}</td>
-                <td>{{message}}</td>
-            </tr>
+        <tr>
+            <td>{{level}}</td>
+            <td>{{elementType}}</td>
+            <td>{{elementId}}</td>
+            <td>{{message}}</td>
+        </tr>
         {{/messages}}
         </tbody>
     </table>
