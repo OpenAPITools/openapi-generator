@@ -422,14 +422,6 @@ public class DefaultCodegen {
                 return dp.getDefault().toString();
             }
             return "null";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
-            return "new HashMap<String, " + inner + ">() ";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
-            return "new ArrayList<" + inner + ">() ";
         } else {
             return "null";
         }

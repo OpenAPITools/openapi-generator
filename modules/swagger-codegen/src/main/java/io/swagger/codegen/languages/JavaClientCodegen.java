@@ -201,6 +201,18 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toDefaultValue(Property p) {
+        if (p instanceof ArrayProperty) {
+            final ArrayProperty ap = (ArrayProperty) p;
+            return String.format("new ArrayList<%s>()", getTypeDeclaration(ap.getItems()));
+        } else if (p instanceof MapProperty) {
+            final MapProperty ap = (MapProperty) p;
+            return String.format("new HashMap<String, %s>()", getTypeDeclaration(ap.getAdditionalProperties()));
+        }
+        return super.toDefaultValue(p);
+    }
+
+    @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
         String type = null;
