@@ -200,7 +200,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     public boolean shouldOverwrite(String filename) {
-
-        return !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
+        return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
     }
 }
