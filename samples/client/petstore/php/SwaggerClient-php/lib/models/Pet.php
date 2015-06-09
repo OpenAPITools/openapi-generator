@@ -15,7 +15,6 @@
  *  limitations under the License.
  */
 
-    
 /**
  * 
  *
@@ -30,56 +29,55 @@ use \ArrayAccess;
 class Pet implements ArrayAccess {
   static $swaggerTypes = array(
       'id' => 'int',
-    'category' => 'Category',
-    'name' => 'string',
-    'photo_urls' => 'array[string]',
-    'tags' => 'array[Tag]',
-    'status' => 'string'
-    );
+      'category' => 'Category',
+      'name' => 'string',
+      'photo_urls' => 'array[string]',
+      'tags' => 'array[Tag]',
+      'status' => 'string'
+  );
 
-    static $attributeMap = array(
-    'id' => 'id',
-    'category' => 'category',
-    'name' => 'name',
-    'photo_urls' => 'photoUrls',
-    'tags' => 'tags',
-    'status' => 'status'
-    );
+  static $attributeMap = array(
+      'id' => 'id',
+      'category' => 'category',
+      'name' => 'name',
+      'photo_urls' => 'photoUrls',
+      'tags' => 'tags',
+      'status' => 'status'
+  );
 
-    
-    public $id; /* int */
-    public $category; /* Category */
-    public $name; /* string */
-    public $photo_urls; /* array[string] */
-    public $tags; /* array[Tag] */
-        /**
-        * pet status in the store
-        */
-    public $status; /* string */
+  
+  public $id; /* int */
+  public $category; /* Category */
+  public $name; /* string */
+  public $photo_urls; /* array[string] */
+  public $tags; /* array[Tag] */
+  /**
+  * pet status in the store
+  */
+  public $status; /* string */
 
-    public function __construct(array $data = null) {
+  public function __construct(array $data = null) {
     $this->id = $data["id"];
     $this->category = $data["category"];
     $this->name = $data["name"];
     $this->photo_urls = $data["photo_urls"];
     $this->tags = $data["tags"];
     $this->status = $data["status"];
-    }
+  }
 
-    public function offsetExists($offset) {
+  public function offsetExists($offset) {
     return isset($this->$offset);
-    }
+  }
 
-    public function offsetGet($offset) {
+  public function offsetGet($offset) {
     return $this->$offset;
-    }
+  }
 
-    public function offsetSet($offset, $value) {
+  public function offsetSet($offset, $value) {
     $this->$offset = $value;
-    }
+  }
 
-    public function offsetUnset($offset) {
+  public function offsetUnset($offset) {
     unset($this->$offset);
-    }
-    }
-    
+  }
+}

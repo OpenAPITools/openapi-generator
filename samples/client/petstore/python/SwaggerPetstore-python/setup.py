@@ -3,18 +3,18 @@ from setuptools import setup, find_packages
 
 
 
-    # To install the library, open a Terminal shell, then run this
-    # file by typing:
-    #
-    # python setup.py install
-    #
-    # You need to have the setuptools module installed.
-    # Try reading the setuptools documentation:
-    # http://pypi.python.org/pypi/setuptools
+# To install the library, open a Terminal shell, then run this
+# file by typing:
+#
+# python setup.py install
+#
+# You need to have the setuptools module installed.
+# Try reading the setuptools documentation:
+# http://pypi.python.org/pypi/setuptools
 
-    REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi"]
+REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi"]
 
-    setup(
+setup(
     name="SwaggerPetstore",
     version="1.0.0",
     description="Swagger Petstore",
@@ -27,7 +27,7 @@ from setuptools import setup, find_packages
     long_description="""\
     This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href=\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters
     """
-    )
+)
 
 
 

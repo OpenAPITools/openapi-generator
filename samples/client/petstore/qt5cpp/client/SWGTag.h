@@ -1,48 +1,47 @@
 /*
-* SWGTag.h
-*
-* 
-*/
+ * SWGTag.h
+ * 
+ * 
+ */
 
 #ifndef SWGTag_H_
 #define SWGTag_H_
 
-#include
-<QJsonObject>
+#include <QJsonObject>
 
 
 #include <QString>
 
-    #include "SWGObject.h"
+#include "SWGObject.h"
 
 
-        namespace Swagger {
+namespace Swagger {
 
-        class SWGTag: public SWGObject {
-        public:
+class SWGTag: public SWGObject {
+public:
     SWGTag();
     SWGTag(QString* json);
-        virtual ~SWGTag();
-        void init();
-        void cleanup();
+    virtual ~SWGTag();
+    void init();
+    void cleanup();
 
-        QString asJson ();
-        QJsonObject* asJsonObject();
-        void fromJsonObject(QJsonObject &json);
+    QString asJson ();
+    QJsonObject* asJsonObject();
+    void fromJsonObject(QJsonObject &json);
     SWGTag* fromJson(QString &jsonString);
 
     qint64 getId();
-        void setId(qint64 id);
+    void setId(qint64 id);
     QString* getName();
-        void setName(QString* name);
+    void setName(QString* name);
     
 
-        private:
+private:
     qint64 id;
     QString* name;
     
-        };
+};
 
-        } /* namespace Swagger */
+} /* namespace Swagger */
 
-        #endif /* SWGTag_H_ */
+#endif /* SWGTag_H_ */

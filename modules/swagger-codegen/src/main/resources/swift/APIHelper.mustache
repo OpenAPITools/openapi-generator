@@ -5,17 +5,17 @@
 //
 
 class APIHelper {
-static func rejectNil(source: [String:AnyObject?]) -> [String:AnyObject]? {
-var destination = [String:AnyObject]()
-for (key, nillableValue) in source {
-if let value: AnyObject = nillableValue {
-destination[key] = value
-}
-}
+    static func rejectNil(source: [String:AnyObject?]) -> [String:AnyObject]? {
+        var destination = [String:AnyObject]()
+        for (key, nillableValue) in source {
+            if let value: AnyObject = nillableValue {
+                destination[key] = value
+            }
+        }
 
-if destination.isEmpty {
-return nil
-}
-return destination
-}
+        if destination.isEmpty {
+            return nil
+        }
+        return destination
+    }
 }
