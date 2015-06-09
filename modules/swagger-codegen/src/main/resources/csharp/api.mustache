@@ -164,7 +164,7 @@ namespace {{package}} {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
       }
-      {{#returnType}}return ({{{returnType}}}) ApiInvoker.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
+      {{#returnType}}return ({{{returnType}}}) apiClient.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
       return;{{/returnType}}
     }
     {{/operation}}
