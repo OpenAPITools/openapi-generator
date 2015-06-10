@@ -2,6 +2,10 @@
 //require_once('vendor/autoload.php');
 require_once('SwaggerClient-php/SwaggerClient.php');
 
+// show error reporting
+ini_set('display_errors', 1);
+error_reporting(~0);
+
 // initialize the API client
 //$api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
 //$api_client->addDefaultHeader("test1", "value1");

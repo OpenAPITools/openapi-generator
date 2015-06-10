@@ -25,7 +25,7 @@ class ApiClient {
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
   
-  private static $default_header = array();
+  private $default_header = array();
 
   /*
    * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
@@ -58,7 +58,7 @@ class ApiClient {
     if (!is_string($header_name)) 
       throw new \InvalidArgumentException('Header name must be a string.');
 
-    self::$default_header[$header_name] =  $header_value;
+    $this->default_header[$header_name] =  $header_value;
   }
 
   /**
@@ -67,7 +67,7 @@ class ApiClient {
    * @return array default header
    */
   public function getDefaultHeader() {
-    return self::$default_header;
+    return $this->default_header;
   }
 
   /**
@@ -76,7 +76,7 @@ class ApiClient {
    * @param string $header_name header name (e.g. Token)
    */
   public function deleteDefaultHeader($header_name) {
-    unset(self::$default_header[$header_name]);
+    unset($this->default_header[$header_name]);
   }
 
   /**
@@ -182,7 +182,7 @@ class ApiClient {
     $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # construct the http header
-    $headerParams = array_merge((array)self::$default_header, (array)$headerParams);
+    $headerParams = array_merge((array)$this->default_header, (array)$headerParams);
 
     foreach ($headerParams as $key => $val) {
       $headers[] = "$key: $val";
@@ -307,8 +307,8 @@ class ApiClient {
    * @param string $value a string which will be part of the path
    * @return string the serialized object
    */
-  public static function toPathValue($value) {
-      return rawurlencode(self::toString($value));
+  public function toPathValue($value) {
+      return rawurlencode($this->toString($value));
   }
 
   /**
@@ -319,11 +319,11 @@ class ApiClient {
    * @param object $object an object to be serialized to a string
    * @return string the serialized object
    */
-  public static function toQueryValue($object) {
+  public function toQueryValue($object) {
         if (is_array($object)) {
             return implode(',', $object);
         } else {
-            return self::toString($object);
+            return $this->toString($object);
         }
   }
 
@@ -334,8 +334,8 @@ class ApiClient {
    * @param string $value a string which will be part of the header
    * @return string the header string
    */
-  public static function toHeaderValue($value) {
-      return self::toString($value);
+  public function toHeaderValue($value) {
+      return $this->toString($value);
   }
 
   /**
@@ -345,8 +345,8 @@ class ApiClient {
    * @param string $value the value of the form parameter
    * @return string the form string
    */
-  public static function toFormValue($value) {
-      return self::toString($value);
+  public function toFormValue($value) {
+      return $this->toString($value);
   }
 
   /**
@@ -356,7 +356,7 @@ class ApiClient {
    * @param string $value the value of the parameter
    * @return string the header string
    */
-  public static function toString($value) {
+  public function toString($value) {
     if ($value instanceof \DateTime) { // datetime in ISO8601 format
       return $value->format(\DateTime::ISO8601);
     }
@@ -372,7 +372,7 @@ class ApiClient {
    * @param string $class class name is passed as a string
    * @return object an instance of $class
    */
-  public static function deserialize($data, $class)
+  public function deserialize($data, $class)
   {
     if (null === $data) {
       $deserialized = null;
@@ -383,14 +383,14 @@ class ApiClient {
         $subClass_array = explode(',', $inner, 2);
         $subClass = $subClass_array[1];
         foreach ($data as $key => $value) {
-          $deserialized[$key] = self::deserialize($value, $subClass);
+          $deserialized[$key] = $this->deserialize($value, $subClass);
         }        
       }
     } elseif (strcasecmp(substr($class, 0, 6),'array[') == 0) {
       $subClass = substr($class, 6, -1);
       $values = array();
       foreach ($data as $key => $value) {
-        $values[] = self::deserialize($value, $subClass);
+        $values[] = $this->deserialize($value, $subClass);
       }
       $deserialized = $values;
     } elseif ($class == 'DateTime') {
@@ -404,7 +404,7 @@ class ApiClient {
       foreach ($instance::$swaggerTypes as $property => $type) {
         $original_property_name = $instance::$attributeMap[$property];
         if (isset($original_property_name) && isset($data->$original_property_name)) {
-          $instance->$property = self::deserialize($data->$original_property_name, $type);
+          $instance->$property = $this->deserialize($data->$original_property_name, $type);
         }
       }
       $deserialized = $instance;
@@ -419,7 +419,7 @@ class ApiClient {
    * @param array[string] $accept Array of header
    * @return string Accept (e.g. application/json)
    */
-  public static function selectHeaderAccept($accept) {
+  public function selectHeaderAccept($accept) {
     if (count($accept) === 0 or (count($accept) === 1 and $accept[0] === '')) {
       return NULL;
     } elseif (preg_grep("/application\/json/i", $accept)) {
@@ -435,7 +435,7 @@ class ApiClient {
    * @param array[string] content_type_array Array fo content-type
    * @return string Content-Type (e.g. application/json)
    */
-  public static function selectHeaderContentType($content_type) {
+  public function selectHeaderContentType($content_type) {
     if (count($content_type) === 0 or (count($content_type) === 1 and $content_type[0] === '')) {
       return 'application/json';
     } elseif (preg_grep("/application\/json/i", $content_type)) {
