@@ -43,11 +43,12 @@ class PetApi {
     }
   }
 
-  private $apiClient; // instance of the ApiClient
+  /** @var \Swagger\Client\ApiClient instance of the ApiClient */
+  private $apiClient;
 
   /**
-    * @return \Swagger\Client\ApiClient get the API client
-    */
+   * @return \Swagger\Client\ApiClient get the API client
+   */
   public function getApiClient() {
     return $this->apiClient;
   }
