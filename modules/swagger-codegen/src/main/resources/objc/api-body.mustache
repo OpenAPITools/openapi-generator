@@ -195,27 +195,19 @@ static NSString * basePath = @"{{basePath}}";
     }
     {{/requiredParams}}
     {{/requiredParamCount}}
-
-    {{#returnContainer}}
-    // response is in a container
-    {{>apiBodyResponseWithContainer}}{{/returnContainer}}
-
-    {{#returnSimpleType}}
-    // non container response
-
-    {{#returnTypeIsPrimitive}}
-    // primitive response
-    {{>apiPrimitiveResponse}}{{/returnTypeIsPrimitive}}
-
-    {{#returnBaseType}}
-    // complex response
-    {{>apiNonPrimitiveResponse}}{{/returnBaseType}}
-    {{/returnSimpleType}}
-
-    {{^returnSimpleType}}{{^returnContainer}}
-    // it's void
-    {{>voidResponse}}
-    {{/returnContainer}}{{/returnSimpleType}}
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"{{httpMethod}}"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  {{^returnType}}completionBlock(error);{{/returnType}}
+                  {{#returnType}}completionBlock([self.apiClient deserialize: data class:@"{{{returnType}}}"], error);{{/returnType}}
+              }
+          ];
 }
 
 {{/operation}}
