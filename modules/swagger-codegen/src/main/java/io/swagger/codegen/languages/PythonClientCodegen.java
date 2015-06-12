@@ -82,14 +82,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("packageName", packageName);
         additionalProperties.put("packageVersion", packageVersion);
 
-        String baseFolder = packageName + "_python";
-        String swaggerFoler = baseFolder + File.separatorChar + packageName;
+        String swaggerFoler = packageName;
 
         modelPackage = swaggerFoler + File.separatorChar + "models";
         apiPackage = swaggerFoler + File.separatorChar + "apis";
 
-        supportingFiles.add(new SupportingFile("README.mustache", baseFolder, "README.md"));
-        supportingFiles.add(new SupportingFile("setup.mustache", baseFolder, "setup.py"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         supportingFiles.add(new SupportingFile("api_client.mustache", swaggerFoler, "api_client.py"));
         supportingFiles.add(new SupportingFile("rest.mustache", swaggerFoler, "rest.py"));
         supportingFiles.add(new SupportingFile("configuration.mustache", swaggerFoler, "configuration.py"));
