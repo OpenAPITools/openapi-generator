@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -13,24 +14,18 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String module = "SwaggerPetstore";
-    protected String invokerPackage;
-    protected String eggPackage;
+    protected String packageName = null;
+    protected String packageVersion = null;
 
     public PythonClientCodegen() {
         super();
 
-        eggPackage = module + "-python";
-
-        invokerPackage = eggPackage + File.separatorChar + module;
-
+        modelPackage = "models";
+        apiPackage = "api";
         outputFolder = "generated-code" + File.separatorChar + "python";
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
         templateDir = "python";
-
-        apiPackage = invokerPackage + File.separatorChar + "apis";
-        modelPackage = invokerPackage + File.separatorChar + "models";
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -60,14 +55,45 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
                         "return", "def", "for", "lambda", "try"));
 
-        additionalProperties.put("module", module);
+        cliOptions.clear();
+        cliOptions.add(new CliOption("packageName", "python package name, default: SwaggerClient"));
+        cliOptions.add(new CliOption("packageVersion", "python package version, default: 1.0.0"));
+    }
 
-        supportingFiles.add(new SupportingFile("README.mustache", eggPackage, "README.md"));
-        supportingFiles.add(new SupportingFile("setup.mustache", eggPackage, "setup.py"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", invokerPackage, "api_client.py"));
-        supportingFiles.add(new SupportingFile("rest.mustache", invokerPackage, "rest.py"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", invokerPackage, "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", invokerPackage, "__init__.py"));
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey("packageName")) {
+            setPackageName((String) additionalProperties.get("packageName"));
+        }
+        else {
+            setPackageName("SwaggerClient");
+        }
+        setPackageName(generatePackageName(packageName));
+
+        if (additionalProperties.containsKey("packageVersion")) {
+            setPackageVersion((String) additionalProperties.get("packageVersion"));
+        }
+        else {
+            setPackageVersion("1.0.0");
+        }
+
+        additionalProperties.put("packageName", packageName);
+        additionalProperties.put("packageVersion", packageVersion);
+
+        String baseFolder = packageName + "_python";
+        String swaggerFoler = baseFolder + File.separatorChar + packageName;
+
+        modelPackage = swaggerFoler + File.separatorChar + "models";
+        apiPackage = swaggerFoler + File.separatorChar + "apis";
+
+        supportingFiles.add(new SupportingFile("README.mustache", baseFolder, "README.md"));
+        supportingFiles.add(new SupportingFile("setup.mustache", baseFolder, "setup.py"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", swaggerFoler, "api_client.py"));
+        supportingFiles.add(new SupportingFile("rest.mustache", swaggerFoler, "rest.py"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", swaggerFoler, "configuration.py"));
+        supportingFiles.add(new SupportingFile("__init__package.mustache", swaggerFoler, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", apiPackage, "__init__.py"));
     }
@@ -225,4 +251,23 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return underscore(operationId);
     }
 
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
+    }
+
+    /**
+     * Generate Python package name from String `packageName`
+     *
+     * (PEP 0008) Python packages should also have short, all-lowercase names, 
+     * although the use of underscores is discouraged.
+     */
+    public String generatePackageName(String packageName) {
+        return underscore(packageName.replaceAll("[^\\w]+", "")); 
+    }
 }
+
+
