@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-namespace SwaggerClient;
+namespace Swagger\Client;
 
 class ApiClient {
 
@@ -24,17 +24,14 @@ class ApiClient {
   public static $GET = "GET";
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
-  
+
+  /** @var string[] Array of default headers where the key is the header name and the value is the header value */
   private $default_header = array();
 
-  /*
-   * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
-   */
+  /** @var string timeout (second) of the HTTP request, by default set to 0, no timeout */
   protected $curl_timeout = 0;
 
-  /*
-   * @var string user agent of the HTTP request, set to "PHP-Swagger" by default
-   */
+  /** @var string user agent of the HTTP request, set to "PHP-Swagger" by default */
   protected $user_agent = "PHP-Swagger";
 
   /**
@@ -391,8 +388,8 @@ class ApiClient {
           $deserialized[$key] = $this->deserialize($value, $subClass);
         }        
       }
-    } elseif (strcasecmp(substr($class, 0, 6),'array[') == 0) {
-      $subClass = substr($class, 6, -1);
+    } elseif (strcasecmp(substr($class, -2),'[]') == 0) {
+      $subClass = substr($class, 0, -2);
       $values = array();
       foreach ($data as $key => $value) {
         $values[] = $this->deserialize($value, $subClass);
@@ -404,7 +401,6 @@ class ApiClient {
       settype($data, $class);
       $deserialized = $data;
     } else {
-      $class = "SwaggerClient\\models\\".$class;
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
         $original_property_name = $instance::$attributeMap[$property];
