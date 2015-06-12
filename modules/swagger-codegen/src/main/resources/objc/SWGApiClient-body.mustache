@@ -351,179 +351,114 @@ static bool loggingEnabled = true;
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
-#pragma mark - Perform Request Methods
 
--(NSNumber*)  dictionary: (NSString*) path
-                  method: (NSString*) method
-             queryParams: (NSDictionary*) queryParams
-                    body: (id) body
-            headerParams: (NSDictionary*) headerParams
-            authSettings: (NSArray *) authSettings
-      requestContentType: (NSString*) requestContentType
-     responseContentType: (NSString*) responseContentType
-         completionBlock: (void (^)(NSDictionary*, NSError *))completionBlock {
-    // setting request serializer
-    if ([requestContentType isEqualToString:@"application/json"]) {
-        self.requestSerializer = [AFJSONRequestSerializer serializer];
-    }
-    else if ([requestContentType isEqualToString:@"application/x-www-form-urlencoded"]) {
-        self.requestSerializer = [AFHTTPRequestSerializer serializer];
-    }
-    else if ([requestContentType isEqualToString:@"multipart/form-data"]) {
-        self.requestSerializer = [AFHTTPRequestSerializer serializer];
-    }
-    else {
-        NSAssert(false, @"unsupport request type %@", requestContentType);
+- (id) deserialize:(id) data class:(NSString *) class {
+    NSRegularExpression *regexp = nil;
+    NSTextCheckingResult *match = nil;
+    NSMutableArray *resultArray = nil;
+    NSMutableDictionary *resultDict = nil;
+
+    // list of models
+    NSString *arrayOfModelsPat = @"NSArray<(.+)>";
+    regexp = [NSRegularExpression regularExpressionWithPattern:arrayOfModelsPat
+                                                      options:NSRegularExpressionCaseInsensitive
+                                                        error:nil];
+    
+    match = [regexp firstMatchInString:class
+                               options:0
+                                 range:NSMakeRange(0, [class length])];
+    
+    if (match) {
+        NSString *innerType = [class substringWithRange:[match rangeAtIndex:1]];
+
+        resultArray = [NSMutableArray arrayWithCapacity:[data length]];
+        [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [resultArray addObject:[self deserialize:obj class:innerType]];
+            }
+        ];
+
+        return resultArray;
     }
 
-    // setting response serializer
-    if ([responseContentType isEqualToString:@"application/json"]) {
-        self.responseSerializer = [AFJSONResponseSerializer serializer];
+    // list of primitives
+    NSString *arrayOfPrimitivesPet = @"NSArray";
+    regexp = [NSRegularExpression regularExpressionWithPattern:arrayOfPrimitivesPet
+                                                       options:NSRegularExpressionCaseInsensitive
+                                                         error:nil];
+    match = [regexp firstMatchInString:class
+                               options:0
+                                 range:NSMakeRange(0, [class length])];
+
+    if (match) {
+        resultArray = [NSMutableArray arrayWithCapacity:[data length]];
+        [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [resultArray addObject:[self deserialize:obj class:NSStringFromClass([obj class])]];
+        }];
+        
+        return resultArray;
     }
-    else {
-        self.responseSerializer = [AFHTTPResponseSerializer serializer];
+
+    // map
+    NSString *dictPat = @"NSDictionary /\\* (.+), (.+) \\*/";
+    regexp = [NSRegularExpression regularExpressionWithPattern:dictPat
+                                                       options:NSRegularExpressionCaseInsensitive
+                                                         error:nil];
+    match = [regexp firstMatchInString:class
+                               options:0
+                                 range:NSMakeRange(0, [class length])];
+
+    if (match) {
+        NSString *valueType = [class substringWithRange:[match rangeAtIndex:2]];
+        
+        resultDict = [NSMutableDictionary dictionaryWithCapacity:[data count]];
+        [data enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [resultDict setValue:[self deserialize:obj class:valueType] forKey:key];
+        }];
+        
+        return resultDict;
     }
     
-    // auth setting
-    [self updateHeaderParams:&headerParams queryParams:&queryParams WithAuthSettings:authSettings];
+    // primitives
+    NSArray *primitiveTypes = @[@"NSString", @"NSDate", @"BOOL", @"NSNumber"];
 
-    NSMutableURLRequest * request = nil;
-    if (body != nil && [body isKindOfClass:[NSArray class]]){
-        SWGFile * file;
-        NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
-        for(id obj in body) {
-            if([obj isKindOfClass:[SWGFile class]]) {
-                file = (SWGFile*) obj;
-                requestContentType = @"multipart/form-data";
-            }
-            else if([obj isKindOfClass:[NSDictionary class]]) {
-                for(NSString * key in obj) {
-                    params[key] = obj[key];
-                }
-            }
+    if ([primitiveTypes containsObject:class]) {
+        if ([class isEqualToString:@"NSString"]) {
+            return [NSString stringWithString:data];
         }
-        NSString * urlString = [[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString];
-
-        // request with multipart form
-        if([requestContentType isEqualToString:@"multipart/form-data"]) {
-            request = [self.requestSerializer multipartFormRequestWithMethod: @"POST"
-                                                                   URLString: urlString
-                                                                  parameters: nil
-                                                   constructingBodyWithBlock: ^(id<AFMultipartFormData> formData) {
-
-                                                       for(NSString * key in params) {
-                                                           NSData* data = [params[key] dataUsingEncoding:NSUTF8StringEncoding];
-                                                           [formData appendPartWithFormData: data name: key];
-                                                       }
-
-                                                       if (file) {
-                                                           [formData appendPartWithFileData: [file data]
-                                                                                       name: [file paramName]
-                                                                                   fileName: [file name]
-                                                                                   mimeType: [file mimeType]];
-                                                       }
-
-                                                   }
-                                                                       error:nil];
+        else if ([class isEqualToString:@"NSDate"]) {
+            return [NSDate dateWithISO8601String:data];
         }
-        // request with form parameters or json
-        else {
-            NSString* pathWithQueryParams = [self pathWithQueryParamsToString:path queryParams:queryParams];
-            NSString* urlString = [[NSURL URLWithString:pathWithQueryParams relativeToURL:self.baseURL] absoluteString];
-
-            request = [self.requestSerializer requestWithMethod:method
-                                                      URLString:urlString
-                                                     parameters:params
-                                                          error:nil];
+        else if ([class isEqualToString:@"BOOL"]) {
+            // Returns YES on encountering one of "Y", "y", "T", "t", or a
+            // digit 1-9—the method ignores any trailing characters
+            // NSString => BOOL => NSNumber
+            return [NSNumber numberWithBool:[data boolValue]];
+        }
+        else if ([class isEqualToString:@"NSNumber"]) {
+            return [data numberFromString:data];
         }
     }
-    else {
-        NSString * pathWithQueryParams = [self pathWithQueryParamsToString:path queryParams:queryParams];
-        NSString * urlString = [[NSURL URLWithString:pathWithQueryParams relativeToURL:self.baseURL] absoluteString];
-
-        request = [self.requestSerializer requestWithMethod:method
-                                                  URLString:urlString
-                                                 parameters:body
-                                                      error:nil];
-    }
-    BOOL hasHeaderParams = false;
-    if(headerParams != nil && [headerParams count] > 0)
-        hasHeaderParams = true;
-    if(offlineState) {
-        NSLog(@"%@ cache forced", path);
-        [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
-    }
-    else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
-        NSLog(@"%@ cache enabled", path);
-        [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
-    }
-    else {
-        NSLog(@"%@ cache disabled", path);
-        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    
+   // model
+    Class ModelClass = NSClassFromString(class);
+    if ([ModelClass instancesRespondToSelector:@selector(initWithDictionary:error:)]) {
+        return [[ModelClass alloc] initWithDictionary:data error:nil];
     }
 
-    if(body != nil) {
-        if([body isKindOfClass:[NSDictionary class]] || [body isKindOfClass:[NSArray class]]){
-            [self.requestSerializer setValue:requestContentType forHTTPHeaderField:@"Content-Type"];
-        }
-        else if ([body isKindOfClass:[SWGFile class]]) {}
-        else {
-            NSAssert(false, @"unsupported post type!");
-        }
-    }
-    if(headerParams != nil){
-        for(NSString * key in [headerParams keyEnumerator]){
-            [request setValue:[headerParams valueForKey:key] forHTTPHeaderField:key];
-        }
-    }
-    [self.requestSerializer setValue:responseContentType forHTTPHeaderField:@"Accept"];
-
-    // Always disable cookies!
-    [request setHTTPShouldHandleCookies:NO];
-
-
-    if (self.logRequests) {
-        [self logRequest:request];
-    }
-
-    NSNumber* requestId = [SWGApiClient queueRequest];
-    AFHTTPRequestOperation *op =
-    [self HTTPRequestOperationWithRequest:request
-     success:^(AFHTTPRequestOperation *operation, id JSON) {
-         if([self executeRequestWithId:requestId]) {
-             if(self.logServerResponses)
-                 [self logResponse:JSON forRequest:request error:nil];
-             completionBlock(JSON, nil);
-         }
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         if([self executeRequestWithId:requestId]) {
-             NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
-             if(operation.responseObject) {
-                 // Add in the (parsed) response body.
-                 userInfo[SWGResponseObjectErrorKey] = operation.responseObject;
-             }
-             NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
-
-             if(self.logServerResponses)
-                 [self logResponse:nil forRequest:request error:augmentedError];
-             completionBlock(nil, augmentedError);
-         }
-     }
-     ];
-
-    [self.operationQueue addOperation:op];
-    return requestId;
+    return nil;
 }
 
--(NSNumber*)  stringWithCompletionBlock: (NSString*) path
-                                 method: (NSString*) method
-                            queryParams: (NSDictionary*) queryParams
-                                   body: (id) body
-                           headerParams: (NSDictionary*) headerParams
-                           authSettings: (NSArray *) authSettings
-                     requestContentType: (NSString*) requestContentType
-                    responseContentType: (NSString*) responseContentType
-                        completionBlock: (void (^)(NSString*, NSError *))completionBlock {
+#pragma mark - Perform Request Methods
+
+-(NSNumber*)  requestWithCompletionBlock: (NSString*) path
+                                  method: (NSString*) method
+                             queryParams: (NSDictionary*) queryParams
+                                    body: (id) body
+                            headerParams: (NSDictionary*) headerParams
+                            authSettings: (NSArray *) authSettings
+                      requestContentType: (NSString*) requestContentType
+                     responseContentType: (NSString*) responseContentType
+                         completionBlock: (void (^)(id, NSError *))completionBlock {
     // setting request serializer
     if ([requestContentType isEqualToString:@"application/json"]) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -648,11 +583,11 @@ static bool loggingEnabled = true;
 
     NSNumber* requestId = [SWGApiClient queueRequest];
     AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
-     success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSString *response = [operation responseString];
+     success:^(AFHTTPRequestOperation *operation, id response) {
          if([self executeRequestWithId:requestId]) {
-             if(self.logServerResponses)
-                 [self logResponse:responseObject forRequest:request error:nil];
+             if(self.logServerResponses) {
+                 [self logResponse:response forRequest:request error:nil];
+             }
              completionBlock(response, nil);
          }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -675,6 +610,7 @@ static bool loggingEnabled = true;
 }
 
 @end
+
 
 
 

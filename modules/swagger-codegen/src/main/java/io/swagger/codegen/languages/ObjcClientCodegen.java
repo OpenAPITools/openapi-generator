@@ -143,15 +143,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("SWGObject.m", sourceFolder, "SWGObject.m"));
         supportingFiles.add(new SupportingFile("SWGQueryParamCollection.h", sourceFolder, "SWGQueryParamCollection.h"));
         supportingFiles.add(new SupportingFile("SWGQueryParamCollection.m", sourceFolder, "SWGQueryParamCollection.m"));
-        supportingFiles.add(new SupportingFile("SWGApiClient.h", sourceFolder, "SWGApiClient.h"));
-        supportingFiles.add(new SupportingFile("SWGApiClient.m", sourceFolder, "SWGApiClient.m"));
+        supportingFiles.add(new SupportingFile("SWGApiClient-header.mustache", sourceFolder, "SWGApiClient.h"));
+        supportingFiles.add(new SupportingFile("SWGApiClient-body.mustache", sourceFolder, "SWGApiClient.m"));
         supportingFiles.add(new SupportingFile("SWGFile.h", sourceFolder, "SWGFile.h"));
         supportingFiles.add(new SupportingFile("SWGFile.m", sourceFolder, "SWGFile.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", sourceFolder, "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", sourceFolder, "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("SWGConfiguration-body.mustache", sourceFolder, "SWGConfiguration.m"));
         supportingFiles.add(new SupportingFile("SWGConfiguration-header.mustache", sourceFolder, "SWGConfiguration.h"));
-        supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
+        // supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
     }
 
     @Override
@@ -215,6 +215,16 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+        } else if (p instanceof MapProperty) {
+            MapProperty mp = (MapProperty) p;
+            Property inner = mp.getAdditionalProperties();
+
+            String innerTypeDeclaration = getTypeDeclaration(inner);
+
+            if (innerTypeDeclaration.endsWith("*")) {
+                innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
+            }
+            return getSwaggerType(p) + "* /* NSString, " + innerTypeDeclaration + " */";
         } else {
             String swaggerType = getSwaggerType(p);
 

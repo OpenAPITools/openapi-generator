@@ -21,10 +21,10 @@
 
  
 
- return type: NSDictionary*
+ return type: NSDictionary* /* NSString, NSNumber */
  */
 -(NSNumber*) getInventoryWithCompletionBlock :
-    (void (^)(NSDictionary* output, NSError* error))completionBlock;
+    (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock;
     
 
 
