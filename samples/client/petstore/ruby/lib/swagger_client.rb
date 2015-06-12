@@ -16,8 +16,8 @@ require 'swagger_client/models/order'
 
 # APIs
 require 'swagger_client/api/user_api'
-require 'swagger_client/api/store_api'
 require 'swagger_client/api/pet_api'
+require 'swagger_client/api/store_api'
 
 module SwaggerClient
   # Initialize the default configuration
