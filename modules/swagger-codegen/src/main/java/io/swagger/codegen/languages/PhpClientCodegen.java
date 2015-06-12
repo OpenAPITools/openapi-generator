@@ -90,7 +90,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String getPackagePath() {
-        //invokerPackage.replace("\\", "")
         return "SwaggerClient-php";
     }
 
