@@ -11,8 +11,8 @@ import os
 import time
 import unittest
 
-import SwaggerPetstore
-import SwaggerPetstore.configuration
+import swagger_client
+import swagger_client.configuration
 
 HOST = 'http://petstore.swagger.io/v2'
 
@@ -20,20 +20,20 @@ HOST = 'http://petstore.swagger.io/v2'
 class ApiClientTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = SwaggerPetstore.ApiClient(HOST)
+        self.api_client = swagger_client.ApiClient(HOST)
 
     def test_configuration(self):
-        SwaggerPetstore.configuration.api_key['api_key'] = '123456'
-        SwaggerPetstore.configuration.api_key_prefix['api_key'] = 'PREFIX'
-        SwaggerPetstore.configuration.username = 'test_username'
-        SwaggerPetstore.configuration.password = 'test_password'
+        swagger_client.configuration.api_key['api_key'] = '123456'
+        swagger_client.configuration.api_key_prefix['api_key'] = 'PREFIX'
+        swagger_client.configuration.username = 'test_username'
+        swagger_client.configuration.password = 'test_password'
 
         header_params = {'test1': 'value1'}
         query_params = {'test2': 'value2'}
         auth_settings = ['api_key', 'unknown']
 
         # test prefix
-        self.assertEqual('PREFIX', SwaggerPetstore.configuration.api_key_prefix['api_key'])
+        self.assertEqual('PREFIX', swagger_client.configuration.api_key_prefix['api_key'])
 
         # update parameters based on auth setting
         self.api_client.update_params_for_auth(header_params, query_params, auth_settings)
@@ -44,8 +44,8 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual(query_params['test2'], 'value2')
 
         # test basic auth
-        self.assertEqual('test_username', SwaggerPetstore.configuration.username)
-        self.assertEqual('test_password', SwaggerPetstore.configuration.password)
+        self.assertEqual('test_username', swagger_client.configuration.username)
+        self.assertEqual('test_password', swagger_client.configuration.password)
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
