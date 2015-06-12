@@ -2,6 +2,7 @@ module SwaggerClient
   module Swagger
     class Response
       require 'json'
+      require 'date'
 
       attr_accessor :raw
 
@@ -9,8 +10,8 @@ module SwaggerClient
         self.raw = raw
 
         case self.code
-        when 500..510 then raise(ServerError, self.error_message)
-        when 299..426 then raise(ClientError, self.error_message)
+        when 500..510 then raise(ServerError, self.body)
+        when 299..426 then raise(ClientError, self.body)
         end
       end
 
@@ -18,19 +19,58 @@ module SwaggerClient
         raw.code
       end
 
-      # Account for error messages that take different forms...
-      def error_message
-        body['message']
-      rescue
-        body
+      def body
+        raw.body
       end
 
-      # If body is JSON, parse it
-      # Otherwise return raw string
-      def body
-        JSON.parse(raw.body, :symbolize_names => true)
-      rescue
-        raw.body
+      # Deserialize the raw response body to the given return type.
+      #
+      # @param [String] return_type some examples: "User", "Array[User]", "Hash[String,Integer]"
+      def deserialize(return_type)
+        return nil if body.blank?
+
+        # ensuring a default content type
+        content_type = raw.headers_hash['Content-Type'] || 'application/json'
+
+        unless content_type.start_with?('application/json')
+          fail "Content-Type is not supported: #{content_type}"
+        end
+
+        begin
+          data = JSON.parse(body, :symbolize_names => true)
+        rescue JSON::ParserError => e
+          if return_type == 'String'
+            return body
+          else
+            raise e
+          end
+        end
+
+        build_models data, return_type
+      end
+
+      # Build model(s) from Hash data for array/hash values of the response.
+      def build_models(data, return_type)
+        case return_type
+        when /\AArray<(.+)>\z/
+          sub_type = $1
+          data.map {|item| build_models(item, sub_type) }
+        when /\AHash\<String, (.+)\>\z/
+          sub_type = $1
+          {}.tap do |hash|
+            data.each {|k, v| hash[k] = build_models(v, sub_type) }
+          end
+        when 'String', 'Integer', 'Float', 'BOOLEAN'
+          # primitives, return directly
+          data
+        when 'DateTime'
+          DateTime.parse data
+        else
+          # models
+          SwaggerClient.const_get(return_type).new.tap do |model|
+            model.build_from_hash data
+          end
+        end
       end
 
       # `headers_hash` is a Typhoeus-specific extension of Hash,
@@ -58,7 +98,7 @@ module SwaggerClient
       def pretty_body
         return unless body.present?
         case format
-        when 'json' then JSON.pretty_generate(body).gsub(/\n/, '<br/>')
+        when 'json' then JSON.pretty_generate(JSON.parse(body)).gsub(/\n/, '<br/>')
         end
       end
 

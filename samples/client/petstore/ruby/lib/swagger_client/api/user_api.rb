@@ -45,7 +45,7 @@ module SwaggerClient
     # Creates list of users with given input array
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [array[User]] :body List of user object
+    # @option opts [Array<User>] :body List of user object
     # @return [nil]
     def self.create_users_with_array_input(opts = {})
       
@@ -82,7 +82,7 @@ module SwaggerClient
     # Creates list of users with given input array
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [array[User]] :body List of user object
+    # @option opts [Array<User>] :body List of user object
     # @return [nil]
     def self.create_users_with_list_input(opts = {})
       
@@ -119,9 +119,9 @@ module SwaggerClient
     # Logs user into the system
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [string] :username The user name for login
-    # @option opts [string] :password The password for login in clear text
-    # @return [string]
+    # @option opts [String] :username The user name for login
+    # @option opts [String] :password The password for login in clear text
+    # @return [String]
     def self.login_user(opts = {})
       
 
@@ -152,8 +152,8 @@ module SwaggerClient
       
 
       auth_names = []
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      obj = string.new() and obj.build_from_hash(response)
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('String')
     end
 
     # Logs out current logged in user session
@@ -228,8 +228,8 @@ module SwaggerClient
       
 
       auth_names = []
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      obj = User.new() and obj.build_from_hash(response)
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('User')
     end
 
     # Updated user

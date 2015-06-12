@@ -15,7 +15,7 @@ module SwaggerClient
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.swagger_types.each_pair do |key, type|
-        if type =~ /^array\[(.*)\]/i
+        if type =~ /^Array<(.*)>/i
           if attributes[self.class.attribute_map[key]].is_a?(Array)
             self.send("#{key}=", attributes[self.class.attribute_map[key]].map{ |v| _deserialize($1, v) } )
           else
@@ -35,13 +35,13 @@ module SwaggerClient
       case type.to_sym
       when :DateTime
         DateTime.parse(value)
-      when :string
+      when :String
         value.to_s
-      when :int
+      when :Integer
         value.to_i
-      when :double
+      when :Float
         value.to_f
-      when :boolean
+      when :BOOLEAN
         if value =~ /^(true|t|yes|y|1)$/i
           true
         else
