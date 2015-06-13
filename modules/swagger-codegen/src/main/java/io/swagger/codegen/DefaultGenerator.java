@@ -273,6 +273,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     File outputFile = new File(outputFilename);
                     OutputStream out = new FileOutputStream(outputFile, false);
                     if (in != null && out != null) {
+                        System.out.println("writing file " + outputFile);
                         IOUtils.copy(in, out);
                     } else {
                         if (in == null) {
