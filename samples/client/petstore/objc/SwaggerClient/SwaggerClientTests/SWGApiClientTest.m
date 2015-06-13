@@ -160,9 +160,15 @@
     XCTAssertEqualObjects([result[@"pet"] _id], @119);
     
     // pure object
-    result = [self.apiClient deserialize:nil class:@"NSObject*"];
+    result = [self.apiClient deserialize:@"" class:@"NSObject*"];
     
     XCTAssertTrue([result isKindOfClass:[NSObject class]]);
+    
+    // NSString
+    data = @"test string";
+    result = [self.apiClient deserialize:data class:@"NSString*"];
+    
+    XCTAssertTrue([result isKindOfClass:[NSString class]]);
 }
 
 @end

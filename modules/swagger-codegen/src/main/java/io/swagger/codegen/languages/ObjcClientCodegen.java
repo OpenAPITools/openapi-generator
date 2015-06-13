@@ -145,6 +145,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("SWGQueryParamCollection.m", sourceFolder, "SWGQueryParamCollection.m"));
         supportingFiles.add(new SupportingFile("SWGApiClient-header.mustache", sourceFolder, "SWGApiClient.h"));
         supportingFiles.add(new SupportingFile("SWGApiClient-body.mustache", sourceFolder, "SWGApiClient.m"));
+        supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-header.mustache", sourceFolder, "SWGJSONResponseSerializer.h"));
+        supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-body.mustache", sourceFolder, "SWGJSONResponseSerializer.m"));
         supportingFiles.add(new SupportingFile("SWGFile.h", sourceFolder, "SWGFile.h"));
         supportingFiles.add(new SupportingFile("SWGFile.m", sourceFolder, "SWGFile.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", sourceFolder, "JSONValueTransformer+ISO8601.m"));

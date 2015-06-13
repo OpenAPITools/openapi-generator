@@ -10,7 +10,9 @@
 		BA525648922D4C0E9F44D4F1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73DA4F1067C343C3962F1542 /* libPods.a */; };
 		CF0560EB1B1855CF00C0D4EC /* SWGConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0560EA1B1855CF00C0D4EC /* SWGConfiguration.m */; };
 		CF31D0991B105E4B00509935 /* SWGApiClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF31D0981B105E4B00509935 /* SWGApiClientTest.m */; };
+		CF5B6E2D1B2BD70800862A1C /* UserApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5B6E2C1B2BD70800862A1C /* UserApiTest.m */; };
 		CFB37D061B2B11DD00D2E5F1 /* StoreApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB37D051B2B11DC00D2E5F1 /* StoreApiTest.m */; };
+		CFCEFE511B2C1330006313BE /* SWGJSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCEFE501B2C1330006313BE /* SWGJSONResponseSerializer.m */; };
 		CFD1B6701B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */; };
 		CFD1B6711B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */; };
 		EA66999A1811D2FA00A70D03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699991811D2FA00A70D03 /* Foundation.framework */; };
@@ -61,7 +63,10 @@
 		CF0560E91B1855CF00C0D4EC /* SWGConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGConfiguration.h; sourceTree = "<group>"; };
 		CF0560EA1B1855CF00C0D4EC /* SWGConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGConfiguration.m; sourceTree = "<group>"; };
 		CF31D0981B105E4B00509935 /* SWGApiClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiClientTest.m; sourceTree = "<group>"; };
+		CF5B6E2C1B2BD70800862A1C /* UserApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserApiTest.m; sourceTree = "<group>"; };
 		CFB37D051B2B11DC00D2E5F1 /* StoreApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreApiTest.m; sourceTree = "<group>"; };
+		CFCEFE4F1B2C1330006313BE /* SWGJSONResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGJSONResponseSerializer.h; sourceTree = "<group>"; };
+		CFCEFE501B2C1330006313BE /* SWGJSONResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGJSONResponseSerializer.m; sourceTree = "<group>"; };
 		CFD1B66E1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSONValueTransformer+ISO8601.h"; sourceTree = "<group>"; };
 		CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSONValueTransformer+ISO8601.m"; sourceTree = "<group>"; };
 		E2B6DA00BE52336E23783686 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -214,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				EA8CD3EB1AC274BE00C47D0B /* PetApiTest.h */,
+				CF5B6E2C1B2BD70800862A1C /* UserApiTest.m */,
 				CFB37D051B2B11DC00D2E5F1 /* StoreApiTest.m */,
 				CF31D0981B105E4B00509935 /* SWGApiClientTest.m */,
 				EA6699C71811D2FB00A70D03 /* PetApiTest.m */,
@@ -251,6 +257,8 @@
 				EAEA85D61811D3AE00F06E69 /* SWGOrder.h */,
 				EAEA85D71811D3AE00F06E69 /* SWGOrder.m */,
 				EAB26B0E1AC8E692002F5C7A /* SWGPet.h */,
+				CFCEFE4F1B2C1330006313BE /* SWGJSONResponseSerializer.h */,
+				CFCEFE501B2C1330006313BE /* SWGJSONResponseSerializer.m */,
 				EAEA85D91811D3AE00F06E69 /* SWGPet.m */,
 				EAEA85DA1811D3AE00F06E69 /* SWGPetApi.h */,
 				EAEA85DB1811D3AE00F06E69 /* SWGPetApi.m */,
@@ -418,6 +426,7 @@
 				EAEA85E91811D3AE00F06E69 /* SWGOrder.m in Sources */,
 				EAEA85E81811D3AE00F06E69 /* SWGObject.m in Sources */,
 				EA8B8AA41AC6683700638FBB /* SWGQueryParamCollection.m in Sources */,
+				CFCEFE511B2C1330006313BE /* SWGJSONResponseSerializer.m in Sources */,
 				EAEA85E71811D3AE00F06E69 /* SWGFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +438,7 @@
 				EAB26B0C1AC8DF78002F5C7A /* PetApiTest.h in Sources */,
 				CFD1B6711B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */,
 				EAB26B0D1AC8DF78002F5C7A /* PetApiTest.m in Sources */,
+				CF5B6E2D1B2BD70800862A1C /* UserApiTest.m in Sources */,
 				CFB37D061B2B11DD00D2E5F1 /* StoreApiTest.m in Sources */,
 				CF31D0991B105E4B00509935 /* SWGApiClientTest.m in Sources */,
 			);

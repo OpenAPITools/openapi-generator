@@ -359,6 +359,11 @@ static bool loggingEnabled = true;
     NSMutableArray *resultArray = nil;
     NSMutableDictionary *resultDict = nil;
 
+    // return nil if data is nil
+    if (!data) {
+        return nil;
+    }
+
     // remove "*" from class, if ends with "*"
     if ([class hasSuffix:@"*"]) {
         class = [class substringToIndex:[class length] - 1];
