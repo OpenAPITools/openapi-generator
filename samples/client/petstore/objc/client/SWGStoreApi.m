@@ -71,17 +71,16 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 }
 
 
-/*!
- * Returns pet inventories by status
- * Returns a map of status codes to quantities
- * \returns NSDictionary* /* NSString, NSNumber */
- */
+//
+// Returns pet inventories by status
+// Returns a map of status codes to quantities
+//  @returns NSDictionary* /* NSString, NSNumber */
+//
 -(NSNumber*) getInventoryWithCompletionBlock: 
         (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock
          {
 
     
-
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/inventory", basePath];
 
     // remove format in URL if needed
@@ -142,12 +141,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Place an order for a pet
- * 
- * \param body order placed for purchasing the pet
- * \returns SWGOrder*
- */
+//
+// Place an order for a pet
+// 
+//  @param body order placed for purchasing the pet
+//  @returns SWGOrder*
+//
 -(NSNumber*) placeOrderWithCompletionBlock: (SWGOrder*) body
         
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
@@ -238,12 +237,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Find purchase order by ID
- * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
- * \param orderId ID of pet that needs to be fetched
- * \returns SWGOrder*
- */
+//
+// Find purchase order by ID
+// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+//  @param orderId ID of pet that needs to be fetched
+//  @returns SWGOrder*
+//
 -(NSNumber*) getOrderByIdWithCompletionBlock: (NSString*) orderId
         
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
@@ -315,12 +314,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Delete purchase order by ID
- * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
- * \param orderId ID of the order that needs to be deleted
- * \returns void
- */
+//
+// Delete purchase order by ID
+// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+//  @param orderId ID of the order that needs to be deleted
+//  @returns void
+//
 -(NSNumber*) deleteOrderWithCompletionBlock: (NSString*) orderId
         
         
