@@ -351,12 +351,18 @@ static bool loggingEnabled = true;
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
+#pragma mark - Deserialize methods
 
 - (id) deserialize:(id) data class:(NSString *) class {
     NSRegularExpression *regexp = nil;
     NSTextCheckingResult *match = nil;
     NSMutableArray *resultArray = nil;
     NSMutableDictionary *resultDict = nil;
+
+    // remove "*" from class, if ends with "*"
+    if ([class hasSuffix:@"*"]) {
+        class = [class substringToIndex:[class length] - 1];
+    }
 
     // list of models
     NSString *arrayOfModelsPat = @"NSArray<(.+)>";
@@ -371,7 +377,7 @@ static bool loggingEnabled = true;
     if (match) {
         NSString *innerType = [class substringWithRange:[match rangeAtIndex:1]];
 
-        resultArray = [NSMutableArray arrayWithCapacity:[data length]];
+        resultArray = [NSMutableArray arrayWithCapacity:[data count]];
         [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 [resultArray addObject:[self deserialize:obj class:innerType]];
             }
@@ -390,7 +396,7 @@ static bool loggingEnabled = true;
                                  range:NSMakeRange(0, [class length])];
 
     if (match) {
-        resultArray = [NSMutableArray arrayWithCapacity:[data length]];
+        resultArray = [NSMutableArray arrayWithCapacity:[data count]];
         [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [resultArray addObject:[self deserialize:obj class:NSStringFromClass([obj class])]];
         }];
@@ -399,7 +405,7 @@ static bool loggingEnabled = true;
     }
 
     // map
-    NSString *dictPat = @"NSDictionary /\\* (.+), (.+) \\*/";
+    NSString *dictPat = @"NSDictionary\\* /\\* (.+), (.+) \\*/";
     regexp = [NSRegularExpression regularExpressionWithPattern:dictPat
                                                        options:NSRegularExpressionCaseInsensitive
                                                          error:nil];
@@ -435,7 +441,16 @@ static bool loggingEnabled = true;
             return [NSNumber numberWithBool:[data boolValue]];
         }
         else if ([class isEqualToString:@"NSNumber"]) {
-            return [data numberFromString:data];
+            // NSNumber from NSNumber
+            if ([data isKindOfClass:[NSNumber class]]) {
+                return data;
+            }
+            // NSNumber from NSString
+            else {
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                formatter.numberStyle = NSNumberFormatterDecimalStyle;
+                return [formatter numberFromString:data];
+            }
         }
     }
     

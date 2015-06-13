@@ -72,12 +72,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 }
 
 
-/*!
- * Update an existing pet
- * 
- * \param body Pet object that needs to be added to the store
- * \returns void
- */
+//
+// Update an existing pet
+// 
+//  @param body Pet object that needs to be added to the store
+//  @returns void
+//
 -(NSNumber*) updatePetWithCompletionBlock: (SWGPet*) body
         
         
@@ -168,12 +168,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Add a new pet to the store
- * 
- * \param body Pet object that needs to be added to the store
- * \returns void
- */
+//
+// Add a new pet to the store
+// 
+//  @param body Pet object that needs to be added to the store
+//  @returns void
+//
 -(NSNumber*) addPetWithCompletionBlock: (SWGPet*) body
         
         
@@ -264,12 +264,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Finds Pets by status
- * Multiple status values can be provided with comma seperated strings
- * \param status Status values that need to be considered for filter
- * \returns NSArray<SWGPet>*
- */
+//
+// Finds Pets by status
+// Multiple status values can be provided with comma seperated strings
+//  @param status Status values that need to be considered for filter
+//  @returns NSArray<SWGPet>*
+//
 -(NSNumber*) findPetsByStatusWithCompletionBlock: (NSArray*) status
         
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock
@@ -343,12 +343,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Finds Pets by tags
- * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
- * \param tags Tags to filter by
- * \returns NSArray<SWGPet>*
- */
+//
+// Finds Pets by tags
+// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+//  @param tags Tags to filter by
+//  @returns NSArray<SWGPet>*
+//
 -(NSNumber*) findPetsByTagsWithCompletionBlock: (NSArray*) tags
         
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock
@@ -422,12 +422,12 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Find pet by ID
- * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
- * \param petId ID of pet that needs to be fetched
- * \returns SWGPet*
- */
+//
+// Find pet by ID
+// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+//  @param petId ID of pet that needs to be fetched
+//  @returns SWGPet*
+//
 -(NSNumber*) getPetByIdWithCompletionBlock: (NSNumber*) petId
         
         completionHandler: (void (^)(SWGPet* output, NSError* error))completionBlock
@@ -499,14 +499,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Updates a pet in the store with form data
- * 
- * \param petId ID of pet that needs to be updated
- * \param name Updated name of the pet
- * \param status Updated status of the pet
- * \returns void
- */
+//
+// Updates a pet in the store with form data
+// 
+//  @param petId ID of pet that needs to be updated
+//  @param name Updated name of the pet
+//  @param status Updated status of the pet
+//  @returns void
+//
 -(NSNumber*) updatePetWithFormWithCompletionBlock: (NSString*) petId
          name: (NSString*) name
          status: (NSString*) status
@@ -596,13 +596,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * Deletes a pet
- * 
- * \param apiKey 
- * \param petId Pet id to delete
- * \returns void
- */
+//
+// Deletes a pet
+// 
+//  @param apiKey 
+//  @param petId Pet id to delete
+//  @returns void
+//
 -(NSNumber*) deletePetWithCompletionBlock: (NSString*) apiKey
          petId: (NSNumber*) petId
         
@@ -677,14 +677,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-/*!
- * uploads an image
- * 
- * \param petId ID of pet to update
- * \param additionalMetadata Additional data to pass to server
- * \param file file to upload
- * \returns void
- */
+//
+// uploads an image
+// 
+//  @param petId ID of pet to update
+//  @param additionalMetadata Additional data to pass to server
+//  @param file file to upload
+//  @returns void
+//
 -(NSNumber*) uploadFileWithCompletionBlock: (NSNumber*) petId
          additionalMetadata: (NSString*) additionalMetadata
          file: (SWGFile*) file
