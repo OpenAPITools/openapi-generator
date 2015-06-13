@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "SWGPetApi.h"
 #import "SWGStoreApi.h"
+#import "SWGUserApi.h"
 #import "SWGConfiguration.h"
 
 @interface ViewController ()
@@ -55,6 +56,11 @@
 //                     }
      ];
     */
+    SWGUserApi *api = [[SWGUserApi alloc] init];
+    [api loginUserWithCompletionBlock:@"username" password:@"password" completionHandler:^(NSString *output, NSError *error) {
+        NSLog(@"output => %@", output);
+        NSLog(@"error => %@", error);
+    }];
 }
 
 - (void)didReceiveMemoryWarning
