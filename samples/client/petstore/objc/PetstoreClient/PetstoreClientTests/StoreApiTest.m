@@ -32,7 +32,7 @@
             XCTFail(@"failed to fetch inventory");
         }
         
-        NSSet *expectKeys = [NSSet setWithArray:@[@"confused", @"string", @"pending", @"available", @"sold"]];
+        NSSet *expectKeys = [NSSet setWithArray:@[@"confused", @"string", @"available"]];
         NSSet *keys = [NSSet setWithArray:[output allKeys]];
        
         XCTAssertEqualObjects(expectKeys, keys);

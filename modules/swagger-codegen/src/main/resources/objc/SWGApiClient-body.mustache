@@ -364,6 +364,11 @@ static bool loggingEnabled = true;
         class = [class substringToIndex:[class length] - 1];
     }
 
+    // pure object
+    if ([class isEqualToString:@"NSObject"]) {
+        return [[NSObject alloc] init];
+    }
+
     // list of models
     NSString *arrayOfModelsPat = @"NSArray<(.+)>";
     regexp = [NSRegularExpression regularExpressionWithPattern:arrayOfModelsPat

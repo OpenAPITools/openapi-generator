@@ -158,6 +158,11 @@
     XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
     XCTAssertTrue([result[@"pet"] isKindOfClass:[SWGPet class]]);
     XCTAssertEqualObjects([result[@"pet"] _id], @119);
+    
+    // pure object
+    result = [self.apiClient deserialize:nil class:@"NSObject*"];
+    
+    XCTAssertTrue([result isKindOfClass:[NSObject class]]);
 }
 
 @end

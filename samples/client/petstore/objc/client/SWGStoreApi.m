@@ -81,6 +81,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
          {
 
     
+
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/store/inventory", basePath];
 
     // remove format in URL if needed
