@@ -70,13 +70,15 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [SWGApiClient requestQueueSize];
 }
 
+#pragma mark - Api Methods
 
-//
-// Create user
-// This can only be done by the logged in user.
-//  @param body Created user object
-//  @returns void
-//
+///
+/// Create user
+/// This can only be done by the logged in user.
+///  @param body Created user object
+///
+///  @returns void
+///
 -(NSNumber*) createUserWithCompletionBlock: (SWGUser*) body
         
         
@@ -167,12 +169,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-//
-// Creates list of users with given input array
-// 
-//  @param body List of user object
-//  @returns void
-//
+///
+/// Creates list of users with given input array
+/// 
+///  @param body List of user object
+///
+///  @returns void
+///
 -(NSNumber*) createUsersWithArrayInputWithCompletionBlock: (NSArray<SWGUser>*) body
         
         
@@ -263,12 +266,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-//
-// Creates list of users with given input array
-// 
-//  @param body List of user object
-//  @returns void
-//
+///
+/// Creates list of users with given input array
+/// 
+///  @param body List of user object
+///
+///  @returns void
+///
 -(NSNumber*) createUsersWithListInputWithCompletionBlock: (NSArray<SWGUser>*) body
         
         
@@ -359,13 +363,15 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-//
-// Logs user into the system
-// 
-//  @param username The user name for login
-//  @param password The password for login in clear text
-//  @returns NSString*
-//
+///
+/// Logs user into the system
+/// 
+///  @param username The user name for login
+///
+///  @param password The password for login in clear text
+///
+///  @returns NSString*
+///
 -(NSNumber*) loginUserWithCompletionBlock: (NSString*) username
          password: (NSString*) password
         
@@ -442,11 +448,11 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-//
-// Logs out current logged in user session
-// 
-//  @returns void
-//
+///
+/// Logs out current logged in user session
+/// 
+///  @returns void
+///
 -(NSNumber*) logoutUserWithCompletionBlock: 
         
         (void (^)(NSError* error))completionBlock {
@@ -513,12 +519,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-//
-// Get user by user name
-// 
-//  @param username The name that needs to be fetched. Use user1 for testing. 
-//  @returns SWGUser*
-//
+///
+/// Get user by user name
+/// 
+///  @param username The name that needs to be fetched. Use user1 for testing. 
+///
+///  @returns SWGUser*
+///
 -(NSNumber*) getUserByNameWithCompletionBlock: (NSString*) username
         
         completionHandler: (void (^)(SWGUser* output, NSError* error))completionBlock
@@ -590,13 +597,15 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-//
-// Updated user
-// This can only be done by the logged in user.
-//  @param username name that need to be deleted
-//  @param body Updated user object
-//  @returns void
-//
+///
+/// Updated user
+/// This can only be done by the logged in user.
+///  @param username name that need to be deleted
+///
+///  @param body Updated user object
+///
+///  @returns void
+///
 -(NSNumber*) updateUserWithCompletionBlock: (NSString*) username
          body: (SWGUser*) body
         
@@ -692,12 +701,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
           ];
 }
 
-//
-// Delete user
-// This can only be done by the logged in user.
-//  @param username The name that needs to be deleted
-//  @returns void
-//
+///
+/// Delete user
+/// This can only be done by the logged in user.
+///  @param username The name that needs to be deleted
+///
+///  @returns void
+///
 -(NSNumber*) deleteUserWithCompletionBlock: (NSString*) username
         
         
