@@ -127,7 +127,7 @@ class ApiClientTests(unittest.TestCase):
 
     def test_deserialize_to_object(self):
         data = self.api_client.deserialize("", "object")
-        self.assertTrue(isinstance(data, object))
+        self.assertTrue(type(data) == object)
         
 
 
