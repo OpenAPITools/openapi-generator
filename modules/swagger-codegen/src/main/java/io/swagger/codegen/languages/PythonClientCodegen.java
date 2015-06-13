@@ -50,6 +50,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "datetime");
+        typeMapping.put("object", "object");
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
         reservedWords = new HashSet<String>(
