@@ -49,24 +49,31 @@ module SwaggerClient
         build_models data, return_type
       end
 
-      # Build model(s) from Hash data for array/hash values of the response.
+      # Walk through the given data and, when necessary, build model(s) from
+      # Hash data for array/hash values of the response.
       def build_models(data, return_type)
         case return_type
-        when /\AArray<(.+)>\z/
-          sub_type = $1
-          data.map {|item| build_models(item, sub_type) }
-        when /\AHash\<String, (.+)\>\z/
-          sub_type = $1
-          {}.tap do |hash|
-            data.each {|k, v| hash[k] = build_models(v, sub_type) }
-          end
         when 'String', 'Integer', 'Float', 'BOOLEAN'
           # primitives, return directly
           data
         when 'DateTime'
+          # parse date time (expecting ISO 8601 format)
           DateTime.parse data
+        when 'Object'
+          # generic object, return directly
+          data
+        when /\AArray<(.+)>\z/
+          # e.g. Array<Pet>
+          sub_type = $1
+          data.map {|item| build_models(item, sub_type) }
+        when /\AHash\<String, (.+)\>\z/
+          # e.g. Hash<String, Integer>
+          sub_type = $1
+          {}.tap do |hash|
+            data.each {|k, v| hash[k] = build_models(v, sub_type) }
+          end
         else
-          # models
+          # models, e.g. Pet
           SwaggerClient.const_get(return_type).new.tap do |model|
             model.build_from_hash data
           end
