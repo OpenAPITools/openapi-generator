@@ -9,9 +9,11 @@ module {{moduleName}}
       def initialize(raw)
         self.raw = raw
 
-        case self.code
-        when 500..510 then raise(ServerError, self.body)
-        when 299..426 then raise(ClientError, self.body)
+        unless raw.success?
+          fail ApiError.new(:code => code,
+                            :response_headers => headers,
+                            :response_body => body),
+               raw.status_message
         end
       end
 

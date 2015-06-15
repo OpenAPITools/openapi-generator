@@ -73,6 +73,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
         supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "request.mustache", swaggerFolder, "request.rb"));
         supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "response.mustache", swaggerFolder, "response.rb"));
+        supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "api_error.mustache", swaggerFolder, "api_error.rb"));
         supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "version.mustache", swaggerFolder, "version.rb"));
         supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "configuration.mustache", swaggerFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));
