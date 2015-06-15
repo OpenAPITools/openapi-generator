@@ -2,6 +2,7 @@
 require 'swagger_client/monkey'
 require 'swagger_client/swagger'
 require 'swagger_client/swagger/configuration'
+require 'swagger_client/swagger/api_error'
 require 'swagger_client/swagger/request'
 require 'swagger_client/swagger/response'
 require 'swagger_client/swagger/version'
