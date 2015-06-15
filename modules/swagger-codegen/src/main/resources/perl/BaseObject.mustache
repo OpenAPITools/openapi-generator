@@ -1,4 +1,4 @@
-package WWW::{{invokerPackage}}::Object::BaseObject;
+package WWW::{{moduleName}}::Object::BaseObject;
 
 require 5.6.0;
 use strict;
@@ -68,7 +68,7 @@ sub _deserialize {
   } elsif ( grep( /^$type$/, ('int', 'double', 'string', 'boolean'))) {
     return $data;
   } else { # hash(model)
-    my $_instance = eval "WWW::{{invokerPackage}}::Object::$type->new()";
+    my $_instance = eval "WWW::{{moduleName}}::Object::$type->new()";
     return $_instance->from_hash($data);
   }
 }

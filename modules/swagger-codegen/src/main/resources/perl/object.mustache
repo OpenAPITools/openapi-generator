@@ -1,6 +1,6 @@
 {{#models}}
 {{#model}}
-package WWW::{{invokerPackage}}::Object::{{classname}};
+package WWW::{{moduleName}}::Object::{{classname}};
 
 require 5.6.0;
 use strict;
@@ -13,7 +13,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use base "WWW::{{invokerPackage}}::Object::BaseObject";
+use base "WWW::{{moduleName}}::Object::BaseObject";
 
 #
 #{{description}}

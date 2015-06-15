@@ -7,16 +7,16 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.codegen.CliOption;
+
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "SwaggerClient";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-client";
-    protected String artifactVersion = "1.0.0";
+    protected String moduleName = "SwaggerClient";
+    protected String moduleVersion = "1.0.0";
 
     public PerlClientCodegen() {
         super();
@@ -26,8 +26,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTemplateFiles.put("api.mustache", ".pm");
         templateDir = "perl";
 
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
@@ -44,11 +42,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
-
+        languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("double");
         languageSpecificPrimitives.add("string");
@@ -58,6 +52,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("HASH");
         languageSpecificPrimitives.add("object");
 
+        typeMapping.clear();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
         typeMapping.put("float", "double");
@@ -71,9 +66,31 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
 
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "ApiClient.pm"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "Configuration.pm"));
-        supportingFiles.add(new SupportingFile("BaseObject.mustache", ("lib/WWW/" + invokerPackage).replace('/', File.separatorChar), "Object/BaseObject.pm"));
+        cliOptions.clear();
+        cliOptions.add(new CliOption("moduleName", "perl module name, default: SwaggerClient"));
+        cliOptions.add(new CliOption("moduleVersion", "perl module version, default: 1.0.0"));
+    }
+
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey("moduleVersion")) {
+            moduleVersion = (String) additionalProperties.get("moduleVersion");
+        } else {
+            additionalProperties.put("moduleVersion", moduleVersion);
+        }
+
+        if (additionalProperties.containsKey("moduleName")) {
+            moduleName = (String) additionalProperties.get("moduleName");
+        } else {
+            additionalProperties.put("moduleName", moduleName);
+        }
+
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiClient.pm"));
+        supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Configuration.pm"));
+        supportingFiles.add(new SupportingFile("BaseObject.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Object/BaseObject.pm"));
     }
 
     public CodegenType getTag() {
@@ -95,11 +112,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/lib/WWW/" + invokerPackage + apiPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/lib/WWW/" + moduleName + apiPackage()).replace('/', File.separatorChar);
     }
 
     public String modelFileFolder() {
-        return (outputFolder + "/lib/WWW/" + invokerPackage + modelPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/lib/WWW/" + moduleName + modelPackage()).replace('/', File.separatorChar);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package WWW::{{invokerPackage}}::ApiClient;
+package WWW::{{moduleName}}::ApiClient;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ use Log::Any qw($log);
 use Carp;
 use Module::Runtime qw(use_module);
 
-use WWW::{{invokerPackage}}::Configuration;
+use WWW::{{moduleName}}::Configuration;
 
 sub new
 {
@@ -115,8 +115,8 @@ sub call_api {
   else {
   }
  
-  $self->{ua}->timeout($self->{http_timeout} || $WWW::{{invokerPackage}}::Configuration::http_timeout); 
-  $self->{ua}->agent($self->{http_user_agent} || $WWW::{{invokerPackage}}::Configuration::http_user_agent);
+  $self->{ua}->timeout($self->{http_timeout} || $WWW::{{moduleName}}::Configuration::http_timeout); 
+  $self->{ua}->agent($self->{http_user_agent} || $WWW::{{moduleName}}::Configuration::http_user_agent);
   
   my $_response = $self->{ua}->request($_request);
 
@@ -237,7 +237,7 @@ sub deserialize
   } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) {
     return $data;
   } else { # model
-    my $_instance = use_module("WWW::SwaggerClient::Object::$class")->new;
+    my $_instance = use_module("WWW::{{moduleName}}::Object::$class")->new;
     if (ref $data eq "HASH") {
       return $_instance->from_hash($data);
     } else { # string, need to json decode first
@@ -287,10 +287,10 @@ sub select_header_content_type
 sub get_api_key_with_prefix
 {
     my ($self, $api_key) = @_;
-    if ($WWW::{{invokerPackage}}::Configuration::api_key_prefix->{$api_key}) {
-      return $WWW::{{invokerPackage}}::Configuration::api_key_prefix->{$api_key}." ".$WWW::{{invokerPackage}}::Configuration::api_key->{$api_key};
+    if ($WWW::{{moduleName}}::Configuration::api_key_prefix->{$api_key}) {
+      return $WWW::{{moduleName}}::Configuration::api_key_prefix->{$api_key}." ".$WWW::{{moduleName}}::Configuration::api_key->{$api_key};
     } else {
-      return $WWW::{{invokerPackage}}::Configuration::api_key->{$api_key};
+      return $WWW::{{moduleName}}::Configuration::api_key->{$api_key};
     }
 }
 
@@ -310,7 +310,7 @@ sub update_params_for_auth {
     if (!defined($auth)) {
     }
     {{#authMethods}}elsif ($auth eq '{{name}}') {
-      {{#isApiKey}}{{#isKeyInHeader}}$header_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$query_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$header_params->{'Authorization'} = 'Basic '.encode_base64($WWW::{{invokerPackage}}::Configuration::username.":".$WWW::{{invokerPackage}}::Configuration::password);{{/isBasic}}
+      {{#isApiKey}}{{#isKeyInHeader}}$header_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$query_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$header_params->{'Authorization'} = 'Basic '.encode_base64($WWW::{{moduleName}}::Configuration::username.":".$WWW::{{moduleName}}::Configuration::password);{{/isBasic}}
         {{#isOAuth}}# TODO support oauth{{/isOAuth}}
     }
     {{/authMethods}}
