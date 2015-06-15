@@ -62,7 +62,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Hash");
-        typeMapping.put("object", "Hash");
+        typeMapping.put("object", "Object");
 
         String baseFolder = "lib" + File.separatorChar + gemName;
         String swaggerFolder = baseFolder + File.separatorChar + "swagger";
