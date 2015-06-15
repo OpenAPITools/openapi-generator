@@ -50,6 +50,19 @@ describe "Pet" do
       pet.category.name.should == "category test"
     end
 
+    it "should not find a pet that does not exist" do
+      begin
+        SwaggerClient::PetApi.get_pet_by_id(-1)
+        fail 'it should raise error'
+      rescue SwaggerClient::Swagger::ApiError => e
+        e.code.should == 404
+        e.message.should == 'Not Found'
+        e.response_body.should == '{"code":1,"type":"error","message":"Pet not found"}'
+        e.response_headers.should be_a(Hash)
+        e.response_headers['Content-Type'].should == 'application/json'
+      end
+    end
+
     it "should find pets by status" do
       pets = SwaggerClient::PetApi.find_pets_by_status(:status => 'available')
       pets.length.should >= 3
