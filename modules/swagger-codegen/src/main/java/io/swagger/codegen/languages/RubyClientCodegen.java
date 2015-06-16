@@ -55,8 +55,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
-        cliOptions.add(new CliOption("gemName", "gem name, default: swagger_client"));
-        cliOptions.add(new CliOption("moduleName", "top module name, usually corresponding to gem name, default: SwaggerClient"));
+        cliOptions.add(new CliOption("gemName", "gem name (convention: underscore_case), default: swagger_client"));
+        cliOptions.add(new CliOption("moduleName", "top module name (convention: CamelCase, usually corresponding to gem name), default: SwaggerClient"));
         cliOptions.add(new CliOption("gemVersion", "gem version, default: 1.0.0"));
     }
 
