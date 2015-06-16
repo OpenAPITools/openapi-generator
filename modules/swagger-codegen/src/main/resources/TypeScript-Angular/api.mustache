@@ -1,0 +1,68 @@
+/// <reference path="api.d.ts" />
+
+/* tslint:disable:no-unused-variable member-ordering */
+
+{{#operations}}
+module {{package}} {
+    'use strict';
+
+    {{#description}}
+    /**
+    * {{&description}}
+    */
+    {{/description}}
+    export class {{classname}} {
+        private basePath = '{{basePath}}';
+
+        static $inject: string[] = ['$http'];
+
+        constructor(private $http: ng.IHttpService, basePath?: string) {
+            if (basePath) {
+                this.basePath = basePath;
+            }
+        }
+        {{#operation}}
+        public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}} extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+            var path = this.basePath + '{{path}}';
+            {{#pathParams}}
+            path = path.replace('{' + '{{paramName}}' + '}', String({{paramName}}));
+            {{/pathParams}}
+            var queryParameters: any = {};
+            var headers: any = {};
+            {{#requiredParamCount}}
+            // verify required params are set
+            if ({{/requiredParamCount}}{{#requiredParams}} !{{paramName}} {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
+                throw new Error('Missing required parameter: {{&paramName}}');
+            }
+            {{/requiredParamCount}}
+            {{#queryParams}}if ({{paramName}} !== undefined) {
+                queryParameters['{{paramName}}'] = {{paramName}};
+            }{{/queryParams}}
+            {{#headerParams}}headerParams['{{paramName}}'] = {{paramName}};{{/headerParams}}
+            var httpRequestParams: any = {
+                method: '{{httpMethod}}',
+                url: path,
+                json: true,
+                {{#bodyParam}}data: body,
+                {{/bodyParam}}
+                params: queryParameters,
+                headers: headers
+            };
+
+            if (extraHttpRequestParams) {
+                for (var k in extraHttpRequestParams){
+                    if (extraHttpRequestParams.hasOwnProperty(k)) {
+                        httpRequestParams[k] = extraHttpRequestParams[k];
+                    }
+                }
+            }
+
+            return this.$http(httpRequestParams);
+        }
+		{{/operation}}
+    }
+
+    angular.module('{{package}}_{{classname}}', ['$http'])
+        .service('{{classname}}', {{classname}});
+}
+{{/operations}}
