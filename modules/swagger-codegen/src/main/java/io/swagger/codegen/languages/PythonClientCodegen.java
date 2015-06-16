@@ -56,7 +56,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "return", "def", "for", "lambda", "try"));
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("packageName", "python package name, default: swagger_client"));
+        cliOptions.add(new CliOption("packageName", "python package name (convension: under_score), default: swagger_client"));
         cliOptions.add(new CliOption("packageVersion", "python package version, default: 1.0.0"));
     }
 
