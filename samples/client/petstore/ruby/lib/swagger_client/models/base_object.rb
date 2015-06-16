@@ -2,15 +2,6 @@ module SwaggerClient
   # base class containing fundamental method such as to_hash, build_from_hash and more
   class BaseObject
 
-    # return the object in the form of hash
-    def to_body
-      body = {}
-      self.class.attribute_map.each_pair do |key, value|
-        body[value] = self.send(key) unless self.send(key).nil?
-      end
-      body
-    end
-
     # build the object from hash
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
@@ -53,7 +44,16 @@ module SwaggerClient
       end
     end
 
-    # to_body is an alias to to_body (backward compatibility)
+    def to_s
+      to_hash.to_s
+    end
+
+    # to_body is an alias to to_body (backward compatibility))
+    def to_body
+      to_hash
+    end
+
+    # return the object in the form of hash
     def to_hash
       hash = {}
       self.class.attribute_map.each_pair do |key, value|
