@@ -199,7 +199,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 Supported config options can be different per language. Running `config-help -l {lang}` will show available options.
 
 ```
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jarr config-help -l java
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l java
 ```
 
 Output
