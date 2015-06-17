@@ -20,7 +20,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String sourceFolder = "client";
     protected String classPrefix = "SWG";
-    protected String projectName = "swaggerClient";
+    protected String projectName = "SwaggerClient";
 
     public ObjcClientCodegen() {
         super();

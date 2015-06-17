@@ -49,9 +49,9 @@
                             <executable>xcodebuild</executable>
                             <arguments>
                                 <argument>-workspace</argument>
-                                <argument>PetstoreClient.xcworkspace</argument>
+                                <argument>SwaggerClient.xcworkspace</argument>
                                 <argument>-scheme</argument>
-                                <argument>PetstoreClient</argument>
+                                <argument>SwaggerClient</argument>
                                 <argument>test</argument>
                                 <argument>-destination</argument>
                                 <argument>platform=iOS Simulator,name=iPhone 6,OS=8.3</argument>
