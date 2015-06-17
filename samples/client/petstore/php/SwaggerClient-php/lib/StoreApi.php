@@ -113,7 +113,7 @@ class StoreApi {
    *
    * Place an order for a pet
    *
-   * @param Order $body order placed for purchasing the pet (required)
+   * @param Order $body order placed for purchasing the pet
    * @return Order
    */
    public function placeOrder($body) {

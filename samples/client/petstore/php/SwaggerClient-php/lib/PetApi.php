@@ -59,7 +59,7 @@ class PetApi {
    *
    * Update an existing pet
    *
-   * @param Pet $body Pet object that needs to be added to the store (required)
+   * @param Pet $body Pet object that needs to be added to the store
    * @return void
    */
    public function updatePet($body) {
@@ -113,7 +113,7 @@ class PetApi {
    *
    * Add a new pet to the store
    *
-   * @param Pet $body Pet object that needs to be added to the store (required)
+   * @param Pet $body Pet object that needs to be added to the store
    * @return void
    */
    public function addPet($body) {
@@ -167,7 +167,7 @@ class PetApi {
    *
    * Finds Pets by status
    *
-   * @param array[string] $status Status values that need to be considered for filter (required)
+   * @param array[string] $status Status values that need to be considered for filter
    * @return array[Pet]
    */
    public function findPetsByStatus($status) {
@@ -225,7 +225,7 @@ class PetApi {
    *
    * Finds Pets by tags
    *
-   * @param array[string] $tags Tags to filter by (required)
+   * @param array[string] $tags Tags to filter by
    * @return array[Pet]
    */
    public function findPetsByTags($tags) {
@@ -327,7 +327,7 @@ class PetApi {
       }
 
       // authentication setting, if any
-      $authSettings = array('petstore_auth', 'api_key');
+      $authSettings = array('api_key', 'petstore_auth');
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
@@ -348,8 +348,8 @@ class PetApi {
    * Updates a pet in the store with form data
    *
    * @param string $pet_id ID of pet that needs to be updated (required)
-   * @param string $name Updated name of the pet (required)
-   * @param string $status Updated status of the pet (required)
+   * @param string $name Updated name of the pet
+   * @param string $status Updated status of the pet
    * @return void
    */
    public function updatePetWithForm($pet_id, $name, $status) {
@@ -414,11 +414,11 @@ class PetApi {
    *
    * Deletes a pet
    *
-   * @param string $api_key  (required)
    * @param int $pet_id Pet id to delete (required)
+   * @param string $api_key 
    * @return void
    */
-   public function deletePet($api_key, $pet_id) {
+   public function deletePet($pet_id, $api_key) {
       
       // verify the required parameter 'pet_id' is set
       if ($pet_id === null) {
@@ -478,8 +478,8 @@ class PetApi {
    * uploads an image
    *
    * @param int $pet_id ID of pet to update (required)
-   * @param string $additional_metadata Additional data to pass to server (required)
-   * @param string $file file to upload (required)
+   * @param string $additional_metadata Additional data to pass to server
+   * @param string $file file to upload
    * @return void
    */
    public function uploadFile($pet_id, $additional_metadata, $file) {
