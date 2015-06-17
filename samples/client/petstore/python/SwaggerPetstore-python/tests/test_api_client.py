@@ -88,3 +88,46 @@ class ApiClientTests(unittest.TestCase):
         content_types = []
         content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, 'application/json')
+
+    def test_deserialize_to_dict(self):
+        # dict(str, Pet)
+        json = {
+            'pet': { 
+                "id": 0,
+                "category": {
+                    "id": 0,
+                    "name": "string"
+                },
+                "name": "doggie",
+                "photoUrls": [
+                    "string"
+                ],
+                "tags": [
+                    {
+                        "id": 0,
+                        "name": "string"
+                    }
+                ],
+                "status": "available"
+            }
+        }
+
+        data = self.api_client.deserialize(json, 'dict(str, Pet)')
+        self.assertTrue(isinstance(data, dict))
+        self.assertTrue(isinstance(data['pet'], SwaggerPetstore.Pet))
+
+        # dict(str, int)
+        json = {
+            'integer': 1
+        }
+
+        data = self.api_client.deserialize(json, 'dict(str, int)')
+        self.assertTrue(isinstance(data, dict))
+        self.assertTrue(isinstance(data['integer'], int))
+
+    def test_deserialize_to_object(self):
+        data = self.api_client.deserialize("", "object")
+        self.assertTrue(type(data) == object)
+        
+
+
