@@ -322,7 +322,7 @@ public class PetApi {
     }
 
     try {
-      String[] authNames = new String[] { "petstore_auth", "api_key" };
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
       String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
       if(response != null){
         return (Pet) apiClient.deserialize(response, "", Pet.class);
@@ -417,11 +417,11 @@ public class PetApi {
   /**
    * Deletes a pet
    * 
-   * @param apiKey 
    * @param petId Pet id to delete
+   * @param apiKey 
    * @return void
    */
-  public void deletePet (String apiKey, Long petId) throws ApiException {
+  public void deletePet (Long petId, String apiKey) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set

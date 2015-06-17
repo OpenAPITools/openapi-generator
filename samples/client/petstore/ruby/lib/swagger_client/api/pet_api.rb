@@ -190,7 +190,7 @@ module SwaggerClient
       post_body = nil
       
 
-      auth_names = ['petstore_auth', 'api_key']
+      auth_names = ['api_key', 'petstore_auth']
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
       obj = Pet.new() and obj.build_from_hash(response)
     end

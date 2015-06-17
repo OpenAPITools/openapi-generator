@@ -59,7 +59,7 @@ class UserApi {
    *
    * Create user
    *
-   * @param User $body Created user object (required)
+   * @param User $body Created user object
    * @return void
    */
    public function createUser($body) {
@@ -113,7 +113,7 @@ class UserApi {
    *
    * Creates list of users with given input array
    *
-   * @param array[User] $body List of user object (required)
+   * @param array[User] $body List of user object
    * @return void
    */
    public function createUsersWithArrayInput($body) {
@@ -167,7 +167,7 @@ class UserApi {
    *
    * Creates list of users with given input array
    *
-   * @param array[User] $body List of user object (required)
+   * @param array[User] $body List of user object
    * @return void
    */
    public function createUsersWithListInput($body) {
@@ -221,8 +221,8 @@ class UserApi {
    *
    * Logs user into the system
    *
-   * @param string $username The user name for login (required)
-   * @param string $password The password for login in clear text (required)
+   * @param string $username The user name for login
+   * @param string $password The password for login in clear text
    * @return string
    */
    public function loginUser($username, $password) {
@@ -397,7 +397,7 @@ class UserApi {
    * Updated user
    *
    * @param string $username name that need to be deleted (required)
-   * @param User $body Updated user object (required)
+   * @param User $body Updated user object
    * @return void
    */
    public function updateUser($username, $body) {
