@@ -327,7 +327,7 @@ class PetApi {
       }
 
       // authentication setting, if any
-      $authSettings = array('petstore_auth', 'api_key');
+      $authSettings = array('api_key', 'petstore_auth');
 
       // make the API Call
       $response = $this->apiClient->callAPI($resourcePath, $method,
@@ -516,7 +516,7 @@ class PetApi {
         $formParams['additionalMetadata'] = $this->apiClient->toFormValue($additional_metadata);
       }// form params
       if ($file !== null) {
-        $formParams['file'] = '@' . $this->apiClient->toFormValue($file);
+        $formParams['file'] = '@'.$this->apiClient->toFormValue($file);
       }
       
 
