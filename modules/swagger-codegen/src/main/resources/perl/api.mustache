@@ -30,12 +30,6 @@ use Log::Any qw($log);
 use WWW::{{moduleName}}::ApiClient;
 use WWW::{{moduleName}}::Configuration;
 
-{{#operations}}
-our @EXPORT_OK = qw(
-  {{#operation}}{{{nickname}}} 
-  {{/operation}}
-);
-
 sub new {
     my $class   = shift;
     my $default_api_client = $WWW::{{moduleName}}::Configuration::api_client ? $WWW::{{moduleName}}::Configuration::api_client  : WWW::{{moduleName}}::ApiClient->new;
@@ -52,89 +46,90 @@ sub new {
     bless \%self, $class;
 
 }
+{{#operations}}
 
-    {{#operation}}
-    #
-    # {{{nickname}}}
-    #
-    # {{{summary}}}
-    # 
- {{#allParams}}   # @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
- {{/allParams}}   # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
-    #
-    sub {{nickname}} {
-      my ($self, %args) = @_;
+{{#operation}}
+#
+# {{{nickname}}}
+#
+# {{{summary}}}
+# 
+{{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
+{{/allParams}}# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+#
+sub {{nickname}} {
+    my ($self, %args) = @_;
 
-      {{#allParams}}{{#required}}
-      # verify the required parameter '{{paramName}}' is set
-      unless (exists $args{'{{paramName}}'}) {
-        croak("Missing the required parameter '{{paramName}}' when calling {{nickname}}");
-      }
-      {{/required}}{{/allParams}}
+    {{#allParams}}{{#required}}
+    # verify the required parameter '{{paramName}}' is set
+    unless (exists $args{'{{paramName}}'}) {
+      croak("Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+    }
+    {{/required}}{{/allParams}}
 
-      # parse inputs
-      my $_resource_path = '{{path}}';
-      $_resource_path =~ s/{format}/json/; # default format to json
+    # parse inputs
+    my $_resource_path = '{{path}}';
+    $_resource_path =~ s/{format}/json/; # default format to json
 
-      my $_method = '{{httpMethod}}';
-      my $query_params = {};
-      my $header_params = {};
-      my $form_params = {};
+    my $_method = '{{httpMethod}}';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
 
-      # 'Accept' and 'Content-Type' header
-      my $_header_accept = $self->{api_client}->select_header_accept({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}});
-      if ($_header_accept) {
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}});
+    if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
-      }
-      $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type({{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}});
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type({{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}});
 
-      {{#queryParams}}# query params
-      if ( exists $args{'{{paramName}}'}) {
+    {{#queryParams}}# query params
+    if ( exists $args{'{{paramName}}'}) {
         $query_params->{'{{baseName}}'} = $self->{api_client}->to_query_value($args{'{{paramName}}'});
-      }{{/queryParams}}
-      {{#headerParams}}# header params
-      if ( exists $args{'{{paramName}}'}) {
+    }{{/queryParams}}
+    {{#headerParams}}# header params
+    if ( exists $args{'{{paramName}}'}) {
         $header_params->{'{{baseName}}'} = $self->{api_client}->to_header_value($args{'{{paramName}}'});
-      }{{/headerParams}}
-      {{#pathParams}}# path params
-      if ( exists $args{'{{paramName}}'}) {
+    }{{/headerParams}}
+    {{#pathParams}}# path params
+    if ( exists $args{'{{paramName}}'}) {
         my $_base_variable = "{" . "{{baseName}}" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'{{paramName}}'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
-      }{{/pathParams}}
-      {{#formParams}}# form params
-      if ( exists $args{'{{paramName}}'} ) {
+    }{{/pathParams}}
+    {{#formParams}}# form params
+    if ( exists $args{'{{paramName}}'} ) {
         {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
         push $form_params->{'{{baseName}}'}, $args{'{{paramName}}'};
         {{/isFile}}
         {{^isFile}}$form_params->{'{{baseName}}'} = $self->{api_client}->to_form_value($args{'{{paramName}}'});
         {{/isFile}}
-      }{{/formParams}}
-      my $_body_data;
-      {{#bodyParams}}# body params
-      if ( exists $args{'{{paramName}}'}) {
+    }{{/formParams}}
+    my $_body_data;
+    {{#bodyParams}}# body params
+    if ( exists $args{'{{paramName}}'}) {
         $_body_data = $args{'{{paramName}}'};
-      }{{/bodyParams}}
+    }{{/bodyParams}}
 
-      # authentication setting, if any
-      my $auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+    # authentication setting, if any
+    my $auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
 
-      # make the API Call
-      {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                             $query_params, $form_params,
-                                             $header_params, $_body_data, $auth_settings);
-      if (!$response) {
+    # make the API Call
+    {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
         return;
-      }
-      my $_response_object = $self->{api_client}->deserialize('{{returnType}}', $response);
-      return $_response_object;{{/returnType}}
-      {{^returnType}}$self->{api_client}->call_api($_resource_path, $_method,
-                                             $query_params, $form_params,
-                                             $header_params, $_body_data, $auth_settings);
-      return;
-      {{/returnType}}
-  }
-  {{/operation}}
+    }
+    my $_response_object = $self->{api_client}->deserialize('{{returnType}}', $response);
+    return $_response_object;{{/returnType}}
+    {{^returnType}}$self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+    {{/returnType}}
+}
+{{/operation}}
 {{newline}}
 {{/operations}}
 
