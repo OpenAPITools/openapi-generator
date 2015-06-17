@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -850,6 +851,17 @@ public class DefaultCodegen {
         }
         op.bodyParam = bodyParam;
         op.httpMethod = httpMethod.toUpperCase();
+        // move "required" parameters in front of "optional" parameters
+        Collections.sort(allParams, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                boolean oneRequired = one.required == null ? false : one.required;
+                boolean anotherRequired = another.required == null ? false : another.required;
+                if (oneRequired == anotherRequired) return 0;
+                else if (oneRequired) return -1;
+                else return 1;
+            }
+        });
         op.allParams = addHasMore(allParams);
         op.bodyParams = addHasMore(bodyParams);
         op.pathParams = addHasMore(pathParams);
