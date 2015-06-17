@@ -198,32 +198,52 @@ sub deserialize
 {
   my ($self, $class, $data) = @_;
   $log->debugf("deserializing %s for %s", $data, $class);
-  my $_result;
 
   if (not defined $data) {
     return undef;
-  } elsif ( lc(substr($class, 0, 4)) eq 'map[') { #hash
-    $_result = \(json_decode $data);
-  } elsif ( lc(substr($class, 0, 6)) eq 'array[' ) { # array of data
+  } elsif ( (substr($class, 0, 5)) eq 'HASH[') { #hash
+    if ($class =~ /^HASH\[(.*),(.*)\]$/) {
+      my ($key_type, $type) = ($1, $2);
+      my %hash;
+      my $decoded_data = decode_json $data;
+      foreach my $key (keys %$decoded_data) {
+        if (ref $decoded_data->{$key} eq 'HASH') {
+          $hash{$key} = $self->deserialize($type, encode_json $decoded_data->{$key});
+        } else {
+          $hash{$key} = $self->deserialize($type, $decoded_data->{$key});
+        }
+      }
+      return \%hash;
+    } else {
+      #TODO log error
+    }
+
+  } elsif ( (substr($class, 0, 6)) eq 'ARRAY[' ) { # array of data
     return $data if $data eq '[]'; # return if empty array
 
     my $_sub_class = substr($class, 6, -1);
-    my @_json_data = json_decode $data;
+    my $_json_data = decode_json $data;
     my @_values = ();
-    foreach my $_value (@_json_data) {
-      push @_values, $self->deserialize($_sub_class, $_value);
+    foreach my $_value (@$_json_data) {
+      if (ref $_value eq 'ARRAY') {
+        push @_values, $self->deserialize($_sub_class, encode_json $_value);
+      } else {
+        push @_values, $self->deserialize($_sub_class, $_value);
+      }
     }
-    $_result = \@_values;
+    return \@_values;
   } elsif ($class eq 'DateTime') {
-    $_result = DateTime->from_epoch(epoch => str2time($data));
-  } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) { #TODO revise the primitive type
-    $_result= $data;
+    return DateTime->from_epoch(epoch => str2time($data));
+  } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) {
+    return $data;
   } else { # model
-    my $_instance = use_module("WWW::{{invokerPackage}}::Object::$class")->new;
-    $_result = $_instance->from_hash(decode_json $data);
+    my $_instance = use_module("WWW::SwaggerClient::Object::$class")->new;
+    if (ref $data eq "HASH") {
+      return $_instance->from_hash($data);
+    } else { # string, need to json decode first
+      return $_instance->from_hash(decode_json $data);
+    }
   }
-
-  return $_result;
 
 }
 
