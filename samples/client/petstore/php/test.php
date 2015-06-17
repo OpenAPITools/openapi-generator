@@ -23,7 +23,8 @@ try {
     $pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
     // return Pet (model)
     $response = $pet_api->getPetById($petId);
-    var_dump($response);
+    // to test __toString()
+    print ($response);
 
     // add pet (post json)
     $new_pet_id = 10005;

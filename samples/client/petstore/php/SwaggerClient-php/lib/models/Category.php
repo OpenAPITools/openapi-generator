@@ -61,4 +61,12 @@ class Category implements ArrayAccess {
   public function offsetUnset($offset) {
     unset($this->$offset);
   }
+
+  public function __toString() {
+    if (defined('JSON_PRETTY_PRINT')) {
+      return json_encode($this, JSON_PRETTY_PRINT);
+    } else {
+      return json_encode($this);
+    }
+  }
 }
