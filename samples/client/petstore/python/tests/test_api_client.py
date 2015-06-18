@@ -114,7 +114,7 @@ class ApiClientTests(unittest.TestCase):
 
         data = self.api_client.deserialize(json, 'dict(str, Pet)')
         self.assertTrue(isinstance(data, dict))
-        self.assertTrue(isinstance(data['pet'], SwaggerPetstore.Pet))
+        self.assertTrue(isinstance(data['pet'], swagger_client.Pet))
 
         # dict(str, int)
         json = {
@@ -128,6 +128,3 @@ class ApiClientTests(unittest.TestCase):
     def test_deserialize_to_object(self):
         data = self.api_client.deserialize("", "object")
         self.assertTrue(type(data) == object)
-        
-
-
