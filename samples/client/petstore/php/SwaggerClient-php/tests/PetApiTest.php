@@ -7,6 +7,13 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
   // add a new pet (id 10005) to ensure the pet object is available for all the tests
   public static function setUpBeforeClass() {
+    // for error reporting (need to run with php5.3 to get no warning)
+    //ini_set('display_errors', 1);
+    //error_reporting(~0);
+    ini_set('display_startup_errors',1);
+    ini_set('display_errors',1);
+    error_reporting(-1);
+
     // enable debugging 
     //SwaggerClient\Configuration::$debug = true;
 
@@ -38,25 +45,26 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testApiClient()
   { 
     // test selectHeaderAccept
-    $this->assertSame('application/json', SwaggerClient\ApiClient::selectHeaderAccept(array('application/xml','application/json')));
-    $this->assertSame(NULL, SwaggerClient\ApiClient::selectHeaderAccept(array()));
-    $this->assertSame('application/yaml,application/xml', SwaggerClient\ApiClient::selectHeaderAccept(array('application/yaml','application/xml')));
+    $api_client = new SwaggerClient\ApiClient();
+    $this->assertSame('application/json', $api_client->selectHeaderAccept(array('application/xml','application/json')));
+    $this->assertSame(NULL, $api_client->selectHeaderAccept(array()));
+    $this->assertSame('application/yaml,application/xml', $api_client->selectHeaderAccept(array('application/yaml','application/xml')));
    
     // test selectHeaderContentType
-    $this->assertSame('application/json', SwaggerClient\ApiClient::selectHeaderContentType(array('application/xml','application/json')));
-    $this->assertSame('application/json', SwaggerClient\ApiClient::selectHeaderContentType(array()));
-    $this->assertSame('application/yaml,application/xml', SwaggerClient\ApiClient::selectHeaderContentType(array('application/yaml','application/xml')));
+    $this->assertSame('application/json', $api_client->selectHeaderContentType(array('application/xml','application/json')));
+    $this->assertSame('application/json', $api_client->selectHeaderContentType(array()));
+    $this->assertSame('application/yaml,application/xml', $api_client->selectHeaderContentType(array('application/yaml','application/xml')));
 
     // test addDefaultHeader and getDefaultHeader
-    SwaggerClient\ApiClient::addDefaultHeader('test1', 'value1');
-    SwaggerClient\ApiClient::addDefaultHeader('test2', 200);
-    $defaultHeader = SwaggerClient\ApiClient::getDefaultHeader();
+    $api_client->addDefaultHeader('test1', 'value1');
+    $api_client->addDefaultHeader('test2', 200);
+    $defaultHeader = $api_client->getDefaultHeader();
     $this->assertSame('value1', $defaultHeader['test1']);
     $this->assertSame(200, $defaultHeader['test2']);
 
     // test deleteDefaultHeader
-    SwaggerClient\ApiClient::deleteDefaultHeader('test2');
-    $defaultHeader = SwaggerClient\ApiClient::getDefaultHeader();
+    $api_client->deleteDefaultHeader('test2');
+    $defaultHeader = $api_client->getDefaultHeader();
     $this->assertFalse(isset($defaultHeader['test2']));
 
     $pet_api = new SwaggerClient\PetAPI();
