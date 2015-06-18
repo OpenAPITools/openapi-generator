@@ -143,6 +143,11 @@ module api {
             var queryParameters: any = {};
             var headers: any = {};
             
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling getPetById');
+            }
+            
             
             
             var httpRequestParams: any = {
@@ -172,6 +177,11 @@ module api {
             
             var queryParameters: any = {};
             var headers: any = {};
+            
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling updatePetWithForm');
+            }
             
             
             
@@ -203,6 +213,11 @@ module api {
             var queryParameters: any = {};
             var headers: any = {};
             
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling deletePet');
+            }
+            
             
             headerParams['apiKey'] = apiKey;
             var httpRequestParams: any = {
@@ -232,6 +247,11 @@ module api {
             
             var queryParameters: any = {};
             var headers: any = {};
+            
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling uploadFile');
+            }
             
             
             

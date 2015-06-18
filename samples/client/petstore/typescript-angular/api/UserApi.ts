@@ -172,6 +172,11 @@ module api {
             var queryParameters: any = {};
             var headers: any = {};
             
+            // verify required parameter 'username' is set
+            if (!username) {
+                throw new Error('Missing required parameter username when calling getUserByName');
+            }
+            
             
             
             var httpRequestParams: any = {
@@ -201,6 +206,11 @@ module api {
             
             var queryParameters: any = {};
             var headers: any = {};
+            
+            // verify required parameter 'username' is set
+            if (!username) {
+                throw new Error('Missing required parameter username when calling updateUser');
+            }
             
             
             
@@ -232,6 +242,11 @@ module api {
             
             var queryParameters: any = {};
             var headers: any = {};
+            
+            // verify required parameter 'username' is set
+            if (!username) {
+                throw new Error('Missing required parameter username when calling deleteUser');
+            }
             
             
             

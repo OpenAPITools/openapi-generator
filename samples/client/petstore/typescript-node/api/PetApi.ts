@@ -193,6 +193,11 @@ export class PetApi {
     var headers: any = {};
 
     
+    // verify required parameter 'petId' is set
+    if (!petId) {
+        throw new Error('Missing required parameter petId when calling getPetById');
+    }
+    
 
     
 
@@ -235,6 +240,11 @@ export class PetApi {
     var queryParameters: any = {};
     var headers: any = {};
 
+    
+    // verify required parameter 'petId' is set
+    if (!petId) {
+        throw new Error('Missing required parameter petId when calling updatePetWithForm');
+    }
     
 
     
@@ -279,6 +289,11 @@ export class PetApi {
     var headers: any = {};
 
     
+    // verify required parameter 'petId' is set
+    if (!petId) {
+        throw new Error('Missing required parameter petId when calling deletePet');
+    }
+    
 
     
 
@@ -322,6 +337,11 @@ export class PetApi {
     var queryParameters: any = {};
     var headers: any = {};
 
+    
+    // verify required parameter 'petId' is set
+    if (!petId) {
+        throw new Error('Missing required parameter petId when calling uploadFile');
+    }
     
 
     

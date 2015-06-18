@@ -104,6 +104,11 @@ export class StoreApi {
     var headers: any = {};
 
     
+    // verify required parameter 'orderId' is set
+    if (!orderId) {
+        throw new Error('Missing required parameter orderId when calling getOrderById');
+    }
+    
 
     
 
@@ -146,6 +151,11 @@ export class StoreApi {
     var queryParameters: any = {};
     var headers: any = {};
 
+    
+    // verify required parameter 'orderId' is set
+    if (!orderId) {
+        throw new Error('Missing required parameter orderId when calling deleteOrder');
+    }
     
 
     
