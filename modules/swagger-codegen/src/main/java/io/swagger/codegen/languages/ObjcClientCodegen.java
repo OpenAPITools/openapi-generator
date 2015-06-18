@@ -153,7 +153,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", sourceFolder, "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("SWGConfiguration-body.mustache", sourceFolder, "SWGConfiguration.m"));
         supportingFiles.add(new SupportingFile("SWGConfiguration-header.mustache", sourceFolder, "SWGConfiguration.h"));
-        // supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
+        supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
     }
 
     @Override

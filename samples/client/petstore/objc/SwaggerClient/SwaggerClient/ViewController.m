@@ -56,11 +56,14 @@
 //                     }
      ];
     */
-    SWGUserApi *api = [[SWGUserApi alloc] init];
-    [api loginUserWithCompletionBlock:@"username" password:@"password" completionHandler:^(NSString *output, NSError *error) {
-        NSLog(@"output => %@", output);
-        NSLog(@"error => %@", error);
-    }];
+    SWGPetApi *api = [[SWGPetApi alloc] init];
+    [api deletePetWithCompletionBlock:@"hello"
+                                petId:@1434529787992
+                    completionHandler:^(NSError *error) {
+                        if (error) {
+                            NSLog(@"%@", error);
+                        }
+                    }];
 }
 
 - (void)didReceiveMemoryWarning
