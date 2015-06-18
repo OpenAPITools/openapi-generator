@@ -24,7 +24,7 @@
  *
  */
 
-namespace {{invokerPackage}}\models;
+namespace {{modelNamespace}};
 
 use \ArrayAccess;
 
@@ -39,17 +39,34 @@ class {{classname}} implements ArrayAccess {
       {{/hasMore}}{{/vars}}
   );
 
-  {{#vars}}{{#description}}
-  /**
-  * {{{description}}}
-  */{{/description}}
-  public ${{name}}; /* {{{datatype}}} */{{/vars}}
-
+  {{#vars}}
+  /**{{#description}}
+   * {{{description}}}{{/description}}
+   * @var {{{datatype}}}
+   */
+  public ${{name}};
+  {{/vars}}
   public function __construct(array $data = null) {
     {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
     {{/hasMore}}{{/vars}}
   }
+  {{#vars}}
+  /**
+   * get {{name}}
+   * @return {{datatype}}
+   */
+  public function {{getter}}() {
+    return $this->{{name}};
+  }
 
+  /**
+   * set {{name}}
+   * @param {{datatype}} ${{name}}
+   */
+  public function {{setter}}(${{name}}) {
+    $this->{{name}} = ${{name}};
+  }
+  {{/vars}}
   public function offsetExists($offset) {
     return isset($this->$offset);
   }
