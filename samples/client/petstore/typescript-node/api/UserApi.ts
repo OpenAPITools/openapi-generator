@@ -235,6 +235,11 @@ export class UserApi {
     var headers: any = {};
 
     
+    // verify required parameter 'username' is set
+    if (!username) {
+        throw new Error('Missing required parameter username when calling getUserByName');
+    }
+    
 
     
 
@@ -277,6 +282,11 @@ export class UserApi {
     var queryParameters: any = {};
     var headers: any = {};
 
+    
+    // verify required parameter 'username' is set
+    if (!username) {
+        throw new Error('Missing required parameter username when calling updateUser');
+    }
     
 
     
@@ -321,6 +331,11 @@ export class UserApi {
     var queryParameters: any = {};
     var headers: any = {};
 
+    
+    // verify required parameter 'username' is set
+    if (!username) {
+        throw new Error('Missing required parameter username when calling deleteUser');
+    }
     
 
     

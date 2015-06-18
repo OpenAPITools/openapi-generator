@@ -26,12 +26,12 @@ export class {{classname}} {
     var queryParameters: any = {};
     var headers: any = {};
 
-    {{#requiredParamCount}}
-    // verify required params are set
-    if ({{/requiredParamCount}}{{#requiredParams}} !{{paramName}} {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
-       throw new Error('Missing required parameter: {{&paramName}}');
+    {{#allParams}}{{#required}}
+    // verify required parameter '{{paramName}}' is set
+    if (!{{paramName}}) {
+        throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
     }
-    {{/requiredParamCount}}
+    {{/required}}{{/allParams}}
 
     {{#queryParams}}if ({{paramName}} !== undefined) {
         queryParameters['{{paramName}}'] = {{paramName}};
