@@ -2,7 +2,7 @@
 
 ## Overview
 This is a project to provide Swagger support inside the [Sinatra](http://www.sinatrarb.com/) framework.  You can find
-out more about both the spec and the framework at http://swagger.wordnik.com.  For more information about 
+out more about both the spec and the framework at http://swagger.io.  For more information about 
 Wordnik's APIs, please visit http://developer.wordnik.com.
 
 ## Prerequisites
@@ -14,13 +14,13 @@ sinatra-cross_origin
 ```
 
 ## Getting started
-This sample was generated with the [swagger-codegen](https://github.com/wordnik/swagger-codegen) project.
+This sample was generated with the [swagger-codegen](https://github.com/swagger-api/swagger-codegen) project.
 
 ```
 rackup -p 4567 config.ru
 ```
 
-In your [swagger ui](https://github.com/wordnik/swagger-ui), put in the following URL:
+In your [swagger ui](https://github.com/swagger-api/swagger-ui), put in the following URL:
 
 ```
 http://localhost:4567/resources.json

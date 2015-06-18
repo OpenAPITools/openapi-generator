@@ -67,8 +67,8 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
         setApiPackage("api");
 
         supportingFiles.add(new SupportingFile("my_app.mustache", "", "my_app.rb"));
-        supportingFiles.add(new SupportingFile("Swaggering.rb", libFolder, "Swaggering.rb"));
-        supportingFiles.add(new SupportingFile("config.ru", "", "config.rb"));
+        supportingFiles.add(new SupportingFile("Swaggering.rb", libFolder, "swaggering.rb"));
+        supportingFiles.add(new SupportingFile("config.ru", "", "config.ru"));
         supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
     }
