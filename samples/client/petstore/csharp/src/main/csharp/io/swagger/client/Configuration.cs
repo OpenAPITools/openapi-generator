@@ -12,6 +12,11 @@ namespace IO.Swagger.Client {
   public class Configuration{
 
     /// <summary>
+    /// Version of the package
+    /// </summary>
+    public const string Version = "1.0.0";
+
+    /// <summary>
     /// Gets or sets the API client. This is the default API client for making HTTP calls.
     /// </summary>
     /// <value>The API client.</value>
