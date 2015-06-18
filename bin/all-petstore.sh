@@ -37,6 +37,7 @@ cd $APP_DIR
 ./bin/scala-async-petstore.sh
 ./bin/scala-petstore.sh
 ./bin/scalatra-petstore-server.sh
+./bin/silex-petstore-server.sh
 ./bin/spring-mvc-petstore-server.sh
 ./bin/swift-petstore.sh
 ./bin/tizen-petstore.sh

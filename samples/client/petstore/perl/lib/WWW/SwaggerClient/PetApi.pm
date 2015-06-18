@@ -317,7 +317,7 @@ sub new {
       
 
       # authentication setting, if any
-      my $auth_settings = ['petstore_auth', 'api_key'];
+      my $auth_settings = ['api_key', 'petstore_auth'];
 
       # make the API Call
       my $response = $self->{api_client}->call_api($_resource_path, $_method,
