@@ -14,6 +14,7 @@ io.swagger.codegen.languages.RetrofitClientCodegen
 io.swagger.codegen.languages.RubyClientCodegen
 io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen
+io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SpringMVCServerCodegen
 io.swagger.codegen.languages.StaticDocCodegen
 io.swagger.codegen.languages.StaticHtmlGenerator
