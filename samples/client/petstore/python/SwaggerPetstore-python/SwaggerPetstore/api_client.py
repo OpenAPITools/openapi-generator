@@ -168,13 +168,20 @@ class ApiClient(object):
         sub_class = match.group(1)
         return [self.deserialize(sub_obj, sub_class) for sub_obj in obj]
 
-      if obj_class in ['int', 'float', 'dict', 'list', 'str', 'bool', 'datetime']:
+      if 'dict(' in obj_class:
+        match = re.match('dict\((.*), (.*)\)', obj_class)
+        sub_class = match.group(2)
+        return {k: self.deserialize(v, sub_class) for k, v in iteritems(obj)}
+
+      if obj_class in ['int', 'float', 'dict', 'list', 'str', 'bool', 'datetime', "object"]:
         obj_class = eval(obj_class)
       else:  # not a native type, must be model class
         obj_class = eval('models.' + obj_class)
 
     if obj_class in [int, float, dict, list, str, bool]:
       return obj_class(obj)
+    elif obj_class == object:
+      return object()
     elif obj_class == datetime:
       return self.__parse_string_to_datetime(obj)
 

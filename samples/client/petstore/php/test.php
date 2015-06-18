@@ -2,6 +2,10 @@
 //require_once('vendor/autoload.php');
 require_once('SwaggerClient-php/SwaggerClient.php');
 
+// show error reporting
+//ini_set('display_errors', 1);
+//error_reporting(~0);
+
 // initialize the API client
 //$api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
 //$api_client->addDefaultHeader("test1", "value1");
@@ -19,10 +23,8 @@ try {
     $pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
     // return Pet (model)
     $response = $pet_api->getPetById($petId);
-    var_dump($response);
-
-    // test upload file (exception)
-    $upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
+    // to test __toString()
+    print ($response);
 
     // add pet (post json)
     $new_pet_id = 10005;
@@ -44,6 +46,9 @@ try {
     $pet_api = new SwaggerClient\PetAPI();
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
+
+    // test upload file (exception)
+    $upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
 
 } catch (Exception $e) {
     echo 'Caught exception: ', $e->getMessage(), "\n";

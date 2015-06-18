@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -13,16 +14,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String gemName = "swagger_client";
+    protected String gemName = null;
     protected String moduleName = null;
+    protected String gemVersion = "1.0.0";
     protected String libFolder = "lib";
 
     public RubyClientCodegen() {
         super();
-        moduleName = generateModuleName();
-        modelPackage = gemName + "/models";
-        apiPackage = gemName + "/api";
-        outputFolder = "generated-code" + File.separatorChar + "ruby";
+        modelPackage = "models";
+        apiPackage = "api";
+        outputFolder = "generated-code" + File.separator + "ruby";
         modelTemplateFiles.put("model.mustache", ".rb");
         apiTemplateFiles.put("api.mustache", ".rb");
         templateDir = "ruby";
@@ -38,9 +39,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
                         "if", "not", "return", "undef", "yield")
         );
-
-        additionalProperties.put("gemName", gemName);
-        additionalProperties.put("moduleName", moduleName);
 
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("array");
@@ -64,18 +62,59 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
 
-        String baseFolder = "lib" + File.separatorChar + gemName;
-        String swaggerFolder = baseFolder + File.separatorChar + "swagger";
-        String modelFolder = baseFolder + File.separatorChar + "models";
+        // remove modelPackage and apiPackage added by default
+        cliOptions.clear();
+        cliOptions.add(new CliOption("gemName", "gem name (convention: underscore_case), default: swagger_client"));
+        cliOptions.add(new CliOption("moduleName", "top module name (convention: CamelCase, usually corresponding to gem name), default: SwaggerClient"));
+        cliOptions.add(new CliOption("gemVersion", "gem version, default: 1.0.0"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey("gemName")) {
+            setGemName((String) additionalProperties.get("gemName"));
+        }
+        if (additionalProperties.containsKey("moduleName")) {
+            setModuleName((String) additionalProperties.get("moduleName"));
+        }
+
+        if (gemName == null && moduleName == null) {
+            setGemName("swagger_client");
+            setModuleName(generateModuleName(gemName));
+        } else if (gemName == null) {
+            setGemName(generateGemName(moduleName));
+        } else if (moduleName == null) {
+            setModuleName(generateModuleName(gemName));
+        }
+
+        additionalProperties.put("gemName", gemName);
+        additionalProperties.put("moduleName", moduleName);
+
+        if (additionalProperties.containsKey("gemVersion")) {
+            setGemVersion((String) additionalProperties.get("gemVersion"));
+        } else {
+            // not set, pass the default value to template
+            additionalProperties.put("gemVersion", gemVersion);
+        }
+
+        // use constant model/api package (folder path)
+        setModelPackage("models");
+        setApiPackage("api");
+
         supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
-        supportingFiles.add(new SupportingFile("swagger_client.mustache", "lib", gemName + ".rb"));
+        supportingFiles.add(new SupportingFile("swagger_client.mustache", libFolder, gemName + ".rb"));
+        String baseFolder = libFolder + File.separator + gemName;
         supportingFiles.add(new SupportingFile("monkey.mustache", baseFolder, "monkey.rb"));
         supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "request.mustache", swaggerFolder, "request.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "response.mustache", swaggerFolder, "response.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "api_error.mustache", swaggerFolder, "api_error.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "version.mustache", swaggerFolder, "version.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separatorChar + "configuration.mustache", swaggerFolder, "configuration.rb"));
+        String swaggerFolder = baseFolder + File.separator + "swagger";
+        supportingFiles.add(new SupportingFile("swagger" + File.separator + "request.mustache", swaggerFolder, "request.rb"));
+        supportingFiles.add(new SupportingFile("swagger" + File.separator + "response.mustache", swaggerFolder, "response.rb"));
+        supportingFiles.add(new SupportingFile("swagger" + File.separator + "api_error.mustache", swaggerFolder, "api_error.rb"));
+        supportingFiles.add(new SupportingFile("swagger" + File.separator + "version.mustache", swaggerFolder, "version.rb"));
+        supportingFiles.add(new SupportingFile("swagger" + File.separator + "configuration.mustache", swaggerFolder, "configuration.rb"));
+        String modelFolder = baseFolder + File.separator + modelPackage.replace("/", File.separator);
         supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));
     }
 
@@ -94,8 +133,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Generate Ruby module name from the gem name, e.g. use "SwaggerClient" for "swagger_client".
      */
-    public String generateModuleName() {
+    public String generateModuleName(String gemName) {
         return camelize(gemName.replaceAll("[^\\w]+", "_"));
+    }
+
+    /**
+     * Generate Ruby gem name from the module name, e.g. use "swagger_client" for "SwaggerClient".
+     */
+    public String generateGemName(String moduleName) {
+        return underscore(moduleName.replaceAll("[^\\w]+", ""));
     }
 
     @Override
@@ -105,11 +151,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separatorChar + "lib" + File.separatorChar + gemName + File.separatorChar + "api";
+        return outputFolder + File.separator + libFolder + File.separator + gemName + File.separator + apiPackage.replace("/", File.separator);
     }
 
     public String modelFileFolder() {
-        return outputFolder + File.separatorChar + "lib" + File.separatorChar + gemName + File.separatorChar + "models";
+        return outputFolder + File.separator + libFolder + File.separator + gemName + File.separator + modelPackage.replace("/", File.separator);
     }
 
     @Override
@@ -230,12 +276,23 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        return gemName + "/" + modelPackage() + "/" + toModelFilename(name);
     }
 
     @Override
     public String toApiImport(String name) {
-        return apiPackage() + "/" + toApiFilename(name);
+        return gemName + "/" + apiPackage() + "/" + toApiFilename(name);
     }
 
+    public void setGemName(String gemName) {
+        this.gemName = gemName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public void setGemVersion(String gemVersion) {
+        this.gemVersion = gemVersion;
+    }
 }
