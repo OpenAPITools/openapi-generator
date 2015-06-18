@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -12,22 +13,25 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-client";
     protected String artifactVersion = "1.0.0";
+    protected String rootNamespace;
+    protected String invokerNamespace;
+    protected String modelNamespace;
+    protected String apiNamespace;
 
     public PhpClientCodegen() {
         super();
 
-        invokerPackage = camelize("SwaggerClient");
-
-        String packagePath = invokerPackage + "-php";
-
-        modelPackage = packagePath + "/lib/models";
-        apiPackage = packagePath + "/lib";
+        rootNamespace = "Swagger";
+        invokerPackage = "Client";
+        modelPackage = "Models";
+        apiPackage = "Api";
         outputFolder = "generated-code/php";
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
@@ -78,11 +82,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
 
-        supportingFiles.add(new SupportingFile("composer.mustache", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", (packagePath + "/lib").replace('/', File.separatorChar), "Configuration.php"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", (packagePath + "/lib").replace('/', File.separatorChar), "ApiClient.php"));
-        supportingFiles.add(new SupportingFile("ApiException.mustache", (packagePath + "/lib").replace('/', File.separatorChar), "ApiException.php"));
-        supportingFiles.add(new SupportingFile("require.mustache", packagePath.replace('/', File.separatorChar), invokerPackage + ".php"));
+        cliOptions.add(new CliOption("rootNamespace", "root namespace from which other namespaces derive"));
+        cliOptions.add(new CliOption("invokerPackage", "namespace for core, non-api-specific classes"));
     }
 
     public CodegenType getTag() {
@@ -95,6 +96,38 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String getHelp() {
         return "Generates a PHP client library.";
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey("invokerPackage")) {
+            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
+        }
+
+        if (additionalProperties.containsKey("rootNamespace")) {
+            this.setRootNamespace((String) additionalProperties.get("rootNamespace"));
+        }
+
+        setNamespacesFromPackages();
+        prefixPackages();
+
+        supportingFiles.add(new SupportingFile("configuration.mustache", invokerPackage.replace('/', File.separatorChar), "Configuration.php"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerPackage.replace('/', File.separatorChar), "ApiClient.php"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache", invokerPackage.replace('/', File.separatorChar), "ApiException.php"));
+        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("autoload.mustache", "", "autoload.php"));
+    }
+
+    protected String getSrcDir(String packageName) {
+        return rootNamespace + "/src/" + packageName;
+    }
+
+    protected void prefixPackages() {
+        setApiPackage(getSrcDir(apiPackage));
+        setInvokerPackage(getSrcDir(invokerPackage));
+        setModelPackage(getSrcDir(modelPackage));
     }
 
     @Override
@@ -149,6 +182,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "null";
     }
 
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
+    }
+
+    public void setRootNamespace(String rootNamespace) {
+        this.rootNamespace = rootNamespace;
+    }
 
     @Override
     public String toVarName(String name) {
@@ -187,4 +227,37 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toModelName(name);
     }
 
+    public String toNamespace(String packageName) {
+        return rootNamespace + "\\" + packageName.replace('/', '\\').replace('.', '\\');
+    }
+
+    protected void setNamespacesFromPackages() {
+        invokerNamespace = toNamespace(invokerPackage);
+        apiNamespace = toNamespace(apiPackage);
+        modelNamespace = toNamespace(modelPackage);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return addNamespaces(super.postProcessModels(objs));
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        return addNamespaces(super.postProcessOperations(objs));
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        return addNamespaces(super.postProcessSupportingFileData(objs));
+    }
+
+    protected Map<String, Object> addNamespaces(Map<String, Object> objs) {
+        objs.put("rootNamespace", rootNamespace);
+        objs.put("invokerNamespace", invokerNamespace);
+        objs.put("apiNamespace", apiNamespace);
+        objs.put("modelNamespace", modelNamespace);
+
+        return objs;
+    }
 }
