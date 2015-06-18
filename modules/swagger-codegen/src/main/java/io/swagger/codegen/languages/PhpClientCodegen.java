@@ -10,9 +10,12 @@ import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -244,7 +247,31 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        return addNamespaces(super.postProcessOperations(objs));
+        objs = addNamespaces(super.postProcessOperations(objs));
+
+        if (objs.containsKey("imports")) {
+            List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+            LinkedHashMap<String, String> newImport;
+            String currentImport;
+            String modelName;
+
+            for (Map<String, String> importMap : (List<Map<String, String>>) objs.get("imports")) {
+                currentImport = importMap.get("import");
+                modelName = currentImport.replace(modelPackage + ".", "");
+
+                if (reservedWords.contains(modelName)) {
+                    continue;
+                }
+
+                newImport = new LinkedHashMap<String, String>();
+                newImport.put("import", modelNamespace + "\\" + modelName);
+                imports.add(newImport);
+            }
+
+            objs.put("imports", imports);
+        }
+
+        return objs;
     }
 
     @Override
