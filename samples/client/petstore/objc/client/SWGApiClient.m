@@ -500,7 +500,7 @@ static bool loggingEnabled = true;
 
     // setting response serializer
     if ([responseContentType isEqualToString:@"application/json"]) {
-        self.responseSerializer = [AFJSONResponseSerializer serializer];
+        self.responseSerializer = [SWGJSONResponseSerializer serializer];
     }
     else {
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
