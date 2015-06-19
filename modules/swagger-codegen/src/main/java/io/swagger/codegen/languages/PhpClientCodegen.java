@@ -248,7 +248,26 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         objs = addNamespaces(super.postProcessOperations(objs));
+        objs = formatImports(objs);
 
+        return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        return addNamespaces(super.postProcessSupportingFileData(objs));
+    }
+
+    protected Map<String, Object> addNamespaces(Map<String, Object> objs) {
+        objs.put("rootNamespace", rootNamespace);
+        objs.put("invokerNamespace", invokerNamespace);
+        objs.put("apiNamespace", apiNamespace);
+        objs.put("modelNamespace", modelNamespace);
+
+        return objs;
+    }
+
+    protected Map<String, Object> formatImports(Map<String, Object> objs) {
         if (objs.containsKey("imports")) {
             List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
             LinkedHashMap<String, String> newImport;
@@ -270,20 +289,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
             objs.put("imports", imports);
         }
-
-        return objs;
-    }
-
-    @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        return addNamespaces(super.postProcessSupportingFileData(objs));
-    }
-
-    protected Map<String, Object> addNamespaces(Map<String, Object> objs) {
-        objs.put("rootNamespace", rootNamespace);
-        objs.put("invokerNamespace", invokerNamespace);
-        objs.put("apiNamespace", apiNamespace);
-        objs.put("modelNamespace", modelNamespace);
 
         return objs;
     }

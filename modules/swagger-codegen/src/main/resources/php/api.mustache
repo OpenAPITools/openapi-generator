@@ -24,6 +24,7 @@ namespace {{apiNamespace}};
 
 use {{invokerNamespace}}\Configuration;
 use {{invokerNamespace}}\ApiClient;
+use {{invokerNamespace}}\ApiException;
 
 {{#imports}}
 use {{{import}}};
@@ -128,16 +129,30 @@ class {{classname}} {
       $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
 
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams, $authSettings);
+      } catch (ApiException $e) {
+        $throw = $e;
 
-      {{#returnType}}if(! $response) {
+        switch ($e->getCode()) { {{#responses}}{{#dataType}}
+          case {{code}}:
+            $data = $this->apiClient->deserialize($e->getResponseBody(), '{{dataType}}');
+            $throw = new ApiException("{{message}}", $e->getCode(), $e->getResponseHeaders(), $data);
+            break;{{/dataType}}{{/responses}}
+        }
+
+        throw $throw;
+      }
+      {{#returnType}}
+      if(!$response) {
         return null;
       }
 
       $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
-      return $responseObject;{{/returnType}}
+      return $responseObject;
+      {{/returnType}}
   }
   {{/operation}}
 }
