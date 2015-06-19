@@ -1,8 +1,11 @@
 package {{invokerPackage}}.auth;
 
+import {{invokerPackage}}.QueryParam;
+
 import java.util.Map;
+import java.util.Set;
 
 public interface Authentication {
   /** Apply authentication settings to header and query params. */
-  void applyToParams(Map<String, String> queryParams, Map<String, String> headerParams);
+  void applyToParams(Set<QueryParam> queryParams, Map<String, String> headerParams);
 }

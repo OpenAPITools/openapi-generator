@@ -1,6 +1,9 @@
 package io.swagger.client.auth;
 
+import io.swagger.client.QueryParam;
+
 import java.util.Map;
+import java.util.Set;
 
 import java.io.UnsupportedEncodingException;
 import javax.xml.bind.DatatypeConverter;
@@ -26,7 +29,7 @@ public class HttpBasicAuth implements Authentication {
   }
 
   @Override
-  public void applyToParams(Map<String, String> queryParams, Map<String, String> headerParams) {
+  public void applyToParams(Set<QueryParam> queryParams, Map<String, String> headerParams) {
     String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
     try {
       headerParams.put("Authorization", "Basic " + DatatypeConverter.printBase64Binary(str.getBytes("UTF-8")));

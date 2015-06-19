@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -132,6 +134,61 @@ public class ApiInvoker {
     }
   }
 
+  /*
+    Format to {@code QueryParam} objects.
+  */
+  public Set<QueryParam> parameterToQueryParams(String collectionFormat, String name, Object value){
+    Set<QueryParam> params = new HashSet<QueryParam>();
+
+    // preconditions
+    if (name == null || name.isEmpty() || value == null) return params;
+
+    Collection<String> valueCollection = null;
+    if (value instanceof Collection) {
+      valueCollection = (Collection<String>) value;
+    }
+
+    if (valueCollection == null) {
+      params.add(new QueryParam(name, String.valueOf(value)));
+      return params;
+    } else if (valueCollection.isEmpty()) {
+      return params;
+    }
+
+    collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
+
+    if (collectionFormat.equals("csv")) {
+      params.add(new QueryParam(name, parameterToString(value)));
+    } else if (collectionFormat.equals("multi")) {
+      for (String item : valueCollection) {
+        params.add(new QueryParam(name, item));
+      }
+    } else if (collectionFormat.equals("ssv")) {
+      StringBuilder sb = new StringBuilder() ;
+      for (String item : valueCollection) {
+        sb.append(" ");
+        sb.append(item);
+      }
+      params.add(new QueryParam(name, sb.substring(1)));
+    } else if (collectionFormat.equals("tsv")) {
+      StringBuilder sb = new StringBuilder() ;
+      for (String item : valueCollection) {
+        sb.append("\t");
+        sb.append(item);
+      }
+      params.add(new QueryParam(name, sb.substring(1)));
+    } else if (collectionFormat.equals("pipes")) {
+      StringBuilder sb = new StringBuilder() ;
+      for (String item : valueCollection) {
+        sb.append("|");
+        sb.append(item);
+      }
+      params.add(new QueryParam(name, sb.substring(1)));
+    }
+
+    return params;
+  }
+
   public ApiInvoker() {
     initConnectionManager();
   }
@@ -184,21 +241,24 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  public String invokeAPI(String host, String path, String method, Set<QueryParam> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
     HttpClient client = getClient(host);
 
     StringBuilder b = new StringBuilder();
-    for(String key : queryParams.keySet()) {
-      String value = queryParams.get(key);
-      if (value != null){
-        if(b.toString().length() == 0)
-          b.append("?");
-        else
+    b.append("?");
+    if (queryParams != null){
+      for (QueryParam queryParam : queryParams){
+        if (!queryParam.getName().isEmpty()) {
+          b.append(escapeString(queryParam.getName()));
+          b.append("=");
+          b.append(escapeString(queryParam.getValue()));
           b.append("&");
-        b.append(escapeString(key)).append("=").append(escapeString(value));
+        }
       }
     }
-    String url = host + path + b.toString();
+
+    String querystring = b.substring(0, b.length() - 1);
+    String url = host + path + querystring;
 
     HashMap<String, String> headers = new HashMap<String, String>();
 
