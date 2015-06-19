@@ -17,6 +17,10 @@
 
 namespace {{invokerNamespace}};
 
+{{#models}}
+use {{importPath}};
+{{/models}}
+
 class ApiClient {
 
   public static $PATCH = "PATCH";
@@ -399,7 +403,6 @@ class ApiClient {
       settype($data, $class);
       $deserialized = $data;
     } else {
-      $class = "{{invokerPackage}}\\models\\".$class;
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
         $original_property_name = $instance::$attributeMap[$property];

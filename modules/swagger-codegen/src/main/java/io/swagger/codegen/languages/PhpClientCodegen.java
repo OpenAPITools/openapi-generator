@@ -248,14 +248,17 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         objs = addNamespaces(super.postProcessOperations(objs));
-        objs = formatImports(objs);
+        objs = formatImports(objs, "imports", "import");
 
         return objs;
     }
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        return addNamespaces(super.postProcessSupportingFileData(objs));
+        objs = addNamespaces(super.postProcessSupportingFileData(objs));
+        objs = formatImports(objs, "models", "importPath");
+
+        return objs;
     }
 
     protected Map<String, Object> addNamespaces(Map<String, Object> objs) {
@@ -267,27 +270,23 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
-    protected Map<String, Object> formatImports(Map<String, Object> objs) {
-        if (objs.containsKey("imports")) {
-            List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
-            LinkedHashMap<String, String> newImport;
-            String currentImport;
+    protected Map<String, Object> formatImports(Map<String, Object> objs, String objsKey, String importKey) {
+        if (objs.containsKey(objsKey)) {
             String modelName;
+            List<Map<String, Object>> newImportList = new ArrayList<Map<String, Object>>();
 
-            for (Map<String, String> importMap : (List<Map<String, String>>) objs.get("imports")) {
-                currentImport = importMap.get("import");
-                modelName = currentImport.replace(modelPackage + ".", "");
+            for (Map<String, Object> importMap : (List<Map<String, Object>>) objs.get(objsKey)) {
+                modelName = ((String) importMap.get(importKey)).replace(modelPackage + ".", "");
 
                 if (reservedWords.contains(modelName)) {
                     continue;
                 }
 
-                newImport = new LinkedHashMap<String, String>();
-                newImport.put("import", modelNamespace + "\\" + modelName);
-                imports.add(newImport);
+                importMap.put(importKey, modelNamespace + "\\" + modelName);
+                newImportList.add(importMap);
             }
 
-            objs.put("imports", imports);
+            objs.put(objsKey, newImportList);
         }
 
         return objs;
