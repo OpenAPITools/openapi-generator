@@ -2,6 +2,7 @@ package {{package}};
 
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiInvoker;
+import {{invokerPackage}}.QueryParam;
 
 import {{modelPackage}}.*;
 
@@ -58,17 +59,18 @@ public class {{classname}} {
     String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    Set<QueryParam> queryParams = new HashSet<QueryParam>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    {{#queryParams}}if ({{paramName}} != null)
-      queryParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
+    {{#queryParams}}
+    queryParams.addAll(ApiInvoker.parameterToQueryParams("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
     {{/queryParams}}
 
-    {{#headerParams}}headerParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
+    {{#headerParams}}
+    headerParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
     {{/headerParams}}
 
     String[] contentTypes = {
