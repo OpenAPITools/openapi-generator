@@ -62,9 +62,11 @@ class {{classname}} implements ArrayAccess {
   /**
    * set {{name}}
    * @param {{datatype}} ${{name}}
+   * @return $this
    */
   public function {{setter}}(${{name}}) {
     $this->{{name}} = ${{name}};
+    return $this;
   }
   {{/vars}}
   public function offsetExists($offset) {
