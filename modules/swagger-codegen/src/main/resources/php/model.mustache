@@ -47,8 +47,10 @@ class {{classname}} implements ArrayAccess {
   public ${{name}};
   {{/vars}}
   public function __construct(array $data = null) {
-    {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
-    {{/hasMore}}{{/vars}}
+    if ($data != null) {
+      {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
+      {{/hasMore}}{{/vars}}
+    }
   }
   {{#vars}}
   /**
