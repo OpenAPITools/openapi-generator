@@ -11,6 +11,9 @@ module SwaggerClient
     # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [nil]
     def self.update_pet(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#update_pet ..."
+      end
       
 
       # resource path
@@ -38,7 +41,10 @@ module SwaggerClient
       
 
       auth_names = ['petstore_auth']
-      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:PUT, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#update_pet"
+      end
       nil
     end
 
@@ -48,6 +54,9 @@ module SwaggerClient
     # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [nil]
     def self.add_pet(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#add_pet ..."
+      end
       
 
       # resource path
@@ -75,7 +84,10 @@ module SwaggerClient
       
 
       auth_names = ['petstore_auth']
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#add_pet"
+      end
       nil
     end
 
@@ -85,6 +97,9 @@ module SwaggerClient
     # @option opts [Array<String>] :status Status values that need to be considered for filter
     # @return [Array<Pet>]
     def self.find_pets_by_status(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#find_pets_by_status ..."
+      end
       
 
       # resource path
@@ -114,7 +129,11 @@ module SwaggerClient
 
       auth_names = ['petstore_auth']
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('Array<Pet>')
+      result = response.deserialize('Array<Pet>')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#find_pets_by_status. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Finds Pets by tags
@@ -123,6 +142,9 @@ module SwaggerClient
     # @option opts [Array<String>] :tags Tags to filter by
     # @return [Array<Pet>]
     def self.find_pets_by_tags(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
+      end
       
 
       # resource path
@@ -152,7 +174,11 @@ module SwaggerClient
 
       auth_names = ['petstore_auth']
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('Array<Pet>')
+      result = response.deserialize('Array<Pet>')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#find_pets_by_tags. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Find pet by ID
@@ -161,6 +187,9 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return [Pet]
     def self.get_pet_by_id(pet_id, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#get_pet_by_id ..."
+      end
       
       # verify the required parameter 'pet_id' is set
       raise "Missing the required parameter 'pet_id' when calling get_pet_by_id" if pet_id.nil?
@@ -192,7 +221,11 @@ module SwaggerClient
 
       auth_names = ['api_key', 'petstore_auth']
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('Pet')
+      result = response.deserialize('Pet')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#get_pet_by_id. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Updates a pet in the store with form data
@@ -203,6 +236,9 @@ module SwaggerClient
     # @option opts [String] :status Updated status of the pet
     # @return [nil]
     def self.update_pet_with_form(pet_id, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#update_pet_with_form ..."
+      end
       
       # verify the required parameter 'pet_id' is set
       raise "Missing the required parameter 'pet_id' when calling update_pet_with_form" if pet_id.nil?
@@ -235,7 +271,10 @@ module SwaggerClient
       
 
       auth_names = ['petstore_auth']
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#update_pet_with_form"
+      end
       nil
     end
 
@@ -246,6 +285,9 @@ module SwaggerClient
     # @option opts [String] :api_key 
     # @return [nil]
     def self.delete_pet(pet_id, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#delete_pet ..."
+      end
       
       # verify the required parameter 'pet_id' is set
       raise "Missing the required parameter 'pet_id' when calling delete_pet" if pet_id.nil?
@@ -277,7 +319,10 @@ module SwaggerClient
       
 
       auth_names = ['petstore_auth']
-      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:DELETE, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#delete_pet"
+      end
       nil
     end
 
@@ -289,6 +334,9 @@ module SwaggerClient
     # @option opts [file] :file file to upload
     # @return [nil]
     def self.upload_file(pet_id, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: PetApi#upload_file ..."
+      end
       
       # verify the required parameter 'pet_id' is set
       raise "Missing the required parameter 'pet_id' when calling upload_file" if pet_id.nil?
@@ -321,7 +369,10 @@ module SwaggerClient
       
 
       auth_names = ['petstore_auth']
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: PetApi#upload_file"
+      end
       nil
     end
   end

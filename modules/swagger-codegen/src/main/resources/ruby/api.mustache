@@ -14,6 +14,9 @@ module {{moduleName}}
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
+      end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
       raise "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?
@@ -52,7 +55,14 @@ module {{moduleName}}
 
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
       {{#returnType}}response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('{{{returnType}}}'){{/returnType}}{{^returnType}}Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      result = response.deserialize('{{{returnType}}}')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
+      end
+      result{{/returnType}}{{^returnType}}Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: {{classname}}#{{nickname}}"
+      end
       nil{{/returnType}}
     end
 {{/operation}}

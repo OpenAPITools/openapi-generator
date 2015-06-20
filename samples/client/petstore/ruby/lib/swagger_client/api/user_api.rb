@@ -11,6 +11,9 @@ module SwaggerClient
     # @option opts [User] :body Created user object
     # @return [nil]
     def self.create_user(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#create_user ..."
+      end
       
 
       # resource path
@@ -38,7 +41,10 @@ module SwaggerClient
       
 
       auth_names = []
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#create_user"
+      end
       nil
     end
 
@@ -48,6 +54,9 @@ module SwaggerClient
     # @option opts [Array<User>] :body List of user object
     # @return [nil]
     def self.create_users_with_array_input(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#create_users_with_array_input ..."
+      end
       
 
       # resource path
@@ -75,7 +84,10 @@ module SwaggerClient
       
 
       auth_names = []
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#create_users_with_array_input"
+      end
       nil
     end
 
@@ -85,6 +97,9 @@ module SwaggerClient
     # @option opts [Array<User>] :body List of user object
     # @return [nil]
     def self.create_users_with_list_input(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#create_users_with_list_input ..."
+      end
       
 
       # resource path
@@ -112,7 +127,10 @@ module SwaggerClient
       
 
       auth_names = []
-      Swagger::Request.new(:POST, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#create_users_with_list_input"
+      end
       nil
     end
 
@@ -123,6 +141,9 @@ module SwaggerClient
     # @option opts [String] :password The password for login in clear text
     # @return [String]
     def self.login_user(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#login_user ..."
+      end
       
 
       # resource path
@@ -153,7 +174,11 @@ module SwaggerClient
 
       auth_names = []
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('String')
+      result = response.deserialize('String')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#login_user. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Logs out current logged in user session
@@ -161,6 +186,9 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def self.logout_user(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#logout_user ..."
+      end
       
 
       # resource path
@@ -188,7 +216,10 @@ module SwaggerClient
       
 
       auth_names = []
-      Swagger::Request.new(:GET, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#logout_user"
+      end
       nil
     end
 
@@ -198,6 +229,9 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return [User]
     def self.get_user_by_name(username, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#get_user_by_name ..."
+      end
       
       # verify the required parameter 'username' is set
       raise "Missing the required parameter 'username' when calling get_user_by_name" if username.nil?
@@ -229,7 +263,11 @@ module SwaggerClient
 
       auth_names = []
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('User')
+      result = response.deserialize('User')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#get_user_by_name. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Updated user
@@ -239,6 +277,9 @@ module SwaggerClient
     # @option opts [User] :body Updated user object
     # @return [nil]
     def self.update_user(username, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#update_user ..."
+      end
       
       # verify the required parameter 'username' is set
       raise "Missing the required parameter 'username' when calling update_user" if username.nil?
@@ -269,7 +310,10 @@ module SwaggerClient
       
 
       auth_names = []
-      Swagger::Request.new(:PUT, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:PUT, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#update_user"
+      end
       nil
     end
 
@@ -279,6 +323,9 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def self.delete_user(username, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: UserApi#delete_user ..."
+      end
       
       # verify the required parameter 'username' is set
       raise "Missing the required parameter 'username' when calling delete_user" if username.nil?
@@ -309,7 +356,10 @@ module SwaggerClient
       
 
       auth_names = []
-      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:DELETE, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: UserApi#delete_user"
+      end
       nil
     end
   end
