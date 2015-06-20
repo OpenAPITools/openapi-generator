@@ -124,12 +124,17 @@ module SwaggerClient
           data.each do |key, value|
             data[key] = value.to_s if value && !value.is_a?(File) # remove emtpy form parameter
           end
-          data
         elsif @body # http body is JSON
-          @body.is_a?(String) ? @body : @body.to_json
+          data = @body.is_a?(String) ? @body : @body.to_json
         else
-          nil
+          data = nil
         end
+
+        if Swagger.configuration.debug
+          Swagger.logger.debug "HTTP request body param ~BEGIN~\n#{data}\n~END~\n"
+        end
+
+        data
       end
 
       # Construct a query string from the query-string-type params
@@ -158,13 +163,10 @@ module SwaggerClient
       end
 
       def make
-        #TODO use configuration setting to determine if debugging
-        #logger = Logger.new STDOUT
-        #logger.debug self.url
-
         request_options = {
           :ssl_verifypeer => Swagger.configuration.verify_ssl,
-          :headers => self.headers.stringify_keys
+          :headers => self.headers.stringify_keys,
+          :verbose => Swagger.configuration.debug
         }
         response = case self.http_method.to_sym
         when :get,:GET
@@ -197,6 +199,11 @@ module SwaggerClient
             request_options.merge(:body => self.outgoing_body)
           )
         end
+
+        if Swagger.configuration.debug
+          Swagger.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+        end
+
         Response.new(response)
       end
 

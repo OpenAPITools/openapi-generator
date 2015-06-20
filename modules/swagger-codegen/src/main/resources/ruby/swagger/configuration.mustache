@@ -1,7 +1,11 @@
+require 'logger'
+
 module {{moduleName}}
   module Swagger
     class Configuration
-      attr_accessor :format, :api_key, :api_key_prefix, :username, :password, :auth_token, :scheme, :host, :base_path, :user_agent, :logger, :inject_format, :force_ending_format, :camelize_params, :user_agent, :verify_ssl
+      attr_accessor :format, :api_key, :api_key_prefix, :username, :password, :auth_token,
+                    :scheme, :host, :base_path, :user_agent, :debug, :logger, :inject_format,
+                    :force_ending_format, :camelize_params, :user_agent, :verify_ssl
 
       # Defaults go in here..
       def initialize
@@ -23,6 +27,12 @@ module {{moduleName}}
         # Note: do NOT set it to false in production code, otherwise you would
         #   face multiple types of cryptographic attacks
         @verify_ssl = true
+
+        # whether to enable debugging
+        @debug = false
+
+        # configure logger, default to logger of Rails (if in Rails) or STDOUT
+        @logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
       end
     end
   end
