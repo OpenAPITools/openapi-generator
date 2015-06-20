@@ -43,9 +43,11 @@ ruby -Ilib script.rb
 require 'swagger_client'
 
 SwaggerClient::Swagger.configure do |config|
-  config.api_key = 'special-key'
+  config.api_key['api_key'] = 'special-key'
   config.host = 'petstore.swagger.io'
   config.base_path = '/v2'
+  # enable debugging (default is false)
+  config.debug = true
 end
 ```
 

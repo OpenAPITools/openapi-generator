@@ -1,6 +1,3 @@
-require 'logger'
-require 'json'
-
 module SwaggerClient
   module Swagger
     class << self
@@ -25,8 +22,7 @@ module SwaggerClient
       def configure
         yield(configuration) if block_given?
 
-        # Configure logger.  Default to use Rails
-        self.logger ||= configuration.logger || (defined?(Rails) ? Rails.logger : Logger.new(STDOUT))
+        self.logger = configuration.logger
 
         # remove :// from scheme
         configuration.scheme.sub!(/:\/\//, '')
