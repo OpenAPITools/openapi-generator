@@ -81,17 +81,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("packageName", packageName);
         additionalProperties.put("packageVersion", packageVersion);
 
-        String swaggerFoler = packageName;
+        String swaggerFolder = packageName;
 
-        modelPackage = swaggerFoler + File.separatorChar + "models";
-        apiPackage = swaggerFoler + File.separatorChar + "apis";
+        modelPackage = swaggerFolder + File.separatorChar + "models";
+        apiPackage = swaggerFolder + File.separatorChar + "apis";
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", swaggerFoler, "api_client.py"));
-        supportingFiles.add(new SupportingFile("rest.mustache", swaggerFoler, "rest.py"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", swaggerFoler, "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", swaggerFoler, "__init__.py"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", swaggerFolder, "api_client.py"));
+        supportingFiles.add(new SupportingFile("rest.mustache", swaggerFolder, "rest.py"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", swaggerFolder, "configuration.py"));
+        supportingFiles.add(new SupportingFile("__init__package.mustache", swaggerFolder, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", apiPackage, "__init__.py"));
     }
