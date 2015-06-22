@@ -119,7 +119,7 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("float", "Float");
     typeMapping.put("number", "Double");
     typeMapping.put("double", "Double");
-    typeMapping.put("object", "AnyObject");
+    typeMapping.put("object", "String");
     typeMapping.put("file", "NSData");
 
     importMapping = new HashMap<String, String>();
