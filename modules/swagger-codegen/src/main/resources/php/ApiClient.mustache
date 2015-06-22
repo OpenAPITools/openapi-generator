@@ -100,6 +100,14 @@ class ApiClient {
   }
 
   /**
+   * get the config
+   * @return ApiConfiguration
+   */
+  public function getConfig() {
+    return $this->config;
+  }
+
+  /**
    * delete the default header based on header name
    *
    * @param string $headerName header name (e.g. Token)
@@ -176,34 +184,6 @@ class ApiClient {
 
     return $keyWithPrefix;
   }
-
-  /**
-   * update header and query param based on authentication setting
-   * 
-   * @param array $headerParams header parameters (by ref)
-   * @param array $queryParams query parameters (by ref)
-   * @param array $authSettings array of authentication scheme (e.g ['api_key'])
-   */
-  public function updateParamsForAuth(&$headerParams, &$queryParams, $authSettings)
-  {
-    if (count($authSettings) == 0)
-      return;
-
-    // one endpoint can have more than 1 auth settings
-    foreach($authSettings as $auth) {
-      // determine which one to use
-      switch($auth) {
-        {{#authMethods}}
-        case '{{name}}':
-          {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$headerParams['Authorization'] = 'Basic '.base64_encode($this->config->getUsername().":".$this->config->getPassword());{{/isBasic}}
-          {{#isOAuth}}//TODO support oauth{{/isOAuth}}
-          break;
-        {{/authMethods}}
-        default:
-          //TODO show warning about security definition not found
-      }
-    }
-  }
   
   /**
    * @param string $resourcePath path to method endpoint
@@ -211,17 +191,12 @@ class ApiClient {
    * @param array $queryParams parameters to be place in query URL
    * @param array $postData parameters to be placed in POST body
    * @param array $headerParams parameters to be place in request header
-   * @param array $authSettings parameters for authentication
    * @throws \{{invokerNamespace}}\ApiException on a non 2xx response
    * @return mixed
    */
-  public function callApi($resourcePath, $method, $queryParams, $postData,
-    $headerParams, $authSettings) {
+  public function callApi($resourcePath, $method, $queryParams, $postData, $headerParams) {
 
     $headers = array();
-
-    # determine authentication setting
-    $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # construct the http header
     $headerParams = array_merge((array)$this->defaultHeaders, (array)$headerParams);

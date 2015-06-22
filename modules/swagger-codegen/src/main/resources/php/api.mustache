@@ -126,15 +126,19 @@ class {{classname}} {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
-
+      {{#authMethods}}{{#isApiKey}}
+      $apiKey = $this->apiClient->getApiKeyWithPrefix('{{keyParamName}}');
+      if (isset($apiKey)) {
+        {{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $apiKey;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $apiKey;{{/isKeyInQuery}}
+      }{{/isApiKey}}
+      {{#isBasic}}$headerParams['Authorization'] = 'Basic '.base64_encode($this->apiClient->getConfig()->getUsername().":".$this->apiClient->getConfig()->getPassword());{{/isBasic}}
+      {{#isOAuth}}//TODO support oauth{{/isOAuth}}
+      {{/authMethods}}
       // make the API Call
       try {
         $response = $this->apiClient->callAPI($resourcePath, $method,
                                               $queryParams, $httpBody,
-                                              $headerParams, $authSettings);
+                                              $headerParams);
       } catch (ApiException $e) {
         $throw = $e;
 
@@ -148,7 +152,7 @@ class {{classname}} {
         throw $throw;
       }
       {{#returnType}}
-      if(!$response) {
+      if (!$response) {
         return null;
       }
 
