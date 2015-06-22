@@ -39,7 +39,8 @@ class {{classname}} {
 
   function __construct($apiClient = null) {
     if ($apiClient == null) {
-      $apiClient = (new ApiClient())->setHost('{{basePath}}');
+      $apiClient = new ApiClient();
+      $apiClient->getConfig()->setHost('{{basePath}}');
     }
 
     $this->apiClient = $apiClient;
