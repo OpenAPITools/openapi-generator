@@ -24,23 +24,6 @@ class ApiClient {
   public static $GET = "GET";
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
-  
-  protected $defaultHeaders = array();
-
-  /**
-   * The host
-   */
-  protected $host = 'http://localhost';
-
-  /*
-   * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
-   */
-  protected $curlTimeout = 0;
-
-  /*
-   * @var string user agent of the HTTP request, set to "PHP-Swagger" by default
-   */
-  protected $userAgent = "PHP-Swagger";
 
   /**
    * @var ApiConfiguration
@@ -59,109 +42,12 @@ class ApiClient {
   }
 
   /**
-   * add default header 
-   *
-   * @param string $headerName header name (e.g. Token)
-   * @param string $headerValue header value (e.g. 1z8wp3)
-   * @return ApiClient
-   */
-  public function addDefaultHeader($headerName, $headerValue) {
-    if (!is_string($headerName)) {
-      throw new \InvalidArgumentException('Header name must be a string.');
-    }
-
-    $this->defaultHeaders[$headerName] =  $headerValue;
-    return $this;
-  }
-
-  /**
-   * get the default header 
-   *
-   * @return array default header
-   */
-  public function getDefaultHeaders() {
-    return $this->defaultHeaders;
-  }
-
-  /**
-   * @param string $host
-   * @return ApiConfiguration
-   */
-  public function setHost($host) {
-    $this->host = $host;
-    return $this;
-  }
-
-  /**
-   * @return string
-   */
-  public function getHost() {
-    return $this->host;
-  }
-
-  /**
    * get the config
    * @return ApiConfiguration
    */
   public function getConfig() {
     return $this->config;
   }
-
-  /**
-   * delete the default header based on header name
-   *
-   * @param string $headerName header name (e.g. Token)
-   */
-  public function deleteDefaultHeader($headerName) {
-    unset($this->defaultHeaders[$headerName]);
-  }
-
-  /**
-   * set the user agent of the api client
-   *
-   * @param string $userAgent the user agent of the api client
-   * @return ApiClient
-   */
-  public function setUserAgent($userAgent) {
-    if (!is_string($userAgent))
-      throw new \InvalidArgumentException('User-agent must be a string.');
-
-    $this->userAgent = $userAgent;
-    return $this;
-  }
-
-  /**
-   * get the user agent of the api client
-   * 
-   * @return string user agent
-   */
-  public function getUserAgent() {
-    return $this->userAgent;
-  }
-
-  /**
-   * set the HTTP timeout value
-   *
-   * @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
-   * @return ApiClient
-   */
-  public function setTimeout($seconds) {
-    if (!is_numeric($seconds) || $seconds < 0)
-      throw new \InvalidArgumentException('Timeout value must be numeric and a non-negative number.');
-
-    $this->curlTimeout = $seconds;
-    return $this;
-  }
-
-  /**
-   * get the HTTP timeout value
-   *
-   * @return string HTTP timeout value
-   */
-  public function getTimeout() {
-    return $this->curlTimeout;
-  }
-
 
   /**
    * Get API key (with prefix if set)
@@ -199,7 +85,7 @@ class ApiClient {
     $headers = array();
 
     # construct the http header
-    $headerParams = array_merge((array)$this->defaultHeaders, (array)$headerParams);
+    $headerParams = array_merge((array)$this->config->getDefaultHeaders(), (array)$headerParams);
 
     foreach ($headerParams as $key => $val) {
       $headers[] = "$key: $val";
@@ -213,12 +99,12 @@ class ApiClient {
       $postData = json_encode(ObjectSerializer::sanitizeForSerialization($postData));
     }
 
-    $url = $this->getHost() . $resourcePath;
+    $url = $this->config->getHost() . $resourcePath;
 
     $curl = curl_init();
     // set timeout, if needed
-    if ($this->curlTimeout != 0) {
-      curl_setopt($curl, CURLOPT_TIMEOUT, $this->curlTimeout);
+    if ($this->config->getCurlTimeout() != 0) {
+      curl_setopt($curl, CURLOPT_TIMEOUT, $this->config->getCurlTimeout());
     }
     // return the result on success, rather than just TRUE
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -247,7 +133,7 @@ class ApiClient {
     curl_setopt($curl, CURLOPT_URL, $url);
 
     // Set user agent
-    curl_setopt($curl, CURLOPT_USERAGENT, $this->userAgent);
+    curl_setopt($curl, CURLOPT_USERAGENT, $this->config->getUserAgent());
 
     // debugging for curl
     if ($this->config->getDebug()) {
@@ -320,6 +206,5 @@ class ApiClient {
       return implode(',', $content_type);
     }
   }
-
 }
 
