@@ -22,11 +22,6 @@ class ApiConfiguration {
   private static $defaultConfiguration = null;
 
   /**
-   * The host (from basePath)
-   */
-  protected $host = '{{basePath}}';
-
-  /**
    * Associate array to store API key(s)
    */
   protected $apiKeys = array();
@@ -55,22 +50,6 @@ class ApiConfiguration {
    * Debug file location (log to STDOUT by default)
    */
   protected $debugFile = 'php://output';
-
-  /**
-   * @param string $host
-   * @return ApiConfiguration
-   */
-  public function setHost($host) {
-    $this->host = $host;
-    return $this;
-  }
-
-  /**
-   * @return string
-   */
-  public function getHost() {
-    return $this->host;
-  }
 
   /**
    * @param string $key
