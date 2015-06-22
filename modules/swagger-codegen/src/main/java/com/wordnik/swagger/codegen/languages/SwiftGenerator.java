@@ -127,7 +127,7 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String escapeReservedWord(String name) {
-    return "_" + name;  // add an underscore to the name
+    return "Swagger" + name;  // add an underscore to the name
   }
 
   @Override
@@ -202,6 +202,9 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
       codegenProperty.allowableValues.put("values", swiftEnums);
       codegenProperty.datatypeWithEnum =
               StringUtils.left(codegenProperty.datatypeWithEnum, codegenProperty.datatypeWithEnum.length() - "Enum".length());
+      if (reservedWords.contains(codegenProperty.datatypeWithEnum)) {
+        codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
+      }
     }
     return codegenProperty;
   }
