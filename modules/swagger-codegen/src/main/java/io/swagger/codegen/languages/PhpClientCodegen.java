@@ -120,6 +120,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("ApiConfiguration.mustache", invokerPackage.replace('/', File.separatorChar), "ApiConfiguration.php"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerPackage.replace('/', File.separatorChar), "ApiClient.php"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", invokerPackage.replace('/', File.separatorChar), "ApiException.php"));
+        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", invokerPackage.replace('/', File.separatorChar), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", "", "autoload.php"));
     }

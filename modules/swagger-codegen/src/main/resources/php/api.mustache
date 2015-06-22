@@ -25,6 +25,7 @@ namespace {{apiNamespace}};
 use {{invokerNamespace}}\ApiConfiguration;
 use {{invokerNamespace}}\ApiClient;
 use {{invokerNamespace}}\ApiException;
+use {{invokerNamespace}}\ObjectSerializer;
 
 {{#imports}}
 use {{{import}}};
@@ -96,21 +97,21 @@ class {{classname}} {
 
       {{#queryParams}}// query params
       if(${{paramName}} !== null) {
-        $queryParams['{{baseName}}'] = ApiClient::toQueryValue(${{paramName}});
+        $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
       }{{/queryParams}}
       {{#headerParams}}// header params
       if(${{paramName}} !== null) {
-        $headerParams['{{baseName}}'] = ApiClient::toHeaderValue(${{paramName}});
+        $headerParams['{{baseName}}'] = ObjectSerializer::toHeaderValue(${{paramName}});
       }{{/headerParams}}
       {{#pathParams}}// path params
       if(${{paramName}} !== null) {
         $resourcePath = str_replace("{" . "{{baseName}}" . "}",
-                                    ApiClient::toPathValue(${{paramName}}),
+                                    ObjectSerializer::toPathValue(${{paramName}}),
                                     $resourcePath);
       }{{/pathParams}}
       {{#formParams}}// form params
       if (${{paramName}} !== null) {
-        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}ApiClient::toFormValue(${{paramName}});
+        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}ObjectSerializer::toFormValue(${{paramName}});
       }{{/formParams}}
       {{#bodyParams}}// body params
       $_tempBody = null;
@@ -139,7 +140,7 @@ class {{classname}} {
 
         switch ($e->getCode()) { {{#responses}}{{#dataType}}
           case {{code}}:
-            $data = ApiClient::deserialize($e->getResponseBody(), '{{dataType}}');
+            $data = ObjectSerializer::deserialize($e->getResponseBody(), '{{dataType}}');
             $throw = new ApiException("{{message}}", $e->getCode(), $e->getResponseHeaders(), $data);
             break;{{/dataType}}{{/responses}}
         }
@@ -151,7 +152,7 @@ class {{classname}} {
         return null;
       }
 
-      $responseObject = ApiClient::deserialize($response,'{{returnType}}');
+      $responseObject = ObjectSerializer::deserialize($response,'{{returnType}}');
       return $responseObject;
       {{/returnType}}
   }
