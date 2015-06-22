@@ -135,10 +135,10 @@ public class ApiInvoker {
   }
 
   /*
-    Format to {@code QueryParam} objects.
+    Format to {@code Pair} objects.
   */
-  public Set<QueryParam> parameterToQueryParams(String collectionFormat, String name, Object value){
-    Set<QueryParam> params = new HashSet<QueryParam>();
+  public Set<Pair> parameterToQueryParams(String collectionFormat, String name, Object value){
+    Set<Pair> params = new HashSet<Pair>();
 
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
@@ -149,7 +149,7 @@ public class ApiInvoker {
     }
 
     if (valueCollection == null) {
-      params.add(new QueryParam(name, String.valueOf(value)));
+      params.add(new Pair(name, String.valueOf(value)));
       return params;
     } else if (valueCollection.isEmpty()) {
       return params;
@@ -158,10 +158,10 @@ public class ApiInvoker {
     collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
 
     if (collectionFormat.equals("csv")) {
-      params.add(new QueryParam(name, parameterToString(value)));
+      params.add(new Pair(name, parameterToString(value)));
     } else if (collectionFormat.equals("multi")) {
       for (String item : valueCollection) {
-        params.add(new QueryParam(name, item));
+        params.add(new Pair(name, item));
       }
     } else if (collectionFormat.equals("ssv")) {
       StringBuilder sb = new StringBuilder() ;
@@ -169,21 +169,21 @@ public class ApiInvoker {
         sb.append(" ");
         sb.append(item);
       }
-      params.add(new QueryParam(name, sb.substring(1)));
+      params.add(new Pair(name, sb.substring(1)));
     } else if (collectionFormat.equals("tsv")) {
       StringBuilder sb = new StringBuilder() ;
       for (String item : valueCollection) {
         sb.append("\t");
         sb.append(item);
       }
-      params.add(new QueryParam(name, sb.substring(1)));
+      params.add(new Pair(name, sb.substring(1)));
     } else if (collectionFormat.equals("pipes")) {
       StringBuilder sb = new StringBuilder() ;
       for (String item : valueCollection) {
         sb.append("|");
         sb.append(item);
       }
-      params.add(new QueryParam(name, sb.substring(1)));
+      params.add(new Pair(name, sb.substring(1)));
     }
 
     return params;
@@ -241,13 +241,13 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Set<QueryParam> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  public String invokeAPI(String host, String path, String method, Set<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
     HttpClient client = getClient(host);
 
     StringBuilder b = new StringBuilder();
     b.append("?");
     if (queryParams != null){
-      for (QueryParam queryParam : queryParams){
+      for (Pair queryParam : queryParams){
         if (!queryParam.getName().isEmpty()) {
           b.append(escapeString(queryParam.getName()));
           b.append("=");

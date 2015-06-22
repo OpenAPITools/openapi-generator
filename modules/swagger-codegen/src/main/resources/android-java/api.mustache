@@ -2,7 +2,7 @@ package {{package}};
 
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiInvoker;
-import {{invokerPackage}}.QueryParam;
+import {{invokerPackage}}.Pair;
 
 import {{modelPackage}}.*;
 
@@ -59,7 +59,7 @@ public class {{classname}} {
     String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
