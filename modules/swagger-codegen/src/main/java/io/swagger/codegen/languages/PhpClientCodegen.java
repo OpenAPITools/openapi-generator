@@ -8,6 +8,7 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.RefProperty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -157,6 +158,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
             return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
+        } else if (p instanceof RefProperty) {
+            return "\\\\" + modelNamespace.replace("\\", "\\\\") + "\\\\" + getSwaggerType(p);
         }
         return super.getTypeDeclaration(p);
     }
@@ -256,7 +259,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         objs = addNamespaces(super.postProcessSupportingFileData(objs));
-        objs = formatImports(objs, "models", "importPath");
 
         return objs;
     }
