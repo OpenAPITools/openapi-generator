@@ -70,14 +70,15 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [SWGApiClient requestQueueSize];
 }
 
+#pragma mark - Api Methods
 
-/*!
- * Returns pet inventories by status
- * Returns a map of status codes to quantities
- * \returns NSDictionary*
- */
+///
+/// Returns pet inventories by status
+/// Returns a map of status codes to quantities
+///  @returns NSDictionary* /* NSString, NSNumber */
+///
 -(NSNumber*) getInventoryWithCompletionBlock: 
-        (void (^)(NSDictionary* output, NSError* error))completionBlock
+        (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock
          {
 
     
@@ -127,45 +128,28 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-    // response is in a container
-        // map container response type
-    return [self.apiClient dictionary: requestUrl 
-                       method: @"GET" 
-                  queryParams: queryParams 
-                         body: bodyDictionary 
-                 headerParams: headerParams
-                 authSettings: authSettings
-           requestContentType: requestContentType
-          responseContentType: responseContentType
-              completionBlock: ^(NSDictionary *data, NSError *error) {
-                if (error) {
-                    completionBlock(nil, error);
-                    return;
-                }
-                
-                NSDictionary *result = nil;
-                if (data) {
-                    result = [[NSDictionary alloc]initWithDictionary: data];
-                }
-                completionBlock(data, nil);
-                
-            }];
-    
-
-
-    
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"GET"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  
+                  completionBlock([self.apiClient deserialize: data class:@"NSDictionary* /* NSString, NSNumber */"], error);
+              }
+          ];
 }
 
-/*!
- * Place an order for a pet
- * 
- * \param body order placed for purchasing the pet
- * \returns SWGOrder*
- */
+///
+/// Place an order for a pet
+/// 
+///  @param body order placed for purchasing the pet
+///
+///  @returns SWGOrder*
+///
 -(NSNumber*) placeOrderWithCompletionBlock: (SWGOrder*) body
         
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
@@ -241,52 +225,28 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-    // non container response
-
-    
-
-    
-    // complex response
-        
-    // comples response type
-    return [self.apiClient dictionary: requestUrl
-                       method: @"POST"
-                  queryParams: queryParams
-                         body: bodyDictionary
-                 headerParams: headerParams
-                 authSettings: authSettings
-           requestContentType: requestContentType
-          responseContentType: responseContentType
-              completionBlock: ^(NSDictionary *data, NSError *error) {
-                if (error) {
-                    completionBlock(nil, error);
-                    
-                    return;
-                }
-                SWGOrder* result = nil;
-                if (data) {
-                    result = [[SWGOrder  alloc]  initWithDictionary:data error:nil];
-                }
-                completionBlock(result , nil);
-                
-              }];
-    
-
-    
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"POST"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  
+                  completionBlock([self.apiClient deserialize: data class:@"SWGOrder*"], error);
+              }
+          ];
 }
 
-/*!
- * Find purchase order by ID
- * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
- * \param orderId ID of pet that needs to be fetched
- * \returns SWGOrder*
- */
+///
+/// Find purchase order by ID
+/// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+///  @param orderId ID of pet that needs to be fetched
+///
+///  @returns SWGOrder*
+///
 -(NSNumber*) getOrderByIdWithCompletionBlock: (NSString*) orderId
         
         completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
@@ -343,52 +303,28 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-    // non container response
-
-    
-
-    
-    // complex response
-        
-    // comples response type
-    return [self.apiClient dictionary: requestUrl
-                       method: @"GET"
-                  queryParams: queryParams
-                         body: bodyDictionary
-                 headerParams: headerParams
-                 authSettings: authSettings
-           requestContentType: requestContentType
-          responseContentType: responseContentType
-              completionBlock: ^(NSDictionary *data, NSError *error) {
-                if (error) {
-                    completionBlock(nil, error);
-                    
-                    return;
-                }
-                SWGOrder* result = nil;
-                if (data) {
-                    result = [[SWGOrder  alloc]  initWithDictionary:data error:nil];
-                }
-                completionBlock(result , nil);
-                
-              }];
-    
-
-    
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"GET"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  
+                  completionBlock([self.apiClient deserialize: data class:@"SWGOrder*"], error);
+              }
+          ];
 }
 
-/*!
- * Delete purchase order by ID
- * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
- * \param orderId ID of the order that needs to be deleted
- * \returns void
- */
+///
+/// Delete purchase order by ID
+/// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+///  @param orderId ID of the order that needs to be deleted
+///
+///  @returns void
+///
 -(NSNumber*) deleteOrderWithCompletionBlock: (NSString*) orderId
         
         
@@ -445,30 +381,19 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-
-    
-    // it's void
-        return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"DELETE" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                                authSettings: authSettings
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"DELETE"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  completionBlock(error);
+                  
+              }
+          ];
 }
 
 
