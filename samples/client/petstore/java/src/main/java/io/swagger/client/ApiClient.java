@@ -246,7 +246,12 @@ public class ApiClient {
     Set<Pair> params = new HashSet<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null) return params;
+    if (name == null || name.isEmpty()) return params;
+
+    if (value == null) {
+      params.add(new Pair(name, value));
+      return params;
+    }
 
     Collection<String> valueCollection = null;
     if (value instanceof Collection) {
