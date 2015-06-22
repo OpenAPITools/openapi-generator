@@ -31,6 +31,11 @@ class ApiClient {
   
   protected $defaultHeaders = array();
 
+  /**
+   * The host (from basePath)
+   */
+  protected $host = '{{basePath}}';
+
   /*
    * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
    */
@@ -49,7 +54,11 @@ class ApiClient {
   /**
    * @param ApiConfiguration $config config for this ApiClient
    */
-  function __construct(ApiConfiguration $config = null) {
+  function __construct($host = null, ApiConfiguration $config = null) {
+    if ($host != null) {
+      $this->host = $host;
+    }
+
     if ($config == null) {
       $config = ApiConfiguration::getDefaultConfiguration();
     }
@@ -69,6 +78,7 @@ class ApiClient {
     }
 
     $this->defaultHeaders[$headerName] =  $headerValue;
+    return $this;
   }
 
   /**
@@ -78,6 +88,22 @@ class ApiClient {
    */
   public function getDefaultHeaders() {
     return $this->defaultHeaders;
+  }
+
+  /**
+   * @param string $host
+   * @return ApiConfiguration
+   */
+  public function setHost($host) {
+    $this->host = $host;
+    return $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getHost() {
+    return $this->host;
   }
 
   /**
@@ -99,6 +125,7 @@ class ApiClient {
       throw new \InvalidArgumentException('User-agent must be a string.');
 
     $this->userAgent = $userAgent;
+    return $this;
   }
 
   /**
@@ -120,6 +147,7 @@ class ApiClient {
       throw new \InvalidArgumentException('Timeout value must be numeric and a non-negative number.');
 
     $this->curlTimeout = $seconds;
+    return $this;
   }
 
   /**
