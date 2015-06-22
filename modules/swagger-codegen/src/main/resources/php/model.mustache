@@ -30,13 +30,23 @@ use \ArrayAccess;
 
 class {{classname}} implements ArrayAccess {
   static $swaggerTypes = array(
-      {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
-      {{/hasMore}}{{/vars}}
+    {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
+    {{/hasMore}}{{/vars}}
   );
 
   static $attributeMap = array(
-      {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
-      {{/hasMore}}{{/vars}}
+    {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
+    {{/hasMore}}{{/vars}}
+  );
+
+  static $setters = array(
+    {{#vars}}'{{name}}' => '{{setter}}'{{#hasMore}},
+    {{/hasMore}}{{/vars}}
+  );
+
+  static $getters = array(
+    {{#vars}}'{{name}}' => '{{getter}}'{{#hasMore}},
+    {{/hasMore}}{{/vars}}
   );
 
   {{#vars}}

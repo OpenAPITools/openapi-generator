@@ -21,8 +21,9 @@ class ObjectSerializer {
       } else if (is_object($data)) {
         $values = array();
         foreach (array_keys($data::$swaggerTypes) as $property) {
-          if ($data->$property !== null) {
-            $values[$data::$attributeMap[$property]] = self::sanitizeForSerialization($data->$property);
+          $getter = $data::$getters[$property];
+          if ($data->$getter() !== null) {
+            $values[$data::$attributeMap[$property]] = self::sanitizeForSerialization($data->$getter());
           }
         }
         $sanitized = $values;
@@ -131,9 +132,15 @@ class ObjectSerializer {
       } else {
         $instance = new $class();
         foreach ($instance::$swaggerTypes as $property => $type) {
-          $original_property_name = $instance::$attributeMap[$property];
-          if (isset($original_property_name) && isset($data->$original_property_name)) {
-            $instance->$property = self::deserialize($data->$original_property_name, $type);
+          $propertySetter = $instance::$setters[$property];
+
+          if (!isset($propertySetter) || !isset($data->{$instance::$attributeMap[$property]})) {
+            continue;
+          }
+
+          $propertyValue = $data->{$instance::$attributeMap[$property]};
+          if (isset($propertyValue)) {
+            $instance->$propertySetter(self::deserialize($propertyValue, $type));
           }
         }
         $deserialized = $instance;
