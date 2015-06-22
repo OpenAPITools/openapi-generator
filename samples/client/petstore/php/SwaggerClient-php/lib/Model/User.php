@@ -22,11 +22,12 @@
  *
  */
 
-namespace SwaggerClient\models;
+namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
 class User implements ArrayAccess {
+  /** @var string[] Array of property to type mappings. Used for (de)serialization */
   static $swaggerTypes = array(
       'id' => 'int',
       'username' => 'string',
@@ -38,6 +39,7 @@ class User implements ArrayAccess {
       'user_status' => 'int'
   );
 
+  /** @var string[] Array of attributes where the key is the local name, and the value is the original name */
   static $attributeMap = array(
       'id' => 'id',
       'username' => 'username',
@@ -48,29 +50,43 @@ class User implements ArrayAccess {
       'phone' => 'phone',
       'user_status' => 'userStatus'
   );
-
   
-  public $id; /* int */
-  public $username; /* string */
-  public $first_name; /* string */
-  public $last_name; /* string */
-  public $email; /* string */
-  public $password; /* string */
-  public $phone; /* string */
+  /** @var int $id */
+  public $id;
+  
+  /** @var string $username */
+  public $username;
+  
+  /** @var string $first_name */
+  public $first_name;
+  
+  /** @var string $last_name */
+  public $last_name;
+  
+  /** @var string $email */
+  public $email;
+  
+  /** @var string $password */
+  public $password;
+  
+  /** @var string $phone */
+  public $phone;
+  
+  /** @var int $user_status User Status */
+  public $user_status;
+  
   /**
-  * User Status
-  */
-  public $user_status; /* int */
-
+   * @param mixed[] Array of parameters to initialize the object with
+   */
   public function __construct(array $data = null) {
-    $this->id = $data["id"];
-    $this->username = $data["username"];
-    $this->first_name = $data["first_name"];
-    $this->last_name = $data["last_name"];
-    $this->email = $data["email"];
-    $this->password = $data["password"];
-    $this->phone = $data["phone"];
-    $this->user_status = $data["user_status"];
+    $this->id = @$data["id"];
+    $this->username = @$data["username"];
+    $this->first_name = @$data["first_name"];
+    $this->last_name = @$data["last_name"];
+    $this->email = @$data["email"];
+    $this->password = @$data["password"];
+    $this->phone = @$data["phone"];
+    $this->user_status = @$data["user_status"];
   }
 
   public function offsetExists($offset) {
