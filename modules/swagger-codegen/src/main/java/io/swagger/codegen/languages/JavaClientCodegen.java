@@ -116,7 +116,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
         supportingFiles.add(new SupportingFile("JsonUtil.mustache", invokerFolder, "JsonUtil.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
-        supportingFiles.add(new SupportingFile("QueryParam.mustache", invokerFolder, "QueryParam.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
 
         final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
         supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));

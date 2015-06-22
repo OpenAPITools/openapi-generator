@@ -3,7 +3,7 @@ package {{package}};
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
-import {{invokerPackage}}.QueryParam;
+import {{invokerPackage}}.Pair;
 
 import {{modelPackage}}.*;
 
@@ -62,7 +62,7 @@ public class {{classname}} {
       .replaceAll("\\{" + "{{paramName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 

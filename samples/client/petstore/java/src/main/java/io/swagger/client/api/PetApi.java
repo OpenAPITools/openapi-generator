@@ -3,7 +3,7 @@ package io.swagger.client.api;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
-import io.swagger.client.QueryParam;
+import io.swagger.client.Pair;
 
 import io.swagger.client.model.*;
 
@@ -55,7 +55,7 @@ public class PetApi {
     String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -112,7 +112,7 @@ public class PetApi {
     String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -169,7 +169,7 @@ public class PetApi {
     String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -228,7 +228,7 @@ public class PetApi {
     String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -293,7 +293,7 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -358,7 +358,7 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -436,7 +436,7 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -503,7 +503,7 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 

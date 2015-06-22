@@ -1,6 +1,6 @@
 package io.swagger.client.auth;
 
-import io.swagger.client.QueryParam;
+import io.swagger.client.Pair;
 
 import java.util.Map;
 import java.util.Set;
@@ -42,7 +42,7 @@ public class ApiKeyAuth implements Authentication {
   }
 
   @Override
-  public void applyToParams(Set<QueryParam> queryParams, Map<String, String> headerParams) {
+  public void applyToParams(Set<Pair> queryParams, Map<String, String> headerParams) {
     String value;
     if (apiKeyPrefix != null) {
       value = apiKeyPrefix + " " + apiKey;
@@ -50,7 +50,7 @@ public class ApiKeyAuth implements Authentication {
       value = apiKey;
     }
     if (location == "query") {
-      queryParams.add(new QueryParam(paramName, value));
+      queryParams.add(new Pair(paramName, value));
     } else if (location == "header") {
       headerParams.put(paramName, value);
     }
