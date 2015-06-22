@@ -140,16 +140,14 @@ class {{classname}} {
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
-        $throw = $e;
-
         switch ($e->getCode()) { {{#responses}}{{#dataType}}
           case {{code}}:
             $data = ObjectSerializer::deserialize($e->getResponseBody(), '{{dataType}}');
-            $throw = new ApiException("{{message}}", $e->getCode(), $e->getResponseHeaders(), $data);
+            $e->setResponseObject($data);
             break;{{/dataType}}{{/responses}}
         }
 
-        throw $throw;
+        throw $e;
       }
       {{#returnType}}
       if (!$response) {
