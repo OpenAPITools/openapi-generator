@@ -142,7 +142,7 @@ class PhpModelTest extends FlatSpec with Matchers {
 
     val vars = cm.vars
     vars.get(0).baseName should be("children")
-    vars.get(0).datatype should be("Children")
+    vars.get(0).datatype should be("\\\\Swagger\\\\Models\\\\Children")
     vars.get(0).name should be("children")
     vars.get(0).baseType should be("Children")
     vars.get(0).required should equal(null)
@@ -166,7 +166,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     vars.get(0).baseName should be("children")
     vars.get(0).complexType should be("Children")
-    vars.get(0).datatype should be("array[Children]")
+    vars.get(0).datatype should be("array[\\\\Swagger\\\\Models\\\\Children]")
     vars.get(0).name should be("children")
     vars.get(0).baseType should be("array")
     vars.get(0).containerType should be("array")
@@ -192,7 +192,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     vars.get(0).baseName should be("children")
     vars.get(0).complexType should be("Children")
-    vars.get(0).datatype should be("map[string,Children]")
+    vars.get(0).datatype should be("map[string,\\\\Swagger\\\\Models\\\\Children]")
     vars.get(0).name should be("children")
     vars.get(0).baseType should be("map")
     vars.get(0).containerType should be("map")
