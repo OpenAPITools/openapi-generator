@@ -29,40 +29,46 @@ class ApiClient {
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
   
-  private static $default_header = array();
+  protected $defaultHeaders = array();
 
   /*
    * @var string timeout (second) of the HTTP request, by default set to 0, no timeout
    */
-  protected $curl_timeout = 0;
+  protected $curlTimeout = 0;
 
   /*
    * @var string user agent of the HTTP request, set to "PHP-Swagger" by default
    */
-  protected $user_agent = "PHP-Swagger";
+  protected $userAgent = "PHP-Swagger";
 
   /**
-   * @param string $host Base url of the API server (optional)
+   * @var ApiConfiguration
    */
-  function __construct($host = null) {
-    if ($host === null) {
-      $this->host = '{{basePath}}';
-    } else {
-      $this->host = $host;
+  protected $config;
+
+  /**
+   * @param ApiConfiguration $config config for this ApiClient
+   */
+  function __construct(ApiConfiguration $config = null) {
+    if ($config == null) {
+      $config = ApiConfiguration::getDefaultConfiguration();
     }
+    
+    $this->config = $config;
   }
 
   /**
    * add default header 
    *
-   * @param string $header_name header name (e.g. Token)
-   * @param string $header_value header value (e.g. 1z8wp3)
+   * @param string $headerName header name (e.g. Token)
+   * @param string $headerValue header value (e.g. 1z8wp3)
    */
-  public function addDefaultHeader($header_name, $header_value) {
-    if (!is_string($header_name)) 
+  public function addDefaultHeader($headerName, $headerValue) {
+    if (!is_string($headerName)) {
       throw new \InvalidArgumentException('Header name must be a string.');
+    }
 
-    self::$default_header[$header_name] =  $header_value;
+    $this->defaultHeaders[$headerName] =  $headerValue;
   }
 
   /**
@@ -70,29 +76,29 @@ class ApiClient {
    *
    * @return array default header
    */
-  public function getDefaultHeader() {
-    return self::$default_header;
+  public function getDefaultHeaders() {
+    return $this->defaultHeaders;
   }
 
   /**
    * delete the default header based on header name
    *
-   * @param string $header_name header name (e.g. Token)
+   * @param string $headerName header name (e.g. Token)
    */
-  public function deleteDefaultHeader($header_name) {
-    unset(self::$default_header[$header_name]);
+  public function deleteDefaultHeader($headerName) {
+    unset($this->defaultHeaders[$headerName]);
   }
 
   /**
    * set the user agent of the api client
    *
-   *  @param string $user_agent the user agent of the api client
+   * @param string $userAgent the user agent of the api client
    */
-  public function setUserAgent($user_agent) {
-    if (!is_string($user_agent))
+  public function setUserAgent($userAgent) {
+    if (!is_string($userAgent))
       throw new \InvalidArgumentException('User-agent must be a string.');
 
-    $this->user_agent= $user_agent;
+    $this->userAgent = $userAgent;
   }
 
   /**
@@ -100,8 +106,8 @@ class ApiClient {
    * 
    * @return string user agent
    */
-  public function getUserAgent($user_agent) {
-    return $this->user_agent;
+  public function getUserAgent() {
+    return $this->userAgent;
   }
 
   /**
@@ -113,7 +119,7 @@ class ApiClient {
     if (!is_numeric($seconds) || $seconds < 0)
       throw new \InvalidArgumentException('Timeout value must be numeric and a non-negative number.');
 
-    $this->curl_timeout = $seconds;
+    $this->curlTimeout = $seconds;
   }
 
   /**
@@ -122,27 +128,34 @@ class ApiClient {
    * @return string HTTP timeout value
    */
   public function getTimeout() {
-    return $this->curl_timeout;
+    return $this->curlTimeout;
   }
 
 
   /**
    * Get API key (with prefix if set)
-   * @param string key name
+   * @param string $apiKey name of apikey
    * @return string API key with the prefix
    */
   public function getApiKeyWithPrefix($apiKey) {
-    if (isset(Configuration::$apiKeyPrefix[$apiKey])) {
-      return Configuration::$apiKeyPrefix[$apiKey]." ".Configuration::$apiKey[$apiKey];
-    } else if (isset(Configuration::$apiKey[$apiKey])) {
-      return Configuration::$apiKey[$apiKey];
-    } else {
-      return;
+    $prefix = $this->config->getApiKeyPrefix($apiKey);
+    $apiKey = $this->config->getApiKey($apiKey);
+
+    if (!isset($apiKey)) {
+      return null;
     }
+
+    if (isset($prefix)) {
+      $keyWithPrefix = $prefix." ".$apiKey;
+    } else {
+      $keyWithPrefix = $apiKey;
+    }
+
+    return $keyWithPrefix;
   }
 
   /**
-   * update hearder and query param based on authentication setting
+   * update header and query param based on authentication setting
    * 
    * @param array $headerParams header parameters (by ref)
    * @param array $queryParams query parameters (by ref)
@@ -159,7 +172,7 @@ class ApiClient {
       switch($auth) {
         {{#authMethods}}
         case '{{name}}':
-          {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$headerParams['Authorization'] = 'Basic '.base64_encode(Configuration::$username.":".Configuration::$password);{{/isBasic}}
+          {{#isApiKey}}{{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $this->getApiKeyWithPrefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$headerParams['Authorization'] = 'Basic '.base64_encode($this->config->getUsername().":".$this->config->getPassword());{{/isBasic}}
           {{#isOAuth}}//TODO support oauth{{/isOAuth}}
           break;
         {{/authMethods}}
@@ -175,6 +188,8 @@ class ApiClient {
    * @param array $queryParams parameters to be place in query URL
    * @param array $postData parameters to be placed in POST body
    * @param array $headerParams parameters to be place in request header
+   * @param array $authSettings parameters for authentication
+   * @throws \{{invokerNamespace}}\ApiException on a non 2xx response
    * @return mixed
    */
   public function callApi($resourcePath, $method, $queryParams, $postData,
@@ -186,7 +201,7 @@ class ApiClient {
     $this->updateParamsForAuth($headerParams, $queryParams, $authSettings);
 
     # construct the http header
-    $headerParams = array_merge((array)self::$default_header, (array)$headerParams);
+    $headerParams = array_merge((array)$this->defaultHeaders, (array)$headerParams);
 
     foreach ($headerParams as $key => $val) {
       $headers[] = "$key: $val";
@@ -200,12 +215,12 @@ class ApiClient {
       $postData = json_encode($this->sanitizeForSerialization($postData));
     }
 
-    $url = $this->host . $resourcePath;
+    $url = $this->config->getHost() . $resourcePath;
 
     $curl = curl_init();
     // set timeout, if needed
-    if ($this->curl_timeout != 0) {
-      curl_setopt($curl, CURLOPT_TIMEOUT, $this->curl_timeout);
+    if ($this->curlTimeout != 0) {
+      curl_setopt($curl, CURLOPT_TIMEOUT, $this->curlTimeout);
     }
     // return the result on success, rather than just TRUE
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -234,14 +249,14 @@ class ApiClient {
     curl_setopt($curl, CURLOPT_URL, $url);
 
     // Set user agent
-    curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent);
+    curl_setopt($curl, CURLOPT_USERAGENT, $this->userAgent);
 
     // debugging for curl
-    if (Configuration::$debug) {
-      error_log("[DEBUG] HTTP Request body  ~BEGIN~\n".print_r($postData, true)."\n~END~\n", 3, Configuration::$debug_file);
+    if ($this->config->getDebug()) {
+      error_log("[DEBUG] HTTP Request body  ~BEGIN~\n".print_r($postData, true)."\n~END~\n", 3, $this->config->getDebugFile());
 
       curl_setopt($curl, CURLOPT_VERBOSE, 1);
-      curl_setopt($curl, CURLOPT_STDERR, fopen(Configuration::$debug_file, 'a'));
+      curl_setopt($curl, CURLOPT_STDERR, fopen($this->config->getDebugFile(), 'a'));
     } else {
       curl_setopt($curl, CURLOPT_VERBOSE, 0);
     }
@@ -257,8 +272,8 @@ class ApiClient {
     $response_info = curl_getinfo($curl);
 
     // debug HTTP response body
-    if (Configuration::$debug) {
-        error_log("[DEBUG] HTTP Response body ~BEGIN~\n".print_r($http_body, true)."\n~END~\n", 3, Configuration::$debug_file);
+    if ($this->config->getDebug()) {
+        error_log("[DEBUG] HTTP Response body ~BEGIN~\n".print_r($http_body, true)."\n~END~\n", 3, $this->config->getDebugFile());
     }
 
     // Handle the response
@@ -278,9 +293,10 @@ class ApiClient {
 
   /**
    * Build a JSON POST object
+   * @param mixed $data the data to serialize
+   * @return string serialized form of $data
    */
-  protected function sanitizeForSerialization($data)
-  {
+  protected function sanitizeForSerialization($data) {
     if (is_scalar($data) || null === $data) {
       $sanitized = $data;
     } else if ($data instanceof \DateTime) {
@@ -372,7 +388,7 @@ class ApiClient {
   /**
    * Deserialize a JSON string into an object
    *
-   * @param object $object object or primitive to be deserialized
+   * @param object $data object or primitive to be deserialized
    * @param string $class class name is passed as a string
    * @return object an instance of $class
    */
@@ -419,7 +435,7 @@ class ApiClient {
   /*
    * return the header 'Accept' based on an array of Accept provided
    *
-   * @param array[string] $accept Array of header
+   * @param string[] $accept Array of header
    * @return string Accept (e.g. application/json)
    */
   public static function selectHeaderAccept($accept) {

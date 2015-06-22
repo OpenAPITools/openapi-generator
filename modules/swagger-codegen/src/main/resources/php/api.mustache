@@ -37,16 +37,11 @@ class {{classname}} {
   private $apiClient;
 
   function __construct($apiClient = null) {
-    if (null === $apiClient) {
-      if (Configuration::$apiClient === null) {
-        Configuration::$apiClient = new ApiClient(); // create a new API client if not present
-        $this->apiClient = Configuration::$apiClient;
-      }
-      else
-        $this->apiClient = Configuration::$apiClient; // use the default one
-    } else {
-      $this->apiClient = $apiClient; // use the one provided by the user
+    if ($apiClient == null) {
+      $apiClient = new ApiClient();
     }
+
+    $this->apiClient = $apiClient;
   }
 
   /**
@@ -88,28 +83,29 @@ class {{classname}} {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
+      $_header_accept = ApiClient::selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
 
       {{#queryParams}}// query params
       if(${{paramName}} !== null) {
-        $queryParams['{{baseName}}'] = $this->apiClient->toQueryValue(${{paramName}});
+        $queryParams['{{baseName}}'] = ApiClient::toQueryValue(${{paramName}});
       }{{/queryParams}}
       {{#headerParams}}// header params
       if(${{paramName}} !== null) {
-        $headerParams['{{baseName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
+        $headerParams['{{baseName}}'] = ApiClient::toHeaderValue(${{paramName}});
       }{{/headerParams}}
       {{#pathParams}}// path params
       if(${{paramName}} !== null) {
         $resourcePath = str_replace("{" . "{{baseName}}" . "}",
-                                    $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
+                                    ApiClient::toPathValue(${{paramName}}),
+                                    $resourcePath);
       }{{/pathParams}}
       {{#formParams}}// form params
       if (${{paramName}} !== null) {
-        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->toFormValue(${{paramName}});
+        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}ApiClient::toFormValue(${{paramName}});
       }{{/formParams}}
       {{#bodyParams}}// body params
       $_tempBody = null;
@@ -138,7 +134,7 @@ class {{classname}} {
 
         switch ($e->getCode()) { {{#responses}}{{#dataType}}
           case {{code}}:
-            $data = $this->apiClient->deserialize($e->getResponseBody(), '{{dataType}}');
+            $data = ApiClient::deserialize($e->getResponseBody(), '{{dataType}}');
             $throw = new ApiException("{{message}}", $e->getCode(), $e->getResponseHeaders(), $data);
             break;{{/dataType}}{{/responses}}
         }
@@ -150,7 +146,7 @@ class {{classname}} {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
+      $responseObject = ApiClient::deserialize($response,'{{returnType}}');
       return $responseObject;
       {{/returnType}}
   }
