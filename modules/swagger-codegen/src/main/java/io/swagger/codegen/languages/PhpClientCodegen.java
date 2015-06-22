@@ -126,7 +126,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     protected String getSrcDir(String packageName) {
-        return rootNamespace + "/src/" + packageName;
+        return "src/" + packageName;
     }
 
     protected void prefixPackages() {
