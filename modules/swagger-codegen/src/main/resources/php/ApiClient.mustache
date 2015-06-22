@@ -17,10 +17,6 @@
 
 namespace {{invokerNamespace}};
 
-{{#models}}
-use {{importPath}};
-{{/models}}
-
 class ApiClient {
 
   public static $PATCH = "PATCH";
@@ -416,7 +412,7 @@ class ApiClient {
   /**
    * Deserialize a JSON string into an object
    *
-   * @param object $data object or primitive to be deserialized
+   * @param mixed $data object or primitive to be deserialized
    * @param string $class class name is passed as a string
    * @return object an instance of $class
    */
