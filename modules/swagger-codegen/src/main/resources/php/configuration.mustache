@@ -17,50 +17,173 @@
 
 namespace {{invokerNamespace}};
 
-class Configuration {
+class ApiConfiguration {
+
+  private static $defaultConfiguration = null;
+
+  /**
+   * The host (from basePath)
+   */
+  protected $host = '{{basePath}}';
 
   /**
    * Associate array to store API key(s)
    */
-  public static $apiKey = array();
+  protected $apiKeys = array();
 
   /**
    * Associate array to store API prefix (e.g. Bearer)
    */
-  public static $apiKeyPrefix = array();
+  protected $apiKeyPrefixes = array();
 
   /**
    * Username for HTTP basic authentication
    */
-  public static $username = '';
+  protected $username = '';
 
   /**
    * Password for HTTP basic authentication
    */
-  public static $password = '';
-
-  /**
-   * The default instance of ApiClient
-   */
-  public static $apiClient;
+  protected $password = '';
 
   /**
    * Debug switch (default set to false)
    */
-  public static $debug = false;
+  protected $debug = false;
 
   /**
    * Debug file location (log to STDOUT by default)
    */
-  public static $debug_file = 'php://output';
+  protected $debugFile = 'php://output';
 
-  /*
-   *  manually initalize  ApiClient
+  /**
+   * @param string $host
+   * @return ApiConfiguration
    */
-  public static function init() {
-    if (self::$apiClient === null)
-      self::$apiClient = new ApiClient();
+  public function setHost($host) {
+    $this->host = $host;
+    return $this;
   }
 
-}
+  /**
+   * @return string
+   */
+  public function getHost() {
+    return $this->host;
+  }
 
+  /**
+   * @param string $key
+   * @param string $value
+   * @return ApiConfiguration
+   */
+  public function setApiKey($key, $value) {
+    $this->apiKeys[$key] = $value;
+    return $this;
+  }
+
+  /**
+   * @param $key
+   * @return string
+   */
+  public function getApiKey($key) {
+    return isset($this->apiKeys[$key]) ? $this->apiKeys[$key] : null;
+  }
+
+  /**
+   * @param string $key
+   * @param string $value
+   * @return ApiConfiguration
+   */
+  public function setApiKeyPrefix($key, $value) {
+    $this->apiKeyPrefixes[$key] = $value;
+    return $this;
+  }
+
+  /**
+   * @param $key
+   * @return string
+   */
+  public function getApiKeyPrefix($key) {
+    return isset($this->apiKeyPrefixes[$key]) ? $this->apiKeyPrefixes[$key] : null;
+  }
+
+  /**
+   * @param string $username
+   * @return ApiConfiguration
+   */
+  public function setUsername($username) {
+    $this->username = $username;
+    return $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getUsername() {
+    return $this->username;
+  }
+
+  /**
+   * @param string $password
+   * @return ApiConfiguration
+   */
+  public function setPassword($password) {
+    $this->password = $password;
+    return $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getPassword() {
+    return $this->password;
+  }
+
+  /**
+   * @param bool $debug
+   * @return ApiConfiguration
+   */
+  public function setDebug($debug) {
+    $this->debug = $debug;
+    return $this;
+  }
+
+  /**
+   * @return bool
+   */
+  public function getDebug() {
+    return $this->debug;
+  }
+
+  /**
+   * @param string $debugFile
+   * @return ApiConfiguration
+   */
+  public function setDebugFile($debugFile) {
+    $this->debugFile = $debugFile;
+    return $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getDebugFile() {
+    return $this->debugFile;
+  }
+
+  /**
+   * @return ApiConfiguration
+   */
+  public static function getDefaultConfiguration() {
+    if (self::$defaultConfiguration == null) {
+      return new ApiConfiguration();
+    }
+
+    return self::$defaultConfiguration;
+  }
+
+  public static function setDefaultConfiguration(ApiConfiguration $config) {
+    self::$defaultConfiguration = $config;
+  }
+}
