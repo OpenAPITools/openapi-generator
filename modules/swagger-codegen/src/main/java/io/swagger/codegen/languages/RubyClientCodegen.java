@@ -46,12 +46,21 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("string");
         languageSpecificPrimitives.add("DateTime");
 
-        typeMapping.put("long", "int");
-        typeMapping.put("integer", "int");
-        typeMapping.put("Array", "array");
-        typeMapping.put("String", "string");
-        typeMapping.put("List", "array");
-        typeMapping.put("map", "map");
+        typeMapping.put("string", "String");
+        typeMapping.put("char", "String");
+        typeMapping.put("int", "Integer");
+        typeMapping.put("integer", "Integer");
+        typeMapping.put("long", "Integer");
+        typeMapping.put("short", "Integer");
+        typeMapping.put("float", "Float");
+        typeMapping.put("double", "Float");
+        typeMapping.put("number", "Float");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("boolean", "BOOLEAN");
+        typeMapping.put("array", "Array");
+        typeMapping.put("List", "Array");
+        typeMapping.put("map", "Hash");
+        typeMapping.put("object", "Object");
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
@@ -102,6 +111,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         String swaggerFolder = baseFolder + File.separator + "swagger";
         supportingFiles.add(new SupportingFile("swagger" + File.separator + "request.mustache", swaggerFolder, "request.rb"));
         supportingFiles.add(new SupportingFile("swagger" + File.separator + "response.mustache", swaggerFolder, "response.rb"));
+        supportingFiles.add(new SupportingFile("swagger" + File.separator + "api_error.mustache", swaggerFolder, "api_error.rb"));
         supportingFiles.add(new SupportingFile("swagger" + File.separator + "version.mustache", swaggerFolder, "version.rb"));
         supportingFiles.add(new SupportingFile("swagger" + File.separator + "configuration.mustache", swaggerFolder, "configuration.rb"));
         String modelFolder = baseFolder + File.separator + modelPackage.replace("/", File.separator);
@@ -153,11 +163,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
+            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
