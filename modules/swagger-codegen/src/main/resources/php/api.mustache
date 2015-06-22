@@ -46,6 +46,7 @@ class {{classname}} {
 
   /**
    * get the API client
+   * @return ApiClient this API's client
    */
   public function getApiClient() {
     return $this->apiClient;
@@ -53,9 +54,12 @@ class {{classname}} {
 
   /**
    * set the API client
+   * @param ApiClient $apiClient
+   * @return {{classname}}
    */
-  public function setApiClient($apiClient) {
+  public function setApiClient(ApiClient $apiClient) {
     $this->apiClient = $apiClient;
+    return $this;
   }
 
   {{#operation}}
@@ -66,6 +70,7 @@ class {{classname}} {
    *
 {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
 {{/allParams}}   * @return {{#returnType}}{{#isListContainer}}{{returnBaseType}}[]{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   * @throws \{{invokerNamespace}}\ApiException on non-2xx response
    */
    public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
       {{#allParams}}{{#required}}
