@@ -3,7 +3,7 @@ package io.swagger.client.api;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
-import io.swagger.client.QueryParam;
+import io.swagger.client.Pair;
 
 import io.swagger.client.model.*;
 
@@ -55,7 +55,7 @@ public class UserApi {
     String path = "/user".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -112,7 +112,7 @@ public class UserApi {
     String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -169,7 +169,7 @@ public class UserApi {
     String path = "/user/createWithList".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -227,7 +227,7 @@ public class UserApi {
     String path = "/user/login".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -287,7 +287,7 @@ public class UserApi {
     String path = "/user/logout".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -350,7 +350,7 @@ public class UserApi {
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -414,7 +414,7 @@ public class UserApi {
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -477,7 +477,7 @@ public class UserApi {
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
-    Set<QueryParam> queryParams = new HashSet<QueryParam>();
+    Set<Pair> queryParams = new HashSet<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 

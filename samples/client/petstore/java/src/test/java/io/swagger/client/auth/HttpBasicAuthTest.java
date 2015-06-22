@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import io.swagger.client.QueryParam;
+import io.swagger.client.Pair;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -20,7 +20,7 @@ public class HttpBasicAuthTest {
 
     @Test
     public void testApplyToParams() {
-        Set<QueryParam> queryParams = new HashSet<QueryParam>();
+        Set<Pair> queryParams = new HashSet<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
 
         auth.setUsername("my-username");

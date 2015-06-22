@@ -1,10 +1,10 @@
-package {{invokerPackage}};
+package io.swagger.client;
 
-public class QueryParam {
+public class Pair {
     private String name = "";
     private String value = "";
 
-    public QueryParam(String name, String value) {
+    public Pair (String name, String value) {
         setName(name);
         setValue(value);
     }
