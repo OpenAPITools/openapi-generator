@@ -102,11 +102,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (getPackagePath() + File.separatorChar + basePath
                     // Replace period, backslash, forward slash with file separator in package name
                     + packageName.replace("\\", File.separator).
-                    replace(".", File.separator).replace("/", File.separator)
+                    replace(".", File.separator).replace("/", File.separator));
                     // Trim prefix file separators from package path
-                    .replaceAll("^" + File.separator, ""))
+                    //.replaceAll("^" + File.separator, ""))
                     // Trim trailing file separators from the overall path
-                    .replaceAll(File.separator + "$", "");
+                    //.replaceAll(File.separator + "$", "");
     }
 
     public CodegenType getTag() {
