@@ -223,9 +223,9 @@ public class UserApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    queryParams.addAll(ApiInvoker.parameterToQueryParams("", "username", username));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
     
-    queryParams.addAll(ApiInvoker.parameterToQueryParams("", "password", password));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
     
 
     

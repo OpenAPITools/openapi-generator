@@ -67,7 +67,7 @@ public class {{classname}} {
     Map<String, String> formParams = new HashMap<String, String>();
 
     {{#queryParams}}
-    queryParams.addAll(apiClient.parameterToQueryParams("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+    queryParams.addAll(apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
     {{/queryParams}}
 
     {{#headerParams}}if ({{paramName}} != null)

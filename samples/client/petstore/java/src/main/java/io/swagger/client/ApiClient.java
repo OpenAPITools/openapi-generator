@@ -242,59 +242,60 @@ public class ApiClient {
   /*
     Format to {@code Pair} objects.
   */
-  public Set<Pair> parameterToQueryParams(String collectionFormat, String name, Object value){
+  public Set<Pair> parameterToPairs(String collectionFormat, String name, Object value){
     Set<Pair> params = new HashSet<Pair>();
 
     // preconditions
     if (name == null || name.isEmpty()) return params;
 
     if (value == null) {
-      params.add(new Pair(name, value));
+      params.add(new Pair(name, ""));
       return params;
     }
 
-    Collection<String> valueCollection = null;
+    Collection valueCollection = null;
     if (value instanceof Collection) {
-      valueCollection = (Collection<String>) value;
-    }
-
-    if (valueCollection == null) {
-      params.add(new Pair(name, String.valueOf(value)));
-      return params;
-    } else if (valueCollection.isEmpty()) {
+      valueCollection = (Collection) value;
+    } else {
+      params.add(new Pair(name, parameterToString(value)));
       return params;
     }
 
+    if (valueCollection.isEmpty()){
+      return params;
+    }
+
+    // get the collection format
     collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
 
-    if (collectionFormat.equals("csv")) {
-      params.add(new Pair(name, parameterToString(value)));
-    } else if (collectionFormat.equals("multi")) {
-      for (String item : valueCollection) {
-        params.add(new Pair(name, item));
+    // create the params based on the collection format
+    if (collectionFormat.equals("multi")) {
+      for (Object item : valueCollection) {
+        params.add(new Pair(name, parameterToString(item)));
       }
-    } else if (collectionFormat.equals("ssv")) {
-      StringBuilder sb = new StringBuilder() ;
-      for (String item : valueCollection) {
-        sb.append(" ");
-        sb.append(item);
-      }
-      params.add(new Pair(name, sb.substring(1)));
-    } else if (collectionFormat.equals("tsv")) {
-      StringBuilder sb = new StringBuilder() ;
-      for (String item : valueCollection) {
-        sb.append("\t");
-        sb.append(item);
-      }
-      params.add(new Pair(name, sb.substring(1)));
-    } else if (collectionFormat.equals("pipes")) {
-      StringBuilder sb = new StringBuilder() ;
-      for (String item : valueCollection) {
-        sb.append("|");
-        sb.append(item);
-      }
-      params.add(new Pair(name, sb.substring(1)));
+
+      return params;
     }
+
+    String delimiter = ",";
+
+    if (collectionFormat.equals("csv")) {
+      delimiter = ",";
+    } else if (collectionFormat.equals("ssv")) {
+      delimiter = " ";
+    } else if (collectionFormat.equals("tsv")) {
+      delimiter = "\t";
+    } else if (collectionFormat.equals("pipes")) {
+      delimiter = "|";
+    }
+
+    StringBuilder sb = new StringBuilder() ;
+    for (Object item : valueCollection) {
+      sb.append(delimiter);
+      sb.append(parameterToString(item));
+    }
+
+    params.add(new Pair(name, sb.substring(1)));
 
     return params;
   }
