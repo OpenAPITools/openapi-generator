@@ -25,6 +25,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactId = "swagger-client";
     protected String packagePath = "SwaggerClient-php";
     protected String artifactVersion = null;
+    protected String srcBasePath = "lib";
 
     public PhpClientCodegen() {
         super();
@@ -44,6 +45,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("invokerPackage", invokerPackage);
         additionalProperties.put("modelPackage", modelPackage);
         additionalProperties.put("apiPackage", apiPackage);
+        additionalProperties.put("srcBasePath", srcBasePath);
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
         additionalProperties.put("groupId", groupId);
         additionalProperties.put("artifactId", artifactId);
@@ -89,6 +91,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "\\DateTime");
         
         cliOptions.add(new CliOption("packagePath", "main package name for classes"));
+        cliOptions.add(new CliOption("srcBasePath", "directory directory under packagePath to serve as source root"));
     }
 
     public String getPackagePath() {
@@ -130,6 +133,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setPackagePath((String) additionalProperties.get("packagePath"));
         }
 
+        if (additionalProperties.containsKey("srcBasePath")) {
+            this.setSrcBasePath((String) additionalProperties.get("srcBasePath"));
+        }
+
         if (additionalProperties.containsKey("modelPackage")) {
             this.setModelPackage(invokerPackage + "\\" + additionalProperties.get("modelPackage"));
         }
@@ -138,14 +145,15 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setApiPackage(invokerPackage + "\\" + additionalProperties.get("apiPackage"));
         }
 
+        additionalProperties.replace("srcBasePath", srcBasePath);
         additionalProperties.replace("modelPackage", modelPackage);
         additionalProperties.replace("apiPackage", apiPackage);
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
-        supportingFiles.add(new SupportingFile("ApiClientConfiguration.mustache", toPackagePath(invokerPackage, "lib"), "ApiClientConfiguration.php"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, "lib"), "ApiClient.php"));
-        supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, "lib"), "ApiException.php"));
-        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toPackagePath(invokerPackage, "lib"), "ObjectSerializer.php"));
+        supportingFiles.add(new SupportingFile("ApiClientConfiguration.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiClientConfiguration.php"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiClient.php"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiException.php"));
+        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toPackagePath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
     }
@@ -157,11 +165,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + toPackagePath(apiPackage(), "lib"));
+        return (outputFolder + "/" + toPackagePath(apiPackage(), srcBasePath));
     }
 
     public String modelFileFolder() {
-        return (outputFolder + "/" + toPackagePath(modelPackage(), "lib"));
+        return (outputFolder + "/" + toPackagePath(modelPackage(), srcBasePath));
     }
 
     @Override
@@ -220,6 +228,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setPackagePath(String packagePath) {
         this.packagePath = packagePath;
+    }
+
+    public void setSrcBasePath(String srcBasePath) {
+        this.srcBasePath = srcBasePath;
     }
 
     @Override
