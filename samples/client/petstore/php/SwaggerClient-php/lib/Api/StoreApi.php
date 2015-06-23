@@ -22,29 +22,27 @@
 
 namespace Swagger\Client\Api;
 
-use \Swagger\Client\ApiClient;
 use \Swagger\Client\Configuration;
+use \Swagger\Client\ApiClient;
+use \Swagger\Client\ApiException;
+use \Swagger\Client\ObjectSerializer;
 
 class StoreApi {
 
-  /**
-   * @param \Swagger\Client\ApiClient|null $apiClient The api client to use. Defaults to getting it from Configuration
-   */
-  function __construct($apiClient = null) {
-    if (null === $apiClient) {
-      if (Configuration::$apiClient === null) {
-        Configuration::$apiClient = new ApiClient(); // create a new API client if not present
-        $this->apiClient = Configuration::$apiClient;
-      }
-      else
-        $this->apiClient = Configuration::$apiClient; // use the default one
-    } else {
-      $this->apiClient = $apiClient; // use the one provided by the user
-    }
-  }
-
   /** @var \Swagger\Client\ApiClient instance of the ApiClient */
   private $apiClient;
+
+  /**
+   * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
+   */
+  function __construct($apiClient = null) {
+    if ($apiClient == null) {
+      $apiClient = new ApiClient();
+      $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
+    }
+
+    $this->apiClient = $apiClient;
+  }
 
   /**
    * @return \Swagger\Client\ApiClient get the API client
@@ -54,10 +52,12 @@ class StoreApi {
   }
 
   /**
-   * @param \Swagger\Client $apiClient set the API client
+   * @param \Swagger\Client\ApiClient $apiClient set the API client
+   * @return StoreApi
    */
-  public function setApiClient($apiClient) {
+  public function setApiClient(ApiClient $apiClient) {
     $this->apiClient = $apiClient;
+    return $this;
   }
 
   
@@ -67,6 +67,7 @@ class StoreApi {
    * Returns pet inventories by status
    *
    * @return map[string,int]
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function getInventory() {
       
@@ -79,11 +80,11 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
@@ -98,20 +99,37 @@ class StoreApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('api_key');
-
+      
+      $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
+      if (isset($apiKey)) {
+        $headerParams['api_key'] = $apiKey;
+      }
+      
+      
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'map[string,int]');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'map[string,int]');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'map[string,int]');
       return $responseObject;
+      
   }
   
   /**
@@ -121,6 +139,7 @@ class StoreApi {
    *
    * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
    * @return \Swagger\Client\Model\Order
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function placeOrder($body) {
       
@@ -133,11 +152,11 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
@@ -156,20 +175,30 @@ class StoreApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'\Swagger\Client\Model\Order');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Order');
       return $responseObject;
+      
   }
   
   /**
@@ -179,6 +208,7 @@ class StoreApi {
    *
    * @param string $order_id ID of pet that needs to be fetched (required)
    * @return \Swagger\Client\Model\Order
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function getOrderById($order_id) {
       
@@ -196,18 +226,19 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
       // path params
       if($order_id !== null) {
         $resourcePath = str_replace("{" . "orderId" . "}",
-                                    $this->apiClient->toPathValue($order_id), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($order_id),
+                                    $resourcePath);
       }
       
       
@@ -219,20 +250,30 @@ class StoreApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'\Swagger\Client\Model\Order');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Order');
       return $responseObject;
+      
   }
   
   /**
@@ -242,6 +283,7 @@ class StoreApi {
    *
    * @param string $order_id ID of the order that needs to be deleted (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function deleteOrder($order_id) {
       
@@ -259,18 +301,19 @@ class StoreApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
       // path params
       if($order_id !== null) {
         $resourcePath = str_replace("{" . "orderId" . "}",
-                                    $this->apiClient->toPathValue($order_id), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($order_id),
+                                    $resourcePath);
       }
       
       
@@ -282,16 +325,19 @@ class StoreApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
-
 }

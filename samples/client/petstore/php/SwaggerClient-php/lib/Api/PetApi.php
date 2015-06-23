@@ -22,29 +22,27 @@
 
 namespace Swagger\Client\Api;
 
-use \Swagger\Client\ApiClient;
 use \Swagger\Client\Configuration;
+use \Swagger\Client\ApiClient;
+use \Swagger\Client\ApiException;
+use \Swagger\Client\ObjectSerializer;
 
 class PetApi {
 
-  /**
-   * @param \Swagger\Client\ApiClient|null $apiClient The api client to use. Defaults to getting it from Configuration
-   */
-  function __construct($apiClient = null) {
-    if (null === $apiClient) {
-      if (Configuration::$apiClient === null) {
-        Configuration::$apiClient = new ApiClient(); // create a new API client if not present
-        $this->apiClient = Configuration::$apiClient;
-      }
-      else
-        $this->apiClient = Configuration::$apiClient; // use the default one
-    } else {
-      $this->apiClient = $apiClient; // use the one provided by the user
-    }
-  }
-
   /** @var \Swagger\Client\ApiClient instance of the ApiClient */
   private $apiClient;
+
+  /**
+   * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
+   */
+  function __construct($apiClient = null) {
+    if ($apiClient == null) {
+      $apiClient = new ApiClient();
+      $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
+    }
+
+    $this->apiClient = $apiClient;
+  }
 
   /**
    * @return \Swagger\Client\ApiClient get the API client
@@ -54,10 +52,12 @@ class PetApi {
   }
 
   /**
-   * @param \Swagger\Client $apiClient set the API client
+   * @param \Swagger\Client\ApiClient $apiClient set the API client
+   * @return PetApi
    */
-  public function setApiClient($apiClient) {
+  public function setApiClient(ApiClient $apiClient) {
     $this->apiClient = $apiClient;
+    return $this;
   }
 
   
@@ -68,6 +68,7 @@ class PetApi {
    *
    * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function updatePet($body) {
       
@@ -80,11 +81,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml'));
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
 
       
       
@@ -103,14 +104,21 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -121,6 +129,7 @@ class PetApi {
    *
    * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function addPet($body) {
       
@@ -133,11 +142,11 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml'));
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
 
       
       
@@ -156,14 +165,21 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -174,6 +190,7 @@ class PetApi {
    *
    * @param string[] $status Status values that need to be considered for filter (required)
    * @return \Swagger\Client\Model\Pet[]
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function findPetsByStatus($status) {
       
@@ -186,15 +203,15 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       // query params
       if($status !== null) {
-        $queryParams['status'] = $this->apiClient->toQueryValue($status);
+        $queryParams['status'] = $this->apiClient->getSerializer()->toQueryValue($status);
       }
       
       
@@ -208,20 +225,33 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'\Swagger\Client\Model\Pet[]');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet[]');
       return $responseObject;
+      
   }
   
   /**
@@ -231,6 +261,7 @@ class PetApi {
    *
    * @param string[] $tags Tags to filter by (required)
    * @return \Swagger\Client\Model\Pet[]
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function findPetsByTags($tags) {
       
@@ -243,15 +274,15 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       // query params
       if($tags !== null) {
-        $queryParams['tags'] = $this->apiClient->toQueryValue($tags);
+        $queryParams['tags'] = $this->apiClient->getSerializer()->toQueryValue($tags);
       }
       
       
@@ -265,20 +296,33 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'\Swagger\Client\Model\Pet[]');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet[]');
       return $responseObject;
+      
   }
   
   /**
@@ -288,6 +332,7 @@ class PetApi {
    *
    * @param int $pet_id ID of pet that needs to be fetched (required)
    * @return \Swagger\Client\Model\Pet
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function getPetById($pet_id) {
       
@@ -305,18 +350,19 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
       // path params
       if($pet_id !== null) {
         $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                    $resourcePath);
       }
       
       
@@ -328,20 +374,40 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('api_key', 'petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
+      $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
+      if (isset($apiKey)) {
+        $headerParams['api_key'] = $apiKey;
+      }
+      
+      
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'\Swagger\Client\Model\Pet');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet');
       return $responseObject;
+      
   }
   
   /**
@@ -353,6 +419,7 @@ class PetApi {
    * @param string $name Updated name of the pet (required)
    * @param string $status Updated status of the pet (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function updatePetWithForm($pet_id, $name, $status) {
       
@@ -370,25 +437,26 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/x-www-form-urlencoded'));
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/x-www-form-urlencoded'));
 
       
       
       // path params
       if($pet_id !== null) {
         $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                    $resourcePath);
       }
       // form params
       if ($name !== null) {
-        $formParams['name'] = $this->apiClient->toFormValue($name);
+        $formParams['name'] = $this->apiClient->getSerializer()->toFormValue($name);
       }// form params
       if ($status !== null) {
-        $formParams['status'] = $this->apiClient->toFormValue($status);
+        $formParams['status'] = $this->apiClient->getSerializer()->toFormValue($status);
       }
       
 
@@ -399,14 +467,21 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -418,6 +493,7 @@ class PetApi {
    * @param string $api_key  (required)
    * @param int $pet_id Pet id to delete (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function deletePet($api_key, $pet_id) {
       
@@ -435,21 +511,22 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       // header params
       if($api_key !== null) {
-        $headerParams['api_key'] = $this->apiClient->toHeaderValue($api_key);
+        $headerParams['api_key'] = $this->apiClient->getSerializer()->toHeaderValue($api_key);
       }
       // path params
       if($pet_id !== null) {
         $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                    $resourcePath);
       }
       
       
@@ -461,14 +538,21 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -481,6 +565,7 @@ class PetApi {
    * @param string $additional_metadata Additional data to pass to server (required)
    * @param string $file file to upload (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function uploadFile($pet_id, $additional_metadata, $file) {
       
@@ -498,25 +583,26 @@ class PetApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('multipart/form-data'));
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('multipart/form-data'));
 
       
       
       // path params
       if($pet_id !== null) {
         $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->toPathValue($pet_id), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                    $resourcePath);
       }
       // form params
       if ($additional_metadata !== null) {
-        $formParams['additionalMetadata'] = $this->apiClient->toFormValue($additional_metadata);
+        $formParams['additionalMetadata'] = $this->apiClient->getSerializer()->toFormValue($additional_metadata);
       }// form params
       if ($file !== null) {
-        $formParams['file'] = '@' . $this->apiClient->toFormValue($file);
+        $formParams['file'] = '@' . $this->apiClient->getSerializer()->toFormValue($file);
       }
       
 
@@ -527,16 +613,22 @@ class PetApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array('petstore_auth');
-
+      
+      
+      //TODO support oauth
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
-
 }
