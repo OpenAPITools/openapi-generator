@@ -141,9 +141,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setApiPackage(invokerPackage + "\\" + additionalProperties.get("apiPackage"));
         }
 
-        additionalProperties.replace("srcBasePath", srcBasePath);
-        additionalProperties.replace("modelPackage", modelPackage);
-        additionalProperties.replace("apiPackage", apiPackage);
+        additionalProperties.put("srcBasePath", srcBasePath);
+        additionalProperties.put("modelPackage", modelPackage);
+        additionalProperties.put("apiPackage", apiPackage);
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
         supportingFiles.add(new SupportingFile("ApiClientConfiguration.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiClientConfiguration.php"));
