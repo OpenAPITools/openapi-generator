@@ -5,7 +5,7 @@ module SwaggerClient
       require 'addressable/uri'
       require 'typhoeus'
 
-      attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params, :auth_names
+      attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params, :auth_names, :response
 
       # All requests must have an HTTP method and a path
       # Optionals parameters are :params, :headers, :body, :format, :host
@@ -168,7 +168,7 @@ module SwaggerClient
           :headers => self.headers.stringify_keys,
           :verbose => Swagger.configuration.debug
         }
-        response = case self.http_method.to_sym
+        raw = case self.http_method.to_sym
         when :get,:GET
           Typhoeus::Request.get(
             self.url,
@@ -200,15 +200,22 @@ module SwaggerClient
           )
         end
 
+        @response = Response.new(raw)
+
         if Swagger.configuration.debug
-          Swagger.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+          Swagger.logger.debug "HTTP response body ~BEGIN~\n#{@response.body}\n~END~\n"
         end
 
-        Response.new(response)
-      end
+        # record as last response
+        Swagger.last_response = @response
 
-      def response
-        self.make
+        unless @response.success?
+          fail ApiError.new(:code => @response.code,
+                            :response_headers => @response.headers,
+                            :response_body => @response.body),
+               @response.status_message
+        end
+        @response
       end
 
       def response_code_pretty

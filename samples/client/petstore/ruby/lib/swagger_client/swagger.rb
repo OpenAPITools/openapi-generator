@@ -1,7 +1,7 @@
 module SwaggerClient
   module Swagger
     class << self
-      attr_accessor :logger
+      attr_accessor :logger, :last_response
 
       # A Swagger configuration object. Must act like a hash and return sensible
       # values for all Swagger configuration options. See Swagger::Configuration.

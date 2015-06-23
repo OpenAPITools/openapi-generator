@@ -8,21 +8,22 @@ module SwaggerClient
 
       def initialize(raw)
         self.raw = raw
-
-        unless raw.success?
-          fail ApiError.new(:code => code,
-                            :response_headers => headers,
-                            :response_body => body),
-               raw.status_message
-        end
       end
 
       def code
         raw.code
       end
 
+      def status_message
+        raw.status_message
+      end
+
       def body
         raw.body
+      end
+
+      def success?
+        raw.success?
       end
 
       # Deserialize the raw response body to the given return type.
