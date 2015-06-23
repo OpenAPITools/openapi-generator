@@ -26,16 +26,16 @@ class ApiClient {
   public static $DELETE = "DELETE";
 
   /**
-   * @var ApiClientConfiguration
+   * @var Configuration
    */
   protected $config;
 
   /**
-   * @param ApiClientConfiguration $config config for this ApiClient
+   * @param Configuration $config config for this ApiClient
    */
-  function __construct(ApiClientConfiguration $config = null) {
+  function __construct(Configuration $config = null) {
     if ($config == null) {
-      $config = ApiClientConfiguration::getDefaultConfiguration();
+      $config = Configuration::getDefaultConfiguration();
     }
     
     $this->config = $config;
@@ -43,7 +43,7 @@ class ApiClient {
 
   /**
    * get the config
-   * @return ApiClientConfiguration
+   * @return Configuration
    */
   public function getConfig() {
     return $this->config;
