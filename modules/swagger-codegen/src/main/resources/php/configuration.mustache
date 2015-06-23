@@ -145,6 +145,15 @@ class Configuration {
   }
 
   /**
+   * delete a default header
+   * @param string $headerName the header to delete
+   * @return Configuration
+   */
+  public function deleteDefaultHeader($headerName) {
+    unset($this->defaultHeaders[$headerName]);
+  }
+
+  /**
    * @param string $host
    * @return Configuration
    */
