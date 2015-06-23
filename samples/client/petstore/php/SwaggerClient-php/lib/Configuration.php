@@ -15,43 +15,31 @@
  *  limitations under the License.
  */
 
-namespace SwaggerClient;
+namespace Swagger\Client;
+
+use \Swagger\Client\ApiClient;
 
 class Configuration {
 
-  /**
-   * Associate array to store API key(s)
-   */
+  /** @var string[] Associate array to store API key(s) */
   public static $apiKey = array();
 
-  /**
-   * Associate array to store API prefix (e.g. Bearer)
-   */
+  /** string[] Associate array to store API prefix (e.g. Bearer) */
   public static $apiKeyPrefix = array();
 
-  /**
-   * Username for HTTP basic authentication
-   */
+  /** @var string Username for HTTP basic authentication */
   public static $username = '';
 
-  /**
-   * Password for HTTP basic authentication
-   */
+  /** @var string Password for HTTP basic authentication */
   public static $password = '';
 
-  /**
-   * The default instance of ApiClient
-   */
+  /** @var \Swagger\Client\ApiClient The default instance of ApiClient */
   public static $apiClient;
 
-  /**
-   * Debug switch (default set to false)
-   */
+  /** @var bool Debug switch (default set to false) */
   public static $debug = false;
 
-  /**
-   * Debug file location (log to STDOUT by default)
-   */
+  /** @var string Debug file location (log to STDOUT by default) */
   public static $debug_file = 'php://output';
 
   /*
@@ -63,4 +51,3 @@ class Configuration {
   }
 
 }
-

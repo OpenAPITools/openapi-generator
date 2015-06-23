@@ -82,8 +82,8 @@ module SwaggerClient
     # Finds Pets by status
     # Multiple status values can be provided with comma seperated strings
     # @param [Hash] opts the optional parameters
-    # @option opts [array[string]] :status Status values that need to be considered for filter
-    # @return [array[Pet]]
+    # @option opts [Array<String>] :status Status values that need to be considered for filter
+    # @return [Array<Pet>]
     def self.find_pets_by_status(opts = {})
       
 
@@ -113,15 +113,15 @@ module SwaggerClient
       
 
       auth_names = ['petstore_auth']
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('Array<Pet>')
     end
 
     # Finds Pets by tags
     # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     # @param [Hash] opts the optional parameters
-    # @option opts [array[string]] :tags Tags to filter by
-    # @return [array[Pet]]
+    # @option opts [Array<String>] :tags Tags to filter by
+    # @return [Array<Pet>]
     def self.find_pets_by_tags(opts = {})
       
 
@@ -151,8 +151,8 @@ module SwaggerClient
       
 
       auth_names = ['petstore_auth']
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      response.map {|response| obj = Pet.new() and obj.build_from_hash(response) }
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('Array<Pet>')
     end
 
     # Find pet by ID
@@ -191,16 +191,16 @@ module SwaggerClient
       
 
       auth_names = ['api_key', 'petstore_auth']
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      obj = Pet.new() and obj.build_from_hash(response)
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('Pet')
     end
 
     # Updates a pet in the store with form data
     # 
     # @param pet_id ID of pet that needs to be updated
     # @param [Hash] opts the optional parameters
-    # @option opts [string] :name Updated name of the pet
-    # @option opts [string] :status Updated status of the pet
+    # @option opts [String] :name Updated name of the pet
+    # @option opts [String] :status Updated status of the pet
     # @return [nil]
     def self.update_pet_with_form(pet_id, opts = {})
       
@@ -243,7 +243,7 @@ module SwaggerClient
     # 
     # @param pet_id Pet id to delete
     # @param [Hash] opts the optional parameters
-    # @option opts [string] :api_key 
+    # @option opts [String] :api_key 
     # @return [nil]
     def self.delete_pet(pet_id, opts = {})
       
@@ -285,7 +285,7 @@ module SwaggerClient
     # 
     # @param pet_id ID of pet to update
     # @param [Hash] opts the optional parameters
-    # @option opts [string] :additional_metadata Additional data to pass to server
+    # @option opts [String] :additional_metadata Additional data to pass to server
     # @option opts [file] :file file to upload
     # @return [nil]
     def self.upload_file(pet_id, opts = {})
