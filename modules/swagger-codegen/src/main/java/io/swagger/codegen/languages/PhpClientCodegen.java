@@ -23,7 +23,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public PhpClientCodegen() {
         super();
 
-        outputFolder = "generated-code/php";
+        outputFolder = "generated-code" + File.separator + "php";
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
         templateDir = "php";
@@ -127,11 +127,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + toPackagePath(apiPackage(), "lib"));
+        return (outputFolder + File.separator + toPackagePath(apiPackage(), "lib"));
     }
 
     public String modelFileFolder() {
-        return (outputFolder + "/" + toPackagePath(modelPackage(), "lib"));
+        return (outputFolder + File.separator + toPackagePath(modelPackage(), "lib"));
     }
 
     @Override
