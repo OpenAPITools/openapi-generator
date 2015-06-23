@@ -53,7 +53,7 @@ public class UserApi {
     String path = "/user".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
@@ -107,7 +107,7 @@ public class UserApi {
     String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
@@ -161,7 +161,7 @@ public class UserApi {
     String path = "/user/createWithList".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
@@ -216,7 +216,7 @@ public class UserApi {
     String path = "/user/login".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
@@ -273,7 +273,7 @@ public class UserApi {
     String path = "/user/logout".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
@@ -332,7 +332,7 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
@@ -392,7 +392,7 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
@@ -451,7 +451,7 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params

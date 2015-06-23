@@ -3,7 +3,7 @@ package io.swagger.client.auth;
 import io.swagger.client.Pair;
 
 import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 public class ApiKeyAuth implements Authentication {
   private final String location;
@@ -42,7 +42,7 @@ public class ApiKeyAuth implements Authentication {
   }
 
   @Override
-  public void applyToParams(Set<Pair> queryParams, Map<String, String> headerParams) {
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
     String value;
     if (apiKeyPrefix != null) {
       value = apiKeyPrefix + " " + apiKey;

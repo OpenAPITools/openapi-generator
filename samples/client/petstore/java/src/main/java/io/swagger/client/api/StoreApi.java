@@ -54,7 +54,7 @@ public class StoreApi {
     String path = "/store/inventory".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -111,7 +111,7 @@ public class StoreApi {
     String path = "/store/order".replaceAll("\\{format\\}","json");
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -174,7 +174,7 @@ public class StoreApi {
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -237,7 +237,7 @@ public class StoreApi {
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 

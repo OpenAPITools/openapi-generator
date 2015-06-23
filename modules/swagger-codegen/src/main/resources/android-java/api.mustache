@@ -59,7 +59,7 @@ public class {{classname}} {
     String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     // header params
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params

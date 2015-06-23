@@ -62,7 +62,7 @@ public class {{classname}} {
       .replaceAll("\\{" + "{{paramName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    Set<Pair> queryParams = new HashSet<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 

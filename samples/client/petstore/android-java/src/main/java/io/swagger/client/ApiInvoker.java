@@ -23,8 +23,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -137,8 +136,8 @@ public class ApiInvoker {
   /*
     Format to {@code Pair} objects.
   */
-  public static Set<Pair> parameterToPairs(String collectionFormat, String name, Object value){
-    Set<Pair> params = new HashSet<Pair>();
+  public static List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
+    List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
     if (name == null || name.isEmpty()) return params;
@@ -247,7 +246,7 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Set<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  public String invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
     HttpClient client = getClient(host);
 
     StringBuilder b = new StringBuilder();
