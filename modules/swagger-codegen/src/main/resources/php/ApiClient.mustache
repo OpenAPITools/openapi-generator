@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-namespace {{invokerNamespace}};
+namespace {{invokerPackage}};
 
 class ApiClient {
 
@@ -77,7 +77,7 @@ class ApiClient {
    * @param array $queryParams parameters to be place in query URL
    * @param array $postData parameters to be placed in POST body
    * @param array $headerParams parameters to be place in request header
-   * @throws \{{invokerNamespace}}\ApiException on a non 2xx response
+   * @throws \{{invokerPackage}}\ApiException on a non 2xx response
    * @return mixed
    */
   public function callApi($resourcePath, $method, $queryParams, $postData, $headerParams) {

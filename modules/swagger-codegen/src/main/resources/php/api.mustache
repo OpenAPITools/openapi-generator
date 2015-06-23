@@ -27,10 +27,6 @@ use \{{invokerPackage}}\ApiClient;
 use \{{invokerPackage}}\ApiException;
 use \{{invokerPackage}}\ObjectSerializer;
 
-{{#imports}}
-use {{{import}}};
-{{/imports}}
-
 {{#operations}}
 class {{classname}} {
 
@@ -57,7 +53,7 @@ class {{classname}} {
   }
 
   /**
-   * @param \{{invokerPackage}} $apiClient set the API client
+   * @param \{{invokerPackage}}\ApiClient $apiClient set the API client
    * @return {{classname}}
    */
   public function setApiClient(ApiClient $apiClient) {
