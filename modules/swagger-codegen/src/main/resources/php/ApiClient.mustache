@@ -25,10 +25,11 @@ class ApiClient {
   public static $PUT = "PUT";
   public static $DELETE = "DELETE";
 
-  /**
-   * @var Configuration
-   */
+  /** @var Configuration */
   protected $config;
+
+  /** @var ObjectSerializer */
+  protected $serializer;
 
   /**
    * @param Configuration $config config for this ApiClient
@@ -39,6 +40,7 @@ class ApiClient {
     }
     
     $this->config = $config;
+    $this->serializer = new ObjectSerializer();
   }
 
   /**
@@ -47,6 +49,14 @@ class ApiClient {
    */
   public function getConfig() {
     return $this->config;
+  }
+
+  /**
+   * get the serializer
+   * @return ObjectSerializer
+   */
+  public function getSerializer() {
+    return $this->serializer;
   }
 
   /**
@@ -96,7 +106,7 @@ class ApiClient {
       $postData = http_build_query($postData);
     }
     else if ((is_object($postData) or is_array($postData)) and !in_array('Content-Type: multipart/form-data', $headers)) { // json model
-      $postData = json_encode(ObjectSerializer::sanitizeForSerialization($postData));
+      $postData = json_encode($this->serializer->sanitizeForSerialization($postData));
     }
 
     $url = $this->config->getHost() . $resourcePath;
