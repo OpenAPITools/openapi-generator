@@ -140,12 +140,7 @@ public class ApiInvoker {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty()) return params;
-
-    if (value == null) {
-      params.add(new Pair(name, ""));
-      return params;
-    }
+    if (name == null || name.isEmpty() || value == null) return params;
 
     Collection valueCollection = null;
     if (value instanceof Collection) {
