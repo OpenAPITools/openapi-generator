@@ -1,5 +1,5 @@
 {
-  "name": "SwaggerClient/SwaggerClient-php",
+  "name": "swagger/swagger-client",
   "description": "",
   "keywords": [
     "swagger",
@@ -27,6 +27,6 @@
     "squizlabs/php_codesniffer": "~2.0"
   },
   "autoload": {
-    "psr-4": { "SwaggerClient\\" : "lib/" }
+    "psr-4": { "Swagger\\Client\\" : "lib/" }
   }
 }

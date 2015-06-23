@@ -1,35 +1,42 @@
 <?php
 
-require_once('SwaggerClient.php');
+require_once('autoload.php');
 
 class PetApiTest extends \PHPUnit_Framework_TestCase
 {
 
   // add a new pet (id 10005) to ensure the pet object is available for all the tests
   public static function setUpBeforeClass() {
+    // for error reporting (need to run with php5.3 to get no warning)
+    //ini_set('display_errors', 1);
+    //error_reporting(~0);
+    ini_set('display_startup_errors',1);
+    ini_set('display_errors',1);
+    error_reporting(-1);
+
     // enable debugging 
-    //SwaggerClient\Configuration::$debug = true;
+    //Swagger\Client\Configuration::$debug = true;
 
     // skip initializing the API client as it should be automatic
-    //$api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
+    //$api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
     // new pet
     $new_pet_id = 10005;
-    $new_pet = new SwaggerClient\models\Pet;
+    $new_pet = new Swagger\Client\Model\Pet;
     $new_pet->id = $new_pet_id;
     $new_pet->name = "PHP Unit Test";
     // new tag
-    $tag= new SwaggerClient\models\Tag;
+    $tag= new Swagger\Client\Model\Tag;
     $tag->id = $new_pet_id; // use the same id as pet
     $tag->name = "test php tag";
     // new category
-    $category = new SwaggerClient\models\Category;
+    $category = new Swagger\Client\Model\Category;
     $category->id = $new_pet_id; // use the same id as pet
     $category->name = "test php category";
 
     $new_pet->tags = array($tag);
     $new_pet->category = $category;
 
-    $pet_api = new SwaggerClient\PetAPI();
+    $pet_api = new Swagger\Client\Api\PetAPI();
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
   }
@@ -38,43 +45,44 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testApiClient()
   { 
     // test selectHeaderAccept
-    $this->assertSame('application/json', SwaggerClient\ApiClient::selectHeaderAccept(array('application/xml','application/json')));
-    $this->assertSame(NULL, SwaggerClient\ApiClient::selectHeaderAccept(array()));
-    $this->assertSame('application/yaml,application/xml', SwaggerClient\ApiClient::selectHeaderAccept(array('application/yaml','application/xml')));
+    $api_client = new Swagger\Client\ApiClient();
+    $this->assertSame('application/json', $api_client->selectHeaderAccept(array('application/xml','application/json')));
+    $this->assertSame(NULL, $api_client->selectHeaderAccept(array()));
+    $this->assertSame('application/yaml,application/xml', $api_client->selectHeaderAccept(array('application/yaml','application/xml')));
    
     // test selectHeaderContentType
-    $this->assertSame('application/json', SwaggerClient\ApiClient::selectHeaderContentType(array('application/xml','application/json')));
-    $this->assertSame('application/json', SwaggerClient\ApiClient::selectHeaderContentType(array()));
-    $this->assertSame('application/yaml,application/xml', SwaggerClient\ApiClient::selectHeaderContentType(array('application/yaml','application/xml')));
+    $this->assertSame('application/json', $api_client->selectHeaderContentType(array('application/xml','application/json')));
+    $this->assertSame('application/json', $api_client->selectHeaderContentType(array()));
+    $this->assertSame('application/yaml,application/xml', $api_client->selectHeaderContentType(array('application/yaml','application/xml')));
 
     // test addDefaultHeader and getDefaultHeader
-    SwaggerClient\ApiClient::addDefaultHeader('test1', 'value1');
-    SwaggerClient\ApiClient::addDefaultHeader('test2', 200);
-    $defaultHeader = SwaggerClient\ApiClient::getDefaultHeader();
+    $api_client->addDefaultHeader('test1', 'value1');
+    $api_client->addDefaultHeader('test2', 200);
+    $defaultHeader = $api_client->getDefaultHeader();
     $this->assertSame('value1', $defaultHeader['test1']);
     $this->assertSame(200, $defaultHeader['test2']);
 
     // test deleteDefaultHeader
-    SwaggerClient\ApiClient::deleteDefaultHeader('test2');
-    $defaultHeader = SwaggerClient\ApiClient::getDefaultHeader();
+    $api_client->deleteDefaultHeader('test2');
+    $defaultHeader = $api_client->getDefaultHeader();
     $this->assertFalse(isset($defaultHeader['test2']));
 
-    $pet_api = new SwaggerClient\PetAPI();
-    $pet_api2 = new SwaggerClient\PetAPI();
-    $apiClient3 = new SwaggerClient\ApiClient();
+    $pet_api = new Swagger\Client\Api\PetAPI();
+    $pet_api2 = new Swagger\Client\Api\PetAPI();
+    $apiClient3 = new Swagger\Client\ApiClient();
     $apiClient3->setUserAgent = 'api client 3';
-    $apiClient4 = new SwaggerClient\ApiClient();
+    $apiClient4 = new Swagger\Client\ApiClient();
     $apiClient4->setUserAgent = 'api client 4';
-    $pet_api3 = new SwaggerClient\PetAPI($apiClient3);
+    $pet_api3 = new Swagger\Client\Api\PetAPI($apiClient3);
 
     // same default api client
     $this->assertSame($pet_api->getApiClient(), $pet_api2->getApiClient());
     // confirm using the default api client in the Configuration
-    $this->assertSame($pet_api->getApiClient(), SwaggerClient\Configuration::$apiClient);
+    $this->assertSame($pet_api->getApiClient(), Swagger\Client\Configuration::$apiClient);
     // 2 different api clients are not the same 
     $this->assertNotEquals($apiClient3, $apiClient4);
     // customized pet api not using the default (configuration) api client
-    $this->assertNotEquals($pet_api3->getApiClient(), SwaggerClient\Configuration::$apiClient);
+    $this->assertNotEquals($pet_api3->getApiClient(), Swagger\Client\Configuration::$apiClient);
     // customied pet api not using the old pet api's api client
     $this->assertNotEquals($pet_api2->getApiClient(), $pet_api3->getApiClient());
 
@@ -88,10 +96,10 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testGetPetById()
   {
     // initialize the API client without host
-    $api_client = new SwaggerClient\ApiClient();
-    SwaggerClient\Configuration::$apiKey['api_key'] = '111222333444555';
+    $api_client = new Swagger\Client\ApiClient();
+    Swagger\Client\Configuration::$apiKey['api_key'] = '111222333444555';
     $pet_id = 10005;  // ID of pet that needs to be fetched
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
     // return Pet (model)
     $response = $pet_api->getPetById($pet_id);
     $this->assertSame($response->id, $pet_id);
@@ -106,12 +114,12 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testFindPetByStatus()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    $api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
     // return Pet (model)
     $response = $pet_api->findPetsByStatus("available");
     $this->assertGreaterThan(0, count($response)); // at least one object returned
-    $this->assertSame(get_class($response[0]), "SwaggerClient\models\Pet"); // verify the object is Pet
+    $this->assertSame(get_class($response[0]), "Swagger\\Client\\Model\\Pet"); // verify the object is Pet
     // loop through result to ensure status is "available" 
     foreach ($response as $_pet) {
       $this->assertSame($_pet['status'], "available");
@@ -125,11 +133,11 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testUpdatePet()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
+    $api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
     $pet_id = 10001;  // ID of pet that needs to be fetched
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
     // create updated pet object
-    $updated_pet = new SwaggerClient\models\Pet;
+    $updated_pet = new Swagger\Client\Model\Pet;
     $updated_pet->id = $pet_id;
     $updated_pet->name = 'updatePet'; // new name
     $updated_pet->status = 'pending'; // new status
@@ -148,9 +156,9 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testUpdatePetWithForm()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
+    $api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
     $pet_id = 10001;  // ID of pet that needs to be fetched
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
     // update Pet (form)
     $update_response = $pet_api->updatePetWithForm($pet_id, 'update pet with form', 'sold');
     // return nothing (void)
@@ -165,12 +173,12 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testAddPet()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
+    $api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
     $new_pet_id = 10001;
-    $new_pet = new SwaggerClient\models\Pet;
+    $new_pet = new Swagger\Client\Model\Pet;
     $new_pet->id = $new_pet_id;
     $new_pet->name = "PHP Unit Test";
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
     // return nothing (void)
@@ -185,8 +193,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testUploadFile()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
-    $pet_api = new SwaggerClient\PetAPI($api_client);
+    $api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
     // upload file
     $pet_id = 10001;
     $add_response = $pet_api->uploadFile($pet_id, "test meta", "./composer.json");
@@ -198,8 +206,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
   public function testGetInventory()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
-    $store_api = new SwaggerClient\StoreAPI($api_client);
+    $api_client = new Swagger\Client\APIClient('http://petstore.swagger.io/v2');
+    $store_api = new Swagger\Client\Api\StoreAPI($api_client);
     // get inventory
     $get_response = $store_api->getInventory();
 

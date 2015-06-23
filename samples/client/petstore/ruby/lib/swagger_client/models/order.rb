@@ -30,12 +30,12 @@ module SwaggerClient
     # attribute type
     def self.swagger_types
       {
-        :'id' => :'int',
-        :'pet_id' => :'int',
-        :'quantity' => :'int',
+        :'id' => :'Integer',
+        :'pet_id' => :'Integer',
+        :'quantity' => :'Integer',
         :'ship_date' => :'DateTime',
-        :'status' => :'string',
-        :'complete' => :'boolean'
+        :'status' => :'String',
+        :'complete' => :'BOOLEAN'
         
       }
     end
