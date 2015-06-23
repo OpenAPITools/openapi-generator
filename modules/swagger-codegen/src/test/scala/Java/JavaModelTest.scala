@@ -3,6 +3,7 @@ package Java
 import io.swagger.codegen.languages.JavaClientCodegen
 import io.swagger.models._
 import io.swagger.models.properties._
+import io.swagger.util.Json
 import org.junit.runner.RunWith
 import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
@@ -342,5 +343,34 @@ class JavaModelTest extends FlatSpec with Matchers {
     val cm = codegen.fromModel("with.dots", model)
     val vars = cm.vars
     cm.classname should be("WithDots")
+  }
+}
+
+
+@RunWith(classOf[JUnitRunner])
+class JavaModelTest2 extends FlatSpec with Matchers {
+  it should "translate an invalid param name" in {
+    val model = new ModelImpl()
+      .description("a model with a 2nd char upper-case property names")
+      .property("_", new StringProperty())
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+
+    cm.name should be("sample")
+    cm.classname should be("Sample")
+    cm.vars.size should be(1)
+
+    val vars = cm.vars
+    Json.prettyPrint(vars.get(0))
+    vars.get(0).baseName should be("_")
+    vars.get(0).getter should be("getU")
+    vars.get(0).setter should be("setU")
+    vars.get(0).datatype should be("String")
+    vars.get(0).name should be("u")
+    vars.get(0).defaultValue should be("null")
+    vars.get(0).baseType should be("String")
+    vars.get(0).hasMore should equal(null)
+    vars.get(0).isNotContainer should equal(true)
   }
 }
