@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
   private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");
-  protected String sourceFolder = "Classes/Swaggers";
+  protected String sourceFolder = "Classes" + File.separator + "Swaggers";
 
   public CodegenType getTag() {
     return CodegenType.CLIENT;
@@ -37,12 +37,12 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
 
   public SwiftGenerator() {
     super();
-    outputFolder = "generated-code/swift";
+    outputFolder = "generated-code" + File.separator + "swift";
     modelTemplateFiles.put("model.mustache", ".swift");
     apiTemplateFiles.put("api.mustache", ".swift");
     templateDir = "swift";
-    apiPackage = "/APIs";
-    modelPackage = "/Models";
+    apiPackage = File.separator + "APIs";
+    modelPackage = File.separator + "Models";
 
     // Inject application name
     String appName = System.getProperty("appName");
@@ -63,7 +63,7 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
       additionalProperties.put("suppressRequired", suppressRequired);
     }
 
-    sourceFolder = appName + "/" + sourceFolder;
+    sourceFolder = appName + File.separator + sourceFolder;
 
     supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
     supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
@@ -134,12 +134,12 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String modelFileFolder() {
-    return outputFolder + "/" + sourceFolder + modelPackage().replace('.', File.separatorChar);
+    return outputFolder + File.separator + sourceFolder + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + sourceFolder + apiPackage().replace('.', File.separatorChar);
+    return outputFolder + File.separator + sourceFolder + apiPackage().replace('.', File.separatorChar);
   }
 
   @Override
