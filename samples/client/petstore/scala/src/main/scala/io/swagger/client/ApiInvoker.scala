@@ -141,7 +141,7 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
       }
       case _ => null
     }
-    response.getClientResponseStatus().getStatusCode() match {
+    response.getStatusInfo().getStatusCode() match {
       case 204 => ""
       case code: Int if (Range(200, 299).contains(code)) => {
         response.hasEntity() match {
@@ -155,7 +155,7 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
           case false => "no data"
         }
         throw new ApiException(
-          response.getClientResponseStatus().getStatusCode(),
+          response.getStatusInfo().getStatusCode(),
           entity)
       }
     }
@@ -172,7 +172,7 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
       }
     }
   }
-  
+
   def newClient(host: String): Client = asyncHttpClient match {
     case true => {
       import org.sonatype.spice.jersey.client.ahc.config.DefaultAhcConfig
@@ -200,4 +200,3 @@ object ApiInvoker extends ApiInvoker(mapper = ScalaJsonUtil.getJsonMapper,
   authPreemptive = false)
 
 class ApiException(val code: Int, msg: String) extends RuntimeException(msg)
-
