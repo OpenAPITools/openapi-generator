@@ -22,13 +22,13 @@ module {{package}} {
             }
         }
         {{#operation}}
-        public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}} extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+        public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}} {{/allParams}} extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
             var path = this.basePath + '{{path}}';
             {{#pathParams}}
             path = path.replace('{' + '{{paramName}}' + '}', String({{paramName}}));
             {{/pathParams}}
             var queryParameters: any = {};
-            var headers: any = {};
+            var headerParams: any = {};
             {{#allParams}}{{#required}}
             // verify required parameter '{{paramName}}' is set
             if (!{{paramName}}) {
@@ -43,10 +43,10 @@ module {{package}} {
                 method: '{{httpMethod}}',
                 url: path,
                 json: true,
-                {{#bodyParam}}data: body,
+                {{#bodyParam}}data: {{paramName}},
                 {{/bodyParam}}
                 params: queryParameters,
-                headers: headers
+                headers: headerParams
             };
 
             if (extraHttpRequestParams) {
