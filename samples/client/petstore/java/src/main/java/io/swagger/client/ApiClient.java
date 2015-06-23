@@ -22,8 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -242,8 +241,8 @@ public class ApiClient {
   /*
     Format to {@code Pair} objects.
   */
-  public Set<Pair> parameterToPairs(String collectionFormat, String name, Object value){
-    Set<Pair> params = new HashSet<Pair>();
+  public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
+    List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
     if (name == null || name.isEmpty()) return params;
@@ -403,7 +402,7 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @return The response body in type of string
    */
-  public String invokeAPI(String path, String method, Set<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  public String invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String accept, String contentType, String[] authNames) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     Client client = getClient();
@@ -521,7 +520,7 @@ public class ApiClient {
    *
    * @param authNames The authentications to apply
    */
-  private void updateParamsForAuth(String[] authNames, Set<Pair> queryParams, Map<String, String> headerParams) {
+  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
