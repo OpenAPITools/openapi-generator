@@ -38,21 +38,69 @@ class Tag implements ArrayAccess {
       'id' => 'id',
       'name' => 'name'
   );
+
+  /** @var string[] Array of attributes to setter functions (for deserialization of responses) */
+  static $setters = array(
+    'id' => 'setId',
+    'name' => 'setName'
+  );
+
+  /** @var string[] Array of attributes to getter functions (for serialization of requests) */
+  static $getters = array(
+    'id' => 'getId',
+    'name' => 'getName'
+  );
+
   
   /** @var int $id */
-  public $id;
+  protected $id;
   
   /** @var string $name */
-  public $name;
+  protected $name;
+  
+  public function __construct(array $data = null) {
+    if ($data != null) {
+      $this->id = $data["id"];
+      $this->name = $data["name"];
+    }
+  }
   
   /**
-   * @param mixed[] Array of parameters to initialize the object with
+   * get id
+   * @return int
    */
-  public function __construct(array $data = null) {
-    $this->id = @$data["id"];
-    $this->name = @$data["name"];
+  public function getId() {
+    return $this->id;
   }
 
+  /**
+   * set id
+   * @param int $id
+   * @return $this
+   */
+  public function setId($id) {
+    $this->id = $id;
+    return $this;
+  }
+  
+  /**
+   * get name
+   * @return string
+   */
+  public function getName() {
+    return $this->name;
+  }
+
+  /**
+   * set name
+   * @param string $name
+   * @return $this
+   */
+  public function setName($name) {
+    $this->name = $name;
+    return $this;
+  }
+  
   public function offsetExists($offset) {
     return isset($this->$offset);
   }
