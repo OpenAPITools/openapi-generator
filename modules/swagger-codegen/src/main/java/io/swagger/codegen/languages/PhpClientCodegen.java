@@ -103,7 +103,14 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("/".equals(File.separator)) { // for mac, linux
             regFirstPathSeparator = "^/";
         } else { // for windows
-            regFirstPathSeparator = "^\\";
+            regFirstPathSeparator = "^\\\\";
+        }
+
+        String regLastPathSeparator;
+        if ("/".equals(File.separator)) { // for mac, linux
+            regLastPathSeparator = "/$";
+        } else { // for windows
+            regLastPathSeparator = "\\\\$";
         }
 
         return (getPackagePath() + File.separatorChar + basePath
@@ -112,7 +119,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
                     // Trim prefix file separators from package path
                     .replaceAll(regFirstPathSeparator, ""))
                     // Trim trailing file separators from the overall path
-                    .replaceAll(File.separator + "$", "");
+                    .replaceAll(regLastPathSeparator+ "$", "");
     }
 
     public CodegenType getTag() {
