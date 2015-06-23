@@ -24,7 +24,7 @@ export class {{classname}} {
     {{/pathParams}}
 
     var queryParameters: any = {};
-    var headers: any = {};
+    var headerParams: any = {};
 
     {{#allParams}}{{#required}}
     // verify required parameter '{{paramName}}' is set
@@ -48,7 +48,7 @@ export class {{classname}} {
         qs: queryParameters,
         uri: path,
         json: true,
-        {{#bodyParam}}body: body,
+        {{#bodyParam}}body: {{paramName}},
         {{/bodyParam}}
         auth: {
             username: this.username, password: this.password
