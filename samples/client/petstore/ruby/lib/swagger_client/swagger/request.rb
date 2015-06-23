@@ -165,6 +165,7 @@ module SwaggerClient
       def make
         request_options = {
           :ssl_verifypeer => Swagger.configuration.verify_ssl,
+          :cainfo => Swagger.configuration.ssl_ca_cert,
           :headers => self.headers.stringify_keys,
           :verbose => Swagger.configuration.debug
         }
