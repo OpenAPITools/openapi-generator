@@ -8,7 +8,6 @@ describe SwaggerClient::Swagger::Response do
   end
 
   before(:each) do
-
     VCR.use_cassette('pet_resource', :record => :new_episodes) do
       @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/10002")
     end
@@ -18,8 +17,10 @@ describe SwaggerClient::Swagger::Response do
 
   describe "initialization" do
     it "sets body" do
-      @response.body.class.should == Hash
-      @response.body.has_key?(:'name').should == true
+      @response.body.should be_a(String)
+      data = JSON.parse(@response.body)
+      data.should be_a(Hash)
+      data['id'].should == 10002
     end
 
     it "sets code" do
@@ -30,9 +31,8 @@ describe SwaggerClient::Swagger::Response do
       @response.headers.class.should == Hash
     end
   end
-  
-  describe "format" do
 
+  describe "format" do
     it "recognizes json" do
       @response.format.should == 'json'
       @response.json?.should == true
@@ -47,19 +47,36 @@ describe SwaggerClient::Swagger::Response do
       @response.format.should == 'xml'
       @response.xml?.should == true
     end
-
   end
-  
+
   describe "prettiness" do
-    
     it "has a pretty json body" do
       @response.pretty_body.should =~ /\{.*\}/
     end
-        
+
     it "has pretty headers" do
       @response.pretty_headers.should =~ /\{.*\}/
     end
+  end
 
+  describe "deserialize" do
+    it "handles Hash<String, String>" do
+      @response.stub(:body) { '{"message": "Hello"}' }
+      data = @response.deserialize('Hash<String, String>')
+      data.should be_a(Hash)
+      data.should == {:message => 'Hello'}
+    end
+
+    it "handles Hash<String, Pet>" do
+      json = @response.body
+      @response.stub(:body) { "{\"pet\": #{json}}" }
+      data = @response.deserialize('Hash<String, Pet>')
+      data.should be_a(Hash)
+      data.keys.should == [:pet]
+      pet = data[:pet]
+      pet.should be_a(SwaggerClient::Pet)
+      pet.id.should == 10002
+    end
   end
 
 end

@@ -15,20 +15,16 @@
  *  limitations under the License.
  */
 
-namespace SwaggerClient;
+namespace Swagger\Client;
 
 use \Exception;
 
 class ApiException extends Exception {
 
-  /**
-   * The HTTP body of the server response.
-   */
+  /** @var string The HTTP body of the server response. */
   protected $response_body;
 
-  /**
-   * The HTTP header of the server response.
-   */
+  /** @var string[] The HTTP header of the server response. */
   protected $response_headers;
 
   public function __construct($message="", $code=0, $responseHeaders=null, $responseBody=null) {

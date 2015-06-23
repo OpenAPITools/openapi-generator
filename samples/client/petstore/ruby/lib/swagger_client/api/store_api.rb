@@ -8,7 +8,7 @@ module SwaggerClient
     # Returns pet inventories by status
     # Returns a map of status codes to quantities
     # @param [Hash] opts the optional parameters
-    # @return [map[string,int]]
+    # @return [Hash<String, Integer>]
     def self.get_inventory(opts = {})
       
 
@@ -37,8 +37,8 @@ module SwaggerClient
       
 
       auth_names = ['api_key']
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      response.map {|response| obj = map.new() and obj.build_from_hash(response) }
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('Hash<String, Integer>')
     end
 
     # Place an order for a pet
@@ -74,8 +74,8 @@ module SwaggerClient
       
 
       auth_names = []
-      response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      obj = Order.new() and obj.build_from_hash(response)
+      response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('Order')
     end
 
     # Find purchase order by ID
@@ -114,8 +114,8 @@ module SwaggerClient
       
 
       auth_names = []
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make.body
-      obj = Order.new() and obj.build_from_hash(response)
+      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      response.deserialize('Order')
     end
 
     # Delete purchase order by ID

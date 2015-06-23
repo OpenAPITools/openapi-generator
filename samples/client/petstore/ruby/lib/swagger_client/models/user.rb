@@ -36,14 +36,14 @@ module SwaggerClient
     # attribute type
     def self.swagger_types
       {
-        :'id' => :'int',
-        :'username' => :'string',
-        :'first_name' => :'string',
-        :'last_name' => :'string',
-        :'email' => :'string',
-        :'password' => :'string',
-        :'phone' => :'string',
-        :'user_status' => :'int'
+        :'id' => :'Integer',
+        :'username' => :'String',
+        :'first_name' => :'String',
+        :'last_name' => :'String',
+        :'email' => :'String',
+        :'password' => :'String',
+        :'phone' => :'String',
+        :'user_status' => :'Integer'
         
       }
     end
