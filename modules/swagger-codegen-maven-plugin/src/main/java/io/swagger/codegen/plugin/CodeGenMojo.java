@@ -34,7 +34,12 @@ import java.io.File;
 import java.util.Map;
 import java.util.ServiceLoader;
 
-import static io.swagger.codegen.plugin.AdditionalParams.*;
+import static io.swagger.codegen.plugin.AdditionalParams.API_PACKAGE_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.IMPL_FOLDER_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.INVOKER_PACKAGE_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.MODEL_PACKAGE_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.SOURCE_FOLDER_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.TEMPLATE_DIR_PARAM;
 
 /**
  * Goal which generates client/server code from a swagger json/yaml definition.
@@ -100,7 +105,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * A map of language-specific properties as passed with the -c option to the command line
      */
-    @Parameter(name ="configOptions")
+    @Parameter(name = "configOptions")
     private Map configOptions;
 
     /**
@@ -127,7 +132,7 @@ public class CodeGenMojo extends AbstractMojo {
             config.additionalProperties().put(TEMPLATE_DIR_PARAM, templateDirectory.getAbsolutePath());
         }
         if (null != modelPackage) {
-            config.additionalProperties().put(MODEL_PACKAGE_PARAM, modelPackage );
+            config.additionalProperties().put(MODEL_PACKAGE_PARAM, modelPackage);
         }
         if (null != apiPackage) {
             config.additionalProperties().put(API_PACKAGE_PARAM, apiPackage);
@@ -143,7 +148,7 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         ClientOpts clientOpts = new ClientOpts();
-        if( configOptions != null ){
+        if (configOptions != null) {
             for (CliOption langCliOption : config.cliOptions()) {
                 if (configOptions.containsKey(langCliOption.getOpt())) {
                     config.additionalProperties().put(langCliOption.getOpt(),
