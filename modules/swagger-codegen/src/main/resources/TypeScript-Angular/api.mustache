@@ -22,7 +22,7 @@ module {{package}} {
             }
         }
         {{#operation}}
-        public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}} {{/allParams}} extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+        public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}, {{/allParams}} extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
             var path = this.basePath + '{{path}}';
             {{#pathParams}}
             path = path.replace('{' + '{{paramName}}' + '}', String({{paramName}}));
