@@ -30,8 +30,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
         templateDir = "php";
-        apiPackage = "Api";
-        modelPackage = "Model";
+        apiPackage = invokerPackage + "\\Api";
+        modelPackage = invokerPackage + "\\Model";
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
@@ -134,11 +134,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey("modelPackage")) {
-            this.setModelPackage(invokerPackage + "\\" + additionalProperties.get("modelPackage"));
+            this.setModelPackage((String) additionalProperties.get("modelPackage"));
         }
 
         if (additionalProperties.containsKey("apiPackage")) {
-            this.setApiPackage(invokerPackage + "\\" + additionalProperties.get("apiPackage"));
+            this.setApiPackage((String) additionalProperties.get("apiPackage"));
         }
 
         additionalProperties.put("srcBasePath", srcBasePath);
