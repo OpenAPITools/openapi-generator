@@ -7,6 +7,14 @@ module SwaggerClient
                     :scheme, :host, :base_path, :user_agent, :debug, :logger, :inject_format,
                     :force_ending_format, :camelize_params, :user_agent, :verify_ssl
 
+      # Set this to customize the certificate file to verify the peer.
+      #
+      # @return [String] the path to the certificate file
+      #
+      # @see The `cainfo` option of Typhoeus, `--cert` option of libcurl. Related source code:
+      #   https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
+      attr_accessor :ssl_ca_cert
+
       # Defaults go in here..
       def initialize
         @format = 'json'
