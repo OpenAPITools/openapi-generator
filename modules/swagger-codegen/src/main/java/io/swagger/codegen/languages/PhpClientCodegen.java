@@ -33,8 +33,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
         templateDir = "php";
-        apiPackage = invokerPackage + "\\Api";
-        modelPackage = invokerPackage + "\\Model";
+        apiPackage = "Api";
+        modelPackage = "Model";
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
@@ -88,7 +88,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
         typeMapping.put("DateTime", "\\DateTime");
         
-        cliOptions.add(new CliOption("invokerPackage", "namespace for core, non-api-specific classes"));
         cliOptions.add(new CliOption("packagePath", "main package name for classes"));
     }
 
@@ -127,13 +126,21 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("invokerPackage")) {
-            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
-        }
-
         if (additionalProperties.containsKey("packagePath")) {
             this.setPackagePath((String) additionalProperties.get("packagePath"));
         }
+
+        if (additionalProperties.containsKey("modelPackage")) {
+            this.setModelPackage(invokerPackage + "\\" + additionalProperties.get("modelPackage"));
+        }
+
+        if (additionalProperties.containsKey("apiPackage")) {
+            this.setApiPackage(invokerPackage + "\\" + additionalProperties.get("apiPackage"));
+        }
+
+        additionalProperties.replace("modelPackage", modelPackage);
+        additionalProperties.replace("apiPackage", apiPackage);
+        additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
         supportingFiles.add(new SupportingFile("ApiClientConfiguration.mustache", toPackagePath(invokerPackage, "lib"), "ApiClientConfiguration.php"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, "lib"), "ApiClient.php"));
