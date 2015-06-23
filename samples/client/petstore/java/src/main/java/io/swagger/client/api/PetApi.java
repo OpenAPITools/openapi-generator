@@ -174,7 +174,7 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    queryParams.addAll(apiClient.parameterToQueryParams("multi", "status", status));
+    queryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
     
 
     
@@ -233,7 +233,7 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    queryParams.addAll(apiClient.parameterToQueryParams("multi", "tags", tags));
+    queryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
     
 
     

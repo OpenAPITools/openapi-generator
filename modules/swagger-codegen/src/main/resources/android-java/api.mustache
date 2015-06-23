@@ -66,7 +66,7 @@ public class {{classname}} {
     Map<String, String> formParams = new HashMap<String, String>();
 
     {{#queryParams}}
-    queryParams.addAll(ApiInvoker.parameterToQueryParams("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+    queryParams.addAll(ApiInvoker.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
     {{/queryParams}}
 
     {{#headerParams}}
