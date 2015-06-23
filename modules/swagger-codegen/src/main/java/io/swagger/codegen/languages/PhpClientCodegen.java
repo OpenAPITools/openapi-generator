@@ -24,18 +24,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String groupId = "swagger";
     protected String artifactId = "swagger-client";
     protected String artifactVersion = null;
-    protected String rootNamespace;
-    protected String invokerNamespace;
-    protected String modelNamespace;
-    protected String apiNamespace;
 
     public PhpClientCodegen() {
         super();
 
-        rootNamespace = "Swagger";
-        invokerPackage = "Client";
-        modelPackage = "Models";
-        apiPackage = "Api";
         outputFolder = "generated-code/php";
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
@@ -95,7 +87,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
         typeMapping.put("DateTime", "\\DateTime");
         
-        cliOptions.add(new CliOption("rootNamespace", "root namespace from which other namespaces derive"));
         cliOptions.add(new CliOption("invokerPackage", "namespace for core, non-api-specific classes"));
     }
 
@@ -138,20 +129,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
         }
 
-        if (additionalProperties.containsKey("rootNamespace")) {
-            this.setRootNamespace((String) additionalProperties.get("rootNamespace"));
-        }
-
-        prefixPackages();
-
-        // theirs
-        supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", toPackagePath(invokerPackage, "lib"), "Configuration.php"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, "lib"), "ApiClient.php"));
-        supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, "lib"), "ApiException.php"));
-        supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
-        
-        // mine
         supportingFiles.add(new SupportingFile("ApiClientConfiguration.mustache", toPackagePath(invokerPackage, "lib"), "ApiClientConfiguration.php"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, "lib"), "ApiClient.php"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, "lib"), "ApiException.php"));
@@ -160,15 +137,15 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
     }
 
-    protected String getSrcDir(String packageName) {
-        return "src/" + packageName;
-    }
-
-    protected void prefixPackages() {
-        setApiPackage(getSrcDir(apiPackage));
-        setInvokerPackage(getSrcDir(invokerPackage));
-        setModelPackage(getSrcDir(modelPackage));
-    }
+//    protected String getSrcDir(String packageName) {
+//        return "src/" + packageName;
+//    }
+//
+//    protected void prefixPackages() {
+//        setApiPackage(getSrcDir(apiPackage));
+//        setInvokerPackage(getSrcDir(invokerPackage));
+//        setModelPackage(getSrcDir(modelPackage));
+//    }
 
     @Override
     public String escapeReservedWord(String name) {
@@ -238,10 +215,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.invokerPackage = invokerPackage;
     }
 
-    public void setRootNamespace(String rootNamespace) {
-        this.rootNamespace = rootNamespace;
-    }
-
     @Override
     public String toVarName(String name) {
         // parameter name starting with number won't compile
@@ -279,64 +252,54 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toModelName(name);
     }
 
-    public String toNamespace(String packageName) {
-        return rootNamespace + "\\" + packageName.replace('/', '\\').replace('.', '\\');
-    }
-
-    protected void setNamespacesFromPackages() {
-        invokerNamespace = toNamespace(invokerPackage);
-        apiNamespace = toNamespace(apiPackage);
-        modelNamespace = toNamespace(modelPackage);
-    }
-
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        return addNamespaces(super.postProcessModels(objs));
-    }
-
-    @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        objs = addNamespaces(super.postProcessOperations(objs));
-        objs = formatImports(objs, "imports", "import");
-
-        return objs;
-    }
-
-    @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        objs = addNamespaces(super.postProcessSupportingFileData(objs));
-
-        return objs;
-    }
-
-    protected Map<String, Object> addNamespaces(Map<String, Object> objs) {
-        objs.put("rootNamespace", rootNamespace);
-        objs.put("invokerNamespace", invokerNamespace);
-        objs.put("apiNamespace", apiNamespace);
-        objs.put("modelNamespace", modelNamespace);
-
-        return objs;
-    }
-
-    protected Map<String, Object> formatImports(Map<String, Object> objs, String objsKey, String importKey) {
-        if (objs.containsKey(objsKey)) {
-            String modelName;
-            List<Map<String, Object>> newImportList = new ArrayList<Map<String, Object>>();
-
-            for (Map<String, Object> importMap : (List<Map<String, Object>>) objs.get(objsKey)) {
-                modelName = ((String) importMap.get(importKey)).replace(modelPackage + ".", "");
-
-                if (reservedWords.contains(modelName)) {
-                    continue;
-                }
-
-                importMap.put(importKey, modelNamespace + "\\" + modelName);
-                newImportList.add(importMap);
-            }
-
-            objs.put(objsKey, newImportList);
-        }
-
-        return objs;
-    }
+//    @Override
+//    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+//        return addNamespaces(super.postProcessModels(objs));
+//    }
+//
+//    @Override
+//    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+//        objs = addNamespaces(super.postProcessOperations(objs));
+//        objs = formatImports(objs, "imports", "import");
+//
+//        return objs;
+//    }
+//
+//    @Override
+//    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+//        objs = addNamespaces(super.postProcessSupportingFileData(objs));
+//
+//        return objs;
+//    }
+//
+//    protected Map<String, Object> addNamespaces(Map<String, Object> objs) {
+//        objs.put("rootNamespace", rootNamespace);
+//        objs.put("invokerNamespace", invokerNamespace);
+//        objs.put("apiNamespace", apiNamespace);
+//        objs.put("modelNamespace", modelNamespace);
+//
+//        return objs;
+//    }
+//
+//    protected Map<String, Object> formatImports(Map<String, Object> objs, String objsKey, String importKey) {
+//        if (objs.containsKey(objsKey)) {
+//            String modelName;
+//            List<Map<String, Object>> newImportList = new ArrayList<Map<String, Object>>();
+//
+//            for (Map<String, Object> importMap : (List<Map<String, Object>>) objs.get(objsKey)) {
+//                modelName = ((String) importMap.get(importKey)).replace(modelPackage + ".", "");
+//
+//                if (reservedWords.contains(modelName)) {
+//                    continue;
+//                }
+//
+//                importMap.put(importKey, modelNamespace + "\\" + modelName);
+//                newImportList.add(importMap);
+//            }
+//
+//            objs.put(objsKey, newImportList);
+//        }
+//
+//        return objs;
+//    }
 }
