@@ -95,21 +95,21 @@ class {{classname}} {
 
       {{#queryParams}}// query params
       if(${{paramName}} !== null) {
-        $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
+        $queryParams['{{baseName}}'] = $this->apiClient->getSerializer()->toQueryValue(${{paramName}});
       }{{/queryParams}}
       {{#headerParams}}// header params
       if(${{paramName}} !== null) {
-        $headerParams['{{baseName}}'] = ObjectSerializer::toHeaderValue(${{paramName}});
+        $headerParams['{{baseName}}'] = $this->apiClient->getSerializer()->toHeaderValue(${{paramName}});
       }{{/headerParams}}
       {{#pathParams}}// path params
       if(${{paramName}} !== null) {
         $resourcePath = str_replace("{" . "{{baseName}}" . "}",
-                                    ObjectSerializer::toPathValue(${{paramName}}),
+                                    $this->apiClient->getSerializer()->toPathValue(${{paramName}}),
                                     $resourcePath);
       }{{/pathParams}}
       {{#formParams}}// form params
       if (${{paramName}} !== null) {
-        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}ObjectSerializer::toFormValue(${{paramName}});
+        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->getSerializer()->toFormValue(${{paramName}});
       }{{/formParams}}
       {{#bodyParams}}// body params
       $_tempBody = null;
@@ -140,7 +140,7 @@ class {{classname}} {
       } catch (ApiException $e) {
         switch ($e->getCode()) { {{#responses}}{{#dataType}}
           case {{code}}:
-            $data = ObjectSerializer::deserialize($e->getResponseBody(), '{{dataType}}');
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}');
             $e->setResponseObject($data);
             break;{{/dataType}}{{/responses}}
         }
@@ -152,7 +152,7 @@ class {{classname}} {
         return null;
       }
 
-      $responseObject = ObjectSerializer::deserialize($response,'{{returnType}}');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'{{returnType}}');
       return $responseObject;
       {{/returnType}}
   }
