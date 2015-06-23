@@ -27,7 +27,7 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>Test::More</id>
+                        <id>Test::More for Pet</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -36,6 +36,19 @@
                             <executable>perl</executable>
                             <arguments>
                                 <argument>t/01_pet_api.t</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Test::More for Store</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>perl</executable>
+                            <arguments>
+                                <argument>t/02_store_api.t</argument>
                             </arguments>
                         </configuration>
                     </execution>

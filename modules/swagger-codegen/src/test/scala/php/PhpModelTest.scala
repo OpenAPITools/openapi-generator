@@ -51,16 +51,16 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(1).isNotContainer should equal(true)
 
     vars.get(2).baseName should be("createdAt")
-    vars.get(2).complexType should be(null)
-    vars.get(2).datatype should be("DateTime")
+    vars.get(2).complexType should be("\\DateTime")
+    vars.get(2).datatype should be("\\DateTime")
     vars.get(2).name should be("created_at")
     vars.get(2).defaultValue should be("null")
-    vars.get(2).baseType should be("DateTime")
+    vars.get(2).baseType should be("\\DateTime")
     vars.get(2).hasMore should equal(null)
     vars.get(2).required should equal(null)
     vars.get(2).isNotContainer should equal(true)
 
-    cm.imports.size() should be(0)
+    cm.imports.size() should be(1)
   }
 
   it should "convert a model with list property" in {
@@ -91,7 +91,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     vars.get(0).isNotContainer should equal(true)
 
     vars.get(1).baseName should be("urls")
-    vars.get(1).datatype should be("array[string]")
+    vars.get(1).datatype should be("string[]")
     vars.get(1).name should be("urls")
     vars.get(1).baseType should be("array")
     vars.get(1).hasMore should be(null)
@@ -142,7 +142,7 @@ class PhpModelTest extends FlatSpec with Matchers {
 
     val vars = cm.vars
     vars.get(0).baseName should be("children")
-    vars.get(0).datatype should be("\\\\Swagger\\\\Models\\\\Children")
+    vars.get(0).datatype should be("\\Swagger\\Client\\Model\\Children")
     vars.get(0).name should be("children")
     vars.get(0).baseType should be("Children")
     vars.get(0).required should equal(null)
@@ -166,7 +166,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     vars.get(0).baseName should be("children")
     vars.get(0).complexType should be("Children")
-    vars.get(0).datatype should be("array[\\\\Swagger\\\\Models\\\\Children]")
+    vars.get(0).datatype should be("\\Swagger\\Client\\Model\\Children[]")
     vars.get(0).name should be("children")
     vars.get(0).baseType should be("array")
     vars.get(0).containerType should be("array")
@@ -192,7 +192,7 @@ class PhpModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     vars.get(0).baseName should be("children")
     vars.get(0).complexType should be("Children")
-    vars.get(0).datatype should be("map[string,\\\\Swagger\\\\Models\\\\Children]")
+    vars.get(0).datatype should be("map[string,\\Swagger\\Client\\Model\\Children]")
     vars.get(0).name should be("children")
     vars.get(0).baseType should be("map")
     vars.get(0).containerType should be("map")

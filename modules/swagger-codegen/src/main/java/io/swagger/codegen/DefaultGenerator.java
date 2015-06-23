@@ -268,11 +268,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         // continue
                     }
                     if (in == null) {
-                        in = this.getClass().getClassLoader().getResourceAsStream(config.templateDir() + File.separator + support.templateFile);
+                        in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(config.templateDir() + File.separator + support.templateFile));
                     }
                     File outputFile = new File(outputFilename);
                     OutputStream out = new FileOutputStream(outputFile, false);
                     if (in != null && out != null) {
+                        System.out.println("writing file " + outputFile);
                         IOUtils.copy(in, out);
                     } else {
                         if (in == null) {

@@ -46,10 +46,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
-        typeMapping.put("map", "map");
+        typeMapping.put("map", "dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "datetime");
+        typeMapping.put("object", "object");
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
         reservedWords = new HashSet<String>(
@@ -111,7 +112,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
 
-            return getSwaggerType(p) + "(String, " + getTypeDeclaration(inner) + ")";
+            return getSwaggerType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
     }

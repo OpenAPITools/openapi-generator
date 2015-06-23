@@ -70,13 +70,15 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [SWGApiClient requestQueueSize];
 }
 
+#pragma mark - Api Methods
 
-/*!
- * Create user
- * This can only be done by the logged in user.
- * \param body Created user object
- * \returns void
- */
+///
+/// Create user
+/// This can only be done by the logged in user.
+///  @param body Created user object
+///
+///  @returns void
+///
 -(NSNumber*) createUserWithCompletionBlock: (SWGUser*) body
         
         
@@ -152,38 +154,28 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-
-    
-    // it's void
-        return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"POST" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                                authSettings: authSettings
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"POST"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  completionBlock(error);
+                  
+              }
+          ];
 }
 
-/*!
- * Creates list of users with given input array
- * 
- * \param body List of user object
- * \returns void
- */
+///
+/// Creates list of users with given input array
+/// 
+///  @param body List of user object
+///
+///  @returns void
+///
 -(NSNumber*) createUsersWithArrayInputWithCompletionBlock: (NSArray<SWGUser>*) body
         
         
@@ -259,38 +251,28 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-
-    
-    // it's void
-        return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"POST" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                                authSettings: authSettings
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"POST"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  completionBlock(error);
+                  
+              }
+          ];
 }
 
-/*!
- * Creates list of users with given input array
- * 
- * \param body List of user object
- * \returns void
- */
+///
+/// Creates list of users with given input array
+/// 
+///  @param body List of user object
+///
+///  @returns void
+///
 -(NSNumber*) createUsersWithListInputWithCompletionBlock: (NSArray<SWGUser>*) body
         
         
@@ -366,39 +348,30 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-
-    
-    // it's void
-        return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"POST" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                                authSettings: authSettings
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"POST"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  completionBlock(error);
+                  
+              }
+          ];
 }
 
-/*!
- * Logs user into the system
- * 
- * \param username The user name for login
- * \param password The password for login in clear text
- * \returns NSString*
- */
+///
+/// Logs user into the system
+/// 
+///  @param username The user name for login
+///
+///  @param password The password for login in clear text
+///
+///  @returns NSString*
+///
 -(NSNumber*) loginUserWithCompletionBlock: (NSString*) username
          password: (NSString*) password
         
@@ -460,50 +433,26 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-    // non container response
-
-    
-    // primitive response
-            // primitive response type
-    return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                              method: @"GET" 
-                                         queryParams: queryParams 
-                                                body: bodyDictionary 
-                                        headerParams: headerParams
-                                        authSettings: authSettings
-                                  requestContentType: requestContentType
-                                 responseContentType: responseContentType
-                                     completionBlock: ^(NSString *data, NSError *error) {
-                         if (error) {
-                             completionBlock(nil, error);
-                             return;
-                         }
-                        NSString *result = data ? [[NSString  alloc]initWithString: data] : nil;
-                        completionBlock(result, nil);
-                     }];
-    
-    
-    
-
-
-    
-    // complex response
-        
-
-    
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"GET"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  
+                  completionBlock([self.apiClient deserialize: data class:@"NSString*"], error);
+              }
+          ];
 }
 
-/*!
- * Logs out current logged in user session
- * 
- * \returns void
- */
+///
+/// Logs out current logged in user session
+/// 
+///  @returns void
+///
 -(NSNumber*) logoutUserWithCompletionBlock: 
         
         (void (^)(NSError* error))completionBlock {
@@ -555,38 +504,28 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-
-    
-    // it's void
-        return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"GET" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                                authSettings: authSettings
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"GET"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  completionBlock(error);
+                  
+              }
+          ];
 }
 
-/*!
- * Get user by user name
- * 
- * \param username The name that needs to be fetched. Use user1 for testing. 
- * \returns SWGUser*
- */
+///
+/// Get user by user name
+/// 
+///  @param username The name that needs to be fetched. Use user1 for testing. 
+///
+///  @returns SWGUser*
+///
 -(NSNumber*) getUserByNameWithCompletionBlock: (NSString*) username
         
         completionHandler: (void (^)(SWGUser* output, NSError* error))completionBlock
@@ -643,53 +582,30 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-    // non container response
-
-    
-
-    
-    // complex response
-        
-    // comples response type
-    return [self.apiClient dictionary: requestUrl
-                       method: @"GET"
-                  queryParams: queryParams
-                         body: bodyDictionary
-                 headerParams: headerParams
-                 authSettings: authSettings
-           requestContentType: requestContentType
-          responseContentType: responseContentType
-              completionBlock: ^(NSDictionary *data, NSError *error) {
-                if (error) {
-                    completionBlock(nil, error);
-                    
-                    return;
-                }
-                SWGUser* result = nil;
-                if (data) {
-                    result = [[SWGUser  alloc]  initWithDictionary:data error:nil];
-                }
-                completionBlock(result , nil);
-                
-              }];
-    
-
-    
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"GET"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  
+                  completionBlock([self.apiClient deserialize: data class:@"SWGUser*"], error);
+              }
+          ];
 }
 
-/*!
- * Updated user
- * This can only be done by the logged in user.
- * \param username name that need to be deleted
- * \param body Updated user object
- * \returns void
- */
+///
+/// Updated user
+/// This can only be done by the logged in user.
+///  @param username name that need to be deleted
+///
+///  @param body Updated user object
+///
+///  @returns void
+///
 -(NSNumber*) updateUserWithCompletionBlock: (NSString*) username
          body: (SWGUser*) body
         
@@ -770,38 +686,28 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-
-    
-    // it's void
-        return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"PUT" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                                authSettings: authSettings
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"PUT"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  completionBlock(error);
+                  
+              }
+          ];
 }
 
-/*!
- * Delete user
- * This can only be done by the logged in user.
- * \param username The name that needs to be deleted
- * \returns void
- */
+///
+/// Delete user
+/// This can only be done by the logged in user.
+///  @param username The name that needs to be deleted
+///
+///  @returns void
+///
 -(NSNumber*) deleteUserWithCompletionBlock: (NSString*) username
         
         
@@ -858,30 +764,19 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-
-    
-
-    
-
-    
-    // it's void
-        return [self.apiClient stringWithCompletionBlock: requestUrl 
-                                      method: @"DELETE" 
-                                 queryParams: queryParams 
-                                        body: bodyDictionary 
-                                headerParams: headerParams
-                                authSettings: authSettings
-                          requestContentType: requestContentType
-                         responseContentType: responseContentType
-                             completionBlock: ^(NSString *data, NSError *error) {
-                if (error) {
-                    completionBlock(error);
-                    return;
-                }
-                completionBlock(nil);
-                    }];
-
-    
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"DELETE"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  completionBlock(error);
+                  
+              }
+          ];
 }
 
 
