@@ -61,6 +61,12 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 let response = Response(response: res!, body: body)
                 defer.fulfill(response)
                 return
+            } else if "" is T {
+                // swagger-parser currently doesn't support void, which will be fixed in future swagger-parser release
+                // https://github.com/swagger-api/swagger-parser/pull/34
+                let response = Response(response: res!, body: "" as! T)
+                defer.fulfill(response)
+                return
             }
             
             defer.reject(NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"]))
