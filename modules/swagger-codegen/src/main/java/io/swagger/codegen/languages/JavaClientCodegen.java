@@ -144,6 +144,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
+        if("_".equals(name)) {
+          name = "_u";
+        }
+
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
