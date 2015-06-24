@@ -52,7 +52,7 @@ module {{moduleName}}
         return if Swagger.authenticated?
 
         if Swagger.configuration.username.blank? || Swagger.configuration.password.blank?
-          raise ClientError, "Username and password are required to authenticate."
+          raise ApiError, "Username and password are required to authenticate."
         end
 
         request = Swagger::Request.new(
@@ -68,11 +68,5 @@ module {{moduleName}}
         Swagger.configuration.auth_token = response_body['token']
       end
     end
-  end
-
-  class ServerError < StandardError
-  end
-
-  class ClientError < StandardError
   end
 end

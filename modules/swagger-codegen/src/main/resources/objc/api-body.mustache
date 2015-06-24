@@ -72,14 +72,16 @@ static NSString * basePath = @"{{basePath}}";
     return [SWGApiClient requestQueueSize];
 }
 
+#pragma mark - Api Methods
 
 {{#operation}}
-/*!
- * {{{summary}}}
- * {{{notes}}}
-{{#allParams}} * \param {{paramName}} {{{description}}}
-{{/allParams}} * \returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
- */
+///
+/// {{{summary}}}
+/// {{{notes}}}
+/// {{#allParams}} @param {{paramName}} {{{description}}}
+///
+/// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+///
 -(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
         {{/allParams}}
         {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock{{/returnBaseType}}
@@ -195,27 +197,19 @@ static NSString * basePath = @"{{basePath}}";
     }
     {{/requiredParams}}
     {{/requiredParamCount}}
-
-    {{#returnContainer}}
-    // response is in a container
-    {{>apiBodyResponseWithContainer}}{{/returnContainer}}
-
-    {{#returnSimpleType}}
-    // non container response
-
-    {{#returnTypeIsPrimitive}}
-    // primitive response
-    {{>apiPrimitiveResponse}}{{/returnTypeIsPrimitive}}
-
-    {{#returnBaseType}}
-    // complex response
-    {{>apiNonPrimitiveResponse}}{{/returnBaseType}}
-    {{/returnSimpleType}}
-
-    {{^returnSimpleType}}{{^returnContainer}}
-    // it's void
-    {{>voidResponse}}
-    {{/returnContainer}}{{/returnSimpleType}}
+    return [self.apiClient requestWithCompletionBlock: requestUrl
+                                               method: @"{{httpMethod}}"
+                                          queryParams: queryParams
+                                                 body: bodyDictionary
+                                         headerParams: headerParams
+                                         authSettings: authSettings
+                                   requestContentType: requestContentType
+                                  responseContentType: responseContentType
+                                      completionBlock: ^(id data, NSError *error) {
+                  {{^returnType}}completionBlock(error);{{/returnType}}
+                  {{#returnType}}completionBlock([self.apiClient deserialize: data class:@"{{{returnType}}}"], error);{{/returnType}}
+              }
+          ];
 }
 
 {{/operation}}
