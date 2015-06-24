@@ -70,7 +70,7 @@ class {{classname}} {
 {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-   public function {{nickname}}({{#allParams}}${{paramName}}{{#required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+   public function {{nickname}}({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
       {{#allParams}}{{#required}}
       // verify the required parameter '{{paramName}}' is set
       if (${{paramName}} === null) {
