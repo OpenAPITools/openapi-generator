@@ -35,10 +35,8 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 import static io.swagger.codegen.plugin.AdditionalParams.API_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.IMPL_FOLDER_PARAM;
 import static io.swagger.codegen.plugin.AdditionalParams.INVOKER_PACKAGE_PARAM;
 import static io.swagger.codegen.plugin.AdditionalParams.MODEL_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.SOURCE_FOLDER_PARAM;
 import static io.swagger.codegen.plugin.AdditionalParams.TEMPLATE_DIR_PARAM;
 
 /**
@@ -67,34 +65,22 @@ public class CodeGenMojo extends AbstractMojo {
     private File templateDirectory;
 
     /**
-     * Folder containing the template files.
+     * The package to use for generated model objects/classes
      */
     @Parameter(name = "modelPackage")
     private String modelPackage;
 
     /**
-     * Folder containing the template files.
+     * The package to use for generated api objects/classes
      */
     @Parameter(name = "apiPackage")
     private String apiPackage;
 
     /**
-     * Folder containing the template files.
+     * The package to use for the generated invoker objects
      */
     @Parameter(name = "invokerPackage")
     private String invokerPackage;
-
-    /**
-     * Folder containing the template files.
-     */
-    @Parameter(name = "implFolder")
-    private String implFolder;
-
-    /**
-     * Folder containing the template files.
-     */
-    @Parameter(name = "sourceFolder")
-    private File sourceFolder;
 
     /**
      * Client language to generate.
@@ -103,7 +89,7 @@ public class CodeGenMojo extends AbstractMojo {
     private String language;
 
     /**
-     * A map of language-specific properties as passed with the -c option to the command line
+     * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
     private Map configOptions;
@@ -139,12 +125,6 @@ public class CodeGenMojo extends AbstractMojo {
         }
         if (null != invokerPackage) {
             config.additionalProperties().put(INVOKER_PACKAGE_PARAM, invokerPackage);
-        }
-        if (null != sourceFolder) {
-            config.additionalProperties().put(SOURCE_FOLDER_PARAM, sourceFolder.getAbsolutePath());
-        }
-        if (null != implFolder) {
-            config.additionalProperties().put(IMPL_FOLDER_PARAM, implFolder);
         }
 
         ClientOpts clientOpts = new ClientOpts();
