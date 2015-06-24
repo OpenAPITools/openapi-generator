@@ -30,12 +30,12 @@ module SwaggerClient
     # attribute type
     def self.swagger_types
       {
-        :'id' => :'int',
+        :'id' => :'Integer',
         :'category' => :'Category',
-        :'name' => :'string',
-        :'photo_urls' => :'array[string]',
-        :'tags' => :'array[Tag]',
-        :'status' => :'string'
+        :'name' => :'String',
+        :'photo_urls' => :'Array<String>',
+        :'tags' => :'Array<Tag>',
+        :'status' => :'String'
         
       }
     end

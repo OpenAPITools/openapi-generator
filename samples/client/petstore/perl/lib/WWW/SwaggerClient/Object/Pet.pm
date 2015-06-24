@@ -20,21 +20,21 @@ use base "WWW::SwaggerClient::Object::BaseObject";
 #
 
 my $swagger_types = {
-      'id' => 'int',
-      'category' => 'Category',
-      'name' => 'string',
-      'photo_urls' => 'ARRAY[string]',
-      'tags' => 'ARRAY[Tag]',
-      'status' => 'string'
+    'id' => 'int',
+    'category' => 'Category',
+    'name' => 'string',
+    'photo_urls' => 'ARRAY[string]',
+    'tags' => 'ARRAY[Tag]',
+    'status' => 'string'
 };
 
 my $attribute_map = {
-      'id' => 'id',
-      'category' => 'category',
-      'name' => 'name',
-      'photo_urls' => 'photoUrls',
-      'tags' => 'tags',
-      'status' => 'status'
+    'id' => 'id',
+    'category' => 'category',
+    'name' => 'name',
+    'photo_urls' => 'photoUrls',
+    'tags' => 'tags',
+    'status' => 'status'
 };
 
 # new object
@@ -60,12 +60,12 @@ sub new {
 
 # get swagger type of the attribute
 sub get_swagger_types {
-  return $swagger_types;
+    return $swagger_types;
 }
 
 # get attribute mappping
 sub get_attribute_map {
-  return $attribute_map;
+    return $attribute_map;
 }
 
 1;

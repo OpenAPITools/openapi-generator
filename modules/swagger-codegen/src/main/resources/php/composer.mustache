@@ -1,5 +1,6 @@
 {
-  "name": "{{invokerPackage}}/{{invokerPackage}}-php",
+  "name": "{{groupId}}/{{artifactId}}",{{#artifactVersion}}
+  "version": "{{artifactVersion}}",{{/artifactVersion}}
   "description": "{{description}}",
   "keywords": [
     "swagger",
@@ -27,6 +28,6 @@
     "squizlabs/php_codesniffer": "~2.0"
   },
   "autoload": {
-    "psr-4": { "{{invokerPackage}}\\" : "lib/" }
+    "psr-4": { "{{escapedInvokerPackage}}\\" : "lib/" }
   }
 }

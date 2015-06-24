@@ -22,47 +22,35 @@
  *
  */
 
-namespace SwaggerClient\models;
+namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
-class Pet implements ArrayAccess {
+class Tag implements ArrayAccess {
+  /** @var string[] Array of property to type mappings. Used for (de)serialization */
   static $swaggerTypes = array(
       'id' => 'int',
-      'category' => 'Category',
-      'name' => 'string',
-      'photo_urls' => 'array[string]',
-      'tags' => 'array[Tag]',
-      'status' => 'string'
+      'name' => 'string'
   );
 
+  /** @var string[] Array of attributes where the key is the local name, and the value is the original name */
   static $attributeMap = array(
       'id' => 'id',
-      'category' => 'category',
-      'name' => 'name',
-      'photo_urls' => 'photoUrls',
-      'tags' => 'tags',
-      'status' => 'status'
+      'name' => 'name'
   );
-
   
-  public $id; /* int */
-  public $category; /* Category */
-  public $name; /* string */
-  public $photo_urls; /* array[string] */
-  public $tags; /* array[Tag] */
+  /** @var int $id */
+  public $id;
+  
+  /** @var string $name */
+  public $name;
+  
   /**
-  * pet status in the store
-  */
-  public $status; /* string */
-
+   * @param mixed[] Array of parameters to initialize the object with
+   */
   public function __construct(array $data = null) {
-    $this->id = $data["id"];
-    $this->category = $data["category"];
-    $this->name = $data["name"];
-    $this->photo_urls = $data["photo_urls"];
-    $this->tags = $data["tags"];
-    $this->status = $data["status"];
+    $this->id = @$data["id"];
+    $this->name = @$data["name"];
   }
 
   public function offsetExists($offset) {

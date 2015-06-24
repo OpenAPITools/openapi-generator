@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "SWGPetApi.h"
+#import "SWGStoreApi.h"
+#import "SWGUserApi.h"
 #import "SWGConfiguration.h"
 
 @interface ViewController ()
@@ -54,14 +56,14 @@
 //                     }
      ];
     */
-    SWGConfiguration *config = [SWGConfiguration sharedConfig];
-    config.username = @"foo";
-    config.password = @"bar";
     SWGPetApi *api = [[SWGPetApi alloc] init];
-    [api addPetWithCompletionBlock:nil
-                 completionHandler:^(NSError *error) {
-                     
-                 }];
+    [api deletePetWithCompletionBlock:@"hello"
+                                petId:@1434529787992
+                    completionHandler:^(NSError *error) {
+                        if (error) {
+                            NSLog(@"%@", error);
+                        }
+                    }];
 }
 
 - (void)didReceiveMemoryWarning
