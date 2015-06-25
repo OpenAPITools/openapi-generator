@@ -3,6 +3,13 @@ module SwaggerClient
     class Configuration
       attr_accessor :format, :api_key, :api_key_prefix, :username, :password, :auth_token, :scheme, :host, :base_path, :user_agent, :logger, :inject_format, :force_ending_format, :camelize_params, :user_agent, :verify_ssl
 
+      # Defines the temporary folder to store downloaded files
+      # (for API endpoints that have file response).
+      # Default to use `Tempfile`.
+      #
+      # @return [String]
+      attr_accessor :temp_folder_path
+
       # Defaults go in here..
       def initialize
         @format = 'json'
