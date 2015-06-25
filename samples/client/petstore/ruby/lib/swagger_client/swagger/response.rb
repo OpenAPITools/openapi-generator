@@ -95,7 +95,7 @@ module SwaggerClient
         tmp_file = Tempfile.new '', Swagger.configuration.temp_folder_path
         content_disposition = raw.headers['Content-Disposition']
         if content_disposition
-          filename = content_disposition[/filename="([^"]+)"/, 1]
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
           path = File.join File.dirname(tmp_file), filename
         else
           path = tmp_file.path
