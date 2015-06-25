@@ -49,6 +49,4 @@ namespace IO.Swagger.Model {
     }
 
 }
-  
-  
 }
