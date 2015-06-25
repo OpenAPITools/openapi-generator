@@ -23,7 +23,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public PhpClientCodegen() {
         super();
 
-        outputFolder = "generated-code/php";
+        outputFolder = "generated-code" + File.separator + "php";
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
         templateDir = "php";
@@ -99,13 +99,27 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar;
         }
 
+        String regFirstPathSeparator;
+        if ("/".equals(File.separator)) { // for mac, linux
+            regFirstPathSeparator = "^/";
+        } else { // for windows
+            regFirstPathSeparator = "^\\\\";
+        }
+
+        String regLastPathSeparator;
+        if ("/".equals(File.separator)) { // for mac, linux
+            regLastPathSeparator = "/$";
+        } else { // for windows
+            regLastPathSeparator = "\\\\$";
+        }
+
         return (getPackagePath() + File.separatorChar + basePath
                     // Replace period, backslash, forward slash with file separator in package name
                     + packageName.replaceAll("[\\.\\\\/]", File.separator)
                     // Trim prefix file separators from package path
-                    .replaceAll("^" + File.separator, ""))
-                // Trim trailing file separators from the overall path
-                .replaceAll(File.separator + "$", "");
+                    .replaceAll(regFirstPathSeparator, ""))
+                    // Trim trailing file separators from the overall path
+                    .replaceAll(regLastPathSeparator+ "$", "");
     }
 
     public CodegenType getTag() {
@@ -127,11 +141,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + toPackagePath(apiPackage(), "lib"));
+        return (outputFolder + File.separator + toPackagePath(apiPackage(), "lib"));
     }
 
     public String modelFileFolder() {
-        return (outputFolder + "/" + toPackagePath(modelPackage(), "lib"));
+        return (outputFolder + File.separator + toPackagePath(modelPackage(), "lib"));
     }
 
     @Override
