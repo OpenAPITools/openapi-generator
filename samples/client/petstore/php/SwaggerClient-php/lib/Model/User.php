@@ -50,45 +50,213 @@ class User implements ArrayAccess {
       'phone' => 'phone',
       'user_status' => 'userStatus'
   );
+
+  /** @var string[] Array of attributes to setter functions (for deserialization of responses) */
+  static $setters = array(
+    'id' => 'setId',
+    'username' => 'setUsername',
+    'first_name' => 'setFirstName',
+    'last_name' => 'setLastName',
+    'email' => 'setEmail',
+    'password' => 'setPassword',
+    'phone' => 'setPhone',
+    'user_status' => 'setUserStatus'
+  );
+
+  /** @var string[] Array of attributes to getter functions (for serialization of requests) */
+  static $getters = array(
+    'id' => 'getId',
+    'username' => 'getUsername',
+    'first_name' => 'getFirstName',
+    'last_name' => 'getLastName',
+    'email' => 'getEmail',
+    'password' => 'getPassword',
+    'phone' => 'getPhone',
+    'user_status' => 'getUserStatus'
+  );
+
   
   /** @var int $id */
-  public $id;
+  protected $id;
   
   /** @var string $username */
-  public $username;
+  protected $username;
   
   /** @var string $first_name */
-  public $first_name;
+  protected $first_name;
   
   /** @var string $last_name */
-  public $last_name;
+  protected $last_name;
   
   /** @var string $email */
-  public $email;
+  protected $email;
   
   /** @var string $password */
-  public $password;
+  protected $password;
   
   /** @var string $phone */
-  public $phone;
+  protected $phone;
   
   /** @var int $user_status User Status */
-  public $user_status;
+  protected $user_status;
+  
+  public function __construct(array $data = null) {
+    if ($data != null) {
+      $this->id = $data["id"];
+      $this->username = $data["username"];
+      $this->first_name = $data["first_name"];
+      $this->last_name = $data["last_name"];
+      $this->email = $data["email"];
+      $this->password = $data["password"];
+      $this->phone = $data["phone"];
+      $this->user_status = $data["user_status"];
+    }
+  }
   
   /**
-   * @param mixed[] Array of parameters to initialize the object with
+   * get id
+   * @return int
    */
-  public function __construct(array $data = null) {
-    $this->id = @$data["id"];
-    $this->username = @$data["username"];
-    $this->first_name = @$data["first_name"];
-    $this->last_name = @$data["last_name"];
-    $this->email = @$data["email"];
-    $this->password = @$data["password"];
-    $this->phone = @$data["phone"];
-    $this->user_status = @$data["user_status"];
+  public function getId() {
+    return $this->id;
   }
 
+  /**
+   * set id
+   * @param int $id
+   * @return $this
+   */
+  public function setId($id) {
+    $this->id = $id;
+    return $this;
+  }
+  
+  /**
+   * get username
+   * @return string
+   */
+  public function getUsername() {
+    return $this->username;
+  }
+
+  /**
+   * set username
+   * @param string $username
+   * @return $this
+   */
+  public function setUsername($username) {
+    $this->username = $username;
+    return $this;
+  }
+  
+  /**
+   * get first_name
+   * @return string
+   */
+  public function getFirstName() {
+    return $this->first_name;
+  }
+
+  /**
+   * set first_name
+   * @param string $first_name
+   * @return $this
+   */
+  public function setFirstName($first_name) {
+    $this->first_name = $first_name;
+    return $this;
+  }
+  
+  /**
+   * get last_name
+   * @return string
+   */
+  public function getLastName() {
+    return $this->last_name;
+  }
+
+  /**
+   * set last_name
+   * @param string $last_name
+   * @return $this
+   */
+  public function setLastName($last_name) {
+    $this->last_name = $last_name;
+    return $this;
+  }
+  
+  /**
+   * get email
+   * @return string
+   */
+  public function getEmail() {
+    return $this->email;
+  }
+
+  /**
+   * set email
+   * @param string $email
+   * @return $this
+   */
+  public function setEmail($email) {
+    $this->email = $email;
+    return $this;
+  }
+  
+  /**
+   * get password
+   * @return string
+   */
+  public function getPassword() {
+    return $this->password;
+  }
+
+  /**
+   * set password
+   * @param string $password
+   * @return $this
+   */
+  public function setPassword($password) {
+    $this->password = $password;
+    return $this;
+  }
+  
+  /**
+   * get phone
+   * @return string
+   */
+  public function getPhone() {
+    return $this->phone;
+  }
+
+  /**
+   * set phone
+   * @param string $phone
+   * @return $this
+   */
+  public function setPhone($phone) {
+    $this->phone = $phone;
+    return $this;
+  }
+  
+  /**
+   * get user_status
+   * @return int
+   */
+  public function getUserStatus() {
+    return $this->user_status;
+  }
+
+  /**
+   * set user_status
+   * @param int $user_status
+   * @return $this
+   */
+  public function setUserStatus($user_status) {
+    $this->user_status = $user_status;
+    return $this;
+  }
+  
   public function offsetExists($offset) {
     return isset($this->$offset);
   }

@@ -1,6 +1,6 @@
 <?php
 
-require_once('SwaggerClient.php');
+require_once('autoload.php');
 
 class StoreApiTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,8 +16,9 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
   public function testGetInventory()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
-    $store_api = new SwaggerClient\StoreAPI($api_client);
+    $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
+    $api_client = new Swagger\Client\ApiClient($config);
+    $store_api = new Swagger\Client\Api\StoreAPI($api_client);
     // get inventory
     $get_response = $store_api->getInventory();
 
