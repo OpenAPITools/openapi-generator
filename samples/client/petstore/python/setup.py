@@ -1,6 +1,9 @@
 import sys
 from setuptools import setup, find_packages
 
+NAME = "swagger_client"
+VERSION = "1.0.0"
+
 
 
 # To install the library, open a Terminal shell, then run this
@@ -15,8 +18,8 @@ from setuptools import setup, find_packages
 REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi"]
 
 setup(
-    name="SwaggerPetstore",
-    version="1.0.0",
+    name=NAME,
+    version=VERSION,
     description="Swagger Petstore",
     author_email="apiteam@swagger.io",
     url="",
