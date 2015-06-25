@@ -3,7 +3,7 @@
 """
 Run the tests.
 $ pip install nose (optional)
-$ cd SwaggerPetstore-python
+$ cd swagger_client-python
 $ nosetests -v
 """
 
@@ -11,25 +11,25 @@ import os
 import time
 import unittest
 
-import SwaggerPetstore
-from SwaggerPetstore.rest import ApiException
+import swagger_client
+from swagger_client.rest import ApiException
 
 
 class ApiExceptionTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = SwaggerPetstore.ApiClient()
-        self.pet_api = SwaggerPetstore.PetApi(self.api_client)
+        self.api_client = swagger_client.ApiClient()
+        self.pet_api = swagger_client.PetApi(self.api_client)
         self.setUpModels()
 
     def setUpModels(self):
-        self.category = SwaggerPetstore.Category()
+        self.category = swagger_client.Category()
         self.category.id = int(time.time())
         self.category.name = "dog"
-        self.tag = SwaggerPetstore.Tag()
+        self.tag = swagger_client.Tag()
         self.tag.id = int(time.time())
         self.tag.name = "blank"
-        self.pet = SwaggerPetstore.Pet()
+        self.pet = swagger_client.Pet()
         self.pet.id = int(time.time())
         self.pet.name = "hello kity"
         self.pet.photo_urls = ["http://foo.bar.com/1", "http://foo.bar.com/2"]
