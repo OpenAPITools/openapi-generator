@@ -516,7 +516,7 @@ class PetApi {
         $formParams['additionalMetadata'] = $this->apiClient->toFormValue($additional_metadata);
       }// form params
       if ($file !== null) {
-        $formParams['file'] = '@' . $this->apiClient->toFormValue($file);
+        $formParams['file'] = '@'.$this->apiClient->toFormValue($file);
       }
       
 
