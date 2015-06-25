@@ -86,10 +86,13 @@ module SwaggerClient
         end
       end
 
-      # Save response body into a file in tmp folder, using the filename from the
-      # "Content-Disposition" header if provided, otherwise a random filename.
+      # Save response body into a file in (the defined) temporary folder, using the filename
+      # from the "Content-Disposition" header if provided, otherwise a random filename.
+      #
+      # @see Configuration#temp_folder_path
+      # @return [File] the file downloaded
       def download_file
-        tmp_file = Tempfile.new ''
+        tmp_file = Tempfile.new '', Swagger.configuration.temp_folder_path
         content_disposition = raw.headers['Content-Disposition']
         if content_disposition
           filename = content_disposition[/filename="([^"]+)"/, 1]
@@ -99,7 +102,9 @@ module SwaggerClient
         end
         # close and delete temp file
         tmp_file.close!
+
         File.open(path, 'w') { |file| file.write(raw.body) }
+        Swagger.logger.info "File written to #{path}. Please move the file to a proper folder for further processing and delete the temp afterwards"
         return File.new(path)
       end
 
