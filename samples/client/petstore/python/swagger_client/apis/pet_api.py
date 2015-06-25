@@ -46,7 +46,7 @@ class PetApi(object):
         Update an existing pet
         
 
-        :param Pet body: Pet object that needs to be added to the store 
+        :param Pet body: Pet object that needs to be added to the store (optional)
         
         :return: None
         """
@@ -97,7 +97,7 @@ class PetApi(object):
         Add a new pet to the store
         
 
-        :param Pet body: Pet object that needs to be added to the store 
+        :param Pet body: Pet object that needs to be added to the store (optional)
         
         :return: None
         """
@@ -148,7 +148,7 @@ class PetApi(object):
         Finds Pets by status
         Multiple status values can be provided with comma seperated strings
 
-        :param list[str] status: Status values that need to be considered for filter 
+        :param list[str] status: Status values that need to be considered for filter (optional)
         
         :return: list[Pet]
         """
@@ -201,7 +201,7 @@ class PetApi(object):
         Finds Pets by tags
         Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
-        :param list[str] tags: Tags to filter by 
+        :param list[str] tags: Tags to filter by (optional)
         
         :return: list[Pet]
         """
@@ -312,8 +312,8 @@ class PetApi(object):
         
 
         :param str pet_id: ID of pet that needs to be updated (required)
-        :param str name: Updated name of the pet 
-        :param str status: Updated status of the pet 
+        :param str name: Updated name of the pet (optional)
+        :param str status: Updated status of the pet (optional)
         
         :return: None
         """
@@ -374,7 +374,7 @@ class PetApi(object):
         Deletes a pet
         
 
-        :param str api_key:  
+        :param str api_key:  (optional)
         :param int pet_id: Pet id to delete (required)
         
         :return: None
@@ -434,8 +434,8 @@ class PetApi(object):
         
 
         :param int pet_id: ID of pet to update (required)
-        :param str additional_metadata: Additional data to pass to server 
-        :param File file: file to upload 
+        :param str additional_metadata: Additional data to pass to server (optional)
+        :param File file: file to upload (optional)
         
         :return: None
         """

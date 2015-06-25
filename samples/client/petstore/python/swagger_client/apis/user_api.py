@@ -46,7 +46,7 @@ class UserApi(object):
         Create user
         This can only be done by the logged in user.
 
-        :param User body: Created user object 
+        :param User body: Created user object (optional)
         
         :return: None
         """
@@ -97,7 +97,7 @@ class UserApi(object):
         Creates list of users with given input array
         
 
-        :param list[User] body: List of user object 
+        :param list[User] body: List of user object (optional)
         
         :return: None
         """
@@ -148,7 +148,7 @@ class UserApi(object):
         Creates list of users with given input array
         
 
-        :param list[User] body: List of user object 
+        :param list[User] body: List of user object (optional)
         
         :return: None
         """
@@ -199,8 +199,8 @@ class UserApi(object):
         Logs user into the system
         
 
-        :param str username: The user name for login 
-        :param str password: The password for login in clear text 
+        :param str username: The user name for login (optional)
+        :param str password: The password for login in clear text (optional)
         
         :return: str
         """
@@ -361,7 +361,7 @@ class UserApi(object):
         This can only be done by the logged in user.
 
         :param str username: name that need to be deleted (required)
-        :param User body: Updated user object 
+        :param User body: Updated user object (optional)
         
         :return: None
         """
