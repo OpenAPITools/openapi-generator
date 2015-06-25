@@ -95,7 +95,7 @@ class StoreApi(object):
         Place an order for a pet
         
 
-        :param Order body: order placed for purchasing the pet 
+        :param Order body: order placed for purchasing the pet (optional)
         
         :return: Order
         """

@@ -35,7 +35,7 @@ class UserApi(object):
         This can only be done by the logged in user.
 
         Args:
-            body, User: Created user object (required)
+            body, User: Created user object (optional)
             
 
         Returns: 
@@ -77,7 +77,7 @@ class UserApi(object):
         
 
         Args:
-            body, list[User]: List of user object (required)
+            body, list[User]: List of user object (optional)
             
 
         Returns: 
@@ -119,7 +119,7 @@ class UserApi(object):
         
 
         Args:
-            body, list[User]: List of user object (required)
+            body, list[User]: List of user object (optional)
             
 
         Returns: 
@@ -161,8 +161,8 @@ class UserApi(object):
         
 
         Args:
-            username, str: The user name for login (required)
-            password, str: The password for login in clear text (required)
+            username, str: The user name for login (optional)
+            password, str: The password for login in clear text (optional)
             
 
         Returns: str
@@ -311,7 +311,7 @@ class UserApi(object):
 
         Args:
             username, str: name that need to be deleted (required)
-            body, User: Updated user object (required)
+            body, User: Updated user object (optional)
             
 
         Returns: 
