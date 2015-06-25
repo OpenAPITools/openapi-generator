@@ -77,6 +77,4 @@ namespace IO.Swagger.Model {
     }
 
 }
-  
-  
 }

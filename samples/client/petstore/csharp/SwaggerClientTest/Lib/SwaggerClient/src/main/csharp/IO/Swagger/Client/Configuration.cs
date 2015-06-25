@@ -4,13 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using IO.Swagger.Client;
 
 namespace IO.Swagger.Client {
   /// <summary>
   /// Represents a set of configuration settings
   /// </summary>
   public class Configuration{
+
+    /// <summary>
+    /// Version of the package
+    /// </summary>
+    public const string Version = "1.0.0";
 
     /// <summary>
     /// Gets or sets the API client. This is the default API client for making HTTP calls.
