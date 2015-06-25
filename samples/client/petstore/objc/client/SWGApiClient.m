@@ -486,7 +486,7 @@ static bool loggingEnabled = true;
                          completionBlock: (void (^)(id, NSError *))completionBlock {
     // setting request serializer
     if ([requestContentType isEqualToString:@"application/json"]) {
-        self.requestSerializer = [AFJSONRequestSerializer serializer];
+        self.requestSerializer = [SWGJSONRequestSerializer serializer];
     }
     else if ([requestContentType isEqualToString:@"application/x-www-form-urlencoded"]) {
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -569,9 +569,11 @@ static bool loggingEnabled = true;
                                                  parameters: body
                                                       error: nil];
     }
+  
     BOOL hasHeaderParams = false;
-    if(headerParams != nil && [headerParams count] > 0)
+    if(headerParams != nil && [headerParams count] > 0) {
         hasHeaderParams = true;
+    }
     if(offlineState) {
         NSLog(@"%@ cache forced", path);
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
@@ -585,17 +587,7 @@ static bool loggingEnabled = true;
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
-
-    if(body != nil) {
-        if([body isKindOfClass:[NSDictionary class]] || [body isKindOfClass:[NSArray class]]){
-            [self.requestSerializer setValue:requestContentType forHTTPHeaderField:@"Content-Type"];
-        }
-        else if ([body isKindOfClass:[SWGFile class]]){}
-        else {
-            NSAssert(false, @"unsupported post type!");
-        }
-    }
-    if(headerParams != nil){
+    if(hasHeaderParams){
         for(NSString * key in [headerParams keyEnumerator]){
             [request setValue:[headerParams valueForKey:key] forHTTPHeaderField:key];
         }

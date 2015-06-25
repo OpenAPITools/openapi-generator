@@ -11,10 +11,13 @@
 		CF0560EB1B1855CF00C0D4EC /* SWGConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0560EA1B1855CF00C0D4EC /* SWGConfiguration.m */; };
 		CF31D0991B105E4B00509935 /* SWGApiClientTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF31D0981B105E4B00509935 /* SWGApiClientTest.m */; };
 		CF5B6E2D1B2BD70800862A1C /* UserApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5B6E2C1B2BD70800862A1C /* UserApiTest.m */; };
+		CF8F85811B3A4796000DE569 /* SWGMythingApi.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8F85801B3A4796000DE569 /* SWGMythingApi.m */; };
+		CF8F85841B3A4913000DE569 /* SWGMyresult.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8F85831B3A4913000DE569 /* SWGMyresult.m */; };
 		CFB37D061B2B11DD00D2E5F1 /* StoreApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB37D051B2B11DC00D2E5F1 /* StoreApiTest.m */; };
 		CFCEFE511B2C1330006313BE /* SWGJSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCEFE501B2C1330006313BE /* SWGJSONResponseSerializer.m */; };
 		CFD1B6701B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */; };
 		CFD1B6711B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */; };
+		CFE1E0391B3AA4EE0030FE7C /* SWGJSONRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE1E0381B3AA4EE0030FE7C /* SWGJSONRequestSerializer.m */; };
 		EA66999A1811D2FA00A70D03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6699991811D2FA00A70D03 /* Foundation.framework */; };
 		EA66999C1811D2FA00A70D03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999B1811D2FA00A70D03 /* CoreGraphics.framework */; };
 		EA66999E1811D2FA00A70D03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA66999D1811D2FA00A70D03 /* UIKit.framework */; };
@@ -64,11 +67,17 @@
 		CF0560EA1B1855CF00C0D4EC /* SWGConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGConfiguration.m; sourceTree = "<group>"; };
 		CF31D0981B105E4B00509935 /* SWGApiClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiClientTest.m; sourceTree = "<group>"; };
 		CF5B6E2C1B2BD70800862A1C /* UserApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserApiTest.m; sourceTree = "<group>"; };
+		CF8F857F1B3A4796000DE569 /* SWGMythingApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGMythingApi.h; sourceTree = "<group>"; };
+		CF8F85801B3A4796000DE569 /* SWGMythingApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGMythingApi.m; sourceTree = "<group>"; };
+		CF8F85821B3A4913000DE569 /* SWGMyresult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGMyresult.h; sourceTree = "<group>"; };
+		CF8F85831B3A4913000DE569 /* SWGMyresult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGMyresult.m; sourceTree = "<group>"; };
 		CFB37D051B2B11DC00D2E5F1 /* StoreApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreApiTest.m; sourceTree = "<group>"; };
 		CFCEFE4F1B2C1330006313BE /* SWGJSONResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGJSONResponseSerializer.h; sourceTree = "<group>"; };
 		CFCEFE501B2C1330006313BE /* SWGJSONResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGJSONResponseSerializer.m; sourceTree = "<group>"; };
 		CFD1B66E1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSONValueTransformer+ISO8601.h"; sourceTree = "<group>"; };
 		CFD1B66F1B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSONValueTransformer+ISO8601.m"; sourceTree = "<group>"; };
+		CFE1E0371B3AA4EE0030FE7C /* SWGJSONRequestSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWGJSONRequestSerializer.h; sourceTree = "<group>"; };
+		CFE1E0381B3AA4EE0030FE7C /* SWGJSONRequestSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGJSONRequestSerializer.m; sourceTree = "<group>"; };
 		E2B6DA00BE52336E23783686 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		EA6699961811D2FA00A70D03 /* SwaggerClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwaggerClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA6699991811D2FA00A70D03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -253,11 +262,17 @@
 				EAEA85D21811D3AE00F06E69 /* SWGFile.h */,
 				EAEA85D31811D3AE00F06E69 /* SWGFile.m */,
 				EAEA85D41811D3AE00F06E69 /* SWGObject.h */,
+				CF8F85821B3A4913000DE569 /* SWGMyresult.h */,
+				CF8F85831B3A4913000DE569 /* SWGMyresult.m */,
+				CF8F857F1B3A4796000DE569 /* SWGMythingApi.h */,
+				CF8F85801B3A4796000DE569 /* SWGMythingApi.m */,
 				EAEA85D51811D3AE00F06E69 /* SWGObject.m */,
 				EAEA85D61811D3AE00F06E69 /* SWGOrder.h */,
 				EAEA85D71811D3AE00F06E69 /* SWGOrder.m */,
 				EAB26B0E1AC8E692002F5C7A /* SWGPet.h */,
 				CFCEFE4F1B2C1330006313BE /* SWGJSONResponseSerializer.h */,
+				CFE1E0371B3AA4EE0030FE7C /* SWGJSONRequestSerializer.h */,
+				CFE1E0381B3AA4EE0030FE7C /* SWGJSONRequestSerializer.m */,
 				CFCEFE501B2C1330006313BE /* SWGJSONResponseSerializer.m */,
 				EAEA85D91811D3AE00F06E69 /* SWGPet.m */,
 				EAEA85DA1811D3AE00F06E69 /* SWGPetApi.h */,
@@ -420,13 +435,16 @@
 				EAEA85EB1811D3AE00F06E69 /* SWGPetApi.m in Sources */,
 				EA6699A61811D2FA00A70D03 /* main.m in Sources */,
 				CFD1B6701B05EC7D00DCCD51 /* JSONValueTransformer+ISO8601.m in Sources */,
+				CF8F85841B3A4913000DE569 /* SWGMyresult.m in Sources */,
 				EAEA85EA1811D3AE00F06E69 /* SWGPet.m in Sources */,
 				EAEA85E41811D3AE00F06E69 /* SWGApiClient.m in Sources */,
 				EAEA85EC1811D3AE00F06E69 /* SWGStoreApi.m in Sources */,
 				EAEA85E91811D3AE00F06E69 /* SWGOrder.m in Sources */,
+				CF8F85811B3A4796000DE569 /* SWGMythingApi.m in Sources */,
 				EAEA85E81811D3AE00F06E69 /* SWGObject.m in Sources */,
 				EA8B8AA41AC6683700638FBB /* SWGQueryParamCollection.m in Sources */,
 				CFCEFE511B2C1330006313BE /* SWGJSONResponseSerializer.m in Sources */,
+				CFE1E0391B3AA4EE0030FE7C /* SWGJSONRequestSerializer.m in Sources */,
 				EAEA85E71811D3AE00F06E69 /* SWGFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -89,7 +89,9 @@ static NSString * basePath = @"{{basePath}}";
 
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
-    NSAssert({{paramName}} != nil, @"Missing the required parameter `{{paramName}}` when calling {{nickname}}");
+    if ({{paramName}} == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `{{paramName}}` when calling `{{nickname}}`"];
+    }
     {{/required}}{{/allParams}}
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@{{path}}", basePath];
@@ -135,14 +137,14 @@ static NSString * basePath = @"{{basePath}}";
 
     // Authentication setting
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
-    
-    id bodyDictionary = nil;
-    {{#bodyParam}}
-    id __body = {{paramName}};
 
-    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
-        NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)__body) {
+    id bodyParam = nil;
+    {{#bodyParam}}
+    bodyParam = {{paramName}};
+
+    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
+        NSMutableArray *objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)bodyParam) {
             if([dict respondsToSelector:@selector(toDictionary)]) {
                 [objs addObject:[(SWGObject*)dict toDictionary]];
             }
@@ -150,20 +152,10 @@ static NSString * basePath = @"{{basePath}}";
                 [objs addObject:dict];
             }
         }
-        bodyDictionary = objs;
+        bodyParam = objs;
     }
-    else if([__body respondsToSelector:@selector(toDictionary)]) {
-        bodyDictionary = [(SWGObject*)__body toDictionary];
-    }
-    else if([__body isKindOfClass:[NSString class]]) {
-        // convert it to a dictionary
-        NSError * error;
-        NSString * str = (NSString*)__body;
-        NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
-                                            options: NSJSONReadingMutableContainers
-                                              error: &error];
-        bodyDictionary = JSON;
+    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
+        bodyParam = [(SWGObject*)bodyParam toDictionary];
     }
     {{/bodyParam}}
     {{^bodyParam}}
@@ -175,18 +167,18 @@ static NSString * basePath = @"{{basePath}}";
     formParams[@"{{paramName}}"] = {{paramName}};
     {{/notFile}}{{#isFile}}
     requestContentType = @"multipart/form-data";
-    if(bodyDictionary == nil) {
-      bodyDictionary = [[NSMutableArray alloc] init];
+    if(bodyParam == nil) {
+      bodyParam = [[NSMutableArray alloc] init];
     }
     if({{paramName}} != nil) {
-      [bodyDictionary addObject:{{paramName}}];
+      [bodyParam addObject:{{paramName}}];
       {{paramName}}.paramName  = @"{{baseName}}";
     }
     {{/isFile}}
-    if(bodyDictionary == nil) {
-      bodyDictionary = [[NSMutableArray alloc] init];
+    if(bodyParam == nil) {
+      bodyParam = [[NSMutableArray alloc] init];
     }
-    [bodyDictionary addObject:formParams];
+    [bodyParam addObject:formParams];
     {{/formParams}}
     {{/bodyParam}}
 
@@ -200,7 +192,7 @@ static NSString * basePath = @"{{basePath}}";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"{{httpMethod}}"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
