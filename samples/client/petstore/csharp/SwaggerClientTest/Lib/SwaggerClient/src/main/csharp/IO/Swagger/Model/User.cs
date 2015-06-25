@@ -91,6 +91,4 @@ namespace IO.Swagger.Model {
     }
 
 }
-  
-  
 }
