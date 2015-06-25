@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 
 {{#models}}
 {{#model}}
-namespace {{package}} {
+namespace {{packageName}}.Model {
 
   /// <summary>
   /// {{description}}
   /// </summary>
   [DataContract]
-  public class {{classname}} {
+  public class {{classname}}{{#parent}} : {{{parent}}}{{/parent}} {
     {{#vars}}
     {{#description}}/* {{{description}}} */{{/description}}
     [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
@@ -39,11 +39,11 @@ namespace {{package}} {
     /// Get the JSON string presentation of the object
     /// </summary>
     /// <returns>JSON string presentation of the object</returns>
-    public string ToJson() {
+    public {{#parent}} new {{/parent}}string ToJson() {
       return JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 
 }
-  {{/model}}
-  {{/models}}
+{{/model}}
+{{/models}}
 }
