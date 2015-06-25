@@ -286,7 +286,7 @@ module SwaggerClient
     # @param pet_id ID of pet to update
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
-    # @option opts [file] :file file to upload
+    # @option opts [File] :file file to upload
     # @return [nil]
     def self.upload_file(pet_id, opts = {})
       
