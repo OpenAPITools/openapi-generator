@@ -19,6 +19,6 @@
  */
 @property(nonatomic) NSString* status;
 
-@property(nonatomic) BOOL complete;
+@property(nonatomic) NSNumber* complete;
 
 @end

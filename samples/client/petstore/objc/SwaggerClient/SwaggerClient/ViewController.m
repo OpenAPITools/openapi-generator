@@ -7,10 +7,14 @@
 //
 
 #import "ViewController.h"
+#import "SWGPet.h"
+#import "SWGCategory.h"
+#import "SWGTag.h"
 #import "SWGPetApi.h"
 #import "SWGStoreApi.h"
 #import "SWGUserApi.h"
 #import "SWGConfiguration.h"
+#import "SWGMythingApi.h"
 
 @interface ViewController ()
 
@@ -21,49 +25,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     
-/*
-    SWGPetApi * api = [[SWGPetApi alloc] init];
-    [api getPetByIdWithCompletionBlock:@10 completionHandler:^(SWGPet *output, NSError *error) {
-        NSLog(@"%@", [output asDictionary]);
-        [output set_id:@101];
-        [api addPetWithCompletionBlock:output completionHandler:^(NSError *error) {
-            NSLog(@"Done!");
-        }];
-
-//         load data into file
-    }];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test-1" ofType:@"png"];
-    NSData *myData = [NSData dataWithContentsOfFile:filePath];
+    /*
+    NSDictionary *cateHash = @{ @"id": @123, @"name": @"test name" };
+    NSDictionary *tagHash = @{ @"id": @123, @"name": @"test name" };
+    NSDictionary *petHash = @{ @"id": @123, @"test": @(YES), @"name": @"test name", @"category": cateHash, @"tags": @[tagHash], @"photoUrls": @[@"test url"] };
+    SWGPet *pet = [[SWGPet alloc] initWithDictionary:petHash
+                                               error:nil];
     
-    SWGFile *file = [[SWGFile alloc] initWithNameData:@"test-2.png" mimeType:@"image/png" data:myData];
-    [api uploadFileWithCompletionBlock:@1
-                    additionalMetadata:@"some metadata"
-                                  file:file
-                     completionHandler:^(NSError *error) {
-                        if(error) {
-                          NSLog(@"%@", error);
-                        }
-                     }
-//                     completionHandler:^(SWGApiResponse *output, NSError *error) {
-//                         if(error) {
-//                             NSLog(@"%@", error);
-//                         }
-//                         else {
-//                             NSLog(@"%@", [output asDictionary]);
-//                         }
-//                     }
-     ];
-    */
     SWGPetApi *api = [[SWGPetApi alloc] init];
-    [api deletePetWithCompletionBlock:@"hello"
-                                petId:@1434529787992
-                    completionHandler:^(NSError *error) {
-                        if (error) {
-                            NSLog(@"%@", error);
-                        }
-                    }];
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    */
+    
 }
 
 - (void)didReceiveMemoryWarning

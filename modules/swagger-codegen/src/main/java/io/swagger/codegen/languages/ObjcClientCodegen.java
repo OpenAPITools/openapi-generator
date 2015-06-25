@@ -70,14 +70,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "double", "protocol", "interface", "implementation",
                         "NSObject", "NSInteger", "NSNumber", "CGFloat",
                         "property", "nonatomic", "retain", "strong",
-                        "weak", "unsafe_unretained", "readwrite", "readonly"
+                        "weak", "unsafe_unretained", "readwrite", "readonly",
+                        "description"
                 ));
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
         typeMapping.put("Date", "NSDate");
         typeMapping.put("DateTime", "NSDate");
-        typeMapping.put("boolean", "BOOL");
+        typeMapping.put("boolean", "NSNumber");
         typeMapping.put("string", "NSString");
         typeMapping.put("integer", "NSNumber");
         typeMapping.put("int", "NSNumber");
@@ -147,6 +148,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("SWGApiClient-body.mustache", sourceFolder, "SWGApiClient.m"));
         supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-header.mustache", sourceFolder, "SWGJSONResponseSerializer.h"));
         supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-body.mustache", sourceFolder, "SWGJSONResponseSerializer.m"));
+        supportingFiles.add(new SupportingFile("SWGJSONRequestSerializer-body.mustache", sourceFolder, "SWGJSONRequestSerializer.m"));
+        supportingFiles.add(new SupportingFile("SWGJSONRequestSerializer-header.mustache", sourceFolder, "SWGJSONRequestSerializer.h"));
         supportingFiles.add(new SupportingFile("SWGFile.h", sourceFolder, "SWGFile.h"));
         supportingFiles.add(new SupportingFile("SWGFile.m", sourceFolder, "SWGFile.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", sourceFolder, "JSONValueTransformer+ISO8601.m"));

@@ -120,14 +120,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
-    
-    id __body = body;
 
-    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
-        NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)__body) {
+    id bodyParam = nil;
+    
+    bodyParam = body;
+
+    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
+        NSMutableArray *objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)bodyParam) {
             if([dict respondsToSelector:@selector(toDictionary)]) {
                 [objs addObject:[(SWGObject*)dict toDictionary]];
             }
@@ -135,20 +135,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                 [objs addObject:dict];
             }
         }
-        bodyDictionary = objs;
+        bodyParam = objs;
     }
-    else if([__body respondsToSelector:@selector(toDictionary)]) {
-        bodyDictionary = [(SWGObject*)__body toDictionary];
-    }
-    else if([__body isKindOfClass:[NSString class]]) {
-        // convert it to a dictionary
-        NSError * error;
-        NSString * str = (NSString*)__body;
-        NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
-                                            options: NSJSONReadingMutableContainers
-                                              error: &error];
-        bodyDictionary = JSON;
+    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
+        bodyParam = [(SWGObject*)bodyParam toDictionary];
     }
     
     
@@ -157,7 +147,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"POST"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
@@ -217,14 +207,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
-    
-    id __body = body;
 
-    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
-        NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)__body) {
+    id bodyParam = nil;
+    
+    bodyParam = body;
+
+    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
+        NSMutableArray *objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)bodyParam) {
             if([dict respondsToSelector:@selector(toDictionary)]) {
                 [objs addObject:[(SWGObject*)dict toDictionary]];
             }
@@ -232,20 +222,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                 [objs addObject:dict];
             }
         }
-        bodyDictionary = objs;
+        bodyParam = objs;
     }
-    else if([__body respondsToSelector:@selector(toDictionary)]) {
-        bodyDictionary = [(SWGObject*)__body toDictionary];
-    }
-    else if([__body isKindOfClass:[NSString class]]) {
-        // convert it to a dictionary
-        NSError * error;
-        NSString * str = (NSString*)__body;
-        NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
-                                            options: NSJSONReadingMutableContainers
-                                              error: &error];
-        bodyDictionary = JSON;
+    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
+        bodyParam = [(SWGObject*)bodyParam toDictionary];
     }
     
     
@@ -254,7 +234,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"POST"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
@@ -314,14 +294,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
-    
-    id __body = body;
 
-    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
-        NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)__body) {
+    id bodyParam = nil;
+    
+    bodyParam = body;
+
+    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
+        NSMutableArray *objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)bodyParam) {
             if([dict respondsToSelector:@selector(toDictionary)]) {
                 [objs addObject:[(SWGObject*)dict toDictionary]];
             }
@@ -329,20 +309,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                 [objs addObject:dict];
             }
         }
-        bodyDictionary = objs;
+        bodyParam = objs;
     }
-    else if([__body respondsToSelector:@selector(toDictionary)]) {
-        bodyDictionary = [(SWGObject*)__body toDictionary];
-    }
-    else if([__body isKindOfClass:[NSString class]]) {
-        // convert it to a dictionary
-        NSError * error;
-        NSString * str = (NSString*)__body;
-        NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
-                                            options: NSJSONReadingMutableContainers
-                                              error: &error];
-        bodyDictionary = JSON;
+    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
+        bodyParam = [(SWGObject*)bodyParam toDictionary];
     }
     
     
@@ -351,7 +321,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"POST"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
@@ -422,8 +392,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
+
+    id bodyParam = nil;
     
     
 
@@ -436,7 +406,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"GET"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
@@ -493,8 +463,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
+
+    id bodyParam = nil;
     
     
 
@@ -507,7 +477,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"GET"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
@@ -533,7 +503,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
     // verify the required parameter 'username' is set
-    NSAssert(username != nil, @"Missing the required parameter `username` when calling getUserByName");
+    if (username == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `getUserByName`"];
+    }
     
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
@@ -571,8 +543,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
+
+    id bodyParam = nil;
     
     
 
@@ -585,7 +557,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"GET"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
@@ -614,7 +586,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
     // verify the required parameter 'username' is set
-    NSAssert(username != nil, @"Missing the required parameter `username` when calling updateUser");
+    if (username == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `updateUser`"];
+    }
     
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
@@ -652,14 +626,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
-    
-    id __body = body;
 
-    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
-        NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)__body) {
+    id bodyParam = nil;
+    
+    bodyParam = body;
+
+    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
+        NSMutableArray *objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)bodyParam) {
             if([dict respondsToSelector:@selector(toDictionary)]) {
                 [objs addObject:[(SWGObject*)dict toDictionary]];
             }
@@ -667,20 +641,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                 [objs addObject:dict];
             }
         }
-        bodyDictionary = objs;
+        bodyParam = objs;
     }
-    else if([__body respondsToSelector:@selector(toDictionary)]) {
-        bodyDictionary = [(SWGObject*)__body toDictionary];
-    }
-    else if([__body isKindOfClass:[NSString class]]) {
-        // convert it to a dictionary
-        NSError * error;
-        NSString * str = (NSString*)__body;
-        NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
-                                            options: NSJSONReadingMutableContainers
-                                              error: &error];
-        bodyDictionary = JSON;
+    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
+        bodyParam = [(SWGObject*)bodyParam toDictionary];
     }
     
     
@@ -689,7 +653,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"PUT"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
@@ -715,7 +679,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
     // verify the required parameter 'username' is set
-    NSAssert(username != nil, @"Missing the required parameter `username` when calling deleteUser");
+    if (username == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `deleteUser`"];
+    }
     
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/user/{username}", basePath];
@@ -753,8 +719,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     // Authentication setting
     NSArray *authSettings = @[];
-    
-    id bodyDictionary = nil;
+
+    id bodyParam = nil;
     
     
 
@@ -767,7 +733,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"DELETE"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType

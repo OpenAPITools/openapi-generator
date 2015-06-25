@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <ISO8601/ISO8601.h>
 #import "AFHTTPRequestOperationManager.h"
-#import "SWGJSONResponseSerializer.h"  
+#import "SWGJSONResponseSerializer.h"
+#import "SWGJSONRequestSerializer.h"  
 
 #import "SWGUser.h"  
 #import "SWGCategory.h"  
