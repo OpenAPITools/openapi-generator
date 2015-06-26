@@ -37,7 +37,7 @@ module {{moduleName}}
       end
 
       def authenticated?
-        Swagger.configuration.auth_token.present?
+        !Swagger.configuration.auth_token.nil?
       end
 
       def de_authenticate
@@ -47,7 +47,7 @@ module {{moduleName}}
       def authenticate
         return if Swagger.authenticated?
 
-        if Swagger.configuration.username.blank? || Swagger.configuration.password.blank?
+        if Swagger.configuration.username.nil? || Swagger.configuration.password.nil?
           raise ApiError, "Username and password are required to authenticate."
         end
 

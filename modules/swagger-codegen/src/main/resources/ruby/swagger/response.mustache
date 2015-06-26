@@ -30,7 +30,7 @@ module {{moduleName}}
       #
       # @param [String] return_type some examples: "User", "Array[User]", "Hash[String,Integer]"
       def deserialize(return_type)
-        return nil if body.blank?
+        return nil if body.nil? || body.empty?
 
         # ensuring a default content type
         content_type = raw.headers_hash['Content-Type'] || 'application/json'
@@ -106,9 +106,11 @@ module {{moduleName}}
       end
 
       def pretty_body
-        return unless body.present?
-        case format
-        when 'json' then JSON.pretty_generate(JSON.parse(body)).gsub(/\n/, '<br/>')
+        return unless body
+        if format == 'json'
+          JSON.pretty_generate(JSON.parse(body)).gsub(/\n/, '<br/>')
+        else
+          body
         end
       end
 
