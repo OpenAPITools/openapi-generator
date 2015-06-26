@@ -12,12 +12,15 @@ require_once(__DIR__ . '/SwaggerClient-php/autoload.php');
 // to enable logging
 //SwaggerClient\Configuration::$debug = true;
 //SwaggerClient\Configuration::$debug_file = '/var/tmp/php_debug.log';
+Swagger\Client\Configuration::getDefaultConfiguration()->setTempFolderPath('/var/tmp/php/');
 
 $petId = 10005; // ID of pet that needs to be fetched
 try {
     // get pet by id
     //$pet_api = new SwaggerClient\PetAPI($api_client);
     $pet_api = new Swagger\Client\Api\PetAPI();
+    $pet_api->getApiClient()->getConfig()->setTempFolderPath('/var/tmp/php/');
+    print_r($pet_api->getApiClient()->getConfig()->getTempFolderPath());
     // test default header
     //$pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
     // return Pet (model)

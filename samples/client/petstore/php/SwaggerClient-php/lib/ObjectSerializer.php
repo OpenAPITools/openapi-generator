@@ -9,29 +9,29 @@ class ObjectSerializer {
      * @return string serialized form of $data
      */
     public function sanitizeForSerialization($data) {
-      if (is_scalar($data) || null === $data) {
-        $sanitized = $data;
-      } else if ($data instanceof \DateTime) {
-        $sanitized = $data->format(\DateTime::ISO8601);
-      } else if (is_array($data)) {
-        foreach ($data as $property => $value) {
-          $data[$property] = $this->sanitizeForSerialization($value);
+        if (is_scalar($data) || null === $data) {
+            $sanitized = $data;
+        } else if ($data instanceof \DateTime) {
+            $sanitized = $data->format(\DateTime::ISO8601);
+        } else if (is_array($data)) {
+            foreach ($data as $property => $value) {
+                $data[$property] = $this->sanitizeForSerialization($value);
+            }
+            $sanitized = $data;
+        } else if (is_object($data)) {
+            $values = array();
+            foreach (array_keys($data::$swaggerTypes) as $property) {
+                $getter = $data::$getters[$property];
+                if ($data->$getter() !== null) {
+                    $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$getter());
+                }
+            }
+            $sanitized = $values;
+        } else {
+            $sanitized = (string)$data;
         }
-        $sanitized = $data;
-      } else if (is_object($data)) {
-        $values = array();
-        foreach (array_keys($data::$swaggerTypes) as $property) {
-          $getter = $data::$getters[$property];
-          if ($data->$getter() !== null) {
-            $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$getter());
-          }
-        }
-        $sanitized = $values;
-      } else {
-        $sanitized = (string)$data;
-      }
 
-      return $sanitized;
+        return $sanitized;
     }
 
     /**
@@ -41,7 +41,7 @@ class ObjectSerializer {
      * @return string the serialized object
      */
     public function toPathValue($value) {
-      return rawurlencode($this->toString($value));
+        return rawurlencode($this->toString($value));
     }
 
     /**
@@ -53,11 +53,11 @@ class ObjectSerializer {
      * @return string the serialized object
      */
     public function toQueryValue($object) {
-      if (is_array($object)) {
-        return implode(',', $object);
-      } else {
-        return $this->toString($object);
-      }
+        if (is_array($object)) {
+            return implode(',', $object);
+        } else {
+            return $this->toString($object);
+        }
     }
 
     /**
@@ -68,7 +68,7 @@ class ObjectSerializer {
      * @return string the header string
      */
     public function toHeaderValue($value) {
-      return $this->toString($value);
+        return $this->toString($value);
     }
 
     /**
@@ -79,11 +79,11 @@ class ObjectSerializer {
      * @return string the form string
      */
     public function toFormValue($value) {
-      if ($value instanceof SplFileObject) {
-          return $value->getRealPath();
-      } else {
-          return $this->toString($value);
-      }
+        if ($value instanceof SplFileObject) {
+            return $value->getRealPath();
+        } else {
+            return $this->toString($value);
+        }
     }
 
     /**
@@ -94,11 +94,11 @@ class ObjectSerializer {
      * @return string the header string
      */
     public function toString($value) {
-      if ($value instanceof \DateTime) { // datetime in ISO8601 format
-        return $value->format(\DateTime::ISO8601);
-      } else {
-        return $value;
-      }
+        if ($value instanceof \DateTime) { // datetime in ISO8601 format
+            return $value->format(\DateTime::ISO8601);
+        } else {
+            return $value;
+        }
     }
 
     /**
@@ -109,65 +109,63 @@ class ObjectSerializer {
      * @return object an instance of $class
      */
     public function deserialize($data, $class, $httpHeader=null) {
-      if (null === $data) {
-        $deserialized = null;
-      } elseif (substr($class, 0, 4) == 'map[') { # for associative array e.g. map[string,int]
-        $inner = substr($class, 4, -1);
-        $deserialized = array();
-        if(strrpos($inner, ",") !== false) {
-          $subClass_array = explode(',', $inner, 2);
-          $subClass = $subClass_array[1];
-          foreach ($data as $key => $value) {
-            $deserialized[$key] = $this->deserialize($value, $subClass);
-          }
+        if (null === $data) {
+            $deserialized = null;
+        } elseif (substr($class, 0, 4) == 'map[') { # for associative array e.g. map[string,int]
+            $inner = substr($class, 4, -1);
+            $deserialized = array();
+            if(strrpos($inner, ",") !== false) {
+                $subClass_array = explode(',', $inner, 2);
+                $subClass = $subClass_array[1];
+                foreach ($data as $key => $value) {
+                    $deserialized[$key] = $this->deserialize($value, $subClass);
+                }
+            }
+        } elseif (strcasecmp(substr($class, -2),'[]') == 0) {
+            $subClass = substr($class, 0, -2);
+            $values = array();
+            foreach ($data as $key => $value) {
+                $values[] = $this->deserialize($value, $subClass);
+            }
+            $deserialized = $values;
+        } elseif ($class == 'DateTime') {
+            $deserialized = new \DateTime($data);
+        } elseif (in_array($class, array('string', 'int', 'float', 'double', 'bool', 'object'))) {
+            settype($data, $class);
+            $deserialized = $data;
+        } elseif ($class === '\SplFileObject') {
+            # determine temp folder path
+            $tmpFolderPath = Configuration::getDefaultConfiguration()->getTempFolderPath();
+            print_r($tmpFolderPath);
+      
+            # determine file name
+            if (preg_match('/Content-Disposition: inline; filename=(.*)$/i', $httpHeader, $match)) {
+                $filename = $tmpFolderPath.$match[1];
+            } else {
+	        print_r($tmpFolderPath);
+                $filename = tempnam($tmpFolderPath, '');
+            }
+            $deserialized = new \SplFileObject($filename, "w");
+            $byte_written = $deserialized->fwrite($data);
+            error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file afterwards", 3, Configuration::getDefaultConfiguration()->getDebugFile());
+      
+        } else {
+            $instance = new $class();
+            foreach ($instance::$swaggerTypes as $property => $type) {
+                $propertySetter = $instance::$setters[$property];
+     
+                if (!isset($propertySetter) || !isset($data->{$instance::$attributeMap[$property]})) {
+                  continue;
+                }
+     
+                $propertyValue = $data->{$instance::$attributeMap[$property]};
+                if (isset($propertyValue)) {
+                    $instance->$propertySetter($this->deserialize($propertyValue, $type));
+                }
+            }
+            $deserialized = $instance;
         }
-      } elseif (strcasecmp(substr($class, -2),'[]') == 0) {
-        $subClass = substr($class, 0, -2);
-        $values = array();
-        foreach ($data as $key => $value) {
-          $values[] = $this->deserialize($value, $subClass);
-        }
-        $deserialized = $values;
-      } elseif ($class == 'DateTime') {
-        $deserialized = new \DateTime($data);
-      } elseif (in_array($class, array('string', 'int', 'float', 'double', 'bool', 'object'))) {
-        settype($data, $class);
-        $deserialized = $data;
-    } elseif ($class === '\SplFileObject') {
-      # determine temp folder path
-      if (!isset(Configuration::$tempFolderPath) || '' === Configuration::$tempFolderPath) {
-        $tmpFolderPath = sys_get_temp_dir();
-      } else {
-        $tmpFolderPath = Configuration::tempFolderPath;
-      }
-
-      # determine file name
-      if (preg_match('/Content-Disposition: inline; filename=(.*)/i', $httpHeader, $match)) {
-        $filename = $tmpFolderPath.$match[1];
-      } else {
-        $filename = tempnam($tmpFolderPath, '');
-      }
-      $deserialized = new \SplFileObject($filename, "w");
-      $byte_written = $deserialized->fwrite($data);
-      error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file afterwards", 3, Configuration::getDefaultConfiguration()->getDebugFile());
-
-      } else {
-        $instance = new $class();
-        foreach ($instance::$swaggerTypes as $property => $type) {
-          $propertySetter = $instance::$setters[$property];
-
-          if (!isset($propertySetter) || !isset($data->{$instance::$attributeMap[$property]})) {
-            continue;
-          }
-
-          $propertyValue = $data->{$instance::$attributeMap[$property]};
-          if (isset($propertyValue)) {
-            $instance->$propertySetter($this->deserialize($propertyValue, $type));
-          }
-        }
-        $deserialized = $instance;
-      }
-
-      return $deserialized;
+     
+        return $deserialized;
     }
 }

@@ -27,101 +27,101 @@ namespace Swagger\Client\Model;
 use \ArrayAccess;
 
 class Category implements ArrayAccess {
-  /** @var string[] Array of property to type mappings. Used for (de)serialization */
-  static $swaggerTypes = array(
-      'id' => 'int',
-      'name' => 'string'
-  );
-
-  /** @var string[] Array of attributes where the key is the local name, and the value is the original name */
-  static $attributeMap = array(
-      'id' => 'id',
-      'name' => 'name'
-  );
-
-  /** @var string[] Array of attributes to setter functions (for deserialization of responses) */
-  static $setters = array(
-    'id' => 'setId',
-    'name' => 'setName'
-  );
-
-  /** @var string[] Array of attributes to getter functions (for serialization of requests) */
-  static $getters = array(
-    'id' => 'getId',
-    'name' => 'getName'
-  );
-
+    /** @var string[] Array of property to type mappings. Used for (de)serialization */
+    static $swaggerTypes = array(
+        'id' => 'int',
+        'name' => 'string'
+    );
   
-  /** @var int $id */
-  protected $id;
+    /** @var string[] Array of attributes where the key is the local name, and the value is the original name */
+    static $attributeMap = array(
+        'id' => 'id',
+        'name' => 'name'
+    );
   
-  /** @var string $name */
-  protected $name;
+    /** @var string[] Array of attributes to setter functions (for deserialization of responses) */
+    static $setters = array(
+        'id' => 'setId',
+        'name' => 'setName'
+    );
   
-  public function __construct(array $data = null) {
-    if ($data != null) {
-      $this->id = $data["id"];
-      $this->name = $data["name"];
+    /** @var string[] Array of attributes to getter functions (for serialization of requests) */
+    static $getters = array(
+        'id' => 'getId',
+        'name' => 'getName'
+    );
+  
+    
+    /** @var int $id */
+    protected $id;
+    
+    /** @var string $name */
+    protected $name;
+    
+    public function __construct(array $data = null) {
+        if ($data != null) {
+            $this->id = $data["id"];
+            $this->name = $data["name"];
+        }
     }
-  }
-  
-  /**
-   * get id
-   * @return int
-   */
-  public function getId() {
-    return $this->id;
-  }
-
-  /**
-   * set id
-   * @param int $id
-   * @return $this
-   */
-  public function setId($id) {
-    $this->id = $id;
-    return $this;
-  }
-  
-  /**
-   * get name
-   * @return string
-   */
-  public function getName() {
-    return $this->name;
-  }
-
-  /**
-   * set name
-   * @param string $name
-   * @return $this
-   */
-  public function setName($name) {
-    $this->name = $name;
-    return $this;
-  }
-  
-  public function offsetExists($offset) {
-    return isset($this->$offset);
-  }
-
-  public function offsetGet($offset) {
-    return $this->$offset;
-  }
-
-  public function offsetSet($offset, $value) {
-    $this->$offset = $value;
-  }
-
-  public function offsetUnset($offset) {
-    unset($this->$offset);
-  }
-
-  public function __toString() {
-    if (defined('JSON_PRETTY_PRINT')) {
-      return json_encode(get_object_vars($this), JSON_PRETTY_PRINT);
-    } else {
-      return json_encode(get_object_vars($this));
+    
+    /**
+     * get id
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
     }
-  }
+  
+    /**
+     * set id
+     * @param int $id
+     * @return $this
+     */
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
+    
+    /**
+     * get name
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+  
+    /**
+     * set name
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
+    }
+    
+    public function offsetExists($offset) {
+        return isset($this->$offset);
+    }
+  
+    public function offsetGet($offset) {
+        return $this->$offset;
+    }
+  
+    public function offsetSet($offset, $value) {
+        $this->$offset = $value;
+    }
+  
+    public function offsetUnset($offset) {
+        unset($this->$offset);
+    }
+  
+    public function __toString() {
+        if (defined('JSON_PRETTY_PRINT')) {
+            return json_encode(get_object_vars($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(get_object_vars($this));
+        }
+    }
 }
