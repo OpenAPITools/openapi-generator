@@ -109,7 +109,7 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams, 'map[string,int]');
       } catch (ApiException $e) {
@@ -178,7 +178,7 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams, '\Swagger\Client\Model\Order');
       } catch (ApiException $e) {
@@ -253,7 +253,7 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams, '\Swagger\Client\Model\Order');
       } catch (ApiException $e) {
@@ -328,7 +328,7 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
