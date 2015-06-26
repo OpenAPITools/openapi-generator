@@ -322,7 +322,7 @@ public class PetApi {
     }
 
     try {
-      String[] authNames = new String[] { "petstore_auth", "api_key" };
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
       String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
       if(response != null){
         return (Pet) apiClient.deserialize(response, "", Pet.class);
