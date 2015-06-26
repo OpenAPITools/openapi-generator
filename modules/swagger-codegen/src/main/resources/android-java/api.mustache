@@ -55,7 +55,7 @@ public class {{classname}} {
     {{/required}}{{/allParams}}
 
     // create path and map variables
-    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{paramName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
