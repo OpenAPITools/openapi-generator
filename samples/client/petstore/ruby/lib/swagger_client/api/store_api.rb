@@ -2,8 +2,6 @@ require "uri"
 
 module SwaggerClient
   class StoreApi
-    basePath = "http://petstore.swagger.io/v2"
-    # apiInvoker = APIInvoker
 
     # Returns pet inventories by status
     # Returns a map of status codes to quantities
