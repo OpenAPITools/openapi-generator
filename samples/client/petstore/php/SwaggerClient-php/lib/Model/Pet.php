@@ -27,205 +27,205 @@ namespace Swagger\Client\Model;
 use \ArrayAccess;
 
 class Pet implements ArrayAccess {
-  /** @var string[] Array of property to type mappings. Used for (de)serialization */
-  static $swaggerTypes = array(
-      'id' => 'int',
-      'category' => '\Swagger\Client\Model\Category',
-      'name' => 'string',
-      'photo_urls' => 'string[]',
-      'tags' => '\Swagger\Client\Model\Tag[]',
-      'status' => 'string'
-  );
-
-  /** @var string[] Array of attributes where the key is the local name, and the value is the original name */
-  static $attributeMap = array(
-      'id' => 'id',
-      'category' => 'category',
-      'name' => 'name',
-      'photo_urls' => 'photoUrls',
-      'tags' => 'tags',
-      'status' => 'status'
-  );
-
-  /** @var string[] Array of attributes to setter functions (for deserialization of responses) */
-  static $setters = array(
-    'id' => 'setId',
-    'category' => 'setCategory',
-    'name' => 'setName',
-    'photo_urls' => 'setPhotoUrls',
-    'tags' => 'setTags',
-    'status' => 'setStatus'
-  );
-
-  /** @var string[] Array of attributes to getter functions (for serialization of requests) */
-  static $getters = array(
-    'id' => 'getId',
-    'category' => 'getCategory',
-    'name' => 'getName',
-    'photo_urls' => 'getPhotoUrls',
-    'tags' => 'getTags',
-    'status' => 'getStatus'
-  );
-
+    /** @var string[] Array of property to type mappings. Used for (de)serialization */
+    static $swaggerTypes = array(
+        'id' => 'int',
+        'category' => '\Swagger\Client\Model\Category',
+        'name' => 'string',
+        'photo_urls' => 'string[]',
+        'tags' => '\Swagger\Client\Model\Tag[]',
+        'status' => 'string'
+    );
   
-  /** @var int $id */
-  protected $id;
+    /** @var string[] Array of attributes where the key is the local name, and the value is the original name */
+    static $attributeMap = array(
+        'id' => 'id',
+        'category' => 'category',
+        'name' => 'name',
+        'photo_urls' => 'photoUrls',
+        'tags' => 'tags',
+        'status' => 'status'
+    );
   
-  /** @var \Swagger\Client\Model\Category $category */
-  protected $category;
+    /** @var string[] Array of attributes to setter functions (for deserialization of responses) */
+    static $setters = array(
+        'id' => 'setId',
+        'category' => 'setCategory',
+        'name' => 'setName',
+        'photo_urls' => 'setPhotoUrls',
+        'tags' => 'setTags',
+        'status' => 'setStatus'
+    );
   
-  /** @var string $name */
-  protected $name;
+    /** @var string[] Array of attributes to getter functions (for serialization of requests) */
+    static $getters = array(
+        'id' => 'getId',
+        'category' => 'getCategory',
+        'name' => 'getName',
+        'photo_urls' => 'getPhotoUrls',
+        'tags' => 'getTags',
+        'status' => 'getStatus'
+    );
   
-  /** @var string[] $photo_urls */
-  protected $photo_urls;
-  
-  /** @var \Swagger\Client\Model\Tag[] $tags */
-  protected $tags;
-  
-  /** @var string $status pet status in the store */
-  protected $status;
-  
-  public function __construct(array $data = null) {
-    if ($data != null) {
-      $this->id = $data["id"];
-      $this->category = $data["category"];
-      $this->name = $data["name"];
-      $this->photo_urls = $data["photo_urls"];
-      $this->tags = $data["tags"];
-      $this->status = $data["status"];
+    
+    /** @var int $id */
+    protected $id;
+    
+    /** @var \Swagger\Client\Model\Category $category */
+    protected $category;
+    
+    /** @var string $name */
+    protected $name;
+    
+    /** @var string[] $photo_urls */
+    protected $photo_urls;
+    
+    /** @var \Swagger\Client\Model\Tag[] $tags */
+    protected $tags;
+    
+    /** @var string $status pet status in the store */
+    protected $status;
+    
+    public function __construct(array $data = null) {
+        if ($data != null) {
+            $this->id = $data["id"];
+            $this->category = $data["category"];
+            $this->name = $data["name"];
+            $this->photo_urls = $data["photo_urls"];
+            $this->tags = $data["tags"];
+            $this->status = $data["status"];
+        }
     }
-  }
-  
-  /**
-   * get id
-   * @return int
-   */
-  public function getId() {
-    return $this->id;
-  }
-
-  /**
-   * set id
-   * @param int $id
-   * @return $this
-   */
-  public function setId($id) {
-    $this->id = $id;
-    return $this;
-  }
-  
-  /**
-   * get category
-   * @return \Swagger\Client\Model\Category
-   */
-  public function getCategory() {
-    return $this->category;
-  }
-
-  /**
-   * set category
-   * @param \Swagger\Client\Model\Category $category
-   * @return $this
-   */
-  public function setCategory($category) {
-    $this->category = $category;
-    return $this;
-  }
-  
-  /**
-   * get name
-   * @return string
-   */
-  public function getName() {
-    return $this->name;
-  }
-
-  /**
-   * set name
-   * @param string $name
-   * @return $this
-   */
-  public function setName($name) {
-    $this->name = $name;
-    return $this;
-  }
-  
-  /**
-   * get photo_urls
-   * @return string[]
-   */
-  public function getPhotoUrls() {
-    return $this->photo_urls;
-  }
-
-  /**
-   * set photo_urls
-   * @param string[] $photo_urls
-   * @return $this
-   */
-  public function setPhotoUrls($photo_urls) {
-    $this->photo_urls = $photo_urls;
-    return $this;
-  }
-  
-  /**
-   * get tags
-   * @return \Swagger\Client\Model\Tag[]
-   */
-  public function getTags() {
-    return $this->tags;
-  }
-
-  /**
-   * set tags
-   * @param \Swagger\Client\Model\Tag[] $tags
-   * @return $this
-   */
-  public function setTags($tags) {
-    $this->tags = $tags;
-    return $this;
-  }
-  
-  /**
-   * get status
-   * @return string
-   */
-  public function getStatus() {
-    return $this->status;
-  }
-
-  /**
-   * set status
-   * @param string $status
-   * @return $this
-   */
-  public function setStatus($status) {
-    $this->status = $status;
-    return $this;
-  }
-  
-  public function offsetExists($offset) {
-    return isset($this->$offset);
-  }
-
-  public function offsetGet($offset) {
-    return $this->$offset;
-  }
-
-  public function offsetSet($offset, $value) {
-    $this->$offset = $value;
-  }
-
-  public function offsetUnset($offset) {
-    unset($this->$offset);
-  }
-
-  public function __toString() {
-    if (defined('JSON_PRETTY_PRINT')) {
-      return json_encode(get_object_vars($this), JSON_PRETTY_PRINT);
-    } else {
-      return json_encode(get_object_vars($this));
+    
+    /**
+     * get id
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
     }
-  }
+  
+    /**
+     * set id
+     * @param int $id
+     * @return $this
+     */
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
+    
+    /**
+     * get category
+     * @return \Swagger\Client\Model\Category
+     */
+    public function getCategory() {
+        return $this->category;
+    }
+  
+    /**
+     * set category
+     * @param \Swagger\Client\Model\Category $category
+     * @return $this
+     */
+    public function setCategory($category) {
+        $this->category = $category;
+        return $this;
+    }
+    
+    /**
+     * get name
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+  
+    /**
+     * set name
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
+    }
+    
+    /**
+     * get photo_urls
+     * @return string[]
+     */
+    public function getPhotoUrls() {
+        return $this->photo_urls;
+    }
+  
+    /**
+     * set photo_urls
+     * @param string[] $photo_urls
+     * @return $this
+     */
+    public function setPhotoUrls($photo_urls) {
+        $this->photo_urls = $photo_urls;
+        return $this;
+    }
+    
+    /**
+     * get tags
+     * @return \Swagger\Client\Model\Tag[]
+     */
+    public function getTags() {
+        return $this->tags;
+    }
+  
+    /**
+     * set tags
+     * @param \Swagger\Client\Model\Tag[] $tags
+     * @return $this
+     */
+    public function setTags($tags) {
+        $this->tags = $tags;
+        return $this;
+    }
+    
+    /**
+     * get status
+     * @return string
+     */
+    public function getStatus() {
+        return $this->status;
+    }
+  
+    /**
+     * set status
+     * @param string $status
+     * @return $this
+     */
+    public function setStatus($status) {
+        $this->status = $status;
+        return $this;
+    }
+    
+    public function offsetExists($offset) {
+        return isset($this->$offset);
+    }
+  
+    public function offsetGet($offset) {
+        return $this->$offset;
+    }
+  
+    public function offsetSet($offset, $value) {
+        $this->$offset = $value;
+    }
+  
+    public function offsetUnset($offset) {
+        unset($this->$offset);
+    }
+  
+    public function __toString() {
+        if (defined('JSON_PRETTY_PRINT')) {
+            return json_encode(get_object_vars($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(get_object_vars($this));
+        }
+    }
 }

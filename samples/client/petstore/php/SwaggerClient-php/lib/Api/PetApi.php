@@ -29,606 +29,603 @@ use \Swagger\Client\ObjectSerializer;
 
 class PetApi {
 
-  /** @var \Swagger\Client\ApiClient instance of the ApiClient */
-  private $apiClient;
-
-  /**
-   * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
-   */
-  function __construct($apiClient = null) {
-    if ($apiClient == null) {
-      $apiClient = new ApiClient();
-      $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
+    /** @var \Swagger\Client\ApiClient instance of the ApiClient */
+    private $apiClient;
+  
+    /**
+     * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
+     */
+    function __construct($apiClient = null) {
+        if ($apiClient == null) {
+            $apiClient = new ApiClient();
+            $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
+        }
+  
+        $this->apiClient = $apiClient;
     }
-
-    $this->apiClient = $apiClient;
-  }
-
-  /**
-   * @return \Swagger\Client\ApiClient get the API client
-   */
-  public function getApiClient() {
-    return $this->apiClient;
-  }
-
-  /**
-   * @param \Swagger\Client\ApiClient $apiClient set the API client
-   * @return PetApi
-   */
-  public function setApiClient(ApiClient $apiClient) {
-    $this->apiClient = $apiClient;
-    return $this;
-  }
-
   
-  /**
-   * updatePet
-   *
-   * Update an existing pet
-   *
-   * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-   * @return void
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function updatePet($body) {
-      
-
-      // parse inputs
-      $resourcePath = "/pet";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "PUT";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
-
-      
-      
-      
-      
-      // body params
-      $_tempBody = null;
-      if (isset($body)) {
-        $_tempBody = $body;
-      }
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams);
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
+    /**
+     * @return \Swagger\Client\ApiClient get the API client
+     */
+    public function getApiClient() {
+        return $this->apiClient;
+    }
+  
+    /**
+     * @param \Swagger\Client\ApiClient $apiClient set the API client
+     * @return PetApi
+     */
+    public function setApiClient(ApiClient $apiClient) {
+        $this->apiClient = $apiClient;
+        return $this;
+    }
+  
+    
+    /**
+     * updatePet
+     *
+     * Update an existing pet
+     *
+     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function updatePet($body) {
+        
+  
+        // parse inputs
+        $resourcePath = "/pet";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "PUT";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
         }
-
-        throw $e;
-      }
-      
-  }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
   
-  /**
-   * addPet
-   *
-   * Add a new pet to the store
-   *
-   * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-   * @return void
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function addPet($body) {
-      
-
-      // parse inputs
-      $resourcePath = "/pet";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "POST";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
-
-      
-      
-      
-      
-      // body params
-      $_tempBody = null;
-      if (isset($body)) {
-        $_tempBody = $body;
-      }
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams);
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
+        
+        
+        
+        
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
-
-        throw $e;
-      }
-      
-  }
   
-  /**
-   * findPetsByStatus
-   *
-   * Finds Pets by status
-   *
-   * @param string[] $status Status values that need to be considered for filter (required)
-   * @return \Swagger\Client\Model\Pet[]
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function findPetsByStatus($status) {
-      
-
-      // parse inputs
-      $resourcePath = "/pet/findByStatus";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "GET";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-
-      // query params
-      if($status !== null) {
-        $queryParams['status'] = $this->apiClient->getSerializer()->toQueryValue($status);
-      }
-      
-      
-      
-      
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams, '\Swagger\Client\Model\Pet[]');
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
-          case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $httpHeader);
-            $e->setResponseObject($data);
-            break;
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
         }
-
-        throw $e;
-      }
-      
-      if (!$response) {
-        return null;
-      }
-
-      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet[]');
-      return $responseObject;
-      
-  }
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
   
-  /**
-   * findPetsByTags
-   *
-   * Finds Pets by tags
-   *
-   * @param string[] $tags Tags to filter by (required)
-   * @return \Swagger\Client\Model\Pet[]
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function findPetsByTags($tags) {
-      
-
-      // parse inputs
-      $resourcePath = "/pet/findByTags";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "GET";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-
-      // query params
-      if($tags !== null) {
-        $queryParams['tags'] = $this->apiClient->getSerializer()->toQueryValue($tags);
-      }
-      
-      
-      
-      
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams, '\Swagger\Client\Model\Pet[]');
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
-          case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $httpHeader);
-            $e->setResponseObject($data);
-            break;
+            throw $e;
         }
-
-        throw $e;
-      }
-      
-      if (!$response) {
-        return null;
-      }
-
-      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet[]');
-      return $responseObject;
-      
-  }
+        
+    }
+    
+    /**
+     * addPet
+     *
+     * Add a new pet to the store
+     *
+     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function addPet($body) {
+        
   
-  /**
-   * getPetById
-   *
-   * Find pet by ID
-   *
-   * @param int $pet_id ID of pet that needs to be fetched (required)
-   * @return \Swagger\Client\Model\Pet
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function getPetById($pet_id) {
-      
-      // verify the required parameter 'pet_id' is set
-      if ($pet_id === null) {
-        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetById');
-      }
-      
-
-      // parse inputs
-      $resourcePath = "/pet/{petId}";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "GET";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-
-      
-      
-      // path params
-      if($pet_id !== null) {
-        $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
-                                    $resourcePath);
-      }
-      
-      
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-      if (isset($apiKey)) {
-        $headerParams['api_key'] = $apiKey;
-      }
-      
-      
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams, '\Swagger\Client\Model\Pet');
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
-          case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet', $httpHeader);
-            $e->setResponseObject($data);
-            break;
+        // parse inputs
+        $resourcePath = "/pet";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "POST";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
         }
-
-        throw $e;
-      }
-      
-      if (!$response) {
-        return null;
-      }
-
-      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet');
-      return $responseObject;
-      
-  }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
   
-  /**
-   * updatePetWithForm
-   *
-   * Updates a pet in the store with form data
-   *
-   * @param string $pet_id ID of pet that needs to be updated (required)
-   * @param string $name Updated name of the pet (required)
-   * @param string $status Updated status of the pet (required)
-   * @return void
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function updatePetWithForm($pet_id, $name, $status) {
-      
-      // verify the required parameter 'pet_id' is set
-      if ($pet_id === null) {
-        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling updatePetWithForm');
-      }
-      
-
-      // parse inputs
-      $resourcePath = "/pet/{petId}";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "POST";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/x-www-form-urlencoded'));
-
-      
-      
-      // path params
-      if($pet_id !== null) {
-        $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
-                                    $resourcePath);
-      }
-      // form params
-      if ($name !== null) {
-        $formParams['name'] = $this->apiClient->getSerializer()->toFormValue($name);
-      }// form params
-      if ($status !== null) {
-        $formParams['status'] = $this->apiClient->getSerializer()->toFormValue($status);
-      }
-      
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams);
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
+        
+        
+        
+        
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
-
-        throw $e;
-      }
-      
-  }
   
-  /**
-   * deletePet
-   *
-   * Deletes a pet
-   *
-   * @param string $api_key  (required)
-   * @param int $pet_id Pet id to delete (required)
-   * @return void
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function deletePet($api_key, $pet_id) {
-      
-      // verify the required parameter 'pet_id' is set
-      if ($pet_id === null) {
-        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
-      }
-      
-
-      // parse inputs
-      $resourcePath = "/pet/{petId}";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "DELETE";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-
-      
-      // header params
-      if($api_key !== null) {
-        $headerParams['api_key'] = $this->apiClient->getSerializer()->toHeaderValue($api_key);
-      }
-      // path params
-      if($pet_id !== null) {
-        $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
-                                    $resourcePath);
-      }
-      
-      
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams);
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
         }
-
-        throw $e;
-      }
-      
-  }
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
   
-  /**
-   * uploadFile
-   *
-   * uploads an image
-   *
-   * @param int $pet_id ID of pet to update (required)
-   * @param string $additional_metadata Additional data to pass to server (required)
-   * @param \SplFileObject $file file to upload (required)
-   * @return void
-   * @throws \Swagger\Client\ApiException on non-2xx response
-   */
-   public function uploadFile($pet_id, $additional_metadata, $file) {
-      
-      // verify the required parameter 'pet_id' is set
-      if ($pet_id === null) {
-        throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling uploadFile');
-      }
-      
-
-      // parse inputs
-      $resourcePath = "/pet/{petId}/uploadImage";
-      $resourcePath = str_replace("{format}", "json", $resourcePath);
-      $method = "POST";
-      $httpBody = '';
-      $queryParams = array();
-      $headerParams = array();
-      $formParams = array();
-      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-      if (!is_null($_header_accept)) {
-        $headerParams['Accept'] = $_header_accept;
-      }
-      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('multipart/form-data'));
-
-      
-      
-      // path params
-      if($pet_id !== null) {
-        $resourcePath = str_replace("{" . "petId" . "}",
-                                    $this->apiClient->getSerializer()->toPathValue($pet_id),
-                                    $resourcePath);
-      }
-      // form params
-      if ($additional_metadata !== null) {
-        $formParams['additionalMetadata'] = $this->apiClient->getSerializer()->toFormValue($additional_metadata);
-      }// form params
-      if ($file !== null) {
-        $formParams['file'] = '@' . $this->apiClient->getSerializer()->toFormValue($file);
-      }
-      
-
-      // for model (json/xml)
-      if (isset($_tempBody)) {
-        $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-      } else if (count($formParams) > 0) {
-        // for HTTP post (form)
-        $httpBody = $formParams;
-      }
-      
-      
-      //TODO support oauth
-      
-      // make the API Call
-      try {
-        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
-                                              $queryParams, $httpBody,
-                                              $headerParams);
-      } catch (ApiException $e) {
-        switch ($e->getCode()) { 
+            throw $e;
         }
-
-        throw $e;
-      }
-      
-  }
+        
+    }
+    
+    /**
+     * findPetsByStatus
+     *
+     * Finds Pets by status
+     *
+     * @param string[] $status Status values that need to be considered for filter (required)
+     * @return \Swagger\Client\Model\Pet[]
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function findPetsByStatus($status) {
+        
   
+        // parse inputs
+        $resourcePath = "/pet/findByStatus";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "GET";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        // query params
+        if($status !== null) {
+            $queryParams['status'] = $this->apiClient->getSerializer()->toQueryValue($status);
+        }
+        
+        
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
+        }
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams, '\Swagger\Client\Model\Pet[]');
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $httpHeader);
+                    $e->setResponseObject($data);
+                    break;
+            }
+  
+            throw $e;
+        }
+        
+        if (!$response) {
+            return null;
+        }
+  
+        return $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet[]');
+        
+    }
+    
+    /**
+     * findPetsByTags
+     *
+     * Finds Pets by tags
+     *
+     * @param string[] $tags Tags to filter by (required)
+     * @return \Swagger\Client\Model\Pet[]
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function findPetsByTags($tags) {
+        
+  
+        // parse inputs
+        $resourcePath = "/pet/findByTags";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "GET";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        // query params
+        if($tags !== null) {
+            $queryParams['tags'] = $this->apiClient->getSerializer()->toQueryValue($tags);
+        }
+        
+        
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
+        }
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams, '\Swagger\Client\Model\Pet[]');
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $httpHeader);
+                    $e->setResponseObject($data);
+                    break;
+            }
+  
+            throw $e;
+        }
+        
+        if (!$response) {
+            return null;
+        }
+  
+        return $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet[]');
+        
+    }
+    
+    /**
+     * getPetById
+     *
+     * Find pet by ID
+     *
+     * @param int $pet_id ID of pet that needs to be fetched (required)
+     * @return \SplFileObject
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getPetById($pet_id) {
+        
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetById');
+        }
+        
+  
+        // parse inputs
+        $resourcePath = "/pet/{petId}";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "GET";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        
+        
+        // path params
+        if($pet_id !== null) {
+            $resourcePath = str_replace("{" . "petId" . "}",
+                                        $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                        $resourcePath);
+        }
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
+        }
+        
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
+        if (isset($apiKey)) {
+            $headerParams['api_key'] = $apiKey;
+        }
+        
+        
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams, '\SplFileObject');
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SplFileObject', $httpHeader);
+                    $e->setResponseObject($data);
+                    break;
+            }
+  
+            throw $e;
+        }
+        
+        if (!$response) {
+            return null;
+        }
+  
+        return $this->apiClient->getSerializer()->deserialize($response,'\SplFileObject');
+        
+    }
+    
+    /**
+     * updatePetWithForm
+     *
+     * Updates a pet in the store with form data
+     *
+     * @param string $pet_id ID of pet that needs to be updated (required)
+     * @param string $name Updated name of the pet (required)
+     * @param string $status Updated status of the pet (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function updatePetWithForm($pet_id, $name, $status) {
+        
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling updatePetWithForm');
+        }
+        
+  
+        // parse inputs
+        $resourcePath = "/pet/{petId}";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "POST";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/x-www-form-urlencoded'));
+  
+        
+        
+        // path params
+        if($pet_id !== null) {
+            $resourcePath = str_replace("{" . "petId" . "}",
+                                        $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                        $resourcePath);
+        }
+        // form params
+        if ($name !== null) {
+            $formParams['name'] = $this->apiClient->getSerializer()->toFormValue($name);
+        }// form params
+        if ($status !== null) {
+            $formParams['status'] = $this->apiClient->getSerializer()->toFormValue($status);
+        }
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
+        }
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
+  
+            throw $e;
+        }
+        
+    }
+    
+    /**
+     * deletePet
+     *
+     * Deletes a pet
+     *
+     * @param string $api_key  (required)
+     * @param int $pet_id Pet id to delete (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function deletePet($api_key, $pet_id) {
+        
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
+        }
+        
+  
+        // parse inputs
+        $resourcePath = "/pet/{petId}";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "DELETE";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        
+        // header params
+        if($api_key !== null) {
+            $headerParams['api_key'] = $this->apiClient->getSerializer()->toHeaderValue($api_key);
+        }
+        // path params
+        if($pet_id !== null) {
+            $resourcePath = str_replace("{" . "petId" . "}",
+                                        $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                        $resourcePath);
+        }
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
+        }
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
+  
+            throw $e;
+        }
+        
+    }
+    
+    /**
+     * uploadFile
+     *
+     * uploads an image
+     *
+     * @param int $pet_id ID of pet to update (required)
+     * @param string $additional_metadata Additional data to pass to server (required)
+     * @param \SplFileObject $file file to upload (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function uploadFile($pet_id, $additional_metadata, $file) {
+        
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling uploadFile');
+        }
+        
+  
+        // parse inputs
+        $resourcePath = "/pet/{petId}/uploadImage";
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $method = "POST";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('multipart/form-data'));
+  
+        
+        
+        // path params
+        if($pet_id !== null) {
+            $resourcePath = str_replace("{" . "petId" . "}",
+                                        $this->apiClient->getSerializer()->toPathValue($pet_id),
+                                        $resourcePath);
+        }
+        // form params
+        if ($additional_metadata !== null) {
+            $formParams['additionalMetadata'] = $this->apiClient->getSerializer()->toFormValue($additional_metadata);
+        }// form params
+        if ($file !== null) {
+            $formParams['file'] = '@' . $this->apiClient->getSerializer()->toFormValue($file);
+        }
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } else if (count($formParams) > 0) {
+           // for HTTP post (form)
+           $httpBody = $formParams;
+        }
+        
+        
+        //TODO support oauth
+        
+        // make the API Call
+        try {
+            list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
+                                                $queryParams, $httpBody,
+                                                $headerParams);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
+  
+            throw $e;
+        }
+        
+    }
+    
 }
