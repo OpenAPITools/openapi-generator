@@ -10,27 +10,22 @@ module SwaggerClient
       # All requests must have an HTTP method and a path
       # Optionals parameters are :params, :headers, :body, :format, :host
       def initialize(http_method, path, attributes={})
-        attributes[:format] ||= Swagger.configuration.format
-        attributes[:params] ||= {}
+        @http_method = http_method.to_sym
+        @path = path
 
-        # Set default headers
-        default_headers = {
-          'Content-Type' => "application/#{attributes[:format].downcase}",
-          'User-Agent' => Swagger.configuration.user_agent
-        }
+        attributes.each do |name, value|
+          send("#{name.to_s.underscore.to_sym}=", value)
+        end
 
-        # Merge argument headers into defaults
-        attributes[:headers] = default_headers.merge(attributes[:headers] || {})
+        @format ||= Swagger.configuration.format
+        @params ||= {}
+
+        # Apply default headers
+        @headers = Swagger.configuration.default_headers.merge(@headers || {})
 
         # Stick in the auth token if there is one
         if Swagger.authenticated?
-          attributes[:headers].merge!({:auth_token => Swagger.configuration.auth_token})
-        end
-
-        self.http_method = http_method.to_sym
-        self.path = path
-        attributes.each do |name, value|
-          send("#{name.to_s.underscore.to_sym}=", value)
+          @headers.merge!({:auth_token => Swagger.configuration.auth_token})
         end
 
         update_params_for_auth!
