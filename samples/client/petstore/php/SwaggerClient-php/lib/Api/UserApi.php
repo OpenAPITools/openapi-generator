@@ -107,7 +107,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -165,7 +165,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -223,7 +223,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -284,7 +284,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams, 'string');
       } catch (ApiException $e) {
@@ -348,7 +348,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -412,7 +412,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams, '\Swagger\Client\Model\User');
       } catch (ApiException $e) {
@@ -492,7 +492,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -556,7 +556,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {

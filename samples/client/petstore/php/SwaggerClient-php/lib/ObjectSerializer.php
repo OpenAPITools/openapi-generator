@@ -133,7 +133,7 @@ class ObjectSerializer {
       } elseif (in_array($class, array('string', 'int', 'float', 'double', 'bool', 'object'))) {
         settype($data, $class);
         $deserialized = $data;
-    } elseif ($class === 'SplFileObject') {
+    } elseif ($class === '\SplFileObject') {
       # determine temp folder path
       if (!isset(Configuration::$tempFolderPath) || '' === Configuration::$tempFolderPath) {
         $tmpFolderPath = sys_get_temp_dir();
@@ -149,7 +149,7 @@ class ObjectSerializer {
       }
       $deserialized = new \SplFileObject($filename, "w");
       $byte_written = $deserialized->fwrite($data);
-      error_log("[INFO] Written $byte_written to $filename. Please move the file to a proper folder for further processing and delete the temp afterwards", 3, Configuration::$debug_file);
+      error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file afterwards", 3, Configuration::getDefaultConfiguration()->getDebugFile());
 
       } else {
         $instance = new $class();

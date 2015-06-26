@@ -175,7 +175,7 @@ class ApiClient {
       throw new ApiException("API call to $url timed out: ".serialize($response_info), 0, null, null);
     } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
       // return raw body if response is a file 
-      if ($responseType == 'SplFileObject') {
+      if ($responseType == '\SplFileObject') {
         return array($http_body, $http_header);
       }
 
@@ -187,7 +187,7 @@ class ApiClient {
       throw new ApiException("[".$response_info['http_code']."] Error connecting to the API ($url)",
         $response_info['http_code'], $http_header, $http_body);
     }
-    return $data;
+    return array($data, $http_header);
   }
 
   /*

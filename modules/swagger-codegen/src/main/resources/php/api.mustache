@@ -134,7 +134,7 @@ class {{classname}} {
       {{/authMethods}}
       // make the API Call
       try {
-        $response = $this->apiClient->callApi($resourcePath, $method,
+        list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams{{#returnType}}, '{{returnType}}'{{/returnType}});
       } catch (ApiException $e) {
