@@ -55,6 +55,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Float");
         typeMapping.put("number", "Float");
+        typeMapping.put("date", "DateTime");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("boolean", "BOOLEAN");
         typeMapping.put("array", "Array");
