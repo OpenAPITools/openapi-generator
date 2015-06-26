@@ -107,7 +107,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("swagger_client.mustache", libFolder, gemName + ".rb"));
         String baseFolder = libFolder + File.separator + gemName;
-        supportingFiles.add(new SupportingFile("monkey.mustache", baseFolder, "monkey.rb"));
         supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
         String swaggerFolder = baseFolder + File.separator + "swagger";
         supportingFiles.add(new SupportingFile("swagger" + File.separator + "request.mustache", swaggerFolder, "request.rb"));

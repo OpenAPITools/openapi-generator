@@ -119,7 +119,7 @@ module {{moduleName}}
       def make
         request_options = {
           :method => self.http_method,
-          :headers => self.headers.stringify_keys,
+          :headers => self.headers,
           :ssl_verifypeer => Swagger.configuration.verify_ssl,
           :cainfo => Swagger.configuration.ssl_ca_cert,
           :verbose => Swagger.configuration.debug
