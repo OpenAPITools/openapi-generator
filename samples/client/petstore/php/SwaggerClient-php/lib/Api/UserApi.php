@@ -107,7 +107,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -165,7 +165,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -223,7 +223,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -284,13 +284,13 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
-                                              $headerParams);
+                                              $headerParams, 'string');
       } catch (ApiException $e) {
         switch ($e->getCode()) { 
           case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string');
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string', $httpHeader);
             $e->setResponseObject($data);
             break;
         }
@@ -348,7 +348,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -412,13 +412,13 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
-                                              $headerParams);
+                                              $headerParams, '\Swagger\Client\Model\User');
       } catch (ApiException $e) {
         switch ($e->getCode()) { 
           case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\User');
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\User', $httpHeader);
             $e->setResponseObject($data);
             break;
         }
@@ -492,7 +492,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
@@ -556,7 +556,7 @@ class UserApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {

@@ -79,7 +79,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "bool");
         typeMapping.put("date", "\\DateTime");
         typeMapping.put("datetime", "\\DateTime");
-        typeMapping.put("file", "string");
+        typeMapping.put("file", "\\SplFileObject");
         typeMapping.put("map", "map");
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");

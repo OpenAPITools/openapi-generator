@@ -134,13 +134,13 @@ class {{classname}} {
       {{/authMethods}}
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
-                                              $headerParams);
+                                              $headerParams{{#returnType}}, '{{returnType}}'{{/returnType}});
       } catch (ApiException $e) {
         switch ($e->getCode()) { {{#responses}}{{#dataType}}
           case {{code}}:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}');
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $httpHeader);
             $e->setResponseObject($data);
             break;{{/dataType}}{{/responses}}
         }

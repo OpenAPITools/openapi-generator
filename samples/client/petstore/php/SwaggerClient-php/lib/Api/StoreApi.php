@@ -109,13 +109,13 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
-                                              $headerParams);
+                                              $headerParams, 'map[string,int]');
       } catch (ApiException $e) {
         switch ($e->getCode()) { 
           case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'map[string,int]');
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'map[string,int]', $httpHeader);
             $e->setResponseObject($data);
             break;
         }
@@ -178,13 +178,13 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
-                                              $headerParams);
+                                              $headerParams, '\Swagger\Client\Model\Order');
       } catch (ApiException $e) {
         switch ($e->getCode()) { 
           case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order');
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $httpHeader);
             $e->setResponseObject($data);
             break;
         }
@@ -253,13 +253,13 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
-                                              $headerParams);
+                                              $headerParams, '\Swagger\Client\Model\Order');
       } catch (ApiException $e) {
         switch ($e->getCode()) { 
           case 200:
-            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order');
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $httpHeader);
             $e->setResponseObject($data);
             break;
         }
@@ -328,7 +328,7 @@ class StoreApi {
       
       // make the API Call
       try {
-        $response = $this->apiClient->callAPI($resourcePath, $method,
+        $response = $this->apiClient->callApi($resourcePath, $method,
                                               $queryParams, $httpBody,
                                               $headerParams);
       } catch (ApiException $e) {
