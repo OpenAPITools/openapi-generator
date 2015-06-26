@@ -273,6 +273,85 @@ public class PetApi {
   }
   
   /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return void
+   */
+  public void uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
+    Object postBody = null;
+    
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
+    }
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      "multipart/form-data"
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+    if(contentType.startsWith("multipart/form-data")) {
+      boolean hasFields = false;
+      FormDataMultiPart mp = new FormDataMultiPart();
+      
+      if (additionalMetadata != null) {
+        hasFields = true;
+        mp.field("additionalMetadata", apiClient.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
+      }
+      
+      if (file != null) {
+        hasFields = true;
+        mp.field("file", file.getName());
+        mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
+      }
+      
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+      if (additionalMetadata != null)
+        formParams.put("additionalMetadata", apiClient.parameterToString(additionalMetadata));
+      
+      
+    }
+
+    try {
+      String[] authNames = new String[] { "petstore_auth" };
+      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
+      if(response != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      throw ex;
+    }
+  }
+  
+  /**
    * Find pet by ID
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
@@ -288,8 +367,8 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+    String path = "/pet/{pet_id}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "pet_id" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -353,7 +432,7 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String path = "/pet/{pet_id}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
@@ -431,7 +510,7 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String path = "/pet/{pet_id}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
@@ -469,85 +548,6 @@ public class PetApi {
     try {
       String[] authNames = new String[] { "petstore_auth" };
       String response = apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
-  }
-  
-  /**
-   * uploads an image
-   * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
-   * @return void
-   */
-  public void uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
-    Object postBody = null;
-    
-    // verify the required parameter 'petId' is set
-    if (petId == null) {
-       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
-    }
-    
-
-    // create path and map variables
-    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "multipart/form-data"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if (additionalMetadata != null) {
-        hasFields = true;
-        mp.field("additionalMetadata", apiClient.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
-      }
-      
-      if (file != null) {
-        hasFields = true;
-        mp.field("file", file.getName());
-        mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
-      }
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      if (additionalMetadata != null)
-        formParams.put("additionalMetadata", apiClient.parameterToString(additionalMetadata));
-      
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
       if(response != null){
         return ;
       }
