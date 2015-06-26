@@ -120,6 +120,7 @@ module {{moduleName}}
         request_options = {
           :method => self.http_method,
           :headers => self.headers,
+          :params => self.params,
           :ssl_verifypeer => Swagger.configuration.verify_ssl,
           :cainfo => Swagger.configuration.ssl_ca_cert,
           :verbose => Swagger.configuration.debug

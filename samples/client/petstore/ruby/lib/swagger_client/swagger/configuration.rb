@@ -3,7 +3,7 @@ require 'logger'
 module SwaggerClient
   module Swagger
     class Configuration
-      attr_accessor :scheme, :host, :base_path, :user_agent, :format, :auth_token, :inject_format, :force_ending_format, :camelize_params
+      attr_accessor :scheme, :host, :base_path, :user_agent, :format, :auth_token, :inject_format, :force_ending_format
 
       # Defines the username used with HTTP basic authentication.
       #
@@ -69,7 +69,6 @@ module SwaggerClient
         @user_agent = "ruby-swagger-#{Swagger::VERSION}"
         @inject_format = false
         @force_ending_format = false
-        @camelize_params = true
 
         @api_key = {}
         @api_key_prefix = {}

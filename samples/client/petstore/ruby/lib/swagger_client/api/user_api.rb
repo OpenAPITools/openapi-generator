@@ -2,8 +2,6 @@ require "uri"
 
 module SwaggerClient
   class UserApi
-    basePath = "http://petstore.swagger.io/v2"
-    # apiInvoker = APIInvoker
 
     # Create user
     # This can only be done by the logged in user.

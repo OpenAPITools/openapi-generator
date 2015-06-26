@@ -1,5 +1,4 @@
 # Swagger common files
-require 'swagger_client/monkey'
 require 'swagger_client/swagger'
 require 'swagger_client/swagger/configuration'
 require 'swagger_client/swagger/api_error'

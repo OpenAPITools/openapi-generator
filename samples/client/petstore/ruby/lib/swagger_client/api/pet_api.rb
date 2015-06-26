@@ -2,8 +2,6 @@ require "uri"
 
 module SwaggerClient
   class PetApi
-    basePath = "http://petstore.swagger.io/v2"
-    # apiInvoker = APIInvoker
 
     # Update an existing pet
     # 

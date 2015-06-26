@@ -1,15 +1,14 @@
+require 'uri'
+require 'typhoeus'
+
 module SwaggerClient
   module Swagger
     class Request
-      require 'uri'
-      require 'addressable/uri'
-      require 'typhoeus'
-
       attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params, :auth_names, :response
 
       # All requests must have an HTTP method and a path
       # Optionals parameters are :params, :headers, :body, :format, :host
-      def initialize(http_method, path, attributes={})
+      def initialize(http_method, path, attributes = {})
         attributes[:format] ||= Swagger.configuration.format
         attributes[:params] ||= {}
 
@@ -27,11 +26,10 @@ module SwaggerClient
           attributes[:headers].merge!({:auth_token => Swagger.configuration.auth_token})
         end
 
-        self.http_method = http_method.to_sym
+        self.http_method = http_method.to_sym.downcase
         self.path = path
-        attributes.each do |name, value|
-          send("#{name.to_s.underscore.to_sym}=", value)
-        end
+
+        attributes.each { |name, value| send "#{name}=", value }
 
         update_params_for_auth!
       end
@@ -53,26 +51,18 @@ module SwaggerClient
       # Get API key (with prefix if set).
       # @param [String] param_name the parameter name of API key auth
       def get_api_key_with_prefix(param_name)
-        if Swagger.configuration.api_key_prefix[param_name].present?
+        if Swagger.configuration.api_key_prefix[param_name]
           "#{Swagger.configuration.api_key_prefix[param_name]} #{Swagger.configuration.api_key[param_name]}"
         else
           Swagger.configuration.api_key[param_name]
         end
       end
 
-      # Construct a base URL
+      # Construct the request URL.
       def url(options = {})
-        u = Addressable::URI.new(
-          :scheme => Swagger.configuration.scheme,
-          :host => Swagger.configuration.host,
-          :path => self.interpreted_path,
-          :query => self.query_string.sub(/\?/, '')
-        ).to_s
-
-        # Drop trailing question mark, if present
-        u.sub! /\?$/, ''
-
-        u
+        _path = self.interpreted_path
+        _path = "/#{_path}" unless _path.start_with?('/')
+        "#{Swagger.configuration.scheme}://#{Swagger.configuration.host}#{_path}"
       end
 
       # Iterate over the params hash, injecting any path values into the path string
@@ -103,18 +93,6 @@ module SwaggerClient
         URI.encode [Swagger.configuration.base_path, p].join("/").gsub(/\/+/, '/')
       end
 
-      # Massage the request body into a state of readiness
-      # If body is a hash, camelize all keys then convert to a json string
-      def body=(value)
-        if value.is_a?(Hash)
-          value = value.inject({}) do |memo, (k,v)|
-            memo[k.to_s.camelize(:lower).to_sym] = v
-            memo
-          end
-        end
-        @body = value
-      end
-
       # If body is an object, JSONify it before making the actual request.
       # For form parameters, remove empty value
       def outgoing_body
@@ -137,70 +115,21 @@ module SwaggerClient
         data
       end
 
-      # Construct a query string from the query-string-type params
-      def query_string
-        # Iterate over all params,
-        # .. removing the ones that are part of the path itself.
-        # .. stringifying values so Addressable doesn't blow up.
-        query_values = {}
-        self.params.each_pair do |key, value|
-          next if self.path.include? "{#{key}}"                                   # skip path params
-          next if value.blank? && value.class != FalseClass                       # skip empties
-          if Swagger.configuration.camelize_params
-            key = key.to_s.camelize(:lower).to_sym
-          end
-          query_values[key] = value.to_s
-        end
-
-        # We don't want to end up with '?' as our query string
-        # if there aren't really any params
-        return "" if query_values.blank?
-
-        # Addressable requires query_values to be set after initialization..
-        qs = Addressable::URI.new
-        qs.query_values = query_values
-        qs.to_s
-      end
-
       def make
         request_options = {
+          :method => self.http_method,
+          :headers => self.headers,
+          :params => self.params,
           :ssl_verifypeer => Swagger.configuration.verify_ssl,
           :cainfo => Swagger.configuration.ssl_ca_cert,
-          :headers => self.headers.stringify_keys,
           :verbose => Swagger.configuration.debug
         }
-        raw = case self.http_method.to_sym
-        when :get,:GET
-          Typhoeus::Request.get(
-            self.url,
-            request_options
-          )
 
-        when :post,:POST
-          Typhoeus::Request.post(
-            self.url,
-            request_options.merge(:body => self.outgoing_body)
-          )
-
-        when :patch,:PATCH
-          Typhoeus::Request.patch(
-            self.url,
-            request_options.merge(:body => self.outgoing_body)
-          )
-
-        when :put,:PUT
-          Typhoeus::Request.put(
-            self.url,
-            request_options.merge(:body => self.outgoing_body)
-          )
-
-        when :delete,:DELETE
-          Typhoeus::Request.delete(
-            self.url,
-            request_options.merge(:body => self.outgoing_body)
-          )
+        if [:post, :patch, :put, :delete].include?(self.http_method)
+          request_options.update :body => self.outgoing_body
         end
 
+        raw = Typhoeus::Request.new(self.url, request_options).run
         @response = Response.new(raw)
 
         if Swagger.configuration.debug
@@ -216,16 +145,17 @@ module SwaggerClient
                             :response_body => @response.body),
                @response.status_message
         end
+
         @response
       end
 
       def response_code_pretty
-        return unless @response.present?
+        return unless @response
         @response.code.to_s
       end
 
       def response_headers_pretty
-        return unless @response.present?
+        return unless @response
         # JSON.pretty_generate(@response.headers).gsub(/\n/, '<br/>') # <- This was for RestClient
         @response.headers.gsub(/\n/, '<br/>') # <- This is for Typhoeus
       end

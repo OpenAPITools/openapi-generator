@@ -25,7 +25,7 @@ describe SwaggerClient::Swagger::Request do
 
     it "allows params to be nil" do
       @request = SwaggerClient::Swagger::Request.new(@default_http_method, @default_path, :params => nil)
-      @request.query_string.should == ""
+      @request.params.should == {}
     end
 
   end
@@ -46,26 +46,8 @@ describe SwaggerClient::Swagger::Request do
 
   describe "url" do
 
-    it "constructs a query string" do
-      @request.query_string.should == "?bar=2&foo=1"
-    end
-
     it "constructs a full url" do
-      @request.url.should == "http://petstore.swagger.io/v2/pet.json/fancy?bar=2&foo=1"
-    end
-
-  end
-
-  describe "body" do
-
-    it "camelCases parameters" do
-      @request = SwaggerClient::Swagger::Request.new(@default_http_method, @default_path, @default_params.merge({
-        :body => {
-          :bad_dog => 'bud',
-          :goodDog => "dud"
-        }
-      }))
-      @request.body.keys.should == [:badDog, :goodDog]
+      @request.url.should == "http://petstore.swagger.io/v2/pet.json/fancy"
     end
 
   end
@@ -90,36 +72,6 @@ describe SwaggerClient::Swagger::Request do
       @request.url.should == "http://petstore.swagger.io/v2/word.xml/cat/entries"
     end
 
-    it "leaves path-bound params out of the query string" do
-      @request = SwaggerClient::Swagger::Request.new(:get, "/word.{format}/{word}/entries", @default_params.merge({
-        :params => {
-          :word => "cat",
-          :limit => 20
-        }
-      }))
-      @request.query_string.should == "?limit=20"
-    end
-
-    it "returns a question-mark free (blank) query string if no query params are present" do
-      @request = SwaggerClient::Swagger::Request.new(:get, "/word.{format}/{word}/entries", @default_params.merge({
-        :params => {
-          :word => "cat",
-        }
-      }))
-      @request.query_string.should == ""
-    end
-
-    it "removes blank params" do
-      @request = SwaggerClient::Swagger::Request.new(:get, "words/fancy", @default_params.merge({
-        :params => {
-          :word => "dog",
-          :limit => "",
-          :foo => "criminy"
-        }
-      }))
-      @request.query_string.should == "?foo=criminy&word=dog"
-    end
-
     it "URI encodes the path" do
       @request = SwaggerClient::Swagger::Request.new(:get, "word.{format}/bill gates/definitions", @default_params.merge({
         :params => {
@@ -127,34 +79,6 @@ describe SwaggerClient::Swagger::Request do
         }
       }))
       @request.url.should =~ /word.json\/bill\%20gates\/definitions/
-    end
-
-    it "converts numeric params to strings" do
-      @request = SwaggerClient::Swagger::Request.new(@default_http_method, @default_path, @default_params.merge({
-        :params => {
-          :limit => 100
-        }
-      }))
-
-      @request.interpreted_path.should_not be_nil
-      @request.query_string.should =~ /\?limit=100/
-      @request.url.should =~ /\?limit=100/
-    end
-
-    it "camelCases parameters" do
-      @request = SwaggerClient::Swagger::Request.new(@default_http_method, @default_path, @default_params.merge({
-        :params => {
-          :bad_dog => 'bud',
-          :goodDog => "dud"
-        }
-      }))
-      @request.query_string.should == "?badDog=bud&goodDog=dud"
-    end
-
-    it "converts boolean values to their string representation" do
-      params = {:stringy => "fish", :truthy => true, :falsey => false}
-      @request = SwaggerClient::Swagger::Request.new(:get, 'fakeMethod', :params => params)
-      @request.query_string.should == "?falsey=false&stringy=fish&truthy=true"
     end
 
   end
