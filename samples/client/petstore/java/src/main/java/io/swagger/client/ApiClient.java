@@ -420,10 +420,10 @@ public class ApiClient {
       throw new ApiException(500, "unknown method type " + method);
     }
 
-    if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
+    if(response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
       return null;
     }
-    else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
+    else if(response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
       if(response.hasEntity()) {
         return (String) response.getEntity(String.class);
       }
@@ -444,7 +444,7 @@ public class ApiClient {
         }
       }
       throw new ApiException(
-                response.getClientResponseStatus().getStatusCode(),
+                response.getStatusInfo().getStatusCode(),
                 message,
                 response.getHeaders(),
                 respBody);
