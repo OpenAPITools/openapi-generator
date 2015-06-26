@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   # 
   class Order < BaseObject
     attr_accessor :id, :pet_id, :quantity, :ship_date, :status, :complete

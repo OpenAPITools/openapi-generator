@@ -1,6 +1,6 @@
 require "uri"
 
-module SwaggerClient
+module Petstore
   class StoreApi
 
     # Returns pet inventories by status

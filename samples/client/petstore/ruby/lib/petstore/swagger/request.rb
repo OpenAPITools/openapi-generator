@@ -1,7 +1,7 @@
 require 'uri'
 require 'typhoeus'
 
-module SwaggerClient
+module Petstore
   module Swagger
     class Request
       attr_accessor :host, :path, :format, :params, :body, :http_method, :headers, :form_params, :auth_names, :response

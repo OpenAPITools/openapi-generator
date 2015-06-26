@@ -1,6 +1,6 @@
 require 'logger'
 
-module SwaggerClient
+module Petstore
   module Swagger
     class Configuration
       attr_accessor :scheme, :host, :base_path, :user_agent, :format, :auth_token, :inject_format, :force_ending_format

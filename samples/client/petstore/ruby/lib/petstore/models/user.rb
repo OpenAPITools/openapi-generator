@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   # 
   class User < BaseObject
     attr_accessor :id, :username, :first_name, :last_name, :email, :password, :phone, :user_status

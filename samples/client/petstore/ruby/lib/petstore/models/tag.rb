@@ -1,6 +1,6 @@
-module SwaggerClient
+module Petstore
   # 
-  class Category < BaseObject
+  class Tag < BaseObject
     attr_accessor :id, :name
     # attribute mapping from ruby-style variable name to JSON key
     def self.attribute_map

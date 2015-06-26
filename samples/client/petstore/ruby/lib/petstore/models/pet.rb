@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   # 
   class Pet < BaseObject
     attr_accessor :id, :category, :name, :photo_urls, :tags, :status

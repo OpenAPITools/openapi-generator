@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   module Swagger
     class << self
       attr_accessor :logger, :last_response
