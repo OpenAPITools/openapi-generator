@@ -79,7 +79,11 @@ class ObjectSerializer {
      * @return string the form string
      */
     public function toFormValue($value) {
-      return $this->toString($value);
+      if ($value instanceof SplFileObject) {
+          return $value->getRealPath();
+      } else {
+          return $this->toString($value);
+      }
     }
 
     /**
@@ -104,7 +108,7 @@ class ObjectSerializer {
      * @param string $class class name is passed as a string
      * @return object an instance of $class
      */
-    public function deserialize($data, $class) {
+    public function deserialize($data, $class, $httpHeader=null) {
       if (null === $data) {
         $deserialized = null;
       } elseif (substr($class, 0, 4) == 'map[') { # for associative array e.g. map[string,int]
@@ -129,6 +133,24 @@ class ObjectSerializer {
       } elseif (in_array($class, array('string', 'int', 'float', 'double', 'bool', 'object'))) {
         settype($data, $class);
         $deserialized = $data;
+    } elseif ($class === 'SplFileObject') {
+      # determine temp folder path
+      if (!isset(Configuration::$tempFolderPath) || '' === Configuration::$tempFolderPath) {
+        $tmpFolderPath = sys_get_temp_dir();
+      } else {
+        $tmpFolderPath = Configuration::tempFolderPath;
+      }
+
+      # determine file name
+      if (preg_match('/Content-Disposition: inline; filename=(.*)/i', $httpHeader, $match)) {
+        $filename = $tmpFolderPath.$match[1];
+      } else {
+        $filename = tempnam($tmpFolderPath, '');
+      }
+      $deserialized = new \SplFileObject($filename, "w");
+      $byte_written = $deserialized->fwrite($data);
+      error_log("[INFO] Written $byte_written to $filename. Please move the file to a proper folder for further processing and delete the temp afterwards", 3, Configuration::$debug_file);
+
       } else {
         $instance = new $class();
         foreach ($instance::$swaggerTypes as $property => $type) {

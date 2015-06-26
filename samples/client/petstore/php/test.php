@@ -19,7 +19,7 @@ try {
     //$pet_api = new SwaggerClient\PetAPI($api_client);
     $pet_api = new Swagger\Client\Api\PetAPI();
     // test default header
-    $pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
+    //$pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
     // return Pet (model)
     $response = $pet_api->getPetById($petId);
     // to test __toString()
@@ -28,26 +28,26 @@ try {
     // add pet (post json)
     $new_pet_id = 10005;
     $new_pet = new Swagger\Client\Model\Pet;
-    $new_pet->id = $new_pet_id;
-    $new_pet->name = "PHP Unit Test";
+    $new_pet->setId($new_pet_id);
+    $new_pet->setName("PHP Unit Test");
     // new tag
     $tag= new Swagger\Client\Model\Tag;
-    $tag->id = $new_pet_id; // use the same id as pet
+    $tag->setId($new_pet_id); // use the same id as pet
     //$tag->name = "test php tag";
     // new category
     $category = new Swagger\Client\Model\Category;
-    $category->id = 0; // use the same id as pet
+    $category->setId(10005); // use the same id as pet
     //$category->name = "test php category";
 
-    $new_pet->tags = array($tag);
-    $new_pet->category = $category;
+    $new_pet->setTags(array($tag));
+    $new_pet->setCategory($category);
 
     $pet_api = new Swagger\Client\Api\PetAPI();
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
 
     // test upload file (exception)
-    $upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
+    //$upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
 
 } catch (Swagger\Client\Exception $e) {
     echo 'Caught exception: ', $e->getMessage(), "\n";
