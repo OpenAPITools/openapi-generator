@@ -1,6 +1,6 @@
 require "uri"
 
-module SwaggerClient
+module Petstore
   class PetApi
 
     # Update an existing pet

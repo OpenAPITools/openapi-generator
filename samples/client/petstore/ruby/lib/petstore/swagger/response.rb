@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   module Swagger
     class Response
       require 'json'
@@ -77,7 +77,7 @@ module SwaggerClient
           end
         else
           # models, e.g. Pet
-          SwaggerClient.const_get(return_type).new.tap do |model|
+          Petstore.const_get(return_type).new.tap do |model|
             model.build_from_hash data
           end
         end

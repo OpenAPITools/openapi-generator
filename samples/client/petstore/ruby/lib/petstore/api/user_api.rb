@@ -1,6 +1,6 @@
 require "uri"
 
-module SwaggerClient
+module Petstore
   class UserApi
 
     # Create user

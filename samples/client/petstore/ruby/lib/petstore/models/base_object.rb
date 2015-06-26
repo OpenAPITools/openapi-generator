@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   # base class containing fundamental method such as to_hash, build_from_hash and more
   class BaseObject
 
@@ -39,7 +39,7 @@ module SwaggerClient
           false
         end
       else # model
-        _model = SwaggerClient.const_get(type).new
+        _model = Petstore.const_get(type).new
         _model.build_from_hash(value)
       end
     end

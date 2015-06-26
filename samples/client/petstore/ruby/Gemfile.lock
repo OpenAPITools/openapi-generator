@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    swagger_client (1.0.0)
+    petstore (1.0.0)
       json (~> 1.4, >= 1.4.6)
       typhoeus (~> 0.2, >= 0.2.1)
 
@@ -54,7 +54,7 @@ DEPENDENCIES
   autotest-fsevent (~> 0.2, >= 0.2.10)
   autotest-growl (~> 0.2, >= 0.2.16)
   autotest-rails-pure (~> 4.1, >= 4.1.2)
+  petstore!
   rspec (~> 3.2, >= 3.2.0)
-  swagger_client!
   vcr (~> 2.9, >= 2.9.3)
   webmock (~> 1.6, >= 1.6.2)
