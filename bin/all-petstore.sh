@@ -35,3 +35,5 @@ cd $APP_DIR
 ./bin/silex-petstore-server.sh
 ./bin/spring-mvc-petstore-server.sh
 ./bin/tizen-petstore.sh
+./bin/typescript-angular-petstore.sh
+./bin/typescript-node-petstore.sh
