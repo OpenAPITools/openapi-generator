@@ -1,0 +1,1 @@
+../../../../../SwaggerClient/SWGJSONResponseSerializer.h

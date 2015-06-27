@@ -1,0 +1,49 @@
+PODS:
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - AFNetworking/UIKit (2.5.4):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Expecta (1.0.0)
+  - ISO8601 (0.3.0)
+  - JSONModel (1.1.0)
+  - Specta (1.0.2)
+  - SwaggerClient (0.1.0):
+    - AFNetworking (~> 2.3)
+    - ISO8601
+    - JSONModel
+
+DEPENDENCIES:
+  - Expecta
+  - Specta
+  - SwaggerClient (from `../`)
+
+EXTERNAL SOURCES:
+  SwaggerClient:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  Expecta: 32604574add2c46a36f8d2f716b6c5736eb75024
+  ISO8601: 8d8a22d5edf0554a1cf75bac028c76c1dc0ffaef
+  JSONModel: ec77e9865236a7a09d9cf7668df6b4b328d9ec1d
+  Specta: 9cec98310dca411f7c7ffd6943552b501622abfe
+  SwaggerClient: 579729c54e8e2e34566e5b5572adc959518663ea
+
+COCOAPODS: 0.37.1

@@ -1,0 +1,2 @@
+PODS_SWAGGERCLIENT_TESTS_EXPECTA_FRAMEWORK_SEARCH_PATHS = $(inherited) $(DEVELOPER_FRAMEWORKS_DIR) "$(PLATFORM_DIR)/Developer/Library/Frameworks" "$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks" "$(SDKROOT)/Developer/Library/Frameworks"
+PODS_SWAGGERCLIENT_TESTS_EXPECTA_OTHER_LDFLAGS = -framework "Foundation" -framework "XCTest"
