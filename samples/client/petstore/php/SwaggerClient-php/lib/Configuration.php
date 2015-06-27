@@ -50,18 +50,17 @@ class Configuration {
   
     /** @var string Debug file location (log to STDOUT by default) */
     protected $debugFile = 'php://output';
-  
+
     /** @var string Debug file location (log to STDOUT by default) */
     protected $tempFolderPath;
 
     /**
      * @param string $tempFolderPath
-     */    
+     */
     public function __construct() {
         $this->tempFolderPath = sys_get_temp_dir();
     }
-        
-
+  
     /**
      * @param string $key
      * @param string $value
@@ -259,16 +258,16 @@ class Configuration {
     public function getDebugFile() {
         return $this->debugFile;
     }
-  
+ 
     /**
-     * @param string $debugFile
+     * @param string $tempFolderPath
      * @return Configuration
      */
     public function setTempFolderPath($tempFolderPath) {
         $this->tempFolderPath = $tempFolderPath;
         return $this;
     }
-  
+ 
     /**
      * @return string
      */
@@ -276,12 +275,13 @@ class Configuration {
         return $this->tempFolderPath;
     }
 
+ 
     /**
      * @return Configuration
      */
     public static function getDefaultConfiguration() {
         if (self::$defaultConfiguration == null) {
-            return new Configuration();
+            self::$defaultConfiguration = new Configuration();
         }
   
         return self::$defaultConfiguration;
@@ -303,6 +303,7 @@ class Configuration {
         $report .= "    PHP Version: ".phpversion()."\n";
         $report .= "    Swagger Spec Version: 1.0.0\n";
         $report .= "    SDK Package Version: 1.0.0\n";
+        $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath()."\n";
   
         return $report;
     }

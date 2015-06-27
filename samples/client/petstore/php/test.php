@@ -5,22 +5,24 @@ require_once(__DIR__ . '/SwaggerClient-php/autoload.php');
 //ini_set('display_errors', 1);
 //error_reporting(~0);
 
-// initialize the API client
-//$api_client = new SwaggerClient\ApiClient('http://petstore.swagger.io/v2');
-//$api_client->addDefaultHeader("test1", "value1");
-
 // to enable logging
-//SwaggerClient\Configuration::$debug = true;
-//SwaggerClient\Configuration::$debug_file = '/var/tmp/php_debug.log';
+//Swagger\Client\Configuration::$debug = true;
+//Swagger\Client\Configuration::$debug_file = '/var/tmp/php_debug.log';
+
+// to debug report
+print Swagger\Client\Configuration::toDebugReport();
+
+// to change temp folder path
 Swagger\Client\Configuration::getDefaultConfiguration()->setTempFolderPath('/var/tmp/php/');
 
 $petId = 10005; // ID of pet that needs to be fetched
 try {
     // get pet by id
-    //$pet_api = new SwaggerClient\PetAPI($api_client);
+    //$api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
+    //$api_client->getConfig()->addDefaultHeader("test1", "value1");
+    //$pet_api = new Swagger\Client\PetAPI($api_client);
     $pet_api = new Swagger\Client\Api\PetAPI();
     $pet_api->getApiClient()->getConfig()->setTempFolderPath('/var/tmp/php/');
-    print_r($pet_api->getApiClient()->getConfig()->getTempFolderPath());
     // test default header
     //$pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
     // return Pet (model)
@@ -49,10 +51,10 @@ try {
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
 
-    // test upload file (exception)
-    //$upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
+    // test upload file (should return exception)
+    $upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
 
-} catch (Swagger\Client\Exception $e) {
+} catch (Swagger\Client\ApiException $e) {
     echo 'Caught exception: ', $e->getMessage(), "\n";
     echo 'HTTP response headers: ', $e->getResponseHeaders(), "\n";
     echo 'HTTP response body: ', $e->getResponseBody(), "\n";
