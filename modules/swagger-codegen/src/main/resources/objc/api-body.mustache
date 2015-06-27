@@ -1,7 +1,7 @@
 {{#operations}}
 #import "{{classname}}.h"
-#import "SWGFile.h"
-#import "SWGQueryParamCollection.h"
+#import "{{classPrefix}}File.h"
+#import "{{classPrefix}}QueryParamCollection.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 {{newline}}
@@ -19,20 +19,20 @@ static NSString * basePath = @"{{basePath}}";
 - (id) init {
     self = [super init];
     if (self) {
-        self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+        self.apiClient = [{{classPrefix}}ApiClient sharedClientFromPool:basePath];
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (id) initWithApiClient:(SWGApiClient *)apiClient {
+- (id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
     self = [super init];
     if (self) {
         if (apiClient) {
             self.apiClient = apiClient;
         }
         else {
-            self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+            self.apiClient = [{{classPrefix}}ApiClient sharedClientFromPool:basePath];
         }
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }

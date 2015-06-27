@@ -1,6 +1,0 @@
-framework module AFNetworking {
-  umbrella header "Pods-SwaggerClient_Tests-AFNetworking-umbrella.h"
-
-  export *
-  module * { export * }
-}

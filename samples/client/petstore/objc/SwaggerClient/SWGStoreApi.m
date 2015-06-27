@@ -1,7 +1,7 @@
 #import "SWGStoreApi.h"
 #import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
-#import "SWGOrder.h"
+#import "SwaggerClient.SWGOrder.h"
 
 
 @interface SWGStoreApi ()

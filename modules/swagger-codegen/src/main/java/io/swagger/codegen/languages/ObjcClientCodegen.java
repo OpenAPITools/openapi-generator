@@ -18,9 +18,9 @@ import java.util.Set;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected Set<String> foundationClasses = new HashSet<String>();
-    protected String podName = null;
-    protected String podVersion = null;
-    protected String classPrefix = null;
+    protected String podName = "SwaggerClient";
+    protected String podVersion = "1.0.0";
+    protected String classPrefix = "SWG";
 
     public ObjcClientCodegen() {
         super();
@@ -127,22 +127,13 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey("podName")) {
             setPodName((String) additionalProperties.get("podName"));
         }
-        else {
-            setPodName("SwaggerClient");
-        }
 
         if (additionalProperties.containsKey("podVersion")) {
             setPodVersion((String) additionalProperties.get("podVersion"));
         }
-        else {
-            setPodVersion("1.0.0");
-        }
 
         if (additionalProperties.containsKey("classPrefix")) {
             setClassPrefix((String) additionalProperties.get("classPrefix"));
-        }
-        else {
-            setClassPrefix("SWG");
         }
 
         additionalProperties.put("podName", podName);
@@ -153,22 +144,22 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelPackage = swaggerFolder;
         apiPackage = swaggerFolder;
 
-        supportingFiles.add(new SupportingFile("SWGObject.h", swaggerFolder, classPrefix + "Object.h"));
-        supportingFiles.add(new SupportingFile("SWGObject.m", swaggerFolder, classPrefix + "Object.m"));
-        supportingFiles.add(new SupportingFile("SWGQueryParamCollection.h", swaggerFolder, classPrefix + "QueryParamCollection.h"));
-        supportingFiles.add(new SupportingFile("SWGQueryParamCollection.m", swaggerFolder, classPrefix + "QueryParamCollection.m"));
-        supportingFiles.add(new SupportingFile("SWGApiClient-header.mustache", swaggerFolder, classPrefix + "ApiClient.h"));
-        supportingFiles.add(new SupportingFile("SWGApiClient-body.mustache", swaggerFolder, classPrefix + "ApiClient.m"));
-        supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-header.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.h"));
-        supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-body.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.m"));
-        supportingFiles.add(new SupportingFile("SWGJSONRequestSerializer-body.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.m"));
-        supportingFiles.add(new SupportingFile("SWGJSONRequestSerializer-header.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.h"));
-        supportingFiles.add(new SupportingFile("SWGFile.h", swaggerFolder, classPrefix + "File.h"));
-        supportingFiles.add(new SupportingFile("SWGFile.m", swaggerFolder, classPrefix + "File.m"));
+        supportingFiles.add(new SupportingFile("Object-header.mustache", swaggerFolder, classPrefix + "Object.h"));
+        supportingFiles.add(new SupportingFile("Object-body.mustache", swaggerFolder, classPrefix + "Object.m"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache", swaggerFolder, classPrefix + "QueryParamCollection.h"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache", swaggerFolder, classPrefix + "QueryParamCollection.m"));
+        supportingFiles.add(new SupportingFile("ApiClient-header.mustache", swaggerFolder, classPrefix + "ApiClient.h"));
+        supportingFiles.add(new SupportingFile("ApiClient-body.mustache", swaggerFolder, classPrefix + "ApiClient.m"));
+        supportingFiles.add(new SupportingFile("JSONResponseSerializer-header.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.h"));
+        supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.h"));
+        supportingFiles.add(new SupportingFile("File-header.mustache", swaggerFolder, classPrefix + "File.h"));
+        supportingFiles.add(new SupportingFile("File-body.mustache", swaggerFolder, classPrefix + "File.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", swaggerFolder, "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", swaggerFolder, "JSONValueTransformer+ISO8601.h"));
-        supportingFiles.add(new SupportingFile("SWGConfiguration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));
-        supportingFiles.add(new SupportingFile("SWGConfiguration-header.mustache", swaggerFolder, classPrefix + "Configuration.h"));
+        supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));
+        supportingFiles.add(new SupportingFile("Configuration-header.mustache", swaggerFolder, classPrefix + "Configuration.h"));
         supportingFiles.add(new SupportingFile("podspec.mustache", "", podName + ".podspec"));
     }
 
@@ -301,11 +292,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
-        if ("".equals(modelPackage())) {
-            return name;
-        } else {
-            return modelPackage() + "." + name;
-        }
+        return name;
     }
 
     @Override
@@ -315,12 +302,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder;
+        return outputFolder + File.separatorChar + apiPackage();
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder;
+        return outputFolder + File.separatorChar + modelPackage();
     }
 
     @Override

@@ -1,6 +1,0 @@
-framework module JSONModel {
-  umbrella header "Pods-SwaggerClient_Example-JSONModel-umbrella.h"
-
-  export *
-  module * { export * }
-}

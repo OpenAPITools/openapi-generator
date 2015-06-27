@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "SWGPet.h"
-#import "SWGFile.h"
+#import "SwaggerClient.SWGPet.h"
+#import "SwaggerClient.SWGFile.h"
 #import "SWGObject.h"
 #import "SWGApiClient.h"
 

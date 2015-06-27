@@ -1,1 +1,0 @@
-../../../AFNetworking/AFNetworking/AFURLSessionManager.h

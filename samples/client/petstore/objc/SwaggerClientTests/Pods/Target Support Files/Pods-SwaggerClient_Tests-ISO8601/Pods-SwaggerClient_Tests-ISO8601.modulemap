@@ -1,6 +1,0 @@
-framework module ISO8601 {
-  umbrella header "Pods-SwaggerClient_Tests-ISO8601-umbrella.h"
-
-  export *
-  module * { export * }
-}
