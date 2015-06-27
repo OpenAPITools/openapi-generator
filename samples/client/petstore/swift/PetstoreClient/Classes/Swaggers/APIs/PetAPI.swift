@@ -71,8 +71,44 @@ extension PetstoreClientAPI {
          - OAuth:
            - type: oauth2
            - name: petstore_auth
-         - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
-         - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
+  "id" : 123456789,
+  "category" : {
+    "id" : 123456789,
+    "name" : "aeiou"
+  },
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>string</photoUrls>
+  <status>string</status>
+</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
+  "id" : 123456789,
+  "category" : {
+    "id" : 123456789,
+    "name" : "aeiou"
+  },
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>string</photoUrls>
+  <status>string</status>
+</Pet>, contentType=application/xml}]
          
          :param: status (query) Status values that need to be considered for filter
 
@@ -101,8 +137,44 @@ extension PetstoreClientAPI {
          - OAuth:
            - type: oauth2
            - name: petstore_auth
-         - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
-         - examples: [{example=[ {\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n} ], contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
+  "id" : 123456789,
+  "category" : {
+    "id" : 123456789,
+    "name" : "aeiou"
+  },
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>string</photoUrls>
+  <status>string</status>
+</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
+  "id" : 123456789,
+  "category" : {
+    "id" : 123456789,
+    "name" : "aeiou"
+  },
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>string</photoUrls>
+  <status>string</status>
+</Pet>, contentType=application/xml}]
          
          :param: tags (query) Tags to filter by
 
@@ -134,14 +206,50 @@ extension PetstoreClientAPI {
          - OAuth:
            - type: oauth2
            - name: petstore_auth
-         - examples: [{example={\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n}, contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
-         - examples: [{example={\n  "tags" : [ {\n    "id" : 123456789,\n    "name" : "aeiou"\n  } ],\n  "id" : 123456789,\n  "category" : {\n    "id" : 123456789,\n    "name" : "aeiou"\n  },\n  "status" : "aeiou",\n  "name" : "doggie",\n  "photoUrls" : [ "aeiou" ]\n}, contentType=application/json}, {example=<Pet>\n  <id>123456</id>\n  <Category>\n    <id>123456</id>\n    <name>string</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>string</photoUrls>\n  <Tag>\n    <id>123456</id>\n    <name>string</name>\n  </Tag>\n  <status>string</status>\n</Pet>, contentType=application/xml}]
+         - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
+  "id" : 123456789,
+  "category" : {
+    "id" : 123456789,
+    "name" : "aeiou"
+  },
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>string</photoUrls>
+  <status>string</status>
+</Pet>, contentType=application/xml}]
+         - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
+  "id" : 123456789,
+  "category" : {
+    "id" : 123456789,
+    "name" : "aeiou"
+  },
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>string</photoUrls>
+  <status>string</status>
+</Pet>, contentType=application/xml}]
          
          :param: petId (path) ID of pet that needs to be fetched
 
          :returns: Promise<Response<Pet>> 
          */
-        func getPetById(#petId: Int?) -> RequestBuilder<Pet> {
+        func getPetById(#petId: Int) -> RequestBuilder<Pet> {
             var path = "/pet/{petId}"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -170,7 +278,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func updatePetWithForm(#petId: String?, name: String?, status: String?) -> RequestBuilder<Void> {
+        func updatePetWithForm(#petId: String, name: String?, status: String?) -> RequestBuilder<Void> {
             var path = "/pet/{petId}"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -197,7 +305,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func deletePet(#petId: Int?) -> RequestBuilder<Void> {
+        func deletePet(#petId: Int) -> RequestBuilder<Void> {
             var path = "/pet/{petId}"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -226,7 +334,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func uploadFile(#petId: Int?, additionalMetadata: String?, file: NSData?) -> RequestBuilder<Void> {
+        func uploadFile(#petId: Int, additionalMetadata: String?, file: NSData?) -> RequestBuilder<Void> {
             var path = "/pet/{petId}/uploadImage"
             path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path

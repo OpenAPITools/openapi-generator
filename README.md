@@ -183,7 +183,7 @@ StaticDocCodegen.java
 StaticHtmlGenerator.java
 SwaggerGenerator.java
 SwaggerYamlGenerator.java
-SwiftGenerator.java
+SwiftCodegen.java
 TizenClientCodegen.java
 ```
 

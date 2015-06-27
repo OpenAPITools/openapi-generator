@@ -11,6 +11,7 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.annotation.Nullable;
@@ -19,8 +20,13 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
+public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");
+  protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
+  protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT };
+  protected String projectName = "SwaggerClient";
+  protected boolean unwrapRequired = false;
+  protected String[] responseAs = new String[0];
   protected String sourceFolder = "Classes" + File.separator + "Swaggers";
 
   public CodegenType getTag() {
@@ -35,7 +41,7 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
     return "Generates a swift client library.";
   }
 
-  public SwiftGenerator() {
+  public SwiftCodegen() {
     super();
     outputFolder = "generated-code" + File.separator + "swift";
     modelTemplateFiles.put("model.mustache", ".swift");
@@ -43,34 +49,6 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
     templateDir = "swift";
     apiPackage = File.separator + "APIs";
     modelPackage = File.separator + "Models";
-
-    // Inject application name
-    String appName = System.getProperty("appName");
-    if (appName == null) {
-      appName = "SwaggerClient";
-    }
-    additionalProperties.put("projectName", appName);
-
-    // Inject base url override
-    String basePathOverride = System.getProperty("basePathOverride");
-    if (basePathOverride != null) {
-      additionalProperties.put("basePathOverride", basePathOverride);
-    }
-
-    // Make all the variable optional
-    String suppressRequired = System.getProperty("suppressRequired");
-    if (suppressRequired != null) {
-      additionalProperties.put("suppressRequired", suppressRequired);
-    }
-
-    sourceFolder = appName + File.separator + sourceFolder;
-
-    supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
-    supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
-    supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache", sourceFolder, "AlamofireImplementations.swift"));
-    supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));
-    supportingFiles.add(new SupportingFile("Models.mustache", sourceFolder, "Models.swift"));
-    supportingFiles.add(new SupportingFile("APIs.mustache", sourceFolder, "APIs.swift"));
 
     languageSpecificPrimitives = new HashSet<String>(
       Arrays.asList(
@@ -125,6 +103,53 @@ public class SwiftGenerator extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("file", "NSData");
 
     importMapping = new HashMap<String, String>();
+
+    cliOptions.add(new CliOption("projectName", "Project name in Xcode"));
+    cliOptions.add(new CliOption("responseAs", "Optionally use libraries to manage response.  Currently " +
+            StringUtils.join(RESPONSE_LIBRARIES, ", ") + " are available."));
+    cliOptions.add(new CliOption("unwrapRequired", "Treat 'required' properties in response as non-optional " +
+            "(which would crash the app if api returns null as opposed to required option specified in json schema"));
+  }
+
+  @Override
+  public void processOpts() {
+    super.processOpts();
+
+    // Setup project name
+    if (additionalProperties.containsKey("projectName")) {
+      projectName = (String) additionalProperties.get("projectName");
+    } else {
+      additionalProperties.put("projectName", projectName);
+    }
+    sourceFolder = projectName + File.separator + sourceFolder;
+
+    // Setup unwrapRequired option, which makes all the properties with "required" non-optional
+    if (additionalProperties.containsKey("unwrapRequired")) {
+      unwrapRequired = Boolean.parseBoolean(String.valueOf(additionalProperties.get("unwrapRequired")));
+    }
+    additionalProperties.put("unwrapRequired", unwrapRequired);
+
+    // Setup unwrapRequired option, which makes all the properties with "required" non-optional
+    if (additionalProperties.containsKey("responseAs")) {
+      Object responseAsObject = additionalProperties.get("responseAs");
+      if (responseAsObject instanceof String) {
+        responseAs = ((String)responseAsObject).split(",");
+      } else {
+        responseAs = (String[]) responseAsObject;
+      }
+    }
+    additionalProperties.put("responseAs", responseAs);
+    if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
+      additionalProperties.put("usePromiseKit", true);
+    }
+
+    supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
+    supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
+    supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache", sourceFolder,
+            "AlamofireImplementations.swift"));
+    supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));
+    supportingFiles.add(new SupportingFile("Models.mustache", sourceFolder, "Models.swift"));
+    supportingFiles.add(new SupportingFile("APIs.mustache", sourceFolder, "APIs.swift"));
   }
 
   @Override
