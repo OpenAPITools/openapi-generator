@@ -1,0 +1,1 @@
+PODS_SWAGGERCLIENT_EXAMPLE_ISO_____OTHER_LDFLAGS = -framework "Foundation"

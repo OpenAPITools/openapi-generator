@@ -1,0 +1,6 @@
+framework module Specta {
+  umbrella header "Pods-SwaggerClient_Tests-Specta-umbrella.h"
+
+  export *
+  module * { export * }
+}

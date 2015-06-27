@@ -1,0 +1,37 @@
+{
+  "name": "SwaggerClient",
+  "version": "0.1.0",
+  "summary": "A short description of SwaggerClient.",
+  "description": "                       An optional longer description of SwaggerClient\n\n                       * Markdown format.\n                       * Don't worry about the indent, we strip it!\n",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/SwaggerClient",
+  "license": "MIT",
+  "authors": {
+    "geekerzp": "geekerzp@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/SwaggerClient.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "requires_arc": true,
+  "source_files": "SwaggerClient/**/*",
+  "public_header_files": "SwaggerClient/**/*.h",
+  "resource_bundles": {
+    "SwaggerClient": [
+      "Pod/Assets/*.png"
+    ]
+  },
+  "dependencies": {
+    "AFNetworking": [
+      "~> 2.3"
+    ],
+    "JSONModel": [
+
+    ],
+    "ISO8601": [
+
+    ]
+  }
+}

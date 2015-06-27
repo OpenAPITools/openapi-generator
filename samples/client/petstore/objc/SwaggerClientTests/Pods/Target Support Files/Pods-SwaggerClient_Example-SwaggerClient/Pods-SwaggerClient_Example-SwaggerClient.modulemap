@@ -1,0 +1,6 @@
+framework module SwaggerClient {
+  umbrella header "Pods-SwaggerClient_Example-SwaggerClient-umbrella.h"
+
+  export *
+  module * { export * }
+}
