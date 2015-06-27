@@ -46,37 +46,165 @@ class Order implements ArrayAccess {
       'status' => 'status',
       'complete' => 'complete'
   );
+
+  /** @var string[] Array of attributes to setter functions (for deserialization of responses) */
+  static $setters = array(
+    'id' => 'setId',
+    'pet_id' => 'setPetId',
+    'quantity' => 'setQuantity',
+    'ship_date' => 'setShipDate',
+    'status' => 'setStatus',
+    'complete' => 'setComplete'
+  );
+
+  /** @var string[] Array of attributes to getter functions (for serialization of requests) */
+  static $getters = array(
+    'id' => 'getId',
+    'pet_id' => 'getPetId',
+    'quantity' => 'getQuantity',
+    'ship_date' => 'getShipDate',
+    'status' => 'getStatus',
+    'complete' => 'getComplete'
+  );
+
   
   /** @var int $id */
-  public $id;
+  protected $id;
   
   /** @var int $pet_id */
-  public $pet_id;
+  protected $pet_id;
   
   /** @var int $quantity */
-  public $quantity;
+  protected $quantity;
   
   /** @var \DateTime $ship_date */
-  public $ship_date;
+  protected $ship_date;
   
   /** @var string $status Order Status */
-  public $status;
+  protected $status;
   
   /** @var bool $complete */
-  public $complete;
+  protected $complete;
+  
+  public function __construct(array $data = null) {
+    if ($data != null) {
+      $this->id = $data["id"];
+      $this->pet_id = $data["pet_id"];
+      $this->quantity = $data["quantity"];
+      $this->ship_date = $data["ship_date"];
+      $this->status = $data["status"];
+      $this->complete = $data["complete"];
+    }
+  }
   
   /**
-   * @param mixed[] Array of parameters to initialize the object with
+   * get id
+   * @return int
    */
-  public function __construct(array $data = null) {
-    $this->id = @$data["id"];
-    $this->pet_id = @$data["pet_id"];
-    $this->quantity = @$data["quantity"];
-    $this->ship_date = @$data["ship_date"];
-    $this->status = @$data["status"];
-    $this->complete = @$data["complete"];
+  public function getId() {
+    return $this->id;
   }
 
+  /**
+   * set id
+   * @param int $id
+   * @return $this
+   */
+  public function setId($id) {
+    $this->id = $id;
+    return $this;
+  }
+  
+  /**
+   * get pet_id
+   * @return int
+   */
+  public function getPetId() {
+    return $this->pet_id;
+  }
+
+  /**
+   * set pet_id
+   * @param int $pet_id
+   * @return $this
+   */
+  public function setPetId($pet_id) {
+    $this->pet_id = $pet_id;
+    return $this;
+  }
+  
+  /**
+   * get quantity
+   * @return int
+   */
+  public function getQuantity() {
+    return $this->quantity;
+  }
+
+  /**
+   * set quantity
+   * @param int $quantity
+   * @return $this
+   */
+  public function setQuantity($quantity) {
+    $this->quantity = $quantity;
+    return $this;
+  }
+  
+  /**
+   * get ship_date
+   * @return \DateTime
+   */
+  public function getShipDate() {
+    return $this->ship_date;
+  }
+
+  /**
+   * set ship_date
+   * @param \DateTime $ship_date
+   * @return $this
+   */
+  public function setShipDate($ship_date) {
+    $this->ship_date = $ship_date;
+    return $this;
+  }
+  
+  /**
+   * get status
+   * @return string
+   */
+  public function getStatus() {
+    return $this->status;
+  }
+
+  /**
+   * set status
+   * @param string $status
+   * @return $this
+   */
+  public function setStatus($status) {
+    $this->status = $status;
+    return $this;
+  }
+  
+  /**
+   * get complete
+   * @return bool
+   */
+  public function getComplete() {
+    return $this->complete;
+  }
+
+  /**
+   * set complete
+   * @param bool $complete
+   * @return $this
+   */
+  public function setComplete($complete) {
+    $this->complete = $complete;
+    return $this;
+  }
+  
   public function offsetExists($offset) {
     return isset($this->$offset);
   }

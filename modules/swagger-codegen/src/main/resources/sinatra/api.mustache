@@ -1,0 +1,57 @@
+require 'json'
+
+{{#operations}}
+{{#operation}}
+
+MyApp.add_route('{{httpMethod}}', '{{path}}', {
+  "resourcePath" => "/{{baseName}}",
+  "summary" => "{{{summary}}}",
+  "nickname" => "{{nickname}}", 
+  "responseClass" => "{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}", 
+  "endpoint" => "{{path}}", 
+  "notes" => "{{{notes}}}",
+  "parameters" => [
+    {{#queryParams}}
+    {
+      "name" => "{{paramName}}",
+      "description" => "{{description}}",
+      "dataType" => "{{swaggerDataType}}",
+      "paramType" => "query",
+      "allowMultiple" => {{allowMultiple}},
+      "allowableValues" => "{{allowableValues}}",
+      {{#defaultValue}}"defaultValue" => {{{defaultValue}}}{{/defaultValue}}
+    },
+    {{/queryParams}}
+    {{#pathParams}}
+    {
+      "name" => "{{paramName}}",
+      "description" => "{{description}}",
+      "dataType" => "{{swaggerDataType}}",
+      "paramType" => "path",
+    },
+    {{/pathParams}}
+    {{#headerParams}}
+    {
+      "name" => "{{paramName}}",
+      "description" => "{{description}}",
+      "dataType" => "{{swaggerDataType}}",
+      "paramType" => "header",
+    },
+    {{/headerParams}}
+    {{#bodyParams}}
+    {
+      "name" => "body",
+      "description" => "{{description}}",
+      "dataType" => "{{swaggerDataType}}",
+      "paramType" => "body",
+    }
+    {{/bodyParams}}
+    ]}) do
+  cross_origin
+  # the guts live here
+
+  {"message" => "yes, it worked"}.to_json
+end
+
+{{/operation}}
+{{/operations}}

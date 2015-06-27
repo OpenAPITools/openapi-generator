@@ -1,0 +1,73 @@
+/* tslint:disable:no-unused-variable */
+
+{{#operations}}
+{{#description}}
+    /**
+    * {{&description}}
+    */
+{{/description}}
+export class {{classname}} {
+    private basePath = '{{basePath}}';
+
+    constructor(private url: string, private username: string, private password: string, basePath?: string) {
+        if (basePath) {
+            this.basePath = basePath;
+        }
+    }
+
+  {{#operation}}
+  public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}} ) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }> {
+    var path = this.url + this.basePath + '{{path}}';
+
+    {{#pathParams}}
+    path = path.replace('{' + '{{paramName}}' + '}', String({{paramName}}));
+    {{/pathParams}}
+
+    var queryParameters: any = {};
+    var headerParams: any = {};
+
+    {{#allParams}}{{#required}}
+    // verify required parameter '{{paramName}}' is set
+    if (!{{paramName}}) {
+        throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
+    }
+    {{/required}}{{/allParams}}
+
+    {{#queryParams}}if ({{paramName}} !== undefined) {
+        queryParameters['{{paramName}}'] = {{paramName}};
+    }
+    {{/queryParams}}
+
+    {{#headerParams}}headerParams['{{paramName}}'] = {{paramName}};
+    {{/headerParams}}
+
+    var deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }>();
+
+    request({
+        method: '{{httpMethod}}',
+        qs: queryParameters,
+        uri: path,
+        json: true,
+        {{#bodyParam}}body: {{paramName}},
+        {{/bodyParam}}
+        auth: {
+            username: this.username, password: this.password
+        }
+    }, (error, response, body) => {
+      if (error) {
+        deferred.reject(error);
+      } else {
+        if (response.statusCode >= 200 && response.statusCode <= 299) {
+          deferred.resolve({ response: response, body: body });
+        } else {
+          deferred.reject({ response: response, body: body });
+        }
+      }
+    });
+
+    return deferred.promise;
+  }
+
+  {{/operation}}
+}
+{{/operations}}
