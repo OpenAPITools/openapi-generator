@@ -134,14 +134,22 @@ extension PetstoreClientAPI {
          
          - GET /user/{username}
          - 
-         - examples: [{example={\n  "id" : 123456789,\n  "lastName" : "aeiou",\n  "phone" : "aeiou",\n  "username" : "aeiou",\n  "email" : "aeiou",\n  "userStatus" : 123,\n  "firstName" : "aeiou",\n  "password" : "aeiou"\n}, contentType=application/json}, {example=<User>\n  <id>123456</id>\n  <username>string</username>\n  <firstName>string</firstName>\n  <lastName>string</lastName>\n  <email>string</email>\n  <password>string</password>\n  <phone>string</phone>\n  <userStatus>0</userStatus>\n</User>, contentType=application/xml}]
-         - examples: [{example={\n  "id" : 123456789,\n  "lastName" : "aeiou",\n  "phone" : "aeiou",\n  "username" : "aeiou",\n  "email" : "aeiou",\n  "userStatus" : 123,\n  "firstName" : "aeiou",\n  "password" : "aeiou"\n}, contentType=application/json}, {example=<User>\n  <id>123456</id>\n  <username>string</username>\n  <firstName>string</firstName>\n  <lastName>string</lastName>\n  <email>string</email>\n  <password>string</password>\n  <phone>string</phone>\n  <userStatus>0</userStatus>\n</User>, contentType=application/xml}]
+         - examples: [{example={
+  "id" : 1,
+  "username" : "johnp",
+  "firstName" : "John",
+  "lastName" : "Public",
+  "email" : "johnp@swagger.io",
+  "password" : "-secret-",
+  "phone" : "0123456789",
+  "userStatus" : 0
+}, contentType=application/json}]
          
          :param: username (path) The name that needs to be fetched. Use user1 for testing. 
 
          :returns: Promise<Response<User>> 
          */
-        func getUserByName(#username: String?) -> RequestBuilder<User> {
+        func getUserByName(#username: String) -> RequestBuilder<User> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -166,7 +174,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func updateUser(#username: String?, body: User?) -> RequestBuilder<Void> {
+        func updateUser(#username: String, body: User?) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path
@@ -189,7 +197,7 @@ extension PetstoreClientAPI {
 
          :returns: Promise<Response<Void>> 
          */
-        func deleteUser(#username: String?) -> RequestBuilder<Void> {
+        func deleteUser(#username: String) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let url = PetstoreClientAPI.basePath + path

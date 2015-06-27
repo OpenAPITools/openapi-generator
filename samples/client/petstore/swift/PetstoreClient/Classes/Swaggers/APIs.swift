@@ -5,10 +5,9 @@
 //
 
 import Foundation
-import PromiseKit
 
-class PetstoreClientAPI {
-    static let basePath = "http://petstore.swagger.io/v2"
+class OneteamAPI {
+    static let basePath = "http://ec2-52-68-31-200.ap-northeast-1.compute.amazonaws.com/"
     static var credential: NSURLCredential?
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 }
@@ -44,7 +43,7 @@ class RequestBuilder<T> {
         self.isBody = isBody
     }
     
-    func execute() -> Promise<Response<T>>  { fatalError("Not implemented") }
+    func execute(completion: (response: Response<T>?, erorr: NSError?) -> Void) { }
 
     func addHeader(#name: String, value: String) -> Self {
         if !value.isEmpty {
@@ -54,7 +53,7 @@ class RequestBuilder<T> {
     }
     
     func addCredential() -> Self {
-        self.credential = PetstoreClientAPI.credential
+        self.credential = OneteamAPI.credential
         return self
     }
 }
@@ -62,5 +61,4 @@ class RequestBuilder<T> {
 protocol RequestBuilderFactory {
     func getBuilder<T>() -> RequestBuilder<T>.Type
 }
-
 

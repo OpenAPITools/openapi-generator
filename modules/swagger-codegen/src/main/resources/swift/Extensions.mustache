@@ -4,8 +4,8 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
-import Alamofire
-import PromiseKit
+import Alamofire{{#usePromiseKit}}
+import PromiseKit{{/usePromiseKit}}
 
 extension Bool: JSONEncodable {
     func encodeToJSON() -> AnyObject { return self }
@@ -63,3 +63,17 @@ extension NSDate: JSONEncodable {
         return dateFormatter.stringFromDate(self)
     }
 }
+
+{{#usePromiseKit}}extension RequestBuilder {
+    func execute() -> Promise<Response<T>>  {
+        let deferred = Promise<Response<T>>.defer()
+        self.execute { (response: Response<T>?, error: NSError?) in
+            if let response = response {
+                deferred.fulfill(response)
+            } else {
+                deferred.reject(error!)
+            }
+        }
+        return deferred.promise
+    }
+}{{/usePromiseKit}}
