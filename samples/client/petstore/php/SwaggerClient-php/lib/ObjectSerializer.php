@@ -134,20 +134,15 @@ class ObjectSerializer {
             settype($data, $class);
             $deserialized = $data;
         } elseif ($class === '\SplFileObject') {
-            # determine temp folder path
-            $tmpFolderPath = Configuration::getDefaultConfiguration()->getTempFolderPath();
-            print_r($tmpFolderPath);
-      
             # determine file name
-            if (preg_match('/Content-Disposition: inline; filename=(.*)$/i', $httpHeader, $match)) {
-                $filename = $tmpFolderPath.$match[1];
+            if (preg_match('/Content-Disposition: inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeader, $match)) {
+                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath().$match[1];
             } else {
-	        print_r($tmpFolderPath);
-                $filename = tempnam($tmpFolderPath, '');
+                $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }
             $deserialized = new \SplFileObject($filename, "w");
             $byte_written = $deserialized->fwrite($data);
-            error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file afterwards", 3, Configuration::getDefaultConfiguration()->getDebugFile());
+            error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.\n" , 3, Configuration::getDefaultConfiguration()->getDebugFile());
       
         } else {
             $instance = new $class();
