@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "SWGOrder.h"
+#import "SwaggerClient.SWGOrder.h"
 #import "SWGObject.h"
 #import "SWGApiClient.h"
 

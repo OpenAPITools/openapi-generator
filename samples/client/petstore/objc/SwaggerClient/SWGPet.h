@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "SWGObject.h"
-#import "SWGTag.h"
-#import "SWGCategory.h"
+#import "SwaggerClient.SWGTag.h"
+#import "SwaggerClient.SWGCategory.h"
 
 
 @protocol SWGPet

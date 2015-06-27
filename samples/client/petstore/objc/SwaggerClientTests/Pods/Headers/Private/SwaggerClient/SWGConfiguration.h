@@ -1,1 +1,0 @@
-../../../../../SwaggerClient/SWGConfiguration.h

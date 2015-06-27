@@ -1,1 +1,0 @@
-../../../../../SwaggerClient/SWGMythingApi.h

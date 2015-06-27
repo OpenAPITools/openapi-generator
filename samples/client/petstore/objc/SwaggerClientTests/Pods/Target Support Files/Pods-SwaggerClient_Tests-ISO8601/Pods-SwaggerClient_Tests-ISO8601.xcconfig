@@ -1,1 +1,0 @@
-PODS_SWAGGERCLIENT_TESTS_ISO_____OTHER_LDFLAGS = -framework "Foundation"

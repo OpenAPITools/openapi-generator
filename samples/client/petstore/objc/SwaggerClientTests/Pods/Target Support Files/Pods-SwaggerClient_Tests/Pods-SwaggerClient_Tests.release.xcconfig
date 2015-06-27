@@ -1,8 +1,0 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_FRAMEWORK_BUILD_PATH"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$PODS_FRAMEWORK_BUILD_PATH/AFNetworking.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Expecta.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/ISO8601.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/JSONModel.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Specta.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/SwaggerClient.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -ObjC -framework "AFNetworking" -framework "Expecta" -framework "ISO8601" -framework "JSONModel" -framework "Specta" -framework "SwaggerClient"
-OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
-PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-SwaggerClient_Tests
-PODS_ROOT = ${SRCROOT}/Pods

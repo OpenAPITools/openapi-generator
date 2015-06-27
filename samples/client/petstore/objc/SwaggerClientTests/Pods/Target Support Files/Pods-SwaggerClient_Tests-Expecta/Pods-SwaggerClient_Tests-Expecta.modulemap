@@ -1,6 +1,0 @@
-framework module Expecta {
-  umbrella header "Pods-SwaggerClient_Tests-Expecta-umbrella.h"
-
-  export *
-  module * { export * }
-}

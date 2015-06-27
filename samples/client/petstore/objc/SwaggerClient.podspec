@@ -8,33 +8,24 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = "SwaggerClient"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of SwaggerClient."
-  s.description      = <<-DESC
-                       An optional longer description of SwaggerClient
+    s.name             = "SwaggerClient"
+    s.version          = "1.0.0"
 
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
-                       DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/SwaggerClient"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
-  s.license          = 'MIT'
-  s.author           = { "geekerzp" => "geekerzp@gmail.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/SwaggerClient.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+    s.summary          = "Swagger Petstore"
+    s.description      = <<-DESC
+                         This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href=\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters
+                         DESC
 
-  s.platform     = :ios, '7.0'
-  s.requires_arc = true
+    s.license          = 'MIT'
 
-  s.source_files = 'SwaggerClient/**/*'
-  s.public_header_files = 'SwaggerClient/**/*.h'
+    s.platform     = :ios, '7.0'
+    s.requires_arc = true
 
-  s.resource_bundles = {
-    'SwaggerClient' => ['Pod/Assets/*.png']
-  }
+    s.source_files = 'SwaggerClient/**/*'
+    s.public_header_files = '1.0.0/**/*.h'
 
-  s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'JSONModel'
-  s.dependency 'ISO8601'
+    s.dependency 'AFNetworking', '~> 2.3'
+    s.dependency 'JSONModel', '~> 1.1'
+    s.dependency 'ISO8601', '~> 0.3'
 end
+

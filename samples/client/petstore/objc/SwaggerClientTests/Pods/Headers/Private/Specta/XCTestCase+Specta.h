@@ -1,1 +1,0 @@
-../../../Specta/Specta/Specta/XCTestCase+Specta.h

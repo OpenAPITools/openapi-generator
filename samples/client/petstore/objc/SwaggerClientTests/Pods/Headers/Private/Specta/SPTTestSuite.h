@@ -1,1 +1,0 @@
-../../../Specta/Specta/Specta/SPTTestSuite.h
