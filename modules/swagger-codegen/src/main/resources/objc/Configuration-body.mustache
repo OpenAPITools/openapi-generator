@@ -1,18 +1,18 @@
-#import "SWGConfiguration.h"
+#import "{{classPrefix}}Configuration.h"
 
-@interface SWGConfiguration ()
+@interface {{classPrefix}}Configuration ()
 
 @property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKey;
 @property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKeyPrefix;
 
 @end
 
-@implementation SWGConfiguration
+@implementation {{classPrefix}}Configuration
 
 #pragma mark - Singletion Methods
 
 + (instancetype) sharedConfig {
-    static SWGConfiguration *shardConfig = nil;
+    static {{classPrefix}}Configuration *shardConfig = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shardConfig = [[self alloc] init];

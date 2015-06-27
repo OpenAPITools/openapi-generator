@@ -1,7 +1,7 @@
 #import "SWGUserApi.h"
 #import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
-#import "SwaggerClient.SWGUser.h"
+#import "SWGUser.h"
 
 
 @interface SWGUserApi ()

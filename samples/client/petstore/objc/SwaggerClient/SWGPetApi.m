@@ -1,8 +1,8 @@
 #import "SWGPetApi.h"
 #import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
-#import "SwaggerClient.SWGPet.h"
-#import "SwaggerClient.SWGFile.h"
+#import "SWGPet.h"
+#import "SWGFile.h"
 
 
 @interface SWGPetApi ()

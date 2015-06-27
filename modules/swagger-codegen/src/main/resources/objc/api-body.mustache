@@ -69,7 +69,7 @@ static NSString * basePath = @"{{basePath}}";
 }
 
 -(unsigned long) requestQueueSize {
-    return [SWGApiClient requestQueueSize];
+    return [{{classPrefix}}ApiClient requestQueueSize];
 }
 
 #pragma mark - Api Methods
@@ -106,7 +106,7 @@ static NSString * basePath = @"{{basePath}}";
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     {{#queryParams}}if({{paramName}} != nil) {
         {{#collectionFormat}}
-        queryParams[@"{{baseName}}"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
+        queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
         {{/collectionFormat}}
         {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
     }
@@ -118,7 +118,7 @@ static NSString * basePath = @"{{basePath}}";
     {{/headerParams}}
     
     // HTTP header `Accept` 
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    headerParams[@"Accept"] = [{{classPrefix}}ApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
     if ([headerParams[@"Accept"] length] == 0) {
         [headerParams removeObjectForKey:@"Accept"];
     }
@@ -133,7 +133,7 @@ static NSString * basePath = @"{{basePath}}";
     }
 
     // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
+    NSString *requestContentType = [{{classPrefix}}ApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     // Authentication setting
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
@@ -146,7 +146,7 @@ static NSString * basePath = @"{{basePath}}";
         NSMutableArray *objs = [[NSMutableArray alloc] init];
         for (id dict in (NSArray*)bodyParam) {
             if([dict respondsToSelector:@selector(toDictionary)]) {
-                [objs addObject:[(SWGObject*)dict toDictionary]];
+                [objs addObject:[({{classPrefix}}Object*)dict toDictionary]];
             }
             else{
                 [objs addObject:dict];
@@ -155,7 +155,7 @@ static NSString * basePath = @"{{basePath}}";
         bodyParam = objs;
     }
     else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
-        bodyParam = [(SWGObject*)bodyParam toDictionary];
+        bodyParam = [({{classPrefix}}Object*)bodyParam toDictionary];
     }
     {{/bodyParam}}
     {{^bodyParam}}

@@ -1,11 +1,8 @@
-#import "SWGApiClient.h"
-#import "SWGFile.h"
-#import "SWGQueryParamCollection.h"
-#import "SWGConfiguration.h"
+#import "{{classPrefix}}ApiClient.h"
 
-@implementation SWGApiClient
+@implementation {{classPrefix}}ApiClient
 
-NSString *const SWGResponseObjectErrorKey = @"SWGResponseObject";
+NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}ResponseObject";
 
 static long requestId = 0;
 static bool offlineState = false;
@@ -58,7 +55,7 @@ static bool loggingEnabled = true;
     return sharedQueue;
 }
 
-+(SWGApiClient *)sharedClientFromPool:(NSString *)baseUrl {
++({{classPrefix}}ApiClient *)sharedClientFromPool:(NSString *)baseUrl {
     static NSMutableDictionary *_pool = nil;
     if (queuedRequests == nil) {
         queuedRequests = [[NSMutableSet alloc]init];
@@ -72,16 +69,16 @@ static bool loggingEnabled = true;
         _pool = [[NSMutableDictionary alloc] init];
 
         // initialize URL cache
-        [SWGApiClient configureCacheWithMemoryAndDiskCapacity:4*1024*1024 diskSize:32*1024*1024];
+        [{{classPrefix}}ApiClient configureCacheWithMemoryAndDiskCapacity:4*1024*1024 diskSize:32*1024*1024];
 
         // configure reachability
-        [SWGApiClient configureCacheReachibilityForHost:baseUrl];
+        [{{classPrefix}}ApiClient configureCacheReachibilityForHost:baseUrl];
     }
 
     @synchronized(self) {
-        SWGApiClient * client = [_pool objectForKey:baseUrl];
+        {{classPrefix}}ApiClient * client = [_pool objectForKey:baseUrl];
         if (client == nil) {
-            client = [[SWGApiClient alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
+            client = [[{{classPrefix}}ApiClient alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
             [_pool setValue:client forKey:baseUrl ];
             if(loggingEnabled)
                 NSLog(@"new client for path %@", baseUrl);
@@ -156,7 +153,7 @@ static bool loggingEnabled = true;
 }
 
 +(NSNumber*) queueRequest {
-    NSNumber* requestId = [SWGApiClient nextRequestId];
+    NSNumber* requestId = [{{classPrefix}}ApiClient nextRequestId];
     if(loggingEnabled)
         NSLog(@"added %@ to request queue", requestId);
     [queuedRequests addObject:requestId];
@@ -221,31 +218,31 @@ static bool loggingEnabled = true;
 }
 
 +(void) configureCacheReachibilityForHost:(NSString*)host {
-    [[SWGApiClient sharedClientFromPool:host].reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+    [[{{classPrefix}}ApiClient sharedClientFromPool:host].reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         reachabilityStatus = status;
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
                 if(loggingEnabled)
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusUnknown");
-                [SWGApiClient setOfflineState:true];
+                [{{classPrefix}}ApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusNotReachable:
                 if(loggingEnabled)
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusNotReachable");
-                [SWGApiClient setOfflineState:true];
+                [{{classPrefix}}ApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWWAN:
                 if(loggingEnabled)
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWWAN");
-                [SWGApiClient setOfflineState:false];
+                [{{classPrefix}}ApiClient setOfflineState:false];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWiFi:
                 if(loggingEnabled)
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWiFi");
-                [SWGApiClient setOfflineState:false];
+                [{{classPrefix}}ApiClient setOfflineState:false];
                 break;
             default:
                 break;
@@ -255,7 +252,7 @@ static bool loggingEnabled = true;
             reachabilityChangeBlock(status);
         }
     }];
-    [[SWGApiClient sharedClientFromPool:host].reachabilityManager startMonitoring];
+    [[{{classPrefix}}ApiClient sharedClientFromPool:host].reachabilityManager startMonitoring];
 }
 
 -(NSString*) pathWithQueryParamsToString:(NSString*) path
@@ -272,32 +269,32 @@ static bool loggingEnabled = true;
             id queryParam = [queryParams valueForKey:key];
             if([queryParam isKindOfClass:[NSString class]]){
                 [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                                          [SWGApiClient escape:key], [SWGApiClient escape:[queryParams valueForKey:key]]]];
+                                          [{{classPrefix}}ApiClient escape:key], [{{classPrefix}}ApiClient escape:[queryParams valueForKey:key]]]];
             }
-            else if([queryParam isKindOfClass:[SWGQueryParamCollection class]]){
-                SWGQueryParamCollection * coll = (SWGQueryParamCollection*) queryParam;
+            else if([queryParam isKindOfClass:[{{classPrefix}}QueryParamCollection class]]){
+                {{classPrefix}}QueryParamCollection * coll = ({{classPrefix}}QueryParamCollection*) queryParam;
                 NSArray* values = [coll values];
                 NSString* format = [coll format];
 
                 if([format isEqualToString:@"csv"]) {
                     [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                        [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@","]]]];
+                        [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@","]]]];
 
                 }
                 else if([format isEqualToString:@"tsv"]) {
                     [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                        [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"\t"]]]];
+                        [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"\t"]]]];
 
                 }
                 else if([format isEqualToString:@"pipes"]) {
                     [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                        [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"|"]]]];
+                        [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"|"]]]];
 
                 }
                 else if([format isEqualToString:@"multi"]) {
                     for(id obj in values) {
                         [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                            [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", obj]]];
+                            [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", obj]]];
                         counter += 1;
                     }
 
@@ -305,7 +302,7 @@ static bool loggingEnabled = true;
             }
             else {
                 [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                                          [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [queryParams valueForKey:key]]]];
+                                          [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", [queryParams valueForKey:key]]]];
             }
 
             counter += 1;
@@ -333,7 +330,7 @@ static bool loggingEnabled = true;
     NSMutableDictionary *headersWithAuth = [NSMutableDictionary dictionaryWithDictionary:*headers];
     NSMutableDictionary *querysWithAuth = [NSMutableDictionary dictionaryWithDictionary:*querys];
     
-    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
     for (NSString *auth in authSettings) {
         NSDictionary *authSetting = [[config authSettings] objectForKey:auth];
         
@@ -486,7 +483,7 @@ static bool loggingEnabled = true;
                          completionBlock: (void (^)(id, NSError *))completionBlock {
     // setting request serializer
     if ([requestContentType isEqualToString:@"application/json"]) {
-        self.requestSerializer = [SWGJSONRequestSerializer serializer];
+        self.requestSerializer = [{{classPrefix}}JSONRequestSerializer serializer];
     }
     else if ([requestContentType isEqualToString:@"application/x-www-form-urlencoded"]) {
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -500,7 +497,7 @@ static bool loggingEnabled = true;
 
     // setting response serializer
     if ([responseContentType isEqualToString:@"application/json"]) {
-        self.responseSerializer = [SWGJSONResponseSerializer serializer];
+        self.responseSerializer = [{{classPrefix}}JSONResponseSerializer serializer];
     }
     else {
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -511,11 +508,11 @@ static bool loggingEnabled = true;
 
     NSMutableURLRequest * request = nil;
     if (body != nil && [body isKindOfClass:[NSArray class]]){
-        SWGFile * file;
+        {{classPrefix}}File * file;
         NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
         for(id obj in body) {
-            if([obj isKindOfClass:[SWGFile class]]) {
-                file = (SWGFile*) obj;
+            if([obj isKindOfClass:[{{classPrefix}}File class]]) {
+                file = ({{classPrefix}}File*) obj;
                 requestContentType = @"multipart/form-data";
             }
             else if([obj isKindOfClass:[NSDictionary class]]) {
@@ -598,7 +595,7 @@ static bool loggingEnabled = true;
     // Always disable cookies!
     [request setHTTPShouldHandleCookies:NO];
 
-    NSNumber* requestId = [SWGApiClient queueRequest];
+    NSNumber* requestId = [{{classPrefix}}ApiClient queueRequest];
     AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
      success:^(AFHTTPRequestOperation *operation, id response) {
          if([self executeRequestWithId:requestId]) {
@@ -612,7 +609,7 @@ static bool loggingEnabled = true;
              NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
              if(operation.responseObject) {
                  // Add in the (parsed) response body.
-                 userInfo[SWGResponseObjectErrorKey] = operation.responseObject;
+                 userInfo[{{classPrefix}}ResponseObjectErrorKey] = operation.responseObject;
              }
              NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
 

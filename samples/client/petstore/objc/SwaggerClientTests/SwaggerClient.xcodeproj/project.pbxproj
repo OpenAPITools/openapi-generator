@@ -40,7 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		06B47F8BDBE73A9C03BFBEA2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		1A81C3BE3E54961CD827EAE3 /* Pods-SwaggerClient_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		4CCE21315897B7D544C83242 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		56767C6E86DE2B2855ABF7B2 /* Pods_SwaggerClient_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,7 +188,6 @@
 			children = (
 				E9675D953C6DCDE71A1BDFD4 /* SwaggerClient.podspec */,
 				4CCE21315897B7D544C83242 /* README.md */,
-				06B47F8BDBE73A9C03BFBEA2 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
