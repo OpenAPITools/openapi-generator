@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="SwaggerClientTest.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/Category.cs">
+    <Files>
+      <File FileName="TestPet.cs" Line="110" Column="1" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/Category.cs" Line="11" Column="7" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
-using {{invokerPackage}};
-using {{modelPackage}};
+using {{packageName}}.Client;
+using {{packageName}}.Model;
 {{#imports}}
 {{/imports}}
 
-namespace {{package}} {
+namespace {{packageName}}.Api {
   {{#operations}}
 
   public interface I{{classname}} {

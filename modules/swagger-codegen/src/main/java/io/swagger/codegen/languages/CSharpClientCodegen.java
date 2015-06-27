@@ -7,6 +7,7 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.codegen.CliOption;
 
 import java.io.File;
 import java.util.Arrays;
@@ -14,15 +15,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "IO.Swagger.Client";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-csharp-client";
-    protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/csharp";
+    protected String packageName = "IO.Swagger";
+    protected String packageVersion = "1.0.0";
+    protected String clientPackage = "IO.Swagger.Client";
+    protected String sourceFolder = "src" + File.separator + "main" + File.separator + "csharp";
 
     public CSharpClientCodegen() {
         super();
-        outputFolder = "generated-code/csharp";
+        outputFolder = "generated-code" + File.separator + "csharp";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
         templateDir = "csharp";
@@ -34,17 +34,6 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                         "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while")
         );
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-
-        supportingFiles.add(new SupportingFile("Configuration.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Configuration.cs"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiClient.cs"));
-        supportingFiles.add(new SupportingFile("ApiException.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.cs"));
-        supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
-        supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
-        supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -85,6 +74,43 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
 
+        cliOptions.clear();
+        cliOptions.add(new CliOption("packageName", "C# package name (convention: Camel.Case), default: IO.Swagger"));
+        cliOptions.add(new CliOption("packageVersion", "C# package version, default: 1.0.0"));
+
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey("packageVersion")) {
+            packageVersion = (String) additionalProperties.get("packageVersion");
+        } else {
+            additionalProperties.put("packageVersion", packageVersion);
+        }
+
+        if (additionalProperties.containsKey("packageName")) {
+            packageName = (String) additionalProperties.get("packageName");
+            apiPackage = packageName + ".Api";
+            modelPackage = packageName + ".Model";
+            clientPackage = packageName + ".Client";
+        } else {
+            additionalProperties.put("packageName", packageName);
+        }
+
+        additionalProperties.put("clientPackage", clientPackage);
+
+        supportingFiles.add(new SupportingFile("Configuration.mustache",
+                (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "Configuration.cs"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache",
+                (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "ApiClient.cs"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache",
+                (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "ApiException.cs"));
+        supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
+        supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
+        supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
+
     }
 
     public CodegenType getTag() {
@@ -106,11 +132,11 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', '/')).replace('.', File.separatorChar);
+        return (outputFolder + File.separator + sourceFolder + File.separator + apiPackage()).replace('.', File.separatorChar);
     }
 
     public String modelFileFolder() {
-        return (outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/')).replace('.', File.separatorChar);
+        return (outputFolder + File.separator + sourceFolder + File.separator + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override

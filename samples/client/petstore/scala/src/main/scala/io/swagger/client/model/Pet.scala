@@ -1,7 +1,5 @@
 package io.swagger.client.model
 
-import io.swagger.client.model.Category
-import io.swagger.client.model.Tag
 
 
 

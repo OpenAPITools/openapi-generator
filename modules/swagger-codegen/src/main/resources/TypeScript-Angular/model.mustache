@@ -1,0 +1,39 @@
+/// <reference path="api.d.ts" />
+
+module {{package}} {
+    'use strict';
+
+{{#models}}
+{{#model}}
+{{#description}}
+    /**
+     * {{{description}}}
+     */
+{{/description}}
+    export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{#vars}}
+
+{{#description}}
+        /**
+         * {{{description}}}
+         */
+{{/description}}
+        {{name}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+{{/vars}}
+    }
+
+{{#hasEnums}}
+    export module {{classname}} {
+{{#vars}}
+{{#isEnum}}
+
+        export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}} 
+            {{.}} = <any> '{{.}}',{{/values}}{{/allowableValues}}
+        }
+{{/isEnum}}
+{{/vars}}
+    }
+{{/hasEnums}}
+{{/model}}
+{{/models}}
+}

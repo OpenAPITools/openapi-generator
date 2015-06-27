@@ -22,29 +22,27 @@
 
 namespace Swagger\Client\Api;
 
-use \Swagger\Client\ApiClient;
 use \Swagger\Client\Configuration;
+use \Swagger\Client\ApiClient;
+use \Swagger\Client\ApiException;
+use \Swagger\Client\ObjectSerializer;
 
 class UserApi {
 
-  /**
-   * @param \Swagger\Client\ApiClient|null $apiClient The api client to use. Defaults to getting it from Configuration
-   */
-  function __construct($apiClient = null) {
-    if (null === $apiClient) {
-      if (Configuration::$apiClient === null) {
-        Configuration::$apiClient = new ApiClient(); // create a new API client if not present
-        $this->apiClient = Configuration::$apiClient;
-      }
-      else
-        $this->apiClient = Configuration::$apiClient; // use the default one
-    } else {
-      $this->apiClient = $apiClient; // use the one provided by the user
-    }
-  }
-
   /** @var \Swagger\Client\ApiClient instance of the ApiClient */
   private $apiClient;
+
+  /**
+   * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
+   */
+  function __construct($apiClient = null) {
+    if ($apiClient == null) {
+      $apiClient = new ApiClient();
+      $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
+    }
+
+    $this->apiClient = $apiClient;
+  }
 
   /**
    * @return \Swagger\Client\ApiClient get the API client
@@ -54,10 +52,12 @@ class UserApi {
   }
 
   /**
-   * @param \Swagger\Client $apiClient set the API client
+   * @param \Swagger\Client\ApiClient $apiClient set the API client
+   * @return UserApi
    */
-  public function setApiClient($apiClient) {
+  public function setApiClient(ApiClient $apiClient) {
     $this->apiClient = $apiClient;
+    return $this;
   }
 
   
@@ -68,6 +68,7 @@ class UserApi {
    *
    * @param \Swagger\Client\Model\User $body Created user object (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function createUser($body) {
       
@@ -80,11 +81,11 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
@@ -103,14 +104,18 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -121,6 +126,7 @@ class UserApi {
    *
    * @param \Swagger\Client\Model\User[] $body List of user object (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function createUsersWithArrayInput($body) {
       
@@ -133,11 +139,11 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
@@ -156,14 +162,18 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -174,6 +184,7 @@ class UserApi {
    *
    * @param \Swagger\Client\Model\User[] $body List of user object (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function createUsersWithListInput($body) {
       
@@ -186,11 +197,11 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
@@ -209,14 +220,18 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -228,6 +243,7 @@ class UserApi {
    * @param string $username The user name for login (required)
    * @param string $password The password for login in clear text (required)
    * @return string
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function loginUser($username, $password) {
       
@@ -240,18 +256,18 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       // query params
       if($username !== null) {
-        $queryParams['username'] = $this->apiClient->toQueryValue($username);
+        $queryParams['username'] = $this->apiClient->getSerializer()->toQueryValue($username);
       }// query params
       if($password !== null) {
-        $queryParams['password'] = $this->apiClient->toQueryValue($password);
+        $queryParams['password'] = $this->apiClient->getSerializer()->toQueryValue($password);
       }
       
       
@@ -265,20 +281,30 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'string');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'string');
       return $responseObject;
+      
   }
   
   /**
@@ -287,6 +313,7 @@ class UserApi {
    * Logs out current logged in user session
    *
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function logoutUser() {
       
@@ -299,11 +326,11 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
@@ -318,14 +345,18 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -336,6 +367,7 @@ class UserApi {
    *
    * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
    * @return \Swagger\Client\Model\User
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function getUserByName($username) {
       
@@ -353,18 +385,19 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
       // path params
       if($username !== null) {
         $resourcePath = str_replace("{" . "username" . "}",
-                                    $this->apiClient->toPathValue($username), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($username),
+                                    $resourcePath);
       }
       
       
@@ -376,20 +409,30 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+          case 200:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\User');
+            $e->setResponseObject($data);
+            break;
+        }
+
+        throw $e;
+      }
+      
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'\Swagger\Client\Model\User');
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\User');
       return $responseObject;
+      
   }
   
   /**
@@ -400,6 +443,7 @@ class UserApi {
    * @param string $username name that need to be deleted (required)
    * @param \Swagger\Client\Model\User $body Updated user object (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function updateUser($username, $body) {
       
@@ -417,18 +461,19 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
       // path params
       if($username !== null) {
         $resourcePath = str_replace("{" . "username" . "}",
-                                    $this->apiClient->toPathValue($username), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($username),
+                                    $resourcePath);
       }
       
       // body params
@@ -444,14 +489,18 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
@@ -462,6 +511,7 @@ class UserApi {
    *
    * @param string $username The name that needs to be deleted (required)
    * @return void
+   * @throws \Swagger\Client\ApiException on non-2xx response
    */
    public function deleteUser($username) {
       
@@ -479,18 +529,19 @@ class UserApi {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+      $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
 
       
       
       // path params
       if($username !== null) {
         $resourcePath = str_replace("{" . "username" . "}",
-                                    $this->apiClient->toPathValue($username), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue($username),
+                                    $resourcePath);
       }
       
       
@@ -502,16 +553,19 @@ class UserApi {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array();
-
+      
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { 
+        }
+
+        throw $e;
+      }
       
   }
   
-
 }
