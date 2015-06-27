@@ -1,4 +1,4 @@
-#import "SWGJSONResponseSerializer.h"
+#import "{{classPrefix}}JSONResponseSerializer.h"
 
 static BOOL JSONParseError(NSError *error) {
     if ([error.domain isEqualToString:NSCocoaErrorDomain] && error.code == 3840) {
@@ -8,7 +8,7 @@ static BOOL JSONParseError(NSError *error) {
     return NO;
 }
 
-@implementation SWGJSONResponseSerializer
+@implementation {{classPrefix}}JSONResponseSerializer
 
 ///
 /// When customize a response serializer,

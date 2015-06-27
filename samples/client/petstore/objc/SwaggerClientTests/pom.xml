@@ -51,7 +51,7 @@
                                 <argument>-workspace</argument>
                                 <argument>SwaggerClient.xcworkspace</argument>
                                 <argument>-scheme</argument>
-                                <argument>SwaggerClient</argument>
+                                <argument>SwaggerClient-Example</argument>
                                 <argument>test</argument>
                                 <argument>-destination</argument>
                                 <argument>platform=iOS Simulator,name=iPhone 6,OS=8.3</argument>

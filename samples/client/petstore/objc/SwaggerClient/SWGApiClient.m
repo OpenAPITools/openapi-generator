@@ -1,7 +1,4 @@
 #import "SWGApiClient.h"
-#import "SWGFile.h"
-#import "SWGQueryParamCollection.h"
-#import "SWGConfiguration.h"
 
 @implementation SWGApiClient
 

@@ -138,6 +138,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         additionalProperties.put("podName", podName);
         additionalProperties.put("podVersion", podVersion);
+        additionalProperties.put("classPrefix", classPrefix);
 
         String swaggerFolder = podName;
 
