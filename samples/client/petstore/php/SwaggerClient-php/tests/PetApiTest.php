@@ -70,9 +70,11 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse(isset($defaultHeader['test2']));
 
     $pet_api2 = new Swagger\Client\Api\PetAPI();
-    $apiClient3 = new Swagger\Client\ApiClient();
+    $config3 = new Swagger\Client\Configuration();
+    $apiClient3 = new Swagger\Client\ApiClient($config3);
     $apiClient3->getConfig()->setUserAgent('api client 3');
-    $apiClient4 = new Swagger\Client\ApiClient();
+    $config4 = new Swagger\Client\Configuration();
+    $apiClient4 = new Swagger\Client\ApiClient($config4);
     $apiClient4->getConfig()->setUserAgent('api client 4');
     $pet_api3 = new Swagger\Client\Api\PetAPI($apiClient3);
 

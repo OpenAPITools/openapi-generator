@@ -329,7 +329,7 @@ class PetApi {
      * Find pet by ID
      *
      * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return \SplFileObject
+     * @return \Swagger\Client\Model\Pet
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getPetById($pet_id) {
@@ -387,11 +387,11 @@ class PetApi {
         try {
             list($response, $httpHeader) = $this->apiClient->callApi($resourcePath, $method,
                                                 $queryParams, $httpBody,
-                                                $headerParams, '\SplFileObject');
+                                                $headerParams, '\Swagger\Client\Model\Pet');
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
                 case 200:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SplFileObject', $httpHeader);
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet', $httpHeader);
                     $e->setResponseObject($data);
                     break;
             }
@@ -403,7 +403,7 @@ class PetApi {
             return null;
         }
   
-        return $this->apiClient->getSerializer()->deserialize($response,'\SplFileObject');
+        return $this->apiClient->getSerializer()->deserialize($response,'\Swagger\Client\Model\Pet');
         
     }
     
