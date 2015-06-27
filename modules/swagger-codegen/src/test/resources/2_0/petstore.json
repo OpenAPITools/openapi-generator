@@ -235,7 +235,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "file"
+              "$ref": "#/definitions/Pet"
             }
           },
           "400": {
