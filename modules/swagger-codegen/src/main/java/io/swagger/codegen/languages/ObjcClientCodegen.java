@@ -103,9 +103,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("map", "NSMutableDictionary");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("classPrefix", "prefix for generated classes"));
-        cliOptions.add(new CliOption("podName", "cocoapods package name"));
-        cliOptions.add(new CliOption("podVersion", "cocoapods package version"));
+        cliOptions.add(new CliOption("classPrefix", "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`), default: `SWG`"));
+        cliOptions.add(new CliOption("podName", "cocoapods package name (convention: CameCase), default: `SwaggerClient`"));
+        cliOptions.add(new CliOption("podVersion", "cocoapods package version, default: `1.0.0`"));
     }
 
     public CodegenType getTag() {
