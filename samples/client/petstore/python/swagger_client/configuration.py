@@ -41,4 +41,5 @@ api_key_prefix = {}
 username = ''
 password = ''
 
-
+# Temp foloder for file download
+temp_folder_path = None
