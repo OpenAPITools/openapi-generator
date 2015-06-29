@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -19,21 +20,21 @@ namespace IO.Swagger.Client {
     /// </summary>
     /// <param name="basePath">The base path.</param>
     public ApiClient(String basePath="http://petstore.swagger.io/v2") {
-      this.basePath = basePath;
-      this.restClient = new RestClient(this.basePath);
+      this.BasePath = basePath;
+      this.RestClient = new RestClient(this.BasePath);
     }
 
     /// <summary>
     /// Gets or sets the base path.
     /// </summary>
     /// <value>The base path.</value> 
-    public string basePath { get; set; }
+    public string BasePath { get; set; }
 
     /// <summary>
     /// Gets or sets the RestClient
     /// </summary>
     /// <value>The RestClient.</value> 
-    public RestClient restClient { get; set; }
+    public RestClient RestClient { get; set; }
 
     private Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
 
@@ -77,7 +78,7 @@ namespace IO.Swagger.Client {
         request.AddParameter("application/json", PostBody, ParameterType.RequestBody); // http body (model) parameter
       }
 
-      return (Object) await restClient.ExecuteTaskAsync(request);
+      return (Object) await RestClient.ExecuteTaskAsync(request);
 
     }
 
@@ -119,10 +120,12 @@ namespace IO.Swagger.Client {
     {
       if (obj is DateTime) {
         return ((DateTime)obj).ToString ("u");
+      } else if (obj is FileStream) {
+        return ((FileStream)obj).Name;
       } else if (obj is List<string>) {
         return String.Join(",", obj as List<string>);
       } else {
-	return Convert.ToString (obj);
+        return Convert.ToString (obj);
       }
     }
 
@@ -132,16 +135,38 @@ namespace IO.Swagger.Client {
     /// <param name="json"> JSON string
     /// <param name="type"> Object type
     /// <returns>Object representation of the JSON string</returns>
-    public object Deserialize(string content, Type type) {
-      if (type.GetType() == typeof(Object))
-        return (Object)content;
+    public object Deserialize(string content, Type type, IList<Parameter> headers=null) {
+      if (type.GetType() == typeof(Object)) {
+          return (Object)content;
+      } else if (type.Name == "FileStream") {
+          // e.g. Content-Disposition: attachment; filename=checkimage.jpp
+          String fileName;
+          String filePath;
+          if (String.IsNullOrEmpty (Configuration.TempFolderPath)) {
+              filePath = System.IO.Path.GetTempPath ();
+          } else {
+              filePath = Configuration.TempFolderPath;
+          }
+
+          Regex regex = new Regex(@"Content-Disposition:.*filename=['""]?([^'""\s]+)['""]?$");
+          Match match = regex.Match(headers.ToString());
+          if (match.Success) {
+              // replace first and last " or ', if found
+              fileName = filePath + match.Value.Replace("\"", "").Replace("'","");
+          } else {
+              fileName = filePath + Guid.NewGuid().ToString();
+          }
+          System.IO.File.WriteAllText (fileName, content);
+          return File.Open (fileName, FileMode.Open);
+      }
+
 
       try
       {
           return JsonConvert.DeserializeObject(content, type);
       }
       catch (IOException e) {
-        throw new ApiException(500, e.Message);
+          throw new ApiException(500, e.Message);
       }
     }
 
@@ -165,12 +190,12 @@ namespace IO.Swagger.Client {
     /// </summary>
     /// <param name="obj"> Object 
     /// <returns>API key with prefix</returns>
-    public string GetApiKeyWithPrefix (string apiKey)
+    public string GetApiKeyWithPrefix (string apiKeyIdentifier)
     {
       var apiKeyValue = "";
-      Configuration.apiKey.TryGetValue (apiKey, out apiKeyValue);
+      Configuration.ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
       var apiKeyPrefix = "";
-      if (Configuration.apiKeyPrefix.TryGetValue (apiKey, out apiKeyPrefix)) {
+      if (Configuration.ApiKeyPrefix.TryGetValue (apiKeyIdentifier, out apiKeyPrefix)) {
         return apiKeyPrefix + " " + apiKeyValue;
       } else {
         return apiKeyValue;

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
@@ -13,14 +14,12 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
     /// </summary>
-    
     /// <returns>Dictionary<String, int?></returns>
     Dictionary<String, int?> GetInventory ();
 
     /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
     /// </summary>
-    
     /// <returns>Dictionary<String, int?></returns>
     Task<Dictionary<String, int?>> GetInventoryAsync ();
     
@@ -80,9 +79,9 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public StoreApi(ApiClient apiClient = null) {
       if (apiClient == null) { // use the default one in Configuration
-        this.apiClient = Configuration.apiClient; 
+        this.ApiClient = Configuration.DefaultApiClient; 
       } else {
-        this.apiClient = apiClient;
+        this.ApiClient = apiClient;
       }
     }
 
@@ -92,7 +91,7 @@ namespace IO.Swagger.Api {
     /// <returns></returns>
     public StoreApi(String basePath)
     {
-      this.apiClient = new ApiClient(basePath);
+      this.ApiClient = new ApiClient(basePath);
     }
 
     /// <summary>
@@ -100,7 +99,7 @@ namespace IO.Swagger.Api {
     /// </summary>
     /// <value>The base path</value>
     public void SetBasePath(String basePath) {
-      this.apiClient.basePath = basePath;
+      this.ApiClient.BasePath = basePath;
     }
 
     /// <summary>
@@ -108,21 +107,20 @@ namespace IO.Swagger.Api {
     /// </summary>
     /// <value>The base path</value>
     public String GetBasePath(String basePath) {
-      return this.apiClient.basePath;
+      return this.ApiClient.BasePath;
     }
 
     /// <summary>
     /// Gets or sets the API client.
     /// </summary>
     /// <value>The API client</value>
-    public ApiClient apiClient {get; set;}
+    public ApiClient ApiClient {get; set;}
 
 
     
     /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
     /// </summary>
-    
     /// <returns>Dictionary<String, int?></returns>
     public Dictionary<String, int?> GetInventory () {
 
@@ -147,18 +145,17 @@ namespace IO.Swagger.Api {
       String[] authSettings = new String[] { "api_key" };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
       }
-      return (Dictionary<String, int?>) apiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>));
+      return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>));
     }
-	
-	 /// <summary>
+
+    /// <summary>
     /// Returns pet inventories by status Returns a map of status codes to quantities
     /// </summary>
-    
     /// <returns>Dictionary<String, int?></returns>
     public async Task<Dictionary<String, int?>> GetInventoryAsync () {
 
@@ -183,11 +180,11 @@ namespace IO.Swagger.Api {
       String[] authSettings = new String[] { "api_key" };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
       }
-      return (Dictionary<String, int?>) apiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>));
+      return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>));
     }
     
     /// <summary>
@@ -212,22 +209,22 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = apiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(Body); // http body (model) parameter
       
 
       // authentication setting, if any
       String[] authSettings = new String[] {  };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
       }
-      return (Order) apiClient.Deserialize(response.Content, typeof(Order));
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order));
     }
-	
-	 /// <summary>
+
+    /// <summary>
     /// Place an order for a pet 
     /// </summary>
     /// <param name="Body">order placed for purchasing the pet</param>
@@ -249,18 +246,18 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = apiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(Body); // http body (model) parameter
       
 
       // authentication setting, if any
       String[] authSettings = new String[] {  };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
       }
-      return (Order) apiClient.Deserialize(response.Content, typeof(Order));
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order));
     }
     
     /// <summary>
@@ -277,7 +274,7 @@ namespace IO.Swagger.Api {
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", apiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -295,15 +292,15 @@ namespace IO.Swagger.Api {
       String[] authSettings = new String[] {  };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
       }
-      return (Order) apiClient.Deserialize(response.Content, typeof(Order));
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order));
     }
-	
-	 /// <summary>
+
+    /// <summary>
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
     /// <param name="OrderId">ID of pet that needs to be fetched</param>
@@ -317,7 +314,7 @@ namespace IO.Swagger.Api {
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", apiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -335,11 +332,11 @@ namespace IO.Swagger.Api {
       String[] authSettings = new String[] {  };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
       }
-      return (Order) apiClient.Deserialize(response.Content, typeof(Order));
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order));
     }
     
     /// <summary>
@@ -356,7 +353,7 @@ namespace IO.Swagger.Api {
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", apiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -374,7 +371,7 @@ namespace IO.Swagger.Api {
       String[] authSettings = new String[] {  };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
@@ -382,8 +379,8 @@ namespace IO.Swagger.Api {
       
       return;
     }
-	
-	 /// <summary>
+
+    /// <summary>
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     /// </summary>
     /// <param name="OrderId">ID of the order that needs to be deleted</param>
@@ -397,7 +394,7 @@ namespace IO.Swagger.Api {
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", apiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -415,7 +412,7 @@ namespace IO.Swagger.Api {
       String[] authSettings = new String[] {  };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
       }
