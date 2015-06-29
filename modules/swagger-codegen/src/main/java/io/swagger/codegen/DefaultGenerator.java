@@ -9,6 +9,7 @@ import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.util.Json;
 import org.apache.commons.io.IOUtils;
@@ -366,7 +367,22 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     String securityName = security.keySet().iterator().next();
                     SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
                     if (securityDefinition != null) {
-                        authMethods.put(securityName, securityDefinition);
+                    	if(securityDefinition instanceof OAuth2Definition) {
+                    		OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
+                    		OAuth2Definition oauth2Operation = new OAuth2Definition();
+                    		oauth2Operation.setType(oauth2Definition.getType());
+                    		oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
+                    		oauth2Operation.setFlow(oauth2Definition.getFlow());
+                    		oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
+                    		for (String scope : security.values().iterator().next()) {
+                    			if (oauth2Definition.getScopes().containsKey(scope)) {
+                    				oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
+                    			}
+                    		}
+                    		authMethods.put(securityName, oauth2Operation);
+                    	} else {
+                    		authMethods.put(securityName, securityDefinition);	
+                    	}
                     }
                 }
                 if (!authMethods.isEmpty()) {
