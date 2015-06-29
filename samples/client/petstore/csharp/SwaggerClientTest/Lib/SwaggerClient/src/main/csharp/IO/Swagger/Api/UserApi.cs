@@ -14,60 +14,60 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Create user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Body">Created user object</param>
+    /// <param name="body">Created user object</param>
     /// <returns></returns>
-    void CreateUser (User Body);
+    void CreateUser (User body);
 
     /// <summary>
     /// Create user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Body">Created user object</param>
+    /// <param name="body">Created user object</param>
     /// <returns></returns>
-    Task CreateUserAsync (User Body);
+    Task CreateUserAsync (User body);
     
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    void CreateUsersWithArrayInput (List<User> Body);
+    void CreateUsersWithArrayInput (List<User> body);
 
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    Task CreateUsersWithArrayInputAsync (List<User> Body);
+    Task CreateUsersWithArrayInputAsync (List<User> body);
     
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    void CreateUsersWithListInput (List<User> Body);
+    void CreateUsersWithListInput (List<User> body);
 
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    Task CreateUsersWithListInputAsync (List<User> Body);
+    Task CreateUsersWithListInputAsync (List<User> body);
     
     /// <summary>
     /// Logs user into the system 
     /// </summary>
-    /// <param name="Username">The user name for login</param>
-    /// <param name="Password">The password for login in clear text</param>
+    /// <param name="username">The user name for login</param>
+    /// <param name="password">The password for login in clear text</param>
     /// <returns>string</returns>
-    string LoginUser (string Username, string Password);
+    string LoginUser (string username, string password);
 
     /// <summary>
     /// Logs user into the system 
     /// </summary>
-    /// <param name="Username">The user name for login</param>
-    /// <param name="Password">The password for login in clear text</param>
+    /// <param name="username">The user name for login</param>
+    /// <param name="password">The password for login in clear text</param>
     /// <returns>string</returns>
-    Task<string> LoginUserAsync (string Username, string Password);
+    Task<string> LoginUserAsync (string username, string password);
     
     /// <summary>
     /// Logs out current logged in user session 
@@ -84,46 +84,46 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Get user by user name 
     /// </summary>
-    /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
+    /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
     /// <returns>User</returns>
-    User GetUserByName (string Username);
+    User GetUserByName (string username);
 
     /// <summary>
     /// Get user by user name 
     /// </summary>
-    /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
+    /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
     /// <returns>User</returns>
-    Task<User> GetUserByNameAsync (string Username);
+    Task<User> GetUserByNameAsync (string username);
     
     /// <summary>
     /// Updated user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">name that need to be deleted</param>
-    /// <param name="Body">Updated user object</param>
+    /// <param name="username">name that need to be deleted</param>
+    /// <param name="body">Updated user object</param>
     /// <returns></returns>
-    void UpdateUser (string Username, User Body);
+    void UpdateUser (string username, User body);
 
     /// <summary>
     /// Updated user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">name that need to be deleted</param>
-    /// <param name="Body">Updated user object</param>
+    /// <param name="username">name that need to be deleted</param>
+    /// <param name="body">Updated user object</param>
     /// <returns></returns>
-    Task UpdateUserAsync (string Username, User Body);
+    Task UpdateUserAsync (string username, User body);
     
     /// <summary>
     /// Delete user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">The name that needs to be deleted</param>
+    /// <param name="username">The name that needs to be deleted</param>
     /// <returns></returns>
-    void DeleteUser (string Username);
+    void DeleteUser (string username);
 
     /// <summary>
     /// Delete user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">The name that needs to be deleted</param>
+    /// <param name="username">The name that needs to be deleted</param>
     /// <returns></returns>
-    Task DeleteUserAsync (string Username);
+    Task DeleteUserAsync (string username);
     
   }
 
@@ -181,9 +181,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Create user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Body">Created user object</param>
+    /// <param name="body">Created user object</param>
     /// <returns></returns>
-    public void CreateUser (User Body) {
+    public void CreateUser (User body) {
 
       
 
@@ -200,7 +200,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -219,9 +219,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Create user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Body">Created user object</param>
+    /// <param name="body">Created user object</param>
     /// <returns></returns>
-    public async Task CreateUserAsync (User Body) {
+    public async Task CreateUserAsync (User body) {
 
       
 
@@ -238,7 +238,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -256,9 +256,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    public void CreateUsersWithArrayInput (List<User> Body) {
+    public void CreateUsersWithArrayInput (List<User> body) {
 
       
 
@@ -275,7 +275,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -294,9 +294,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    public async Task CreateUsersWithArrayInputAsync (List<User> Body) {
+    public async Task CreateUsersWithArrayInputAsync (List<User> body) {
 
       
 
@@ -313,7 +313,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -331,9 +331,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    public void CreateUsersWithListInput (List<User> Body) {
+    public void CreateUsersWithListInput (List<User> body) {
 
       
 
@@ -350,7 +350,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -369,9 +369,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Creates list of users with given input array 
     /// </summary>
-    /// <param name="Body">List of user object</param>
+    /// <param name="body">List of user object</param>
     /// <returns></returns>
-    public async Task CreateUsersWithListInputAsync (List<User> Body) {
+    public async Task CreateUsersWithListInputAsync (List<User> body) {
 
       
 
@@ -388,7 +388,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -406,10 +406,10 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Logs user into the system 
     /// </summary>
-    /// <param name="Username">The user name for login</param>
-    /// <param name="Password">The password for login in clear text</param>
+    /// <param name="username">The user name for login</param>
+    /// <param name="password">The password for login in clear text</param>
     /// <returns>string</returns>
-    public string LoginUser (string Username, string Password) {
+    public string LoginUser (string username, string password) {
 
       
 
@@ -423,8 +423,8 @@ namespace IO.Swagger.Api {
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
 
-       if (Username != null) queryParams.Add("username", ApiClient.ParameterToString(Username)); // query parameter
-       if (Password != null) queryParams.Add("password", ApiClient.ParameterToString(Password)); // query parameter
+       if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
+       if (password != null) queryParams.Add("password", ApiClient.ParameterToString(password)); // query parameter
       
       
       
@@ -445,10 +445,10 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Logs user into the system 
     /// </summary>
-    /// <param name="Username">The user name for login</param>
-    /// <param name="Password">The password for login in clear text</param>
+    /// <param name="username">The user name for login</param>
+    /// <param name="password">The password for login in clear text</param>
     /// <returns>string</returns>
-    public async Task<string> LoginUserAsync (string Username, string Password) {
+    public async Task<string> LoginUserAsync (string username, string password) {
 
       
 
@@ -462,8 +462,8 @@ namespace IO.Swagger.Api {
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
 
-       if (Username != null) queryParams.Add("username", ApiClient.ParameterToString(Username)); // query parameter
-       if (Password != null) queryParams.Add("password", ApiClient.ParameterToString(Password)); // query parameter
+       if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
+       if (password != null) queryParams.Add("password", ApiClient.ParameterToString(password)); // query parameter
       
       
       
@@ -554,18 +554,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Get user by user name 
     /// </summary>
-    /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
+    /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
     /// <returns>User</returns>
-    public User GetUserByName (string Username) {
+    public User GetUserByName (string username) {
 
       
-      // verify the required parameter 'Username' is set
-      if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling GetUserByName");
+      // verify the required parameter 'username' is set
+      if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling GetUserByName");
       
 
       var path = "/user/{username}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(Username));
+      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -594,18 +594,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Get user by user name 
     /// </summary>
-    /// <param name="Username">The name that needs to be fetched. Use user1 for testing. </param>
+    /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
     /// <returns>User</returns>
-    public async Task<User> GetUserByNameAsync (string Username) {
+    public async Task<User> GetUserByNameAsync (string username) {
 
       
-          // verify the required parameter 'Username' is set
-          if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling GetUserByName");
+          // verify the required parameter 'username' is set
+          if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling GetUserByName");
       
 
       var path = "/user/{username}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(Username));
+      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -633,19 +633,19 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Updated user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">name that need to be deleted</param>
-    /// <param name="Body">Updated user object</param>
+    /// <param name="username">name that need to be deleted</param>
+    /// <param name="body">Updated user object</param>
     /// <returns></returns>
-    public void UpdateUser (string Username, User Body) {
+    public void UpdateUser (string username, User body) {
 
       
-      // verify the required parameter 'Username' is set
-      if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling UpdateUser");
+      // verify the required parameter 'username' is set
+      if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling UpdateUser");
       
 
       var path = "/user/{username}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(Username));
+      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -657,7 +657,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -676,19 +676,19 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Updated user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">name that need to be deleted</param>
-    /// <param name="Body">Updated user object</param>
+    /// <param name="username">name that need to be deleted</param>
+    /// <param name="body">Updated user object</param>
     /// <returns></returns>
-    public async Task UpdateUserAsync (string Username, User Body) {
+    public async Task UpdateUserAsync (string username, User body) {
 
       
-          // verify the required parameter 'Username' is set
-          if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling UpdateUser");
+          // verify the required parameter 'username' is set
+          if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling UpdateUser");
       
 
       var path = "/user/{username}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(Username));
+      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -700,7 +700,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -718,18 +718,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Delete user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">The name that needs to be deleted</param>
+    /// <param name="username">The name that needs to be deleted</param>
     /// <returns></returns>
-    public void DeleteUser (string Username) {
+    public void DeleteUser (string username) {
 
       
-      // verify the required parameter 'Username' is set
-      if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling DeleteUser");
+      // verify the required parameter 'username' is set
+      if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling DeleteUser");
       
 
       var path = "/user/{username}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(Username));
+      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -759,18 +759,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Delete user This can only be done by the logged in user.
     /// </summary>
-    /// <param name="Username">The name that needs to be deleted</param>
+    /// <param name="username">The name that needs to be deleted</param>
     /// <returns></returns>
-    public async Task DeleteUserAsync (string Username) {
+    public async Task DeleteUserAsync (string username) {
 
       
-          // verify the required parameter 'Username' is set
-          if (Username == null) throw new ApiException(400, "Missing required parameter 'Username' when calling DeleteUser");
+          // verify the required parameter 'username' is set
+          if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling DeleteUser");
       
 
       var path = "/user/{username}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(Username));
+      path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
       
 
       var queryParams = new Dictionary<String, String>();

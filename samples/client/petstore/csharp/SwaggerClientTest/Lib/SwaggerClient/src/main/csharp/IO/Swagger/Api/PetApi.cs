@@ -14,124 +14,124 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Update an existing pet 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    void UpdatePet (Pet Body);
+    void UpdatePet (Pet body);
 
     /// <summary>
     /// Update an existing pet 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    Task UpdatePetAsync (Pet Body);
+    Task UpdatePetAsync (Pet body);
     
     /// <summary>
     /// Add a new pet to the store 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    void AddPet (Pet Body);
+    void AddPet (Pet body);
 
     /// <summary>
     /// Add a new pet to the store 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    Task AddPetAsync (Pet Body);
+    Task AddPetAsync (Pet body);
     
     /// <summary>
     /// Finds Pets by status Multiple status values can be provided with comma seperated strings
     /// </summary>
-    /// <param name="Status">Status values that need to be considered for filter</param>
+    /// <param name="status">Status values that need to be considered for filter</param>
     /// <returns>List<Pet></returns>
-    List<Pet> FindPetsByStatus (List<string> Status);
+    List<Pet> FindPetsByStatus (List<string> status);
 
     /// <summary>
     /// Finds Pets by status Multiple status values can be provided with comma seperated strings
     /// </summary>
-    /// <param name="Status">Status values that need to be considered for filter</param>
+    /// <param name="status">Status values that need to be considered for filter</param>
     /// <returns>List<Pet></returns>
-    Task<List<Pet>> FindPetsByStatusAsync (List<string> Status);
+    Task<List<Pet>> FindPetsByStatusAsync (List<string> status);
     
     /// <summary>
     /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     /// </summary>
-    /// <param name="Tags">Tags to filter by</param>
+    /// <param name="tags">Tags to filter by</param>
     /// <returns>List<Pet></returns>
-    List<Pet> FindPetsByTags (List<string> Tags);
+    List<Pet> FindPetsByTags (List<string> tags);
 
     /// <summary>
     /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     /// </summary>
-    /// <param name="Tags">Tags to filter by</param>
+    /// <param name="tags">Tags to filter by</param>
     /// <returns>List<Pet></returns>
-    Task<List<Pet>> FindPetsByTagsAsync (List<string> Tags);
+    Task<List<Pet>> FindPetsByTagsAsync (List<string> tags);
     
     /// <summary>
     /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be fetched</param>
+    /// <param name="petId">ID of pet that needs to be fetched</param>
     /// <returns>Pet</returns>
-    Pet GetPetById (long? PetId);
+    Pet GetPetById (long? petId);
 
     /// <summary>
     /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be fetched</param>
+    /// <param name="petId">ID of pet that needs to be fetched</param>
     /// <returns>Pet</returns>
-    Task<Pet> GetPetByIdAsync (long? PetId);
+    Task<Pet> GetPetByIdAsync (long? petId);
     
     /// <summary>
     /// Updates a pet in the store with form data 
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be updated</param>
-    /// <param name="Name">Updated name of the pet</param>
-    /// <param name="Status">Updated status of the pet</param>
+    /// <param name="petId">ID of pet that needs to be updated</param>
+    /// <param name="name">Updated name of the pet</param>
+    /// <param name="status">Updated status of the pet</param>
     /// <returns></returns>
-    void UpdatePetWithForm (string PetId, string Name, string Status);
+    void UpdatePetWithForm (string petId, string name, string status);
 
     /// <summary>
     /// Updates a pet in the store with form data 
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be updated</param>
-    /// <param name="Name">Updated name of the pet</param>
-    /// <param name="Status">Updated status of the pet</param>
+    /// <param name="petId">ID of pet that needs to be updated</param>
+    /// <param name="name">Updated name of the pet</param>
+    /// <param name="status">Updated status of the pet</param>
     /// <returns></returns>
-    Task UpdatePetWithFormAsync (string PetId, string Name, string Status);
+    Task UpdatePetWithFormAsync (string petId, string name, string status);
     
     /// <summary>
     /// Deletes a pet 
     /// </summary>
-    /// <param name="ApiKey"></param>
-    /// <param name="PetId">Pet id to delete</param>
+    /// <param name="apiKey"></param>
+    /// <param name="petId">Pet id to delete</param>
     /// <returns></returns>
-    void DeletePet (string ApiKey, long? PetId);
+    void DeletePet (string apiKey, long? petId);
 
     /// <summary>
     /// Deletes a pet 
     /// </summary>
-    /// <param name="ApiKey"></param>
-    /// <param name="PetId">Pet id to delete</param>
+    /// <param name="apiKey"></param>
+    /// <param name="petId">Pet id to delete</param>
     /// <returns></returns>
-    Task DeletePetAsync (string ApiKey, long? PetId);
+    Task DeletePetAsync (string apiKey, long? petId);
     
     /// <summary>
     /// uploads an image 
     /// </summary>
-    /// <param name="PetId">ID of pet to update</param>
-    /// <param name="AdditionalMetadata">Additional data to pass to server</param>
-    /// <param name="File">file to upload</param>
+    /// <param name="petId">ID of pet to update</param>
+    /// <param name="additionalMetadata">Additional data to pass to server</param>
+    /// <param name="file">file to upload</param>
     /// <returns></returns>
-    void UploadFile (long? PetId, string AdditionalMetadata, FileStream File);
+    void UploadFile (long? petId, string additionalMetadata, FileStream file);
 
     /// <summary>
     /// uploads an image 
     /// </summary>
-    /// <param name="PetId">ID of pet to update</param>
-    /// <param name="AdditionalMetadata">Additional data to pass to server</param>
-    /// <param name="File">file to upload</param>
+    /// <param name="petId">ID of pet to update</param>
+    /// <param name="additionalMetadata">Additional data to pass to server</param>
+    /// <param name="file">file to upload</param>
     /// <returns></returns>
-    Task UploadFileAsync (long? PetId, string AdditionalMetadata, FileStream File);
+    Task UploadFileAsync (long? petId, string additionalMetadata, FileStream file);
     
   }
 
@@ -189,9 +189,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Update an existing pet 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    public void UpdatePet (Pet Body) {
+    public void UpdatePet (Pet body) {
 
       
 
@@ -208,7 +208,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -227,9 +227,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Update an existing pet 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    public async Task UpdatePetAsync (Pet Body) {
+    public async Task UpdatePetAsync (Pet body) {
 
       
 
@@ -246,7 +246,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -264,9 +264,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Add a new pet to the store 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    public void AddPet (Pet Body) {
+    public void AddPet (Pet body) {
 
       
 
@@ -283,7 +283,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -302,9 +302,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Add a new pet to the store 
     /// </summary>
-    /// <param name="Body">Pet object that needs to be added to the store</param>
+    /// <param name="body">Pet object that needs to be added to the store</param>
     /// <returns></returns>
-    public async Task AddPetAsync (Pet Body) {
+    public async Task AddPetAsync (Pet body) {
 
       
 
@@ -321,7 +321,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -339,9 +339,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Finds Pets by status Multiple status values can be provided with comma seperated strings
     /// </summary>
-    /// <param name="Status">Status values that need to be considered for filter</param>
+    /// <param name="status">Status values that need to be considered for filter</param>
     /// <returns>List<Pet></returns>
-    public List<Pet> FindPetsByStatus (List<string> Status) {
+    public List<Pet> FindPetsByStatus (List<string> status) {
 
       
 
@@ -355,7 +355,7 @@ namespace IO.Swagger.Api {
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
 
-       if (Status != null) queryParams.Add("status", ApiClient.ParameterToString(Status)); // query parameter
+       if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
       
       
       
@@ -376,9 +376,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Finds Pets by status Multiple status values can be provided with comma seperated strings
     /// </summary>
-    /// <param name="Status">Status values that need to be considered for filter</param>
+    /// <param name="status">Status values that need to be considered for filter</param>
     /// <returns>List<Pet></returns>
-    public async Task<List<Pet>> FindPetsByStatusAsync (List<string> Status) {
+    public async Task<List<Pet>> FindPetsByStatusAsync (List<string> status) {
 
       
 
@@ -392,7 +392,7 @@ namespace IO.Swagger.Api {
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
 
-       if (Status != null) queryParams.Add("status", ApiClient.ParameterToString(Status)); // query parameter
+       if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
       
       
       
@@ -412,9 +412,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     /// </summary>
-    /// <param name="Tags">Tags to filter by</param>
+    /// <param name="tags">Tags to filter by</param>
     /// <returns>List<Pet></returns>
-    public List<Pet> FindPetsByTags (List<string> Tags) {
+    public List<Pet> FindPetsByTags (List<string> tags) {
 
       
 
@@ -428,7 +428,7 @@ namespace IO.Swagger.Api {
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
 
-       if (Tags != null) queryParams.Add("tags", ApiClient.ParameterToString(Tags)); // query parameter
+       if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
       
       
       
@@ -449,9 +449,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
     /// </summary>
-    /// <param name="Tags">Tags to filter by</param>
+    /// <param name="tags">Tags to filter by</param>
     /// <returns>List<Pet></returns>
-    public async Task<List<Pet>> FindPetsByTagsAsync (List<string> Tags) {
+    public async Task<List<Pet>> FindPetsByTagsAsync (List<string> tags) {
 
       
 
@@ -465,7 +465,7 @@ namespace IO.Swagger.Api {
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
 
-       if (Tags != null) queryParams.Add("tags", ApiClient.ParameterToString(Tags)); // query parameter
+       if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
       
       
       
@@ -485,18 +485,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be fetched</param>
+    /// <param name="petId">ID of pet that needs to be fetched</param>
     /// <returns>Pet</returns>
-    public Pet GetPetById (long? PetId) {
+    public Pet GetPetById (long? petId) {
 
       
-      // verify the required parameter 'PetId' is set
-      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling GetPetById");
+      // verify the required parameter 'petId' is set
+      if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
       
 
       var path = "/pet/{petId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -525,18 +525,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be fetched</param>
+    /// <param name="petId">ID of pet that needs to be fetched</param>
     /// <returns>Pet</returns>
-    public async Task<Pet> GetPetByIdAsync (long? PetId) {
+    public async Task<Pet> GetPetByIdAsync (long? petId) {
 
       
-          // verify the required parameter 'PetId' is set
-          if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling GetPetById");
+          // verify the required parameter 'petId' is set
+          if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
       
 
       var path = "/pet/{petId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -564,20 +564,20 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Updates a pet in the store with form data 
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be updated</param>
-    /// <param name="Name">Updated name of the pet</param>
-    /// <param name="Status">Updated status of the pet</param>
+    /// <param name="petId">ID of pet that needs to be updated</param>
+    /// <param name="name">Updated name of the pet</param>
+    /// <param name="status">Updated status of the pet</param>
     /// <returns></returns>
-    public void UpdatePetWithForm (string PetId, string Name, string Status) {
+    public void UpdatePetWithForm (string petId, string name, string status) {
 
       
-      // verify the required parameter 'PetId' is set
-      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UpdatePetWithForm");
+      // verify the required parameter 'petId' is set
+      if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
       
 
       var path = "/pet/{petId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -588,8 +588,8 @@ namespace IO.Swagger.Api {
 
       
       
-      if (Name != null) formParams.Add("name", ApiClient.ParameterToString(Name)); // form parameter
-      if (Status != null) formParams.Add("status", ApiClient.ParameterToString(Status)); // form parameter
+      if (name != null) formParams.Add("name", ApiClient.ParameterToString(name)); // form parameter
+      if (status != null) formParams.Add("status", ApiClient.ParameterToString(status)); // form parameter
       
       
 
@@ -609,20 +609,20 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Updates a pet in the store with form data 
     /// </summary>
-    /// <param name="PetId">ID of pet that needs to be updated</param>
-    /// <param name="Name">Updated name of the pet</param>
-    /// <param name="Status">Updated status of the pet</param>
+    /// <param name="petId">ID of pet that needs to be updated</param>
+    /// <param name="name">Updated name of the pet</param>
+    /// <param name="status">Updated status of the pet</param>
     /// <returns></returns>
-    public async Task UpdatePetWithFormAsync (string PetId, string Name, string Status) {
+    public async Task UpdatePetWithFormAsync (string petId, string name, string status) {
 
       
-          // verify the required parameter 'PetId' is set
-          if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UpdatePetWithForm");
+          // verify the required parameter 'petId' is set
+          if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
       
 
       var path = "/pet/{petId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -633,8 +633,8 @@ namespace IO.Swagger.Api {
 
       
       
-      if (Name != null) formParams.Add("name", ApiClient.ParameterToString(Name)); // form parameter
-      if (Status != null) formParams.Add("status", ApiClient.ParameterToString(Status)); // form parameter
+      if (name != null) formParams.Add("name", ApiClient.ParameterToString(name)); // form parameter
+      if (status != null) formParams.Add("status", ApiClient.ParameterToString(status)); // form parameter
       
       
 
@@ -653,19 +653,19 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Deletes a pet 
     /// </summary>
-    /// <param name="ApiKey"></param>
-    /// <param name="PetId">Pet id to delete</param>
+    /// <param name="apiKey"></param>
+    /// <param name="petId">Pet id to delete</param>
     /// <returns></returns>
-    public void DeletePet (string ApiKey, long? PetId) {
+    public void DeletePet (string apiKey, long? petId) {
 
       
-      // verify the required parameter 'PetId' is set
-      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling DeletePet");
+      // verify the required parameter 'petId' is set
+      if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
       
 
       var path = "/pet/{petId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -675,7 +675,7 @@ namespace IO.Swagger.Api {
       String postBody = null;
 
       
-       if (ApiKey != null) headerParams.Add("api_key", ApiClient.ParameterToString(ApiKey)); // header parameter
+       if (apiKey != null) headerParams.Add("api_key", ApiClient.ParameterToString(apiKey)); // header parameter
       
       
       
@@ -696,19 +696,19 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Deletes a pet 
     /// </summary>
-    /// <param name="ApiKey"></param>
-    /// <param name="PetId">Pet id to delete</param>
+    /// <param name="apiKey"></param>
+    /// <param name="petId">Pet id to delete</param>
     /// <returns></returns>
-    public async Task DeletePetAsync (string ApiKey, long? PetId) {
+    public async Task DeletePetAsync (string apiKey, long? petId) {
 
       
-          // verify the required parameter 'PetId' is set
-          if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling DeletePet");
+          // verify the required parameter 'petId' is set
+          if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
       
 
       var path = "/pet/{petId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -718,7 +718,7 @@ namespace IO.Swagger.Api {
       String postBody = null;
 
       
-       if (ApiKey != null) headerParams.Add("api_key", ApiClient.ParameterToString(ApiKey)); // header parameter
+       if (apiKey != null) headerParams.Add("api_key", ApiClient.ParameterToString(apiKey)); // header parameter
       
       
       
@@ -738,20 +738,20 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// uploads an image 
     /// </summary>
-    /// <param name="PetId">ID of pet to update</param>
-    /// <param name="AdditionalMetadata">Additional data to pass to server</param>
-    /// <param name="File">file to upload</param>
+    /// <param name="petId">ID of pet to update</param>
+    /// <param name="additionalMetadata">Additional data to pass to server</param>
+    /// <param name="file">file to upload</param>
     /// <returns></returns>
-    public void UploadFile (long? PetId, string AdditionalMetadata, FileStream File) {
+    public void UploadFile (long? petId, string additionalMetadata, FileStream file) {
 
       
-      // verify the required parameter 'PetId' is set
-      if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UploadFile");
+      // verify the required parameter 'petId' is set
+      if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");
       
 
       var path = "/pet/{petId}/uploadImage";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -762,8 +762,8 @@ namespace IO.Swagger.Api {
 
       
       
-      if (AdditionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(AdditionalMetadata)); // form parameter
-      if (File != null) fileParams.Add("file", ApiClient.ParameterToString(File));
+      if (additionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(additionalMetadata)); // form parameter
+      if (file != null) fileParams.Add("file", ApiClient.ParameterToString(file));
       
       
 
@@ -783,20 +783,20 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// uploads an image 
     /// </summary>
-    /// <param name="PetId">ID of pet to update</param>
-    /// <param name="AdditionalMetadata">Additional data to pass to server</param>
-    /// <param name="File">file to upload</param>
+    /// <param name="petId">ID of pet to update</param>
+    /// <param name="additionalMetadata">Additional data to pass to server</param>
+    /// <param name="file">file to upload</param>
     /// <returns></returns>
-    public async Task UploadFileAsync (long? PetId, string AdditionalMetadata, FileStream File) {
+    public async Task UploadFileAsync (long? petId, string additionalMetadata, FileStream file) {
 
       
-          // verify the required parameter 'PetId' is set
-          if (PetId == null) throw new ApiException(400, "Missing required parameter 'PetId' when calling UploadFile");
+          // verify the required parameter 'petId' is set
+          if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");
       
 
       var path = "/pet/{petId}/uploadImage";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(PetId));
+      path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -807,8 +807,8 @@ namespace IO.Swagger.Api {
 
       
       
-      if (AdditionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(AdditionalMetadata)); // form parameter
-      if (File != null) fileParams.Add("file", ApiClient.ParameterToString(File));
+      if (additionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(additionalMetadata)); // form parameter
+      if (file != null) fileParams.Add("file", ApiClient.ParameterToString(file));
       
       
 
