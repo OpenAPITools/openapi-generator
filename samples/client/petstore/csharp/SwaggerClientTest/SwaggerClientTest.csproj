@@ -39,6 +39,7 @@
       <HintPath>Lib\SwaggerClient\bin\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Api\PetApi.cs" />

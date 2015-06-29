@@ -132,13 +132,13 @@ namespace IO.Swagger.Client {
     /// <summary>
     /// Deserialize the JSON string into a proper object
     /// </summary>
-    /// <param name="json"> JSON string
+    /// <param name="content"> HTTP body (e.g. string, JSON)
     /// <param name="type"> Object type
     /// <returns>Object representation of the JSON string</returns>
     public object Deserialize(string content, Type type, IList<Parameter> headers=null) {
-      if (type.GetType() == typeof(Object)) {
+      if (type.GetType() == typeof(Object)) { // return an object
           return (Object)content;
-      } else if (type.Name == "FileStream") {
+      } else if (type.Name == "FileStream") { // return a file
           // e.g. Content-Disposition: attachment; filename=checkimage.jpp
           String fileName;
           String filePath;
@@ -158,9 +158,13 @@ namespace IO.Swagger.Client {
           }
           System.IO.File.WriteAllText (fileName, content);
           return File.Open (fileName, FileMode.Open);
+      } else if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) { // return a datetime object
+          return DateTime.Parse(content,  null, System.Globalization.DateTimeStyles.RoundtripKind);
+      } else if (type.Name == "String" || type.Name.StartsWith("System.Nullable")) { // return primitive 
+          return ConvertType(content, type); 
       }
 
-
+      // at this point, it must be a model (json)
       try
       {
           return JsonConvert.DeserializeObject(content, type);
@@ -241,6 +245,16 @@ namespace IO.Swagger.Client {
     public static string Base64Encode(string text) {
       var textByte = System.Text.Encoding.UTF8.GetBytes(text);
       return System.Convert.ToBase64String(textByte);
+    }
+
+    /// <summary>
+    /// Dynamically cast the object into target type
+    /// Ref: http://stackoverflow.com/questions/4925718/c-dynamic-runtime-cast
+    /// </summary>
+    /// <param name="dynamic">Object to be casted</param>
+    /// <param name="dest">Target type</param>
+    public static dynamic ConvertType(dynamic source, Type dest) {
+        return Convert.ChangeType(source, dest);
     }
 
   }
