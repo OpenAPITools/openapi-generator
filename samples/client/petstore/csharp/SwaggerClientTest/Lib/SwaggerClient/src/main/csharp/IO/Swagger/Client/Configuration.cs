@@ -59,7 +59,7 @@ namespace IO.Swagger.Client {
         }
 
         set {
-            if (!String.IsNullOrEmpty(value)) {
+            if (String.IsNullOrEmpty(value)) {
                 _tempFolderPath = value;
                 return;
             }

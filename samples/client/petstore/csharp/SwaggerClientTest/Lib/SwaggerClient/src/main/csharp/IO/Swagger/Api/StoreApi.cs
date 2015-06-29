@@ -150,7 +150,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
       }
-      return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>));
+      return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
       }
-      return (Order) ApiClient.Deserialize(response.Content, typeof(Order));
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
       }
-      return (Order) ApiClient.Deserialize(response.Content, typeof(Order));
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
     }
 
     /// <summary>

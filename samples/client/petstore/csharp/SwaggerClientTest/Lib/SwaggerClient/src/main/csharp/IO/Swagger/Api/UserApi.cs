@@ -439,7 +439,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content, response.Content);
       }
-      return (string) ApiClient.Deserialize(response.Content, typeof(string));
+      return (string) ApiClient.Deserialize(response.Content, typeof(string), response.Headers);
     }
 
     /// <summary>
@@ -588,7 +588,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content, response.Content);
       }
-      return (User) ApiClient.Deserialize(response.Content, typeof(User));
+      return (User) ApiClient.Deserialize(response.Content, typeof(User), response.Headers);
     }
 
     /// <summary>
