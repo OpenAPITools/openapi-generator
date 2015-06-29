@@ -26,44 +26,44 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Place an order for a pet 
     /// </summary>
-    /// <param name="Body">order placed for purchasing the pet</param>
+    /// <param name="body">order placed for purchasing the pet</param>
     /// <returns>Order</returns>
-    Order PlaceOrder (Order Body);
+    Order PlaceOrder (Order body);
 
     /// <summary>
     /// Place an order for a pet 
     /// </summary>
-    /// <param name="Body">order placed for purchasing the pet</param>
+    /// <param name="body">order placed for purchasing the pet</param>
     /// <returns>Order</returns>
-    Task<Order> PlaceOrderAsync (Order Body);
+    Task<Order> PlaceOrderAsync (Order body);
     
     /// <summary>
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
-    /// <param name="OrderId">ID of pet that needs to be fetched</param>
+    /// <param name="orderId">ID of pet that needs to be fetched</param>
     /// <returns>Order</returns>
-    Order GetOrderById (string OrderId);
+    Order GetOrderById (string orderId);
 
     /// <summary>
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
-    /// <param name="OrderId">ID of pet that needs to be fetched</param>
+    /// <param name="orderId">ID of pet that needs to be fetched</param>
     /// <returns>Order</returns>
-    Task<Order> GetOrderByIdAsync (string OrderId);
+    Task<Order> GetOrderByIdAsync (string orderId);
     
     /// <summary>
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     /// </summary>
-    /// <param name="OrderId">ID of the order that needs to be deleted</param>
+    /// <param name="orderId">ID of the order that needs to be deleted</param>
     /// <returns></returns>
-    void DeleteOrder (string OrderId);
+    void DeleteOrder (string orderId);
 
     /// <summary>
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     /// </summary>
-    /// <param name="OrderId">ID of the order that needs to be deleted</param>
+    /// <param name="orderId">ID of the order that needs to be deleted</param>
     /// <returns></returns>
-    Task DeleteOrderAsync (string OrderId);
+    Task DeleteOrderAsync (string orderId);
     
   }
 
@@ -190,9 +190,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Place an order for a pet 
     /// </summary>
-    /// <param name="Body">order placed for purchasing the pet</param>
+    /// <param name="body">order placed for purchasing the pet</param>
     /// <returns>Order</returns>
-    public Order PlaceOrder (Order Body) {
+    public Order PlaceOrder (Order body) {
 
       
 
@@ -209,7 +209,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -227,9 +227,9 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Place an order for a pet 
     /// </summary>
-    /// <param name="Body">order placed for purchasing the pet</param>
+    /// <param name="body">order placed for purchasing the pet</param>
     /// <returns>Order</returns>
-    public async Task<Order> PlaceOrderAsync (Order Body) {
+    public async Task<Order> PlaceOrderAsync (Order body) {
 
       
 
@@ -246,7 +246,7 @@ namespace IO.Swagger.Api {
       
       
       
-      postBody = ApiClient.Serialize(Body); // http body (model) parameter
+      postBody = ApiClient.Serialize(body); // http body (model) parameter
       
 
       // authentication setting, if any
@@ -263,18 +263,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
-    /// <param name="OrderId">ID of pet that needs to be fetched</param>
+    /// <param name="orderId">ID of pet that needs to be fetched</param>
     /// <returns>Order</returns>
-    public Order GetOrderById (string OrderId) {
+    public Order GetOrderById (string orderId) {
 
       
-      // verify the required parameter 'OrderId' is set
-      if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling GetOrderById");
+      // verify the required parameter 'orderId' is set
+      if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
       
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -303,18 +303,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
     /// </summary>
-    /// <param name="OrderId">ID of pet that needs to be fetched</param>
+    /// <param name="orderId">ID of pet that needs to be fetched</param>
     /// <returns>Order</returns>
-    public async Task<Order> GetOrderByIdAsync (string OrderId) {
+    public async Task<Order> GetOrderByIdAsync (string orderId) {
 
       
-          // verify the required parameter 'OrderId' is set
-          if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling GetOrderById");
+          // verify the required parameter 'orderId' is set
+          if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
       
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -342,18 +342,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     /// </summary>
-    /// <param name="OrderId">ID of the order that needs to be deleted</param>
+    /// <param name="orderId">ID of the order that needs to be deleted</param>
     /// <returns></returns>
-    public void DeleteOrder (string OrderId) {
+    public void DeleteOrder (string orderId) {
 
       
-      // verify the required parameter 'OrderId' is set
-      if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling DeleteOrder");
+      // verify the required parameter 'orderId' is set
+      if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
       
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
       
 
       var queryParams = new Dictionary<String, String>();
@@ -383,18 +383,18 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     /// </summary>
-    /// <param name="OrderId">ID of the order that needs to be deleted</param>
+    /// <param name="orderId">ID of the order that needs to be deleted</param>
     /// <returns></returns>
-    public async Task DeleteOrderAsync (string OrderId) {
+    public async Task DeleteOrderAsync (string orderId) {
 
       
-          // verify the required parameter 'OrderId' is set
-          if (OrderId == null) throw new ApiException(400, "Missing required parameter 'OrderId' when calling DeleteOrder");
+          // verify the required parameter 'orderId' is set
+          if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
       
 
       var path = "/store/order/{orderId}";
       path = path.Replace("{format}", "json");
-      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(OrderId));
+      path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
       
 
       var queryParams = new Dictionary<String, String>();
