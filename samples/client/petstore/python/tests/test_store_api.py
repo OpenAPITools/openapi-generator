@@ -11,14 +11,14 @@ import os
 import time
 import unittest
 
-import SwaggerPetstore
-from SwaggerPetstore.rest import ApiException
+import swagger_client
+from swagger_client.rest import ApiException
 
 
 class StoreApiTests(unittest.TestCase):
 
     def setUp(self):
-        self.store_api = SwaggerPetstore.StoreApi()
+        self.store_api = swagger_client.StoreApi()
 
     def tearDown(self):
         # sleep 1 sec between two every 2 tests
