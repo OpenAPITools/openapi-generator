@@ -406,7 +406,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
       }
-      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>));
+      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
     }
     
     /// <summary>
@@ -479,7 +479,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
       }
-      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>));
+      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
     }
     
     /// <summary>
@@ -558,7 +558,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
       }
-      return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet));
+      return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
     }
     
     /// <summary>
