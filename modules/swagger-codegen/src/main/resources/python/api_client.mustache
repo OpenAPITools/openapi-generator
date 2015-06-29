@@ -60,7 +60,7 @@ class ApiClient(object):
     self.default_headers[header_name] = header_value
 
   def call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
-               body=None, post_params=None, files=None, response=None, auth_settings=None):
+               body=None, post_params=None, files=None, response_type=None, auth_settings=None):
 
     # headers parameters
     header_params = header_params or {}
@@ -97,17 +97,15 @@ class ApiClient(object):
     # request url
     url = self.host + resource_path
 
-    if response == "file":
-        # perform request and return response
-        response_data = self.request(method, url, query_params=query_params, headers=header_params,
-                                     post_params=post_params, body=body, raw=True)
-    else:
-        response_data = self.request(method, url, query_params=query_params, headers=header_params,
-                                     post_params=post_params, body=body)
+    # perform request and return response
+    response_data = self.request(method, url, query_params=query_params, headers=header_params,
+                                 post_params=post_params, body=body)
 
+    self.last_response = response_data
+    
     # deserialize response data
-    if response:
-      return self.deserialize(response_data, response)
+    if response_type:
+      return self.deserialize(response_data, response_type)
     else:
       return None
 
@@ -156,93 +154,66 @@ class ApiClient(object):
       return {key: self.sanitize_for_serialization(val)
               for key, val in iteritems(obj_dict)}
 
-  def deserialize(self, obj, obj_class):
+  def deserialize(self, response, response_type):
     """
-    Derialize a JSON string into an object.
+    Derialize response into an object.
 
-    :param obj: string or object to be deserialized
-    :param obj_class: class literal for deserialzied object, or string of class name
+    :param response: RESTResponse object to be deserialized
+    :param response_type: class literal for deserialzied object, or string of class name
 
-    :return object: deserialized object
+    :return: deserialized object
     """
-    # Have to accept obj_class as string or actual type. Type could be a
-    # native Python type, or one of the model classes.
-    if type(obj_class) == str:
-      if 'list[' in obj_class:
-        match = re.match('list\[(.*)\]', obj_class)
-        sub_class = match.group(1)
-        return [self.deserialize(sub_obj, sub_class) for sub_obj in obj]
+    # handle file downloading - save response body into a tmp file and return the instance
+    if "file" == response_type:
+      return self.__deserialize_file(response)
 
-      if 'dict(' in obj_class:
-        match = re.match('dict\((.*), (.*)\)', obj_class)
-        sub_class = match.group(2)
-        return {k: self.deserialize(v, sub_class) for k, v in iteritems(obj)}
-
-      # handle file downloading - save response body into a tmp file and return the instance
-      if "file" == obj_class:
-        return self.download_file(obj)
-      
-      if obj_class in ['int', 'float', 'dict', 'list', 'str', 'bool', 'datetime', "object"]:
-        obj_class = eval(obj_class)
-      else:  # not a native type, must be model class
-        obj_class = eval('models.' + obj_class)
-
-    if obj_class in [int, float, dict, list, str, bool]:
-      return obj_class(obj)
-    elif obj_class == object:
-      return object()
-    elif obj_class == datetime:
-      return self.__parse_string_to_datetime(obj)
-
-    instance = obj_class()
-
-    for attr, attr_type in iteritems(instance.swagger_types):
-        if obj is not None and instance.attribute_map[attr] in obj and type(obj) in [list, dict]:
-          value = obj[instance.attribute_map[attr]]
-          if attr_type in ['str', 'int', 'float', 'bool']:
-            attr_type = eval(attr_type)
-            try:
-              value = attr_type(value)
-            except UnicodeEncodeError:
-              value = unicode(value)
-            except TypeError:
-              value = value
-            setattr(instance, attr, value)
-          elif attr_type == 'datetime':
-            setattr(instance, attr, self.__parse_string_to_datetime(value))
-          elif 'list[' in attr_type:
-            match = re.match('list\[(.*)\]', attr_type)
-            sub_class = match.group(1)
-            sub_values = []
-            if not value:
-              setattr(instance, attr, None)
-            else:
-              for sub_value in value:
-                sub_values.append(self.deserialize(sub_value, sub_class))
-              setattr(instance, attr, sub_values)
-          else:
-            setattr(instance, attr, self.deserialize(value, attr_type))
-
-    return instance
-
-  def __parse_string_to_datetime(self, string):
-    """
-    Parse datetime in string to datetime.
-
-    The string should be in iso8601 datetime format.
-    """
+    # fetch data from response object
     try:
-        from dateutil.parser import parse
-        return parse(string)
-    except ImportError:
-        return string
+      data = json.loads(response.data)
+    except ValueError:
+      data = response.data
 
-  def request(self, method, url, query_params=None, headers=None, post_params=None, body=None, raw=False):
+    return self.__deserialize(data, response_type)
+
+  def __deserialize(self, data, klass):
+    """
+    :param data: dict, list or str
+    :param klass: class literal, or string of class name
+
+    :return: object
+    """
+    if type(klass) == str:
+      if 'list[' in klass:
+        sub_kls = re.match('list\[(.*)\]', klass).group(1)
+        return [self.__deserialize(sub_data, sub_kls) for sub_data in data]
+
+      if 'dict(' in klass:
+        sub_kls = re.match('dict\((.*), (.*)\)', klass).group(2)
+        return {k: self.__deserialize(v, sub_kls) for k, v in iteritems(data)}
+
+      # convert str to class
+      # for native types
+      if klass in ['int', 'float', 'str', 'bool', 'datetime', "object"]:
+        klass = eval(klass)
+      # for model types
+      else:
+        klass = eval('models.' + klass)
+
+    if klass in [int, float, str, bool]:
+      return self.__deserialize_primitive(data, klass)
+    elif klass == object:
+      return self.__deserialize_object()
+    elif klass == datetime:
+      return self.__deserialize_datatime(data)
+    else:
+      return self.__deserialize_model(data, klass)
+
+  def request(self, method, url, query_params=None, headers=None, post_params=None, body=None):
     """
     Perform http request using RESTClient.
     """
     if method == "GET":
-      return RESTClient.GET(url, query_params=query_params, headers=headers, raw=raw)
+      return RESTClient.GET(url, query_params=query_params, headers=headers)
     elif method == "HEAD":
       return RESTClient.HEAD(url, query_params=query_params, headers=headers)
     elif method == "POST":
@@ -318,7 +289,7 @@ class ApiClient(object):
         else:
           raise ValueError('Authentication token must be in `query` or `header`')
 
-  def download_file(self, response):
+  def __deserialize_file(self, response):
     """
     Save response body into a file in (the defined) temporary folder, using the filename
     from the `Content-Disposition` header if provided, otherwise a random filename.
@@ -339,5 +310,79 @@ class ApiClient(object):
       f.write(response.data)
 
     return path
+
+  def __deserialize_primitive(self, data, klass):
+    """
+    Deserialize string to primitive type
+    
+    :param data: str
+    :param klass: class literal
+
+    :return: int, float, str, bool
+    """
+    try:
+      value = klass(data)
+    except UnicodeEncodeError:
+      value = unicode(data)
+    except TypeError:
+      value = data
+    return value
+
+  def __deserialize_object(self):
+    """
+    Deserialize empty object
+    """
+    return object()
+
+  def __deserialize_datatime(self, string):
+    """
+    Deserialize string to datetime.
+
+    The string should be in iso8601 datetime format.
+
+    :param string: str
+    :return: datetime
+    """
+    try:
+      from dateutil.parser import parse
+      return parse(string)
+    except ImportError:
+      return string
+
+  def __deserialize_model(self, data, klass):
+    """
+    Deserialize list or dict to model
+
+    :param data: dict, list
+    :param klass: class literal
+    """
+    instance = klass()
+
+    for attr, attr_type in iteritems(instance.swagger_types):
+      if data is not None \
+         and instance.attribute_map[attr] in data\
+         and isinstance(data, (list, dict)):
+        value = data[instance.attribute_map[attr]]
+        if attr_type in ['str', 'int', 'float', 'bool']:
+          attr_type = eval(attr_type)
+          setattr(instance, attr, self.__deserialize_primitive(value, attr_type))
+        elif attr_type == 'datetime':
+          setattr(instance, attr, self.__deserialize_datatime(value))
+        elif 'list[' in attr_type:
+          if not value:
+            setattr(instance, attr, None)
+          else:
+            sub_kls = re.match('list\[(.*)\]', attr_type).group(1)
+            setattr(instance, attr, [self.__deserialize(v, sub_kls) for v in value])
+        else:
+          setattr(instance, attr, self.__deserialize(value, attr_type))
+
+    return instance
+
+
+
+
+
+
 
 

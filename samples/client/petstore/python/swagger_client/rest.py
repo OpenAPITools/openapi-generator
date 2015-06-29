@@ -75,7 +75,7 @@ class RESTClientObject(object):
             return self.pool_manager
 
     def request(self, method, url, query_params=None, headers=None,
-                body=None, post_params=None, raw=False):
+                body=None, post_params=None):
         """
         :param method: http request method
         :param url: http request url
@@ -125,30 +125,18 @@ class RESTClientObject(object):
                                         headers=headers)
         r = RESTResponse(r)
 
-        if r.status not in range(200, 206):
-            raise ApiException(r)
-
-        return self.process_response(r, raw)
-
-    def process_response(self, response, raw):
-        if raw:
-            return response
-        
         # In the python 3, the response.data is bytes.
         # we need to decode it to string.
         if sys.version_info > (3,):
-            data = response.data.decode('utf8')
-        else:
-            data = response.data
-        try:
-            resp = json.loads(data)
-        except ValueError:
-            resp = data
+            r.data = r.data.decode('utf8')
 
-        return resp
+        if r.status not in range(200, 206):
+            raise ApiException(r)
 
-    def GET(self, url, headers=None, query_params=None, raw=False):
-        return self.request("GET", url, headers=headers, query_params=query_params, raw=raw)
+        return r
+
+    def GET(self, url, headers=None, query_params=None):
+        return self.request("GET", url, headers=headers, query_params=query_params)
 
     def HEAD(self, url, headers=None, query_params=None):
         return self.request("HEAD", url, headers=headers, query_params=query_params)

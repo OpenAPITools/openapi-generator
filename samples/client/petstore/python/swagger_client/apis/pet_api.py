@@ -90,7 +90,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def add_pet(self, **kwargs):
         """
@@ -141,7 +141,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def find_pets_by_status(self, **kwargs):
         """
@@ -192,7 +192,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='list[Pet]', auth_settings=auth_settings)
+                                            response_type='list[Pet]', auth_settings=auth_settings)
         
         return response
         
@@ -245,7 +245,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='list[Pet]', auth_settings=auth_settings)
+                                            response_type='list[Pet]', auth_settings=auth_settings)
         
         return response
         
@@ -302,7 +302,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Pet', auth_settings=auth_settings)
+                                            response_type='Pet', auth_settings=auth_settings)
         
         return response
         
@@ -367,7 +367,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def delete_pet(self, pet_id, **kwargs):
         """
@@ -426,7 +426,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def upload_file(self, pet_id, **kwargs):
         """
@@ -489,7 +489,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
 
 
