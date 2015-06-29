@@ -112,7 +112,7 @@ class ApiClientTests(unittest.TestCase):
             }
         }
 
-        data = self.api_client.deserialize(json, 'dict(str, Pet)')
+        data = self.api_client._ApiClient__deserialize(json, 'dict(str, Pet)')
         self.assertTrue(isinstance(data, dict))
         self.assertTrue(isinstance(data['pet'], swagger_client.Pet))
 
@@ -121,10 +121,14 @@ class ApiClientTests(unittest.TestCase):
             'integer': 1
         }
 
-        data = self.api_client.deserialize(json, 'dict(str, int)')
+        data = self.api_client._ApiClient__deserialize(json, 'dict(str, int)')
         self.assertTrue(isinstance(data, dict))
         self.assertTrue(isinstance(data['integer'], int))
 
     def test_deserialize_to_object(self):
-        data = self.api_client.deserialize("", "object")
+        data = self.api_client._ApiClient__deserialize("", "object")
         self.assertTrue(type(data) == object)
+
+
+
+

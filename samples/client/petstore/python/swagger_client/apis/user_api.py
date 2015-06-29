@@ -90,7 +90,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def create_users_with_array_input(self, **kwargs):
         """
@@ -141,7 +141,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def create_users_with_list_input(self, **kwargs):
         """
@@ -192,7 +192,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def login_user(self, **kwargs):
         """
@@ -247,7 +247,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='str', auth_settings=auth_settings)
+                                            response_type='str', auth_settings=auth_settings)
         
         return response
         
@@ -296,7 +296,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def get_user_by_name(self, username, **kwargs):
         """
@@ -351,7 +351,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='User', auth_settings=auth_settings)
+                                            response_type='User', auth_settings=auth_settings)
         
         return response
         
@@ -412,7 +412,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def delete_user(self, username, **kwargs):
         """
@@ -467,7 +467,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
 
 
