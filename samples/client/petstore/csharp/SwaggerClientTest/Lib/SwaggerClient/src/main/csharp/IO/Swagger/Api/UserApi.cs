@@ -212,7 +212,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -287,7 +287,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -362,7 +362,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -439,7 +439,11 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content, response.Content);
       }
-      return (string) ApiClient.Deserialize(response.Content, typeof(string), response.Headers);
+
+       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
+      String returnTypeString = "string";
+      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(string);
+      return (string) ApiClient.Deserialize(response.Content, returnType, response.Headers);
     }
 
     /// <summary>
@@ -512,7 +516,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -588,7 +592,11 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content, response.Content);
       }
-      return (User) ApiClient.Deserialize(response.Content, typeof(User), response.Headers);
+
+       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
+      String returnTypeString = "User";
+      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(User);
+      return (User) ApiClient.Deserialize(response.Content, returnType, response.Headers);
     }
 
     /// <summary>
@@ -669,7 +677,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -752,7 +760,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 

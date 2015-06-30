@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
@@ -49,6 +50,30 @@ namespace SwaggerClient.TestPet
 
 
 		[Test ()]
+		public void TestGetPetByIdAsync ()
+		{
+			PetApi petApi = new PetApi ();
+			var task = petApi.GetPetByIdAsync (petId);
+			Pet response = task.Result;
+			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
+
+			Assert.AreEqual ("Csharp test", response.Name);
+			Assert.AreEqual ("available", response.Status);
+
+			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.AreEqual (petId, response.Tags [0].Id);
+			Assert.AreEqual ("sample tag name1", response.Tags [0].Name);
+
+			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
+			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
+
+			Assert.IsInstanceOf<Category> (response.Category, "Response.Category is a Category");
+			Assert.AreEqual (56, response.Category.Id);
+			Assert.AreEqual ("sample category name2", response.Category.Name);
+
+		}
+
+		[Test ()]
 		public void TestGetPetById ()
 		{
 			PetApi petApi = new PetApi ();
@@ -88,6 +113,15 @@ namespace SwaggerClient.TestPet
 			Assert.AreEqual (petId, response.Tags [0].Id);
 			Assert.AreEqual (56, response.Category.Id);
 		}
+
+		[Test ()]
+		public void TestUploadFile ()
+		{
+			PetApi petApi = new PetApi ();
+			//NOTE: please provide a valid file (full path)
+			petApi.UploadFile(petId, "new form name", "/var/tmp/small.gif");
+		}
+
 
 		[Test ()]
 		public void TestFindPetByStatus ()

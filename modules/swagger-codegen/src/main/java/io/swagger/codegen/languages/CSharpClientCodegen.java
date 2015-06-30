@@ -37,6 +37,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
+                        "String",
                         "string",
                         "bool?",
                         "double?",
@@ -68,7 +69,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("number", "double?");
         typeMapping.put("datetime", "DateTime?");
         typeMapping.put("date", "DateTime?");
-        typeMapping.put("file", "FileStream");
+        typeMapping.put("file", "String");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");

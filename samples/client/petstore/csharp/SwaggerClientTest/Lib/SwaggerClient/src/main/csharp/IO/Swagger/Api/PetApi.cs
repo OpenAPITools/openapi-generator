@@ -122,7 +122,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     /// <returns></returns>
-    void UploadFile (long? petId, string additionalMetadata, FileStream file);
+    void UploadFile (long? petId, string additionalMetadata, String file);
 
     /// <summary>
     /// uploads an image 
@@ -131,7 +131,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     /// <returns></returns>
-    Task UploadFileAsync (long? petId, string additionalMetadata, FileStream file);
+    Task UploadFileAsync (long? petId, string additionalMetadata, String file);
     
   }
 
@@ -220,7 +220,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -295,7 +295,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -370,7 +370,11 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
       }
-      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
+
+       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
+      String returnTypeString = "List<Pet>";
+      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(List<Pet>);
+      return (List<Pet>) ApiClient.Deserialize(response.Content, returnType, response.Headers);
     }
 
     /// <summary>
@@ -443,7 +447,11 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
       }
-      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
+
+       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
+      String returnTypeString = "List<Pet>";
+      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(List<Pet>);
+      return (List<Pet>) ApiClient.Deserialize(response.Content, returnType, response.Headers);
     }
 
     /// <summary>
@@ -519,7 +527,11 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
       }
-      return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
+
+       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
+      String returnTypeString = "Pet";
+      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(Pet);
+      return (Pet) ApiClient.Deserialize(response.Content, returnType, response.Headers);
     }
 
     /// <summary>
@@ -602,7 +614,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -689,7 +701,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -742,7 +754,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     /// <returns></returns>
-    public void UploadFile (long? petId, string additionalMetadata, FileStream file) {
+    public void UploadFile (long? petId, string additionalMetadata, String file) {
 
       
       // verify the required parameter 'petId' is set
@@ -776,7 +788,7 @@ namespace IO.Swagger.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
       }
-      
+
       return;
     }
 
@@ -787,7 +799,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     /// <returns></returns>
-    public async Task UploadFileAsync (long? petId, string additionalMetadata, FileStream file) {
+    public async Task UploadFileAsync (long? petId, string additionalMetadata, String file) {
 
       
           // verify the required parameter 'petId' is set

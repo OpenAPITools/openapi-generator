@@ -120,8 +120,6 @@ namespace IO.Swagger.Client {
     {
       if (obj is DateTime) {
         return ((DateTime)obj).ToString ("u");
-      } else if (obj is FileStream) {
-        return ((FileStream)obj).Name;
       } else if (obj is List<string>) {
         return String.Join(",", obj as List<string>);
       } else {
@@ -138,7 +136,7 @@ namespace IO.Swagger.Client {
     public object Deserialize(string content, Type type, IList<Parameter> headers=null) {
       if (type.GetType() == typeof(Object)) { // return an object
           return (Object)content;
-      } else if (type.Name == "FileStream") { // return a file
+      } else if (type.Name == "FileStream") { // return a file (full path)
           // e.g. Content-Disposition: attachment; filename=checkimage.jpp
           String fileName;
           String filePath;
@@ -157,7 +155,7 @@ namespace IO.Swagger.Client {
               fileName = filePath + Guid.NewGuid().ToString();
           }
           System.IO.File.WriteAllText (fileName, content);
-          return File.Open (fileName, FileMode.Open);
+          return fileName;
       } else if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) { // return a datetime object
           return DateTime.Parse(content,  null, System.Globalization.DateTimeStyles.RoundtripKind);
       } else if (type.Name == "String" || type.Name.StartsWith("System.Nullable")) { // return primitive 
