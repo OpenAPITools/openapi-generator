@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Petstore::Swagger::Request do
+describe Petstore::Request do
 
   before(:each) do
-    Petstore::Swagger.configure do |config|
+    @api_client = Petstore::ApiClient.new do |config|
       inject_format = true
       config.api_key['api_key'] = 'special-key'
       config.host = 'petstore.swagger.io'
@@ -15,7 +15,7 @@ describe Petstore::Swagger::Request do
     @default_params = {
       :params => {:foo => "1", :bar => "2"}
     }
-    @request = Petstore::Swagger::Request.new(@default_http_method, @default_path, @default_params)
+    @request = Petstore::Request.new(@api_client, @default_http_method, @default_path, @default_params)
   end
 
   describe "initialization" do
@@ -29,7 +29,7 @@ describe Petstore::Swagger::Request do
     end
 
     it "allows params to be nil" do
-      @request = Petstore::Swagger::Request.new(@default_http_method, @default_path, :params => nil)
+      @request = Petstore::Request.new(@api_client, @default_http_method, @default_path, :params => nil)
       @request.params.should == {}
     end
 
@@ -60,7 +60,7 @@ describe Petstore::Swagger::Request do
   describe "path" do
 
     it "accounts for a total absence of format in the path string" do
-      @request = Petstore::Swagger::Request.new(:get, "/word.{format}/cat/entries", @default_params.merge({
+      @request = Petstore::Request.new(@api_client, :get, "/word.{format}/cat/entries", @default_params.merge({
         :format => "xml",
         :params => {
         }
@@ -69,7 +69,7 @@ describe Petstore::Swagger::Request do
     end
 
     it "does string substitution (format) on path params" do
-      @request = Petstore::Swagger::Request.new(:get, "/word.{format}/cat/entries", @default_params.merge({
+      @request = Petstore::Request.new(@api_client, :get, "/word.{format}/cat/entries", @default_params.merge({
         :format => "xml",
         :params => {
         }
@@ -78,7 +78,7 @@ describe Petstore::Swagger::Request do
     end
 
     it "URI encodes the path" do
-      @request = Petstore::Swagger::Request.new(:get, "word.{format}/bill gates/definitions", @default_params.merge({
+      @request = Petstore::Request.new(@api_client, :get, "word.{format}/bill gates/definitions", @default_params.merge({
         :params => {
           :word => "bill gates"
         }
@@ -90,7 +90,7 @@ describe Petstore::Swagger::Request do
 
   describe "#update_params_for_auth!" do
     it "sets header api-key parameter with prefix" do
-      Petstore::Swagger.configure do |config|
+      @api_client.configure do |config|
         inject_format = true
         config.api_key_prefix['api_key'] = 'PREFIX'
       end
@@ -100,7 +100,7 @@ describe Petstore::Swagger::Request do
     end
 
     it "sets header api-key parameter without prefix" do
-      Petstore::Swagger.configure do |config|
+      @api_client.configure do |config|
         inject_format = true
         config.api_key_prefix['api_key'] = nil
       end
