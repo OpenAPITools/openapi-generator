@@ -15,7 +15,7 @@ VERSION = "1.0.0"
 # Try reading the setuptools documentation:
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi"]
+REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi", "python-dateutil"]
 
 setup(
     name=NAME,
