@@ -1,18 +1,13 @@
 require 'spec_helper'
 
-describe Petstore::Swagger::Response do
-
-  before do
-    configure_swagger
-    prepare_pet
-  end
+describe Petstore::Response do
 
   before(:each) do
     VCR.use_cassette('pet_resource', :record => :new_episodes) do
       @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/10002")
     end
 
-    @response = Petstore::Swagger::Response.new(@raw)
+    @response = Petstore::Response.new(API_CLIENT, @raw)
   end
 
   describe "initialization" do
@@ -43,7 +38,7 @@ describe Petstore::Swagger::Response do
         @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/10002",
                                     :headers => {'Accept'=> "application/xml"})
       end
-      @response = Petstore::Swagger::Response.new(@raw)
+      @response = Petstore::Response.new(API_CLIENT, @raw)
       @response.format.should == 'xml'
       @response.xml?.should == true
     end
