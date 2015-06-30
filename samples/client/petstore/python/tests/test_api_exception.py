@@ -52,7 +52,7 @@ class ApiExceptionTests(unittest.TestCase):
         except ApiException as e:
             self.assertEqual(e.status, 404)
             self.assertEqual(e.reason, "Not Found")
-            self.assertDictEqual(e.body, {'message': 'Pet not found', 'code': 1, 'type': 'error'})
+            self.assertRegexpMatches(e.body, "Pet not found")
 
     def test_500_error(self):
         self.pet_api.add_pet(body=self.pet)
