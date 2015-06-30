@@ -9,6 +9,7 @@ templates."""
 from __future__ import absolute_import
 from . import models
 from .rest import RESTClient
+from .rest import ApiException
 
 import os
 import re
@@ -102,7 +103,7 @@ class ApiClient(object):
                                  post_params=post_params, body=body)
 
     self.last_response = response_data
-    
+
     # deserialize response data
     if response_type:
       return self.deserialize(response_data, response_type)
@@ -278,7 +279,7 @@ class ApiClient(object):
     """
     if not auth_settings:
       return
-    
+
     for auth in auth_settings:
       auth_setting = configuration.auth_settings().get(auth)
       if auth_setting:
@@ -294,13 +295,13 @@ class ApiClient(object):
     Save response body into a file in (the defined) temporary folder, using the filename
     from the `Content-Disposition` header if provided, otherwise a random filename.
 
-    :param response:  RESTResponse 
-    :return: file path 
+    :param response:  RESTResponse
+    :return: file path
     """
     fd, path = tempfile.mkstemp(dir=configuration.temp_folder_path)
     os.close(fd)
     os.remove(path)
-      
+
     content_disposition = response.getheader("Content-Disposition")
     if content_disposition:
       filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?', content_disposition).group(1)
@@ -314,7 +315,7 @@ class ApiClient(object):
   def __deserialize_primitive(self, data, klass):
     """
     Deserialize string to primitive type
-    
+
     :param data: str
     :param klass: class literal
 
@@ -348,6 +349,8 @@ class ApiClient(object):
       return parse(string)
     except ImportError:
       return string
+    except ValueError:
+      raise ApiException(status=0, reason="Failed to parse `{0}` into a datetime object".format(string))
 
   def __deserialize_model(self, data, klass):
     """
@@ -378,11 +381,3 @@ class ApiClient(object):
           setattr(instance, attr, self.__deserialize(value, attr_type))
 
     return instance
-
-
-
-
-
-
-
-

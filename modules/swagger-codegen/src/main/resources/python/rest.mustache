@@ -131,7 +131,7 @@ class RESTClientObject(object):
             r.data = r.data.decode('utf8')
 
         if r.status not in range(200, 206):
-            raise ApiException(r)
+            raise ApiException(http_resp=r)
 
         return r
 
@@ -155,37 +155,32 @@ class RESTClientObject(object):
 
 
 class ApiException(Exception):
-    """
-    Non-2xx HTTP response
-    """
 
-    def __init__(self, http_resp):
-        self.status = http_resp.status
-        self.reason = http_resp.reason
-        self.body = http_resp.data
-        self.headers = http_resp.getheaders()
-
-        # In the python 3, the self.body is bytes.
-        # we need to decode it to string.
-        if sys.version_info > (3,):
-            data = self.body.decode('utf8')
+    def __init__(self, status=None, reason=None, http_resp=None):
+        if http_resp:
+            self.status = http_resp.status
+            self.reason = http_resp.reason
+            self.body = http_resp.data
+            self.headers = http_resp.getheaders()
         else:
-            data = self.body
-            
-        try:
-            self.body = json.loads(data)
-        except ValueError:
-            self.body = data
+            self.status = status
+            self.reason = reason
+            self.body = None
+            self.headers = None
 
     def __str__(self):
         """
-        Custom error response messages
+        Custom error messages for exception
         """
-        return "({0})\n"\
-            "Reason: {1}\n"\
-            "HTTP response headers: {2}\n"\
-            "HTTP response body: {3}\n".\
-            format(self.status, self.reason, self.headers, self.body)
+        error_message = "({0})\n"\
+                        "Reason: {1}\n".format(self.status, self.reason)
+        if self.headers:
+            error_message += "HTTP response headers: {0}".format(self.headers)
+
+        if self.body:
+            error_message += "HTTP response body: {0}".format(self.body)
+
+        return error_message
 
 class RESTClient(object):
     """
