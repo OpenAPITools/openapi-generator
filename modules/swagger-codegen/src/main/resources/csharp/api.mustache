@@ -121,8 +121,11 @@ namespace {{packageName}}.Api {
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
       }
-      {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}
-      return;{{/returnType}}
+
+      {{#returnType}} // if return type is "String" (not "string"), it implies a Filestream and should return the file path
+      String returnTypeString = "{{{returnType}}}";
+      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof({{{returnType}}});
+      return ({{{returnType}}}) ApiClient.Deserialize(response.Content, returnType, response.Headers);{{/returnType}}{{^returnType}}return;{{/returnType}}
     }
 
     /// <summary>
