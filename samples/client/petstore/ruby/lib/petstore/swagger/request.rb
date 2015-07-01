@@ -137,7 +137,7 @@ module Petstore
         end
 
         # record as last response
-        Swagger.last_response = @response
+        Thread.current[:swagger_last_response] = @response
 
         unless @response.success?
           fail ApiError.new(:code => @response.code,
