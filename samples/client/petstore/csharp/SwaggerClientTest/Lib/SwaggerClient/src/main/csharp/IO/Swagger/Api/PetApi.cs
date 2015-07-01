@@ -122,7 +122,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     
-    void UploadFile (long? petId, string additionalMetadata, String file);
+    void UploadFile (long? petId, string additionalMetadata, Stream file);
 
     /// <summary>
     /// uploads an image 
@@ -131,7 +131,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     
-    Task UploadFileAsync (long? petId, string additionalMetadata, String file);
+    Task UploadFileAsync (long? petId, string additionalMetadata, Stream file);
     
   }
 
@@ -202,7 +202,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -240,7 +240,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -277,7 +277,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -315,7 +315,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -352,7 +352,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
        if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
@@ -371,10 +371,7 @@ namespace IO.Swagger.Api {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
       }
 
-       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
-      String returnTypeString = "List<Pet>";
-      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(List<Pet>);
-      return (List<Pet>) ApiClient.Deserialize(response.Content, returnType, response.Headers);
+      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
     }
 
     /// <summary>
@@ -393,7 +390,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
        if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
@@ -429,7 +426,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
        if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
@@ -448,10 +445,7 @@ namespace IO.Swagger.Api {
         throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
       }
 
-       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
-      String returnTypeString = "List<Pet>";
-      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(List<Pet>);
-      return (List<Pet>) ApiClient.Deserialize(response.Content, returnType, response.Headers);
+      return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
     }
 
     /// <summary>
@@ -470,7 +464,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
        if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
@@ -510,7 +504,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -528,10 +522,7 @@ namespace IO.Swagger.Api {
         throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
       }
 
-       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
-      String returnTypeString = "Pet";
-      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(Pet);
-      return (Pet) ApiClient.Deserialize(response.Content, returnType, response.Headers);
+      return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
     }
 
     /// <summary>
@@ -554,7 +545,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -595,7 +586,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -640,7 +631,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -683,7 +674,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -726,7 +717,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -754,7 +745,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     
-    public void UploadFile (long? petId, string additionalMetadata, String file) {
+    public void UploadFile (long? petId, string additionalMetadata, Stream file) {
 
       
       // verify the required parameter 'petId' is set
@@ -769,13 +760,13 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
       
       if (additionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(additionalMetadata)); // form parameter
-      if (file != null) fileParams.Add("file", ApiClient.ParameterToString(file));
+      if (file != null) fileParams.Add("file", ApiClient.ParameterToFile("file", file));
       
       
 
@@ -799,7 +790,7 @@ namespace IO.Swagger.Api {
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
     
-    public async Task UploadFileAsync (long? petId, string additionalMetadata, String file) {
+    public async Task UploadFileAsync (long? petId, string additionalMetadata, Stream file) {
 
       
           // verify the required parameter 'petId' is set
@@ -814,13 +805,13 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
       
       if (additionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(additionalMetadata)); // form parameter
-      if (file != null) fileParams.Add("file", ApiClient.ParameterToString(file));
+      if (file != null) fileParams.Add("file", ApiClient.ParameterToFile("file", file));
       
       
 

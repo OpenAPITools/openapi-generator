@@ -133,7 +133,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -151,10 +151,7 @@ namespace IO.Swagger.Api {
         throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
       }
 
-       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
-      String returnTypeString = "Dictionary<String, int?>";
-      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(Dictionary<String, int?>);
-      return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, returnType, response.Headers);
+      return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
     }
 
     /// <summary>
@@ -172,7 +169,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -207,7 +204,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -226,10 +223,7 @@ namespace IO.Swagger.Api {
         throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
       }
 
-       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
-      String returnTypeString = "Order";
-      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(Order);
-      return (Order) ApiClient.Deserialize(response.Content, returnType, response.Headers);
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
     }
 
     /// <summary>
@@ -248,7 +242,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -288,7 +282,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -306,10 +300,7 @@ namespace IO.Swagger.Api {
         throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
       }
 
-       // if return type is "String" (not "string"), it implies a Filestream and should return the file path
-      String returnTypeString = "Order";
-      Type returnType = returnTypeString == "String" ? typeof(FileStream) : typeof(Order);
-      return (Order) ApiClient.Deserialize(response.Content, returnType, response.Headers);
+      return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
     }
 
     /// <summary>
@@ -332,7 +323,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -371,7 +362,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
@@ -412,7 +403,7 @@ namespace IO.Swagger.Api {
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
+      var fileParams = new Dictionary<String, FileParameter>();
       String postBody = null;
 
       
