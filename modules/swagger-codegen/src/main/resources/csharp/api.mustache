@@ -17,14 +17,14 @@ namespace {{packageName}}.Api {
     /// {{summary}} {{notes}}
     /// </summary>
     {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-    {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>{{/returnType}}
     {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
     /// <summary>
     /// {{summary}} {{notes}}
     /// </summary>
     {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-    {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>{{/returnType}}
     {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}
   }
@@ -37,7 +37,7 @@ namespace {{packageName}}.Api {
     /// <summary>
     /// Initializes a new instance of the <see cref="{{classname}}"/> class.
     /// </summary>
-    /// <param name="apiClient"> an instance of ApiClient (optional)
+    /// <param name="apiClient"> an instance of ApiClient (optional)</param>
     /// <returns></returns>
     public {{classname}}(ApiClient apiClient = null) {
       if (apiClient == null) { // use the default one in Configuration
@@ -84,7 +84,7 @@ namespace {{packageName}}.Api {
     /// {{summary}} {{notes}}
     /// </summary>
     {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-    {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>{{/returnType}}
     public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
       {{#allParams}}{{#required}}
@@ -132,7 +132,7 @@ namespace {{packageName}}.Api {
     /// {{summary}} {{notes}}
     /// </summary>
     {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-    {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+    {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>{{/returnType}}
     public async {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
 
       {{#allParams}}{{#required}}

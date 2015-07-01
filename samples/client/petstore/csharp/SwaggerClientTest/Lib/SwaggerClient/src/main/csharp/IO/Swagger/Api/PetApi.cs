@@ -15,28 +15,28 @@ namespace IO.Swagger.Api {
     /// Update an existing pet 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     void UpdatePet (Pet body);
 
     /// <summary>
     /// Update an existing pet 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     Task UpdatePetAsync (Pet body);
     
     /// <summary>
     /// Add a new pet to the store 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     void AddPet (Pet body);
 
     /// <summary>
     /// Add a new pet to the store 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     Task AddPetAsync (Pet body);
     
     /// <summary>
@@ -87,7 +87,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet that needs to be updated</param>
     /// <param name="name">Updated name of the pet</param>
     /// <param name="status">Updated status of the pet</param>
-    /// <returns></returns>
+    
     void UpdatePetWithForm (string petId, string name, string status);
 
     /// <summary>
@@ -96,7 +96,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet that needs to be updated</param>
     /// <param name="name">Updated name of the pet</param>
     /// <param name="status">Updated status of the pet</param>
-    /// <returns></returns>
+    
     Task UpdatePetWithFormAsync (string petId, string name, string status);
     
     /// <summary>
@@ -104,7 +104,7 @@ namespace IO.Swagger.Api {
     /// </summary>
     /// <param name="apiKey"></param>
     /// <param name="petId">Pet id to delete</param>
-    /// <returns></returns>
+    
     void DeletePet (string apiKey, long? petId);
 
     /// <summary>
@@ -112,7 +112,7 @@ namespace IO.Swagger.Api {
     /// </summary>
     /// <param name="apiKey"></param>
     /// <param name="petId">Pet id to delete</param>
-    /// <returns></returns>
+    
     Task DeletePetAsync (string apiKey, long? petId);
     
     /// <summary>
@@ -121,7 +121,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet to update</param>
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
-    /// <returns></returns>
+    
     void UploadFile (long? petId, string additionalMetadata, String file);
 
     /// <summary>
@@ -130,7 +130,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet to update</param>
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
-    /// <returns></returns>
+    
     Task UploadFileAsync (long? petId, string additionalMetadata, String file);
     
   }
@@ -143,7 +143,7 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Initializes a new instance of the <see cref="PetApi"/> class.
     /// </summary>
-    /// <param name="apiClient"> an instance of ApiClient (optional)
+    /// <param name="apiClient"> an instance of ApiClient (optional)</param>
     /// <returns></returns>
     public PetApi(ApiClient apiClient = null) {
       if (apiClient == null) { // use the default one in Configuration
@@ -190,7 +190,7 @@ namespace IO.Swagger.Api {
     /// Update an existing pet 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     public void UpdatePet (Pet body) {
 
       
@@ -228,7 +228,7 @@ namespace IO.Swagger.Api {
     /// Update an existing pet 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     public async Task UpdatePetAsync (Pet body) {
 
       
@@ -265,7 +265,7 @@ namespace IO.Swagger.Api {
     /// Add a new pet to the store 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     public void AddPet (Pet body) {
 
       
@@ -303,7 +303,7 @@ namespace IO.Swagger.Api {
     /// Add a new pet to the store 
     /// </summary>
     /// <param name="body">Pet object that needs to be added to the store</param>
-    /// <returns></returns>
+    
     public async Task AddPetAsync (Pet body) {
 
       
@@ -579,7 +579,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet that needs to be updated</param>
     /// <param name="name">Updated name of the pet</param>
     /// <param name="status">Updated status of the pet</param>
-    /// <returns></returns>
+    
     public void UpdatePetWithForm (string petId, string name, string status) {
 
       
@@ -624,7 +624,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet that needs to be updated</param>
     /// <param name="name">Updated name of the pet</param>
     /// <param name="status">Updated status of the pet</param>
-    /// <returns></returns>
+    
     public async Task UpdatePetWithFormAsync (string petId, string name, string status) {
 
       
@@ -667,7 +667,7 @@ namespace IO.Swagger.Api {
     /// </summary>
     /// <param name="apiKey"></param>
     /// <param name="petId">Pet id to delete</param>
-    /// <returns></returns>
+    
     public void DeletePet (string apiKey, long? petId) {
 
       
@@ -710,7 +710,7 @@ namespace IO.Swagger.Api {
     /// </summary>
     /// <param name="apiKey"></param>
     /// <param name="petId">Pet id to delete</param>
-    /// <returns></returns>
+    
     public async Task DeletePetAsync (string apiKey, long? petId) {
 
       
@@ -753,7 +753,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet to update</param>
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
-    /// <returns></returns>
+    
     public void UploadFile (long? petId, string additionalMetadata, String file) {
 
       
@@ -798,7 +798,7 @@ namespace IO.Swagger.Api {
     /// <param name="petId">ID of pet to update</param>
     /// <param name="additionalMetadata">Additional data to pass to server</param>
     /// <param name="file">file to upload</param>
-    /// <returns></returns>
+    
     public async Task UploadFileAsync (long? petId, string additionalMetadata, String file) {
 
       
