@@ -56,37 +56,38 @@ module Petstore
 
       
       if attributes[:'id']
-        @id = attributes[:'id']
+        self.id = attributes[:'id']
       end
       
       if attributes[:'username']
-        @username = attributes[:'username']
+        self.username = attributes[:'username']
       end
       
       if attributes[:'firstName']
-        @first_name = attributes[:'firstName']
+        self.first_name = attributes[:'firstName']
       end
       
       if attributes[:'lastName']
-        @last_name = attributes[:'lastName']
+        self.last_name = attributes[:'lastName']
       end
       
       if attributes[:'email']
-        @email = attributes[:'email']
+        self.email = attributes[:'email']
       end
       
       if attributes[:'password']
-        @password = attributes[:'password']
+        self.password = attributes[:'password']
       end
       
       if attributes[:'phone']
-        @phone = attributes[:'phone']
+        self.phone = attributes[:'phone']
       end
       
       if attributes[:'userStatus']
-        @user_status = attributes[:'userStatus']
+        self.user_status = attributes[:'userStatus']
       end
       
     end
+
   end
 end
