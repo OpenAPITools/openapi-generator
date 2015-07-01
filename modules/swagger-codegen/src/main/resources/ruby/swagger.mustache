@@ -63,6 +63,14 @@ module {{moduleName}}
         response_body = request.response.body
         Swagger.configuration.auth_token = response_body['token']
       end
+
+      def last_response
+        Thread.current[:swagger_last_response]
+      end
+
+      def last_response=(response)
+        Thread.current[:swagger_last_response] = response
+      end
     end
   end
 end
