@@ -39,7 +39,7 @@ namespace IO.Swagger.Client {
     private Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
 
     public Object CallApi(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody,
-      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, String> FileParams, String[] AuthSettings) {
+      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, FileParameter> FileParams, String[] AuthSettings) {
       var response = Task.Run(async () => {
                             var resp = await CallApiAsync(Path, Method, QueryParams, PostBody, HeaderParams, FormParams, FileParams, AuthSettings);
                             return resp;
@@ -48,7 +48,7 @@ namespace IO.Swagger.Client {
     }
 
     public async Task<Object> CallApiAsync(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody,
-      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, String> FileParams, String[] AuthSettings) {
+      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, FileParameter> FileParams, String[] AuthSettings) {
 
       var request = new RestRequest(Path, Method);
 
@@ -71,8 +71,9 @@ namespace IO.Swagger.Client {
         request.AddParameter(param.Key, param.Value);
 
       // add file parameter, if any
-      foreach(KeyValuePair<string, string> param in FileParams)
-        request.AddFile(param.Key, param.Value);
+      foreach(KeyValuePair<string, FileParameter> param in FileParams)
+        request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+
 
       if (PostBody != null) {
         request.AddParameter("application/json", PostBody, ParameterType.RequestBody); // http body (model) parameter
@@ -110,6 +111,21 @@ namespace IO.Swagger.Client {
     }
 
     /// <summary>
+    /// Create FileParameter based on Stream
+    /// </summary>
+    /// <param name="name"> parameter name</param>
+    /// <param name="stream">Stream</param>
+    /// <returns>FileParameter</returns>
+    public FileParameter ParameterToFile(string name, Stream stream)
+    {
+        if (stream is FileStream) {
+            return FileParameter.Create(name, StreamToByteArray(stream), ((FileStream)stream).Name);
+        } else {
+            return FileParameter.Create(name, StreamToByteArray(stream), "temp_name_here");
+        }
+    }
+
+    /// <summary>
     /// if parameter is DateTime, output in ISO8601 format
     /// if parameter is a list of string, join the list with ","
     /// otherwise just return the string
@@ -136,10 +152,8 @@ namespace IO.Swagger.Client {
     public object Deserialize(string content, Type type, IList<Parameter> headers=null) {
       if (type.GetType() == typeof(Object)) { // return an object
           return (Object)content;
-      } else if (type.Name == "FileStream") { // return a file (full path)
-          // e.g. Content-Disposition: attachment; filename=checkimage.jpp
-          String fileName;
-          String filePath;
+      } else if (type.Name == "Stream") { 
+          String fileName, filePath;
           if (String.IsNullOrEmpty (Configuration.TempFolderPath)) {
               filePath = System.IO.Path.GetTempPath ();
           } else {
@@ -154,8 +168,8 @@ namespace IO.Swagger.Client {
           } else {
               fileName = filePath + Guid.NewGuid().ToString();
           }
-          System.IO.File.WriteAllText (fileName, content);
-          return fileName;
+          File.WriteAllText (fileName, content);
+          return new FileStream(fileName, FileMode.Open);
       } else if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) { // return a datetime object
           return DateTime.Parse(content,  null, System.Globalization.DateTimeStyles.RoundtripKind);
       } else if (type.Name == "String" || type.Name.StartsWith("System.Nullable")) { // return primitive 
@@ -234,6 +248,26 @@ namespace IO.Swagger.Client {
         }
       }
 
+    }
+
+    /// <summary>
+    /// convert a stream to byte array (byte[])
+    /// Ref: http://stackoverflow.com/questions/221925/creating-a-byte-array-from-a-stream
+    /// </summary>
+    /// <param name="input">input stream</param>
+    /// <return>Array of Byte</return>
+    public byte[] StreamToByteArray(Stream input)
+    {
+        byte[] buffer = new byte[16*1024];
+        using (MemoryStream ms = new MemoryStream())
+        {
+            int read;
+            while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                ms.Write(buffer, 0, read);
+            }
+            return ms.ToArray();
+        }
     }
 
     /// <summary>
