@@ -92,15 +92,17 @@ namespace {{packageName}}.Api {
       {{/required}}{{/allParams}}
 
       var path = "{{path}}";
-      path = path.Replace("{format}", "json");
-      {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", apiClient.ParameterToString({{{paramName}}}));
-      {{/pathParams}}
 
+      var pathParams = new Dictionary<String, String>();
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
+
+      pathParams.Add("format", "json");
+      {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // path parameter
+      {{/pathParams}}
 
       {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // query parameter
       {{/queryParams}}
@@ -115,7 +117,7 @@ namespace {{packageName}}.Api {
       String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
 
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
@@ -137,15 +139,17 @@ namespace {{packageName}}.Api {
       {{/required}}{{/allParams}}
 
       var path = "{{path}}";
-      path = path.Replace("{format}", "json");
-      {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", apiClient.ParameterToString({{{paramName}}}));
-      {{/pathParams}}
 
+      var pathParams = new Dictionary<String, String>();
       var queryParams = new Dictionary<String, String>();
       var headerParams = new Dictionary<String, String>();
       var formParams = new Dictionary<String, String>();
       var fileParams = new Dictionary<String, String>();
       String postBody = null;
+
+      pathParams.Add("format", "json");
+      {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // path parameter
+      {{/pathParams}}
 
       {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // query parameter
       {{/queryParams}}
@@ -160,7 +164,7 @@ namespace {{packageName}}.Api {
       String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
       // make the HTTP request
-      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
       if (((int)response.StatusCode) >= 400) {
         throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
       }
