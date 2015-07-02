@@ -143,3 +143,8 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized[1].id, 1)
         self.assertEqual(deserialized[0].name, "doggie0")
         self.assertEqual(deserialized[1].name, "doggie1")
+
+    def test_deserialize_none(self):
+        """ deserialize None """
+        deserialized = self.deserialize(None, "datetime")
+        self.assertIsNone(deserialized)

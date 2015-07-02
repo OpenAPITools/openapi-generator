@@ -183,6 +183,9 @@ class ApiClient(object):
 
     :return: object
     """
+    if data is None:
+      return None
+
     if type(klass) == str:
       if 'list[' in klass:
         sub_kls = re.match('list\[(.*)\]', klass).group(1)
@@ -366,18 +369,6 @@ class ApiClient(object):
          and instance.attribute_map[attr] in data\
          and isinstance(data, (list, dict)):
         value = data[instance.attribute_map[attr]]
-        if attr_type in ['str', 'int', 'float', 'bool']:
-          attr_type = eval(attr_type)
-          setattr(instance, attr, self.__deserialize_primitive(value, attr_type))
-        elif attr_type == 'datetime':
-          setattr(instance, attr, self.__deserialize_datatime(value))
-        elif 'list[' in attr_type:
-          if not value:
-            setattr(instance, attr, None)
-          else:
-            sub_kls = re.match('list\[(.*)\]', attr_type).group(1)
-            setattr(instance, attr, [self.__deserialize(v, sub_kls) for v in value])
-        else:
-          setattr(instance, attr, self.__deserialize(value, attr_type))
+        setattr(instance, attr, self.__deserialize(value, attr_type))
 
     return instance
