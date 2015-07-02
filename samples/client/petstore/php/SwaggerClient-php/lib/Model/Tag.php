@@ -79,6 +79,7 @@ class Tag implements ArrayAccess {
      * @return $this
      */
     public function setId($id) {
+        
         $this->id = $id;
         return $this;
     }
@@ -97,6 +98,7 @@ class Tag implements ArrayAccess {
      * @return $this
      */
     public function setName($name) {
+        
         $this->name = $name;
         return $this;
     }
