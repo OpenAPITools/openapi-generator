@@ -506,6 +506,10 @@ public class DefaultCodegen {
     }
 
     public CodegenModel fromModel(String name, Model model) {
+        return fromModel(name, model, null);
+    }
+
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);
@@ -526,11 +530,25 @@ public class DefaultCodegen {
         } else if (model instanceof ComposedModel) {
             final ComposedModel composed = (ComposedModel) model;
             final RefModel parent = (RefModel) composed.getParent();
-            final String parentModel = toModelName(parent.getSimpleRef());
-            m.parent = parentModel;
-            addImport(m, parentModel);
-            final ModelImpl child = (ModelImpl) composed.getChild();
-            addVars(m, child.getProperties(), child.getRequired());
+            if (parent != null) {
+                final String parentRef = toModelName(parent.getSimpleRef());
+                final Model parentModel = allDefinitions.get(parentRef);
+                if (parentModel instanceof ModelImpl) {
+                    final ModelImpl _parent = (ModelImpl) parentModel;
+                    m.parent = parentRef;
+                    addImport(m, parentRef);
+                    addVars(m, _parent.getProperties(), _parent.getRequired());
+                }
+            }
+            Model child = composed.getChild();
+            if (child != null && child instanceof RefModel) {
+                final String childRef = ((RefModel) child).getSimpleRef();
+                child = allDefinitions.get(childRef);
+            }
+            if (child != null && child instanceof ModelImpl) {
+                final ModelImpl _child = (ModelImpl) child;
+                addVars(m, _child.getProperties(), _child.getRequired());
+            }
         } else {
             ModelImpl impl = (ModelImpl) model;
             if (impl.getAdditionalProperties() != null) {
