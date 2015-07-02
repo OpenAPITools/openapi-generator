@@ -8,7 +8,6 @@ using IO.Swagger.Model;
 
 namespace IO.Swagger.Api {
   
-
   public interface IPetApi {
     
     /// <summary>
