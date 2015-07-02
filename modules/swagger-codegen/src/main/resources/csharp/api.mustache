@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
 using {{packageName}}.Client;
-using {{packageName}}.Model;
-{{#imports}}
-{{/imports}}
+{{#hasImport}}using {{packageName}}.Model;
+{{/hasImport}}
 
 namespace {{packageName}}.Api {
   {{#operations}}
-
   public interface I{{classname}} {
     {{#operation}}
     /// <summary>
