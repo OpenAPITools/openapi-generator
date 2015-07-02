@@ -171,7 +171,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        name = name.replaceAll("[^a-zA-Z ]+", "_");
+        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
         return camelize(name) + "Api";
     }
 
