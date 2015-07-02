@@ -529,17 +529,28 @@ public class DefaultCodegen {
             // TODO
         } else if (model instanceof ComposedModel) {
             final ComposedModel composed = (ComposedModel) model;
+            // parent model
             final RefModel parent = (RefModel) composed.getParent();
             if (parent != null) {
                 final String parentRef = toModelName(parent.getSimpleRef());
+                m.parent = parentRef;
+                addImport(m, parentRef);
                 final Model parentModel = allDefinitions.get(parentRef);
                 if (parentModel instanceof ModelImpl) {
                     final ModelImpl _parent = (ModelImpl) parentModel;
-                    m.parent = parentRef;
-                    addImport(m, parentRef);
                     addVars(m, _parent.getProperties(), _parent.getRequired());
                 }
             }
+            // interfaces (intermediate models)
+            for (RefModel _interface : composed.getInterfaces()) {
+                final String interfaceRef = toModelName(_interface.getSimpleRef());
+                final Model interfaceModel = allDefinitions.get(interfaceRef);
+                if (interfaceModel instanceof ModelImpl) {
+                    final ModelImpl _interfaceModel = (ModelImpl) interfaceModel;
+                    addVars(m, _interfaceModel.getProperties(), _interfaceModel.getRequired());
+                }
+            }
+            // child model (properties owned by the model itself)
             Model child = composed.getChild();
             if (child != null && child instanceof RefModel) {
                 final String childRef = ((RefModel) child).getSimpleRef();
