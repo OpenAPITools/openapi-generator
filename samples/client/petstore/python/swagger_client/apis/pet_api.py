@@ -47,16 +47,17 @@ class PetApi(object):
         
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_pet(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param Pet body: Pet object that needs to be added to the store 
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
@@ -111,17 +112,18 @@ class PetApi(object):
         :param Pet body: Pet object that needs to be added to the store (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.add_pet(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param Pet body: Pet object that needs to be added to the store 
 >>>>>>> support asynchronous request in python client
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
@@ -180,17 +182,18 @@ class PetApi(object):
         :param list[str] status: Status values that need to be considered for filter (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.find_pets_by_status(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param list[str] status: Status values that need to be considered for filter 
 >>>>>>> support asynchronous request in python client
         
         :return: list[Pet]
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['status']
@@ -250,17 +253,18 @@ class PetApi(object):
         :param list[str] tags: Tags to filter by (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.find_pets_by_tags(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param list[str] tags: Tags to filter by 
 >>>>>>> support asynchronous request in python client
         
         :return: list[Pet]
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['tags']
@@ -317,16 +321,17 @@ class PetApi(object):
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_pet_by_id(pet_id, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param int pet_id: ID of pet that needs to be fetched (required)
         
         :return: Pet
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set
@@ -387,18 +392,19 @@ class PetApi(object):
         
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_pet_with_form(pet_id, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str pet_id: ID of pet that needs to be updated (required)
         :param str name: Updated name of the pet (optional)
         :param str status: Updated status of the pet (optional)
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set
@@ -466,19 +472,20 @@ class PetApi(object):
 <<<<<<< HEAD
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_pet(pet_id, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str api_key:  
 >>>>>>> support asynchronous request in python client
         :param int pet_id: Pet id to delete (required)
         :param str api_key:  (optional)
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set
@@ -545,18 +552,19 @@ class PetApi(object):
         
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.upload_file(pet_id, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server (optional)
         :param file file: file to upload (optional)
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'pet_id' is set

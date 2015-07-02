@@ -47,15 +47,16 @@ class StoreApi(object):
         Returns a map of status codes to quantities
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_inventory(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         
         :return: dict(str, int)
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = []
@@ -112,17 +113,18 @@ class StoreApi(object):
         :param Order body: order placed for purchasing the pet (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.place_order(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param Order body: order placed for purchasing the pet 
 >>>>>>> support asynchronous request in python client
         
         :return: Order
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
@@ -179,16 +181,17 @@ class StoreApi(object):
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_order_by_id(order_id, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str order_id: ID of pet that needs to be fetched (required)
         
         :return: Order
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'order_id' is set
@@ -249,16 +252,17 @@ class StoreApi(object):
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_order(order_id, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str order_id: ID of the order that needs to be deleted (required)
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'order_id' is set

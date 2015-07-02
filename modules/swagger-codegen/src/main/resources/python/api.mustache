@@ -48,16 +48,17 @@ class {{classname}}(object):
         {{{notes}}}
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         {{#allParams}}:param {{dataType}} {{paramName}}: {{{description}}} {{#required}}(required){{/required}}{{#optional}}(optional){{/optional}}
         {{/allParams}}
         :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         {{#allParams}}{{#required}}
         # verify the required parameter '{{paramName}}' is set

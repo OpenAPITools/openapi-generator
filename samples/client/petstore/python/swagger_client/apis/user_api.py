@@ -50,17 +50,18 @@ class UserApi(object):
         :param User body: Created user object (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.create_user(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param User body: Created user object 
 >>>>>>> support asynchronous request in python client
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
@@ -119,17 +120,18 @@ class UserApi(object):
         :param list[User] body: List of user object (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.create_users_with_array_input(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param list[User] body: List of user object 
 >>>>>>> support asynchronous request in python client
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
@@ -188,17 +190,18 @@ class UserApi(object):
         :param list[User] body: List of user object (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.create_users_with_list_input(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param list[User] body: List of user object 
 >>>>>>> support asynchronous request in python client
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
@@ -258,18 +261,19 @@ class UserApi(object):
         :param str password: The password for login in clear text (optional)
 =======
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.login_user(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str username: The user name for login 
         :param str password: The password for login in clear text 
 >>>>>>> support asynchronous request in python client
         
         :return: str
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['username', 'password']
@@ -329,15 +333,16 @@ class UserApi(object):
         
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.logout_user(callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = []
@@ -390,16 +395,17 @@ class UserApi(object):
         
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_user_by_name(username, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str username: The name that needs to be fetched. Use user1 for testing.  (required)
         
         :return: User
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'username' is set
@@ -460,17 +466,18 @@ class UserApi(object):
         This can only be done by the logged in user.
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_user(username, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str username: name that need to be deleted (required)
         :param User body: Updated user object (optional)
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'username' is set
@@ -533,16 +540,17 @@ class UserApi(object):
         This can only be done by the logged in user.
 
         SDK also supports asynchronous requests in which you can define a `callback` function 
-        to be passed along and invoked when recives response:
+        to be passed along and invoked when receiving response:
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_user(username, callback=callback_function)
 
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str username: The name that needs to be deleted (required)
         
         :return: None
-                 If the method called asynchronously, returns the request thread.
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'username' is set
