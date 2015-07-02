@@ -111,6 +111,7 @@ class Order implements ArrayAccess {
      * @return $this
      */
     public function setId($id) {
+        
         $this->id = $id;
         return $this;
     }
@@ -129,6 +130,7 @@ class Order implements ArrayAccess {
      * @return $this
      */
     public function setPetId($pet_id) {
+        
         $this->pet_id = $pet_id;
         return $this;
     }
@@ -147,6 +149,7 @@ class Order implements ArrayAccess {
      * @return $this
      */
     public function setQuantity($quantity) {
+        
         $this->quantity = $quantity;
         return $this;
     }
@@ -165,6 +168,7 @@ class Order implements ArrayAccess {
      * @return $this
      */
     public function setShipDate($ship_date) {
+        
         $this->ship_date = $ship_date;
         return $this;
     }
@@ -183,6 +187,10 @@ class Order implements ArrayAccess {
      * @return $this
      */
     public function setStatus($status) {
+        $allowed_values = array("placed", "approved", "delivered");
+        if (!in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'placed', 'approved', 'delivered'");
+        }
         $this->status = $status;
         return $this;
     }
@@ -201,6 +209,7 @@ class Order implements ArrayAccess {
      * @return $this
      */
     public function setComplete($complete) {
+        
         $this->complete = $complete;
         return $this;
     }

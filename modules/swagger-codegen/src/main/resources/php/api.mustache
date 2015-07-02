@@ -76,9 +76,7 @@ class {{classname}} {
         // verify the required parameter '{{paramName}}' is set
         if (${{paramName}} === null) {
             throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{nickname}}');
->>>>>>> temporary folder setting
-        }
-        {{/required}}{{/allParams}}
+        }{{/required}}{{/allParams}}
   
         // parse inputs
         $resourcePath = "{{path}}";

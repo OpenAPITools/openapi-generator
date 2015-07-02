@@ -72,7 +72,7 @@ class UserApi {
      */
     public function createUser($body) {
         
-  
+
         // parse inputs
         $resourcePath = "/user";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -130,7 +130,7 @@ class UserApi {
      */
     public function createUsersWithArrayInput($body) {
         
-  
+
         // parse inputs
         $resourcePath = "/user/createWithArray";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -188,7 +188,7 @@ class UserApi {
      */
     public function createUsersWithListInput($body) {
         
-  
+
         // parse inputs
         $resourcePath = "/user/createWithList";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -247,7 +247,7 @@ class UserApi {
      */
     public function loginUser($username, $password) {
         
-  
+
         // parse inputs
         $resourcePath = "/user/login";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -316,7 +316,7 @@ class UserApi {
      */
     public function logoutUser() {
         
-  
+
         // parse inputs
         $resourcePath = "/user/logout";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -369,13 +369,11 @@ class UserApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getUserByName($username) {
-        
         // verify the required parameter 'username' is set
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling getUserByName');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/user/{username}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -444,13 +442,11 @@ class UserApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function updateUser($username, $body) {
-        
         // verify the required parameter 'username' is set
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling updateUser');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/user/{username}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -512,13 +508,11 @@ class UserApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteUser($username) {
-        
         // verify the required parameter 'username' is set
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling deleteUser');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/user/{username}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);

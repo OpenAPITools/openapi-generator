@@ -72,7 +72,7 @@ class PetApi {
      */
     public function updatePet($body) {
         
-  
+
         // parse inputs
         $resourcePath = "/pet";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -133,7 +133,7 @@ class PetApi {
      */
     public function addPet($body) {
         
-  
+
         // parse inputs
         $resourcePath = "/pet";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -194,7 +194,7 @@ class PetApi {
      */
     public function findPetsByStatus($status) {
         
-  
+
         // parse inputs
         $resourcePath = "/pet/findByStatus";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -264,7 +264,7 @@ class PetApi {
      */
     public function findPetsByTags($tags) {
         
-  
+
         // parse inputs
         $resourcePath = "/pet/findByTags";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -333,13 +333,11 @@ class PetApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getPetById($pet_id) {
-        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetById');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -419,13 +417,11 @@ class PetApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function updatePetWithForm($pet_id, $name, $status) {
-        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling updatePetWithForm');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -493,13 +489,11 @@ class PetApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deletePet($api_key, $pet_id) {
-        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -565,13 +559,11 @@ class PetApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function uploadFile($pet_id, $additional_metadata, $file) {
-        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling uploadFile');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/pet/{petId}/uploadImage";
         $resourcePath = str_replace("{format}", "json", $resourcePath);

@@ -78,6 +78,10 @@ class {{classname}} implements ArrayAccess {
      * @return $this
      */
     public function {{setter}}(${{name}}) {
+        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        if (!in_array(${{{name}}}, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
+        }{{/isEnum}}
         $this->{{name}} = ${{name}};
         return $this;
     }

@@ -71,7 +71,7 @@ class StoreApi {
      */
     public function getInventory() {
         
-  
+
         // parse inputs
         $resourcePath = "/store/inventory";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -142,7 +142,7 @@ class StoreApi {
      */
     public function placeOrder($body) {
         
-  
+
         // parse inputs
         $resourcePath = "/store/order";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -209,13 +209,11 @@ class StoreApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getOrderById($order_id) {
-        
         // verify the required parameter 'order_id' is set
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling getOrderById');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -283,13 +281,11 @@ class StoreApi {
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteOrder($order_id) {
-        
         // verify the required parameter 'order_id' is set
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
         }
-        
-  
+
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);

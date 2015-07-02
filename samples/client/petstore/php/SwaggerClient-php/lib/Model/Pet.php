@@ -111,6 +111,7 @@ class Pet implements ArrayAccess {
      * @return $this
      */
     public function setId($id) {
+        
         $this->id = $id;
         return $this;
     }
@@ -129,6 +130,7 @@ class Pet implements ArrayAccess {
      * @return $this
      */
     public function setCategory($category) {
+        
         $this->category = $category;
         return $this;
     }
@@ -147,6 +149,7 @@ class Pet implements ArrayAccess {
      * @return $this
      */
     public function setName($name) {
+        
         $this->name = $name;
         return $this;
     }
@@ -165,6 +168,7 @@ class Pet implements ArrayAccess {
      * @return $this
      */
     public function setPhotoUrls($photo_urls) {
+        
         $this->photo_urls = $photo_urls;
         return $this;
     }
@@ -183,6 +187,7 @@ class Pet implements ArrayAccess {
      * @return $this
      */
     public function setTags($tags) {
+        
         $this->tags = $tags;
         return $this;
     }
@@ -201,6 +206,10 @@ class Pet implements ArrayAccess {
      * @return $this
      */
     public function setStatus($status) {
+        $allowed_values = array("available", "pending", "sold");
+        if (!in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
+        }
         $this->status = $status;
         return $this;
     }
