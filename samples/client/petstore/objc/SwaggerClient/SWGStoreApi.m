@@ -78,8 +78,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 ///  @returns NSDictionary* /* NSString, NSNumber */
 ///
 -(NSNumber*) getInventoryWithCompletionBlock: 
-        (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock
-         {
+        (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock { 
+        
 
     
 
@@ -96,8 +96,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
     
-    
-    // HTTP header `Accept` 
+
+    // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
         [headerParams removeObjectForKey:@"Accept"];
@@ -136,9 +136,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                          authSettings: authSettings
                                    requestContentType: requestContentType
                                   responseContentType: responseContentType
+                                         responseType: @"NSDictionary* /* NSString, NSNumber */"
                                       completionBlock: ^(id data, NSError *error) {
                   
-                  completionBlock([self.apiClient deserialize: data class:@"NSDictionary* /* NSString, NSNumber */"], error);
+                  completionBlock((NSDictionary* /* NSString, NSNumber */)data, error);
               }
           ];
 }
@@ -152,8 +153,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 ///
 -(NSNumber*) placeOrderWithCompletionBlock: (SWGOrder*) body
         
-        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
-         {
+        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock { 
+        
 
     
 
@@ -170,8 +171,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
     
-    
-    // HTTP header `Accept` 
+
+    // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
         [headerParams removeObjectForKey:@"Accept"];
@@ -223,9 +224,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                          authSettings: authSettings
                                    requestContentType: requestContentType
                                   responseContentType: responseContentType
+                                         responseType: @"SWGOrder*"
                                       completionBlock: ^(id data, NSError *error) {
                   
-                  completionBlock([self.apiClient deserialize: data class:@"SWGOrder*"], error);
+                  completionBlock((SWGOrder*)data, error);
               }
           ];
 }
@@ -239,8 +241,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 ///
 -(NSNumber*) getOrderByIdWithCompletionBlock: (NSString*) orderId
         
-        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock
-         {
+        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock { 
+        
 
     
     // verify the required parameter 'orderId' is set
@@ -263,8 +265,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
     
-    
-    // HTTP header `Accept` 
+
+    // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
         [headerParams removeObjectForKey:@"Accept"];
@@ -303,9 +305,10 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                          authSettings: authSettings
                                    requestContentType: requestContentType
                                   responseContentType: responseContentType
+                                         responseType: @"SWGOrder*"
                                       completionBlock: ^(id data, NSError *error) {
                   
-                  completionBlock([self.apiClient deserialize: data class:@"SWGOrder*"], error);
+                  completionBlock((SWGOrder*)data, error);
               }
           ];
 }
@@ -320,7 +323,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 -(NSNumber*) deleteOrderWithCompletionBlock: (NSString*) orderId
         
         
-        completionHandler: (void (^)(NSError* error))completionBlock {
+        completionHandler: (void (^)(NSError* error))completionBlock { 
 
     
     // verify the required parameter 'orderId' is set
@@ -343,8 +346,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
     
-    
-    // HTTP header `Accept` 
+
+    // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
         [headerParams removeObjectForKey:@"Accept"];
@@ -383,6 +386,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
                                          authSettings: authSettings
                                    requestContentType: requestContentType
                                   responseContentType: responseContentType
+                                         responseType: nil
                                       completionBlock: ^(id data, NSError *error) {
                   completionBlock(error);
                   
@@ -393,6 +397,3 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
 
 @end
-
-
-

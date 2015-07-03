@@ -24,6 +24,11 @@
 @property (nonatomic) NSString *password;
 
 /**
+ * Temp folder for file download
+ */
+@property (nonatomic) NSString *tempFolderPath;
+
+/**
  * Get configuration singleton instance
  */
 + (instancetype) sharedConfig;
