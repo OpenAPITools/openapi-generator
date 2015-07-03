@@ -36,6 +36,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("bool");
         defaultIncludes.add("BOOL");
         defaultIncludes.add("int");
+        defaultIncludes.add("NSURL");
         defaultIncludes.add("NSString");
         defaultIncludes.add("NSObject");
         defaultIncludes.add("NSArray");
@@ -50,6 +51,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("NSString");
         languageSpecificPrimitives.add("NSObject");
         languageSpecificPrimitives.add("NSDate");
+        languageSpecificPrimitives.add("NSURL");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("BOOL");
 
@@ -69,7 +71,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("number", "NSNumber");
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "NSURL");
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         reservedWords = new HashSet<String>(
@@ -97,6 +99,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "NSObject",
                         "NSString",
                         "NSDate",
+                        "NSURL",
                         "NSDictionary")
         );
 
@@ -156,8 +159,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.h"));
-        supportingFiles.add(new SupportingFile("File-header.mustache", swaggerFolder, classPrefix + "File.h"));
-        supportingFiles.add(new SupportingFile("File-body.mustache", swaggerFolder, classPrefix + "File.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", swaggerFolder, "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", swaggerFolder, "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));

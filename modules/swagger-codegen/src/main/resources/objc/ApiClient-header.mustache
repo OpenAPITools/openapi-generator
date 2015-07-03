@@ -3,7 +3,6 @@
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import "{{classPrefix}}JSONResponseSerializer.h"
 #import "{{classPrefix}}JSONRequestSerializer.h"
-#import "{{classPrefix}}File.h"
 #import "{{classPrefix}}QueryParamCollection.h"
 #import "{{classPrefix}}Configuration.h"
   
@@ -194,6 +193,8 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
 -(NSNumber*)  requestWithCompletionBlock:(NSString*) path
                                   method:(NSString*) method
                              queryParams:(NSDictionary*) queryParams
+                              formParams:(NSDictionary *) formParams
+                                   files:(NSDictionary *) files
                                     body:(id) body
                             headerParams:(NSDictionary*) headerParams
                             authSettings: (NSArray *) authSettings

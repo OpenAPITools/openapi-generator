@@ -219,14 +219,11 @@
 }
 
 - (void)testUploadFile {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadFile"];
-
-    NSString* str = @"teststring";
-    NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadWithFile"];
     
-    SWGFile * file = [[SWGFile alloc] initWithNameData: @"myFile.txt" mimeType:@"text/plain" data:data];
+    NSURL *fileURL = [self createTempFile];
     
-    [api uploadFileWithCompletionBlock:@1 additionalMetadata:@"special-metadata" file:file completionHandler:^(NSError *error) {
+    [api uploadFileWithCompletionBlock:@1 additionalMetadata:@"special-metadata" file:fileURL completionHandler:^(NSError *error) {
         if(error) {
             // good
             XCTFail(@"expected a failure");
@@ -277,5 +274,13 @@
     NSArray * photos = [[NSArray alloc] initWithObjects:@"http://foo.bar.com/3", @"http://foo.bar.com/4", nil];
     pet.photoUrls = photos;
     return pet;
+}
+
+- (NSURL *) createTempFile {
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", [[NSProcessInfo processInfo] globallyUniqueString]]];
+    NSData *data = [@"test string" dataUsingEncoding:NSUTF8StringEncoding];
+    [data writeToFile:filePath atomically:YES];
+    
+    return [NSURL fileURLWithPath:filePath];
 }
 @end

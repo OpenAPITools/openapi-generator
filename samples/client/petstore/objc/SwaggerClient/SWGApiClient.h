@@ -3,7 +3,6 @@
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import "SWGJSONResponseSerializer.h"
 #import "SWGJSONRequestSerializer.h"
-#import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
 #import "SWGConfiguration.h"
   
@@ -198,6 +197,8 @@ extern NSString *const SWGResponseObjectErrorKey;
 -(NSNumber*)  requestWithCompletionBlock:(NSString*) path
                                   method:(NSString*) method
                              queryParams:(NSDictionary*) queryParams
+                              formParams:(NSDictionary *) formParams
+                                   files:(NSDictionary *) files
                                     body:(id) body
                             headerParams:(NSDictionary*) headerParams
                             authSettings: (NSArray *) authSettings

@@ -139,6 +139,8 @@ static NSString * basePath = @"{{basePath}}";
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     {{#bodyParam}}
     bodyParam = {{paramName}};
 
@@ -157,28 +159,13 @@ static NSString * basePath = @"{{basePath}}";
     else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
         bodyParam = [({{classPrefix}}Object*)bodyParam toDictionary];
     }
-    {{/bodyParam}}
-    {{^bodyParam}}
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
+    {{/bodyParam}}{{^bodyParam}}
     {{#formParams}}
     {{#notFile}}
     formParams[@"{{paramName}}"] = {{paramName}};
     {{/notFile}}{{#isFile}}
-    requestContentType = @"multipart/form-data";
-    if(bodyParam == nil) {
-      bodyParam = [[NSMutableArray alloc] init];
-    }
-    if({{paramName}} != nil) {
-      [bodyParam addObject:{{paramName}}];
-      {{paramName}}.paramName  = @"{{baseName}}";
-    }
+    files[@"{{paramName}}"] = {{paramName}};
     {{/isFile}}
-    if(bodyParam == nil) {
-      bodyParam = [[NSMutableArray alloc] init];
-    }
-    [bodyParam addObject:formParams];
     {{/formParams}}
     {{/bodyParam}}
 
@@ -192,6 +179,8 @@ static NSString * basePath = @"{{basePath}}";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"{{httpMethod}}"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
