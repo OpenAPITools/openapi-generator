@@ -17,9 +17,15 @@ module {{moduleName}}
       end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
-      raise "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?
-      {{/required}}{{/allParams}}
-
+      fail "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?{{#isEnum}}
+      unless [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?({{{paramName}}})
+        fail "invalid value for '{{{paramName}}}', must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}"
+      end{{/isEnum}}
+      {{/required}}{{^required}}{{#isEnum}}
+      if opts[:'{{{paramName}}}'] && ![{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(opts[:'{{{paramName}}}'])
+        fail 'invalid value for "{{{paramName}}}", must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}'
+      end
+      {{/isEnum}}{{/required}}{{/allParams}}
       # resource path
       path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 

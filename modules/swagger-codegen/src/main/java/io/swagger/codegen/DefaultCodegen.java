@@ -36,6 +36,7 @@ import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.PropertyBuilder;
+import io.swagger.models.properties.PropertyBuilder.PropertyId;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
@@ -964,7 +965,9 @@ public class DefaultCodegen {
                 p.baseType = pr.datatype;
                 imports.add(pr.baseType);
             } else {
-                property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
+                Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
+                args.put(PropertyId.ENUM, qp.getEnum());
+                property = PropertyBuilder.build(qp.getType(), qp.getFormat(), args);
             }
             if (property == null) {
                 LOGGER.warn("warning!  Property type \"" + qp.getType() + "\" not found for parameter \"" + param.getName() + "\", using String");
@@ -972,8 +975,11 @@ public class DefaultCodegen {
             }
             property.setRequired(param.getRequired());
             CodegenProperty model = fromProperty(qp.getName(), property);
-            p.collectionFormat = collectionFormat;
             p.dataType = model.datatype;
+            p.isEnum = model.isEnum;
+            p._enum = model._enum;
+            p.allowableValues = model.allowableValues;
+            p.collectionFormat = collectionFormat;
             p.paramName = toParamName(qp.getName());
 
             if (model.complexType != null) {

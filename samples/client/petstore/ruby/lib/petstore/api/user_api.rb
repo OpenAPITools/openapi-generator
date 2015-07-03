@@ -13,7 +13,6 @@ module Petstore
         Swagger.logger.debug "Calling API: UserApi#create_user ..."
       end
       
-
       # resource path
       path = "/user".sub('{format}','json')
 
@@ -56,7 +55,6 @@ module Petstore
         Swagger.logger.debug "Calling API: UserApi#create_users_with_array_input ..."
       end
       
-
       # resource path
       path = "/user/createWithArray".sub('{format}','json')
 
@@ -99,7 +97,6 @@ module Petstore
         Swagger.logger.debug "Calling API: UserApi#create_users_with_list_input ..."
       end
       
-
       # resource path
       path = "/user/createWithList".sub('{format}','json')
 
@@ -143,7 +140,6 @@ module Petstore
         Swagger.logger.debug "Calling API: UserApi#login_user ..."
       end
       
-
       # resource path
       path = "/user/login".sub('{format}','json')
 
@@ -188,7 +184,6 @@ module Petstore
         Swagger.logger.debug "Calling API: UserApi#logout_user ..."
       end
       
-
       # resource path
       path = "/user/logout".sub('{format}','json')
 
@@ -232,9 +227,8 @@ module Petstore
       end
       
       # verify the required parameter 'username' is set
-      raise "Missing the required parameter 'username' when calling get_user_by_name" if username.nil?
+      fail "Missing the required parameter 'username' when calling get_user_by_name" if username.nil?
       
-
       # resource path
       path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
@@ -280,9 +274,8 @@ module Petstore
       end
       
       # verify the required parameter 'username' is set
-      raise "Missing the required parameter 'username' when calling update_user" if username.nil?
+      fail "Missing the required parameter 'username' when calling update_user" if username.nil?
       
-
       # resource path
       path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
@@ -326,9 +319,8 @@ module Petstore
       end
       
       # verify the required parameter 'username' is set
-      raise "Missing the required parameter 'username' when calling delete_user" if username.nil?
+      fail "Missing the required parameter 'username' when calling delete_user" if username.nil?
       
-
       # resource path
       path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
