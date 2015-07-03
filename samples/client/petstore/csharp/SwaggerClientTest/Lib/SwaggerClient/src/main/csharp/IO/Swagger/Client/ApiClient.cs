@@ -41,11 +41,38 @@ namespace IO.Swagger.Client {
         public Object CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams, 
             Dictionary<String, FileParameter> fileParams, String[] authSettings) {
-            var response = Task.Run(async () => {
-                                  var resp = await CallApiAsync(path, method, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-                                  return resp;
-                                  });
-            return response.Result;
+
+            var request = new RestRequest(path, method);
+   
+            UpdateParamsForAuth(queryParams, headerParams, authSettings);
+
+            // add default header, if any
+            foreach(KeyValuePair<string, string> defaultHeader in this.DefaultHeaderMap)
+                request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+
+            // add header parameter, if any
+            foreach(KeyValuePair<string, string> param in headerParams)
+                request.AddHeader(param.Key, param.Value);
+
+            // add query parameter, if any
+            foreach(KeyValuePair<string, string> param in queryParams)
+                request.AddQueryParameter(param.Key, param.Value);
+
+            // add form parameter, if any
+            foreach(KeyValuePair<string, string> param in formParams)
+                request.AddParameter(param.Key, param.Value);
+
+            // add file parameter, if any
+            foreach(KeyValuePair<string, FileParameter> param in fileParams)
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+
+
+            if (postBody != null) {
+                request.AddParameter("application/json", postBody, ParameterType.RequestBody); // http body (model) parameter
+            }
+
+            return (Object)RestClient.Execute(request);
+
         }
     
         public async Task<Object> CallApiAsync(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
@@ -120,9 +147,9 @@ namespace IO.Swagger.Client {
         public FileParameter ParameterToFile(string name, Stream stream)
         {
             if (stream is FileStream) {
-                return FileParameter.Create(name, StreamToByteArray(stream), ((FileStream)stream).Name);
+                return FileParameter.Create(name, StreamToByteArray(stream), Path.GetFileName(((FileStream)stream).Name));
             } else {
-                return FileParameter.Create(name, StreamToByteArray(stream), "temp_name_here");
+                return FileParameter.Create(name, StreamToByteArray(stream), "no_file_name_provided");
             }
         }
     

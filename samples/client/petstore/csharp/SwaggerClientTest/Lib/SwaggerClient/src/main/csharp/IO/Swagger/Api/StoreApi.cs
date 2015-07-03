@@ -147,6 +147,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
@@ -218,6 +220,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
@@ -294,6 +298,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
@@ -372,6 +378,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;

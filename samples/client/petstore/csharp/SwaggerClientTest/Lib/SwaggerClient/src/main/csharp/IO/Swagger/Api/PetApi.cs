@@ -217,6 +217,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -291,6 +293,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -365,6 +369,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
@@ -438,6 +444,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
@@ -514,6 +522,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
@@ -596,6 +606,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -681,6 +693,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -766,6 +780,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;

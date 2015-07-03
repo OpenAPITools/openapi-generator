@@ -209,6 +209,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -283,6 +285,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -357,6 +361,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -433,6 +439,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (string) ApiClient.Deserialize(response.Content, typeof(string), response.Headers);
@@ -506,6 +514,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -581,6 +591,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return (User) ApiClient.Deserialize(response.Content, typeof(User), response.Headers);
@@ -661,6 +673,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;
@@ -742,6 +756,8 @@ namespace IO.Swagger.Api {
     
             if (((int)response.StatusCode) >= 400) {
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.Content, response.Content);
+            } else if (((int)response.StatusCode) == 0) {
+                throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.ErrorMessage, response.ErrorMessage);
             }
     
             return;

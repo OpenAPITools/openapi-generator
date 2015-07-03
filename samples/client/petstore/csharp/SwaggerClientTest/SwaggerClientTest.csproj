@@ -29,9 +29,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Lib\SwaggerClient\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -40,6 +37,9 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="nunit.framework">
+      <HintPath>packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Api\PetApi.cs" />
@@ -57,10 +57,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Lib\SwaggerClient\compile.bat" />
     <None Include="Lib\SwaggerClient\bin\Newtonsoft.Json.dll" />
     <None Include="Lib\SwaggerClient\bin\RestSharp.dll" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
