@@ -12,7 +12,6 @@ module Petstore
         Swagger.logger.debug "Calling API: StoreApi#get_inventory ..."
       end
       
-
       # resource path
       path = "/store/inventory".sub('{format}','json')
 
@@ -56,7 +55,6 @@ module Petstore
         Swagger.logger.debug "Calling API: StoreApi#place_order ..."
       end
       
-
       # resource path
       path = "/store/order".sub('{format}','json')
 
@@ -101,9 +99,8 @@ module Petstore
       end
       
       # verify the required parameter 'order_id' is set
-      raise "Missing the required parameter 'order_id' when calling get_order_by_id" if order_id.nil?
+      fail "Missing the required parameter 'order_id' when calling get_order_by_id" if order_id.nil?
       
-
       # resource path
       path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
 
@@ -148,9 +145,8 @@ module Petstore
       end
       
       # verify the required parameter 'order_id' is set
-      raise "Missing the required parameter 'order_id' when calling delete_order" if order_id.nil?
+      fail "Missing the required parameter 'order_id' when calling delete_order" if order_id.nil?
       
-
       # resource path
       path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
 

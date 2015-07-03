@@ -13,7 +13,6 @@ module Petstore
         Swagger.logger.debug "Calling API: PetApi#update_pet ..."
       end
       
-
       # resource path
       path = "/pet".sub('{format}','json')
 
@@ -56,7 +55,6 @@ module Petstore
         Swagger.logger.debug "Calling API: PetApi#add_pet ..."
       end
       
-
       # resource path
       path = "/pet".sub('{format}','json')
 
@@ -99,7 +97,6 @@ module Petstore
         Swagger.logger.debug "Calling API: PetApi#find_pets_by_status ..."
       end
       
-
       # resource path
       path = "/pet/findByStatus".sub('{format}','json')
 
@@ -144,7 +141,6 @@ module Petstore
         Swagger.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
       end
       
-
       # resource path
       path = "/pet/findByTags".sub('{format}','json')
 
@@ -190,9 +186,8 @@ module Petstore
       end
       
       # verify the required parameter 'pet_id' is set
-      raise "Missing the required parameter 'pet_id' when calling get_pet_by_id" if pet_id.nil?
+      fail "Missing the required parameter 'pet_id' when calling get_pet_by_id" if pet_id.nil?
       
-
       # resource path
       path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -239,9 +234,8 @@ module Petstore
       end
       
       # verify the required parameter 'pet_id' is set
-      raise "Missing the required parameter 'pet_id' when calling update_pet_with_form" if pet_id.nil?
+      fail "Missing the required parameter 'pet_id' when calling update_pet_with_form" if pet_id.nil?
       
-
       # resource path
       path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -288,9 +282,8 @@ module Petstore
       end
       
       # verify the required parameter 'pet_id' is set
-      raise "Missing the required parameter 'pet_id' when calling delete_pet" if pet_id.nil?
+      fail "Missing the required parameter 'pet_id' when calling delete_pet" if pet_id.nil?
       
-
       # resource path
       path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -337,9 +330,8 @@ module Petstore
       end
       
       # verify the required parameter 'pet_id' is set
-      raise "Missing the required parameter 'pet_id' when calling upload_file" if pet_id.nil?
+      fail "Missing the required parameter 'pet_id' when calling upload_file" if pet_id.nil?
       
-
       # resource path
       path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
