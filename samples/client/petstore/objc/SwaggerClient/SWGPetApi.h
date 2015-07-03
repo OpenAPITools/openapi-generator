@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import "SWGPet.h"
-#import "SWGFile.h"
 #import "SWGObject.h"
 #import "SWGApiClient.h"
 
@@ -139,7 +138,7 @@
 /// @return 
 -(NSNumber*) uploadFileWithCompletionBlock :(NSNumber*) petId 
      additionalMetadata:(NSString*) additionalMetadata 
-     file:(SWGFile*) file 
+     file:(NSURL*) file 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;

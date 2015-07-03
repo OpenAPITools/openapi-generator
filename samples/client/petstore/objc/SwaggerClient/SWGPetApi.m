@@ -2,7 +2,6 @@
 #import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
 #import "SWGPet.h"
-#import "SWGFile.h"
 
 
 @interface SWGPetApi ()
@@ -123,6 +122,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
 
@@ -142,12 +143,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         bodyParam = [(SWGObject*)bodyParam toDictionary];
     }
     
-    
 
     
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"PUT"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
@@ -211,6 +213,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
 
@@ -230,12 +234,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         bodyParam = [(SWGObject*)bodyParam toDictionary];
     }
     
-    
 
     
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"POST"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
@@ -305,11 +310,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
-    
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
     
     
 
@@ -317,6 +320,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"GET"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
@@ -386,11 +391,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
-    
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
     
     
 
@@ -398,6 +401,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"GET"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
@@ -467,11 +472,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"api_key", @"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
-    
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
     
     
 
@@ -479,6 +482,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"GET"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
@@ -554,27 +559,17 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
-    
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
     
     
     formParams[@"name"] = name;
     
-    if(bodyParam == nil) {
-      bodyParam = [[NSMutableArray alloc] init];
-    }
-    [bodyParam addObject:formParams];
     
     
     formParams[@"status"] = status;
     
-    if(bodyParam == nil) {
-      bodyParam = [[NSMutableArray alloc] init];
-    }
-    [bodyParam addObject:formParams];
     
     
 
@@ -582,6 +577,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"POST"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
@@ -656,11 +653,9 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
-    
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
     
     
 
@@ -668,6 +663,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"DELETE"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
@@ -694,7 +691,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 ///
 -(NSNumber*) uploadFileWithCompletionBlock: (NSNumber*) petId
          additionalMetadata: (NSString*) additionalMetadata
-         file: (SWGFile*) file
+         file: (NSURL*) file
         
         
         completionHandler: (void (^)(NSError* error))completionBlock { 
@@ -743,34 +740,17 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     NSArray *authSettings = @[@"petstore_auth"];
 
     id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
-    
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
     
     
     formParams[@"additionalMetadata"] = additionalMetadata;
     
-    if(bodyParam == nil) {
-      bodyParam = [[NSMutableArray alloc] init];
-    }
-    [bodyParam addObject:formParams];
     
     
-    requestContentType = @"multipart/form-data";
-    if(bodyParam == nil) {
-      bodyParam = [[NSMutableArray alloc] init];
-    }
-    if(file != nil) {
-      [bodyParam addObject:file];
-      file.paramName  = @"file";
-    }
+    files[@"file"] = file;
     
-    if(bodyParam == nil) {
-      bodyParam = [[NSMutableArray alloc] init];
-    }
-    [bodyParam addObject:formParams];
     
     
 
@@ -778,6 +758,8 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"POST"
                                           queryParams: queryParams
+                                           formParams: formParams
+                                                files: files
                                                  body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
