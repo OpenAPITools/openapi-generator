@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 
-namespace IO.Swagger.Client {
+namespace {{packageName}}.Client {
     /// <summary>
     /// API client is mainly responible for making the HTTP call to the API backend
     /// </summary>
@@ -19,7 +19,7 @@ namespace IO.Swagger.Client {
         /// Initializes a new instance of the <see cref="ApiClient"/> class.
         /// </summary>
         /// <param name="basePath">The base path.</param>
-        public ApiClient(String basePath="http://petstore.swagger.io/v2") {
+        public ApiClient(String basePath="{{basePath}}") {
             this.BasePath = basePath;
             this.RestClient = new RestClient(this.BasePath);
         }
@@ -87,8 +87,8 @@ namespace IO.Swagger.Client {
         /// <summary>
         /// Add default header
         /// </summary>
-        /// <param name="key"> Header field name </param>
-        /// <param name="value"> Header field value </param>
+        /// <param name="key">  Header field name
+        /// <param name="value"> Header field value
         /// <returns></returns>
         public void AddDefaultHeader(string key, string value) {
             DefaultHeaderMap.Add(key, value);
@@ -105,7 +105,7 @@ namespace IO.Swagger.Client {
         /// <summary>
         /// escape string (url-encoded)
         /// </summary>
-        /// <param name="str">String to be escaped</param>
+        /// <param name="str"> String to be escaped
         /// <returns>Escaped string</returns>
         public string EscapeString(string str) {
             return str;
@@ -114,8 +114,8 @@ namespace IO.Swagger.Client {
         /// <summary>
         /// Create FileParameter based on Stream
         /// </summary>
-        /// <param name="name">parameter name</param>
-        /// <param name="stream">Input stream</param>
+        /// <param name="name"> parameter name</param>
+        /// <param name="stream">Stream</param>
         /// <returns>FileParameter</returns>
         public FileParameter ParameterToFile(string name, Stream stream)
         {
@@ -131,7 +131,7 @@ namespace IO.Swagger.Client {
         /// if parameter is a list of string, join the list with ","
         /// otherwise just return the string
         /// </summary>
-        /// <param name="obj">The parameter (header, path, query, form)</param>
+        /// <param name="obj"> The parameter (header, path, query, form)
         /// <returns>Formatted string</returns>
         public string ParameterToString(object obj)
         {
@@ -147,8 +147,8 @@ namespace IO.Swagger.Client {
         /// <summary>
         /// Deserialize the JSON string into a proper object
         /// </summary>
-        /// <param name="content">HTTP body (e.g. string, JSON)</param>
-        /// <param name="type">Object type</param>
+        /// <param name="content"> HTTP body (e.g. string, JSON)
+        /// <param name="type"> Object type
         /// <returns>Object representation of the JSON string</returns>
         public object Deserialize(string content, Type type, IList<Parameter> headers=null) {
             if (type.GetType() == typeof(Object)) { // return an object
@@ -190,33 +190,33 @@ namespace IO.Swagger.Client {
         /// <summary>
         /// Serialize an object into JSON string
         /// </summary>
-        /// <param name="obj">Object</param>
+        /// <param name="obj"> Object 
         /// <returns>JSON string</returns>
         public string Serialize(object obj) {
-            try
-            {
-                return obj != null ? JsonConvert.SerializeObject(obj) : null;
-            }
-            catch (Exception e) {
-                throw new ApiException(500, e.Message);
-            }
+          try
+          {
+              return obj != null ? JsonConvert.SerializeObject(obj) : null;
+          }
+          catch (Exception e) {
+              throw new ApiException(500, e.Message);
+          }
         }
     
         /// <summary>
         /// Get the API key with prefix
         /// </summary>
-        /// <param name="obj">Object</param>
+        /// <param name="obj"> Object 
         /// <returns>API key with prefix</returns>
         public string GetApiKeyWithPrefix (string apiKeyIdentifier)
         {
-            var apiKeyValue = "";
-            Configuration.ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
-            var apiKeyPrefix = "";
-            if (Configuration.ApiKeyPrefix.TryGetValue (apiKeyIdentifier, out apiKeyPrefix)) {
-                return apiKeyPrefix + " " + apiKeyValue;
-            } else {
-                return apiKeyValue;
-            }
+          var apiKeyValue = "";
+          Configuration.ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
+          var apiKeyPrefix = "";
+          if (Configuration.ApiKeyPrefix.TryGetValue (apiKeyIdentifier, out apiKeyPrefix)) {
+            return apiKeyPrefix + " " + apiKeyValue;
+          } else {
+            return apiKeyValue;
+          }
         }
     
         /// <summary>
@@ -226,28 +226,23 @@ namespace IO.Swagger.Client {
         /// <param name="HeaderParams">Header parameters</param>
         /// <param name="AuthSettings">Authentication settings</param>
         public void UpdateParamsForAuth(Dictionary<String, String> queryParams, Dictionary<String, String> headerParams, string[] authSettings) {
-            if (authSettings == null || authSettings.Length == 0)
-                return;
+          if (authSettings == null || authSettings.Length == 0)
+            return;
       
-            foreach (string auth in authSettings) {
-                // determine which one to use
-                switch(auth) {
-                    
-                    case "api_key":
-                        headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
-                        
-                        break;
-                    
-                    case "petstore_auth":
-                        
-                        //TODO support oauth
-                        break;
-                    
-                    default:
-                        //TODO show warning about security definition not found
-                        break;
-                }
+          foreach (string auth in authSettings) {
+            // determine which one to use
+            switch(auth) {
+              {{#authMethods}}
+              case "{{name}}":
+                {{#isApiKey}}{{#isKeyInHeader}}headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}queryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}
+                {{#isOAuth}}//TODO support oauth{{/isOAuth}}
+                break;
+              {{/authMethods}}
+              default:
+                //TODO show warning about security definition not found
+              break;
             }
+          }
     
         }
     
@@ -276,8 +271,8 @@ namespace IO.Swagger.Client {
         /// </summary>
         /// <param name="text">String to be encoded</param>
         public static string Base64Encode(string text) {
-            var textByte = System.Text.Encoding.UTF8.GetBytes(text);
-            return System.Convert.ToBase64String(textByte);
+          var textByte = System.Text.Encoding.UTF8.GetBytes(text);
+          return System.Convert.ToBase64String(textByte);
         }
     
         /// <summary>
