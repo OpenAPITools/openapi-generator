@@ -54,12 +54,14 @@ namespace IO.Swagger.Api {
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns></returns>
         void DeleteOrder (string orderId);
   
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns></returns>
         Task DeleteOrderAsync (string orderId);
         
     }
@@ -338,6 +340,7 @@ namespace IO.Swagger.Api {
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
+        /// <returns></returns>            
         public void DeleteOrder (string orderId) {
     
             
@@ -378,6 +381,7 @@ namespace IO.Swagger.Api {
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns></returns>
         public async Task DeleteOrderAsync (string orderId) {
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");

@@ -14,36 +14,42 @@ namespace IO.Swagger.Api {
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param>
+        /// <returns></returns>
         void CreateUser (User body);
   
         /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param>
+        /// <returns></returns>
         Task CreateUserAsync (User body);
         
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
+        /// <returns></returns>
         void CreateUsersWithArrayInput (List<User> body);
   
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
+        /// <returns></returns>
         Task CreateUsersWithArrayInputAsync (List<User> body);
         
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
+        /// <returns></returns>
         void CreateUsersWithListInput (List<User> body);
   
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
+        /// <returns></returns>
         Task CreateUsersWithListInputAsync (List<User> body);
         
         /// <summary>
@@ -65,11 +71,13 @@ namespace IO.Swagger.Api {
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
+        /// <returns></returns>
         void LogoutUser ();
   
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
+        /// <returns></returns>
         Task LogoutUserAsync ();
         
         /// <summary>
@@ -91,6 +99,7 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
+        /// <returns></returns>
         void UpdateUser (string username, User body);
   
         /// <summary>
@@ -98,18 +107,21 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
+        /// <returns></returns>
         Task UpdateUserAsync (string username, User body);
         
         /// <summary>
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param>
+        /// <returns></returns>
         void DeleteUser (string username);
   
         /// <summary>
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param>
+        /// <returns></returns>
         Task DeleteUserAsync (string username);
         
     }
@@ -168,6 +180,7 @@ namespace IO.Swagger.Api {
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param> 
+        /// <returns></returns>            
         public void CreateUser (User body) {
     
             
@@ -205,6 +218,7 @@ namespace IO.Swagger.Api {
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param>
+        /// <returns></returns>
         public async Task CreateUserAsync (User body) {
             
     
@@ -240,6 +254,7 @@ namespace IO.Swagger.Api {
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param> 
+        /// <returns></returns>            
         public void CreateUsersWithArrayInput (List<User> body) {
     
             
@@ -277,6 +292,7 @@ namespace IO.Swagger.Api {
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
+        /// <returns></returns>
         public async Task CreateUsersWithArrayInputAsync (List<User> body) {
             
     
@@ -312,6 +328,7 @@ namespace IO.Swagger.Api {
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param> 
+        /// <returns></returns>            
         public void CreateUsersWithListInput (List<User> body) {
     
             
@@ -349,6 +366,7 @@ namespace IO.Swagger.Api {
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
+        /// <returns></returns>
         public async Task CreateUsersWithListInputAsync (List<User> body) {
             
     
@@ -460,6 +478,7 @@ namespace IO.Swagger.Api {
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
+        /// <returns></returns>            
         public void LogoutUser () {
     
             
@@ -495,6 +514,7 @@ namespace IO.Swagger.Api {
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
+        /// <returns></returns>
         public async Task LogoutUserAsync () {
             
     
@@ -608,6 +628,7 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="username">name that need to be deleted</param> 
         /// <param name="body">Updated user object</param> 
+        /// <returns></returns>            
         public void UpdateUser (string username, User body) {
     
             
@@ -650,6 +671,7 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
+        /// <returns></returns>
         public async Task UpdateUserAsync (string username, User body) {
             // verify the required parameter 'username' is set
             if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling UpdateUser");
@@ -688,6 +710,7 @@ namespace IO.Swagger.Api {
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param> 
+        /// <returns></returns>            
         public void DeleteUser (string username) {
     
             
@@ -728,6 +751,7 @@ namespace IO.Swagger.Api {
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param>
+        /// <returns></returns>
         public async Task DeleteUserAsync (string username) {
             // verify the required parameter 'username' is set
             if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling DeleteUser");
