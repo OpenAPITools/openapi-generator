@@ -54,6 +54,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Integer",
                         "Long",
                         "Float",
+                        "Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
         instantiationTypes.put("array", "List");
