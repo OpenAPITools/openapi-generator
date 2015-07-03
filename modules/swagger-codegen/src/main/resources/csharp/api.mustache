@@ -15,15 +15,15 @@ namespace {{packageName}}.Api {
         /// {{summary}} {{notes}}
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-        {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>
-        {{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-        {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>
-        Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+        {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
     }
   
@@ -81,8 +81,8 @@ namespace {{packageName}}.Api {
         /// {{summary}} {{notes}}
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
-        {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>            
-        public {{{returnType}}}{{/returnType}}{{^returnType}}public void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>            
+        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     
             {{#allParams}}{{#required}}
             // verify the required parameter '{{paramName}}' is set
@@ -126,8 +126,8 @@ namespace {{packageName}}.Api {
         /// {{summary}} {{notes}}
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
-        {{/allParams}}{{#returnType}}/// <returns>{{{returnType}}}</returns>
-        public async Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+        {{#returnType}}public async Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
             {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
             {{/required}}{{/allParams}}
