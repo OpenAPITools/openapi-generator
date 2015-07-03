@@ -84,8 +84,8 @@ static NSString * basePath = @"{{basePath}}";
 ///
 -(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
         {{/allParams}}
-        {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock{{/returnBaseType}}
-        {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock{{/returnBaseType}} {
+        {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock { {{/returnBaseType}}
+        {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock { {{/returnBaseType}}
 
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -100,7 +100,7 @@ static NSString * basePath = @"{{basePath}}";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [SWGApiClient escape:{{paramName}}]];
+    {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [{{classPrefix}}ApiClient escape:{{paramName}}]];
     {{/pathParams}}
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -116,8 +116,8 @@ static NSString * basePath = @"{{basePath}}";
     {{#headerParams}}if({{paramName}} != nil)
         headerParams[@"{{baseName}}"] = {{paramName}};
     {{/headerParams}}
-    
-    // HTTP header `Accept` 
+
+    // HTTP header `Accept`
     headerParams[@"Accept"] = [{{classPrefix}}ApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
     if ([headerParams[@"Accept"] length] == 0) {
         [headerParams removeObjectForKey:@"Accept"];
@@ -197,9 +197,10 @@ static NSString * basePath = @"{{basePath}}";
                                          authSettings: authSettings
                                    requestContentType: requestContentType
                                   responseContentType: responseContentType
+                                         responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
                                       completionBlock: ^(id data, NSError *error) {
                   {{^returnType}}completionBlock(error);{{/returnType}}
-                  {{#returnType}}completionBlock([self.apiClient deserialize: data class:@"{{{returnType}}}"], error);{{/returnType}}
+                  {{#returnType}}completionBlock(({{{ returnType }}})data, error);{{/returnType}}
               }
           ];
 }
@@ -209,6 +210,3 @@ static NSString * basePath = @"{{basePath}}";
 {{newline}}
 {{/operations}}
 @end
-
-
-

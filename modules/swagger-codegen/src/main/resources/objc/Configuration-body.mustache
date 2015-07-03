@@ -27,6 +27,7 @@
     if (self) {
         self.username = @"";
         self.password = @"";
+        self.tempFolderPath = nil;
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
     }

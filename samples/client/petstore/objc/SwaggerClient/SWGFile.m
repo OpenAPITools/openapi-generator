@@ -2,10 +2,6 @@
 
 @implementation SWGFile
 
-@synthesize name = _name;
-@synthesize mimeType = _mimeType;
-@synthesize data = _data;
-
 - (id) init {
     self = [super init];
     return self;
@@ -21,6 +17,19 @@
 		_data = data;
 	}
 	return self;
+}
+
+- (id) initWithPath:(NSString *)filepath data:(NSData *)data name:(NSString *)filename {
+    self = [super init];
+    
+    if (self) {
+        _name = filename;
+        _data = data;
+        _path = filepath;
+        [data writeToFile:_path atomically:YES];
+    }
+    
+    return self;
 }
 
 @end

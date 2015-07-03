@@ -348,6 +348,16 @@ static bool loggingEnabled = true;
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
+#pragma mark - Predicate methods
+
+- (BOOL) isDownloadFile:(NSString *)responseType {
+    if ([responseType isEqualToString:@"SWGFile*"]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 #pragma mark - Deserialize methods
 
 - (id) deserialize:(id) data class:(NSString *) class {
@@ -356,8 +366,8 @@ static bool loggingEnabled = true;
     NSMutableArray *resultArray = nil;
     NSMutableDictionary *resultDict = nil;
 
-    // return nil if data is nil
-    if (!data) {
+    // return nil if data is nil or class is nil
+    if (!data || !class) {
         return nil;
     }
 
@@ -470,6 +480,94 @@ static bool loggingEnabled = true;
     return nil;
 }
 
+#pragma mark - Operation Methods
+
+- (void) operationWithCompletionBlock: (NSURLRequest *)request
+                            requestId: (NSNumber *) requestId
+                      completionBlock: (void (^)(id, NSError *))completionBlock {
+    AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
+                                                               success:^(AFHTTPRequestOperation *operation, id response) {
+                                                                   if([self executeRequestWithId:requestId]) {
+                                                                       if(self.logServerResponses) {
+                                                                           [self logResponse:response forRequest:request error:nil];
+                                                                       }
+                                                                       completionBlock(response, nil);
+                                                                   }
+                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                   if([self executeRequestWithId:requestId]) {
+                                                                       NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
+                                                                       if(operation.responseObject) {
+                                                                           // Add in the (parsed) response body.
+                                                                           userInfo[SWGResponseObjectErrorKey] = operation.responseObject;
+                                                                       }
+                                                                       NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
+                                                                       
+                                                                       if(self.logServerResponses)
+                                                                           [self logResponse:nil forRequest:request error:augmentedError];
+                                                                       completionBlock(nil, augmentedError);
+                                                                   }
+                                                               }];
+    
+    [self.operationQueue addOperation:op];
+}
+
+- (void) downloadOperationWithCompletionBlock: (NSURLRequest *)request
+                                    requestId: (NSNumber *) requestId
+                              completionBlock: (void (^)(id, NSError *))completionBlock {
+    AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
+                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                   SWGConfiguration *config = [SWGConfiguration sharedConfig];
+                                                                   NSString *directory = nil;
+                                                                   if (config.tempFolderPath) {
+                                                                       directory = config.tempFolderPath;
+                                                                   }
+                                                                   else {
+                                                                       directory = NSTemporaryDirectory();
+                                                                   }
+                                                                   
+                                                                   NSDictionary *headers = operation.response.allHeaderFields;
+                                                                   NSString *filename = nil;
+                                                                   if ([headers objectForKey:@"Content-Disposition"]) {
+
+                                                                       NSString *pattern = @"filename=['\"]?([^'\"\\s]+)['\"]?";
+                                                                       NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                                                                                               options:NSRegularExpressionCaseInsensitive
+                                                                                                                                                 error:nil];
+                                                                       NSString *contentDispositionHeader = [headers objectForKey:@"Content-Disposition"];
+                                                                       NSTextCheckingResult *match = [regexp firstMatchInString:contentDispositionHeader
+                                                                                                                        options:0
+                                                                                                                          range:NSMakeRange(0, [contentDispositionHeader length])];
+                                                                       filename = [contentDispositionHeader substringWithRange:[match rangeAtIndex:1]];
+                                                                   }
+                                                                   else {
+                                                                       filename = [NSString stringWithFormat:@"%@", [[NSProcessInfo processInfo] globallyUniqueString]];
+                                                                   }
+                                                                   
+                                                                   NSString *filepath = [directory stringByAppendingPathComponent:filename];
+                                                                   
+                                                                   SWGFile *file = [[SWGFile alloc] initWithPath:filepath data:operation.responseData name:filename];
+                                                                   completionBlock(file, nil);
+                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                   
+                                                                   if ([self executeRequestWithId:requestId]) {
+                                                                       NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
+                                                                       if (operation.responseObject) {
+                                                                           userInfo[SWGResponseObjectErrorKey] = operation.responseObject;
+                                                                       }
+                                                                       
+                                                                       NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
+                                                                       
+                                                                       if (self.logServerResponses) {
+                                                                           [self logResponse:nil forRequest:request error:augmentedError];
+                                                                       }
+                                                                       
+                                                                       completionBlock(nil, augmentedError);
+                                                                   }
+                                                               }];
+    
+    [self.operationQueue addOperation:op];
+}
+
 #pragma mark - Perform Request Methods
 
 -(NSNumber*)  requestWithCompletionBlock: (NSString*) path
@@ -480,6 +578,7 @@ static bool loggingEnabled = true;
                             authSettings: (NSArray *) authSettings
                       requestContentType: (NSString*) requestContentType
                      responseContentType: (NSString*) responseContentType
+                            responseType: (NSString *) responseType
                          completionBlock: (void (^)(id, NSError *))completionBlock {
     // setting request serializer
     if ([requestContentType isEqualToString:@"application/json"]) {
@@ -596,40 +695,17 @@ static bool loggingEnabled = true;
     [request setHTTPShouldHandleCookies:NO];
 
     NSNumber* requestId = [SWGApiClient queueRequest];
-    AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
-     success:^(AFHTTPRequestOperation *operation, id response) {
-         if([self executeRequestWithId:requestId]) {
-             if(self.logServerResponses) {
-                 [self logResponse:response forRequest:request error:nil];
-             }
-             completionBlock(response, nil);
-         }
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         if([self executeRequestWithId:requestId]) {
-             NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
-             if(operation.responseObject) {
-                 // Add in the (parsed) response body.
-                 userInfo[SWGResponseObjectErrorKey] = operation.responseObject;
-             }
-             NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
-
-             if(self.logServerResponses)
-                 [self logResponse:nil forRequest:request error:augmentedError];
-             completionBlock(nil, augmentedError);
-         }
-     }];
-
-    [self.operationQueue addOperation:op];
+    if ([self isDownloadFile:responseType]) {
+        [self downloadOperationWithCompletionBlock:request requestId:requestId completionBlock:^(id data, NSError *error) {
+            completionBlock(data, error);
+        }];
+    }
+    else {
+        [self operationWithCompletionBlock:request requestId:requestId completionBlock:^(id data, NSError *error) {
+            completionBlock([self deserialize:data class:responseType], error);
+        }];
+    }
     return requestId;
 }
 
 @end
-
-
-
-
-
-
-
-
-

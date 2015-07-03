@@ -203,10 +203,7 @@ extern NSString *const SWGResponseObjectErrorKey;
                             authSettings: (NSArray *) authSettings
                       requestContentType:(NSString*) requestContentType
                      responseContentType:(NSString*) responseContentType
+                            responseType:(NSString *) responseType
                          completionBlock:(void (^)(id, NSError *))completionBlock;
 
-
 @end
-
-
-
