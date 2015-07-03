@@ -36,47 +36,47 @@ namespace {{packageName}}.Client {
     /// <value>The RestClient.</value> 
     public RestClient RestClient { get; set; }
 
-    private Dictionary<String, String> defaultHeaderMap = new Dictionary<String, String>();
+    private Dictionary<String, String> DefaultHeaderMap = new Dictionary<String, String>();
 
-    public Object CallApi(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody,
-      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, FileParameter> FileParams, String[] AuthSettings) {
+    public Object CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+      Dictionary<String, String> headerParams, Dictionary<String, String> formParams, Dictionary<String, FileParameter> fileParams, String[] authSettings) {
       var response = Task.Run(async () => {
-                            var resp = await CallApiAsync(Path, Method, QueryParams, PostBody, HeaderParams, FormParams, FileParams, AuthSettings);
+                            var resp = await CallApiAsync(path, method, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
                             return resp;
                             });
         return response.Result;
     }
 
-    public async Task<Object> CallApiAsync(String Path, RestSharp.Method Method, Dictionary<String, String> QueryParams, String PostBody,
-      Dictionary<String, String> HeaderParams, Dictionary<String, String> FormParams, Dictionary<String, FileParameter> FileParams, String[] AuthSettings) {
+    public async Task<Object> CallApiAsync(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+      Dictionary<String, String> headerParams, Dictionary<String, String> formParams, Dictionary<String, FileParameter> fileParams, String[] authSettings) {
 
-      var request = new RestRequest(Path, Method);
+      var request = new RestRequest(path, method);
 
-      UpdateParamsForAuth(QueryParams, HeaderParams, AuthSettings);
+      UpdateParamsForAuth(queryParams, headerParams, authSettings);
 
       // add default header, if any
-      foreach(KeyValuePair<string, string> defaultHeader in this.defaultHeaderMap)
+      foreach(KeyValuePair<string, string> defaultHeader in this.DefaultHeaderMap)
         request.AddHeader(defaultHeader.Key, defaultHeader.Value);
 
       // add header parameter, if any
-      foreach(KeyValuePair<string, string> param in HeaderParams)
+      foreach(KeyValuePair<string, string> param in headerParams)
         request.AddHeader(param.Key, param.Value);
      
       // add query parameter, if any
-      foreach(KeyValuePair<string, string> param in QueryParams)
+      foreach(KeyValuePair<string, string> param in queryParams)
         request.AddQueryParameter(param.Key, param.Value);
 
       // add form parameter, if any
-      foreach(KeyValuePair<string, string> param in FormParams)
+      foreach(KeyValuePair<string, string> param in formParams)
         request.AddParameter(param.Key, param.Value);
 
       // add file parameter, if any
-      foreach(KeyValuePair<string, FileParameter> param in FileParams)
+      foreach(KeyValuePair<string, FileParameter> param in fileParams)
         request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
 
 
-      if (PostBody != null) {
-        request.AddParameter("application/json", PostBody, ParameterType.RequestBody); // http body (model) parameter
+      if (postBody != null) {
+        request.AddParameter("application/json", postBody, ParameterType.RequestBody); // http body (model) parameter
       }
 
       return (Object) await RestClient.ExecuteTaskAsync(request);
@@ -90,7 +90,7 @@ namespace {{packageName}}.Client {
     /// <param name="value"> Header field value
     /// <returns></returns>
     public void AddDefaultHeader(string key, string value) {
-       defaultHeaderMap.Add(key, value);
+       DefaultHeaderMap.Add(key, value);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ namespace {{packageName}}.Client {
     /// </summary>
     /// <returns>Dictionary of default header</returns>
     public Dictionary<String, String> GetDefaultHeader() {
-       return defaultHeaderMap;
+       return DefaultHeaderMap;
     }
 
     /// <summary>
@@ -224,16 +224,16 @@ namespace {{packageName}}.Client {
     /// <param name="QueryParams">Query parameters</param>
     /// <param name="HeaderParams">Header parameters</param>
     /// <param name="AuthSettings">Authentication settings</param>
-    public void UpdateParamsForAuth(Dictionary<String, String> QueryParams, Dictionary<String, String> HeaderParams, string[] AuthSettings) {
-      if (AuthSettings == null || AuthSettings.Length == 0)
+    public void UpdateParamsForAuth(Dictionary<String, String> queryParams, Dictionary<String, String> headerParams, string[] authSettings) {
+      if (authSettings == null || authSettings.Length == 0)
         return;
   
-      foreach (string auth in AuthSettings) {
+      foreach (string auth in authSettings) {
         // determine which one to use
         switch(auth) {
           {{#authMethods}}
           case "{{name}}":
-            {{#isApiKey}}{{#isKeyInHeader}}HeaderParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}QueryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}HeaderParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}
+            {{#isApiKey}}{{#isKeyInHeader}}headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}queryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}
             {{#isOAuth}}//TODO support oauth{{/isOAuth}}
             break;
           {{/authMethods}}
