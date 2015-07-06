@@ -3,18 +3,20 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 
-namespace {{packageName}}.Client {
+namespace {{packageName}}.Client
+{
     /// <summary>
     /// Represents a set of configuration settings
     /// </summary>
-    public class Configuration{
+    public class Configuration
+    {
   
         /// <summary>
-        /// Version of the package
+        /// Version of the package.
         /// </summary>
+        /// <value>Version of the package.</value>
         public const string Version = "{{packageVersion}}";
   
         /// <summary>
@@ -24,25 +26,25 @@ namespace {{packageName}}.Client {
         public static ApiClient DefaultApiClient = new ApiClient();
   
         /// <summary>
-        /// Gets or sets the username (HTTP basic authentication)
+        /// Gets or sets the username (HTTP basic authentication).
         /// </summary>
         /// <value>The username.</value>
         public static String Username { get; set; }
   
         /// <summary>
-        /// Gets or sets the password (HTTP basic authentication)
+        /// Gets or sets the password (HTTP basic authentication).
         /// </summary>
         /// <value>The password.</value>
         public static String Password { get; set; }
   
         /// <summary>
-        /// Gets or sets the API key based on the authentication name 
+        /// Gets or sets the API key based on the authentication name.
         /// </summary>
         /// <value>The API key.</value>
         public static Dictionary<String, String> ApiKey = new Dictionary<String, String>();
   
         /// <summary>
-        /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name 
+        /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
         /// </summary>
         /// <value>The prefix of the API key.</value>
         public static Dictionary<String, String> ApiKeyPrefix = new Dictionary<String, String>();
@@ -50,46 +52,46 @@ namespace {{packageName}}.Client {
         private static string _tempFolderPath = Path.GetTempPath();
   
         /// <summary>
-        /// Gets or sets the temporary folder path to store the files downloaded from the server
+        /// Gets or sets the temporary folder path to store the files downloaded from the server.
         /// </summary>
-        /// <value>Folder path</value>
-        public static String TempFolderPath {
-            get {
-                return _tempFolderPath;
-            }
+        /// <value>Folder path.</value>
+        public static String TempFolderPath
+        {
+            get { return _tempFolderPath; }
   
-            set {
-                if (String.IsNullOrEmpty(value)) {
+            set 
+            {
+                if (String.IsNullOrEmpty(value))
+                {
                     _tempFolderPath = value;
                     return;
                 }
       
                 // create the directory if it does not exist
-                if (!Directory.Exists(value)) {
+                if (!Directory.Exists(value)) 
                     Directory.CreateDirectory(value);
-                }
       
                 // check if the path contains directory separator at the end
-                if (value[value.Length - 1] == Path.DirectorySeparatorChar) {
+                if (value[value.Length - 1] == Path.DirectorySeparatorChar)
                     _tempFolderPath = value;
-                } else {
+                else
                     _tempFolderPath = value  + Path.DirectorySeparatorChar;
-                }
             }
         }
   
         /// <summary>
-        /// Return a string contain essential information for debugging
+        /// Returns a string with essential information for debugging.
         /// </summary>
-        /// <value>Folder path</value>
-        public static String ToDebugReport() {
+        /// <value>Debugging Report</value>
+        public static String ToDebugReport()
+        {
             String report = "C# SDK ({{invokerPackage}}) Debug Report:\n";
             report += "    OS: " + Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + Assembly
                      .GetExecutingAssembly()
                      .GetReferencedAssemblies()
                      .Where(x => x.Name == "System.Core").First().Version.ToString()  + "\n";
-            report += "    Swagger Spec Version: {{version}}\n";
+            report += "    Version of the API: {{version}}\n";
             report += "    SDK Package Version: {{packageVersion}}\n";
   
             return report;

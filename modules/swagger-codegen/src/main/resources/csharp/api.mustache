@@ -7,9 +7,11 @@ using {{packageName}}.Client;
 {{#hasImport}}using {{packageName}}.Model;
 {{/hasImport}}
 
-namespace {{packageName}}.Api {
+namespace {{packageName}}.Api
+{
     {{#operations}}
-    public interface I{{classname}} {
+    public interface I{{classname}}
+    {
         {{#operation}}
         /// <summary>
         /// {{summary}} {{notes}}
@@ -30,19 +32,19 @@ namespace {{packageName}}.Api {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class {{classname}} : I{{classname}} {
-  
+    public class {{classname}} : I{{classname}}
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <param name="apiClient"> an instance of ApiClient (optional)</param>
         /// <returns></returns>
-        public {{classname}}(ApiClient apiClient = null) {
-            if (apiClient == null) { // use the default one in Configuration
+        public {{classname}}(ApiClient apiClient = null)
+        {
+            if (apiClient == null) // use the default one in Configuration
                 this.ApiClient = Configuration.DefaultApiClient; 
-            } else {
+            else
                 this.ApiClient = apiClient;
-            }
         }
     
         /// <summary>
@@ -58,7 +60,8 @@ namespace {{packageName}}.Api {
         /// Sets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        public void SetBasePath(String basePath) {
+        public void SetBasePath(String basePath)
+        {
             this.ApiClient.BasePath = basePath;
         }
     
@@ -66,14 +69,15 @@ namespace {{packageName}}.Api {
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        public String GetBasePath(String basePath) {
+        public String GetBasePath(String basePath)
+        {
             return this.ApiClient.BasePath;
         }
     
         /// <summary>
         /// Gets or sets the API client.
         /// </summary>
-        /// <value>The API client</value>
+        /// <value>The API client.</value>
         public ApiClient ApiClient {get; set;}
     
         {{#operation}}
@@ -82,8 +86,8 @@ namespace {{packageName}}.Api {
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
         {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>            
-        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    
+        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
             {{#allParams}}{{#required}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
@@ -115,11 +119,10 @@ namespace {{packageName}}.Api {
             // make the HTTP request
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
     
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
-            } else if (((int)response.StatusCode) == 0) {
+            else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.ErrorMessage, response.ErrorMessage);
-            }
     
             {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}return;{{/returnType}}
         }
@@ -129,7 +132,8 @@ namespace {{packageName}}.Api {
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
-        {{#returnType}}public async Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+        {{#returnType}}public async Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
             {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
             {{/required}}{{/allParams}}
@@ -159,13 +163,13 @@ namespace {{packageName}}.Api {
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
-            }
+
             {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}
             return;{{/returnType}}
         }
         {{/operation}}
-    }  
+    }
     {{/operations}}
 }

@@ -40,6 +40,7 @@
     <Reference Include="nunit.framework">
       <HintPath>packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Api\PetApi.cs" />
