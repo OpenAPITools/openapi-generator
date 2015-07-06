@@ -90,7 +90,7 @@ namespace {{packageName}}.Client {
                      .GetReferencedAssemblies()
                      .Where(x => x.Name == "System.Core").First().Version.ToString()  + "\n";
             report += "    Swagger Spec Version: {{version}}\n";
-            report += "    SDK Package Version: {{version}}\n";
+            report += "    SDK Package Version: {{packageVersion}}\n";
   
             return report;
         }

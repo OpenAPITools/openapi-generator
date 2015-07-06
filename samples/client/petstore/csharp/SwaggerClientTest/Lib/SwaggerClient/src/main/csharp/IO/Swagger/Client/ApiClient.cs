@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Extensions;
 
 namespace IO.Swagger.Client {
     /// <summary>
@@ -38,6 +39,18 @@ namespace IO.Swagger.Client {
     
         private Dictionary<String, String> DefaultHeaderMap = new Dictionary<String, String>();
     
+        /// <summary>
+        /// Make the HTTP request (Sync)
+        /// </summary>
+        /// <param name="path">URL path</param>
+        /// <param name="method">HTTP method</param>
+        /// <param name="queryParams">Query parameters</param>
+        /// <param name="postBody">HTTP body (POST request)</param>
+        /// <param name="headerParams">Header parameters</param>
+        /// <param name="formParams">Form parameters</param>
+        /// <param name="fileParams">File parameters</param>
+        /// <param name="authSettings">Authentication settings</param>
+        /// <returns>Object</returns>
         public Object CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams, 
             Dictionary<String, FileParameter> fileParams, String[] authSettings) {
@@ -74,7 +87,19 @@ namespace IO.Swagger.Client {
             return (Object)RestClient.Execute(request);
 
         }
-    
+
+        /// <summary>
+        /// Make the HTTP request (Async)
+        /// </summary>
+        /// <param name="path">URL path</param>
+        /// <param name="method">HTTP method</param>
+        /// <param name="queryParams">Query parameters</param>
+        /// <param name="postBody">HTTP body (POST request)</param>
+        /// <param name="headerParams">Header parameters</param>
+        /// <param name="formParams">Form parameters</param>
+        /// <param name="fileParams">File parameters</param>
+        /// <param name="authSettings">Authentication settings</param>
+        /// <returns>Task</returns>
         public async Task<Object> CallApiAsync(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams, Dictionary<String, FileParameter> fileParams, String[] authSettings) {
     
@@ -147,9 +172,9 @@ namespace IO.Swagger.Client {
         public FileParameter ParameterToFile(string name, Stream stream)
         {
             if (stream is FileStream) {
-                return FileParameter.Create(name, StreamToByteArray(stream), Path.GetFileName(((FileStream)stream).Name));
+                return FileParameter.Create(name, stream.ReadAsBytes(), Path.GetFileName(((FileStream)stream).Name));
             } else {
-                return FileParameter.Create(name, StreamToByteArray(stream), "no_file_name_provided");
+                return FileParameter.Create(name, stream.ReadAsBytes(), "no_file_name_provided");
             }
         }
     
@@ -178,9 +203,9 @@ namespace IO.Swagger.Client {
         /// <param name="type">Object type</param>
         /// <returns>Object representation of the JSON string</returns>
         public object Deserialize(string content, Type type, IList<Parameter> headers=null) {
-            if (type.GetType() == typeof(Object)) { // return an object
+            if (type == typeof(Object)) { // return an object
                 return (Object)content;
-            } else if (type.Name == "Stream") { 
+            } else if (type == typeof(Stream)) { 
                 String fileName, filePath;
                 if (String.IsNullOrEmpty (Configuration.TempFolderPath)) {
                     filePath = System.IO.Path.GetTempPath ();
@@ -255,7 +280,7 @@ namespace IO.Swagger.Client {
         public void UpdateParamsForAuth(Dictionary<String, String> queryParams, Dictionary<String, String> headerParams, string[] authSettings) {
             if (authSettings == null || authSettings.Length == 0)
                 return;
-      
+
             foreach (string auth in authSettings) {
                 // determine which one to use
                 switch(auth) {
@@ -275,29 +300,9 @@ namespace IO.Swagger.Client {
                         break;
                 }
             }
-    
+
         }
-    
-        /// <summary>
-        /// convert a stream to byte array (byte[])
-        /// Ref: http://stackoverflow.com/questions/221925/creating-a-byte-array-from-a-stream
-        /// </summary>
-        /// <param name="input">input stream</param>
-        /// <return>Array of Byte</return>
-        public byte[] StreamToByteArray(Stream input)
-        {
-            byte[] buffer = new byte[16*1024];
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                return ms.ToArray();
-            }
-        }
-    
+ 
         /// <summary>
         /// Encode string in base64 format 
         /// </summary>
