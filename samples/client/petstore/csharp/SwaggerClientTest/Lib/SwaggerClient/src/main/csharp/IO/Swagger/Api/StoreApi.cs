@@ -6,9 +6,11 @@ using RestSharp;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
 
-namespace IO.Swagger.Api {
+namespace IO.Swagger.Api
+{
     
-    public interface IStoreApi {
+    public interface IStoreApi
+    {
         
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -69,19 +71,19 @@ namespace IO.Swagger.Api {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class StoreApi : IStoreApi {
-  
+    public class StoreApi : IStoreApi
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
         /// <param name="apiClient"> an instance of ApiClient (optional)</param>
         /// <returns></returns>
-        public StoreApi(ApiClient apiClient = null) {
-            if (apiClient == null) { // use the default one in Configuration
+        public StoreApi(ApiClient apiClient = null)
+        {
+            if (apiClient == null) // use the default one in Configuration
                 this.ApiClient = Configuration.DefaultApiClient; 
-            } else {
+            else
                 this.ApiClient = apiClient;
-            }
         }
     
         /// <summary>
@@ -97,7 +99,8 @@ namespace IO.Swagger.Api {
         /// Sets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        public void SetBasePath(String basePath) {
+        public void SetBasePath(String basePath)
+        {
             this.ApiClient.BasePath = basePath;
         }
     
@@ -105,14 +108,15 @@ namespace IO.Swagger.Api {
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        public String GetBasePath(String basePath) {
+        public String GetBasePath(String basePath)
+        {
             return this.ApiClient.BasePath;
         }
     
         /// <summary>
         /// Gets or sets the API client.
         /// </summary>
-        /// <value>The API client</value>
+        /// <value>The API client.</value>
         public ApiClient ApiClient {get; set;}
     
         
@@ -120,8 +124,8 @@ namespace IO.Swagger.Api {
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <returns>Dictionary<String, int?></returns>            
-        public Dictionary<String, int?> GetInventory () {
-    
+        public Dictionary<String, int?> GetInventory ()
+        {
             
     
             var path = "/store/inventory";
@@ -145,11 +149,10 @@ namespace IO.Swagger.Api {
             // make the HTTP request
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
     
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
-            } else if (((int)response.StatusCode) == 0) {
+            else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
-            }
     
             return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
         }
@@ -158,7 +161,8 @@ namespace IO.Swagger.Api {
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <returns>Dictionary<String, int?></returns>
-        public async Task<Dictionary<String, int?>> GetInventoryAsync () {
+        public async Task<Dictionary<String, int?>> GetInventoryAsync ()
+        {
             
     
             var path = "/store/inventory";
@@ -181,9 +185,9 @@ namespace IO.Swagger.Api {
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
-            }
+
             return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
         }
         
@@ -192,8 +196,8 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param> 
         /// <returns>Order</returns>            
-        public Order PlaceOrder (Order body) {
-    
+        public Order PlaceOrder (Order body)
+        {
             
     
             var path = "/store/order";
@@ -218,11 +222,10 @@ namespace IO.Swagger.Api {
             // make the HTTP request
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
     
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
-            } else if (((int)response.StatusCode) == 0) {
+            else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
-            }
     
             return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
         }
@@ -232,7 +235,8 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        public async Task<Order> PlaceOrderAsync (Order body) {
+        public async Task<Order> PlaceOrderAsync (Order body)
+        {
             
     
             var path = "/store/order";
@@ -256,9 +260,9 @@ namespace IO.Swagger.Api {
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
-            }
+
             return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
         }
         
@@ -267,8 +271,8 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param> 
         /// <returns>Order</returns>            
-        public Order GetOrderById (string orderId) {
-    
+        public Order GetOrderById (string orderId)
+        {
             
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
@@ -296,11 +300,10 @@ namespace IO.Swagger.Api {
             // make the HTTP request
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
     
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
-            } else if (((int)response.StatusCode) == 0) {
+            else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
-            }
     
             return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
         }
@@ -310,7 +313,8 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        public async Task<Order> GetOrderByIdAsync (string orderId) {
+        public async Task<Order> GetOrderByIdAsync (string orderId)
+        {
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
             
@@ -336,9 +340,9 @@ namespace IO.Swagger.Api {
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
-            }
+
             return (Order) ApiClient.Deserialize(response.Content, typeof(Order), response.Headers);
         }
         
@@ -347,8 +351,8 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
         /// <returns></returns>            
-        public void DeleteOrder (string orderId) {
-    
+        public void DeleteOrder (string orderId)
+        {
             
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
@@ -376,11 +380,10 @@ namespace IO.Swagger.Api {
             // make the HTTP request
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
     
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
-            } else if (((int)response.StatusCode) == 0) {
+            else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
-            }
     
             return;
         }
@@ -390,7 +393,8 @@ namespace IO.Swagger.Api {
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
-        public async Task DeleteOrderAsync (string orderId) {
+        public async Task DeleteOrderAsync (string orderId)
+        {
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
             
@@ -416,13 +420,13 @@ namespace IO.Swagger.Api {
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-            if (((int)response.StatusCode) >= 400) {
+            if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
-            }
+
             
             return;
         }
         
-    }  
+    }
     
 }
