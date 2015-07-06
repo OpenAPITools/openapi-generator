@@ -302,7 +302,7 @@ class Configuration {
         $report .= "    OS: ".php_uname()."\n";
         $report .= "    PHP Version: ".phpversion()."\n";
         $report .= "    Swagger Spec Version: {{version}}\n";
-        $report .= "    SDK Package Version: {{version}}\n";
+        $report .= "    SDK Package Version: {{artifactVersion}}\n";
         $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath()."\n";
   
         return $report;
