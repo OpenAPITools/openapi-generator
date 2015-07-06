@@ -112,6 +112,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
         supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
         supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
+        supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
 
     }
 
