@@ -20,7 +20,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String groupId = "swagger";
     protected String artifactId = "swagger-client";
     protected String packagePath = "SwaggerClient-php";
-    protected String artifactVersion = null;
+    protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
 
     public PhpClientCodegen() {

@@ -1,5 +1,6 @@
 {
     "name": "swagger/swagger-client",
+    "version": "1.0.0",
     "description": "",
     "keywords": [
         "swagger",
