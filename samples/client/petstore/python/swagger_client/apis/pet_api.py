@@ -374,8 +374,8 @@ class PetApi(object):
         Deletes a pet
         
 
-        :param str api_key:  (optional)
         :param int pet_id: Pet id to delete (required)
+        :param str api_key:  (optional)
         
         :return: None
         """
@@ -384,7 +384,7 @@ class PetApi(object):
         if pet_id is None:
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
         
-        all_params = ['api_key', 'pet_id']
+        all_params = ['pet_id', 'api_key']
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -435,7 +435,7 @@ class PetApi(object):
 
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server (optional)
-        :param File file: file to upload (optional)
+        :param file file: file to upload (optional)
         
         :return: None
         """
