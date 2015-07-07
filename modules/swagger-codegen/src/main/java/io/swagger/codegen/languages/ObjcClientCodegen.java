@@ -164,6 +164,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));
         supportingFiles.add(new SupportingFile("Configuration-header.mustache", swaggerFolder, classPrefix + "Configuration.h"));
         supportingFiles.add(new SupportingFile("podspec.mustache", "", podName + ".podspec"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
