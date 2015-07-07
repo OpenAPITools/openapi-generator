@@ -82,10 +82,9 @@ namespace IO.Swagger.Client
         /// <summary>
         /// Returns a string with essential information for debugging.
         /// </summary>
-        /// <value>Debugging Report</value>
         public static String ToDebugReport()
         {
-            String report = "C# SDK () Debug Report:\n";
+            String report = "C# SDK (IO.Swagger) Debug Report:\n";
             report += "    OS: " + Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + Assembly
                      .GetExecutingAssembly()

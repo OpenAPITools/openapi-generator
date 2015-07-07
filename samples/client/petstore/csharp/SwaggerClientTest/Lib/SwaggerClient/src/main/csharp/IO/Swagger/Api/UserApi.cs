@@ -158,6 +158,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Sets the base path of the API client.
         /// </summary>
+        /// <param name="basePath">The base path</param>
         /// <value>The base path</value>
         public void SetBasePath(String basePath)
         {
@@ -167,6 +168,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets the base path of the API client.
         /// </summary>
+        /// <param name="basePath">The base path</param>
         /// <value>The base path</value>
         public String GetBasePath(String basePath)
         {
@@ -176,7 +178,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets or sets the API client.
         /// </summary>
-        /// <value>The API client.</value>
+        /// <value>An instance of the ApiClient</param>
         public ApiClient ApiClient {get; set;}
     
         
