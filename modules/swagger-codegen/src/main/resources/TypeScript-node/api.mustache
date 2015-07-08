@@ -16,7 +16,7 @@ export class {{classname}} {
     }
 
   {{#operation}}
-  public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}} ) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }> {
+  public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }> {
     var path = this.url + this.basePath + '{{path}}';
 
     {{#pathParams}}
