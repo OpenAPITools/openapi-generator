@@ -167,6 +167,15 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
+        return camelize(name) + "Api";
+    }
+
+    @Override
     public String apiFilename(String templateName, String tag) {
 
         String result = super.apiFilename(templateName, tag);
