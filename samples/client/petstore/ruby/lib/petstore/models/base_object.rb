@@ -1,3 +1,5 @@
+require 'date'
+
 module Petstore
   # base class containing fundamental method such as to_hash, build_from_hash and more
   class BaseObject
@@ -26,6 +28,8 @@ module Petstore
       case type.to_sym
       when :DateTime
         DateTime.parse(value)
+      when :Date
+        Date.parse(value)
       when :String
         value.to_s
       when :Integer
