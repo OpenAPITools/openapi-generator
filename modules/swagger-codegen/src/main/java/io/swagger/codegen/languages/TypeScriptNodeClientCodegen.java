@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.models.Swagger;
 import io.swagger.models.properties.*;
 
 import java.util.*;
@@ -77,6 +78,8 @@ public class TypeScriptNodeClientCodegen extends DefaultCodegen implements Codeg
 	    typeMapping.put("double", "number");
 	    typeMapping.put("object", "any");
 	    typeMapping.put("integer", "number");
+	    typeMapping.put("Map", "any");
+	    typeMapping.put("DateTime", "Date");
 	   
 	}
 
