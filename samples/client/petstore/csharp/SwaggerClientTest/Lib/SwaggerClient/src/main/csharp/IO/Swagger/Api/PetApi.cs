@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using RestSharp;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
@@ -24,7 +23,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        Task UpdatePetAsync (Pet body);
+        System.Threading.Tasks.Task UpdatePetAsync (Pet body);
         
         /// <summary>
         /// Add a new pet to the store 
@@ -38,7 +37,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        Task AddPetAsync (Pet body);
+        System.Threading.Tasks.Task AddPetAsync (Pet body);
         
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma seperated strings
@@ -52,7 +51,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns>List<Pet></returns>
-        Task<List<Pet>> FindPetsByStatusAsync (List<string> status);
+        System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status);
         
         /// <summary>
         /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
@@ -66,7 +65,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List<Pet></returns>
-        Task<List<Pet>> FindPetsByTagsAsync (List<string> tags);
+        System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags);
         
         /// <summary>
         /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -80,7 +79,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Pet</returns>
-        Task<Pet> GetPetByIdAsync (long? petId);
+        System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId);
         
         /// <summary>
         /// Updates a pet in the store with form data 
@@ -98,7 +97,7 @@ namespace IO.Swagger.Api
         /// <param name="name">Updated name of the pet</param>
         /// <param name="status">Updated status of the pet</param>
         /// <returns></returns>
-        Task UpdatePetWithFormAsync (string petId, string name, string status);
+        System.Threading.Tasks.Task UpdatePetWithFormAsync (string petId, string name, string status);
         
         /// <summary>
         /// Deletes a pet 
@@ -114,7 +113,7 @@ namespace IO.Swagger.Api
         /// <param name="apiKey"></param>
         /// <param name="petId">Pet id to delete</param>
         /// <returns></returns>
-        Task DeletePetAsync (string apiKey, long? petId);
+        System.Threading.Tasks.Task DeletePetAsync (string apiKey, long? petId);
         
         /// <summary>
         /// uploads an image 
@@ -132,7 +131,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server</param>
         /// <param name="file">file to upload</param>
         /// <returns></returns>
-        Task UploadFileAsync (long? petId, string additionalMetadata, Stream file);
+        System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata, Stream file);
         
     }
   
@@ -234,7 +233,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        public async Task UpdatePetAsync (Pet body)
+        public async System.Threading.Tasks.Task UpdatePetAsync (Pet body)
         {
             
     
@@ -310,7 +309,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        public async Task AddPetAsync (Pet body)
+        public async System.Threading.Tasks.Task AddPetAsync (Pet body)
         {
             
     
@@ -386,7 +385,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns>List<Pet></returns>
-        public async Task<List<Pet>> FindPetsByStatusAsync (List<string> status)
+        public async System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status)
         {
             
     
@@ -461,7 +460,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="tags">Tags to filter by</param>
         /// <returns>List<Pet></returns>
-        public async Task<List<Pet>> FindPetsByTagsAsync (List<string> tags)
+        public async System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags)
         {
             
     
@@ -539,7 +538,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Pet</returns>
-        public async Task<Pet> GetPetByIdAsync (long? petId)
+        public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId)
         {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
@@ -625,7 +624,7 @@ namespace IO.Swagger.Api
         /// <param name="name">Updated name of the pet</param>
         /// <param name="status">Updated status of the pet</param>
         /// <returns></returns>
-        public async Task UpdatePetWithFormAsync (string petId, string name, string status)
+        public async System.Threading.Tasks.Task UpdatePetWithFormAsync (string petId, string name, string status)
         {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
@@ -711,7 +710,7 @@ namespace IO.Swagger.Api
         /// <param name="apiKey"></param>
         /// <param name="petId">Pet id to delete</param>
         /// <returns></returns>
-        public async Task DeletePetAsync (string apiKey, long? petId)
+        public async System.Threading.Tasks.Task DeletePetAsync (string apiKey, long? petId)
         {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
@@ -799,7 +798,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server</param>
         /// <param name="file">file to upload</param>
         /// <returns></returns>
-        public async Task UploadFileAsync (long? petId, string additionalMetadata, Stream file)
+        public async System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata, Stream file)
         {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");

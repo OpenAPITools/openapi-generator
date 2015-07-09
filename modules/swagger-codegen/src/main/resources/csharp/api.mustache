@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using RestSharp;
 using {{packageName}}.Client;
 {{#hasImport}}using {{packageName}}.Model;
@@ -25,7 +24,7 @@ namespace {{packageName}}.Api
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
-        {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
     }
   
@@ -134,7 +133,7 @@ namespace {{packageName}}.Api
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
-        {{#returnType}}public async Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
