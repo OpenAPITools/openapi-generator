@@ -30,10 +30,12 @@ module Petstore
         self.path = path
 
         attributes.each { |name, value| send "#{name}=", value }
-
+        
         update_params_for_auth!
+        
       end
 
+      
       # Update hearder and query params based on authentication settings.
       def update_params_for_auth!
         (@auth_names || []).each do |auth_name|
@@ -47,6 +49,7 @@ module Petstore
           end
         end
       end
+      
 
       # Get API key (with prefix if set).
       # @param [String] param_name the parameter name of API key auth
