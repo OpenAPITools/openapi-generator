@@ -1,7 +1,6 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
-import io.swagger.models.Swagger;
 import io.swagger.models.properties.*;
 
 import java.util.*;
