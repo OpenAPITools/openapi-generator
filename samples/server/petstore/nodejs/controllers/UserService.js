@@ -1,69 +1,77 @@
 'use strict';
 
-exports.createUser = function (body) {
+exports.createUser = function(body) {
 
-    var examples = {};
+  var examples = {};
+  
 
-
+  
 }
-exports.createUsersWithArrayInput = function (body) {
+exports.createUsersWithArrayInput = function(body) {
 
-    var examples = {};
+  var examples = {};
+  
 
-
+  
 }
-exports.createUsersWithListInput = function (body) {
+exports.createUsersWithListInput = function(body) {
 
-    var examples = {};
+  var examples = {};
+  
 
-
+  
 }
-exports.loginUser = function (username, password) {
+exports.loginUser = function(username, password) {
 
-    var examples = {};
+  var examples = {};
+  
+  examples['application/json'] = "aeiou";
+  
 
-    examples['application/json'] = "aeiou";
-
-
-    if (Object.keys(examples).length > 0)
-        return examples[Object.keys(examples)[0]];
-
+  
+  if(Object.keys(examples).length > 0)
+    return examples[Object.keys(examples)[0]];
+  
 }
-exports.logoutUser = function () {
+exports.logoutUser = function() {
 
-    var examples = {};
+  var examples = {};
+  
 
-
+  
 }
-exports.getUserByName = function (username) {
+exports.getUserByName = function(username) {
 
-    var examples = {};
+  var examples = {};
+  
+  examples['application/json'] = {
+  "id" : 1,
+  "username" : "johnp",
+  "firstName" : "John",
+  "lastName" : "Public",
+  "email" : "johnp@swagger.io",
+  "password" : "-secret-",
+  "phone" : "0123456789",
+  "userStatus" : 0
+};
+  
 
-    examples['application/json'] = {
-        "id": 123456789,
-        "lastName": "aeiou",
-        "phone": "aeiou",
-        "username": "aeiou",
-        "email": "aeiou",
-        "userStatus": 123,
-        "firstName": "aeiou",
-        "password": "aeiou"
-    };
-
-
-    if (Object.keys(examples).length > 0)
-        return examples[Object.keys(examples)[0]];
-
+  
+  if(Object.keys(examples).length > 0)
+    return examples[Object.keys(examples)[0]];
+  
 }
-exports.updateUser = function (username, body) {
+exports.updateUser = function(username, body) {
 
-    var examples = {};
+  var examples = {};
+  
 
-
+  
 }
-exports.deleteUser = function (username) {
+exports.deleteUser = function(username) {
 
-    var examples = {};
+  var examples = {};
+  
 
-
+  
 }
