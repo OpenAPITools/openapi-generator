@@ -15,10 +15,16 @@ git clone https://github.com/swagger-api/swagger-codegen
 cd swagger-codegen
 
 ./run-in-docker.sh mvn package
-
-./run-in-docker.sh help
  ```
 
+Build a nodejs server stub:
+
+ ```
+./run-in-docker.sh generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l nodejs \
+  -o samples/server/petstore/nodejs
+ ```
 
 ## Compatibility
 The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
