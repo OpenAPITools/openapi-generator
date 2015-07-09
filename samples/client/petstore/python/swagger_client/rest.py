@@ -10,6 +10,7 @@ import io
 import json
 import ssl
 import certifi
+import logging
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -25,6 +26,9 @@ try:
 except ImportError:
     # for python2
     from urllib import urlencode
+
+
+logger = logging.getLogger(__name__)
 
 
 class RESTResponse(io.IOBase):
@@ -125,6 +129,18 @@ class RESTClientObject(object):
                                         headers=headers)
         r = RESTResponse(r)
 
+<<<<<<< HEAD
+=======
+        # log response body
+        logger.debug("response body: %s" % r.data)
+
+        if r.status not in range(200, 206):
+            raise ApiException(r)
+
+        return self.process_response(r)
+
+    def process_response(self, response):
+>>>>>>> Add logging and debug report for python client.
         # In the python 3, the response.data is bytes.
         # we need to decode it to string.
         if sys.version_info > (3,):
