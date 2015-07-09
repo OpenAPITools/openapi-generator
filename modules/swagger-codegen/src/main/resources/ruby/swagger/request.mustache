@@ -30,10 +30,12 @@ module {{moduleName}}
         self.path = path
 
         attributes.each { |name, value| send "#{name}=", value }
-
+        {{#hasAuthMethods}}
         update_params_for_auth!
+        {{/hasAuthMethods}}
       end
 
+      {{#hasAuthMethods}}
       # Update hearder and query params based on authentication settings.
       def update_params_for_auth!
         (@auth_names || []).each do |auth_name|
@@ -48,6 +50,7 @@ module {{moduleName}}
           end
         end
       end
+      {{/hasAuthMethods}}
 
       # Get API key (with prefix if set).
       # @param [String] param_name the parameter name of API key auth
