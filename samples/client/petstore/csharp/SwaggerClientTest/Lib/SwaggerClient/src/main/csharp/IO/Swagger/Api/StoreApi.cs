@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using RestSharp;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
@@ -22,7 +21,7 @@ namespace IO.Swagger.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <returns>Dictionary<String, int?></returns>
-        Task<Dictionary<String, int?>> GetInventoryAsync ();
+        System.Threading.Tasks.Task<Dictionary<String, int?>> GetInventoryAsync ();
         
         /// <summary>
         /// Place an order for a pet 
@@ -36,7 +35,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Task<Order> PlaceOrderAsync (Order body);
+        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body);
         
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
@@ -50,7 +49,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        Task<Order> GetOrderByIdAsync (string orderId);
+        System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
         
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -64,7 +63,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
-        Task DeleteOrderAsync (string orderId);
+        System.Threading.Tasks.Task DeleteOrderAsync (string orderId);
         
     }
   
@@ -163,7 +162,7 @@ namespace IO.Swagger.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <returns>Dictionary<String, int?></returns>
-        public async Task<Dictionary<String, int?>> GetInventoryAsync ()
+        public async System.Threading.Tasks.Task<Dictionary<String, int?>> GetInventoryAsync ()
         {
             
     
@@ -237,7 +236,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        public async Task<Order> PlaceOrderAsync (Order body)
+        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body)
         {
             
     
@@ -315,7 +314,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        public async Task<Order> GetOrderByIdAsync (string orderId)
+        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
@@ -395,7 +394,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
-        public async Task DeleteOrderAsync (string orderId)
+        public async System.Threading.Tasks.Task DeleteOrderAsync (string orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
