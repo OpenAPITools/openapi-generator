@@ -3,6 +3,7 @@ package {{package}};
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
+import {{invokerPackage}}.Pair;
 
 import {{modelPackage}}.*;
 
@@ -61,16 +62,16 @@ public class {{classname}} {
       .replaceAll("\\{" + "{{paramName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    {{#queryParams}}if ({{paramName}} != null)
-      queryParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{#queryParams}}
+    queryParams.addAll(apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
     {{/queryParams}}
 
     {{#headerParams}}if ({{paramName}} != null)
-      headerParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    headerParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
 
     final String[] accepts = {
