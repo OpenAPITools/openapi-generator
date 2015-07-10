@@ -69,7 +69,8 @@ class RESTClientObject(object):
 
     def agent(self, url):
         """
-        Return proper pool manager for the http\https schemes.
+        Use `urllib3.util.parse_url` for backward compatibility.
+        Return proper pool manager for the http/https schemes.
         """
         url = urllib3.util.parse_url(url)
         scheme = url.scheme
