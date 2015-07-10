@@ -71,7 +71,7 @@ class RESTClientObject(object):
         """
         Return proper pool manager for the http\https schemes.
         """
-        url = urllib3.util.url.parse_url(url)
+        url = urllib3.util.parse_url(url)
         scheme = url.scheme
         if scheme == 'https':
             return self.ssl_pool_manager
