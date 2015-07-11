@@ -27,18 +27,19 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from .. import configuration
+from ..configuration import Configuration
 from ..api_client import ApiClient
 
 class StoreApi(object):
 
     def __init__(self, api_client=None):
+        config = Configuration()
         if api_client:
             self.api_client = api_client
         else:
-            if not configuration.api_client:
-                configuration.api_client = ApiClient('http://petstore.swagger.io/v2')
-            self.api_client = configuration.api_client
+            if not config.api_client:
+                config.api_client = ApiClient('http://petstore.swagger.io/v2')
+            self.api_client = config.api_client
     
     
     def get_inventory(self, **kwargs):
@@ -96,12 +97,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type='dict(str, int)', auth_settings=auth_settings)
-        
-=======
-                                            response='dict(str, int)', auth_settings=auth_settings, callback=params.get('callback'))
->>>>>>> support asynchronous request in python client
+                                            response_type='dict(str, int)', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def place_order(self, **kwargs):
@@ -109,9 +105,6 @@ class StoreApi(object):
         Place an order for a pet
         
 
-<<<<<<< HEAD
-        :param Order body: order placed for purchasing the pet (optional)
-=======
         SDK also supports asynchronous requests in which you can define a `callback` function 
         to be passed along and invoked when receiving response:
         >>> def callback_function(response):
@@ -121,7 +114,6 @@ class StoreApi(object):
 
         :param callback function: The callback function for asynchronous request. (optional) 
         :param Order body: order placed for purchasing the pet 
->>>>>>> support asynchronous request in python client
         
         :return: Order
                  If the method is called asynchronously, returns the request thread.
@@ -167,12 +159,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type='Order', auth_settings=auth_settings)
-        
-=======
-                                            response='Order', auth_settings=auth_settings, callback=params.get('callback'))
->>>>>>> support asynchronous request in python client
+                                            response_type='Order', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def get_order_by_id(self, order_id, **kwargs):
@@ -238,12 +225,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type='Order', auth_settings=auth_settings)
-        
-=======
-                                            response='Order', auth_settings=auth_settings, callback=params.get('callback'))
->>>>>>> support asynchronous request in python client
+                                            response_type='Order', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def delete_order(self, order_id, **kwargs):
@@ -309,19 +291,6 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type=None, auth_settings=auth_settings)
-=======
-                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
         return response
->>>>>>> support asynchronous request in python client
         
-
-
-
-
-
-
-
-
-

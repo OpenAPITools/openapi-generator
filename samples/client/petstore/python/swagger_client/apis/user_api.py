@@ -27,18 +27,19 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from .. import configuration
+from ..configuration import Configuration
 from ..api_client import ApiClient
 
 class UserApi(object):
 
     def __init__(self, api_client=None):
+        config = Configuration()
         if api_client:
             self.api_client = api_client
         else:
-            if not configuration.api_client:
-                configuration.api_client = ApiClient('http://petstore.swagger.io/v2')
-            self.api_client = configuration.api_client
+            if not config.api_client:
+                config.api_client = ApiClient('http://petstore.swagger.io/v2')
+            self.api_client = config.api_client
     
     
     def create_user(self, **kwargs):
@@ -46,9 +47,6 @@ class UserApi(object):
         Create user
         This can only be done by the logged in user.
 
-<<<<<<< HEAD
-        :param User body: Created user object (optional)
-=======
         SDK also supports asynchronous requests in which you can define a `callback` function 
         to be passed along and invoked when receiving response:
         >>> def callback_function(response):
@@ -58,7 +56,6 @@ class UserApi(object):
 
         :param callback function: The callback function for asynchronous request. (optional) 
         :param User body: Created user object 
->>>>>>> support asynchronous request in python client
         
         :return: None
                  If the method is called asynchronously, returns the request thread.
@@ -104,21 +101,14 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type=None, auth_settings=auth_settings)
-=======
-                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
         return response
->>>>>>> support asynchronous request in python client
         
     def create_users_with_array_input(self, **kwargs):
         """
         Creates list of users with given input array
         
 
-<<<<<<< HEAD
-        :param list[User] body: List of user object (optional)
-=======
         SDK also supports asynchronous requests in which you can define a `callback` function 
         to be passed along and invoked when receiving response:
         >>> def callback_function(response):
@@ -128,7 +118,6 @@ class UserApi(object):
 
         :param callback function: The callback function for asynchronous request. (optional) 
         :param list[User] body: List of user object 
->>>>>>> support asynchronous request in python client
         
         :return: None
                  If the method is called asynchronously, returns the request thread.
@@ -174,21 +163,14 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type=None, auth_settings=auth_settings)
-=======
-                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
         return response
->>>>>>> support asynchronous request in python client
         
     def create_users_with_list_input(self, **kwargs):
         """
         Creates list of users with given input array
         
 
-<<<<<<< HEAD
-        :param list[User] body: List of user object (optional)
-=======
         SDK also supports asynchronous requests in which you can define a `callback` function 
         to be passed along and invoked when receiving response:
         >>> def callback_function(response):
@@ -198,7 +180,6 @@ class UserApi(object):
 
         :param callback function: The callback function for asynchronous request. (optional) 
         :param list[User] body: List of user object 
->>>>>>> support asynchronous request in python client
         
         :return: None
                  If the method is called asynchronously, returns the request thread.
@@ -244,22 +225,14 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type=None, auth_settings=auth_settings)
-=======
-                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
         return response
->>>>>>> support asynchronous request in python client
         
     def login_user(self, **kwargs):
         """
         Logs user into the system
         
 
-<<<<<<< HEAD
-        :param str username: The user name for login (optional)
-        :param str password: The password for login in clear text (optional)
-=======
         SDK also supports asynchronous requests in which you can define a `callback` function 
         to be passed along and invoked when receiving response:
         >>> def callback_function(response):
@@ -270,7 +243,6 @@ class UserApi(object):
         :param callback function: The callback function for asynchronous request. (optional) 
         :param str username: The user name for login 
         :param str password: The password for login in clear text 
->>>>>>> support asynchronous request in python client
         
         :return: str
                  If the method is called asynchronously, returns the request thread.
@@ -319,12 +291,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type='str', auth_settings=auth_settings)
-        
-=======
-                                            response='str', auth_settings=auth_settings, callback=params.get('callback'))
->>>>>>> support asynchronous request in python client
+                                            response_type='str', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def logout_user(self, **kwargs):
@@ -382,12 +349,8 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type=None, auth_settings=auth_settings)
-=======
-                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
         return response
->>>>>>> support asynchronous request in python client
         
     def get_user_by_name(self, username, **kwargs):
         """
@@ -452,12 +415,7 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type='User', auth_settings=auth_settings)
-        
-=======
-                                            response='User', auth_settings=auth_settings, callback=params.get('callback'))
->>>>>>> support asynchronous request in python client
+                                            response_type='User', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def update_user(self, username, **kwargs):
@@ -474,7 +432,7 @@ class UserApi(object):
 
         :param callback function: The callback function for asynchronous request. (optional) 
         :param str username: name that need to be deleted (required)
-        :param User body: Updated user object (optional)
+        :param User body: Updated user object 
         
         :return: None
                  If the method is called asynchronously, returns the request thread.
@@ -527,12 +485,8 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type=None, auth_settings=auth_settings)
-=======
-                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
         return response
->>>>>>> support asynchronous request in python client
         
     def delete_user(self, username, **kwargs):
         """
@@ -597,19 +551,6 @@ class UserApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-<<<<<<< HEAD
-                                            response_type=None, auth_settings=auth_settings)
-=======
-                                            response=None, auth_settings=auth_settings, callback=params.get('callback'))
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
         return response
->>>>>>> support asynchronous request in python client
         
-
-
-
-
-
-
-
-
-
