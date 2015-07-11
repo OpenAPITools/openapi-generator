@@ -130,22 +130,13 @@ class RESTClientObject(object):
                                         headers=headers)
         r = RESTResponse(r)
 
-<<<<<<< HEAD
-=======
-        # log response body
-        logger.debug("response body: %s" % r.data)
-
-        if r.status not in range(200, 206):
-            raise ApiException(r)
-
-        return self.process_response(r)
-
-    def process_response(self, response):
->>>>>>> Add logging and debug report for python client.
         # In the python 3, the response.data is bytes.
         # we need to decode it to string.
         if sys.version_info > (3,):
             r.data = r.data.decode('utf8')
+
+        # log response body
+        logger.debug("response body: %s" % r.data)
 
         if r.status not in range(200, 206):
             raise ApiException(http_resp=r)

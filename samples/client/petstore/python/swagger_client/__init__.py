@@ -14,3 +14,7 @@ from .apis.store_api import StoreApi
 
 # import ApiClient
 from .api_client import ApiClient
+
+from .configuration import Configuration
+
+configuration = Configuration()

@@ -31,7 +31,7 @@ except ImportError:
   # for python2
   from urllib import quote
 
-from . import configuration
+from .configuration import Configuration
 
 class ApiClient(object):
   """
@@ -41,7 +41,7 @@ class ApiClient(object):
   :param header_name: a header to pass when making calls to the API
   :param header_value: a header value to pass when making calls to the API
   """
-  def __init__(self, host=configuration.host, header_name=None, header_value=None):
+  def __init__(self, host=Configuration().host, header_name=None, header_value=None):
     self.default_headers = {}
     if header_name is not None:
       self.default_headers[header_name] = header_value
@@ -62,7 +62,7 @@ class ApiClient(object):
     self.default_headers[header_name] = header_value
 
   def __call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
-                 body=None, post_params=None, files=None, response=None, auth_settings=None, callback=None):
+                 body=None, post_params=None, files=None, response_type=None, auth_settings=None, callback=None):
 
     # headers parameters
     header_params = header_params or {}
@@ -221,7 +221,7 @@ class ApiClient(object):
   def call_api(self, resource_path, method,
                path_params=None, query_params=None, header_params=None,
                body=None, post_params=None, files=None,
-               response=None, auth_settings=None, callback=None):
+               response_type=None, auth_settings=None, callback=None):
     """ 
     Perform http request and return deserialized data
 
@@ -247,13 +247,13 @@ class ApiClient(object):
       return self.__call_api(resource_path, method,
                              path_params, query_params, header_params,
                              body, post_params, files,
-                             response, auth_settings, callback)
+                             response_type, auth_settings, callback)
     else:
       thread = threading.Thread(target=self.__call_api,
                                 args=(resource_path, method,
                                       path_params, query_params, header_params,
                                       body, post_params, files,
-                                      response, auth_settings, callback))
+                                      response_type, auth_settings, callback))
       thread.start()
       return thread
 
@@ -326,11 +326,13 @@ class ApiClient(object):
     """
     Update header and query params based on authentication setting
     """
+    config = Configuration()
+    
     if not auth_settings:
       return
 
     for auth in auth_settings:
-      auth_setting = configuration.auth_settings().get(auth)
+      auth_setting = config.auth_settings().get(auth)
       if auth_setting:
         if auth_setting['in'] == 'header':
           headers[auth_setting['key']] = auth_setting['value']
