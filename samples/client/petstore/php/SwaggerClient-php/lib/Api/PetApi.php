@@ -537,12 +537,12 @@ class PetApi
      *
      * Deletes a pet
      *
-     * @param string $api_key  (optional)
      * @param int $pet_id Pet id to delete (required)
+     * @param string $api_key  (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deletePet($api_key=null, $pet_id)
+    public function deletePet($pet_id, $api_key=null)
     {
         
         // verify the required parameter 'pet_id' is set

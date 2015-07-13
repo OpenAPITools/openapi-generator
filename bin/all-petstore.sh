@@ -18,22 +18,28 @@ if [ ! -d "${APP_DIR}" ]; then
 fi
 
 cd $APP_DIR
+./bin/akka-scala-petstore.sh
 ./bin/android-java-petstore.sh
 ./bin/csharp-petstore.sh
 ./bin/dynamic-html.sh
 ./bin/html-petstore.sh
-./bin/jaxrs-petstore-server.sh
 ./bin/java-petstore.sh
-./bin/qt5-petstore.sh
+./bin/jaxrs-petstore-server.sh
+./bin/nodejs-petstore-server.sh
+./bin/objc-petstore.sh
 ./bin/perl-petstore.sh
 ./bin/php-petstore.sh
 ./bin/python-petstore.sh
+./bin/python3-petstore.sh
+./bin/qt5-petstore.sh
 ./bin/retrofit-petstore.sh
 ./bin/ruby-petstore.sh
-./bin/objc-petstore.sh
+./bin/scala-async-petstore.sh
 ./bin/scala-petstore.sh
+./bin/scalatra-petstore-server.sh
 ./bin/silex-petstore-server.sh
 ./bin/spring-mvc-petstore-server.sh
+./bin/swift-petstore.sh
 ./bin/tizen-petstore.sh
 ./bin/typescript-angular-petstore.sh
 ./bin/typescript-node-petstore.sh
