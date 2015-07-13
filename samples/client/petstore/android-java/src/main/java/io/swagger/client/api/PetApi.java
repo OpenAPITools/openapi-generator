@@ -392,11 +392,11 @@ public class PetApi {
   /**
    * Deletes a pet
    * 
-   * @param apiKey 
    * @param petId Pet id to delete
+   * @param apiKey 
    * @return void
    */
-  public void  deletePet (String apiKey, Long petId) throws ApiException {
+  public void  deletePet (Long petId, String apiKey) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
