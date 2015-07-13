@@ -96,15 +96,14 @@ class UserApi
      *
      * Create user
      *
-     * @param \Swagger\Client\Model\User $body Created user object (required)
-     *   
+     * @param \Swagger\Client\Model\User $body Created user object (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUser($body)
+    public function createUser($body=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/user";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -158,15 +157,14 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param \Swagger\Client\Model\User[] $body List of user object (required)
-     *   
+     * @param \Swagger\Client\Model\User[] $body List of user object (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithArrayInput($body)
+    public function createUsersWithArrayInput($body=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/user/createWithArray";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -220,15 +218,14 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param \Swagger\Client\Model\User[] $body List of user object (required)
-     *   
+     * @param \Swagger\Client\Model\User[] $body List of user object (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithListInput($body)
+    public function createUsersWithListInput($body=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/user/createWithList";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -282,16 +279,15 @@ class UserApi
      *
      * Logs user into the system
      *
-     * @param string $username The user name for login (required)
-     * @param string $password The password for login in clear text (required)
-     *   
+     * @param string $username The user name for login (optional)
+     * @param string $password The password for login in clear text (optional)
      * @return string
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function loginUser($username, $password)
+    public function loginUser($username=null, $password=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/user/login";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -357,14 +353,13 @@ class UserApi
      *
      * Logs out current logged in user session
      *
-     *   
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function logoutUser()
     {
         
-
+  
         // parse inputs
         $resourcePath = "/user/logout";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -415,17 +410,17 @@ class UserApi
      * Get user by user name
      *
      * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
-     *   
      * @return \Swagger\Client\Model\User
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getUserByName($username)
     {
+        
         // verify the required parameter 'username' is set
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling getUserByName');
         }
-
+  
         // parse inputs
         $resourcePath = "/user/{username}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -493,18 +488,18 @@ class UserApi
      * Updated user
      *
      * @param string $username name that need to be deleted (required)
-     * @param \Swagger\Client\Model\User $body Updated user object (required)
-     *   
+     * @param \Swagger\Client\Model\User $body Updated user object (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updateUser($username, $body)
+    public function updateUser($username, $body=null)
     {
+        
         // verify the required parameter 'username' is set
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling updateUser');
         }
-
+  
         // parse inputs
         $resourcePath = "/user/{username}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -566,17 +561,17 @@ class UserApi
      * Delete user
      *
      * @param string $username The name that needs to be deleted (required)
-     *   
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteUser($username)
     {
+        
         // verify the required parameter 'username' is set
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling deleteUser');
         }
-
+  
         // parse inputs
         $resourcePath = "/user/{username}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);

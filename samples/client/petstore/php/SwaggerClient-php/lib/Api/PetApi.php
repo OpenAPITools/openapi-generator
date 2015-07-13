@@ -96,15 +96,14 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-     *   
+     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updatePet($body)
+    public function updatePet($body=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/pet";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -161,15 +160,14 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-     *   
+     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function addPet($body)
+    public function addPet($body=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/pet";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -226,15 +224,14 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param string[] $status Status values that need to be considered for filter (required)
-     *   
+     * @param string[] $status Status values that need to be considered for filter (optional)
      * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function findPetsByStatus($status)
+    public function findPetsByStatus($status=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/pet/findByStatus";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -300,15 +297,14 @@ class PetApi
      *
      * Finds Pets by tags
      *
-     * @param string[] $tags Tags to filter by (required)
-     *   
+     * @param string[] $tags Tags to filter by (optional)
      * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function findPetsByTags($tags)
+    public function findPetsByTags($tags=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/pet/findByTags";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -375,17 +371,17 @@ class PetApi
      * Find pet by ID
      *
      * @param int $pet_id ID of pet that needs to be fetched (required)
-     *   
      * @return \Swagger\Client\Model\Pet
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getPetById($pet_id)
     {
+        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetById');
         }
-
+  
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -463,19 +459,19 @@ class PetApi
      * Updates a pet in the store with form data
      *
      * @param string $pet_id ID of pet that needs to be updated (required)
-     * @param string $name Updated name of the pet (required)
-     * @param string $status Updated status of the pet (required)
-     *   
+     * @param string $name Updated name of the pet (optional)
+     * @param string $status Updated status of the pet (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updatePetWithForm($pet_id, $name, $status)
+    public function updatePetWithForm($pet_id, $name=null, $status=null)
     {
+        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling updatePetWithForm');
         }
-
+  
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -541,19 +537,19 @@ class PetApi
      *
      * Deletes a pet
      *
-     * @param string $api_key  (required)
+     * @param string $api_key  (optional)
      * @param int $pet_id Pet id to delete (required)
-     *   
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deletePet($api_key, $pet_id)
+    public function deletePet($api_key=null, $pet_id)
     {
+        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
         }
-
+  
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -617,19 +613,19 @@ class PetApi
      * uploads an image
      *
      * @param int $pet_id ID of pet to update (required)
-     * @param string $additional_metadata Additional data to pass to server (required)
-     * @param \SplFileObject $file file to upload (required)
-     *   
+     * @param string $additional_metadata Additional data to pass to server (optional)
+     * @param \SplFileObject $file file to upload (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function uploadFile($pet_id, $additional_metadata, $file)
+    public function uploadFile($pet_id, $additional_metadata=null, $file=null)
     {
+        
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling uploadFile');
         }
-
+  
         // parse inputs
         $resourcePath = "/pet/{petId}/uploadImage";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
