@@ -31,7 +31,7 @@
  * Do not edit the class manually.
  */
 
-namespace Swagger\Client\Model;
+namespace Swagger\ClientSwagger\Client\Model;
 
 use \ArrayAccess;
 /**
