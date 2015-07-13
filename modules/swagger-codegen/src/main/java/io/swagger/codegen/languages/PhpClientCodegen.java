@@ -155,7 +155,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey("modelPackage")) {
             this.setModelPackage((String) additionalProperties.get("modelPackage"));
         } else {
-            additionalProperties.put("modelPackage", this.invokerPackage + modelPackage);
+            additionalProperties.put("modelPackage", modelPackage);
         }
 
         if (additionalProperties.containsKey("apiPackage")) {
