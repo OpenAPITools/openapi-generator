@@ -116,6 +116,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
         supportingFiles.add(new SupportingFile("JsonUtil.mustache", invokerFolder, "JsonUtil.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
 
         final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
         supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
@@ -143,6 +144,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
+
+        if("_".equals(name)) {
+          name = "_u";
+        }
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {

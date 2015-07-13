@@ -1,6 +1,6 @@
 <?php
 
-require_once('SwaggerClient.php');
+require_once('autoload.php');
 
 class UserApiTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,8 +16,9 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
   public function testLoginUser()
   {
     // initialize the API client
-    $api_client = new SwaggerClient\APIClient('http://petstore.swagger.io/v2');
-    $user_api = new SwaggerClient\UserAPI($api_client);
+    $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
+    $api_client = new Swagger\Client\ApiClient($config);
+    $user_api = new Swagger\Client\Api\UserApi($api_client);
     // login
     $response = $user_api->loginUser("xxxxx", "yyyyyyyy");
 

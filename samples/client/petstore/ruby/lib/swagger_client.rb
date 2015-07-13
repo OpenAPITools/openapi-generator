@@ -22,5 +22,6 @@ require 'swagger_client/api/store_api'
 
 module SwaggerClient
   # Initialize the default configuration
-  Swagger.configuration ||= Swagger::Configuration.new
+  Swagger.configuration = Swagger::Configuration.new
+  Swagger.configure { |config| }
 end

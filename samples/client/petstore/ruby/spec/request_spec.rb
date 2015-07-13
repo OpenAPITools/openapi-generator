@@ -19,8 +19,13 @@ describe SwaggerClient::Swagger::Request do
   end
 
   describe "initialization" do
+
     it "sets default response format to json" do
       @request.format.should == 'json'
+    end
+
+    it "sets default headers correctly" do
+      @request.headers.should == {'Content-Type' => 'application/json', 'User-Agent' => 'ruby-swagger-1.0.0'}
     end
 
     it "allows params to be nil" do

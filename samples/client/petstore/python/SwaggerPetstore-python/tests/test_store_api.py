@@ -28,4 +28,3 @@ class StoreApiTests(unittest.TestCase):
         data = self.store_api.get_inventory()
         self.assertIsNotNone(data)
         self.assertTrue(isinstance(data, dict))
-        self.assertItemsEqual(data.keys(), ['available', 'string', 'sold', 'pending', 'confused', 'active', 'na'])
