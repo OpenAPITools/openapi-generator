@@ -82,7 +82,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption("srcBasePath", "The directory under packagePath to serve as source root."));
         cliOptions.add(new CliOption("composerVendorName", "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name."));
         cliOptions.add(new CliOption("composerProjectName", "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name."));
-        cliOptions.add(new CliOption("artifactVersion", "The composer package version used to generate the composer.json file."));
+        cliOptions.add(new CliOption("artifactVersion", "The version to use in the composer package version field."));
     }
 
     public String getPackagePath() {
