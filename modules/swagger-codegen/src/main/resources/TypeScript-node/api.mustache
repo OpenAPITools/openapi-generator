@@ -7,7 +7,7 @@
     */
 {{/description}}
 export class {{classname}} {
-    private basePath = '{{basePath}}';
+    private basePath = '{{contextPath}}';
 
     constructor(private url: string, private username: string, private password: string, basePath?: string) {
         if (basePath) {
@@ -16,7 +16,7 @@ export class {{classname}} {
     }
 
   {{#operation}}
-  public {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}} ) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }> {
+  public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }> {
     var path = this.url + this.basePath + '{{path}}';
 
     {{#pathParams}}
