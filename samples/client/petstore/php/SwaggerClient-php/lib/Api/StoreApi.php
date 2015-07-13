@@ -96,14 +96,13 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
-     *   
      * @return map[string,int]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getInventory()
     {
         
-
+  
         // parse inputs
         $resourcePath = "/store/inventory";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -170,15 +169,14 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
-     *   
+     * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (optional)
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function placeOrder($body)
+    public function placeOrder($body=null)
     {
         
-
+  
         // parse inputs
         $resourcePath = "/store/order";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -243,17 +241,17 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param string $order_id ID of pet that needs to be fetched (required)
-     *   
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getOrderById($order_id)
     {
+        
         // verify the required parameter 'order_id' is set
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling getOrderById');
         }
-
+  
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -321,17 +319,17 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
-     *   
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteOrder($order_id)
     {
+        
         // verify the required parameter 'order_id' is set
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
         }
-
+  
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
         $resourcePath = str_replace("{format}", "json", $resourcePath);
