@@ -21,7 +21,7 @@ try {
     //$api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
     //$api_client->getConfig()->addDefaultHeader("test1", "value1");
     //$pet_api = new Swagger\Client\PetAPI($api_client);
-    $pet_api = new Swagger\Client\Api\PetAPI();
+    $pet_api = new Swagger\Client\Api\PetApi();
     $pet_api->getApiClient()->getConfig()->setTempFolderPath('/var/tmp/php/');
     // test default header
     //$pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
@@ -47,7 +47,7 @@ try {
     $new_pet->setTags(array($tag));
     $new_pet->setCategory($category);
 
-    $pet_api = new Swagger\Client\Api\PetAPI();
+    $pet_api = new Swagger\Client\Api\PetApi();
     // add a new pet (model)
     $add_response = $pet_api->addPet($new_pet);
 
