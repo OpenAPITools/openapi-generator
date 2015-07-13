@@ -22,30 +22,28 @@
 
 namespace {{apiPackage}};
 
-use \{{invokerPackage}}\ApiClient;
 use \{{invokerPackage}}\Configuration;
+use \{{invokerPackage}}\ApiClient;
+use \{{invokerPackage}}\ApiException;
+use \{{invokerPackage}}\ObjectSerializer;
 
 {{#operations}}
 class {{classname}} {
 
-  /**
-   * @param \{{invokerPackage}}\ApiClient|null $apiClient The api client to use. Defaults to getting it from Configuration
-   */
-  function __construct($apiClient = null) {
-    if (null === $apiClient) {
-      if (Configuration::$apiClient === null) {
-        Configuration::$apiClient = new ApiClient(); // create a new API client if not present
-        $this->apiClient = Configuration::$apiClient;
-      }
-      else
-        $this->apiClient = Configuration::$apiClient; // use the default one
-    } else {
-      $this->apiClient = $apiClient; // use the one provided by the user
-    }
-  }
-
   /** @var \{{invokerPackage}}\ApiClient instance of the ApiClient */
   private $apiClient;
+
+  /**
+   * @param \{{invokerPackage}}\ApiClient|null $apiClient The api client to use
+   */
+  function __construct($apiClient = null) {
+    if ($apiClient == null) {
+      $apiClient = new ApiClient();
+      $apiClient->getConfig()->setHost('{{basePath}}');
+    }
+
+    $this->apiClient = $apiClient;
+  }
 
   /**
    * @return \{{invokerPackage}}\ApiClient get the API client
@@ -55,10 +53,12 @@ class {{classname}} {
   }
 
   /**
-   * @param \{{invokerPackage}} $apiClient set the API client
+   * @param \{{invokerPackage}}\ApiClient $apiClient set the API client
+   * @return {{classname}}
    */
-  public function setApiClient($apiClient) {
+  public function setApiClient(ApiClient $apiClient) {
     $this->apiClient = $apiClient;
+    return $this;
   }
 
   {{#operation}}
@@ -67,10 +67,11 @@ class {{classname}} {
    *
    * {{{summary}}}
    *
-{{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}}{{#required}} (required){{/required}}
+{{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   * @throws \{{invokerPackage}}\ApiException on non-2xx response
    */
-   public function {{nickname}}({{#allParams}}${{paramName}}{{#optional}}=null{{/optional}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+   public function {{nickname}}({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
       {{#allParams}}{{#required}}
       // verify the required parameter '{{paramName}}' is set
       if (${{paramName}} === null) {
@@ -86,28 +87,29 @@ class {{classname}} {
       $queryParams = array();
       $headerParams = array();
       $formParams = array();
-      $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
+      $_header_accept = ApiClient::selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
       if (!is_null($_header_accept)) {
         $headerParams['Accept'] = $_header_accept;
       }
-      $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
+      $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
 
       {{#queryParams}}// query params
       if(${{paramName}} !== null) {
-        $queryParams['{{baseName}}'] = $this->apiClient->toQueryValue(${{paramName}});
+        $queryParams['{{baseName}}'] = $this->apiClient->getSerializer()->toQueryValue(${{paramName}});
       }{{/queryParams}}
       {{#headerParams}}// header params
       if(${{paramName}} !== null) {
-        $headerParams['{{baseName}}'] = $this->apiClient->toHeaderValue(${{paramName}});
+        $headerParams['{{baseName}}'] = $this->apiClient->getSerializer()->toHeaderValue(${{paramName}});
       }{{/headerParams}}
       {{#pathParams}}// path params
       if(${{paramName}} !== null) {
         $resourcePath = str_replace("{" . "{{baseName}}" . "}",
-                                    $this->apiClient->toPathValue(${{paramName}}), $resourcePath);
+                                    $this->apiClient->getSerializer()->toPathValue(${{paramName}}),
+                                    $resourcePath);
       }{{/pathParams}}
       {{#formParams}}// form params
       if (${{paramName}} !== null) {
-        $formParams['{{baseName}}'] = {{#isFile}}'@'.{{/isFile}}$this->apiClient->toFormValue(${{paramName}});
+        $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->getSerializer()->toFormValue(${{paramName}});
       }{{/formParams}}
       {{#bodyParams}}// body params
       $_tempBody = null;
@@ -122,22 +124,38 @@ class {{classname}} {
         // for HTTP post (form)
         $httpBody = $formParams;
       }
-
-      // authentication setting, if any
-      $authSettings = array({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}});
-
+      {{#authMethods}}{{#isApiKey}}
+      $apiKey = $this->apiClient->getApiKeyWithPrefix('{{keyParamName}}');
+      if (isset($apiKey)) {
+        {{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $apiKey;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $apiKey;{{/isKeyInQuery}}
+      }{{/isApiKey}}
+      {{#isBasic}}$headerParams['Authorization'] = 'Basic '.base64_encode($this->apiClient->getConfig()->getUsername().":".$this->apiClient->getConfig()->getPassword());{{/isBasic}}
+      {{#isOAuth}}//TODO support oauth{{/isOAuth}}
+      {{/authMethods}}
       // make the API Call
-      $response = $this->apiClient->callAPI($resourcePath, $method,
-                                            $queryParams, $httpBody,
-                                            $headerParams, $authSettings);
-      {{#returnType}}if(! $response) {
+      try {
+        $response = $this->apiClient->callAPI($resourcePath, $method,
+                                              $queryParams, $httpBody,
+                                              $headerParams);
+      } catch (ApiException $e) {
+        switch ($e->getCode()) { {{#responses}}{{#dataType}}
+          case {{code}}:
+            $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}');
+            $e->setResponseObject($data);
+            break;{{/dataType}}{{/responses}}
+        }
+
+        throw $e;
+      }
+      {{#returnType}}
+      if (!$response) {
         return null;
       }
 
-      $responseObject = $this->apiClient->deserialize($response,'{{returnType}}');
-      return $responseObject;{{/returnType}}
+      $responseObject = $this->apiClient->getSerializer()->deserialize($response,'{{returnType}}');
+      return $responseObject;
+      {{/returnType}}
   }
   {{/operation}}
-{{newline}}
-{{/operations}}
 }
+{{/operations}}

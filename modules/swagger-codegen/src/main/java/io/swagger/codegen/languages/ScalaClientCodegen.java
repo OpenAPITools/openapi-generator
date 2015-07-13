@@ -20,6 +20,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
@@ -212,6 +215,19 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         return camelize(operationId, true);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // remove model imports to avoid warnings for importing class in the same package in Scala
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        final String prefix = modelPackage() + ".";
+        Iterator<Map<String, String>> iterator = imports.iterator();
+        while (iterator.hasNext()) {
+            String _import = iterator.next().get("import");
+            if (_import.startsWith(prefix)) iterator.remove();
+        }
+        return objs;
     }
 
 }

@@ -41,3 +41,5 @@ cd $APP_DIR
 ./bin/spring-mvc-petstore-server.sh
 ./bin/swift-petstore.sh
 ./bin/tizen-petstore.sh
+./bin/typescript-angular-petstore.sh
+./bin/typescript-node-petstore.sh

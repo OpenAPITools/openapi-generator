@@ -52,7 +52,7 @@ sub new {
 #
 # Update an existing pet
 # 
-# @param Pet $body Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (optional)
 # @return void
 #
 sub update_pet {
@@ -102,7 +102,7 @@ sub update_pet {
 #
 # Add a new pet to the store
 # 
-# @param Pet $body Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (optional)
 # @return void
 #
 sub add_pet {
@@ -152,7 +152,7 @@ sub add_pet {
 #
 # Finds Pets by status
 # 
-# @param ARRAY[string] $status Status values that need to be considered for filter (required)
+# @param ARRAY[string] $status Status values that need to be considered for filter (optional)
 # @return ARRAY[Pet]
 #
 sub find_pets_by_status {
@@ -205,7 +205,7 @@ sub find_pets_by_status {
 #
 # Finds Pets by tags
 # 
-# @param ARRAY[string] $tags Tags to filter by (required)
+# @param ARRAY[string] $tags Tags to filter by (optional)
 # @return ARRAY[Pet]
 #
 sub find_pets_by_tags {
@@ -319,8 +319,8 @@ sub get_pet_by_id {
 # Updates a pet in the store with form data
 # 
 # @param string $pet_id ID of pet that needs to be updated (required)
-# @param string $name Updated name of the pet (required)
-# @param string $status Updated status of the pet (required)
+# @param string $name Updated name of the pet (optional)
+# @param string $status Updated status of the pet (optional)
 # @return void
 #
 sub update_pet_with_form {
@@ -387,7 +387,7 @@ sub update_pet_with_form {
 #
 # Deletes a pet
 # 
-# @param string $api_key  (required)
+# @param string $api_key  (optional)
 # @param int $pet_id Pet id to delete (required)
 # @return void
 #
@@ -449,8 +449,8 @@ sub delete_pet {
 # uploads an image
 # 
 # @param int $pet_id ID of pet to update (required)
-# @param string $additional_metadata Additional data to pass to server (required)
-# @param file $file file to upload (required)
+# @param string $additional_metadata Additional data to pass to server (optional)
+# @param file $file file to upload (optional)
 # @return void
 #
 sub upload_file {
