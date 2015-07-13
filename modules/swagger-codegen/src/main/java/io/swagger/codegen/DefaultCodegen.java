@@ -14,6 +14,7 @@ import io.swagger.models.Swagger;
 import io.swagger.models.auth.ApiKeyAuthDefinition;
 import io.swagger.models.auth.BasicAuthDefinition;
 import io.swagger.models.auth.In;
+import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.CookieParameter;
@@ -1056,10 +1057,17 @@ public class DefaultCodegen {
                 sec.keyParamName = apiKeyDefinition.getName();
                 sec.isKeyInHeader = apiKeyDefinition.getIn() == In.HEADER;
                 sec.isKeyInQuery = !sec.isKeyInHeader;
+            } else if(schemeDefinition instanceof BasicAuthDefinition) {
+                sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isOAuth = false;
+                sec.isBasic = true;
             } else {
-                sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = false;
-                sec.isBasic = schemeDefinition instanceof BasicAuthDefinition;
-                sec.isOAuth = !sec.isBasic;
+            	final OAuth2Definition oauth2Definition = (OAuth2Definition) schemeDefinition;
+            	sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
+                sec.isOAuth = true;
+                sec.flow = oauth2Definition.getFlow();
+                sec.authorizationUrl = oauth2Definition.getAuthorizationUrl();
+                sec.tokenUrl = oauth2Definition.getTokenUrl();
+                sec.scopes = oauth2Definition.getScopes().keySet();
             }
 
             sec.hasMore = it.hasNext();
