@@ -47,7 +47,7 @@ class {{classname}}(object):
         {{{summary}}}
         {{{notes}}}
 
-        {{#allParams}}:param {{dataType}} {{paramName}}: {{{description}}} {{#required}}(required){{/required}}{{#optional}}(optional){{/optional}}
+        {{#allParams}}:param {{dataType}} {{paramName}}: {{{description}}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
         {{/allParams}}
         :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
         """
