@@ -34,6 +34,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
+        languageSpecificPrimitives.add("date");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -44,7 +45,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("map", "dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
-        typeMapping.put("date", "datetime");
+        typeMapping.put("date", "date");
+        typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
