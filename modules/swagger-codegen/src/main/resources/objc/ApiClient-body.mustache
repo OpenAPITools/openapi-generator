@@ -11,31 +11,38 @@ static bool cacheEnabled = false;
 static AFNetworkReachabilityStatus reachabilityStatus = AFNetworkReachabilityStatusNotReachable;
 static NSOperationQueue* sharedQueue;
 static void (^reachabilityChangeBlock)(int);
-static bool loggingEnabled = true;
 
 #pragma mark - Log Methods
 
-+(void)setLoggingEnabled:(bool) state {
-    loggingEnabled = state;
+- (void)logResponse:(AFHTTPRequestOperation *)operation
+         forRequest:(NSURLRequest *)request
+              error:(NSError*)error {
+    {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
+    
+    NSString *message = [NSString stringWithFormat:@"\n[DEBUG] Request body \n~BEGIN~\n %@\n~END~\n"\
+                         "[DEBUG] HTTP Response body \n~BEGIN~\n %@\n~END~\n",
+                        [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding],
+                        operation.responseString];
+    
+    if (config.loggingFileHanlder) {
+        [config.loggingFileHanlder seekToEndOfFile];
+        [config.loggingFileHanlder writeData:[message dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    NSLog(@"%@", message);
 }
 
-- (void)logRequest:(NSURLRequest*)request {
-    NSLog(@"request: %@", [self descriptionForRequest:request]);
-}
+#pragma mark - Cache Methods
 
-- (void)logResponse:(id)data forRequest:(NSURLRequest*)request error:(NSError*)error {
-    NSLog(@"request: %@  response: %@ ",  [self descriptionForRequest:request], data );
++ (void) setCacheEnabled:(BOOL)enabled {
+    cacheEnabled = enabled;
 }
-
-#pragma mark -
 
 +(void)clearCache {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
-+(void)setCacheEnabled:(BOOL)enabled {
-    cacheEnabled = enabled;
-}
+#pragma mark -
 
 +(void)configureCacheWithMemoryAndDiskCapacity: (unsigned long) memorySize
                                       diskSize: (unsigned long) diskSize {
@@ -80,10 +87,10 @@ static bool loggingEnabled = true;
         if (client == nil) {
             client = [[{{classPrefix}}ApiClient alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
             [_pool setValue:client forKey:baseUrl ];
-            if(loggingEnabled)
+            if([[{{classPrefix}}Configuration sharedConfig] debug])
                 NSLog(@"new client for path %@", baseUrl);
         }
-        if(loggingEnabled)
+        if([[{{classPrefix}}Configuration sharedConfig] debug])
             NSLog(@"returning client for path %@", baseUrl);
         return client;
     }
@@ -146,7 +153,7 @@ static bool loggingEnabled = true;
 +(NSNumber*) nextRequestId {
     @synchronized(self) {
         long nextId = ++requestId;
-        if(loggingEnabled)
+        if([[{{classPrefix}}Configuration sharedConfig] debug])
             NSLog(@"got id %ld", nextId);
         return [NSNumber numberWithLong:nextId];
     }
@@ -154,7 +161,7 @@ static bool loggingEnabled = true;
 
 +(NSNumber*) queueRequest {
     NSNumber* requestId = [{{classPrefix}}ApiClient nextRequestId];
-    if(loggingEnabled)
+    if([[{{classPrefix}}Configuration sharedConfig] debug])
         NSLog(@"added %@ to request queue", requestId);
     [queuedRequests addObject:requestId];
     return requestId;
@@ -187,7 +194,7 @@ static bool loggingEnabled = true;
     }];
 
     if(matchingItems.count == 1) {
-        if(loggingEnabled)
+        if([[{{classPrefix}}Configuration sharedConfig] debug])
             NSLog(@"removing request id %@", requestId);
         [queuedRequests removeObject:requestId];
         return true;
@@ -222,25 +229,25 @@ static bool loggingEnabled = true;
         reachabilityStatus = status;
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
-                if(loggingEnabled)
+                if([[{{classPrefix}}Configuration sharedConfig] debug])
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusUnknown");
                 [{{classPrefix}}ApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusNotReachable:
-                if(loggingEnabled)
+                if([[{{classPrefix}}Configuration sharedConfig] debug])
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusNotReachable");
                 [{{classPrefix}}ApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWWAN:
-                if(loggingEnabled)
+                if([[{{classPrefix}}Configuration sharedConfig] debug])
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWWAN");
                 [{{classPrefix}}ApiClient setOfflineState:false];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                if(loggingEnabled)
+                if([[{{classPrefix}}Configuration sharedConfig] debug])
                     NSLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWiFi");
                 [{{classPrefix}}ApiClient setOfflineState:false];
                 break;
@@ -265,7 +272,6 @@ static bool loggingEnabled = true;
         for(NSString * key in [queryParams keyEnumerator]){
             if(counter == 0) separator = @"?";
             else separator = @"&";
-            NSString * value;
             id queryParam = [queryParams valueForKey:key];
             if([queryParam isKindOfClass:[NSString class]]){
                 [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
@@ -310,11 +316,6 @@ static bool loggingEnabled = true;
     }
     return requestUrl;
 }
-
-- (NSString*)descriptionForRequest:(NSURLRequest*)request {
-    return [[request URL] absoluteString];
-}
-
 
 /**
  * Update header and query params based on authentication settings
@@ -478,8 +479,8 @@ static bool loggingEnabled = true;
     AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
                                                                success:^(AFHTTPRequestOperation *operation, id response) {
                                                                    if([self executeRequestWithId:requestId]) {
-                                                                       if(self.logServerResponses) {
-                                                                           [self logResponse:response forRequest:request error:nil];
+                                                                       if([[{{classPrefix}}Configuration sharedConfig] debug]) {
+                                                                           [self logResponse:operation forRequest:request error:nil];
                                                                        }
                                                                        completionBlock(response, nil);
                                                                    }
@@ -492,7 +493,7 @@ static bool loggingEnabled = true;
                                                                        }
                                                                        NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
                                                                        
-                                                                       if(self.logServerResponses)
+                                                                       if([[{{classPrefix}}Configuration sharedConfig] debug])
                                                                            [self logResponse:nil forRequest:request error:augmentedError];
                                                                        completionBlock(nil, augmentedError);
                                                                    }
@@ -548,7 +549,7 @@ static bool loggingEnabled = true;
                                                                        
                                                                        NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
                                                                        
-                                                                       if (self.logServerResponses) {
+                                                                       if ([[{{classPrefix}}Configuration sharedConfig] debug]) {
                                                                            [self logResponse:nil forRequest:request error:augmentedError];
                                                                        }
                                                                        

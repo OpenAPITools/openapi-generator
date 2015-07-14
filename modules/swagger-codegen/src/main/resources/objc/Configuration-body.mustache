@@ -28,6 +28,8 @@
         self.username = @"";
         self.password = @"";
         self.tempFolderPath = nil;
+        self.debug = NO;
+        self.loggingFile = nil;
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
     }
@@ -66,6 +68,20 @@
     [self.mutableApiKeyPrefix setValue:value forKey:field];
 }
 
+- (void) setLoggingFile:(NSString *)loggingFile {
+    // close old file handler
+    if ([self.loggingFileHanlder isKindOfClass:[NSFileHandle class]]) {
+        [self.loggingFileHanlder closeFile];
+    }
+    
+    _loggingFile = loggingFile;
+    self.loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
+    if (self.loggingFileHanlder == nil) {
+        [[NSFileManager defaultManager] createFileAtPath:_loggingFile contents:nil attributes:nil];
+        self.loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
+    }
+}
+
 #pragma mark - Getter Methods
 
 - (NSDictionary *) apiKey {
@@ -79,21 +95,14 @@
 #pragma mark -
 
 - (NSDictionary *) authSettings {
-    return @{ {{#authMethods}}{{#isApiKey}}
-                @"{{name}}": @{
+    return @{ 
+                @"api_key": @{
                     @"type": @"api_key",
-                    @"in": {{#isKeyInHeader}}@"header"{{/isKeyInHeader}}{{#isKeyInQuery}}@"query"{{/isKeyInQuery}},
-                    @"key": @"{{keyParamName}}",
-                    @"value": [self getApiKeyWithPrefix:@"{{keyParamName}}"]
-                },
-              {{/isApiKey}}{{#isBasic}}
-                @"{{name}}": @{
-                    @"type": @"basic",
                     @"in": @"header",
-                    @"key": @"Authorization",
-                    @"value": [self getBasicAuthToken]
+                    @"key": @"api_key",
+                    @"value": [self getApiKeyWithPrefix:@"api_key"]
                 },
-              {{/isBasic}}{{/authMethods}}
+              
             };
 }
 
