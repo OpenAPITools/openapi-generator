@@ -86,7 +86,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='dict(str, int)', auth_settings=auth_settings)
+                                            response_type='dict(str, int)', auth_settings=auth_settings)
         
         return response
         
@@ -139,7 +139,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Order', auth_settings=auth_settings)
+                                            response_type='Order', auth_settings=auth_settings)
         
         return response
         
@@ -196,7 +196,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Order', auth_settings=auth_settings)
+                                            response_type='Order', auth_settings=auth_settings)
         
         return response
         
@@ -253,7 +253,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
 
 

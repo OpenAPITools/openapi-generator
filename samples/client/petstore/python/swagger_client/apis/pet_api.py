@@ -90,7 +90,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def add_pet(self, **kwargs):
         """
@@ -141,7 +141,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def find_pets_by_status(self, **kwargs):
         """
@@ -192,7 +192,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='list[Pet]', auth_settings=auth_settings)
+                                            response_type='list[Pet]', auth_settings=auth_settings)
         
         return response
         
@@ -245,7 +245,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='list[Pet]', auth_settings=auth_settings)
+                                            response_type='list[Pet]', auth_settings=auth_settings)
         
         return response
         
@@ -302,7 +302,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Pet', auth_settings=auth_settings)
+                                            response_type='Pet', auth_settings=auth_settings)
         
         return response
         
@@ -367,15 +367,15 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def delete_pet(self, pet_id, **kwargs):
         """
         Deletes a pet
         
 
-        :param str api_key:  (optional)
         :param int pet_id: Pet id to delete (required)
+        :param str api_key:  (optional)
         
         :return: None
         """
@@ -384,7 +384,7 @@ class PetApi(object):
         if pet_id is None:
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
         
-        all_params = ['api_key', 'pet_id']
+        all_params = ['pet_id', 'api_key']
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -426,7 +426,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
     def upload_file(self, pet_id, **kwargs):
         """
@@ -435,7 +435,7 @@ class PetApi(object):
 
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server (optional)
-        :param File file: file to upload (optional)
+        :param file file: file to upload (optional)
         
         :return: None
         """
@@ -489,7 +489,7 @@ class PetApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings)
         
 
 
