@@ -60,6 +60,18 @@ module {{moduleName}}
       # @return [#debug]
       attr_accessor :logger
 
+      # Defines the temporary folder to store downloaded files
+      # (for API endpoints that have file response).
+      # Default to use `Tempfile`.
+      #
+      # @return [String]
+      attr_accessor :temp_folder_path
+
+      # Defines the headers to be used in HTTP requests of all API calls by default.
+      #
+      # @return [Hash]
+      attr_accessor :default_headers
+
       # Defaults go in here..
       def initialize
         @format = 'json'
@@ -70,6 +82,12 @@ module {{moduleName}}
         @inject_format = false
         @force_ending_format = false
 
+        @default_headers = {
+          'Content-Type' => "application/#{@format.downcase}",
+          'User-Agent' => @user_agent
+        }
+
+        # keys for API key authentication (param-name => api-key)
         @api_key = {}
         @api_key_prefix = {}
 

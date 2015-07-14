@@ -52,7 +52,7 @@ describe "Pet" do
 
     it "should not find a pet that does not exist" do
       begin
-        Petstore::PetApi.get_pet_by_id(-1)
+        Petstore::PetApi.get_pet_by_id(-10002)
         fail 'it should raise error'
       rescue Petstore::Swagger::ApiError => e
         e.code.should == 404

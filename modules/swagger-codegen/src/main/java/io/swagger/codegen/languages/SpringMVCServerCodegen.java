@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Operation;
@@ -146,6 +147,14 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+                List<CodegenResponse> responses = operation.responses;
+                if (responses != null) {
+                    for (CodegenResponse resp : responses) {
+                        if ("0".equals(resp.code)) {
+                            resp.code = "200";
+                        }
+                    }
+                }
                 if (operation.returnType == null) {
                     operation.returnType = "Void";
                 } else if (operation.returnType.startsWith("List")) {

@@ -101,7 +101,7 @@ sub get_inventory {
 #
 # Place an order for a pet
 # 
-# @param Order $body order placed for purchasing the pet (required)
+# @param Order $body order placed for purchasing the pet (optional)
 # @return Order
 #
 sub place_order {

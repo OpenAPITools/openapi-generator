@@ -10,9 +10,11 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     // for error reporting (need to run with php5.3 to get no warning)
     //ini_set('display_errors', 1);
     //error_reporting(~0);
-    ini_set('display_startup_errors',1);
-    ini_set('display_errors',1);
-    error_reporting(-1);
+    // when running with php5.5, comment out below to skip the warning about
+    // using @ to handle file upload
+    //ini_set('display_startup_errors',1);
+    //ini_set('display_errors',1);
+    //error_reporting(-1);
 
     // enable debugging 
     //Swagger\Client\Configuration::$debug = true;
@@ -68,9 +70,11 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse(isset($defaultHeader['test2']));
 
     $pet_api2 = new Swagger\Client\Api\PetAPI();
-    $apiClient3 = new Swagger\Client\ApiClient();
+    $config3 = new Swagger\Client\Configuration();
+    $apiClient3 = new Swagger\Client\ApiClient($config3);
     $apiClient3->getConfig()->setUserAgent('api client 3');
-    $apiClient4 = new Swagger\Client\ApiClient();
+    $config4 = new Swagger\Client\Configuration();
+    $apiClient4 = new Swagger\Client\ApiClient($config4);
     $apiClient4->getConfig()->setUserAgent('api client 4');
     $pet_api3 = new Swagger\Client\Api\PetAPI($apiClient3);
 
