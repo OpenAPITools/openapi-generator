@@ -27,21 +27,6 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>pip-install</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>pip</executable>
-                            <arguments>
-                                <argument>install</argument>
-                                <argument>--user</argument>
-                                <argument>virtualenv</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>nose-test</id>
                         <phase>integration-test</phase>
                         <goals>

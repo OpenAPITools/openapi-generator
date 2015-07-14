@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 REQUIREMENTS_FILE=dev-requirements.txt
 REQUIREMENTS_OUT=dev-requirements.txt.log
@@ -8,7 +8,7 @@ DEACTIVE=false
 
 ### set virtualenv
 if [ -z "$VIRTUAL_ENV" ]; then
-		virtualenv $VENV --no-site-packages
+		virtualenv $VENV --no-site-packages --always-copy
 		source $VENV/bin/activate
     DEACTIVE=true
 fi
