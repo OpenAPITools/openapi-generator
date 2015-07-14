@@ -3581,49 +3581,49 @@
         </member>
         <member name="M:NUnit.Framework.CollectionAssert.IsNotSubsetOf(System.Collections.IEnumerable,System.Collections.IEnumerable)">
             <summary>
-            Asserts that superset is not a subject of subset.
+            Asserts that the superset does not contain the subset
             </summary>
-            <param name="subset">The IEnumerable superset to be considered</param>
-            <param name="superset">The IEnumerable subset to be considered</param>
+            <param name="subset">The IEnumerable subset to be considered</param>
+            <param name="superset">The IEnumerable superset to be considered</param>
         </member>
         <member name="M:NUnit.Framework.CollectionAssert.IsNotSubsetOf(System.Collections.IEnumerable,System.Collections.IEnumerable,System.String)">
             <summary>
-            Asserts that superset is not a subject of subset.
+            Asserts that the superset does not contain the subset
             </summary>
-            <param name="subset">The IEnumerable superset to be considered</param>
-            <param name="superset">The IEnumerable subset to be considered</param>
+            <param name="subset">The IEnumerable subset to be considered</param>
+            <param name="superset">The IEnumerable superset to be considered</param>
             <param name="message">The message that will be displayed on failure</param>
         </member>
         <member name="M:NUnit.Framework.CollectionAssert.IsNotSubsetOf(System.Collections.IEnumerable,System.Collections.IEnumerable,System.String,System.Object[])">
             <summary>
-            Asserts that superset is not a subject of subset.
+            Asserts that the superset does not contain the subset
             </summary>
-            <param name="subset">The IEnumerable superset to be considered</param>
-            <param name="superset">The IEnumerable subset to be considered</param>
+            <param name="subset">The IEnumerable subset to be considered</param>
+            <param name="superset">The IEnumerable superset to be considered</param>
             <param name="message">The message that will be displayed on failure</param>
             <param name="args">Arguments to be used in formatting the message</param>
         </member>
         <member name="M:NUnit.Framework.CollectionAssert.IsSubsetOf(System.Collections.IEnumerable,System.Collections.IEnumerable)">
             <summary>
-            Asserts that superset is a subset of subset.
+            Asserts that the superset contains the subset.
             </summary>
-            <param name="subset">The IEnumerable superset to be considered</param>
-            <param name="superset">The IEnumerable subset to be considered</param>
+            <param name="subset">The IEnumerable subset to be considered</param>
+            <param name="superset">The IEnumerable superset to be considered</param>
         </member>
         <member name="M:NUnit.Framework.CollectionAssert.IsSubsetOf(System.Collections.IEnumerable,System.Collections.IEnumerable,System.String)">
             <summary>
-            Asserts that superset is a subset of subset.
+            Asserts that the superset contains the subset.
             </summary>
-            <param name="subset">The IEnumerable superset to be considered</param>
-            <param name="superset">The IEnumerable subset to be considered</param>
+            <param name="subset">The IEnumerable subset to be considered</param>
+            <param name="superset">The IEnumerable superset to be considered</param>
             <param name="message">The message that will be displayed on failure</param>
         </member>
         <member name="M:NUnit.Framework.CollectionAssert.IsSubsetOf(System.Collections.IEnumerable,System.Collections.IEnumerable,System.String,System.Object[])">
             <summary>
-            Asserts that superset is a subset of subset.
+            Asserts that the superset contains the subset.
             </summary>
-            <param name="subset">The IEnumerable superset to be considered</param>
-            <param name="superset">The IEnumerable subset to be considered</param>
+            <param name="subset">The IEnumerable subset to be considered</param>
+            <param name="superset">The IEnumerable superset to be considered</param>
             <param name="message">The message that will be displayed on failure</param>
             <param name="args">Arguments to be used in formatting the message</param>
         </member>
@@ -6551,6 +6551,23 @@
             </summary>
             <returns>The target for the action attribute</returns>
         </member>
+        <member name="M:NUnit.Framework.TestActionAttribute.BeforeTest(NUnit.Framework.TestDetails)">
+            <summary>
+            Method called before each test
+            </summary>
+            <param name="testDetails">Info about the test to be run</param>
+        </member>
+        <member name="M:NUnit.Framework.TestActionAttribute.AfterTest(NUnit.Framework.TestDetails)">
+            <summary>
+            Method called after each test
+            </summary>
+            <param name="testDetails">Info about the test that was just run</param>
+        </member>
+        <member name="P:NUnit.Framework.TestActionAttribute.Targets">
+            <summary>
+            Gets or sets the ActionTargets for this attribute
+            </summary>
+        </member>
         <member name="T:NUnit.Framework.TestAttribute">
             <summary>
             Adding this attribute to a method within a <seealso cref="T:NUnit.Framework.TestFixtureAttribute"/> 
@@ -8066,7 +8083,7 @@
             presence of a particular attribute on an object.
             </summary>
         </member>
-        <member name="M:NUnit.Framework.Constraints.ConstraintExpression.Matches(NUnit.Framework.Constraints.Constraint)">
+        <member name="M:NUnit.Framework.Constraints.ConstraintExpression.Matches(NUnit.Framework.Constraints.IResolveConstraint)">
             <summary>
             Returns the constraint provided as an argument - used to allow custom
             custom constraints to easily participate in the syntax.
@@ -10350,6 +10367,13 @@
             Test whether the constraint is satisfied by a given value
             </summary>
             <param name="actual">The value to be tested</param>
+            <returns>True if no exception is thrown, otherwise false</returns>
+        </member>
+        <member name="M:NUnit.Framework.Constraints.ThrowsNothingConstraint.Matches``1(NUnit.Framework.Constraints.ActualValueDelegate{``0})">
+            <summary>
+            Test whether the constraint is satisfied by a given delegate
+            </summary>
+            <param name="del">Delegate returning the value to be tested</param>
             <returns>True if no exception is thrown, otherwise false</returns>
         </member>
         <member name="M:NUnit.Framework.Constraints.ThrowsNothingConstraint.WriteDescriptionTo(NUnit.Framework.Constraints.MessageWriter)">

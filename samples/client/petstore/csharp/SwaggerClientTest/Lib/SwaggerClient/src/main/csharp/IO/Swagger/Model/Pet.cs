@@ -13,32 +13,45 @@ namespace IO.Swagger.Model {
   [DataContract]
   public class Pet {
     
-    
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
     [DataMember(Name="id", EmitDefaultValue=false)]
     public long? Id { get; set; }
 
     
-    
+    /// <summary>
+    /// Gets or Sets Category
+    /// </summary>
     [DataMember(Name="category", EmitDefaultValue=false)]
     public Category Category { get; set; }
 
     
-    
+    /// <summary>
+    /// Gets or Sets Name
+    /// </summary>
     [DataMember(Name="name", EmitDefaultValue=false)]
     public string Name { get; set; }
 
     
-    
+    /// <summary>
+    /// Gets or Sets PhotoUrls
+    /// </summary>
     [DataMember(Name="photoUrls", EmitDefaultValue=false)]
     public List<string> PhotoUrls { get; set; }
 
     
-    
+    /// <summary>
+    /// Gets or Sets Tags
+    /// </summary>
     [DataMember(Name="tags", EmitDefaultValue=false)]
     public List<Tag> Tags { get; set; }
 
     
-    /* pet status in the store */
+    /// <summary>
+    /// pet status in the store
+    /// </summary>
+    /// <value>pet status in the store</value>
     [DataMember(Name="status", EmitDefaultValue=false)]
     public string Status { get; set; }
 
