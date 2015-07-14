@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   # 
   class Pet < BaseObject
     attr_accessor :id, :category, :name, :photo_urls, :tags, :status
@@ -48,33 +48,42 @@ module SwaggerClient
 
       
       if attributes[:'id']
-        @id = attributes[:'id']
+        self.id = attributes[:'id']
       end
       
       if attributes[:'category']
-        @category = attributes[:'category']
+        self.category = attributes[:'category']
       end
       
       if attributes[:'name']
-        @name = attributes[:'name']
+        self.name = attributes[:'name']
       end
       
       if attributes[:'photoUrls']
         if (value = attributes[:'photoUrls']).is_a?(Array)
-          @photo_urls = value
+          self.photo_urls = value
         end
       end
       
       if attributes[:'tags']
         if (value = attributes[:'tags']).is_a?(Array)
-          @tags = value
+          self.tags = value
         end
       end
       
       if attributes[:'status']
-        @status = attributes[:'status']
+        self.status = attributes[:'status']
       end
       
     end
+
+    def status=(status)
+      allowed_values = ["available", "pending", "sold"]
+      if status && !allowed_values.include?(status)
+        fail "invalid value for 'status', must be one of #{allowed_values}"
+      end
+      @status = status
+    end
+
   end
 end

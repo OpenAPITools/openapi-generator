@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   # 
   class Order < BaseObject
     attr_accessor :id, :pet_id, :quantity, :ship_date, :status, :complete
@@ -48,29 +48,38 @@ module SwaggerClient
 
       
       if attributes[:'id']
-        @id = attributes[:'id']
+        self.id = attributes[:'id']
       end
       
       if attributes[:'petId']
-        @pet_id = attributes[:'petId']
+        self.pet_id = attributes[:'petId']
       end
       
       if attributes[:'quantity']
-        @quantity = attributes[:'quantity']
+        self.quantity = attributes[:'quantity']
       end
       
       if attributes[:'shipDate']
-        @ship_date = attributes[:'shipDate']
+        self.ship_date = attributes[:'shipDate']
       end
       
       if attributes[:'status']
-        @status = attributes[:'status']
+        self.status = attributes[:'status']
       end
       
       if attributes[:'complete']
-        @complete = attributes[:'complete']
+        self.complete = attributes[:'complete']
       end
       
     end
+
+    def status=(status)
+      allowed_values = ["placed", "approved", "delivered"]
+      if status && !allowed_values.include?(status)
+        fail "invalid value for 'status', must be one of #{allowed_values}"
+      end
+      @status = status
+    end
+
   end
 end

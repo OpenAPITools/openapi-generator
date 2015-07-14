@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "swagger_client/swagger/version"
+require "petstore/swagger/version"
 
 Gem::Specification.new do |s|
-  s.name        = "swagger_client"
-  s.version     = SwaggerClient::Swagger::VERSION
+  s.name        = "petstore"
+  s.version     = Petstore::Swagger::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Zeke Sikelianos", "Tony Tam"]
   s.email       = ["zeke@wordnik.com", "fehguy@gmail.com"]
@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.license     = "Apache-2.0"
 
   s.add_runtime_dependency 'typhoeus', '~> 0.2', '>= 0.2.1'
-  s.add_runtime_dependency 'addressable', '~> 2.2', '>= 2.2.4'
   s.add_runtime_dependency 'json', '~> 1.4', '>= 1.4.6'
 
   s.add_development_dependency 'rspec', '~> 3.2', '>= 3.2.0'

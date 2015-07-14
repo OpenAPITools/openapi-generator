@@ -1,6 +1,6 @@
 require 'logger'
 
-module {{moduleName}}
+module Petstore
   module Swagger
     class Configuration
       attr_accessor :scheme, :host, :base_path, :user_agent, :format, :auth_token, :inject_format, :force_ending_format
@@ -75,9 +75,9 @@ module {{moduleName}}
       # Defaults go in here..
       def initialize
         @format = 'json'
-        @scheme = '{{scheme}}'
-        @host = '{{host}}'
-        @base_path = '{{contextPath}}'
+        @scheme = 'http'
+        @host = 'petstore.swagger.io'
+        @base_path = '/v2'
         @user_agent = "ruby-swagger-#{Swagger::VERSION}"
         @inject_format = false
         @force_ending_format = false

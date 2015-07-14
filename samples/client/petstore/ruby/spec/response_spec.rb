@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SwaggerClient::Swagger::Response do
+describe Petstore::Swagger::Response do
 
   before do
     configure_swagger
@@ -12,7 +12,7 @@ describe SwaggerClient::Swagger::Response do
       @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/10002")
     end
 
-    @response = SwaggerClient::Swagger::Response.new(@raw)
+    @response = Petstore::Swagger::Response.new(@raw)
   end
 
   describe "initialization" do
@@ -43,7 +43,7 @@ describe SwaggerClient::Swagger::Response do
         @raw = Typhoeus::Request.get("http://petstore.swagger.io/v2/pet/10002",
                                     :headers => {'Accept'=> "application/xml"})
       end
-      @response = SwaggerClient::Swagger::Response.new(@raw)
+      @response = Petstore::Swagger::Response.new(@raw)
       @response.format.should == 'xml'
       @response.xml?.should == true
     end
@@ -74,7 +74,7 @@ describe SwaggerClient::Swagger::Response do
       data.should be_a(Hash)
       data.keys.should == [:pet]
       pet = data[:pet]
-      pet.should be_a(SwaggerClient::Pet)
+      pet.should be_a(Petstore::Pet)
       pet.id.should == 10002
     end
   end

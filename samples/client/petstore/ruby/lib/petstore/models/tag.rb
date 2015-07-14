@@ -1,6 +1,6 @@
-module SwaggerClient
+module Petstore
   # 
-  class Category < BaseObject
+  class Tag < BaseObject
     attr_accessor :id, :name
     # attribute mapping from ruby-style variable name to JSON key
     def self.attribute_map
@@ -32,13 +32,14 @@ module SwaggerClient
 
       
       if attributes[:'id']
-        @id = attributes[:'id']
+        self.id = attributes[:'id']
       end
       
       if attributes[:'name']
-        @name = attributes[:'name']
+        self.name = attributes[:'name']
       end
       
     end
+
   end
 end

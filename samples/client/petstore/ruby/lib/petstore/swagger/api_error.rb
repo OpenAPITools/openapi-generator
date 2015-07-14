@@ -1,4 +1,4 @@
-module SwaggerClient
+module Petstore
   module Swagger
     class ApiError < StandardError
       attr_reader :code, :response_headers, :response_body
