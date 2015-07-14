@@ -3,8 +3,6 @@ require "uri"
 module {{moduleName}}
 {{#operations}}
   class {{classname}}
-    basePath = "{{basePath}}"
-    # apiInvoker = APIInvoker
 {{#operation}}
 {{newline}}
     # {{summary}}
@@ -14,11 +12,20 @@ module {{moduleName}}
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
+      end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
-      raise "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?
-      {{/required}}{{/allParams}}
-
+      fail "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?{{#isEnum}}
+      unless [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?({{{paramName}}})
+        fail "invalid value for '{{{paramName}}}', must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}"
+      end{{/isEnum}}
+      {{/required}}{{^required}}{{#isEnum}}
+      if opts[:'{{{paramName}}}'] && ![{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(opts[:'{{{paramName}}}'])
+        fail 'invalid value for "{{{paramName}}}", must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}'
+      end
+      {{/isEnum}}{{/required}}{{/allParams}}
       # resource path
       path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
@@ -52,7 +59,14 @@ module {{moduleName}}
 
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
       {{#returnType}}response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('{{{returnType}}}'){{/returnType}}{{^returnType}}Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      result = response.deserialize('{{{returnType}}}')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
+      end
+      result{{/returnType}}{{^returnType}}Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: {{classname}}#{{nickname}}"
+      end
       nil{{/returnType}}
     end
 {{/operation}}

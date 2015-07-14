@@ -1,17 +1,17 @@
 require "uri"
 
-module SwaggerClient
+module Petstore
   class StoreApi
-    basePath = "http://petstore.swagger.io/v2"
-    # apiInvoker = APIInvoker
 
     # Returns pet inventories by status
     # Returns a map of status codes to quantities
     # @param [Hash] opts the optional parameters
     # @return [Hash<String, Integer>]
     def self.get_inventory(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: StoreApi#get_inventory ..."
+      end
       
-
       # resource path
       path = "/store/inventory".sub('{format}','json')
 
@@ -38,7 +38,11 @@ module SwaggerClient
 
       auth_names = ['api_key']
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('Hash<String, Integer>')
+      result = response.deserialize('Hash<String, Integer>')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: StoreApi#get_inventory. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Place an order for a pet
@@ -47,8 +51,10 @@ module SwaggerClient
     # @option opts [Order] :body order placed for purchasing the pet
     # @return [Order]
     def self.place_order(opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: StoreApi#place_order ..."
+      end
       
-
       # resource path
       path = "/store/order".sub('{format}','json')
 
@@ -75,7 +81,11 @@ module SwaggerClient
 
       auth_names = []
       response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('Order')
+      result = response.deserialize('Order')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: StoreApi#place_order. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Find purchase order by ID
@@ -84,11 +94,13 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return [Order]
     def self.get_order_by_id(order_id, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: StoreApi#get_order_by_id ..."
+      end
       
       # verify the required parameter 'order_id' is set
-      raise "Missing the required parameter 'order_id' when calling get_order_by_id" if order_id.nil?
+      fail "Missing the required parameter 'order_id' when calling get_order_by_id" if order_id.nil?
       
-
       # resource path
       path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
 
@@ -115,7 +127,11 @@ module SwaggerClient
 
       auth_names = []
       response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      response.deserialize('Order')
+      result = response.deserialize('Order')
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: StoreApi#get_order_by_id. Result: #{result.inspect}"
+      end
+      result
     end
 
     # Delete purchase order by ID
@@ -124,11 +140,13 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def self.delete_order(order_id, opts = {})
+      if Swagger.configuration.debug
+        Swagger.logger.debug "Calling API: StoreApi#delete_order ..."
+      end
       
       # verify the required parameter 'order_id' is set
-      raise "Missing the required parameter 'order_id' when calling delete_order" if order_id.nil?
+      fail "Missing the required parameter 'order_id' when calling delete_order" if order_id.nil?
       
-
       # resource path
       path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
 
@@ -154,7 +172,10 @@ module SwaggerClient
       
 
       auth_names = []
-      Swagger::Request.new(:DELETE, path, {:params => query_params,:headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      Swagger::Request.new(:DELETE, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if Swagger.configuration.debug
+        Swagger.logger.debug "API called: StoreApi#delete_order"
+      end
       nil
     end
   end
