@@ -38,7 +38,7 @@ TODO
 
 ## Tests
 
-(Make sure you are running it inside of a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/))
+(Make sure you have installed `virtualenv` using `sudo pip install virtualenv`)
 
 You can run the tests in the current python platform:
 
