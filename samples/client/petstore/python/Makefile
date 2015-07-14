@@ -1,4 +1,4 @@
- #!/bin/sh
+ #!/bin/bash
 
 REQUIREMENTS_FILE=dev-requirements.txt
 REQUIREMENTS_OUT=dev-requirements.txt.log
@@ -8,13 +8,14 @@ VENV=.venv
 clean:
 		rm -rf $(REQUIREMENTS_OUT)
 		rm -rf $(SETUP_OUT)
+		rm -rf $(VENV)
 		rm -rf .tox
 		rm -rf .coverage
 		find . -name "*.py[oc]" -delete
 		find . -name "__pycache__" -delete
 
 test: clean 
-		sh ./test.sh
+		bash ./test.sh
 
 test-all: clean 
-		sh ./test-all.sh
+		bash ./test-all.sh
