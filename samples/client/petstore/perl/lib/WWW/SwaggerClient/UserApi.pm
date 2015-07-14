@@ -52,7 +52,7 @@ sub new {
 #
 # Create user
 # 
-# @param User $body Created user object (required)
+# @param User $body Created user object (optional)
 # @return void
 #
 sub create_user {
@@ -102,7 +102,7 @@ sub create_user {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $body List of user object (required)
+# @param ARRAY[User] $body List of user object (optional)
 # @return void
 #
 sub create_users_with_array_input {
@@ -152,7 +152,7 @@ sub create_users_with_array_input {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $body List of user object (required)
+# @param ARRAY[User] $body List of user object (optional)
 # @return void
 #
 sub create_users_with_list_input {
@@ -202,8 +202,8 @@ sub create_users_with_list_input {
 #
 # Logs user into the system
 # 
-# @param string $username The user name for login (required)
-# @param string $password The password for login in clear text (required)
+# @param string $username The user name for login (optional)
+# @param string $password The password for login in clear text (optional)
 # @return string
 #
 sub login_user {
@@ -366,7 +366,7 @@ sub get_user_by_name {
 # Updated user
 # 
 # @param string $username name that need to be deleted (required)
-# @param User $body Updated user object (required)
+# @param User $body Updated user object (optional)
 # @return void
 #
 sub update_user {

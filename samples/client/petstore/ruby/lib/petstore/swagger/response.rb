@@ -3,6 +3,7 @@ module Petstore
     class Response
       require 'json'
       require 'date'
+      require 'tempfile'
 
       attr_accessor :raw
 
@@ -32,8 +33,11 @@ module Petstore
       def deserialize(return_type)
         return nil if body.nil? || body.empty?
 
+        # handle file downloading - save response body into a tmp file and return the File instance
+        return download_file if return_type == 'File'
+
         # ensuring a default content type
-        content_type = raw.headers_hash['Content-Type'] || 'application/json'
+        content_type = raw.headers['Content-Type'] || 'application/json'
 
         unless content_type.start_with?('application/json')
           fail "Content-Type is not supported: #{content_type}"
@@ -89,6 +93,28 @@ module Petstore
             model.build_from_hash data
           end
         end
+      end
+
+      # Save response body into a file in (the defined) temporary folder, using the filename
+      # from the "Content-Disposition" header if provided, otherwise a random filename.
+      #
+      # @see Configuration#temp_folder_path
+      # @return [File] the file downloaded
+      def download_file
+        tmp_file = Tempfile.new '', Swagger.configuration.temp_folder_path
+        content_disposition = raw.headers['Content-Disposition']
+        if content_disposition
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+          path = File.join File.dirname(tmp_file), filename
+        else
+          path = tmp_file.path
+        end
+        # close and delete temp file
+        tmp_file.close!
+
+        File.open(path, 'w') { |file| file.write(raw.body) }
+        Swagger.logger.info "File written to #{path}. Please move the file to a proper folder for further processing and delete the temp afterwards"
+        return File.new(path)
       end
 
       # `headers_hash` is a Typhoeus-specific extension of Hash,

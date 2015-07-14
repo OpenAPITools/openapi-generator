@@ -1,8 +1,11 @@
 package io.swagger.client.auth;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
 
+import io.swagger.client.Pair;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -17,7 +20,7 @@ public class HttpBasicAuthTest {
 
     @Test
     public void testApplyToParams() {
-        Map<String, String> queryParams = new HashMap<String, String>();
+        List<Pair> queryParams = new ArrayList<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
 
         auth.setUsername("my-username");

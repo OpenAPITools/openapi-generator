@@ -77,6 +77,8 @@ public class TypeScriptNodeClientCodegen extends DefaultCodegen implements Codeg
 	    typeMapping.put("double", "number");
 	    typeMapping.put("object", "any");
 	    typeMapping.put("integer", "number");
+	    typeMapping.put("Map", "any");
+	    typeMapping.put("DateTime", "Date");
 	   
 	}
 

@@ -171,7 +171,7 @@ public class PetApi {
 
   @ApiOperation(value = "uploads an image", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/{petId}/uploadImage", 
     produces = { "application/json", "application/xml" }, 
     consumes = { "multipart/form-data" },

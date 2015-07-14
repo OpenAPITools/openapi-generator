@@ -21,5 +21,6 @@ require 'petstore/api/store_api'
 
 module Petstore
   # Initialize the default configuration
-  Swagger.configuration ||= Swagger::Configuration.new
+  Swagger.configuration = Swagger::Configuration.new
+  Swagger.configure { |config| }
 end

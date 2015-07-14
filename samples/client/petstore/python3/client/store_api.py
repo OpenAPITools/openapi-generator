@@ -82,7 +82,7 @@ class StoreApi(object):
         
 
         Args:
-            body, Order: order placed for purchasing the pet (required)
+            body, Order: order placed for purchasing the pet (optional)
             
 
         Returns: Order
