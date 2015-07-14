@@ -36,6 +36,7 @@
                             <executable>pip</executable>
                             <arguments>
                                 <argument>install</argument>
+                                <argument>--user</argument>
                                 <argument>virtualenv</argument>
                             </arguments>
                         </configuration>
