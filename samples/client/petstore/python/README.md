@@ -40,7 +40,7 @@ TODO
 
 (Make sure you have installed `virtualenv` using `sudo pip install virtualenv`)
 
-You can run the tests in the current python platform:
+ Execute the following command to run the tests in the current Python (v2 or v3) environment:
 
 ```sh
 $ make test
