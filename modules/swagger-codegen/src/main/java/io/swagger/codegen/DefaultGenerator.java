@@ -220,7 +220,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
             bundle.put("modelPackage", config.modelPackage());
             List<CodegenSecurity> authMethods = config.fromSecurity(swagger.getSecurityDefinitions());
-            if (!authMethods.isEmpty()) {
+            if (authMethods != null && !authMethods.isEmpty()) {
                 bundle.put("authMethods", authMethods);
                 bundle.put("hasAuthMethods", true);
             }
