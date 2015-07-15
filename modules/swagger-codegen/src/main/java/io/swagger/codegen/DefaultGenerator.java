@@ -413,6 +413,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> operations = new HashMap<String, Object>();
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("classname", config.toApiName(tag));
+        objs.put("pathPrefix", config.toApiVarName(tag));
 
         // check for operationId uniqueness
         Set<String> opIds = new HashSet<String>();
