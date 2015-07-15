@@ -3,6 +3,12 @@ require "uri"
 module {{moduleName}}
 {{#operations}}
   class {{classname}}
+    attr_accessor :api_client
+
+    def initialize(api_client = ApiClient.new)
+      @api_client = api_client
+    end
+
 {{#operation}}
 {{newline}}
     # {{summary}}
@@ -11,9 +17,9 @@ module {{moduleName}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
-    def self.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
-      if Swagger.configuration.debug
-        Swagger.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
+    def {{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+      if @client.debugging
+        @client.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
       end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
@@ -39,11 +45,11 @@ module {{moduleName}}
 
       # HTTP header 'Accept' (if needed)
       _header_accept = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
-      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type){{#headerParams}}{{#required}}
+      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type){{#headerParams}}{{#required}}
       header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
       header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
 
@@ -54,18 +60,18 @@ module {{moduleName}}
 
       # http body (model)
       {{^bodyParam}}post_body = nil
-      {{/bodyParam}}{{#bodyParam}}post_body = Swagger::Request.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
+      {{/bodyParam}}{{#bodyParam}}post_body = Request.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
       {{/bodyParam}}
 
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      {{#returnType}}response = Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      {{#returnType}}response = Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       result = response.deserialize('{{{returnType}}}')
-      if Swagger.configuration.debug
-        Swagger.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
+      if @client.debugging
+        @client.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
       end
-      result{{/returnType}}{{^returnType}}Swagger::Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      if Swagger.configuration.debug
-        Swagger.logger.debug "API called: {{classname}}#{{nickname}}"
+      result{{/returnType}}{{^returnType}}Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if @client.debugging
+        @client.logger.debug "API called: {{classname}}#{{nickname}}"
       end
       nil{{/returnType}}
     end
