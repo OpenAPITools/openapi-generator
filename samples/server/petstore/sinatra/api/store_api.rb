@@ -36,7 +36,7 @@ MyApp.add_route('POST', '/store/order', {
     {
       "name" => "body",
       "description" => "order placed for purchasing the pet",
-      "dataType" => "",
+      "dataType" => "Order",
       "paramType" => "body",
     }
     
@@ -61,7 +61,7 @@ MyApp.add_route('GET', '/store/order/{orderId}', {
     {
       "name" => "order_id",
       "description" => "ID of pet that needs to be fetched",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "path",
     },
     
@@ -88,7 +88,7 @@ MyApp.add_route('DELETE', '/store/order/{orderId}', {
     {
       "name" => "order_id",
       "description" => "ID of the order that needs to be deleted",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "path",
     },
     
