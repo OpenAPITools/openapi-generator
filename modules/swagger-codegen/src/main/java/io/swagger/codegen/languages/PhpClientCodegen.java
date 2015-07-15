@@ -17,8 +17,8 @@ import java.util.HashSet;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "Swagger\\Client";
-    protected String groupId = "swagger";
-    protected String artifactId = "swagger-client";
+    protected String composerVendorName = "swagger";
+    protected String composerProjectName = "swagger-client";
     protected String packagePath = "SwaggerClient-php";
     protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
@@ -37,15 +37,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
-
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("modelPackage", modelPackage);
-        additionalProperties.put("apiPackage", apiPackage);
-        additionalProperties.put("srcBasePath", srcBasePath);
-        additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
 
         // ref: http://php.net/manual/en/language.types.intro.php
         languageSpecificPrimitives = new HashSet<String>(
@@ -86,8 +77,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
         typeMapping.put("DateTime", "\\DateTime");
         
-        cliOptions.add(new CliOption("packagePath", "main package name for classes"));
-        cliOptions.add(new CliOption("srcBasePath", "directory directory under packagePath to serve as source root"));
+        cliOptions.add(new CliOption("invokerPackage", "The main namespace to use for all classes."));
+        cliOptions.add(new CliOption("packagePath", "The main package name for classes."));
+        cliOptions.add(new CliOption("srcBasePath", "The directory under packagePath to serve as source root."));
+        cliOptions.add(new CliOption("composerVendorName", "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name."));
+        cliOptions.add(new CliOption("composerProjectName", "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name."));
+        cliOptions.add(new CliOption("artifactVersion", "The version to use in the composer package version field."));
     }
 
     public String getPackagePath() {
@@ -141,23 +136,52 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey("packagePath")) {
             this.setPackagePath((String) additionalProperties.get("packagePath"));
+        } else {
+            additionalProperties.put("packagePath", packagePath);
         }
 
         if (additionalProperties.containsKey("srcBasePath")) {
             this.setSrcBasePath((String) additionalProperties.get("srcBasePath"));
+        } else {
+            additionalProperties.put("srcBasePath", srcBasePath);
         }
-
+        
+        if (additionalProperties.containsKey("invokerPackage")) {
+            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
+        } else {
+            additionalProperties.put("invokerPackage", invokerPackage);
+        }
+        
         if (additionalProperties.containsKey("modelPackage")) {
             this.setModelPackage((String) additionalProperties.get("modelPackage"));
+        } else {
+            additionalProperties.put("modelPackage", modelPackage);
         }
 
         if (additionalProperties.containsKey("apiPackage")) {
             this.setApiPackage((String) additionalProperties.get("apiPackage"));
+        } else {
+            additionalProperties.put("apiPackage", apiPackage);
         }
-
-        additionalProperties.put("srcBasePath", srcBasePath);
-        additionalProperties.put("modelPackage", modelPackage);
-        additionalProperties.put("apiPackage", apiPackage);
+                
+        if (additionalProperties.containsKey("composerProjectName")) {
+            this.setComposerProjectName((String) additionalProperties.get("composerProjectName"));
+        } else {
+            additionalProperties.put("composerProjectName", composerProjectName);
+        }
+        
+        if (additionalProperties.containsKey("composerVendorName")) {
+            this.setComposerVendorName((String) additionalProperties.get("composerVendorName"));
+        } else {
+            additionalProperties.put("composerVendorName", composerVendorName);
+        }
+        
+        if (additionalProperties.containsKey("artifactVersion")) {
+            this.setArtifactVersion((String) additionalProperties.get("artifactVersion"));
+        } else {
+            additionalProperties.put("artifactVersion", artifactVersion);
+        }
+        
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
         supportingFiles.add(new SupportingFile("configuration.mustache", toPackagePath(invokerPackage, srcBasePath), "Configuration.php"));
@@ -235,6 +259,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }
+        
+    public void setArtifactVersion(String artifactVersion) {
+        this.artifactVersion = artifactVersion;
+    }
 
     public void setPackagePath(String packagePath) {
         this.packagePath = packagePath;
@@ -242,6 +270,14 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setSrcBasePath(String srcBasePath) {
         this.srcBasePath = srcBasePath;
+    }
+    
+    private void setComposerVendorName(String composerVendorName) {
+        this.composerVendorName = composerVendorName;
+    }
+    
+    public void setComposerProjectName(String composerProjectName) {
+        this.composerProjectName = composerProjectName;
     }
 
     @Override
