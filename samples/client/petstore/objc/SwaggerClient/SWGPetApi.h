@@ -113,13 +113,13 @@
 /// Deletes a pet
 /// 
 ///
-/// @param apiKey 
 /// @param petId Pet id to delete
+/// @param apiKey 
 /// 
 ///
 /// @return 
--(NSNumber*) deletePetWithCompletionBlock :(NSString*) apiKey 
-     petId:(NSNumber*) petId 
+-(NSNumber*) deletePetWithCompletionBlock :(NSNumber*) petId 
+     apiKey:(NSString*) apiKey 
     
     
     completionHandler: (void (^)(NSError* error))completionBlock;
