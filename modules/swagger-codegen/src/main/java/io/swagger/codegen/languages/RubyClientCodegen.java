@@ -105,17 +105,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         setModelPackage("models");
         setApiPackage("api");
 
-        supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
-        supportingFiles.add(new SupportingFile("swagger_client.mustache", libFolder, gemName + ".rb"));
-        String baseFolder = libFolder + File.separator + gemName;
-        supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
-        String swaggerFolder = baseFolder + File.separator + "swagger";
-        supportingFiles.add(new SupportingFile("swagger" + File.separator + "request.mustache", swaggerFolder, "request.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separator + "response.mustache", swaggerFolder, "response.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separator + "api_error.mustache", swaggerFolder, "api_error.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separator + "version.mustache", swaggerFolder, "version.rb"));
-        supportingFiles.add(new SupportingFile("swagger" + File.separator + "configuration.mustache", swaggerFolder, "configuration.rb"));
-        String modelFolder = baseFolder + File.separator + modelPackage.replace("/", File.separator);
+        supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
+        supportingFiles.add(new SupportingFile("gem.mustache", libFolder, gemName + ".rb"));
+        String gemFolder = libFolder + File.separator + gemName;
+        supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
+        supportingFiles.add(new SupportingFile("request.mustache", gemFolder, "request.rb"));
+        supportingFiles.add(new SupportingFile("response.mustache", gemFolder, "response.rb"));
+        supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
+        supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
+        String modelFolder = gemFolder + File.separator + modelPackage.replace("/", File.separator);
         supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));
     }
 
