@@ -199,7 +199,7 @@
         if(error){
             XCTFail(@"got error %@", error);
         }
-        [api deletePetWithCompletionBlock:@"" petId:[NSString stringWithFormat:@"%@", [pet _id]] completionHandler:^(NSError *error) {
+        [api deletePetWithCompletionBlock:pet._id apiKey:@"" completionHandler:^(NSError *error) {
             if(error){
                 XCTFail(@"got error %@", error);
             }
