@@ -28,6 +28,8 @@
         self.username = @"";
         self.password = @"";
         self.tempFolderPath = nil;
+        self.debug = NO;
+        self.loggingFile = nil;
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
     }
@@ -64,6 +66,20 @@
 
 - (void) setValue:(NSString *)value forApiKeyPrefixField:(NSString *)field {
     [self.mutableApiKeyPrefix setValue:value forKey:field];
+}
+
+- (void) setLoggingFile:(NSString *)loggingFile {
+    // close old file handler
+    if ([self.loggingFileHanlder isKindOfClass:[NSFileHandle class]]) {
+        [self.loggingFileHanlder closeFile];
+    }
+    
+    _loggingFile = loggingFile;
+    self.loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
+    if (self.loggingFileHanlder == nil) {
+        [[NSFileManager defaultManager] createFileAtPath:_loggingFile contents:nil attributes:nil];
+        self.loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
+    }
 }
 
 #pragma mark - Getter Methods

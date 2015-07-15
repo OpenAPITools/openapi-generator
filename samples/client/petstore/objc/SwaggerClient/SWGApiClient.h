@@ -26,11 +26,6 @@ extern NSString *const SWGResponseObjectErrorKey;
 
 @property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
-@property(nonatomic, assign) BOOL logRequests;
-@property(nonatomic, assign) BOOL logCacheHits;
-@property(nonatomic, assign) BOOL logServerResponses;
-@property(nonatomic, assign) BOOL logJSON;
-@property(nonatomic, assign) BOOL logHTTP;
 @property(nonatomic, readonly) NSOperationQueue* queue;
 
 /**
@@ -48,13 +43,6 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @return The `shardQueue` static variable.
  */
 +(NSOperationQueue*) sharedQueue;
-
-/**
- * Turn on logging
- *
- * @param state logging state, must be `YES` or `NO`
- */
-+(void)setLoggingEnabled:(bool) state;
 
 /**
  * Clear Cache
@@ -178,6 +166,17 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @param class The type of objective-c object.
  */
 - (id) deserialize:(id) data class:(NSString *) class;
+
+/**
+ * Logging request and response
+ *
+ * @param operation AFHTTPRequestOperation for the HTTP request.
+ * @param request   The HTTP request.
+ * @param error     The error of the HTTP request.
+ */
+- (void)logResponse:(AFHTTPRequestOperation *)operation
+         forRequest:(NSURLRequest *)request
+              error:(NSError *)error;
 
 /**
  * Perform request

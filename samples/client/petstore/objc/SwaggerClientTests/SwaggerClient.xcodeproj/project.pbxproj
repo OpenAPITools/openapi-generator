@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		32FA3CA96E7FC5D792D203F8 /* Pods_SwaggerClient_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56767C6E86DE2B2855ABF7B2 /* Pods_SwaggerClient_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		158CE3AA214CB1B31C7ADC48 /* libPods-SwaggerClient_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDEF5BA3CF9CFFDEB5A47DB4 /* libPods-SwaggerClient_Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -22,7 +22,7 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		9A44FA36F7AE066E0FA82C4E /* Pods_SwaggerClient_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1D1ECCC8D1A8BE115A67138 /* Pods_SwaggerClient_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		94BE6BE84795B5034A811E61 /* libPods-SwaggerClient_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */; };
 		CFDFB4121B3CFFA8009739C5 /* UserApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFB40D1B3CFEC3009739C5 /* UserApiTest.m */; };
 		CFDFB4131B3CFFDD009739C5 /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFB40A1B3CFEC3009739C5 /* PetApiTest.m */; };
 		CFDFB4141B3CFFF6009739C5 /* StoreApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFB40B1B3CFEC3009739C5 /* StoreApiTest.m */; };
@@ -42,7 +42,6 @@
 /* Begin PBXFileReference section */
 		1A81C3BE3E54961CD827EAE3 /* Pods-SwaggerClient_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		4CCE21315897B7D544C83242 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		56767C6E86DE2B2855ABF7B2 /* Pods_SwaggerClient_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* SwaggerClient_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwaggerClient_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -64,7 +63,7 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		73CCD82196AABD64F2807C7B /* Pods-SwaggerClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		B1D1ECCC8D1A8BE115A67138 /* Pods_SwaggerClient_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwaggerClient_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB4BE760737508B3CFC23B2 /* Pods-SwaggerClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CFDFB40A1B3CFEC3009739C5 /* PetApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PetApiTest.m; sourceTree = "<group>"; };
 		CFDFB40B1B3CFEC3009739C5 /* StoreApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreApiTest.m; sourceTree = "<group>"; };
@@ -72,6 +71,7 @@
 		CFDFB40D1B3CFEC3009739C5 /* UserApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserApiTest.m; sourceTree = "<group>"; };
 		E445A633FA767F207D7EE6CE /* Pods-SwaggerClient_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		E9675D953C6DCDE71A1BDFD4 /* SwaggerClient.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwaggerClient.podspec; path = ../SwaggerClient.podspec; sourceTree = "<group>"; };
+		FDEF5BA3CF9CFFDEB5A47DB4 /* libPods-SwaggerClient_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwaggerClient_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				32FA3CA96E7FC5D792D203F8 /* Pods_SwaggerClient_Example.framework in Frameworks */,
+				94BE6BE84795B5034A811E61 /* libPods-SwaggerClient_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +93,7 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				9A44FA36F7AE066E0FA82C4E /* Pods_SwaggerClient_Tests.framework in Frameworks */,
+				158CE3AA214CB1B31C7ADC48 /* libPods-SwaggerClient_Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,8 +128,8 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				56767C6E86DE2B2855ABF7B2 /* Pods_SwaggerClient_Example.framework */,
-				B1D1ECCC8D1A8BE115A67138 /* Pods_SwaggerClient_Tests.framework */,
+				8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */,
+				FDEF5BA3CF9CFFDEB5A47DB4 /* libPods-SwaggerClient_Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -214,7 +214,6 @@
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				CFCA721F9D6FBA792A2E917F /* Embed Pods Frameworks */,
 				429AF5C69E165ED75311B4B0 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -234,7 +233,6 @@
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				373B17801C82424AA96FEEFA /* Embed Pods Frameworks */,
 				E337D7E459CCFFDF27046FFC /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -256,11 +254,6 @@
 				CLASSPREFIX = SWG;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = geekerzp;
-				TargetAttributes = {
-					6003F5AD195388D20070C39A = {
-						TestTargetID = 6003F589195388D20070C39A;
-					};
-				};
 			};
 			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "SwaggerClient" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -303,21 +296,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		373B17801C82424AA96FEEFA /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		429AF5C69E165ED75311B4B0 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -361,21 +339,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		CFCA721F9D6FBA792A2E917F /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E337D7E459CCFFDF27046FFC /* Copy Pods Resources */ = {
@@ -554,7 +517,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 73CCD82196AABD64F2807C7B /* Pods-SwaggerClient_Tests.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -568,7 +530,6 @@
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwaggerClient_Example.app/SwaggerClient_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -577,7 +538,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1A81C3BE3E54961CD827EAE3 /* Pods-SwaggerClient_Tests.release.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -587,7 +547,6 @@
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwaggerClient_Example.app/SwaggerClient_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

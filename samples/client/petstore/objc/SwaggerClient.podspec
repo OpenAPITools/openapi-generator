@@ -16,13 +16,13 @@ Pod::Spec.new do |s|
                          This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href=\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters
                          DESC
 
-    s.license          = 'MIT'
-
     s.platform     = :ios, '7.0'
     s.requires_arc = true
 
+    s.framework    = 'SystemConfiguration'
+
     s.source_files = 'SwaggerClient/**/*'
-    s.public_header_files = '1.0.0/**/*.h'
+    s.public_header_files = 'SwaggerClient/**/*.h'
 
     s.dependency 'AFNetworking', '~> 2.3'
     s.dependency 'JSONModel', '~> 1.1'
