@@ -29,6 +29,13 @@
 @property (nonatomic) NSString *tempFolderPath;
 
 /**
+ * Logging Settings
+ */
+@property (nonatomic) BOOL debug;
+@property (nonatomic) NSString *loggingFile;
+@property (nonatomic) NSFileHandle *loggingFileHanlder;
+
+/**
  * Get configuration singleton instance
  */
 + (instancetype) sharedConfig;

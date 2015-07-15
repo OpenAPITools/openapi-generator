@@ -1,7 +1,7 @@
 #import <XCTest/XCTest.h>
 #import <SwaggerClient/SWGApiClient.h>
-#import <SwaggerClient/SWGFile.h>
 #import <SwaggerClient/SWGPetApi.h>
+#import <SwaggerClient/SWGPet.h>
 
 @interface PetApiTest : XCTestCase {
 @private

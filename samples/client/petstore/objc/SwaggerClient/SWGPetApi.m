@@ -1,5 +1,4 @@
 #import "SWGPetApi.h"
-#import "SWGFile.h"
 #import "SWGQueryParamCollection.h"
 #import "SWGPet.h"
 
