@@ -15,18 +15,18 @@ MyApp.add_route('{{httpMethod}}', '{{path}}', {
     {
       "name" => "{{paramName}}",
       "description" => "{{description}}",
-      "dataType" => "{{swaggerDataType}}",
+      "dataType" => "{{dataType}}",
       "paramType" => "query",
-      "allowMultiple" => {{allowMultiple}},
+      {{#collectionFormat}}"collectionFormat" => "{{collectionFormat}}",{{/collectionFormat}}
       "allowableValues" => "{{allowableValues}}",
-      {{#defaultValue}}"defaultValue" => {{{defaultValue}}}{{/defaultValue}}
+      {{#defaultValue}}"defaultValue" => "{{{defaultValue}}}"{{/defaultValue}}
     },
     {{/queryParams}}
     {{#pathParams}}
     {
       "name" => "{{paramName}}",
       "description" => "{{description}}",
-      "dataType" => "{{swaggerDataType}}",
+      "dataType" => "{{dataType}}",
       "paramType" => "path",
     },
     {{/pathParams}}
@@ -34,7 +34,7 @@ MyApp.add_route('{{httpMethod}}', '{{path}}', {
     {
       "name" => "{{paramName}}",
       "description" => "{{description}}",
-      "dataType" => "{{swaggerDataType}}",
+      "dataType" => "{{dataType}}",
       "paramType" => "header",
     },
     {{/headerParams}}
@@ -42,7 +42,7 @@ MyApp.add_route('{{httpMethod}}', '{{path}}', {
     {
       "name" => "body",
       "description" => "{{description}}",
-      "dataType" => "{{swaggerDataType}}",
+      "dataType" => "{{dataType}}",
       "paramType" => "body",
     }
     {{/bodyParams}}

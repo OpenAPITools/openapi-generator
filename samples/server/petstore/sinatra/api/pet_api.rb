@@ -16,7 +16,7 @@ MyApp.add_route('PUT', '/pet', {
     {
       "name" => "body",
       "description" => "Pet object that needs to be added to the store",
-      "dataType" => "",
+      "dataType" => "Pet",
       "paramType" => "body",
     }
     
@@ -43,7 +43,7 @@ MyApp.add_route('POST', '/pet', {
     {
       "name" => "body",
       "description" => "Pet object that needs to be added to the store",
-      "dataType" => "",
+      "dataType" => "Pet",
       "paramType" => "body",
     }
     
@@ -67,11 +67,11 @@ MyApp.add_route('GET', '/pet/findByStatus', {
     {
       "name" => "status",
       "description" => "Status values that need to be considered for filter",
-      "dataType" => "",
+      "dataType" => "array[string]",
       "paramType" => "query",
-      "allowMultiple" => ,
+      "collectionFormat" => "multi",
       "allowableValues" => "",
-      "defaultValue" => available
+      "defaultValue" => "available"
     },
     
     
@@ -97,9 +97,9 @@ MyApp.add_route('GET', '/pet/findByTags', {
     {
       "name" => "tags",
       "description" => "Tags to filter by",
-      "dataType" => "",
+      "dataType" => "array[string]",
       "paramType" => "query",
-      "allowMultiple" => ,
+      "collectionFormat" => "multi",
       "allowableValues" => "",
       
     },
@@ -128,7 +128,7 @@ MyApp.add_route('GET', '/pet/{petId}', {
     {
       "name" => "pet_id",
       "description" => "ID of pet that needs to be fetched",
-      "dataType" => "",
+      "dataType" => "int",
       "paramType" => "path",
     },
     
@@ -155,7 +155,7 @@ MyApp.add_route('POST', '/pet/{petId}', {
     {
       "name" => "pet_id",
       "description" => "ID of pet that needs to be updated",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "path",
     },
     
@@ -182,7 +182,7 @@ MyApp.add_route('DELETE', '/pet/{petId}', {
     {
       "name" => "pet_id",
       "description" => "Pet id to delete",
-      "dataType" => "",
+      "dataType" => "int",
       "paramType" => "path",
     },
     
@@ -190,7 +190,7 @@ MyApp.add_route('DELETE', '/pet/{petId}', {
     {
       "name" => "api_key",
       "description" => "",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "header",
     },
     
@@ -216,7 +216,7 @@ MyApp.add_route('POST', '/pet/{petId}/uploadImage', {
     {
       "name" => "pet_id",
       "description" => "ID of pet to update",
-      "dataType" => "",
+      "dataType" => "int",
       "paramType" => "path",
     },
     
