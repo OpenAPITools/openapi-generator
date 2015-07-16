@@ -15,10 +15,13 @@ import os
 import re
 import urllib
 import json
-import datetime
 import mimetypes
 import random
 import tempfile
+import threading
+
+from datetime import datetime
+from datetime import date
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -30,7 +33,7 @@ except ImportError:
   # for python2
   from urllib import quote
 
-from . import configuration
+from .configuration import Configuration
 
 class ApiClient(object):
   """
@@ -40,7 +43,7 @@ class ApiClient(object):
   :param header_name: a header to pass when making calls to the API
   :param header_value: a header value to pass when making calls to the API
   """
-  def __init__(self, host=configuration.host, header_name=None, header_value=None):
+  def __init__(self, host=Configuration().host, header_name=None, header_value=None):
     self.default_headers = {}
     if header_name is not None:
       self.default_headers[header_name] = header_value
@@ -60,8 +63,8 @@ class ApiClient(object):
   def set_default_header(self, header_name, header_value):
     self.default_headers[header_name] = header_value
 
-  def call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
-               body=None, post_params=None, files=None, response_type=None, auth_settings=None):
+  def __call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
+                 body=None, post_params=None, files=None, response_type=None, auth_settings=None, callback=None):
 
     # headers parameters
     header_params = header_params or {}
@@ -106,9 +109,14 @@ class ApiClient(object):
 
     # deserialize response data
     if response_type:
-      return self.deserialize(response_data, response_type)
+      deserialized_data = self.deserialize(response_data, response_type)
     else:
-      return None
+      deserialized_data = None
+
+    if callback:
+      callback(deserialized_data)
+    else:
+      return deserialized_data
 
   def to_path_value(self, obj):
     """
@@ -140,7 +148,7 @@ class ApiClient(object):
       return obj
     elif isinstance(obj, list):
       return [self.sanitize_for_serialization(sub_obj) for sub_obj in obj]
-    elif isinstance(obj, (datetime.datetime, datetime.date)):
+    elif isinstance(obj, (datetime, date)):
       return obj.isoformat()
     else:
       if isinstance(obj, dict):
@@ -197,7 +205,7 @@ class ApiClient(object):
 
       # convert str to class
       # for native types
-      if klass in ['int', 'float', 'str', 'bool', 'datetime', "object"]:
+      if klass in ['int', 'float', 'str', 'bool', "date", 'datetime', "object"]:
         klass = eval(klass)
       # for model types
       else:
@@ -207,12 +215,54 @@ class ApiClient(object):
       return self.__deserialize_primitive(data, klass)
     elif klass == object:
       return self.__deserialize_object()
+    elif klass == date:
+      return self.__deserialize_date(data)
     elif klass == datetime:
       return self.__deserialize_datatime(data)
     else:
       return self.__deserialize_model(data, klass)
 
-  def request(self, method, url, query_params=None, headers=None, post_params=None, body=None):
+  def call_api(self, resource_path, method,
+               path_params=None, query_params=None, header_params=None,
+               body=None, post_params=None, files=None,
+               response_type=None, auth_settings=None, callback=None):
+    """ 
+    Perform http request and return deserialized data
+
+        
+    :param resource_path: Path to method endpoint.
+    :param method: Method to call.
+    :param path_params: Path parameters in the url.
+    :param query_params: Query parameters in the url.
+    :param header_params: Header parameters to be placed in the request header.
+    :param body: Request body.
+    :param post_params dict: Request post form parameters, for `application/x-www-form-urlencoded`, `multipart/form-data`.
+    :param auth_settings list: Auth Settings names for the request.
+    :param response: Response data type.
+    :param files dict: key -> filename, value -> filepath, for `multipart/form-data`.
+    :param callback function: Callback function for asynchronous request. 
+        If provide this parameter, the request will be called asynchronously.
+    :return:
+        If provide parameter callback, the request will be called asynchronously.
+        The method will return the request thread.
+        If parameter callback is None, then the method will return the response directly.
+    """
+    if callback is None:
+      return self.__call_api(resource_path, method,
+                             path_params, query_params, header_params,
+                             body, post_params, files,
+                             response_type, auth_settings, callback)
+    else:
+      thread = threading.Thread(target=self.__call_api,
+                                args=(resource_path, method,
+                                      path_params, query_params, header_params,
+                                      body, post_params, files,
+                                      response_type, auth_settings, callback))
+      thread.start()
+      return thread
+
+  def request(self, method, url, query_params=None, headers=None,
+              post_params=None, body=None):
     """
     Perform http request using RESTClient.
     """
@@ -280,11 +330,13 @@ class ApiClient(object):
     """
     Update header and query params based on authentication setting
     """
+    config = Configuration()
+    
     if not auth_settings:
       return
 
     for auth in auth_settings:
-      auth_setting = configuration.auth_settings().get(auth)
+      auth_setting = config.auth_settings().get(auth)
       if auth_setting:
         if auth_setting['in'] == 'header':
           headers[auth_setting['key']] = auth_setting['value']
@@ -338,6 +390,21 @@ class ApiClient(object):
     """
     return object()
 
+  def __deserialize_date(self, string):
+    """
+    Deserialize string to date
+
+    :param string: str
+    :return: date
+    """
+    try:
+      from dateutil.parser import parse
+      return parse(string).date()
+    except ImportError:
+      return string
+    except ValueError:
+      raise ApiException(status=0, reason="Failed to parse `{0}` into a date object".format(string))
+      
   def __deserialize_datatime(self, string):
     """
     Deserialize string to datetime.
