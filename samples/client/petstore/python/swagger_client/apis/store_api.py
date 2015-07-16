@@ -152,7 +152,6 @@ class StoreApi(object):
         
         :return: Order
         """
-        
         # verify the required parameter 'order_id' is set
         if order_id is None:
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")
@@ -209,7 +208,6 @@ class StoreApi(object):
         
         :return: None
         """
-        
         # verify the required parameter 'order_id' is set
         if order_id is None:
             raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")

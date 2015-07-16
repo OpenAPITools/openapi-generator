@@ -43,9 +43,21 @@ class {{classname}}(object):
         }
         {{#vars}}
         {{#description}}# {{description}}{{/description}}
-        self.{{name}} = None  # {{{datatype}}}
+        self._{{name}} = None  # {{{datatype}}}
         {{/vars}}
+    {{#vars}}
+    @property
+    def {{name}}(self):
+        return self._{{name}}
 
+    @{{name}}.setter
+    def {{name}}(self, {{name}}):
+        {{#isEnum}}allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
+        if {{name}} not in allowed_values:
+            raise ValueError("Invalid value for `{{name}}`, must be one of {0}".format(allowed_values))
+        {{/isEnum}}
+        self._{{name}} = {{name}}
+    {{/vars}}
     def __repr__(self):
         properties = []
         for p in self.__dict__:

@@ -49,24 +49,81 @@ class Pet(object):
         }
         
         
-        self.id = None  # int
+        self._id = None  # int
         
         
-        self.category = None  # Category
+        self._category = None  # Category
         
         
-        self.name = None  # str
+        self._name = None  # str
         
         
-        self.photo_urls = None  # list[str]
+        self._photo_urls = None  # list[str]
         
         
-        self.tags = None  # list[Tag]
+        self._tags = None  # list[Tag]
         
         # pet status in the store
-        self.status = None  # str
+        self._status = None  # str
         
+    
+    @property
+    def id(self):
+        return self._id
 
+    @id.setter
+    def id(self, id):
+        
+        self._id = id
+    
+    @property
+    def category(self):
+        return self._category
+
+    @category.setter
+    def category(self, category):
+        
+        self._category = category
+    
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        
+        self._name = name
+    
+    @property
+    def photo_urls(self):
+        return self._photo_urls
+
+    @photo_urls.setter
+    def photo_urls(self, photo_urls):
+        
+        self._photo_urls = photo_urls
+    
+    @property
+    def tags(self):
+        return self._tags
+
+    @tags.setter
+    def tags(self, tags):
+        
+        self._tags = tags
+    
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, status):
+        allowed_values = ["available", "pending", "sold"]
+        if status not in allowed_values:
+            raise ValueError("Invalid value for `status`, must be one of {0}".format(allowed_values))
+        
+        self._status = status
+    
     def __repr__(self):
         properties = []
         for p in self.__dict__:

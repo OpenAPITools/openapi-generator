@@ -51,8 +51,7 @@ class {{classname}}(object):
         {{/allParams}}
         :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
         """
-        {{#allParams}}{{#required}}
-        # verify the required parameter '{{paramName}}' is set
+        {{#allParams}}{{#required}}# verify the required parameter '{{paramName}}' is set
         if {{paramName}} is None:
             raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{nickname}}`")
         {{/required}}{{/allParams}}
