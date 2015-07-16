@@ -307,7 +307,6 @@ class UserApi(object):
         
         :return: User
         """
-        
         # verify the required parameter 'username' is set
         if username is None:
             raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")
@@ -365,7 +364,6 @@ class UserApi(object):
         
         :return: None
         """
-        
         # verify the required parameter 'username' is set
         if username is None:
             raise ValueError("Missing the required parameter `username` when calling `update_user`")
@@ -423,7 +421,6 @@ class UserApi(object):
         
         :return: None
         """
-        
         # verify the required parameter 'username' is set
         if username is None:
             raise ValueError("Missing the required parameter `username` when calling `delete_user`")

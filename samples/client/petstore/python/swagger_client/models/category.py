@@ -41,12 +41,30 @@ class Category(object):
         }
         
         
-        self.id = None  # int
+        self._id = None  # int
         
         
-        self.name = None  # str
+        self._name = None  # str
         
+    
+    @property
+    def id(self):
+        return self._id
 
+    @id.setter
+    def id(self, id):
+        
+        self._id = id
+    
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        
+        self._name = name
+    
     def __repr__(self):
         properties = []
         for p in self.__dict__:

@@ -49,24 +49,81 @@ class Order(object):
         }
         
         
-        self.id = None  # int
+        self._id = None  # int
         
         
-        self.pet_id = None  # int
+        self._pet_id = None  # int
         
         
-        self.quantity = None  # int
+        self._quantity = None  # int
         
         
-        self.ship_date = None  # datetime
+        self._ship_date = None  # datetime
         
         # Order Status
-        self.status = None  # str
+        self._status = None  # str
         
         
-        self.complete = None  # bool
+        self._complete = None  # bool
         
+    
+    @property
+    def id(self):
+        return self._id
 
+    @id.setter
+    def id(self, id):
+        
+        self._id = id
+    
+    @property
+    def pet_id(self):
+        return self._pet_id
+
+    @pet_id.setter
+    def pet_id(self, pet_id):
+        
+        self._pet_id = pet_id
+    
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, quantity):
+        
+        self._quantity = quantity
+    
+    @property
+    def ship_date(self):
+        return self._ship_date
+
+    @ship_date.setter
+    def ship_date(self, ship_date):
+        
+        self._ship_date = ship_date
+    
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, status):
+        allowed_values = ["placed", "approved", "delivered"]
+        if status not in allowed_values:
+            raise ValueError("Invalid value for `status`, must be one of {0}".format(allowed_values))
+        
+        self._status = status
+    
+    @property
+    def complete(self):
+        return self._complete
+
+    @complete.setter
+    def complete(self, complete):
+        
+        self._complete = complete
+    
     def __repr__(self):
         properties = []
         for p in self.__dict__:

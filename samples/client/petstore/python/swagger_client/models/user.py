@@ -53,30 +53,102 @@ class User(object):
         }
         
         
-        self.id = None  # int
+        self._id = None  # int
         
         
-        self.username = None  # str
+        self._username = None  # str
         
         
-        self.first_name = None  # str
+        self._first_name = None  # str
         
         
-        self.last_name = None  # str
+        self._last_name = None  # str
         
         
-        self.email = None  # str
+        self._email = None  # str
         
         
-        self.password = None  # str
+        self._password = None  # str
         
         
-        self.phone = None  # str
+        self._phone = None  # str
         
         # User Status
-        self.user_status = None  # int
+        self._user_status = None  # int
         
+    
+    @property
+    def id(self):
+        return self._id
 
+    @id.setter
+    def id(self, id):
+        
+        self._id = id
+    
+    @property
+    def username(self):
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        
+        self._username = username
+    
+    @property
+    def first_name(self):
+        return self._first_name
+
+    @first_name.setter
+    def first_name(self, first_name):
+        
+        self._first_name = first_name
+    
+    @property
+    def last_name(self):
+        return self._last_name
+
+    @last_name.setter
+    def last_name(self, last_name):
+        
+        self._last_name = last_name
+    
+    @property
+    def email(self):
+        return self._email
+
+    @email.setter
+    def email(self, email):
+        
+        self._email = email
+    
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        
+        self._password = password
+    
+    @property
+    def phone(self):
+        return self._phone
+
+    @phone.setter
+    def phone(self, phone):
+        
+        self._phone = phone
+    
+    @property
+    def user_status(self):
+        return self._user_status
+
+    @user_status.setter
+    def user_status(self, user_status):
+        
+        self._user_status = user_status
+    
     def __repr__(self):
         properties = []
         for p in self.__dict__:

@@ -258,7 +258,6 @@ class PetApi(object):
         
         :return: Pet
         """
-        
         # verify the required parameter 'pet_id' is set
         if pet_id is None:
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
@@ -317,7 +316,6 @@ class PetApi(object):
         
         :return: None
         """
-        
         # verify the required parameter 'pet_id' is set
         if pet_id is None:
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
@@ -379,7 +377,6 @@ class PetApi(object):
         
         :return: None
         """
-        
         # verify the required parameter 'pet_id' is set
         if pet_id is None:
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
@@ -439,7 +436,6 @@ class PetApi(object):
         
         :return: None
         """
-        
         # verify the required parameter 'pet_id' is set
         if pet_id is None:
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
