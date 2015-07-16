@@ -18,43 +18,60 @@ import java.util.Set;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected Set<String> foundationClasses = new HashSet<String>();
-    protected String sourceFolder = "client";
+    protected String podName = "SwaggerClient";
+    protected String podVersion = "1.0.0";
     protected String classPrefix = "SWG";
-    protected String projectName = "SwaggerClient";
 
     public ObjcClientCodegen() {
         super();
+        
         outputFolder = "generated-code" + File.separator + "objc";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".m");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".m");
         templateDir = "objc";
-        modelPackage = "";
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "bool",
-                        "BOOL",
-                        "int",
-                        "NSString",
-                        "NSObject",
-                        "NSArray",
-                        "NSNumber",
-                        "NSDate",
-                        "NSDictionary",
-                        "NSMutableArray",
-                        "NSMutableDictionary")
-        );
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "NSNumber",
-                        "NSString",
-                        "NSObject",
-                        "NSDate",
-                        "bool",
-                        "BOOL")
-        );
+        defaultIncludes.clear();
+        defaultIncludes.add("bool");
+        defaultIncludes.add("BOOL");
+        defaultIncludes.add("int");
+        defaultIncludes.add("NSURL");
+        defaultIncludes.add("NSString");
+        defaultIncludes.add("NSObject");
+        defaultIncludes.add("NSArray");
+        defaultIncludes.add("NSNumber");
+        defaultIncludes.add("NSDate");
+        defaultIncludes.add("NSDictionary");
+        defaultIncludes.add("NSMutableArray");
+        defaultIncludes.add("NSMutableDictionary");
+        
+        languageSpecificPrimitives.clear();
+        languageSpecificPrimitives.add("NSNumber");
+        languageSpecificPrimitives.add("NSString");
+        languageSpecificPrimitives.add("NSObject");
+        languageSpecificPrimitives.add("NSDate");
+        languageSpecificPrimitives.add("NSURL");
+        languageSpecificPrimitives.add("bool");
+        languageSpecificPrimitives.add("BOOL");
+
+        typeMapping.clear();
+        typeMapping.put("enum", "NSString");
+        typeMapping.put("Date", "NSDate");
+        typeMapping.put("DateTime", "NSDate");
+        typeMapping.put("boolean", "NSNumber");
+        typeMapping.put("string", "NSString");
+        typeMapping.put("integer", "NSNumber");
+        typeMapping.put("int", "NSNumber");
+        typeMapping.put("float", "NSNumber");
+        typeMapping.put("long", "NSNumber");
+        typeMapping.put("double", "NSNumber");
+        typeMapping.put("array", "NSArray");
+        typeMapping.put("map", "NSDictionary");
+        typeMapping.put("number", "NSNumber");
+        typeMapping.put("List", "NSArray");
+        typeMapping.put("object", "NSObject");
+        typeMapping.put("file", "NSURL");
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         reservedWords = new HashSet<String>(
@@ -70,25 +87,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "double", "protocol", "interface", "implementation",
                         "NSObject", "NSInteger", "NSNumber", "CGFloat",
                         "property", "nonatomic", "retain", "strong",
-                        "weak", "unsafe_unretained", "readwrite", "readonly"
+                        "weak", "unsafe_unretained", "readwrite", "readonly",
+                        "description"
                 ));
-
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("enum", "NSString");
-        typeMapping.put("Date", "NSDate");
-        typeMapping.put("DateTime", "NSDate");
-        typeMapping.put("boolean", "BOOL");
-        typeMapping.put("string", "NSString");
-        typeMapping.put("integer", "NSNumber");
-        typeMapping.put("int", "NSNumber");
-        typeMapping.put("float", "NSNumber");
-        typeMapping.put("long", "NSNumber");
-        typeMapping.put("double", "NSNumber");
-        typeMapping.put("array", "NSArray");
-        typeMapping.put("map", "NSDictionary");
-        typeMapping.put("number", "NSNumber");
-        typeMapping.put("List", "NSArray");
-        typeMapping.put("object", "NSObject");
 
         importMapping = new HashMap<String, String>();
 
@@ -98,15 +99,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "NSObject",
                         "NSString",
                         "NSDate",
+                        "NSURL",
                         "NSDictionary")
         );
 
         instantiationTypes.put("array", "NSMutableArray");
         instantiationTypes.put("map", "NSMutableDictionary");
 
-        cliOptions.add(new CliOption("classPrefix", "prefix for generated classes"));
-        cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
-        cliOptions.add(new CliOption("projectName", "name of the Xcode project in generated Podfile"));
+        cliOptions.clear();
+        cliOptions.add(new CliOption("classPrefix", "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`), default: `SWG`"));
+        cliOptions.add(new CliOption("podName", "cocoapods package name (convention: CameCase), default: `SwaggerClient`"));
+        cliOptions.add(new CliOption("podVersion", "cocoapods package version, default: `1.0.0`"));
     }
 
     public CodegenType getTag() {
@@ -125,35 +128,43 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("sourceFolder")) {
-            this.setSourceFolder((String) additionalProperties.get("sourceFolder"));
+        if (additionalProperties.containsKey("podName")) {
+            setPodName((String) additionalProperties.get("podName"));
+        }
+
+        if (additionalProperties.containsKey("podVersion")) {
+            setPodVersion((String) additionalProperties.get("podVersion"));
         }
 
         if (additionalProperties.containsKey("classPrefix")) {
-            this.setClassPrefix((String) additionalProperties.get("classPrefix"));
+            setClassPrefix((String) additionalProperties.get("classPrefix"));
         }
 
-        if (additionalProperties.containsKey("projectName")) {
-            this.setProjectName((String) additionalProperties.get("projectName"));
-        } else {
-            additionalProperties.put("projectName", projectName);
-        }
+        additionalProperties.put("podName", podName);
+        additionalProperties.put("podVersion", podVersion);
+        additionalProperties.put("classPrefix", classPrefix);
 
-        supportingFiles.add(new SupportingFile("SWGObject.h", sourceFolder, "SWGObject.h"));
-        supportingFiles.add(new SupportingFile("SWGObject.m", sourceFolder, "SWGObject.m"));
-        supportingFiles.add(new SupportingFile("SWGQueryParamCollection.h", sourceFolder, "SWGQueryParamCollection.h"));
-        supportingFiles.add(new SupportingFile("SWGQueryParamCollection.m", sourceFolder, "SWGQueryParamCollection.m"));
-        supportingFiles.add(new SupportingFile("SWGApiClient-header.mustache", sourceFolder, "SWGApiClient.h"));
-        supportingFiles.add(new SupportingFile("SWGApiClient-body.mustache", sourceFolder, "SWGApiClient.m"));
-        supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-header.mustache", sourceFolder, "SWGJSONResponseSerializer.h"));
-        supportingFiles.add(new SupportingFile("SWGJSONResponseSerializer-body.mustache", sourceFolder, "SWGJSONResponseSerializer.m"));
-        supportingFiles.add(new SupportingFile("SWGFile.h", sourceFolder, "SWGFile.h"));
-        supportingFiles.add(new SupportingFile("SWGFile.m", sourceFolder, "SWGFile.m"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", sourceFolder, "JSONValueTransformer+ISO8601.m"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", sourceFolder, "JSONValueTransformer+ISO8601.h"));
-        supportingFiles.add(new SupportingFile("SWGConfiguration-body.mustache", sourceFolder, "SWGConfiguration.m"));
-        supportingFiles.add(new SupportingFile("SWGConfiguration-header.mustache", sourceFolder, "SWGConfiguration.h"));
-        supportingFiles.add(new SupportingFile("Podfile.mustache", "", "Podfile"));
+        String swaggerFolder = podName;
+
+        modelPackage = swaggerFolder;
+        apiPackage = swaggerFolder;
+
+        supportingFiles.add(new SupportingFile("Object-header.mustache", swaggerFolder, classPrefix + "Object.h"));
+        supportingFiles.add(new SupportingFile("Object-body.mustache", swaggerFolder, classPrefix + "Object.m"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache", swaggerFolder, classPrefix + "QueryParamCollection.h"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache", swaggerFolder, classPrefix + "QueryParamCollection.m"));
+        supportingFiles.add(new SupportingFile("ApiClient-header.mustache", swaggerFolder, classPrefix + "ApiClient.h"));
+        supportingFiles.add(new SupportingFile("ApiClient-body.mustache", swaggerFolder, classPrefix + "ApiClient.m"));
+        supportingFiles.add(new SupportingFile("JSONResponseSerializer-header.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.h"));
+        supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.h"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", swaggerFolder, "JSONValueTransformer+ISO8601.m"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", swaggerFolder, "JSONValueTransformer+ISO8601.h"));
+        supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));
+        supportingFiles.add(new SupportingFile("Configuration-header.mustache", swaggerFolder, classPrefix + "Configuration.h"));
+        supportingFiles.add(new SupportingFile("podspec.mustache", "", podName + ".podspec"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
@@ -285,11 +296,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
-        if ("".equals(modelPackage())) {
-            return name;
-        } else {
-            return modelPackage() + "." + name;
-        }
+        return name;
     }
 
     @Override
@@ -299,12 +306,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder;
+        return outputFolder + File.separatorChar + apiPackage();
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder;
+        return outputFolder + File.separatorChar + modelPackage();
     }
 
     @Override
@@ -359,15 +366,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(operationId, true);
     }
 
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
     public void setClassPrefix(String classPrefix) {
         this.classPrefix = classPrefix;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setPodName(String podName) {
+        this.podName = podName;
+    }
+
+    public void setPodVersion(String podVersion) {
+        this.podVersion = podVersion;
     }
 }

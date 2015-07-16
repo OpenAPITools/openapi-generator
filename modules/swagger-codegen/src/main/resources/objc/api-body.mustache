@@ -1,7 +1,6 @@
 {{#operations}}
 #import "{{classname}}.h"
-#import "SWGFile.h"
-#import "SWGQueryParamCollection.h"
+#import "{{classPrefix}}QueryParamCollection.h"
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
 {{newline}}
@@ -19,20 +18,20 @@ static NSString * basePath = @"{{basePath}}";
 - (id) init {
     self = [super init];
     if (self) {
-        self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+        self.apiClient = [{{classPrefix}}ApiClient sharedClientFromPool:basePath];
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (id) initWithApiClient:(SWGApiClient *)apiClient {
+- (id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
     self = [super init];
     if (self) {
         if (apiClient) {
             self.apiClient = apiClient;
         }
         else {
-            self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+            self.apiClient = [{{classPrefix}}ApiClient sharedClientFromPool:basePath];
         }
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
@@ -69,7 +68,7 @@ static NSString * basePath = @"{{basePath}}";
 }
 
 -(unsigned long) requestQueueSize {
-    return [SWGApiClient requestQueueSize];
+    return [{{classPrefix}}ApiClient requestQueueSize];
 }
 
 #pragma mark - Api Methods
@@ -84,12 +83,14 @@ static NSString * basePath = @"{{basePath}}";
 ///
 -(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
         {{/allParams}}
-        {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock{{/returnBaseType}}
-        {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock{{/returnBaseType}} {
+        {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock { {{/returnBaseType}}
+        {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock { {{/returnBaseType}}
 
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
-    NSAssert({{paramName}} != nil, @"Missing the required parameter `{{paramName}}` when calling {{nickname}}");
+    if ({{paramName}} == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `{{paramName}}` when calling `{{nickname}}`"];
+    }
     {{/required}}{{/allParams}}
 
     NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@{{path}}", basePath];
@@ -98,13 +99,13 @@ static NSString * basePath = @"{{basePath}}";
     if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
         [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
 
-    {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [SWGApiClient escape:{{paramName}}]];
+    {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [{{classPrefix}}ApiClient escape:{{paramName}}]];
     {{/pathParams}}
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     {{#queryParams}}if({{paramName}} != nil) {
         {{#collectionFormat}}
-        queryParams[@"{{baseName}}"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
+        queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
         {{/collectionFormat}}
         {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
     }
@@ -114,9 +115,9 @@ static NSString * basePath = @"{{basePath}}";
     {{#headerParams}}if({{paramName}} != nil)
         headerParams[@"{{baseName}}"] = {{paramName}};
     {{/headerParams}}
-    
-    // HTTP header `Accept` 
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [{{classPrefix}}ApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
     if ([headerParams[@"Accept"] length] == 0) {
         [headerParams removeObjectForKey:@"Accept"];
     }
@@ -131,62 +132,39 @@ static NSString * basePath = @"{{basePath}}";
     }
 
     // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
+    NSString *requestContentType = [{{classPrefix}}ApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     // Authentication setting
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
-    
-    id bodyDictionary = nil;
-    {{#bodyParam}}
-    id __body = {{paramName}};
 
-    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
-        NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)__body) {
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    {{#bodyParam}}
+    bodyParam = {{paramName}};
+
+    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
+        NSMutableArray *objs = [[NSMutableArray alloc] init];
+        for (id dict in (NSArray*)bodyParam) {
             if([dict respondsToSelector:@selector(toDictionary)]) {
-                [objs addObject:[(SWGObject*)dict toDictionary]];
+                [objs addObject:[({{classPrefix}}Object*)dict toDictionary]];
             }
             else{
                 [objs addObject:dict];
             }
         }
-        bodyDictionary = objs;
+        bodyParam = objs;
     }
-    else if([__body respondsToSelector:@selector(toDictionary)]) {
-        bodyDictionary = [(SWGObject*)__body toDictionary];
+    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
+        bodyParam = [({{classPrefix}}Object*)bodyParam toDictionary];
     }
-    else if([__body isKindOfClass:[NSString class]]) {
-        // convert it to a dictionary
-        NSError * error;
-        NSString * str = (NSString*)__body;
-        NSDictionary *JSON =
-            [NSJSONSerialization JSONObjectWithData: [str dataUsingEncoding: NSUTF8StringEncoding]
-                                            options: NSJSONReadingMutableContainers
-                                              error: &error];
-        bodyDictionary = JSON;
-    }
-    {{/bodyParam}}
-    {{^bodyParam}}
-
-    NSMutableDictionary * formParams = [[NSMutableDictionary alloc]init];
-
+    {{/bodyParam}}{{^bodyParam}}
     {{#formParams}}
     {{#notFile}}
     formParams[@"{{paramName}}"] = {{paramName}};
     {{/notFile}}{{#isFile}}
-    requestContentType = @"multipart/form-data";
-    if(bodyDictionary == nil) {
-      bodyDictionary = [[NSMutableArray alloc] init];
-    }
-    if({{paramName}} != nil) {
-      [bodyDictionary addObject:{{paramName}}];
-      {{paramName}}.paramName  = @"{{baseName}}";
-    }
+    files[@"{{paramName}}"] = {{paramName}};
     {{/isFile}}
-    if(bodyDictionary == nil) {
-      bodyDictionary = [[NSMutableArray alloc] init];
-    }
-    [bodyDictionary addObject:formParams];
     {{/formParams}}
     {{/bodyParam}}
 
@@ -200,14 +178,17 @@ static NSString * basePath = @"{{basePath}}";
     return [self.apiClient requestWithCompletionBlock: requestUrl
                                                method: @"{{httpMethod}}"
                                           queryParams: queryParams
-                                                 body: bodyDictionary
+                                           formParams: formParams
+                                                files: files
+                                                 body: bodyParam
                                          headerParams: headerParams
                                          authSettings: authSettings
                                    requestContentType: requestContentType
                                   responseContentType: responseContentType
+                                         responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
                                       completionBlock: ^(id data, NSError *error) {
                   {{^returnType}}completionBlock(error);{{/returnType}}
-                  {{#returnType}}completionBlock([self.apiClient deserialize: data class:@"{{{returnType}}}"], error);{{/returnType}}
+                  {{#returnType}}completionBlock(({{{ returnType }}})data, error);{{/returnType}}
               }
           ];
 }
@@ -217,6 +198,3 @@ static NSString * basePath = @"{{basePath}}";
 {{newline}}
 {{/operations}}
 @end
-
-
-
