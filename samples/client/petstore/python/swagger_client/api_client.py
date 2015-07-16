@@ -15,11 +15,13 @@ import os
 import re
 import urllib
 import json
-import datetime
 import mimetypes
 import random
 import tempfile
 import threading
+
+from datetime import datetime
+from datetime import date
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -146,7 +148,7 @@ class ApiClient(object):
       return obj
     elif isinstance(obj, list):
       return [self.sanitize_for_serialization(sub_obj) for sub_obj in obj]
-    elif isinstance(obj, (datetime.datetime, datetime.date)):
+    elif isinstance(obj, (datetime, date)):
       return obj.isoformat()
     else:
       if isinstance(obj, dict):
@@ -203,7 +205,7 @@ class ApiClient(object):
 
       # convert str to class
       # for native types
-      if klass in ['int', 'float', 'str', 'bool', 'datetime', "object"]:
+      if klass in ['int', 'float', 'str', 'bool', "date", 'datetime', "object"]:
         klass = eval(klass)
       # for model types
       else:
@@ -213,6 +215,8 @@ class ApiClient(object):
       return self.__deserialize_primitive(data, klass)
     elif klass == object:
       return self.__deserialize_object()
+    elif klass == date:
+      return self.__deserialize_date(data)
     elif klass == datetime:
       return self.__deserialize_datatime(data)
     else:
@@ -386,6 +390,21 @@ class ApiClient(object):
     """
     return object()
 
+  def __deserialize_date(self, string):
+    """
+    Deserialize string to date
+
+    :param string: str
+    :return: date
+    """
+    try:
+      from dateutil.parser import parse
+      return parse(string).date()
+    except ImportError:
+      return string
+    except ValueError:
+      raise ApiException(status=0, reason="Failed to parse `{0}` into a date object".format(string))
+      
   def __deserialize_datatime(self, string):
     """
     Deserialize string to datetime.
