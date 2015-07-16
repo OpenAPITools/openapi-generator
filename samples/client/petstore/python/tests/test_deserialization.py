@@ -63,8 +63,14 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(data, "str")
         self.assertTrue(isinstance(deserialized, str))
 
+    def test_deserialize_date(self):
+        """ deserialize date """
+        data = "1997-07-16"
+        deserialized = self.deserialize(data, "date")
+        self.assertTrue(isinstance(deserialized, datetime.date))
+
     def test_deserialize_datetime(self):
-        """ deserialize dateimte """
+        """ deserialize datetime """
         data = "1997-07-16T19:20:30.45+01:00"
         deserialized = self.deserialize(data, "datetime")
         self.assertTrue(isinstance(deserialized, datetime.datetime))
