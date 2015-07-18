@@ -48,9 +48,8 @@ class PetApi(object):
         Update an existing pet
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -124,9 +123,8 @@ class PetApi(object):
         Add a new pet to the store
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -200,9 +198,8 @@ class PetApi(object):
         Finds Pets by status
         Multiple status values can be provided with comma seperated strings
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -276,9 +273,8 @@ class PetApi(object):
         Finds Pets by tags
         Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -352,9 +348,8 @@ class PetApi(object):
         Find pet by ID
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -431,9 +426,8 @@ class PetApi(object):
         Updates a pet in the store with form data
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -516,9 +510,8 @@ class PetApi(object):
         Deletes a pet
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -598,9 +591,8 @@ class PetApi(object):
         uploads an image
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
