@@ -50,7 +50,6 @@ namespace {{packageName}}.Client
             get { return _defaultHeaderMap; }
         }
     
-<<<<<<< HEAD
         // Creates and sets up a RestRequest prior to a call.
         private RestRequest PrepareRequest(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
@@ -58,9 +57,9 @@ namespace {{packageName}}.Client
             Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
         {
             var request = new RestRequest(path, method);
-    
+   
             UpdateParamsForAuth(queryParams, headerParams, authSettings);
-    
+
             // add default header, if any
             foreach(var defaultHeader in _defaultHeaderMap)
                 request.AddHeader(defaultHeader.Key, defaultHeader.Value);
@@ -72,15 +71,15 @@ namespace {{packageName}}.Client
             // add header parameter, if any
             foreach(var param in headerParams)
                 request.AddHeader(param.Key, param.Value);
-           
+
             // add query parameter, if any
             foreach(var param in queryParams)
                 request.AddQueryParameter(param.Key, param.Value);
-    
+
             // add form parameter, if any
             foreach(var param in formParams)
                 request.AddParameter(param.Key, param.Value);
-    
+
             // add file parameter, if any
             foreach(var param in fileParams)
                 request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
@@ -208,173 +207,6 @@ namespace {{packageName}}.Client
                     ? Path.GetTempPath()
                     : Configuration.TempFolderPath;
 
-=======
-        /// <summary>
-        /// Makes the HTTP request (Sync).
-        /// </summary>
-        /// <param name="path">URL path.</param>
-        /// <param name="method">HTTP method.</param>
-        /// <param name="queryParams">Query parameters.</param>
-        /// <param name="postBody">HTTP body (POST request).</param>
-        /// <param name="headerParams">Header parameters.</param>
-        /// <param name="formParams">Form parameters.</param>
-        /// <param name="fileParams">File parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
-        /// <returns>Object</returns>
-        public Object CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
-            Dictionary<String, String> headerParams, Dictionary<String, String> formParams, 
-            Dictionary<String, FileParameter> fileParams, String[] authSettings)
-        {
-
-            var request = new RestRequest(path, method);
-   
-            UpdateParamsForAuth(queryParams, headerParams, authSettings);
-
-            // add default header, if any
-            foreach(var defaultHeader in _defaultHeaderMap)
-                request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-
-            // add header parameter, if any
-            foreach(var param in headerParams)
-                request.AddHeader(param.Key, param.Value);
-
-            // add query parameter, if any
-            foreach(var param in queryParams)
-                request.AddQueryParameter(param.Key, param.Value);
-
-            // add form parameter, if any
-            foreach(var param in formParams)
-                request.AddParameter(param.Key, param.Value);
-
-            // add file parameter, if any
-            foreach(var param in fileParams)
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
-
-            if (postBody != null) // http body (model) parameter
-                request.AddParameter("application/json", postBody, ParameterType.RequestBody);
-
-            return (Object)RestClient.Execute(request);
-
-        }
-
-        /// <summary>
-        /// Makes the asynchronous HTTP request.
-        /// </summary>
-        /// <param name="path">URL path.</param>
-        /// <param name="method">HTTP method.</param>
-        /// <param name="queryParams">Query parameters.</param>
-        /// <param name="postBody">HTTP body (POST request).</param>
-        /// <param name="headerParams">Header parameters.</param>
-        /// <param name="formParams">Form parameters.</param>
-        /// <param name="fileParams">File parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
-        /// <returns>The Task instance.</returns>
-        public async System.Threading.Tasks.Task<Object> CallApiAsync(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
-            Dictionary<String, String> headerParams, Dictionary<String, String> formParams, Dictionary<String, FileParameter> fileParams, String[] authSettings)
-        {
-    
-            var request = new RestRequest(path, method);
-    
-            UpdateParamsForAuth(queryParams, headerParams, authSettings);
-    
-            // add default header, if any
-            foreach(var defaultHeader in _defaultHeaderMap)
-                request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-    
-            // add header parameter, if any
-            foreach(var param in headerParams)
-                request.AddHeader(param.Key, param.Value);
-           
-            // add query parameter, if any
-            foreach(var param in queryParams)
-                request.AddQueryParameter(param.Key, param.Value);
-    
-            // add form parameter, if any
-            foreach(var param in formParams)
-                request.AddParameter(param.Key, param.Value);
-    
-            // add file parameter, if any
-            foreach(var param in fileParams)
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
-
-            if (postBody != null) // http body (model) parameter
-                request.AddParameter("application/json", postBody, ParameterType.RequestBody);
-    
-            return (Object) await RestClient.ExecuteTaskAsync(request);
-        }
-    
-        /// <summary>
-        /// Add default header.
-        /// </summary>
-        /// <param name="key">Header field name.</param>
-        /// <param name="value">Header field value.</param>
-        /// <returns></returns>
-        public void AddDefaultHeader(string key, string value)
-        {
-            _defaultHeaderMap.Add(key, value);
-        }
-    
-        /// <summary>
-        /// Escape string (url-encoded).
-        /// </summary>
-        /// <param name="str">String to be escaped.</param>
-        /// <returns>Escaped string.</returns>
-        public string EscapeString(string str)
-        {
-            return HttpUtility.UrlEncode(str);
-        }
-    
-        /// <summary>
-        /// Create FileParameter based on Stream.
-        /// </summary>
-        /// <param name="name">Parameter name.</param>
-        /// <param name="stream">Input stream.</param>
-        /// <returns>FileParameter.</returns>
-        public FileParameter ParameterToFile(string name, Stream stream)
-        {
-            if (stream is FileStream)
-                return FileParameter.Create(name, stream.ReadAsBytes(), Path.GetFileName(((FileStream)stream).Name));
-            else
-                return FileParameter.Create(name, stream.ReadAsBytes(), "no_file_name_provided");
-        }
-    
-        /// <summary>
-        /// If parameter is DateTime, output in ISO8601 format.
-        /// If parameter is a list of string, join the list with ",".
-        /// Otherwise just return the string.
-        /// </summary>
-        /// <param name="obj">The parameter (header, path, query, form).</param>
-        /// <returns>Formatted string.</returns>
-        public string ParameterToString(object obj)
-        {
-            if (obj is DateTime)
-                return ((DateTime)obj).ToString ("u");
-            else if (obj is List<string>)
-                return String.Join(",", obj as List<string>);
-            else
-                return Convert.ToString (obj);
-        }
-    
-        /// <summary>
-        /// Deserialize the JSON string into a proper object.
-        /// </summary>
-        /// <param name="content">HTTP body (e.g. string, JSON).</param>
-        /// <param name="type">Object type.</param>
-        /// <returns>Object representation of the JSON string.</returns>
-        public object Deserialize(string content, Type type, IList<Parameter> headers=null)
-        {
-            if (type == typeof(Object)) // return an object
-            {
-                return content;
-            }
-
-            if (type == typeof(Stream))
-            {
-                var filePath = String.IsNullOrEmpty(Configuration.TempFolderPath)
-                    ? Path.GetTempPath()
-                    : Configuration.TempFolderPath;
-
->>>>>>> e879268043b53fe30ea0238807b9519687c1e5f2
                 var fileName = filePath + Guid.NewGuid();
                 if (headers != null)
                 {

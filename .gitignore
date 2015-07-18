@@ -31,8 +31,10 @@ samples/client/petstore/qt5cpp/PetStore/PetStore
 samples/client/petstore/qt5cpp/PetStore/Makefile
 samples/client/petstore/java/hello.txt
 samples/client/petstore/android-java/hello.txt
-samples/client/petstore/objc/Build
-samples/client/petstore/objc/Pods
+samples/client/petstore/objc/SwaggerClientTests/Build
+samples/client/petstore/objc/SwaggerClientTests/Pods
+samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcworkspace
+samples/client/petstore/objc/SwaggerClientTests/Podfile.lock
 samples/server/petstore/nodejs/node_modules
 target
 .idea
@@ -45,3 +47,6 @@ samples/client/petstore/php/SwaggerClient-php/vendor/
 
 samples/client/petstore/silex/SwaggerServer/composer.lock
 samples/client/petstore/silex/SwaggerServer/venodr/
+
+samples/client/petstore/python/.projectile
+samples/client/petstore/python/.venv/

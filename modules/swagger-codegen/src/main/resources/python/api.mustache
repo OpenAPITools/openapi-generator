@@ -27,19 +27,20 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from .. import configuration
+from ..configuration import Configuration
 from ..api_client import ApiClient
 
 {{#operations}}
 class {{classname}}(object):
 
     def __init__(self, api_client=None):
+        config = Configuration()
         if api_client:
             self.api_client = api_client
         else:
-            if not configuration.api_client:
-                configuration.api_client = ApiClient('{{basePath}}')
-            self.api_client = configuration.api_client
+            if not config.api_client:
+                config.api_client = ApiClient('{{basePath}}')
+            self.api_client = config.api_client
     
     {{#operation}}
     def {{nickname}}(self, {{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}**kwargs):
@@ -47,9 +48,18 @@ class {{classname}}(object):
         {{{summary}}}
         {{{notes}}}
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when receiving response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
+
+        :param callback function: The callback function for asynchronous request. (optional) 
         {{#allParams}}:param {{dataType}} {{paramName}}: {{{description}}} {{#required}}(required){{/required}}{{#optional}}(optional){{/optional}}
         {{/allParams}}
         :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+                 If the method is called asynchronously, returns the request thread.
         """
         {{#allParams}}{{#required}}
         # verify the required parameter '{{paramName}}' is set
@@ -57,6 +67,7 @@ class {{classname}}(object):
             raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{nickname}}`")
         {{/required}}{{/allParams}}
         all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -107,17 +118,7 @@ class {{classname}}(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}}, auth_settings=auth_settings)
-        {{#returnType}}
+                                            response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}}, auth_settings=auth_settings, callback=params.get('callback'))
         return response
-        {{/returnType}}{{/operation}}
+        {{/operation}}
 {{/operations}}
-
-
-
-
-
-
-
-
-

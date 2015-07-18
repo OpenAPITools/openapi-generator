@@ -34,7 +34,7 @@ class Order(object):
             'id': 'int',
             'pet_id': 'int',
             'quantity': 'int',
-            'ship_date': 'DateTime',
+            'ship_date': 'datetime',
             'status': 'str',
             'complete': 'bool'
         }
@@ -58,7 +58,7 @@ class Order(object):
         self.quantity = None  # int
         
         
-        self.ship_date = None  # DateTime
+        self.ship_date = None  # datetime
         
         # Order Status
         self.status = None  # str

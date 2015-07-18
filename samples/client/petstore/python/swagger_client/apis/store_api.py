@@ -27,18 +27,19 @@ import os
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from .. import configuration
+from ..configuration import Configuration
 from ..api_client import ApiClient
 
 class StoreApi(object):
 
     def __init__(self, api_client=None):
+        config = Configuration()
         if api_client:
             self.api_client = api_client
         else:
-            if not configuration.api_client:
-                configuration.api_client = ApiClient('http://petstore.swagger.io/v2')
-            self.api_client = configuration.api_client
+            if not config.api_client:
+                config.api_client = ApiClient('http://petstore.swagger.io/v2')
+            self.api_client = config.api_client
     
     
     def get_inventory(self, **kwargs):
@@ -46,11 +47,21 @@ class StoreApi(object):
         Returns pet inventories by status
         Returns a map of status codes to quantities
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when receiving response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_inventory(callback=callback_function)
+
+        :param callback function: The callback function for asynchronous request. (optional) 
         
         :return: dict(str, int)
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = []
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -86,8 +97,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='dict(str, int)', auth_settings=auth_settings)
-        
+                                            response_type='dict(str, int)', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def place_order(self, **kwargs):
@@ -95,12 +105,22 @@ class StoreApi(object):
         Place an order for a pet
         
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when receiving response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.place_order(callback=callback_function)
+
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param Order body: order placed for purchasing the pet 
         
         :return: Order
+                 If the method is called asynchronously, returns the request thread.
         """
         
         all_params = ['body']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -139,8 +159,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Order', auth_settings=auth_settings)
-        
+                                            response_type='Order', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def get_order_by_id(self, order_id, **kwargs):
@@ -148,9 +167,18 @@ class StoreApi(object):
         Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when receiving response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_order_by_id(order_id, callback=callback_function)
+
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str order_id: ID of pet that needs to be fetched (required)
         
         :return: Order
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'order_id' is set
@@ -158,6 +186,7 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")
         
         all_params = ['order_id']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -196,8 +225,7 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response='Order', auth_settings=auth_settings)
-        
+                                            response_type='Order', auth_settings=auth_settings, callback=params.get('callback'))
         return response
         
     def delete_order(self, order_id, **kwargs):
@@ -205,9 +233,18 @@ class StoreApi(object):
         Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
+        SDK also supports asynchronous requests in which you can define a `callback` function 
+        to be passed along and invoked when receiving response:
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_order(order_id, callback=callback_function)
+
+        :param callback function: The callback function for asynchronous request. (optional) 
         :param str order_id: ID of the order that needs to be deleted (required)
         
         :return: None
+                 If the method is called asynchronously, returns the request thread.
         """
         
         # verify the required parameter 'order_id' is set
@@ -215,6 +252,7 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")
         
         all_params = ['order_id']
+        all_params.append('callback')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -253,14 +291,6 @@ class StoreApi(object):
 
         response = self.api_client.call_api(resource_path, method, path_params, query_params, header_params,
                                             body=body_params, post_params=form_params, files=files,
-                                            response=None, auth_settings=auth_settings)
+                                            response_type=None, auth_settings=auth_settings, callback=params.get('callback'))
+        return response
         
-
-
-
-
-
-
-
-
-

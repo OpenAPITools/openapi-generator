@@ -1,8 +1,11 @@
 package io.swagger.client.auth;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
 
+import io.swagger.client.Pair;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -10,7 +13,7 @@ import static org.junit.Assert.*;
 public class ApiKeyAuthTest {
     @Test
     public void testApplyToParamsInQuery() {
-        Map<String, String> queryParams = new HashMap<String, String>();
+        List<Pair> queryParams = new ArrayList<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
 
         ApiKeyAuth auth = new ApiKeyAuth("query", "api_key");
@@ -18,14 +21,17 @@ public class ApiKeyAuthTest {
         auth.applyToParams(queryParams, headerParams);
 
         assertEquals(1, queryParams.size());
-        assertEquals("my-api-key", queryParams.get("api_key"));
+        for (Pair queryParam : queryParams) {
+            assertEquals("my-api-key", queryParam.getValue());
+        }
+
         // no changes to header parameters
         assertEquals(0, headerParams.size());
     }
 
     @Test
     public void testApplyToParamsInHeaderWithPrefix() {
-        Map<String, String> queryParams = new HashMap<String, String>();
+            List<Pair> queryParams = new ArrayList<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
 
         ApiKeyAuth auth = new ApiKeyAuth("header", "X-API-TOKEN");

@@ -9,14 +9,19 @@ templates."""
 from __future__ import absolute_import
 from . import models
 from .rest import RESTClient
+from .rest import ApiException
 
 import os
 import re
 import urllib
 import json
-import datetime
 import mimetypes
 import random
+import tempfile
+import threading
+
+from datetime import datetime
+from datetime import date
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -28,7 +33,7 @@ except ImportError:
   # for python2
   from urllib import quote
 
-from . import configuration
+from .configuration import Configuration
 
 class ApiClient(object):
   """
@@ -38,7 +43,7 @@ class ApiClient(object):
   :param header_name: a header to pass when making calls to the API
   :param header_value: a header value to pass when making calls to the API
   """
-  def __init__(self, host=configuration.host, header_name=None, header_value=None):
+  def __init__(self, host=Configuration().host, header_name=None, header_value=None):
     self.default_headers = {}
     if header_name is not None:
       self.default_headers[header_name] = header_value
@@ -58,8 +63,8 @@ class ApiClient(object):
   def set_default_header(self, header_name, header_value):
     self.default_headers[header_name] = header_value
 
-  def call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
-               body=None, post_params=None, files=None, response=None, auth_settings=None):
+  def __call_api(self, resource_path, method, path_params=None, query_params=None, header_params=None,
+                 body=None, post_params=None, files=None, response_type=None, auth_settings=None, callback=None):
 
     # headers parameters
     header_params = header_params or {}
@@ -100,11 +105,18 @@ class ApiClient(object):
     response_data = self.request(method, url, query_params=query_params, headers=header_params,
                                  post_params=post_params, body=body)
 
+    self.last_response = response_data
+
     # deserialize response data
-    if response:
-      return self.deserialize(response_data, response)
+    if response_type:
+      deserialized_data = self.deserialize(response_data, response_type)
     else:
-      return None
+      deserialized_data = None
+
+    if callback:
+      callback(deserialized_data)
+    else:
+      return deserialized_data
 
   def to_path_value(self, obj):
     """
@@ -136,7 +148,7 @@ class ApiClient(object):
       return obj
     elif isinstance(obj, list):
       return [self.sanitize_for_serialization(sub_obj) for sub_obj in obj]
-    elif isinstance(obj, (datetime.datetime, datetime.date)):
+    elif isinstance(obj, (datetime, date)):
       return obj.isoformat()
     else:
       if isinstance(obj, dict):
@@ -151,84 +163,106 @@ class ApiClient(object):
       return {key: self.sanitize_for_serialization(val)
               for key, val in iteritems(obj_dict)}
 
-  def deserialize(self, obj, obj_class):
+  def deserialize(self, response, response_type):
     """
-    Derialize a JSON string into an object.
+    Derialize response into an object.
 
-    :param obj: string or object to be deserialized
-    :param obj_class: class literal for deserialzied object, or string of class name
+    :param response: RESTResponse object to be deserialized
+    :param response_type: class literal for deserialzied object, or string of class name
 
-    :return object: deserialized object
+    :return: deserialized object
     """
-    # Have to accept obj_class as string or actual type. Type could be a
-    # native Python type, or one of the model classes.
-    if type(obj_class) == str:
-      if 'list[' in obj_class:
-        match = re.match('list\[(.*)\]', obj_class)
-        sub_class = match.group(1)
-        return [self.deserialize(sub_obj, sub_class) for sub_obj in obj]
+    # handle file downloading - save response body into a tmp file and return the instance
+    if "file" == response_type:
+      return self.__deserialize_file(response)
 
-      if 'dict(' in obj_class:
-        match = re.match('dict\((.*), (.*)\)', obj_class)
-        sub_class = match.group(2)
-        return {k: self.deserialize(v, sub_class) for k, v in iteritems(obj)}
-
-      if obj_class in ['int', 'float', 'dict', 'list', 'str', 'bool', 'datetime', "object"]:
-        obj_class = eval(obj_class)
-      else:  # not a native type, must be model class
-        obj_class = eval('models.' + obj_class)
-
-    if obj_class in [int, float, dict, list, str, bool]:
-      return obj_class(obj)
-    elif obj_class == object:
-      return object()
-    elif obj_class == datetime:
-      return self.__parse_string_to_datetime(obj)
-
-    instance = obj_class()
-
-    for attr, attr_type in iteritems(instance.swagger_types):
-        if obj is not None and instance.attribute_map[attr] in obj and type(obj) in [list, dict]:
-          value = obj[instance.attribute_map[attr]]
-          if attr_type in ['str', 'int', 'float', 'bool']:
-            attr_type = eval(attr_type)
-            try:
-              value = attr_type(value)
-            except UnicodeEncodeError:
-              value = unicode(value)
-            except TypeError:
-              value = value
-            setattr(instance, attr, value)
-          elif attr_type == 'datetime':
-            setattr(instance, attr, self.__parse_string_to_datetime(value))
-          elif 'list[' in attr_type:
-            match = re.match('list\[(.*)\]', attr_type)
-            sub_class = match.group(1)
-            sub_values = []
-            if not value:
-              setattr(instance, attr, None)
-            else:
-              for sub_value in value:
-                sub_values.append(self.deserialize(sub_value, sub_class))
-              setattr(instance, attr, sub_values)
-          else:
-            setattr(instance, attr, self.deserialize(value, attr_type))
-
-    return instance
-
-  def __parse_string_to_datetime(self, string):
-    """
-    Parse datetime in string to datetime.
-
-    The string should be in iso8601 datetime format.
-    """
+    # fetch data from response object
     try:
-        from dateutil.parser import parse
-        return parse(string)
-    except ImportError:
-        return string
+      data = json.loads(response.data)
+    except ValueError:
+      data = response.data
 
-  def request(self, method, url, query_params=None, headers=None, post_params=None, body=None):
+    return self.__deserialize(data, response_type)
+
+  def __deserialize(self, data, klass):
+    """
+    :param data: dict, list or str
+    :param klass: class literal, or string of class name
+
+    :return: object
+    """
+    if data is None:
+      return None
+
+    if type(klass) == str:
+      if 'list[' in klass:
+        sub_kls = re.match('list\[(.*)\]', klass).group(1)
+        return [self.__deserialize(sub_data, sub_kls) for sub_data in data]
+
+      if 'dict(' in klass:
+        sub_kls = re.match('dict\((.*), (.*)\)', klass).group(2)
+        return {k: self.__deserialize(v, sub_kls) for k, v in iteritems(data)}
+
+      # convert str to class
+      # for native types
+      if klass in ['int', 'float', 'str', 'bool', "date", 'datetime', "object"]:
+        klass = eval(klass)
+      # for model types
+      else:
+        klass = eval('models.' + klass)
+
+    if klass in [int, float, str, bool]:
+      return self.__deserialize_primitive(data, klass)
+    elif klass == object:
+      return self.__deserialize_object()
+    elif klass == date:
+      return self.__deserialize_date(data)
+    elif klass == datetime:
+      return self.__deserialize_datatime(data)
+    else:
+      return self.__deserialize_model(data, klass)
+
+  def call_api(self, resource_path, method,
+               path_params=None, query_params=None, header_params=None,
+               body=None, post_params=None, files=None,
+               response_type=None, auth_settings=None, callback=None):
+    """ 
+    Perform http request and return deserialized data
+
+        
+    :param resource_path: Path to method endpoint.
+    :param method: Method to call.
+    :param path_params: Path parameters in the url.
+    :param query_params: Query parameters in the url.
+    :param header_params: Header parameters to be placed in the request header.
+    :param body: Request body.
+    :param post_params dict: Request post form parameters, for `application/x-www-form-urlencoded`, `multipart/form-data`.
+    :param auth_settings list: Auth Settings names for the request.
+    :param response: Response data type.
+    :param files dict: key -> filename, value -> filepath, for `multipart/form-data`.
+    :param callback function: Callback function for asynchronous request. 
+        If provide this parameter, the request will be called asynchronously.
+    :return:
+        If provide parameter callback, the request will be called asynchronously.
+        The method will return the request thread.
+        If parameter callback is None, then the method will return the response directly.
+    """
+    if callback is None:
+      return self.__call_api(resource_path, method,
+                             path_params, query_params, header_params,
+                             body, post_params, files,
+                             response_type, auth_settings, callback)
+    else:
+      thread = threading.Thread(target=self.__call_api,
+                                args=(resource_path, method,
+                                      path_params, query_params, header_params,
+                                      body, post_params, files,
+                                      response_type, auth_settings, callback))
+      thread.start()
+      return thread
+
+  def request(self, method, url, query_params=None, headers=None,
+              post_params=None, body=None):
     """
     Perform http request using RESTClient.
     """
@@ -296,11 +330,13 @@ class ApiClient(object):
     """
     Update header and query params based on authentication setting
     """
+    config = Configuration()
+    
     if not auth_settings:
       return
-    
+
     for auth in auth_settings:
-      auth_setting = configuration.auth_settings().get(auth)
+      auth_setting = config.auth_settings().get(auth)
       if auth_setting:
         if auth_setting['in'] == 'header':
           headers[auth_setting['key']] = auth_setting['value']
@@ -308,3 +344,98 @@ class ApiClient(object):
           querys[auth_setting['key']] = auth_setting['value']
         else:
           raise ValueError('Authentication token must be in `query` or `header`')
+
+  def __deserialize_file(self, response):
+    """
+    Save response body into a file in (the defined) temporary folder, using the filename
+    from the `Content-Disposition` header if provided, otherwise a random filename.
+
+    :param response:  RESTResponse
+    :return: file path
+    """
+    fd, path = tempfile.mkstemp(dir=configuration.temp_folder_path)
+    os.close(fd)
+    os.remove(path)
+
+    content_disposition = response.getheader("Content-Disposition")
+    if content_disposition:
+      filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?', content_disposition).group(1)
+      path = os.path.join(os.path.dirname(path), filename)
+
+    with open(path, "w") as f:
+      f.write(response.data)
+
+    return path
+
+  def __deserialize_primitive(self, data, klass):
+    """
+    Deserialize string to primitive type
+
+    :param data: str
+    :param klass: class literal
+
+    :return: int, float, str, bool
+    """
+    try:
+      value = klass(data)
+    except UnicodeEncodeError:
+      value = unicode(data)
+    except TypeError:
+      value = data
+    return value
+
+  def __deserialize_object(self):
+    """
+    Deserialize empty object
+    """
+    return object()
+
+  def __deserialize_date(self, string):
+    """
+    Deserialize string to date
+
+    :param string: str
+    :return: date
+    """
+    try:
+      from dateutil.parser import parse
+      return parse(string).date()
+    except ImportError:
+      return string
+    except ValueError:
+      raise ApiException(status=0, reason="Failed to parse `{0}` into a date object".format(string))
+      
+  def __deserialize_datatime(self, string):
+    """
+    Deserialize string to datetime.
+
+    The string should be in iso8601 datetime format.
+
+    :param string: str
+    :return: datetime
+    """
+    try:
+      from dateutil.parser import parse
+      return parse(string)
+    except ImportError:
+      return string
+    except ValueError:
+      raise ApiException(status=0, reason="Failed to parse `{0}` into a datetime object".format(string))
+
+  def __deserialize_model(self, data, klass):
+    """
+    Deserialize list or dict to model
+
+    :param data: dict, list
+    :param klass: class literal
+    """
+    instance = klass()
+
+    for attr, attr_type in iteritems(instance.swagger_types):
+      if data is not None \
+         and instance.attribute_map[attr] in data\
+         and isinstance(data, (list, dict)):
+        value = data[instance.attribute_map[attr]]
+        setattr(instance, attr, self.__deserialize(value, attr_type))
+
+    return instance

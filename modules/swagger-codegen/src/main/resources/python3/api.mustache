@@ -36,7 +36,7 @@ class {{classname}}(object):
         {{{notes}}}
 
         Args:
-            {{#allParams}}{{paramName}}, {{dataType}}: {{{description}}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
+            {{#allParams}}{{paramName}}, {{dataType}}: {{{description}}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
             {{/allParams}}
 
         Returns: {{returnType}}
