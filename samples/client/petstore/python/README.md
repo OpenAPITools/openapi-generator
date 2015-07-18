@@ -11,13 +11,13 @@ python setup.py install
 Or you can install from Github via pip:
 
 ```sh
-pip install git+https://github.com/geekerzp/SwaggerPetstore-python.git
+pip install git+https://github.com/geekerzp/swagger_client.git
 ```
 
 To use the bindings, import the pacakge:
 
 ```python
-import SwaggerPetstore
+import swagger_client
 ```
 
 ## Manual Installation
@@ -25,7 +25,7 @@ If you do not wish to use setuptools, you can download the latest release.
 Then, to use the bindings, import the package:
 
 ```python
-import path.to.SwaggerPetstore-python.SwaggerPetstore
+import path.to.swagger_client
 ```
 
 ## Getting Started
@@ -38,9 +38,9 @@ TODO
 
 ## Tests
 
-(Make sure you are running it inside of a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/))
+(Please make sure you have [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) installed)
 
-You can run the tests in the current python platform:
+ Execute the following command to run the tests in the current Python (v2 or v3) environment:
 
 ```sh
 $ make test
@@ -71,4 +71,3 @@ $ make test-all
   py34: commands succeeded
   congratulations :)
 ```
-

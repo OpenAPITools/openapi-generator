@@ -16,7 +16,7 @@ MyApp.add_route('POST', '/user', {
     {
       "name" => "body",
       "description" => "Created user object",
-      "dataType" => "",
+      "dataType" => "User",
       "paramType" => "body",
     }
     
@@ -43,7 +43,7 @@ MyApp.add_route('POST', '/user/createWithArray', {
     {
       "name" => "body",
       "description" => "List of user object",
-      "dataType" => "",
+      "dataType" => "array[User]",
       "paramType" => "body",
     }
     
@@ -70,7 +70,7 @@ MyApp.add_route('POST', '/user/createWithList', {
     {
       "name" => "body",
       "description" => "List of user object",
-      "dataType" => "",
+      "dataType" => "array[User]",
       "paramType" => "body",
     }
     
@@ -94,9 +94,9 @@ MyApp.add_route('GET', '/user/login', {
     {
       "name" => "username",
       "description" => "The user name for login",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "query",
-      "allowMultiple" => ,
+      
       "allowableValues" => "",
       
     },
@@ -104,9 +104,9 @@ MyApp.add_route('GET', '/user/login', {
     {
       "name" => "password",
       "description" => "The password for login in clear text",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "query",
-      "allowMultiple" => ,
+      
       "allowableValues" => "",
       
     },
@@ -155,7 +155,7 @@ MyApp.add_route('GET', '/user/{username}', {
     {
       "name" => "username",
       "description" => "The name that needs to be fetched. Use user1 for testing. ",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "path",
     },
     
@@ -182,7 +182,7 @@ MyApp.add_route('PUT', '/user/{username}', {
     {
       "name" => "username",
       "description" => "name that need to be deleted",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "path",
     },
     
@@ -191,7 +191,7 @@ MyApp.add_route('PUT', '/user/{username}', {
     {
       "name" => "body",
       "description" => "Updated user object",
-      "dataType" => "",
+      "dataType" => "User",
       "paramType" => "body",
     }
     
@@ -216,7 +216,7 @@ MyApp.add_route('DELETE', '/user/{username}', {
     {
       "name" => "username",
       "description" => "The name that needs to be deleted",
-      "dataType" => "",
+      "dataType" => "string",
       "paramType" => "path",
     },
     

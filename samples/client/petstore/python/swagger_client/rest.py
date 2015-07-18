@@ -10,6 +10,7 @@ import io
 import json
 import ssl
 import certifi
+import logging
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -25,6 +26,9 @@ try:
 except ImportError:
     # for python2
     from urllib import urlencode
+
+
+logger = logging.getLogger(__name__)
 
 
 class RESTResponse(io.IOBase):
@@ -65,9 +69,10 @@ class RESTClientObject(object):
 
     def agent(self, url):
         """
-        Return proper pool manager for the http\https schemes.
+        Use `urllib3.util.parse_url` for backward compatibility.
+        Return proper pool manager for the http/https schemes.
         """
-        url = urllib3.util.url.parse_url(url)
+        url = urllib3.util.parse_url(url)
         scheme = url.scheme
         if scheme == 'https':
             return self.ssl_pool_manager
@@ -125,24 +130,18 @@ class RESTClientObject(object):
                                         headers=headers)
         r = RESTResponse(r)
 
-        if r.status not in range(200, 206):
-            raise ApiException(r)
-
-        return self.process_response(r)
-
-    def process_response(self, response):
         # In the python 3, the response.data is bytes.
         # we need to decode it to string.
         if sys.version_info > (3,):
-            data = response.data.decode('utf8')
-        else:
-            data = response.data
-        try:
-            resp = json.loads(data)
-        except ValueError:
-            resp = data
+            r.data = r.data.decode('utf8')
 
-        return resp
+        # log response body
+        logger.debug("response body: %s" % r.data)
+
+        if r.status not in range(200, 206):
+            raise ApiException(http_resp=r)
+
+        return r
 
     def GET(self, url, headers=None, query_params=None):
         return self.request("GET", url, headers=headers, query_params=query_params)
@@ -164,37 +163,32 @@ class RESTClientObject(object):
 
 
 class ApiException(Exception):
-    """
-    Non-2xx HTTP response
-    """
 
-    def __init__(self, http_resp):
-        self.status = http_resp.status
-        self.reason = http_resp.reason
-        self.body = http_resp.data
-        self.headers = http_resp.getheaders()
-
-        # In the python 3, the self.body is bytes.
-        # we need to decode it to string.
-        if sys.version_info > (3,):
-            data = self.body.decode('utf8')
+    def __init__(self, status=None, reason=None, http_resp=None):
+        if http_resp:
+            self.status = http_resp.status
+            self.reason = http_resp.reason
+            self.body = http_resp.data
+            self.headers = http_resp.getheaders()
         else:
-            data = self.body
-            
-        try:
-            self.body = json.loads(data)
-        except ValueError:
-            self.body = data
+            self.status = status
+            self.reason = reason
+            self.body = None
+            self.headers = None
 
     def __str__(self):
         """
-        Custom error response messages
+        Custom error messages for exception
         """
-        return "({0})\n"\
-            "Reason: {1}\n"\
-            "HTTP response headers: {2}\n"\
-            "HTTP response body: {3}\n".\
-            format(self.status, self.reason, self.headers, self.body)
+        error_message = "({0})\n"\
+                        "Reason: {1}\n".format(self.status, self.reason)
+        if self.headers:
+            error_message += "HTTP response headers: {0}".format(self.headers)
+
+        if self.body:
+            error_message += "HTTP response body: {0}".format(self.body)
+
+        return error_message
 
 class RESTClient(object):
     """

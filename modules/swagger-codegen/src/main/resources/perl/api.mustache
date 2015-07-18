@@ -54,7 +54,7 @@ sub new {
 #
 # {{{summary}}}
 # 
-{{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{^optional}}(required){{/optional}}{{#optional}}(optional){{/optional}}
+{{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
 {{/allParams}}# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 #
 sub {{nickname}} {

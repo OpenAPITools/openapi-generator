@@ -95,27 +95,17 @@ namespace {{packageName}}.Api
             {{/required}}{{/allParams}}
     
             var path = "{{path}}";
-<<<<<<< HEAD
     
             var pathParams = new Dictionary<String, String>();
-=======
-            path = path.Replace("{format}", "json");
-            {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", ApiClient.ParameterToString({{{paramName}}}));
-            {{/pathParams}}
-    
->>>>>>> e879268043b53fe30ea0238807b9519687c1e5f2
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-<<<<<<< HEAD
 
             pathParams.Add("format", "json");
             {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
-=======
->>>>>>> e879268043b53fe30ea0238807b9519687c1e5f2
     
             {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
             {{/queryParams}}
@@ -130,11 +120,7 @@ namespace {{packageName}}.Api
             String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
     
             // make the HTTP request
-<<<<<<< HEAD
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-=======
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
->>>>>>> e879268043b53fe30ea0238807b9519687c1e5f2
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
@@ -156,30 +142,18 @@ namespace {{packageName}}.Api
             {{/required}}{{/allParams}}
     
             var path = "{{path}}";
-<<<<<<< HEAD
-
-
     
             var pathParams = new Dictionary<String, String>();
-=======
-            path = path.Replace("{format}", "json");
-            {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", ApiClient.ParameterToString({{{paramName}}}));
-            {{/pathParams}}
-    
->>>>>>> e879268043b53fe30ea0238807b9519687c1e5f2
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-<<<<<<< HEAD
             pathParams.Add("format", "json");
             {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
 
-=======
->>>>>>> e879268043b53fe30ea0238807b9519687c1e5f2
             {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // header parameter
@@ -193,11 +167,7 @@ namespace {{packageName}}.Api
             String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
     
             // make the HTTP request
-<<<<<<< HEAD
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-=======
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
->>>>>>> e879268043b53fe30ea0238807b9519687c1e5f2
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
 

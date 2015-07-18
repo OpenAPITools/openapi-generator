@@ -14,6 +14,7 @@ import io.swagger.models.Swagger;
 import io.swagger.models.auth.ApiKeyAuthDefinition;
 import io.swagger.models.auth.BasicAuthDefinition;
 import io.swagger.models.auth.In;
+import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.CookieParameter;
@@ -36,6 +37,7 @@ import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.PropertyBuilder;
+import io.swagger.models.properties.PropertyBuilder.PropertyId;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
@@ -49,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -850,6 +853,17 @@ public class DefaultCodegen {
         }
         op.bodyParam = bodyParam;
         op.httpMethod = httpMethod.toUpperCase();
+        // move "required" parameters in front of "optional" parameters
+        Collections.sort(allParams, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                boolean oneRequired = one.required == null ? false : one.required;
+                boolean anotherRequired = another.required == null ? false : another.required;
+                if (oneRequired == anotherRequired) return 0;
+                else if (oneRequired) return -1;
+                else return 1;
+            }
+        });
         op.allParams = addHasMore(allParams);
         op.bodyParams = addHasMore(bodyParams);
         op.pathParams = addHasMore(pathParams);
@@ -964,7 +978,9 @@ public class DefaultCodegen {
                 p.baseType = pr.datatype;
                 imports.add(pr.baseType);
             } else {
-                property = PropertyBuilder.build(qp.getType(), qp.getFormat(), null);
+                Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
+                args.put(PropertyId.ENUM, qp.getEnum());
+                property = PropertyBuilder.build(qp.getType(), qp.getFormat(), args);
             }
             if (property == null) {
                 LOGGER.warn("warning!  Property type \"" + qp.getType() + "\" not found for parameter \"" + param.getName() + "\", using String");
@@ -972,8 +988,11 @@ public class DefaultCodegen {
             }
             property.setRequired(param.getRequired());
             CodegenProperty model = fromProperty(qp.getName(), property);
-            p.collectionFormat = collectionFormat;
             p.dataType = model.datatype;
+            p.isEnum = model.isEnum;
+            p._enum = model._enum;
+            p.allowableValues = model.allowableValues;
+            p.collectionFormat = collectionFormat;
             p.paramName = toParamName(qp.getName());
 
             if (model.complexType != null) {
@@ -1056,10 +1075,17 @@ public class DefaultCodegen {
                 sec.keyParamName = apiKeyDefinition.getName();
                 sec.isKeyInHeader = apiKeyDefinition.getIn() == In.HEADER;
                 sec.isKeyInQuery = !sec.isKeyInHeader;
+            } else if(schemeDefinition instanceof BasicAuthDefinition) {
+                sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isOAuth = false;
+                sec.isBasic = true;
             } else {
-                sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = false;
-                sec.isBasic = schemeDefinition instanceof BasicAuthDefinition;
-                sec.isOAuth = !sec.isBasic;
+            	final OAuth2Definition oauth2Definition = (OAuth2Definition) schemeDefinition;
+            	sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
+                sec.isOAuth = true;
+                sec.flow = oauth2Definition.getFlow();
+                sec.authorizationUrl = oauth2Definition.getAuthorizationUrl();
+                sec.tokenUrl = oauth2Definition.getTokenUrl();
+                sec.scopes = oauth2Definition.getScopes().keySet();
             }
 
             sec.hasMore = it.hasNext();

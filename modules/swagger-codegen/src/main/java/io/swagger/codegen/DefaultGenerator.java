@@ -9,6 +9,7 @@ import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.util.Json;
 import org.apache.commons.io.IOUtils;
@@ -218,7 +219,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("models", allModels);
             bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
             bundle.put("modelPackage", config.modelPackage());
-            bundle.put("authMethods", config.fromSecurity(swagger.getSecurityDefinitions()));
+            List<CodegenSecurity> authMethods = config.fromSecurity(swagger.getSecurityDefinitions());
+            if (authMethods != null && !authMethods.isEmpty()) {
+                bundle.put("authMethods", authMethods);
+                bundle.put("hasAuthMethods", true);
+            }
             if (swagger.getExternalDocs() != null) {
                 bundle.put("externalDocs", swagger.getExternalDocs());
             }
@@ -367,7 +372,22 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     String securityName = security.keySet().iterator().next();
                     SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
                     if (securityDefinition != null) {
-                        authMethods.put(securityName, securityDefinition);
+                    	if(securityDefinition instanceof OAuth2Definition) {
+                    		OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
+                    		OAuth2Definition oauth2Operation = new OAuth2Definition();
+                    		oauth2Operation.setType(oauth2Definition.getType());
+                    		oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
+                    		oauth2Operation.setFlow(oauth2Definition.getFlow());
+                    		oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
+                    		for (String scope : security.values().iterator().next()) {
+                    			if (oauth2Definition.getScopes().containsKey(scope)) {
+                    				oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
+                    			}
+                    		}
+                    		authMethods.put(securityName, oauth2Operation);
+                    	} else {
+                    		authMethods.put(securityName, securityDefinition);	
+                    	}
                     }
                 }
                 if (!authMethods.isEmpty()) {
@@ -393,6 +413,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> operations = new HashMap<String, Object>();
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("classname", config.toApiName(tag));
+        objs.put("pathPrefix", config.toApiVarName(tag));
 
         // check for operationId uniqueness
         Set<String> opIds = new HashSet<String>();
@@ -430,6 +451,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         operations.put("imports", imports);
+
+        // add a flag to indicate whether there's any {{import}}
+        if (imports.size() > 0) {
+            operations.put("hasImport", true);
+        }
+
         config.postProcessOperations(operations);
         if (objs.size() > 0) {
             List<CodegenOperation> os = (List<CodegenOperation>) objs.get("operation");
