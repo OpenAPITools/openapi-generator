@@ -48,9 +48,8 @@ class UserApi(object):
         Create user
         This can only be done by the logged in user.
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -124,9 +123,8 @@ class UserApi(object):
         Creates list of users with given input array
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -200,9 +198,8 @@ class UserApi(object):
         Creates list of users with given input array
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -276,9 +273,8 @@ class UserApi(object):
         Logs user into the system
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -355,9 +351,8 @@ class UserApi(object):
         Logs out current logged in user session
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -428,9 +423,8 @@ class UserApi(object):
         Get user by user name
         
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -507,9 +501,8 @@ class UserApi(object):
         Updated user
         This can only be done by the logged in user.
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
@@ -589,9 +582,8 @@ class UserApi(object):
         Delete user
         This can only be done by the logged in user.
 
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function
+        This method makes a synchronous HTTP request by default.To make an
+        asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
