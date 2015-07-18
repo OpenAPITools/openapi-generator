@@ -56,6 +56,10 @@ class UserApi(object):
         >>>
         >>> thread = api.create_user(callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param User body: Created user object
@@ -130,6 +134,10 @@ class UserApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.create_users_with_array_input(callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -206,6 +214,10 @@ class UserApi(object):
         >>>
         >>> thread = api.create_users_with_list_input(callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param list[User] body: List of user object
@@ -280,6 +292,10 @@ class UserApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.login_user(callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -359,6 +375,10 @@ class UserApi(object):
         >>>
         >>> thread = api.logout_user(callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :return: None
@@ -430,6 +450,10 @@ class UserApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_user_by_name(username, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -508,6 +532,10 @@ class UserApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_user(username, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -589,6 +617,10 @@ class UserApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_user(username, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
