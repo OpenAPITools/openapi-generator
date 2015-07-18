@@ -58,7 +58,7 @@ class PetApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param Pet body: Pet object that needs to be added to the store 
+        :param Pet body: Pet object that needs to be added to the store
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -133,7 +133,7 @@ class PetApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param Pet body: Pet object that needs to be added to the store 
+        :param Pet body: Pet object that needs to be added to the store
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -208,7 +208,7 @@ class PetApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param list[str] status: Status values that need to be considered for filter 
+        :param list[str] status: Status values that need to be considered for filter
         :return: list[Pet]
                  If the method is called asynchronously,
                  returns the request thread.
@@ -283,7 +283,7 @@ class PetApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param list[str] tags: Tags to filter by 
+        :param list[str] tags: Tags to filter by
         :return: list[Pet]
                  If the method is called asynchronously,
                  returns the request thread.
@@ -437,8 +437,8 @@ class PetApi(object):
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str pet_id: ID of pet that needs to be updated (required)
-        :param str name: Updated name of the pet 
-        :param str status: Updated status of the pet 
+        :param str name: Updated name of the pet
+        :param str status: Updated status of the pet
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -521,7 +521,7 @@ class PetApi(object):
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int pet_id: Pet id to delete (required)
-        :param str api_key:  
+        :param str api_key: 
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -602,8 +602,8 @@ class PetApi(object):
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int pet_id: ID of pet to update (required)
-        :param str additional_metadata: Additional data to pass to server 
-        :param file file: file to upload 
+        :param str additional_metadata: Additional data to pass to server
+        :param file file: file to upload
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.

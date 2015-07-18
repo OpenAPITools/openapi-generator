@@ -58,7 +58,7 @@ class UserApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param User body: Created user object 
+        :param User body: Created user object
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -133,7 +133,7 @@ class UserApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param list[User] body: List of user object 
+        :param list[User] body: List of user object
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -208,7 +208,7 @@ class UserApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param list[User] body: List of user object 
+        :param list[User] body: List of user object
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -283,8 +283,8 @@ class UserApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str username: The user name for login 
-        :param str password: The password for login in clear text 
+        :param str username: The user name for login
+        :param str password: The password for login in clear text
         :return: str
                  If the method is called asynchronously,
                  returns the request thread.
@@ -512,7 +512,7 @@ class UserApi(object):
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str username: name that need to be deleted (required)
-        :param User body: Updated user object 
+        :param User body: Updated user object
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
