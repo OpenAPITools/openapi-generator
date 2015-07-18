@@ -51,6 +51,7 @@ class RESTResponse(io.IOBase):
         """
         return self.urllib3_response.getheader(name, default)
 
+
 class RESTClientObject(object):
 
     def __init__(self, pools_size=4):
@@ -87,14 +88,17 @@ class RESTClientObject(object):
         :param query_params: query parameters in the url
         :param headers: http request headers
         :param body: request json body, for `application/json`
-        :param post_params: request post parameters, `application/x-www-form-urlencode`
+        :param post_params: request post parameters,
+                            `application/x-www-form-urlencode`
                             and `multipart/form-data`
         """
         method = method.upper()
         assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH']
 
         if post_params and body:
-            raise ValueError("body parameter cannot be used with post_params parameter.")
+            raise ValueError(
+                "body parameter cannot be used with post_params parameter."
+            )
 
         post_params = post_params or {}
         headers = headers or {}
@@ -144,22 +148,37 @@ class RESTClientObject(object):
         return r
 
     def GET(self, url, headers=None, query_params=None):
-        return self.request("GET", url, headers=headers, query_params=query_params)
+        return self.request("GET", url,
+                            headers=headers,
+                            query_params=query_params)
 
     def HEAD(self, url, headers=None, query_params=None):
-        return self.request("HEAD", url, headers=headers, query_params=query_params)
+        return self.request("HEAD", url,
+                            headers=headers,
+                            query_params=query_params)
 
     def DELETE(self, url, headers=None, query_params=None):
-        return self.request("DELETE", url, headers=headers, query_params=query_params)
+        return self.request("DELETE", url,
+                            headers=headers,
+                            query_params=query_params)
 
     def POST(self, url, headers=None, post_params=None, body=None):
-        return self.request("POST", url, headers=headers, post_params=post_params, body=body)
+        return self.request("POST", url,
+                            headers=headers,
+                            post_params=post_params,
+                            body=body)
 
     def PUT(self, url, headers=None, post_params=None, body=None):
-        return self.request("PUT", url, headers=headers, post_params=post_params, body=body)
+        return self.request("PUT", url,
+                            headers=headers,
+                            post_params=post_params,
+                            body=body)
 
     def PATCH(self, url, headers=None, post_params=None, body=None):
-        return self.request("PATCH", url, headers=headers, post_params=post_params, body=body)
+        return self.request("PATCH", url,
+                            headers=headers,
+                            post_params=post_params,
+                            body=body)
 
 
 class ApiException(Exception):
@@ -189,6 +208,7 @@ class ApiException(Exception):
             error_message += "HTTP response body: {0}".format(self.body)
 
         return error_message
+
 
 class RESTClient(object):
     """
