@@ -104,9 +104,8 @@ namespace {{packageName}}.Api
             String postBody = null;
 
             pathParams.Add("format", "json");
-            {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // path parameter
+            {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
-    
             {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // header parameter
@@ -151,9 +150,8 @@ namespace {{packageName}}.Api
             String postBody = null;
     
             pathParams.Add("format", "json");
-            {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // path parameter
+            {{#pathParams}} if ({{paramName}} != null) pathParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
-
             {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // header parameter
