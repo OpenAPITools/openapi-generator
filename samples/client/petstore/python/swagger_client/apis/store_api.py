@@ -56,6 +56,10 @@ class StoreApi(object):
         >>>
         >>> thread = api.get_inventory(callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :return: dict(str, int)
@@ -127,6 +131,10 @@ class StoreApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.place_order(callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -202,6 +210,10 @@ class StoreApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_order_by_id(order_id, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -280,6 +292,10 @@ class StoreApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_order(order_id, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)

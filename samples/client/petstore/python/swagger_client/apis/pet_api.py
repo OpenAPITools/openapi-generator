@@ -56,6 +56,10 @@ class PetApi(object):
         >>>
         >>> thread = api.update_pet(callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param Pet body: Pet object that needs to be added to the store
@@ -130,6 +134,10 @@ class PetApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.add_pet(callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -206,6 +214,10 @@ class PetApi(object):
         >>>
         >>> thread = api.find_pets_by_status(callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param list[str] status: Status values that need to be considered for filter
@@ -281,6 +293,10 @@ class PetApi(object):
         >>>
         >>> thread = api.find_pets_by_tags(callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param list[str] tags: Tags to filter by
@@ -355,6 +371,10 @@ class PetApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_pet_by_id(pet_id, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -433,6 +453,10 @@ class PetApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_pet_with_form(pet_id, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -518,6 +542,10 @@ class PetApi(object):
         >>>
         >>> thread = api.delete_pet(pet_id, callback=callback_function)
 
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
+
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int pet_id: Pet id to delete (required)
@@ -598,6 +626,10 @@ class PetApi(object):
         >>>     pprint(response)
         >>>
         >>> thread = api.upload_file(pet_id, callback=callback_function)
+
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
