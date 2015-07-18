@@ -6,4 +6,3 @@ from .category import Category
 from .pet import Pet
 from .tag import Tag
 from .order import Order
-
