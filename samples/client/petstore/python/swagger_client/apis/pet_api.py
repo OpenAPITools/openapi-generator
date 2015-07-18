@@ -48,17 +48,14 @@ class PetApi(object):
         Update an existing pet
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_pet(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -127,17 +124,14 @@ class PetApi(object):
         Add a new pet to the store
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.add_pet(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -206,17 +200,14 @@ class PetApi(object):
         Finds Pets by status
         Multiple status values can be provided with comma seperated strings
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.find_pets_by_status(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -285,17 +276,14 @@ class PetApi(object):
         Finds Pets by tags
         Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.find_pets_by_tags(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -364,17 +352,14 @@ class PetApi(object):
         Find pet by ID
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_pet_by_id(pet_id, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -446,17 +431,14 @@ class PetApi(object):
         Updates a pet in the store with form data
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_pet_with_form(pet_id, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -534,17 +516,14 @@ class PetApi(object):
         Deletes a pet
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_pet(pet_id, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -619,17 +598,14 @@ class PetApi(object):
         uploads an image
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.upload_file(pet_id, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
