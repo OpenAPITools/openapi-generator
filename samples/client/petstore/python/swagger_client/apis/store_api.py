@@ -130,7 +130,7 @@ class StoreApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param Order body: order placed for purchasing the pet 
+        :param Order body: order placed for purchasing the pet
         :return: Order
                  If the method is called asynchronously,
                  returns the request thread.
