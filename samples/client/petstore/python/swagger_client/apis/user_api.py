@@ -48,17 +48,14 @@ class UserApi(object):
         Create user
         This can only be done by the logged in user.
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.create_user(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -127,17 +124,14 @@ class UserApi(object):
         Creates list of users with given input array
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.create_users_with_array_input(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -206,17 +200,14 @@ class UserApi(object):
         Creates list of users with given input array
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.create_users_with_list_input(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -285,17 +276,14 @@ class UserApi(object):
         Logs user into the system
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.login_user(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -367,17 +355,14 @@ class UserApi(object):
         Logs out current logged in user session
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.logout_user(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -443,17 +428,14 @@ class UserApi(object):
         Get user by user name
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_user_by_name(username, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -525,17 +507,14 @@ class UserApi(object):
         Updated user
         This can only be done by the logged in user.
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.update_user(username, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -610,17 +589,14 @@ class UserApi(object):
         Delete user
         This can only be done by the logged in user.
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_user(username, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)

@@ -48,17 +48,14 @@ class StoreApi(object):
         Returns pet inventories by status
         Returns a map of status codes to quantities
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_inventory(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -124,17 +121,14 @@ class StoreApi(object):
         Place an order for a pet
         
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.place_order(callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -203,17 +197,14 @@ class StoreApi(object):
         Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.get_order_by_id(order_id, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -285,17 +276,14 @@ class StoreApi(object):
         Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-        SDK also supports asynchronous requests
-        in which you can define a `callback` function
-        to be passed along and invoked when receiving response:
+        This method makes a synchronous HTTP request by default.
+        To make an asynchronous HTTP request,
+        please define a `callback` function
+        to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
         >>> thread = api.delete_order(order_id, callback=callback_function)
-
-        This method makes a synchronous HTTP request by default.
-        To make an asynchronous HTTP request,
-        please define a `callback` function to be invoked when receiving the response.
 
         :param callback function: The callback function
             for asynchronous request. (optional)
