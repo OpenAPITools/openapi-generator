@@ -79,6 +79,7 @@ public class DefaultCodegen {
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
+    protected boolean skipOverwrite;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -1320,6 +1321,14 @@ public class DefaultCodegen {
     }
 
     public boolean shouldOverwrite(String filename) {
-        return true;
+        return !(skipOverwrite && new File(filename).exists());
+    }
+
+    public boolean isSkipOverwrite() {
+        return skipOverwrite;
+    }
+
+    public void setSkipOverwrite(boolean skipOverwrite) {
+        this.skipOverwrite = skipOverwrite;
     }
 }

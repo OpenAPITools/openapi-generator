@@ -66,6 +66,10 @@ public class Generate implements Runnable {
             "Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.")
     private String configFile;
 
+    @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite", description = "specifies if the existing files should be " +
+            "overwritten during the generation.")
+    private boolean skipOverwrite;
+
     /**
      * Tries to load config class with SPI first, then with class name directly from classpath
      *
@@ -118,6 +122,7 @@ public class Generate implements Runnable {
             }
         }
 
+        config.setSkipOverwrite(skipOverwrite);
         input.setConfig(config);
 
         Swagger swagger = new SwaggerParser().read(spec, input.getAuthorizationValues(), true);
