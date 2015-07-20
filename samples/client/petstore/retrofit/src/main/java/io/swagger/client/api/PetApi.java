@@ -83,20 +83,20 @@ public interface PetApi {
   @FormUrlEncoded
   @POST("/pet/{petId}")  
   Void updatePetWithForm(
-    @Path("petId") String petId,@Field("name") String name,@Field("status") String status
+    @Path("petId") String petId, @Field("name") String name, @Field("status") String status
   );  
   
   /**
    * Deletes a pet
    * 
-   * @param apiKey 
    * @param petId Pet id to delete
+   * @param apiKey 
    * @return Void
    */
   
   @DELETE("/pet/{petId}")  
   Void deletePet(
-    @Header("api_key") String apiKey,@Path("petId") Long petId
+    @Path("petId") Long petId, @Header("api_key") String apiKey
   );  
   
   /**
@@ -111,7 +111,7 @@ public interface PetApi {
   @Multipart
   @POST("/pet/{petId}/uploadImage")  
   Void uploadFile(
-    @Path("petId") Long petId,@Part("additionalMetadata") String additionalMetadata,@Part("file") TypedFile file
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file
   );  
   
 }
