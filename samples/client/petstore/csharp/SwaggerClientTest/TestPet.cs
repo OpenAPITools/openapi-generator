@@ -45,7 +45,7 @@ namespace SwaggerClient.TestPet
 		{
 			// remove the pet after testing
 			PetApi petApi = new PetApi ();
-			petApi.DeletePet("test key", petId);
+			petApi.DeletePet(petId, "test key");
 		}
 
 
