@@ -131,6 +131,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     for (String templateName : config.modelTemplateFiles().keySet()) {
                         String suffix = config.modelTemplateFiles().get(templateName);
                         String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
+                        if (!config.shouldOverwrite(filename)) {
+                            continue;
+                        }
                         String template = readTemplate(config.templateDir() + File.separator + templateName);
                         Template tmpl = Mustache.compiler()
                                 .withLoader(new Mustache.TemplateLoader() {
@@ -179,7 +182,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 for (String templateName : config.apiTemplateFiles().keySet()) {
 
                     String filename = config.apiFilename(templateName, tag);
-                    if (new File(filename).exists() && !config.shouldOverwrite(filename)) {
+                    if (!config.shouldOverwrite(filename)) {
                         continue;
                     }
 
@@ -250,6 +253,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     of.mkdirs();
                 }
                 String outputFilename = outputFolder + File.separator + support.destinationFilename;
+                if (!config.shouldOverwrite(outputFilename)) {
+                    continue;
+                }
 
                 if (support.templateFile.endsWith("mustache")) {
                     String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
