@@ -57,7 +57,7 @@ public interface UserApi {
   
   @GET("/user/login")  
   String loginUser(
-    @Query("username") String username,@Query("password") String password
+    @Query("username") String username, @Query("password") String password
   );  
   
   /**
@@ -92,7 +92,7 @@ public interface UserApi {
   
   @PUT("/user/{username}")  
   Void updateUser(
-    @Path("username") String username,@Body User body
+    @Path("username") String username, @Body User body
   );  
   
   /**
