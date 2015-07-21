@@ -1,10 +1,9 @@
-# Swagger common files
-require '{{gemName}}/swagger'
-require '{{gemName}}/swagger/configuration'
-require '{{gemName}}/swagger/api_error'
-require '{{gemName}}/swagger/request'
-require '{{gemName}}/swagger/response'
-require '{{gemName}}/swagger/version'
+# Common files
+require '{{gemName}}/api_client'
+require '{{gemName}}/api_error'
+require '{{gemName}}/request'
+require '{{gemName}}/response'
+require '{{gemName}}/version'
 
 # Models
 require '{{gemName}}/{{modelPackage}}/base_object'
@@ -20,7 +19,4 @@ require '{{importPath}}'
 {{/apiInfo}}
 
 module {{moduleName}}
-  # Initialize the default configuration
-  Swagger.configuration = Swagger::Configuration.new
-  Swagger.configure { |config| }
 end
