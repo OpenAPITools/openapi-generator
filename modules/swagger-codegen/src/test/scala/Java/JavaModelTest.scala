@@ -86,7 +86,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(1).setter should be("setUrls")
     vars.get(1).datatype should be("List<String>")
     vars.get(1).name should be("urls")
-    vars.get(1).defaultValue should be("new ArrayList<String>() ")
+    vars.get(1).defaultValue should be("new ArrayList<String>()")
     vars.get(1).baseType should be("List")
     vars.get(1).containerType should be("array")
     vars.get(1).required should equal(null)
@@ -114,7 +114,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setTranslations")
     vars.get(0).datatype should be("Map<String, String>")
     vars.get(0).name should be("translations")
-    vars.get(0).defaultValue should be("new HashMap<String, String>() ")
+    vars.get(0).defaultValue should be("new HashMap<String, String>()")
     vars.get(0).baseType should be("Map")
     vars.get(0).containerType should be("map")
     vars.get(0).required should equal(null)
@@ -122,7 +122,7 @@ class JavaModelTest extends FlatSpec with Matchers {
   }
 
 
-  ignore should "convert a model with a map with complex list property" in {
+  it should "convert a model with a map with complex list property" in {
     val model = new ModelImpl()
       .description("a sample model")
       .property("translations", new MapProperty()
@@ -145,11 +145,31 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setTranslations")
     vars.get(0).datatype should be("Map<String, List<Pet>>")
     vars.get(0).name should be("translations")
-    vars.get(0).defaultValue should be("new HashMap<String, List<Pet>>() ")
+    vars.get(0).defaultValue should be("new HashMap<String, List<Pet>>()")
     vars.get(0).baseType should be("Map")
     vars.get(0).containerType should be("map")
     vars.get(0).required should equal(null)
     vars.get(0).isContainer should equal(true)
+  }
+
+  it should "convert a model with a 2D list property" in {
+    val model = new ModelImpl().name("sample").property("list2D", new ArrayProperty().items(
+        new ArrayProperty().items(new RefProperty("Pet"))))
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+    val vars = cm.vars
+    vars.size should be (1)
+    val list = vars.get(0)
+    list.baseName should be("list2D")
+    list.getter should be("getList2D")
+    list.setter should be("setList2D")
+    list.datatype should be("List<List<Pet>>")
+    list.name should be("list2D")
+    list.defaultValue should be ("new ArrayList<List<Pet>>()")
+    list.baseType should be("List")
+    list.containerType should be("array")
+    list.required should equal(null)
+    list.isContainer should equal(true)
   }
 
   it should "convert a model with complex properties" in {
@@ -198,7 +218,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setChildren")
     vars.get(0).datatype should be("List<Children>")
     vars.get(0).name should be("children")
-    vars.get(0).defaultValue should be("new ArrayList<Children>() ")
+    vars.get(0).defaultValue should be("new ArrayList<Children>()")
     vars.get(0).baseType should be("List")
     vars.get(0).containerType should be("array")
     vars.get(0).required should equal(null)
@@ -227,7 +247,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setChildren")
     vars.get(0).datatype should be("Map<String, Children>")
     vars.get(0).name should be("children")
-    vars.get(0).defaultValue should be("new HashMap<String, Children>() ")
+    vars.get(0).defaultValue should be("new HashMap<String, Children>()")
     vars.get(0).baseType should be("Map")
     vars.get(0).containerType should be("map")
     vars.get(0).required should equal(null)
