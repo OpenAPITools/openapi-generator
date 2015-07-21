@@ -65,6 +65,8 @@ public interface CodegenConfig {
 
     CodegenModel fromModel(String name, Model model);
 
+    CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions);
+
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions);
 
     List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);

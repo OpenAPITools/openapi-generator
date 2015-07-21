@@ -123,7 +123,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     Model model = definitions.get(name);
                     Map<String, Model> modelMap = new HashMap<String, Model>();
                     modelMap.put(name, model);
-                    Map<String, Object> models = processModels(config, modelMap);
+                    Map<String, Object> models = processModels(config, modelMap, definitions);
                     models.putAll(config.additionalProperties());
 
                     allModels.add(((List<Object>) models.get("models")).get(0));
@@ -475,14 +475,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return operations;
     }
 
-    public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions) {
+    public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions, Map<String, Model> allDefinitions) {
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("package", config.modelPackage());
         List<Object> models = new ArrayList<Object>();
         Set<String> allImports = new LinkedHashSet<String>();
         for (String key : definitions.keySet()) {
             Model mm = definitions.get(key);
-            CodegenModel cm = config.fromModel(key, mm);
+            CodegenModel cm = config.fromModel(key, mm, allDefinitions);
             Map<String, Object> mo = new HashMap<String, Object>();
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(key));
