@@ -130,15 +130,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/inventory";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -148,7 +149,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "api_key" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
@@ -167,15 +168,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/inventory";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -185,7 +187,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "api_key" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
 
@@ -202,15 +204,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/order";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -221,7 +224,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
@@ -241,15 +244,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/order";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -260,7 +264,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
 
@@ -280,16 +284,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/order/{orderId}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            
             
             
             
@@ -299,7 +304,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
@@ -321,16 +326,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/order/{orderId}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            
             
             
             
@@ -340,7 +346,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
 
@@ -360,16 +366,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/order/{orderId}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            
             
             
             
@@ -379,7 +386,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
@@ -401,16 +408,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/store/order/{orderId}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            
             
             
             
@@ -420,7 +428,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
 
