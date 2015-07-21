@@ -502,6 +502,10 @@ public class DefaultCodegen {
     }
 
     public CodegenModel fromModel(String name, Model model) {
+        return fromModel(name, model, null);
+    }
+
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);
@@ -521,12 +525,59 @@ public class DefaultCodegen {
             // TODO
         } else if (model instanceof ComposedModel) {
             final ComposedModel composed = (ComposedModel) model;
+            Map<String, Property> properties = new HashMap<String, Property>();
+            List<String> required = new ArrayList<String>();
+            // parent model
             final RefModel parent = (RefModel) composed.getParent();
-            final String parentModel = toModelName(parent.getSimpleRef());
-            m.parent = parentModel;
-            addImport(m, parentModel);
-            final ModelImpl child = (ModelImpl) composed.getChild();
-            addVars(m, child.getProperties(), child.getRequired());
+            if (parent != null) {
+                final String parentRef = toModelName(parent.getSimpleRef());
+                m.parent = parentRef;
+                addImport(m, parentRef);
+                if (allDefinitions != null) {
+                    final Model parentModel = allDefinitions.get(parentRef);
+                    if (parentModel instanceof ModelImpl) {
+                        final ModelImpl _parent = (ModelImpl) parentModel;
+                        if (_parent.getProperties() != null) {
+                            properties.putAll(_parent.getProperties());
+                        }
+                        if (_parent.getRequired() != null) {
+                            required.addAll(_parent.getRequired());
+                        }
+                    }
+                }
+            }
+            // interfaces (intermediate models)
+            if (allDefinitions != null) {
+                for (RefModel _interface : composed.getInterfaces()) {
+                    final String interfaceRef = toModelName(_interface.getSimpleRef());
+                    final Model interfaceModel = allDefinitions.get(interfaceRef);
+                    if (interfaceModel instanceof ModelImpl) {
+                        final ModelImpl _interfaceModel = (ModelImpl) interfaceModel;
+                        if (_interfaceModel.getProperties() != null) {
+                            properties.putAll(_interfaceModel.getProperties());
+                        }
+                        if (_interfaceModel.getRequired() != null) {
+                            required.addAll(_interfaceModel.getRequired());
+                        }
+                    }
+                }
+            }
+            // child model (properties owned by the model itself)
+            Model child = composed.getChild();
+            if (child != null && child instanceof RefModel && allDefinitions != null) {
+                final String childRef = ((RefModel) child).getSimpleRef();
+                child = allDefinitions.get(childRef);
+            }
+            if (child != null && child instanceof ModelImpl) {
+                final ModelImpl _child = (ModelImpl) child;
+                if (_child.getProperties() != null) {
+                    properties.putAll(_child.getProperties());
+                }
+                if (_child.getRequired() != null) {
+                    required.addAll(_child.getRequired());
+                }
+            }
+            addVars(m, properties, required);
         } else {
             ModelImpl impl = (ModelImpl) model;
             if (impl.getAdditionalProperties() != null) {
