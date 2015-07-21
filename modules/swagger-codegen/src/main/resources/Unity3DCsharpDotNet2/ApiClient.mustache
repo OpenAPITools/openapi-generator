@@ -145,7 +145,7 @@ namespace {{packageName}}.Client
             if (obj is DateTime)
                 return ((DateTime)obj).ToString ("u");
             else if (obj is List<string>)
-                return String.Join(",", obj as List<string>);
+                return String.Join(",", (obj as List<string>).ToArray());
             else
                 return Convert.ToString (obj);
         }

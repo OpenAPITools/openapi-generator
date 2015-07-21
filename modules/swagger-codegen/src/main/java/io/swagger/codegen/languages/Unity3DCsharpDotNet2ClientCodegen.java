@@ -101,8 +101,12 @@ public class Unity3DCsharpDotNet2ClientCodegen extends DefaultCodegen implements
             additionalProperties.put("packageName", packageName);
         }
 
-        additionalProperties.put("clientPackage", clientPackage);
-
+        if (additionalProperties.containsKey("clientPackage")) {
+            this.setClientPackage((String) additionalProperties.get("clientPackage"));
+        } else {
+            additionalProperties.put("clientPackage", clientPackage);
+        }
+        
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
@@ -110,10 +114,13 @@ public class Unity3DCsharpDotNet2ClientCodegen extends DefaultCodegen implements
         supportingFiles.add(new SupportingFile("ApiException.mustache",
                 (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "ApiException.cs"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor", "packages.config"));
-        supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
 
+    }
+
+    public void setClientPackage(String clientPackage) {
+        this.clientPackage = clientPackage;
     }
 
     public CodegenType getTag() {
