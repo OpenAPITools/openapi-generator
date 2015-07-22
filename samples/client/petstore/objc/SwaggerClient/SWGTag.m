@@ -1,7 +1,7 @@
 #import "SWGTag.h"
 
 @implementation SWGTag
-  
+
 + (JSONKeyMapper *)keyMapper
 {
   return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"name": @"name" }];
@@ -17,6 +17,10 @@
   else {
     return NO;
   }
+}
+
+- (NSString *)description {
+    return [[self toDictionary] description];
 }
 
 @end
