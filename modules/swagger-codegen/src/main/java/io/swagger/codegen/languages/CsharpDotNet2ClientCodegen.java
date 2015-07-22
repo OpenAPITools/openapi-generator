@@ -14,18 +14,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Unity3DCsharpDotNet2ClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName = "IO.Swagger";
     protected String packageVersion = "1.0.0";
     protected String clientPackage = "IO.Swagger.Client";
-    protected String sourceFolder = "src" + File.separator + "main" + File.separator + "Unity3DCsharpDotNet2";
+    protected String sourceFolder = "src" + File.separator + "main" + File.separator + "CsharpDotNet2";
 
-    public Unity3DCsharpDotNet2ClientCodegen() {
+    public CsharpDotNet2ClientCodegen() {
         super();
-        outputFolder = "generated-code" + File.separator + "Unity3DCsharpDotNet2";
+        outputFolder = "generated-code" + File.separator + "CsharpDotNet2";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-        templateDir = "Unity3DCsharpDotNet2";
+        templateDir = "CsharpDotNet2";
         apiPackage = "IO.Swagger.Api";
         modelPackage = "IO.Swagger.Model";
 
@@ -128,11 +128,11 @@ public class Unity3DCsharpDotNet2ClientCodegen extends DefaultCodegen implements
     }
 
     public String getName() {
-        return "Unity3DCsharpDotNet2";
+        return "CsharpDotNet2";
     }
 
     public String getHelp() {
-        return "Generates a Unity3D-Csharp-DotNet2 client library.";
+        return "Generates a C# .Net 2.0 client library.";
     }
 
     @Override
