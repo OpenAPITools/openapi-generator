@@ -1,13 +1,10 @@
-# Unity3D-Csharp-DotNet2
+# Csharp-DotNet2
 
-This generator creates managed libraries for use in games created using the Unity3D engine/framework.
-
-## Frameworks supported
-- .NET 2.0
+This generator creates C# code targeting the .Net 2.0 framework. The resulting DLLs can be used in places where .Net 2.0 is the maximum supported version, such as in the Unity3d.
 
 ## Dependencies
-- NuGet packages:
--- [RestSharp] (https://www.nuget.org/packages/RestSharp)
--- [Json.NET] (https://www.nuget.org/packages/Newtonsoft.Json/)
+- Mono compiler
+- Note: NuGet is downloaded by the mono compilation script and packages are installed with it. No dependency DLLs are bundled with this generator.
+
 
 
