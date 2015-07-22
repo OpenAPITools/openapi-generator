@@ -7,6 +7,7 @@
 //
 
 #import "SWGViewController.h"
+#import <SwaggerClient/SWGPet.h>
 
 @interface SWGViewController ()
 
@@ -17,13 +18,38 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    SWGPet *pet = [self createPet];
+    NSLog(@"%@", pet);
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+- (SWGPet*) createPet {
+    SWGPet * pet = [[SWGPet alloc] init];
+    pet._id = [[NSNumber alloc] initWithLong:[[NSDate date] timeIntervalSince1970]];
+    pet.name = @"monkey";
+    
+    SWGCategory * category = [[SWGCategory alloc] init];
+    category._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
+    category.name = @"super-happy";
+    pet.category = category;
+    
+    SWGTag *tag1 = [[SWGTag alloc] init];
+    tag1._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
+    tag1.name = @"test tag 1";
+    SWGTag *tag2 = [[SWGTag alloc] init];
+    tag2._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
+    tag2.name = @"test tag 2";
+    pet.tags = (NSArray<SWGTag> *)[[NSArray alloc] initWithObjects:tag1, tag2, nil];
+
+    pet.status = @"available";
+
+    NSArray * photos = [[NSArray alloc] initWithObjects:@"http://foo.bar.com/3", @"http://foo.bar.com/4", nil];
+    pet.photoUrls = photos;
+    return pet;
 }
 
 @end

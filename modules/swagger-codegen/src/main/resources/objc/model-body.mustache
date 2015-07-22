@@ -3,7 +3,7 @@
 #import "{{classname}}.h"
 
 @implementation {{classname}}
-  
+
 + (JSONKeyMapper *)keyMapper
 {
   return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
@@ -19,6 +19,10 @@
   else {
     return NO;
   }
+}
+
+- (NSString *)description {
+    return [[self toDictionary] description];
 }
 
 {{/model}}
