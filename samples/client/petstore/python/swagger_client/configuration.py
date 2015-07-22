@@ -5,6 +5,7 @@ import httplib
 import sys
 import logging
 
+
 def singleton(cls, *args, **kw):
     instances = {}
 
@@ -23,6 +24,8 @@ class Configuration(object):
         self.host = "http://petstore.swagger.io/v2"
         # Default api client
         self.api_client = None
+        # Temp file folder
+        self.temp_folder_path = None
         # Authentication Settings
         self.api_key = {}
         self.api_key_prefix = {}
@@ -93,22 +96,20 @@ class Configuration(object):
 
     def auth_settings(self):
         """ Return Auth Settings for api client """
-        return { 
-                   'api_key': {
-                       'type': 'api_key',
-                       'in': 'header',
-                       'key': 'api_key',
-                       'value': self.get_api_key_with_prefix('api_key')
-                   },
-                 
-              }
+        return {
+            'api_key':
+                {
+                    'type': 'api_key',
+                    'in': 'header',
+                    'key': 'api_key',
+                    'value': self.get_api_key_with_prefix('api_key')
+                },
+        }
 
     def to_debug_report(self):
         return "Python SDK Debug Report:\n"\
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
                "Version of the API: 1.0.0\n"\
-               "SDK Package Version: 1.0.0".format(env=sys.platform, pyversion=sys.version)
-
-
-
+               "SDK Package Version: 1.0.0".\
+               format(env=sys.platform, pyversion=sys.version)

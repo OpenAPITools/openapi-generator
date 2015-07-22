@@ -117,7 +117,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeReservedWord(String name) {
-        return "_" + name;
+        return name + "_";
     }
 
     @Override
@@ -160,8 +160,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     public String toDefaultValue(Property p) {
-        // TODO: Support Python def value
-        return "null";
+        return "None";
     }
 
     @Override
@@ -182,6 +181,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (reservedWords.contains(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
+
+        // remove leading underscore
+        name = name.replaceAll("^_*", "");
 
         return name;
     }
