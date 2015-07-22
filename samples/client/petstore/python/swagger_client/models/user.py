@@ -16,6 +16,8 @@ Copyright 2015 SmartBear Software
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+from pprint import pformat
+from six import iteritems
 
 
 class User(object):
@@ -127,12 +129,35 @@ class User(object):
     def user_status(self, user_status):
         self._user_status = user_status
 
-    def __repr__(self):
-        properties = []
-        for p in self.__dict__:
-            if p != 'swaggerTypes' and p != 'attributeMap':
-                properties.append('{prop}={val!r}'
-                                  .format(prop=p, val=self.__dict__[p]))
+    def to_dict(self):
+        """
+        Return model properties dict
+        """
+        result = {}
 
-        return '<{name} {props}>'.format(name=__name__,
-                                         props=' '.join(properties))
+        for name, prop in iteritems(self.__dict__):
+            if name == "attribute_map" or name == "swagger_types":
+                continue
+            if isinstance(prop, list):
+                result[name[1:]] = list(map(
+                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
+                    prop
+                ))
+            elif hasattr(prop, "to_dict"):
+                result[name[1:]] = prop.to_dict()
+            else:
+                result[name[1:]] = prop
+
+        return result
+
+    def to_str(self):
+        """
+        Return model properties str
+        """
+        return pformat(self.to_dict())
+
+    def __repr__(self):
+        """
+        For `print` and `pprint`
+        """
+        return self.to_str()
