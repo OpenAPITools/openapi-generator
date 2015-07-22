@@ -124,7 +124,7 @@ module {{moduleName}}
       end
 
       raw = Typhoeus::Request.new(self.url, request_options).run
-      @response = Response.new(raw)
+      @response = Response.new(@api_client, raw)
 
       if @api_client.debugging
         @api_client.logger.debug "HTTP response body ~BEGIN~\n#{@response.body}\n~END~\n"
