@@ -18,8 +18,8 @@ module {{moduleName}}
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def {{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
-      if @client.debugging
-        @client.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
+      if @api_client.debugging
+        @api_client.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
       end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
@@ -64,14 +64,14 @@ module {{moduleName}}
       {{/bodyParam}}
 
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      {{#returnType}}response = Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      {{#returnType}}response = Request.new(@api_client, :{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
       result = response.deserialize('{{{returnType}}}')
-      if @client.debugging
-        @client.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
+      if @api_client.debugging
+        @api_client.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
       end
-      result{{/returnType}}{{^returnType}}Request.new(:{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      if @client.debugging
-        @client.logger.debug "API called: {{classname}}#{{nickname}}"
+      result{{/returnType}}{{^returnType}}Request.new(@api_client, :{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      if @api_client.debugging
+        @api_client.logger.debug "API called: {{classname}}#{{nickname}}"
       end
       nil{{/returnType}}
     end
