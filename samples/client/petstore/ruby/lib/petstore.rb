@@ -1,10 +1,9 @@
-# Swagger common files
-require 'petstore/swagger'
-require 'petstore/swagger/configuration'
-require 'petstore/swagger/api_error'
-require 'petstore/swagger/request'
-require 'petstore/swagger/response'
-require 'petstore/swagger/version'
+# Common files
+require 'petstore/api_client'
+require 'petstore/api_error'
+require 'petstore/request'
+require 'petstore/response'
+require 'petstore/version'
 
 # Models
 require 'petstore/models/base_object'
@@ -20,7 +19,4 @@ require 'petstore/api/pet_api'
 require 'petstore/api/store_api'
 
 module Petstore
-  # Initialize the default configuration
-  Swagger.configuration = Swagger::Configuration.new
-  Swagger.configure { |config| }
 end

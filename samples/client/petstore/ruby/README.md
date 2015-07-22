@@ -37,23 +37,20 @@ You can also use the client directly like this:
 ruby -Ilib script.rb
 ```
 
-## Configuration
+## Getting Started
 
 ```ruby
 require 'petstore'
 
-Petstore::Swagger.configure do |config|
-  config.api_key['api_key'] = 'special-key'
-  config.host = 'petstore.swagger.io'
-  config.base_path = '/v2'
-  # enable debugging (default is false)
-  config.debug = true
+api_client = Petstore::ApiClient.new do |client|
+  client.api_key['api_key'] = 'special-key'
+  client.host = 'petstore.swagger.io'
+  client.base_path = '/v2'
+  # enable debugging (default is disabled)
+  client.debugging = true
 end
-```
 
-## Getting Started
-
-```ruby
-pet = Petstore::PetApi.get_pet_by_id(5)
+pet_api = Petstore::PetApi.new(api_client)
+pet = pet_api.get_pet_by_id(5)
 puts pet.to_body
 ```
