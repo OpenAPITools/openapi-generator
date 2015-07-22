@@ -1,0 +1,10 @@
+Pod::Spec.new do |s|
+  s.name = '{{projectName}}'{{#projectDescription}}
+  s.summary = '{{projectDescription}}'{{/projectDescription}}
+  s.ios.deployment_target = '8.0'
+  s.osx.deployment_target = '10.9'
+  s.source = { git: 'git@github.com:swagger-api/swagger-mustache.git', tag: 'v1.0.0' }
+  s.source_files = '{{projectName}}/Classes/Swaggers/**/*.swift'
+  s.dependency 'PromiseKit', '~> 2.1'
+  s.dependency 'Alamofire', '~> 1.2'
+end
