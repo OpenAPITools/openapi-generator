@@ -143,6 +143,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       additionalProperties.put("usePromiseKit", true);
     }
 
+    supportingFiles.add(new SupportingFile("Podspec.mustache", "", projectName + ".podspec"));
     supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
     supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
     supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache", sourceFolder,
