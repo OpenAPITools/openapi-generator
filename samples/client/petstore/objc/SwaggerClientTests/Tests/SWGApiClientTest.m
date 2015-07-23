@@ -61,8 +61,8 @@
 
 - (void)testConfiguration {
     SWGConfiguration *config = [SWGConfiguration sharedConfig];
-    [config setValue:@"123456" forApiKeyField:@"api_key"];
-    [config setValue:@"PREFIX" forApiKeyPrefixField:@"api_key"];
+    [config setApiKey:@"123456" forApiKeyIdentifier:@"api_key"];
+    [config setApiKeyPrefix:@"PREFIX" forApiKeyPrefixIdentifier:@"api_key"];
     config.username = @"test_username";
     config.password = @"test_password";
     
