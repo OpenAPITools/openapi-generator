@@ -29,7 +29,7 @@
 }
 
 /**
- * Returns a string that represents the properties json of the model.
+ * Gets the string presentation of the object.
  * This method will be called when logging model object using `NSLog`.
  */
 - (NSString *)description {
