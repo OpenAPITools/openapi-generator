@@ -29,7 +29,41 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         managerStore[managerId] = manager
 
         let encoding = isBody ? Alamofire.ParameterEncoding.JSON : Alamofire.ParameterEncoding.URL
-        let request = manager.request(Alamofire.Method(rawValue: method)!, URLString, parameters: parameters, encoding: encoding)
+        let xMethod = Alamofire.Method(rawValue: method)
+        var request: Request? = nil
+        let fileKeys = parameters == nil ? [] : map(filter(parameters!) { $1.isKindOfClass(NSURL) }) { $0.0 }
+
+        if fileKeys.count > 0 {
+            manager.upload(
+                xMethod!, URLString, headers: nil,
+                multipartFormData: { mpForm in
+                    for (k, v) in self.parameters! {
+                        if v.isKindOfClass(NSURL) {
+                            mpForm.appendBodyPart(fileURL: v as! NSURL, name: k)
+                        } else if let str = v as? NSString {
+                            mpForm.appendBodyPart(data: str.dataUsingEncoding(NSUTF8StringEncoding)!, name: k)
+                        } else if let num = v as? NSNumber {
+                            mpForm.appendBodyPart(data: num.stringValue.dataUsingEncoding(NSUTF8StringEncoding)!, name: k)
+                        }
+                    }
+                },
+                encodingMemoryThreshold: Manager.MultipartFormDataEncodingMemoryThreshold,
+                encodingCompletion: { encodingResult in
+                    switch encodingResult {
+                    case .Success(let upload, _, _):
+                        self.processRequest(upload, managerId, completion)
+                    case .Failure(let encodingError):
+                        completion(response: nil, erorr: encodingError)
+                    }
+                }
+            )
+        } else {
+            processRequest(manager.request(xMethod!, URLString, parameters: parameters, encoding: encoding), managerId, completion)
+        }
+
+    }
+
+    private func processRequest(request: Request, _ managerId: String, _ completion: (response: Response<T>?, erorr: NSError?) -> Void) {
         if let credential = self.credential {
             request.authenticate(usingCredential: credential)
         }
