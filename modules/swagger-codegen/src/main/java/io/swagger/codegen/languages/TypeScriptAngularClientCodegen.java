@@ -19,7 +19,8 @@ public class TypeScriptAngularClientCodegen extends TypeScriptNodeClientCodegen 
 	    templateDir = "TypeScript-Angular";
 	    apiPackage = "api";
 	    modelPackage = "model";
-	    
+
+		supportingFiles.clear();
 	    supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage + File.separator, "api.d.ts"));
 	}
 }

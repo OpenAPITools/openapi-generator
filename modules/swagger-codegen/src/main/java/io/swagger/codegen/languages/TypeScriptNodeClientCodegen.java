@@ -31,11 +31,9 @@ public class TypeScriptNodeClientCodegen extends DefaultCodegen implements Codeg
 	public TypeScriptNodeClientCodegen() {
 	    super();
 	    outputFolder = "generated-code/typescript-node";
-	    modelTemplateFiles.put("model.mustache", ".ts");
-	    apiTemplateFiles.put("api.mustache", ".ts");
 	    templateDir = "TypeScript-node";
-	    apiPackage = "api";
-	    modelPackage = "model";
+
+		supportingFiles.add(new SupportingFile("api.mustache", null, "api.ts"));
 
 		reservedWords = new HashSet<String>(Arrays.asList("abstract",
 				"continue", "for", "new", "switch", "assert", "default", "if",
