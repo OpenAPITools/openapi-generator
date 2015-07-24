@@ -109,6 +109,17 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             StringUtils.join(RESPONSE_LIBRARIES, ", ") + " are available."));
     cliOptions.add(new CliOption("unwrapRequired", "Treat 'required' properties in response as non-optional " +
             "(which would crash the app if api returns null as opposed to required option specified in json schema"));
+    cliOptions.add(new CliOption("podSource", "Source information used for Podspec"));
+    cliOptions.add(new CliOption("podVersion", "Version used for Podspec"));
+    cliOptions.add(new CliOption("podAuthors", "Authors used for Podspec"));
+    cliOptions.add(new CliOption("podSocialMediaURL", "Social Media URL used for Podspec"));
+    cliOptions.add(new CliOption("podDocsetURL", "Docset URL used for Podspec"));
+    cliOptions.add(new CliOption("podLicense", "License used for Podspec"));
+    cliOptions.add(new CliOption("podHomepage", "Homepage used for Podspec"));
+    cliOptions.add(new CliOption("podSummary", "Summary used for Podspec"));
+    cliOptions.add(new CliOption("podDescription", "Description used for Podspec"));
+    cliOptions.add(new CliOption("podScreenshots", "Screenshots used for Podspec"));
+    cliOptions.add(new CliOption("podDocumentationURL", "Documentation URL used for Podspec"));
   }
 
   @Override
