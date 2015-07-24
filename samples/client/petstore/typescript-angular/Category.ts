@@ -1,9 +1,9 @@
 /// <reference path="api.d.ts" />
 
-module api {
+module  {
     'use strict';
 
-    export class Tag {
+    export class Category {
 
         id: number;
 

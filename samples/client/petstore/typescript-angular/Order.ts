@@ -1,6 +1,6 @@
 /// <reference path="api.d.ts" />
 
-module api {
+module  {
     'use strict';
 
     export class Order {
@@ -11,7 +11,7 @@ module api {
 
         quantity: number;
 
-        shipDate: DateTime;
+        shipDate: Date;
 
         /**
          * Order Status
