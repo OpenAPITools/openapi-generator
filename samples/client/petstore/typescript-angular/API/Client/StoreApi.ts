@@ -2,7 +2,7 @@
 
 /* tslint:disable:no-unused-variable member-ordering */
 
-module  {
+module API.Client {
     'use strict';
 
     export class StoreApi {

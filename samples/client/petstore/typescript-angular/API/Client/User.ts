@@ -1,6 +1,6 @@
 /// <reference path="api.d.ts" />
 
-module  {
+module API.Client {
     'use strict';
 
     export class User {
