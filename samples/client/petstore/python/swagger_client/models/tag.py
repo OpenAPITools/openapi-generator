@@ -16,6 +16,7 @@ Copyright 2015 SmartBear Software
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+
 from pprint import pformat
 from six import iteritems
 
