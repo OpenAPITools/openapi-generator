@@ -1,16 +1,18 @@
 package io.swagger.codegen.languages;
 
-import java.io.File;
-
 import io.swagger.codegen.SupportingFile;
 
-public class TypeScriptAngularClientCodegen extends TypeScriptNodeClientCodegen {
+public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
 	
 	@Override
 	public String getName() {
 		return "typescript-angular";
 	}
-	
+
+	public String getHelp() {
+		return "Generates a TypeScript AngurlarJS client library.";
+	}
+
 	public TypeScriptAngularClientCodegen() {
 	    super();
 	    outputFolder = "generated-code/typescript-angular";
@@ -19,8 +21,6 @@ public class TypeScriptAngularClientCodegen extends TypeScriptNodeClientCodegen 
 	    templateDir = "TypeScript-Angular";
 	    apiPackage = "api";
 	    modelPackage = "model";
-
-		supportingFiles.clear();
-	    supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage + File.separator, "api.d.ts"));
+	    supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage, "api.d.ts"));
 	}
 }
