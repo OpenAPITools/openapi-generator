@@ -5,13 +5,12 @@
   "main": "api.js",
   "scripts": {
     "postinstall": "tsd reinstall",
-    "test": "tsc --module commonjs api.ts typings/tsd.d.ts"
+    "test": "tsc"
   },
   "author": "Mads M. Tandrup",
   "license": "Apache 2.0",
   "dependencies": {
-    "bluebird": "^2.9.34",
-    "request": "^2.60.0"
+    "angular": "^1.4.3"
   },
   "devDependencies": {
     "tsd": "^0.6.3",
