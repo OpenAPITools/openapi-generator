@@ -80,6 +80,7 @@ public class DefaultCodegen {
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
+    protected boolean copyPropertiesFromParents = true;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -533,7 +534,7 @@ public class DefaultCodegen {
                 final String parentRef = toModelName(parent.getSimpleRef());
                 m.parent = parentRef;
                 addImport(m, parentRef);
-                if (allDefinitions != null) {
+                if (copyPropertiesFromParents && allDefinitions != null) {
                     final Model parentModel = allDefinitions.get(parentRef);
                     if (parentModel instanceof ModelImpl) {
                         final ModelImpl _parent = (ModelImpl) parentModel;
