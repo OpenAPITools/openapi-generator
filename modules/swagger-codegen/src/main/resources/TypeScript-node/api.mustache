@@ -67,6 +67,7 @@ export class {{classname}} {
 {{/pathParams}}
         var queryParameters: any = {};
         var headerParams: any = {};
+        var formParams: any = {};
 
 {{#allParams}}
 {{#required}}
@@ -87,19 +88,39 @@ export class {{classname}} {
         headerParams['{{paramName}}'] = {{paramName}};
 
 {{/headerParams}}
+        var useFormData = false;
+
+{{#formParams}}
+        if ({{paramName}} !== undefined) {
+            formParams['{{paramName}}'] = {{paramName}};
+        }
+{{#isFile}}
+        useFormData = true;
+{{/isFile}}
+
+{{/formParams}}
         var deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }>();
 
-        request({
+        var requestOptions: any = {
             method: '{{httpMethod}}',
             qs: queryParameters,
             uri: path,
             json: true,
-            {{#bodyParam}}body: {{paramName}},
-            {{/bodyParam}}
+{{#bodyParam}}
+            body: {{paramName}},
+{{/bodyParam}}
             auth: {
                 username: this.username, password: this.password
             }
-        }, (error, response, body) => {
+        }
+
+        if (useFormData) {
+            requestOptions.formData = formParams;
+        } else {
+            requestOptions.form = formParams;
+        }
+
+        request(requestOptions, (error, response, body) => {
             if (error) {
                 deferred.reject(error);
             } else {

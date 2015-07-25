@@ -122,6 +122,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 			MapProperty mp = (MapProperty) p;
 			Property inner = mp.getAdditionalProperties();
 			return "{ [key: string]: "+ getTypeDeclaration(inner) + "; }";
+		} else if (p instanceof FileProperty) {
+			return "any";
 		}
 		return super.getTypeDeclaration(p);
 	}
