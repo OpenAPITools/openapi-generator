@@ -30,7 +30,7 @@ public class TypeScriptNodeClientCodegen extends DefaultCodegen implements Codeg
 	
 	public TypeScriptNodeClientCodegen() {
 	    super();
-		copyPropertiesFromParents = false;
+		supportsInheritance = true;
 	    outputFolder = "generated-code/typescript-node";
 	    modelTemplateFiles.put("model.mustache", ".ts");
 	    apiTemplateFiles.put("api.mustache", ".ts");
