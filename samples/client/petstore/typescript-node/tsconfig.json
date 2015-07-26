@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true
+    },
+    "files": [
+        "api.ts",
+        "client.ts",
+        "typings/tsd.d.ts"
+    ]
+}
