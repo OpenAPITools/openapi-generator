@@ -101,7 +101,7 @@ export class {{classname}} {
 {{/formParams}}
         var deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: '{{httpMethod}}',
             qs: queryParameters,
             uri: path,
@@ -109,15 +109,20 @@ export class {{classname}} {
 {{#bodyParam}}
             body: {{paramName}},
 {{/bodyParam}}
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {

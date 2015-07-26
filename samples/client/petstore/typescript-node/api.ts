@@ -88,23 +88,29 @@ export class UserApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
             uri: path,
             json: true,
             body: body,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -130,23 +136,29 @@ export class UserApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
             uri: path,
             json: true,
             body: body,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -172,23 +184,29 @@ export class UserApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
             uri: path,
             json: true,
             body: body,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -222,22 +240,28 @@ export class UserApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: string;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -263,22 +287,28 @@ export class UserApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -311,22 +341,28 @@ export class UserApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: User;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -359,23 +395,29 @@ export class UserApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'PUT',
             qs: queryParameters,
             uri: path,
             json: true,
             body: body,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -408,22 +450,28 @@ export class UserApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -458,23 +506,29 @@ export class PetApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'PUT',
             qs: queryParameters,
             uri: path,
             json: true,
             body: body,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -500,23 +554,29 @@ export class PetApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
             uri: path,
             json: true,
             body: body,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -546,22 +606,28 @@ export class PetApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: Array<Pet>;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -591,22 +657,28 @@ export class PetApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: Array<Pet>;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -639,22 +711,28 @@ export class PetApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: Pet;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -687,6 +765,7 @@ export class PetApi {
         }
 
         var useFormData = false;
+
         if (name !== undefined) {
             formParams['name'] = name;
         }
@@ -697,20 +776,25 @@ export class PetApi {
 
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -745,22 +829,28 @@ export class PetApi {
         headerParams['apiKey'] = apiKey;
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -793,6 +883,7 @@ export class PetApi {
         }
 
         var useFormData = false;
+
         if (additionalMetadata !== undefined) {
             formParams['additionalMetadata'] = additionalMetadata;
         }
@@ -804,20 +895,25 @@ export class PetApi {
 
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -852,22 +948,28 @@ export class StoreApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: { [key: string]: number; };  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -893,23 +995,29 @@ export class StoreApi {
         var formParams: any = {};
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: Order;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
             uri: path,
             json: true,
             body: body,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -942,22 +1050,28 @@ export class StoreApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse; body: Order;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
@@ -990,22 +1104,28 @@ export class StoreApi {
         }
 
         var useFormData = false;
+
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
 
-        var requestOptions: any = {
+        var requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
             uri: path,
             json: true,
-            auth: {
+        }
+
+        if (this.username !== undefined) {
+            requestOptions.auth = {
                 username: this.username, password: this.password
             }
         }
 
-        if (useFormData) {
-            requestOptions.formData = formParams;
-        } else {
-            requestOptions.form = formParams;
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
         }
 
         request(requestOptions, (error, response, body) => {
