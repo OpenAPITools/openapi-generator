@@ -1,10 +1,6 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenResponse;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
@@ -28,7 +24,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     protected String configPackage = "";
 
     public SpringMVCServerCodegen() {
-        super.processOpts();
+        super();
         outputFolder = "generated-code/javaSpringMVC";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
@@ -56,6 +52,9 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                         "Long",
                         "Float")
         );
+
+        cliOptions.add(new CliOption("configPackage", "configuration package for generated code"));
+
     }
 
     public CodegenType getTag() {
@@ -73,6 +72,10 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey("configPackage")) {
+            this.setConfigPackage((String) additionalProperties.get("configPackage"));
+        }
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -182,6 +185,10 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
             }
         }
         return objs;
+    }
+
+    public void setConfigPackage(String configPackage) {
+        this.configPackage = configPackage;
     }
 }
 
