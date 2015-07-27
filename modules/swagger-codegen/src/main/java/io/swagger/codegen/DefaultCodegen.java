@@ -229,6 +229,11 @@ public class DefaultCodegen {
     }
 
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         return operationId;
     }
 
