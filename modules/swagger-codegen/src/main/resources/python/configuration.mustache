@@ -119,17 +119,17 @@ class Configuration(object):
             # setting log level to default `logging.WARNING`
             self.logger.setLevel(logging.WARNING)
 
-    def get_api_key_with_prefix(self, key):
+    def get_api_key_with_prefix(self, identifier):
         """
         Gets API key (with prefix if set).
 
-        :param key: Name of apiKey.
+        :param identifier: The identifier of apiKey.
         :return: The token for api key authentication.
         """
-        if self.api_key.get(key) and self.api_key_prefix.get(key):
-            return self.api_key_prefix[key] + ' ' + self.api_key[key]
-        elif self.api_key.get(key):
-            return self.api_key[key]
+        if self.api_key.get(identifier) and self.api_key_prefix.get(identifier):
+            return self.api_key_prefix[identifier] + ' ' + self.api_key[identifier]
+        elif self.api_key.get(identifier):
+            return self.api_key[identifier]
 
     def get_basic_auth_token(self):
         """
