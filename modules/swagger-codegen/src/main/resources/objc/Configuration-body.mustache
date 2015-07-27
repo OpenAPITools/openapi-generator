@@ -60,12 +60,20 @@
 
 #pragma mark - Setter Methods
 
-- (void) setValue:(NSString *)value forApiKeyField:(NSString *)field {
-    [self.mutableApiKey setValue:value forKey:field];
+- (void) setApiKey:(NSString *)apiKey forApiKeyIdentifier:(NSString *)identifier {
+    [self.mutableApiKey setValue:apiKey forKey:identifier];
 }
 
-- (void) setValue:(NSString *)value forApiKeyPrefixField:(NSString *)field {
-    [self.mutableApiKeyPrefix setValue:value forKey:field];
+- (void) removeApiKey:(NSString *)identifier {
+    [self.mutableApiKey removeObjectForKey:identifier];
+}
+
+- (void) setApiKeyPrefix:(NSString *)prefix forApiKeyPrefixIdentifier:(NSString *)identifier {
+    [self.mutableApiKeyPrefix setValue:prefix forKey:identifier];
+}
+
+- (void) removeApiKeyPrefix:(NSString *)identifier {
+    [self.mutableApiKeyPrefix removeObjectForKey:identifier];
 }
 
 - (void) setLoggingFile:(NSString *)loggingFile {
@@ -75,10 +83,10 @@
     }
     
     _loggingFile = loggingFile;
-    self.loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
-    if (self.loggingFileHanlder == nil) {
+    _loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
+    if (_loggingFileHanlder == nil) {
         [[NSFileManager defaultManager] createFileAtPath:_loggingFile contents:nil attributes:nil];
-        self.loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
+        _loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
     }
 }
 
