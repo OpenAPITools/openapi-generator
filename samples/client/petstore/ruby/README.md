@@ -42,7 +42,7 @@ ruby -Ilib script.rb
 ```ruby
 require 'petstore'
 
-api_client = Petstore::ApiClient.new do |client|
+Petstore::ApiClient.default.configure do |client|
   client.api_key['api_key'] = 'special-key'
   client.host = 'petstore.swagger.io'
   client.base_path = '/v2'
@@ -50,7 +50,7 @@ api_client = Petstore::ApiClient.new do |client|
   client.debugging = true
 end
 
-pet_api = Petstore::PetApi.new(api_client)
+pet_api = Petstore::PetApi.new
 pet = pet_api.get_pet_by_id(5)
 puts pet.to_body
 ```

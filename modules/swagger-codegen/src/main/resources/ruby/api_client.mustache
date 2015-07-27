@@ -110,6 +110,11 @@ module {{moduleName}}
       configure(&block)
     end
 
+    # Default API client.
+    def self.default
+      @@default ||= ApiClient.new
+    end
+
     # Call this method to modify defaults in your initializers.
     def configure
       yield(self) if block_given?
