@@ -64,7 +64,8 @@ class ApiClient(object):
     :param header_value: a header value to pass when making calls to the API.
     """
     def __init__(self, host=Configuration().host,
-                 header_name=None, header_value=None):
+                 header_name=None, header_value=None, cookie=None):
+
         """
         Constructor of the class.
         """
@@ -72,7 +73,7 @@ class ApiClient(object):
         if header_name is not None:
             self.default_headers[header_name] = header_value
         self.host = host
-        self.cookie = None
+        self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = 'Python-Swagger'
 
