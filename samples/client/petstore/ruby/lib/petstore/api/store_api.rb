@@ -29,11 +29,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -43,12 +43,17 @@ module Petstore
       
 
       auth_names = ['api_key']
-      response = Request.new(@api_client, :GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('Hash<String, Integer>')
+      result = @api_client.call_api(:GET, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Hash<String, Integer>')
       if @api_client.debugging
         @api_client.logger.debug "API called: StoreApi#get_inventory. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Place an order for a pet
@@ -72,26 +77,31 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = Request.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
       auth_names = []
-      response = Request.new(@api_client, :POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('Order')
+      result = @api_client.call_api(:POST, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Order')
       if @api_client.debugging
         @api_client.logger.debug "API called: StoreApi#place_order. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Find purchase order by ID
@@ -118,11 +128,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -132,12 +142,17 @@ module Petstore
       
 
       auth_names = []
-      response = Request.new(@api_client, :GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('Order')
+      result = @api_client.call_api(:GET, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Order')
       if @api_client.debugging
         @api_client.logger.debug "API called: StoreApi#get_order_by_id. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Delete purchase order by ID
@@ -164,11 +179,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -178,11 +193,16 @@ module Petstore
       
 
       auth_names = []
-      Request.new(@api_client, :DELETE, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      @api_client.call_api(:DELETE, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: StoreApi#delete_order"
       end
-      nil
+      return nil
     end
   end
 end

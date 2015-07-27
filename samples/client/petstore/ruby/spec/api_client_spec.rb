@@ -50,4 +50,55 @@ describe Petstore::ApiClient do
 
   end
 
+  describe "#update_params_for_auth!" do
+    it "sets header api-key parameter with prefix" do
+      api_client = Petstore::ApiClient.new do |c|
+        c.api_key_prefix['api_key'] = 'PREFIX'
+        c.api_key['api_key'] = 'special-key'
+      end
+      header_params = {}
+      query_params = {}
+      auth_names = ['api_key', 'unknown']
+      api_client.update_params_for_auth! header_params, query_params, auth_names
+      header_params.should == {'api_key' => 'PREFIX special-key'}
+      query_params.should == {}
+    end
+
+    it "sets header api-key parameter without prefix" do
+      api_client = Petstore::ApiClient.new do |c|
+        c.api_key_prefix['api_key'] = nil
+        c.api_key['api_key'] = 'special-key'
+      end
+      header_params = {}
+      query_params = {}
+      auth_names = ['api_key', 'unknown']
+      api_client.update_params_for_auth! header_params, query_params, auth_names
+      header_params.should == {'api_key' => 'special-key'}
+      query_params.should == {}
+    end
+  end
+
+  describe "#deserialize" do
+    it "handles Hash<String, String>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '{"message": "Hello"}')
+      data = api_client.deserialize(response, 'Hash<String, String>')
+      data.should be_a(Hash)
+      data.should == {:message => 'Hello'}
+    end
+
+    it "handles Hash<String, Pet>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '{"pet": {"id": 1}}')
+      data = api_client.deserialize(response, 'Hash<String, Pet>')
+      data.should be_a(Hash)
+      data.keys.should == [:pet]
+      pet = data[:pet]
+      pet.should be_a(Petstore::Pet)
+      pet.id.should == 1
+    end
+  end
+
 end

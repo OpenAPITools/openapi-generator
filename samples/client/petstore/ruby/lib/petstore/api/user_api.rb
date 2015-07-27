@@ -30,25 +30,30 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = Request.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
       auth_names = []
-      Request.new(@api_client, :POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      @api_client.call_api(:POST, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#create_user"
       end
-      nil
+      return nil
     end
 
     # Creates list of users with given input array
@@ -72,25 +77,30 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = Request.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
       auth_names = []
-      Request.new(@api_client, :POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      @api_client.call_api(:POST, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#create_users_with_array_input"
       end
-      nil
+      return nil
     end
 
     # Creates list of users with given input array
@@ -114,25 +124,30 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = Request.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
       auth_names = []
-      Request.new(@api_client, :POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      @api_client.call_api(:POST, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#create_users_with_list_input"
       end
-      nil
+      return nil
     end
 
     # Logs user into the system
@@ -159,11 +174,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -173,12 +188,17 @@ module Petstore
       
 
       auth_names = []
-      response = Request.new(@api_client, :GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('String')
+      result = @api_client.call_api(:GET, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'String')
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#login_user. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Logs out current logged in user session
@@ -201,11 +221,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -215,11 +235,16 @@ module Petstore
       
 
       auth_names = []
-      Request.new(@api_client, :GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      @api_client.call_api(:GET, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#logout_user"
       end
-      nil
+      return nil
     end
 
     # Get user by user name
@@ -246,11 +271,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -260,12 +285,17 @@ module Petstore
       
 
       auth_names = []
-      response = Request.new(@api_client, :GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('User')
+      result = @api_client.call_api(:GET, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'User')
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#get_user_by_name. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Updated user
@@ -293,25 +323,30 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = Request.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
       auth_names = []
-      Request.new(@api_client, :PUT, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      @api_client.call_api(:PUT, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#update_user"
       end
-      nil
+      return nil
     end
 
     # Delete user
@@ -338,11 +373,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -352,11 +387,16 @@ module Petstore
       
 
       auth_names = []
-      Request.new(@api_client, :DELETE, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      @api_client.call_api(:DELETE, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: UserApi#delete_user"
       end
-      nil
+      return nil
     end
   end
 end
