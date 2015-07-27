@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "target": "ES5"
+    },
+    "files": [
+        "api.ts",
+        "client.ts",
+        "typings/tsd.d.ts"
+    ]
+}
