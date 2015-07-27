@@ -3,6 +3,7 @@ Pod::Spec.new do |s|
   s.summary = '{{projectDescription}}'{{/projectDescription}}
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
+  s.version = '{{#podVersion}}{{podVersion}}{{/podVersion}}{{^podVersion}}0.0.1{{/podVersion}}'
   s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:swagger-api/swagger-mustache.git', :tag => 'v1.0.0' }{{/podSource}}{{#podAuthors}}
   s.authors = {{& podAuthors}}{{/podAuthors}}{{#podSocialMediaURL}}
   s.social_media_url = '{{podSocialMediaURL}}'{{/podSocialMediaURL}}{{#podDocsetURL}}
