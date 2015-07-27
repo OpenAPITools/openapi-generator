@@ -219,7 +219,7 @@ class ApiClient(object):
                         for sub_data in data]
 
             if 'dict(' in klass:
-                sub_kls = re.match('dict\((.*), (.*)\)', klass).group(2)
+                sub_kls = re.match('dict\(([^,]*), (.*)\)', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in iteritems(data)}
 
