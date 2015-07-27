@@ -1,12 +1,15 @@
 import api = require('./api');
 import fs = require('fs');
 
-var petApi = new api.PetApi('http://petstore.swagger.io', undefined, undefined);
+var petApi = new api.PetApi('http://petstore.swagger.io');
+petApi.apiKey = 'special-key';
 
 var pet = new api.Pet();
 pet.name = 'TypeScriptDoggie';
 
 var petId: any;
+
+var exitCode = 0;
 
 // Test various API calls to the petstore
 petApi.addPet(pet)
@@ -37,10 +40,12 @@ petApi.addPet(pet)
 })
 .catch((err:any) => {
 	console.error(err);
+	exitCode = 1;
 })
 .finally(() => {
 	return petApi.deletePet(petId);
 })
 .then((res) => {
 	console.log('Deleted pet');
+	process.exit(exitCode);
 });

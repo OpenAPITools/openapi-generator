@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "target": "ES5"
     },
     "files": [
         "api.ts",
