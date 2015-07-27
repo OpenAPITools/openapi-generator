@@ -1216,7 +1216,9 @@ public class DefaultCodegen {
         if (mappedType != null) {
             addImport(m, mappedType);
         }
-    }    /**
+    }
+
+    /**
      * Underscore the given word.
      *
      * @param word The word
@@ -1307,11 +1309,6 @@ public class DefaultCodegen {
     }
 
     public static String camelize(String word, boolean lowercaseFirstLetter) {
-        // throw exception if method name is empty
-        if (StringUtils.isEmpty(word)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
-        }
-
         // Replace all slashes with dots (package separator)
         Pattern p = Pattern.compile("\\/(.?)");
         Matcher m = p.matcher(word);
