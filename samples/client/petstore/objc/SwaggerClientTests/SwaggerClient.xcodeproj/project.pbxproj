@@ -23,6 +23,8 @@
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		94BE6BE84795B5034A811E61 /* libPods-SwaggerClient_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */; };
+		CF0ADB481B5F95D6008A2729 /* PetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0ADB471B5F95D6008A2729 /* PetTest.m */; };
+		CF8F71391B5F73AC00162980 /* DeserializationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8F71381B5F73AC00162980 /* DeserializationTest.m */; };
 		CFDFB4121B3CFFA8009739C5 /* UserApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFB40D1B3CFEC3009739C5 /* UserApiTest.m */; };
 		CFDFB4131B3CFFDD009739C5 /* PetApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFB40A1B3CFEC3009739C5 /* PetApiTest.m */; };
 		CFDFB4141B3CFFF6009739C5 /* StoreApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFB40B1B3CFEC3009739C5 /* StoreApiTest.m */; };
@@ -65,6 +67,8 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwaggerClient_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB4BE760737508B3CFC23B2 /* Pods-SwaggerClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example.release.xcconfig"; sourceTree = "<group>"; };
+		CF0ADB471B5F95D6008A2729 /* PetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PetTest.m; sourceTree = "<group>"; };
+		CF8F71381B5F73AC00162980 /* DeserializationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeserializationTest.m; sourceTree = "<group>"; };
 		CFDFB40A1B3CFEC3009739C5 /* PetApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PetApiTest.m; sourceTree = "<group>"; };
 		CFDFB40B1B3CFEC3009739C5 /* StoreApiTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreApiTest.m; sourceTree = "<group>"; };
 		CFDFB40C1B3CFEC3009739C5 /* SWGApiClientTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWGApiClientTest.m; sourceTree = "<group>"; };
@@ -166,6 +170,8 @@
 				CFDFB40A1B3CFEC3009739C5 /* PetApiTest.m */,
 				CFDFB40B1B3CFEC3009739C5 /* StoreApiTest.m */,
 				CFDFB40C1B3CFEC3009739C5 /* SWGApiClientTest.m */,
+				CF0ADB471B5F95D6008A2729 /* PetTest.m */,
+				CF8F71381B5F73AC00162980 /* DeserializationTest.m */,
 				CFDFB40D1B3CFEC3009739C5 /* UserApiTest.m */,
 				6003F5BB195388D20070C39A /* Tests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
@@ -374,10 +380,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFDFB4141B3CFFF6009739C5 /* StoreApiTest.m in Sources */,
+				CF0ADB481B5F95D6008A2729 /* PetTest.m in Sources */,
 				CFDFB4131B3CFFDD009739C5 /* PetApiTest.m in Sources */,
 				6003F5BC195388D20070C39A /* Tests.m in Sources */,
 				CFDFB4151B3D000B009739C5 /* SWGApiClientTest.m in Sources */,
 				CFDFB4121B3CFFA8009739C5 /* UserApiTest.m in Sources */,
+				CF8F71391B5F73AC00162980 /* DeserializationTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

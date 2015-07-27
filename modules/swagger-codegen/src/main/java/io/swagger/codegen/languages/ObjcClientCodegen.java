@@ -57,7 +57,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         typeMapping.clear();
         typeMapping.put("enum", "NSString");
-        typeMapping.put("Date", "NSDate");
+        typeMapping.put("date", "NSDate");
         typeMapping.put("DateTime", "NSDate");
         typeMapping.put("boolean", "NSNumber");
         typeMapping.put("string", "NSString");
