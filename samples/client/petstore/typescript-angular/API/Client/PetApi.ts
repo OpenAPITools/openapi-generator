@@ -231,7 +231,7 @@ module API.Client {
             return this.$http(httpRequestParams);
         }
 
-        public uploadFile (petId: number, additionalMetadata?: string, file?: file, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+        public uploadFile (petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             var path = this.basePath + '/pet/{petId}/uploadImage';
 
             path = path.replace('{' + 'petId' + '}', String(petId));
