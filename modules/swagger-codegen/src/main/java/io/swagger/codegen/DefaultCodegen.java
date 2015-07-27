@@ -1278,9 +1278,8 @@ public class DefaultCodegen {
         } else {
             m.emptyVars = true;
         }
-    }    public static String camelize(String word) {
-        return camelize(word, false);
     }
+    
 
     /**
      * Remove characters not suitable for variable or method name from the input and camelize it
@@ -1301,7 +1300,18 @@ public class DefaultCodegen {
             name = name.substring(0, 1).toLowerCase() + name.substring(1);
         }
         return name;
-    }    public static String camelize(String word, boolean lowercaseFirstLetter) {
+    }    
+
+    public static String camelize(String word) {
+        return camelize(word, false);
+    }
+
+    public static String camelize(String word, boolean lowercaseFirstLetter) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(word)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         // Replace all slashes with dots (package separator)
         Pattern p = Pattern.compile("\\/(.?)");
         Matcher m = p.matcher(word);
