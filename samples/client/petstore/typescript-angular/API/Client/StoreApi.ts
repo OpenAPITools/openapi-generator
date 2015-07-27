@@ -16,7 +16,7 @@ module API.Client {
             }
         }
 
-        public getInventory (extraHttpRequestParams?: any ) : ng.IHttpPromise<map<String, number>> {
+        public getInventory (extraHttpRequestParams?: any ) : ng.IHttpPromise<{ [key: string]: number; }> {
             var path = this.basePath + '/store/inventory';
 
             var queryParameters: any = {};
