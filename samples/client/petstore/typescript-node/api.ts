@@ -121,8 +121,8 @@ export class UserApi {
     private basePath = '/v2';
     public authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': <Authentication>new ApiKeyAuth('header', 'api_key'),
-        'petstore_auth': <Authentication>new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(url: string, basePath?: string);
@@ -137,7 +137,6 @@ export class UserApi {
             }
         }
     }
-
 
     set apiKey(key: string) {
         this.authentications.api_key.apiKey = key;
@@ -532,8 +531,8 @@ export class PetApi {
     private basePath = '/v2';
     public authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': <Authentication>new ApiKeyAuth('header', 'api_key'),
-        'petstore_auth': <Authentication>new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(url: string, basePath?: string);
@@ -548,7 +547,6 @@ export class PetApi {
             }
         }
     }
-
 
     set apiKey(key: string) {
         this.authentications.api_key.apiKey = key;
@@ -985,8 +983,8 @@ export class StoreApi {
     private basePath = '/v2';
     public authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': <Authentication>new ApiKeyAuth('header', 'api_key'),
-        'petstore_auth': <Authentication>new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(url: string, basePath?: string);
@@ -1001,7 +999,6 @@ export class StoreApi {
             }
         }
     }
-
 
     set apiKey(key: string) {
         this.authentications.api_key.apiKey = key;
