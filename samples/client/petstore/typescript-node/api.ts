@@ -71,13 +71,76 @@ export module Order {
     }
 }
 
+interface Authentication {
+    /**
+    * Apply authentication settings to header and query params.
+    */
+    applyToRequest(requestOptions: request.Options): void;
+}
+
+class HttpBasicAuth implements Authentication {
+    public username: string;
+    public password: string;
+    applyToRequest(requestOptions: request.Options): void {
+        requestOptions.auth = {
+            username: this.username, password: this.password
+        }
+    }
+}
+
+class ApiKeyAuth implements Authentication {
+    public apiKey: string;
+
+    constructor(private location: string, private paramName: string) {
+    }
+
+    applyToRequest(requestOptions: request.Options): void {
+        if (this.location == "query") {
+            (<any>requestOptions.qs)[this.paramName] = this.apiKey;
+        } else if (this.location == "header") {
+            requestOptions.headers[this.paramName] = this.apiKey;
+        }
+    }
+}
+
+class OAuth implements Authentication {
+    applyToRequest(requestOptions: request.Options): void {
+        // TODO: support oauth
+    }
+}
+
+class VoidAuth implements Authentication {
+    public username: string;
+    public password: string;
+    applyToRequest(requestOptions: request.Options): void {
+        // Do nothing
+    }
+}
+
 export class UserApi {
     private basePath = '/v2';
+    public authentications = {
+        'default': <Authentication>new VoidAuth(),
+        'api_key': <Authentication>new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': <Authentication>new OAuth(),
+    }
 
-    constructor(private url: string, private username: string, private password: string, basePath?: string) {
-        if (basePath) {
-            this.basePath = basePath;
+    constructor(url: string, basePath?: string);
+    constructor(private url: string, basePathOrUsername: string, password?: string, basePath?: string) {
+        if (password) {
+            if (basePath) {
+                this.basePath = basePath;
+            }
+        } else {
+            if (basePathOrUsername) {
+                this.basePath = basePathOrUsername
+            }
         }
+    }
+
+
+    set apiKey(key: string) {
+        this.authentications.api_key.apiKey = key;
     }
 
     public createUser (body?: User) : Promise<{ response: http.ClientResponse;  }> {
@@ -94,16 +157,13 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
             body: body,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -142,16 +202,13 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
             body: body,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -190,16 +247,13 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
             body: body,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -246,15 +300,12 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -293,15 +344,12 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -347,15 +395,12 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -401,16 +446,13 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'PUT',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
             body: body,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -456,15 +498,12 @@ export class UserApi {
         var requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -491,11 +530,28 @@ export class UserApi {
 }
 export class PetApi {
     private basePath = '/v2';
+    public authentications = {
+        'default': <Authentication>new VoidAuth(),
+        'api_key': <Authentication>new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': <Authentication>new OAuth(),
+    }
 
-    constructor(private url: string, private username: string, private password: string, basePath?: string) {
-        if (basePath) {
-            this.basePath = basePath;
+    constructor(url: string, basePath?: string);
+    constructor(private url: string, basePathOrUsername: string, password?: string, basePath?: string) {
+        if (password) {
+            if (basePath) {
+                this.basePath = basePath;
+            }
+        } else {
+            if (basePathOrUsername) {
+                this.basePath = basePathOrUsername
+            }
         }
+    }
+
+
+    set apiKey(key: string) {
+        this.authentications.api_key.apiKey = key;
     }
 
     public updatePet (body?: Pet) : Promise<{ response: http.ClientResponse;  }> {
@@ -512,16 +568,15 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'PUT',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
             body: body,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -560,16 +615,15 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
             body: body,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -612,15 +666,14 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -663,15 +716,14 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -717,15 +769,16 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -779,15 +832,14 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -835,15 +887,14 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -898,15 +949,14 @@ export class PetApi {
         var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -933,11 +983,28 @@ export class PetApi {
 }
 export class StoreApi {
     private basePath = '/v2';
+    public authentications = {
+        'default': <Authentication>new VoidAuth(),
+        'api_key': <Authentication>new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': <Authentication>new OAuth(),
+    }
 
-    constructor(private url: string, private username: string, private password: string, basePath?: string) {
-        if (basePath) {
-            this.basePath = basePath;
+    constructor(url: string, basePath?: string);
+    constructor(private url: string, basePathOrUsername: string, password?: string, basePath?: string) {
+        if (password) {
+            if (basePath) {
+                this.basePath = basePath;
+            }
+        } else {
+            if (basePathOrUsername) {
+                this.basePath = basePathOrUsername
+            }
         }
+    }
+
+
+    set apiKey(key: string) {
+        this.authentications.api_key.apiKey = key;
     }
 
     public getInventory () : Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }> {
@@ -954,15 +1021,14 @@ export class StoreApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1001,16 +1067,13 @@ export class StoreApi {
         var requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
             body: body,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1056,15 +1119,12 @@ export class StoreApi {
         var requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -1110,15 +1170,12 @@ export class StoreApi {
         var requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
+            headers: headerParams,
             uri: path,
             json: true,
         }
 
-        if (this.username !== undefined) {
-            requestOptions.auth = {
-                username: this.username, password: this.password
-            }
-        }
+        this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
             if (useFormData) {
