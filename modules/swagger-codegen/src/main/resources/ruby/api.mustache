@@ -45,11 +45,11 @@ module {{moduleName}}
 
       # HTTP header 'Accept' (if needed)
       _header_accept = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
-      _header_accept_result = Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
-      header_params['Content-Type'] = Request.select_header_content_type(_header_content_type){{#headerParams}}{{#required}}
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type){{#headerParams}}{{#required}}
       header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
       header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
 
@@ -60,20 +60,30 @@ module {{moduleName}}
 
       # http body (model)
       {{^bodyParam}}post_body = nil
-      {{/bodyParam}}{{#bodyParam}}post_body = Request.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
+      {{/bodyParam}}{{#bodyParam}}post_body = @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
       {{/bodyParam}}
 
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      {{#returnType}}response = Request.new(@api_client, :{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('{{{returnType}}}')
+      {{#returnType}}result = @api_client.call_api(:{{httpMethod}}, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => '{{{returnType}}}')
       if @api_client.debugging
         @api_client.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
       end
-      result{{/returnType}}{{^returnType}}Request.new(@api_client, :{{httpMethod}}, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
+      return result{{/returnType}}{{^returnType}}@api_client.call_api(:{{httpMethod}}, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
       if @api_client.debugging
         @api_client.logger.debug "API called: {{classname}}#{{nickname}}"
       end
-      nil{{/returnType}}
+      return nil{{/returnType}}
     end
 {{/operation}}
   end
