@@ -1,8 +1,6 @@
 # Common files
 require 'petstore/api_client'
 require 'petstore/api_error'
-require 'petstore/request'
-require 'petstore/response'
 require 'petstore/version'
 
 # Models
