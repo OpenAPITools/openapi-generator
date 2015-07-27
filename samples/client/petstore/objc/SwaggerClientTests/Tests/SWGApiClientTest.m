@@ -61,8 +61,8 @@
 
 - (void)testConfiguration {
     SWGConfiguration *config = [SWGConfiguration sharedConfig];
-    [config setValue:@"123456" forApiKeyField:@"api_key"];
-    [config setValue:@"PREFIX" forApiKeyPrefixField:@"api_key"];
+    [config setApiKey:@"123456" forApiKeyIdentifier:@"api_key"];
+    [config setApiKeyPrefix:@"PREFIX" forApiKeyPrefixIdentifier:@"api_key"];
     config.username = @"test_username";
     config.password = @"test_password";
     
@@ -96,79 +96,6 @@
     basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
     
     XCTAssertEqualObjects(basicAuthCredentials, [config getBasicAuthToken]);
-}
-
-- (void)testDeserialize {
-    id data;
-    id result;
-    
-    // list of models
-    data =
-    @[
-      @{
-          @"id": @119,
-          @"category": @{
-                  @"id": @0,
-                  @"name": @"string"
-                  },
-          @"name": @"doggie",
-          @"photoUrls": @[
-                  @"string"
-                  ],
-          @"tags": @[
-                  @{
-                      @"id": @0,
-                      @"name": @"string"
-                      }
-                  ],
-          @"status": @"available"
-          
-          }];
-    result = [self.apiClient deserialize:data class:@"NSArray<SWGPet>*"];
-    
-    XCTAssertTrue([result isKindOfClass:[NSArray class]]);
-    XCTAssertTrue([[result firstObject] isKindOfClass:[SWGPet class]]);
-    XCTAssertEqualObjects([[result firstObject] _id], @119);
-    
-    // map of models
-    data =
-    @{
-      @"pet": @{
-              @"id": @119,
-              @"category": @{
-                      @"id": @0,
-                      @"name": @"string"
-                      },
-              @"name": @"doggie",
-              @"photoUrls": @[
-                      @"string"
-                      ],
-              @"tags": @[
-                      @{
-                          @"id": @0,
-                          @"name": @"string"
-                          }
-                      ],
-              @"status": @"available"
-              
-              }
-      };
-    result = [self.apiClient deserialize:data class:@"NSDictionary* /* NSString, SWGPet */"];
-    
-    XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
-    XCTAssertTrue([result[@"pet"] isKindOfClass:[SWGPet class]]);
-    XCTAssertEqualObjects([result[@"pet"] _id], @119);
-    
-    // pure object
-    result = [self.apiClient deserialize:@"" class:@"NSObject*"];
-    
-    XCTAssertTrue([result isKindOfClass:[NSObject class]]);
-    
-    // NSString
-    data = @"test string";
-    result = [self.apiClient deserialize:data class:@"NSString*"];
-    
-    XCTAssertTrue([result isKindOfClass:[NSString class]]);
 }
 
 @end

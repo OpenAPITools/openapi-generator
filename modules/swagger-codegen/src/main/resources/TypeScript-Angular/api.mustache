@@ -6,11 +6,11 @@
 module {{package}} {
     'use strict';
 
-    {{#description}}
+{{#description}}
     /**
     * {{&description}}
     */
-    {{/description}}
+{{/description}}
     export class {{classname}} {
         private basePath = '{{contextPath}}';
 
@@ -21,24 +21,37 @@ module {{package}} {
                 this.basePath = basePath;
             }
         }
-        {{#operation}}
+{{#operation}}
+
         public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
             var path = this.basePath + '{{path}}';
-            {{#pathParams}}
+
+{{#pathParams}}
             path = path.replace('{' + '{{paramName}}' + '}', String({{paramName}}));
-            {{/pathParams}}
+
+{{/pathParams}}
             var queryParameters: any = {};
             var headerParams: any = {};
-            {{#allParams}}{{#required}}
+
+{{#allParams}}
+{{#required}}
             // verify required parameter '{{paramName}}' is set
             if (!{{paramName}}) {
                 throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
             }
-            {{/required}}{{/allParams}}
-            {{#queryParams}}if ({{paramName}} !== undefined) {
+
+{{/required}}
+{{/allParams}}
+{{#queryParams}}
+            if ({{paramName}} !== undefined) {
                 queryParameters['{{paramName}}'] = {{paramName}};
-            }{{/queryParams}}
-            {{#headerParams}}headerParams['{{paramName}}'] = {{paramName}};{{/headerParams}}
+            }
+
+{{/queryParams}}
+{{#headerParams}}
+            headerParams['{{paramName}}'] = {{paramName}};
+
+{{/headerParams}}
             var httpRequestParams: any = {
                 method: '{{httpMethod}}',
                 url: path,
@@ -59,7 +72,7 @@ module {{package}} {
 
             return this.$http(httpRequestParams);
         }
-		{{/operation}}
+{{/operation}}
     }
 }
 {{/operations}}

@@ -601,7 +601,7 @@ public class DefaultCodegen {
 
     public CodegenProperty fromProperty(String name, Property p) {
         if (p == null) {
-            LOGGER.error("unexpected missing property for name " + null);
+            LOGGER.error("unexpected missing property for name " + name);
             return null;
         }
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
