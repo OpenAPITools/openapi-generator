@@ -116,4 +116,19 @@
     XCTAssertEqualObjects([result[@"pet"] _id], @119);
 }
 
+- (void)testDeserializeNestedMap {
+    NSDictionary *data =
+    @{
+      @"foo": @{
+              @"bar": @1
+              }
+    };
+    
+    NSDictionary *result = [apiClient deserialize:data class:@"NSDictionary* /* NSString, NSDictionary* /* NSString, NSNumber */ */"];
+    
+    XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
+    XCTAssertTrue([result[@"foo"] isKindOfClass:[NSDictionary class]]);
+    XCTAssertTrue([result[@"foo"][@"bar"] isKindOfClass:[NSNumber class]]);
+}
+
 @end
