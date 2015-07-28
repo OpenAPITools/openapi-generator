@@ -50,7 +50,6 @@
             </goals>
             <configuration>
               <scanIntervalSeconds>0</scanIntervalSeconds>
-              <daemon>true</daemon>
             </configuration>
           </execution>
           <execution>
@@ -75,11 +74,28 @@
             </goals>
             <configuration>
               <sources>
-                <source>src/gen/java</source>
+                <source>target/generated-sources</source>
               </sources>
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+          <groupId>io.swagger</groupId>
+          <artifactId>swagger-codegen-maven-plugin</artifactId>
+          <version>2.1.3-SNAPSHOT</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>generate</goal>
+                  </goals>
+                  <configuration>
+                      <inputSpec>src/main/resources/swagger.json</inputSpec>
+                      <language>jaxrs</language>
+                      <output>.</output>
+                  </configuration>
+              </execution>
+          </executions>
       </plugin>
     </plugins>
   </build>
@@ -148,7 +164,7 @@
     </repository>
   </repositories>
   <properties>
-    <swagger-core-version>1.5.0</swagger-core-version>
+    <swagger-core-version>1.5.1-SNAPSHOT</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey-version>1.13</jersey-version>
     <slf4j-version>1.6.3</slf4j-version>

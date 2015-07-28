@@ -5,11 +5,15 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Operation;
+import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.util.Json;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -17,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
+    public static final String DEFAULT_IMPL_SOURCE_FOLDER = "src/main/java";
     protected String invokerPackage = "io.swagger.api";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-jaxrs-server";
@@ -26,9 +31,9 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     public JaxRSServerCodegen() {
         super.processOpts();
 
-        sourceFolder = "src/gen/java";
+        sourceFolder = "target/generated-sources";
 
-        outputFolder = System.getProperty("swagger.codegen.jaxrs.genfolder", "generated-code/javaJaxRS");
+        outputFolder = System.getProperty("swagger.codegen.jaxrs.genfolder", "target/generated-sources");
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiService.mustache", ".java");
@@ -184,7 +189,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
 
-            String output = System.getProperty("swagger.codegen.jaxrs.impl.source");
+            String output = System.getProperty("swagger.codegen.jaxrs.impl.source", DEFAULT_IMPL_SOURCE_FOLDER);
             if (output != null) {
                 result = result.replace(apiFileFolder(), implFileFolder(output));
             }
@@ -192,7 +197,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
 
-            String output = System.getProperty("swagger.codegen.jaxrs.impl.source");
+            String output = System.getProperty("swagger.codegen.jaxrs.impl.source", DEFAULT_IMPL_SOURCE_FOLDER);
             if (output != null) {
                 result = result.replace(apiFileFolder(), implFileFolder(output));
             }
@@ -204,11 +209,31 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         return result;
     }
 
+    @Override
+    public void processSwagger(Swagger swagger) {
+        super.processSwagger(swagger);
+
+        try {
+            File file = new File( outputFolder + "/src/main/resources/swagger.json" );
+            file.getParentFile().mkdirs();
+
+            FileWriter swaggerFile = new FileWriter(file);
+            swaggerFile.write( Json.pretty(swagger));
+            swaggerFile.flush();
+            swaggerFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String implFileFolder(String output) {
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
     public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
+        return filename.startsWith( outputFolder + File.separatorChar + sourceFolder);
+
+//        return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java")
+//                && !filename.endsWith("ServiceFactory.java");
     }
 }
