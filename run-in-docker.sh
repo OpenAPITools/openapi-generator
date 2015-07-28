@@ -3,13 +3,23 @@ set -e
 cd "$(dirname $BASH_SOURCE)"
 
 maven_cache_repo="$HOME/.m2/repository"
+myname="$(basename $BASH_SOURCE)"
 
 if [ "$1" = "mvn" ]; then
         cmd="$1"
         shift
         args="$@"
 else
-        cmd="java -jar /gen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"
+        jar="modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"
+        
+        # Check if project is built
+        if [ ! -f "$jar" ]; then
+                echo "ERROR File not found: $jar"
+                echo "ERROR Did you forget to './$myname mvn package'?"
+                exit 1
+        fi
+        
+        cmd="java -jar /gen/$jar"
         args="$@"
 fi
 
