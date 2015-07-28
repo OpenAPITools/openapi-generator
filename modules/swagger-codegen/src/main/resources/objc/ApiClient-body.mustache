@@ -356,13 +356,14 @@ static void (^reachabilityChangeBlock)(int);
     NSTextCheckingResult *match = nil;
     NSMutableArray *resultArray = nil;
     NSMutableDictionary *resultDict = nil;
+    NSString *innerType = nil;
 
     // return nil if data is nil or class is nil
     if (!data || !class) {
         return nil;
     }
 
-    // remove "*" from class, if ends with "*"
+    // remove "*" from class, if ends with "*"
     if ([class hasSuffix:@"*"]) {
         class = [class substringToIndex:[class length] - 1];
     }
@@ -383,7 +384,7 @@ static void (^reachabilityChangeBlock)(int);
                                  range:NSMakeRange(0, [class length])];
     
     if (match) {
-        NSString *innerType = [class substringWithRange:[match rangeAtIndex:1]];
+        innerType = [class substringWithRange:[match rangeAtIndex:1]];
 
         resultArray = [NSMutableArray arrayWithCapacity:[data count]];
         [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -395,8 +396,8 @@ static void (^reachabilityChangeBlock)(int);
     }
 
     // list of primitives
-    NSString *arrayOfPrimitivesPet = @"NSArray";
-    regexp = [NSRegularExpression regularExpressionWithPattern:arrayOfPrimitivesPet
+    NSString *arrayOfPrimitivesPat = @"NSArray\\* /\\* (.+) \\*/";
+    regexp = [NSRegularExpression regularExpressionWithPattern:arrayOfPrimitivesPat
                                                        options:NSRegularExpressionCaseInsensitive
                                                          error:nil];
     match = [regexp firstMatchInString:class
@@ -404,9 +405,11 @@ static void (^reachabilityChangeBlock)(int);
                                  range:NSMakeRange(0, [class length])];
 
     if (match) {
+        innerType = [class substringWithRange:[match rangeAtIndex:1]];
+        
         resultArray = [NSMutableArray arrayWithCapacity:[data count]];
         [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [resultArray addObject:[self deserialize:obj class:NSStringFromClass([obj class])]];
+            [resultArray addObject:[self deserialize:obj class:innerType]];
         }];
         
         return resultArray;

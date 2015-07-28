@@ -90,7 +90,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(0).isNotContainer should equal(true)
 
     vars.get(1).baseName should be("urls")
-    vars.get(1).datatype should be("NSArray*")
+    vars.get(1).datatype should be("NSArray* /* NSString */")
     vars.get(1).name should be("urls")
     // vars.get(1).defaultValue should be ("null")
     vars.get(1).baseType should be("NSArray")

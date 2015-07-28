@@ -23,7 +23,7 @@
 
 @property(nonatomic) NSString* name;
 
-@property(nonatomic) NSArray* photoUrls;
+@property(nonatomic) NSArray* /* NSString */ photoUrls;
 
 @property(nonatomic) NSArray<SWGTag>* tags;
 /* pet status in the store [optional]
