@@ -413,7 +413,7 @@ static void (^reachabilityChangeBlock)(int);
     }
 
     // map
-    NSString *dictPat = @"NSDictionary\\* /\\* (.+), (.+) \\*/";
+    NSString *dictPat = @"NSDictionary\\* /\\* (.+?), (.+) \\*/";
     regexp = [NSRegularExpression regularExpressionWithPattern:dictPat
                                                        options:NSRegularExpressionCaseInsensitive
                                                          error:nil];
