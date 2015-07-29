@@ -163,14 +163,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <configuration>
-                        <releaseProfiles>release</releaseProfiles>
-                        <goals>sign</goals>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.7</version>
                     <configuration>
@@ -475,7 +467,7 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>2.4</commons-lang-version>
         <slf4j-version>1.6.3</slf4j-version>
-        <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
+        <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.9</jmustache-version>
     </properties>
 </project>
