@@ -34,13 +34,13 @@ public class Pet  {
      **/
     @ApiModelProperty(required = true, value = "")  
     @SerializedName("photoUrls")
-    private List<String> photoUrls = new ArrayList<String>() ;
+    private List<String> photoUrls = null;
 
     /**
      **/
     @ApiModelProperty(value = "")  
     @SerializedName("tags")
-    private List<Tag> tags = new ArrayList<Tag>() ;
+    private List<Tag> tags = null;
     public enum StatusEnum {
          available,  pending,  sold, 
     };
