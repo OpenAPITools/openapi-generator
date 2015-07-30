@@ -35,7 +35,7 @@ public class ServiceGenerator {
 }
 
 /**
- * This wrapper is to take case this case:
+ * This wrapper is to take care of this case:
  * when the deserialization fails due to JsonParseException and the
  * expected type is String, then just return the body string.
  */
