@@ -15,17 +15,17 @@
   {{#operation}}
   "{{{path}}}": {
     "{{httpMethod}}": {
+      "summary": "{{summary}}",
+      "description":"{{notes}}",
       "x-swagger-router-controller": "{{classname}}",
       "tags": ["{{baseName}}"],
       "operationId": "{{operationId}}",{{#hasParams}}
       "parameters": [
-        {{#allParams}}
-        {{{jsonSchema}}}{{#hasMore}},{{/hasMore}}
+        {{#allParams}}{{{jsonSchema}}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}
       ],{{/hasParams}}
       "responses": {
-        {{#responses}}
-        "{{code}}": {{{jsonSchema}}}
+        {{#responses}}"{{code}}": {{{jsonSchema}}}
         {{#hasMore}},{{/hasMore}}
         {{/responses}}
       }

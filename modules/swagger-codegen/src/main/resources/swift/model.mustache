@@ -10,15 +10,15 @@ import Foundation
 {{#description}}
 
 /** {{description}} */{{/description}}
-class {{classname}}: JSONEncodable {
+public class {{classname}}: JSONEncodable {
 {{#vars}}{{#isEnum}}
-    enum {{datatypeWithEnum}}: String { {{#allowableValues}}{{#values}}
+    public enum {{datatypeWithEnum}}: String { {{#allowableValues}}{{#values}}
         case {{enum}} = "{{raw}}"{{/values}}{{/allowableValues}}
     }
     {{/isEnum}}{{/vars}}
     {{#vars}}{{#isEnum}}{{#description}}/** {{description}} */
-    {{/description}}var {{name}}: {{{datatypeWithEnum}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}{{^isEnum}}{{#description}}/** {{description}} */
-    {{/description}}var {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}
+    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}{{^isEnum}}{{#description}}/** {{description}} */
+    {{/description}}public var {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}
     {{/vars}}
 
     // MARK: JSONEncodable

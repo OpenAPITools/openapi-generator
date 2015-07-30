@@ -88,11 +88,11 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     public CodegenType getTag() {
-        return CodegenType.CLIENT;
+        return CodegenType.SERVER;
     }
 
     public String getName() {
-        return "silex";
+        return "silex-PHP";
     }
 
     public String getHelp() {

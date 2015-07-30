@@ -50,23 +50,12 @@ namespace {{packageName}}.Client
             get { return _defaultHeaderMap; }
         }
     
-        /// <summary>
-        /// Makes the HTTP request (Sync).
-        /// </summary>
-        /// <param name="path">URL path.</param>
-        /// <param name="method">HTTP method.</param>
-        /// <param name="queryParams">Query parameters.</param>
-        /// <param name="postBody">HTTP body (POST request).</param>
-        /// <param name="headerParams">Header parameters.</param>
-        /// <param name="formParams">Form parameters.</param>
-        /// <param name="fileParams">File parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
-        /// <returns>Object</returns>
-        public Object CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
-            Dictionary<String, String> headerParams, Dictionary<String, String> formParams, 
-            Dictionary<String, FileParameter> fileParams, String[] authSettings)
+        // Creates and sets up a RestRequest prior to a call.
+        private RestRequest PrepareRequest(
+            String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+            Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
         {
-
             var request = new RestRequest(path, method);
    
             UpdateParamsForAuth(queryParams, headerParams, authSettings);
@@ -74,6 +63,10 @@ namespace {{packageName}}.Client
             // add default header, if any
             foreach(var defaultHeader in _defaultHeaderMap)
                 request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+
+            // add path parameter, if any
+            foreach(var param in pathParams)
+                request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment); 
 
             // add header parameter, if any
             foreach(var param in headerParams)
@@ -93,9 +86,31 @@ namespace {{packageName}}.Client
 
             if (postBody != null) // http body (model) parameter
                 request.AddParameter("application/json", postBody, ParameterType.RequestBody);
+    
+            return request;
+        }
 
+        /// <summary>
+        /// Makes the HTTP request (Sync).
+        /// </summary>
+        /// <param name="path">URL path.</param>
+        /// <param name="method">HTTP method.</param>
+        /// <param name="queryParams">Query parameters.</param>
+        /// <param name="postBody">HTTP body (POST request).</param>
+        /// <param name="headerParams">Header parameters.</param>
+        /// <param name="formParams">Form parameters.</param>
+        /// <param name="fileParams">File parameters.</param>
+        /// <param name="pathParams">Path parameters.</param>
+        /// <param name="authSettings">Authentication settings.</param>
+        /// <returns>Object</returns>
+        public Object CallApi(
+            String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+            Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
+        {
+            var request = PrepareRequest(
+                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             return (Object)RestClient.Execute(request);
-
         }
 
         /// <summary>
@@ -108,39 +123,16 @@ namespace {{packageName}}.Client
         /// <param name="headerParams">Header parameters.</param>
         /// <param name="formParams">Form parameters.</param>
         /// <param name="fileParams">File parameters.</param>
+        /// <param name="pathParams">Path parameters.</param>
         /// <param name="authSettings">Authentication settings.</param>
         /// <returns>The Task instance.</returns>
-        public async System.Threading.Tasks.Task<Object> CallApiAsync(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
-            Dictionary<String, String> headerParams, Dictionary<String, String> formParams, Dictionary<String, FileParameter> fileParams, String[] authSettings)
+        public async System.Threading.Tasks.Task<Object> CallApiAsync(
+            String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+            Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
         {
-    
-            var request = new RestRequest(path, method);
-    
-            UpdateParamsForAuth(queryParams, headerParams, authSettings);
-    
-            // add default header, if any
-            foreach(var defaultHeader in _defaultHeaderMap)
-                request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-    
-            // add header parameter, if any
-            foreach(var param in headerParams)
-                request.AddHeader(param.Key, param.Value);
-           
-            // add query parameter, if any
-            foreach(var param in queryParams)
-                request.AddQueryParameter(param.Key, param.Value);
-    
-            // add form parameter, if any
-            foreach(var param in formParams)
-                request.AddParameter(param.Key, param.Value);
-    
-            // add file parameter, if any
-            foreach(var param in fileParams)
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
-
-            if (postBody != null) // http body (model) parameter
-                request.AddParameter("application/json", postBody, ParameterType.RequestBody);
-    
+            var request = PrepareRequest(
+                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             return (Object) await RestClient.ExecuteTaskAsync(request);
         }
     
@@ -162,7 +154,7 @@ namespace {{packageName}}.Client
         /// <returns>Escaped string.</returns>
         public string EscapeString(string str)
         {
-            return HttpUtility.UrlEncode(str);
+            return RestSharp.Contrib.HttpUtility.UrlEncode(str);
         }
     
         /// <summary>
@@ -243,7 +235,7 @@ namespace {{packageName}}.Client
             {
                 return JsonConvert.DeserializeObject(content, type);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 throw new ApiException(500, e.Message);
             }

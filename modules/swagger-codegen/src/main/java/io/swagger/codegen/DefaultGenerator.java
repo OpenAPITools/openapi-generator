@@ -2,6 +2,8 @@ package io.swagger.codegen;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+
+import io.swagger.models.ComposedModel;
 import io.swagger.models.Contact;
 import io.swagger.models.Info;
 import io.swagger.models.License;
@@ -12,6 +14,7 @@ import io.swagger.models.Swagger;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.util.Json;
+
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -21,6 +24,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -119,11 +124,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             // models
             Map<String, Model> definitions = swagger.getDefinitions();
             if (definitions != null) {
-                for (String name : definitions.keySet()) {
+            	List<String> sortedModelKeys = sortModelsByInheritance(definitions);
+            	            	
+                for (String name : sortedModelKeys) {
                     Model model = definitions.get(name);
                     Map<String, Model> modelMap = new HashMap<String, Model>();
                     modelMap.put(name, model);
-                    Map<String, Object> models = processModels(config, modelMap);
+                    Map<String, Object> models = processModels(config, modelMap, definitions);
                     models.putAll(config.additionalProperties());
 
                     allModels.add(((List<Object>) models.get("models")).get(0));
@@ -131,6 +138,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     for (String templateName : config.modelTemplateFiles().keySet()) {
                         String suffix = config.modelTemplateFiles().get(templateName);
                         String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
+                        if (!config.shouldOverwrite(filename)) {
+                            continue;
+                        }
                         String template = readTemplate(config.templateDir() + File.separator + templateName);
                         Template tmpl = Mustache.compiler()
                                 .withLoader(new Mustache.TemplateLoader() {
@@ -179,7 +189,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 for (String templateName : config.apiTemplateFiles().keySet()) {
 
                     String filename = config.apiFilename(templateName, tag);
-                    if (new File(filename).exists() && !config.shouldOverwrite(filename)) {
+                    if (!config.shouldOverwrite(filename)) {
                         continue;
                     }
 
@@ -250,6 +260,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     of.mkdirs();
                 }
                 String outputFilename = outputFolder + File.separator + support.destinationFilename;
+                if (!config.shouldOverwrite(outputFilename)) {
+                    continue;
+                }
 
                 if (support.templateFile.endsWith("mustache")) {
                     String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
@@ -319,6 +332,52 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             String flagFieldName = "has" + source.substring(0, 1).toUpperCase() + source.substring(1);
             operation.put(flagFieldName, true);
         }
+    }
+    
+    private List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
+    	List<String> sortedModelKeys = new ArrayList<String>(definitions.keySet());
+    	Comparator<String> cmp = new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				Model model1 = definitions.get(o1);
+				Model model2 = definitions.get(o2);
+				
+				int model1InheritanceDepth = getInheritanceDepth(model1);
+				int model2InheritanceDepth = getInheritanceDepth(model2);
+				
+				if (model1InheritanceDepth == model2InheritanceDepth) {
+					return 0;
+				} else if (model1InheritanceDepth > model2InheritanceDepth) {
+					return 1;
+				} else {
+					return -1;
+				}
+			}
+			
+			private int getInheritanceDepth(Model model) {
+				int inheritanceDepth = 0;
+				Model parent = getParent(model);
+				
+				while (parent != null) {
+					inheritanceDepth++;
+					parent = getParent(parent);
+				}
+				
+				return inheritanceDepth;
+			}
+			
+			private Model getParent(Model model) {
+				if (model instanceof ComposedModel) {
+					return definitions.get(((ComposedModel) model).getParent().getReference());
+				}
+				
+				return null;
+			}
+		};
+		
+		Collections.sort(sortedModelKeys, cmp);
+		
+		return sortedModelKeys;
     }
 
     public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
@@ -469,14 +528,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return operations;
     }
 
-    public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions) {
+    public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions, Map<String, Model> allDefinitions) {
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("package", config.modelPackage());
         List<Object> models = new ArrayList<Object>();
         Set<String> allImports = new LinkedHashSet<String>();
         for (String key : definitions.keySet()) {
             Model mm = definitions.get(key);
-            CodegenModel cm = config.fromModel(key, mm);
+            CodegenModel cm = config.fromModel(key, mm, allDefinitions);
             Map<String, Object> mo = new HashMap<String, Object>();
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(key));

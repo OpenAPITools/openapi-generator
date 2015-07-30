@@ -7,6 +7,24 @@ This is the swagger codegen project, which allows generation of client libraries
 
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
+## Build and run using docker
+
+```
+git clone https://github.com/swagger-api/swagger-codegen
+
+cd swagger-codegen
+
+./run-in-docker.sh mvn package
+ ```
+
+Build a nodejs server stub:
+
+ ```
+./run-in-docker.sh generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l nodejs \
+  -o samples/server/petstore/nodejs
+ ```
 
 ## Compatibility
 The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
@@ -73,6 +91,7 @@ SYNOPSIS
                 [(-o <output directory> | --output <output directory>)]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [(-v | --verbose)]
+                [(-s | --skip-overwrite)]
 
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -105,6 +124,10 @@ OPTIONS
 
         -v, --verbose
             verbose mode
+            
+        -s , --skip-overwrite
+            specifies if the existing files should be overwritten during 
+            the generation 
  ```
 
 You can then compile and run the client, as well as unit tests against it:
