@@ -89,14 +89,14 @@ public interface PetApi {
   /**
    * Deletes a pet
    * 
-   * @param apiKey 
    * @param petId Pet id to delete
+   * @param apiKey 
    * @return Void
    */
   
   @DELETE("/pet/{petId}")  
   Void deletePet(
-    @Header("api_key") String apiKey,@Path("petId") Long petId
+    @Path("petId") Long petId,@Header("api_key") String apiKey
   );  
   
   /**
