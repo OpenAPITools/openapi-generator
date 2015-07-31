@@ -215,21 +215,22 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             Property inner = ap.getItems();
             String innerType = getSwaggerType(inner);
 
-            // In this codition, type of property p is array of primitive,
-            // return container type with pointer, e.g. `NSArray*'
-            if (languageSpecificPrimitives.contains(innerType)) {
-                return getSwaggerType(p) + "*";
-            }
-
-            // In this codition, type of property p is array of model,
-            // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
 
-            return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+            // In this codition, type of property p is array of primitive,
+            // return container type with pointer, e.g. `NSArray* /* NSString */'
+            if (languageSpecificPrimitives.contains(innerType)) {
+                return getSwaggerType(p) + "*" + " /* " + innerTypeDeclaration + " */";
+            }
+            // In this codition, type of property p is array of model,
+            // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
+            else {
+                return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+            }
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
