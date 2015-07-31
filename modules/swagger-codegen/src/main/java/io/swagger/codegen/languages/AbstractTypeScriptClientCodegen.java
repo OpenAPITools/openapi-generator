@@ -14,6 +14,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
 	public AbstractTypeScriptClientCodegen() {
 	    super();
+		supportsInheritance = true;
 		reservedWords = new HashSet<String>(Arrays.asList("abstract",
 				"continue", "for", "new", "switch", "assert", "default", "if",
 				"package", "synchronized", "do", "goto", "private",
