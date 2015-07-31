@@ -49,18 +49,46 @@ class Category(object):
 
     @property
     def id(self):
+        """
+        Gets the id of this Category.
+
+
+        :return: The id of this Category.
+        :rtype: int
+        """
         return self._id
 
     @id.setter
     def id(self, id):
+        """
+        Sets the id of this Category.
+
+
+        :param id: The id of this Category.
+        :type: int
+        """
         self._id = id
 
     @property
     def name(self):
+        """
+        Gets the name of this Category.
+
+
+        :return: The name of this Category.
+        :rtype: str
+        """
         return self._name
 
     @name.setter
     def name(self, name):
+        """
+        Sets the name of this Category.
+
+
+        :param name: The name of this Category.
+        :type: str
+        """
         self._name = name
 
     def to_dict(self):
