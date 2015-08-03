@@ -683,9 +683,9 @@ public class DefaultCodegen {
 				}
 				property.items = cp;
 				if (property.items.isEnum) {
-					property.datatypeWithEnum = property.datatypeWithEnum.replace("String",
+					property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.baseType,
 							property.items.datatypeWithEnum);
-					property.defaultValue = property.defaultValue.replace("String", property.items.datatypeWithEnum);
+					property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
 				}
 			}
 
