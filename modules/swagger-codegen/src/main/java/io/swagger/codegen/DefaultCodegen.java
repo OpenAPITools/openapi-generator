@@ -667,29 +667,28 @@ public class DefaultCodegen {
 
         property.baseType = getSwaggerType(p);
 
-		if (p instanceof ArrayProperty) {
-			property.isContainer = true;
-			property.containerType = "array";
-			ArrayProperty ap = (ArrayProperty) p;
-			CodegenProperty cp = fromProperty(property.name, ap.getItems());
-			if (cp == null) {
-				LOGGER.warn("skipping invalid property " + Json.pretty(p));
+	if (p instanceof ArrayProperty) {
+		property.isContainer = true;
+		property.containerType = "array";
+		ArrayProperty ap = (ArrayProperty) p;
+		CodegenProperty cp = fromProperty(property.name, ap.getItems());
+		if (cp == null) {
+			LOGGER.warn("skipping invalid property " + Json.pretty(p));
+		} else {
+			property.baseType = getSwaggerType(p);
+			if (!languageSpecificPrimitives.contains(cp.baseType)) {
+				property.complexType = cp.baseType;
 			} else {
-				property.baseType = getSwaggerType(p);
-				if (!languageSpecificPrimitives.contains(cp.baseType)) {
-					property.complexType = cp.baseType;
-				} else {
-					property.isPrimitiveType = true;
-				}
-				property.items = cp;
-				if (property.items.isEnum) {
-					property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.baseType,
-							property.items.datatypeWithEnum);
-					property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
-				}
+				property.isPrimitiveType = true;
 			}
-
-		} else if (p instanceof MapProperty) {
+			property.items = cp;
+			if (property.items.isEnum) {
+				property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.baseType,
+						property.items.datatypeWithEnum);
+				property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
+			}
+		}
+	} else if (p instanceof MapProperty) {
             property.isContainer = true;
             property.containerType = "map";
             MapProperty ap = (MapProperty) p;
