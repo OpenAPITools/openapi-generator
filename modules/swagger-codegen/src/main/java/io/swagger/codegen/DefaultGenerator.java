@@ -111,10 +111,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
             if (swagger.getBasePath() != null) {
                 hostBuilder.append(swagger.getBasePath());
-            } else {
-                hostBuilder.append("/");
             }
-            String contextPath = swagger.getBasePath() == null ? "/" : swagger.getBasePath();
+            String contextPath = swagger.getBasePath() == null ? "" : swagger.getBasePath();
             String basePath = hostBuilder.toString();
 
 
