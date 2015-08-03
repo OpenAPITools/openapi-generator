@@ -47,16 +47,30 @@ class {{classname}}(object):
         }
 
 {{#vars}}
-        self._{{name}} = None{{#description}}    # {{description}}{{/description}}
+        self._{{name}} = None
 {{/vars}}
 
 {{#vars}}
     @property
     def {{name}}(self):
+        """
+        Gets the {{name}} of this {{classname}}.
+{{#description}}        {{{description}}}{{/description}}
+
+        :return: The {{name}} of this {{classname}}.
+        :rtype: {{datatype}}
+        """
         return self._{{name}}
 
     @{{name}}.setter
     def {{name}}(self, {{name}}):
+        """
+        Sets the {{name}} of this {{classname}}.
+{{#description}}        {{{description}}}{{/description}}
+
+        :param {{name}}: The {{name}} of this {{classname}}.
+        :type: {{datatype}}
+        """
         {{#isEnum}}allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
         if {{name}} not in allowed_values:
             raise ValueError(
