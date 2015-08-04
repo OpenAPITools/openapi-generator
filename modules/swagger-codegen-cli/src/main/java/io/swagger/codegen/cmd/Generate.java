@@ -40,6 +40,10 @@ public class Generate implements Runnable {
             description = "client language to generate (maybe class name in classpath, required)")
     private String lang;
 
+    @Option(name = {"-L", "--library"}, title = "library",
+            description = "library template (sub-template) to use")
+    private String library;
+
     @Option(name = {"-o", "--output"}, title = "output directory",
             description = "where to write the generated files (current dir by default)")
     private String output = "";
@@ -105,6 +109,7 @@ public class Generate implements Runnable {
         }
 
         CodegenConfig config = forName(lang);
+        config.setLibrary(library);
         config.setOutputDir(new File(output).getAbsolutePath());
 
         if (null != templateDir) {

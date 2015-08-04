@@ -60,6 +60,10 @@ public abstract class AbstractGenerator {
         throw new RuntimeException("can't load template " + name);
     }
 
+    public boolean templateExists(String name) {
+        return this.getClass().getClassLoader().getResource(getCPResourcePath(name)) != null;
+    }
+
     public String getCPResourcePath(String name) {
         if (!"/".equals(File.separator)) {
             return name.replaceAll(Pattern.quote(File.separator), "/");

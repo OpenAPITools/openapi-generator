@@ -108,4 +108,11 @@ public interface CodegenConfig {
     boolean isSkipOverwrite();
 
     void setSkipOverwrite(boolean skipOverwrite);
+
+    void setLibrary(String library);
+
+    /**
+     * Library template (sub-template).
+     */
+    String getLibrary();
 }
