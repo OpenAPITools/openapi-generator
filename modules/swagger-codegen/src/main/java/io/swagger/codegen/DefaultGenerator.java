@@ -125,7 +125,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             Map<String, Model> definitions = swagger.getDefinitions();
             if (definitions != null) {
             	List<String> sortedModelKeys = sortModelsByInheritance(definitions);
-            	            	
+
                 for (String name : sortedModelKeys) {
                     Model model = definitions.get(name);
                     Map<String, Model> modelMap = new HashMap<String, Model>();
@@ -264,8 +264,22 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
 
-                if (support.templateFile.endsWith("mustache")) {
-                    String template = readTemplate(config.templateDir() + File.separator + support.templateFile);
+                String templateFile = null;
+                String library = config.getLibrary();
+                if (library != null) {
+                    String libTemplateFile = config.templateDir() + File.separator +
+                        "libraries" + File.separator + library + File.separator +
+                        support.templateFile;
+                    if (templateExists(libTemplateFile)) {
+                        templateFile = libTemplateFile;
+                    }
+                }
+                if (templateFile == null) {
+                    templateFile = config.templateDir() + File.separator + support.templateFile;
+                }
+
+                if (templateFile.endsWith("mustache")) {
+                    String template = readTemplate(templateFile);
                     Template tmpl = Mustache.compiler()
                             .withLoader(new Mustache.TemplateLoader() {
                                 public Reader getTemplate(String name) {
@@ -281,12 +295,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     InputStream in = null;
 
                     try {
-                        in = new FileInputStream(config.templateDir() + File.separator + support.templateFile);
+                        in = new FileInputStream(templateFile);
                     } catch (Exception e) {
                         // continue
                     }
                     if (in == null) {
-                        in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(config.templateDir() + File.separator + support.templateFile));
+                        in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
                     }
                     File outputFile = new File(outputFilename);
                     OutputStream out = new FileOutputStream(outputFile, false);
@@ -295,7 +309,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         IOUtils.copy(in, out);
                     } else {
                         if (in == null) {
-                            System.out.println("can't open " + config.templateDir() + File.separator + support.templateFile + " for input");
+                            System.out.println("can't open " + templateFile + " for input");
                         }
                         if (out == null) {
                             System.out.println("can't open " + outputFile + " for output");
@@ -333,7 +347,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             operation.put(flagFieldName, true);
         }
     }
-    
+
     private List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
     	List<String> sortedModelKeys = new ArrayList<String>(definitions.keySet());
     	Comparator<String> cmp = new Comparator<String>() {
@@ -341,10 +355,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 			public int compare(String o1, String o2) {
 				Model model1 = definitions.get(o1);
 				Model model2 = definitions.get(o2);
-				
+
 				int model1InheritanceDepth = getInheritanceDepth(model1);
 				int model2InheritanceDepth = getInheritanceDepth(model2);
-				
+
 				if (model1InheritanceDepth == model2InheritanceDepth) {
 					return 0;
 				} else if (model1InheritanceDepth > model2InheritanceDepth) {
@@ -353,30 +367,30 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 					return -1;
 				}
 			}
-			
+
 			private int getInheritanceDepth(Model model) {
 				int inheritanceDepth = 0;
 				Model parent = getParent(model);
-				
+
 				while (parent != null) {
 					inheritanceDepth++;
 					parent = getParent(parent);
 				}
-				
+
 				return inheritanceDepth;
 			}
-			
+
 			private Model getParent(Model model) {
 				if (model instanceof ComposedModel) {
 					return definitions.get(((ComposedModel) model).getParent().getReference());
 				}
-				
+
 				return null;
 			}
 		};
-		
+
 		Collections.sort(sortedModelKeys, cmp);
-		
+
 		return sortedModelKeys;
     }
 
@@ -445,7 +459,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     		}
                     		authMethods.put(securityName, oauth2Operation);
                     	} else {
-                    		authMethods.put(securityName, securityDefinition);	
+                    		authMethods.put(securityName, securityDefinition);
                     	}
                     }
                 }
