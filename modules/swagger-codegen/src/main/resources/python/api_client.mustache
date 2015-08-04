@@ -247,12 +247,12 @@ class ApiClient(object):
             return None
 
         if type(klass) == str:
-            if 'list[' in klass:
+            if klass.startswith('list['):
                 sub_kls = re.match('list\[(.*)\]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
                         for sub_data in data]
 
-            if 'dict(' in klass:
+            if klass.startswith('dict('):
                 sub_kls = re.match('dict\(([^,]*), (.*)\)', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in iteritems(data)}
