@@ -4,6 +4,7 @@ import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
+import io.swagger.client.TypeRef;
 
 import io.swagger.client.model.*;
 
@@ -11,11 +12,6 @@ import java.util.*;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
-
-import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.file.FileDataBodyPart;
-
-import javax.ws.rs.core.MediaType;
 
 import java.io.File;
 import java.util.Map;
@@ -57,7 +53,9 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
 
     
 
@@ -73,29 +71,10 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "PUT", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth" };
+    
+    apiClient.invokeAPI(path, "PUT", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
   }
   
   /**
@@ -114,7 +93,9 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
 
     
 
@@ -130,29 +111,10 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth" };
+    
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
   }
   
   /**
@@ -171,10 +133,12 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
     queryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
+    
+
     
 
     
@@ -189,29 +153,11 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return (List<Pet>) apiClient.deserialize(response, "array", Pet.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth" };
+    
+    TypeRef returnType = new TypeRef<List<Pet>>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    
   }
   
   /**
@@ -230,10 +176,12 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
     queryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
+    
+
     
 
     
@@ -248,29 +196,11 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return (List<Pet>) apiClient.deserialize(response, "array", Pet.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth" };
+    
+    TypeRef returnType = new TypeRef<List<Pet>>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    
   }
   
   /**
@@ -295,7 +225,9 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
 
     
 
@@ -311,29 +243,11 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return (Pet) apiClient.deserialize(response, "", Pet.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
+    
+    TypeRef returnType = new TypeRef<Pet>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    
   }
   
   /**
@@ -360,10 +274,16 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
+    
+
+    if (name != null)
+      formParams.put("name", name);
+    if (status != null)
+      formParams.put("status", status);
     
 
     final String[] accepts = {
@@ -376,43 +296,10 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if (name != null) {
-        hasFields = true;
-        mp.field("name", apiClient.parameterToString(name), MediaType.MULTIPART_FORM_DATA_TYPE);
-      }
-      
-      if (status != null) {
-        hasFields = true;
-        mp.field("status", apiClient.parameterToString(status), MediaType.MULTIPART_FORM_DATA_TYPE);
-      }
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      if (name != null)
-        formParams.put("name", apiClient.parameterToString(name));
-      if (status != null)
-        formParams.put("status", apiClient.parameterToString(status));
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth" };
+    
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
   }
   
   /**
@@ -438,12 +325,14 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
     if (apiKey != null)
     headerParams.put("api_key", apiClient.parameterToString(apiKey));
+    
+
     
 
     final String[] accepts = {
@@ -456,29 +345,10 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth" };
+    
+    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
   }
   
   /**
@@ -505,10 +375,16 @@ public class PetApi {
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
+    
+
+    if (additionalMetadata != null)
+      formParams.put("additionalMetadata", additionalMetadata);
+    if (file != null)
+      formParams.put("file", file);
     
 
     final String[] accepts = {
@@ -521,43 +397,10 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      
-      if (additionalMetadata != null) {
-        hasFields = true;
-        mp.field("additionalMetadata", apiClient.parameterToString(additionalMetadata), MediaType.MULTIPART_FORM_DATA_TYPE);
-      }
-      
-      if (file != null) {
-        hasFields = true;
-        mp.field("file", file.getName());
-        mp.bodyPart(new FileDataBodyPart("file", file, MediaType.MULTIPART_FORM_DATA_TYPE));
-      }
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      if (additionalMetadata != null)
-        formParams.put("additionalMetadata", apiClient.parameterToString(additionalMetadata));
-      
-      
-    }
-
-    try {
-      String[] authNames = new String[] { "petstore_auth" };
-      String response = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] authNames = new String[] { "petstore_auth" };
+    
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
   }
   
 }
