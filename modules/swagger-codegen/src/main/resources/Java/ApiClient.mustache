@@ -1,9 +1,7 @@
 package {{invokerPackage}};
 
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -48,6 +46,7 @@ public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean debugging = false;
   private String basePath = "{{basePath}}";
+  private JSON json = new JSON();
 
   private Map<String, Authentication> authentications;
 
@@ -340,50 +339,38 @@ public class ApiClient {
   }
 
   /**
-   * Deserialize the given JSON string to Java object.
-   *
-   * @param json The JSON string
-   * @param containerType The container type, one of "list", "array" or ""
-   * @param cls The type of the Java object
-   * @return The deserialized Java object
+   * Serialize the given Java object into string according the given
+   * Content-Type (only JSON is supported for now).
    */
-  public Object deserialize(String json, String containerType, Class cls) throws ApiException {
-    if(null != containerType) {
-        containerType = containerType.toLowerCase();
-    }
-    try{
-      if("list".equals(containerType) || "array".equals(containerType)) {
-        JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
-        List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
-        return response;
-      }
-      else if(String.class.equals(cls)) {
-        if(json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1)
-          return json.substring(1, json.length() - 2);
-        else
-          return json;
-      }
-      else {
-        return JsonUtil.getJsonMapper().readValue(json, cls);
-      }
-    }
-    catch (IOException e) {
-      throw new ApiException(500, e.getMessage(), null, json);
+  public String serialize(Object obj, String contentType) throws ApiException {
+    if (contentType.startsWith("application/json")) {
+      return json.serialize(obj);
+    } else {
+      throw new ApiException(400, "can not serialize object into Content-Type: " + contentType);
     }
   }
 
   /**
-   * Serialize the given Java object into JSON string.
+   * Deserialize response body to Java object according to the Content-Type.
    */
-  public String serialize(Object obj) throws ApiException {
-    try {
-      if (obj != null)
-        return JsonUtil.getJsonMapper().writeValueAsString(obj);
-      else
-        return null;
-    }
-    catch (Exception e) {
-      throw new ApiException(500, e.getMessage());
+  public <T> T deserialize(ClientResponse response, TypeRef returnType) throws ApiException {
+    String contentType = null;
+    List<String> contentTypes = response.getHeaders().get("Content-Type");
+    if (contentTypes != null && !contentTypes.isEmpty())
+      contentType = contentTypes.get(0);
+    if (contentType == null)
+      throw new ApiException(500, "missing Content-Type in response");
+
+    String body;
+    if (response.hasEntity())
+      body = (String) response.getEntity(String.class);
+    else
+      body = "";
+
+    if (contentType.startsWith("application/json")) {
+      return json.deserialize(body, returnType);
+    } else {
+      throw new ApiException(500, "can not deserialize Content-Type: " + contentType);
     }
   }
 
@@ -399,9 +386,10 @@ public class ApiClient {
    * @param accept The request's Accept header
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
+   * @param returnType The return type into which to deserialize the response
    * @return The response body in type of string
    */
-  public String invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     Client client = getClient();
@@ -465,15 +453,15 @@ public class ApiClient {
       } else if (body instanceof FormDataMultiPart) {
         response = builder.type(contentType).post(ClientResponse.class, body);
       } else {
-        response = builder.type(contentType).post(ClientResponse.class, serialize(body));
+        response = builder.type(contentType).post(ClientResponse.class, serialize(body, contentType));
       }
     } else if ("PUT".equals(method)) {
       if (encodedFormParams != null) {
         response = builder.type(contentType).put(ClientResponse.class, encodedFormParams);
       } else if(body == null) {
-        response = builder.put(ClientResponse.class, serialize(body));
+        response = builder.put(ClientResponse.class, serialize(body, contentType));
       } else {
-        response = builder.type(contentType).put(ClientResponse.class, serialize(body));
+        response = builder.type(contentType).put(ClientResponse.class, serialize(body, contentType));
       }
     } else if ("DELETE".equals(method)) {
       if (encodedFormParams != null) {
@@ -481,7 +469,7 @@ public class ApiClient {
       } else if(body == null) {
         response = builder.delete(ClientResponse.class);
       } else {
-        response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
+        response = builder.type(contentType).delete(ClientResponse.class, serialize(body, contentType));
       }
     } else {
       throw new ApiException(500, "unknown method type " + method);
@@ -490,11 +478,10 @@ public class ApiClient {
     if (response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
       return null;
     } else if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
-      if (response.hasEntity()) {
-        return (String) response.getEntity(String.class);
-      } else {
-        return "";
-      }
+      if (returnType == null)
+        return null;
+      else
+        return deserialize(response, returnType);
     } else {
       String message = "error";
       String respBody = null;
