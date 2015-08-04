@@ -174,7 +174,7 @@ class ApiClient(object):
         Builds a JSON POST object.
 
         If obj is None, return None.
-        If obj is str, int, float, bool, return directly.
+        If obj is str, unicode, int, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
             convert to string in iso8601 format.
         If obj is list, santize each element in the list.
@@ -186,7 +186,7 @@ class ApiClient(object):
         """
         if isinstance(obj, type(None)):
             return None
-        elif isinstance(obj, (str, int, float, bool, tuple)):
+        elif isinstance(obj, (str, unicode, int, float, bool, tuple)):
             return obj
         elif isinstance(obj, list):
             return [self.sanitize_for_serialization(sub_obj)
