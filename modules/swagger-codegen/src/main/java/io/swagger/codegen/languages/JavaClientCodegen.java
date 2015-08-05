@@ -1,17 +1,30 @@
 package io.swagger.codegen.languages;
 
+import com.google.common.base.Strings;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.ComposedModel;
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.RefModel;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -249,6 +262,57 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(operationId, true);
     }
 
+    @Override
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+        
+        if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
+            final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
+        }
+        
+        return codegenModel;
+    }
+
+    private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        // This generator uses inline classes to define enums, which breaks when 
+        // dealing with models that have subTypes. To clean this up, we will analyze
+        // the parent and child models, look for enums that match, and remove 
+        // them from the child models and leave them in the parent.
+        // Because the child models extend the parents, the enums will be available via the parent.
+
+        // Only bother with reconciliation if the parent model has enums.
+        if (parentCodegenModel.hasEnums) {
+            
+            // Get the properties for the parent and child models
+            final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
+            List<CodegenProperty> codegenProperties = codegenModel.vars;
+            
+            // Iterate over all of the parent model properties
+            for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+                // Look for enums 
+                if (parentModelCodegenPropery.isEnum) {
+                    // Now that we have found an enum in the parent class, 
+                    // and search the child class for the same enum.
+                    Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+                    while (iterator.hasNext()) {
+                        CodegenProperty codegenProperty = iterator.next();
+                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                            // We found an enum in the child class that is 
+                            // a duplicate of the one in the parent, so remove it.
+                            iterator.remove();
+                        }
+                    }
+                }
+            }
+
+            codegenModel.vars = codegenProperties;
+        }
+        
+        return codegenModel;
+    }
+    
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }
