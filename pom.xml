@@ -292,7 +292,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java</module>
+                <module>samples/client/petstore/java/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-client-jersey2</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/jersey2</module>
             </modules>
         </profile>
         <profile>
@@ -377,7 +389,8 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/android-java</module>
-                <module>samples/client/petstore/java</module>
+                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/jaxrs</module>
                 <module>samples/server/petstore/spring-mvc</module>
