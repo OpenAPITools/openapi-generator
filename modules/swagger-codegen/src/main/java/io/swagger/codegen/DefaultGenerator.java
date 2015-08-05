@@ -1,8 +1,14 @@
 package io.swagger.codegen;
 
+import static io.swagger.codegen.languages.CodeGenStatus.Status.FAILED;
+import static io.swagger.codegen.languages.CodeGenStatus.Status.SUCCESSFUL;
+import static io.swagger.codegen.languages.CodeGenStatus.Status.UNRUN;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
+import io.swagger.codegen.languages.CodeGenStatus;
 import io.swagger.models.ComposedModel;
 import io.swagger.models.Contact;
 import io.swagger.models.Info;
@@ -14,7 +20,6 @@ import io.swagger.models.Swagger;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.util.Json;
-
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -34,13 +39,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected CodegenConfig config;
     protected ClientOptInput opts = null;
     protected Swagger swagger = null;
+
+    public CodeGenStatus status = new CodeGenStatus(UNRUN);
 
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
@@ -305,8 +309,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
 
             config.processSwagger(swagger);
+
+            status.setStatus(SUCCESSFUL);
         } catch (Exception e) {
-            e.printStackTrace();
+            status.setStatus(FAILED);
         }
         return files;
     }
