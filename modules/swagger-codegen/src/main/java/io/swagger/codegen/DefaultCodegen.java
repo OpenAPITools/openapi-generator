@@ -81,6 +81,7 @@ public class DefaultCodegen {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean supportsInheritance = false;
+    protected Map<String, String> supportedLibraries = new HashMap<String, String>();
     protected String library = null;
 
     public List<CliOption> cliOptions() {
@@ -1389,7 +1390,16 @@ public class DefaultCodegen {
         this.skipOverwrite = skipOverwrite;
     }
 
+    /**
+     * All library templates supported.
+     */
+    public Map<String, String> supportedLibraries() {
+        return supportedLibraries;
+    }
+
     public void setLibrary(String library) {
+        if (library != null && !supportedLibraries.containsKey(library))
+            throw new RuntimeException("unknown library: " + library);
         this.library = library;
     }
 

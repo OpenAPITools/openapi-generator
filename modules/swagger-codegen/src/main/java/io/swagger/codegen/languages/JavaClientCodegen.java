@@ -61,6 +61,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
         cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
         cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+
+        supportedLibraries.put("", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
+        supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
     }
 
     public CodegenType getTag() {
