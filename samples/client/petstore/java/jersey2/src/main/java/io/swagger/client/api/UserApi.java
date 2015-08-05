@@ -10,21 +10,21 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
-import io.swagger.client.model.Pet;
-import java.io.File;
+import io.swagger.client.model.User;
+import java.util.*;
 
 import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 
-public class PetApi {
+public class UserApi {
   private ApiClient apiClient;
 
-  public PetApi() {
+  public UserApi() {
     this(Configuration.getDefaultApiClient());
   }
 
-  public PetApi(ApiClient apiClient) {
+  public UserApi(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
 
@@ -38,17 +38,17 @@ public class PetApi {
 
   
   /**
-   * Update an existing pet
-   * 
-   * @param body Pet object that needs to be added to the store
+   * Create user
+   * This can only be done by the logged in user.
+   * @param body Created user object
    * @return void
    */
-  public void updatePet (Pet body) throws ApiException {
+  public void createUser (User body) throws ApiException {
     Object postBody = body;
     
 
     // create path and map variables
-    String path = "/pet".replaceAll("\\{format\\}","json");
+    String path = "/user".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -67,160 +67,293 @@ public class PetApi {
     final String accept = apiClient.selectHeaderAccept(accepts);
 
     final String[] contentTypes = {
-      "application/json", "application/xml"
+      
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "petstore_auth" };
+    String[] authNames = new String[] {  };
+    
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
+  }
+  
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object
+   * @return void
+   */
+  public void createUsersWithArrayInput (List<User> body) throws ApiException {
+    Object postBody = body;
+    
+
+    // create path and map variables
+    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
+
+    
+
+    
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+    String[] authNames = new String[] {  };
+    
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
+  }
+  
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object
+   * @return void
+   */
+  public void createUsersWithListInput (List<User> body) throws ApiException {
+    Object postBody = body;
+    
+
+    // create path and map variables
+    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
+
+    
+
+    
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+    String[] authNames = new String[] {  };
+    
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
+  }
+  
+  /**
+   * Logs user into the system
+   * 
+   * @param username The user name for login
+   * @param password The password for login in clear text
+   * @return String
+   */
+  public String loginUser (String username, String password) throws ApiException {
+    Object postBody = null;
+    
+
+    // create path and map variables
+    String path = "/user/login".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
+    queryParams.addAll(apiClient.parameterToPairs("", "username", username));
+    
+    queryParams.addAll(apiClient.parameterToPairs("", "password", password));
+    
+
+    
+
+    
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+    String[] authNames = new String[] {  };
+    
+    TypeRef returnType = new TypeRef<String>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    
+  }
+  
+  /**
+   * Logs out current logged in user session
+   * 
+   * @return void
+   */
+  public void logoutUser () throws ApiException {
+    Object postBody = null;
+    
+
+    // create path and map variables
+    String path = "/user/logout".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
+
+    
+
+    
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+    String[] authNames = new String[] {  };
+    
+    apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+    
+  }
+  
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @return User
+   */
+  public User getUserByName (String username) throws ApiException {
+    Object postBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
+    }
+    
+
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
+
+    
+
+    
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+    String[] authNames = new String[] {  };
+    
+    TypeRef returnType = new TypeRef<User>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    
+  }
+  
+  /**
+   * Updated user
+   * This can only be done by the logged in user.
+   * @param username name that need to be deleted
+   * @param body Updated user object
+   * @return void
+   */
+  public void updateUser (String username, User body) throws ApiException {
+    Object postBody = body;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
+    }
+    
+
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    
+
+    
+
+    
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+
+    final String[] contentTypes = {
+      
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+    String[] authNames = new String[] {  };
     
     apiClient.invokeAPI(path, "PUT", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
   }
   
   /**
-   * Add a new pet to the store
-   * 
-   * @param body Pet object that needs to be added to the store
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
    * @return void
    */
-  public void addPet (Pet body) throws ApiException {
-    Object postBody = body;
-    
-
-    // create path and map variables
-    String path = "/pet".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json", "application/xml"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "petstore_auth" };
-    
-    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-  }
-  
-  /**
-   * Finds Pets by status
-   * Multiple status values can be provided with comma seperated strings
-   * @param status Status values that need to be considered for filter
-   * @return List<Pet>
-   */
-  public List<Pet> findPetsByStatus (List<String> status) throws ApiException {
+  public void deleteUser (String username) throws ApiException {
     Object postBody = null;
     
-
-    // create path and map variables
-    String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-    queryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "petstore_auth" };
-    
-    TypeRef returnType = new TypeRef<List<Pet>>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-  }
-  
-  /**
-   * Finds Pets by tags
-   * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-   * @param tags Tags to filter by
-   * @return List<Pet>
-   */
-  public List<Pet> findPetsByTags (List<String> tags) throws ApiException {
-    Object postBody = null;
-    
-
-    // create path and map variables
-    String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-    queryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "petstore_auth" };
-    
-    TypeRef returnType = new TypeRef<List<Pet>>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-  }
-  
-  /**
-   * Find pet by ID
-   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
-   * @return Pet
-   */
-  public Pet getPetById (Long petId) throws ApiException {
-    Object postBody = null;
-    
-    // verify the required parameter 'petId' is set
-    if (petId == null) {
-       throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
     
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+    String path = "/user/{username}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -243,163 +376,9 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "petstore_auth", "api_key" };
-    
-    TypeRef returnType = new TypeRef<Pet>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-  }
-  
-  /**
-   * Updates a pet in the store with form data
-   * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
-   * @return void
-   */
-  public void updatePetWithForm (String petId, String name, String status) throws ApiException {
-    Object postBody = null;
-    
-    // verify the required parameter 'petId' is set
-    if (petId == null) {
-       throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
-    }
-    
-
-    // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    if (name != null)
-      formParams.put("name", name);
-    if (status != null)
-      formParams.put("status", status);
-    
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/x-www-form-urlencoded"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "petstore_auth" };
-    
-    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-  }
-  
-  /**
-   * Deletes a pet
-   * 
-   * @param petId Pet id to delete
-   * @param apiKey 
-   * @return void
-   */
-  public void deletePet (Long petId, String apiKey) throws ApiException {
-    Object postBody = null;
-    
-    // verify the required parameter 'petId' is set
-    if (petId == null) {
-       throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
-    }
-    
-
-    // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    if (apiKey != null)
-    headerParams.put("api_key", apiClient.parameterToString(apiKey));
-    
-
-    
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "petstore_auth" };
+    String[] authNames = new String[] {  };
     
     apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-  }
-  
-  /**
-   * uploads an image
-   * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
-   * @return void
-   */
-  public void uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
-    Object postBody = null;
-    
-    // verify the required parameter 'petId' is set
-    if (petId == null) {
-       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
-    }
-    
-
-    // create path and map variables
-    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    if (additionalMetadata != null)
-      formParams.put("additionalMetadata", additionalMetadata);
-    if (file != null)
-      formParams.put("file", file);
-    
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "multipart/form-data"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "petstore_auth" };
-    
-    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
   }
   
