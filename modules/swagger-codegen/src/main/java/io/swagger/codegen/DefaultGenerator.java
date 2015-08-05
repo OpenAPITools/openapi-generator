@@ -1,8 +1,5 @@
 package io.swagger.codegen;
 
-import static io.swagger.codegen.languages.CodeGenStatus.Status.FAILED;
-import static io.swagger.codegen.languages.CodeGenStatus.Status.SUCCESSFUL;
-import static io.swagger.codegen.languages.CodeGenStatus.Status.UNRUN;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -44,7 +41,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected ClientOptInput opts = null;
     protected Swagger swagger = null;
 
-    public CodeGenStatus status = new CodeGenStatus(UNRUN);
+    public CodeGenStatus status = CodeGenStatus.UNRUN;
 
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
@@ -310,9 +307,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
             config.processSwagger(swagger);
 
-            status.setStatus(SUCCESSFUL);
+            status = CodeGenStatus.SUCCESSFUL;
         } catch (Exception e) {
-            status.setStatus(FAILED);
+            status = CodeGenStatus.FAILED;
         }
         return files;
     }
