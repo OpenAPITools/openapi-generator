@@ -41,7 +41,8 @@ public class Generate implements Runnable {
     private String lang;
 
     @Option(name = {"-L", "--library"}, title = "library",
-            description = "library template (sub-template) to use")
+            description = "Library template (sub-template) to use. Run library-help -l {lang} " +
+            "command for a list of supported libraries.")
     private String library;
 
     @Option(name = {"-o", "--output"}, title = "output directory",

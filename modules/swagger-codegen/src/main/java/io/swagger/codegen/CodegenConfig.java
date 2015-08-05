@@ -109,6 +109,8 @@ public interface CodegenConfig {
 
     void setSkipOverwrite(boolean skipOverwrite);
 
+    Map<String, String> supportedLibraries();
+
     void setLibrary(String library);
 
     /**

@@ -266,7 +266,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 String templateFile = null;
                 String library = config.getLibrary();
-                if (library != null) {
+                if (library != null && !"".equals(library)) {
                     String libTemplateFile = config.templateDir() + File.separator +
                         "libraries" + File.separator + library + File.separator +
                         support.templateFile;

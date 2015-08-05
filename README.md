@@ -116,6 +116,10 @@ OPTIONS
             client language to generate (maybe class name in classpath,
             required)
 
+        -L <library>, --library <library>
+            Library template (sub-template) to use. Run library-help -l {lang}
+            command for a list of supported libraries.
+
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
 
@@ -128,7 +132,7 @@ OPTIONS
         -s , --skip-overwrite
             specifies if the existing files should be overwritten during 
             the generation 
- ```
+```
 
 You can then compile and run the client, as well as unit tests against it:
 
@@ -142,6 +146,23 @@ Other languages have petstore samples, too:
 ./bin/android-petstore.sh
 ./bin/java-petstore.sh
 ./bin/objc-petstore.sh
+```
+
+Various library templates (sub-templates) might be available for a specific language. Running `library-help -l {lang}` will show all library templates supported.
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar library-help -l java
+```
+
+Output
+
+```
+LIBRARY OPTIONS
+        <default>
+            HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
+
+        jersey2
+            HTTP client: Jersey client 2.6
 ```
 
 ### Generating libraries from your server
