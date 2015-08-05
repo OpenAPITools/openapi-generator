@@ -1,8 +1,5 @@
 package io.swagger.client;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.annotation.*;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.config.ClientConfig;
