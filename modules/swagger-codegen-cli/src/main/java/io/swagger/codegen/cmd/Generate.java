@@ -40,11 +40,6 @@ public class Generate implements Runnable {
             description = "client language to generate (maybe class name in classpath, required)")
     private String lang;
 
-    @Option(name = {"-L", "--library"}, title = "library",
-            description = "Library template (sub-template) to use. Run library-help -l {lang} " +
-            "command for a list of supported libraries.")
-    private String library;
-
     @Option(name = {"-o", "--output"}, title = "output directory",
             description = "where to write the generated files (current dir by default)")
     private String output = "";
@@ -110,7 +105,6 @@ public class Generate implements Runnable {
         }
 
         CodegenConfig config = forName(lang);
-        config.setLibrary(library);
         config.setOutputDir(new File(output).getAbsolutePath());
 
         if (null != templateDir) {
@@ -121,8 +115,13 @@ public class Generate implements Runnable {
             Config genConfig = ConfigParser.read(configFile);
             if (null != genConfig) {
                 for (CliOption langCliOption : config.cliOptions()) {
-                    if (genConfig.hasOption(langCliOption.getOpt())) {
-                        config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
+                    String opt = langCliOption.getOpt();
+                    if (genConfig.hasOption(opt)) {
+                        config.additionalProperties().put(opt, genConfig.getOption(opt));
+                        // the "library" config option is for library template (sub-template)
+                        if ("library".equals(opt)) {
+                            config.setLibrary(genConfig.getOption(opt));
+                        }
                     }
                 }
             }
