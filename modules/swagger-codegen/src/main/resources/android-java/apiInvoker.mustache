@@ -216,7 +216,7 @@ public class ApiInvoker {
       }
       else if(String.class.equals(cls)) {
         if(json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1)
-          return json.substring(1, json.length() - 2);
+          return json.substring(1, json.length() - 1);
         else
           return json;
       }

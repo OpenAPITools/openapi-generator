@@ -59,7 +59,7 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
     if (cls == classOf[String]) {
       json match {
         case s: String => {
-          if (s.startsWith("\"") && s.endsWith("\"") && s.length > 1) s.substring(1, s.length - 2)
+          if (s.startsWith("\"") && s.endsWith("\"") && s.length > 1) s.substring(1, s.length - 1)
           else s
         }
         case _ => null
