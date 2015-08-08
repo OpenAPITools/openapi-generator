@@ -54,7 +54,7 @@
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", self.username, self.password];
     NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
     basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
-    
+
     return basicAuthCredentials;
 }
 
@@ -81,7 +81,7 @@
     if ([self.loggingFileHanlder isKindOfClass:[NSFileHandle class]]) {
         [self.loggingFileHanlder closeFile];
     }
-    
+
     _loggingFile = loggingFile;
     _loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
     if (_loggingFileHanlder == nil) {
@@ -103,15 +103,15 @@
 #pragma mark -
 
 - (NSDictionary *) authSettings {
-    return @{ 
-                @"api_key": @{
-                    @"type": @"api_key",
-                    @"in": @"header",
-                    @"key": @"api_key",
-                    @"value": [self getApiKeyWithPrefix:@"api_key"]
-                },
-              
-            };
+    return @{
+               @"api_key":
+                   @{
+                       @"type": @"api_key",
+                       @"in": @"header",
+                       @"key": @"api_key",
+                       @"value": [self getApiKeyWithPrefix:@"api_key"]
+                   },
+               };
 }
 
 @end
