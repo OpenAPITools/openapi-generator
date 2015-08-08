@@ -436,7 +436,7 @@ static void (^reachabilityChangeBlock)(int);
     }
     
     // primitives
-    NSArray *primitiveTypes = @[@"NSString", @"NSDate", @"BOOL", @"NSNumber"];
+    NSArray *primitiveTypes = @[@"NSString", @"NSDate", @"NSNumber"];
 
     if ([primitiveTypes containsObject:class]) {
         if ([class isEqualToString:@"NSString"]) {
@@ -445,22 +445,21 @@ static void (^reachabilityChangeBlock)(int);
         else if ([class isEqualToString:@"NSDate"]) {
             return [NSDate dateWithISO8601String:data];
         }
-        else if ([class isEqualToString:@"BOOL"]) {
-            // Returns YES on encountering one of "Y", "y", "T", "t", or a
-            // digit 1-9—the method ignores any trailing characters
-            // NSString => BOOL => NSNumber
-            return [NSNumber numberWithBool:[data boolValue]];
-        }
         else if ([class isEqualToString:@"NSNumber"]) {
             // NSNumber from NSNumber
             if ([data isKindOfClass:[NSNumber class]]) {
                 return data;
             }
-            // NSNumber from NSString
-            else {
-                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-                formatter.numberStyle = NSNumberFormatterDecimalStyle;
-                return [formatter numberFromString:data];
+            else if ([data isKindOfClass:[NSString class]]) {
+                // NSNumber (NSCFBoolean) from NSString
+                if ([[data lowercaseString] isEqualToString:@"true"] || [[data lowercaseString] isEqualToString:@"false"]) {
+                    return [NSNumber numberWithBool:[data boolValue]];
+                // NSNumber from NSString
+                } else {
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+                    return [formatter numberFromString:data];
+                }
             }
         }
     }
