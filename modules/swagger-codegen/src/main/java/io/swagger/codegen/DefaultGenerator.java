@@ -139,7 +139,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         if (!config.shouldOverwrite(filename)) {
                             continue;
                         }
-                        String template = readTemplate(config.templateDir() + File.separator + templateName);
+                        String templateFile = getFullTemplateFile(config, templateName);
+                        String template = readTemplate(templateFile);
                         Template tmpl = Mustache.compiler()
                                 .withLoader(new Mustache.TemplateLoader() {
                                     public Reader getTemplate(String name) {
@@ -191,7 +192,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         continue;
                     }
 
-                    String template = readTemplate(config.templateDir() + File.separator + templateName);
+                    String templateFile = getFullTemplateFile(config, templateName);
+                    String template = readTemplate(templateFile);
                     Template tmpl = Mustache.compiler()
                             .withLoader(new Mustache.TemplateLoader() {
                                 public Reader getTemplate(String name) {
@@ -262,19 +264,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
 
-                String templateFile = null;
-                String library = config.getLibrary();
-                if (library != null && !"".equals(library)) {
-                    String libTemplateFile = config.templateDir() + File.separator +
-                        "libraries" + File.separator + library + File.separator +
-                        support.templateFile;
-                    if (templateExists(libTemplateFile)) {
-                        templateFile = libTemplateFile;
-                    }
-                }
-                if (templateFile == null) {
-                    templateFile = config.templateDir() + File.separator + support.templateFile;
-                }
+                String templateFile = getFullTemplateFile(config, support.templateFile);
 
                 if (templateFile.endsWith("mustache")) {
                     String template = readTemplate(templateFile);
