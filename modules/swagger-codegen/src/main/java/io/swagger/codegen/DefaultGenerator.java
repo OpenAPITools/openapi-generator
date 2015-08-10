@@ -423,10 +423,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
 
             //need to propagate path level down to the operation
-            for (Parameter parameter : path.getParameters()) {
-                //skip propagation if a parameter with the same name is already defined at the operation level
-                if (!operationParameters.contains(generateParameterId(parameter))) {
-                    operation.addParameter(parameter);
+            if(path.getParameters() != null) {
+                for (Parameter parameter : path.getParameters()) {
+                    //skip propagation if a parameter with the same name is already defined at the operation level
+                    if (!operationParameters.contains(generateParameterId(parameter))) {
+                        operation.addParameter(parameter);
+                    }
                 }
             }
 
