@@ -30,6 +30,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/{{baseName}}", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+{{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
   {{#operation}}
