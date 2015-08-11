@@ -149,4 +149,17 @@
     XCTAssertTrue([result[0][0] isKindOfClass:[NSString class]]);
 }
 
+- (void)testDeserializeBool {
+    NSString *data;
+    NSNumber *result;
+    
+    data = @"true";
+    result = [apiClient deserialize:data class:@"NSNumber*"];
+    XCTAssertTrue([result isEqual:@YES]);
+    
+    data = @"false";
+    result = [apiClient deserialize:data class:@"NSNumber*"];
+    XCTAssertTrue([result isEqual:@NO]);
+}
+
 @end
