@@ -16,6 +16,7 @@ import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.util.Json;
 
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,6 +63,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         List<File> files = new ArrayList<File>();
         try {
             config.processOpts();
+
+            config.additionalProperties().put("generatedTime", DateTime.now().toString());
+            config.additionalProperties().put("generatorClass", config.getClass().toString());
+
             if (swagger.getInfo() != null) {
                 Info info = swagger.getInfo();
                 if (info.getTitle() != null) {
