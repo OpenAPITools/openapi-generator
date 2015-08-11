@@ -21,7 +21,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactId = "swagger-java-client";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/java";
-
+    protected String localVariablePrefix = "";
     public JavaClientCodegen() {
         super();
         outputFolder = "generated-code/java";
@@ -61,6 +61,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
         cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
         cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+        cliOptions.add(new CliOption("localVariablePrefix", "prefix for generated code members and local variables"));
     }
 
     public CodegenType getTag() {
@@ -109,6 +110,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey("sourceFolder")) {
             this.setSourceFolder((String) additionalProperties.get("sourceFolder"));
+        }
+
+
+        if (additionalProperties.containsKey("localVariablePrefix")) {
+            this.setLocalVariablePrefix((String) additionalProperties.get("localVariablePrefix"));
         }
 
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
@@ -267,5 +273,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    public void setLocalVariablePrefix(String localVariablePrefix) {
+        this.localVariablePrefix = localVariablePrefix;
     }
 }
