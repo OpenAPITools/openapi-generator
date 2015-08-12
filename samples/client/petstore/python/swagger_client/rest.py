@@ -216,10 +216,10 @@ class ApiException(Exception):
         error_message = "({0})\n"\
                         "Reason: {1}\n".format(self.status, self.reason)
         if self.headers:
-            error_message += "HTTP response headers: {0}".format(self.headers)
+            error_message += "HTTP response headers: {0}\n".format(self.headers)
 
         if self.body:
-            error_message += "HTTP response body: {0}".format(self.body)
+            error_message += "HTTP response body: {0}\n".format(self.body)
 
         return error_message
 

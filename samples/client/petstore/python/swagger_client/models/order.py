@@ -56,7 +56,7 @@ class Order(object):
         self._pet_id = None
         self._quantity = None
         self._ship_date = None
-        self._status = None    # Order Status
+        self._status = None
         self._complete = None
 
     @property
