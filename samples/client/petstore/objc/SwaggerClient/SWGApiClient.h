@@ -34,20 +34,9 @@ extern NSString *const SWGResponseObjectErrorKey;
 @property(nonatomic, readonly) NSOperationQueue* queue;
 
 /**
- * Gets the Api Client instance from pool
- *
- * @param baseUrl The base url of api client.
- *
- * @return The SWGApiClient instance.
+ * A shared singleton API client.
  */
-+(SWGApiClient *)sharedClientFromPool:(NSString *)baseUrl;
-
-/**
- * Gets the operations queue
- *
- * @return The `shardQueue` static variable.
- */
-+(NSOperationQueue*) sharedQueue;
++ (instancetype)sharedClient;
 
 /**
  * Clears Cache
@@ -120,11 +109,9 @@ extern NSString *const SWGResponseObjectErrorKey;
 +(void) setReachabilityChangeBlock:(void(^)(int))changeBlock;
 
 /**
- * Sets the client reachability strategy
- *
- * @param host The host of SWGApiClient.
+ * Sets the api client reachability strategy
  */
-+(void) configureCacheReachibilityForHost:(NSString*)host;
+- (void)configureCacheReachibility;
 
 /**
  * Detects Accept header from accepts NSArray

@@ -9,14 +9,12 @@
 
 @implementation SWGPetApi
 
-static NSString * basePath = @"http://petstore.swagger.io/v2";
-
 #pragma mark - Initialize methods
 
 - (id) init {
     self = [super init];
     if (self) {
-        self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+        self.apiClient = [SWGApiClient sharedClient];
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
@@ -29,7 +27,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
             self.apiClient = apiClient;
         }
         else {
-            self.apiClient = [SWGApiClient sharedClientFromPool:basePath];
+            self.apiClient = [SWGApiClient sharedClient];
         }
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
@@ -46,14 +44,6 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
         [singletonAPI addHeader:headerValue forKey:key];
     }
     return singletonAPI;
-}
-
-+(void) setBasePath:(NSString*)path {
-    basePath = path;
-}
-
-+(NSString*) getBasePath {
-    return basePath;
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
@@ -85,12 +75,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -144,7 +135,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"PUT"
                                           queryParams: queryParams
                                            formParams: formParams
@@ -176,12 +167,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -235,7 +227,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"POST"
                                           queryParams: queryParams
                                            formParams: formParams
@@ -267,12 +259,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByStatus", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByStatus"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -316,7 +309,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"GET"
                                           queryParams: queryParams
                                            formParams: formParams
@@ -348,12 +341,13 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
 
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/findByTags", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByTags"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -397,7 +391,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"GET"
                                           queryParams: queryParams
                                            formParams: formParams
@@ -434,13 +428,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     }
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
-    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
+    [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -478,7 +473,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"GET"
                                           queryParams: queryParams
                                            formParams: formParams
@@ -521,13 +516,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     }
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
-    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
+    [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -573,7 +569,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"POST"
                                           queryParams: queryParams
                                            formParams: formParams
@@ -613,13 +609,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     }
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
-    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
+    [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -659,7 +656,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"DELETE"
                                           queryParams: queryParams
                                            formParams: formParams
@@ -702,13 +699,14 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     }
     
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@/pet/{petId}/uploadImage", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}/uploadImage"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
-    [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
+    [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"petId", @"}"]] withString: [SWGApiClient escape:petId]];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -754,7 +752,7 @@ static NSString * basePath = @"http://petstore.swagger.io/v2";
     
 
     
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"POST"
                                           queryParams: queryParams
                                            formParams: formParams

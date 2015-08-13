@@ -11,14 +11,12 @@
 
 @implementation {{classname}}
 
-static NSString * basePath = @"{{basePath}}";
-
 #pragma mark - Initialize methods
 
 - (id) init {
     self = [super init];
     if (self) {
-        self.apiClient = [{{classPrefix}}ApiClient sharedClientFromPool:basePath];
+        self.apiClient = [{{classPrefix}}ApiClient sharedClient];
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
@@ -31,7 +29,7 @@ static NSString * basePath = @"{{basePath}}";
             self.apiClient = apiClient;
         }
         else {
-            self.apiClient = [{{classPrefix}}ApiClient sharedClientFromPool:basePath];
+            self.apiClient = [{{classPrefix}}ApiClient sharedClient];
         }
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
@@ -48,14 +46,6 @@ static NSString * basePath = @"{{basePath}}";
         [singletonAPI addHeader:headerValue forKey:key];
     }
     return singletonAPI;
-}
-
-+(void) setBasePath:(NSString*)path {
-    basePath = path;
-}
-
-+(NSString*) getBasePath {
-    return basePath;
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
@@ -93,13 +83,14 @@ static NSString * basePath = @"{{basePath}}";
     }
     {{/required}}{{/allParams}}
 
-    NSMutableString* requestUrl = [NSMutableString stringWithFormat:@"%@{{path}}", basePath];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"{{path}}"];
 
     // remove format in URL if needed
-    if ([requestUrl rangeOfString:@".{format}"].location != NSNotFound)
-        [requestUrl replaceCharactersInRange: [requestUrl rangeOfString:@".{format}"] withString:@".json"];
-
-    {{#pathParams}}[requestUrl replaceCharactersInRange: [requestUrl rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [{{classPrefix}}ApiClient escape:{{paramName}}]];
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+    
+    {{#pathParams}}[resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [{{classPrefix}}ApiClient escape:{{paramName}}]];
     {{/pathParams}}
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -175,7 +166,7 @@ static NSString * basePath = @"{{basePath}}";
     }
     {{/requiredParams}}
     {{/requiredParamCount}}
-    return [self.apiClient requestWithCompletionBlock: requestUrl
+    return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"{{httpMethod}}"
                                           queryParams: queryParams
                                            formParams: formParams
