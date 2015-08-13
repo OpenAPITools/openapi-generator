@@ -8,6 +8,10 @@
  */
 @interface SWGConfiguration : NSObject
 
+/**
+ * Default base url
+ */
+@property (nonatomic) NSString *host;
 
 /**
  * Api key values for Api Key type Authentication

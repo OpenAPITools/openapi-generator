@@ -25,6 +25,7 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
+        self.host = @"http://petstore.swagger.io/v2";
         self.username = @"";
         self.password = @"";
         self.tempFolderPath = nil;

@@ -8,6 +8,7 @@
 
 #import "SWGViewController.h"
 #import <SwaggerClient/SWGPet.h>
+#import <SwaggerClient/SWGPetApi.h>
 #import <SwaggerClient/SWGConfiguration.h>
 
 @interface SWGViewController ()
@@ -20,10 +21,13 @@
 {
     [super viewDidLoad];
     SWGConfiguration *config = [SWGConfiguration sharedConfig];
-    [config setApiKey:@"hello" forApiKeyIdentifier:@"world"];
-    [config setApiKey:@"geekerzp" forApiKeyIdentifier:@"zp"];
-    [config removeApiKey:@"zp"];
-    NSLog(@"%@", config.apiKey);
+    config.debug = YES;
+    
+    SWGPetApi *api = [[SWGPetApi alloc] init];
+    [api getPetByIdWithCompletionBlock:@2 completionHandler:^(SWGPet *output, NSError *error) {
+        NSLog(@"output => %@", output);
+        NSLog(@"error  => %@", error);
+    }];
 }
 
 - (void)didReceiveMemoryWarning
