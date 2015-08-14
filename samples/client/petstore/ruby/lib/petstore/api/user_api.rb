@@ -5,9 +5,8 @@ module Petstore
     attr_accessor :api_client
 
     def initialize(api_client = nil)
-      @api_client = api_client || ApiClient.default
+      @api_client = api_client || Configuration.api_client
     end
-
 
     # Create user
     # This can only be done by the logged in user.
@@ -15,8 +14,8 @@ module Petstore
     # @option opts [User] :body Created user object
     # @return [nil]
     def create_user(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#create_user ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#create_user ..."
       end
       
       # resource path
@@ -50,8 +49,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#create_user"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#create_user"
       end
       return nil
     end
@@ -62,8 +61,8 @@ module Petstore
     # @option opts [Array<User>] :body List of user object
     # @return [nil]
     def create_users_with_array_input(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#create_users_with_array_input ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#create_users_with_array_input ..."
       end
       
       # resource path
@@ -97,8 +96,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#create_users_with_array_input"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#create_users_with_array_input"
       end
       return nil
     end
@@ -109,8 +108,8 @@ module Petstore
     # @option opts [Array<User>] :body List of user object
     # @return [nil]
     def create_users_with_list_input(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#create_users_with_list_input ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#create_users_with_list_input ..."
       end
       
       # resource path
@@ -144,8 +143,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#create_users_with_list_input"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#create_users_with_list_input"
       end
       return nil
     end
@@ -157,8 +156,8 @@ module Petstore
     # @option opts [String] :password The password for login in clear text
     # @return [String]
     def login_user(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#login_user ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#login_user ..."
       end
       
       # resource path
@@ -195,8 +194,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'String')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#login_user. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#login_user. Result: #{result.inspect}"
       end
       return result
     end
@@ -206,8 +205,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def logout_user(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#logout_user ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#logout_user ..."
       end
       
       # resource path
@@ -241,8 +240,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#logout_user"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#logout_user"
       end
       return nil
     end
@@ -253,8 +252,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [User]
     def get_user_by_name(username, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#get_user_by_name ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#get_user_by_name ..."
       end
       
       # verify the required parameter 'username' is set
@@ -292,8 +291,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'User')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#get_user_by_name. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#get_user_by_name. Result: #{result.inspect}"
       end
       return result
     end
@@ -305,8 +304,8 @@ module Petstore
     # @option opts [User] :body Updated user object
     # @return [nil]
     def update_user(username, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#update_user ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#update_user ..."
       end
       
       # verify the required parameter 'username' is set
@@ -343,8 +342,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#update_user"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#update_user"
       end
       return nil
     end
@@ -355,8 +354,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def delete_user(username, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: UserApi#delete_user ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: UserApi#delete_user ..."
       end
       
       # verify the required parameter 'username' is set
@@ -393,10 +392,14 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: UserApi#delete_user"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: UserApi#delete_user"
       end
       return nil
     end
   end
 end
+
+
+
+

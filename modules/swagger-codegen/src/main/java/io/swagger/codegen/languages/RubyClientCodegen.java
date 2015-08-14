@@ -110,6 +110,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         String gemFolder = libFolder + File.separator + gemName;
         supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
         String modelFolder = gemFolder + File.separator + modelPackage.replace("/", File.separator);
         supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));

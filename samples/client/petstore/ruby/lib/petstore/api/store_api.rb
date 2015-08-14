@@ -5,17 +5,16 @@ module Petstore
     attr_accessor :api_client
 
     def initialize(api_client = nil)
-      @api_client = api_client || ApiClient.default
+      @api_client = api_client || Configuration.api_client
     end
-
 
     # Returns pet inventories by status
     # Returns a map of status codes to quantities
     # @param [Hash] opts the optional parameters
     # @return [Hash<String, Integer>]
     def get_inventory(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: StoreApi#get_inventory ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#get_inventory ..."
       end
       
       # resource path
@@ -50,8 +49,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Hash<String, Integer>')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: StoreApi#get_inventory. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#get_inventory. Result: #{result.inspect}"
       end
       return result
     end
@@ -62,8 +61,8 @@ module Petstore
     # @option opts [Order] :body order placed for purchasing the pet
     # @return [Order]
     def place_order(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: StoreApi#place_order ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#place_order ..."
       end
       
       # resource path
@@ -98,8 +97,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Order')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: StoreApi#place_order. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#place_order. Result: #{result.inspect}"
       end
       return result
     end
@@ -110,8 +109,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Order]
     def get_order_by_id(order_id, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: StoreApi#get_order_by_id ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#get_order_by_id ..."
       end
       
       # verify the required parameter 'order_id' is set
@@ -149,8 +148,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Order')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: StoreApi#get_order_by_id. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#get_order_by_id. Result: #{result.inspect}"
       end
       return result
     end
@@ -161,8 +160,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def delete_order(order_id, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: StoreApi#delete_order ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#delete_order ..."
       end
       
       # verify the required parameter 'order_id' is set
@@ -199,10 +198,14 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: StoreApi#delete_order"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#delete_order"
       end
       return nil
     end
   end
 end
+
+
+
+
