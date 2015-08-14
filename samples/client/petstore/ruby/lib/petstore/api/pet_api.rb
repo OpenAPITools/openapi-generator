@@ -5,9 +5,8 @@ module Petstore
     attr_accessor :api_client
 
     def initialize(api_client = nil)
-      @api_client = api_client || ApiClient.default
+      @api_client = api_client || Configuration.api_client
     end
-
 
     # Update an existing pet
     # 
@@ -15,8 +14,8 @@ module Petstore
     # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [nil]
     def update_pet(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#update_pet ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#update_pet ..."
       end
       
       # resource path
@@ -50,8 +49,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#update_pet"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#update_pet"
       end
       return nil
     end
@@ -62,8 +61,8 @@ module Petstore
     # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [nil]
     def add_pet(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#add_pet ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#add_pet ..."
       end
       
       # resource path
@@ -97,8 +96,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#add_pet"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#add_pet"
       end
       return nil
     end
@@ -109,8 +108,8 @@ module Petstore
     # @option opts [Array<String>] :status Status values that need to be considered for filter
     # @return [Array<Pet>]
     def find_pets_by_status(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#find_pets_by_status ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#find_pets_by_status ..."
       end
       
       # resource path
@@ -146,8 +145,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Array<Pet>')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#find_pets_by_status. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#find_pets_by_status. Result: #{result.inspect}"
       end
       return result
     end
@@ -158,8 +157,8 @@ module Petstore
     # @option opts [Array<String>] :tags Tags to filter by
     # @return [Array<Pet>]
     def find_pets_by_tags(opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
       end
       
       # resource path
@@ -195,8 +194,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Array<Pet>')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#find_pets_by_tags. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#find_pets_by_tags. Result: #{result.inspect}"
       end
       return result
     end
@@ -207,8 +206,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Pet]
     def get_pet_by_id(pet_id, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#get_pet_by_id ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#get_pet_by_id ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -246,8 +245,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Pet')
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#get_pet_by_id. Result: #{result.inspect}"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#get_pet_by_id. Result: #{result.inspect}"
       end
       return result
     end
@@ -260,8 +259,8 @@ module Petstore
     # @option opts [String] :status Updated status of the pet
     # @return [nil]
     def update_pet_with_form(pet_id, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#update_pet_with_form ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#update_pet_with_form ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -300,8 +299,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#update_pet_with_form"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#update_pet_with_form"
       end
       return nil
     end
@@ -313,8 +312,8 @@ module Petstore
     # @option opts [String] :api_key 
     # @return [nil]
     def delete_pet(pet_id, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#delete_pet ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#delete_pet ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -352,8 +351,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#delete_pet"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#delete_pet"
       end
       return nil
     end
@@ -366,8 +365,8 @@ module Petstore
     # @option opts [File] :file file to upload
     # @return [nil]
     def upload_file(pet_id, opts = {})
-      if @api_client.debugging
-        @api_client.logger.debug "Calling API: PetApi#upload_file ..."
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: PetApi#upload_file ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -406,10 +405,14 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if @api_client.debugging
-        @api_client.logger.debug "API called: PetApi#upload_file"
+      if Configuration.debugging
+        Configuration.logger.debug "API called: PetApi#upload_file"
       end
       return nil
     end
   end
 end
+
+
+
+

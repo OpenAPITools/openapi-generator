@@ -7,69 +7,8 @@ require 'uri'
 
 module {{moduleName}}
   class ApiClient
-    attr_accessor :scheme, :host, :base_path, :user_agent
 
-    # Defines the username used with HTTP basic authentication.
-    #
-    # @return [String]
-    attr_accessor :username
-
-    # Defines the password used with HTTP basic authentication.
-    #
-    # @return [String]
-    attr_accessor :password
-
-    # Defines API keys used with API Key authentications.
-    #
-    # @return [Hash] key: parameter name, value: parameter value (API key)
-    #
-    # @example parameter name is "api_key", API key is "xxx" (e.g. "api_key=xxx" in query string)
-    #   config.api_key['api_key'] = 'xxx'
-    attr_accessor :api_key
-
-    # Defines API key prefixes used with API Key authentications.
-    #
-    # @return [Hash] key: parameter name, value: API key prefix
-    #
-    # @example parameter name is "Authorization", API key prefix is "Token" (e.g. "Authorization: Token xxx" in headers)
-    #   config.api_key_prefix['api_key'] = 'Token'
-    attr_accessor :api_key_prefix
-
-    # Set this to false to skip verifying SSL certificate when calling API from https server.
-    # Default to true.
-    #
-    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
-    #
-    # @return [true, false]
-    attr_accessor :verify_ssl
-
-    # Set this to customize the certificate file to verify the peer.
-    #
-    # @return [String] the path to the certificate file
-    #
-    # @see The `cainfo` option of Typhoeus, `--cert` option of libcurl. Related source code:
-    # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
-    attr_accessor :ssl_ca_cert
-
-    # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
-    # details will be logged with `logger.debug` (see the `logger` attribute).
-    # Default to false.
-    #
-    # @return [true, false]
-    attr_accessor :debugging
-
-    # Defines the logger used for debugging.
-    # Default to `Rails.logger` (when in Rails) or logging to STDOUT.
-    #
-    # @return [#debug]
-    attr_accessor :logger
-
-    # Defines the temporary folder to store downloaded files
-    # (for API endpoints that have file response).
-    # Default to use `Tempfile`.
-    #
-    # @return [String]
-    attr_accessor :temp_folder_path
+    attr_accessor :host
 
     # Defines the headers to be used in HTTP requests of all API calls by default.
     #
@@ -79,59 +18,14 @@ module {{moduleName}}
     # Stores the HTTP response from the last API call using this API client.
     attr_accessor :last_response
 
-    # The constructor accepts a optional block to configure the API client.
-    #
-    # @example
-    #   {{moduleName}}::ApiClient.new do |client|
-    #     client.api_key['api_key'] = 'your key' # api key authentication
-    #     client.username = 'your username'      # username for http basic authentication
-    #     client.password = 'your password'      # password for http basic authentication
-    #   end
-    def initialize(&block)
+    def initialize(host = nil)
+      @host = host || Configuration.base_url
       @format = 'json'
-      @scheme = '{{scheme}}'
-      @host = '{{host}}'
-      @base_path = '{{contextPath}}'
       @user_agent = "ruby-swagger-#{VERSION}"
-      @inject_format = false
-      @force_ending_format = false
-
       @default_headers = {
         'Content-Type' => "application/#{@format.downcase}",
         'User-Agent' => @user_agent
       }
-
-      # keys for API key authentication (param-name => api-key)
-      @api_key = {}
-      @api_key_prefix = {}
-
-      @verify_ssl = true
-
-      @debugging = false
-      @logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
-
-      configure(&block)
-    end
-
-    # Default API client.
-    def self.default
-      @@default ||= ApiClient.new
-    end
-
-    # Call this method to modify defaults in your initializers.
-    def configure
-      yield(self) if block_given?
-
-      # remove :// from scheme
-      @scheme.sub!(/:\/\//, '')
-
-      # remove http(s):// and anything after a slash
-      @host.sub!(/https?:\/\//, '')
-      @host = @host.split('/').first
-
-      # Add leading and trailing slashes to base_path
-      @base_path = "/#{@base_path}".gsub(/\/+/, '/')
-      @base_path = "" if @base_path == "/"
     end
 
     def call_api(http_method, path, opts = {})
@@ -141,8 +35,8 @@ module {{moduleName}}
       # record as last response
       @last_response = response
 
-      if debugging
-        logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+      if Configuration.debugging
+        Configuration.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
       end
 
       unless response.success?
@@ -153,9 +47,9 @@ module {{moduleName}}
       end
 
       if opts[:return_type]
-        return deserialize(response, opts[:return_type])
+        deserialize(response, opts[:return_type])
       else
-        return nil
+        nil
       end
     end
 
@@ -183,8 +77,8 @@ module {{moduleName}}
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
         req_opts.update :body => req_body
-        if debugging
-          logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
+        if Configuration.debugging
+          Configuration.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
         end
       end
 
@@ -279,13 +173,13 @@ module {{moduleName}}
 
       File.open(path, 'w') { |file| file.write(response.body) }
       logger.info "File written to #{path}. Please move the file to a proper folder for further processing and delete the temp afterwards"
-      return File.new(path)
+      File.new(path)
     end
 
     def build_request_url(path)
-      url = [host, base_path, path].join('/').gsub(/\/+/, '/')
-      url = "#{scheme}://#{url}"
-      URI.encode(url)
+      # Add leading and trailing slashes to path
+      path = "/#{path}".gsub(/\/+/, '/')
+      URI.encode(host + path)
     end
 
     def build_request_body(header_params, form_params, body)
@@ -300,34 +194,21 @@ module {{moduleName}}
       else
         data = nil
       end
-      return data
+      data
     end
 
-    {{#hasAuthMethods}}
     # Update hearder and query params based on authentication settings.
     def update_params_for_auth!(header_params, query_params, auth_names)
-      return unless auth_names
-      auth_names.each do |auth_name|
-        case auth_name
-        {{#authMethods}}when '{{name}}'
-          {{#isApiKey}}{{#isKeyInHeader}}header_params ||= {}
-          header_params['{{keyParamName}}'] = get_api_key_with_prefix('{{keyParamName}}'){{/isKeyInHeader}}{{#isKeyInQuery}}query_params['{{keyParamName}}'] = get_api_key_with_prefix('{{keyParamName}}'){{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}http_auth_header = 'Basic ' + ["#{@username}:#{@password}"].pack('m').delete("\r\n")
-          header_params['Authorization'] = http_auth_header{{/isBasic}}{{#isOAuth}}# TODO: support oauth{{/isOAuth}}
-        {{/authMethods}}
+      Array(auth_names).each do |auth_name|
+        auth_setting = Configuration.auth_settings[auth_name]
+        next unless auth_setting
+        case auth_setting[:in]
+        when 'header' then header_params[auth_setting[:key]] = auth_setting[:value]
+        when 'query'  then query_params[auth_setting[:key]] = auth_settings[:value]
+        else fail ArgumentError, 'Authentication token must be in `query` of `header`'
         end
       end
     end
-
-    # Get API key (with prefix if set).
-    # @param [String] param_name the parameter name of API key auth
-    def get_api_key_with_prefix(param_name)
-      if @api_key_prefix[param_name]
-        "#{@api_key_prefix[param_name]} #{@api_key[param_name]}"
-      else
-        @api_key[param_name]
-      end
-    end
-    {{/hasAuthMethods}}
 
     def user_agent=(user_agent)
       @user_agent = user_agent
