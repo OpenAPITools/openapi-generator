@@ -16,7 +16,11 @@
 - (id) init {
     self = [super init];
     if (self) {
-        self.apiClient = [{{classPrefix}}ApiClient sharedClient];
+        {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
+        if (config.apiClient == nil) {
+            config.apiClient = [[{{classPrefix}}ApiClient alloc] init];
+        }
+        self.apiClient = config.apiClient;
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
@@ -25,12 +29,7 @@
 - (id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
     self = [super init];
     if (self) {
-        if (apiClient) {
-            self.apiClient = apiClient;
-        }
-        else {
-            self.apiClient = [{{classPrefix}}ApiClient sharedClient];
-        }
+        self.apiClient = apiClient;
         self.defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;

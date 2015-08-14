@@ -25,6 +25,7 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
+        self.apiClient = nil;
         self.host = @"{{basePath}}";
         self.username = @"";
         self.password = @"";

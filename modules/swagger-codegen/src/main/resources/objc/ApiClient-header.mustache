@@ -15,6 +15,8 @@
 {{#models}}{{#model}}#import "{{classname}}.h"
 {{/model}}{{/models}}
 
+@class {{classPrefix}}Configuration;
+
 /**
  * A key for `NSError` user info dictionaries.
  *
@@ -28,11 +30,6 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
 @property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 @property(nonatomic, readonly) NSOperationQueue* queue;
-
-/**
- * A shared singleton API client.
- */
-+ (instancetype)sharedClient;
 
 /**
  * Clears Cache
