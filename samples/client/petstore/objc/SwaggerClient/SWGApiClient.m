@@ -11,13 +11,6 @@ static void (^reachabilityChangeBlock)(int);
 
 @implementation SWGApiClient
 
-+ (instancetype)sharedClient {
-    static id sharedClient;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{ sharedClient = [[self alloc] init]; });
-    return sharedClient;
-}
-
 - (instancetype)init {
     NSString *baseUrl = [[SWGConfiguration sharedConfig] host];
     return [self initWithBaseURL:[NSURL URLWithString:baseUrl]];

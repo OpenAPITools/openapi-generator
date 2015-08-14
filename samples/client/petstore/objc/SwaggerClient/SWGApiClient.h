@@ -19,6 +19,8 @@
 #import "SWGOrder.h"
 
 
+@class SWGConfiguration;
+
 /**
  * A key for `NSError` user info dictionaries.
  *
@@ -32,11 +34,6 @@ extern NSString *const SWGResponseObjectErrorKey;
 @property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 @property(nonatomic, readonly) NSOperationQueue* queue;
-
-/**
- * A shared singleton API client.
- */
-+ (instancetype)sharedClient;
 
 /**
  * Clears Cache

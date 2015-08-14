@@ -7,6 +7,7 @@
 //
 
 #import "SWGViewController.h"
+#import <SwaggerClient/SWGApiClient.h>
 #import <SwaggerClient/SWGPet.h>
 #import <SwaggerClient/SWGPetApi.h>
 #import <SwaggerClient/SWGConfiguration.h>
@@ -20,14 +21,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    SWGConfiguration *config = [SWGConfiguration sharedConfig];
-    config.debug = YES;
-    
-    SWGPetApi *api = [[SWGPetApi alloc] init];
-    [api getPetByIdWithCompletionBlock:@2 completionHandler:^(SWGPet *output, NSError *error) {
-        NSLog(@"output => %@", output);
-        NSLog(@"error  => %@", error);
-    }];
 }
 
 - (void)didReceiveMemoryWarning
