@@ -8,7 +8,7 @@ package io.swagger.client.model {
         
         [XmlElement(name="id")]
         
-        public var id: Number = null;
+        public var id: Number = 0;
     
         
         

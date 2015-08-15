@@ -8,19 +8,19 @@ package io.swagger.client.model {
         
         [XmlElement(name="id")]
         
-        public var id: Number = null;
+        public var id: Number = 0;
     
         
         
         [XmlElement(name="petId")]
         
-        public var petId: Number = null;
+        public var petId: Number = 0;
     
         
         
         [XmlElement(name="quantity")]
         
-        public var quantity: Number = null;
+        public var quantity: Number = 0;
     
         
         
@@ -39,7 +39,7 @@ package io.swagger.client.model {
         
         [XmlElement(name="complete")]
         
-        public var complete: Boolean = null;
+        public var complete: Boolean = false;
     
 
     public function toString(): String {
