@@ -1,4 +1,4 @@
-package io.swagger/client/api {
+package io.swagger.client.api {
 
 import io.swagger.common.ApiInvoker;
 import io.swagger.exception.ApiErrorCodes;
@@ -6,8 +6,8 @@ import io.swagger.exception.ApiError;
 import io.swagger.common.ApiUserCredentials;
 import io.swagger.event.Response;
 import io.swagger.common.SwaggerApi;
-import io.swagger/client/model.Pet;
-import java.io.File;
+import io.swagger.client.model.Pet;
+import flash.filesystem.File;
 
 import mx.rpc.AsyncToken;
 import mx.utils.UIDUtil;
@@ -51,7 +51,7 @@ public class PetApi extends SwaggerApi {
 
         
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, io.swagger.codegen.CodegenParameter@30f97aff, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -80,7 +80,7 @@ public class PetApi extends SwaggerApi {
 
         
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, io.swagger.codegen.CodegenParameter@4afa1477, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -93,9 +93,9 @@ public class PetApi extends SwaggerApi {
     }
     
     /*
-     * Returns Array[Pet] 
+     * Returns Array 
      */
-    public function find_pets_by_status (status: Array[String] = available): String {
+    public function find_pets_by_status (status: Array = available): String {
         // create path and map variables
         var path: String = "/pet/findByStatus".replace(/{format}/g,"xml");
 
@@ -118,15 +118,15 @@ public class PetApi extends SwaggerApi {
         token.requestId = requestId;
         token.completionEventType = "find_pets_by_status";
 
-        token.returnType = Array[Pet];
+        token.returnType = Array;
         return requestId;
 
     }
     
     /*
-     * Returns Array[Pet] 
+     * Returns Array 
      */
-    public function find_pets_by_tags (tags: Array[String]): String {
+    public function find_pets_by_tags (tags: Array): String {
         // create path and map variables
         var path: String = "/pet/findByTags".replace(/{format}/g,"xml");
 
@@ -149,7 +149,7 @@ public class PetApi extends SwaggerApi {
         token.requestId = requestId;
         token.completionEventType = "find_pets_by_tags";
 
-        token.returnType = Array[Pet];
+        token.returnType = Array;
         return requestId;
 
     }
