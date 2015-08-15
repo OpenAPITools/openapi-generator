@@ -1,4 +1,4 @@
-package io.swagger/client/api {
+package io.swagger.client.api {
 
 import io.swagger.common.ApiInvoker;
 import io.swagger.exception.ApiErrorCodes;
@@ -6,8 +6,7 @@ import io.swagger.exception.ApiError;
 import io.swagger.common.ApiUserCredentials;
 import io.swagger.event.Response;
 import io.swagger.common.SwaggerApi;
-import io.swagger/client/model.User;
-import java.util.List;
+import io.swagger.client.model.User;
 
 import mx.rpc.AsyncToken;
 import mx.utils.UIDUtil;
@@ -51,7 +50,7 @@ public class UserApi extends SwaggerApi {
 
         
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, io.swagger.codegen.CodegenParameter@21668d9, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -66,7 +65,7 @@ public class UserApi extends SwaggerApi {
     /*
      * Returns void 
      */
-    public function create_users_with_array_input (body: Array[User]): String {
+    public function create_users_with_array_input (body: Array): String {
         // create path and map variables
         var path: String = "/user/createWithArray".replace(/{format}/g,"xml");
 
@@ -80,7 +79,7 @@ public class UserApi extends SwaggerApi {
 
         
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, io.swagger.codegen.CodegenParameter@d3d7fa1, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -95,7 +94,7 @@ public class UserApi extends SwaggerApi {
     /*
      * Returns void 
      */
-    public function create_users_with_list_input (body: Array[User]): String {
+    public function create_users_with_list_input (body: Array): String {
         // create path and map variables
         var path: String = "/user/createWithList".replace(/{format}/g,"xml");
 
@@ -109,7 +108,7 @@ public class UserApi extends SwaggerApi {
 
         
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, io.swagger.codegen.CodegenParameter@408629d1, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -229,7 +228,7 @@ public class UserApi extends SwaggerApi {
 
         
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, io.swagger.codegen.CodegenParameter@2823796f, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 

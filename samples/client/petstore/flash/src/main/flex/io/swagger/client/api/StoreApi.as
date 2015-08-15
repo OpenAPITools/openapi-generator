@@ -1,4 +1,4 @@
-package io.swagger/client/api {
+package io.swagger.client.api {
 
 import io.swagger.common.ApiInvoker;
 import io.swagger.exception.ApiErrorCodes;
@@ -6,8 +6,7 @@ import io.swagger.exception.ApiError;
 import io.swagger.common.ApiUserCredentials;
 import io.swagger.event.Response;
 import io.swagger.common.SwaggerApi;
-import io.swagger/client/model.Dictionary;
-import io.swagger/client/model.Order;
+import io.swagger.client.model.Order;
 
 import mx.rpc.AsyncToken;
 import mx.utils.UIDUtil;
@@ -31,7 +30,7 @@ public class StoreApi extends SwaggerApi {
 
 
     /*
-     * Returns Dictionary(str, Number) 
+     * Returns Dictionary 
      */
     public function get_inventory (): String {
         // create path and map variables
@@ -54,7 +53,7 @@ public class StoreApi extends SwaggerApi {
         token.requestId = requestId;
         token.completionEventType = "get_inventory";
 
-        token.returnType = Dictionary(str, Number);
+        token.returnType = Dictionary;
         return requestId;
 
     }
@@ -76,7 +75,7 @@ public class StoreApi extends SwaggerApi {
 
         
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, io.swagger.codegen.CodegenParameter@6855b715, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 

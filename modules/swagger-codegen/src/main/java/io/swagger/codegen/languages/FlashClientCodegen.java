@@ -8,15 +8,31 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.AbstractNumericProperty;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.DateProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DecimalProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.FloatProperty;
+import io.swagger.models.properties.IntegerProperty;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.Property;
+import io.swagger.models.properties.PropertyBuilder;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String packageName = null;
+    protected String packageName = "io.swagger";
     protected String packageVersion = null;
 
     protected String invokerPackage = "io.swagger";
@@ -25,8 +41,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     public FlashClientCodegen() {
         super();
 
-        modelPackage = "models";
-        apiPackage = "api";
+        modelPackage = "io.swagger.client.model";
+        apiPackage = "io.swagger.client.api";
         outputFolder = "generated-code" + File.separatorChar + "flash";
         modelTemplateFiles.put("model.mustache", ".as");
         modelTemplateFiles.put("modelList.mustache", "List.as");
@@ -38,6 +54,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         languageSpecificPrimitives.add("Boolean");
         languageSpecificPrimitives.add("String");
         languageSpecificPrimitives.add("Date");
+        languageSpecificPrimitives.add("Array");
+        languageSpecificPrimitives.add("Dictionary");
 
         typeMapping.clear();
         typeMapping.put("integer", "Number");
@@ -53,13 +71,16 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Object");
         typeMapping.put("file", "File");
 
+        importMapping = new HashMap<String, String>();
+        importMapping.put("File", "flash.filesystem.File");
+
         // from 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
 "add", "for", "lt", "tellTarget", "and", "function", "ne", "this", "break", "ge", "new", "typeof", "continue", "gt", "not", "var", "delete", "if", "on", "void", "do", "ifFrameLoaded", "onClipEvent", "while", "else", "in", "or", "with", "eq", "le", "return"));
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("packageName", "flash package name (convention: package.name), default: swagger.client"));
+        cliOptions.add(new CliOption("packageName", "flash package name (convention: package.name), default: io.swagger"));
         cliOptions.add(new CliOption("packageVersion", "flash package version, default: 1.0.0"));
         cliOptions.add(new CliOption("invokerPackage", "root package for generated code"));
         cliOptions.add(new CliOption("sourceFolder", "source folder for generated code. e.g. src/main/flex"));
@@ -83,9 +104,11 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (additionalProperties.containsKey("packageName")) {
             setPackageName((String) additionalProperties.get("packageName"));
+            apiPackage = packageName + ".client.api";
+            modelPackage = packageName + ".client.model";
         }
         else {
-            setPackageName("swagger.client");
+            setPackageName("io.swagger");
         }
 
         if (additionalProperties.containsKey("packageVersion")) {
@@ -98,8 +121,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         additionalProperties.put("packageName", packageName);
         additionalProperties.put("packageVersion", packageVersion);
 
-        modelPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "model";
-        apiPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "api";
+        //modelPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "model";
+        //apiPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "api";
 
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage + File.separator + "swagger" + File.separator).replace(".", File.separator).replace('.', File.separatorChar);
 
@@ -159,12 +182,12 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+            return getSwaggerType(p);
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
 
-            return getSwaggerType(p) + "(str, " + getTypeDeclaration(inner) + ")";
+            return getSwaggerType(p);
         }
         return super.getTypeDeclaration(p);
     }
@@ -185,7 +208,49 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     public String toDefaultValue(Property p) {
-        return "None";
+        if (p instanceof StringProperty) {
+            return "null";
+        } else if (p instanceof BooleanProperty) {
+            return "null";
+        } else if (p instanceof DateProperty) {
+            return "null";
+        } else if (p instanceof DateTimeProperty) {
+            return "null";
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return "null";
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return "null";
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return "null";
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return "null";
+        } else if (p instanceof MapProperty) {
+            MapProperty ap = (MapProperty) p;
+            String inner = getSwaggerType(ap.getAdditionalProperties());
+            return "new Dictionary()";
+        } else if (p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            String inner = getSwaggerType(ap.getItems());
+            return "new Array()";
+        } else {
+            return "null";
+        }
     }
 
     @Override
