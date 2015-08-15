@@ -10,7 +10,7 @@ import io.swagger.client.model.Tag;
         
         [XmlElement(name="id")]
         
-        public var id: Number = null;
+        public var id: Number = 0;
     
         
         

@@ -211,7 +211,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         if (p instanceof StringProperty) {
             return "null";
         } else if (p instanceof BooleanProperty) {
-            return "null";
+            return "false";
         } else if (p instanceof DateProperty) {
             return "null";
         } else if (p instanceof DateTimeProperty) {
@@ -221,25 +221,25 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "null";
+            return "0.0";
         } else if (p instanceof FloatProperty) {
             FloatProperty dp = (FloatProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "null";
+            return "0.0";
         } else if (p instanceof IntegerProperty) {
             IntegerProperty dp = (IntegerProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "null";
+            return "0";
         } else if (p instanceof LongProperty) {
             LongProperty dp = (LongProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "null";
+            return "0";
         } else if (p instanceof MapProperty) {
             MapProperty ap = (MapProperty) p;
             String inner = getSwaggerType(ap.getAdditionalProperties());

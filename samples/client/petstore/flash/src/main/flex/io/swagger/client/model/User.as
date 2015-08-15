@@ -8,7 +8,7 @@ package io.swagger.client.model {
         
         [XmlElement(name="id")]
         
-        public var id: Number = null;
+        public var id: Number = 0;
     
         
         
@@ -51,7 +51,7 @@ package io.swagger.client.model {
         
         [XmlElement(name="userStatus")]
         
-        public var userStatus: Number = null;
+        public var userStatus: Number = 0;
     
 
     public function toString(): String {
