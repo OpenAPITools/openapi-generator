@@ -19,7 +19,13 @@ Copyright 2015 SmartBear Software
 from __future__ import absolute_import
 import base64
 import urllib3
-import httplib
+
+try:
+    import httplib
+except ImportError:
+    # python3
+    import http.client as httplib
+
 import sys
 import logging
 

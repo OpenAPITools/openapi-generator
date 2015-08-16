@@ -57,7 +57,7 @@ class Pet(object):
         self._name = None
         self._photo_urls = None
         self._tags = None
-        self._status = None    # pet status in the store
+        self._status = None
 
     @property
     def id(self):
