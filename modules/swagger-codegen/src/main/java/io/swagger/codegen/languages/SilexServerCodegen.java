@@ -154,15 +154,17 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toVarName(String name) {
+        // return the name in underscore style
+        // PhoneNumber => phone_number
+        name = underscore(name);
+
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
-        if (name.matches("^[0-9]")) {
+        if (name.matches("^\\d.*")) {
             name = "_" + name;
         }
 
-        // return the name in underscore style
-        // PhoneNumber => phone_number
-        return underscore(name);
+        return name;
     }
 
     @Override
