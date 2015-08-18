@@ -1,6 +1,7 @@
 io.swagger.codegen.languages.AndroidClientCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
 io.swagger.codegen.languages.CSharpClientCodegen
+io.swagger.codegen.languages.FlashClientCodegen
 io.swagger.codegen.languages.JavaClientCodegen
 io.swagger.codegen.languages.JaxRSServerCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
