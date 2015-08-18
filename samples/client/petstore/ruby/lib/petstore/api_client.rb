@@ -69,9 +69,9 @@ module Petstore
         :method => http_method,
         :headers => header_params,
         :params => query_params,
-        :ssl_verifypeer => @verify_ssl,
-        :cainfo => @ssl_ca_cert,
-        :verbose => @debugging
+        :ssl_verifypeer => Configuration.verify_ssl,
+        :cainfo => Configuration.ssl_ca_cert,
+        :verbose => Configuration.debugging
       }
 
       if [:post, :patch, :put, :delete].include?(http_method)
