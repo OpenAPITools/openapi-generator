@@ -42,12 +42,12 @@ ruby -Ilib script.rb
 ```ruby
 require 'petstore'
 
-Petstore::ApiClient.default.configure do |client|
-  client.api_key['api_key'] = 'special-key'
-  client.host = 'petstore.swagger.io'
-  client.base_path = '/v2'
+Petstore.configure do |config|
+  config.api_key['api_key'] = 'special-key'
+  config.host = 'petstore.swagger.io'
+  config.base_path = '/v2'
   # enable debugging (default is disabled)
-  client.debugging = true
+  config.debugging = true
 end
 
 pet_api = Petstore::PetApi.new
