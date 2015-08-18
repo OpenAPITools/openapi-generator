@@ -18,8 +18,6 @@
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;
 +(SWGStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;
-+(void) setBasePath:(NSString*)basePath;
-+(NSString*) getBasePath;
 ///
 ///
 /// Returns pet inventories by status
