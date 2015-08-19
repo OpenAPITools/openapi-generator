@@ -23,9 +23,9 @@ import urllib3
 try:
     import httplib
 except ImportError:
-    # python3
+    # for python3
     import http.client as httplib
-
+    
 import sys
 import logging
 
