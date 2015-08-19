@@ -202,11 +202,9 @@ class ApiClient(object):
                 # and attributes which value is not None.
                 # Convert attribute name to json key in
                 # model definition for request.
-                obj_dict = {obj.attribute_map[key[1:]]: val
-                            for key, val in iteritems(obj.__dict__)
-                            if key != 'swagger_types'
-                            and key != 'attribute_map'
-                            and val is not None}
+                obj_dict = {obj.attribute_map[attr]: getattr(obj, attr)
+                            for attr, _ in iteritems(obj.swagger_types)
+                            if getattr(obj, attr) is not None}
 
             return {key: self.sanitize_for_serialization(val)
                     for key, val in iteritems(obj_dict)}
