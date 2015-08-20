@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.apache.commons.lang.StringUtils;
+
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "Swagger\\Client";
     protected String composerVendorName = "swagger";
@@ -77,12 +79,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
         typeMapping.put("DateTime", "\\DateTime");
         
-        cliOptions.add(new CliOption("invokerPackage", "The main namespace to use for all classes."));
-        cliOptions.add(new CliOption("packagePath", "The main package name for classes."));
+        cliOptions.add(new CliOption("invokerPackage", "The main namespace to use for all classes. e.g. Yay\\Pets"));
+        cliOptions.add(new CliOption("packagePath", "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption("srcBasePath", "The directory under packagePath to serve as source root."));
-        cliOptions.add(new CliOption("composerVendorName", "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name."));
-        cliOptions.add(new CliOption("composerProjectName", "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name."));
-        cliOptions.add(new CliOption("artifactVersion", "The version to use in the composer package version field."));
+        cliOptions.add(new CliOption("composerVendorName", "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
+        cliOptions.add(new CliOption("composerProjectName", "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
+        cliOptions.add(new CliOption("artifactVersion", "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
     public String getPackagePath() {
@@ -282,15 +284,17 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // return the name in underscore style
+        // PhoneNumber => phone_number
+        name =  underscore(name);
+
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
-        if (name.matches("^[0-9]")) {
+        if (name.matches("^\\d.*")) {
             name = "_" + name;
         }
 
-        // return the name in underscore style
-        // PhoneNumber => phone_number
-        return underscore(name);
+        return name;
     }
 
     @Override

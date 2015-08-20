@@ -237,7 +237,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['petstore_auth', 'api_key']
       result = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
