@@ -64,7 +64,7 @@ import java.util.regex.Pattern;
 
 
 public class DefaultCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();

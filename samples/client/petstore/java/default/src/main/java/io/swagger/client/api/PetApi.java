@@ -243,7 +243,7 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "api_key", "petstore_auth" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
     
     TypeRef returnType = new TypeRef<Pet>() {};
     return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);

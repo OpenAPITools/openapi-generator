@@ -188,6 +188,7 @@ AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
+FlashClientCodegen.java
 JavaClientCodegen.java
 JaxRSServerCodegen.java
 NodeJSServerCodegen.java

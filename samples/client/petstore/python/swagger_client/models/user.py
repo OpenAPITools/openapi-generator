@@ -63,7 +63,7 @@ class User(object):
         self._email = None
         self._password = None
         self._phone = None
-        self._user_status = None    # User Status
+        self._user_status = None
 
     @property
     def id(self):

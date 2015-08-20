@@ -89,7 +89,7 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'http://localhost';
+    protected $host = '{{basePath}}';
   
     /**
      * Timeout (second) of the HTTP request, by default set to 0, no timeout
@@ -103,7 +103,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "PHP-Swagger";
+    protected $userAgent = "PHP-Swagger/{{artifactVersion}}";
   
     /**
      * Debug switch (default set to false)

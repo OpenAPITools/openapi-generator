@@ -13,6 +13,7 @@ import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
 
 import org.apache.commons.io.IOUtils;
@@ -387,12 +388,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         for (String resourcePath : paths.keySet()) {
             Path path = paths.get(resourcePath);
-            processOperation(resourcePath, "get", path.getGet(), ops);
-            processOperation(resourcePath, "put", path.getPut(), ops);
-            processOperation(resourcePath, "post", path.getPost(), ops);
-            processOperation(resourcePath, "delete", path.getDelete(), ops);
-            processOperation(resourcePath, "patch", path.getPatch(), ops);
-            processOperation(resourcePath, "options", path.getOptions(), ops);
+            processOperation(resourcePath, "get", path.getGet(), ops, path);
+            processOperation(resourcePath, "put", path.getPut(), ops, path);
+            processOperation(resourcePath, "post", path.getPost(), ops, path);
+            processOperation(resourcePath, "delete", path.getDelete(), ops, path);
+            processOperation(resourcePath, "patch", path.getPatch(), ops, path);
+            processOperation(resourcePath, "options", path.getOptions(), ops, path);
         }
         return ops;
     }
@@ -405,13 +406,34 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return map.get(name);
     }
 
-
-    public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations) {
+    public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, Path path) {
         if (operation != null) {
             List<String> tags = operation.getTags();
             if (tags == null) {
                 tags = new ArrayList<String>();
                 tags.add("default");
+            }
+            
+            /*
+             build up a set of parameter "ids" defined at the operation level
+             per the swagger 2.0 spec "A unique parameter is defined by a combination of a name and location"
+              i'm assuming "location" == "in"
+            */
+            Set<String> operationParameters = new HashSet<String>();
+            if (operation.getParameters() != null) {
+                for (Parameter parameter : operation.getParameters()) {
+                    operationParameters.add(generateParameterId(parameter));
+                }
+            }
+
+            //need to propagate path level down to the operation
+            if(path.getParameters() != null) {
+                for (Parameter parameter : path.getParameters()) {
+                    //skip propagation if a parameter with the same name is already defined at the operation level
+                    if (!operationParameters.contains(generateParameterId(parameter))) {
+                        operation.addParameter(parameter);
+                    }
+                }
             }
 
             for (String tag : tags) {
@@ -456,6 +478,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
             }
         }
+    }
+
+    private String generateParameterId(Parameter parameter) {
+        return parameter.getName() + ":" + parameter.getIn();
     }
 
     protected String sanitizeTag(String tag) {
