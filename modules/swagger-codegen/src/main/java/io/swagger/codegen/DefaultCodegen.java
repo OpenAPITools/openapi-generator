@@ -63,7 +63,7 @@ import java.util.regex.Pattern;
 
 
 public class DefaultCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
@@ -80,6 +80,7 @@ public class DefaultCodegen {
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
+    protected boolean supportsInheritance = false;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -229,6 +230,11 @@ public class DefaultCodegen {
     }
 
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         return operationId;
     }
 
@@ -426,14 +432,6 @@ public class DefaultCodegen {
                 return dp.getDefault().toString();
             }
             return "null";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
-            return "new HashMap<String, " + inner + ">() ";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
-            return "new ArrayList<" + inner + ">() ";
         } else {
             return "null";
         }
@@ -510,6 +508,10 @@ public class DefaultCodegen {
     }
 
     public CodegenModel fromModel(String name, Model model) {
+        return fromModel(name, model, null);
+    }
+
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);
@@ -529,12 +531,59 @@ public class DefaultCodegen {
             // TODO
         } else if (model instanceof ComposedModel) {
             final ComposedModel composed = (ComposedModel) model;
+            Map<String, Property> properties = new HashMap<String, Property>();
+            List<String> required = new ArrayList<String>();
+            // parent model
             final RefModel parent = (RefModel) composed.getParent();
-            final String parentModel = toModelName(parent.getSimpleRef());
-            m.parent = parentModel;
-            addImport(m, parentModel);
-            final ModelImpl child = (ModelImpl) composed.getChild();
-            addVars(m, child.getProperties(), child.getRequired());
+            if (parent != null) {
+                final String parentRef = toModelName(parent.getSimpleRef());
+                m.parent = parentRef;
+                addImport(m, parentRef);
+                if (!supportsInheritance && allDefinitions != null) {
+                    final Model parentModel = allDefinitions.get(parentRef);
+                    if (parentModel instanceof ModelImpl) {
+                        final ModelImpl _parent = (ModelImpl) parentModel;
+                        if (_parent.getProperties() != null) {
+                            properties.putAll(_parent.getProperties());
+                        }
+                        if (_parent.getRequired() != null) {
+                            required.addAll(_parent.getRequired());
+                        }
+                    }
+                }
+            }
+            // interfaces (intermediate models)
+            if (allDefinitions != null) {
+                for (RefModel _interface : composed.getInterfaces()) {
+                    final String interfaceRef = toModelName(_interface.getSimpleRef());
+                    final Model interfaceModel = allDefinitions.get(interfaceRef);
+                    if (interfaceModel instanceof ModelImpl) {
+                        final ModelImpl _interfaceModel = (ModelImpl) interfaceModel;
+                        if (_interfaceModel.getProperties() != null) {
+                            properties.putAll(_interfaceModel.getProperties());
+                        }
+                        if (_interfaceModel.getRequired() != null) {
+                            required.addAll(_interfaceModel.getRequired());
+                        }
+                    }
+                }
+            }
+            // child model (properties owned by the model itself)
+            Model child = composed.getChild();
+            if (child != null && child instanceof RefModel && allDefinitions != null) {
+                final String childRef = ((RefModel) child).getSimpleRef();
+                child = allDefinitions.get(childRef);
+            }
+            if (child != null && child instanceof ModelImpl) {
+                final ModelImpl _child = (ModelImpl) child;
+                if (_child.getProperties() != null) {
+                    properties.putAll(_child.getProperties());
+                }
+                if (_child.getRequired() != null) {
+                    required.addAll(_child.getRequired());
+                }
+            }
+            addVars(m, properties, required);
         } else {
             ModelImpl impl = (ModelImpl) model;
             if (impl.getAdditionalProperties() != null) {
@@ -557,7 +606,7 @@ public class DefaultCodegen {
 
     public CodegenProperty fromProperty(String name, Property p) {
         if (p == null) {
-            LOGGER.error("unexpected missing property for name " + null);
+            LOGGER.error("unexpected missing property for name " + name);
             return null;
         }
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
@@ -1173,7 +1222,9 @@ public class DefaultCodegen {
         if (mappedType != null) {
             addImport(m, mappedType);
         }
-    }    /**
+    }
+
+    /**
      * Underscore the given word.
      *
      * @param word The word
@@ -1235,9 +1286,8 @@ public class DefaultCodegen {
         } else {
             m.emptyVars = true;
         }
-    }    public static String camelize(String word) {
-        return camelize(word, false);
     }
+    
 
     /**
      * Remove characters not suitable for variable or method name from the input and camelize it
@@ -1258,7 +1308,13 @@ public class DefaultCodegen {
             name = name.substring(0, 1).toLowerCase() + name.substring(1);
         }
         return name;
-    }    public static String camelize(String word, boolean lowercaseFirstLetter) {
+    }    
+
+    public static String camelize(String word) {
+        return camelize(word, false);
+    }
+
+    public static String camelize(String word, boolean lowercaseFirstLetter) {
         // Replace all slashes with dots (package separator)
         Pattern p = Pattern.compile("\\/(.?)");
         Matcher m = p.matcher(word);

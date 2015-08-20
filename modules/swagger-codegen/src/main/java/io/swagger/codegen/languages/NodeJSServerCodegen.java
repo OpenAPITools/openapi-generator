@@ -9,11 +9,19 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiVersion = "1.0.0";
@@ -196,5 +204,51 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         return objs;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> getOperations(Map<String, Object> objs) {
+        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
+        List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
+        Map<String, Object> api = apis.get(0);
+        return (Map<String, Object>) api.get("operations");
+    }
+
+    private List<Map<String, Object>> sortOperationsByPath(List<CodegenOperation> ops) {
+        Multimap<String, CodegenOperation> opsByPath = ArrayListMultimap.create();
+
+        for (CodegenOperation op : ops) {
+            opsByPath.put(op.path, op);
+        }
+
+    	List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
+        for (Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
+            Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
+            opsByPathList.add(opsByPathEntry);
+            opsByPathEntry.put("path", entry.getKey());
+            opsByPathEntry.put("operation", entry.getValue());
+            List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
+            operationsForThisPath.get(operationsForThisPath.size() - 1).hasMore = null;
+            if (opsByPathList.size() < opsByPath.asMap().size()) {
+                opsByPathEntry.put("hasMore", "true");
+            }
+        }
+
+        return opsByPathList;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Map<String, Object> operations = getOperations(objs);
+
+        if (operations != null) {
+            @SuppressWarnings("unchecked")
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+
+            List<Map<String, Object>> opsByPathList = sortOperationsByPath(ops);
+            operations.put("operationsByPath", opsByPathList);
+        }
+
+        return super.postProcessSupportingFileData(objs);
     }
 }

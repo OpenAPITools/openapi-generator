@@ -9,10 +9,11 @@ import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.codegen.CliOption;
 
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+
+import org.apache.commons.lang.StringUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String moduleName = "SwaggerClient";
@@ -158,15 +159,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // return the name in underscore style
+        // PhoneNumber => phone_number
+        name = underscore(name);
+
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
-        if (name.matches("^[0-9]")) {
+        if (name.matches("^\\d.*")) {
             name = "_" + name;
         }
 
-        // return the name in underscore style
-        // PhoneNumber => phone_number
-        return underscore(name);
+        return name;
     }
 
     @Override
@@ -213,6 +216,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         // method name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");

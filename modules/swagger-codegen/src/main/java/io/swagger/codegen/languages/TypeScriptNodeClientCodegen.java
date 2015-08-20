@@ -1,171 +1,24 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.properties.*;
+import io.swagger.codegen.SupportingFile;
 
-import java.util.*;
-import java.io.File;
+public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
 
-public class TypeScriptNodeClientCodegen extends DefaultCodegen implements CodegenConfig {
-	protected String invokerPackage = "io.swagger.client";
-	protected String groupId = "io.swagger";
-	protected String artifactId = "swagger-typescript-node-client";
-	protected String artifactVersion = "1.0.0";
-	protected String sourceFolder = "src/main/typescript";
+    @Override
+    public String getName() {
+        return "typescript-node";
+    }
 
-	@Override
-	public CodegenType getTag() {
-		return CodegenType.CLIENT;
-	}
+    @Override
+    public String getHelp() {
+        return "Generates a TypeScript nodejs client library.";
+    }
 
-	@Override
-	public String getName() {
-		return "typescript-node";
-	}
+    public TypeScriptNodeClientCodegen() {
+        super();
+        outputFolder = "generated-code/typescript-node";
+        templateDir = "TypeScript-node";
+        supportingFiles.add(new SupportingFile("api.mustache", null, "api.ts"));
+    }
 
-	@Override
-	public String getHelp() {
-	    return "Generates a TypeScript nodejs client library.";
-	}
-	
-	public TypeScriptNodeClientCodegen() {
-	    super();
-	    outputFolder = "generated-code/typescript-node";
-	    modelTemplateFiles.put("model.mustache", ".ts");
-	    apiTemplateFiles.put("api.mustache", ".ts");
-	    templateDir = "TypeScript-node";
-	    apiPackage = "api";
-	    modelPackage = "model";
-
-		reservedWords = new HashSet<String>(Arrays.asList("abstract",
-				"continue", "for", "new", "switch", "assert", "default", "if",
-				"package", "synchronized", "do", "goto", "private",
-				"this", "break", "double", "implements", "protected", "throw",
-				"byte", "else", "import", "public", "throws", "case", "enum",
-				"instanceof", "return", "transient", "catch", "extends", "int",
-				"short", "try", "char", "final", "interface", "static", "void",
-				"class", "finally", "const", "super", "while"));
-
-	    additionalProperties.put("invokerPackage", invokerPackage);
-	    additionalProperties.put("groupId", groupId);
-	    additionalProperties.put("artifactId", artifactId);
-	    additionalProperties.put("artifactVersion", artifactVersion);
-
-		languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
-				"String",
-				"boolean",
-				"Boolean",
-				"Double",
-				"Integer",
-				"Long",
-				"Float",
-				"Object"));
-		instantiationTypes.put("array", "Array");
-		
-	    typeMapping = new HashMap<String, String>();
-	    typeMapping.put("Array", "Array");
-	    typeMapping.put("array", "Array");
-	    typeMapping.put("List", "Array");
-	    typeMapping.put("boolean", "boolean");
-	    typeMapping.put("string", "string");
-	    typeMapping.put("int", "number");
-	    typeMapping.put("float", "number");
-	    typeMapping.put("number", "number");
-	    typeMapping.put("long", "number");
-	    typeMapping.put("short", "number");
-	    typeMapping.put("char", "string");
-	    typeMapping.put("double", "number");
-	    typeMapping.put("object", "any");
-	    typeMapping.put("integer", "number");
-	    typeMapping.put("Map", "any");
-	    typeMapping.put("DateTime", "Date");
-	   
-	}
-
-	@Override
-	public String escapeReservedWord(String name) {
-		return "_" + name;
-	}
-
-	@Override
-	public String apiFileFolder() {
-		return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
-	}
-
-	public String modelFileFolder() {
-		return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
-	}
-
-	@Override
-	public String toVarName(String name) {
-		// replace - with _ e.g. created-at => created_at
-		name = name.replaceAll("-", "_");
-
-		// if it's all uppper case, do nothing
-		if (name.matches("^[A-Z_]*$"))
-			return name;
-
-		// camelize the variable name
-	    // pet_id => PetId
-		name = camelize(name, true);
-
-		// for reserved word or word starting with number, append _
-		if (reservedWords.contains(name) || name.matches("^\\d.*"))
-			name = escapeReservedWord(name);
-
-		return name;
-	}
-
-	@Override
-	public String toParamName(String name) {
-		// should be the same as variable name
-		return toVarName(name);
-	}
-
-	@Override
-	public String toModelName(String name) {
-		// model name cannot use reserved keyword, e.g. return
-		if (reservedWords.contains(name))
-			throw new RuntimeException(name
-					+ " (reserved word) cannot be used as a model name");
-
-		// camelize the model name
-		// phone_number => PhoneNumber
-		return camelize(name);
-	}
-
-	@Override
-	public String toModelFilename(String name) {
-		// should be the same as the model name
-		return toModelName(name);
-	}
-
-	@Override
-	public String getTypeDeclaration(Property p) {
-		if (p instanceof ArrayProperty) {
-			ArrayProperty ap = (ArrayProperty) p;
-			Property inner = ap.getItems();
-			return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-		} else if (p instanceof MapProperty) {
-			MapProperty mp = (MapProperty) p;
-			Property inner = mp.getAdditionalProperties();
-
-			return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner)
-					+ ">";
-		}
-		return super.getTypeDeclaration(p);
-	}
-
-	@Override
-	public String getSwaggerType(Property p) {
-		String swaggerType = super.getSwaggerType(p);
-		String type = null;
-		if (typeMapping.containsKey(swaggerType)) {
-			type = typeMapping.get(swaggerType);
-			if (languageSpecificPrimitives.contains(type))
-				return type;
-		} else
-			type = swaggerType;
-		return type;
-	}
 }
