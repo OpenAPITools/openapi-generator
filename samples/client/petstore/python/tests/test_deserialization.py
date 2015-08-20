@@ -150,6 +150,28 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized[0].name, "doggie0")
         self.assertEqual(deserialized[1].name, "doggie1")
 
+    def test_deserialize_nested_dict(self):
+        """ deserialize dict(str, dict(str, int)) """
+        data = {
+            "foo": {
+                "bar": 1
+            }
+        }
+
+        deserialized = self.deserialize(data, "dict(str, dict(str, int))")
+        self.assertTrue(isinstance(deserialized, dict))
+        self.assertTrue(isinstance(deserialized["foo"], dict))
+        self.assertTrue(isinstance(deserialized["foo"]["bar"], int))
+
+    def test_deserialize_nested_list(self):
+        """ deserialize list[list[str]] """
+        data = [["foo"]]
+
+        deserialized = self.deserialize(data, "list[list[str]]")
+        self.assertTrue(isinstance(deserialized, list))
+        self.assertTrue(isinstance(deserialized[0], list))
+        self.assertTrue(isinstance(deserialized[0][0], str))
+
     def test_deserialize_none(self):
         """ deserialize None """
         deserialized = self.deserialize(None, "datetime")

@@ -35,7 +35,7 @@ class PetApiTests(unittest.TestCase):
         self.category.name = "dog"
         self.tag = swagger_client.Tag()
         self.tag.id = int(time.time())
-        self.tag.name = "blank"
+        self.tag.name = "swagger-codegen-python-pet-tag"
         self.pet = swagger_client.Pet()
         self.pet.id = int(time.time())
         self.pet.name = "hello kity"

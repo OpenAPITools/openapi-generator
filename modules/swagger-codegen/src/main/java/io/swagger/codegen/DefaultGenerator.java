@@ -2,6 +2,8 @@ package io.swagger.codegen;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+
+import io.swagger.models.ComposedModel;
 import io.swagger.models.Contact;
 import io.swagger.models.Info;
 import io.swagger.models.License;
@@ -11,7 +13,9 @@ import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
+
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -21,6 +25,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -106,10 +112,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
             if (swagger.getBasePath() != null) {
                 hostBuilder.append(swagger.getBasePath());
-            } else {
-                hostBuilder.append("/");
             }
-            String contextPath = swagger.getBasePath() == null ? "/" : swagger.getBasePath();
+            String contextPath = swagger.getBasePath() == null ? "" : swagger.getBasePath();
             String basePath = hostBuilder.toString();
 
 
@@ -119,11 +123,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             // models
             Map<String, Model> definitions = swagger.getDefinitions();
             if (definitions != null) {
-                for (String name : definitions.keySet()) {
+            	List<String> sortedModelKeys = sortModelsByInheritance(definitions);
+
+                for (String name : sortedModelKeys) {
                     Model model = definitions.get(name);
                     Map<String, Model> modelMap = new HashMap<String, Model>();
                     modelMap.put(name, model);
-                    Map<String, Object> models = processModels(config, modelMap);
+                    Map<String, Object> models = processModels(config, modelMap, definitions);
                     models.putAll(config.additionalProperties());
 
                     allModels.add(((List<Object>) models.get("models")).get(0));
@@ -327,17 +333,63 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
+    private List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
+    	List<String> sortedModelKeys = new ArrayList<String>(definitions.keySet());
+    	Comparator<String> cmp = new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				Model model1 = definitions.get(o1);
+				Model model2 = definitions.get(o2);
+
+				int model1InheritanceDepth = getInheritanceDepth(model1);
+				int model2InheritanceDepth = getInheritanceDepth(model2);
+
+				if (model1InheritanceDepth == model2InheritanceDepth) {
+					return 0;
+				} else if (model1InheritanceDepth > model2InheritanceDepth) {
+					return 1;
+				} else {
+					return -1;
+				}
+			}
+
+			private int getInheritanceDepth(Model model) {
+				int inheritanceDepth = 0;
+				Model parent = getParent(model);
+
+				while (parent != null) {
+					inheritanceDepth++;
+					parent = getParent(parent);
+				}
+
+				return inheritanceDepth;
+			}
+
+			private Model getParent(Model model) {
+				if (model instanceof ComposedModel) {
+					return definitions.get(((ComposedModel) model).getParent().getReference());
+				}
+
+				return null;
+			}
+		};
+
+		Collections.sort(sortedModelKeys, cmp);
+
+		return sortedModelKeys;
+    }
+
     public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
         Map<String, List<CodegenOperation>> ops = new HashMap<String, List<CodegenOperation>>();
 
         for (String resourcePath : paths.keySet()) {
             Path path = paths.get(resourcePath);
-            processOperation(resourcePath, "get", path.getGet(), ops);
-            processOperation(resourcePath, "put", path.getPut(), ops);
-            processOperation(resourcePath, "post", path.getPost(), ops);
-            processOperation(resourcePath, "delete", path.getDelete(), ops);
-            processOperation(resourcePath, "patch", path.getPatch(), ops);
-            processOperation(resourcePath, "options", path.getOptions(), ops);
+            processOperation(resourcePath, "get", path.getGet(), ops, path);
+            processOperation(resourcePath, "put", path.getPut(), ops, path);
+            processOperation(resourcePath, "post", path.getPost(), ops, path);
+            processOperation(resourcePath, "delete", path.getDelete(), ops, path);
+            processOperation(resourcePath, "patch", path.getPatch(), ops, path);
+            processOperation(resourcePath, "options", path.getOptions(), ops, path);
         }
         return ops;
     }
@@ -350,13 +402,34 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return map.get(name);
     }
 
-
-    public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations) {
+    public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, Path path) {
         if (operation != null) {
             List<String> tags = operation.getTags();
             if (tags == null) {
                 tags = new ArrayList<String>();
                 tags.add("default");
+            }
+            
+            /*
+             build up a set of parameter "ids" defined at the operation level
+             per the swagger 2.0 spec "A unique parameter is defined by a combination of a name and location"
+              i'm assuming "location" == "in"
+            */
+            Set<String> operationParameters = new HashSet<String>();
+            if (operation.getParameters() != null) {
+                for (Parameter parameter : operation.getParameters()) {
+                    operationParameters.add(generateParameterId(parameter));
+                }
+            }
+
+            //need to propagate path level down to the operation
+            if(path.getParameters() != null) {
+                for (Parameter parameter : path.getParameters()) {
+                    //skip propagation if a parameter with the same name is already defined at the operation level
+                    if (!operationParameters.contains(generateParameterId(parameter))) {
+                        operation.addParameter(parameter);
+                    }
+                }
             }
 
             for (String tag : tags) {
@@ -392,7 +465,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     		}
                     		authMethods.put(securityName, oauth2Operation);
                     	} else {
-                    		authMethods.put(securityName, securityDefinition);	
+                    		authMethods.put(securityName, securityDefinition);
                     	}
                     }
                 }
@@ -401,6 +474,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
             }
         }
+    }
+
+    private String generateParameterId(Parameter parameter) {
+        return parameter.getName() + ":" + parameter.getIn();
     }
 
     protected String sanitizeTag(String tag) {
@@ -475,14 +552,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return operations;
     }
 
-    public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions) {
+    public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions, Map<String, Model> allDefinitions) {
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("package", config.modelPackage());
         List<Object> models = new ArrayList<Object>();
         Set<String> allImports = new LinkedHashSet<String>();
         for (String key : definitions.keySet()) {
             Model mm = definitions.get(key);
-            CodegenModel cm = config.fromModel(key, mm);
+            CodegenModel cm = config.fromModel(key, mm, allDefinitions);
             Map<String, Object> mo = new HashMap<String, Object>();
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(key));

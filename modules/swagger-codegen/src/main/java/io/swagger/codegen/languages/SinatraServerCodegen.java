@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.apache.commons.lang.StringUtils;
+
 public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemName = null;
     protected String moduleName = null;
