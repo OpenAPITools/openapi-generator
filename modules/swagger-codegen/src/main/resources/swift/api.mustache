@@ -5,8 +5,8 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
-import Alamofire
-import PromiseKit
+import Alamofire{{#usePromiseKit}}
+import PromiseKit{{/usePromiseKit}}
 
 extension {{projectName}}API {
     {{#description}}
@@ -28,7 +28,7 @@ extension {{projectName}}API {
          {{/hasParams}}{{#allParams}}
          :param: {{paramName}} ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}}{{/allParams}}
 
-         :returns: Promise<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> {{description}}
+         :returns: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
          */
         func {{operationId}}({{#allParams}}{{^secondaryParam}}#{{/secondaryParam}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
             {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{path}}"{{#pathParams}}
