@@ -26,6 +26,7 @@ import javax.ws.rs.*;
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
 {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 @io.swagger.annotations.Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+{{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
 
