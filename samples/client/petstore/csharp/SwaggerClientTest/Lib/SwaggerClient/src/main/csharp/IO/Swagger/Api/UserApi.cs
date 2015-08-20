@@ -191,15 +191,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -210,7 +211,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.Content, response.Content);
@@ -230,15 +231,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -249,7 +251,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUser: " + response.Content, response.Content);
 
@@ -267,15 +269,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/createWithArray";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -286,7 +289,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
@@ -306,15 +309,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/createWithArray";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -325,7 +329,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
 
@@ -343,15 +347,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/createWithList";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -362,7 +367,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
@@ -382,15 +387,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/createWithList";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -401,7 +407,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
 
@@ -420,17 +426,18 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/login";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
-             if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
-             if (password != null) queryParams.Add("password", ApiClient.ParameterToString(password)); // query parameter
+
+            pathParams.Add("format", "json");
+            
+            if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
+            if (password != null) queryParams.Add("password", ApiClient.ParameterToString(password)); // query parameter
             
             
             
@@ -440,7 +447,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content, response.Content);
@@ -461,17 +468,18 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/login";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-             if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
-             if (password != null) queryParams.Add("password", ApiClient.ParameterToString(password)); // query parameter
+            pathParams.Add("format", "json");
+            
+            if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
+            if (password != null) queryParams.Add("password", ApiClient.ParameterToString(password)); // query parameter
             
             
             
@@ -481,7 +489,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling LoginUser: " + response.Content, response.Content);
 
@@ -497,15 +505,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/logout";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -515,7 +524,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.Content, response.Content);
@@ -534,15 +543,16 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/logout";
-            path = path.Replace("{format}", "json");
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            
             
             
             
@@ -552,7 +562,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling LogoutUser: " + response.Content, response.Content);
 
@@ -573,16 +583,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/{username}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
+            
             
             
             
@@ -592,7 +603,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content, response.Content);
@@ -614,16 +625,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/{username}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
+            
             
             
             
@@ -633,7 +645,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetUserByName: " + response.Content, response.Content);
 
@@ -654,16 +666,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/{username}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
+            
             
             
             
@@ -674,7 +687,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.Content, response.Content);
@@ -697,16 +710,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/{username}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
+            
             
             
             
@@ -717,7 +731,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdateUser: " + response.Content, response.Content);
 
@@ -738,16 +752,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/{username}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            pathParams.Add("format", "json");
+            if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
+            
             
             
             
@@ -757,7 +772,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.Content, response.Content);
@@ -779,16 +794,17 @@ namespace IO.Swagger.Api
             
     
             var path = "/user/{username}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
-            
     
+            var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
+            pathParams.Add("format", "json");
+            if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
+            
             
             
             
@@ -798,7 +814,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] {  };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteUser: " + response.Content, response.Content);
 

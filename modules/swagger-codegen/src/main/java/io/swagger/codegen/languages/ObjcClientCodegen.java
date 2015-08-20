@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String podName = "SwaggerClient";
@@ -57,7 +59,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         typeMapping.clear();
         typeMapping.put("enum", "NSString");
-        typeMapping.put("Date", "NSDate");
+        typeMapping.put("date", "NSDate");
         typeMapping.put("DateTime", "NSDate");
         typeMapping.put("boolean", "NSNumber");
         typeMapping.put("string", "NSString");
@@ -213,21 +215,22 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             Property inner = ap.getItems();
             String innerType = getSwaggerType(inner);
 
-            // In this codition, type of property p is array of primitive,
-            // return container type with pointer, e.g. `NSArray*'
-            if (languageSpecificPrimitives.contains(innerType)) {
-                return getSwaggerType(p) + "*";
-            }
-
-            // In this codition, type of property p is array of model,
-            // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
 
-            return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+            // In this codition, type of property p is array of primitive,
+            // return container type with pointer, e.g. `NSArray* /* NSString */'
+            if (languageSpecificPrimitives.contains(innerType)) {
+                return getSwaggerType(p) + "*" + " /* " + innerTypeDeclaration + " */";
+            }
+            // In this codition, type of property p is array of model,
+            // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
+            else {
+                return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
+            }
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
@@ -358,6 +361,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         // method name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");

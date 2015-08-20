@@ -89,7 +89,7 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'http://localhost';
+    protected $host = 'http://petstore.swagger.io/v2';
   
     /**
      * Timeout (second) of the HTTP request, by default set to 0, no timeout
@@ -103,7 +103,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "PHP-Swagger";
+    protected $userAgent = "PHP-Swagger/1.0.0";
   
     /**
      * Debug switch (default set to false)
