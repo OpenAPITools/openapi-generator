@@ -30,6 +30,23 @@ public class CodegenOperation {
     public List<Map<String, String>> examples;
     public ExternalDocs externalDocs;
 
+    private boolean nonempty(List<CodegenParameter> params)
+    {
+        return params != null && params.size() > 0;
+    }
+    public boolean getHasBodyParam() {
+        return nonempty(bodyParams);
+    }
+    public boolean getHasQueryParams() {
+        return nonempty(bodyParams);
+    }
+    public boolean getHasHeaderParams() {
+        return nonempty(bodyParams);
+    }
+    public boolean getHasPathParams() {
+        return nonempty(bodyParams);
+    }
+
     // legacy support
     public String nickname;
 }
