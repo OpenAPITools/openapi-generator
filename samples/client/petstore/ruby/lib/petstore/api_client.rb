@@ -290,7 +290,8 @@ module Petstore
 
     def build_request_body(header_params, form_params, body)
       # http form
-      if header_params['Content-Type'] == 'application/x-www-form-urlencoded'
+      if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
+          header_params['Content-Type'] == 'multipart/form-data'
         data = form_params.dup
         data.each do |key, value|
           data[key] = value.to_s if value && !value.is_a?(File)

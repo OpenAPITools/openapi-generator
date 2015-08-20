@@ -105,5 +105,16 @@ describe "Pet" do
       pet.id.should == 10002
       pet.name.should == "RUBY UNIT TESTING"
     end
+
+    it "should upload a file to a pet" do
+      pet = Petstore::Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
+      result = @pet_api.add_pet(:body => pet)
+      # nothing is returned
+      result.should be_nil
+
+      result = @pet_api.upload_file(10002, file: File.new('hello.txt'))
+      # nothing is returned
+      result.should be_nil
+    end
   end
 end
