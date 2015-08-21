@@ -138,7 +138,9 @@
     {{/bodyParam}}{{^bodyParam}}
     {{#formParams}}
     {{#notFile}}
-    formParams[@"{{paramName}}"] = {{paramName}};
+    if ({{paramName}}) {
+        formParams[@"{{paramName}}"] = {{paramName}};
+    }
     {{/notFile}}{{#isFile}}
     files[@"{{paramName}}"] = {{paramName}};
     {{/isFile}}

@@ -541,11 +541,15 @@
     
     
     
-    formParams[@"name"] = name;
+    if (name) {
+        formParams[@"name"] = name;
+    }
     
     
     
-    formParams[@"status"] = status;
+    if (status) {
+        formParams[@"status"] = status;
+    }
     
     
     
@@ -732,7 +736,9 @@
     
     
     
-    formParams[@"additionalMetadata"] = additionalMetadata;
+    if (additionalMetadata) {
+        formParams[@"additionalMetadata"] = additionalMetadata;
+    }
     
     
     
