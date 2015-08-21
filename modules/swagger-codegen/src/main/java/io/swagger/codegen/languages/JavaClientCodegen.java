@@ -92,7 +92,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
+        
         if (additionalProperties.containsKey("invokerPackage")) {
             this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
         } else {
@@ -130,6 +130,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setLocalVariablePrefix((String) additionalProperties.get("localVariablePrefix"));
         }
 
+        this.sanitizeConfig();
+
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
@@ -146,7 +148,26 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
     }
 
-
+    private void sanitizeConfig() {
+        // Sanitize any config options here. We also have to update the additionalProperties because 
+        // the whole additionalProperties object is injected into the main object passed to the mustache layer
+        
+        this.setApiPackage(sanitizePackageName(apiPackage));
+        if (additionalProperties.containsKey("apiPackage")) {
+            this.additionalProperties.put("apiPackage", apiPackage);
+        }
+        
+        this.setModelPackage(sanitizePackageName(modelPackage));
+        if (additionalProperties.containsKey("modelPackage")) {
+            this.additionalProperties.put("modelPackage", modelPackage);
+        }
+        
+        this.setInvokerPackage(sanitizePackageName(invokerPackage));
+        if (additionalProperties.containsKey("invokerPackage")) {
+            this.additionalProperties.put("invokerPackage", invokerPackage);
+        }
+    }
+    
     @Override
     public String escapeReservedWord(String name) {
         return "_" + name;
@@ -342,4 +363,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setLocalVariablePrefix(String localVariablePrefix) {
         this.localVariablePrefix = localVariablePrefix;
     }
+
+    private String sanitizePackageName(String packageName) {
+        packageName = packageName.trim();
+        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
+        if(Strings.isNullOrEmpty(packageName)) {
+            return "invalidPackageName";
+        }
+        return packageName;
+    }
+
 }
