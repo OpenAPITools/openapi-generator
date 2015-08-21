@@ -7,8 +7,8 @@
  * Do not edit the class manually.
  */
 
-#import "SWGTag.h"
 #import "SWGCategory.h"
+#import "SWGTag.h"
 
 
 @protocol SWGPet

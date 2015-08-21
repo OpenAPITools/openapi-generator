@@ -88,8 +88,11 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
-    {{#pathParams}}[resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"{{baseName}}", @"}"]] withString: [{{classPrefix}}ApiClient escape:{{paramName}}]];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    {{#pathParams}}if ({{paramName}} != nil) {
+        pathParams[@"{{baseName}}"] = {{paramName}};
+    }
     {{/pathParams}}
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -132,22 +135,6 @@
     NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     {{#bodyParam}}
     bodyParam = {{paramName}};
-
-    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
-        NSMutableArray *objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)bodyParam) {
-            if([dict respondsToSelector:@selector(toDictionary)]) {
-                [objs addObject:[({{classPrefix}}Object*)dict toDictionary]];
-            }
-            else{
-                [objs addObject:dict];
-            }
-        }
-        bodyParam = objs;
-    }
-    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
-        bodyParam = [({{classPrefix}}Object*)bodyParam toDictionary];
-    }
     {{/bodyParam}}{{^bodyParam}}
     {{#formParams}}
     {{#notFile}}
@@ -167,6 +154,7 @@
     {{/requiredParamCount}}
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"{{httpMethod}}"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
