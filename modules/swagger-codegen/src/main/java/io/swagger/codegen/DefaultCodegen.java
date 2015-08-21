@@ -636,7 +636,9 @@ public class DefaultCodegen {
             if (np.getMaximum() != null) {
                 allowableValues.put("max", np.getMaximum());
             }
-            property.allowableValues = allowableValues;
+            if(allowableValues.size() > 0) {
+              property.allowableValues = allowableValues;
+            }
         }
 
         if (p instanceof StringProperty) {

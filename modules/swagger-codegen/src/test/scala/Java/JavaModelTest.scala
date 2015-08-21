@@ -2,6 +2,7 @@ package Java
 
 import io.swagger.codegen.languages.JavaClientCodegen
 import io.swagger.models._
+import io.swagger.models.parameters._
 import io.swagger.models.properties._
 import io.swagger.util.Json
 import org.junit.runner.RunWith
@@ -382,7 +383,6 @@ class JavaModelTest2 extends FlatSpec with Matchers {
     cm.vars.size should be(1)
 
     val vars = cm.vars
-    Json.prettyPrint(vars.get(0))
     vars.get(0).baseName should be("_")
     vars.get(0).getter should be("getU")
     vars.get(0).setter should be("setU")
@@ -392,5 +392,18 @@ class JavaModelTest2 extends FlatSpec with Matchers {
     vars.get(0).baseType should be("String")
     vars.get(0).hasMore should equal(null)
     vars.get(0).isNotContainer should equal(true)
+  }
+
+  it should "convert a parameter" in {
+    val parameter = new QueryParameter()
+      .property(
+        new IntegerProperty())
+      .name("limit")
+      .required(true)
+
+    val codegen = new JavaClientCodegen()
+    val cp = codegen.fromParameter(parameter, null)
+
+    cp.allowableValues should be (null)
   }
 }
