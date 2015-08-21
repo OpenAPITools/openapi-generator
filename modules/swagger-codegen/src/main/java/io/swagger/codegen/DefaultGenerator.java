@@ -193,7 +193,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 for (String templateName : config.apiTemplateFiles().keySet()) {
 
                     String filename = config.apiFilename(templateName, tag);
-                    if (!config.shouldOverwrite(filename)) {
+                    if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
                         continue;
                     }
 
