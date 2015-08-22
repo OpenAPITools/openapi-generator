@@ -338,16 +338,19 @@ class ApiClient(object):
                                    headers=headers)
         elif method == "POST":
             return RESTClient.POST(url,
+                                   query_params=query_params,
                                    headers=headers,
                                    post_params=post_params,
                                    body=body)
         elif method == "PUT":
             return RESTClient.PUT(url,
+                                  query_params=query_params,
                                   headers=headers,
                                   post_params=post_params,
                                   body=body)
         elif method == "PATCH":
             return RESTClient.PATCH(url,
+                                    query_params=query_params,
                                     headers=headers,
                                     post_params=post_params,
                                     body=body)

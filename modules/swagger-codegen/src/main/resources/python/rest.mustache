@@ -176,21 +176,24 @@ class RESTClientObject(object):
                             headers=headers,
                             query_params=query_params)
 
-    def POST(self, url, headers=None, post_params=None, body=None):
+    def POST(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("POST", url,
                             headers=headers,
+                            query_params=query_params,
                             post_params=post_params,
                             body=body)
 
-    def PUT(self, url, headers=None, post_params=None, body=None):
+    def PUT(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("PUT", url,
                             headers=headers,
+                            query_params=query_params,
                             post_params=post_params,
                             body=body)
 
-    def PATCH(self, url, headers=None, post_params=None, body=None):
+    def PATCH(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("PATCH", url,
                             headers=headers,
+                            query_params=query_params,
                             post_params=post_params,
                             body=body)
 
