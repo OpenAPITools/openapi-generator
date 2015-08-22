@@ -43,6 +43,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-22T21:47:05.989+08:00")
 public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();

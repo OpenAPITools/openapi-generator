@@ -172,6 +172,7 @@ extern NSString *const SWGResponseObjectErrorKey;
  *
  * @param path Request url.
  * @param method Request method.
+ * @param pathParams Request path parameters.
  * @param queryParams Request query parameters.
  * @param body Request body.
  * @param headerParams Request header parameters.
@@ -184,6 +185,7 @@ extern NSString *const SWGResponseObjectErrorKey;
  */
 -(NSNumber*)  requestWithCompletionBlock:(NSString*) path
                                   method:(NSString*) method
+                              pathParams:(NSDictionary *) pathParams
                              queryParams:(NSDictionary*) queryParams
                               formParams:(NSDictionary *) formParams
                                    files:(NSDictionary *) files
@@ -194,5 +196,12 @@ extern NSString *const SWGResponseObjectErrorKey;
                      responseContentType:(NSString*) responseContentType
                             responseType:(NSString *) responseType
                          completionBlock:(void (^)(id, NSError *))completionBlock;
+
+/**
+ * Sanitize object for request
+ *
+ * @param object The query/path/header/form/body param to be sanitized.
+ */
+- (id) sanitizeForSerialization:(id) object;
 
 @end

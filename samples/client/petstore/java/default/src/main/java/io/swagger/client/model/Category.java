@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-22T21:47:01.809+08:00")
 public class Category  {
   
   private Long id = null;

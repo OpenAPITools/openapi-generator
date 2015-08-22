@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-22T21:47:01.809+08:00")
 public class UserApi {
   private ApiClient apiClient;
 
