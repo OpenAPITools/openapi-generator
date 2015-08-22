@@ -80,7 +80,8 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -115,27 +116,12 @@
     NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
-
-    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
-        NSMutableArray *objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)bodyParam) {
-            if([dict respondsToSelector:@selector(toDictionary)]) {
-                [objs addObject:[(SWGObject*)dict toDictionary]];
-            }
-            else{
-                [objs addObject:dict];
-            }
-        }
-        bodyParam = objs;
-    }
-    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
-        bodyParam = [(SWGObject*)bodyParam toDictionary];
-    }
     
 
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"POST"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
@@ -172,7 +158,8 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -207,27 +194,12 @@
     NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
-
-    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
-        NSMutableArray *objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)bodyParam) {
-            if([dict respondsToSelector:@selector(toDictionary)]) {
-                [objs addObject:[(SWGObject*)dict toDictionary]];
-            }
-            else{
-                [objs addObject:dict];
-            }
-        }
-        bodyParam = objs;
-    }
-    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
-        bodyParam = [(SWGObject*)bodyParam toDictionary];
-    }
     
 
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"POST"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
@@ -264,7 +236,8 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -299,27 +272,12 @@
     NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
-
-    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
-        NSMutableArray *objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)bodyParam) {
-            if([dict respondsToSelector:@selector(toDictionary)]) {
-                [objs addObject:[(SWGObject*)dict toDictionary]];
-            }
-            else{
-                [objs addObject:dict];
-            }
-        }
-        bodyParam = objs;
-    }
-    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
-        bodyParam = [(SWGObject*)bodyParam toDictionary];
-    }
     
 
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"POST"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
@@ -359,7 +317,8 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -407,6 +366,7 @@
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"GET"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
@@ -440,7 +400,8 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -480,6 +441,7 @@
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"GET"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
@@ -521,8 +483,11 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
-    [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [SWGApiClient escape:username]];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (username != nil) {
+        pathParams[@"username"] = username;
+    }
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -562,6 +527,7 @@
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"GET"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
@@ -606,8 +572,11 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
-    [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [SWGApiClient escape:username]];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (username != nil) {
+        pathParams[@"username"] = username;
+    }
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -642,27 +611,12 @@
     NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
-
-    if(bodyParam != nil && [bodyParam isKindOfClass:[NSArray class]]){
-        NSMutableArray *objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)bodyParam) {
-            if([dict respondsToSelector:@selector(toDictionary)]) {
-                [objs addObject:[(SWGObject*)dict toDictionary]];
-            }
-            else{
-                [objs addObject:dict];
-            }
-        }
-        bodyParam = objs;
-    }
-    else if([bodyParam respondsToSelector:@selector(toDictionary)]) {
-        bodyParam = [(SWGObject*)bodyParam toDictionary];
-    }
     
 
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"PUT"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files
@@ -704,8 +658,11 @@
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
         [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
     }
-    
-    [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", @"username", @"}"]] withString: [SWGApiClient escape:username]];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (username != nil) {
+        pathParams[@"username"] = username;
+    }
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -745,6 +702,7 @@
     
     return [self.apiClient requestWithCompletionBlock: resourcePath
                                                method: @"DELETE"
+                                           pathParams: pathParams
                                           queryParams: queryParams
                                            formParams: formParams
                                                 files: files

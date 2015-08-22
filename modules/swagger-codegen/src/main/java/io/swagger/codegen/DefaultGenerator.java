@@ -17,6 +17,7 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
 
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,6 +64,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         List<File> files = new ArrayList<File>();
         try {
             config.processOpts();
+
+            config.additionalProperties().put("generatedDate", DateTime.now().toString());
+            config.additionalProperties().put("generatorClass", config.getClass().toString());
+
             if (swagger.getInfo() != null) {
                 Info info = swagger.getInfo();
                 if (info.getTitle() != null) {
@@ -189,7 +194,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 for (String templateName : config.apiTemplateFiles().keySet()) {
 
                     String filename = config.apiFilename(templateName, tag);
-                    if (!config.shouldOverwrite(filename)) {
+                    if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
                         continue;
                     }
 
