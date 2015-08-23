@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-22T21:47:01.809+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-23T11:08:48.917-07:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -244,7 +244,7 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "petstore_auth", "api_key" };
+    String[] authNames = new String[] { "api_key", "petstore_auth" };
     
     TypeRef returnType = new TypeRef<Pet>() {};
     return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
