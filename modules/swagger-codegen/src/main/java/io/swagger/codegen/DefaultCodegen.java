@@ -55,6 +55,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -81,6 +82,8 @@ public class DefaultCodegen {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean supportsInheritance = false;
+    protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
+    protected String library = null;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -1289,7 +1292,7 @@ public class DefaultCodegen {
             m.emptyVars = true;
         }
     }
-    
+
 
     /**
      * Remove characters not suitable for variable or method name from the input and camelize it
@@ -1310,7 +1313,7 @@ public class DefaultCodegen {
             name = name.substring(0, 1).toLowerCase() + name.substring(1);
         }
         return name;
-    }    
+    }
 
     public static String camelize(String word) {
         return camelize(word, false);
@@ -1388,5 +1391,34 @@ public class DefaultCodegen {
 
     public void setSkipOverwrite(boolean skipOverwrite) {
         this.skipOverwrite = skipOverwrite;
+    }
+
+    /**
+     * All library templates supported.
+     * (key: library name, value: library description)
+     */
+    public Map<String, String> supportedLibraries() {
+        return supportedLibraries;
+    }
+
+    public void setLibrary(String library) {
+        if (library != null && !supportedLibraries.containsKey(library))
+            throw new RuntimeException("unknown library: " + library);
+        this.library = library;
+    }
+
+    /**
+     * Library template (sub-template).
+     */
+    public String getLibrary() {
+        return library;
+    }
+
+    protected CliOption buildLibraryCliOption(Map<String, String> supportedLibraries) {
+        StringBuilder sb = new StringBuilder("library template (sub-template) to use:");
+        for (String lib : supportedLibraries.keySet()) {
+            sb.append("\n").append(lib).append(" - ").append(supportedLibraries.get(lib));
+        }
+        return new CliOption("library", sb.toString());
     }
 }
