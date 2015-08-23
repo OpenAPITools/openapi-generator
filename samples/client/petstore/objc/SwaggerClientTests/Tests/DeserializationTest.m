@@ -55,6 +55,14 @@
     XCTAssertTrue([result isEqualToString:data]);
 }
 
+- (void)testDeserializeListOfString {
+    NSArray *data = @[@"test string"];
+    NSArray *result = [apiClient deserialize:data class:@"NSArray* /* NSString */"];
+    
+    XCTAssertTrue([result isKindOfClass:[NSArray class]]);
+    XCTAssertTrue([result[0] isKindOfClass:[NSString class]]);
+}
+
 - (void)testDeserializeListOfModels {
     NSArray *data =
     @[
@@ -114,6 +122,44 @@
     XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
     XCTAssertTrue([result[@"pet"] isKindOfClass:[SWGPet class]]);
     XCTAssertEqualObjects([result[@"pet"] _id], @119);
+}
+
+- (void)testDeserializeNestedMap {
+    NSDictionary *data =
+    @{
+      @"foo": @{
+              @"bar": @1
+              }
+    };
+    
+    NSDictionary *result = [apiClient deserialize:data class:@"NSDictionary* /* NSString, NSDictionary* /* NSString, NSNumber */ */"];
+    
+    XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
+    XCTAssertTrue([result[@"foo"] isKindOfClass:[NSDictionary class]]);
+    XCTAssertTrue([result[@"foo"][@"bar"] isKindOfClass:[NSNumber class]]);
+}
+
+- (void)testDeserializeNestedList {
+    NSArray *data = @[@[@"foo"]];
+    
+    NSArray *result = [apiClient deserialize:data class:@"NSArray* /* NSArray* /* NSString */ */"];
+    
+    XCTAssertTrue([result isKindOfClass:[NSArray class]]);
+    XCTAssertTrue([result[0] isKindOfClass:[NSArray class]]);
+    XCTAssertTrue([result[0][0] isKindOfClass:[NSString class]]);
+}
+
+- (void)testDeserializeBool {
+    NSString *data;
+    NSNumber *result;
+    
+    data = @"true";
+    result = [apiClient deserialize:data class:@"NSNumber*"];
+    XCTAssertTrue([result isEqual:@YES]);
+    
+    data = @"false";
+    result = [apiClient deserialize:data class:@"NSNumber*"];
+    XCTAssertTrue([result isEqual:@NO]);
 }
 
 @end

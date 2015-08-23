@@ -235,7 +235,7 @@ namespace IO.Swagger.Client
             {
                 return JsonConvert.DeserializeObject(content, type);
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 throw new ApiException(500, e.Message);
             }

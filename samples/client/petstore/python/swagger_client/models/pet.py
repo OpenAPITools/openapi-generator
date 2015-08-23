@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # coding: utf-8
 
 """
@@ -16,6 +15,7 @@ Copyright 2015 SmartBear Software
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+
 from pprint import pformat
 from six import iteritems
 
@@ -57,54 +57,138 @@ class Pet(object):
         self._name = None
         self._photo_urls = None
         self._tags = None
-        self._status = None    # pet status in the store
+        self._status = None
 
     @property
     def id(self):
+        """
+        Gets the id of this Pet.
+
+
+        :return: The id of this Pet.
+        :rtype: int
+        """
         return self._id
 
     @id.setter
     def id(self, id):
+        """
+        Sets the id of this Pet.
+
+
+        :param id: The id of this Pet.
+        :type: int
+        """
         self._id = id
 
     @property
     def category(self):
+        """
+        Gets the category of this Pet.
+
+
+        :return: The category of this Pet.
+        :rtype: Category
+        """
         return self._category
 
     @category.setter
     def category(self, category):
+        """
+        Sets the category of this Pet.
+
+
+        :param category: The category of this Pet.
+        :type: Category
+        """
         self._category = category
 
     @property
     def name(self):
+        """
+        Gets the name of this Pet.
+
+
+        :return: The name of this Pet.
+        :rtype: str
+        """
         return self._name
 
     @name.setter
     def name(self, name):
+        """
+        Sets the name of this Pet.
+
+
+        :param name: The name of this Pet.
+        :type: str
+        """
         self._name = name
 
     @property
     def photo_urls(self):
+        """
+        Gets the photo_urls of this Pet.
+
+
+        :return: The photo_urls of this Pet.
+        :rtype: list[str]
+        """
         return self._photo_urls
 
     @photo_urls.setter
     def photo_urls(self, photo_urls):
+        """
+        Sets the photo_urls of this Pet.
+
+
+        :param photo_urls: The photo_urls of this Pet.
+        :type: list[str]
+        """
         self._photo_urls = photo_urls
 
     @property
     def tags(self):
+        """
+        Gets the tags of this Pet.
+
+
+        :return: The tags of this Pet.
+        :rtype: list[Tag]
+        """
         return self._tags
 
     @tags.setter
     def tags(self, tags):
+        """
+        Sets the tags of this Pet.
+
+
+        :param tags: The tags of this Pet.
+        :type: list[Tag]
+        """
         self._tags = tags
 
     @property
     def status(self):
+        """
+        Gets the status of this Pet.
+        pet status in the store
+
+        :return: The status of this Pet.
+        :rtype: str
+        """
         return self._status
 
     @status.setter
     def status(self, status):
+        """
+        Sets the status of this Pet.
+        pet status in the store
+
+        :param status: The status of this Pet.
+        :type: str
+        """
         allowed_values = ["available", "pending", "sold"]
         if status not in allowed_values:
             raise ValueError(
@@ -119,18 +203,17 @@ class Pet(object):
         """
         result = {}
 
-        for name, prop in iteritems(self.__dict__):
-            if name == "attribute_map" or name == "swagger_types":
-                continue
-            if isinstance(prop, list):
-                result[name[1:]] = list(map(
+        for attr, _ in iteritems(self.swagger_types):
+            value = getattr(self, attr)
+            if isinstance(value, list):
+                result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    prop
+                    value
                 ))
-            elif hasattr(prop, "to_dict"):
-                result[name[1:]] = prop.to_dict()
+            elif hasattr(value, "to_dict"):
+                result[attr] = value.to_dict()
             else:
-                result[name[1:]] = prop
+                result[attr] = value
 
         return result
 

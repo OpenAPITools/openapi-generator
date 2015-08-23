@@ -191,7 +191,7 @@ class ObjectSerializer
                 $values[] = $this->deserialize($value, $subClass);
             }
             $deserialized = $values;
-        } elseif ($class === 'DateTime') {
+        } elseif ($class === '\DateTime') {
             $deserialized = new \DateTime($data);
         } elseif (in_array($class, array('string', 'int', 'float', 'double', 'bool', 'object'))) {
             settype($data, $class);
