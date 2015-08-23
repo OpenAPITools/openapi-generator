@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "Swagger\\Client";
@@ -60,6 +60,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
+
+
+        // provide primitives to mustache template
+        String primitives = "'" + StringUtils.join(languageSpecificPrimitives, "', '") + "'";
+        additionalProperties.put("primitives", primitives);
 
         // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
