@@ -90,21 +90,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getTypeDeclaration(inner);
-        }
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         String basePath = resourcePath;
         if (basePath.startsWith("/")) {
@@ -167,6 +152,15 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
+        return camelize(name) + "Api";
+    }
+
+    @Override
     public String apiFilename(String templateName, String tag) {
 
         String result = super.apiFilename(templateName, tag);
@@ -200,7 +194,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     public boolean shouldOverwrite(String filename) {
-
-        return !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
+        return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
     }
 }

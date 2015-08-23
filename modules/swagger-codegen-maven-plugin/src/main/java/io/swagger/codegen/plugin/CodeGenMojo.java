@@ -23,12 +23,16 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+
+import config.Config;
+import config.ConfigParser;
 
 import java.io.File;
 import java.util.Map;
@@ -89,6 +93,11 @@ public class CodeGenMojo extends AbstractMojo {
     private String language;
 
     /**
+     * Path to json configuration file.
+     */
+    @Parameter(name = "configurationFile", required = false)
+    private String configurationFile;
+    /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
@@ -138,6 +147,21 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         ClientOptInput input = new ClientOptInput().opts(clientOpts).swagger(swagger);
+        
+        if (null != configurationFile) {
+            Config genConfig = ConfigParser.read(configurationFile);
+            if (null != genConfig) {
+                for (CliOption langCliOption : config.cliOptions()) {
+                    if (genConfig.hasOption(langCliOption.getOpt())) {
+                        config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
+                    }
+                }
+            } else {
+            	throw new RuntimeException("Unable to read configuration file");
+            }
+        }
+        
+        ClientOptInput input = new ClientOptInput().opts(new ClientOpts()).swagger(swagger);
         input.setConfig(config);
         new DefaultGenerator().opts(input).generate();
 

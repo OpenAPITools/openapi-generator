@@ -7,21 +7,21 @@
 import Foundation
 
 protocol JSONEncodable {
-    func encode() -> AnyObject
+    func encodeToJSON() -> AnyObject
 }
 
-class Response<T> {
-    let statusCode: Int
-    let header: [String: String]
-    let body: T
+public class Response<T> {
+    public let statusCode: Int
+    public let header: [String: String]
+    public let body: T
 
-    init(statusCode: Int, header: [String: String], body: T) {
+    public init(statusCode: Int, header: [String: String], body: T) {
         self.statusCode = statusCode
         self.header = header
         self.body = body
     }
 
-    convenience init(response: NSHTTPURLResponse, body: T) {
+    public convenience init(response: NSHTTPURLResponse, body: T) {
         let rawHeader = response.allHeaderFields
         var header = [String:String]()
         for (key, value) in rawHeader {
@@ -97,25 +97,32 @@ class Decoders {
 	
     static private func initialize() {
         dispatch_once(&once) {
-            let dateTimeFormatter = NSDateFormatter()
-            dateTimeFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let formatters = [
+                "yyyy-MM-dd",
+                "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+                "yyyy-MM-dd'T'HH:mm:ss'Z'"
+            ].map { (format: String) -> NSDateFormatter in
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = format
+                return formatter
+            }
             // Decoder for NSDate
             Decoders.addDecoder(clazz: NSDate.self) { (source: AnyObject) -> NSDate in
                 let sourceString = source as! String
-                if count(sourceString) == 10 {
-                    return dateFormatter.dateFromString(sourceString)!
+                for formatter in formatters {
+                    if let date = formatter.dateFromString(sourceString) {
+                        return date
+                    }
                 }
-                return dateTimeFormatter.dateFromString(sourceString)!
+                fatalError("formatter failed to parse \(sourceString)")
             } {{#models}}{{#model}}
 
 			// Decoder for {{{classname}}}
             Decoders.addDecoder(clazz: {{{classname}}}.self) { (source: AnyObject) -> {{{classname}}} in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 var instance = {{classname}}(){{#vars}}{{#isEnum}}
-                instance.{{name}} = (sourceDictionary["{{name}}"] as? String).map { {{classname}}.{{datatypeWithEnum}}(rawValue: $0)! }{{#required}}!{{/required}} {{/isEnum}}{{^isEnum}}
-                instance.{{name}} = Decoders.decode{{^required}}Optional{{/required}}(clazz: {{{baseType}}}.self, source: sourceDictionary["{{name}}"]{{#required}}!{{/required}}){{/isEnum}}{{/vars}}
+                instance.{{name}} = (sourceDictionary["{{name}}"] as? String).map { {{classname}}.{{datatypeWithEnum}}(rawValue: $0)! }{{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}} {{/isEnum}}{{^isEnum}}
+                instance.{{name}} = Decoders.decode{{^unwrapRequired}}Optional{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}Optional{{/required}}{{/unwrapRequired}}(clazz: {{{baseType}}}.self, source: sourceDictionary["{{name}}"]{{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}}){{/isEnum}}{{/vars}}
                 return instance
             }{{/model}}
 			{{/models}}

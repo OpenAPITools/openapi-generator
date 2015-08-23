@@ -12,6 +12,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Python3ClientCodegen extends DefaultCodegen implements CodegenConfig {
     String module = "client";
 
@@ -33,6 +35,7 @@ public class Python3ClientCodegen extends DefaultCodegen implements CodegenConfi
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
+        languageSpecificPrimitives.add("date");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -43,7 +46,8 @@ public class Python3ClientCodegen extends DefaultCodegen implements CodegenConfi
         typeMapping.put("map", "map");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
-        typeMapping.put("date", "datetime");
+        typeMapping.put("date", "date");
+        typeMapping.put("DateTime", "datetime");
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
         reservedWords = new HashSet<String>(
@@ -199,6 +203,11 @@ public class Python3ClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         // method name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");

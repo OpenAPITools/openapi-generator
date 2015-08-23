@@ -35,7 +35,7 @@ public class UserApi {
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
     
@@ -52,7 +52,7 @@ public class UserApi {
 
   @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/createWithArray", 
     produces = { "application/json", "application/xml" }, 
     
@@ -69,7 +69,7 @@ public class UserApi {
 
   @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/createWithList", 
     produces = { "application/json", "application/xml" }, 
     
@@ -107,7 +107,7 @@ public class UserApi {
 
   @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/logout", 
     produces = { "application/json", "application/xml" }, 
     

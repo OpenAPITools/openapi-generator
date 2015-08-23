@@ -3,6 +3,7 @@ package io.swagger.client.api;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
+import io.swagger.client.Pair;
 
 import io.swagger.client.model.*;
 
@@ -54,7 +55,7 @@ public class PetApi {
     String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -111,7 +112,7 @@ public class PetApi {
     String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -168,12 +169,12 @@ public class PetApi {
     String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    if (status != null)
-      queryParams.put("status", apiClient.parameterToString(status));
+    
+    queryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
     
 
     
@@ -227,12 +228,12 @@ public class PetApi {
     String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    if (tags != null)
-      queryParams.put("tags", apiClient.parameterToString(tags));
+    
+    queryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
     
 
     
@@ -292,7 +293,7 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -322,7 +323,7 @@ public class PetApi {
     }
 
     try {
-      String[] authNames = new String[] { "petstore_auth", "api_key" };
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
       String response = apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
       if(response != null){
         return (Pet) apiClient.deserialize(response, "", Pet.class);
@@ -357,7 +358,7 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
@@ -417,11 +418,11 @@ public class PetApi {
   /**
    * Deletes a pet
    * 
-   * @param apiKey 
    * @param petId Pet id to delete
+   * @param apiKey 
    * @return void
    */
-  public void deletePet (String apiKey, Long petId) throws ApiException {
+  public void deletePet (Long petId, String apiKey) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -435,14 +436,14 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     
 
     if (apiKey != null)
-      headerParams.put("api_key", apiClient.parameterToString(apiKey));
+    headerParams.put("api_key", apiClient.parameterToString(apiKey));
     
 
     final String[] accepts = {
@@ -502,7 +503,7 @@ public class PetApi {
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
