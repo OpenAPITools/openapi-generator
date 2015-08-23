@@ -163,14 +163,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <configuration>
-                        <releaseProfiles>release</releaseProfiles>
-                        <goals>sign</goals>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.7</version>
                     <configuration>
@@ -464,10 +456,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>1.0.9-SNAPSHOT</swagger-parser-version>
+        <swagger-parser-version>1.0.10</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
-        <swagger-core-version>1.5.0</swagger-core-version>
+        <swagger-core-version>1.5.4-SNAPSHOT</swagger-core-version>
         <scala-test-version>2.1.4</scala-test-version>
         <commons-io-version>2.3</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
@@ -475,7 +467,7 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>2.4</commons-lang-version>
         <slf4j-version>1.6.3</slf4j-version>
-        <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
+        <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.9</jmustache-version>
     </properties>
 </project>

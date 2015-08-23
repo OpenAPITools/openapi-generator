@@ -18,8 +18,6 @@
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;
-+(void) setBasePath:(NSString*)basePath;
-+(NSString*) getBasePath;
 ///
 ///
 /// Update an existing pet
@@ -59,7 +57,7 @@
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByStatusWithCompletionBlock :(NSArray*) status 
+-(NSNumber*) findPetsByStatusWithCompletionBlock :(NSArray* /* NSString */) status 
     
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
     
@@ -74,7 +72,7 @@
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByTagsWithCompletionBlock :(NSArray*) tags 
+-(NSNumber*) findPetsByTagsWithCompletionBlock :(NSArray* /* NSString */) tags 
     
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
     

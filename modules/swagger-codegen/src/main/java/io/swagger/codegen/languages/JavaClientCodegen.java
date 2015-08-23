@@ -1,17 +1,30 @@
 package io.swagger.codegen.languages;
 
+import com.google.common.base.Strings;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.ComposedModel;
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.RefModel;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,7 +34,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactId = "swagger-java-client";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/java";
-
+    protected String localVariablePrefix = "";
+    protected Boolean serializableModel = false;
+    
     public JavaClientCodegen() {
         super();
         outputFolder = "generated-code/java";
@@ -61,6 +76,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
         cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
         cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+        cliOptions.add(new CliOption("localVariablePrefix", "prefix for generated code members and local variables"));
+        cliOptions.add(new CliOption("serializableModel", "boolean - toggle \"implements Serializable\" for generated models"));
     }
 
     public CodegenType getTag() {
@@ -78,7 +95,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
+        
         if (additionalProperties.containsKey("invokerPackage")) {
             this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
         } else {
@@ -111,6 +128,19 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setSourceFolder((String) additionalProperties.get("sourceFolder"));
         }
 
+
+        if (additionalProperties.containsKey("localVariablePrefix")) {
+            this.setLocalVariablePrefix((String) additionalProperties.get("localVariablePrefix"));
+        }
+        
+        if (additionalProperties.containsKey("serializableModel")) {
+            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get("serializableModel")));
+        } else {
+            additionalProperties.put("serializableModel", serializableModel);
+        }
+
+        this.sanitizeConfig();
+
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
@@ -127,7 +157,26 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
     }
 
-
+    private void sanitizeConfig() {
+        // Sanitize any config options here. We also have to update the additionalProperties because 
+        // the whole additionalProperties object is injected into the main object passed to the mustache layer
+        
+        this.setApiPackage(sanitizePackageName(apiPackage));
+        if (additionalProperties.containsKey("apiPackage")) {
+            this.additionalProperties.put("apiPackage", apiPackage);
+        }
+        
+        this.setModelPackage(sanitizePackageName(modelPackage));
+        if (additionalProperties.containsKey("modelPackage")) {
+            this.additionalProperties.put("modelPackage", modelPackage);
+        }
+        
+        this.setInvokerPackage(sanitizePackageName(invokerPackage));
+        if (additionalProperties.containsKey("invokerPackage")) {
+            this.additionalProperties.put("invokerPackage", invokerPackage);
+        }
+    }
+    
     @Override
     public String escapeReservedWord(String name) {
         return "_" + name;
@@ -249,6 +298,57 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(operationId, true);
     }
 
+    @Override
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+        
+        if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
+            final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
+        }
+        
+        return codegenModel;
+    }
+
+    private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        // This generator uses inline classes to define enums, which breaks when 
+        // dealing with models that have subTypes. To clean this up, we will analyze
+        // the parent and child models, look for enums that match, and remove 
+        // them from the child models and leave them in the parent.
+        // Because the child models extend the parents, the enums will be available via the parent.
+
+        // Only bother with reconciliation if the parent model has enums.
+        if (parentCodegenModel.hasEnums) {
+            
+            // Get the properties for the parent and child models
+            final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
+            List<CodegenProperty> codegenProperties = codegenModel.vars;
+            
+            // Iterate over all of the parent model properties
+            for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+                // Look for enums 
+                if (parentModelCodegenPropery.isEnum) {
+                    // Now that we have found an enum in the parent class, 
+                    // and search the child class for the same enum.
+                    Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+                    while (iterator.hasNext()) {
+                        CodegenProperty codegenProperty = iterator.next();
+                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                            // We found an enum in the child class that is 
+                            // a duplicate of the one in the parent, so remove it.
+                            iterator.remove();
+                        }
+                    }
+                }
+            }
+
+            codegenModel.vars = codegenProperties;
+        }
+        
+        return codegenModel;
+    }
+    
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }
@@ -268,4 +368,26 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
+
+    public void setLocalVariablePrefix(String localVariablePrefix) {
+        this.localVariablePrefix = localVariablePrefix;
+    }
+
+    public Boolean getSerializableModel() {
+        return serializableModel;
+    }
+
+    public void setSerializableModel(Boolean serializableModel) {
+        this.serializableModel = serializableModel;
+    }
+    
+    private String sanitizePackageName(String packageName) {
+        packageName = packageName.trim();
+        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
+        if(Strings.isNullOrEmpty(packageName)) {
+            return "invalidPackageName";
+        }
+        return packageName;
+    }
+
 }

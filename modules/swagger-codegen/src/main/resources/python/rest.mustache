@@ -1,6 +1,20 @@
 # coding: utf-8
 
 """
+Copyright 2015 SmartBear Software
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
 Credit: this file (rest.py) is modified based on rest.py in Dropbox Python SDK:
 https://www.dropbox.com/developers/core/sdks/python
 """
@@ -162,21 +176,24 @@ class RESTClientObject(object):
                             headers=headers,
                             query_params=query_params)
 
-    def POST(self, url, headers=None, post_params=None, body=None):
+    def POST(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("POST", url,
                             headers=headers,
+                            query_params=query_params,
                             post_params=post_params,
                             body=body)
 
-    def PUT(self, url, headers=None, post_params=None, body=None):
+    def PUT(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("PUT", url,
                             headers=headers,
+                            query_params=query_params,
                             post_params=post_params,
                             body=body)
 
-    def PATCH(self, url, headers=None, post_params=None, body=None):
+    def PATCH(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("PATCH", url,
                             headers=headers,
+                            query_params=query_params,
                             post_params=post_params,
                             body=body)
 
@@ -202,10 +219,10 @@ class ApiException(Exception):
         error_message = "({0})\n"\
                         "Reason: {1}\n".format(self.status, self.reason)
         if self.headers:
-            error_message += "HTTP response headers: {0}".format(self.headers)
+            error_message += "HTTP response headers: {0}\n".format(self.headers)
 
         if self.body:
-            error_message += "HTTP response body: {0}".format(self.body)
+            error_message += "HTTP response body: {0}\n".format(self.body)
 
         return error_message
 

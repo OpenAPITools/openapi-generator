@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # coding: utf-8
 
 """
@@ -16,6 +15,7 @@ Copyright 2015 SmartBear Software
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+
 from pprint import pformat
 from six import iteritems
 
@@ -49,18 +49,46 @@ class Tag(object):
 
     @property
     def id(self):
+        """
+        Gets the id of this Tag.
+
+
+        :return: The id of this Tag.
+        :rtype: int
+        """
         return self._id
 
     @id.setter
     def id(self, id):
+        """
+        Sets the id of this Tag.
+
+
+        :param id: The id of this Tag.
+        :type: int
+        """
         self._id = id
 
     @property
     def name(self):
+        """
+        Gets the name of this Tag.
+
+
+        :return: The name of this Tag.
+        :rtype: str
+        """
         return self._name
 
     @name.setter
     def name(self, name):
+        """
+        Sets the name of this Tag.
+
+
+        :param name: The name of this Tag.
+        :type: str
+        """
         self._name = name
 
     def to_dict(self):
@@ -69,18 +97,17 @@ class Tag(object):
         """
         result = {}
 
-        for name, prop in iteritems(self.__dict__):
-            if name == "attribute_map" or name == "swagger_types":
-                continue
-            if isinstance(prop, list):
-                result[name[1:]] = list(map(
+        for attr, _ in iteritems(self.swagger_types):
+            value = getattr(self, attr)
+            if isinstance(value, list):
+                result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    prop
+                    value
                 ))
-            elif hasattr(prop, "to_dict"):
-                result[name[1:]] = prop.to_dict()
+            elif hasattr(value, "to_dict"):
+                result[attr] = value.to_dict()
             else:
-                result[name[1:]] = prop
+                result[attr] = value
 
         return result
 

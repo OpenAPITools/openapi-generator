@@ -63,7 +63,7 @@ import java.util.regex.Pattern;
 
 
 public class DefaultCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
@@ -80,6 +80,7 @@ public class DefaultCodegen {
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
+    protected boolean supportsInheritance = false;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -538,7 +539,7 @@ public class DefaultCodegen {
                 final String parentRef = toModelName(parent.getSimpleRef());
                 m.parent = parentRef;
                 addImport(m, parentRef);
-                if (allDefinitions != null) {
+                if (!supportsInheritance && allDefinitions != null) {
                     final Model parentModel = allDefinitions.get(parentRef);
                     if (parentModel instanceof ModelImpl) {
                         final ModelImpl _parent = (ModelImpl) parentModel;
@@ -635,7 +636,9 @@ public class DefaultCodegen {
             if (np.getMaximum() != null) {
                 allowableValues.put("max", np.getMaximum());
             }
-            property.allowableValues = allowableValues;
+            if(allowableValues.size() > 0) {
+              property.allowableValues = allowableValues;
+            }
         }
 
         if (p instanceof StringProperty) {
