@@ -14,6 +14,8 @@ Copyright 2015 SmartBear Software
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+    Ref: https://github.com/swagger-api/swagger-codegen
 """
 
 from pprint import pformat
@@ -27,7 +29,7 @@ class Tag(object):
     """
     def __init__(self):
         """
-        Swagger model
+        Tag - a model defined in Swagger
 
         :param dict swaggerTypes: The key is attribute name
                                   and the value is attribute type.
@@ -93,7 +95,7 @@ class Tag(object):
 
     def to_dict(self):
         """
-        Return model properties dict
+        Returns the model properties as a dict
         """
         result = {}
 
@@ -113,7 +115,7 @@ class Tag(object):
 
     def to_str(self):
         """
-        Return model properties str
+        Returns the string representation of the model
         """
         return pformat(self.to_dict())
 
