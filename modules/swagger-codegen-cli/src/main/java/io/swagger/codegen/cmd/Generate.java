@@ -115,8 +115,13 @@ public class Generate implements Runnable {
             Config genConfig = ConfigParser.read(configFile);
             if (null != genConfig) {
                 for (CliOption langCliOption : config.cliOptions()) {
-                    if (genConfig.hasOption(langCliOption.getOpt())) {
-                        config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
+                    String opt = langCliOption.getOpt();
+                    if (genConfig.hasOption(opt)) {
+                        config.additionalProperties().put(opt, genConfig.getOption(opt));
+                        // the "library" config option is for library template (sub-template)
+                        if ("library".equals(opt)) {
+                            config.setLibrary(genConfig.getOption(opt));
+                        }
                     }
                 }
             }
