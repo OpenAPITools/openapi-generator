@@ -93,10 +93,11 @@ public class CodeGenMojo extends AbstractMojo {
     private String language;
 
     /**
-     * Path to json configuration file.
+     * Path to separate json configuration file.
      */
     @Parameter(name = "configurationFile", required = false)
     private String configurationFile;
+
     /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
@@ -136,7 +137,6 @@ public class CodeGenMojo extends AbstractMojo {
             config.additionalProperties().put(INVOKER_PACKAGE_PARAM, invokerPackage);
         }
 
-        ClientOpts clientOpts = new ClientOpts();
         if (configOptions != null) {
             for (CliOption langCliOption : config.cliOptions()) {
                 if (configOptions.containsKey(langCliOption.getOpt())) {
@@ -146,8 +146,6 @@ public class CodeGenMojo extends AbstractMojo {
             }
         }
 
-        ClientOptInput input = new ClientOptInput().opts(clientOpts).swagger(swagger);
-        
         if (null != configurationFile) {
             Config genConfig = ConfigParser.read(configurationFile);
             if (null != genConfig) {
