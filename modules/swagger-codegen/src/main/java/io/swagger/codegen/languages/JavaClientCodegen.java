@@ -77,7 +77,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
         cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
         cliOptions.add(new CliOption("localVariablePrefix", "prefix for generated code members and local variables"));
+
         cliOptions.add(new CliOption("serializableModel", "boolean - toggle \"implements Serializable\" for generated models"));
+
+        supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
+        supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
+        cliOptions.add(buildLibraryCliOption(supportedLibraries));
     }
 
     public CodegenType getTag() {
@@ -146,9 +151,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
-        supportingFiles.add(new SupportingFile("JsonUtil.mustache", invokerFolder, "JsonUtil.java"));
-        supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+        supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
         supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
+        supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+        supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
 
         final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
         supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
@@ -301,41 +307,41 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-        
+
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
             final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
-        
+
         return codegenModel;
     }
 
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
-        // This generator uses inline classes to define enums, which breaks when 
+        // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
-        // the parent and child models, look for enums that match, and remove 
+        // the parent and child models, look for enums that match, and remove
         // them from the child models and leave them in the parent.
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
         if (parentCodegenModel.hasEnums) {
-            
+
             // Get the properties for the parent and child models
             final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
             List<CodegenProperty> codegenProperties = codegenModel.vars;
-            
+
             // Iterate over all of the parent model properties
             for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
-                // Look for enums 
+                // Look for enums
                 if (parentModelCodegenPropery.isEnum) {
-                    // Now that we have found an enum in the parent class, 
+                    // Now that we have found an enum in the parent class,
                     // and search the child class for the same enum.
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
                         if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
-                            // We found an enum in the child class that is 
+                            // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
                         }
@@ -345,10 +351,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
             codegenModel.vars = codegenProperties;
         }
-        
+
         return codegenModel;
     }
-    
+
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }

@@ -60,6 +60,27 @@ public abstract class AbstractGenerator {
         throw new RuntimeException("can't load template " + name);
     }
 
+    /**
+     * Get the template file path with template dir prepended, and use the
+     * library template if exists.
+     */
+    public String getFullTemplateFile(CodegenConfig config, String templateFile) {
+        String library = config.getLibrary();
+        if (library != null && !"".equals(library)) {
+            String libTemplateFile = config.templateDir() + File.separator +
+                "libraries" + File.separator + library + File.separator +
+                templateFile;
+            if (templateExists(libTemplateFile)) {
+                return libTemplateFile;
+            }
+        }
+        return config.templateDir() + File.separator + templateFile;
+    }
+
+    public boolean templateExists(String name) {
+        return this.getClass().getClassLoader().getResource(getCPResourcePath(name)) != null;
+    }
+
     public String getCPResourcePath(String name) {
         if (!"/".equals(File.separator)) {
             return name.replaceAll(Pattern.quote(File.separator), "/");

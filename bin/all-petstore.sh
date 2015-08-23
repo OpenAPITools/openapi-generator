@@ -24,6 +24,7 @@ cd $APP_DIR
 ./bin/dynamic-html.sh
 ./bin/html-petstore.sh
 ./bin/java-petstore.sh
+./bin/java-petstore-jersey2.sh
 ./bin/jaxrs-petstore-server.sh
 ./bin/nodejs-petstore-server.sh
 ./bin/objc-petstore.sh
