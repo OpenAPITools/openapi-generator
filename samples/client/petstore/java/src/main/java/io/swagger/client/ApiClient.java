@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -237,6 +238,62 @@ public class ApiClient {
     }
   }
 
+  /*
+    Format to {@code Pair} objects.
+  */
+  public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
+    List<Pair> params = new ArrayList<Pair>();
+
+    // preconditions
+    if (name == null || name.isEmpty() || value == null) return params;
+
+    Collection valueCollection = null;
+    if (value instanceof Collection) {
+      valueCollection = (Collection) value;
+    } else {
+      params.add(new Pair(name, parameterToString(value)));
+      return params;
+    }
+
+    if (valueCollection.isEmpty()){
+      return params;
+    }
+
+    // get the collection format
+    collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
+
+    // create the params based on the collection format
+    if (collectionFormat.equals("multi")) {
+      for (Object item : valueCollection) {
+        params.add(new Pair(name, parameterToString(item)));
+      }
+
+      return params;
+    }
+
+    String delimiter = ",";
+
+    if (collectionFormat.equals("csv")) {
+      delimiter = ",";
+    } else if (collectionFormat.equals("ssv")) {
+      delimiter = " ";
+    } else if (collectionFormat.equals("tsv")) {
+      delimiter = "\t";
+    } else if (collectionFormat.equals("pipes")) {
+      delimiter = "|";
+    }
+
+    StringBuilder sb = new StringBuilder() ;
+    for (Object item : valueCollection) {
+      sb.append(delimiter);
+      sb.append(parameterToString(item));
+    }
+
+    params.add(new Pair(name, sb.substring(1)));
+
+    return params;
+  }
+
   /**
    * Select the Accept header's value from the given accepts array:
    *   if JSON exists in the given array, use it;
@@ -340,23 +397,25 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @return The response body in type of string
    */
-  public String invokeAPI(String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  public String invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String accept, String contentType, String[] authNames) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     Client client = getClient();
 
     StringBuilder b = new StringBuilder();
-    for(String key : queryParams.keySet()) {
-      String value = queryParams.get(key);
-      if (value != null){
-        if(b.toString().length() == 0)
-          b.append("?");
-        else
+    b.append("?");
+    if (queryParams != null){
+      for (Pair queryParam : queryParams){
+        if (!queryParam.getName().isEmpty()) {
+          b.append(escapeString(queryParam.getName()));
+          b.append("=");
+          b.append(escapeString(queryParam.getValue()));
           b.append("&");
-        b.append(escapeString(key)).append("=").append(escapeString(value));
+        }
       }
     }
-    String querystring = b.toString();
+
+    String querystring = b.substring(0, b.length() - 1);
 
     Builder builder;
     if (accept == null)
@@ -420,10 +479,10 @@ public class ApiClient {
       throw new ApiException(500, "unknown method type " + method);
     }
 
-    if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
+    if(response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
       return null;
     }
-    else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
+    else if(response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
       if(response.hasEntity()) {
         return (String) response.getEntity(String.class);
       }
@@ -444,7 +503,7 @@ public class ApiClient {
         }
       }
       throw new ApiException(
-                response.getClientResponseStatus().getStatusCode(),
+                response.getStatusInfo().getStatusCode(),
                 message,
                 response.getHeaders(),
                 respBody);
@@ -456,7 +515,7 @@ public class ApiClient {
    *
    * @param authNames The authentications to apply
    */
-  private void updateParamsForAuth(String[] authNames, Map<String, String> queryParams, Map<String, String> headerParams) {
+  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);

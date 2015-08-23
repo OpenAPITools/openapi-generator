@@ -1,5 +1,10 @@
+# coding: utf-8
+
 import sys
 from setuptools import setup, find_packages
+
+NAME = "{{packageName}}"
+VERSION = "{{packageVersion}}"
 
 {{#apiInfo}}{{#apis}}{{^hasMore}}
 
@@ -12,11 +17,11 @@ from setuptools import setup, find_packages
 # Try reading the setuptools documentation:
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi"]
+REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi", "python-dateutil"]
 
 setup(
-    name="{{module}}",
-    version="{{version}}",
+    name=NAME,
+    version=VERSION,
     description="{{appName}}",
     author_email="{{infoEmail}}",
     url="{{infoUrl}}",
@@ -30,11 +35,3 @@ setup(
 )
 
 {{/hasMore}}{{/apis}}{{/apiInfo}}
-
-
-
-
-
-
-
-

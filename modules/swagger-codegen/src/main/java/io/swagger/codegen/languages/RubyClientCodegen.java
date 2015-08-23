@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.apache.commons.lang.StringUtils;
+
 public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemName = null;
     protected String moduleName = null;
@@ -55,12 +57,14 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Float");
         typeMapping.put("number", "Float");
+        typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("boolean", "BOOLEAN");
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
+        typeMapping.put("file", "File");
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
@@ -106,7 +110,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("swagger_client.gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("swagger_client.mustache", libFolder, gemName + ".rb"));
         String baseFolder = libFolder + File.separator + gemName;
-        supportingFiles.add(new SupportingFile("monkey.mustache", baseFolder, "monkey.rb"));
         supportingFiles.add(new SupportingFile("swagger.mustache", baseFolder, "swagger.rb"));
         String swaggerFolder = baseFolder + File.separator + "swagger";
         supportingFiles.add(new SupportingFile("swagger" + File.separator + "request.mustache", swaggerFolder, "request.rb"));
@@ -266,6 +269,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         // method name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
