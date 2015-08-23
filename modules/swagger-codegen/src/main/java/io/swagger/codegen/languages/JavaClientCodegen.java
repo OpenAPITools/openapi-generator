@@ -35,6 +35,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/java";
     protected String localVariablePrefix = "";
+    protected Boolean serializableModel = false;
+    
     public JavaClientCodegen() {
         super();
         outputFolder = "generated-code/java";
@@ -75,6 +77,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
         cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
         cliOptions.add(new CliOption("localVariablePrefix", "prefix for generated code members and local variables"));
+        cliOptions.add(new CliOption("serializableModel", "boolean - toggle \"implements Serializable\" for generated models"));
     }
 
     public CodegenType getTag() {
@@ -128,6 +131,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey("localVariablePrefix")) {
             this.setLocalVariablePrefix((String) additionalProperties.get("localVariablePrefix"));
+        }
+        
+        if (additionalProperties.containsKey("serializableModel")) {
+            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get("serializableModel")));
+        } else {
+            additionalProperties.put("serializableModel", serializableModel);
         }
 
         this.sanitizeConfig();
@@ -364,6 +373,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.localVariablePrefix = localVariablePrefix;
     }
 
+    public Boolean getSerializableModel() {
+        return serializableModel;
+    }
+
+    public void setSerializableModel(Boolean serializableModel) {
+        this.serializableModel = serializableModel;
+    }
+    
     private String sanitizePackageName(String packageName) {
         packageName = packageName.trim();
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
