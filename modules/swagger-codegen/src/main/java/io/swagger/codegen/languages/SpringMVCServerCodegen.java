@@ -143,27 +143,30 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                         }
                     }
                 }
+                System.out.println(operation.operationId);
+                io.swagger.util.Json.prettyPrint(operation);
+
                 if (operation.returnType == null) {
                     operation.returnType = "Void";
                 } else if (operation.returnType.startsWith("List")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("List<".length(), end);
+                        operation.returnType = rt.substring("List<".length(), end).trim();
                         operation.returnContainer = "List";
                     }
                 } else if (operation.returnType.startsWith("Map")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("Map<".length(), end);
+                        operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
                         operation.returnContainer = "Map";
                     }
                 } else if (operation.returnType.startsWith("Set")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("Set<".length(), end);
+                        operation.returnType = rt.substring("Set<".length(), end).trim();
                         operation.returnContainer = "Set";
                     }
                 }
