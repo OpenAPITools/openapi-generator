@@ -1,8 +1,8 @@
 package io.swagger.model;
 
 import io.swagger.model.Category;
-import io.swagger.model.Tag;
 import java.util.*;
+import io.swagger.model.Tag;
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,8 +14,8 @@ public class Pet  {
   private Long id = null;
   private Category category = null;
   private String name = null;
-  private List<String> photoUrls = new ArrayList<String>();
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<String> photoUrls = new ArrayList<String>() ;
+  private List<Tag> tags = new ArrayList<Tag>() ;
   public enum StatusEnum {
      available,  pending,  sold, 
   };
