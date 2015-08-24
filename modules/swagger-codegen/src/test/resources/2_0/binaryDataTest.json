@@ -1,0 +1,51 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters",
+    "version": "1.0.0",
+    "title": "Swagger Petstore",
+    "termsOfService": "http://helloreverb.com/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "basePath": "/v2",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/tests/binaryResponse": {
+      "post": {
+        "summary": "Echo test",
+        "operationId": "echotest",
+        "consumes": [
+          "application/octet-stream"
+        ],
+        "produces": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "name": "InputBinaryData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OutputBinaryData",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      }
+    }
+  }
+}
