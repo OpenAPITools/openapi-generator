@@ -37,7 +37,7 @@ public class Generator {
                 throw new BadRequestException(400, "No swagger specification was supplied");
             }
         } else {
-            swagger = new SwaggerParser().read(node, true);
+            swagger = new SwaggerParser().read(node);
         }
         if (swagger == null) {
             throw new BadRequestException(400, "The swagger specification supplied was not valid");
@@ -97,7 +97,7 @@ public class Generator {
                 throw new BadRequestException(400, "No swagger specification was supplied");
             }
         } else {
-            swagger = new SwaggerParser().read(node, true);
+            swagger = new SwaggerParser().read(node);
         }
         if (swagger == null) {
             throw new BadRequestException(400, "The swagger specification supplied was not valid");
