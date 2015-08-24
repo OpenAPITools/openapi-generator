@@ -496,13 +496,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     if (!authMethods.isEmpty()) {
                         co.authMethods = config.fromSecurity(authMethods);
                     }
-                    catch (Exception ex) {
-                       LOGGER.error("Error while trying to get Config from Operation for tag(" + tag + ")\n" //
-                             + "\tResource: " + httpMethod + " " + resourcePath + "\n"//
-                             + "\tOperation:" + operation + "\n" //
-                             + "\tDefinitions: " + swagger.getDefinitions() + "\n");
-                       ex.printStackTrace();
-                    }
+                }
+                catch (Exception ex) {
+                   LOGGER.error("Error while trying to get Config from Operation for tag(" + tag + ")\n" //
+                         + "\tResource: " + httpMethod + " " + resourcePath + "\n"//
+                         + "\tOperation:" + operation + "\n" //
+                         + "\tDefinitions: " + swagger.getDefinitions() + "\n");
+                   ex.printStackTrace();
                 }
             }
         }
