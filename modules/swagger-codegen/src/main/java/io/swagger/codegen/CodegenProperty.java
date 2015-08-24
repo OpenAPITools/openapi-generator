@@ -34,6 +34,7 @@ public class CodegenProperty {
     public boolean isEnum;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    public CodegenProperty items;
 
     @Override
     public boolean equals(Object obj) {
@@ -136,6 +137,4 @@ public class CodegenProperty {
         }
         return true;
     }
-    
-    
 }
