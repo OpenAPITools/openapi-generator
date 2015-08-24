@@ -16,12 +16,11 @@ import {{modelPackage}}.*;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
-
 {{#operation}}
-    public ResponseContext {{nickname}}(RequestContext request {{#allParams}},{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{/allParams}})
-    {
+    public ResponseContext {{nickname}}(RequestContext request {{#allParams}}, {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{/allParams}}) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
+
 {{/operation}}
 }
 {{/operations}}
