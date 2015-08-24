@@ -20,9 +20,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{#vars}}{{#isEnum}}
   public enum {{datatypeWithEnum}} {
     {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
+  };{{/isEnum}}{{#items.isEnum}}{{#items}}
+  public enum {{datatypeWithEnum}} {
+    {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
   };
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
+{{/items}}{{/items.isEnum}}
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}
   /**{{#description}}
