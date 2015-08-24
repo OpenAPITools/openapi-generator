@@ -84,17 +84,17 @@ public class {{classname}} {
       {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
     };
     final String {{localVariablePrefix}}contentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}contentTypes);
-  
+
     String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
     {{#responses}}
     {{#isDefault}}
-    
+
     {{#isBinary}}
     byte[] {{localVariablePrefix}}response = null;
     {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeBinaryAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams,{{localVariablePrefix}} postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
     return {{localVariablePrefix}}response;
     {{/isBinary}}
-    
+
     {{^isBinary}}
     {{#returnType}}
     TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
@@ -103,9 +103,9 @@ public class {{classname}} {
     {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);
     {{/returnType}}
     {{/isBinary}}
-    
+
     {{/isDefault}}
-    {{/responses}}      
+    {{/responses}}
   }
   {{/operation}}
 }
