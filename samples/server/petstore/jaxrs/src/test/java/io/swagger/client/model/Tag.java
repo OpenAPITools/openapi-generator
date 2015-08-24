@@ -1,4 +1,6 @@
-package io.swagger.model;
+package io.swagger.client.model;
+
+
 
 
 import io.swagger.annotations.*;
@@ -6,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-08-23T23:29:16.812-07:00")
-public class Category  {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-23T11:08:48.917-07:00")
+public class Tag   {
   
   private Long id = null;
   private String name = null;
@@ -41,7 +43,7 @@ public class Category  {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Tag {\n");
     
     sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
