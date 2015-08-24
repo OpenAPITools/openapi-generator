@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
@@ -122,27 +123,35 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+                List<CodegenResponse> responses = operation.responses;
+                if (responses != null) {
+                    for (CodegenResponse resp : responses) {
+                        if ("0".equals(resp.code)) {
+                            resp.code = "200";
+                        }
+                    }
+                }
                 if (operation.returnType == null) {
                     operation.returnType = "Void";
                 } else if (operation.returnType.startsWith("List")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("List<".length(), end);
+                        operation.returnType = rt.substring("List<".length(), end).trim();
                         operation.returnContainer = "List";
                     }
                 } else if (operation.returnType.startsWith("Map")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("Map<".length(), end);
+                        operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
                         operation.returnContainer = "Map";
                     }
                 } else if (operation.returnType.startsWith("Set")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("Set<".length(), end);
+                        operation.returnType = rt.substring("Set<".length(), end).trim();
                         operation.returnContainer = "Set";
                     }
                 }
