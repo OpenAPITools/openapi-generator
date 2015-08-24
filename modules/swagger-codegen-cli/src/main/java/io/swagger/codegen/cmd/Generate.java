@@ -78,17 +78,19 @@ public class Generate implements Runnable {
      */
     private static CodegenConfig forName(String name) {
         ServiceLoader<CodegenConfig> loader = load(CodegenConfig.class);
+        String available = "";
         for (CodegenConfig config : loader) {
             if (config.getName().equals(name)) {
                 return config;
             }
+            available = available + config.getName() + "\n";
         }
 
         // else try to load directly
         try {
             return (CodegenConfig) Class.forName(name).newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Can't load config class with name ".concat(name), e);
+            throw new RuntimeException("Can't load config class with name ".concat(name) + "Available: "+available, e);
         }
     }
 
