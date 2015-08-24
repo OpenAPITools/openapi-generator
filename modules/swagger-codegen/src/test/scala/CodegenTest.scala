@@ -139,4 +139,19 @@ class CodegenTest extends FlatSpec with Matchers {
     val op = codegen.fromOperation(path, "get", p, model.getDefinitions())
     op.returnType should be("String")
   }
+
+  it should "return byte array when response format is byte" in {
+      val model = new SwaggerParser()
+        .read("src/test/resources/2_0/binaryDataTest.json")
+      System.err.println("model is " + model);
+      val codegen = new DefaultCodegen()
+
+      val path = "/tests/binaryResponse"
+      val p = model.getPaths().get(path).getPost()
+      val op = codegen.fromOperation(path, "post", p, model.getDefinitions())
+      op.returnType should be("byte[]")
+      op.bodyParam.dataType should be ("byte[]")
+      op.bodyParam.isBinary should equal (true);
+      op.responses.get(0).isBinary should equal(true);
+    }
 }

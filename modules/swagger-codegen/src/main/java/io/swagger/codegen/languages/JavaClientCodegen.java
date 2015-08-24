@@ -36,7 +36,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String sourceFolder = "src/main/java";
     protected String localVariablePrefix = "";
     protected Boolean serializableModel = false;
-    
+
     public JavaClientCodegen() {
         super();
         outputFolder = "generated-code/java";
@@ -66,7 +66,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Integer",
                         "Long",
                         "Float",
-                        "Object")
+                        "Object",
+                        "byte[]")
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
@@ -137,7 +138,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey("localVariablePrefix")) {
             this.setLocalVariablePrefix((String) additionalProperties.get("localVariablePrefix"));
         }
-        
+
         if (additionalProperties.containsKey("serializableModel")) {
             this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get("serializableModel").toString()));
         }
@@ -282,7 +283,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
             if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
+                return type;
             }
         } else {
             type = swaggerType;
@@ -380,6 +381,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.localVariablePrefix = localVariablePrefix;
     }
 
+
     public Boolean getSerializableModel() {
         return serializableModel;
     }
@@ -387,7 +389,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setSerializableModel(Boolean serializableModel) {
         this.serializableModel = serializableModel;
     }
-    
+
     private String sanitizePackageName(String packageName) {
         packageName = packageName.trim();
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
