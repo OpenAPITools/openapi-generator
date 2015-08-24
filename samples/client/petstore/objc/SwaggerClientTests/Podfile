@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'SwaggerClient_Example', :exclusive => true do
+  pod "SwaggerClient", :path => "../"
+end
+
+target 'SwaggerClient_Tests', :exclusive => true do
+  pod "SwaggerClient", :path => "../"
+
+  pod 'Specta'
+  pod 'Expecta'
+end

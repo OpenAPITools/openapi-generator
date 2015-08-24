@@ -1,13 +1,13 @@
 # Swagger common files
-require '{{gemName}}/monkey'
 require '{{gemName}}/swagger'
 require '{{gemName}}/swagger/configuration'
+require '{{gemName}}/swagger/api_error'
 require '{{gemName}}/swagger/request'
 require '{{gemName}}/swagger/response'
 require '{{gemName}}/swagger/version'
 
 # Models
-require '{{modelPackage}}/base_object'
+require '{{gemName}}/{{modelPackage}}/base_object'
 {{#models}}
 require '{{importPath}}'
 {{/models}}
@@ -21,5 +21,6 @@ require '{{importPath}}'
 
 module {{moduleName}}
   # Initialize the default configuration
-  Swagger.configuration ||= Swagger::Configuration.new
+  Swagger.configuration = Swagger::Configuration.new
+  Swagger.configure { |config| }
 end
