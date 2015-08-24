@@ -139,7 +139,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         
         if (additionalProperties.containsKey("serializableModel")) {
-            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get("serializableModel")));
+            this.setSerializableModel(Boolean.valueOf(additionalProperties.get("serializableModel").toString()));
         } else {
             additionalProperties.put("serializableModel", serializableModel);
         }
