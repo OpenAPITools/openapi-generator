@@ -29,11 +29,12 @@ Build a nodejs server stub:
 ## Compatibility
 The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
 
-Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
------------------------ | ------------ | -------------------------- | -----
-2.1.0                   | 2015-06-09   | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
-2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
-1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
+Swagger Codegen Version    | Release Date | Swagger Spec compatibility | Notes
+-------------------------- | ------------ | -------------------------- | -----
+2.1.3                      |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
+2.1.3 (**current stable**) | 2015-08-24   | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen/tree/v2.1.3)
+2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
+1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
 
 ### Prerequisites
@@ -184,12 +185,16 @@ There are different aspects of customizing the code generator beyond just creati
 
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
+AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
+CodeGenStatus.java
+CsharpDotNet2ClientCodegen.java
 FlashClientCodegen.java
 JavaClientCodegen.java
+JavaInflectorServerCodegen.java
 JaxRSServerCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
@@ -202,6 +207,8 @@ RetrofitClientCodegen.java
 RubyClientCodegen.java
 ScalaClientCodegen.java
 ScalatraServerCodegen.java
+SilexServerCodegen.java
+SinatraServerCodegen.java
 SpringMVCServerCodegen.java
 StaticDocCodegen.java
 StaticHtmlGenerator.java
@@ -209,6 +216,8 @@ SwaggerGenerator.java
 SwaggerYamlGenerator.java
 SwiftCodegen.java
 TizenClientCodegen.java
+TypeScriptAngularClientCodegen.java
+TypeScriptNodeClientCodegen.java
 ```
 
 Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc. you can use a json config file to pass the values.
