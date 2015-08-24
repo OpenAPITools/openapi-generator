@@ -3,7 +3,7 @@
     <parent>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-codegen-project</artifactId>
-        <version>2.1.2</version>
+        <version>2.1.3</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -83,9 +83,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <configuration>
-                        <recompileMode>incremental</recompileMode>
-                    </configuration>
+                    <recompileMode>incremental</recompileMode>
                     <jvmArgs>
                         <jvmArg>-Xmx384m</jvmArg>
                     </jvmArgs>
@@ -149,14 +147,6 @@
                     <artifactId>scala-maven-plugin</artifactId>
                     <version>${scala-maven-plugin-version}</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <configuration>
-                        <releaseProfiles>release</releaseProfiles>
-                        <goals>sign</goals>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -180,7 +170,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <scala-version>${scala-version}</scala-version>
+                            <scalaVersion>${scala-version}</scalaVersion>
                         </configuration>
                     </plugin>
                     <plugin>

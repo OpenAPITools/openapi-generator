@@ -10,7 +10,7 @@
     <artifactId>swagger-codegen-project</artifactId>
     <packaging>pom</packaging>
     <name>swagger-codegen-project</name>
-    <version>2.1.2</version>
+    <version>2.1.3</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <scm>
         <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
@@ -163,14 +163,6 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <configuration>
-                        <releaseProfiles>release</releaseProfiles>
-                        <goals>sign</goals>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.7</version>
                     <configuration>
@@ -300,7 +292,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java</module>
+                <module>samples/client/petstore/java/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-client-jersey2</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/jersey2</module>
             </modules>
         </profile>
         <profile>
@@ -385,18 +389,20 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/android-java</module>
-                <module>samples/client/petstore/java</module>
+                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/scala</module>
-                <module>samples/server/petstore/jaxrs</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <!--module>samples/client/petstore/objc</module-->
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/server/petstore/jaxrs</module>
             </modules>
         </profile>
     </profiles>
     <modules>
         <module>modules/swagger-codegen</module>
         <module>modules/swagger-codegen-cli</module>
+        <module>modules/swagger-codegen-maven-plugin</module>
         <module>modules/swagger-generator</module>
     </modules>
     <reporting>
@@ -463,10 +469,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>1.0.8</swagger-parser-version>
+        <swagger-parser-version>1.0.10</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
-        <swagger-core-version>1.5.0</swagger-core-version>
+        <swagger-core-version>1.5.3</swagger-core-version>
         <scala-test-version>2.1.4</scala-test-version>
         <commons-io-version>2.3</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
@@ -474,7 +480,7 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>2.4</commons-lang-version>
         <slf4j-version>1.6.3</slf4j-version>
-        <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
+        <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.9</jmustache-version>
     </properties>
 </project>

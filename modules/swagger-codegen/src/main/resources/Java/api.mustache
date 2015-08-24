@@ -3,6 +3,8 @@ package {{package}};
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
+import {{invokerPackage}}.Pair;
+import {{invokerPackage}}.TypeRef;
 
 import {{modelPackage}}.*;
 
@@ -11,33 +13,29 @@ import java.util.*;
 {{#imports}}import {{import}};
 {{/imports}}
 
-import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.file.FileDataBodyPart;
-
-import javax.ws.rs.core.MediaType;
-
 import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 
+{{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
-  private ApiClient apiClient;
+  private ApiClient {{localVariablePrefix}}apiClient;
 
   public {{classname}}() {
     this(Configuration.getDefaultApiClient());
   }
 
   public {{classname}}(ApiClient apiClient) {
-    this.apiClient = apiClient;
+    this.{{localVariablePrefix}}apiClient = apiClient;
   }
 
   public ApiClient getApiClient() {
-    return apiClient;
+    return {{localVariablePrefix}}apiClient;
   }
 
   public void setApiClient(ApiClient apiClient) {
-    this.apiClient = apiClient;
+    this.{{localVariablePrefix}}apiClient = apiClient;
   }
 
   {{#operation}}
@@ -48,7 +46,7 @@ public class {{classname}} {
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {
@@ -57,68 +55,43 @@ public class {{classname}} {
     {{/required}}{{/allParams}}
 
     // create path and map variables
-    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}
-      .replaceAll("\\{" + "{{paramName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+    String {{localVariablePrefix}}path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}
+      .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
+    List<Pair> {{localVariablePrefix}}queryParams = new ArrayList<Pair>();
+    Map<String, String> {{localVariablePrefix}}headerParams = new HashMap<String, String>();
+    Map<String, Object> {{localVariablePrefix}}formParams = new HashMap<String, Object>();
 
-    {{#queryParams}}if ({{paramName}} != null)
-      queryParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{#queryParams}}
+    {{localVariablePrefix}}queryParams.addAll({{localVariablePrefix}}apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
     {{/queryParams}}
 
     {{#headerParams}}if ({{paramName}} != null)
-      headerParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{localVariablePrefix}}headerParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
 
-    final String[] accepts = {
+    {{#formParams}}if ({{paramName}} != null)
+      {{localVariablePrefix}}formParams.put("{{baseName}}", {{paramName}});
+    {{/formParams}}
+
+    final String[] {{localVariablePrefix}}accepts = {
       {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
+    final String {{localVariablePrefix}}accept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}accepts);
 
-    final String[] contentTypes = {
+    final String[] {{localVariablePrefix}}contentTypes = {
       {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+    final String {{localVariablePrefix}}contentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}contentTypes);
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      {{#formParams}}{{#notFile}}
-      if ({{paramName}} != null) {
-        hasFields = true;
-        mp.field("{{baseName}}", apiClient.parameterToString({{paramName}}), MediaType.MULTIPART_FORM_DATA_TYPE);
-      }
-      {{/notFile}}{{#isFile}}
-      if ({{paramName}} != null) {
-        hasFields = true;
-        mp.field("{{baseName}}", {{paramName}}.getName());
-        mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE));
-      }
-      {{/isFile}}{{/formParams}}
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-      {{#formParams}}{{#notFile}}if ({{paramName}} != null)
-        formParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{/notFile}}
-      {{/formParams}}
-    }
-
-    try {
-      String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
-      String response = apiClient.invokeAPI(path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, accept, contentType, authNames);
-      if(response != null){
-        return {{#returnType}}({{{returnType}}}) apiClient.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
-      }
-      else {
-        return {{#returnType}}null{{/returnType}};
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
+    String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+    {{#returnType}}
+    TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
+    return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
+    {{/returnType}}{{^returnType}}
+    {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);
+    {{/returnType}}
   }
   {{/operation}}
 }

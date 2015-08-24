@@ -1,173 +1,178 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using RestSharp;
-using {{invokerPackage}};
-using {{modelPackage}};
-{{#imports}}
-{{/imports}}
+using {{packageName}}.Client;
+{{#hasImport}}using {{packageName}}.Model;
+{{/hasImport}}
 
-namespace {{package}} {
-  {{#operations}}
-
-  public interface I{{classname}} {
-    {{#operation}}
-    /// <summary>
-    /// {{summary}} {{notes}}
-    /// </summary>
-    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
-    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
-    {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-
-    /// <summary>
-    /// {{summary}} {{notes}}
-    /// </summary>
-    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
-    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
-    {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-    {{/operation}}
-  }
-
-  /// <summary>
-  /// Represents a collection of functions to interact with the API endpoints
-  /// </summary>
-  public class {{classname}} : I{{classname}} {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="{{classname}}"/> class.
-    /// </summary>
-    /// <param name="apiClient"> an instance of ApiClient (optional)
-    /// <returns></returns>
-    public {{classname}}(ApiClient apiClient = null) {
-      if (apiClient == null) { // use the default one in Configuration
-        this.apiClient = Configuration.apiClient; 
-      } else {
-        this.apiClient = apiClient;
-      }
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="{{classname}}"/> class.
-    /// </summary>
-    /// <returns></returns>
-    public {{classname}}(String basePath)
+namespace {{packageName}}.Api
+{
+    {{#operations}}
+    public interface I{{classname}}
     {
-      this.apiClient = new ApiClient(basePath);
+        {{#operation}}
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+        {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/operation}}
     }
-
+  
     /// <summary>
-    /// Sets the base path of the API client.
+    /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    /// <value>The base path</value>
-    public void SetBasePath(String basePath) {
-      this.apiClient.basePath = basePath;
+    public class {{classname}} : I{{classname}}
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}"/> class.
+        /// </summary>
+        /// <param name="apiClient"> an instance of ApiClient (optional)</param>
+        /// <returns></returns>
+        public {{classname}}(ApiClient apiClient = null)
+        {
+            if (apiClient == null) // use the default one in Configuration
+                this.ApiClient = Configuration.DefaultApiClient; 
+            else
+                this.ApiClient = apiClient;
+        }
+    
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}"/> class.
+        /// </summary>
+        /// <returns></returns>
+        public {{classname}}(String basePath)
+        {
+            this.ApiClient = new ApiClient(basePath);
+        }
+    
+        /// <summary>
+        /// Sets the base path of the API client.
+        /// </summary>
+        /// <param name="basePath">The base path</param>
+        /// <value>The base path</value>
+        public void SetBasePath(String basePath)
+        {
+            this.ApiClient.BasePath = basePath;
+        }
+    
+        /// <summary>
+        /// Gets the base path of the API client.
+        /// </summary>
+        /// <param name="basePath">The base path</param>
+        /// <value>The base path</value>
+        public String GetBasePath(String basePath)
+        {
+            return this.ApiClient.BasePath;
+        }
+    
+        /// <summary>
+        /// Gets or sets the API client.
+        /// </summary>
+        /// <value>An instance of the ApiClient</param>
+        public ApiClient ApiClient {get; set;}
+    
+        {{#operation}}
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>            
+        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
+            {{#allParams}}{{#required}}
+            // verify the required parameter '{{paramName}}' is set
+            if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
+            {{/required}}{{/allParams}}
+    
+            var path = "{{path}}";
+    
+            var pathParams = new Dictionary<String, String>();
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            pathParams.Add("format", "json");
+            {{#pathParams}}if ({{paramName}} != null) pathParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // path parameter
+            {{/pathParams}}
+            {{#queryParams}}if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
+            {{/queryParams}}
+            {{#headerParams}}if ({{paramName}} != null) headerParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // header parameter
+            {{/headerParams}}
+            {{#formParams}}if ({{paramName}} != null) {{#isFile}}fileParams.Add("{{baseName}}", ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}formParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
+            {{/formParams}}
+            {{#bodyParam}}postBody = ApiClient.Serialize({{paramName}}); // http body (model) parameter
+            {{/bodyParam}}
+    
+            // authentication setting, if any
+            String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+    
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+    
+            if (((int)response.StatusCode) >= 400)
+                throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
+            else if (((int)response.StatusCode) == 0)
+                throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.ErrorMessage, response.ErrorMessage);
+    
+            {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}return;{{/returnType}}
+        }
+    
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
+        {{/allParams}}/// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
+        {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
+            {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
+            if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
+            {{/required}}{{/allParams}}
+    
+            var path = "{{path}}";
+    
+            var pathParams = new Dictionary<String, String>();
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+    
+            pathParams.Add("format", "json");
+            {{#pathParams}}if ({{paramName}} != null) pathParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // path parameter
+            {{/pathParams}}
+            {{#queryParams}}if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
+            {{/queryParams}}
+            {{#headerParams}}if ({{paramName}} != null) headerParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // header parameter
+            {{/headerParams}}
+            {{#formParams}}if ({{paramName}} != null) {{#isFile}}fileParams.Add("{{baseName}}", ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}formParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
+            {{/formParams}}
+            {{#bodyParam}}postBody = ApiClient.Serialize({{paramName}}); // http body (model) parameter
+            {{/bodyParam}}
+    
+            // authentication setting, if any
+            String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+    
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            if (((int)response.StatusCode) >= 400)
+                throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
+
+            {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}
+            return;{{/returnType}}
+        }
+        {{/operation}}
     }
-
-    /// <summary>
-    /// Gets the base path of the API client.
-    /// </summary>
-    /// <value>The base path</value>
-    public String GetBasePath(String basePath) {
-      return this.apiClient.basePath;
-    }
-
-    /// <summary>
-    /// Gets or sets the API client.
-    /// </summary>
-    /// <value>The API client</value>
-    public ApiClient apiClient {get; set;}
-
-
-    {{#operation}}
-    /// <summary>
-    /// {{summary}} {{notes}}
-    /// </summary>
-    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
-    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
-    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-
-      {{#allParams}}{{#required}}
-      // verify the required parameter '{{paramName}}' is set
-      if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
-      {{/required}}{{/allParams}}
-
-      var path = "{{path}}";
-      path = path.Replace("{format}", "json");
-      {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", apiClient.ParameterToString({{{paramName}}}));
-      {{/pathParams}}
-
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
-      String postBody = null;
-
-      {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // query parameter
-      {{/queryParams}}
-      {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // header parameter
-      {{/headerParams}}
-      {{#formParams}}if ({{paramName}} != null) {{#isFile}}fileParams.Add("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}formParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
-      {{/formParams}}
-      {{#bodyParam}}postBody = apiClient.Serialize({{paramName}}); // http body (model) parameter
-      {{/bodyParam}}
-
-      // authentication setting, if any
-      String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
-
-      // make the HTTP request
-      IRestResponse response = (IRestResponse) apiClient.CallApi(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-
-      if (((int)response.StatusCode) >= 400) {
-        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
-      }
-      {{#returnType}}return ({{{returnType}}}) apiClient.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
-      return;{{/returnType}}
-    }
-	
-	 /// <summary>
-    /// {{summary}} {{notes}}
-    /// </summary>
-    {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>{{/allParams}}
-    /// <returns>{{#returnType}}{{{returnType}}}{{/returnType}}</returns>
-    public async {{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-
-      {{#allParams}}{{#required}}
-          // verify the required parameter '{{paramName}}' is set
-          if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
-      {{/required}}{{/allParams}}
-
-      var path = "{{path}}";
-      path = path.Replace("{format}", "json");
-      {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", apiClient.ParameterToString({{{paramName}}}));
-      {{/pathParams}}
-
-      var queryParams = new Dictionary<String, String>();
-      var headerParams = new Dictionary<String, String>();
-      var formParams = new Dictionary<String, String>();
-      var fileParams = new Dictionary<String, String>();
-      String postBody = null;
-
-      {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // query parameter
-      {{/queryParams}}
-      {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // header parameter
-      {{/headerParams}}
-      {{#formParams}}if ({{paramName}} != null) {{#isFile}}fileParams.Add("{{baseName}}", {{paramName}});{{/isFile}}{{^isFile}}formParams.Add("{{baseName}}", apiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
-      {{/formParams}}
-      {{#bodyParam}}postBody = apiClient.Serialize({{paramName}}); // http body (model) parameter
-      {{/bodyParam}}
-
-      // authentication setting, if any
-      String[] authSettings = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
-
-      // make the HTTP request
-      IRestResponse response = (IRestResponse) await apiClient.CallApiAsync(path, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-      if (((int)response.StatusCode) >= 400) {
-        throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
-      }
-      {{#returnType}}return ({{{returnType}}}) apiClient.Deserialize(response.Content, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
-      return;{{/returnType}}
-    }
-    {{/operation}}
-  }  
-  {{/operations}}
+    {{/operations}}
 }

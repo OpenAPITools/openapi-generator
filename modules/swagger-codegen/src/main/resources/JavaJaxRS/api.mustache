@@ -26,6 +26,7 @@ import javax.ws.rs.*;
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
 {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 @io.swagger.annotations.Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+{{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
 
@@ -38,7 +39,7 @@ public class {{classname}}  {
     {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
     @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
     @io.swagger.annotations.ApiResponses(value = { {{#responses}}
-        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},
+        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},
         {{/hasMore}}{{/responses}} })
 
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
