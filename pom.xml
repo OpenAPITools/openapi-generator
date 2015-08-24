@@ -392,10 +392,10 @@
                 <module>samples/client/petstore/java/default</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/scala</module>
-                <module>samples/server/petstore/jaxrs</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <!--module>samples/client/petstore/objc</module-->
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/server/petstore/jaxrs</module>
             </modules>
         </profile>
     </profiles>

@@ -1,14 +1,16 @@
-package io.swagger.model;
+package io.swagger.client.model;
 
 import java.util.Date;
+
+
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-08-23T23:29:16.812-07:00")
-public class Order  {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-23T11:08:48.917-07:00")
+public class Order   {
   
   private Long id = null;
   private Long petId = null;
