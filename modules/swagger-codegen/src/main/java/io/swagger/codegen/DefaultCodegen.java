@@ -534,6 +534,7 @@ public class DefaultCodegen {
         if (model instanceof ArrayModel) {
             ArrayModel am = (ArrayModel) model;
             ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
+            m.hasEnums = false; // Otherwise there will be a NullPointerException in JavaClientCodegen.fromModel
             addParentContainer(m, name, arrayProperty);
         } else if (model instanceof RefModel) {
             // TODO
