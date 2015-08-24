@@ -9,16 +9,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-24T11:46:58.447+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-24T18:19:30.060+08:00")
 public class Order   {
   
   private Long id = null;
   private Long petId = null;
   private Integer quantity = null;
   private Date shipDate = null;
-  public enum StatusEnum {
-     placed,  approved,  delivered, 
-  };
+
+public enum StatusEnum {
+  PLACED("placed"), APPROVED("approved"), DELIVERED("delivered");
+
+  private String value;
+
+  StatusEnum(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+}
+
   private StatusEnum status = null;
   private Boolean complete = null;
 
