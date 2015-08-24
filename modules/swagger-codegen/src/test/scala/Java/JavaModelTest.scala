@@ -365,6 +365,28 @@ class JavaModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     cm.classname should be("WithDots")
   }
+
+  it should "convert a modelwith binary data" in {
+      val model = new ModelImpl()
+        .description("model with binary")
+        .property("inputBinaryData", new ByteArrayProperty());
+
+      val codegen = new JavaClientCodegen()
+      val cm = codegen.fromModel("sample", model)
+      val vars = cm.vars
+
+      vars.get(0).baseName should be ("inputBinaryData")
+      vars.get(0).getter should be ("getInputBinaryData")
+      vars.get(0).setter should be ("setInputBinaryData")
+      vars.get(0).datatype should be ("byte[]")
+      vars.get(0).name should be ("inputBinaryData")
+      vars.get(0).defaultValue should be ("null")
+      vars.get(0).baseType should be ("byte[]")
+      vars.get(0).hasMore should equal (null)
+      vars.get(0).required should equal (null)
+      vars.get(0).isNotContainer should equal (true)
+
+    }
 }
 
 

@@ -50,16 +50,16 @@ public class {{classname}} {
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{^isBinary}}{{paramName}}{{/isBinary}}{{#isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    byte[] {{localVariablePrefix}}postBinaryBody = {{#bodyParam}}{{#isBinary}}{{paramName}}{{/isBinary}}{{^isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
-    // verify the required parameter '{{paramName}}' is set
-    if ({{paramName}} == null) {
-       throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
-    }
-    {{/required}}{{/allParams}}
-
+     // verify the required parameter '{{paramName}}' is set
+     if ({{paramName}} == null) {
+        throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+     }
+     {{/required}}{{/allParams}}
     // create path and map variables
-    String {{localVariablePrefix}}path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}
+    String {{localVariablePrefix}}path = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
@@ -110,14 +110,29 @@ public class {{classname}} {
     }
 
     try {
+
       String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
-      String {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
-      if({{localVariablePrefix}}response != null){
-        return {{#returnType}}({{{returnType}}}) {{localVariablePrefix}}apiClient.deserialize({{localVariablePrefix}}response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
-      }
-      else {
-        return {{#returnType}}null{{/returnType}};
-      }
+
+      {{#responses}}{{#isDefault}}
+      {{#isBinary}}
+      byte[] {{localVariablePrefix}}response = null;
+      {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeBinaryAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams,{{localVariablePrefix}} postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
+      return {{localVariablePrefix}}response;
+
+      {{/isBinary}}
+      {{^isBinary}}
+
+       String {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
+       if({{localVariablePrefix}}response != null){
+         return {{#returnType}}({{{returnType}}}) {{localVariablePrefix}}apiClient.deserialize({{localVariablePrefix}}response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
+       }
+       else {
+            return {{#returnType}}null{{/returnType}};
+       }
+     {{/isBinary}}
+     {{/isDefault}}
+     {{/responses}}
+
     } catch (ApiException ex) {
       throw ex;
     }

@@ -27,6 +27,7 @@ import io.swagger.models.parameters.SerializableParameter;
 import io.swagger.models.properties.AbstractNumericProperty;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.ByteArrayProperty;
 import io.swagger.models.properties.DateProperty;
 import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.DecimalProperty;
@@ -308,6 +309,8 @@ public class DefaultCodegen {
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Integer");
+        typeMapping.put("ByteArray", "byte[]");
+
 
         instantiationTypes = new HashMap<String, String>();
 
@@ -444,6 +447,8 @@ public class DefaultCodegen {
         String datatype = null;
         if (p instanceof StringProperty) {
             datatype = "string";
+        } else if (p instanceof ByteArrayProperty) {
+            datatype = "ByteArray";
         } else if (p instanceof BooleanProperty) {
             datatype = "boolean";
         } else if (p instanceof DateProperty) {
@@ -965,6 +970,7 @@ public class DefaultCodegen {
                 }
             }
             r.dataType = cm.datatype;
+            r.isBinary = cm.datatype.equals("byte[]");
             if (cm.isContainer != null) {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
@@ -1061,12 +1067,17 @@ public class DefaultCodegen {
                     p.dataType = getTypeDeclaration(cm.classname);
                     imports.add(p.dataType);
                 } else {
-                    // TODO: missing format, so this will not always work
-                    Property prop = PropertyBuilder.build(impl.getType(), null, null);
+                    Property prop = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
                     prop.setRequired(bp.getRequired());
                     CodegenProperty cp = fromProperty("property", prop);
                     if (cp != null) {
                         p.dataType = cp.datatype;
+                        if (p.dataType.equals("byte[]")) {
+                            p.isBinary = true;
+                        }
+                        else {
+                            p.isBinary = false;
+                        }
                     }
                 }
             } else if (model instanceof ArrayModel) {
