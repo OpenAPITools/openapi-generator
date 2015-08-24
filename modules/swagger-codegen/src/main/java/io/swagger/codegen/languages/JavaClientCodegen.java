@@ -64,7 +64,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Integer",
                         "Long",
                         "Float",
-                        "Object")
+                        "Object",
+                        "byte[]")
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
@@ -129,7 +130,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey("localVariablePrefix")) {
             this.setLocalVariablePrefix((String) additionalProperties.get("localVariablePrefix"));
         }
-
+        
         this.sanitizeConfig();
 
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
@@ -266,7 +267,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
             if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
+                return type;
             }
         } else {
             type = swaggerType;
@@ -363,7 +364,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setLocalVariablePrefix(String localVariablePrefix) {
         this.localVariablePrefix = localVariablePrefix;
     }
-
+    
     private String sanitizePackageName(String packageName) {
         packageName = packageName.trim();
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
