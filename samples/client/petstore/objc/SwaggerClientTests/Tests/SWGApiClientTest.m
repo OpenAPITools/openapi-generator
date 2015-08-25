@@ -103,7 +103,7 @@
     XCTAssertEqualObjects(basicAuthCredentials, [config getBasicAuthToken]);
 }
 
-- (void)testSanitizeForDeserialization {
+- (void)testSanitizeForSerialization {
     id result;
     id data;
     
@@ -128,14 +128,24 @@
     XCTAssertEqualObjects(result, data);
     
     // NSDate
-    data = [NSDate dateWithISO8601String:@"1997-07-16T19:20:30.45+01:0"];
+    data = [NSDate dateWithISO8601String:@"1997-07-16T19:20:30.45+01:00"];
+    result = [self.apiClient sanitizeForSerialization:data];
+    XCTAssertEqualObjects(result, [data ISO8601String]);
+    
+    data = [NSDate dateWithISO8601String:@"1997-07-16"];
     result = [self.apiClient sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, [data ISO8601String]);
     
     // model
-    data = [self createPet];
+    NSDictionary *petDict = @{@"id": @1, @"name": @"monkey",
+                              @"category": @{@"id": @1, @"name": @"test category"},
+                              @"tags": @[@{@"id": @1, @"name": @"test tag1"},
+                                         @{@"id": @2, @"name": @"test tag2"}],
+                              @"status": @"available",
+                              @"photoUrls": @[@"http://foo.bar.com/3", @"http://foo.bar.com/4"]};
+    data = [[SWGPet alloc] initWithDictionary:petDict error:nil];
     result = [self.apiClient sanitizeForSerialization:data];
-    XCTAssertEqualObjects(result, [data toDictionary]);
+    XCTAssertEqualObjects(result, petDict);
     
     // NSArray
     data = @[@1];
@@ -146,31 +156,6 @@
     data = @{@"test key": @"test value"};
     result = [self.apiClient sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
-}
-
-- (SWGPet*) createPet {
-    SWGPet * pet = [[SWGPet alloc] init];
-    pet._id = [[NSNumber alloc] initWithLong:[[NSDate date] timeIntervalSince1970]];
-    pet.name = @"monkey";
-    
-    SWGCategory * category = [[SWGCategory alloc] init];
-    category._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
-    category.name = @"super-happy";
-    pet.category = category;
-    
-    SWGTag *tag1 = [[SWGTag alloc] init];
-    tag1._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
-    tag1.name = @"test tag 1";
-    SWGTag *tag2 = [[SWGTag alloc] init];
-    tag2._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
-    tag2.name = @"test tag 2";
-    pet.tags = (NSArray<SWGTag> *)[[NSArray alloc] initWithObjects:tag1, tag2, nil];
-
-    pet.status = @"available";
-
-    NSArray * photos = [[NSArray alloc] initWithObjects:@"http://foo.bar.com/3", @"http://foo.bar.com/4", nil];
-    pet.photoUrls = photos;
-    return pet;
 }
 
 @end
