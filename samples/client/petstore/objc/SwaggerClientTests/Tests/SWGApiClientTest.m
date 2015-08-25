@@ -152,6 +152,12 @@
     result = [self.apiClient sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
     
+    // NSArray of models
+    NSArray *arrayOfPetDict = @[petDict];
+    data = [NSArray arrayWithObject:[[SWGPet alloc] initWithDictionary:petDict error:nil]];
+    result = [self.apiClient sanitizeForSerialization:data];
+    XCTAssertEqualObjects(result, arrayOfPetDict);
+    
     // NSDictionary
     data = @{@"test key": @"test value"};
     result = [self.apiClient sanitizeForSerialization:data];
