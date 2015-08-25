@@ -42,7 +42,7 @@ class UserApi(object):
             self.api_client = api_client
         else:
             if not config.api_client:
-                config.api_client = ApiClient('http://petstore.swagger.io/v2')
+                config.api_client = ApiClient()
             self.api_client = config.api_client
 
     def create_user(self, **kwargs):
