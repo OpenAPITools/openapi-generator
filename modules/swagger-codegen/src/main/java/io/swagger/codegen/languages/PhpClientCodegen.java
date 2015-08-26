@@ -24,6 +24,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packagePath = "SwaggerClient-php";
     protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
+    protected String variableNamingConvention= "snake_case";
 
     public PhpClientCodegen() {
         super();
@@ -84,6 +85,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
         typeMapping.put("DateTime", "\\DateTime");
         
+        cliOptions.add(new CliOption("variableNamingConvention", "naming convention of variable name, e.g. camelCase. Default: snake_case"));
         cliOptions.add(new CliOption("invokerPackage", "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption("packagePath", "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption("srcBasePath", "The directory under packagePath to serve as source root."));
@@ -279,6 +281,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.srcBasePath = srcBasePath;
     }
     
+    public void setParameterNamingConvention(String variableNamingConvention) {
+        this.variableNamingConvention = variableNamingConvention;
+    }
+
     private void setComposerVendorName(String composerVendorName) {
         this.composerVendorName = composerVendorName;
     }
@@ -289,9 +295,19 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        // return the name in underscore style
-        // PhoneNumber => phone_number
-        name =  underscore(name);
+        if (additionalProperties.containsKey("variableNamingConvention")) {
+            this.setParameterNamingConvention((String) additionalProperties.get("variableNamingConvention"));
+        }
+
+        if ("camelCase".equals(variableNamingConvention)) {
+          // return the name in camelCase style
+          // phone_number => phoneNumber
+          name =  camelize(name, true);
+        } else { // default to snake case
+          // return the name in underscore style
+          // PhoneNumber => phone_number
+          name =  underscore(name);
+        }
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
