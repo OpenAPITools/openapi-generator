@@ -64,7 +64,7 @@ public class StoreApiTest {
         order.setPetId(new Long(200));
         order.setQuantity(new Integer(13));
         order.setShipDate(new java.util.Date());
-        order.setStatus(Order.StatusEnum.placed);
+        order.setStatus(Order.StatusEnum.PLACED);
         order.setComplete(true);
 
         return order;
