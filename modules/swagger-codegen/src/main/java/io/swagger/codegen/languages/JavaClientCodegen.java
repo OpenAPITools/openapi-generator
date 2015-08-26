@@ -319,6 +319,31 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return codegenModel;
     }
 
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            for (CodegenProperty var : cm.vars) {
+                Map<String, Object> allowableValues = var.allowableValues;
+                if (allowableValues == null)
+                    continue;
+                List<String> values = (List<String>) allowableValues.get("values");
+                // put "enumVars" map into `allowableValues", including `name` and `value`
+                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                for (String value : values) {
+                    Map<String, String> enumVar = new HashMap<String, String>();
+                    enumVar.put("name", toVarName(value.toUpperCase()));
+                    enumVar.put("value", value);
+                    enumVars.add(enumVar);
+                }
+                allowableValues.put("enumVars", enumVars);
+            }
+        }
+        return objs;
+    }
+
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
