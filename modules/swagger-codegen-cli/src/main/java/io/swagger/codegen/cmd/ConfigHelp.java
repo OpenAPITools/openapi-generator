@@ -4,11 +4,7 @@ import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.cmd.utils.CodegenConfigLoader;
-
-import java.util.ServiceLoader;
-
-import static java.util.ServiceLoader.load;
+import io.swagger.codegen.CodegenConfigLoader;
 
 @Command(name = "config-help", description = "Config help for chosen lang")
 public class ConfigHelp implements Runnable {

@@ -8,9 +8,9 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
-import io.swagger.codegen.cmd.utils.CodegenConfigLoader;
 import io.swagger.codegen.cmd.utils.OptionUtils;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.util.ServiceLoader.load;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**

@@ -518,6 +518,6 @@
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.18.1</surefire-version>
         <jmockit-version>1.18</jmockit-version>
-        <reflections-version>0.9.9</reflections-version>
+        <reflections-version>0.9.10</reflections-version>
     </properties>
 </project>
