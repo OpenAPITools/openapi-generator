@@ -1468,6 +1468,9 @@ public class DefaultCodegen {
 
         // input-name => input_name
         name = name.replaceAll("-", "_");
+
+        // input name and age => input_name_and_age
+        name = name.replaceAll(" ", "_");
         
         // remove everything else other than word, number and _
         // $php_variable => php_variable
