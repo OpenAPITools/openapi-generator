@@ -21,7 +21,7 @@ import java.util.Set;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * A class that contains all configuration properties you would want to manipulate.
+ * A class that contains all codegen configuration properties a user would want to manipulate.
  * An instance could be created by deserializing a JSON file or being populated from CLI or Maven plugin parameters.
  * It also has a convenience method for creating a ClientOptInput class which is THE object DefaultGenerator.java needs
  * to generate code.
