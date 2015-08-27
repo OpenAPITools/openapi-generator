@@ -8,14 +8,20 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
+import io.swagger.codegen.cmd.utils.CodegenConfigLoader;
+import io.swagger.codegen.cmd.utils.OptionUtils;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ServiceLoader;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.util.ServiceLoader.load;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -30,8 +36,6 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 public class Generate implements Runnable {
 
     public static final Logger LOG = LoggerFactory.getLogger(Generate.class);
-
-    public static final String TEMPLATE_DIR_PARAM = "templateDir";
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private boolean verbose;
@@ -70,27 +74,42 @@ public class Generate implements Runnable {
             "overwritten during the generation.")
     private boolean skipOverwrite;
 
-    /**
-     * Tries to load config class with SPI first, then with class name directly from classpath
-     *
-     * @param name name of config, or full qualified class name in classpath
-     * @return config class
-     */
-    private static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = load(CodegenConfig.class);
-        for (CodegenConfig config : loader) {
-            if (config.getName().equals(name)) {
-                return config;
-            }
-        }
+    @Option(name = {"--api-package"}, title = "api package", description = CodegenConstants.API_PACKAGE_DESC)
+    private String apiPackage;
 
-        // else try to load directly
-        try {
-            return (CodegenConfig) Class.forName(name).newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException("Can't load config class with name ".concat(name), e);
-        }
-    }
+    @Option(name = {"--model-package"}, title = "model package", description = CodegenConstants.MODEL_PACKAGE_DESC)
+    private String modelPackage;
+
+    @Option(name = {"--instantiation-types"}, title = "instantiation types", description = "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType." +
+            "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code.")
+    private String instantiationTypes;
+
+    @Option(name = {"--type-mappings"}, title = "type mappings", description = "sets mappings between swagger spec types and generated code types " +
+            "in the format of swaggerType=generatedType,swaggerType=generatedType. For example: array=List,map=Map,string=String")
+    private String typeMappings;
+
+    @Option(name = {"--additional-properties"}, title = "additional properties", description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value")
+    private String additionalProperties;
+
+    @Option(name = {"--language-specific-primitives"}, title = "language specific primitives",
+            description = "specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double")
+    private String languageSpecificPrimitives;
+
+    @Option(name = {"--import-mappings"}, title = "import mappings",
+            description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import")
+    private String importMappings;
+
+    @Option(name = {"--invoker-package"}, title = "invoker package", description = CodegenConstants.INVOKER_PACKAGE_DESC)
+    private String invokerPackage;
+
+    @Option(name = {"--group-id"}, title = "group id", description = CodegenConstants.GROUP_ID_DESC)
+    private String groupId;
+
+    @Option(name = {"--artifact-id"}, title = "artifact id", description = CodegenConstants.ARTIFACT_ID_DESC)
+    private String artifactId;
+
+    @Option(name = {"--artifact-version"}, title = "artifact version", description = CodegenConstants.ARTIFACT_VERSION_DESC)
+    private String artifactVersion;
 
     @Override
     public void run() {
@@ -98,18 +117,29 @@ public class Generate implements Runnable {
 
         setSystemProperties();
 
-        ClientOptInput input = new ClientOptInput();
+        CodegenConfig config = CodegenConfigLoader.forName(lang);
 
-        if (isNotEmpty(auth)) {
-            input.setAuth(auth);
-        }
-
-        CodegenConfig config = forName(lang);
         config.setOutputDir(new File(output).getAbsolutePath());
+        config.setSkipOverwrite(skipOverwrite);
 
-        if (null != templateDir) {
-            config.additionalProperties().put(TEMPLATE_DIR_PARAM, new File(templateDir).getAbsolutePath());
+        putKeyValuePairsInMap(config.instantiationTypes(), instantiationTypes);
+        putKeyValuePairsInMap(config.typeMapping(), typeMappings);
+        putKeyValuePairsInMap(config.additionalProperties(), additionalProperties);
+        putKeyValuePairsInMap(config.importMapping(), importMappings);
+
+        addValuesToSet(config.languageSpecificPrimitives(), languageSpecificPrimitives);
+
+        checkAndSetAdditionalProperty(config, apiPackage, CodegenConstants.API_PACKAGE);
+        checkAndSetAdditionalProperty(config, modelPackage, CodegenConstants.MODEL_PACKAGE);
+
+        if(isNotEmpty(templateDir)) {
+            config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, new File(templateDir).getAbsolutePath());
         }
+
+        checkAndSetAdditionalProperty(config, invokerPackage, CodegenConstants.INVOKER_PACKAGE);
+        checkAndSetAdditionalProperty(config, groupId, CodegenConstants.GROUP_ID);
+        checkAndSetAdditionalProperty(config, artifactId, CodegenConstants.ARTIFACT_ID);
+        checkAndSetAdditionalProperty(config, artifactVersion, CodegenConstants.ARTIFACT_VERSION);
 
         if (null != configFile) {
             Config genConfig = ConfigParser.read(configFile);
@@ -127,23 +157,51 @@ public class Generate implements Runnable {
             }
         }
 
-        config.setSkipOverwrite(skipOverwrite);
-        input.setConfig(config);
+        ClientOptInput input = new ClientOptInput().config(config);
+
+        if (isNotEmpty(auth)) {
+            input.setAuth(auth);
+        }
 
         Swagger swagger = new SwaggerParser().read(spec, input.getAuthorizationValues(), true);
         new DefaultGenerator().opts(input.opts(new ClientOpts()).swagger(swagger)).generate();
     }
 
-    private void setSystemProperties() {
-        if (systemProperties != null && systemProperties.length() > 0) {
-            for (String property : systemProperties.split(",")) {
-                int ix = property.indexOf('=');
-                if (ix > 0 && ix < property.length() - 1) {
-                    System.setProperty(property.substring(0, ix), property.substring(ix + 1));
-                }
-            }
+    private void addValuesToSet(Set<String> set, String csvProperty) {
+        final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
+
+        for (String value : values) {
+            set.add(value);
         }
     }
+
+    private void checkAndSetAdditionalProperty(CodegenConfig config, String property, String propertyKey) {
+        checkAndSetAdditionalProperty(config, property, property, propertyKey);
+    }
+
+    private void checkAndSetAdditionalProperty(CodegenConfig config, String property, String valueToSet, String propertyKey) {
+        if(isNotEmpty(property)) {
+            config.additionalProperties().put(propertyKey, valueToSet);
+        }
+    }
+
+    private void setSystemProperties() {
+
+        final List<Pair<String, String>> systemPropertyPairs = OptionUtils.parseCommaSeparatedTuples(systemProperties);
+
+        for (Pair<String, String> pair : systemPropertyPairs) {
+            System.setProperty(pair.getLeft(), pair.getRight());
+        }
+    }
+
+    private void putKeyValuePairsInMap(Map map, String commaSeparatedKVPairs) {
+        final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
+
+        for (Pair<String, String> pair : pairs) {
+            map.put(pair.getLeft(), pair.getRight());
+        }
+    }
+
 
     /**
      * If true parameter, adds system properties which enables debug mode in generator

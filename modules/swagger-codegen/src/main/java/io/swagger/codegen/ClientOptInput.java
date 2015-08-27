@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientOptInput {
-    protected CodegenConfig config;
+    private CodegenConfig config;
     private ClientOpts opts;
     private Swagger swagger;
     private List<AuthorizationValue> auths;
@@ -22,6 +22,11 @@ public class ClientOptInput {
 
     public ClientOptInput opts(ClientOpts opts) {
         this.setOpts(opts);
+        return this;
+    }
+
+    public ClientOptInput config(CodegenConfig codegenConfig) {
+        this.setConfig(codegenConfig);
         return this;
     }
 
