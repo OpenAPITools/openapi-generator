@@ -6,9 +6,6 @@ import java.util.ServiceLoader;
 
 import static java.util.ServiceLoader.load;
 
-/**
- * Created by russellb337 on 8/25/15.
- */
 public class CodegenConfigLoader {
     /**
      * Tries to load config class with SPI first, then with class name directly from classpath
