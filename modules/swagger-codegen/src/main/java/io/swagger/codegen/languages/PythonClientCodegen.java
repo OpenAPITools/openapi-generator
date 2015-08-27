@@ -167,8 +167,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        // sanitize name
+        name = sanitizeName(name);
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -177,7 +177,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // underscore the variable name
         // petId => pet_id
-        name = underscore(dropDots(name));
+        name = underscore(name);
 
         // remove leading underscore
         name = name.replaceAll("^_*", "");
@@ -258,7 +258,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return underscore(operationId);
+        return underscore(sanitizeName(operationId));
     }
 
     public void setPackageName(String packageName) {
