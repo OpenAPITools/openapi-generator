@@ -84,7 +84,7 @@
     <properties>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <swagger-core-version>1.5.3</swagger-core-version>
-        <jetty-version>9.2.9.v20150224</jetty-version>
+        <jetty-version>9.3.2.v20150730</jetty-version>
         <logback-version>1.0.1</logback-version>
         <junit-version>4.8.2</junit-version>
         <slf4j-version>1.6.3</slf4j-version>
