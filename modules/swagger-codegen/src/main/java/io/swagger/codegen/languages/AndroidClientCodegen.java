@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -58,11 +59,11 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
-        cliOptions.add(new CliOption("invokerPackage", "root package to use for the generated code"));
-        cliOptions.add(new CliOption("groupId", "groupId for use in the generated build.gradle and pom.xml"));
-        cliOptions.add(new CliOption("artifactId", "artifactId for use in the generated build.gradle and pom.xml"));
-        cliOptions.add(new CliOption("artifactVersion", "artifact version for use in the generated build.gradle and pom.xml"));
-        cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, "groupId for use in the generated build.gradle and pom.xml"));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, "artifactId for use in the generated build.gradle and pom.xml"));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "artifact version for use in the generated build.gradle and pom.xml"));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption("useAndroidMavenGradlePlugin", "A flag to toggle android-maven gradle plugin. Default is true."));
     }
 
@@ -187,36 +188,36 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("invokerPackage")) {
-            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else {
             //not set, use default to be passed to template
-            additionalProperties.put("invokerPackage", invokerPackage);
+            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
 
-        if (additionalProperties.containsKey("groupId")) {
-            this.setGroupId((String) additionalProperties.get("groupId"));
+        if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
+            this.setGroupId((String) additionalProperties.get(CodegenConstants.GROUP_ID));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("groupId", groupId);
+            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         }
 
-        if (additionalProperties.containsKey("artifactId")) {
-            this.setArtifactId((String) additionalProperties.get("artifactId"));
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
+            this.setArtifactId((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("artifactId", artifactId);
+            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
 
-        if (additionalProperties.containsKey("artifactVersion")) {
-            this.setArtifactVersion((String) additionalProperties.get("artifactVersion"));
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("artifactVersion", artifactVersion);
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
-        if (additionalProperties.containsKey("sourceFolder")) {
-            this.setSourceFolder((String) additionalProperties.get("sourceFolder"));
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
         if (additionalProperties.containsKey("useAndroidMavenGradlePlugin")) {

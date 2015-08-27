@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -84,12 +85,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
         typeMapping.put("DateTime", "\\DateTime");
         
-        cliOptions.add(new CliOption("invokerPackage", "The main namespace to use for all classes. e.g. Yay\\Pets"));
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption("packagePath", "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption("srcBasePath", "The directory under packagePath to serve as source root."));
         cliOptions.add(new CliOption("composerVendorName", "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
         cliOptions.add(new CliOption("composerProjectName", "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
-        cliOptions.add(new CliOption("artifactVersion", "The version to use in the composer package version field. e.g. 1.2.3"));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
     public String getPackagePath() {
@@ -153,22 +154,22 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("srcBasePath", srcBasePath);
         }
         
-        if (additionalProperties.containsKey("invokerPackage")) {
-            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else {
-            additionalProperties.put("invokerPackage", invokerPackage);
+            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
         
-        if (additionalProperties.containsKey("modelPackage")) {
-            this.setModelPackage((String) additionalProperties.get("modelPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            this.setModelPackage((String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
         } else {
-            additionalProperties.put("modelPackage", modelPackage);
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        if (additionalProperties.containsKey("apiPackage")) {
-            this.setApiPackage((String) additionalProperties.get("apiPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
         } else {
-            additionalProperties.put("apiPackage", apiPackage);
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
                 
         if (additionalProperties.containsKey("composerProjectName")) {
@@ -183,10 +184,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("composerVendorName", composerVendorName);
         }
         
-        if (additionalProperties.containsKey("artifactVersion")) {
-            this.setArtifactVersion((String) additionalProperties.get("artifactVersion"));
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else {
-            additionalProperties.put("artifactVersion", artifactVersion);
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
         
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
