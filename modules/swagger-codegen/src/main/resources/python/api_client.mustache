@@ -20,7 +20,7 @@ Copyright 2015 SmartBear Software
 
 from __future__ import absolute_import
 from . import models
-from .rest import RESTClient
+from .rest import RESTClientObject
 from .rest import ApiException
 
 import os
@@ -71,6 +71,7 @@ class ApiClient(object):
         """
         Constructor of the class.
         """
+        self.rest_client = RESTClientObject()
         self.default_headers = {}
         if header_name is not None:
             self.default_headers[header_name] = header_value
@@ -330,35 +331,35 @@ class ApiClient(object):
         Makes the HTTP request using RESTClient.
         """
         if method == "GET":
-            return RESTClient.GET(url,
-                                  query_params=query_params,
-                                  headers=headers)
+            return self.rest_client.GET(url,
+                                        query_params=query_params,
+                                        headers=headers)
         elif method == "HEAD":
-            return RESTClient.HEAD(url,
-                                   query_params=query_params,
-                                   headers=headers)
+            return self.rest_client.HEAD(url,
+                                         query_params=query_params,
+                                         headers=headers)
         elif method == "POST":
-            return RESTClient.POST(url,
-                                   query_params=query_params,
-                                   headers=headers,
-                                   post_params=post_params,
-                                   body=body)
+            return self.rest_client.POST(url,
+                                         query_params=query_params,
+                                         headers=headers,
+                                         post_params=post_params,
+                                         body=body)
         elif method == "PUT":
-            return RESTClient.PUT(url,
-                                  query_params=query_params,
-                                  headers=headers,
-                                  post_params=post_params,
-                                  body=body)
+            return self.rest_client.PUT(url,
+                                        query_params=query_params,
+                                        headers=headers,
+                                        post_params=post_params,
+                                        body=body)
         elif method == "PATCH":
-            return RESTClient.PATCH(url,
-                                    query_params=query_params,
-                                    headers=headers,
-                                    post_params=post_params,
-                                    body=body)
+            return self.rest_client.PATCH(url,
+                                          query_params=query_params,
+                                          headers=headers,
+                                          post_params=post_params,
+                                          body=body)
         elif method == "DELETE":
-            return RESTClient.DELETE(url,
-                                     query_params=query_params,
-                                     headers=headers)
+            return self.rest_client.DELETE(url,
+                                           query_params=query_params,
+                                           headers=headers)
         else:
             raise ValueError(
                 "http method must be `GET`, `HEAD`,"
