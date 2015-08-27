@@ -49,6 +49,9 @@ public class ApiClient {
 
   private Map<String, Authentication> authentications;
 
+  private int statusCode;
+  private Map<String, List<String>> responseHeaders;
+
   private DateFormat dateFormat;
 
   public ApiClient() {
@@ -78,6 +81,20 @@ public class ApiClient {
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
     return this;
+  }
+
+  /**
+   * Gets the status code of the previous request
+   */
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  /**
+   * Gets the response headers of the previous request
+   */
+  public Map<String, List<String>> getResponseHeaders() {
+    return responseHeaders;
   }
 
   /**
@@ -493,6 +510,9 @@ public class ApiClient {
    public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, byte[] binaryBody, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
 
     ClientResponse response = getAPIResponse(path, method, queryParams, body, binaryBody, headerParams, formParams, accept, contentType, authNames);
+
+    statusCode = response.getStatusInfo().getStatusCode();
+    responseHeaders = response.getHeaders();
 
     if(response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
       return null;

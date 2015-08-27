@@ -86,7 +86,7 @@ public class PetApiTest {
     public void testFindPetsByStatus() throws Exception {
         Pet pet = createRandomPet();
         pet.setName("programmer");
-        pet.setStatus(Pet.StatusEnum.available);
+        pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
         api.updatePet(pet);
 
@@ -108,7 +108,7 @@ public class PetApiTest {
     public void testFindPetsByTags() throws Exception {
         Pet pet = createRandomPet();
         pet.setName("monster");
-        pet.setStatus(Pet.StatusEnum.available);
+        pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
         List<Tag> tags = new ArrayList<Tag>();
         Tag tag1 = new Tag();
@@ -183,7 +183,7 @@ public class PetApiTest {
         category.setName("really-happy");
 
         pet.setCategory(category);
-        pet.setStatus(Pet.StatusEnum.available);
+        pet.setStatus(Pet.StatusEnum.AVAILABLE);
         List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"});
         pet.setPhotoUrls(photos);
 
