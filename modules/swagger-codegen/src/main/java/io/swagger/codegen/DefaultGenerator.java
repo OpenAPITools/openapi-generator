@@ -425,7 +425,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, Path path) {
         if (operation != null) {
-            LOGGER.info("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
+            if (System.getProperty("debugOperations") != null) {
+                LOGGER.debug("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
+            }
             List<String> tags = operation.getTags();
             if (tags == null) {
                 tags = new ArrayList<String>();
