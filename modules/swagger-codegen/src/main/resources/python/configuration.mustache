@@ -79,6 +79,12 @@ class Configuration(object):
         self.__debug = False
         self.init_logger()
 
+        # SSL/TLS verification
+        # Set this to false to skip verifying SSL certificate when calling API from https server.
+        self.verify_ssl = True
+        # Set this to customize the certificate file to verify the peer.
+        self.ssl_ca_cert = None
+        
     def init_logger(self):
         """
         Initializes logger settings.
