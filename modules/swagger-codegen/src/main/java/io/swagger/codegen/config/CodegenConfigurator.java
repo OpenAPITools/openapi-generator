@@ -30,10 +30,8 @@ public class CodegenConfigurator {
 
     public static final Logger LOG = LoggerFactory.getLogger(CodegenConfigurator.class);
 
-    //required config values
-    private final String lang;
-    private final String inputSpec;
-
+    private String lang;
+    private String inputSpec;
     private String outputDir;
     private boolean verbose = false;
     private boolean skipOverwrite;
@@ -52,15 +50,18 @@ public class CodegenConfigurator {
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
 
-    public CodegenConfigurator(String lang, String inputSpec) {
-
-        Validate.notEmpty(lang, "language must be specified");
-        Validate.notEmpty(lang, "input spec must be specified");
-
-        this.lang = lang;
-        this.inputSpec = inputSpec;
-
+    public CodegenConfigurator() {
         this.setOutputDir(".");
+    }
+
+    public CodegenConfigurator setLang(String lang) {
+        this.lang = lang;
+        return this;
+    }
+
+    public CodegenConfigurator setInputSpec(String inputSpec) {
+        this.inputSpec = inputSpec;
+        return this;
     }
 
     public String getInputSpec() {
@@ -255,6 +256,10 @@ public class CodegenConfigurator {
     }
 
     public ClientOptInput toClientOptInput() {
+
+        Validate.notEmpty(lang, "language must be specified");
+        Validate.notEmpty(inputSpec, "input spec must be specified");
+
         setVerboseFlags();
         setSystemProperties();
 
