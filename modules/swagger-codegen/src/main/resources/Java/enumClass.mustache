@@ -1,0 +1,14 @@
+public enum {{datatypeWithEnum}} {
+  {{#allowableValues}}{{#enumVars}}{{name}}("{{value}}"){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
+
+  private String value;
+
+  StatusEnum(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+}
