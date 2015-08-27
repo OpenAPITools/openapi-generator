@@ -9,6 +9,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 public class ClientOptInput {
     private CodegenConfig config;
     private ClientOpts opts;
@@ -27,6 +29,11 @@ public class ClientOptInput {
 
     public ClientOptInput config(CodegenConfig codegenConfig) {
         this.setConfig(codegenConfig);
+        return this;
+    }
+
+    public ClientOptInput auth(String urlEncodedAuthString) {
+        this.setAuth(urlEncodedAuthString);
         return this;
     }
 
@@ -54,7 +61,7 @@ public class ClientOptInput {
 
     public void setAuth(String urlEncodedAuthString) {
         List<AuthorizationValue> auths = new ArrayList<AuthorizationValue>();
-        if (urlEncodedAuthString != null && !"".equals(urlEncodedAuthString)) {
+        if (isNotEmpty(urlEncodedAuthString)) {
             String[] parts = urlEncodedAuthString.split(",");
             for (String part : parts) {
                 String[] kvPair = part.split(":");
