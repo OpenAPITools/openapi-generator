@@ -43,7 +43,7 @@ class {{classname}}(object):
             self.api_client = api_client
         else:
             if not config.api_client:
-                config.api_client = ApiClient('{{basePath}}')
+                config.api_client = ApiClient()
             self.api_client = config.api_client
 {{#operation}}
 
