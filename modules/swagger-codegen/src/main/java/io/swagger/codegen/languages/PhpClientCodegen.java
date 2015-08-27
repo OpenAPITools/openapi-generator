@@ -299,6 +299,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setParameterNamingConvention((String) additionalProperties.get("variableNamingConvention"));
         }
 
+        // sanitize name
+        name = sanitizeName(name);
+
         if ("camelCase".equals(variableNamingConvention)) {
           // return the name in camelCase style
           // phone_number => phoneNumber
@@ -341,4 +344,20 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         // should be the same as the model name
         return toModelName(name);
     }
+
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
+        // method name cannot use reserved keyword, e.g. return
+        if (reservedWords.contains(operationId)) {
+            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        }
+
+        return camelize(sanitizeName(operationId), true);
+    }
+
 }

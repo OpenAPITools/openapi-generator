@@ -355,6 +355,20 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be("createdAt")
   }
 
+  it should "convert query[password] to queryPassword" in {
+    val model = new ModelImpl()
+      .description("a sample model")
+      .property("query[password]", new StringProperty())
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+    val vars = cm.vars
+    vars.get(0).baseName should be("query[password]")
+    vars.get(0).getter should be("getQueryPassword")
+    vars.get(0).setter should be("setQueryPassword")
+    vars.get(0).name should be("queryPassword")
+  }
+
   it should "properly escape names per 567" in {
     val model = new ModelImpl()
       .description("a sample model")
