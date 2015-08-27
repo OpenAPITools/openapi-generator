@@ -1,7 +1,5 @@
-package io.swagger.codegen.cmd.utils;
+package io.swagger.codegen;
 
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.DefaultCodegen;
 import org.reflections.Reflections;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

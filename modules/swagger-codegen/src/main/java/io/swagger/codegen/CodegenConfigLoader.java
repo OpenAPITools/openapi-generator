@@ -1,6 +1,4 @@
-package io.swagger.codegen.cmd.utils;
-
-import io.swagger.codegen.CodegenConfig;
+package io.swagger.codegen;
 
 import java.util.ServiceLoader;
 
