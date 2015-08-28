@@ -207,11 +207,14 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, Object> getOperations(Map<String, Object> objs) {
+    private List<Map<String, Object>> getOperations(Map<String, Object> objs) {
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
-        Map<String, Object> api = apis.get(0);
-        return (Map<String, Object>) api.get("operations");
+        for (Map<String, Object> api : apis) {
+            result.add((Map<String, Object>) api.get("operations"));
+        }
+        return result;
     }
 
     private List<Map<String, Object>> sortOperationsByPath(List<CodegenOperation> ops) {
@@ -221,7 +224,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             opsByPath.put(op.path, op);
         }
 
-    	List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
         for (Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
             Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
             opsByPathList.add(opsByPathEntry);
@@ -239,16 +242,13 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Map<String, Object> operations = getOperations(objs);
-
-        if (operations != null) {
+        for (Map<String, Object> operations : getOperations(objs)) {
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
 
             List<Map<String, Object>> opsByPathList = sortOperationsByPath(ops);
             operations.put("operationsByPath", opsByPathList);
         }
-
         return super.postProcessSupportingFileData(objs);
     }
 }

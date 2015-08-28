@@ -24,8 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
@@ -82,14 +86,17 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(buildLibraryCliOption(supportedLibraries));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "java";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java client library.";
     }
@@ -191,6 +198,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
@@ -283,6 +291,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else {
             type = swaggerType;
+        }
+        if (null == type) {
+            LOGGER.error("No Type defined for Property " + p);
         }
         return toModelName(type);
     }
