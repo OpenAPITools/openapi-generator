@@ -126,6 +126,7 @@ public class DefaultCodegen {
     // override with any special text escaping logic
     public String escapeText(String input) {
         if (input != null) {
+            input = input.trim();
             String output = input.replaceAll("\n", "\\\\n");
             output = output.replace("\"", "\\\"");
             return output;
