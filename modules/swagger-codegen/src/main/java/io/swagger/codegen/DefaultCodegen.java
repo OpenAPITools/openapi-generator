@@ -533,6 +533,7 @@ public class DefaultCodegen {
             m.name = name;
         }
         m.description = escapeText(model.getDescription());
+        m.unescapedDescription = model.getDescription();
         m.classname = toModelName(name);
         m.classVarName = toVarName(name);
         m.modelJson = Json.pretty(model);
@@ -629,6 +630,7 @@ public class DefaultCodegen {
         property.name = toVarName(name);
         property.baseName = name;
         property.description = escapeText(p.getDescription());
+        property.unescapedDescription = p.getDescription();
         property.getter = "get" + getterAndSetterCapitalize(name);
         property.setter = "set" + getterAndSetterCapitalize(name);
         property.example = p.getExample();
