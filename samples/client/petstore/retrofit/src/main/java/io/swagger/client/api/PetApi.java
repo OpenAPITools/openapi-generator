@@ -156,7 +156,7 @@ public interface PetApi {
   @FormUrlEncoded
   @POST("/pet/{petId}")  
   Void updatePetWithForm(
-    @Path("petId") Long petId,@Field("name") String name,@Field("status") String status
+    @Path("petId") Long petId, @Field("name") String name, @Field("status") String status
   );
 
   /**
@@ -172,7 +172,7 @@ public interface PetApi {
   @FormUrlEncoded
   @POST("/pet/{petId}")  
   void updatePetWithForm(
-    @Path("petId") Long petId,@Field("name") String name,@Field("status") String status, Callback<Void> cb
+    @Path("petId") Long petId, @Field("name") String name, @Field("status") String status, Callback<Void> cb
   ); 
   
   /**
@@ -186,7 +186,7 @@ public interface PetApi {
   
   @DELETE("/pet/{petId}")  
   Void deletePet(
-    @Path("petId") Long petId,@Header("api_key") String apiKey
+    @Path("petId") Long petId, @Header("api_key") String apiKey
   );
 
   /**
@@ -200,7 +200,7 @@ public interface PetApi {
   
   @DELETE("/pet/{petId}")  
   void deletePet(
-    @Path("petId") Long petId,@Header("api_key") String apiKey, Callback<Void> cb
+    @Path("petId") Long petId, @Header("api_key") String apiKey, Callback<Void> cb
   ); 
   
   /**
@@ -216,7 +216,7 @@ public interface PetApi {
   @Multipart
   @POST("/pet/{petId}/uploadImage")  
   ApiResponse uploadFile(
-    @Path("petId") Long petId,@Part("additionalMetadata") String additionalMetadata,@Part("file") TypedFile file
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file
   );
 
   /**
@@ -232,7 +232,7 @@ public interface PetApi {
   @Multipart
   @POST("/pet/{petId}/uploadImage")  
   void uploadFile(
-    @Path("petId") Long petId,@Part("additionalMetadata") String additionalMetadata,@Part("file") TypedFile file, Callback<ApiResponse> cb
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<ApiResponse> cb
   ); 
   
 }
