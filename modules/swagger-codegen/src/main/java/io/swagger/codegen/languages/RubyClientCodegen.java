@@ -196,8 +196,10 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        // remove trailing special characters, e.g. "post[created-at]!!" => "post[created-at"
+        name = name.replaceAll("\\W+\\z", "");
+        // replace special characters with _, e.g. "post[created-at" => "post_created_at"
+        name = name.replaceAll("\\W+", "_");
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
