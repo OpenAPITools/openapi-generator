@@ -32,7 +32,7 @@ public interface StoreApi {
   
   @GET("/store/inventory")  
   void getInventory(
-     Callback<Map<String, Integer>> cb
+    Callback<Map<String, Integer>> cb
   ); 
   
   /**

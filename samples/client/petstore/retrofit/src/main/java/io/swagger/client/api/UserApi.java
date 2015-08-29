@@ -101,7 +101,7 @@ public interface UserApi {
   
   @GET("/user/login")  
   String loginUser(
-    @Query("username") String username,@Query("password") String password
+    @Query("username") String username, @Query("password") String password
   );
 
   /**
@@ -115,7 +115,7 @@ public interface UserApi {
   
   @GET("/user/login")  
   void loginUser(
-    @Query("username") String username,@Query("password") String password, Callback<String> cb
+    @Query("username") String username, @Query("password") String password, Callback<String> cb
   ); 
   
   /**
@@ -138,7 +138,7 @@ public interface UserApi {
   
   @GET("/user/logout")  
   void logoutUser(
-     Callback<Void> cb
+    Callback<Void> cb
   ); 
   
   /**
@@ -178,7 +178,7 @@ public interface UserApi {
   
   @PUT("/user/{username}")  
   Void updateUser(
-    @Path("username") String username,@Body User body
+    @Path("username") String username, @Body User body
   );
 
   /**
@@ -192,7 +192,7 @@ public interface UserApi {
   
   @PUT("/user/{username}")  
   void updateUser(
-    @Path("username") String username,@Body User body, Callback<Void> cb
+    @Path("username") String username, @Body User body, Callback<Void> cb
   ); 
   
   /**
