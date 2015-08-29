@@ -32,15 +32,15 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Lib\SwaggerClient\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>Lib\SwaggerClient\bin\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="nunit.framework">
       <HintPath>packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="RestSharp">
+      <HintPath>Lib\SwaggerClient\bin\RestSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Api\PetApi.cs" />
