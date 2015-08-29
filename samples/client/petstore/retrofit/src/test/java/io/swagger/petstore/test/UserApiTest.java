@@ -15,7 +15,7 @@ public class UserApiTest {
 
     @Before
     public void setup() {
-        api = ServiceGenerator.createService(UserApi.class);
+        api = new ServiceGenerator().createService(UserApi.class);
     }
 
     @Test

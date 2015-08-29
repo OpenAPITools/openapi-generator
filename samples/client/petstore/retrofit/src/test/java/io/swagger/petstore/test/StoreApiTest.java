@@ -16,7 +16,7 @@ public class StoreApiTest {
 
     @Before
     public void setup() {
-        api = ServiceGenerator.createService(StoreApi.class);
+        api = new ServiceGenerator().createService(StoreApi.class);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class StoreApiTest {
         Order order = createOrder();
         api.placeOrder(order);
 
-        Order fetched = api.getOrderById(String.valueOf(order.getId()));
+        Order fetched = api.getOrderById(order.getId());
         assertEquals(order.getId(), fetched.getId());
         assertEquals(order.getPetId(), fetched.getPetId());
         assertEquals(order.getQuantity(), fetched.getQuantity());
@@ -41,13 +41,13 @@ public class StoreApiTest {
         Order order = createOrder();
         api.placeOrder(order);
 
-        Order fetched = api.getOrderById(String.valueOf(order.getId()));
+        Order fetched = api.getOrderById(order.getId());
         assertEquals(fetched.getId(), order.getId());
 
         api.deleteOrder(String.valueOf(order.getId()));
 
         try {
-            api.getOrderById(String.valueOf(order.getId()));
+            api.getOrderById(order.getId());
             // fail("expected an error");
         } catch (RetrofitError e) {
             // ok
