@@ -52,6 +52,16 @@ public class RetrofitClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("service.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ServiceGenerator.java"));
+        supportingFiles.add(new SupportingFile("auth/basic.mustache",
+                (sourceFolder + File.separator + invokerPackage + File.separator + "auth").replace(".", java.io.File.separator), "BasicAuthorization.java"));
+        supportingFiles.add(new SupportingFile("auth/apikey.mustache",
+                (sourceFolder + File.separator + invokerPackage + File.separator + "auth").replace(".", java.io.File.separator), "ApiKeyAuthorization.java"));
+        supportingFiles.add(new SupportingFile("auth/oauth.mustache",
+                (sourceFolder + File.separator + invokerPackage + File.separator + "auth").replace(".", java.io.File.separator), "OauthAuthorization.java"));
+        supportingFiles.add(new SupportingFile("auth/oauthflow.mustache",
+                (sourceFolder + File.separator + invokerPackage + File.separator + "auth").replace(".", java.io.File.separator), "OauthFlow.java"));
+        supportingFiles.add(new SupportingFile("auth/oauthokclient.mustache",
+                (sourceFolder + File.separator + invokerPackage + File.separator + "auth").replace(".", java.io.File.separator), "OauthOkHttpClient.java"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(

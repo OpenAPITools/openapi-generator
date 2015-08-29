@@ -1,15 +1,17 @@
 package io.swagger.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
-
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import retrofit.converter.ConversionException;
 import retrofit.converter.Converter;
 import retrofit.converter.GsonConverter;
@@ -17,21 +19,246 @@ import retrofit.mime.TypedByteArray;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.OkHttpClient;
+
+import io.swagger.client.auth.BasicAuthorization;
+import io.swagger.client.auth.ApiKeyAuthorization;
+import io.swagger.client.auth.OauthAuthorization;
+import io.swagger.client.auth.OauthFlow;
+
+
 public class ServiceGenerator {
-  // No need to instantiate this class.
-  private ServiceGenerator() { }
 
-  public static <S> S createService(Class<S> serviceClass) {
-    Gson gson = new GsonBuilder()
-        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-        .create();
-    RestAdapter adapter = new RestAdapter.Builder()
-        .setEndpoint("http://petstore.swagger.io/v2")
-        .setConverter(new GsonConverterWrapper(gson))
-        .build();
+    private Map<String, Interceptor> apiAuthorizations;
+    private OkHttpClient okClient;
+    private RestAdapter.Builder adapterBuilder;
 
-    return adapter.create(serviceClass);
-  }
+    public ServiceGenerator() {
+        apiAuthorizations = new LinkedHashMap<String, Interceptor>();
+        createDefaultAdapter();
+    }
+    
+    public ServiceGenerator(String[] authNames) {
+        this();
+        okClient = new OkHttpClient();
+        adapterBuilder.setClient(new OkClient(okClient));
+        for(String authName : authNames) {
+            if (apiAuthorizations.containsKey(authName)) {
+                throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
+            }
+            Interceptor auth;
+            if (authName == "petstore_auth") { 
+                auth = new OauthAuthorization(OauthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else 
+            if (authName == "api_key") { 
+                auth = new ApiKeyAuthorization("header", "api_key");
+            } else {
+                throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+            }
+            apiAuthorizations.put(authName, auth);
+        }
+        addAuthsToOkClient(okClient);
+    }
+
+    /**
+     * Basic constructor for single auth name
+     * @param authName
+     */
+    public ServiceGenerator(String authName) {
+        this(new String[]{authName});
+    }
+
+    /**
+     * Helper constructor for single api key
+     * @param authName
+     * @param apiKey
+     */
+    public ServiceGenerator(String authName, String apiKey) {
+        this(authName);
+        this.setApiKey(apiKey);
+    }
+
+    /**
+     * Helper constructor for single basic auth or password oauth2
+     * @param authName
+     * @param username
+     * @param password
+     */
+    public ServiceGenerator(String authName, String username, String password) {
+        this(authName);
+        this.setCredentials(username,  password);
+    }
+
+    /**
+     * Helper constructor for single password oauth2
+     * @param authName
+     * @param clientId
+     * @param secret
+     * @param username
+     * @param password
+     */
+    public ServiceGenerator(String authName, String clientId, String secret, String username, String password) {
+        this(authName);
+        this.getTokenEndPoint()
+                .setClientId(clientId)
+                .setClientSecret(secret)
+                .setUsername(username)
+                .setPassword(password);
+    }
+    
+   public void createDefaultAdapter() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                .create();
+
+        adapterBuilder = new RestAdapter
+                .Builder()
+                .setEndpoint("http://petstore.swagger.io/v2")
+                .setConverter(new GsonConverterWrapper(gson));
+    }
+
+    public <S> S createService(Class<S> serviceClass) {
+        return adapterBuilder.build().create(serviceClass);
+        
+    }
+
+    /**
+     * Helper method to configure the first api key found
+     * @param apiKey
+     */
+    private void setApiKey(String apiKey) {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof ApiKeyAuthorization) {
+                ApiKeyAuthorization keyAuth = (ApiKeyAuthorization) apiAuthorization;
+                keyAuth.setApiKey(apiKey);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Helper method to configure the username/password for basic auth or password oauth
+     * @param username
+     * @param password
+     */
+    private void setCredentials(String username, String password) {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof BasicAuthorization) {
+                BasicAuthorization basicAuth = (BasicAuthorization) apiAuthorization;
+                basicAuth.setCredentials(username, password);
+                return;
+            }
+            if (apiAuthorization instanceof OauthAuthorization) {
+                OauthAuthorization oauth = (OauthAuthorization) apiAuthorization;
+                oauth.getTokenRequestBuilder().setUsername(username).setPassword(password);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return
+     */
+    public TokenRequestBuilder getTokenEndPoint() {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof OauthAuthorization) {
+                OauthAuthorization oauth = (OauthAuthorization) apiAuthorization;
+                return oauth.getTokenRequestBuilder();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return
+     */
+    public AuthenticationRequestBuilder getAuthorizationEndPoint() {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof OauthAuthorization) {
+                OauthAuthorization oauth = (OauthAuthorization) apiAuthorization;
+                return oauth.getAuthenticationRequestBuilder();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+     * @param accessToken
+     */
+    public void setAccessToken(String accessToken) {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof OauthAuthorization) {
+                OauthAuthorization oauth = (OauthAuthorization) apiAuthorization;
+                oauth.setAccessToken(accessToken);
+                return;
+            }
+        }
+    }
+    
+    /**
+     * Helper method to configure the oauth accessCode/implicit flow parameters
+     * @param clientId
+     * @param clientSecret
+     * @param redirectURI
+     */
+    public void configureAuthorizationFlow(String clientId, String clientSecret, String redirectURI) {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof OauthAuthorization) {
+                OauthAuthorization oauth = (OauthAuthorization) apiAuthorization;
+                oauth.getTokenRequestBuilder()
+                        .setClientId(clientId)
+                        .setClientSecret(clientSecret)
+                        .setRedirectURI(redirectURI);
+                oauth.getAuthenticationRequestBuilder()
+                        .setClientId(clientId)
+                        .setRedirectURI(redirectURI);
+                return;
+            }
+        }
+    }
+    
+    public Map<String, Interceptor> getApiAuthorizations() {
+        return apiAuthorizations;
+    }
+
+    public void setApiAuthorizations(Map<String, Interceptor> apiAuthorizations) {
+        this.apiAuthorizations = apiAuthorizations;
+    }
+
+    public RestAdapter.Builder getAdapterBuilder() {
+        return adapterBuilder;
+    }
+
+    public void setAdapterBuilder(RestAdapter.Builder adapterBuilder) {
+        this.adapterBuilder = adapterBuilder;
+    }
+
+    public OkHttpClient getOkClient() {
+        return okClient;
+    }
+    
+    public void addAuthsToOkClient(OkHttpClient okClient) {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            okClient.interceptors().add(apiAuthorization);
+        }
+    }
+
+    /**
+     * Clones the okClient given in parameter, adds the auth interceptors and uses it to configure the RestAdapter
+     * @param okClient
+     */
+    public void configureFromOkclient(OkHttpClient okClient) {
+        OkHttpClient clone = okClient.clone();
+        addAuthsToOkClient(clone);
+        adapterBuilder.setClient(new OkClient(clone));
+    }
 }
 
 /**
