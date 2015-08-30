@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -41,10 +42,10 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
                         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         // ref: http://php.net/manual/en/language.types.intro.php
         languageSpecificPrimitives = new HashSet<String>(

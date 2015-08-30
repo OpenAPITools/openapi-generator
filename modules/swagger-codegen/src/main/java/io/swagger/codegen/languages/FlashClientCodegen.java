@@ -2,34 +2,27 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.AbstractNumericProperty;
-import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.DateProperty;
 import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
 import io.swagger.models.properties.DoubleProperty;
 import io.swagger.models.properties.FloatProperty;
 import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
-import io.swagger.models.properties.PropertyBuilder;
-import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.HashMap;
-
-import org.apache.commons.lang.StringUtils;
+import java.util.HashSet;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName = "io.swagger";
@@ -82,8 +75,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         cliOptions.clear();
         cliOptions.add(new CliOption("packageName", "flash package name (convention: package.name), default: io.swagger"));
         cliOptions.add(new CliOption("packageVersion", "flash package version, default: 1.0.0"));
-        cliOptions.add(new CliOption("invokerPackage", "root package for generated code"));
-        cliOptions.add(new CliOption("sourceFolder", "source folder for generated code. e.g. src/main/flex"));
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code. e.g. src/main/flex"));
 
     }
 
@@ -91,15 +84,15 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("invokerPackage")) {
-            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else {
             //not set, use default to be passed to template
-            additionalProperties.put("invokerPackage", invokerPackage);
+            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
 
-        if (additionalProperties.containsKey("sourceFolder")) {
-            this.setSourceFolder((String) additionalProperties.get("sourceFolder"));
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
         if (additionalProperties.containsKey("packageName")) {

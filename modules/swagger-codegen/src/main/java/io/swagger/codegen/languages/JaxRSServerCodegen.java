@@ -1,14 +1,12 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenResponse;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Operation;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,10 +37,10 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         apiPackage = System.getProperty("swagger.codegen.jaxrs.apipackage", "io.swagger.api");
         modelPackage = System.getProperty("swagger.codegen.jaxrs.modelpackage", "io.swagger.model");
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
 
 

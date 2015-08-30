@@ -20,6 +20,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
@@ -121,7 +122,7 @@ public class CodeGenMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         Swagger swagger = new SwaggerParser().read(inputSpec);
 
-        CodegenConfig config = forName(language);
+        CodegenConfig config = CodegenConfigLoader.forName(language);
         config.setOutputDir(output.getAbsolutePath());
 
         if (null != templateDirectory) {
@@ -165,22 +166,6 @@ public class CodeGenMojo extends AbstractMojo {
 
         if (addCompileSourceRoot) {
             project.addCompileSourceRoot(output.toString());
-        }
-    }
-
-    private CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
-        for (CodegenConfig config : loader) {
-            if (config.getName().equals(name)) {
-                return config;
-            }
-        }
-
-        // else try to load directly
-        try {
-            return (CodegenConfig) Class.forName(name).newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException("Can't load config class with name ".concat(name), e);
         }
     }
 }
