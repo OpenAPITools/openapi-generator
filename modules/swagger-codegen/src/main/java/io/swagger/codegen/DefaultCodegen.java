@@ -1458,4 +1458,42 @@ public class DefaultCodegen {
         }
         return new CliOption("library", sb.toString());
     }
+
+    /**
+     * sanitize name (parameter, property, method, etc)
+     *
+     * @param name string to be sanitize
+     * @return sanitized string
+     */
+    public String sanitizeName(String name) {
+        // NOTE: performance wise, we should have written with 2 replaceAll to replace desired 
+        // character with _ or empty character. Below aims to spell out different cases we've 
+        // encountered so far and hopefully make it easier for others to add more special
+        // cases in the future.
+
+        // input[] => input
+        name = name.replaceAll("\\[\\]", "");
+
+        // input[a][b] => input_a_b
+        name = name.replaceAll("\\[", "_");
+        name = name.replaceAll("\\]", "");
+
+        // input(a)(b) => input_a_b
+        name = name.replaceAll("\\(", "_");
+        name = name.replaceAll("\\)", "");
+
+        // input.name => input_name
+        name = name.replaceAll("\\.", "_");
+
+        // input-name => input_name
+        name = name.replaceAll("-", "_");
+
+        // input name and age => input_name_and_age
+        name = name.replaceAll(" ", "_");
+        
+        // remove everything else other than word, number and _
+        // $php_variable => php_variable
+        return name.replaceAll("[^a-zA-Z0-9_]", "");
+
+    }
 }
