@@ -205,8 +205,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        // sanitize name
+        name = sanitizeName(name);
 
         if("_".equals(name)) {
           name = "_u";
@@ -310,7 +310,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return camelize(operationId, true);
+        return camelize(sanitizeName(operationId), true);
     }
 
     @Override
