@@ -91,16 +91,16 @@ public class DefaultCodegen {
     }
 
     public void processOpts() {
-        if (additionalProperties.containsKey("templateDir")) {
-            this.setTemplateDir((String) additionalProperties.get("templateDir"));
+        if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
+            this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
         }
 
-        if (additionalProperties.containsKey("modelPackage")) {
-            this.setModelPackage((String) additionalProperties.get("modelPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            this.setModelPackage((String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
         }
 
-        if (additionalProperties.containsKey("apiPackage")) {
-            this.setApiPackage((String) additionalProperties.get("apiPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
         }
     }
 
@@ -336,8 +336,8 @@ public class DefaultCodegen {
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
 
-        cliOptions.add(new CliOption("modelPackage", "package for generated models"));
-        cliOptions.add(new CliOption("apiPackage", "package for generated api classes"));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
 

@@ -83,6 +83,8 @@ public interface CodegenConfig {
 
     Map<String, String> modelTemplateFiles();
 
+    Set<String> languageSpecificPrimitives();
+
     void processSwagger(Swagger swagger);
 
     String toApiFilename(String name);

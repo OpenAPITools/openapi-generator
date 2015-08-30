@@ -34,12 +34,12 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         configPackage = "io.swagger.configuration";
 
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
-        additionalProperties.put("apiPackage", apiPackage);
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put("configPackage", configPackage);
 
         languageSpecificPrimitives = new HashSet<String>(

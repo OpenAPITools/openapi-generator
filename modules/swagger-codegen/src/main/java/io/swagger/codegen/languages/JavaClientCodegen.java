@@ -3,19 +3,16 @@ package io.swagger.codegen.languages;
 import com.google.common.base.Strings;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.ComposedModel;
 import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.RefModel;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,14 +73,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
-        cliOptions.add(new CliOption("invokerPackage", "root package for generated code"));
-        cliOptions.add(new CliOption("groupId", "groupId in generated pom.xml"));
-        cliOptions.add(new CliOption("artifactId", "artifactId in generated pom.xml"));
-        cliOptions.add(new CliOption("artifactVersion", "artifact version in generated pom.xml"));
-        cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
-        cliOptions.add(new CliOption("localVariablePrefix", "prefix for generated code members and local variables"));
-
-        cliOptions.add(new CliOption("serializableModel", "boolean - toggle \"implements Serializable\" for generated models"));
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 
         supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
@@ -109,49 +105,49 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
         
-        if (additionalProperties.containsKey("invokerPackage")) {
-            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else {
             //not set, use default to be passed to template
-            additionalProperties.put("invokerPackage", invokerPackage);
+            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
 
-        if (additionalProperties.containsKey("groupId")) {
-            this.setGroupId((String) additionalProperties.get("groupId"));
+        if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
+            this.setGroupId((String) additionalProperties.get(CodegenConstants.GROUP_ID));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("groupId", groupId);
+            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         }
 
-        if (additionalProperties.containsKey("artifactId")) {
-            this.setArtifactId((String) additionalProperties.get("artifactId"));
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
+            this.setArtifactId((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("artifactId", artifactId);
+            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
 
-        if (additionalProperties.containsKey("artifactVersion")) {
-            this.setArtifactVersion((String) additionalProperties.get("artifactVersion"));
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("artifactVersion", artifactVersion);
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
-        if (additionalProperties.containsKey("sourceFolder")) {
-            this.setSourceFolder((String) additionalProperties.get("sourceFolder"));
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
 
-        if (additionalProperties.containsKey("localVariablePrefix")) {
-            this.setLocalVariablePrefix((String) additionalProperties.get("localVariablePrefix"));
+        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
+            this.setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
         }
 
-        if (additionalProperties.containsKey("serializableModel")) {
-            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get("serializableModel").toString()));
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
+            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
         }
 
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
-        additionalProperties.put("serializableModel", serializableModel);
+        additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
         this.sanitizeConfig();
 
@@ -177,18 +173,18 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // the whole additionalProperties object is injected into the main object passed to the mustache layer
         
         this.setApiPackage(sanitizePackageName(apiPackage));
-        if (additionalProperties.containsKey("apiPackage")) {
-            this.additionalProperties.put("apiPackage", apiPackage);
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            this.additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
         
         this.setModelPackage(sanitizePackageName(modelPackage));
-        if (additionalProperties.containsKey("modelPackage")) {
-            this.additionalProperties.put("modelPackage", modelPackage);
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
         
         this.setInvokerPackage(sanitizePackageName(invokerPackage));
-        if (additionalProperties.containsKey("invokerPackage")) {
-            this.additionalProperties.put("invokerPackage", invokerPackage);
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
     }
     
