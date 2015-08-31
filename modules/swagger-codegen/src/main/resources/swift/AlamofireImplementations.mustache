@@ -20,7 +20,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody)
     }
 
-    override func execute(completion: (response: Response<T>?, erorr: NSError?) -> Void) {
+    override func execute(completion: (response: Response<T>?, erorr: ErrorType?) -> Void) {
         let managerId = NSUUID().UUIDString
         // Create a new manager for each request to customize its request header
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -70,7 +70,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
     }
 
-    private func processRequest(request: Request, _ managerId: String, _ completion: (response: Response<T>?, erorr: NSError?) -> Void) {
+    private func processRequest(request: Request, _ managerId: String, _ completion: (response: Response<T>?, erorr: ErrorType?) -> Void) {
         if let credential = self.credential {
             request.authenticate(usingCredential: credential)
         }
