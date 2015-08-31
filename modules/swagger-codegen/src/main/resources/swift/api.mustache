@@ -11,7 +11,7 @@ import PromiseKit{{/usePromiseKit}}
 extension {{projectName}}API {
     {{#description}}
     /** {{description}} */{{/description}}
-    class {{classname}}: APIBase {
+    public class {{classname}}: APIBase {
     {{#operation}}
         /**
          {{#summary}}
@@ -21,7 +21,9 @@ extension {{projectName}}API {
          - {{{notes}}}{{/notes}}{{#subresourceOperation}}
          - subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
          - defaultResponse: {{defaultResponse}}{{/defaultResponse}}{{#authMethods}}
-         - authMethods: {{authMethods}}{{/authMethods}}{{#responseHeaders}}
+         - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+           - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
+           - name: {{name}}{{/authMethods}}{{#responseHeaders}}
          - responseHeaders: {{responseHeaders}}{{/responseHeaders}}{{#examples}}
          - examples: {{{examples}}}{{/examples}}{{#externalDocs}}
          - externalDocs: {{externalDocs}}{{/externalDocs}}{{#hasParams}}
@@ -33,10 +35,12 @@ extension {{projectName}}API {
         public class func {{operationId}}({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
             {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{path}}"{{#pathParams}}
             path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}})", options: .LiteralSearch, range: nil){{/pathParams}}
-            let url = {{projectName}}API.basePath + path
+            let URLString = {{projectName}}API.basePath + path
             {{#bodyParam}}
-            let parameters = {{paramName}}{{^required}}?{{/required}}.encode() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
-            let nillableParameters: [String:AnyObject?] = {{^queryParams}}[:]{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
+            let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
+            let nillableParameters: [String:AnyObject?] = {{^queryParams}}{{^formParams}}[:]{{/formParams}}{{#formParams}}{{^secondaryParam}}[{{/secondaryParam}}
+                "{{paramName}}": {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+            ]{{/hasMore}}{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
                 "{{paramName}}": {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
             ]{{/hasMore}}{{/queryParams}}
             let parameters = APIHelper.rejectNil(nillableParameters){{/bodyParam}}

@@ -30,12 +30,13 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-08-23T14:20:14.172-07:00")
 public class UserApi {
   
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
     
@@ -52,7 +53,7 @@ public class UserApi {
 
   @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/createWithArray", 
     produces = { "application/json", "application/xml" }, 
     
@@ -69,7 +70,7 @@ public class UserApi {
 
   @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/createWithList", 
     produces = { "application/json", "application/xml" }, 
     
@@ -107,7 +108,7 @@ public class UserApi {
 
   @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 0, message = "successful operation") })
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/logout", 
     produces = { "application/json", "application/xml" }, 
     
