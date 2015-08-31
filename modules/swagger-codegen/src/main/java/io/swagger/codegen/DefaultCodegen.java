@@ -126,6 +126,7 @@ public class DefaultCodegen {
     // override with any special text escaping logic
     public String escapeText(String input) {
         if (input != null) {
+            input = input.trim();
             String output = input.replaceAll("\n", "\\\\n");
             output = output.replace("\"", "\\\"");
             return output;
@@ -394,7 +395,13 @@ public class DefaultCodegen {
     public String toInstantiationType(Property p) {
         if (p instanceof MapProperty) {
             MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+            Property additionalProperties2 = ap.getAdditionalProperties();
+            String type = additionalProperties2.getType();
+            if (null == type) {
+                LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
+                      + "\tIn Property: " + p);
+            }
+            String inner = getSwaggerType(additionalProperties2);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
@@ -769,7 +776,7 @@ public class DefaultCodegen {
                 }
             }
             operationId = builder.toString();
-            LOGGER.warn("generated operationId " + operationId);
+            LOGGER.info("generated operationId " + operationId + "\tfor Path: " + httpMethod + " " + path);
         }
         operationId = removeNonNameElementToCamelCase(operationId);
         op.path = path;
@@ -1009,6 +1016,10 @@ public class DefaultCodegen {
         }
         p.jsonSchema = Json.pretty(param);
 
+        if (System.getProperty("debugParser") != null) {
+            LOGGER.info("working on Parameter " + param);
+        }
+
         // move the defaultValue for headers, forms and params
         if (param instanceof QueryParameter) {
             p.defaultValue = ((QueryParameter) param).getDefaultValue();
@@ -1022,7 +1033,11 @@ public class DefaultCodegen {
             SerializableParameter qp = (SerializableParameter) param;
             Property property = null;
             String collectionFormat = null;
-            if ("array".equals(qp.getType())) {
+            String type = qp.getType();
+            if (null == type) {
+                LOGGER.warn("Type is NULL for Serializable Parameter: " + param);
+            }
+            if ("array".equals(type)) {
                 Property inner = qp.getItems();
                 if (inner == null) {
                     LOGGER.warn("warning!  No inner type supplied for array parameter \"" + qp.getName() + "\", using String");
@@ -1034,7 +1049,7 @@ public class DefaultCodegen {
                 p.baseType = pr.datatype;
                 p.isContainer = true;
                 imports.add(pr.baseType);
-            } else if ("object".equals(qp.getType())) {
+            } else if ("object".equals(type)) {
                 Property inner = qp.getItems();
                 if (inner == null) {
                     LOGGER.warn("warning!  No inner type supplied for map parameter \"" + qp.getName() + "\", using String");
@@ -1047,12 +1062,13 @@ public class DefaultCodegen {
                 imports.add(pr.baseType);
             } else {
                 Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
+                String format = qp.getFormat();
                 args.put(PropertyId.ENUM, qp.getEnum());
-                property = PropertyBuilder.build(qp.getType(), qp.getFormat(), args);
+                property = PropertyBuilder.build(type, format, args);
             }
             if (property == null) {
-                LOGGER.warn("warning!  Property type \"" + qp.getType() + "\" not found for parameter \"" + param.getName() + "\", using String");
-                property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + qp.getType() + " but not supported");
+                LOGGER.warn("warning!  Property type \"" + type + "\" not found for parameter \"" + param.getName() + "\", using String");
+                property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + type + " but not supported");
             }
             property.setRequired(param.getRequired());
             CodegenProperty model = fromProperty(qp.getName(), property);
@@ -1067,6 +1083,10 @@ public class DefaultCodegen {
                 imports.add(model.complexType);
             }
         } else {
+            if (!(param instanceof BodyParameter)) {
+                LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
+            }
+
             BodyParameter bp = (BodyParameter) param;
             Model model = bp.getSchema();
 
@@ -1438,5 +1458,43 @@ public class DefaultCodegen {
             sb.append("\n").append(lib).append(" - ").append(supportedLibraries.get(lib));
         }
         return new CliOption("library", sb.toString());
+    }
+
+    /**
+     * sanitize name (parameter, property, method, etc)
+     *
+     * @param name string to be sanitize
+     * @return sanitized string
+     */
+    public String sanitizeName(String name) {
+        // NOTE: performance wise, we should have written with 2 replaceAll to replace desired 
+        // character with _ or empty character. Below aims to spell out different cases we've 
+        // encountered so far and hopefully make it easier for others to add more special
+        // cases in the future.
+
+        // input[] => input
+        name = name.replaceAll("\\[\\]", "");
+
+        // input[a][b] => input_a_b
+        name = name.replaceAll("\\[", "_");
+        name = name.replaceAll("\\]", "");
+
+        // input(a)(b) => input_a_b
+        name = name.replaceAll("\\(", "_");
+        name = name.replaceAll("\\)", "");
+
+        // input.name => input_name
+        name = name.replaceAll("\\.", "_");
+
+        // input-name => input_name
+        name = name.replaceAll("-", "_");
+
+        // input name and age => input_name_and_age
+        name = name.replaceAll(" ", "_");
+        
+        // remove everything else other than word, number and _
+        // $php_variable => php_variable
+        return name.replaceAll("[^a-zA-Z0-9_]", "");
+
     }
 }

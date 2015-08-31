@@ -199,8 +199,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        // sanitize name
+        name = sanitizeName(name);
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -279,7 +279,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return underscore(operationId);
+        return underscore(sanitizeName(operationId));
     }
 
     @Override

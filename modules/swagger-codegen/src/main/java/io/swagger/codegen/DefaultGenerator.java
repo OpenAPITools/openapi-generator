@@ -20,6 +20,8 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,12 +41,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
+    Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
+
     protected CodegenConfig config;
     protected ClientOptInput opts = null;
     protected Swagger swagger = null;
 
     public CodeGenStatus status = CodeGenStatus.UNRUN;
 
+    @Override
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
 
@@ -55,6 +60,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return this;
     }
 
+    @Override
     public List<File> generate() {
         if (swagger == null || config == null) {
             throw new RuntimeException("missing swagger input or config!");
@@ -150,6 +156,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         String template = readTemplate(templateFile);
                         Template tmpl = Mustache.compiler()
                                 .withLoader(new Mustache.TemplateLoader() {
+                                    @Override
                                     public Reader getTemplate(String name) {
                                         return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
                                     }
@@ -203,6 +210,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     String template = readTemplate(templateFile);
                     Template tmpl = Mustache.compiler()
                             .withLoader(new Mustache.TemplateLoader() {
+                                @Override
                                 public Reader getTemplate(String name) {
                                     return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
                                 }
@@ -277,6 +285,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     String template = readTemplate(templateFile);
                     Template tmpl = Mustache.compiler()
                             .withLoader(new Mustache.TemplateLoader() {
+                                @Override
                                 public Reader getTemplate(String name) {
                                     return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
                                 }
@@ -416,6 +425,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, Path path) {
         if (operation != null) {
+            if (System.getProperty("debugOperations") != null) {
+                LOGGER.debug("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
+            }
             List<String> tags = operation.getTags();
             if (tags == null) {
                 tags = new ArrayList<String>();
@@ -445,44 +457,54 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
 
             for (String tag : tags) {
-                CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions());
-                co.tags = new ArrayList<String>();
-                co.tags.add(sanitizeTag(tag));
-                config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
+                CodegenOperation co = null;
+                try {
+                    co = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions());
+                    co.tags = new ArrayList<String>();
+                    co.tags.add(sanitizeTag(tag));
+                    config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
 
-                List<Map<String, List<String>>> securities = operation.getSecurity();
-                if (securities == null) {
-                    continue;
-                }
-                Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-                for (Map<String, List<String>> security : securities) {
-                    if (security.size() != 1) {
-                        //Not sure what to do
+                    List<Map<String, List<String>>> securities = operation.getSecurity();
+                    if (securities == null) {
                         continue;
                     }
-                    String securityName = security.keySet().iterator().next();
-                    SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
-                    if (securityDefinition != null) {
-                    	if(securityDefinition instanceof OAuth2Definition) {
-                    		OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
-                    		OAuth2Definition oauth2Operation = new OAuth2Definition();
-                    		oauth2Operation.setType(oauth2Definition.getType());
-                    		oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
-                    		oauth2Operation.setFlow(oauth2Definition.getFlow());
-                    		oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
-                    		for (String scope : security.values().iterator().next()) {
-                    			if (oauth2Definition.getScopes().containsKey(scope)) {
-                    				oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
-                    			}
-                    		}
-                    		authMethods.put(securityName, oauth2Operation);
-                    	} else {
-                    		authMethods.put(securityName, securityDefinition);
-                    	}
+                    Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
+                    for (Map<String, List<String>> security : securities) {
+                        if (security.size() != 1) {
+                            //Not sure what to do
+                            continue;
+                        }
+                        String securityName = security.keySet().iterator().next();
+                        SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
+                        if (securityDefinition != null) {
+                        	if(securityDefinition instanceof OAuth2Definition) {
+                        		OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
+                        		OAuth2Definition oauth2Operation = new OAuth2Definition();
+                        		oauth2Operation.setType(oauth2Definition.getType());
+                        		oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
+                        		oauth2Operation.setFlow(oauth2Definition.getFlow());
+                        		oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
+                        		for (String scope : security.values().iterator().next()) {
+                        			if (oauth2Definition.getScopes().containsKey(scope)) {
+                        				oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
+                        			}
+                        		}
+                        		authMethods.put(securityName, oauth2Operation);
+                        	} else {
+                        		authMethods.put(securityName, securityDefinition);
+                        	}
+                        }
+                    }
+                    if (!authMethods.isEmpty()) {
+                        co.authMethods = config.fromSecurity(authMethods);
                     }
                 }
-                if (!authMethods.isEmpty()) {
-                    co.authMethods = config.fromSecurity(authMethods);
+                catch (Exception ex) {
+                   LOGGER.error("Error while trying to get Config from Operation for tag(" + tag + ")\n" //
+                         + "\tResource: " + httpMethod + " " + resourcePath + "\n"//
+                         + "\tOperation:" + operation + "\n" //
+                         + "\tDefinitions: " + swagger.getDefinitions() + "\n");
+                   ex.printStackTrace();
                 }
             }
         }
