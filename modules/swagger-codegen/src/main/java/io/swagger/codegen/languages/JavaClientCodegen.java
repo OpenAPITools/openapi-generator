@@ -83,6 +83,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
+        supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
         cliOptions.add(buildLibraryCliOption(supportedLibraries));
     }
 
@@ -159,7 +160,15 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
         supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
-        supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
+
+        // library-specific files
+        if ("okhttp-gson".equals(getLibrary())) {
+            // the "okhttp-gson" library template requires "ApiCallback.mustache"
+            // and does not require "TypeRef.mustache"
+            supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
+        } else {
+            supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
+        }
 
         final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
         supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
