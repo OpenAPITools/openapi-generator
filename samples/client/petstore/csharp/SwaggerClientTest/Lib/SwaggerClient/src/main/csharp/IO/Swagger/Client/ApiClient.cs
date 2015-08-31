@@ -49,6 +49,16 @@ namespace IO.Swagger.Client
         {
             get { return _defaultHeaderMap; }
         }
+
+        /// <summary>
+        /// Gets the status code of the previous request
+        /// </summary>
+        public int StatusCode { get; private set; }
+
+        /// <summary>
+        /// Gets the response headers of the previous request
+        /// </summary>
+        public Dictionary<String, String> ResponseHeaders { get; private set; } 
     
         // Creates and sets up a RestRequest prior to a call.
         private RestRequest PrepareRequest(
@@ -110,7 +120,10 @@ namespace IO.Swagger.Client
         {
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-            return (Object)RestClient.Execute(request);
+            var response = RestClient.Execute(request);
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            return (Object) response;
         }
 
         /// <summary>
@@ -133,7 +146,10 @@ namespace IO.Swagger.Client
         {
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-            return (Object) await RestClient.ExecuteTaskAsync(request);
+            var response = await RestClient.ExecuteTaskAsync(request);
+            StatusCode = (int)response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            return (Object)response;
         }
     
         /// <summary>
@@ -154,7 +170,7 @@ namespace IO.Swagger.Client
         /// <returns>Escaped string.</returns>
         public string EscapeString(string str)
         {
-            return RestSharp.Contrib.HttpUtility.UrlEncode(str);
+            return RestSharp.Extensions.StringExtensions.UrlDecode(str);
         }
     
         /// <summary>

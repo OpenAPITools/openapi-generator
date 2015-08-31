@@ -14,7 +14,7 @@
 {{#operations}}
   {{#operationsByPath}}
   "{{{path}}}": {
-  	{{#operation}}
+    {{#operation}}
     "{{httpMethod}}": {
       "summary": "{{summary}}",
       "description":"{{notes}}",
@@ -34,7 +34,6 @@
     {{/operation}}
   } {{#hasMore}},{{/hasMore}}
   {{/operationsByPath}}
-   {{#hasMore}},{{/hasMore}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
