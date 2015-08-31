@@ -175,6 +175,15 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         return objs;
     }
 
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        name = sanitizeName(name);
+        return camelize(name) + "Api";
+    }
+
     public void setConfigPackage(String configPackage) {
         this.configPackage = configPackage;
     }
