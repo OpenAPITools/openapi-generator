@@ -329,6 +329,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-okhttp-gson</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp-gson</module>
+            </modules>
+        </profile>
+        <profile>
             <id>scala-client</id>
             <activation>
                 <property>
@@ -412,6 +424,7 @@
                 <module>samples/client/petstore/android-java</module>
                 <module>samples/client/petstore/java/default</module>
                 <module>samples/client/petstore/java/jersey2</module>
+                <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <!--module>samples/client/petstore/objc</module-->
