@@ -43,7 +43,7 @@ public class RequestBuilder<T> {
         self.isBody = isBody
     }
     
-    public func execute(completion: (response: Response<T>?, erorr: NSError?) -> Void) { }
+    public func execute(completion: (response: Response<T>?, erorr: ErrorType?) -> Void) { }
 
     public func addHeader(name name: String, value: String) -> Self {
         if !value.isEmpty {
