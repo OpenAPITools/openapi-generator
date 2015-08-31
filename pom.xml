@@ -517,7 +517,7 @@
         <jmustache-version>1.9</jmustache-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.18.1</surefire-version>
-        <jmockit-version>1.18</jmockit-version>
+        <jmockit-version>1.19</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
     </properties>
 </project>
