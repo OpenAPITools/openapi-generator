@@ -100,6 +100,7 @@ class Decoders {
             let formatters = [
                 "yyyy-MM-dd",
                 "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+                "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
                 "yyyy-MM-dd'T'HH:mm:ss'Z'"
             ].map { (format: String) -> NSDateFormatter in
                 let formatter = NSDateFormatter()
