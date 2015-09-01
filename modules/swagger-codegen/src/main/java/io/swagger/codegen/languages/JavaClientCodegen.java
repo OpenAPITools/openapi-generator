@@ -163,9 +163,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // library-specific files
         if ("okhttp-gson".equals(getLibrary())) {
-            // the "okhttp-gson" library template requires "ApiCallback.mustache"
-            // and does not require "TypeRef.mustache"
+            // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
+            // "build.gradle" is for development with Gradle
+            supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+            // and does not require "TypeRef.mustache"
         } else {
             supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
         }
