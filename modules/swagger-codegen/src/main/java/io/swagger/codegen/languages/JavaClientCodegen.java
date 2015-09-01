@@ -340,6 +340,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     continue;
                 List<String> values = (List<String>) allowableValues.get("values");
                 // put "enumVars" map into `allowableValues", including `name` and `value`
+                if (values == null)
+                    continue;
                 List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
                 for (String value : values) {
                     Map<String, String> enumVar = new HashMap<String, String>();
