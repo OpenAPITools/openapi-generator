@@ -85,6 +85,7 @@ public class DefaultCodegen {
     protected boolean supportsInheritance = false;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library = null;
+    protected Boolean sortParamsByRequiredFlag = true;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -928,16 +929,19 @@ public class DefaultCodegen {
         op.bodyParam = bodyParam;
         op.httpMethod = httpMethod.toUpperCase();
         // move "required" parameters in front of "optional" parameters
-        Collections.sort(allParams, new Comparator<CodegenParameter>() {
-            @Override
-            public int compare(CodegenParameter one, CodegenParameter another) {
-                boolean oneRequired = one.required == null ? false : one.required;
-                boolean anotherRequired = another.required == null ? false : another.required;
-                if (oneRequired == anotherRequired) return 0;
-                else if (oneRequired) return -1;
-                else return 1;
-            }
-        });
+
+        if(sortParamsByRequiredFlag) {
+          Collections.sort(allParams, new Comparator<CodegenParameter>() {
+              @Override
+              public int compare(CodegenParameter one, CodegenParameter another) {
+                  boolean oneRequired = one.required == null ? false : one.required;
+                  boolean anotherRequired = another.required == null ? false : another.required;
+                  if (oneRequired == anotherRequired) return 0;
+                  else if (oneRequired) return -1;
+                  else return 1;
+              }
+          });
+        }
         op.allParams = addHasMore(allParams);
         op.bodyParams = addHasMore(bodyParams);
         op.pathParams = addHasMore(pathParams);
