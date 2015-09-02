@@ -264,6 +264,7 @@ CONFIG OPTIONS
 	    library template (sub-template) to use:
 	    <default> - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
 	    jersey2 - HTTP client: Jersey client 2.6
+	    okhttp-gson - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
 ```
 
 Your config file for java can look like
