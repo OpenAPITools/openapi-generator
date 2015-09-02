@@ -467,6 +467,7 @@ static void (^reachabilityChangeBlock)(int);
 
 -(NSNumber*)  requestWithCompletionBlock: (NSString*) path
                                   method: (NSString*) method
+                              pathParams: (NSDictionary *) pathParams
                              queryParams: (NSDictionary*) queryParams
                               formParams: (NSDictionary *) formParams
                                    files: (NSDictionary *) files
@@ -499,12 +500,25 @@ static void (^reachabilityChangeBlock)(int);
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
 
+    // sanitize parameters
+    pathParams = [self sanitizeForSerialization:pathParams];
+    queryParams = [self sanitizeForSerialization:queryParams];
+    headerParams = [self sanitizeForSerialization:headerParams];
+    formParams = [self sanitizeForSerialization:formParams];
+    body = [self sanitizeForSerialization:body];
+
     // auth setting
     [self updateHeaderParams:&headerParams queryParams:&queryParams WithAuthSettings:authSettings];
 
+    NSMutableString *resourcePath = [NSMutableString stringWithString:path];
+    [pathParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [resourcePath replaceCharactersInRange:[resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", key, @"}"]]
+                                    withString:[SWGApiClient escape:obj]];
+    }];
+
     NSMutableURLRequest * request = nil;
 
-    NSString* pathWithQueryParams = [self pathWithQueryParamsToString:path queryParams:queryParams];
+    NSString* pathWithQueryParams = [self pathWithQueryParamsToString:resourcePath queryParams:queryParams];
     if ([pathWithQueryParams hasPrefix:@"/"]) {
         pathWithQueryParams = [pathWithQueryParams substringFromIndex:1];
     }
@@ -540,20 +554,21 @@ static void (^reachabilityChangeBlock)(int);
         }
     }
 
+    // request cache
     BOOL hasHeaderParams = false;
     if(headerParams != nil && [headerParams count] > 0) {
         hasHeaderParams = true;
     }
     if(offlineState) {
-        NSLog(@"%@ cache forced", path);
+        NSLog(@"%@ cache forced", resourcePath);
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
     }
     else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
-        NSLog(@"%@ cache enabled", path);
+        NSLog(@"%@ cache enabled", resourcePath);
         [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     }
     else {
-        NSLog(@"%@ cache disabled", path);
+        NSLog(@"%@ cache disabled", resourcePath);
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
@@ -671,4 +686,44 @@ static void (^reachabilityChangeBlock)(int);
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
+- (id) sanitizeForSerialization:(id) object {
+    if (object == nil) {
+        return nil;
+    }
+    else if ([object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[SWGQueryParamCollection class]]) {
+        return object;
+    }
+    else if ([object isKindOfClass:[NSDate class]]) {
+        return [object ISO8601String];
+    }
+    else if ([object isKindOfClass:[NSArray class]]) {
+        NSMutableArray *sanitizedObjs = [NSMutableArray arrayWithCapacity:[object count]];
+        [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (obj) {
+                [sanitizedObjs addObject:[self sanitizeForSerialization:obj]];
+            }
+        }];
+        return sanitizedObjs;
+    }
+    else if ([object isKindOfClass:[NSDictionary class]]) {
+        NSMutableDictionary *sanitizedObjs = [NSMutableDictionary dictionaryWithCapacity:[object count]];
+        [object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if (obj) {
+                [sanitizedObjs setValue:[self sanitizeForSerialization:obj] forKey:key];
+            }
+        }];
+        return sanitizedObjs;
+    }
+    else if ([object isKindOfClass:[SWGObject class]]) {
+        return [object toDictionary];
+    }
+    else {
+        NSException *e = [NSException
+                          exceptionWithName:@"InvalidObjectArgumentException"
+                          reason:[NSString stringWithFormat:@"*** The argument object: %@ is invalid", object]
+                          userInfo:nil];
+        @throw e;
+    }
+}
+  
 @end

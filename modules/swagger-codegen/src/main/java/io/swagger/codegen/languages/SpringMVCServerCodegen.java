@@ -34,12 +34,12 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         configPackage = "io.swagger.configuration";
 
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
-        additionalProperties.put("apiPackage", apiPackage);
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put("configPackage", configPackage);
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -103,21 +103,6 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getTypeDeclaration(inner);
-        }
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         String basePath = resourcePath;
         if (basePath.startsWith("/")) {
@@ -158,33 +143,45 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                         }
                     }
                 }
+                System.out.println(operation.operationId);
+                io.swagger.util.Json.prettyPrint(operation);
+
                 if (operation.returnType == null) {
                     operation.returnType = "Void";
                 } else if (operation.returnType.startsWith("List")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("List<".length(), end);
+                        operation.returnType = rt.substring("List<".length(), end).trim();
                         operation.returnContainer = "List";
                     }
                 } else if (operation.returnType.startsWith("Map")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("Map<".length(), end);
+                        operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
                         operation.returnContainer = "Map";
                     }
                 } else if (operation.returnType.startsWith("Set")) {
                     String rt = operation.returnType;
                     int end = rt.lastIndexOf(">");
                     if (end > 0) {
-                        operation.returnType = rt.substring("Set<".length(), end);
+                        operation.returnType = rt.substring("Set<".length(), end).trim();
                         operation.returnContainer = "Set";
                     }
                 }
             }
         }
         return objs;
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        name = sanitizeName(name);
+        return camelize(name) + "Api";
     }
 
     public void setConfigPackage(String configPackage) {

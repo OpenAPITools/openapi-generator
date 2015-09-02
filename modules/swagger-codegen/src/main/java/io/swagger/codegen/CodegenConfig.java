@@ -83,6 +83,8 @@ public interface CodegenConfig {
 
     Map<String, String> modelTemplateFiles();
 
+    Set<String> languageSpecificPrimitives();
+
     void processSwagger(Swagger swagger);
 
     String toApiFilename(String name);
@@ -108,4 +110,13 @@ public interface CodegenConfig {
     boolean isSkipOverwrite();
 
     void setSkipOverwrite(boolean skipOverwrite);
+
+    Map<String, String> supportedLibraries();
+
+    void setLibrary(String library);
+
+    /**
+     * Library template (sub-template).
+     */
+    String getLibrary();
 }

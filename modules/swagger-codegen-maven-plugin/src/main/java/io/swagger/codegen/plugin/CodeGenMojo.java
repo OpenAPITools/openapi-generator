@@ -20,6 +20,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
@@ -35,8 +36,12 @@ import config.Config;
 import config.ConfigParser;
 
 import java.io.File;
+import java.util.Map;
 import java.util.ServiceLoader;
 
+import static io.swagger.codegen.plugin.AdditionalParams.API_PACKAGE_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.INVOKER_PACKAGE_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.MODEL_PACKAGE_PARAM;
 import static io.swagger.codegen.plugin.AdditionalParams.TEMPLATE_DIR_PARAM;
 
 /**
@@ -44,7 +49,6 @@ import static io.swagger.codegen.plugin.AdditionalParams.TEMPLATE_DIR_PARAM;
  */
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class CodeGenMojo extends AbstractMojo {
-
     /**
      * Location of the output directory.
      */
@@ -66,17 +70,40 @@ public class CodeGenMojo extends AbstractMojo {
     private File templateDirectory;
 
     /**
+     * The package to use for generated model objects/classes
+     */
+    @Parameter(name = "modelPackage")
+    private String modelPackage;
+
+    /**
+     * The package to use for generated api objects/classes
+     */
+    @Parameter(name = "apiPackage")
+    private String apiPackage;
+
+    /**
+     * The package to use for the generated invoker objects
+     */
+    @Parameter(name = "invokerPackage")
+    private String invokerPackage;
+
+    /**
      * Client language to generate.
      */
     @Parameter(name = "language", required = true)
     private String language;
 
     /**
-     * Path to json configuration file.
+     * Path to separate json configuration file.
      */
     @Parameter(name = "configurationFile", required = false)
     private String configurationFile;
 
+    /**
+     * A map of language-specific parameters as passed with the -c option to the command line
+     */
+    @Parameter(name = "configOptions")
+    private Map configOptions;
 
     /**
      * Add the output directory to the project as a source root, so that the
@@ -95,13 +122,31 @@ public class CodeGenMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         Swagger swagger = new SwaggerParser().read(inputSpec);
 
-        CodegenConfig config = forName(language);
+        CodegenConfig config = CodegenConfigLoader.forName(language);
         config.setOutputDir(output.getAbsolutePath());
 
         if (null != templateDirectory) {
             config.additionalProperties().put(TEMPLATE_DIR_PARAM, templateDirectory.getAbsolutePath());
         }
-        
+        if (null != modelPackage) {
+            config.additionalProperties().put(MODEL_PACKAGE_PARAM, modelPackage);
+        }
+        if (null != apiPackage) {
+            config.additionalProperties().put(API_PACKAGE_PARAM, apiPackage);
+        }
+        if (null != invokerPackage) {
+            config.additionalProperties().put(INVOKER_PACKAGE_PARAM, invokerPackage);
+        }
+
+        if (configOptions != null) {
+            for (CliOption langCliOption : config.cliOptions()) {
+                if (configOptions.containsKey(langCliOption.getOpt())) {
+                    config.additionalProperties().put(langCliOption.getOpt(),
+                            configOptions.get(langCliOption.getOpt()));
+                }
+            }
+        }
+
         if (null != configurationFile) {
             Config genConfig = ConfigParser.read(configurationFile);
             if (null != genConfig) {
@@ -121,22 +166,6 @@ public class CodeGenMojo extends AbstractMojo {
 
         if (addCompileSourceRoot) {
             project.addCompileSourceRoot(output.toString());
-        }
-    }
-
-    private CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
-        for (CodegenConfig config : loader) {
-            if (config.getName().equals(name)) {
-                return config;
-            }
-        }
-
-        // else try to load directly
-        try {
-            return (CodegenConfig) Class.forName(name).newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException("Can't load config class with name ".concat(name), e);
         }
     }
 }

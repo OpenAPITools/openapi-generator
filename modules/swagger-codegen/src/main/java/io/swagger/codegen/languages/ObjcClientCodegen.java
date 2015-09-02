@@ -328,9 +328,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        // replace non-word characters to `_`
-        // e.g. `created-at` to `created_at`
-        name = name.replaceAll("[^a-zA-Z0-9_]", "_");
+        // sanitize name
+        name = sanitizeName(name);
 
         // if it's all upper case, do noting
         if (name.matches("^[A-Z_]$")) {
@@ -371,7 +370,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return camelize(operationId, true);
+        return camelize(sanitizeName(operationId), true);
     }
 
     public void setClassPrefix(String classPrefix) {

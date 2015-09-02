@@ -1,0 +1,15 @@
+Collecting nose (from -r dev-requirements.txt (line 1))
+  Using cached nose-1.3.7-py2-none-any.whl
+Collecting tox (from -r dev-requirements.txt (line 2))
+  Using cached tox-2.1.1-py2.py3-none-any.whl
+Collecting coverage (from -r dev-requirements.txt (line 3))
+Collecting randomize (from -r dev-requirements.txt (line 4))
+  Using cached randomize-0.13-py2.py3-none-any.whl
+Collecting virtualenv>=1.11.2 (from tox->-r dev-requirements.txt (line 2))
+  Using cached virtualenv-13.1.2-py2.py3-none-any.whl
+Collecting py>=1.4.17 (from tox->-r dev-requirements.txt (line 2))
+  Using cached py-1.4.30-py2.py3-none-any.whl
+Collecting pluggy<0.4.0,>=0.3.0 (from tox->-r dev-requirements.txt (line 2))
+  Using cached pluggy-0.3.0-py2.py3-none-any.whl
+Installing collected packages: nose, virtualenv, py, pluggy, tox, coverage, randomize
+Successfully installed coverage-3.7.1 nose-1.3.7 pluggy-0.3.0 py-1.4.30 randomize-0.13 tox-2.1.1 virtualenv-13.1.2

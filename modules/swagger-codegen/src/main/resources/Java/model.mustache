@@ -3,6 +3,9 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
+{{#serializableModel}}
+import java.io.Serializable;{{/serializableModel}}
+
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 {{#models}}
@@ -12,13 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {{description}}
  **/{{/description}}
 @ApiModel(description = "{{{description}}}")
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
+{{>generatedAnnotation}}
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}
-  public enum {{datatypeWithEnum}} {
-    {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
-  };
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
+
+{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+
+{{>enumClass}}{{/items}}{{/items.isEnum}}
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}
   /**{{#description}}

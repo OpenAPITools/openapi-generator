@@ -85,7 +85,7 @@ public class Codegen extends DefaultGenerator {
                 swagger = new SwaggerParser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), true);
             }
             if (cmd.hasOption("t")) {
-                clientOpts.getProperties().put("templateDir", String.valueOf(cmd.getOptionValue("t")));
+                clientOpts.getProperties().put(CodegenConstants.TEMPLATE_DIR, String.valueOf(cmd.getOptionValue("t")));
             }
         } catch (Exception e) {
             usage(options);

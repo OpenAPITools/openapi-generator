@@ -8,13 +8,11 @@ VERSION = "1.0.0"
 
 
 
-# To install the library, open a Terminal shell, then run this
-# file by typing:
+# To install the library, run the following
 #
 # python setup.py install
 #
-# You need to have the setuptools module installed.
-# Try reading the setuptools documentation:
+# prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = ["urllib3 >= 1.10", "six >= 1.9", "certifi", "python-dateutil"]

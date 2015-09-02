@@ -61,7 +61,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "return", "def", "for", "lambda", "try"));
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("packageName", "python package name (convension: under_score), default: swagger_client"));
+        cliOptions.add(new CliOption("packageName", "python package name (convention: snake_case), default: swagger_client"));
         cliOptions.add(new CliOption("packageVersion", "python package version, default: 1.0.0"));
     }
 
@@ -119,7 +119,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeReservedWord(String name) {
-        return name + "_";
+        return "_" + name;
     }
 
     @Override
@@ -167,8 +167,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        // sanitize name
+        name = sanitizeName(name);
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -177,15 +177,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // underscore the variable name
         // petId => pet_id
-        name = underscore(dropDots(name));
+        name = underscore(name);
+
+        // remove leading underscore
+        name = name.replaceAll("^_*", "");
 
         // for reserved word or word starting with number, append _
         if (reservedWords.contains(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
-
-        // remove leading underscore
-        name = name.replaceAll("^_*", "");
 
         return name;
     }
@@ -258,7 +258,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return underscore(operationId);
+        return underscore(sanitizeName(operationId));
     }
 
     public void setPackageName(String packageName) {
