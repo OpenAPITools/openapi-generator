@@ -15,7 +15,6 @@ public class CodegenParameter {
     public Map<String, Object> allowableValues;
     public Map<String, Object> vendorExtensions;
 
-
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",
      * this property is required and its value MUST be true. Otherwise, the property

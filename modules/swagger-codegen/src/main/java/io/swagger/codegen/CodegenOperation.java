@@ -29,6 +29,7 @@ public class CodegenOperation {
     public Set<String> imports = new HashSet<String>();
     public List<Map<String, String>> examples;
     public ExternalDocs externalDocs;
+    public Map<String, Object> vendorExtensions;
 
     private boolean nonempty(List<CodegenParameter> params)
     {
