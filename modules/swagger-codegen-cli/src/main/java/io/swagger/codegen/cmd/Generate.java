@@ -1,24 +1,18 @@
 package io.swagger.codegen.cmd;
 
-import config.Config;
-import config.ConfigParser;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
-import io.swagger.codegen.ClientOpts;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.cmd.utils.OptionUtils;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.codegen.config.CodegenConfigurator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +31,7 @@ public class Generate implements Runnable {
     public static final Logger LOG = LoggerFactory.getLogger(Generate.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
-    private boolean verbose;
+    private Boolean verbose;
 
     @Option(name = {"-l", "--lang"}, title = "language", required = true,
             description = "client language to generate (maybe class name in classpath, required)")
@@ -71,7 +65,7 @@ public class Generate implements Runnable {
 
     @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite", description = "specifies if the existing files should be " +
             "overwritten during the generation.")
-    private boolean skipOverwrite;
+    private Boolean skipOverwrite;
 
     @Option(name = {"--api-package"}, title = "api package", description = CodegenConstants.API_PACKAGE_DESC)
     private String apiPackage;
@@ -110,116 +104,146 @@ public class Generate implements Runnable {
     @Option(name = {"--artifact-version"}, title = "artifact version", description = CodegenConstants.ARTIFACT_VERSION_DESC)
     private String artifactVersion;
 
+    @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
+    private String library;
+
     @Override
     public void run() {
-        verbosed(verbose);
 
-        setSystemProperties();
+        //attempt to read from config file
+        CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
 
-        CodegenConfig config = CodegenConfigLoader.forName(lang);
+        //if a config file wasn't specified or we were unable to read it
+        if(configurator == null) {
+            //createa a fresh configurator
+            configurator = new CodegenConfigurator();
+        }
 
-        config.setOutputDir(new File(output).getAbsolutePath());
-        config.setSkipOverwrite(skipOverwrite);
+        //now override with any specified parameters
+        if (verbose != null) {
+            configurator.setVerbose(verbose);
+        }
 
-        putKeyValuePairsInMap(config.instantiationTypes(), instantiationTypes);
-        putKeyValuePairsInMap(config.typeMapping(), typeMappings);
-        putKeyValuePairsInMap(config.additionalProperties(), additionalProperties);
-        putKeyValuePairsInMap(config.importMapping(), importMappings);
+        if(skipOverwrite != null) {
+            configurator.setSkipOverwrite(skipOverwrite);
+        }
 
-        addValuesToSet(config.languageSpecificPrimitives(), languageSpecificPrimitives);
+        if(isNotEmpty(spec)) {
+            configurator.setInputSpec(spec);
+        }
 
-        checkAndSetAdditionalProperty(config, apiPackage, CodegenConstants.API_PACKAGE);
-        checkAndSetAdditionalProperty(config, modelPackage, CodegenConstants.MODEL_PACKAGE);
+        if(isNotEmpty(lang)) {
+            configurator.setLang(lang);
+        }
+
+        if(isNotEmpty(output)) {
+            configurator.setOutputDir(output);
+        }
+
+        if(isNotEmpty(auth)) {
+            configurator.setAuth(auth);
+        }
 
         if(isNotEmpty(templateDir)) {
-            config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, new File(templateDir).getAbsolutePath());
+            configurator.setTemplateDir(templateDir);
         }
 
-        checkAndSetAdditionalProperty(config, invokerPackage, CodegenConstants.INVOKER_PACKAGE);
-        checkAndSetAdditionalProperty(config, groupId, CodegenConstants.GROUP_ID);
-        checkAndSetAdditionalProperty(config, artifactId, CodegenConstants.ARTIFACT_ID);
-        checkAndSetAdditionalProperty(config, artifactVersion, CodegenConstants.ARTIFACT_VERSION);
-
-        if (null != configFile) {
-            Config genConfig = ConfigParser.read(configFile);
-            if (null != genConfig) {
-                for (CliOption langCliOption : config.cliOptions()) {
-                    String opt = langCliOption.getOpt();
-                    if (genConfig.hasOption(opt)) {
-                        config.additionalProperties().put(opt, genConfig.getOption(opt));
-                        // the "library" config option is for library template (sub-template)
-                        if ("library".equals(opt)) {
-                            config.setLibrary(genConfig.getOption(opt));
-                        }
-                    }
-                }
-            }
+        if(isNotEmpty(apiPackage)) {
+            configurator.setApiPackage(apiPackage);
         }
 
-        ClientOptInput input = new ClientOptInput().config(config);
-
-        if (isNotEmpty(auth)) {
-            input.setAuth(auth);
+        if(isNotEmpty(modelPackage)) {
+            configurator.setModelPackage(modelPackage);
         }
 
-        Swagger swagger = new SwaggerParser().read(spec, input.getAuthorizationValues(), true);
-        new DefaultGenerator().opts(input.opts(new ClientOpts()).swagger(swagger)).generate();
+        if(isNotEmpty(invokerPackage)) {
+            configurator.setInvokerPackage(invokerPackage);
+        }
+
+        if(isNotEmpty(groupId)) {
+            configurator.setGroupId(groupId);
+        }
+
+        if(isNotEmpty(artifactId)) {
+            configurator.setArtifactId(artifactId);
+        }
+
+        if(isNotEmpty(artifactVersion)) {
+            configurator.setArtifactVersion(artifactVersion);
+        }
+
+        if(isNotEmpty(library)) {
+            configurator.setLibrary(library);
+        }
+
+        setSystemProperties(configurator);
+        setInstantiationTypes(configurator);
+        setImportMappings(configurator);
+        setTypeMappings(configurator);
+        setAdditionalProperties(configurator);
+        setLanguageSpecificPrimitives(configurator);
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        new DefaultGenerator().opts(clientOptInput).generate();
     }
 
-    private void addValuesToSet(Set<String> set, String csvProperty) {
+    private void setSystemProperties(CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(systemProperties);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addSystemProperty(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void setInstantiationTypes(CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(instantiationTypes);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addInstantiationType(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void setImportMappings(CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(importMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addImportMapping(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void setTypeMappings(CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(typeMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addTypeMapping(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void setAdditionalProperties(CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(additionalProperties);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addAdditionalProperty(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void setLanguageSpecificPrimitives(CodegenConfigurator configurator) {
+        final Set<String> set = createSetFromCsvList(languageSpecificPrimitives);
+        for (String item : set) {
+            configurator.addLanguageSpecificPrimitive(item);
+        }
+    }
+
+    private Set<String> createSetFromCsvList(String csvProperty) {
         final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
-
-        for (String value : values) {
-            set.add(value);
-        }
+        return new HashSet<String>(values);
     }
 
-    private void checkAndSetAdditionalProperty(CodegenConfig config, String property, String propertyKey) {
-        checkAndSetAdditionalProperty(config, property, property, propertyKey);
-    }
-
-    private void checkAndSetAdditionalProperty(CodegenConfig config, String property, String valueToSet, String propertyKey) {
-        if(isNotEmpty(property)) {
-            config.additionalProperties().put(propertyKey, valueToSet);
-        }
-    }
-
-    private void setSystemProperties() {
-
-        final List<Pair<String, String>> systemPropertyPairs = OptionUtils.parseCommaSeparatedTuples(systemProperties);
-
-        for (Pair<String, String> pair : systemPropertyPairs) {
-            System.setProperty(pair.getLeft(), pair.getRight());
-        }
-    }
-
-    private void putKeyValuePairsInMap(Map map, String commaSeparatedKVPairs) {
+    private Map createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
         final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
 
+        Map result = new HashMap();
+
         for (Pair<String, String> pair : pairs) {
-            map.put(pair.getLeft(), pair.getRight());
+            result.put(pair.getLeft(), pair.getRight());
         }
-    }
 
-
-    /**
-     * If true parameter, adds system properties which enables debug mode in generator
-     *
-     * @param verbose - if true, enables debug mode
-     */
-    private void verbosed(boolean verbose) {
-        if (!verbose) {
-            return;
-        }
-        LOG.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
-                "\n - [debugSwagger] prints the swagger specification as interpreted by the codegen" +
-                "\n - [debugModels] prints models passed to the template engine" +
-                "\n - [debugOperations] prints operations passed to the template engine" +
-                "\n - [debugSupportingFiles] prints additional data passed to the template engine");
-
-        System.setProperty("debugSwagger", "");
-        System.setProperty("debugModels", "");
-        System.setProperty("debugOperations", "");
-        System.setProperty("debugSupportingFiles", "");
+        return result;
     }
 }
