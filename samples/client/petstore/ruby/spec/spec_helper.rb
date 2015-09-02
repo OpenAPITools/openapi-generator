@@ -36,11 +36,7 @@ end
 #  help
 #end
 
-API_CLIENT = Petstore::ApiClient.new do |config|
-  config.api_key['api_key'] = 'special-key'
-  config.host = 'petstore.swagger.io'
-  config.base_path = '/v2'
-end
+API_CLIENT = Petstore::ApiClient.new
 
 # always delete and then re-create the pet object with 10002
 def prepare_pet(pet_api)
