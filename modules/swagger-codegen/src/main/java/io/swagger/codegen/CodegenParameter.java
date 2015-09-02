@@ -13,6 +13,7 @@ public class CodegenParameter {
     public boolean isEnum;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    public Map<String, Object> vendorExtensions;
 
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",
@@ -50,6 +51,7 @@ public class CodegenParameter {
         if (this.allowableValues != null) {
             output.allowableValues = new HashMap<String, Object>(this.allowableValues);
         }
+        output.vendorExtensions = this.vendorExtensions;
 
         return output;
     }

@@ -1,9 +1,9 @@
-package {{invokerPackage}};
+package io.swagger.client;
 
 import java.util.Map;
 import java.util.List;
 
-{{>generatedAnnotation}}
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-31T19:27:38.337+08:00")
 public class ApiException extends Exception {
   private int code = 0;
   private Map<String, List<String>> responseHeaders = null;
