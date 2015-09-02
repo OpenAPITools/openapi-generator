@@ -15,6 +15,7 @@ public class CodegenResponse {
     public Boolean primitiveType;
     public Boolean isMapContainer;
     public Boolean isListContainer;
+    public Boolean isBinary;
     public Object schema;
     public String jsonSchema;
 

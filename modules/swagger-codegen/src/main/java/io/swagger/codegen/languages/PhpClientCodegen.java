@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "Swagger\\Client";
@@ -24,6 +25,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packagePath = "SwaggerClient-php";
     protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
+    protected String variableNamingConvention= "snake_case";
 
     public PhpClientCodegen() {
         super();
@@ -61,6 +63,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
 
+
+        // provide primitives to mustache template
+        String primitives = "'" + StringUtils.join(languageSpecificPrimitives, "', '") + "'";
+        additionalProperties.put("primitives", primitives);
+
         // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
@@ -78,13 +85,14 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
         typeMapping.put("DateTime", "\\DateTime");
-        
-        cliOptions.add(new CliOption("invokerPackage", "The main namespace to use for all classes. e.g. Yay\\Pets"));
+
+        cliOptions.add(new CliOption("variableNamingConvention", "naming convention of variable name, e.g. camelCase. Default: snake_case"));
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption("packagePath", "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption("srcBasePath", "The directory under packagePath to serve as source root."));
         cliOptions.add(new CliOption("composerVendorName", "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
         cliOptions.add(new CliOption("composerProjectName", "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
-        cliOptions.add(new CliOption("artifactVersion", "The version to use in the composer package version field. e.g. 1.2.3"));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
     public String getPackagePath() {
@@ -148,22 +156,22 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("srcBasePath", srcBasePath);
         }
         
-        if (additionalProperties.containsKey("invokerPackage")) {
-            this.setInvokerPackage((String) additionalProperties.get("invokerPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else {
-            additionalProperties.put("invokerPackage", invokerPackage);
+            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
         
-        if (additionalProperties.containsKey("modelPackage")) {
-            this.setModelPackage((String) additionalProperties.get("modelPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            this.setModelPackage((String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
         } else {
-            additionalProperties.put("modelPackage", modelPackage);
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        if (additionalProperties.containsKey("apiPackage")) {
-            this.setApiPackage((String) additionalProperties.get("apiPackage"));
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
         } else {
-            additionalProperties.put("apiPackage", apiPackage);
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
                 
         if (additionalProperties.containsKey("composerProjectName")) {
@@ -178,10 +186,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("composerVendorName", composerVendorName);
         }
         
-        if (additionalProperties.containsKey("artifactVersion")) {
-            this.setArtifactVersion((String) additionalProperties.get("artifactVersion"));
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else {
-            additionalProperties.put("artifactVersion", artifactVersion);
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
         
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
@@ -274,6 +282,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.srcBasePath = srcBasePath;
     }
     
+    public void setParameterNamingConvention(String variableNamingConvention) {
+        this.variableNamingConvention = variableNamingConvention;
+    }
+
     private void setComposerVendorName(String composerVendorName) {
         this.composerVendorName = composerVendorName;
     }
@@ -284,9 +296,22 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        // return the name in underscore style
-        // PhoneNumber => phone_number
-        name =  underscore(name);
+        if (additionalProperties.containsKey("variableNamingConvention")) {
+            this.setParameterNamingConvention((String) additionalProperties.get("variableNamingConvention"));
+        }
+
+        // sanitize name
+        name = sanitizeName(name);
+
+        if ("camelCase".equals(variableNamingConvention)) {
+          // return the name in camelCase style
+          // phone_number => phoneNumber
+          name =  camelize(name, true);
+        } else { // default to snake case
+          // return the name in underscore style
+          // PhoneNumber => phone_number
+          name =  underscore(name);
+        }
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
@@ -320,4 +345,20 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         // should be the same as the model name
         return toModelName(name);
     }
+
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
+        // method name cannot use reserved keyword, e.g. return
+        if (reservedWords.contains(operationId)) {
+            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        }
+
+        return camelize(sanitizeName(operationId), true);
+    }
+
 }

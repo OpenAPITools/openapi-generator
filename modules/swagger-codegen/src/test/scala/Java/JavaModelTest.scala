@@ -2,6 +2,7 @@ package Java
 
 import io.swagger.codegen.languages.JavaClientCodegen
 import io.swagger.models._
+import io.swagger.models.parameters._
 import io.swagger.models.properties._
 import io.swagger.util.Json
 import org.junit.runner.RunWith
@@ -354,6 +355,20 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be("createdAt")
   }
 
+  it should "convert query[password] to queryPassword" in {
+    val model = new ModelImpl()
+      .description("a sample model")
+      .property("query[password]", new StringProperty())
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+    val vars = cm.vars
+    vars.get(0).baseName should be("query[password]")
+    vars.get(0).getter should be("getQueryPassword")
+    vars.get(0).setter should be("setQueryPassword")
+    vars.get(0).name should be("queryPassword")
+  }
+
   it should "properly escape names per 567" in {
     val model = new ModelImpl()
       .description("a sample model")
@@ -364,6 +379,28 @@ class JavaModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     cm.classname should be("WithDots")
   }
+
+  it should "convert a modelwith binary data" in {
+      val model = new ModelImpl()
+        .description("model with binary")
+        .property("inputBinaryData", new ByteArrayProperty());
+
+      val codegen = new JavaClientCodegen()
+      val cm = codegen.fromModel("sample", model)
+      val vars = cm.vars
+
+      vars.get(0).baseName should be ("inputBinaryData")
+      vars.get(0).getter should be ("getInputBinaryData")
+      vars.get(0).setter should be ("setInputBinaryData")
+      vars.get(0).datatype should be ("byte[]")
+      vars.get(0).name should be ("inputBinaryData")
+      vars.get(0).defaultValue should be ("null")
+      vars.get(0).baseType should be ("byte[]")
+      vars.get(0).hasMore should equal (null)
+      vars.get(0).required should equal (null)
+      vars.get(0).isNotContainer should equal (true)
+
+    }
 }
 
 
@@ -382,7 +419,6 @@ class JavaModelTest2 extends FlatSpec with Matchers {
     cm.vars.size should be(1)
 
     val vars = cm.vars
-    Json.prettyPrint(vars.get(0))
     vars.get(0).baseName should be("_")
     vars.get(0).getter should be("getU")
     vars.get(0).setter should be("setU")
@@ -392,5 +428,18 @@ class JavaModelTest2 extends FlatSpec with Matchers {
     vars.get(0).baseType should be("String")
     vars.get(0).hasMore should equal(null)
     vars.get(0).isNotContainer should equal(true)
+  }
+
+  it should "convert a parameter" in {
+    val parameter = new QueryParameter()
+      .property(
+        new IntegerProperty())
+      .name("limit")
+      .required(true)
+
+    val codegen = new JavaClientCodegen()
+    val cp = codegen.fromParameter(parameter, null)
+
+    cp.allowableValues should be (null)
   }
 }
