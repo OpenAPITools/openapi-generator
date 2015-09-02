@@ -25,6 +25,7 @@ cd $APP_DIR
 ./bin/html-petstore.sh
 ./bin/java-petstore.sh
 ./bin/java-petstore-jersey2.sh
+./bin/java-petstore-okhttp-gson.sh
 ./bin/jaxrs-petstore-server.sh
 ./bin/nodejs-petstore-server.sh
 ./bin/objc-petstore.sh
