@@ -932,6 +932,9 @@ public class DefaultCodegen {
                 }
                 r.isDefault = response == methodResponse;
                 op.responses.add(r);
+                if (r.isBinary && r.isDefault){
+                    op.isResponseBinary = Boolean.TRUE;
+                }
             }
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
