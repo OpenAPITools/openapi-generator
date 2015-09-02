@@ -1,84 +1,77 @@
 package io.swagger.codegen.cmd;
 
-import config.Config;
-import config.ConfigParser;
 import io.swagger.codegen.ClientOptInput;
-import io.swagger.codegen.ClientOpts;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.SwaggerCodegen;
-import io.swagger.codegen.CodegenConfigLoader;
-import io.swagger.codegen.languages.JavaClientCodegen;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.AuthorizationValue;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.codegen.config.CodegenConfigurator;
 import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Injectable;
 import mockit.Mocked;
-import mockit.StrictExpectations;
+import mockit.Verifications;
 import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 public class GenerateTest {
 
     @Mocked
-    SwaggerParser parser;
+    CodegenConfigurator configurator;
 
     @Injectable
-    Swagger swagger;
-
-    @Mocked
-    DefaultGenerator defaultGenerator;
-
-    @Mocked
-    CodegenConfigLoader codegenConfigLoader;
-
-    @Mocked
     ClientOptInput clientOptInput;
 
-    @Injectable
-    List<AuthorizationValue> authorizationValues;
+    @Mocked
+    DefaultGenerator generator;
 
     @Test
-    public void testVerbose_ShortArg() throws Exception {
-        doVerboseTest("-v");
-    }
+    public void testVerbose() throws Exception {
+        setupAndRunGenericTest("-v");
 
-    @Test
-    public void testVerbose_LongArg() throws Exception {
-        doVerboseTest("--verbose");
+        new FullVerifications() {{
+            configurator.setVerbose(true);
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("--verbose");
+
+        new FullVerifications() {{
+            configurator.setVerbose(true);
+            times = 1;
+        }};
     }
 
     @Test
     public void testRequiredArgs_ShortArgs() throws Exception {
-        doRequiredArgsTest("-l", "-o", "-i");
+        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", false, null);
+        new FullVerifications() {{
+        }};
     }
 
     @Test
     public void testRequiredArgs_LongArgs() throws Exception {
-        doRequiredArgsTest("--lang", "--output", "--input-spec");
+        setupAndRunTest("--input-spec", "swagger.yaml", "--lang", "java", "--output", "src/main/java", false, null);
+        new FullVerifications() {{
+        }};
     }
 
     @Test
     public void testTemplateDir() throws Exception {
-        final String absolutePath = new File("src").getAbsolutePath();
 
-        doSingleAdditionalPropertyTest("--template-dir", CodegenConstants.TEMPLATE_DIR, "src", absolutePath);
-        doSingleAdditionalPropertyTest("--template-dir", CodegenConstants.TEMPLATE_DIR, absolutePath, absolutePath);
-        doSingleAdditionalPropertyTest("-t", CodegenConstants.TEMPLATE_DIR, "src", absolutePath);
-        doSingleAdditionalPropertyTest("-t", CodegenConstants.TEMPLATE_DIR, absolutePath, absolutePath);
+        final String templateDir = "src/main/resources/customTemplates";
+
+        setupAndRunGenericTest("--template-dir", templateDir);
+
+        new FullVerifications() {{
+            configurator.setTemplateDir(templateDir);
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("-t", templateDir);
+
+        new FullVerifications() {{
+            configurator.setTemplateDir(templateDir);
+            times = 1;
+        }};
     }
 
     @Test
@@ -86,267 +79,279 @@ public class GenerateTest {
 
         final String auth = "hello:world";
 
-        new StrictExpectations() {{
-            clientOptInput.setAuth(auth);
+        setupAndRunGenericTest("--auth", auth);
+
+        new FullVerifications() {{
+            configurator.setAuth(auth);
             times = 1;
         }};
 
         setupAndRunGenericTest("-a", auth);
 
-        new StrictExpectations() {{
-            clientOptInput.setAuth(auth);
+        new FullVerifications() {{
+            configurator.setAuth(auth);
             times = 1;
         }};
 
-        setupAndRunGenericTest("--auth", auth);
+        setupAndRunGenericTest();
+
+        new FullVerifications() {{
+            configurator.setAuth(anyString);
+            times = 0;
+        }};
     }
 
     @Test
     public void testSystemProperties() throws Exception {
 
-        new StrictExpectations(System.class) {{
-            System.setProperty("hello", "world");
+        setupAndRunGenericTest("-D", "hello=world,foo=bar");
+
+        new FullVerifications() {{
+            configurator.addSystemProperty("hello", "world");
             times = 1;
-            System.setProperty("foo", "bar");
+            configurator.addSystemProperty("foo", "bar");
             times = 1;
         }};
 
-        setupAndRunGenericTest("-D", "hello=world,foo=bar");
+        setupAndRunGenericTest("-D", "hello=world,key=,foo=bar");
+
+        new FullVerifications() {{
+            configurator.addSystemProperty("hello", "world");
+            times = 1;
+            configurator.addSystemProperty("foo", "bar");
+            times = 1;
+            configurator.addSystemProperty("key", anyString);
+            times = 0;
+        }};
     }
 
+
     @Test
-    public void testConfig(@Mocked final ConfigParser parser) throws Exception {
+    public void testConfig() throws Exception {
 
-        final String configFilePath = "config.json";
-        final String invokerPackage = "com.foo.bar.invoker";
-        final String groupId = "com.foo.bar";
-        Map<String, String> configMap = new HashMap<String, String>();
-        configMap.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        configMap.put(CodegenConstants.GROUP_ID, groupId);
-        final Config config = new Config(configMap);
+        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", true, "config.json", "-c", "config.json");
 
-        final String[] configArgs = {"-c", "--config"};
+        new FullVerifications(){{}};
 
-        for (String configArg : configArgs) {
-            new StrictExpectations() {{
-                parser.read(configFilePath);
-                times = 1;
-                result = config;
+        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", true, "config.json", "--config", "config.json");
 
-            }};
-
-            final CodegenConfig codegenConfig = setupAndRunGenericTest(configArg, configFilePath);
-
-            assertValueInMap(codegenConfig.additionalProperties(), CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-            assertValueInMap(codegenConfig.additionalProperties(), CodegenConstants.GROUP_ID, groupId);
-        }
+        new FullVerifications(){{}};
     }
 
     @Test
     public void testSkipOverwrite() throws Exception {
 
-        CodegenConfig codegenConfig1 = setupAndRunGenericTest();
-        assertFalse(codegenConfig1.isSkipOverwrite());
+        setupAndRunGenericTest("-s");
+        new FullVerifications(){{
+            configurator.setSkipOverwrite(true); times=1;
+        }};
 
-        CodegenConfig codegenConfig2 = setupAndRunGenericTest("-s");
-        assertTrue(codegenConfig2.isSkipOverwrite());
-
-        CodegenConfig codegenConfig3 = setupAndRunGenericTest("--skip-overwrite");
-        assertTrue(codegenConfig3.isSkipOverwrite());
+        setupAndRunGenericTest("--skip-overwrite");
+        new FullVerifications(){{
+            configurator.setSkipOverwrite(true); times=1;
+        }};
     }
 
     @Test
     public void testApiPackage() throws Exception {
-        doSingleAdditionalPropertyTest("--api-package", CodegenConstants.API_PACKAGE, "io.foo.bar.api");
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--api-package", value);
+
+        new FullVerifications(){{
+           configurator.setApiPackage(value); times=1;
+        }};
     }
 
     @Test
     public void testModelPackage() throws Exception {
-        doSingleAdditionalPropertyTest("--model-package", CodegenConstants.MODEL_PACKAGE, "io.foo.bar.models");
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--model-package", value);
+
+        new FullVerifications(){{
+            configurator.setModelPackage(value); times=1;
+        }};
     }
 
     @Test
     public void testInstantiationTypes() throws Exception {
 
-        final CodegenConfig codegenConfig = setupAndRunGenericTest("--instantiation-types", "foo=bar,hello=world");
+        setupAndRunGenericTest("--instantiation-types", "hello=world,key=,foo=bar");
 
-        assertValueInMap(codegenConfig.instantiationTypes(), "foo", "bar");
-        assertValueInMap(codegenConfig.instantiationTypes(), "hello", "world");
+        new FullVerifications() {{
+            configurator.addInstantiationType("hello", "world");
+            times = 1;
+            configurator.addInstantiationType("foo", "bar");
+            times = 1;
+            configurator.addInstantiationType("key", anyString);
+            times = 0;
+        }};
     }
 
     @Test
     public void testTypeMappings() throws Exception {
-        final CodegenConfig codegenConfig = setupAndRunGenericTest("--type-mappings", "foo=bar,hello=world");
+        setupAndRunGenericTest("--type-mappings", "hello=world,key=,foo=bar");
 
-        assertValueInMap(codegenConfig.typeMapping(), "foo", "bar");
-        assertValueInMap(codegenConfig.typeMapping(), "hello", "world");
+        new FullVerifications() {{
+            configurator.addTypeMapping("hello", "world");
+            times = 1;
+            configurator.addTypeMapping("foo", "bar");
+            times = 1;
+            configurator.addTypeMapping("key", anyString);
+            times = 0;
+        }};
     }
 
     @Test
     public void testAdditionalProperties() throws Exception {
-        final CodegenConfig codegenConfig = setupAndRunGenericTest("--additional-properties", "foo=bar,hello=world");
+        setupAndRunGenericTest("--additional-properties", "hello=world,key=,foo=bar");
 
-        assertValueInMap(codegenConfig.additionalProperties(), "foo", "bar");
-        assertValueInMap(codegenConfig.additionalProperties(), "hello", "world");
+        new FullVerifications() {{
+            configurator.addAdditionalProperty("hello", "world");
+            times = 1;
+            configurator.addAdditionalProperty("foo", "bar");
+            times = 1;
+            configurator.addAdditionalProperty("key", anyString);
+            times = 0;
+        }};
     }
 
     @Test
     public void testLanguageSpecificPrimitives() throws Exception {
-        final CodegenConfig codegenConfig = setupAndRunGenericTest("--language-specific-primitives", "foo,bar,hello,world");
+        setupAndRunGenericTest("--language-specific-primitives", "foo,bar,,hello,world");
 
-        final Set<String> languageSpecificPrimitives = codegenConfig.languageSpecificPrimitives();
-
-        assertTrue(languageSpecificPrimitives.contains("foo"));
-        assertTrue(languageSpecificPrimitives.contains("bar"));
-        assertTrue(languageSpecificPrimitives.contains("hello"));
-        assertTrue(languageSpecificPrimitives.contains("world"));
+        new FullVerifications() {{
+            configurator.addLanguageSpecificPrimitive("foo");
+            times = 1;
+            configurator.addLanguageSpecificPrimitive("bar");
+            times = 1;
+            configurator.addLanguageSpecificPrimitive("hello");
+            times = 1;
+            configurator.addLanguageSpecificPrimitive("world");
+            times = 1;
+        }};
     }
 
     @Test
     public void testImportMappings() throws Exception {
-        final CodegenConfig codegenConfig = setupAndRunGenericTest("--import-mappings", "foo=bar,hello=world");
+        setupAndRunGenericTest("--import-mappings", "hello=world,key=,foo=bar");
 
-        assertValueInMap(codegenConfig.importMapping(), "foo", "bar");
-        assertValueInMap(codegenConfig.importMapping(), "hello", "world");
+        new FullVerifications() {{
+            configurator.addImportMapping("hello", "world");
+            times = 1;
+            configurator.addImportMapping("foo", "bar");
+            times = 1;
+            configurator.addImportMapping("key", anyString);
+            times = 0;
+        }};
     }
 
     @Test
     public void testInvokerPackage() throws Exception {
-        doSingleAdditionalPropertyTest("--invoker-package", CodegenConstants.INVOKER_PACKAGE, "io.foo.bar.invoker");
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--invoker-package", value);
+
+        new FullVerifications(){{
+            configurator.setInvokerPackage(value); times=1;
+        }};
     }
 
     @Test
     public void testGroupId() throws Exception {
-        doSingleAdditionalPropertyTest("--group-id", CodegenConstants.GROUP_ID, "io.foo.bar");
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--group-id", value);
+
+        new FullVerifications(){{
+            configurator.setGroupId(value); times=1;
+        }};
     }
 
     @Test
     public void testArtifactId() throws Exception {
-        doSingleAdditionalPropertyTest("--artifact-id", CodegenConstants.ARTIFACT_ID, "awesome-api");
+        final String value = "awesome-api";
+        setupAndRunGenericTest("--artifact-id", value);
+
+        new FullVerifications(){{
+            configurator.setArtifactId(value); times=1;
+        }};
     }
 
     @Test
     public void testArtifactVersion() throws Exception {
-        doSingleAdditionalPropertyTest("--artifact-version", CodegenConstants.ARTIFACT_VERSION, "1.2.3");
-    }
+        final String value = "1.2.3";
+        setupAndRunGenericTest("--artifact-version", value);
 
-    private void doVerboseTest(String verboseFlag) {
-        new StrictExpectations(System.class) {{
-            System.setProperty("debugSwagger", "");
-            times = 1;
-            System.setProperty("debugModels", "");
-            times = 1;
-            System.setProperty("debugOperations", "");
-            times = 1;
-            System.setProperty("debugSupportingFiles", "");
-            times = 1;
+        new FullVerifications(){{
+            configurator.setArtifactVersion(value); times=1;
         }};
-
-        setupAndRunGenericTest(verboseFlag);
     }
 
-    private void doRequiredArgsTest(String langFlag, String outputDirFlag, String inputSpecFlag) {
-        final String spec = "swagger.yaml";
-        final String lang = "java";
-        final String outputDir = "src/main/java";
+    @Test
+    public void testLibrary() throws Exception {
+        final String value = "library1";
+        setupAndRunGenericTest("--library", value);
 
-        final String[] args = {"generate", langFlag, lang, outputDirFlag, outputDir, inputSpecFlag, spec};
-
-        final CodegenConfig config = new JavaClientCodegen();
-
-        setupStandardExpectations(spec, lang, config);
-
-        SwaggerCodegen.main(args);
-
-        new FullVerifications() {{
+        new FullVerifications(){{
+            configurator.setLibrary(value); times=1;
         }};
-
-        assertEquals(config.getOutputDir(), new File(outputDir).getAbsolutePath());
     }
 
-    private void doSingleAdditionalPropertyTest(String cliArg, String additionalPropertyKey, String expectedValue) {
-        doSingleAdditionalPropertyTest(cliArg, additionalPropertyKey, expectedValue, expectedValue);
-    }
-
-    private void doSingleAdditionalPropertyTest(String cliArg, String additionalPropertyKey, String cliValue, String additionalPropertyValue) {
-
-        final CodegenConfig config = setupAndRunGenericTest(cliArg, cliValue);
-
-        assertValueInMap(config.additionalProperties(), additionalPropertyKey, additionalPropertyValue);
-    }
-
-    private CodegenConfig setupAndRunGenericTest(String... additionalParameters) {
-
-        final String spec = "swagger.yaml";
-        final String lang = "java";
-
-        final String[] commonArgs = {"generate", "-l", lang, "-o", "path/to/some/directory", "-i", spec};
+    private void setupAndRunTest(String specFlag, final String spec, String langFlag, final String lang,
+                                 String outputDirFlag, final String outputDir, boolean configuratorFromFile,
+                                 final String configFile, String... additionalParameters) {
+        final String[] commonArgs = {"generate", langFlag, lang, outputDirFlag, outputDir, specFlag, spec};
 
         String[] argsToUse = ArrayUtils.addAll(commonArgs, additionalParameters);
 
-        final CodegenConfig config = new JavaClientCodegen();
+        if (configuratorFromFile) {
 
-        setupStandardExpectations(spec, lang, config);
+            new Expectations(){{
+                CodegenConfigurator.fromFile(configFile);
+                times = 1;
+                result = configurator;
+            }};
 
-        SwaggerCodegen.main(argsToUse);
+        } else {
+            new Expectations() {{
+                CodegenConfigurator.fromFile(anyString);
+                result = null;
 
-        new FullVerifications() {{
-        }};
-
-        return config;
-    }
-
-    private void assertValueInMap(Map map, String propertyKey, String expectedPropertyValue) {
-        assertTrue(map.containsKey(propertyKey));
-        assertEquals(map.get(propertyKey), expectedPropertyValue);
-    }
-
-    private void setupStandardExpectations(final String spec, final String languageName, final CodegenConfig config) {
+                new CodegenConfigurator();
+                times = 1;
+                result = configurator;
+            }};
+        }
 
         new Expectations() {{
-            CodegenConfigLoader.forName(languageName);
-            times = 1;
-            result = config;
 
-            new ClientOptInput();
+            configurator.toClientOptInput();
             times = 1;
             result = clientOptInput;
-
-            clientOptInput.config(config);
-            times = 1;
-            result = clientOptInput;
-
-            new SwaggerParser();
-            times = 1;
-            result = parser;
-
-            clientOptInput.getAuthorizationValues();
-            times = 1;
-            result = authorizationValues;
-
-            parser.read(spec, authorizationValues, true);
-            times = 1;
-            result = swagger;
 
             new DefaultGenerator();
             times = 1;
-            result = defaultGenerator;
+            result = generator;
 
-            clientOptInput.opts((ClientOpts) any);
+            generator.opts(clientOptInput);
             times = 1;
-            result = clientOptInput;
+            result = generator;
 
-            clientOptInput.swagger(swagger);
+            generator.generate();
             times = 1;
-            result = clientOptInput;
 
-            defaultGenerator.opts(clientOptInput);
-            times = 1;
-            result = defaultGenerator;
+        }};
 
-            defaultGenerator.generate();
+        SwaggerCodegen.main(argsToUse);
+
+        new Verifications() {{
+            configurator.setLang(lang);
             times = 1;
+            configurator.setInputSpec(spec);
+            times = 1;
+            configurator.setOutputDir(outputDir);
         }};
     }
 
+    private void setupAndRunGenericTest(String... additionalParameters) {
+        setupAndRunTest("-i", "swagger.yaml", "-l", "java", "-o", "src/main/java", false, null, additionalParameters);
+    }
 }

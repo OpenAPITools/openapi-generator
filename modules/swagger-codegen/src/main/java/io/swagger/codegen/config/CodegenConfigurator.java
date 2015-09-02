@@ -1,20 +1,28 @@
 package io.swagger.codegen.config;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.auth.AuthParser;
 import io.swagger.models.Swagger;
+import io.swagger.models.auth.AuthorizationValue;
 import io.swagger.parser.SwaggerParser;
+import io.swagger.util.Json;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,7 +42,7 @@ public class CodegenConfigurator {
     private String inputSpec;
     private String outputDir;
     private boolean verbose = false;
-    private boolean skipOverwrite;
+    private boolean skipOverwrite = false;
     private String templateDir;
     private String auth;
     private String apiPackage;
@@ -43,12 +51,15 @@ public class CodegenConfigurator {
     private String groupId;
     private String artifactId;
     private String artifactVersion;
+    private String library;
     private Map<String, String> systemProperties = new HashMap<String, String>();
     private Map<String, String> instantiationTypes = new HashMap<String, String>();
     private Map<String, String> typeMappings = new HashMap<String, String>();
     private Map<String, String> additionalProperties = new HashMap<String, String>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
+
+    private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
     public CodegenConfigurator() {
         this.setOutputDir(".");
@@ -255,6 +266,15 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public String getLibrary() {
+        return library;
+    }
+
+    public CodegenConfigurator setLibrary(String library) {
+        this.library = library;
+        return this;
+    }
+
     public ClientOptInput toClientOptInput() {
 
         Validate.notEmpty(lang, "language must be specified");
@@ -281,7 +301,8 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
 
-        final String library = additionalProperties.remove(CodegenConstants.LIBRARY);
+        handleDynamicProperties(config);
+
         if (isNotEmpty(library)) {
             config.setLibrary(library);
         }
@@ -289,16 +310,37 @@ public class CodegenConfigurator {
         config.additionalProperties().putAll(additionalProperties);
 
         ClientOptInput input = new ClientOptInput()
-                .config(config)
-                .auth(auth);
+                .config(config);
 
-        Swagger swagger = new SwaggerParser().read(inputSpec, input.getAuthorizationValues(), true);
+        final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
+
+        Swagger swagger = new SwaggerParser().read(inputSpec, authorizationValues, true);
 
         input.opts(new ClientOpts())
                 .swagger(swagger);
 
         return input;
+    }
 
+    @JsonAnySetter
+    public void addDynamicProperty(String name, Object value) {
+        if (value instanceof String) {
+            dynamicProperties.put(name, (String) value);
+        }
+    }
+
+    @JsonAnyGetter
+    public Map<String, String> getDynamicProperties() {
+        return dynamicProperties;
+    }
+
+    private void handleDynamicProperties(CodegenConfig codegenConfig) {
+        for (CliOption langCliOption : codegenConfig.cliOptions()) {
+            String opt = langCliOption.getOpt();
+            if (dynamicProperties.containsKey(opt)) {
+                codegenConfig.additionalProperties().put(opt, dynamicProperties.get(opt));
+            }
+        }
     }
 
     private void setVerboseFlags() {
@@ -340,6 +382,19 @@ public class CodegenConfigurator {
         if (isNotEmpty(property)) {
             additionalProperties.put(propertyKey, valueToSet);
         }
+    }
+
+    public static CodegenConfigurator fromFile(String configFile) {
+
+        if(isNotEmpty(configFile)) {
+            try {
+                CodegenConfigurator result = Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
+                return result;
+            } catch (IOException e) {
+                LOG.error("Unable to deserialize config file: " + configFile, e);
+            }
+        }
+        return null;
     }
 
 }
