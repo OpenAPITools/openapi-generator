@@ -85,6 +85,7 @@ public class DefaultCodegen {
     protected boolean supportsInheritance = false;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library = null;
+    protected Boolean sortParamsByRequiredFlag = true;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -673,7 +674,102 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
+        if(p instanceof IntegerProperty) {
+            IntegerProperty sp = (IntegerProperty) p;
+            if(sp.getEnum() != null) {
+                List<Integer> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(Integer i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
 
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        }
+        if(p instanceof LongProperty) {
+            LongProperty sp = (LongProperty) p;
+            if(sp.getEnum() != null) {
+                List<Long> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(Long i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        }
+        if(p instanceof DoubleProperty) {
+            DoubleProperty sp = (DoubleProperty) p;
+            if(sp.getEnum() != null) {
+                List<Double> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(Double i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        }
+        if(p instanceof FloatProperty) {
+            FloatProperty sp = (FloatProperty) p;
+            if(sp.getEnum() != null) {
+                List<Float> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(Float i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        }
+        if(p instanceof DateProperty) {
+            DateProperty sp = (DateProperty) p;
+            if(sp.getEnum() != null) {
+                List<String> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(String i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        }
+        if(p instanceof DateTimeProperty) {
+            DateTimeProperty sp = (DateTimeProperty) p;
+            if(sp.getEnum() != null) {
+                List<String> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(String i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        }
         property.datatype = getTypeDeclaration(p);
 
         // this can cause issues for clients which don't support enums
@@ -928,16 +1024,19 @@ public class DefaultCodegen {
         op.bodyParam = bodyParam;
         op.httpMethod = httpMethod.toUpperCase();
         // move "required" parameters in front of "optional" parameters
-        Collections.sort(allParams, new Comparator<CodegenParameter>() {
-            @Override
-            public int compare(CodegenParameter one, CodegenParameter another) {
-                boolean oneRequired = one.required == null ? false : one.required;
-                boolean anotherRequired = another.required == null ? false : another.required;
-                if (oneRequired == anotherRequired) return 0;
-                else if (oneRequired) return -1;
-                else return 1;
-            }
-        });
+
+        if(sortParamsByRequiredFlag) {
+          Collections.sort(allParams, new Comparator<CodegenParameter>() {
+              @Override
+              public int compare(CodegenParameter one, CodegenParameter another) {
+                  boolean oneRequired = one.required == null ? false : one.required;
+                  boolean anotherRequired = another.required == null ? false : another.required;
+                  if (oneRequired == anotherRequired) return 0;
+                  else if (oneRequired) return -1;
+                  else return 1;
+              }
+          });
+        }
         op.allParams = addHasMore(allParams);
         op.bodyParams = addHasMore(bodyParams);
         op.pathParams = addHasMore(pathParams);
@@ -1028,6 +1127,8 @@ public class DefaultCodegen {
         } else if (param instanceof FormParameter) {
             p.defaultValue = ((FormParameter) param).getDefaultValue();
         }
+
+        p.vendorExtensions = param.getVendorExtensions();
 
         if (param instanceof SerializableParameter) {
             SerializableParameter qp = (SerializableParameter) param;
