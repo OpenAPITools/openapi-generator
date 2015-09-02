@@ -12,7 +12,7 @@ public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public Boolean hasConsumes, hasProduces, hasParams, returnTypeIsPrimitive,
             returnSimpleType, subresourceOperation, isMapContainer, isListContainer,
-            hasMore = Boolean.TRUE, isMultipart;
+            hasMore = Boolean.TRUE, isMultipart, isResponseBinary = Boolean.FALSE;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, notes, baseName, defaultResponse;
     public List<Map<String, String>> consumes, produces;
