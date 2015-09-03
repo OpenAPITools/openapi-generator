@@ -11,6 +11,8 @@
 
 @implementation {{classname}}
 
+static {{classname}}* singletonAPI = nil;
+
 #pragma mark - Initialize methods
 
 - (id) init {
@@ -38,11 +40,18 @@
 #pragma mark -
 
 +({{classname}}*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    static {{classname}}* singletonAPI = nil;
 
     if (singletonAPI == nil) {
         singletonAPI = [[{{classname}} alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
+    }
+    return singletonAPI;
+}
+
++({{classname}}*) sharedAPI {
+
+    if (singletonAPI == nil) {
+        singletonAPI = [[{{classname}} alloc] init];
     }
     return singletonAPI;
 }
