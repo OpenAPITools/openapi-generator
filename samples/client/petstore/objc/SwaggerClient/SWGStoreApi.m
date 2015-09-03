@@ -9,6 +9,8 @@
 
 @implementation SWGStoreApi
 
+static SWGStoreApi* singletonAPI = nil;
+
 #pragma mark - Initialize methods
 
 - (id) init {
@@ -36,11 +38,18 @@
 #pragma mark -
 
 +(SWGStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    static SWGStoreApi* singletonAPI = nil;
 
     if (singletonAPI == nil) {
         singletonAPI = [[SWGStoreApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
+    }
+    return singletonAPI;
+}
+
++(SWGStoreApi*) sharedAPI {
+
+    if (singletonAPI == nil) {
+        singletonAPI = [[SWGStoreApi alloc] init];
     }
     return singletonAPI;
 }

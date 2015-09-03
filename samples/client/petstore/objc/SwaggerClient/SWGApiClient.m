@@ -9,6 +9,13 @@ static bool cacheEnabled = false;
 static AFNetworkReachabilityStatus reachabilityStatus = AFNetworkReachabilityStatusNotReachable;
 static void (^reachabilityChangeBlock)(int);
 
+
+@interface SWGApiClient ()
+
+@property (readwrite, nonatomic) NSDictionary *HTTPResponseHeaders;
+
+@end
+
 @implementation SWGApiClient
 
 - (instancetype)init {
@@ -385,6 +392,8 @@ static void (^reachabilityChangeBlock)(int);
                                                                        if([[SWGConfiguration sharedConfig] debug]) {
                                                                            [self logResponse:operation forRequest:request error:nil];
                                                                        }
+                                                                       NSDictionary *responseHeaders = [[operation response] allHeaderFields];
+                                                                       self.HTTPResponseHeaders = responseHeaders;
                                                                        completionBlock(response, nil);
                                                                    }
                                                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -398,6 +407,10 @@ static void (^reachabilityChangeBlock)(int);
 
                                                                        if([[SWGConfiguration sharedConfig] debug])
                                                                            [self logResponse:nil forRequest:request error:augmentedError];
+                                                                       
+                                                                       NSDictionary *responseHeaders = [[operation response] allHeaderFields];
+                                                                       self.HTTPResponseHeaders = responseHeaders;
+
                                                                        completionBlock(nil, augmentedError);
                                                                    }
                                                                }];
@@ -441,6 +454,7 @@ static void (^reachabilityChangeBlock)(int);
                                                                    NSURL *file = [NSURL fileURLWithPath:filepath];
 
                                                                    [operation.responseData writeToURL:file atomically:YES];
+                                                                   self.HTTPResponseHeaders = headers;
                                                                    completionBlock(file, nil);
                                                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
@@ -455,7 +469,8 @@ static void (^reachabilityChangeBlock)(int);
                                                                        if ([[SWGConfiguration sharedConfig] debug]) {
                                                                            [self logResponse:nil forRequest:request error:augmentedError];
                                                                        }
-
+                                                                       NSDictionary *responseHeaders = [[operation response] allHeaderFields];
+                                                                       self.HTTPResponseHeaders = responseHeaders;
                                                                        completionBlock(nil, augmentedError);
                                                                    }
                                                                }];
