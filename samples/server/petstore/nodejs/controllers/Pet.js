@@ -93,11 +93,11 @@ module.exports.updatePetWithForm = function updatePetWithForm (req, res, next) {
 };
 
 module.exports.deletePet = function deletePet (req, res, next) {
-  var apiKey = req.swagger.params['api_key'].value;
   var petId = req.swagger.params['petId'].value;
+  var apiKey = req.swagger.params['api_key'].value;
   
 
-  var result = Pet.deletePet(apiKey, petId);
+  var result = Pet.deletePet(petId, apiKey);
 
   if(typeof result !== 'undefined') {
     res.setHeader('Content-Type', 'application/json');
