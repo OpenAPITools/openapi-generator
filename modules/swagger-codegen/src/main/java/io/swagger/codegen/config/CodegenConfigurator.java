@@ -323,10 +323,12 @@ public class CodegenConfigurator {
     }
 
     @JsonAnySetter
-    public void addDynamicProperty(String name, Object value) {
+    public CodegenConfigurator addDynamicProperty(String name, Object value) {
         if (value instanceof String) {
             dynamicProperties.put(name, (String) value);
         }
+
+        return this;
     }
 
     @JsonAnyGetter
