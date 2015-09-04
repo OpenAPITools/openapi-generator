@@ -1,7 +1,11 @@
 package {{package}};
 
+import {{invokerPackage}}.StringUtil;
 {{#imports}}import {{import}};
 {{/imports}}
+
+{{#serializableModel}}
+import java.io.Serializable;{{/serializableModel}}
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,13 +16,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {{description}}
  **/{{/description}}
 @ApiModel(description = "{{{description}}}")
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
+{{>generatedAnnotation}}
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}
-  public enum {{datatypeWithEnum}} {
-    {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
-  };
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
+
+{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+
+{{>enumClass}}{{/items}}{{/items.isEnum}}
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}
   /**{{#description}}
@@ -41,9 +46,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
-    {{#parent}}sb.append("  " + super.toString()).append("\n");{{/parent}}
-    {{#vars}}sb.append("  {{name}}: ").append({{name}}).append("\n");
-    {{/vars}}sb.append("}\n");
+    {{#parent}}sb.append("    ").append(StringUtil.toIndentedString(super.toString())).append("\n");{{/parent}}
+    {{#vars}}sb.append("    {{name}}: ").append(StringUtil.toIndentedString({{name}})).append("\n");
+    {{/vars}}sb.append("}");
     return sb.toString();
   }
 }

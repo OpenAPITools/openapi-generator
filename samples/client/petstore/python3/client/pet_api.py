@@ -35,7 +35,7 @@ class PetApi(object):
         
 
         Args:
-            body, Pet: Pet object that needs to be added to the store (required)
+            body, Pet: Pet object that needs to be added to the store (optional)
             
 
         Returns: 
@@ -77,7 +77,7 @@ class PetApi(object):
         
 
         Args:
-            body, Pet: Pet object that needs to be added to the store (required)
+            body, Pet: Pet object that needs to be added to the store (optional)
             
 
         Returns: 
@@ -119,7 +119,7 @@ class PetApi(object):
         Multiple status values can be provided with comma seperated strings
 
         Args:
-            status, list[str]: Status values that need to be considered for filter (required)
+            status, list[str]: Status values that need to be considered for filter (optional)
             
 
         Returns: list[Pet]
@@ -170,7 +170,7 @@ class PetApi(object):
         Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
         Args:
-            tags, list[str]: Tags to filter by (required)
+            tags, list[str]: Tags to filter by (optional)
             
 
         Returns: list[Pet]
@@ -275,8 +275,8 @@ class PetApi(object):
 
         Args:
             pet_id, str: ID of pet that needs to be updated (required)
-            name, str: Updated name of the pet (required)
-            status, str: Updated status of the pet (required)
+            name, str: Updated name of the pet (optional)
+            status, str: Updated status of the pet (optional)
             
 
         Returns: 
@@ -323,7 +323,7 @@ class PetApi(object):
         
 
         Args:
-            api_key, str:  (required)
+            api_key, str:  (optional)
             pet_id, int: Pet id to delete (required)
             
 
@@ -375,8 +375,8 @@ class PetApi(object):
 
         Args:
             pet_id, int: ID of pet to update (required)
-            additional_metadata, str: Additional data to pass to server (required)
-            file, file: file to upload (required)
+            additional_metadata, str: Additional data to pass to server (optional)
+            file, file: file to upload (optional)
             
 
         Returns: 
