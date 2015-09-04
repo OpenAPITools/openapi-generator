@@ -65,6 +65,8 @@ public interface CodegenConfig {
 
     CodegenModel fromModel(String name, Model model);
 
+    CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions);
+
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions);
 
     List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);
@@ -80,6 +82,8 @@ public interface CodegenConfig {
     Map<String, String> apiTemplateFiles();
 
     Map<String, String> modelTemplateFiles();
+
+    Set<String> languageSpecificPrimitives();
 
     void processSwagger(Swagger swagger);
 
@@ -102,4 +106,17 @@ public interface CodegenConfig {
     String apiFilename(String templateName, String tag);
 
     boolean shouldOverwrite(String filename);
+
+    boolean isSkipOverwrite();
+
+    void setSkipOverwrite(boolean skipOverwrite);
+
+    Map<String, String> supportedLibraries();
+
+    void setLibrary(String library);
+
+    /**
+     * Library template (sub-template).
+     */
+    String getLibrary();
 }
