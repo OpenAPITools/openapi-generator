@@ -18,6 +18,7 @@
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;
 +(SWGUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;
++(SWGUserApi*) sharedAPI;
 ///
 ///
 /// Create user
@@ -98,7 +99,7 @@
 /// Get user by user name
 /// 
 ///
-/// @param username The name that needs to be fetched. Use user1 for testing. 
+/// @param username The name that needs to be fetched. Use user1 for testing.
 /// 
 ///
 /// @return SWGUser*
