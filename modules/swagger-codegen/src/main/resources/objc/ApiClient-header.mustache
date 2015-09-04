@@ -31,6 +31,9 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 @property(nonatomic, readonly) NSOperationQueue* queue;
 
+/// In order to ensure the HTTPResponseHeaders are correct, it is recommended to initialize one {{classPrefix}}ApiClient instance per thread.
+@property(nonatomic, readonly) NSDictionary* HTTPResponseHeaders;
+
 /**
  * Clears Cache
  */

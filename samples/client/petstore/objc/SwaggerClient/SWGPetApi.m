@@ -9,6 +9,8 @@
 
 @implementation SWGPetApi
 
+static SWGPetApi* singletonAPI = nil;
+
 #pragma mark - Initialize methods
 
 - (id) init {
@@ -36,11 +38,18 @@
 #pragma mark -
 
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    static SWGPetApi* singletonAPI = nil;
 
     if (singletonAPI == nil) {
         singletonAPI = [[SWGPetApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
+    }
+    return singletonAPI;
+}
+
++(SWGPetApi*) sharedAPI {
+
+    if (singletonAPI == nil) {
+        singletonAPI = [[SWGPetApi alloc] init];
     }
     return singletonAPI;
 }
