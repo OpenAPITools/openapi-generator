@@ -18,6 +18,7 @@
 -(void) addHeader:(NSString*)value forKey:(NSString*)key;
 -(unsigned long) requestQueueSize;
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;
++(SWGPetApi*) sharedAPI;
 ///
 ///
 /// Update an existing pet

@@ -137,11 +137,12 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separator + sourceFolder + File.separator + apiPackage()).replace('.', File.separatorChar);
+
+        return outputFolder + File.separator + (sourceFolder + File.separator + apiPackage()).replace('.', File.separatorChar);
     }
 
     public String modelFileFolder() {
-        return (outputFolder + File.separator + sourceFolder + File.separator + modelPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (sourceFolder + File.separator + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override
