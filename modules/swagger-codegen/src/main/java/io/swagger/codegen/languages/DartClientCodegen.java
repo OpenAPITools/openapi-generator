@@ -133,7 +133,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("apiException.mustache", libFolder, "api_exception.dart"));
         supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
 
-        final String authFolder = sourceFolder + File.separator + "auth";
+        final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "authentication.dart"));
         supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
