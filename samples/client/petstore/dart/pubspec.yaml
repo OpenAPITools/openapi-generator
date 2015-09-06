@@ -1,0 +1,15 @@
+name: swagger
+version: 1.0.0
+description: Swagger API client
+dependencies:
+  http: '>=0.11.1 <0.12.0'
+  dartson: "^0.2.4"
+  crypto: "^0.9.0"
+  intl: "^0.12.4+2"
+
+dev_dependencies:
+  guinness: '^0.1.17'
+  browser: any
+
+transformers:
+  - dartson
