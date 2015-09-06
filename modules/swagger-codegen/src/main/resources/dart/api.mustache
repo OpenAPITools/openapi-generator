@@ -1,0 +1,83 @@
+part of api;
+
+{{#operations}}
+
+class {{classname}} {
+  String basePath = "{{basePath}}";
+  ApiClient apiClient = ApiClient.defaultApiClient;
+
+  {{classname}}([ApiClient apiClient]) {
+    if (apiClient != null) {
+      this.apiClient = apiClient;
+    }
+  }
+
+  {{#operation}}
+  /// {{summary}}
+  ///
+  /// {{notes}}
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    {{#requiredParamCount}}
+    // verify required params are set
+    if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
+       throw new ApiException(400, "missing required params");
+    }{{/requiredParamCount}}
+
+    // create path and map variables
+    String path = "{{path}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{paramName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
+
+    // query params
+    Map<String, String> queryParams = {};
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    {{#queryParams}}if("null" != {{paramName}})
+      queryParams["{{baseName}}"] = {{paramName}} is List ? {{paramName}}.join(',') : {{paramName}};
+    {{/queryParams}}
+    {{#headerParams}}headerParams["{{baseName}}"] = {{paramName}};
+    {{/headerParams}}
+
+    List<String> contentTypes = [{{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [{{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      {{#formParams}}{{#notFile}}
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.fields['{{baseName}}'] = apiClient.parameterToString({{paramName}});
+      }
+      {{/notFile}}{{#isFile}}
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.fields['{{baseName}}'] = {{paramName}}.field;
+        mp.files.add({{paramName}});
+      }
+      {{/isFile}}{{/formParams}}
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+      {{#formParams}}{{#notFile}}if ({{paramName}} != null)
+        formParams['{{baseName}}'] = apiClient.parameterToString({{paramName}});{{/notFile}}
+      {{/formParams}}
+    }
+
+    return apiClient.invokeAPI(basePath, path, '{{httpMethod}}', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
+      if(response.statusCode >= 400) {
+        throw new ApiException(response.statusCode, response.body);
+      }
+      else if(response.body != null){
+        return {{#returnType}}ApiClient.deserialize(response.body, {{returnBaseType}}){{/returnType}};
+      }
+      else {
+        return {{#returnType}}null{{/returnType}};
+      }
+    });
+  }
+  {{/operation}}
+}
+{{/operations}}
