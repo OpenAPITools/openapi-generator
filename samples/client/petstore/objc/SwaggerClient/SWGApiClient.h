@@ -35,6 +35,9 @@ extern NSString *const SWGResponseObjectErrorKey;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 @property(nonatomic, readonly) NSOperationQueue* queue;
 
+/// In order to ensure the HTTPResponseHeaders are correct, it is recommended to initialize one SWGApiClient instance per thread.
+@property(nonatomic, readonly) NSDictionary* HTTPResponseHeaders;
+
 /**
  * Clears Cache
  */
