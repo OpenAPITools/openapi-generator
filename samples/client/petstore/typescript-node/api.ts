@@ -118,7 +118,7 @@ class VoidAuth implements Authentication {
 }
 
 export class UserApi {
-    private basePath = '/v2';
+    private basePath = 'http://petstore.swagger.io/v2';
     public authentications = {
         'default': <Authentication>new VoidAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -528,7 +528,7 @@ export class UserApi {
     }
 }
 export class PetApi {
-    private basePath = '/v2';
+    private basePath = 'http://petstore.swagger.io/v2';
     public authentications = {
         'default': <Authentication>new VoidAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -980,7 +980,7 @@ export class PetApi {
     }
 }
 export class StoreApi {
-    private basePath = '/v2';
+    private basePath = 'http://petstore.swagger.io/v2';
     public authentications = {
         'default': <Authentication>new VoidAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),

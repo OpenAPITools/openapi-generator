@@ -95,7 +95,7 @@ class VoidAuth implements Authentication {
 */
 {{/description}}
 export class {{classname}} {
-    private basePath = '{{contextPath}}';
+    private basePath = '{{basePath}}';
     public authentications = {
         'default': <Authentication>new VoidAuth(),
 {{#authMethods}}

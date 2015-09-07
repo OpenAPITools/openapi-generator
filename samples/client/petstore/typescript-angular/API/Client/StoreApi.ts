@@ -6,7 +6,7 @@ module API.Client {
     'use strict';
 
     export class StoreApi {
-        private basePath = '/v2';
+        private basePath = 'http://petstore.swagger.io/v2';
 
         static $inject: string[] = ['$http'];
 
