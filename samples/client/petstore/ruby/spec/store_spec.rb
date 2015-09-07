@@ -2,17 +2,17 @@ require 'spec_helper'
 
 describe "Store" do
   before do
-    configure_swagger
-    prepare_store
+    @api = Petstore::StoreApi.new(API_CLIENT)
+    prepare_store @api
   end
 
   it "should fetch an order" do
-    item = Petstore::StoreApi.get_order_by_id(10002)
+    item = @api.get_order_by_id(10002)
     item.id.should == 10002
   end
 
   it "should featch the inventory" do
-    result = Petstore::StoreApi.get_inventory
+    result = @api.get_inventory
     result.should be_a(Hash)
     result.should_not be_empty
     result.each do |k, v|
