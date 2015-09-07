@@ -33,4 +33,8 @@ public class CodegenConstants {
 
     public static final String SERIALIZABLE_MODEL = "serializableModel";
     public static final String SERIALIZABLE_MODEL_DESC = "boolean - toggle \"implements Serializable\" for generated models";
+
+    public static final String LIBRARY = "library";
+    public static final String LIBRARY_DESC = "library template (sub-template)";
+
 }

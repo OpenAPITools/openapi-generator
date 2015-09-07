@@ -120,6 +120,10 @@ public class DefaultCodegen {
         return objs;
     }
 
+    //override with any special handling of the entire swagger spec
+    public void preprocessSwagger(Swagger swagger) {
+    }
+
     // override with any special handling of the entire swagger spec
     public void processSwagger(Swagger swagger) {
     }
