@@ -96,7 +96,7 @@ exports.updatePetWithForm = function(petId, name, status) {
 
   
 }
-exports.deletePet = function(apiKey, petId) {
+exports.deletePet = function(petId, apiKey) {
 
   var examples = {};
   
