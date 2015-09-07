@@ -2,14 +2,19 @@ require "uri"
 
 module Petstore
   class StoreApi
+    attr_accessor :api_client
+
+    def initialize(api_client = nil)
+      @api_client = api_client || Configuration.api_client
+    end
 
     # Returns pet inventories by status
     # Returns a map of status codes to quantities
     # @param [Hash] opts the optional parameters
     # @return [Hash<String, Integer>]
-    def self.get_inventory(opts = {})
-      if Swagger.configuration.debug
-        Swagger.logger.debug "Calling API: StoreApi#get_inventory ..."
+    def get_inventory(opts = {})
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#get_inventory ..."
       end
       
       # resource path
@@ -23,11 +28,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -37,12 +42,17 @@ module Petstore
       
 
       auth_names = ['api_key']
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('Hash<String, Integer>')
-      if Swagger.configuration.debug
-        Swagger.logger.debug "API called: StoreApi#get_inventory. Result: #{result.inspect}"
+      result = @api_client.call_api(:GET, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Hash<String, Integer>')
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#get_inventory. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Place an order for a pet
@@ -50,9 +60,9 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @option opts [Order] :body order placed for purchasing the pet
     # @return [Order]
-    def self.place_order(opts = {})
-      if Swagger.configuration.debug
-        Swagger.logger.debug "Calling API: StoreApi#place_order ..."
+    def place_order(opts = {})
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#place_order ..."
       end
       
       # resource path
@@ -66,26 +76,31 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = Swagger::Request.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
       auth_names = []
-      response = Swagger::Request.new(:POST, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('Order')
-      if Swagger.configuration.debug
-        Swagger.logger.debug "API called: StoreApi#place_order. Result: #{result.inspect}"
+      result = @api_client.call_api(:POST, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Order')
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#place_order. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Find purchase order by ID
@@ -93,9 +108,9 @@ module Petstore
     # @param order_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Order]
-    def self.get_order_by_id(order_id, opts = {})
-      if Swagger.configuration.debug
-        Swagger.logger.debug "Calling API: StoreApi#get_order_by_id ..."
+    def get_order_by_id(order_id, opts = {})
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#get_order_by_id ..."
       end
       
       # verify the required parameter 'order_id' is set
@@ -112,11 +127,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -126,12 +141,17 @@ module Petstore
       
 
       auth_names = []
-      response = Swagger::Request.new(:GET, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      result = response.deserialize('Order')
-      if Swagger.configuration.debug
-        Swagger.logger.debug "API called: StoreApi#get_order_by_id. Result: #{result.inspect}"
+      result = @api_client.call_api(:GET, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Order')
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#get_order_by_id. Result: #{result.inspect}"
       end
-      result
+      return result
     end
 
     # Delete purchase order by ID
@@ -139,9 +159,9 @@ module Petstore
     # @param order_id ID of the order that needs to be deleted
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def self.delete_order(order_id, opts = {})
-      if Swagger.configuration.debug
-        Swagger.logger.debug "Calling API: StoreApi#delete_order ..."
+    def delete_order(order_id, opts = {})
+      if Configuration.debugging
+        Configuration.logger.debug "Calling API: StoreApi#delete_order ..."
       end
       
       # verify the required parameter 'order_id' is set
@@ -158,11 +178,11 @@ module Petstore
 
       # HTTP header 'Accept' (if needed)
       _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = Swagger::Request.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
 
       # HTTP header 'Content-Type'
       _header_content_type = []
-      header_params['Content-Type'] = Swagger::Request.select_header_content_type(_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
 
       # form parameters
       form_params = {}
@@ -172,11 +192,20 @@ module Petstore
       
 
       auth_names = []
-      Swagger::Request.new(:DELETE, path, {:params => query_params, :headers => header_params, :form_params => form_params, :body => post_body, :auth_names => auth_names}).make
-      if Swagger.configuration.debug
-        Swagger.logger.debug "API called: StoreApi#delete_order"
+      @api_client.call_api(:DELETE, path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if Configuration.debugging
+        Configuration.logger.debug "API called: StoreApi#delete_order"
       end
-      nil
+      return nil
     end
   end
 end
+
+
+
+

@@ -3,8 +3,8 @@ require 'json'
 
 describe "Pet" do
   before do
-    configure_swagger
-    prepare_pet
+    @pet_api = Petstore::PetApi.new(API_CLIENT)
+    prepare_pet @pet_api
   end
 
   describe "pet methods" do
@@ -42,7 +42,7 @@ describe "Pet" do
     end
 
     it "should fetch a pet object" do
-      pet = Petstore::PetApi.get_pet_by_id(10002)
+      pet = @pet_api.get_pet_by_id(10002)
       pet.should be_a(Petstore::Pet)
       pet.id.should == 10002
       pet.name.should == "RUBY UNIT TESTING"
@@ -52,9 +52,9 @@ describe "Pet" do
 
     it "should not find a pet that does not exist" do
       begin
-        Petstore::PetApi.get_pet_by_id(-10002)
+        @pet_api.get_pet_by_id(-10002)
         fail 'it should raise error'
-      rescue Petstore::Swagger::ApiError => e
+      rescue Petstore::ApiError => e
         e.code.should == 404
         e.message.should == 'Not Found'
         e.response_body.should == '{"code":1,"type":"error","message":"Pet not found"}'
@@ -64,7 +64,7 @@ describe "Pet" do
     end
 
     it "should find pets by status" do
-      pets = Petstore::PetApi.find_pets_by_status(:status => 'available')
+      pets = @pet_api.find_pets_by_status(:status => 'available')
       pets.length.should >= 3
       pets.each do |pet|
         pet.should be_a(Petstore::Pet)
@@ -73,12 +73,12 @@ describe "Pet" do
     end
 
     it "should not find a pet with invalid status" do
-      pets = Petstore::PetApi.find_pets_by_status(:status => 'invalid-status')
+      pets = @pet_api.find_pets_by_status(:status => 'invalid-status')
       pets.length.should == 0
     end
 
     it "should find a pet by status" do
-      pets = Petstore::PetApi.find_pets_by_status(:status => "available,sold")
+      pets = @pet_api.find_pets_by_status(:status => "available,sold")
       pets.each do |pet|
         if pet.status != 'available' && pet.status != 'sold'
           raise "pet status wasn't right"
@@ -88,22 +88,33 @@ describe "Pet" do
 
     it "should update a pet" do
       pet = Petstore::Pet.new({'id' => 10002, 'status' => 'sold'})
-      Petstore::PetApi.add_pet(:body => pet)
+      @pet_api.add_pet(:body => pet)
 
-      fetched = Petstore::PetApi.get_pet_by_id(10002)
+      fetched = @pet_api.get_pet_by_id(10002)
       fetched.id.should == 10002
       fetched.status.should == 'sold'
     end
 
     it "should create a pet" do
       pet = Petstore::Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
-      result = Petstore::PetApi.add_pet(:body => pet)
+      result = @pet_api.add_pet(:body => pet)
       # nothing is returned
       result.should be_nil
 
-      pet = Petstore::PetApi.get_pet_by_id(10002)
+      pet = @pet_api.get_pet_by_id(10002)
       pet.id.should == 10002
       pet.name.should == "RUBY UNIT TESTING"
+    end
+
+    it "should upload a file to a pet" do
+      pet = Petstore::Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
+      result = @pet_api.add_pet(:body => pet)
+      # nothing is returned
+      result.should be_nil
+
+      result = @pet_api.upload_file(10002, file: File.new('hello.txt'))
+      # nothing is returned
+      result.should be_nil
     end
   end
 end

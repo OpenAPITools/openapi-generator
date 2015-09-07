@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "petstore/swagger/version"
+require "petstore/version"
 
 Gem::Specification.new do |s|
   s.name        = "petstore"
-  s.version     = Petstore::Swagger::VERSION
+  s.version     = Petstore::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Zeke Sikelianos", "Tony Tam"]
   s.email       = ["zeke@wordnik.com", "fehguy@gmail.com"]
