@@ -7,10 +7,10 @@ import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 {{#models}}
 
-{{#model}}{{#description}}
+{{#model}}{{#unescapedDescription}}
 /**
- * {{description}}
- **/{{/description}}
+ * {{unescapedDescription}}
+ **/{{/unescapedDescription}}
 @ApiModel(description = "{{{description}}}")
 {{>generatedAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
@@ -22,8 +22,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
 
   {{#vars}}
-  /**{{#description}}
-   * {{{description}}}{{/description}}{{#minimum}}
+  /**{{#unescapedDescription}}
+   * {{{unescapedDescription}}}{{/unescapedDescription}}{{#minimum}}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
    **/
