@@ -1073,7 +1073,7 @@ public class DefaultCodegen {
         } else {
             r.code = responseCode;
         }
-        r.message = response.getDescription();
+        r.message = escapeText(response.getDescription());
         r.schema = response.getSchema();
         r.examples = toExamples(response.getExamples());
         r.jsonSchema = Json.pretty(response);
