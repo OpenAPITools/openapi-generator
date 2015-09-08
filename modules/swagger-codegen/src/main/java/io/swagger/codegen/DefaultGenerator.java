@@ -413,6 +413,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         for (String resourcePath : paths.keySet()) {
             Path path = paths.get(resourcePath);
             processOperation(resourcePath, "get", path.getGet(), ops, path);
+            processOperation(resourcePath, "head", path.getHead(), ops, path);
             processOperation(resourcePath, "put", path.getPut(), ops, path);
             processOperation(resourcePath, "post", path.getPost(), ops, path);
             processOperation(resourcePath, "delete", path.getDelete(), ops, path);
