@@ -34,6 +34,10 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 
     // Rename the aar correctly
     libraryVariants.all { variant ->
