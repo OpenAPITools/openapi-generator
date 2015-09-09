@@ -76,7 +76,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     public CodegenType getTag() {
-        return CodegenType.CLIENT;
+        return CodegenType.SERVER;
     }
 
     public String getName() {
