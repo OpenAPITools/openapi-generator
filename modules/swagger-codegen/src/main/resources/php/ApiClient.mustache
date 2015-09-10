@@ -48,6 +48,8 @@ class ApiClient
     public static $PATCH = "PATCH";
     public static $POST = "POST";
     public static $GET = "GET";
+    public static $HEAD = "HEAD";
+    public static $OPTIONS = "OPTIONS";
     public static $PUT = "PUT";
     public static $DELETE = "DELETE";
   
@@ -169,6 +171,11 @@ class ApiClient
   
         if ($method == self::$POST) {
             curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+        } else if ($method == self::$HEAD) {
+            curl_setopt($curl, CURLOPT_NOBODY, true);
+        } else if ($method == self::$OPTIONS) {
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "OPTIONS");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
         } else if ($method == self::$PATCH) {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
