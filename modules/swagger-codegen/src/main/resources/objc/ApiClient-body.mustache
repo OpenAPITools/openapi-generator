@@ -528,7 +528,7 @@ static void (^reachabilityChangeBlock)(int);
     NSMutableString *resourcePath = [NSMutableString stringWithString:path];
     [pathParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [resourcePath replaceCharactersInRange:[resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", key, @"}"]]
-                                    withString:[SWGApiClient escape:obj]];
+                                    withString:[{{classPrefix}}ApiClient escape:obj]];
     }];
 
     NSMutableURLRequest * request = nil;
@@ -705,7 +705,7 @@ static void (^reachabilityChangeBlock)(int);
     if (object == nil) {
         return nil;
     }
-    else if ([object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[SWGQueryParamCollection class]]) {
+    else if ([object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[{{classPrefix}}QueryParamCollection class]]) {
         return object;
     }
     else if ([object isKindOfClass:[NSDate class]]) {
@@ -729,7 +729,7 @@ static void (^reachabilityChangeBlock)(int);
         }];
         return sanitizedObjs;
     }
-    else if ([object isKindOfClass:[SWGObject class]]) {
+    else if ([object isKindOfClass:[{{classPrefix}}Object class]]) {
         return [object toDictionary];
     }
     else {
