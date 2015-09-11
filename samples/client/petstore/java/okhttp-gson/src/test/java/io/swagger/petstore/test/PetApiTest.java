@@ -4,6 +4,7 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
 
+import io.swagger.client.ApiCallback;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
@@ -13,7 +14,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -66,6 +69,81 @@ public class PetApiTest {
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testCreateAndGetPetAsync() throws Exception {
+        Pet pet = createRandomPet();
+        api.addPet(pet);
+        // to store returned Pet or error message/exception
+        final Map<String, Object> result = new HashMap<String, Object>();
+
+        api.getPetByIdAsync(pet.getId(), new ApiCallback<Pet>() {
+            @Override
+            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("error", e.getMessage());
+            }
+
+            @Override
+            public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("pet", pet);
+            }
+        });
+        // the API call should be executed asynchronously, so result should be empty at the moment
+        assertTrue(result.isEmpty());
+
+        // wait for the asynchronous call to finish (at most 10 seconds)
+        final int maxTry = 10;
+        int tryCount = 1;
+        Pet fetched = null;
+        do {
+            if (tryCount > maxTry) fail("have not got result of getPetByIdAsync after 10 seconds");
+            Thread.sleep(1000);
+            tryCount += 1;
+            if (result.get("error") != null) fail((String) result.get("error"));
+            if (result.get("pet") != null) {
+                fetched = (Pet) result.get("pet");
+                break;
+            }
+        } while (result.isEmpty());
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+
+        // test getting a nonexistent pet
+        result.clear();
+        api.getPetByIdAsync(new Long(-10000), new ApiCallback<Pet>() {
+            @Override
+            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("exception", e);
+            }
+
+            @Override
+            public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("pet", pet);
+            }
+        });
+        // the API call should be executed asynchronously, so result should be empty at the moment
+        assertTrue(result.isEmpty());
+
+        // wait for the asynchronous call to finish (at most 10 seconds)
+        tryCount = 1;
+        ApiException exception = null;
+        do {
+            if (tryCount > maxTry) fail("have not got result of getPetByIdAsync after 10 seconds");
+            Thread.sleep(1000);
+            tryCount += 1;
+            if (result.get("pet") != null) fail("expected an error");
+            if (result.get("exception") != null) {
+                exception = (ApiException) result.get("exception");
+                break;
+            }
+        } while (result.isEmpty());
+        assertNotNull(exception);
+        assertEquals(404, exception.getCode());
+        assertEquals("Not Found", exception.getMessage());
+        assertEquals("application/json", exception.getResponseHeaders().get("Content-Type").get(0));
     }
 
     @Test

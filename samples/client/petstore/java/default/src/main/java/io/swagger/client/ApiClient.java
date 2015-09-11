@@ -28,6 +28,7 @@ import java.net.URLEncoder;
 import java.io.IOException;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.io.DataInputStream;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-24T11:46:58.447+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:58.351+08:00")
 public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
@@ -47,6 +48,9 @@ public class ApiClient {
   private JSON json = new JSON();
 
   private Map<String, Authentication> authentications;
+
+  private int statusCode;
+  private Map<String, List<String>> responseHeaders;
 
   private DateFormat dateFormat;
 
@@ -76,6 +80,20 @@ public class ApiClient {
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
     return this;
+  }
+
+  /**
+   * Gets the status code of the previous request
+   */
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  /**
+   * Gets the response headers of the previous request
+   */
+  public Map<String, List<String>> getResponseHeaders() {
+    return responseHeaders;
   }
 
   /**
@@ -371,22 +389,12 @@ public class ApiClient {
     }
   }
 
-  /**
-   * Invoke API by sending HTTP request with the given options.
-   *
-   * @param path The sub-path of the HTTP URL
-   * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
-   * @param queryParams The query parameters
-   * @param body The request body object
-   * @param headerParams The header parameters
-   * @param formParams The form parameters
-   * @param accept The request's Accept header
-   * @param contentType The request's Content-Type header
-   * @param authNames The authentications to apply
-   * @param returnType The return type into which to deserialize the response
-   * @return The response body in type of string
-   */
-  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
+  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, Object body, byte[] binaryBody, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+
+    if (body != null && binaryBody != null){
+      throw new ApiException(500, "either body or binaryBody must be null");
+    }
+
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     Client client = getClient();
@@ -446,7 +454,10 @@ public class ApiClient {
       if (encodedFormParams != null) {
         response = builder.type(contentType).post(ClientResponse.class, encodedFormParams);
       } else if (body == null) {
-        response = builder.post(ClientResponse.class, null);
+        if(binaryBody == null)
+            response = builder.post(ClientResponse.class, null);
+        else
+            response = builder.type(contentType).post(ClientResponse.class, binaryBody);
       } else if (body instanceof FormDataMultiPart) {
         response = builder.type(contentType).post(ClientResponse.class, body);
       } else {
@@ -456,7 +467,10 @@ public class ApiClient {
       if (encodedFormParams != null) {
         response = builder.type(contentType).put(ClientResponse.class, encodedFormParams);
       } else if(body == null) {
-        response = builder.put(ClientResponse.class, serialize(body, contentType));
+        if(binaryBody == null)
+            response = builder.put(ClientResponse.class, null);
+        else
+            response = builder.type(contentType).put(ClientResponse.class, binaryBody);
       } else {
         response = builder.type(contentType).put(ClientResponse.class, serialize(body, contentType));
       }
@@ -464,15 +478,42 @@ public class ApiClient {
       if (encodedFormParams != null) {
         response = builder.type(contentType).delete(ClientResponse.class, encodedFormParams);
       } else if(body == null) {
-        response = builder.delete(ClientResponse.class);
+        if(binaryBody == null)
+            response = builder.delete(ClientResponse.class);
+        else
+            response = builder.type(contentType).delete(ClientResponse.class, binaryBody);
       } else {
         response = builder.type(contentType).delete(ClientResponse.class, serialize(body, contentType));
       }
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }
+    return response;
+  }
 
-    if (response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
+  /**
+   * Invoke API by sending HTTP request with the given options.
+   *
+   * @param path The sub-path of the HTTP URL
+   * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
+   * @param queryParams The query parameters
+   * @param body The request body object - if it is not binary, otherwise null
+   * @param binaryBody The request body object - if it is binary, otherwise null
+   * @param headerParams The header parameters
+   * @param formParams The form parameters
+   * @param accept The request's Accept header
+   * @param contentType The request's Content-Type header
+   * @param authNames The authentications to apply
+   * @return The response body in type of string
+   */
+   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, byte[] binaryBody, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
+
+    ClientResponse response = getAPIResponse(path, method, queryParams, body, binaryBody, headerParams, formParams, accept, contentType, authNames);
+
+    statusCode = response.getStatusInfo().getStatusCode();
+    responseHeaders = response.getHeaders();
+
+    if(response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
       return null;
     } else if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
       if (returnType == null)
@@ -495,6 +536,58 @@ public class ApiClient {
         message,
         response.getHeaders(),
         respBody);
+    }
+  }
+ /**
+   * Invoke API by sending HTTP request with the given options - return binary result
+   *
+   * @param path The sub-path of the HTTP URL
+   * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
+   * @param queryParams The query parameters
+   * @param body The request body object - if it is not binary, otherwise null
+   * @param binaryBody The request body object - if it is binary, otherwise null
+   * @param headerParams The header parameters
+   * @param formParams The form parameters
+   * @param accept The request's Accept header
+   * @param contentType The request's Content-Type header
+   * @param authNames The authentications to apply
+   * @return The response body in type of string
+   */
+ public byte[] invokeBinaryAPI(String path, String method, List<Pair> queryParams, Object body, byte[] binaryBody, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[]authNames) throws ApiException {
+
+    ClientResponse response = getAPIResponse(path, method, queryParams, body, binaryBody, headerParams, formParams, accept, contentType, authNames);
+
+    if(response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
+      return null;
+    }
+    else if(response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
+      if(response.hasEntity()) {
+    	DataInputStream stream = new DataInputStream(response.getEntityInputStream());
+    	byte[] data = new byte[response.getLength()];
+    	try {
+    	  stream.readFully(data);
+    	} catch (IOException ex) {
+    	  throw new ApiException(500, "Error obtaining binary response data");
+    	}
+        return data;
+      }
+      else {
+        return new byte[0];
+      }
+    }
+    else {
+      String message = "error";
+      if(response.hasEntity()) {
+        try{
+          message = String.valueOf(response.getEntity(String.class));
+        }
+        catch (RuntimeException e) {
+          // e.printStackTrace();
+        }
+      }
+      throw new ApiException(
+                response.getStatusInfo().getStatusCode(),
+                message);
     }
   }
 
