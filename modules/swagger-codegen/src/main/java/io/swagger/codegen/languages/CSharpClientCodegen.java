@@ -218,7 +218,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
 
-            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return getSwaggerType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }

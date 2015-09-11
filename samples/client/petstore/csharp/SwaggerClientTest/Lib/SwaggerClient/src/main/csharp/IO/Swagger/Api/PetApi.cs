@@ -175,9 +175,8 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets the base path of the API client.
         /// </summary>
-        /// <param name="basePath">The base path</param>
         /// <value>The base path</value>
-        public String GetBasePath(String basePath)
+        public String GetBasePath()
         {
             return this.ApiClient.BasePath;
         }
