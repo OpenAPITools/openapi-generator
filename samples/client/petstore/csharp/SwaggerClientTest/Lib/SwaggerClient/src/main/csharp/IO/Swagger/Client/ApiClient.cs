@@ -170,7 +170,7 @@ namespace IO.Swagger.Client
         /// <returns>Escaped string.</returns>
         public string EscapeString(string str)
         {
-            return RestSharp.Extensions.StringExtensions.UrlDecode(str);
+            return RestSharp.Extensions.StringExtensions.UrlEncode(str);
         }
     
         /// <summary>
