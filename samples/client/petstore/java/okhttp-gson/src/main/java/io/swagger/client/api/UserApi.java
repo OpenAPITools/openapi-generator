@@ -354,7 +354,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @param username The name that needs to be fetched. Use user1 for testing.
    * @return User
    */
   public User getUserByName(String username) throws ApiException {
@@ -366,7 +366,7 @@ public class UserApi {
   /**
    * Get user by user name (asynchronously)
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @param username The name that needs to be fetched. Use user1 for testing.
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */

@@ -43,7 +43,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-22T21:47:05.989+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:51.678+08:00")
 public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
@@ -52,6 +52,9 @@ public class ApiClient {
   private JSON json = new JSON();
 
   private Map<String, Authentication> authentications;
+
+  private int statusCode;
+  private Map<String, List<String>> responseHeaders;
 
   private DateFormat dateFormat;
 
@@ -81,6 +84,20 @@ public class ApiClient {
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
     return this;
+  }
+
+  /**
+   * Gets the status code of the previous request
+   */
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  /**
+   * Gets the response headers of the previous request
+   */
+  public Map<String, List<String>> getResponseHeaders() {
+    return responseHeaders;
   }
 
   /**
@@ -483,6 +500,9 @@ public class ApiClient {
       throw new ApiException(500, "unknown method type " + method);
     }
 
+    statusCode = response.getStatusInfo().getStatusCode();
+    responseHeaders = buildResponseHeaders(response);
+
     if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
       return null;
     } else if (response.getStatusInfo().getFamily().equals(Status.Family.SUCCESSFUL)) {
@@ -501,21 +521,25 @@ public class ApiClient {
           // e.printStackTrace();
         }
       }
-      Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
-      for (String key: response.getHeaders().keySet()) {
-        List<Object> values = response.getHeaders().get(key);
-        List<String> headers = new ArrayList<String>();
-        for (Object o : values) {
-          headers.add(String.valueOf(o));
-        }
-        responseHeaders.put(key, headers);
-      }
       throw new ApiException(
         response.getStatus(),
         message,
-        responseHeaders,
+        buildResponseHeaders(response),
         respBody);
     }
+  }
+
+  private Map<String, List<String>> buildResponseHeaders(Response response) {
+    Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
+    for (Entry<String, List<Object>> entry: response.getHeaders().entrySet()) {
+      List<Object> values = entry.getValue();
+      List<String> headers = new ArrayList<String>();
+      for (Object o : values) {
+        headers.add(String.valueOf(o));
+      }
+      responseHeaders.put(entry.getKey(), headers);
+    }
+    return responseHeaders;
   }
 
   /**

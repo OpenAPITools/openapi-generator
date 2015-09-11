@@ -1,6 +1,6 @@
 package io.swagger.client;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-22T21:47:05.989+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:51.678+08:00")
 public class StringUtil {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).
@@ -38,5 +38,14 @@ public class StringUtil {
       out.append(separator).append(array[i]);
     }
     return out.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  public static String toIndentedString(Object o) {
+    if (o == null) return "null";
+    return o.toString().replace("\n", "\n    ");
   }
 }
