@@ -48,6 +48,9 @@ public class ApiClient {
 
   private Map<String, Authentication> authentications;
 
+  private int statusCode;
+  private Map<String, List<String>> responseHeaders;
+
   private String dateFormat;
   private DateFormat dateFormatter;
   private int dateLength;
@@ -104,6 +107,24 @@ public class ApiClient {
   public ApiClient setJSON(JSON json) {
     this.json = json;
     return this;
+  }
+
+  /**
+   * Gets the status code of the previous request.
+   * NOTE: Status code of last async response is not recorded here, it is
+   * passed to the callback methods instead.
+   */
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  /**
+   * Gets the response headers of the previous request.
+   * NOTE: Headers of last async response is not recorded here, it is passed
+   * to callback methods instead.
+   */
+  public Map<String, List<String>> getResponseHeaders() {
+    return responseHeaders;
   }
 
   public String getDateFormat() {
@@ -533,6 +554,8 @@ public class ApiClient {
   public <T> T execute(Call call, Type returnType) throws ApiException {
     try {
       Response response = call.execute();
+      this.statusCode = response.code();
+      this.responseHeaders = response.headers().toMultimap();
       return handleResponse(response, returnType);
     } catch (IOException e) {
       throw new ApiException(e);
@@ -556,7 +579,7 @@ public class ApiClient {
     call.enqueue(new Callback() {
       @Override
       public void onFailure(Request request, IOException e) {
-        callback.onFailure(new ApiException(e));
+        callback.onFailure(new ApiException(e), 0, null);
       }
 
       @Override
@@ -565,10 +588,10 @@ public class ApiClient {
         try {
           result = (T) handleResponse(response, returnType);
         } catch (ApiException e) {
-          callback.onFailure(e);
+          callback.onFailure(e, response.code(), response.headers().toMultimap());
           return;
         }
-        callback.onSuccess(result);
+        callback.onSuccess(result, response.code(), response.headers().toMultimap());
       }
     });
   }

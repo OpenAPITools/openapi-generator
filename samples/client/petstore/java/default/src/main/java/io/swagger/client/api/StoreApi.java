@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-24T11:46:58.447+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:58.351+08:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -45,8 +45,8 @@ public class StoreApi {
    */
   public Map<String, Integer> getInventory () throws ApiException {
     Object postBody = null;
+    byte[] postBinaryBody = null;
     
-
     // create path and map variables
     String path = "/store/inventory".replaceAll("\\{format\\}","json");
 
@@ -72,10 +72,17 @@ public class StoreApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     String[] authNames = new String[] { "api_key" };
+
+    
+
+    
     
     TypeRef returnType = new TypeRef<Map<String, Integer>>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
+    
+
+
   }
   
   /**
@@ -86,8 +93,8 @@ public class StoreApi {
    */
   public Order placeOrder (Order body) throws ApiException {
     Object postBody = body;
+    byte[] postBinaryBody = null;
     
-
     // create path and map variables
     String path = "/store/order".replaceAll("\\{format\\}","json");
 
@@ -113,10 +120,17 @@ public class StoreApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     String[] authNames = new String[] {  };
+
+    
+
+    
     
     TypeRef returnType = new TypeRef<Order>() {};
-    return apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    return apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
+    
+
+
   }
   
   /**
@@ -127,13 +141,13 @@ public class StoreApi {
    */
   public Order getOrderById (String orderId) throws ApiException {
     Object postBody = null;
+    byte[] postBinaryBody = null;
     
-    // verify the required parameter 'orderId' is set
-    if (orderId == null) {
-       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
-    }
-    
-
+     // verify the required parameter 'orderId' is set
+     if (orderId == null) {
+        throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
+     }
+     
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
@@ -160,10 +174,17 @@ public class StoreApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     String[] authNames = new String[] {  };
+
+    
+
+    
     
     TypeRef returnType = new TypeRef<Order>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
+    
+
+
   }
   
   /**
@@ -174,13 +195,13 @@ public class StoreApi {
    */
   public void deleteOrder (String orderId) throws ApiException {
     Object postBody = null;
+    byte[] postBinaryBody = null;
     
-    // verify the required parameter 'orderId' is set
-    if (orderId == null) {
-       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
-    }
-    
-
+     // verify the required parameter 'orderId' is set
+     if (orderId == null) {
+        throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
+     }
+     
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
@@ -207,9 +228,16 @@ public class StoreApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
     String[] authNames = new String[] {  };
+
     
-    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
+
     
+    
+    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
+    
+    
+
+
   }
   
 }
