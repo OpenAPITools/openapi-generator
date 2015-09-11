@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import io.swagger.client.StringUtil;
 import io.swagger.client.model.Category;
 import java.util.*;
 import io.swagger.client.model.Tag;
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-24T16:42:49.539+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:51.678+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -117,13 +118,13 @@ public enum StatusEnum {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
     
-    sb.append("  id: ").append(id).append("\n");
-    sb.append("  category: ").append(category).append("\n");
-    sb.append("  name: ").append(name).append("\n");
-    sb.append("  photoUrls: ").append(photoUrls).append("\n");
-    sb.append("  tags: ").append(tags).append("\n");
-    sb.append("  status: ").append(status).append("\n");
-    sb.append("}\n");
+    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
+    sb.append("    category: ").append(StringUtil.toIndentedString(category)).append("\n");
+    sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
+    sb.append("    photoUrls: ").append(StringUtil.toIndentedString(photoUrls)).append("\n");
+    sb.append("    tags: ").append(StringUtil.toIndentedString(tags)).append("\n");
+    sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
+    sb.append("}");
     return sb.toString();
   }
 }
