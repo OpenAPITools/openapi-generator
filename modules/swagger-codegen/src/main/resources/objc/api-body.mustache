@@ -115,6 +115,9 @@ static {{classname}}* singletonAPI = nil;
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
     {{#headerParams}}if({{paramName}} != nil)
+        if([{{paramName}} isKindOfClass:[NSNumber class]]){
+            headerParams[@"{{baseName}}"] = [((NSNumber *){{paramName}}) stringValue];
+        }
         headerParams[@"{{baseName}}"] = {{paramName}};
     {{/headerParams}}
 
@@ -148,6 +151,9 @@ static {{classname}}* singletonAPI = nil;
     {{#formParams}}
     {{#notFile}}
     if ({{paramName}}) {
+        if([{{paramName}} isKindOfClass:[NSNumber class]]){
+            formParams[@"{{baseName}}"] = [((NSNumber *){{paramName}}) stringValue];
+        }
         formParams[@"{{baseName}}"] = {{paramName}};
     }
     {{/notFile}}{{#isFile}}
