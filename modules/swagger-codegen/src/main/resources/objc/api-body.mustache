@@ -117,8 +117,9 @@ static {{classname}}* singletonAPI = nil;
     {{#headerParams}}if({{paramName}} != nil)
         if([{{paramName}} isKindOfClass:[NSNumber class]]){
             headerParams[@"{{baseName}}"] = [((NSNumber *){{paramName}}) stringValue];
+        }else{
+            headerParams[@"{{baseName}}"] = {{paramName}};
         }
-        headerParams[@"{{baseName}}"] = {{paramName}};
     {{/headerParams}}
 
     // HTTP header `Accept`
@@ -153,8 +154,9 @@ static {{classname}}* singletonAPI = nil;
     if ({{paramName}}) {
         if([{{paramName}} isKindOfClass:[NSNumber class]]){
             formParams[@"{{baseName}}"] = [((NSNumber *){{paramName}}) stringValue];
+        }else{
+            formParams[@"{{baseName}}"] = {{paramName}};
         }
-        formParams[@"{{baseName}}"] = {{paramName}};
     }
     {{/notFile}}{{#isFile}}
     files[@"{{paramName}}"] = {{paramName}};
