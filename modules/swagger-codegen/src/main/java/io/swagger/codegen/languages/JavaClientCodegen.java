@@ -349,6 +349,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
+
+                // handle ArrayProperty
+                if(var.items != null) {
+                    allowableValues = var.items.allowableValues;
+                }
+
                 if (allowableValues == null)
                     continue;
                 List<String> values = (List<String>) allowableValues.get("values");
