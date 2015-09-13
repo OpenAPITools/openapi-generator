@@ -49,6 +49,7 @@ public class ApiClient {
   private boolean lenientOnJson = false;
   private boolean debugging = false;
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private String tempFolderPath = null;
 
   private Map<String, Authentication> authentications;
 
@@ -364,6 +365,22 @@ public class ApiClient {
   }
 
   /**
+   * The path of temporary folder used to store downloaded files from endpoints
+   * with file response. The default value is <code>null</code>, i.e. using
+   * the system's default tempopary folder.
+   *
+   * @see https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String,%20java.io.File)
+   */
+  public String getTempFolderPath() {
+    return tempFolderPath;
+  }
+
+  public ApiClient setTempFolderPath(String tempFolderPath) {
+    this.tempFolderPath = tempFolderPath;
+    return this;
+  }
+
+  /**
    * Format the given parameter object into string.
    */
   public String parameterToString(Object param) {
@@ -590,7 +607,10 @@ public class ApiClient {
         prefix = "download-";
     }
 
-    return File.createTempFile(prefix, suffix);
+    if (tempFolderPath == null)
+      return File.createTempFile(prefix, suffix);
+    else
+      return File.createTempFile(prefix, suffix, new File(tempFolderPath));
   }
 
   /**
