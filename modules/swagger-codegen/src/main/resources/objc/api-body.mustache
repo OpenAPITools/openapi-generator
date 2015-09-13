@@ -100,7 +100,11 @@ static {{classname}}* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     {{#pathParams}}if ({{paramName}} != nil) {
-        pathParams[@"{{baseName}}"] = {{paramName}};
+        if([{{paramName}} isKindOfClass:[NSNumber class]]){
+            pathParams[@"{{baseName}}"] = [((NSNumber *){{paramName}}) stringValue];
+        }else{
+            pathParams[@"{{baseName}}"] = {{paramName}};
+        }
     }
     {{/pathParams}}
 
@@ -114,8 +118,13 @@ static {{classname}}* singletonAPI = nil;
     {{/queryParams}}
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
-    {{#headerParams}}if({{paramName}} != nil)
-        headerParams[@"{{baseName}}"] = {{paramName}};
+    {{#headerParams}}if({{paramName}} != nil){
+        if([{{paramName}} isKindOfClass:[NSNumber class]]){
+            headerParams[@"{{baseName}}"] = [((NSNumber *){{paramName}}) stringValue];
+        }else{
+            headerParams[@"{{baseName}}"] = {{paramName}};
+        }
+    }
     {{/headerParams}}
 
     // HTTP header `Accept`
@@ -148,7 +157,11 @@ static {{classname}}* singletonAPI = nil;
     {{#formParams}}
     {{#notFile}}
     if ({{paramName}}) {
-        formParams[@"{{baseName}}"] = {{paramName}};
+        if([{{paramName}} isKindOfClass:[NSNumber class]]){
+            formParams[@"{{baseName}}"] = [((NSNumber *){{paramName}}) stringValue];
+        }else{
+            formParams[@"{{baseName}}"] = {{paramName}};
+        }
     }
     {{/notFile}}{{#isFile}}
     files[@"{{paramName}}"] = {{paramName}};
