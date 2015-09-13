@@ -14,14 +14,14 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<String, int?></returns>
-        Dictionary<String, int?> GetInventory ();
+        /// <returns>Dictionary<string, int?></returns>
+        Dictionary<string, int?> GetInventory ();
   
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<String, int?></returns>
-        System.Threading.Tasks.Task<Dictionary<String, int?>> GetInventoryAsync ();
+        /// <returns>Dictionary<string, int?></returns>
+        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
         
         /// <summary>
         /// Place an order for a pet 
@@ -107,9 +107,8 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets the base path of the API client.
         /// </summary>
-        /// <param name="basePath">The base path</param>
         /// <value>The base path</value>
-        public String GetBasePath(String basePath)
+        public String GetBasePath()
         {
             return this.ApiClient.BasePath;
         }
@@ -124,8 +123,8 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<String, int?></returns>            
-        public Dictionary<String, int?> GetInventory ()
+        /// <returns>Dictionary<string, int?></returns>            
+        public Dictionary<string, int?> GetInventory ()
         {
             
     
@@ -156,14 +155,14 @@ namespace IO.Swagger.Api
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
+            return (Dictionary<string, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<string, int?>), response.Headers);
         }
     
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<String, int?></returns>
-        public async System.Threading.Tasks.Task<Dictionary<String, int?>> GetInventoryAsync ()
+        /// <returns>Dictionary<string, int?></returns>
+        public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
         {
             
     
@@ -191,7 +190,7 @@ namespace IO.Swagger.Api
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
 
-            return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
+            return (Dictionary<string, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<string, int?>), response.Headers);
         }
         
         /// <summary>
