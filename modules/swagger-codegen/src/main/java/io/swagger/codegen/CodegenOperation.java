@@ -30,24 +30,51 @@ public class CodegenOperation {
     public List<Map<String, String>> examples;
     public ExternalDocs externalDocs;
     public Map<String, Object> vendorExtensions;
+    public String nickname; // legacy support
 
-    private boolean nonempty(List<CodegenParameter> params)
-    {
+    /**
+     * Check if there's at least one parameter
+     *
+     * @return true if parameter exists, false otherwise
+     */
+    private boolean nonempty(List<CodegenParameter> params) {
         return params != null && params.size() > 0;
     }
+
+    /**
+     * Check if there's at least one body parameter
+     *
+     * @return true if body parameter exists, false otherwise
+     */
     public boolean getHasBodyParam() {
         return nonempty(bodyParams);
     }
+
+    /**
+     * Check if there's at least one query parameter
+     *
+     * @return true if query parameter exists, false otherwise
+     */
     public boolean getHasQueryParams() {
-        return nonempty(bodyParams);
-    }
-    public boolean getHasHeaderParams() {
-        return nonempty(bodyParams);
-    }
-    public boolean getHasPathParams() {
-        return nonempty(bodyParams);
+        return nonempty(queryParams);
     }
 
-    // legacy support
-    public String nickname;
+    /**
+     * Check if there's at least one header parameter
+     *
+     * @return true if header parameter exists, false otherwise
+     */
+    public boolean getHasHeaderParams() {
+        return nonempty(headerParams);
+    }
+
+    /**
+     * Check if there's at least one path parameter
+     *
+     * @return true if path parameter exists, false otherwise
+     */
+    public boolean getHasPathParams() {
+        return nonempty(pathParams);
+    }
+
 }
