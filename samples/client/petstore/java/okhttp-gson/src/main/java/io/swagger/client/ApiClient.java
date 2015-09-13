@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.net.URLEncoder;
@@ -34,6 +35,9 @@ import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+
+import okio.BufferedSink;
+import okio.Okio;
 
 import io.swagger.client.auth.Authentication;
 import io.swagger.client.auth.HttpBasicAuth;
@@ -489,6 +493,10 @@ public class ApiClient {
     if (response == null || returnType == null)
       return null;
 
+    // Handle file downloading.
+    if (returnType.equals(File.class))
+      return (T) downloadFileFromResponse(response);
+
     String respBody;
     try {
       if (response.body() != null)
@@ -535,6 +543,53 @@ public class ApiClient {
     } else {
       throw new ApiException("Content type \"" + contentType + "\" is not supported");
     }
+  }
+
+  /**
+   * Download file from the given response.
+   */
+  public File downloadFileFromResponse(Response response) throws ApiException {
+    try {
+        File file = prepareDownloadFile(response);
+        BufferedSink sink = Okio.buffer(Okio.sink(file));
+        sink.writeAll(response.body().source());
+        sink.close();
+        return file;
+    } catch (IOException e) {
+        throw new ApiException(e);
+    }
+  }
+
+  public File prepareDownloadFile(Response response) throws IOException {
+    String filename = null;
+    String contentDisposition = response.header("Content-Disposition");
+    if (contentDisposition != null && !"".equals(contentDisposition)) {
+      // Get filename from the Content-Disposition header.
+      Pattern pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      Matcher matcher = pattern.matcher(contentDisposition);
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+
+    String prefix = null;
+    String suffix = null;
+    if (filename == null) {
+      prefix = "download-";
+      suffix = "";
+    } else {
+      int pos = filename.lastIndexOf(".");
+      if (pos == -1) {
+        prefix = filename + "-";
+      } else {
+        prefix = filename.substring(0, pos) + "-";
+        suffix = filename.substring(pos);
+      }
+      // File.createTempFile requires the prefix to be at least three characters long
+      if (prefix.length() < 3)
+        prefix = "download-";
+    }
+
+    return File.createTempFile(prefix, suffix);
   }
 
   /**
