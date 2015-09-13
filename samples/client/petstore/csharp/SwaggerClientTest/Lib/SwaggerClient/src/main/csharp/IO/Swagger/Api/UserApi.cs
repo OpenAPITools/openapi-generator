@@ -84,14 +84,14 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Get user by user name 
         /// </summary>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         User GetUserByName (string username);
   
         /// <summary>
         /// Get user by user name 
         /// </summary>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         System.Threading.Tasks.Task<User> GetUserByNameAsync (string username);
         
@@ -167,9 +167,8 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets the base path of the API client.
         /// </summary>
-        /// <param name="basePath">The base path</param>
         /// <value>The base path</value>
-        public String GetBasePath(String basePath)
+        public String GetBasePath()
         {
             return this.ApiClient.BasePath;
         }
@@ -573,7 +572,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Get user by user name 
         /// </summary>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param> 
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param> 
         /// <returns>User</returns>            
         public User GetUserByName (string username)
         {
@@ -616,7 +615,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Get user by user name 
         /// </summary>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         public async System.Threading.Tasks.Task<User> GetUserByNameAsync (string username)
         {

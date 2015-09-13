@@ -55,6 +55,7 @@
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Tag.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\User.cs" />
     <Compile Include="TestPet.cs" />
+    <Compile Include="TestApiClient.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

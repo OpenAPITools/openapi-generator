@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -189,7 +190,7 @@ namespace {{packageName}}.Client
     
         /// <summary>
         /// If parameter is DateTime, output in ISO8601 format.
-        /// If parameter is a list of string, join the list with ",".
+        /// If parameter is a list, join the list with ",".
         /// Otherwise just return the string.
         /// </summary>
         /// <param name="obj">The parameter (header, path, query, form).</param>
@@ -198,8 +199,14 @@ namespace {{packageName}}.Client
         {
             if (obj is DateTime)
                 return ((DateTime)obj).ToString ("u");
-            else if (obj is List<string>)
-                return String.Join(",", obj as List<string>);
+            else if (obj is IList) {
+                string flattenString = "";
+                string separator = ",";
+                foreach (var param in (IList)obj) {
+                    flattenString += param.ToString() + separator;
+                }
+                return flattenString.Remove(flattenString.Length - 1);;
+            }
             else
                 return Convert.ToString (obj);
         }
