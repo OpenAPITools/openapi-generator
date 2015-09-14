@@ -45,7 +45,10 @@
 }
 
 - (void)testDeserializeObject {
-    XCTAssertTrue([[apiClient deserialize:@"" class:@"NSObject*"] isKindOfClass:[NSObject class]]);
+    NSNumber *data = @1;
+    NSNumber *result = [apiClient deserialize:data class:@"NSObject*"];
+    
+    XCTAssertEqualObjects(data, result);
 }
 
 - (void)testDeserializeString {
