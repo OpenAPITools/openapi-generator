@@ -28,6 +28,7 @@ static void (^reachabilityChangeBlock)(int);
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
+        self.securityPolicy = [self customSecurityPolicy];
         // configure reachability
         [self configureCacheReachibility];
     }
@@ -278,7 +279,7 @@ static void (^reachabilityChangeBlock)(int);
 
     // pure object
     if ([class isEqualToString:@"NSObject"]) {
-        return [[NSObject alloc] init];
+        return data;
     }
 
     // list of models
@@ -407,7 +408,7 @@ static void (^reachabilityChangeBlock)(int);
 
                                                                        if([[{{classPrefix}}Configuration sharedConfig] debug])
                                                                            [self logResponse:nil forRequest:request error:augmentedError];
-                                                                       
+
                                                                        NSDictionary *responseHeaders = [[operation response] allHeaderFields];
                                                                        self.HTTPResponseHeaders = responseHeaders;
 
@@ -740,5 +741,26 @@ static void (^reachabilityChangeBlock)(int);
         @throw e;
     }
 }
-  
+
+- (AFSecurityPolicy *) customSecurityPolicy {
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+
+    {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
+
+    if (config.sslCaCert) {
+        NSData *certData = [NSData dataWithContentsOfFile:config.sslCaCert];
+        [securityPolicy setPinnedCertificates:@[certData]];
+    }
+
+    if (config.verifySSL) {
+        [securityPolicy setAllowInvalidCertificates:NO];
+    }
+    else {
+        [securityPolicy setAllowInvalidCertificates:YES];
+        [securityPolicy setValidatesDomainName:NO];
+    }
+
+    return securityPolicy;
+}
+
 @end

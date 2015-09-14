@@ -250,7 +250,11 @@ static SWGStoreApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (orderId != nil) {
-        pathParams[@"orderId"] = orderId;
+        if([orderId isKindOfClass:[NSNumber class]]){
+            pathParams[@"orderId"] = [((NSNumber *)orderId) stringValue];
+        }else{
+            pathParams[@"orderId"] = orderId;
+        }
     }
     
 
@@ -336,7 +340,11 @@ static SWGStoreApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (orderId != nil) {
-        pathParams[@"orderId"] = orderId;
+        if([orderId isKindOfClass:[NSNumber class]]){
+            pathParams[@"orderId"] = [((NSNumber *)orderId) stringValue];
+        }else{
+            pathParams[@"orderId"] = orderId;
+        }
     }
     
 
