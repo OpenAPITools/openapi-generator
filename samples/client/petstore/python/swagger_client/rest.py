@@ -103,7 +103,7 @@ class RESTClientObject(object):
                             and `multipart/form-data`
         """
         method = method.upper()
-        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH']
+        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH', 'OPTIONS']
 
         if post_params and body:
             raise ValueError(
@@ -138,7 +138,7 @@ class RESTClientObject(object):
                                                   fields=post_params,
                                                   encode_multipart=True,
                                                   headers=headers)
-            # For `GET`, `HEAD`, `DELETE`
+            # For `GET`, `HEAD`, `DELETE`, `OPTIONS`
             else:
                 r = self.pool_manager.request(method, url,
                                               fields=query_params,
@@ -169,6 +169,11 @@ class RESTClientObject(object):
 
     def HEAD(self, url, headers=None, query_params=None):
         return self.request("HEAD", url,
+                            headers=headers,
+                            query_params=query_params)
+
+    def OPTIONS(self, url, headers=None, query_params=None):
+        return self.request("OPTIONS", url,
                             headers=headers,
                             query_params=query_params)
 
@@ -226,22 +231,3 @@ class ApiException(Exception):
             error_message += "HTTP response body: {0}\n".format(self.body)
 
         return error_message
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
