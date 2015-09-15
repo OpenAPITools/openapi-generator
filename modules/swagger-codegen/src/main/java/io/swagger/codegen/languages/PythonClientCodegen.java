@@ -41,6 +41,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.clear();
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
+        typeMapping.put("number", "float");
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
@@ -272,12 +273,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     /**
      * Generate Python package name from String `packageName`
      *
-     * (PEP 0008) Python packages should also have short, all-lowercase names, 
+     * (PEP 0008) Python packages should also have short, all-lowercase names,
      * although the use of underscores is discouraged.
      */
     public String generatePackageName(String packageName) {
-        return underscore(packageName.replaceAll("[^\\w]+", "")); 
+        return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
 }
-
-
