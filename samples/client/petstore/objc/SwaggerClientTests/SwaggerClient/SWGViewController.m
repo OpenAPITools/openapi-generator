@@ -21,6 +21,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    config.debug = YES;
+    config.verifySSL = NO;
+    
+    SWGPetApi *api = [[SWGPetApi alloc] init];
+    SWGPet *pet = [self createPet];
+    [api addPetWithCompletionBlock:pet completionHandler:^(NSError *error) {
+        NSLog(@"*** error: %@", error);
+    }];
 }
 
 - (void)didReceiveMemoryWarning

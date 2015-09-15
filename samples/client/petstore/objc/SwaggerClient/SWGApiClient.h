@@ -207,4 +207,11 @@ extern NSString *const SWGResponseObjectErrorKey;
  */
 - (id) sanitizeForSerialization:(id) object;
 
+/**
+ * Custom security policy
+ *
+ * @return AFSecurityPolicy
+ */
+- (AFSecurityPolicy *) customSecurityPolicy;
+
 @end
