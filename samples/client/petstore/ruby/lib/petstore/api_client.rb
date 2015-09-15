@@ -160,7 +160,7 @@ module Petstore
     # @see Configuration#temp_folder_path
     # @return [File] the file downloaded
     def download_file(response)
-      tmp_file = Tempfile.new '', @temp_folder_path
+      tmp_file = Tempfile.new '', Configuration.temp_folder_path
       content_disposition = response.headers['Content-Disposition']
       if content_disposition
         filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
@@ -172,7 +172,8 @@ module Petstore
       tmp_file.close!
 
       File.open(path, 'w') { |file| file.write(response.body) }
-      logger.info "File written to #{path}. Please move the file to a proper folder for further processing and delete the temp afterwards"
+      Configuration.logger.info "File written to #{path}. Please move the file to a proper "\
+                                "folder for further processing and delete the temp afterwards"
       File.new(path)
     end
 
