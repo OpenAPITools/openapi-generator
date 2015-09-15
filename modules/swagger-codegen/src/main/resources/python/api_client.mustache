@@ -341,7 +341,9 @@ class ApiClient(object):
         elif method == "OPTIONS":
             return self.rest_client.OPTIONS(url,
                                             query_params=query_params,
-                                            headers=headers)
+                                            headers=headers,
+                                            post_params=post_params,
+                                            body=body)
         elif method == "POST":
             return self.rest_client.POST(url,
                                          query_params=query_params,

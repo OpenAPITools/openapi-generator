@@ -117,8 +117,8 @@ class RESTClientObject(object):
             headers['Content-Type'] = 'application/json'
 
         try:
-            # For `POST`, `PUT`, `PATCH`
-            if method in ['POST', 'PUT', 'PATCH']:
+            # For `POST`, `PUT`, `PATCH`, `OPTIONS`
+            if method in ['POST', 'PUT', 'PATCH', 'OPTIONS']:
                 if query_params:
                     url += '?' + urlencode(query_params)
                 if headers['Content-Type'] == 'application/json':
@@ -138,7 +138,7 @@ class RESTClientObject(object):
                                                   fields=post_params,
                                                   encode_multipart=True,
                                                   headers=headers)
-            # For `GET`, `HEAD`, `DELETE`, `OPTIONS`
+            # For `GET`, `HEAD`, `DELETE`
             else:
                 r = self.pool_manager.request(method, url,
                                               fields=query_params,
@@ -172,10 +172,12 @@ class RESTClientObject(object):
                             headers=headers,
                             query_params=query_params)
 
-    def OPTIONS(self, url, headers=None, query_params=None):
+    def OPTIONS(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("OPTIONS", url,
                             headers=headers,
-                            query_params=query_params)
+                            query_params=query_params,
+                            post_params=post_params,
+                            body=body)
 
     def DELETE(self, url, headers=None, query_params=None):
         return self.request("DELETE", url,
