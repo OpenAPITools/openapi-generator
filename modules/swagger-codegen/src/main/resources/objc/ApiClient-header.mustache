@@ -203,4 +203,11 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  */
 - (id) sanitizeForSerialization:(id) object;
 
+/**
+ * Custom security policy
+ *
+ * @return AFSecurityPolicy
+ */
+- (AFSecurityPolicy *) customSecurityPolicy;
+
 @end

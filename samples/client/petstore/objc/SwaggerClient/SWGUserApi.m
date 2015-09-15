@@ -495,7 +495,11 @@ static SWGUserApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
-        pathParams[@"username"] = username;
+        if([username isKindOfClass:[NSNumber class]]){
+            pathParams[@"username"] = [((NSNumber *)username) stringValue];
+        }else{
+            pathParams[@"username"] = username;
+        }
     }
     
 
@@ -584,7 +588,11 @@ static SWGUserApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
-        pathParams[@"username"] = username;
+        if([username isKindOfClass:[NSNumber class]]){
+            pathParams[@"username"] = [((NSNumber *)username) stringValue];
+        }else{
+            pathParams[@"username"] = username;
+        }
     }
     
 
@@ -670,7 +678,11 @@ static SWGUserApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
-        pathParams[@"username"] = username;
+        if([username isKindOfClass:[NSNumber class]]){
+            pathParams[@"username"] = [((NSNumber *)username) stringValue];
+        }else{
+            pathParams[@"username"] = username;
+        }
     }
     
 
