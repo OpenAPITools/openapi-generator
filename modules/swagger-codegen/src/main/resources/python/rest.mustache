@@ -103,7 +103,7 @@ class RESTClientObject(object):
                             and `multipart/form-data`
         """
         method = method.upper()
-        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH']
+        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH', 'OPTIONS']
 
         if post_params and body:
             raise ValueError(
@@ -117,8 +117,8 @@ class RESTClientObject(object):
             headers['Content-Type'] = 'application/json'
 
         try:
-            # For `POST`, `PUT`, `PATCH`
-            if method in ['POST', 'PUT', 'PATCH']:
+            # For `POST`, `PUT`, `PATCH`, `OPTIONS`
+            if method in ['POST', 'PUT', 'PATCH', 'OPTIONS']:
                 if query_params:
                     url += '?' + urlencode(query_params)
                 if headers['Content-Type'] == 'application/json':
@@ -171,6 +171,13 @@ class RESTClientObject(object):
         return self.request("HEAD", url,
                             headers=headers,
                             query_params=query_params)
+
+    def OPTIONS(self, url, headers=None, query_params=None, post_params=None, body=None):
+        return self.request("OPTIONS", url,
+                            headers=headers,
+                            query_params=query_params,
+                            post_params=post_params,
+                            body=body)
 
     def DELETE(self, url, headers=None, query_params=None):
         return self.request("DELETE", url,
@@ -226,22 +233,3 @@ class ApiException(Exception):
             error_message += "HTTP response body: {0}\n".format(self.body)
 
         return error_message
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
