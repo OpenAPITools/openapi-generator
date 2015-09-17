@@ -113,16 +113,19 @@
       <version>${swagger-annotations-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>${gson-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>com.squareup.retrofit</groupId>
       <artifactId>retrofit</artifactId>
       <version>${retrofit-version}</version>
-      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.oltu.oauth2</groupId>
+      <artifactId>org.apache.oltu.oauth2.client</artifactId>
+      <version>${oltu-version}</version>
+    </dependency>
+      <dependency>
+      <groupId>com.squareup.okhttp</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>${okhttp-version}</version>
     </dependency>
 
     <!-- test dependencies -->
@@ -135,8 +138,9 @@
   </dependencies>
   <properties>
     <swagger-annotations-version>1.5.0</swagger-annotations-version>
-    <gson-version>2.3.1</gson-version>
     <retrofit-version>1.9.0</retrofit-version>
+    <okhttp-version>2.4.0</okhttp-version>
+    <oltu-version>1.0.0</oltu-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>
