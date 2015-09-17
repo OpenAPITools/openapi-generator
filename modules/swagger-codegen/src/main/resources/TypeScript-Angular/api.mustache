@@ -27,7 +27,7 @@ module {{package}} {
             var path = this.basePath + '{{path}}';
 
 {{#pathParams}}
-            path = path.replace('{' + '{{paramName}}' + '}', String({{paramName}}));
+            path = path.replace('{' + '{{baseName}}' + '}', String({{paramName}}));
 
 {{/pathParams}}
             var queryParameters: any = {};
@@ -44,7 +44,7 @@ module {{package}} {
 {{/allParams}}
 {{#queryParams}}
             if ({{paramName}} !== undefined) {
-                queryParameters['{{paramName}}'] = {{paramName}};
+                queryParameters['{{baseName}}'] = {{paramName}};
             }
 
 {{/queryParams}}
