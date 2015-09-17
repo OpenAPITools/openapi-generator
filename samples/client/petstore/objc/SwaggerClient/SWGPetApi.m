@@ -421,11 +421,7 @@ static SWGPetApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {
-        if([petId isKindOfClass:[NSNumber class]]){
-            pathParams[@"petId"] = [((NSNumber *)petId) stringValue];
-        }else{
-            pathParams[@"petId"] = petId;
-        }
+        pathParams[@"petId"] = petId;
     }
     
 
@@ -517,11 +513,7 @@ static SWGPetApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {
-        if([petId isKindOfClass:[NSNumber class]]){
-            pathParams[@"petId"] = [((NSNumber *)petId) stringValue];
-        }else{
-            pathParams[@"petId"] = petId;
-        }
+        pathParams[@"petId"] = petId;
     }
     
 
@@ -559,21 +551,13 @@ static SWGPetApi* singletonAPI = nil;
     
     
     if (name) {
-        if([name isKindOfClass:[NSNumber class]]){
-            formParams[@"name"] = [((NSNumber *)name) stringValue];
-        }else{
-            formParams[@"name"] = name;
-        }
+        formParams[@"name"] = name;
     }
     
     
     
     if (status) {
-        if([status isKindOfClass:[NSNumber class]]){
-            formParams[@"status"] = [((NSNumber *)status) stringValue];
-        }else{
-            formParams[@"status"] = status;
-        }
+        formParams[@"status"] = status;
     }
     
     
@@ -630,11 +614,7 @@ static SWGPetApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {
-        if([petId isKindOfClass:[NSNumber class]]){
-            pathParams[@"petId"] = [((NSNumber *)petId) stringValue];
-        }else{
-            pathParams[@"petId"] = petId;
-        }
+        pathParams[@"petId"] = petId;
     }
     
 
@@ -642,12 +622,8 @@ static SWGPetApi* singletonAPI = nil;
     
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
-    if(apiKey != nil){
-        if([apiKey isKindOfClass:[NSNumber class]]){
-            headerParams[@"api_key"] = [((NSNumber *)apiKey) stringValue];
-        }else{
-            headerParams[@"api_key"] = apiKey;
-        }
+    if(apiKey != nil) {
+        headerParams[@"api_key"] = apiKey;
     }
     
 
@@ -733,11 +709,7 @@ static SWGPetApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {
-        if([petId isKindOfClass:[NSNumber class]]){
-            pathParams[@"petId"] = [((NSNumber *)petId) stringValue];
-        }else{
-            pathParams[@"petId"] = petId;
-        }
+        pathParams[@"petId"] = petId;
     }
     
 
@@ -775,11 +747,7 @@ static SWGPetApi* singletonAPI = nil;
     
     
     if (additionalMetadata) {
-        if([additionalMetadata isKindOfClass:[NSNumber class]]){
-            formParams[@"additionalMetadata"] = [((NSNumber *)additionalMetadata) stringValue];
-        }else{
-            formParams[@"additionalMetadata"] = additionalMetadata;
-        }
+        formParams[@"additionalMetadata"] = additionalMetadata;
     }
     
     
