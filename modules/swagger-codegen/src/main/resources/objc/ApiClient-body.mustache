@@ -779,7 +779,7 @@ static void (^reachabilityChangeBlock)(int);
         [param enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [mutableParam addObject:[self parameterToString:obj]];
         }];
-        return [mutableParam componentsJoinedByString:@", "];
+        return [mutableParam componentsJoinedByString:@","];
     }
     else {
         NSException *e = [NSException
