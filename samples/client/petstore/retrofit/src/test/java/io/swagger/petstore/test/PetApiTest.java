@@ -22,7 +22,7 @@ public class PetApiTest {
 
     @Before
     public void setup() {
-        api = ServiceGenerator.createService(PetApi.class);
+        api = new ServiceGenerator().createService(PetApi.class);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class PetApiTest {
 
         Pet fetched = api.getPetById(pet.getId());
 
-        api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null);
+        api.updatePetWithForm(fetched.getId(), "furt", null);
         Pet updated = api.getPetById(fetched.getId());
 
         assertEquals(updated.getName(), "furt");
