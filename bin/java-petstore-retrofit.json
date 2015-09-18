@@ -1,0 +1,4 @@
+{
+    "library": "retrofit",
+    "artifactId": "swagger-petstore-retrofit"
+}
