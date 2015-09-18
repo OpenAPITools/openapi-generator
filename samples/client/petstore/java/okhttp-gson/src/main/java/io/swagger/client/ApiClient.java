@@ -10,6 +10,7 @@ import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.internal.http.HttpMethod;
 
 import java.lang.reflect.Type;
 
@@ -697,7 +698,7 @@ public class ApiClient {
    * Build HTTP call with the given options.
    *
    * @param path The sub-path of the HTTP URL
-   * @param method The request method, one of "GET", "HEAD", "POST", "PUT", "PATCH" and "DELETE"
+   * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
    * @param queryParams The query parameters
    * @param body The request body object
    * @param headerParams The header parameters
@@ -717,7 +718,7 @@ public class ApiClient {
     if (contentType == null) contentType = "application/json";
 
     RequestBody reqBody;
-    if ("GET".equals(method) || "HEAD".equals(method)) {
+    if (!HttpMethod.permitsRequestBody(method)) {
       reqBody = null;
     } else if ("application/x-www-form-urlencoded".equals(contentType)) {
       reqBody = buildRequestBodyFormEncoding(formParams);
@@ -735,28 +736,7 @@ public class ApiClient {
       reqBody = RequestBody.create(MediaType.parse(contentType), serialize(body, contentType));
     }
 
-    Request request;
-    if ("GET".equals(method)) {
-      request = reqBuilder.get().build();
-    } else if ("HEAD".equals(method)) {
-      request = reqBuilder.head().build();
-    } else if ("POST".equals(method)) {
-      request = reqBuilder.post(reqBody).build();
-    } else if ("PUT".equals(method)) {
-      request = reqBuilder.put(reqBody).build();
-    } else if ("PATCH".equals(method)) {
-      request = reqBuilder.patch(reqBody).build();
-    } else if ("DELETE".equals(method)) {
-      if (reqBody == null) {
-        // calling DELETE without sending a request body
-        request = reqBuilder.delete().build();
-      } else {
-        request = reqBuilder.delete(reqBody).build();
-      }
-    } else {
-      throw new ApiException("unknown method type: " + method);
-    }
-
+    Request request = reqBuilder.method(method, reqBody).build();
     return httpClient.newCall(request);
   }
 
