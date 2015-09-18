@@ -34,8 +34,8 @@ public interface {{classname}} {
 {{/allParams}}   * @param cb callback method   
    * @return void
    */
-  {{#libraries/retrofit/formParams}}{{#-first}}
-  {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/libraries/retrofit/formParams}}
+  {{#formParams}}{{#-first}}
+  {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
   @{{httpMethod}}("{{path}}")  
   void {{nickname}}(
     {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}, {{/allParams}}Callback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> cb
