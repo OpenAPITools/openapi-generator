@@ -203,7 +203,6 @@ PhpClientCodegen.java
 Python3ClientCodegen.java
 PythonClientCodegen.java
 Qt5CPPGenerator.java
-RetrofitClientCodegen.java
 RubyClientCodegen.java
 ScalaClientCodegen.java
 ScalatraServerCodegen.java
