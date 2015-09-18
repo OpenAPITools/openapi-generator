@@ -214,4 +214,9 @@ extern NSString *const SWGResponseObjectErrorKey;
  */
 - (AFSecurityPolicy *) customSecurityPolicy;
 
+/**
+ * Convert parameter to NSString
+ */
+- (NSString *) parameterToString: (id) param;
+
 @end

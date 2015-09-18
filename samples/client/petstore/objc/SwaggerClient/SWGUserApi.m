@@ -470,7 +470,7 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Get user by user name
 /// 
-///  @param username The name that needs to be fetched. Use user1 for testing.
+///  @param username The name that needs to be fetched. Use user1 for testing. 
 ///
 ///  @returns SWGUser*
 ///
@@ -495,11 +495,7 @@ static SWGUserApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
-        if([username isKindOfClass:[NSNumber class]]){
-            pathParams[@"username"] = [((NSNumber *)username) stringValue];
-        }else{
-            pathParams[@"username"] = username;
-        }
+        pathParams[@"username"] = username;
     }
     
 
@@ -588,11 +584,7 @@ static SWGUserApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
-        if([username isKindOfClass:[NSNumber class]]){
-            pathParams[@"username"] = [((NSNumber *)username) stringValue];
-        }else{
-            pathParams[@"username"] = username;
-        }
+        pathParams[@"username"] = username;
     }
     
 
@@ -678,11 +670,7 @@ static SWGUserApi* singletonAPI = nil;
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
-        if([username isKindOfClass:[NSNumber class]]){
-            pathParams[@"username"] = [((NSNumber *)username) stringValue];
-        }else{
-            pathParams[@"username"] = username;
-        }
+        pathParams[@"username"] = username;
     }
     
 
