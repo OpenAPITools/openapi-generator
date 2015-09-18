@@ -168,6 +168,7 @@ public interface PetApi {
    * @return void
    */
   
+  @FormUrlEncoded
   @POST("/pet/{petId}")  
   void updatePetWithForm(
     @Path("petId") String petId, @Field("name") String name, @Field("status") String status, Callback<Void> cb
@@ -227,6 +228,7 @@ public interface PetApi {
    * @return void
    */
   
+  @Multipart
   @POST("/pet/{petId}/uploadImage")  
   void uploadFile(
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<Void> cb
