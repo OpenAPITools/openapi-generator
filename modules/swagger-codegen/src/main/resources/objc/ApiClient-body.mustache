@@ -546,7 +546,8 @@ static void (^reachabilityChangeBlock)(int);
                                                               parameters:nil
                                                constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                                                    [formParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                                                       NSData *data = [obj dataUsingEncoding:NSUTF8StringEncoding];
+                                                       NSString *objString = [self parameterToString:obj];
+                                                       NSData *data = [objString dataUsingEncoding:NSUTF8StringEncoding];
                                                        [formData appendPartWithFormData:data name:key];
                                                    }];
                                                    [files enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -761,6 +762,32 @@ static void (^reachabilityChangeBlock)(int);
     }
 
     return securityPolicy;
+}
+
+- (NSString *) parameterToString:(id)param {
+    if ([param isKindOfClass:[NSString class]]) {
+        return param;
+    }
+    else if ([param isKindOfClass:[NSNumber class]]) {
+        return [param stringValue];
+    }
+    else if ([param isKindOfClass:[NSDate class]]) {
+        return [param ISO8601String];
+    }
+    else if ([param isKindOfClass:[NSArray class]]) {
+        NSMutableArray *mutableParam;
+        [param enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [mutableParam addObject:[self parameterToString:obj]];
+        }];
+        return [mutableParam componentsJoinedByString:@","];
+    }
+    else {
+        NSException *e = [NSException
+                          exceptionWithName:@"InvalidObjectArgumentException"
+                          reason:[NSString stringWithFormat:@"*** The argument object: %@ is invalid", param]
+                          userInfo:nil];
+        @throw e;
+    }
 }
 
 @end
