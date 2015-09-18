@@ -75,7 +75,9 @@ static void (^reachabilityChangeBlock)(int);
         [config.loggingFileHanlder writeData:[message dataUsingEncoding:NSUTF8StringEncoding]];
     }
 
-    NSLog(@"%@", message);
+    if ([[{{classPrefix}}Configuration sharedConfig] debug]){
+        NSLog(@"%@", message);
+    }
 }
 
 #pragma mark - Cache Methods
@@ -177,8 +179,9 @@ static void (^reachabilityChangeBlock)(int);
 
 +(NSNumber*) queueRequest {
     NSNumber* requestId = [{{classPrefix}}ApiClient nextRequestId];
-    if([[{{classPrefix}}Configuration sharedConfig] debug])
+    if([[{{classPrefix}}Configuration sharedConfig] debug]) {
         NSLog(@"added %@ to request queue", requestId);
+    }
     [queuedRequests addObject:requestId];
     return requestId;
 }
@@ -198,8 +201,9 @@ static void (^reachabilityChangeBlock)(int);
     }];
 
     if(matchingItems.count == 1) {
-        if([[{{classPrefix}}Configuration sharedConfig] debug])
+        if([[{{classPrefix}}Configuration sharedConfig] debug]){
             NSLog(@"removing request id %@", requestId);
+        }
         [queuedRequests removeObject:requestId];
         return YES;
     }
@@ -576,15 +580,21 @@ static void (^reachabilityChangeBlock)(int);
         hasHeaderParams = true;
     }
     if(offlineState) {
-        NSLog(@"%@ cache forced", resourcePath);
+        if ([[{{classPrefix}}Configuration sharedConfig] debug]){
+            NSLog(@"%@ cache forced", resourcePath);
+        }
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
     }
     else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
-        NSLog(@"%@ cache enabled", resourcePath);
+        if ([[{{classPrefix}}Configuration sharedConfig] debug]){    
+            NSLog(@"%@ cache enabled", resourcePath);
+        }
         [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     }
     else {
-        NSLog(@"%@ cache disabled", resourcePath);
+        if ([[{{classPrefix}}Configuration sharedConfig] debug]){
+            NSLog(@"%@ cache disabled", resourcePath);
+        }
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
