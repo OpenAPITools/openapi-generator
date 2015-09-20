@@ -172,7 +172,6 @@ export class {{classname}} {
         if (!{{paramName}}) {
             throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
         }
-
 {{/required}}{{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
