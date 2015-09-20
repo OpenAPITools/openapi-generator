@@ -160,37 +160,35 @@ export class {{classname}} {
         var path = this.url + this.basePath + '{{path}}';
 
 {{#pathParams}}
-        path = path.replace('{' + '{{paramName}}' + '}', String({{paramName}}));
+        path = path.replace('{' + '{{baseName}}' + '}', String({{paramName}}));
 
 {{/pathParams}}
         var queryParameters: any = {};
         var headerParams: any = {};
         var formParams: any = {};
 
-{{#allParams}}
-{{#required}}
+{{#allParams}}{{#required}}
         // verify required parameter '{{paramName}}' is set
         if (!{{paramName}}) {
             throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
         }
 
-{{/required}}
-{{/allParams}}
+{{/required}}{{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
-            queryParameters['{{paramName}}'] = {{paramName}};
+            queryParameters['{{baseName}}'] = {{paramName}};
         }
 
 {{/queryParams}}
 {{#headerParams}}
-        headerParams['{{paramName}}'] = {{paramName}};
+        headerParams['{{baseName}}'] = {{paramName}};
 
 {{/headerParams}}
         var useFormData = false;
 
 {{#formParams}}
         if ({{paramName}} !== undefined) {
-            formParams['{{paramName}}'] = {{paramName}};
+            formParams['{baseName}}'] = {{paramName}};
         }
 {{#isFile}}
         useFormData = true;
