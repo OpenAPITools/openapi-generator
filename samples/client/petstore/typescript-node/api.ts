@@ -393,7 +393,6 @@ export class UserApi {
             throw new Error('Missing required parameter username when calling getUserByName');
         }
 
-
         var useFormData = false;
 
         var deferred = promise.defer<{ response: http.ClientResponse; body: User;  }>();
@@ -445,7 +444,6 @@ export class UserApi {
         if (!username) {
             throw new Error('Missing required parameter username when calling updateUser');
         }
-
 
         var useFormData = false;
 
@@ -499,7 +497,6 @@ export class UserApi {
         if (!username) {
             throw new Error('Missing required parameter username when calling deleteUser');
         }
-
 
         var useFormData = false;
 
@@ -776,7 +773,6 @@ export class PetApi {
             throw new Error('Missing required parameter petId when calling getPetById');
         }
 
-
         var useFormData = false;
 
         var deferred = promise.defer<{ response: http.ClientResponse; body: Pet;  }>();
@@ -832,7 +828,6 @@ export class PetApi {
         if (!petId) {
             throw new Error('Missing required parameter petId when calling updatePetWithForm');
         }
-
 
         var useFormData = false;
 
@@ -896,7 +891,6 @@ export class PetApi {
             throw new Error('Missing required parameter petId when calling deletePet');
         }
 
-
         headerParams['api_key'] = apiKey;
 
         var useFormData = false;
@@ -952,7 +946,6 @@ export class PetApi {
         if (!petId) {
             throw new Error('Missing required parameter petId when calling uploadFile');
         }
-
 
         var useFormData = false;
 
@@ -1135,7 +1128,6 @@ export class StoreApi {
             throw new Error('Missing required parameter orderId when calling getOrderById');
         }
 
-
         var useFormData = false;
 
         var deferred = promise.defer<{ response: http.ClientResponse; body: Order;  }>();
@@ -1187,7 +1179,6 @@ export class StoreApi {
         if (!orderId) {
             throw new Error('Missing required parameter orderId when calling deleteOrder');
         }
-
 
         var useFormData = false;
 
