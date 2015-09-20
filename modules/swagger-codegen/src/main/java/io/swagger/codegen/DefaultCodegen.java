@@ -1439,6 +1439,8 @@ public class DefaultCodegen {
             }
         } else {
             m.emptyVars = true;
+            m.hasVars = false;
+            m.hasEnums = false;
         }
     }
 
