@@ -188,7 +188,7 @@ export class {{classname}} {
 
 {{#formParams}}
         if ({{paramName}} !== undefined) {
-            formParams['{baseName}}'] = {{paramName}};
+            formParams['{{baseName}}'] = {{paramName}};
         }
 {{#isFile}}
         useFormData = true;
