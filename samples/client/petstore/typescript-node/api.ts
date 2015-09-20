@@ -837,11 +837,11 @@ export class PetApi {
         var useFormData = false;
 
         if (name !== undefined) {
-            formParams['{baseName}}'] = name;
+            formParams['name'] = name;
         }
 
         if (status !== undefined) {
-            formParams['{baseName}}'] = status;
+            formParams['status'] = status;
         }
 
         var deferred = promise.defer<{ response: http.ClientResponse;  }>();
@@ -957,11 +957,11 @@ export class PetApi {
         var useFormData = false;
 
         if (additionalMetadata !== undefined) {
-            formParams['{baseName}}'] = additionalMetadata;
+            formParams['additionalMetadata'] = additionalMetadata;
         }
 
         if (file !== undefined) {
-            formParams['{baseName}}'] = file;
+            formParams['file'] = file;
         }
         useFormData = true;
 
