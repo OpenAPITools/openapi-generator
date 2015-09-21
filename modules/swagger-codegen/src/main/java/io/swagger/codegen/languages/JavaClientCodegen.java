@@ -366,7 +366,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // put "enumVars" map into `allowableValues", including `name` and `value`
                 List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
                 String commonPrefix = findCommonPrefixOfVars(values);
-                int truncateIdx = "".equals(commonPrefix) ? 0 : commonPrefix.length();
+                int truncateIdx = commonPrefix.length();
                 for (String value : values) {
                     Map<String, String> enumVar = new HashMap<String, String>();
                     String enumName;
