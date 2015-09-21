@@ -351,20 +351,34 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Map<String, Object> allowableValues = var.allowableValues;
 
                 // handle ArrayProperty
-                if(var.items != null) {
+                if (var.items != null) {
                     allowableValues = var.items.allowableValues;
                 }
 
-                if (allowableValues == null)
+                if (allowableValues == null) {
                     continue;
+                }
                 List<String> values = (List<String>) allowableValues.get("values");
-                // put "enumVars" map into `allowableValues", including `name` and `value`
-                if (values == null)
+                if (values == null) {
                     continue;
+                }
+
+                // put "enumVars" map into `allowableValues", including `name` and `value`
                 List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                String commonPrefix = findCommonPrefixOfVars(values);
+                int truncateIdx = "".equals(commonPrefix) ? 0 : commonPrefix.length();
                 for (String value : values) {
                     Map<String, String> enumVar = new HashMap<String, String>();
-                    enumVar.put("name", toVarName(value.toUpperCase()));
+                    String enumName;
+                    if (truncateIdx == 0) {
+                        enumName = value;
+                    } else {
+                        enumName = value.substring(truncateIdx);
+                        if ("".equals(enumName)) {
+                            enumName = value;
+                        }
+                    }
+                    enumVar.put("name", toEnumVarName(enumName));
                     enumVar.put("value", value);
                     enumVars.add(enumVar);
                 }
@@ -372,6 +386,17 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         return objs;
+    }
+
+    private String findCommonPrefixOfVars(List<String> vars) {
+        String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
+        // exclude trailing characters that should be part of a valid variable
+        // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
+        return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+    }
+
+    private String toEnumVarName(String value) {
+        return value.replaceAll("\\W+", "_").toUpperCase();
     }
 
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
