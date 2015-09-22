@@ -14,9 +14,9 @@ module {{package}} {
     export class {{classname}} {
         private basePath = '{{basePath}}';
 
-        static $inject: string[] = ['$http'];
+        static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string) {
+        constructor(private $http: ng.IHttpService, private $httpParamSerializer: (any) => any, basePath?: string) {
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -32,7 +32,10 @@ module {{package}} {
 {{/pathParams}}
             var queryParameters: any = {};
             var headerParams: any = {};
+{{#hasFormParams}}
+            var formParams: any = {};
 
+{{/hasFormParams}}
 {{#allParams}}
 {{#required}}
             // verify required parameter '{{paramName}}' is set
@@ -52,12 +55,22 @@ module {{package}} {
             headerParams['{{baseName}}'] = {{paramName}};
 
 {{/headerParams}}
+{{#hasFormParams}}
+            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+{{/hasFormParams}}
+{{#formParams}}
+            formParams['{{baseName}}'] = {{paramName}};
+            
+{{/formParams}}
             var httpRequestParams: any = {
                 method: '{{httpMethod}}',
                 url: path,
-                json: true,
+                json: {{#hasFormParams}}false{{/hasFormParams}}{{^hasFormParams}}true{{/hasFormParams}},
                 {{#bodyParam}}data: {{paramName}},
                 {{/bodyParam}}
+                {{#hasFormParams}}data: this.$httpParamSerializer(formParams),
+                {{/hasFormParams}}
                 params: queryParameters,
                 headers: headerParams
             };
