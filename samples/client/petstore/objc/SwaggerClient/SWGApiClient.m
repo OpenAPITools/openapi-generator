@@ -65,6 +65,10 @@ static void (^reachabilityChangeBlock)(int);
               error:(NSError*)error {
     SWGConfiguration *config = [SWGConfiguration sharedConfig];
 
+    if (!config.debug) {
+        return;
+    }
+
     NSString *message = [NSString stringWithFormat:@"\n[DEBUG] Request body \n~BEGIN~\n %@\n~END~\n"\
                          "[DEBUG] HTTP Response body \n~BEGIN~\n %@\n~END~\n",
                         [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding],
@@ -74,8 +78,9 @@ static void (^reachabilityChangeBlock)(int);
         [config.loggingFileHanlder seekToEndOfFile];
         [config.loggingFileHanlder writeData:[message dataUsingEncoding:NSUTF8StringEncoding]];
     }
-
-    NSLog(@"%@", message);
+    else {
+        NSLog(@"%@", message);
+    }
 }
 
 #pragma mark - Cache Methods
@@ -177,8 +182,9 @@ static void (^reachabilityChangeBlock)(int);
 
 +(NSNumber*) queueRequest {
     NSNumber* requestId = [SWGApiClient nextRequestId];
-    if([[SWGConfiguration sharedConfig] debug])
+    if([[SWGConfiguration sharedConfig] debug]) {
         NSLog(@"added %@ to request queue", requestId);
+    }
     [queuedRequests addObject:requestId];
     return requestId;
 }
@@ -198,8 +204,9 @@ static void (^reachabilityChangeBlock)(int);
     }];
 
     if(matchingItems.count == 1) {
-        if([[SWGConfiguration sharedConfig] debug])
+        if([[SWGConfiguration sharedConfig] debug]){
             NSLog(@"removing request id %@", requestId);
+        }
         [queuedRequests removeObject:requestId];
         return YES;
     }
@@ -577,15 +584,21 @@ static void (^reachabilityChangeBlock)(int);
         hasHeaderParams = true;
     }
     if(offlineState) {
-        NSLog(@"%@ cache forced", resourcePath);
+        if ([[SWGConfiguration sharedConfig] debug]){
+            NSLog(@"%@ cache forced", resourcePath);
+        }
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
     }
     else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
-        NSLog(@"%@ cache enabled", resourcePath);
+        if ([[SWGConfiguration sharedConfig] debug]){    
+            NSLog(@"%@ cache enabled", resourcePath);
+        }
         [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     }
     else {
-        NSLog(@"%@ cache disabled", resourcePath);
+        if ([[SWGConfiguration sharedConfig] debug]){
+            NSLog(@"%@ cache disabled", resourcePath);
+        }
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
