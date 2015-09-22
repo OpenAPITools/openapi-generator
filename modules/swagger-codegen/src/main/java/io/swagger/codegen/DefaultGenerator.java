@@ -5,7 +5,6 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.codegen.languages.CodeGenStatus;
 import io.swagger.models.ComposedModel;
 import io.swagger.models.Contact;
 import io.swagger.models.Info;
@@ -47,8 +46,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected ClientOptInput opts = null;
     protected Swagger swagger = null;
 
-    public CodeGenStatus status = CodeGenStatus.UNRUN;
-
     @Override
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
@@ -69,76 +66,76 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             Json.prettyPrint(swagger);
         }
         List<File> files = new ArrayList<File>();
-        try {
-            config.processOpts();
-            config.preprocessSwagger(swagger);
+        config.processOpts();
+        config.preprocessSwagger(swagger);
 
-            config.additionalProperties().put("generatedDate", DateTime.now().toString());
-            config.additionalProperties().put("generatorClass", config.getClass().toString());
+        config.additionalProperties().put("generatedDate", DateTime.now().toString());
+        config.additionalProperties().put("generatorClass", config.getClass().toString());
 
-            if (swagger.getInfo() != null) {
-                Info info = swagger.getInfo();
-                if (info.getTitle() != null) {
-                    config.additionalProperties().put("appName", info.getTitle());
-                }
-                if (info.getVersion() != null) {
-                    config.additionalProperties().put("appVersion", info.getVersion());
-                }
-                if (info.getDescription() != null) {
-                    config.additionalProperties().put("appDescription",
-                            config.escapeText(info.getDescription()));
-                }
-                if (info.getContact() != null) {
-                    Contact contact = info.getContact();
-                    config.additionalProperties().put("infoUrl", contact.getUrl());
-                    if (contact.getEmail() != null) {
-                        config.additionalProperties().put("infoEmail", contact.getEmail());
-                    }
-                }
-                if (info.getLicense() != null) {
-                    License license = info.getLicense();
-                    if (license.getName() != null) {
-                        config.additionalProperties().put("licenseInfo", license.getName());
-                    }
-                    if (license.getUrl() != null) {
-                        config.additionalProperties().put("licenseUrl", license.getUrl());
-                    }
-                }
-                if (info.getVersion() != null) {
-                    config.additionalProperties().put("version", info.getVersion());
+        if (swagger.getInfo() != null) {
+            Info info = swagger.getInfo();
+            if (info.getTitle() != null) {
+                config.additionalProperties().put("appName", info.getTitle());
+            }
+            if (info.getVersion() != null) {
+                config.additionalProperties().put("appVersion", info.getVersion());
+            }
+            if (info.getDescription() != null) {
+                config.additionalProperties().put("appDescription",
+                        config.escapeText(info.getDescription()));
+            }
+            if (info.getContact() != null) {
+                Contact contact = info.getContact();
+                config.additionalProperties().put("infoUrl", contact.getUrl());
+                if (contact.getEmail() != null) {
+                    config.additionalProperties().put("infoEmail", contact.getEmail());
                 }
             }
-
-            StringBuilder hostBuilder = new StringBuilder();
-            String scheme;
-            if (swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
-                scheme = swagger.getSchemes().get(0).toValue();
-            } else {
-                scheme = "https";
+            if (info.getLicense() != null) {
+                License license = info.getLicense();
+                if (license.getName() != null) {
+                    config.additionalProperties().put("licenseInfo", license.getName());
+                }
+                if (license.getUrl() != null) {
+                    config.additionalProperties().put("licenseUrl", license.getUrl());
+                }
             }
-            hostBuilder.append(scheme);
-            hostBuilder.append("://");
-            if (swagger.getHost() != null) {
-                hostBuilder.append(swagger.getHost());
-            } else {
-                hostBuilder.append("localhost");
+            if (info.getVersion() != null) {
+                config.additionalProperties().put("version", info.getVersion());
             }
-            if (swagger.getBasePath() != null) {
-                hostBuilder.append(swagger.getBasePath());
-            }
-            String contextPath = swagger.getBasePath() == null ? "" : swagger.getBasePath();
-            String basePath = hostBuilder.toString();
+        }
+
+        StringBuilder hostBuilder = new StringBuilder();
+        String scheme;
+        if (swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
+            scheme = swagger.getSchemes().get(0).toValue();
+        } else {
+            scheme = "https";
+        }
+        hostBuilder.append(scheme);
+        hostBuilder.append("://");
+        if (swagger.getHost() != null) {
+            hostBuilder.append(swagger.getHost());
+        } else {
+            hostBuilder.append("localhost");
+        }
+        if (swagger.getBasePath() != null) {
+            hostBuilder.append(swagger.getBasePath());
+        }
+        String contextPath = swagger.getBasePath() == null ? "" : swagger.getBasePath();
+        String basePath = hostBuilder.toString();
 
 
-            List<Object> allOperations = new ArrayList<Object>();
-            List<Object> allModels = new ArrayList<Object>();
+        List<Object> allOperations = new ArrayList<Object>();
+        List<Object> allModels = new ArrayList<Object>();
 
-            // models
-            Map<String, Model> definitions = swagger.getDefinitions();
-            if (definitions != null) {
-            	List<String> sortedModelKeys = sortModelsByInheritance(definitions);
+        // models
+        Map<String, Model> definitions = swagger.getDefinitions();
+        if (definitions != null) {
+        	List<String> sortedModelKeys = sortModelsByInheritance(definitions);
 
-                for (String name : sortedModelKeys) {
+            for (String name : sortedModelKeys) {
+                try {
 
                     //dont generate models that have an import mapping
                     if(config.importMapping().containsKey(name)) {
@@ -173,16 +170,20 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         writeToFile(filename, tmpl.execute(models));
                         files.add(new File(filename));
                     }
+                } catch (Exception e) {
+                	throw new RuntimeException("Could not generate model '" + name + "'", e);
                 }
             }
-            if (System.getProperty("debugModels") != null) {
-                System.out.println("############ Model info ############");
-                Json.prettyPrint(allModels);
-            }
+        }
+        if (System.getProperty("debugModels") != null) {
+            System.out.println("############ Model info ############");
+            Json.prettyPrint(allModels);
+        }
 
-            // apis
-            Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
-            for (String tag : paths.keySet()) {
+        // apis
+        Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
+        for (String tag : paths.keySet()) {
+        	try {
                 List<CodegenOperation> ops = paths.get(tag);
                 Map<String, Object> operation = processOperations(config, tag, ops);
 
@@ -207,7 +208,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
-
                     String filename = config.apiFilename(templateName, tag);
                     if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
                         continue;
@@ -228,51 +228,55 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     writeToFile(filename, tmpl.execute(operation));
                     files.add(new File(filename));
                 }
-            }
-            if (System.getProperty("debugOperations") != null) {
-                System.out.println("############ Operation info ############");
-                Json.prettyPrint(allOperations);
-            }
+        	} catch (Exception e) {
+        		throw new RuntimeException("Could not generate api file for '" + tag + "'", e); 
+        	}
+        }
+        if (System.getProperty("debugOperations") != null) {
+            System.out.println("############ Operation info ############");
+            Json.prettyPrint(allOperations);
+        }
 
-            // supporting files
-            Map<String, Object> bundle = new HashMap<String, Object>();
-            bundle.putAll(config.additionalProperties());
-            bundle.put("apiPackage", config.apiPackage());
+        // supporting files
+        Map<String, Object> bundle = new HashMap<String, Object>();
+        bundle.putAll(config.additionalProperties());
+        bundle.put("apiPackage", config.apiPackage());
 
-            Map<String, Object> apis = new HashMap<String, Object>();
-            apis.put("apis", allOperations);
-            if (swagger.getHost() != null) {
-                bundle.put("host", swagger.getHost());
-            }
-            bundle.put("basePath", basePath);
-            bundle.put("scheme", scheme);
-            bundle.put("contextPath", contextPath);
-            bundle.put("apiInfo", apis);
-            bundle.put("models", allModels);
-            bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
-            bundle.put("modelPackage", config.modelPackage());
-            List<CodegenSecurity> authMethods = config.fromSecurity(swagger.getSecurityDefinitions());
-            if (authMethods != null && !authMethods.isEmpty()) {
-                bundle.put("authMethods", authMethods);
-                bundle.put("hasAuthMethods", true);
-            }
-            if (swagger.getExternalDocs() != null) {
-                bundle.put("externalDocs", swagger.getExternalDocs());
-            }
-            for (int i = 0; i < allModels.size() - 1; i++) {
-                HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
-                CodegenModel m = cm.get("model");
-                m.hasMoreModels = true;
-            }
+        Map<String, Object> apis = new HashMap<String, Object>();
+        apis.put("apis", allOperations);
+        if (swagger.getHost() != null) {
+            bundle.put("host", swagger.getHost());
+        }
+        bundle.put("basePath", basePath);
+        bundle.put("scheme", scheme);
+        bundle.put("contextPath", contextPath);
+        bundle.put("apiInfo", apis);
+        bundle.put("models", allModels);
+        bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
+        bundle.put("modelPackage", config.modelPackage());
+        List<CodegenSecurity> authMethods = config.fromSecurity(swagger.getSecurityDefinitions());
+        if (authMethods != null && !authMethods.isEmpty()) {
+            bundle.put("authMethods", authMethods);
+            bundle.put("hasAuthMethods", true);
+        }
+        if (swagger.getExternalDocs() != null) {
+            bundle.put("externalDocs", swagger.getExternalDocs());
+        }
+        for (int i = 0; i < allModels.size() - 1; i++) {
+            HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
+            CodegenModel m = cm.get("model");
+            m.hasMoreModels = true;
+        }
 
-            config.postProcessSupportingFileData(bundle);
+        config.postProcessSupportingFileData(bundle);
 
-            if (System.getProperty("debugSupportingFiles") != null) {
-                System.out.println("############ Supporting file info ############");
-                Json.prettyPrint(bundle);
-            }
+        if (System.getProperty("debugSupportingFiles") != null) {
+            System.out.println("############ Supporting file info ############");
+            Json.prettyPrint(bundle);
+        }
 
-            for (SupportingFile support : config.supportingFiles()) {
+        for (SupportingFile support : config.supportingFiles()) {
+        	try {
                 String outputFolder = config.outputFolder();
                 if (isNotEmpty(support.folder)) {
                     outputFolder += File.separator + support.folder;
@@ -329,14 +333,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                     files.add(outputFile);
                 }
+            } catch (Exception e) {
+            	throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
             }
-
-            config.processSwagger(swagger);
-
-            status = CodeGenStatus.SUCCESSFUL;
-        } catch (Exception e) {
-            status = CodeGenStatus.FAILED;
         }
+
+        config.processSwagger(swagger);
+
         return files;
     }
 
@@ -508,11 +511,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
                 catch (Exception ex) {
-                   LOGGER.error("Error while trying to get Config from Operation for tag(" + tag + ")\n" //
-                         + "\tResource: " + httpMethod + " " + resourcePath + "\n"//
-                         + "\tOperation:" + operation + "\n" //
-                         + "\tDefinitions: " + swagger.getDefinitions() + "\n");
-                   ex.printStackTrace();
+                	String msg = "Could not process operation:\n" //
+                	    + "  Tag: " + tag + "\n"//
+                        + "  Operation: " + operation.getOperationId() + "\n" //
+                        + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
+                        + "  Definitions: " + swagger.getDefinitions();
+                	throw new RuntimeException(msg, ex);
                 }
             }
         }
