@@ -32,6 +32,7 @@ public class CodegenProperty {
     public Boolean hasMore = null, required = null, secondaryParam = null;
     public Boolean isPrimitiveType, isContainer, isNotContainer;
     public boolean isEnum;
+    public Boolean isReadOnly = false;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
