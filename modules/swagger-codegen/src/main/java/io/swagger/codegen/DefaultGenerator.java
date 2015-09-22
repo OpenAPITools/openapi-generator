@@ -511,8 +511,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
                 catch (Exception ex) {
-                	String msg = "Could not process operation:\n" //
-                	    + "  Tag: " + tag + "\n"//
+                    String msg = "Could not process operation:\n" //
+                        + "  Tag: " + tag + "\n"//
                         + "  Operation: " + operation.getOperationId() + "\n" //
                         + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
                         + "  Definitions: " + swagger.getDefinitions();
