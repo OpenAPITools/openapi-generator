@@ -330,6 +330,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        name = sanitizeName(name);
+
         // model name cannot use reserved keyword
         if (reservedWords.contains(name)) {
             escapeReservedWord(name); // e.g. return => _return
