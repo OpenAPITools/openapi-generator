@@ -16,7 +16,7 @@ module {{package}} {
 
         static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, private $httpParamSerializer: (any) => any, basePath?: string) {
+        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (any) => any) {
             if (basePath) {
                 this.basePath = basePath;
             }

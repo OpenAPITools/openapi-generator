@@ -8,9 +8,9 @@ module API.Client {
     export class PetApi {
         private basePath = 'http://petstore.swagger.io/v2';
 
-        static $inject: string[] = ['$http'];
+        static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string) {
+        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (any) => any) {
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -21,12 +21,12 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'PUT',
                 url: path,
                 json: true,
                 data: body,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -48,12 +48,12 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
                 data: body,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -75,7 +75,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             if (status !== undefined) {
                 queryParameters['status'] = status;
             }
@@ -84,6 +83,7 @@ module API.Client {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -105,7 +105,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             if (tags !== undefined) {
                 queryParameters['tags'] = tags;
             }
@@ -114,6 +113,7 @@ module API.Client {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -137,7 +137,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             // verify required parameter 'petId' is set
             if (!petId) {
                 throw new Error('Missing required parameter petId when calling getPetById');
@@ -147,6 +146,7 @@ module API.Client {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -170,16 +170,25 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
+            var formParams: any = {};
 
             // verify required parameter 'petId' is set
             if (!petId) {
                 throw new Error('Missing required parameter petId when calling updatePetWithForm');
             }
 
+            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            formParams['name'] = name;
+            
+            formParams['status'] = status;
+            
             var httpRequestParams: any = {
                 method: 'POST',
                 url: path,
-                json: true,
+                json: false,
+                
+                data: this.$httpParamSerializer(formParams),
                 
                 params: queryParameters,
                 headers: headerParams
@@ -203,18 +212,18 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             // verify required parameter 'petId' is set
             if (!petId) {
                 throw new Error('Missing required parameter petId when calling deletePet');
             }
 
-            headerParams['apiKey'] = apiKey;
+            headerParams['api_key'] = apiKey;
 
             var httpRequestParams: any = {
                 method: 'DELETE',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -238,16 +247,25 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
+            var formParams: any = {};
 
             // verify required parameter 'petId' is set
             if (!petId) {
                 throw new Error('Missing required parameter petId when calling uploadFile');
             }
 
+            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            formParams['additionalMetadata'] = additionalMetadata;
+            
+            formParams['file'] = file;
+            
             var httpRequestParams: any = {
                 method: 'POST',
                 url: path,
-                json: true,
+                json: false,
+                
+                data: this.$httpParamSerializer(formParams),
                 
                 params: queryParameters,
                 headers: headerParams
