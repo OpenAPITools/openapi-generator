@@ -31,7 +31,7 @@ extern NSString *const SWGResponseObjectErrorKey;
 /**
  * Log debug message macro
  */
-#define DebugLog(format, ...) [SWGApiClient debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
+#define SWGDebugLog(format, ...) [SWGApiClient debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
 
 @interface SWGApiClient : AFHTTPRequestOperationManager
 

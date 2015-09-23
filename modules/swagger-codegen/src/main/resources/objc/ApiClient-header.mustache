@@ -27,7 +27,7 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
 /**
  * Log debug message macro
  */
-#define DebugLog(format, ...) [{{classPrefix}}ApiClient debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
+#define {{classPrefix}}DebugLog(format, ...) [{{classPrefix}}ApiClient debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
 
 @interface {{classPrefix}}ApiClient : AFHTTPRequestOperationManager
 

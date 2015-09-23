@@ -100,7 +100,7 @@ static void (^reachabilityChangeBlock)(int);
                         [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding],
                         operation.responseString];
 
-    DebugLog(message);
+    SWGDebugLog(message);
 }
 
 #pragma mark - Cache Methods
@@ -194,14 +194,14 @@ static void (^reachabilityChangeBlock)(int);
 +(NSNumber*) nextRequestId {
     @synchronized(self) {
         long nextId = ++requestId;
-        DebugLog(@"got id %ld", nextId);
+        SWGDebugLog(@"got id %ld", nextId);
         return [NSNumber numberWithLong:nextId];
     }
 }
 
 +(NSNumber*) queueRequest {
     NSNumber* requestId = [SWGApiClient nextRequestId];
-    DebugLog(@"added %@ to request queue", requestId);
+    SWGDebugLog(@"added %@ to request queue", requestId);
     [queuedRequests addObject:requestId];
     return requestId;
 }
@@ -221,7 +221,7 @@ static void (^reachabilityChangeBlock)(int);
     }];
 
     if(matchingItems.count == 1) {
-        DebugLog(@"removed request id %@", requestId);
+        SWGDebugLog(@"removed request id %@", requestId);
         [queuedRequests removeObject:requestId];
         return YES;
     }
@@ -245,22 +245,22 @@ static void (^reachabilityChangeBlock)(int);
         reachabilityStatus = status;
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
-                DebugLog(@"reachability changed to AFNetworkReachabilityStatusUnknown");
+                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusUnknown");
                 [SWGApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusNotReachable:
-                DebugLog(@"reachability changed to AFNetworkReachabilityStatusNotReachable");
+                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusNotReachable");
                 [SWGApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWWAN:
-                DebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWWAN");
+                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWWAN");
                 [SWGApiClient setOfflineState:false];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                DebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWiFi");
+                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWiFi");
                 [SWGApiClient setOfflineState:false];
                 break;
             default:
@@ -591,15 +591,15 @@ static void (^reachabilityChangeBlock)(int);
         hasHeaderParams = true;
     }
     if(offlineState) {
-        DebugLog(@"%@ cache forced", resourcePath);
+        SWGDebugLog(@"%@ cache forced", resourcePath);
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
     }
     else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
-        DebugLog(@"%@ cache enabled", resourcePath);
+        SWGDebugLog(@"%@ cache enabled", resourcePath);
         [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     }
     else {
-        DebugLog(@"%@ cache disabled", resourcePath);
+        SWGDebugLog(@"%@ cache disabled", resourcePath);
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
