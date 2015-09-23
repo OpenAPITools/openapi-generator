@@ -642,6 +642,7 @@ public class DefaultCodegen {
         property.example = p.getExample();
         property.defaultValue = toDefaultValue(p);
         property.jsonSchema = Json.pretty(p);
+        property.isReadOnly = p.getReadOnly();
 
         String type = getSwaggerType(p);
         if (p instanceof AbstractNumericProperty) {
