@@ -341,6 +341,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-retrofit</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/retrofit</module>
+            </modules>
+        </profile>
+        <profile>
             <id>scala-client</id>
             <activation>
                 <property>
@@ -386,18 +398,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/ruby</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>retrofit-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/retrofit</module>
             </modules>
         </profile>
         <profile>

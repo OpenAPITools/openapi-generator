@@ -203,7 +203,6 @@ PhpClientCodegen.java
 Python3ClientCodegen.java
 PythonClientCodegen.java
 Qt5CPPGenerator.java
-RetrofitClientCodegen.java
 RubyClientCodegen.java
 ScalaClientCodegen.java
 ScalatraServerCodegen.java
@@ -265,6 +264,7 @@ CONFIG OPTIONS
 	    <default> - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
 	    jersey2 - HTTP client: Jersey client 2.6
 	    okhttp-gson - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
+	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
 ```
 
 Your config file for java can look like
