@@ -409,7 +409,7 @@ class UserApi
      *
      * Get user by user name
      *
-     * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
+     * @param string $username The name that needs to be fetched. Use user1 for testing. (required)
      * @return \Swagger\Client\Model\User
      * @throws \Swagger\Client\ApiException on non-2xx response
      */

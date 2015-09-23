@@ -103,6 +103,10 @@ public class DefaultCodegen {
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
+            this.setSortParamsByRequiredFlag(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
+        }
     }
 
     // override with any special post-processing
@@ -227,6 +231,10 @@ public class DefaultCodegen {
         this.apiPackage = apiPackage;
     }
 
+    public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
+        this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
+    }
+
     public String toApiFilename(String name) {
         return toApiName(name);
     }
@@ -344,6 +352,7 @@ public class DefaultCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
     }
 
 
@@ -1034,8 +1043,8 @@ public class DefaultCodegen {
         }
         op.bodyParam = bodyParam;
         op.httpMethod = httpMethod.toUpperCase();
-        // move "required" parameters in front of "optional" parameters
 
+        // move "required" parameters in front of "optional" parameters
         if(sortParamsByRequiredFlag) {
           Collections.sort(allParams, new Comparator<CodegenParameter>() {
               @Override
