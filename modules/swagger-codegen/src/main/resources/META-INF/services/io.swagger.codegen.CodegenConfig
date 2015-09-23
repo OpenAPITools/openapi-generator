@@ -13,7 +13,6 @@ io.swagger.codegen.languages.PhpClientCodegen
 io.swagger.codegen.languages.PythonClientCodegen
 io.swagger.codegen.languages.Python3ClientCodegen
 io.swagger.codegen.languages.Qt5CPPGenerator
-io.swagger.codegen.languages.RetrofitClientCodegen
 io.swagger.codegen.languages.RubyClientCodegen
 io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen

@@ -5,6 +5,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -84,6 +85,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
+        supportedLibraries.put("retrofit", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
         cliOptions.add(buildLibraryCliOption(supportedLibraries));
     }
 
@@ -155,12 +157,22 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
-        supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
-        supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+        
+        final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
+        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
 
+        if (!"retrofit".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
+            supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
+            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
+            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+        }
+        
         // library-specific files
         if ("okhttp-gson".equals(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
@@ -169,16 +181,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
             // "build.sbt" is for development with SBT
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-            // and does not require "TypeRef.mustache"
+        } else if ("retrofit".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
         } else {
             supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
         }
-
-        final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
-        supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
     }
 
     private void sanitizeConfig() {
@@ -369,6 +376,29 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     enumVars.add(enumVar);
                 }
                 allowableValues.put("enumVars", enumVars);
+            }
+        }
+        return objs;
+    }
+    
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        if("retrofit".equals(getLibrary())) {
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            if (operations != null) {
+                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                for (CodegenOperation operation : ops) {
+                    if (operation.hasConsumes == Boolean.TRUE) {
+                        Map<String, String> firstType = operation.consumes.get(0);
+                        if (firstType != null) {
+                            if ("multipart/form-data".equals(firstType.get("mediaType"))) {
+                                operation.isMultipart = Boolean.TRUE;
+                            }
+                        }
+                    }
+                    if (operation.returnType == null) {
+                        operation.returnType = "Void";
+                    }
+                }
             }
         }
         return objs;
