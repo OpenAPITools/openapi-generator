@@ -389,8 +389,15 @@ public class ApiClient {
 
     if (contentType.startsWith("application/json")) {
       return json.deserialize(body, returnType);
+    } else if (returnType.getType().equals(String.class)) {
+      // Expecting string, return the raw response body.
+      return (T) body;
     } else {
-      throw new ApiException(500, "can not deserialize Content-Type: " + contentType);
+      throw new ApiException(
+        500,
+        "Content type \"" + contentType + "\" is not supported for type: "
+          + returnType.getType()
+      );
     }
   }
 
@@ -429,7 +436,7 @@ public class ApiClient {
       }
     }
 
-    Invocation.Builder invocationBuilder = target.request(contentType).accept(accept);
+    Invocation.Builder invocationBuilder = target.request().accept(accept);
 
     for (String key : headerParams.keySet()) {
       String value = headerParams.get(key);
