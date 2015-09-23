@@ -535,9 +535,12 @@ public class ApiClient {
     }
     if (contentType.startsWith("application/json")) {
       return json.deserialize(respBody, returnType);
+    } else if (returnType.equals(String.class)) {
+      // Expecting string, return the raw response body.
+      return (T) respBody;
     } else {
       throw new ApiException(
-        "Content type \"" + contentType + "\" is not supported",
+        "Content type \"" + contentType + "\" is not supported for type: " + returnType,
         response.code(),
         response.headers().toMultimap(),
         respBody);
