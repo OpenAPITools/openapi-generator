@@ -330,6 +330,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
+        name = name.replaceAll("[^\\w\\\\]+", "_");
+
         // model name cannot use reserved keyword
         if (reservedWords.contains(name)) {
             escapeReservedWord(name); // e.g. return => _return
