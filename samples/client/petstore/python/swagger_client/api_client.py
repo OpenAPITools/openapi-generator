@@ -25,7 +25,6 @@ from .rest import ApiException
 
 import os
 import re
-import sys
 import urllib
 import json
 import mimetypes
@@ -181,19 +180,16 @@ class ApiClient(object):
         If obj is str, int, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
             convert to string in iso8601 format.
-        If obj is list, sanitize each element in the list.
+        If obj is list, santize each element in the list.
         If obj is dict, return the dict.
         If obj is swagger model, return the properties dict.
 
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
-        types = (str, int, float, bool, tuple)
-        if sys.version_info < (3,0):
-            types = types + (unicode,)
         if isinstance(obj, type(None)):
             return None
-        elif isinstance(obj, types):
+        elif isinstance(obj, (str, int, float, bool, tuple)):
             return obj
         elif isinstance(obj, list):
             return [self.sanitize_for_serialization(sub_obj)
