@@ -162,7 +162,16 @@ public class CodeGenMojo extends AbstractMojo {
         
         ClientOptInput input = new ClientOptInput().opts(new ClientOpts()).swagger(swagger);
         input.setConfig(config);
-        new DefaultGenerator().opts(input).generate();
+        
+        try {
+            new DefaultGenerator().opts(input).generate();
+        } catch (Exception e) {
+            // Maven logs exceptions thrown by plugins only if invoked with -e
+        	// I find it annoying to jump through hoops to get basic diagnostic information,
+        	// so let's log it in any case:
+            getLog().error(e); 
+            throw new MojoExecutionException("Code generation failed. See above for the full exception.");
+        }
 
         if (addCompileSourceRoot) {
             project.addCompileSourceRoot(output.toString());
