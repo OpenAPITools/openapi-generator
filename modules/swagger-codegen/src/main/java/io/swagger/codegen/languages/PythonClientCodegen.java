@@ -199,7 +199,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        name = name.replaceAll("\\W", "_");
+        name = sanitizeName(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
