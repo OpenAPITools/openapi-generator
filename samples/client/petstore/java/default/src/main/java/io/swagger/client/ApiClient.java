@@ -39,7 +39,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-23T12:52:56.012+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-24T21:52:56.159+08:00")
 public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
@@ -211,7 +211,7 @@ public class ApiClient {
   /**
    * Set the date format used to parse/format date parameters.
    */
-  public ApiClient getDateFormat(DateFormat dateFormat) {
+  public ApiClient setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
     return this;
   }
