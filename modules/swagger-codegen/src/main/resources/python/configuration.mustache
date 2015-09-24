@@ -77,11 +77,13 @@ class Configuration(object):
         self.logger["package_logger"] = logging.getLogger("{{packageName}}")
         self.logger["urllib3_logger"] = logging.getLogger("urllib3")
         # Log format
-        self.logging_format = '%(asctime)s %(levelname)s %(message)s'
+        self.logger_format = '%(asctime)s %(levelname)s %(message)s'
+        # Log stream handler
+        self.logger_stream_handler = None
+        # Log file handler
+        self.logger_file_handler = None
         # Debug file location
-        self.logging_stream_handler = None
-        self.logging_file_handler = None
-        self.logging_file = None
+        self.logger_file = None
         # Debug switch
         self.debug = False
 
@@ -92,37 +94,58 @@ class Configuration(object):
         self.ssl_ca_cert = None
 
     @property
-    def logging_file(self):
-        return self.__logging_file
+    def logger_file(self):
+        """
+        Gets the logger_file.
+        """
+        return self.__logger_file
 
-    @logging_file.setter
-    def logging_file(self, value):
-        self.__logging_file = value
-        if self.__logging_file:
+    @logger_file.setter
+    def logger_file(self, value):
+        """
+        Sets the logger_file.
+
+        If the logger_file is None, then add stream handler and remove file handler.
+        Otherwise, add file handler and remove stream handler.
+
+        :param value: The logger_file path.
+        :type: str
+        """
+        self.__logger_file = value
+        if self.__logger_file:
             # If set logging file,
             # then add file handler and remove stream handler.
-            self.logging_file_handler = logging.FileHandler(self.__logging_file)
-            self.logging_file_handler.setFormatter(self.logging_formatter)
+            self.logger_file_handler = logging.FileHandler(self.__logger_file)
+            self.logger_file_handler.setFormatter(self.logger_formatter)
             for _, logger in iteritems(self.logger):
-                logger.addHandler(self.logging_file_handler)
-                if self.logging_stream_handler:
-                    logger.removeHandler(self.logging_stream_handler)
+                logger.addHandler(self.logger_file_handler)
+                if self.logger_stream_handler:
+                    logger.removeHandler(self.logger_stream_handler)
         else:
             # If not set logging file,
             # then add stream handler and remove file handler.
-            self.logging_stream_handler = logging.StreamHandler()
-            self.logging_stream_handler.setFormatter(self.logging_formatter)
+            self.logger_stream_handler = logging.StreamHandler()
+            self.logger_stream_handler.setFormatter(self.logger_formatter)
             for _, logger in iteritems(self.logger):
-                logger.addHandler(self.logging_stream_handler)
-                if self.logging_file_handler:
-                    logger.removeHandler(self.logging_file_handler)
+                logger.addHandler(self.logger_stream_handler)
+                if self.logger_file_handler:
+                    logger.removeHandler(self.logger_file_handler)
 
     @property
     def debug(self):
+        """
+        Gets the debug status.
+        """
         return self.__debug
 
     @debug.setter
     def debug(self, value):
+        """
+        Sets the debug status.
+
+        :param value: The debug status, True or False.
+        :type: bool
+        """
         self.__debug = value
         if self.__debug:
             # if debug status is True, turn on debug logging
@@ -139,13 +162,24 @@ class Configuration(object):
             httplib.HTTPConnection.debuglevel = 0
 
     @property
-    def logging_format(self):
-        return self.__logging_format
+    def logger_format(self):
+        """
+        Gets the logger_format.
+        """
+        return self.__logger_format
 
-    @logging_format.setter
-    def logging_format(self, value):
-        self.__logging_format = value
-        self.logging_formatter = logging.Formatter(self.__logging_format)
+    @logger_format.setter
+    def logger_format(self, value):
+        """
+        Sets the logger_format.
+
+        The logger_formatter will be updated when sets logger_format.
+
+        :param value: The format string.
+        :type: str
+        """
+        self.__logger_format = value
+        self.logger_formatter = logging.Formatter(self.__logger_format)
 
     def get_api_key_with_prefix(self, identifier):
         """
