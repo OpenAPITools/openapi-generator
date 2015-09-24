@@ -35,17 +35,17 @@ private var once = dispatch_once_t()
 class Decoders {
     static private var decoders = Dictionary<String, ((AnyObject) -> AnyObject)>()
     
-    static func addDecoder<T>(#clazz: T.Type, decoder: ((AnyObject) -> T)) {
+    static func addDecoder<T>(clazz clazz: T.Type, decoder: ((AnyObject) -> T)) {
         let key = "\(T.self)"
         decoders[key] = { decoder($0) as! AnyObject }
     }
     
-    static func decode<T>(#clazz: [T].Type, source: AnyObject) -> [T] {
+    static func decode<T>(clazz clazz: [T].Type, source: AnyObject) -> [T] {
         let array = source as! [AnyObject]
         return array.map { Decoders.decode(clazz: T.self, source: $0) }
     }
     
-    static func decode<T, Key: Hashable>(#clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
+    static func decode<T, Key: Hashable>(clazz clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
         let sourceDictinoary = source as! [Key: AnyObject]
         var dictionary = [Key:T]()
         for (key, value) in sourceDictinoary {
@@ -54,7 +54,7 @@ class Decoders {
         return dictionary
     }
     
-    static func decode<T>(#clazz: T.Type, source: AnyObject) -> T {
+    static func decode<T>(clazz clazz: T.Type, source: AnyObject) -> T {
         initialize()
         if source is T {
             return source as! T
@@ -68,7 +68,7 @@ class Decoders {
         }
     }
 
-    static func decodeOptional<T>(#clazz: T.Type, source: AnyObject?) -> T? {
+    static func decodeOptional<T>(clazz clazz: T.Type, source: AnyObject?) -> T? {
         if source is NSNull {
             return nil
         }
@@ -77,7 +77,7 @@ class Decoders {
         }
     }
 
-    static func decodeOptional<T>(#clazz: [T].Type, source: AnyObject?) -> [T]? {
+    static func decodeOptional<T>(clazz clazz: [T].Type, source: AnyObject?) -> [T]? {
         if source is NSNull {
             return nil
         }
@@ -86,7 +86,7 @@ class Decoders {
         }
     }
 
-    static func decodeOptional<T, Key: Hashable>(#clazz: [Key:T].Type, source: AnyObject?) -> [Key:T]? {
+    static func decodeOptional<T, Key: Hashable>(clazz clazz: [Key:T].Type, source: AnyObject?) -> [Key:T]? {
         if source is NSNull {
             return nil
         }
@@ -100,6 +100,7 @@ class Decoders {
             let formatters = [
                 "yyyy-MM-dd",
                 "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+                "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
                 "yyyy-MM-dd'T'HH:mm:ss'Z'"
             ].map { (format: String) -> NSDateFormatter in
                 let formatter = NSDateFormatter()
@@ -120,7 +121,7 @@ class Decoders {
 			// Decoder for {{{classname}}}
             Decoders.addDecoder(clazz: {{{classname}}}.self) { (source: AnyObject) -> {{{classname}}} in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                var instance = {{classname}}(){{#vars}}{{#isEnum}}
+                let instance = {{classname}}(){{#vars}}{{#isEnum}}
                 instance.{{name}} = (sourceDictionary["{{name}}"] as? String).map { {{classname}}.{{datatypeWithEnum}}(rawValue: $0)! }{{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}} {{/isEnum}}{{^isEnum}}
                 instance.{{name}} = Decoders.decode{{^unwrapRequired}}Optional{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}Optional{{/required}}{{/unwrapRequired}}(clazz: {{{baseType}}}.self, source: sourceDictionary["{{name}}"]{{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}}){{/isEnum}}{{/vars}}
                 return instance
