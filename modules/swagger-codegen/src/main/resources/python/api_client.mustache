@@ -126,7 +126,7 @@ class ApiClient(object):
                             for k, v in iteritems(query_params)}
 
         # post parameters
-        if post_params:
+        if post_params or files:
             post_params = self.prepare_post_parameters(post_params, files)
             post_params = self.sanitize_for_serialization(post_params)
 
