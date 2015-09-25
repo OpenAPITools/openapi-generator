@@ -28,6 +28,10 @@
  */
 extern NSString *const SWGResponseObjectErrorKey;
 
+/**
+ * Log debug message macro
+ */
+#define SWGDebugLog(format, ...) [SWGApiClient debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
 
 @interface SWGApiClient : AFHTTPRequestOperationManager
 
@@ -218,5 +222,10 @@ extern NSString *const SWGResponseObjectErrorKey;
  * Convert parameter to NSString
  */
 - (NSString *) parameterToString: (id) param;
+
+/**
+ * Log debug message
+ */
++(void)debugLog:(NSString *)method message:(NSString *)format, ...;
 
 @end
