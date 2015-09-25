@@ -60,24 +60,47 @@ static void (^reachabilityChangeBlock)(int);
 
 #pragma mark - Log Methods
 
-- (void)logResponse:(AFHTTPRequestOperation *)operation
-         forRequest:(NSURLRequest *)request
-              error:(NSError*)error {
++ (void)debugLog:(NSString *)method
+         message:(NSString *)format, ... {
     {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
+    if (!config.debug) {
+        return;
+    }
 
-    NSString *message = [NSString stringWithFormat:@"\n[DEBUG] Request body \n~BEGIN~\n %@\n~END~\n"\
-                         "[DEBUG] HTTP Response body \n~BEGIN~\n %@\n~END~\n",
-                        [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding],
-                        operation.responseString];
+    NSMutableString *message = [NSMutableString stringWithCapacity:1];
 
+    if (method) {
+        [message appendString:[NSString stringWithFormat:@"%@: ", method]];
+    }
+
+    va_list args;
+    va_start(args, format);
+
+    [message appendString:[[NSString alloc] initWithFormat:format arguments:args]];
+
+    // If set logging file handler, log into file,
+    // otherwise log into console.
     if (config.loggingFileHanlder) {
         [config.loggingFileHanlder seekToEndOfFile];
         [config.loggingFileHanlder writeData:[message dataUsingEncoding:NSUTF8StringEncoding]];
     }
-
-    if ([[{{classPrefix}}Configuration sharedConfig] debug]){
+    else {
         NSLog(@"%@", message);
     }
+
+    va_end(args);
+}
+
+- (void)logResponse:(AFHTTPRequestOperation *)operation
+         forRequest:(NSURLRequest *)request
+              error:(NSError*)error {
+
+    NSString *message = [NSString stringWithFormat:@"\n[DEBUG] HTTP request body \n~BEGIN~\n %@\n~END~\n"\
+                         "[DEBUG] HTTP response body \n~BEGIN~\n %@\n~END~\n",
+                        [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding],
+                        operation.responseString];
+
+    {{classPrefix}}DebugLog(message);
 }
 
 #pragma mark - Cache Methods
@@ -171,17 +194,14 @@ static void (^reachabilityChangeBlock)(int);
 +(NSNumber*) nextRequestId {
     @synchronized(self) {
         long nextId = ++requestId;
-        if([[{{classPrefix}}Configuration sharedConfig] debug])
-            NSLog(@"got id %ld", nextId);
+        {{classPrefix}}DebugLog(@"got id %ld", nextId);
         return [NSNumber numberWithLong:nextId];
     }
 }
 
 +(NSNumber*) queueRequest {
     NSNumber* requestId = [{{classPrefix}}ApiClient nextRequestId];
-    if([[{{classPrefix}}Configuration sharedConfig] debug]) {
-        NSLog(@"added %@ to request queue", requestId);
-    }
+    {{classPrefix}}DebugLog(@"added %@ to request queue", requestId);
     [queuedRequests addObject:requestId];
     return requestId;
 }
@@ -201,9 +221,7 @@ static void (^reachabilityChangeBlock)(int);
     }];
 
     if(matchingItems.count == 1) {
-        if([[{{classPrefix}}Configuration sharedConfig] debug]){
-            NSLog(@"removing request id %@", requestId);
-        }
+        {{classPrefix}}DebugLog(@"removed request id %@", requestId);
         [queuedRequests removeObject:requestId];
         return YES;
     }
@@ -227,26 +245,22 @@ static void (^reachabilityChangeBlock)(int);
         reachabilityStatus = status;
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
-                if([[{{classPrefix}}Configuration sharedConfig] debug])
-                    NSLog(@"reachability changed to AFNetworkReachabilityStatusUnknown");
+                {{classPrefix}}DebugLog(@"reachability changed to AFNetworkReachabilityStatusUnknown");
                 [{{classPrefix}}ApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusNotReachable:
-                if([[{{classPrefix}}Configuration sharedConfig] debug])
-                    NSLog(@"reachability changed to AFNetworkReachabilityStatusNotReachable");
+                {{classPrefix}}DebugLog(@"reachability changed to AFNetworkReachabilityStatusNotReachable");
                 [{{classPrefix}}ApiClient setOfflineState:true];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWWAN:
-                if([[{{classPrefix}}Configuration sharedConfig] debug])
-                    NSLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWWAN");
+                {{classPrefix}}DebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWWAN");
                 [{{classPrefix}}ApiClient setOfflineState:false];
                 break;
 
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                if([[{{classPrefix}}Configuration sharedConfig] debug])
-                    NSLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWiFi");
+                {{classPrefix}}DebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWiFi");
                 [{{classPrefix}}ApiClient setOfflineState:false];
                 break;
             default:
@@ -394,9 +408,7 @@ static void (^reachabilityChangeBlock)(int);
     AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
                                                                success:^(AFHTTPRequestOperation *operation, id response) {
                                                                    if([self executeRequestWithId:requestId]) {
-                                                                       if([[{{classPrefix}}Configuration sharedConfig] debug]) {
-                                                                           [self logResponse:operation forRequest:request error:nil];
-                                                                       }
+                                                                       [self logResponse:operation forRequest:request error:nil];
                                                                        NSDictionary *responseHeaders = [[operation response] allHeaderFields];
                                                                        self.HTTPResponseHeaders = responseHeaders;
                                                                        completionBlock(response, nil);
@@ -409,9 +421,7 @@ static void (^reachabilityChangeBlock)(int);
                                                                            userInfo[{{classPrefix}}ResponseObjectErrorKey] = operation.responseObject;
                                                                        }
                                                                        NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
-
-                                                                       if([[{{classPrefix}}Configuration sharedConfig] debug])
-                                                                           [self logResponse:nil forRequest:request error:augmentedError];
+                                                                        [self logResponse:nil forRequest:request error:augmentedError];
 
                                                                        NSDictionary *responseHeaders = [[operation response] allHeaderFields];
                                                                        self.HTTPResponseHeaders = responseHeaders;
@@ -471,9 +481,9 @@ static void (^reachabilityChangeBlock)(int);
 
                                                                        NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
 
-                                                                       if ([[{{classPrefix}}Configuration sharedConfig] debug]) {
-                                                                           [self logResponse:nil forRequest:request error:augmentedError];
-                                                                       }
+
+                                                                        [self logResponse:nil forRequest:request error:augmentedError];
+
                                                                        NSDictionary *responseHeaders = [[operation response] allHeaderFields];
                                                                        self.HTTPResponseHeaders = responseHeaders;
                                                                        completionBlock(nil, augmentedError);
@@ -581,21 +591,15 @@ static void (^reachabilityChangeBlock)(int);
         hasHeaderParams = true;
     }
     if(offlineState) {
-        if ([[{{classPrefix}}Configuration sharedConfig] debug]){
-            NSLog(@"%@ cache forced", resourcePath);
-        }
+        {{classPrefix}}DebugLog(@"%@ cache forced", resourcePath);
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
     }
     else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
-        if ([[{{classPrefix}}Configuration sharedConfig] debug]){    
-            NSLog(@"%@ cache enabled", resourcePath);
-        }
+        {{classPrefix}}DebugLog(@"%@ cache enabled", resourcePath);
         [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
     }
     else {
-        if ([[{{classPrefix}}Configuration sharedConfig] debug]){
-            NSLog(@"%@ cache disabled", resourcePath);
-        }
+        {{classPrefix}}DebugLog(@"%@ cache disabled", resourcePath);
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
