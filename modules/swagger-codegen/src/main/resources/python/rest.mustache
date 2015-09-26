@@ -72,22 +72,38 @@ class RESTResponse(io.IOBase):
 class RESTClientObject(object):
 
     def __init__(self, pools_size=4):
+        # urllib3.PoolManager will pass all kw parameters to connectionpool
+        # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/poolmanager.py#L75
+        # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/connectionpool.py#L680
+        # ca_certs vs cert_file vs key_file
+        # http://stackoverflow.com/a/23957365/2985775
+
+        # cert_reqs
         if Configuration().verify_ssl:
             cert_reqs = ssl.CERT_REQUIRED
         else:
             cert_reqs = ssl.CERT_NONE
 
+        # ca_certs
         if Configuration().ssl_ca_cert:
             ca_certs = Configuration().ssl_ca_cert
         else:
             # if not set certificate file, use Mozilla's root certificates.
             ca_certs = certifi.where()
 
+        # cert_file
+        cert_file = Configuration().cert_file
+
+        # key file
+        key_file = Configuration().key_file
+
         # https pool manager
         self.pool_manager = urllib3.PoolManager(
             num_pools=pools_size,
             cert_reqs=cert_reqs,
-            ca_certs=ca_certs
+            ca_certs=ca_certs,
+            cert_file=cert_file,
+            key_file=key_file
         )
 
     def request(self, method, url, query_params=None, headers=None,
