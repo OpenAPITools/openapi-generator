@@ -92,6 +92,10 @@ class Configuration(object):
         self.verify_ssl = True
         # Set this to customize the certificate file to verify the peer.
         self.ssl_ca_cert = None
+        # client certificate file
+        self.cert_file = None
+        # client key file
+        self.key_file = None
 
     @property
     def logger_file(self):
