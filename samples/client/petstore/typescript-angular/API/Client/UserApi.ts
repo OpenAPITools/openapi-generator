@@ -8,9 +8,9 @@ module API.Client {
     export class UserApi {
         private basePath = 'http://petstore.swagger.io/v2';
 
-        static $inject: string[] = ['$http'];
+        static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string) {
+        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (any) => any) {
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -21,12 +21,12 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
                 data: body,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -48,12 +48,12 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
                 data: body,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -75,12 +75,12 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
                 data: body,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -102,7 +102,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             if (username !== undefined) {
                 queryParameters['username'] = username;
             }
@@ -115,6 +114,7 @@ module API.Client {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -136,11 +136,11 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -164,7 +164,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             // verify required parameter 'username' is set
             if (!username) {
                 throw new Error('Missing required parameter username when calling getUserByName');
@@ -174,6 +173,7 @@ module API.Client {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -197,7 +197,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             // verify required parameter 'username' is set
             if (!username) {
                 throw new Error('Missing required parameter username when calling updateUser');
@@ -208,6 +207,7 @@ module API.Client {
                 url: path,
                 json: true,
                 data: body,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -231,7 +231,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             // verify required parameter 'username' is set
             if (!username) {
                 throw new Error('Missing required parameter username when calling deleteUser');
@@ -241,6 +240,7 @@ module API.Client {
                 method: 'DELETE',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams

@@ -77,4 +77,13 @@ public class CodegenOperation {
         return nonempty(pathParams);
     }
 
+    /**
+     * Check if there's at least one form parameter
+     *
+     * @return true if any form parameter exists, false otherwise
+     */
+    public boolean getHasFormParams() {
+        return nonempty(formParams);
+    }
+
 }

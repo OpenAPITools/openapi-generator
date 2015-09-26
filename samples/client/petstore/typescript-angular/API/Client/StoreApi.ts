@@ -8,9 +8,9 @@ module API.Client {
     export class StoreApi {
         private basePath = 'http://petstore.swagger.io/v2';
 
-        static $inject: string[] = ['$http'];
+        static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string) {
+        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (any) => any) {
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -21,11 +21,11 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -47,12 +47,12 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             var httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
                 data: body,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -76,7 +76,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             // verify required parameter 'orderId' is set
             if (!orderId) {
                 throw new Error('Missing required parameter orderId when calling getOrderById');
@@ -86,6 +85,7 @@ module API.Client {
                 method: 'GET',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
@@ -109,7 +109,6 @@ module API.Client {
 
             var queryParameters: any = {};
             var headerParams: any = {};
-
             // verify required parameter 'orderId' is set
             if (!orderId) {
                 throw new Error('Missing required parameter orderId when calling deleteOrder');
@@ -119,6 +118,7 @@ module API.Client {
                 method: 'DELETE',
                 url: path,
                 json: true,
+                
                 
                 params: queryParameters,
                 headers: headerParams
