@@ -68,7 +68,7 @@ class PetApiTests(unittest.TestCase):
         self.assertNotEqual(pet_api3.api_client, swagger_client.configuration.api_client)
         # customized pet api not using the old pet api's api client
         self.assertNotEqual(pet_api3.api_client, pet_api2.api_client)
-        
+
     def test_async_request(self):
         self.pet_api.add_pet(body=self.pet)
 
@@ -110,7 +110,7 @@ class PetApiTests(unittest.TestCase):
 
     def test_find_pets_by_status(self):
         self.pet_api.add_pet(body=self.pet)
-        
+
         self.assertIn(
             self.pet.id,
             list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_status(status=[self.pet.status])))
@@ -118,7 +118,7 @@ class PetApiTests(unittest.TestCase):
 
     def test_find_pets_by_tags(self):
         self.pet_api.add_pet(body=self.pet)
-        
+
         self.assertIn(
             self.pet.id,
             list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_tags(tags=[self.tag.name])))
@@ -126,7 +126,7 @@ class PetApiTests(unittest.TestCase):
 
     def test_update_pet_with_form(self):
         self.pet_api.add_pet(body=self.pet)
-        
+
         name = "hello kity with form updated"
         status = "pending"
         self.pet_api.update_pet_with_form(pet_id=self.pet.id, name=name, status=status)
@@ -137,6 +137,7 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(status, fetched.status)
 
     def test_upload_file(self):
+        # upload file with form parameter
         try:
             additional_metadata = "special"
             self.pet_api.upload_file(
@@ -147,10 +148,16 @@ class PetApiTests(unittest.TestCase):
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
 
+        # upload only file
+        try:
+            self.pet_api.upload_file(pet_id=self.pet.id, file=self.foo)
+        except ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+
     def test_delete_pet(self):
         self.pet_api.add_pet(body=self.pet)
         self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
-        
+
         try:
             self.pet_api.get_pet_by_id(pet_id=self.pet.id)
             raise "expected an error"
@@ -159,8 +166,3 @@ class PetApiTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-
-
-
