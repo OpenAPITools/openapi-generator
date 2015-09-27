@@ -116,5 +116,14 @@ describe "Pet" do
       # nothing is returned
       result.should be_nil
     end
+
+    it "should upload a file with form parameter to a pet" do
+      pet = Petstore::Pet.new('id' => 10002, 'name' => 'RUBY UNIT TESTING')
+      result = @pet_api.add_pet(body: pet)
+      result.should be_nil
+
+      result = @pet_api.upload_file(10002, file: File.new('hello.txt'), additional_metadata: 'metadata')
+      result.should be_nil
+    end
   end
 end
