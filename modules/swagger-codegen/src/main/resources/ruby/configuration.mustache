@@ -64,6 +64,7 @@ module {{moduleName}}
     # @return [String]
     attr_accessor :temp_folder_path
 
+    ### TLS/SSL
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
     #
@@ -79,6 +80,12 @@ module {{moduleName}}
     # @see The `cainfo` option of Typhoeus, `--cert` option of libcurl. Related source code:
     # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
     attr_accessor :ssl_ca_cert
+
+    # Client certificate file (for client certificate)
+    attr_accessor :cert_file
+
+    # Client private key file (for client certificate)
+    attr_accessor :key_file
 
     attr_accessor :inject_format
 
@@ -102,6 +109,8 @@ module {{moduleName}}
       @api_key = {}
       @api_key_prefix = {}
       @verify_ssl = true
+      @cert_file = nil
+      @key_file = nil
       @debugging = false
       @inject_format = false
       @force_ending_format = false
