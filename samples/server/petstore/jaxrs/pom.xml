@@ -119,13 +119,12 @@
       <artifactId>jersey-server</artifactId>
       <version>${jersey-version}</version>
     </dependency>
-
     <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.9.1</artifactId>
-      <version>${scala-test-version}</version>
-      <scope>test</scope>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-api-version}</version>
     </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -133,9 +132,30 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey-version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.8.8</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bsh</artifactId>
+          <groupId>org.beanshell</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <repositories>
@@ -148,11 +168,10 @@
     </repository>
   </repositories>
   <properties>
-    <swagger-core-version>1.5.0</swagger-core-version>
+    <swagger-core-version>1.5.3</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
-    <jersey-version>1.13</jersey-version>
+    <jersey-version>1.18.1</jersey-version>
     <slf4j-version>1.6.3</slf4j-version>
-    <scala-test-version>1.6.1</scala-test-version>
     <junit-version>4.8.1</junit-version>
     <servlet-api-version>2.5</servlet-api-version>
   </properties>

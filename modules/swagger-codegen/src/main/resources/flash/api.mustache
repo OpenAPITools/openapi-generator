@@ -56,7 +56,7 @@ public class {{classname}} extends SwaggerApi {
         {{#headerParams}}headerParams["{{paramName}}"] = toPathValue({{paramName}});
         {{/headerParams}}
 
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{bodyParam}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams);
 
         var requestId: String = getUniqueId();
 

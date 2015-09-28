@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "{{appName}}",
-    "description": "{{appDescription}}",
+    "description": "{{{appDescription}}}",
     "version": "{{apiVersion}}"
   },
 {{#apiInfo}}
@@ -12,27 +12,28 @@
   "paths": {
 {{#apis}}
 {{#operations}}
-  {{#operation}}
+  {{#operationsByPath}}
   "{{{path}}}": {
+    {{#operation}}
     "{{httpMethod}}": {
+      "summary": "{{summary}}",
+      "description":"{{notes}}",
       "x-swagger-router-controller": "{{classname}}",
       "tags": ["{{baseName}}"],
       "operationId": "{{operationId}}",{{#hasParams}}
       "parameters": [
-        {{#allParams}}
-        {{{jsonSchema}}}{{#hasMore}},{{/hasMore}}
+        {{#allParams}}{{{jsonSchema}}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}
       ],{{/hasParams}}
       "responses": {
-        {{#responses}}
-        "{{code}}": {{{jsonSchema}}}
+        {{#responses}}"{{code}}": {{{jsonSchema}}}
         {{#hasMore}},{{/hasMore}}
         {{/responses}}
       }
-    }
+    } {{#hasMore}},{{/hasMore}}
+    {{/operation}}
   } {{#hasMore}},{{/hasMore}}
-  {{/operation}}
-   {{#hasMore}},{{/hasMore}}
+  {{/operationsByPath}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}

@@ -12,6 +12,7 @@ import io.swagger.generator.model.GeneratorInput;
 import io.swagger.generator.model.ResponseCode;
 import io.swagger.generator.online.Generator;
 
+import javax.ws.rs.core.Context;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,11 +63,13 @@ public class SwaggerResource {
             response = ResponseCode.class,
             tags = "clients")
     public Response generateClient(
+            @Context HttpServletRequest request,
             @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
             @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
 
         String filename = Generator.generateClient(language, opts);
 
+        String host = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         if (filename != null) {
             String code = String.valueOf(System.currentTimeMillis());
             Generated g = new Generated();
@@ -73,7 +77,7 @@ public class SwaggerResource {
             g.setFriendlyName(language + "-client");
             fileMap.put(code, g);
             System.out.println(code + ", " + filename);
-            String link = "http://generator.swagger.io/api/gen/download/" + code;
+            String link = host + "/api/gen/download/" + code;
             return Response.ok().entity(new ResponseCode(code, link)).build();
         } else {
             return Response.status(500).build();
@@ -110,6 +114,7 @@ public class SwaggerResource {
             response = ResponseCode.class,
             tags = "servers")
     public Response generateServerForLanguage(
+            @Context HttpServletRequest request,
             @ApiParam(value = "framework", allowableValues = "jaxrs,nodejs", required = true) @PathParam("framework") String framework,
             @ApiParam(value = "parameters", required = true) GeneratorInput opts)
             throws Exception {
@@ -119,6 +124,8 @@ public class SwaggerResource {
         String filename = Generator.generateServer(framework, opts);
         System.out.println("generated name: " + filename);
 
+        String host = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+
         if (filename != null) {
             String code = String.valueOf(System.currentTimeMillis());
             Generated g = new Generated();
@@ -126,7 +133,7 @@ public class SwaggerResource {
             g.setFriendlyName(framework + "-server");
             fileMap.put(code, g);
             System.out.println(code + ", " + filename);
-            String link = "http://generator.swagger.io/api/gen/download/" + code;
+            String link = host + "/api/gen/download/" + code;
             return Response.ok().entity(new ResponseCode(code, link)).build();
         } else {
             return Response.status(500).build();

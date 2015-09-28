@@ -1,4 +1,4 @@
-package WWW::{{invokerPackage}}::Configuration;
+package WWW::{{moduleName}}::Configuration;
 
 use strict;
 use warnings;
@@ -6,6 +6,8 @@ use utf8;
 
 use Log::Any qw($log);
 use Carp;
+
+use constant VERSION => '{{moduleVersion}}';
 
 # class/static variables
 our $api_client;

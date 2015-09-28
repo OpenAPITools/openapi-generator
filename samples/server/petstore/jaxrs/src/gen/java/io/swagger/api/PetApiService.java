@@ -18,6 +18,7 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
 
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-08-23T23:29:16.812-07:00")
 public abstract class PetApiService {
   
       public abstract Response updatePet(Pet body)
@@ -38,7 +39,7 @@ public abstract class PetApiService {
       public abstract Response updatePetWithForm(String petId,String name,String status)
       throws NotFoundException;
   
-      public abstract Response deletePet(String apiKey,Long petId)
+      public abstract Response deletePet(Long petId,String apiKey)
       throws NotFoundException;
   
       public abstract Response uploadFile(Long petId,String additionalMetadata,FormDataContentDisposition fileDetail)

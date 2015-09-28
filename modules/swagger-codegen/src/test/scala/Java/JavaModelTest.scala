@@ -2,7 +2,9 @@ package Java
 
 import io.swagger.codegen.languages.JavaClientCodegen
 import io.swagger.models._
+import io.swagger.models.parameters._
 import io.swagger.models.properties._
+import io.swagger.util.Json
 import org.junit.runner.RunWith
 import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
@@ -85,7 +87,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(1).setter should be("setUrls")
     vars.get(1).datatype should be("List<String>")
     vars.get(1).name should be("urls")
-    vars.get(1).defaultValue should be("new ArrayList<String>() ")
+    vars.get(1).defaultValue should be("new ArrayList<String>()")
     vars.get(1).baseType should be("List")
     vars.get(1).containerType should be("array")
     vars.get(1).required should equal(null)
@@ -113,7 +115,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setTranslations")
     vars.get(0).datatype should be("Map<String, String>")
     vars.get(0).name should be("translations")
-    vars.get(0).defaultValue should be("new HashMap<String, String>() ")
+    vars.get(0).defaultValue should be("new HashMap<String, String>()")
     vars.get(0).baseType should be("Map")
     vars.get(0).containerType should be("map")
     vars.get(0).required should equal(null)
@@ -121,7 +123,7 @@ class JavaModelTest extends FlatSpec with Matchers {
   }
 
 
-  ignore should "convert a model with a map with complex list property" in {
+  it should "convert a model with a map with complex list property" in {
     val model = new ModelImpl()
       .description("a sample model")
       .property("translations", new MapProperty()
@@ -144,11 +146,31 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setTranslations")
     vars.get(0).datatype should be("Map<String, List<Pet>>")
     vars.get(0).name should be("translations")
-    vars.get(0).defaultValue should be("new HashMap<String, List<Pet>>() ")
+    vars.get(0).defaultValue should be("new HashMap<String, List<Pet>>()")
     vars.get(0).baseType should be("Map")
     vars.get(0).containerType should be("map")
     vars.get(0).required should equal(null)
     vars.get(0).isContainer should equal(true)
+  }
+
+  it should "convert a model with a 2D list property" in {
+    val model = new ModelImpl().name("sample").property("list2D", new ArrayProperty().items(
+        new ArrayProperty().items(new RefProperty("Pet"))))
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+    val vars = cm.vars
+    vars.size should be (1)
+    val list = vars.get(0)
+    list.baseName should be("list2D")
+    list.getter should be("getList2D")
+    list.setter should be("setList2D")
+    list.datatype should be("List<List<Pet>>")
+    list.name should be("list2D")
+    list.defaultValue should be ("new ArrayList<List<Pet>>()")
+    list.baseType should be("List")
+    list.containerType should be("array")
+    list.required should equal(null)
+    list.isContainer should equal(true)
   }
 
   it should "convert a model with complex properties" in {
@@ -197,7 +219,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setChildren")
     vars.get(0).datatype should be("List<Children>")
     vars.get(0).name should be("children")
-    vars.get(0).defaultValue should be("new ArrayList<Children>() ")
+    vars.get(0).defaultValue should be("new ArrayList<Children>()")
     vars.get(0).baseType should be("List")
     vars.get(0).containerType should be("array")
     vars.get(0).required should equal(null)
@@ -226,7 +248,7 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).setter should be("setChildren")
     vars.get(0).datatype should be("Map<String, Children>")
     vars.get(0).name should be("children")
-    vars.get(0).defaultValue should be("new HashMap<String, Children>() ")
+    vars.get(0).defaultValue should be("new HashMap<String, Children>()")
     vars.get(0).baseType should be("Map")
     vars.get(0).containerType should be("map")
     vars.get(0).required should equal(null)
@@ -333,6 +355,20 @@ class JavaModelTest extends FlatSpec with Matchers {
     vars.get(0).name should be("createdAt")
   }
 
+  it should "convert query[password] to queryPassword" in {
+    val model = new ModelImpl()
+      .description("a sample model")
+      .property("query[password]", new StringProperty())
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+    val vars = cm.vars
+    vars.get(0).baseName should be("query[password]")
+    vars.get(0).getter should be("getQueryPassword")
+    vars.get(0).setter should be("setQueryPassword")
+    vars.get(0).name should be("queryPassword")
+  }
+
   it should "properly escape names per 567" in {
     val model = new ModelImpl()
       .description("a sample model")
@@ -342,5 +378,68 @@ class JavaModelTest extends FlatSpec with Matchers {
     val cm = codegen.fromModel("with.dots", model)
     val vars = cm.vars
     cm.classname should be("WithDots")
+  }
+
+  it should "convert a modelwith binary data" in {
+      val model = new ModelImpl()
+        .description("model with binary")
+        .property("inputBinaryData", new ByteArrayProperty());
+
+      val codegen = new JavaClientCodegen()
+      val cm = codegen.fromModel("sample", model)
+      val vars = cm.vars
+
+      vars.get(0).baseName should be ("inputBinaryData")
+      vars.get(0).getter should be ("getInputBinaryData")
+      vars.get(0).setter should be ("setInputBinaryData")
+      vars.get(0).datatype should be ("byte[]")
+      vars.get(0).name should be ("inputBinaryData")
+      vars.get(0).defaultValue should be ("null")
+      vars.get(0).baseType should be ("byte[]")
+      vars.get(0).hasMore should equal (null)
+      vars.get(0).required should equal (null)
+      vars.get(0).isNotContainer should equal (true)
+
+    }
+}
+
+
+@RunWith(classOf[JUnitRunner])
+class JavaModelTest2 extends FlatSpec with Matchers {
+  it should "translate an invalid param name" in {
+    val model = new ModelImpl()
+      .description("a model with a 2nd char upper-case property names")
+      .property("_", new StringProperty())
+
+    val codegen = new JavaClientCodegen()
+    val cm = codegen.fromModel("sample", model)
+
+    cm.name should be("sample")
+    cm.classname should be("Sample")
+    cm.vars.size should be(1)
+
+    val vars = cm.vars
+    vars.get(0).baseName should be("_")
+    vars.get(0).getter should be("getU")
+    vars.get(0).setter should be("setU")
+    vars.get(0).datatype should be("String")
+    vars.get(0).name should be("u")
+    vars.get(0).defaultValue should be("null")
+    vars.get(0).baseType should be("String")
+    vars.get(0).hasMore should equal(null)
+    vars.get(0).isNotContainer should equal(true)
+  }
+
+  it should "convert a parameter" in {
+    val parameter = new QueryParameter()
+      .property(
+        new IntegerProperty())
+      .name("limit")
+      .required(true)
+
+    val codegen = new JavaClientCodegen()
+    val cp = codegen.fromParameter(parameter, null)
+
+    cp.allowableValues should be (null)
   }
 }

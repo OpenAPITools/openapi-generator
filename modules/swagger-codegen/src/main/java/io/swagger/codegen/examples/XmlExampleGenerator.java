@@ -128,7 +128,7 @@ public class XmlExampleGenerator {
             ArrayProperty p = (ArrayProperty) property;
             Property inner = p.getItems();
             boolean wrapped = false;
-            if (property.getXml() != null && property.getXml().getWrapped()) {
+            if (property.getXml() != null && property.getXml().getWrapped() != null && property.getXml().getWrapped()) {
                 wrapped = true;
             }
             if (wrapped) {

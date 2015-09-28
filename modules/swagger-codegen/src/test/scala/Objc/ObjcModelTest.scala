@@ -90,7 +90,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     vars.get(0).isNotContainer should equal(true)
 
     vars.get(1).baseName should be("urls")
-    vars.get(1).datatype should be("NSArray*")
+    vars.get(1).datatype should be("NSArray* /* NSString */")
     vars.get(1).name should be("urls")
     // vars.get(1).defaultValue should be ("null")
     vars.get(1).baseType should be("NSArray")
@@ -118,7 +118,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
 
     val vars = cm.vars
     vars.get(0).baseName should be("translations")
-    vars.get(0).datatype should be("NSDictionary*")
+    vars.get(0).datatype should be("NSDictionary* /* NSString, NSString */")
     vars.get(0).name should be("translations")
     vars.get(0).baseType should be("NSDictionary")
     vars.get(0).containerType should be("map")
@@ -192,7 +192,7 @@ class ObjcModelTest extends FlatSpec with Matchers {
     val vars = cm.vars
     vars.get(0).baseName should be("children")
     vars.get(0).complexType should be("SWGChildren")
-    vars.get(0).datatype should be("NSDictionary*")
+    vars.get(0).datatype should be("NSDictionary* /* NSString, SWGChildren */")
     vars.get(0).name should be("children")
     vars.get(0).baseType should be("NSDictionary")
     vars.get(0).containerType should be("map")

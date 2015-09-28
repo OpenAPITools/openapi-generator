@@ -33,8 +33,7 @@
           <webAppConfig>
             <contextPath>{{^contextPath}}/{{/contextPath}}{{#contextPath}}{{contextPath}}{{/contextPath}}</contextPath>
           </webAppConfig>
-          <webAppSourceDirectory>target/${project.artifactId}-${project-version}</webAppSourceDirectory>
-          <webDefaultXml>${project.basedir}/conf/jetty/webdefault.xml</webDefaultXml>
+          <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
           <httpConnector>
@@ -60,49 +59,6 @@
             <goals>
               <goal>stop</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.googlecode.maven-download-plugin</groupId>
-        <artifactId>download-maven-plugin</artifactId>
-        <version>1.2.1</version>
-        <executions>
-          <execution>
-            <id>swagger-ui</id>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui-version}.tar.gz</url>
-              <unpack>true</unpack>
-              <outputDirectory>${project.build.directory}</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-            <id>copy-resources</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>target/${project.artifactId}-${project.version}</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.directory}/swagger-ui-${swagger-ui-version}/dist</directory>
-                  <filtering>true</filtering>
-                  <excludes>
-                    <exclude>index.html</exclude>
-                  </excludes>
-                </resource>
-              </resources>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -165,21 +121,6 @@
     <!--SpringFox dependencies-->
     <dependency>
       <groupId>io.springfox</groupId>
-      <artifactId>springfox-core</artifactId>
-      <version>${springfox-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-spi</artifactId>
-      <version>${springfox-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-spring-web</artifactId>
-      <version>${springfox-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
       <version>${springfox-version}</version>
     </dependency>
@@ -189,12 +130,6 @@
       <version>${springfox-version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.9.1</artifactId>
-      <version>${scala-test-version}</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -215,15 +150,14 @@
     </repository>
   </repositories>
   <properties>
-    <swagger-core-version>1.5.0</swagger-core-version>
+    <swagger-core-version>1.5.3</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
-    <swagger-ui-version>2.1.0-M2</swagger-ui-version>
     <jersey-version>1.13</jersey-version>
     <slf4j-version>1.6.3</slf4j-version>
     <scala-test-version>1.6.1</scala-test-version>
     <junit-version>4.8.1</junit-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <springfox-version>2.0.0-SNAPSHOT</springfox-version>
+    <springfox-version>2.0.4-SNAPSHOT</springfox-version>
     <spring-version>4.0.9.RELEASE</spring-version>
   </properties>
 </project>

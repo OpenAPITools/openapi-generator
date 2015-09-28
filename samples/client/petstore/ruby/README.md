@@ -5,20 +5,20 @@
 You can build the generated client into a gem:
 
 ```shell
-gem build swagger_client.gemspec
+gem build petstore.gemspec
 ```
 
 Then you can either install the gem:
 
 ```shell
-gem install ./swagger_client-1.0.0.gem
+gem install ./petstore-1.0.0.gem
 ```
 
 or publish the gem to a gem server like [RubyGems](https://rubygems.org/).
 
 Finally add this to your Gemfile:
 
-    gem 'swagger_client', '~> 1.0.0'
+    gem 'petstore', '~> 1.0.0'
 
 ### Host as a git repository
 
@@ -27,7 +27,7 @@ https://github.com/xhh/swagger-petstore-ruby
 
 Then you can reference it in Gemfile:
 
-    gem 'swagger_client', :git => 'https://github.com/xhh/swagger-petstore-ruby.git'
+    gem 'petstore', :git => 'https://github.com/xhh/swagger-petstore-ruby.git'
 
 ### Use without installation
 
@@ -37,21 +37,20 @@ You can also use the client directly like this:
 ruby -Ilib script.rb
 ```
 
-## Configuration
-
-```ruby
-require 'swagger_client'
-
-SwaggerClient::Swagger.configure do |config|
-  config.api_key = 'special-key'
-  config.host = 'petstore.swagger.io'
-  config.base_path = '/v2'
-end
-```
-
 ## Getting Started
 
 ```ruby
-pet = SwaggerClient::PetApi.get_pet_by_id(5)
+require 'petstore'
+
+Petstore.configure do |config|
+  config.api_key['api_key'] = 'special-key'
+  config.host = 'petstore.swagger.io'
+  config.base_path = '/v2'
+  # enable debugging (default is disabled)
+  config.debugging = true
+end
+
+pet_api = Petstore::PetApi.new
+pet = pet_api.get_pet_by_id(5)
 puts pet.to_body
 ```

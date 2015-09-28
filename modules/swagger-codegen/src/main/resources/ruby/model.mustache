@@ -29,11 +29,20 @@ module {{moduleName}}
       {{#vars}}
       if attributes[:'{{{baseName}}}']
         {{#isContainer}}if (value = attributes[:'{{{baseName}}}']).is_a?(Array)
-          @{{{name}}} = value
-        end{{/isContainer}}{{^isContainer}}@{{{name}}} = attributes[:'{{{baseName}}}']{{/isContainer}}
+          self.{{{name}}} = value
+        end{{/isContainer}}{{^isContainer}}self.{{{name}}} = attributes[:'{{{baseName}}}']{{/isContainer}}
       end
       {{/vars}}
     end
+{{#vars}}{{#isEnum}}
+    def {{{name}}}=({{{name}}})
+      allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
+      if {{{name}}} && !allowed_values.include?({{{name}}})
+        fail "invalid value for '{{{name}}}', must be one of #{allowed_values}"
+      end
+      @{{{name}}} = {{{name}}}
+    end
+{{/isEnum}}{{/vars}}
   end
 {{/model}}
 {{/models}}

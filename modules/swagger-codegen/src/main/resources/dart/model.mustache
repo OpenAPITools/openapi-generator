@@ -1,0 +1,18 @@
+part of api;
+
+{{#models}}{{#model}}
+@Entity()
+class {{classname}} {
+  {{#vars}}{{#description}}/* {{{description}}} */{{/description}}
+  {{{datatype}}} {{name}} = {{{defaultValue}}};
+  {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{{/allowableValues}}
+  {{/vars}}
+  {{classname}}();
+
+  @override
+  String toString()  {
+    return '{{classname}}[{{#vars}}{{name}}=${{name}}, {{/vars}}]';
+  }
+
+}
+{{/model}}{{/models}}
