@@ -1,6 +1,6 @@
 {{#models}}
 {{#model}}
-package WWW::{{invokerPackage}}::Object::{{classname}};
+package WWW::{{moduleName}}::Object::{{classname}};
 
 require 5.6.0;
 use strict;
@@ -13,7 +13,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use base "WWW::{{invokerPackage}}::Object::BaseObject";
+use base "WWW::{{moduleName}}::Object::BaseObject";
 
 #
 #{{description}}
@@ -22,13 +22,13 @@ use base "WWW::{{invokerPackage}}::Object::BaseObject";
 #
 
 my $swagger_types = {
-      {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
-      {{/hasMore}}{{/vars}}
+    {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
+    {{/hasMore}}{{/vars}}
 };
 
 my $attribute_map = {
-      {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
-      {{/hasMore}}{{/vars}}
+    {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
+    {{/hasMore}}{{/vars}}
 };
 
 # new object
@@ -45,12 +45,12 @@ sub new {
 
 # get swagger type of the attribute
 sub get_swagger_types {
-  return $swagger_types;
+    return $swagger_types;
 }
 
 # get attribute mappping
 sub get_attribute_map {
-  return $attribute_map;
+    return $attribute_map;
 }
 
 1;

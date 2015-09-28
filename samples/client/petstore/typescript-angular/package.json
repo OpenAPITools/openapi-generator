@@ -1,0 +1,20 @@
+{
+  "name": "petstore-typescript-node-sample",
+  "version": "1.0.0",
+  "description": "Sample of generated TypeScript petstore client",
+  "main": "api.js",
+  "scripts": {
+    "postinstall": "tsd reinstall --overwrite",
+    "test": "tsc",
+    "clean": "rm -Rf node_modules/ typings/ *.js"
+  },
+  "author": "Mads M. Tandrup",
+  "license": "Apache 2.0",
+  "dependencies": {
+    "angular": "^1.4.3"
+  },
+  "devDependencies": {
+    "tsd": "^0.6.3",
+    "typescript": "^1.5.3"
+  }
+}

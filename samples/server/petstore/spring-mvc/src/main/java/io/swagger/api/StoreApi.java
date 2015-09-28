@@ -30,20 +30,21 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-08-23T14:20:14.172-07:00")
 public class StoreApi {
   
 
-  @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "map")
+  @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map")
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/inventory", 
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Integer> getInventory()
+  public ResponseEntity<Map<String, Integer>> getInventory()
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<Integer>(HttpStatus.OK);
+      return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
   }
 
   

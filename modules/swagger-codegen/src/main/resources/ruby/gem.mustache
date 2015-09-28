@@ -1,0 +1,36 @@
+# Common files
+require '{{gemName}}/api_client'
+require '{{gemName}}/api_error'
+require '{{gemName}}/version'
+require '{{gemName}}/configuration'
+
+# Models
+require '{{gemName}}/{{modelPackage}}/base_object'
+{{#models}}
+require '{{importPath}}'
+{{/models}}
+
+# APIs
+{{#apiInfo}}
+{{#apis}}
+require '{{importPath}}'
+{{/apis}}
+{{/apiInfo}}
+
+module {{moduleName}}
+  class << self
+    # Configure sdk using block.
+    # {{moduleName}}.configure do |config|
+    #   config.username = "xxx"
+    #   config.password = "xxx"
+    # end
+    # If no block given, return the configuration singleton instance.
+    def configure
+      if block_given?
+        yield Configuration.instance
+      else
+        Configuration.instance
+      end
+    end
+  end
+end

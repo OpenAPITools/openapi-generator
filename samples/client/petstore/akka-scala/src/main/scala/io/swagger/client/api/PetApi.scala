@@ -108,10 +108,10 @@ object PetApi {
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
-   * @param apiKey 
    * @param petId Pet id to delete
+   * @param apiKey 
    */
-  def deletePet(apiKey: Option[String] = None, petId: Long): ApiRequest[Unit] =
+  def deletePet(petId: Long, apiKey: Option[String] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.DELETE, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
       .withPathParam("petId", petId)
       .withHeaderParam("api_key", apiKey)

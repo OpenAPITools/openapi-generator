@@ -1,5 +1,7 @@
 package io.swagger.codegen;
 
+import java.util.Set;
+
 public class CodegenSecurity {
     public String name;
     public String type;
@@ -7,4 +9,7 @@ public class CodegenSecurity {
     // ApiKey specific
     public String keyParamName;
     public Boolean isKeyInQuery, isKeyInHeader;
+    // Oauth specific
+    public String flow, authorizationUrl, tokenUrl;
+    public Set<String> scopes;
 }

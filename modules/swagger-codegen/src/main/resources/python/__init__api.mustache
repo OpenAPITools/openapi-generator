@@ -1,5 +1,8 @@
 from __future__ import absolute_import
 
 # import apis into api package
-{{#apiInfo}}{{#apis}}from .{{classVarName}} import {{classname}}
-{{/apis}}{{/apiInfo}}
+{{#apiInfo}}
+{{#apis}}
+from .{{classVarName}} import {{classname}}
+{{/apis}}
+{{/apiInfo}}

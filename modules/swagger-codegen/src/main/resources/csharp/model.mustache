@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 {{#models}}
 {{#model}}
-namespace {{package}} {
+namespace {{packageName}}.Model {
 
   /// <summary>
   /// {{description}}
@@ -15,7 +15,10 @@ namespace {{package}} {
   [DataContract]
   public class {{classname}}{{#parent}} : {{{parent}}}{{/parent}} {
     {{#vars}}
-    {{#description}}/* {{{description}}} */{{/description}}
+    /// <summary>
+    /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
+    /// </summary>{{#description}}
+    /// <value>{{{description}}}</value>{{/description}}
     [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
     public {{{datatype}}} {{name}} { get; set; }
 
@@ -44,6 +47,6 @@ namespace {{package}} {
     }
 
 }
-  {{/model}}
-  {{/models}}
+{{/model}}
+{{/models}}
 }

@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected static String PREFIX = "Sami";
     protected Set<String> foundationClasses = new HashSet<String>();
@@ -265,6 +267,11 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         // method name cannot use reserved keyword, e.g. return$
         if (reservedWords.contains(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");

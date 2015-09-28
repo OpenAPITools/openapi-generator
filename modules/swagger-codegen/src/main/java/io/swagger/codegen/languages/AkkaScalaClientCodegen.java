@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenResponse;
@@ -80,10 +81,10 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
                         "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("configKey", configKey);
         additionalProperties.put("configKeyPath", configKeyPath);
         additionalProperties.put("defaultTimeout", defaultTimeoutInMs);
@@ -251,6 +252,11 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
 
     @Override
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         return super.toOperationId(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, operationId));
     }
 

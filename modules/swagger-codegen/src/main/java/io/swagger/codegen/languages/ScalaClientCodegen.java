@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -20,6 +21,11 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
@@ -49,10 +55,10 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
                         "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
-        additionalProperties.put("invokerPackage", invokerPackage);
-        additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("asyncHttpClient", asyncHttpClient);
         additionalProperties.put("authScheme", authScheme);
         additionalProperties.put("authPreemptive", authPreemptive);
@@ -206,12 +212,30 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
         // method name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
         return camelize(operationId, true);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // remove model imports to avoid warnings for importing class in the same package in Scala
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        final String prefix = modelPackage() + ".";
+        Iterator<Map<String, String>> iterator = imports.iterator();
+        while (iterator.hasNext()) {
+            String _import = iterator.next().get("import");
+            if (_import.startsWith(prefix)) iterator.remove();
+        }
+        return objs;
     }
 
 }

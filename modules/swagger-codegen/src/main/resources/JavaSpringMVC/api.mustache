@@ -30,6 +30,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/{{baseName}}", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+{{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
   {{#operation}}
@@ -41,11 +42,11 @@ public class {{classname}} {
     {{#hasProduces}}produces = { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
     {{#hasConsumes}}consumes = { {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
     method = RequestMethod.{{httpMethod}})
-  public ResponseEntity<{{returnType}}> {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+  public ResponseEntity<{{>returnTypes}}> {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
     {{/hasMore}}{{/allParams}})
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<{{returnType}}>(HttpStatus.OK);
+      return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
   }
 
   {{/operation}}

@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.swagger:swagger-annotations:1.5.0'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.brsanthu:migbase64:2.2'
+    testCompile 'junit:junit:4.8.1'
+}
+
+group = 'io.swagger'
+version = '1.0.0'
+
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = 'swagger-petstore-okhttp-gson'
+    }
+}
+
+task execute(type:JavaExec) {
+   main = System.getProperty('mainClass')
+   classpath = sourceSets.main.runtimeClasspath
+}

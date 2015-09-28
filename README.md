@@ -7,15 +7,34 @@ This is the swagger codegen project, which allows generation of client libraries
 
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
+## Build and run using docker
+
+```
+git clone https://github.com/swagger-api/swagger-codegen
+
+cd swagger-codegen
+
+./run-in-docker.sh mvn package
+ ```
+
+Build a nodejs server stub:
+
+ ```
+./run-in-docker.sh generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l nodejs \
+  -o samples/server/petstore/nodejs
+ ```
 
 ## Compatibility
 The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
 
-Swagger Codegen Version | Release Date | Swagger Spec compatibility | Notes
------------------------ | ------------ | -------------------------- | -----
-2.1.2                   | 2015-06-09   | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
-2.0.17                  | 2014-08-22   | 1.1, 1.2      | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
-1.0.4                   | 2012-04-12   | 1.0, 1.1      | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
+Swagger Codegen Version    | Release Date | Swagger Spec compatibility | Notes
+-------------------------- | ------------ | -------------------------- | -----
+2.1.4-SNAPSHOT                      |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
+2.1.3 (**current stable**) | 2015-08-24   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.3](https://github.com/swagger-api/swagger-codegen/tree/v2.1.3)
+2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
+1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
 
 ### Prerequisites
@@ -73,6 +92,7 @@ SYNOPSIS
                 [(-o <output directory> | --output <output directory>)]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [(-v | --verbose)]
+                [(-s | --skip-overwrite)]
 
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -105,7 +125,11 @@ OPTIONS
 
         -v, --verbose
             verbose mode
- ```
+            
+        -s , --skip-overwrite
+            specifies if the existing files should be overwritten during 
+            the generation 
+```
 
 You can then compile and run the client, as well as unit tests against it:
 
@@ -133,7 +157,7 @@ You can look at `modules/swagger-codegen/src/main/resources/${your-language}` fo
 If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
 
 ```
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar meta \
+java -jar modules/swagger-codegen-distribution/target/swagger-codegen-cli.jar meta \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
 
@@ -161,11 +185,16 @@ There are different aspects of customizing the code generator beyond just creati
 
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
+AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
+CodeGenStatus.java
+CsharpDotNet2ClientCodegen.java
+FlashClientCodegen.java
 JavaClientCodegen.java
+JavaInflectorServerCodegen.java
 JaxRSServerCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
@@ -174,17 +203,20 @@ PhpClientCodegen.java
 Python3ClientCodegen.java
 PythonClientCodegen.java
 Qt5CPPGenerator.java
-RetrofitClientCodegen.java
 RubyClientCodegen.java
 ScalaClientCodegen.java
 ScalatraServerCodegen.java
+SilexServerCodegen.java
+SinatraServerCodegen.java
 SpringMVCServerCodegen.java
 StaticDocCodegen.java
 StaticHtmlGenerator.java
 SwaggerGenerator.java
 SwaggerYamlGenerator.java
-SwiftGenerator.java
+SwiftCodegen.java
 TizenClientCodegen.java
+TypeScriptAngularClientCodegen.java
+TypeScriptNodeClientCodegen.java
 ```
 
 Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc. you can use a json config file to pass the values.
@@ -226,6 +258,13 @@ CONFIG OPTIONS
 
 	sourceFolder
 	    source folder for generated code
+
+	library
+	    library template (sub-template) to use:
+	    <default> - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
+	    jersey2 - HTTP client: Jersey client 2.6
+	    okhttp-gson - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
+	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
 ```
 
 Your config file for java can look like

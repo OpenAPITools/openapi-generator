@@ -1,0 +1,12 @@
+Metadata-Version: 1.0
+Name: swagger-client
+Version: 1.0.0
+Summary: Swagger Petstore
+Home-page: UNKNOWN
+Author: UNKNOWN
+Author-email: apiteam@swagger.io
+License: UNKNOWN
+Description:     This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href=\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters
+            
+Keywords: Swagger,Swagger Petstore
+Platform: UNKNOWN

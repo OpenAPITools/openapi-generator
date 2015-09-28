@@ -1,21 +1,22 @@
 package io.swagger.model;
 
 import io.swagger.model.Category;
-import java.util.*;
 import io.swagger.model.Tag;
+import java.util.*;
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-08-23T14:20:14.172-07:00")
 public class Pet  {
   
   private Long id = null;
   private Category category = null;
   private String name = null;
-  private List<String> photoUrls = new ArrayList<String>() ;
-  private List<Tag> tags = new ArrayList<Tag>() ;
+  private List<String> photoUrls = new ArrayList<String>();
+  private List<Tag> tags = new ArrayList<Tag>();
   public enum StatusEnum {
      available,  pending,  sold, 
   };
