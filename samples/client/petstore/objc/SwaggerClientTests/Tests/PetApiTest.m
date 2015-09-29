@@ -218,8 +218,8 @@
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
-- (void)testUploadFile {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadWithFile"];
+- (void)testUploadFileWithFormParameter {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadWithFileWithFormParameter"];
     
     NSURL *fileURL = [self createTempFile];
     
@@ -233,6 +233,23 @@
             [expectation fulfill];
         }
     }];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
+- (void)testUploadFile {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testUploadFile"];
+    
+    NSURL *fileURL = [self createTempFile];
+    
+    [api uploadFileWithCompletionBlock:@1 additionalMetadata:nil file:fileURL completionHandler:^(NSError *error) {
+        if (error) {
+            XCTFail(@"expected a failure");
+        }
+        else {
+            [expectation fulfill];
+        }
+    }];
+    
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
