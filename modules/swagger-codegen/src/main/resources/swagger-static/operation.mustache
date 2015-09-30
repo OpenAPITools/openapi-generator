@@ -23,7 +23,7 @@
       {{#isPathParam}}<span class="param-in">Path: </span>{{/isPathParam}}
       {{#isHeaderParam}}<span class="param-in">Header: </span>{{/isHeaderParam}}
       {{#isBodyParam}}<span class="param-in">Body: </span>{{/isBodyParam}}
-      <span class="param-name">{{paramName}}</span>
+      <span class="param-name">{{baseName}}</span>
       <span class="param-type">{{dataType}}{{#baseType}}({{baseType}}){{/baseType}}</span>
       {{#optional}}<span class="param-optional-flag">(optional)</span>{{/optional}}
       <p class="param-description">{{description}}</p>
