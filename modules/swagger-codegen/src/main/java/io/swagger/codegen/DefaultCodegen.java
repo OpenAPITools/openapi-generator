@@ -1299,7 +1299,9 @@ public class DefaultCodegen {
                 sec.flow = oauth2Definition.getFlow();
                 sec.authorizationUrl = oauth2Definition.getAuthorizationUrl();
                 sec.tokenUrl = oauth2Definition.getTokenUrl();
-                sec.scopes = oauth2Definition.getScopes().keySet();
+                if (oauth2Definition.getScopes() != null) {
+                    sec.scopes = oauth2Definition.getScopes().keySet();
+                }
             }
 
             sec.hasMore = it.hasNext();
