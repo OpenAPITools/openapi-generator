@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 
 public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.api";
@@ -186,6 +187,18 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
 
     public void setConfigPackage(String configPackage) {
         this.configPackage = configPackage;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // remove the import of "Object" to avoid compilation error
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        Iterator<Map<String, String>> iterator = imports.iterator();
+        while (iterator.hasNext()) {
+            String _import = iterator.next().get("import");
+            if (_import.endsWith(".Object")) iterator.remove();
+        }
+        return objs;
     }
 }
 

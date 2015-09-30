@@ -30,7 +30,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-08-23T14:20:14.172-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-09-30T16:27:59.075+08:00")
 public class UserApi {
   
 
@@ -43,7 +43,8 @@ public class UserApi {
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUser(
 
-@ApiParam(value = "Created user object"  ) User body)
+@ApiParam(value = "Created user object"  ) User body
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -60,7 +61,8 @@ public class UserApi {
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object"  ) List<User> body)
+@ApiParam(value = "List of user object"  ) List<User> body
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -77,7 +79,8 @@ public class UserApi {
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUsersWithListInput(
 
-@ApiParam(value = "List of user object"  ) List<User> body)
+@ApiParam(value = "List of user object"  ) List<User> body
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -95,8 +98,10 @@ public class UserApi {
     method = RequestMethod.GET)
   public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login") @RequestParam(value = "username", required = false) String username
 
+
 ,
     @ApiParam(value = "The password for login in clear text") @RequestParam(value = "password", required = false) String password
+
 
 )
       throws NotFoundException {
@@ -131,7 +136,8 @@ public class UserApi {
     
     method = RequestMethod.GET)
   public ResponseEntity<User> getUserByName(
-@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username
+@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true ) @PathVariable("username") String username
+
 )
       throws NotFoundException {
       // do some magic!
@@ -150,10 +156,12 @@ public class UserApi {
     method = RequestMethod.PUT)
   public ResponseEntity<Void> updateUser(
 @ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username
+
 ,
     
 
-@ApiParam(value = "Updated user object"  ) User body)
+@ApiParam(value = "Updated user object"  ) User body
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
@@ -171,6 +179,7 @@ public class UserApi {
     method = RequestMethod.DELETE)
   public ResponseEntity<Void> deleteUser(
 @ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username
+
 )
       throws NotFoundException {
       // do some magic!
