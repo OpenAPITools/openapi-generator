@@ -36,44 +36,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>scala-test-compile</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <configuration>
-                        <recompileMode>incremental</recompileMode>
-                    </configuration>
-                    <jvmArgs>
-                        <jvmArg>-Xmx384m</jvmArg>
-                    </jvmArgs>
-                    <args>
-                        <arg>-target:jvm-1.6</arg>
-                        <arg>-deprecation</arg>
-                    </args>
-                    <launchers>
-                        <launcher>
-                            <id>run-scalatest</id>
-                            <mainClass>org.scalatest.tools.Runner</mainClass>
-                            <args>
-                                <arg>-p</arg>
-                                <arg>${project.build.testOutputDirectory}</arg>
-                            </args>
-                            <jvmArgs>
-                                <jvmArg>-Xmx512m</jvmArg>
-                            </jvmArgs>
-                        </launcher>
-                    </launchers>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1.1</version>
@@ -241,28 +203,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.11</artifactId>
-            <version>${scala-test-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-compiler</artifactId>
-            <version>${scala-version}</version>
-            <scope>test</scope>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
         </dependency>
     </dependencies>
     <properties>
