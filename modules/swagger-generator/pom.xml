@@ -15,9 +15,13 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <excludes>
                     <exclude>logback.xml</exclude>
                 </excludes>
+                <includes>
+                    <include>**/version.prop</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
