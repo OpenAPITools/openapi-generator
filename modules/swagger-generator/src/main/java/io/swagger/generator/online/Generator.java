@@ -5,6 +5,7 @@ import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.Codegen;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.generator.exception.ApiException;
 import io.swagger.generator.exception.BadRequestException;
 import io.swagger.generator.model.GeneratorInput;
@@ -15,6 +16,8 @@ import io.swagger.parser.SwaggerParser;
 import io.swagger.util.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,9 +55,23 @@ public class Generator {
                 .opts(clientOpts)
                 .swagger(swagger);
 
-        CodegenConfig codegenConfig = Codegen.getConfig(language);
-        if (codegenConfig == null) {
+        CodegenConfig codegenConfig=null;
+        try {
+            codegenConfig = CodegenConfigLoader.forName(language);
+        } catch(RuntimeException e) {
             throw new BadRequestException(400, "Unsupported target " + language + " supplied");
+        }
+        
+        if (opts.getOptions() != null) {
+            for(String key : new String[]{"apiPackage", "modelPackage", "invokerPackage", "groupId", "artifactId", "artifactVersion"}) {
+                if(isNotEmpty(opts.getOptions().get(key))) {
+                    codegenConfig.additionalProperties().put(key , opts.getOptions().get(key));
+                }
+            }
+            
+            if (isNotEmpty(opts.getOptions().get("library"))) {
+                codegenConfig.setLibrary(opts.getOptions().get("library"));
+            }
         }
 
         codegenConfig.setOutputDir(outputFolder);
