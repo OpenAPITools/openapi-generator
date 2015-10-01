@@ -584,7 +584,7 @@ public class DefaultCodegen {
                 }
             }
             // interfaces (intermediate models)
-            if (allDefinitions != null) {
+            if (allDefinitions != null && composed.getInterfaces() != null) {
                 for (RefModel _interface : composed.getInterfaces()) {
                     final String interfaceRef = toModelName(_interface.getSimpleRef());
                     final Model interfaceModel = allDefinitions.get(interfaceRef);
