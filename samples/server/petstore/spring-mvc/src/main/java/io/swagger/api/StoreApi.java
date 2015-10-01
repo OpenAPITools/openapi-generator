@@ -30,7 +30,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-08-23T14:20:14.172-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-09-30T16:27:59.075+08:00")
 public class StoreApi {
   
 
@@ -59,7 +59,8 @@ public class StoreApi {
     method = RequestMethod.POST)
   public ResponseEntity<Order> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet"  ) Order body)
+@ApiParam(value = "order placed for purchasing the pet"  ) Order body
+)
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Order>(HttpStatus.OK);
@@ -78,6 +79,7 @@ public class StoreApi {
     method = RequestMethod.GET)
   public ResponseEntity<Order> getOrderById(
 @ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") String orderId
+
 )
       throws NotFoundException {
       // do some magic!
@@ -96,6 +98,7 @@ public class StoreApi {
     method = RequestMethod.DELETE)
   public ResponseEntity<Void> deleteOrder(
 @ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId
+
 )
       throws NotFoundException {
       // do some magic!
