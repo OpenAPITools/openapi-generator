@@ -34,6 +34,7 @@ public class DynamicSwaggerConfig extends BeanConfig {
                     b.append(client);
                 }
                 param.setDescription("available clients: " + b.toString());
+                param.setEnum(clients);
             }
         }
 
@@ -51,7 +52,8 @@ public class DynamicSwaggerConfig extends BeanConfig {
                     }
                     b.append(server);
                 }
-                param.setDescription("available clients: " + b.toString());
+                param.setDescription("available servers: " + b.toString());
+                param.setEnum(servers);
             }
         }
 

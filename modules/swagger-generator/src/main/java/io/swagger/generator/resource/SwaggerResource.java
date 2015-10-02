@@ -64,7 +64,7 @@ public class SwaggerResource {
             tags = "clients")
     public Response generateClient(
             @Context HttpServletRequest request,
-            @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
+            @ApiParam(value = "The target language for the client library", required = true) @PathParam("language") String language,
             @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
 
         String filename = Generator.generateClient(language, opts);
@@ -115,7 +115,7 @@ public class SwaggerResource {
             tags = "servers")
     public Response generateServerForLanguage(
             @Context HttpServletRequest request,
-            @ApiParam(value = "framework", allowableValues = "jaxrs,nodejs", required = true) @PathParam("framework") String framework,
+            @ApiParam(value = "framework", required = true) @PathParam("framework") String framework,
             @ApiParam(value = "parameters", required = true) GeneratorInput opts)
             throws Exception {
         if (framework == null) {
