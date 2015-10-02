@@ -488,22 +488,23 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         String securityName = security.keySet().iterator().next();
                         SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
                         if (securityDefinition != null) {
-                        	if(securityDefinition instanceof OAuth2Definition) {
-                        		OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
-                        		OAuth2Definition oauth2Operation = new OAuth2Definition();
-                        		oauth2Operation.setType(oauth2Definition.getType());
-                        		oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
-                        		oauth2Operation.setFlow(oauth2Definition.getFlow());
-                        		oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
-                        		for (String scope : security.values().iterator().next()) {
-                        			if (oauth2Definition.getScopes().containsKey(scope)) {
-                        				oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
-                        			}
-                        		}
-                        		authMethods.put(securityName, oauth2Operation);
-                        	} else {
-                        		authMethods.put(securityName, securityDefinition);
-                        	}
+                            if(securityDefinition instanceof OAuth2Definition) {
+                                OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
+                                OAuth2Definition oauth2Operation = new OAuth2Definition();
+                                oauth2Operation.setType(oauth2Definition.getType());
+                                oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
+                                oauth2Operation.setFlow(oauth2Definition.getFlow());
+                                oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
+                                oauth2Operation.setScopes(new HashMap<String, String>());
+                                for (String scope : security.values().iterator().next()) {
+                                    if (oauth2Definition.getScopes().containsKey(scope)) {
+                                        oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
+                                    }
+                                }
+                                authMethods.put(securityName, oauth2Operation);
+                            } else {
+                                authMethods.put(securityName, securityDefinition);
+                            }
                         }
                     }
                     if (!authMethods.isEmpty()) {
@@ -516,7 +517,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         + "  Operation: " + operation.getOperationId() + "\n" //
                         + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
                         + "  Definitions: " + swagger.getDefinitions();
-                	throw new RuntimeException(msg, ex);
+                    throw new RuntimeException(msg, ex);
                 }
             }
         }
