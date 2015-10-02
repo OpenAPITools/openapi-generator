@@ -33,7 +33,6 @@ cd $APP_DIR
 ./bin/perl-petstore.sh
 ./bin/php-petstore.sh
 ./bin/python-petstore.sh
-./bin/python3-petstore.sh
 ./bin/qt5-petstore.sh
 ./bin/ruby-petstore.sh
 ./bin/scala-async-petstore.sh
