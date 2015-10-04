@@ -30,12 +30,30 @@ import java.net.URLEncoder;
 import java.net.URLConnection;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.SecureRandom;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import okio.BufferedSink;
 import okio.Okio;
@@ -64,11 +82,16 @@ public class ApiClient {
   private String datetimeFormat;
   private DateFormat datetimeFormatter;
 
+  private InputStream sslCaCert;
+  private boolean verifyingSsl;
+
   private OkHttpClient httpClient;
   private JSON json;
 
   public ApiClient() {
     httpClient = new OkHttpClient();
+
+    verifyingSsl = true;
 
     json = new JSON(this);
 
@@ -132,6 +155,35 @@ public class ApiClient {
    */
   public Map<String, List<String>> getResponseHeaders() {
     return responseHeaders;
+  }
+
+  public boolean isVerifyingSsl() {
+    return verifyingSsl;
+  }
+
+  /**
+   * Configure whether to verify certificate and hostname when making https requests.
+   * Default to true.
+   * NOTE: Do NOT set to false in production code, otherwise you would face multiple types of cryptographic attacks.
+   */
+  public ApiClient setVerifyingSsl(boolean verifyingSsl) {
+    this.verifyingSsl = verifyingSsl;
+    applySslSettings();
+    return this;
+  }
+
+  public InputStream getSslCaCert() {
+    return sslCaCert;
+  }
+
+  /**
+   * Configure the CA certificate to be trusted when making https requests.
+   * Use null to reset to default.
+   */
+  public ApiClient setSslCaCert(InputStream sslCaCert) {
+    this.sslCaCert = sslCaCert;
+    applySslSettings();
+    return this;
   }
 
   public String getDateFormat() {
@@ -501,7 +553,7 @@ public class ApiClient {
   }
 
   /**
-   * Deserialize response body to Java object, according the Content-Type
+   * Deserialize response body to Java object, according to the Content-Type
    * response header.
    *
    * @param response HTTP response
@@ -838,6 +890,71 @@ public class ApiClient {
       return "application/octet-stream";
     } else {
       return contentType;
+    }
+  }
+
+  /**
+   * Apply SSL related settings to httpClient according to the current values of
+   * verifyingSsl and sslCaCert.
+   */
+  private void applySslSettings() {
+    try {
+      KeyManager[] keyManagers = null;
+      TrustManager[] trustManagers = null;
+      HostnameVerifier hostnameVerifier = null;
+      if (!verifyingSsl) {
+        TrustManager trustAll = new X509TrustManager() {
+          @Override
+          public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+          @Override
+          public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+          @Override
+          public X509Certificate[] getAcceptedIssuers() { return null; }
+        };
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        trustManagers = new TrustManager[]{ trustAll };
+        hostnameVerifier = new HostnameVerifier() {
+          @Override
+          public boolean verify(String hostname, SSLSession session) { return true; }
+        };
+      } else if (sslCaCert != null) {
+        char[] password = null; // Any password will work.
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        Collection<? extends Certificate> certificates = certificateFactory.generateCertificates(sslCaCert);
+        if (certificates.isEmpty()) {
+          throw new IllegalArgumentException("expected non-empty set of trusted certificates");
+        }
+        KeyStore caKeyStore = newEmptyKeyStore(password);
+        int index = 0;
+        for (Certificate certificate : certificates) {
+          String certificateAlias = "ca" + Integer.toString(index++);
+          caKeyStore.setCertificateEntry(certificateAlias, certificate);
+        }
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        trustManagerFactory.init(caKeyStore);
+        trustManagers = trustManagerFactory.getTrustManagers();
+      }
+
+      if (keyManagers != null || trustManagers != null) {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(keyManagers, trustManagers, new SecureRandom());
+        httpClient.setSslSocketFactory(sslContext.getSocketFactory());
+      } else {
+        httpClient.setSslSocketFactory(null);
+      }
+      httpClient.setHostnameVerifier(hostnameVerifier);
+    } catch (GeneralSecurityException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private KeyStore newEmptyKeyStore(char[] password) throws GeneralSecurityException {
+    try {
+      KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+      keyStore.load(null, password);
+      return keyStore;
+    } catch (IOException e) {
+      throw new AssertionError(e);
     }
   }
 }
