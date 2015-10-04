@@ -7,6 +7,38 @@ This is the swagger codegen project, which allows generation of client libraries
 
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
+# Table of contents
+
+  - [Swagger Code Generator](#swagger-code-generator)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - Installation
+    - [Build and run using docker](#build-and-run-using-docker)
+    - [Build a nodejs server stub](#build-a-nodejs-server-stub)
+    - [Compatibility](#compatibility)
+    - [Prerequisites](#prerequisites)
+    - [OS X Users](#os-x-users)
+      - [Building](#building)
+  - Generators
+    - [To generate a sample client library](#to-generate-a-sample-client-library)
+    - [Generating libraries from your server](#generating-libraries-from-your-server)
+    - [Modifying the client library format](#modifying-the-client-library-format)
+    - [Making your own codegen modules](#making-your-own-codegen-modules)
+    - [Where is Javascript???](#where-is-javascript)
+      - [Generating a client from local files](#generating-a-client-from-local-files)
+    - [Customizing the generator](#customizing-the-generator)
+    - [Validating your swagger spec](#validating-your-swagger-spec)
+    - [Generating dynamic html api documentation](#generating-dynamic-html-api-documentation)
+    - [Generating static html api documentation](#generating-static-html-api-documentation)
+    - [To build a server stub](#to-build-a-server-stub)
+      - [node.js](#nodejs)
+      - [rails-grape](#rails-grape)
+      - [scala scalatra](#scala-scalatra)
+      - [java jax-rs](#java-jax-rs)
+      - [java spring-mvc](#java-spring-mvc)
+    - [To build the codegen library](#to-build-the-codegen-library)
+  - [License](#license)
+
 ## Build and run using docker
 
 ```
@@ -17,7 +49,7 @@ cd swagger-codegen
 ./run-in-docker.sh mvn package
  ```
 
-Build a nodejs server stub:
+## Build a nodejs server stub
 
  ```
 ./run-in-docker.sh generate \
@@ -31,7 +63,7 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version    | Release Date | Swagger Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
-2.1.4-SNAPSHOT                      |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
+2.1.4-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
 2.1.3 (**current stable**) | 2015-08-24   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.3](https://github.com/swagger-api/swagger-codegen/tree/v2.1.3)
 2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
@@ -169,7 +201,7 @@ static code generation.
 There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a swagger specification.
 
 
-#### Generating a client from flat files (i.e. no remote server calls)
+#### Generating a client from local files
 If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
 to the code generator like this:
 
@@ -336,6 +368,7 @@ open index.html
 You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
 
 ### node.js
+
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
@@ -344,8 +377,8 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 
 ### rails-grape
-#### Not yet migrated to this branch
 
+*Not yet migrated to this branch*
 
 ### scala scalatra
 ```
