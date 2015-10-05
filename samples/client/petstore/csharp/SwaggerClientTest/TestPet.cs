@@ -120,7 +120,12 @@ namespace SwaggerClient.TestPet
 			PetApi petApi = new PetApi ();
 			//NOTE: please provide a valid file (full path)
 			FileStream fileStream = new FileStream("/var/tmp/small.gif", FileMode.Open);
+			// test file upload with form parameters
 			petApi.UploadFile(petId, "new form name", fileStream);
+
+			// test file upload without any form parameters
+			petApi.UploadFile(petId, null, fileStream);
+
 		}
 
 

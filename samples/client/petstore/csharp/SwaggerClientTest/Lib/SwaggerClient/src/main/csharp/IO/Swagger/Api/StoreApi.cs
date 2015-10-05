@@ -8,19 +8,22 @@ using IO.Swagger.Model;
 namespace IO.Swagger.Api
 {
     
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// </summary>
     public interface IStoreApi
     {
         
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<string, int?></returns>
+        /// <returns></returns>
         Dictionary<string, int?> GetInventory ();
   
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<string, int?></returns>
+        /// <returns></returns>
         System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
         
         /// <summary>
@@ -116,14 +119,14 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets or sets the API client.
         /// </summary>
-        /// <value>An instance of the ApiClient</param>
+        /// <value>An instance of the ApiClient</value>
         public ApiClient ApiClient {get; set;}
     
         
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<string, int?></returns>            
+        /// <returns></returns>            
         public Dictionary<string, int?> GetInventory ()
         {
             
@@ -137,6 +140,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -161,7 +174,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary<string, int?></returns>
+        /// <returns></returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
         {
             
@@ -211,6 +224,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -291,6 +314,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
             
@@ -373,6 +406,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
             
