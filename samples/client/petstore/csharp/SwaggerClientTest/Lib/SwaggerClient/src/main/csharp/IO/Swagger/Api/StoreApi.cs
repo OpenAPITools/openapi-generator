@@ -15,55 +15,79 @@ namespace IO.Swagger.Api
     {
         
         /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// Returns pet inventories by status
         /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
         /// <returns></returns>
         Dictionary<string, int?> GetInventory ();
   
         /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// Returns pet inventories by status
         /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
         /// <returns></returns>
         System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
         
         /// <summary>
-        /// Place an order for a pet 
+        /// Place an order for a pet
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
         Order PlaceOrder (Order body);
   
         /// <summary>
-        /// Place an order for a pet 
+        /// Place an order for a pet
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
         System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body);
         
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID
         /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
         Order GetOrderById (string orderId);
   
         /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// Find purchase order by ID
         /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
         System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
         
         /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// Delete purchase order by ID
         /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </remarks>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
         void DeleteOrder (string orderId);
   
         /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// Delete purchase order by ID
         /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </remarks>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
         System.Threading.Tasks.Task DeleteOrderAsync (string orderId);
