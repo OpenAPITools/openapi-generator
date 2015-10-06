@@ -217,13 +217,14 @@ There are different aspects of customizing the code generator beyond just creati
 
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
+swagger-codegen|csharp_fix_accept⚡ ⇒ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
 AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
-CodeGenStatus.java
 CsharpDotNet2ClientCodegen.java
+DartClientCodegen.java
 FlashClientCodegen.java
 JavaClientCodegen.java
 JavaInflectorServerCodegen.java
@@ -232,7 +233,6 @@ NodeJSServerCodegen.java
 ObjcClientCodegen.java
 PerlClientCodegen.java
 PhpClientCodegen.java
-Python3ClientCodegen.java
 PythonClientCodegen.java
 Qt5CPPGenerator.java
 RubyClientCodegen.java
