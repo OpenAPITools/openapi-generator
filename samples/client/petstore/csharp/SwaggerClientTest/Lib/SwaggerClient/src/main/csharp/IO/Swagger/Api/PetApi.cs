@@ -306,7 +306,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -394,7 +404,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -482,7 +502,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
@@ -569,7 +599,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
@@ -661,7 +701,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
             
@@ -759,7 +809,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
             
@@ -857,7 +917,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
             
@@ -957,7 +1027,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
             
