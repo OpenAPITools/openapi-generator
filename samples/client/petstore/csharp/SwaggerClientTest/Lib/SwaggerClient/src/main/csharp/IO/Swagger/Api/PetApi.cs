@@ -15,78 +15,111 @@ namespace IO.Swagger.Api
     {
         
         /// <summary>
-        /// Update an existing pet 
+        /// Update an existing pet
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         void UpdatePet (Pet body);
   
         /// <summary>
-        /// Update an existing pet 
+        /// Update an existing pet
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdatePetAsync (Pet body);
         
         /// <summary>
-        /// Add a new pet to the store 
+        /// Add a new pet to the store
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         void AddPet (Pet body);
   
         /// <summary>
-        /// Add a new pet to the store 
+        /// Add a new pet to the store
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         System.Threading.Tasks.Task AddPetAsync (Pet body);
         
         /// <summary>
-        /// Finds Pets by status Multiple status values can be provided with comma seperated strings
+        /// Finds Pets by status
         /// </summary>
+        /// <remarks>
+        /// Multiple status values can be provided with comma seperated strings
+        /// </remarks>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns></returns>
         List<Pet> FindPetsByStatus (List<string> status);
   
         /// <summary>
-        /// Finds Pets by status Multiple status values can be provided with comma seperated strings
+        /// Finds Pets by status
         /// </summary>
+        /// <remarks>
+        /// Multiple status values can be provided with comma seperated strings
+        /// </remarks>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns></returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status);
         
         /// <summary>
-        /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// Finds Pets by tags
         /// </summary>
+        /// <remarks>
+        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </remarks>
         /// <param name="tags">Tags to filter by</param>
         /// <returns></returns>
         List<Pet> FindPetsByTags (List<string> tags);
   
         /// <summary>
-        /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// Finds Pets by tags
         /// </summary>
+        /// <remarks>
+        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </remarks>
         /// <param name="tags">Tags to filter by</param>
         /// <returns></returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags);
         
         /// <summary>
-        /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// Find pet by ID
         /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Pet</returns>
         Pet GetPetById (long? petId);
   
         /// <summary>
-        /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// Find pet by ID
         /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Pet</returns>
         System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId);
         
         /// <summary>
-        /// Updates a pet in the store with form data 
+        /// Updates a pet in the store with form data
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="petId">ID of pet that needs to be updated</param>
         /// <param name="name">Updated name of the pet</param>
         /// <param name="status">Updated status of the pet</param>
@@ -94,8 +127,11 @@ namespace IO.Swagger.Api
         void UpdatePetWithForm (string petId, string name, string status);
   
         /// <summary>
-        /// Updates a pet in the store with form data 
+        /// Updates a pet in the store with form data
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="petId">ID of pet that needs to be updated</param>
         /// <param name="name">Updated name of the pet</param>
         /// <param name="status">Updated status of the pet</param>
@@ -103,24 +139,33 @@ namespace IO.Swagger.Api
         System.Threading.Tasks.Task UpdatePetWithFormAsync (string petId, string name, string status);
         
         /// <summary>
-        /// Deletes a pet 
+        /// Deletes a pet
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"></param>
         /// <returns></returns>
         void DeletePet (long? petId, string apiKey);
   
         /// <summary>
-        /// Deletes a pet 
+        /// Deletes a pet
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"></param>
         /// <returns></returns>
         System.Threading.Tasks.Task DeletePetAsync (long? petId, string apiKey);
         
         /// <summary>
-        /// uploads an image 
+        /// uploads an image
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server</param>
         /// <param name="file">file to upload</param>
@@ -128,8 +173,11 @@ namespace IO.Swagger.Api
         void UploadFile (long? petId, string additionalMetadata, Stream file);
   
         /// <summary>
-        /// uploads an image 
+        /// uploads an image
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server</param>
         /// <param name="file">file to upload</param>

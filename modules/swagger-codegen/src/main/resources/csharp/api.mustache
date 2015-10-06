@@ -16,15 +16,21 @@ namespace {{packageName}}.Api
     {
         {{#operation}}
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{summary}}
         /// </summary>
+        /// <remarks>
+        /// {{notes}}
+        /// </remarks>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
         {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   
         /// <summary>
-        /// {{summary}} {{notes}}
+        /// {{summary}}
         /// </summary>
+        /// <remarks>
+        /// {{notes}}
+        /// </remarks>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
         {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});

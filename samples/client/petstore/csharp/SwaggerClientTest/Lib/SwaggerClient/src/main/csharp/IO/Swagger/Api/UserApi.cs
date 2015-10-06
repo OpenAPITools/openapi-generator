@@ -15,115 +15,163 @@ namespace IO.Swagger.Api
     {
         
         /// <summary>
-        /// Create user This can only be done by the logged in user.
+        /// Create user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
         void CreateUser (User body);
   
         /// <summary>
-        /// Create user This can only be done by the logged in user.
+        /// Create user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUserAsync (User body);
         
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         void CreateUsersWithArrayInput (List<User> body);
   
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body);
         
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         void CreateUsersWithListInput (List<User> body);
   
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body);
         
         /// <summary>
-        /// Logs user into the system 
+        /// Logs user into the system
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
         string LoginUser (string username, string password);
   
         /// <summary>
-        /// Logs user into the system 
+        /// Logs user into the system
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
         System.Threading.Tasks.Task<string> LoginUserAsync (string username, string password);
         
         /// <summary>
-        /// Logs out current logged in user session 
+        /// Logs out current logged in user session
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <returns></returns>
         void LogoutUser ();
   
         /// <summary>
-        /// Logs out current logged in user session 
+        /// Logs out current logged in user session
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <returns></returns>
         System.Threading.Tasks.Task LogoutUserAsync ();
         
         /// <summary>
-        /// Get user by user name 
+        /// Get user by user name
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         User GetUserByName (string username);
   
         /// <summary>
-        /// Get user by user name 
+        /// Get user by user name
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         System.Threading.Tasks.Task<User> GetUserByNameAsync (string username);
         
         /// <summary>
-        /// Updated user This can only be done by the logged in user.
+        /// Updated user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
         void UpdateUser (string username, User body);
   
         /// <summary>
-        /// Updated user This can only be done by the logged in user.
+        /// Updated user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdateUserAsync (string username, User body);
         
         /// <summary>
-        /// Delete user This can only be done by the logged in user.
+        /// Delete user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">The name that needs to be deleted</param>
         /// <returns></returns>
         void DeleteUser (string username);
   
         /// <summary>
-        /// Delete user This can only be done by the logged in user.
+        /// Delete user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">The name that needs to be deleted</param>
         /// <returns></returns>
         System.Threading.Tasks.Task DeleteUserAsync (string username);
