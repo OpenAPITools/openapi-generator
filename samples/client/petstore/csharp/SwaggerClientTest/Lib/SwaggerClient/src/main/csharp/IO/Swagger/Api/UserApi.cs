@@ -8,119 +8,170 @@ using IO.Swagger.Model;
 namespace IO.Swagger.Api
 {
     
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// </summary>
     public interface IUserApi
     {
         
         /// <summary>
-        /// Create user This can only be done by the logged in user.
+        /// Create user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
         void CreateUser (User body);
   
         /// <summary>
-        /// Create user This can only be done by the logged in user.
+        /// Create user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUserAsync (User body);
         
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         void CreateUsersWithArrayInput (List<User> body);
   
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body);
         
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         void CreateUsersWithListInput (List<User> body);
   
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Creates list of users with given input array
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body);
         
         /// <summary>
-        /// Logs user into the system 
+        /// Logs user into the system
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
         string LoginUser (string username, string password);
   
         /// <summary>
-        /// Logs user into the system 
+        /// Logs user into the system
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
         System.Threading.Tasks.Task<string> LoginUserAsync (string username, string password);
         
         /// <summary>
-        /// Logs out current logged in user session 
+        /// Logs out current logged in user session
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <returns></returns>
         void LogoutUser ();
   
         /// <summary>
-        /// Logs out current logged in user session 
+        /// Logs out current logged in user session
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <returns></returns>
         System.Threading.Tasks.Task LogoutUserAsync ();
         
         /// <summary>
-        /// Get user by user name 
+        /// Get user by user name
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         User GetUserByName (string username);
   
         /// <summary>
-        /// Get user by user name 
+        /// Get user by user name
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         System.Threading.Tasks.Task<User> GetUserByNameAsync (string username);
         
         /// <summary>
-        /// Updated user This can only be done by the logged in user.
+        /// Updated user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
         void UpdateUser (string username, User body);
   
         /// <summary>
-        /// Updated user This can only be done by the logged in user.
+        /// Updated user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdateUserAsync (string username, User body);
         
         /// <summary>
-        /// Delete user This can only be done by the logged in user.
+        /// Delete user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">The name that needs to be deleted</param>
         /// <returns></returns>
         void DeleteUser (string username);
   
         /// <summary>
-        /// Delete user This can only be done by the logged in user.
+        /// Delete user
         /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
         /// <param name="username">The name that needs to be deleted</param>
         /// <returns></returns>
         System.Threading.Tasks.Task DeleteUserAsync (string username);
@@ -176,7 +227,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets or sets the API client.
         /// </summary>
-        /// <value>An instance of the ApiClient</param>
+        /// <value>An instance of the ApiClient</value>
         public ApiClient ApiClient {get; set;}
     
         
@@ -198,6 +249,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -237,7 +298,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -276,6 +347,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -315,7 +396,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -354,6 +445,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -393,7 +494,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -433,6 +544,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
@@ -474,7 +595,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
@@ -512,6 +643,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -549,7 +690,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
             
@@ -590,6 +741,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
             
@@ -631,7 +792,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
             
@@ -673,6 +844,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
             
@@ -716,7 +897,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
             
@@ -759,6 +950,16 @@ namespace IO.Swagger.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
             
@@ -800,7 +1001,17 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             if (username != null) pathParams.Add("username", ApiClient.ParameterToString(username)); // path parameter
             
