@@ -311,9 +311,10 @@ static void (^reachabilityChangeBlock)(int);
                                  range:NSMakeRange(0, [class length])];
 
     if (match) {
+        NSArray *dataArray = data;
         innerType = [class substringWithRange:[match rangeAtIndex:1]];
 
-        resultArray = [NSMutableArray arrayWithCapacity:[data count]];
+        resultArray = [NSMutableArray arrayWithCapacity:[dataArray count]];
         [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 [resultArray addObject:[self deserialize:obj class:innerType]];
             }
@@ -332,9 +333,10 @@ static void (^reachabilityChangeBlock)(int);
                                  range:NSMakeRange(0, [class length])];
 
     if (match) {
+        NSArray *dataArray = data;
         innerType = [class substringWithRange:[match rangeAtIndex:1]];
 
-        resultArray = [NSMutableArray arrayWithCapacity:[data count]];
+        resultArray = [NSMutableArray arrayWithCapacity:[dataArray count]];
         [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [resultArray addObject:[self deserialize:obj class:innerType]];
         }];
@@ -352,9 +354,10 @@ static void (^reachabilityChangeBlock)(int);
                                  range:NSMakeRange(0, [class length])];
 
     if (match) {
+        NSDictionary *dataDict = data;
         NSString *valueType = [class substringWithRange:[match rangeAtIndex:2]];
 
-        resultDict = [NSMutableDictionary dictionaryWithCapacity:[data count]];
+        resultDict = [NSMutableDictionary dictionaryWithCapacity:[dataDict count]];
         [data enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [resultDict setValue:[self deserialize:obj class:valueType] forKey:key];
         }];
@@ -728,7 +731,8 @@ static void (^reachabilityChangeBlock)(int);
         return [object ISO8601String];
     }
     else if ([object isKindOfClass:[NSArray class]]) {
-        NSMutableArray *sanitizedObjs = [NSMutableArray arrayWithCapacity:[object count]];
+        NSArray *objectArray = object;
+        NSMutableArray *sanitizedObjs = [NSMutableArray arrayWithCapacity:[objectArray count]];
         [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if (obj) {
                 [sanitizedObjs addObject:[self sanitizeForSerialization:obj]];
@@ -737,7 +741,8 @@ static void (^reachabilityChangeBlock)(int);
         return sanitizedObjs;
     }
     else if ([object isKindOfClass:[NSDictionary class]]) {
-        NSMutableDictionary *sanitizedObjs = [NSMutableDictionary dictionaryWithCapacity:[object count]];
+        NSDictionary *objectDict = object;
+        NSMutableDictionary *sanitizedObjs = [NSMutableDictionary dictionaryWithCapacity:[objectDict count]];
         [object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             if (obj) {
                 [sanitizedObjs setValue:[self sanitizeForSerialization:obj] forKey:key];
