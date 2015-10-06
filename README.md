@@ -217,7 +217,6 @@ There are different aspects of customizing the code generator beyond just creati
 
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
-swagger-codegen|csharp_fix_accept⚡ ⇒ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
 AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
