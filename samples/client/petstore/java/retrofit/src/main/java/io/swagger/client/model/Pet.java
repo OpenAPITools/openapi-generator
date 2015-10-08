@@ -2,7 +2,6 @@ package io.swagger.client.model;
 
 import io.swagger.client.StringUtil;
 import io.swagger.client.model.Category;
-import java.util.*;
 import io.swagger.client.model.Tag;
 
 import com.google.gson.annotations.SerializedName;
@@ -26,10 +25,10 @@ public class Pet   {
   private String name = null;
   
   @SerializedName("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>();
+  private java.util.List<String> photoUrls = new java.util.ArrayList<String>();
   
   @SerializedName("tags")
-  private List<Tag> tags = new ArrayList<Tag>();
+  private java.util.List<Tag> tags = new java.util.ArrayList<Tag>();
   
 
 public enum StatusEnum {
@@ -95,10 +94,10 @@ public enum StatusEnum {
   /**
    **/
   @ApiModelProperty(required = true, value = "")
-  public List<String> getPhotoUrls() {
+  public java.util.List<String> getPhotoUrls() {
     return photoUrls;
   }
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(java.util.List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -106,10 +105,10 @@ public enum StatusEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public List<Tag> getTags() {
+  public java.util.List<Tag> getTags() {
     return tags;
   }
-  public void setTags(List<Tag> tags) {
+  public void setTags(java.util.List<Tag> tags) {
     this.tags = tags;
   }
 

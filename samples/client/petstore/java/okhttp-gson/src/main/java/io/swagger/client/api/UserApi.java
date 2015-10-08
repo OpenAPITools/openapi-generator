@@ -14,14 +14,7 @@ import com.squareup.okhttp.Call;
 
 import java.lang.reflect.Type;
 
-import java.util.*;
-
 import io.swagger.client.model.User;
-import java.util.*;
-
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
 
 public class UserApi {
   private ApiClient apiClient;
@@ -51,11 +44,11 @@ public class UserApi {
     // create path and map variables
     String path = "/user".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -97,18 +90,18 @@ public class UserApi {
   }
   
   /* Build call for createUsersWithArrayInput */
-  private Call createUsersWithArrayInputCall(List<User> body) throws ApiException {
+  private Call createUsersWithArrayInputCall(java.util.List<User> body) throws ApiException {
     Object postBody = body;
     
 
     // create path and map variables
     String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -131,7 +124,7 @@ public class UserApi {
    * 
    * @param body List of user object
    */
-  public void createUsersWithArrayInput(List<User> body) throws ApiException {
+  public void createUsersWithArrayInput(java.util.List<User> body) throws ApiException {
     Call call = createUsersWithArrayInputCall(body);
     apiClient.execute(call);
   }
@@ -143,25 +136,25 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call createUsersWithArrayInputAsync(List<User> body, ApiCallback<Void> callback) throws ApiException {
+  public Call createUsersWithArrayInputAsync(java.util.List<User> body, ApiCallback<Void> callback) throws ApiException {
     Call call = createUsersWithArrayInputCall(body);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for createUsersWithListInput */
-  private Call createUsersWithListInputCall(List<User> body) throws ApiException {
+  private Call createUsersWithListInputCall(java.util.List<User> body) throws ApiException {
     Object postBody = body;
     
 
     // create path and map variables
     String path = "/user/createWithList".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -184,7 +177,7 @@ public class UserApi {
    * 
    * @param body List of user object
    */
-  public void createUsersWithListInput(List<User> body) throws ApiException {
+  public void createUsersWithListInput(java.util.List<User> body) throws ApiException {
     Call call = createUsersWithListInputCall(body);
     apiClient.execute(call);
   }
@@ -196,7 +189,7 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call createUsersWithListInputAsync(List<User> body, ApiCallback<Void> callback) throws ApiException {
+  public Call createUsersWithListInputAsync(java.util.List<User> body, ApiCallback<Void> callback) throws ApiException {
     Call call = createUsersWithListInputCall(body);
     apiClient.executeAsync(call, callback);
     return call;
@@ -210,15 +203,15 @@ public class UserApi {
     // create path and map variables
     String path = "/user/login".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
     if (username != null)
       queryParams.addAll(apiClient.parameterToPairs("", "username", username));
     if (password != null)
       queryParams.addAll(apiClient.parameterToPairs("", "password", password));
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -272,11 +265,11 @@ public class UserApi {
     // create path and map variables
     String path = "/user/logout".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -329,11 +322,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -391,11 +384,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -452,11 +445,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"

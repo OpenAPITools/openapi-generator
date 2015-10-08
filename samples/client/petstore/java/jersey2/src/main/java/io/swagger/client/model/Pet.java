@@ -2,7 +2,6 @@ package io.swagger.client.model;
 
 import io.swagger.client.StringUtil;
 import io.swagger.client.model.Category;
-import java.util.*;
 import io.swagger.client.model.Tag;
 
 
@@ -12,17 +11,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:51.678+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-08T20:57:48.684+08:00")
 public class Pet   {
   
   private Long id = null;
   private Category category = null;
   private String name = null;
-  private List<String> photoUrls = new ArrayList<String>();
-  private List<Tag> tags = new ArrayList<Tag>();
+  private java.util.List<String> photoUrls = new java.util.ArrayList<String>();
+  private java.util.List<Tag> tags = new java.util.ArrayList<Tag>();
 
 public enum StatusEnum {
-  AVAILABLE("available"), PENDING("pending"), SOLD("sold");
+  AVAILABLE("available"),
+  PENDING("pending"),
+  SOLD("sold");
 
   private String value;
 
@@ -79,10 +80,10 @@ public enum StatusEnum {
    **/
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  public List<String> getPhotoUrls() {
+  public java.util.List<String> getPhotoUrls() {
     return photoUrls;
   }
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(java.util.List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -91,10 +92,10 @@ public enum StatusEnum {
    **/
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List<Tag> getTags() {
+  public java.util.List<Tag> getTags() {
     return tags;
   }
-  public void setTags(List<Tag> tags) {
+  public void setTags(java.util.List<Tag> tags) {
     this.tags = tags;
   }
 
