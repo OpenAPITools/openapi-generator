@@ -145,6 +145,13 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, 'map[string,int]'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -156,11 +163,7 @@ class StoreApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, 'map[string,int]');
+        return null;
         
     }
     
@@ -216,6 +219,13 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Order'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -227,11 +237,7 @@ class StoreApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order');
+        return null;
         
     }
     
@@ -294,6 +300,13 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Order'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -305,11 +318,7 @@ class StoreApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order');
+        return null;
         
     }
     
@@ -372,6 +381,7 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }

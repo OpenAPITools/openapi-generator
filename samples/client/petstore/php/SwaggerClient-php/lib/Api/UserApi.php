@@ -143,6 +143,7 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -204,6 +205,7 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -265,6 +267,7 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -329,6 +332,13 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams, 'string'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -340,11 +350,7 @@ class UserApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, 'string');
+        return null;
         
     }
     
@@ -395,6 +401,7 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -463,6 +470,13 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\User'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -474,11 +488,7 @@ class UserApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User');
+        return null;
         
     }
     
@@ -546,6 +556,7 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -614,6 +625,7 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
