@@ -146,6 +146,7 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -210,6 +211,7 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -273,6 +275,13 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet[]'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -284,11 +293,7 @@ class PetApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]');
+        return null;
         
     }
     
@@ -346,6 +351,13 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet[]'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -357,11 +369,7 @@ class PetApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]');
+        return null;
         
     }
     
@@ -416,15 +424,15 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
+        
+        //TODO support oauth
+        
         $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
         if (isset($apiKey)) {
             $headerParams['api_key'] = $apiKey;
         }
         
         
-        
-        
-        //TODO support oauth
         
         // make the API Call
         try
@@ -434,6 +442,13 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet'
             );
+            
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -445,11 +460,7 @@ class PetApi
             throw $e;
         }
         
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet');
+        return null;
         
     }
     
@@ -523,6 +534,7 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -598,6 +610,7 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -677,6 +690,7 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
