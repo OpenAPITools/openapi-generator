@@ -71,8 +71,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Object",
                         "byte[]")
         );
-        instantiationTypes.put("array", "ArrayList");
-        instantiationTypes.put("map", "HashMap");
+        instantiationTypes.put("array", "java.util.ArrayList");
+        instantiationTypes.put("map", "java.util.HashMap");
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
@@ -107,7 +107,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-        
+
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else {
@@ -158,7 +158,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
-        
+
         final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -172,7 +172,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
-        
+
         // library-specific files
         if ("okhttp-gson".equals(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
@@ -189,25 +189,25 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private void sanitizeConfig() {
-        // Sanitize any config options here. We also have to update the additionalProperties because 
+        // Sanitize any config options here. We also have to update the additionalProperties because
         // the whole additionalProperties object is injected into the main object passed to the mustache layer
-        
+
         this.setApiPackage(sanitizePackageName(apiPackage));
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
-        
+
         this.setModelPackage(sanitizePackageName(modelPackage));
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
-        
+
         this.setInvokerPackage(sanitizePackageName(invokerPackage));
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
     }
-    
+
     @Override
     public String escapeReservedWord(String name) {
         return "_" + name;
@@ -294,10 +294,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Property p) {
         if (p instanceof ArrayProperty) {
             final ArrayProperty ap = (ArrayProperty) p;
-            return String.format("new ArrayList<%s>()", getTypeDeclaration(ap.getItems()));
+            return String.format("new java.util.ArrayList<%s>()", getTypeDeclaration(ap.getItems()));
         } else if (p instanceof MapProperty) {
             final MapProperty ap = (MapProperty) p;
-            return String.format("new HashMap<String, %s>()", getTypeDeclaration(ap.getAdditionalProperties()));
+            return String.format("new java.util.HashMap<String, %s>()", getTypeDeclaration(ap.getAdditionalProperties()));
         }
         return super.toDefaultValue(p);
     }
@@ -308,7 +308,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
+            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0) {
                 return type;
             }
         } else {
@@ -394,7 +394,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         return objs;
     }
-    
+
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         if("retrofit".equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -416,6 +416,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         return objs;
+    }
+
+    protected boolean needToImport(String type) {
+        return super.needToImport(type) && type.indexOf(".") < 0;
     }
 
     private String findCommonPrefixOfVars(List<String> vars) {
