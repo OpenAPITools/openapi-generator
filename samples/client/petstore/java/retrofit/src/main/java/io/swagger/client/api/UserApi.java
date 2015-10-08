@@ -5,10 +5,8 @@ import io.swagger.client.model.*;
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
-import java.util.*;
 
 import io.swagger.client.model.User;
-import java.util.*;
 
 public interface UserApi {
   
@@ -20,7 +18,7 @@ public interface UserApi {
    * @return Void
    */
   
-  @POST("/user")  
+  @POST("/user")
   Void createUser(
     @Body User body
   );
@@ -29,14 +27,14 @@ public interface UserApi {
    * Create user
    * Async method
    * @param body Created user object
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @POST("/user")  
+  @POST("/user")
   void createUser(
     @Body User body, Callback<Void> cb
-  ); 
+  );
   
   /**
    * Creates list of users with given input array
@@ -46,23 +44,23 @@ public interface UserApi {
    * @return Void
    */
   
-  @POST("/user/createWithArray")  
+  @POST("/user/createWithArray")
   Void createUsersWithArrayInput(
-    @Body List<User> body
+    @Body java.util.List<User> body
   );
 
   /**
    * Creates list of users with given input array
    * Async method
    * @param body List of user object
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @POST("/user/createWithArray")  
+  @POST("/user/createWithArray")
   void createUsersWithArrayInput(
-    @Body List<User> body, Callback<Void> cb
-  ); 
+    @Body java.util.List<User> body, Callback<Void> cb
+  );
   
   /**
    * Creates list of users with given input array
@@ -72,23 +70,23 @@ public interface UserApi {
    * @return Void
    */
   
-  @POST("/user/createWithList")  
+  @POST("/user/createWithList")
   Void createUsersWithListInput(
-    @Body List<User> body
+    @Body java.util.List<User> body
   );
 
   /**
    * Creates list of users with given input array
    * Async method
    * @param body List of user object
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @POST("/user/createWithList")  
+  @POST("/user/createWithList")
   void createUsersWithListInput(
-    @Body List<User> body, Callback<Void> cb
-  ); 
+    @Body java.util.List<User> body, Callback<Void> cb
+  );
   
   /**
    * Logs user into the system
@@ -99,7 +97,7 @@ public interface UserApi {
    * @return String
    */
   
-  @GET("/user/login")  
+  @GET("/user/login")
   String loginUser(
     @Query("username") String username, @Query("password") String password
   );
@@ -109,14 +107,14 @@ public interface UserApi {
    * Async method
    * @param username The user name for login
    * @param password The password for login in clear text
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @GET("/user/login")  
+  @GET("/user/login")
   void loginUser(
     @Query("username") String username, @Query("password") String password, Callback<String> cb
-  ); 
+  );
   
   /**
    * Logs out current logged in user session
@@ -125,21 +123,21 @@ public interface UserApi {
    * @return Void
    */
   
-  @GET("/user/logout")  
+  @GET("/user/logout")
   Void logoutUser();
     
 
   /**
    * Logs out current logged in user session
    * Async method
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @GET("/user/logout")  
+  @GET("/user/logout")
   void logoutUser(
     Callback<Void> cb
-  ); 
+  );
   
   /**
    * Get user by user name
@@ -149,7 +147,7 @@ public interface UserApi {
    * @return User
    */
   
-  @GET("/user/{username}")  
+  @GET("/user/{username}")
   User getUserByName(
     @Path("username") String username
   );
@@ -158,14 +156,14 @@ public interface UserApi {
    * Get user by user name
    * Async method
    * @param username The name that needs to be fetched. Use user1 for testing.
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @GET("/user/{username}")  
+  @GET("/user/{username}")
   void getUserByName(
     @Path("username") String username, Callback<User> cb
-  ); 
+  );
   
   /**
    * Updated user
@@ -176,7 +174,7 @@ public interface UserApi {
    * @return Void
    */
   
-  @PUT("/user/{username}")  
+  @PUT("/user/{username}")
   Void updateUser(
     @Path("username") String username, @Body User body
   );
@@ -186,14 +184,14 @@ public interface UserApi {
    * Async method
    * @param username name that need to be deleted
    * @param body Updated user object
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @PUT("/user/{username}")  
+  @PUT("/user/{username}")
   void updateUser(
     @Path("username") String username, @Body User body, Callback<Void> cb
-  ); 
+  );
   
   /**
    * Delete user
@@ -203,7 +201,7 @@ public interface UserApi {
    * @return Void
    */
   
-  @DELETE("/user/{username}")  
+  @DELETE("/user/{username}")
   Void deleteUser(
     @Path("username") String username
   );
@@ -212,13 +210,13 @@ public interface UserApi {
    * Delete user
    * Async method
    * @param username The name that needs to be deleted
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @DELETE("/user/{username}")  
+  @DELETE("/user/{username}")
   void deleteUser(
     @Path("username") String username, Callback<Void> cb
-  ); 
+  );
   
 }

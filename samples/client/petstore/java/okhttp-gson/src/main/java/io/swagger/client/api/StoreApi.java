@@ -14,14 +14,7 @@ import com.squareup.okhttp.Call;
 
 import java.lang.reflect.Type;
 
-import java.util.*;
-
-import java.util.Map;
 import io.swagger.client.model.Order;
-
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
 
 public class StoreApi {
   private ApiClient apiClient;
@@ -51,11 +44,11 @@ public class StoreApi {
     // create path and map variables
     String path = "/store/inventory".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -76,11 +69,11 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Map<String, Integer>
+   * @return java.util.Map<String, Integer>
    */
-  public Map<String, Integer> getInventory() throws ApiException {
+  public java.util.Map<String, Integer> getInventory() throws ApiException {
     Call call = getInventoryCall();
-    Type returnType = new TypeToken<Map<String, Integer>>(){}.getType();
+    Type returnType = new TypeToken<java.util.Map<String, Integer>>(){}.getType();
     return apiClient.execute(call, returnType);
   }
 
@@ -90,9 +83,9 @@ public class StoreApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call getInventoryAsync(ApiCallback<Map<String, Integer>> callback) throws ApiException {
+  public Call getInventoryAsync(ApiCallback<java.util.Map<String, Integer>> callback) throws ApiException {
     Call call = getInventoryCall();
-    Type returnType = new TypeToken<Map<String, Integer>>(){}.getType();
+    Type returnType = new TypeToken<java.util.Map<String, Integer>>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
   }
@@ -105,11 +98,11 @@ public class StoreApi {
     // create path and map variables
     String path = "/store/order".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -167,11 +160,11 @@ public class StoreApi {
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -229,11 +222,11 @@ public class StoreApi {
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
