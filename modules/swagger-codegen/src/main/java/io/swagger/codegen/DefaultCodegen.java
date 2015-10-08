@@ -492,10 +492,16 @@ public class DefaultCodegen {
         } else if (p instanceof DecimalProperty) {
             datatype = "number";
         } else if (p instanceof RefProperty) {
-            RefProperty r = (RefProperty) p;
-            datatype = r.get$ref();
-            if (datatype.indexOf("#/definitions/") == 0) {
-                datatype = datatype.substring("#/definitions/".length());
+            try {
+                RefProperty r = (RefProperty) p;
+                datatype = r.get$ref();
+                if (datatype.indexOf("#/definitions/") == 0) {
+                    datatype = datatype.substring("#/definitions/".length());
+                }
+            } catch (Exception e) {
+                LOGGER.warn("Error obtaining the datatype from RefProperty:" + p + ". Datatype default to Object");
+                datatype = "Object";
+                e.printStackTrace();
             }
         } else {
             if (p != null) {
