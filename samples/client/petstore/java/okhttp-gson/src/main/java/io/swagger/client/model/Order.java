@@ -1,6 +1,7 @@
 package io.swagger.client.model;
 
 import io.swagger.client.StringUtil;
+import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -23,7 +24,7 @@ public class Order   {
   private Integer quantity = null;
   
   @SerializedName("shipDate")
-  private java.util.Date shipDate = null;
+  private Date shipDate = null;
   
 
 public enum StatusEnum {
@@ -92,10 +93,10 @@ public enum StatusEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public java.util.Date getShipDate() {
+  public Date getShipDate() {
     return shipDate;
   }
-  public void setShipDate(java.util.Date shipDate) {
+  public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
   }
 

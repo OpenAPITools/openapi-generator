@@ -37,6 +37,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/java";
     protected String localVariablePrefix = "";
+    protected boolean fullJavaUtil = false;
+    protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
 
     public JavaClientCodegen() {
@@ -71,8 +73,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Object",
                         "byte[]")
         );
-        instantiationTypes.put("array", "java.util.ArrayList");
-        instantiationTypes.put("map", "java.util.HashMap");
+        instantiationTypes.put("array", "ArrayList");
+        instantiationTypes.put("map", "HashMap");
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
@@ -81,6 +83,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
+        cliOptions.add(new CliOption("fullJavaUtil", "whether to use full qualified name for classes under java.util (default to false)"));
 
         supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
@@ -151,6 +154,32 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+
+        if (additionalProperties.containsKey("fullJavaUtil")) {
+            fullJavaUtil = Boolean.valueOf(additionalProperties.get("fullJavaUtil").toString());
+        }
+        if (fullJavaUtil) {
+            javaUtilPrefix = "java.util.";
+        }
+        additionalProperties.put("fullJavaUtil", fullJavaUtil);
+        additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
+
+        if (fullJavaUtil) {
+            typeMapping.put("array", "java.util.List");
+            typeMapping.put("map", "java.util.Map");
+            typeMapping.put("DateTime", "java.util.Date");
+            typeMapping.remove("List");
+            importMapping.remove("Date");
+            importMapping.remove("Map");
+            importMapping.remove("HashMap");
+            importMapping.remove("Array");
+            importMapping.remove("ArrayList");
+            importMapping.remove("List");
+            importMapping.remove("Set");
+            importMapping.remove("DateTime");
+            instantiationTypes.put("array", "java.util.ArrayList");
+            instantiationTypes.put("map", "java.util.HashMap");
+        }
 
         this.sanitizeConfig();
 
@@ -294,10 +323,22 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Property p) {
         if (p instanceof ArrayProperty) {
             final ArrayProperty ap = (ArrayProperty) p;
-            return String.format("new java.util.ArrayList<%s>()", getTypeDeclaration(ap.getItems()));
+            final String pattern;
+            if (fullJavaUtil) {
+                pattern = "new java.util.ArrayList<%s>()";
+            } else {
+                pattern = "new ArrayList<%s>()";
+            }
+            return String.format(pattern, getTypeDeclaration(ap.getItems()));
         } else if (p instanceof MapProperty) {
             final MapProperty ap = (MapProperty) p;
-            return String.format("new java.util.HashMap<String, %s>()", getTypeDeclaration(ap.getAdditionalProperties()));
+            final String pattern;
+            if (fullJavaUtil) {
+                pattern = "new java.util.HashMap<String, %s>()";
+            } else {
+                pattern = "new HashMap<String, %s>()";
+            }
+            return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()));
         }
         return super.toDefaultValue(p);
     }

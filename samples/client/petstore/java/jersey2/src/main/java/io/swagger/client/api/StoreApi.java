@@ -6,11 +6,12 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.TypeRef;
 
-import io.swagger.client.model.*;
-
+import java.util.Map;
 import io.swagger.client.model.Order;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-08T20:57:48.684+08:00")
+import java.util.*;
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-09T21:30:19.416+08:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -34,18 +35,18 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return java.util.Map<String, Integer>
+   * @return Map<String, Integer>
    */
-  public java.util.Map<String, Integer> getInventory () throws ApiException {
+  public Map<String, Integer> getInventory () throws ApiException {
     Object postBody = null;
     
     // create path and map variables
     String path = "/store/inventory".replaceAll("\\{format\\}","json");
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -66,7 +67,7 @@ public class StoreApi {
     String[] authNames = new String[] { "api_key" };
 
     
-    TypeRef returnType = new TypeRef<java.util.Map<String, Integer>>() {};
+    TypeRef returnType = new TypeRef<Map<String, Integer>>() {};
     return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
   }
@@ -84,9 +85,9 @@ public class StoreApi {
     String path = "/store/order".replaceAll("\\{format\\}","json");
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -131,9 +132,9 @@ public class StoreApi {
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -178,9 +179,9 @@ public class StoreApi {
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 

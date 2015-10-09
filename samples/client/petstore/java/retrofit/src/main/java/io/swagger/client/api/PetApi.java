@@ -1,13 +1,13 @@
 package io.swagger.client.api;
 
-import io.swagger.client.model.*;
-
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
+
+import java.util.*;
 
 public interface PetApi {
   
@@ -68,12 +68,12 @@ public interface PetApi {
    * Sync method
    * Multiple status values can be provided with comma seperated strings
    * @param status Status values that need to be considered for filter
-   * @return java.util.List<Pet>
+   * @return List<Pet>
    */
   
   @GET("/pet/findByStatus")
-  java.util.List<Pet> findPetsByStatus(
-    @Query("status") java.util.List<String> status
+  List<Pet> findPetsByStatus(
+    @Query("status") List<String> status
   );
 
   /**
@@ -86,7 +86,7 @@ public interface PetApi {
   
   @GET("/pet/findByStatus")
   void findPetsByStatus(
-    @Query("status") java.util.List<String> status, Callback<java.util.List<Pet>> cb
+    @Query("status") List<String> status, Callback<List<Pet>> cb
   );
   
   /**
@@ -94,12 +94,12 @@ public interface PetApi {
    * Sync method
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
-   * @return java.util.List<Pet>
+   * @return List<Pet>
    */
   
   @GET("/pet/findByTags")
-  java.util.List<Pet> findPetsByTags(
-    @Query("tags") java.util.List<String> tags
+  List<Pet> findPetsByTags(
+    @Query("tags") List<String> tags
   );
 
   /**
@@ -112,7 +112,7 @@ public interface PetApi {
   
   @GET("/pet/findByTags")
   void findPetsByTags(
-    @Query("tags") java.util.List<String> tags, Callback<java.util.List<Pet>> cb
+    @Query("tags") List<String> tags, Callback<List<Pet>> cb
   );
   
   /**

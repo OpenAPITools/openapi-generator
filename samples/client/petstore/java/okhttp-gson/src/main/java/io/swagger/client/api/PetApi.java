@@ -6,16 +6,15 @@ import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
-import io.swagger.client.model.*;
-
 import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
 
-import java.lang.reflect.Type;
-
 import io.swagger.client.model.Pet;
 import java.io.File;
+
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class PetApi {
   private ApiClient apiClient;
@@ -45,11 +44,11 @@ public class PetApi {
     // create path and map variables
     String path = "/pet".replaceAll("\\{format\\}","json");
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -98,11 +97,11 @@ public class PetApi {
     // create path and map variables
     String path = "/pet".replaceAll("\\{format\\}","json");
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -144,20 +143,20 @@ public class PetApi {
   }
   
   /* Build call for findPetsByStatus */
-  private Call findPetsByStatusCall(java.util.List<String> status) throws ApiException {
+  private Call findPetsByStatusCall(List<String> status) throws ApiException {
     Object postBody = null;
     
 
     // create path and map variables
     String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     if (status != null)
       queryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -179,11 +178,11 @@ public class PetApi {
    * Finds Pets by status
    * Multiple status values can be provided with comma seperated strings
    * @param status Status values that need to be considered for filter
-   * @return java.util.List<Pet>
+   * @return List<Pet>
    */
-  public java.util.List<Pet> findPetsByStatus(java.util.List<String> status) throws ApiException {
+  public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
     Call call = findPetsByStatusCall(status);
-    Type returnType = new TypeToken<java.util.List<Pet>>(){}.getType();
+    Type returnType = new TypeToken<List<Pet>>(){}.getType();
     return apiClient.execute(call, returnType);
   }
 
@@ -194,28 +193,28 @@ public class PetApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call findPetsByStatusAsync(java.util.List<String> status, ApiCallback<java.util.List<Pet>> callback) throws ApiException {
+  public Call findPetsByStatusAsync(List<String> status, ApiCallback<List<Pet>> callback) throws ApiException {
     Call call = findPetsByStatusCall(status);
-    Type returnType = new TypeToken<java.util.List<Pet>>(){}.getType();
+    Type returnType = new TypeToken<List<Pet>>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
   }
   
   /* Build call for findPetsByTags */
-  private Call findPetsByTagsCall(java.util.List<String> tags) throws ApiException {
+  private Call findPetsByTagsCall(List<String> tags) throws ApiException {
     Object postBody = null;
     
 
     // create path and map variables
     String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
     if (tags != null)
       queryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -237,11 +236,11 @@ public class PetApi {
    * Finds Pets by tags
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
-   * @return java.util.List<Pet>
+   * @return List<Pet>
    */
-  public java.util.List<Pet> findPetsByTags(java.util.List<String> tags) throws ApiException {
+  public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
     Call call = findPetsByTagsCall(tags);
-    Type returnType = new TypeToken<java.util.List<Pet>>(){}.getType();
+    Type returnType = new TypeToken<List<Pet>>(){}.getType();
     return apiClient.execute(call, returnType);
   }
 
@@ -252,9 +251,9 @@ public class PetApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call findPetsByTagsAsync(java.util.List<String> tags, ApiCallback<java.util.List<Pet>> callback) throws ApiException {
+  public Call findPetsByTagsAsync(List<String> tags, ApiCallback<List<Pet>> callback) throws ApiException {
     Call call = findPetsByTagsCall(tags);
-    Type returnType = new TypeToken<java.util.List<Pet>>(){}.getType();
+    Type returnType = new TypeToken<List<Pet>>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
   }
@@ -273,11 +272,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -335,11 +334,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
     if (name != null)
       formParams.put("name", name);
     if (status != null)
@@ -402,13 +401,13 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
     if (apiKey != null)
       headerParams.put("api_key", apiClient.parameterToString(apiKey));
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     final String[] accepts = {
       "application/json", "application/xml"
@@ -465,11 +464,11 @@ public class PetApi {
     String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<Pair>();
 
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
 
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
     if (additionalMetadata != null)
       formParams.put("additionalMetadata", additionalMetadata);
     if (file != null)

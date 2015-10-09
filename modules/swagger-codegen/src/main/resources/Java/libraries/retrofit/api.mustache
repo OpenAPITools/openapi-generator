@@ -1,13 +1,15 @@
 package {{package}};
 
-import {{modelPackage}}.*;
-
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
 {{#imports}}import {{import}};
 {{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.*;
+{{/fullJavaUtil}}
 
 {{#operations}}
 public interface {{classname}} {
