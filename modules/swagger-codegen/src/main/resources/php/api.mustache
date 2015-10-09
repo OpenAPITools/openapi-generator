@@ -173,7 +173,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         } catch (ApiException $e) {
             switch ($e->getCode()) { {{#responses}}{{#dataType}}
             case {{code}}:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $httpHeader);
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;{{/dataType}}{{/responses}}
             }
