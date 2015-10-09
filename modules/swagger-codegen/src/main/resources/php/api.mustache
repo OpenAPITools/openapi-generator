@@ -170,6 +170,13 @@ use \{{invokerPackage}}\ObjectSerializer;
                 $queryParams, $httpBody,
                 $headerParams{{#returnType}}, '{{returnType}}'{{/returnType}}
             );
+            {{#returnType}}
+            if (!$response) {
+                return null;
+            }
+
+            return $this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader);
+            {{/returnType}}
         } catch (ApiException $e) {
             switch ($e->getCode()) { {{#responses}}{{#dataType}}
             case {{code}}:
@@ -181,11 +188,7 @@ use \{{invokerPackage}}\ObjectSerializer;
             throw $e;
         }
         {{#returnType}}
-        if (!$response) {
-            return null;
-        }
-  
-        return $this->apiClient->getSerializer()->deserialize($response, '{{returnType}}');
+        return null;
         {{/returnType}}
     }
     {{/operation}}
