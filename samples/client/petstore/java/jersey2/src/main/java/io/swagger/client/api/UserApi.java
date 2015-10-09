@@ -6,11 +6,12 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.TypeRef;
 
-import io.swagger.client.model.*;
-
 import io.swagger.client.model.User;
+import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-08T20:57:48.684+08:00")
+import java.util.*;
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-09T21:30:19.416+08:00")
 public class UserApi {
   private ApiClient apiClient;
 
@@ -44,9 +45,9 @@ public class UserApi {
     String path = "/user".replaceAll("\\{format\\}","json");
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -77,16 +78,16 @@ public class UserApi {
    * @param body List of user object
    * @return void
    */
-  public void createUsersWithArrayInput (java.util.List<User> body) throws ApiException {
+  public void createUsersWithArrayInput (List<User> body) throws ApiException {
     Object postBody = body;
     
     // create path and map variables
     String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -117,16 +118,16 @@ public class UserApi {
    * @param body List of user object
    * @return void
    */
-  public void createUsersWithListInput (java.util.List<User> body) throws ApiException {
+  public void createUsersWithListInput (List<User> body) throws ApiException {
     Object postBody = body;
     
     // create path and map variables
     String path = "/user/createWithList".replaceAll("\\{format\\}","json");
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -165,9 +166,9 @@ public class UserApi {
     String path = "/user/login".replaceAll("\\{format\\}","json");
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
     queryParams.addAll(apiClient.parameterToPairs("", "username", username));
@@ -209,9 +210,9 @@ public class UserApi {
     String path = "/user/logout".replaceAll("\\{format\\}","json");
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -255,9 +256,9 @@ public class UserApi {
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -303,9 +304,9 @@ public class UserApi {
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 
@@ -349,9 +350,9 @@ public class UserApi {
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
-    java.util.List<Pair> queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> formParams = new java.util.HashMap<String, Object>();
+    List<Pair> queryParams = new ArrayList<Pair>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, Object> formParams = new HashMap<String, Object>();
 
     
 

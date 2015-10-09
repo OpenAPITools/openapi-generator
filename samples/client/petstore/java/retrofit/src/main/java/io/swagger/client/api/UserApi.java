@@ -1,12 +1,13 @@
 package io.swagger.client.api;
 
-import io.swagger.client.model.*;
-
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
 import io.swagger.client.model.User;
+import java.util.*;
+
+import java.util.*;
 
 public interface UserApi {
   
@@ -46,7 +47,7 @@ public interface UserApi {
   
   @POST("/user/createWithArray")
   Void createUsersWithArrayInput(
-    @Body java.util.List<User> body
+    @Body List<User> body
   );
 
   /**
@@ -59,7 +60,7 @@ public interface UserApi {
   
   @POST("/user/createWithArray")
   void createUsersWithArrayInput(
-    @Body java.util.List<User> body, Callback<Void> cb
+    @Body List<User> body, Callback<Void> cb
   );
   
   /**
@@ -72,7 +73,7 @@ public interface UserApi {
   
   @POST("/user/createWithList")
   Void createUsersWithListInput(
-    @Body java.util.List<User> body
+    @Body List<User> body
   );
 
   /**
@@ -85,7 +86,7 @@ public interface UserApi {
   
   @POST("/user/createWithList")
   void createUsersWithListInput(
-    @Body java.util.List<User> body, Callback<Void> cb
+    @Body List<User> body, Callback<Void> cb
   );
   
   /**

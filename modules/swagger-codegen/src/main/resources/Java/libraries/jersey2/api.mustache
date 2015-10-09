@@ -6,10 +6,12 @@ import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 import {{invokerPackage}}.TypeRef;
 
-import {{modelPackage}}.*;
-
 {{#imports}}import {{import}};
 {{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.*;
+{{/fullJavaUtil}}
 
 {{>generatedAnnotation}}
 {{#operations}}
@@ -52,9 +54,9 @@ public class {{classname}} {
       .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    java.util.List<Pair> {{localVariablePrefix}}queryParams = new java.util.ArrayList<Pair>();
-    java.util.Map<String, String> {{localVariablePrefix}}headerParams = new java.util.HashMap<String, String>();
-    java.util.Map<String, Object> {{localVariablePrefix}}formParams = new java.util.HashMap<String, Object>();
+    {{javaUtilPrefix}}List<Pair> {{localVariablePrefix}}queryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
+    {{javaUtilPrefix}}Map<String, String> {{localVariablePrefix}}headerParams = new {{javaUtilPrefix}}HashMap<String, String>();
+    {{javaUtilPrefix}}Map<String, Object> {{localVariablePrefix}}formParams = new {{javaUtilPrefix}}HashMap<String, Object>();
 
     {{#queryParams}}
     {{localVariablePrefix}}queryParams.addAll({{localVariablePrefix}}apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));

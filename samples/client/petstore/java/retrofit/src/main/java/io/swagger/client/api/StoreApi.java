@@ -1,12 +1,13 @@
 package io.swagger.client.api;
 
-import io.swagger.client.model.*;
-
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
+import java.util.Map;
 import io.swagger.client.model.Order;
+
+import java.util.*;
 
 public interface StoreApi {
   
@@ -14,11 +15,11 @@ public interface StoreApi {
    * Returns pet inventories by status
    * Sync method
    * Returns a map of status codes to quantities
-   * @return java.util.Map<String, Integer>
+   * @return Map<String, Integer>
    */
   
   @GET("/store/inventory")
-  java.util.Map<String, Integer> getInventory();
+  Map<String, Integer> getInventory();
     
 
   /**
@@ -30,7 +31,7 @@ public interface StoreApi {
   
   @GET("/store/inventory")
   void getInventory(
-    Callback<java.util.Map<String, Integer>> cb
+    Callback<Map<String, Integer>> cb
   );
   
   /**
