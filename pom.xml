@@ -74,6 +74,7 @@
                 <version>${surefire-version}</version>
                 <configuration>
                     <testNGArtifactName>none:none</testNGArtifactName>
+                    <argLine>-XX:+StartAttachListener</argLine>
                 </configuration>
                 <executions>
                     <execution>
