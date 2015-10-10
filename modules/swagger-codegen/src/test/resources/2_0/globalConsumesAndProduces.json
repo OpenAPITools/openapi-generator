@@ -46,26 +46,7 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "tests"
-        ],
-        "summary": "Operation with global consumes and produces",
-        "description": "",
-        "operationId": "globalConsumesAndProduces",
-        "parameters": [
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation. Returning a simple int.",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        }
-      } 
+      }
     },
     "/tests/globalConsumesAndProduces": {
       "get": {
