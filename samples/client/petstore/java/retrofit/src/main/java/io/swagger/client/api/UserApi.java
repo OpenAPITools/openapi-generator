@@ -1,5 +1,9 @@
 package io.swagger.client.api;
 
+import io.swagger.client.CollectionFormats.*;
+
+import io.swagger.client.model.*;
+
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
