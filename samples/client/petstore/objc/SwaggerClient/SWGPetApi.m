@@ -118,7 +118,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -196,7 +196,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/json", @"application/xml"]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -280,7 +280,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -364,7 +364,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -450,7 +450,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"api_key", @"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -542,7 +542,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/x-www-form-urlencoded"]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -646,7 +646,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -738,7 +738,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"multipart/form-data"]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
+    NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];

@@ -107,13 +107,6 @@
 
 - (NSDictionary *) authSettings {
     return @{
-               @"api_key":
-                   @{
-                       @"type": @"api_key",
-                       @"in": @"header",
-                       @"key": @"api_key",
-                       @"value": [self getApiKeyWithPrefix:@"api_key"]
-                   },
                };
 }
 
