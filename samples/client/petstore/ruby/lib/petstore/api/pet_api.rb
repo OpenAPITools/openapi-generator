@@ -42,7 +42,7 @@ module Petstore
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
-      auth_names = ['petstore_auth']
+      auth_names = []
       @api_client.call_api(:PUT, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -89,7 +89,7 @@ module Petstore
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
 
-      auth_names = ['petstore_auth']
+      auth_names = []
       @api_client.call_api(:POST, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -137,7 +137,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['petstore_auth']
+      auth_names = []
       result = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -186,7 +186,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['petstore_auth']
+      auth_names = []
       result = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -237,7 +237,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['petstore_auth', 'api_key']
+      auth_names = []
       result = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -292,7 +292,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['petstore_auth']
+      auth_names = []
       @api_client.call_api(:POST, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -344,7 +344,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['petstore_auth']
+      auth_names = []
       @api_client.call_api(:DELETE, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -398,7 +398,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['petstore_auth']
+      auth_names = []
       @api_client.call_api(:POST, path,
         :header_params => header_params,
         :query_params => query_params,

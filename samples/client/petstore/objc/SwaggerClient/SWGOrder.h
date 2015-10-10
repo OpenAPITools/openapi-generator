@@ -26,6 +26,6 @@
  */
 @property(nonatomic) NSString* status;
 
-@property(nonatomic) NSString* count;
+@property(nonatomic) NSNumber* complete;
 
 @end
