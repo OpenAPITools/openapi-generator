@@ -140,7 +140,7 @@ public class CodegenTest {
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
     
-    @Test(description = "use operation consumes and producus")
+    @Test(description = "use operation consumes and produces")
     public void localConsumesAndProducesTest() {
         final Swagger model = new SwaggerParser().read("src/test/resources/2_0/globalConsumesAndProduces.json");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -156,7 +156,7 @@ public class CodegenTest {
         Assert.assertEquals(op.produces.get(0).get("mediaType"), "application/json");
     }
     
-    @Test(description = "use spec consumes and producus")
+    @Test(description = "use spec consumes and produces")
     public void globalConsumesAndProducesTest() {
         final Swagger model = new SwaggerParser().read("src/test/resources/2_0/globalConsumesAndProduces.json");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -172,7 +172,7 @@ public class CodegenTest {
         Assert.assertEquals(op.produces.get(0).get("mediaType"), "application/global_produces");
     }
  
-    @Test(description = "use spec consumes and producus (reset in operation with empty array)")
+    @Test(description = "use operation consumes and produces (reset in operation with empty array)")
     public void localResetConsumesAndProducesTest() {
         final Swagger model = new SwaggerParser().read("src/test/resources/2_0/globalConsumesAndProduces.json");
         final DefaultCodegen codegen = new DefaultCodegen();
