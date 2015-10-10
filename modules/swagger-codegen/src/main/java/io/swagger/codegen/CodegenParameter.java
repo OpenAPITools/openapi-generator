@@ -7,7 +7,8 @@ import java.util.List;
 
 public class CodegenParameter {
     public Boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
-            isCookieParam, isBodyParam, isFile, notFile, hasMore, isContainer, secondaryParam, isBinary;
+            isCookieParam, isBodyParam, isFile, notFile, hasMore, isContainer, 
+            secondaryParam, isBinary, isCollectionFormatMulti;
     public String baseName, paramName, dataType, collectionFormat, description, baseType, defaultValue;
     public String jsonSchema;
     public boolean isEnum;
@@ -33,6 +34,7 @@ public class CodegenParameter {
         output.paramName = this.paramName;
         output.dataType = this.dataType;
         output.collectionFormat = this.collectionFormat;
+        output.isCollectionFormatMulti = this.isCollectionFormatMulti;
         output.description = this.description;
         output.baseType = this.baseType;
         output.isFormParam = this.isFormParam;
