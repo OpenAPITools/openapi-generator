@@ -135,9 +135,6 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        //TODO support oauth
-        
         // make the API Call
         try
         {
@@ -200,9 +197,6 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        //TODO support oauth
-        
         // make the API Call
         try
         {
@@ -263,9 +257,6 @@ class PetApi
         } else if (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        
-        //TODO support oauth
         
         // make the API Call
         try
@@ -339,9 +330,6 @@ class PetApi
         } else if (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        
-        //TODO support oauth
         
         // make the API Call
         try
@@ -423,16 +411,6 @@ class PetApi
         } else if (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        
-        //TODO support oauth
-        
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-        if (isset($apiKey)) {
-            $headerParams['api_key'] = $apiKey;
-        }
-        
-        
         
         // make the API Call
         try
@@ -523,9 +501,6 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        //TODO support oauth
-        
         // make the API Call
         try
         {
@@ -598,9 +573,6 @@ class PetApi
         } else if (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        
-        //TODO support oauth
         
         // make the API Call
         try
@@ -678,9 +650,6 @@ class PetApi
         } else if (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        
-        //TODO support oauth
         
         // make the API Call
         try

@@ -861,8 +861,12 @@ public class DefaultCodegen {
         }
         return responses.get(code);
     }
-
+    
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
+    	return fromOperation(path, httpMethod, operation, definitions, null);
+    }
+    
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
         op.vendorExtensions = operation.getVendorExtensions();
@@ -899,14 +903,25 @@ public class DefaultCodegen {
         op.notes = escapeText(operation.getDescription());
         op.tags = operation.getTags();
 
-        if (operation.getConsumes() != null && operation.getConsumes().size() > 0) {
+        List<String> consumes = new ArrayList<String>();
+        if (operation.getConsumes() != null && operation.getConsumes().size() > 0) { 
+        	// use consumes defined in the operation
+        	consumes = operation.getConsumes();
+        } else if (swagger != null && swagger.getConsumes() != null && swagger.getConsumes().size() > 0) {
+        	// use consumes defined globally 
+        	consumes = swagger.getConsumes();
+        	LOGGER.debug("Using global consumes (" + swagger.getConsumes() + ") for " + op.operationId);
+        }
+        
+        // if "consumes" is defined (per operation or using global definition)
+        if (consumes != null && consumes.size() > 0) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             int count = 0;
-            for (String key : operation.getConsumes()) {
+            for (String key : consumes) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 mediaType.put("mediaType", key);
                 count += 1;
-                if (count < operation.getConsumes().size()) {
+                if (count < consumes.size()) {
                     mediaType.put("hasMore", "true");
                 } else {
                     mediaType.put("hasMore", null);
@@ -917,14 +932,25 @@ public class DefaultCodegen {
             op.hasConsumes = true;
         }
 
-        if (operation.getProduces() != null && operation.getProduces().size() > 0) {
+        List<String> produces = new ArrayList<String>();
+        if (operation.getProduces() != null && operation.getProduces().size() > 0) { 
+        	// use produces defined in the operation
+        	produces = operation.getProduces();
+        } else if (swagger != null && swagger.getProduces() != null && swagger.getProduces().size() > 0) {
+        	// use produces defined globally 
+        	produces = swagger.getProduces();
+        	LOGGER.debug("Using global produces (" + swagger.getProduces() + ") for " + op.operationId);
+        }
+        
+        // if "produces" is defined (per operation or using global definition)
+        if (produces != null && produces.size() > 0) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             int count = 0;
-            for (String key : operation.getProduces()) {
+            for (String key : produces) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 mediaType.put("mediaType", key);
                 count += 1;
-                if (count < operation.getProduces().size()) {
+                if (count < produces.size()) {
                     mediaType.put("hasMore", "true");
                 } else {
                     mediaType.put("hasMore", null);
