@@ -367,8 +367,8 @@ public class ApiInvoker {
       String responseString = null;
       if(code == 204) {
         responseString = "";
-		return responseString;
-	  }
+        return responseString;
+      }
       else if(code >= 200 && code < 300) {
         if(response.getEntity() != null) {
           HttpEntity resEntity = response.getEntity();
