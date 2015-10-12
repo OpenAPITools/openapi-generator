@@ -1,11 +1,13 @@
 package io.swagger.client.model;
 
 import io.swagger.client.model.Category;
-import io.swagger.client.model.Tag;
 import java.util.*;
+import io.swagger.client.model.Tag;
+
 
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
+
 
 
 @ApiModel(description = "")
@@ -18,9 +20,9 @@ public class Pet  {
   @SerializedName("name")
   private String name = null;
   @SerializedName("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>() ;
+  private List<String> photoUrls = null;
   @SerializedName("tags")
-  private List<Tag> tags = new ArrayList<Tag>() ;
+  private List<Tag> tags = null;
   public enum StatusEnum {
      available,  pending,  sold, 
   };
@@ -111,3 +113,5 @@ public class Pet  {
     return sb.toString();
   }
 }
+
+

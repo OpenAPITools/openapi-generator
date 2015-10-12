@@ -1,8 +1,10 @@
 package io.swagger.client.model;
 
 
+
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
+
 
 
 @ApiModel(description = "")
@@ -133,3 +135,5 @@ public class User  {
     return sb.toString();
   }
 }
+
+
