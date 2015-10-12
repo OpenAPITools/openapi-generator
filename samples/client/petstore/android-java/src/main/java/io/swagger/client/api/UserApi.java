@@ -11,14 +11,12 @@ import java.util.*;
 import io.swagger.client.model.User;
 import java.util.*;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
-
 
 public class UserApi {
   String basePath = "http://petstore.swagger.io/v2";
@@ -49,11 +47,6 @@ public class UserApi {
    */
   public void  createUser (User body) throws ApiException {
     Object postBody = body;
-    
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
-    }
     
 
     // create path and map variables
@@ -109,11 +102,6 @@ public class UserApi {
   public void  createUsersWithArrayInput (List<User> body) throws ApiException {
     Object postBody = body;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
-    }
-    
 
     // create path and map variables
     String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
@@ -167,11 +155,6 @@ public class UserApi {
    */
   public void  createUsersWithListInput (List<User> body) throws ApiException {
     Object postBody = body;
-    
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
-    }
     
 
     // create path and map variables
@@ -227,16 +210,6 @@ public class UserApi {
    */
   public String  loginUser (String username, String password) throws ApiException {
     Object postBody = null;
-    
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       throw new ApiException(400, "Missing the required parameter 'username' when calling loginUser");
-    }
-    
-    // verify the required parameter 'password' is set
-    if (password == null) {
-       throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
-    }
     
 
     // create path and map variables
@@ -343,7 +316,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. 
    * @return User
    */
   public User  getUserByName (String username) throws ApiException {
@@ -412,11 +385,6 @@ public class UserApi {
     // verify the required parameter 'username' is set
     if (username == null) {
        throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
-    }
-    
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
     }
     
 
@@ -524,4 +492,3 @@ public class UserApi {
   }
   
 }
-

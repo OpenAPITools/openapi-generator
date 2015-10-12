@@ -2,10 +2,8 @@ package io.swagger.client.model;
 
 import java.util.Date;
 
-
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
-
 
 
 @ApiModel(description = "")
@@ -111,5 +109,3 @@ public class Order  {
     return sb.toString();
   }
 }
-
-
