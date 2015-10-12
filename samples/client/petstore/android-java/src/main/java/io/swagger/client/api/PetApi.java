@@ -10,6 +10,8 @@ import java.util.*;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
+import io.swagger.client.model.ApiResponse;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -17,6 +19,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
+
 
 public class PetApi {
   String basePath = "http://petstore.swagger.io/v2";
@@ -47,6 +50,11 @@ public class PetApi {
    */
   public void  updatePet (Pet body) throws ApiException {
     Object postBody = body;
+    
+    // verify the required parameter 'body' is set
+    if (body == null) {
+       throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
+    }
     
 
     // create path and map variables
@@ -102,6 +110,11 @@ public class PetApi {
   public void  addPet (Pet body) throws ApiException {
     Object postBody = body;
     
+    // verify the required parameter 'body' is set
+    if (body == null) {
+       throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
+    }
+    
 
     // create path and map variables
     String path = "/pet".replaceAll("\\{format\\}","json");
@@ -156,6 +169,11 @@ public class PetApi {
   public List<Pet>  findPetsByStatus (List<String> status) throws ApiException {
     Object postBody = null;
     
+    // verify the required parameter 'status' is set
+    if (status == null) {
+       throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
+    }
+    
 
     // create path and map variables
     String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
@@ -168,7 +186,7 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    queryParams.addAll(ApiInvoker.parameterToPairs("multi", "status", status));
+    queryParams.addAll(ApiInvoker.parameterToPairs("csv", "status", status));
     
 
     
@@ -212,6 +230,11 @@ public class PetApi {
   public List<Pet>  findPetsByTags (List<String> tags) throws ApiException {
     Object postBody = null;
     
+    // verify the required parameter 'tags' is set
+    if (tags == null) {
+       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
+    }
+    
 
     // create path and map variables
     String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
@@ -224,7 +247,7 @@ public class PetApi {
     Map<String, String> formParams = new HashMap<String, String>();
 
     
-    queryParams.addAll(ApiInvoker.parameterToPairs("multi", "tags", tags));
+    queryParams.addAll(ApiInvoker.parameterToPairs("csv", "tags", tags));
     
 
     
@@ -261,8 +284,8 @@ public class PetApi {
   
   /**
    * Find pet by ID
-   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * Returns a single pet
+   * @param petId ID of pet to return
    * @return Pet
    */
   public Pet  getPetById (Long petId) throws ApiException {
@@ -326,7 +349,7 @@ public class PetApi {
    * @param status Updated status of the pet
    * @return void
    */
-  public void  updatePetWithForm (String petId, String name, String status) throws ApiException {
+  public void  updatePetWithForm (Long petId, String name, String status) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -457,9 +480,9 @@ public class PetApi {
    * @param petId ID of pet to update
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
-   * @return void
+   * @return ApiResponse
    */
-  public void  uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
+  public ApiResponse  uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -512,10 +535,10 @@ public class PetApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
       if(response != null){
-        return ;
+        return (ApiResponse) ApiInvoker.deserialize(response, "", ApiResponse.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       throw ex;
@@ -523,3 +546,4 @@ public class PetApi {
   }
   
 }
+
