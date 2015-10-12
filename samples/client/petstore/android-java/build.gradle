@@ -1,7 +1,5 @@
-
 group = 'io.swagger'
 project.version = '1.0.0'
-
 
 buildscript {
     repositories {
@@ -23,9 +21,7 @@ allprojects {
 
 
 apply plugin: 'com.android.library'
-
 apply plugin: 'com.github.dcendents.android-maven'
-
 
 android {
     compileSdkVersion 22
@@ -85,7 +81,6 @@ afterEvaluate {
     }
 }
 
-
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
@@ -94,4 +89,3 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives sourcesJar
 }
-

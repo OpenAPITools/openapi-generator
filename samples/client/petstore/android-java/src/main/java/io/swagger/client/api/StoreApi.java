@@ -11,14 +11,12 @@ import java.util.*;
 import java.util.Map;
 import io.swagger.client.model.Order;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
-
 
 public class StoreApi {
   String basePath = "http://petstore.swagger.io/v2";
@@ -103,11 +101,6 @@ public class StoreApi {
   public Order  placeOrder (Order body) throws ApiException {
     Object postBody = body;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
-    }
-    
 
     // create path and map variables
     String path = "/store/order".replaceAll("\\{format\\}","json");
@@ -159,7 +152,7 @@ public class StoreApi {
    * @param orderId ID of pet that needs to be fetched
    * @return Order
    */
-  public Order  getOrderById (Long orderId) throws ApiException {
+  public Order  getOrderById (String orderId) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -272,4 +265,3 @@ public class StoreApi {
   }
   
 }
-
