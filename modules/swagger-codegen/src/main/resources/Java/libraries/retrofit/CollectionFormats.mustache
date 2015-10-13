@@ -30,7 +30,7 @@ public class CollectionFormats {
         
         @Override
         public String toString() {
-            return String.join(",", params);
+            return StringUtil.join(params.toArray(new String[0]), ",");
         }
         
     }
@@ -50,7 +50,7 @@ public class CollectionFormats {
 
         @Override
         public String toString() {
-            return String.join(" ", params);
+            return StringUtil.join(params.toArray(new String[0]), " ");
         }
     }
     
@@ -69,7 +69,7 @@ public class CollectionFormats {
 
         @Override
         public String toString() {
-            return String.join("\t", params);
+            return StringUtil.join( params.toArray(new String[0]), "\t");
         }
     }
     
@@ -88,7 +88,7 @@ public class CollectionFormats {
 
         @Override
         public String toString() {
-            return String.join("|", params);
+            return StringUtil.join(params.toArray(new String[0]), "|");
         }
     }
     
