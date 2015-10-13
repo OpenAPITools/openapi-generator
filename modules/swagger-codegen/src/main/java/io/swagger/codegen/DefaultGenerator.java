@@ -12,6 +12,7 @@ import io.swagger.models.License;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
+import io.swagger.models.SecurityRequirement;
 import io.swagger.models.Swagger;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
@@ -476,6 +477,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
 
                     List<Map<String, List<String>>> securities = operation.getSecurity();
+                    if (securities == null && swagger.getSecurity() != null) {
+                        securities = new ArrayList<Map<String, List<String>>>();
+                        for (SecurityRequirement sr : swagger.getSecurity()) {
+                            securities.add(sr.getRequirements());
+                        }
+                    }
                     if (securities == null) {
                         continue;
                     }
