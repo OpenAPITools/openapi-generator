@@ -139,4 +139,52 @@ public class CodegenTest {
         Assert.assertTrue(op.bodyParam.isBinary);
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
+    
+    @Test(description = "use operation consumes and produces")
+    public void localConsumesAndProducesTest() {
+        final Swagger model = new SwaggerParser().read("src/test/resources/2_0/globalConsumesAndProduces.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/tests/localConsumesAndProduces";
+        final Operation p = model.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions(), model);
+        
+        Assert.assertTrue(op.hasConsumes);
+        Assert.assertEquals(op.consumes.size(), 1);
+        Assert.assertEquals(op.consumes.get(0).get("mediaType"), "application/json");
+        Assert.assertTrue(op.hasProduces);
+        Assert.assertEquals(op.produces.size(), 1);
+        Assert.assertEquals(op.produces.get(0).get("mediaType"), "application/json");
+    }
+    
+    @Test(description = "use spec consumes and produces")
+    public void globalConsumesAndProducesTest() {
+        final Swagger model = new SwaggerParser().read("src/test/resources/2_0/globalConsumesAndProduces.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/tests/globalConsumesAndProduces";
+        final Operation p = model.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions(), model);
+        
+        Assert.assertTrue(op.hasConsumes);
+        Assert.assertEquals(op.consumes.size(), 1);
+        Assert.assertEquals(op.consumes.get(0).get("mediaType"), "application/global_consumes");
+        Assert.assertTrue(op.hasProduces);
+        Assert.assertEquals(op.produces.size(), 1);
+        Assert.assertEquals(op.produces.get(0).get("mediaType"), "application/global_produces");
+    }
+ 
+    @Test(description = "use operation consumes and produces (reset in operation with empty array)")
+    public void localResetConsumesAndProducesTest() {
+        final Swagger model = new SwaggerParser().read("src/test/resources/2_0/globalConsumesAndProduces.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/tests/localResetConsumesAndProduces";
+        final Operation p = model.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions(), model);
+        
+        Assert.assertNotNull(op);
+        Assert.assertFalse(op.hasConsumes);
+        Assert.assertNull(op.consumes);
+        Assert.assertFalse(op.hasProduces);
+        Assert.assertNull(op.produces);
+
+    }
 }

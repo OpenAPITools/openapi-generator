@@ -1,9 +1,11 @@
 package io.swagger.codegen.languages;
 
 import com.google.common.base.Predicate;
+
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import io.swagger.codegen.*;
+import io.swagger.models.Swagger;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.parameters.HeaderParameter;
@@ -256,7 +258,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
-  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
+  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
     path = normalizePath(path);
     List<Parameter> parameters = operation.getParameters();
     parameters = Lists.newArrayList(Iterators.filter(parameters.iterator(), new Predicate<Parameter>() {
@@ -266,7 +268,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       }
     }));
     operation.setParameters(parameters);
-    return super.fromOperation(path, httpMethod, operation, definitions);
+    return super.fromOperation(path, httpMethod, operation, definitions, swagger);
   }
 
   private static String normalizePath(String path) {
