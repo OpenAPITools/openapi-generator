@@ -867,12 +867,8 @@ public class DefaultCodegen {
         }
         return responses.get(code);
     }
-    
+
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
-    	return fromOperation(path, httpMethod, operation, definitions, null);
-    }
-    
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
         op.vendorExtensions = operation.getVendorExtensions();
@@ -908,32 +904,15 @@ public class DefaultCodegen {
         op.summary = escapeText(operation.getSummary());
         op.notes = escapeText(operation.getDescription());
         op.tags = operation.getTags();
-        op.hasConsumes = false;
-        op.hasProduces = false;
 
-        List<String> consumes = new ArrayList<String>();
-        if (operation.getConsumes() != null) {
-        	if (operation.getConsumes().size() > 0) {
-        	    // use consumes defined in the operation
-        	    consumes = operation.getConsumes();
-        	} else {
-        		// empty list, do nothing to override global setting
-        	}
-        } else if (swagger != null && swagger.getConsumes() != null && swagger.getConsumes().size() > 0) {
-        	// use consumes defined globally 
-        	consumes = swagger.getConsumes();
-        	LOGGER.debug("No consumes defined in operation. Using global consumes (" + swagger.getConsumes() + ") for " + op.operationId);
-        }
-        
-        // if "consumes" is defined (per operation or using global definition)
-        if (consumes != null && consumes.size() > 0) {
+        if (operation.getConsumes() != null && operation.getConsumes().size() > 0) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             int count = 0;
-            for (String key : consumes) {
+            for (String key : operation.getConsumes()) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 mediaType.put("mediaType", key);
                 count += 1;
-                if (count < consumes.size()) {
+                if (count < operation.getConsumes().size()) {
                     mediaType.put("hasMore", "true");
                 } else {
                     mediaType.put("hasMore", null);
@@ -944,29 +923,14 @@ public class DefaultCodegen {
             op.hasConsumes = true;
         }
 
-        List<String> produces = new ArrayList<String>();
-        if (operation.getProduces() != null) {
-        	if (operation.getProduces().size() > 0) {
-        	    // use produces defined in the operation
-        	    produces = operation.getProduces();
-        	} else {
-        		// empty list, do nothing to override global setting
-        	}
-        } else if (swagger != null && swagger.getProduces() != null && swagger.getProduces().size() > 0) {
-        	// use produces defined globally 
-        	produces = swagger.getProduces();
-        	LOGGER.debug("No produces defined in operation. Using global produces (" + swagger.getProduces() + ") for " + op.operationId);
-        }
-        
-        // if "produces" is defined (per operation or using global definition)
-        if (produces != null && produces.size() > 0) {
+        if (operation.getProduces() != null && operation.getProduces().size() > 0) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             int count = 0;
-            for (String key : produces) {
+            for (String key : operation.getProduces()) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 mediaType.put("mediaType", key);
                 count += 1;
-                if (count < produces.size()) {
+                if (count < operation.getProduces().size()) {
                     mediaType.put("hasMore", "true");
                 } else {
                     mediaType.put("hasMore", null);
