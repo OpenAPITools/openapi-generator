@@ -17,11 +17,14 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.fail;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertNull;
 
 /**
  * Tests for DefaultGenerator logic
@@ -42,6 +45,95 @@ public class DefaultGeneratorTest {
     @AfterMethod
     public void tearDown() throws Exception {
         folder.delete();
+    }
+
+    @Test
+    public void testSecurityWithoutGlobal() throws Exception {
+        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/petstore.json");
+        CodegenConfig codegenConfig = new JavaClientCodegen();
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator gen = new DefaultGenerator();
+        gen.opts(clientOptInput);
+        Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
+
+        CodegenSecurity cs, apiKey, petstoreAuth;
+
+        // security of "getPetById": api_key, petstore_auth
+        CodegenOperation getPetById = findCodegenOperationByOperationId(paths, "getPetById");
+        assertEquals(getPetById.authMethods.size(), 2);
+        cs = getPetById.authMethods.get(0);
+        if ("api_key".equals(cs.name)) {
+            apiKey = cs;
+            petstoreAuth = getPetById.authMethods.get(1);
+        } else {
+            petstoreAuth = cs;
+            apiKey = getPetById.authMethods.get(1);
+        }
+        assertEquals(apiKey.name, "api_key");
+        assertEquals(apiKey.type, "apiKey");
+        assertEquals(petstoreAuth.name, "petstore_auth");
+        assertEquals(petstoreAuth.type, "oauth2");
+
+        // security of "updatePetWithForm": petstore_auth
+        CodegenOperation updatePetWithForm = findCodegenOperationByOperationId(paths, "updatePetWithForm");
+        assertEquals(updatePetWithForm.authMethods.size(), 1);
+        petstoreAuth = updatePetWithForm.authMethods.iterator().next();
+        assertEquals(petstoreAuth.name, "petstore_auth");
+        assertEquals(petstoreAuth.type, "oauth2");
+
+        // security of "loginUser": null (no global security either)
+        CodegenOperation loginUser = findCodegenOperationByOperationId(paths, "loginUser");
+        assertNull(loginUser.authMethods);
+    }
+
+    @Test
+    public void testSecurityWithGlobal() throws Exception {
+        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/globalSecurity.json");
+        CodegenConfig codegenConfig = new JavaClientCodegen();
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator gen = new DefaultGenerator();
+        gen.opts(clientOptInput);
+        Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
+
+        CodegenSecurity cs, apiKey, petstoreAuth;
+
+        // security of "getPetById": api_key, petstore_auth
+        CodegenOperation getPetById = findCodegenOperationByOperationId(paths, "getPetById");
+        assertEquals(getPetById.authMethods.size(), 2);
+        cs = getPetById.authMethods.get(0);
+        if ("api_key".equals(cs.name)) {
+            apiKey = cs;
+            petstoreAuth = getPetById.authMethods.get(1);
+        } else {
+            petstoreAuth = cs;
+            apiKey = getPetById.authMethods.get(1);
+        }
+        assertEquals(apiKey.name, "api_key");
+        assertEquals(apiKey.type, "apiKey");
+        assertEquals(petstoreAuth.name, "petstore_auth");
+        assertEquals(petstoreAuth.type, "oauth2");
+
+        // security of "updatePetWithForm": petstore_auth
+        CodegenOperation updatePetWithForm = findCodegenOperationByOperationId(paths, "updatePetWithForm");
+        assertEquals(updatePetWithForm.authMethods.size(), 1);
+        petstoreAuth = updatePetWithForm.authMethods.iterator().next();
+        assertEquals(petstoreAuth.name, "petstore_auth");
+        assertEquals(petstoreAuth.type, "oauth2");
+
+        // security of "loginUser": api_key (from global security)
+        CodegenOperation loginUser = findCodegenOperationByOperationId(paths, "loginUser");
+        assertEquals(loginUser.authMethods.size(), 1);
+        apiKey = loginUser.authMethods.iterator().next();
+        assertEquals(apiKey.name, "api_key");
+        assertEquals(apiKey.type, "apiKey");
+
+        // security of "logoutUser": null (override global security)
+        CodegenOperation logoutUser = findCodegenOperationByOperationId(paths, "logoutUser");
+        assertNull(logoutUser.authMethods);
     }
 
     @Test
@@ -87,6 +179,17 @@ public class DefaultGeneratorTest {
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), UTF_8));
         out.write(TEST_SKIP_OVERWRITE);
         out.close();
+    }
+
+    private CodegenOperation findCodegenOperationByOperationId(Map<String, List<CodegenOperation>> paths, String operationId) {
+        for (List<CodegenOperation> ops : paths.values()) {
+            for (CodegenOperation co : ops) {
+                if (operationId.equals(co.operationId)) {
+                    return co;
+                }
+            }
+        }
+        return null;
     }
 
 }
