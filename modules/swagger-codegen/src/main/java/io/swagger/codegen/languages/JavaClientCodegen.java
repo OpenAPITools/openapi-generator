@@ -427,7 +427,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private String toEnumVarName(String value) {
-        return value.replaceAll("\\W+", "_").toUpperCase();
+        String var = value.replaceAll("\\W+", "_").toUpperCase();
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
+        }
     }
 
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
