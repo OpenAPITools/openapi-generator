@@ -58,23 +58,14 @@ public class DefaultGeneratorTest {
         gen.opts(clientOptInput);
         Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
 
-        CodegenSecurity cs, apiKey, petstoreAuth;
+        CodegenSecurity apiKey, petstoreAuth;
 
-        // security of "getPetById": api_key, petstore_auth
+        // security of "getPetById": api_key
         CodegenOperation getPetById = findCodegenOperationByOperationId(paths, "getPetById");
-        assertEquals(getPetById.authMethods.size(), 2);
-        cs = getPetById.authMethods.get(0);
-        if ("api_key".equals(cs.name)) {
-            apiKey = cs;
-            petstoreAuth = getPetById.authMethods.get(1);
-        } else {
-            petstoreAuth = cs;
-            apiKey = getPetById.authMethods.get(1);
-        }
+        assertEquals(getPetById.authMethods.size(), 1);
+        apiKey = getPetById.authMethods.iterator().next();
         assertEquals(apiKey.name, "api_key");
         assertEquals(apiKey.type, "apiKey");
-        assertEquals(petstoreAuth.name, "petstore_auth");
-        assertEquals(petstoreAuth.type, "oauth2");
 
         // security of "updatePetWithForm": petstore_auth
         CodegenOperation updatePetWithForm = findCodegenOperationByOperationId(paths, "updatePetWithForm");
@@ -99,23 +90,14 @@ public class DefaultGeneratorTest {
         gen.opts(clientOptInput);
         Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
 
-        CodegenSecurity cs, apiKey, petstoreAuth;
+        CodegenSecurity apiKey, petstoreAuth;
 
-        // security of "getPetById": api_key, petstore_auth
+        // security of "getPetById": api_key
         CodegenOperation getPetById = findCodegenOperationByOperationId(paths, "getPetById");
-        assertEquals(getPetById.authMethods.size(), 2);
-        cs = getPetById.authMethods.get(0);
-        if ("api_key".equals(cs.name)) {
-            apiKey = cs;
-            petstoreAuth = getPetById.authMethods.get(1);
-        } else {
-            petstoreAuth = cs;
-            apiKey = getPetById.authMethods.get(1);
-        }
+        assertEquals(getPetById.authMethods.size(), 1);
+        apiKey = getPetById.authMethods.iterator().next();
         assertEquals(apiKey.name, "api_key");
         assertEquals(apiKey.type, "apiKey");
-        assertEquals(petstoreAuth.name, "petstore_auth");
-        assertEquals(petstoreAuth.type, "oauth2");
 
         // security of "updatePetWithForm": petstore_auth
         CodegenOperation updatePetWithForm = findCodegenOperationByOperationId(paths, "updatePetWithForm");
