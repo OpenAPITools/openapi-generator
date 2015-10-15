@@ -46,30 +46,30 @@ use \Exception;
 class ApiException extends Exception
 {
 
-    /** 
-     * The HTTP body of the server response.
-     * @var string
+    /**
+     * The HTTP body of the server response either as Json or string.
+     * @var mixed
      */
     protected $responseBody;
-  
+
     /**
      * The HTTP header of the server response.
      * @var string[]
      */
     protected $responseHeaders;
-  
+
     /**
      * The deserialized response object
      * @var $responseObject;
      */
     protected $responseObject;
- 
+
     /**
      * Constructor
      * @param string $message         Error message
-     * @param string $code            HTTP status code
+     * @param int    $code            HTTP status code
      * @param string $responseHeaders HTTP response header
-     * @param string $responseBody    Deseralized response object
+     * @param mixed  $responseBody    HTTP body of the server response either as Json or string
      */
     public function __construct($message="", $code=0, $responseHeaders=null, $responseBody=null)
     {
@@ -77,7 +77,7 @@ class ApiException extends Exception
         $this->responseHeaders = $responseHeaders;
         $this->responseBody = $responseBody;
     }
-  
+
     /**
      * Gets the HTTP response header
      *
@@ -87,17 +87,17 @@ class ApiException extends Exception
     {
         return $this->responseHeaders;
     }
-  
+
     /**
-     * Gets the HTTP response body
+     * Gets the HTTP body of the server response either as Json or string
      *
-     * @return string HTTP response body
+     * @return mixed HTTP body of the server response either as Json or string
      */
     public function getResponseBody()
     {
         return $this->responseBody;
     }
-  
+
     /**
      * Sets the deseralized response object (during deserialization)
      * @param mixed $obj Deserialized response object
