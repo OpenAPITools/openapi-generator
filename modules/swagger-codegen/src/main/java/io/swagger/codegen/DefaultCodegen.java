@@ -1044,7 +1044,7 @@ public class DefaultCodegen {
             }
         }
         for (String i : imports) {
-            if (!defaultIncludes.contains(i) && !languageSpecificPrimitives.contains(i)) {
+            if (needToImport(i)) {
                 op.imports.add(i);
             }
         }
@@ -1317,6 +1317,12 @@ public class DefaultCodegen {
         return secs;
     }
 
+    protected boolean needToImport(String type) {
+        return !defaultIncludes.contains(type)
+            && !languageSpecificPrimitives.contains(type)
+            && type.indexOf(".") < 0;
+    }
+
     protected List<Map<String, Object>> toExamples(Map<String, Object> examples) {
         if (examples == null) {
             return null;
@@ -1420,7 +1426,7 @@ public class DefaultCodegen {
     }
 
     private void addImport(CodegenModel m, String type) {
-        if (type != null && !languageSpecificPrimitives.contains(type) && !defaultIncludes.contains(type)) {
+        if (type != null && needToImport(type)) {
             m.imports.add(type);
         }
     }
@@ -1599,8 +1605,8 @@ public class DefaultCodegen {
      * @return sanitized string
      */
     public String sanitizeName(String name) {
-        // NOTE: performance wise, we should have written with 2 replaceAll to replace desired 
-        // character with _ or empty character. Below aims to spell out different cases we've 
+        // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
+        // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
         // cases in the future.
 
@@ -1623,7 +1629,7 @@ public class DefaultCodegen {
 
         // input name and age => input_name_and_age
         name = name.replaceAll(" ", "_");
-        
+
         // remove everything else other than word, number and _
         // $php_variable => php_variable
         return name.replaceAll("[^a-zA-Z0-9_]", "");
