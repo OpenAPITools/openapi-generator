@@ -1,14 +1,13 @@
 package io.swagger.client.api;
 
-import io.swagger.client.model.*;
-
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
-import java.util.*;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
+
+import java.util.*;
 
 public interface PetApi {
   
@@ -20,7 +19,7 @@ public interface PetApi {
    * @return Void
    */
   
-  @PUT("/pet")  
+  @PUT("/pet")
   Void updatePet(
     @Body Pet body
   );
@@ -29,14 +28,14 @@ public interface PetApi {
    * Update an existing pet
    * Async method
    * @param body Pet object that needs to be added to the store
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @PUT("/pet")  
+  @PUT("/pet")
   void updatePet(
     @Body Pet body, Callback<Void> cb
-  ); 
+  );
   
   /**
    * Add a new pet to the store
@@ -46,7 +45,7 @@ public interface PetApi {
    * @return Void
    */
   
-  @POST("/pet")  
+  @POST("/pet")
   Void addPet(
     @Body Pet body
   );
@@ -55,14 +54,14 @@ public interface PetApi {
    * Add a new pet to the store
    * Async method
    * @param body Pet object that needs to be added to the store
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @POST("/pet")  
+  @POST("/pet")
   void addPet(
     @Body Pet body, Callback<Void> cb
-  ); 
+  );
   
   /**
    * Finds Pets by status
@@ -72,7 +71,7 @@ public interface PetApi {
    * @return List<Pet>
    */
   
-  @GET("/pet/findByStatus")  
+  @GET("/pet/findByStatus")
   List<Pet> findPetsByStatus(
     @Query("status") List<String> status
   );
@@ -81,14 +80,14 @@ public interface PetApi {
    * Finds Pets by status
    * Async method
    * @param status Status values that need to be considered for filter
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @GET("/pet/findByStatus")  
+  @GET("/pet/findByStatus")
   void findPetsByStatus(
     @Query("status") List<String> status, Callback<List<Pet>> cb
-  ); 
+  );
   
   /**
    * Finds Pets by tags
@@ -98,7 +97,7 @@ public interface PetApi {
    * @return List<Pet>
    */
   
-  @GET("/pet/findByTags")  
+  @GET("/pet/findByTags")
   List<Pet> findPetsByTags(
     @Query("tags") List<String> tags
   );
@@ -107,14 +106,14 @@ public interface PetApi {
    * Finds Pets by tags
    * Async method
    * @param tags Tags to filter by
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @GET("/pet/findByTags")  
+  @GET("/pet/findByTags")
   void findPetsByTags(
     @Query("tags") List<String> tags, Callback<List<Pet>> cb
-  ); 
+  );
   
   /**
    * Find pet by ID
@@ -124,7 +123,7 @@ public interface PetApi {
    * @return Pet
    */
   
-  @GET("/pet/{petId}")  
+  @GET("/pet/{petId}")
   Pet getPetById(
     @Path("petId") Long petId
   );
@@ -133,14 +132,14 @@ public interface PetApi {
    * Find pet by ID
    * Async method
    * @param petId ID of pet that needs to be fetched
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @GET("/pet/{petId}")  
+  @GET("/pet/{petId}")
   void getPetById(
     @Path("petId") Long petId, Callback<Pet> cb
-  ); 
+  );
   
   /**
    * Updates a pet in the store with form data
@@ -153,7 +152,7 @@ public interface PetApi {
    */
   
   @FormUrlEncoded
-  @POST("/pet/{petId}")  
+  @POST("/pet/{petId}")
   Void updatePetWithForm(
     @Path("petId") String petId, @Field("name") String name, @Field("status") String status
   );
@@ -164,15 +163,15 @@ public interface PetApi {
    * @param petId ID of pet that needs to be updated
    * @param name Updated name of the pet
    * @param status Updated status of the pet
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
   @FormUrlEncoded
-  @POST("/pet/{petId}")  
+  @POST("/pet/{petId}")
   void updatePetWithForm(
     @Path("petId") String petId, @Field("name") String name, @Field("status") String status, Callback<Void> cb
-  ); 
+  );
   
   /**
    * Deletes a pet
@@ -183,7 +182,7 @@ public interface PetApi {
    * @return Void
    */
   
-  @DELETE("/pet/{petId}")  
+  @DELETE("/pet/{petId}")
   Void deletePet(
     @Path("petId") Long petId, @Header("api_key") String apiKey
   );
@@ -193,14 +192,14 @@ public interface PetApi {
    * Async method
    * @param petId Pet id to delete
    * @param apiKey 
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
-  @DELETE("/pet/{petId}")  
+  @DELETE("/pet/{petId}")
   void deletePet(
     @Path("petId") Long petId, @Header("api_key") String apiKey, Callback<Void> cb
-  ); 
+  );
   
   /**
    * uploads an image
@@ -213,7 +212,7 @@ public interface PetApi {
    */
   
   @Multipart
-  @POST("/pet/{petId}/uploadImage")  
+  @POST("/pet/{petId}/uploadImage")
   Void uploadFile(
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file
   );
@@ -224,14 +223,14 @@ public interface PetApi {
    * @param petId ID of pet to update
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
-   * @param cb callback method   
+   * @param cb callback method
    * @return void
    */
   
   @Multipart
-  @POST("/pet/{petId}/uploadImage")  
+  @POST("/pet/{petId}/uploadImage")
   void uploadFile(
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<Void> cb
-  ); 
+  );
   
 }
