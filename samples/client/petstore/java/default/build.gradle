@@ -1,5 +1,5 @@
-group = '{{groupId}}'
-version = '{{artifactVersion}}'
+group = 'io.swagger'
+version = '1.0.0'
 
 buildscript {
     repositories {
@@ -76,7 +76,7 @@ if(hasProperty('target') && target == 'android') {
 	
 	install {
 	    repositories.mavenInstaller {
-	        pom.artifactId = '{{artifactId}}'
+	        pom.artifactId = 'swagger-java-client'
 	    }
 	}
 	
@@ -86,10 +86,22 @@ if(hasProperty('target') && target == 'android') {
 	}
 }
 
+ext {
+    swagger_annotations_version = "1.5.0"
+    jackson_version = "2.4.2"
+    jersey_version = "1.18"
+    jodatime_version = "2.3"
+    junit_version = "4.8.1"
+}
+
 dependencies {
-    compile 'io.swagger:swagger-annotations:1.5.0'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.brsanthu:migbase64:2.2'
-    testCompile 'junit:junit:4.8.1'
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.sun.jersey:jersey-client:$jersey_version"
+    compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.1.5"
+    compile "joda-time:joda-time:$jodatime_version"
+    testCompile "junit:junit:$junit_version"
 }
