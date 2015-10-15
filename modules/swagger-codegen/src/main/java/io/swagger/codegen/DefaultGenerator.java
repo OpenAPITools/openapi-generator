@@ -491,6 +491,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     // See the "security" field of "Swagger Object":
                     //  https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#swagger-object
                     //  "there is a logical OR between the security requirements"
+                    if (securities.size() > 1) {
+                        LOGGER.warn("More than 1 security requirements are found, using only the first one");
+                    }
                     Map<String, List<String>> security = securities.get(0);
                     for (String securityName : security.keySet()) {
                         SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
