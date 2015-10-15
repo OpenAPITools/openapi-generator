@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:51.678+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-09T21:30:19.416+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -22,7 +22,9 @@ public class Pet   {
   private List<Tag> tags = new ArrayList<Tag>();
 
 public enum StatusEnum {
-  AVAILABLE("available"), PENDING("pending"), SOLD("sold");
+  AVAILABLE("available"),
+  PENDING("pending"),
+  SOLD("sold");
 
   private String value;
 

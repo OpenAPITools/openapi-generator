@@ -6,22 +6,15 @@ import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
-import io.swagger.client.model.*;
-
 import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
 
-import java.lang.reflect.Type;
-
-import java.util.*;
-
 import io.swagger.client.model.Pet;
 import java.io.File;
 
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class PetApi {
   private ApiClient apiClient;

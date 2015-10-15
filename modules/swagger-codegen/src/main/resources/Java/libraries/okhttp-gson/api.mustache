@@ -6,22 +6,17 @@ import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 
-import {{modelPackage}}.*;
-
 import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
 
-import java.lang.reflect.Type;
-
-import java.util.*;
-
 {{#imports}}import {{import}};
 {{/imports}}
 
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
+import java.lang.reflect.Type;
+{{^fullJavaUtil}}
+import java.util.*;
+{{/fullJavaUtil}}
 
 {{#operations}}
 public class {{classname}} {
@@ -58,15 +53,15 @@ public class {{classname}} {
     String {{localVariablePrefix}}path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
-    List<Pair> {{localVariablePrefix}}queryParams = new ArrayList<Pair>();{{#queryParams}}
+    {{javaUtilPrefix}}List<Pair> {{localVariablePrefix}}queryParams = new {{javaUtilPrefix}}ArrayList<Pair>();{{#queryParams}}
     if ({{paramName}} != null)
       {{localVariablePrefix}}queryParams.addAll({{localVariablePrefix}}apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));{{/queryParams}}
 
-    Map<String, String> {{localVariablePrefix}}headerParams = new HashMap<String, String>();{{#headerParams}}
+    {{javaUtilPrefix}}Map<String, String> {{localVariablePrefix}}headerParams = new {{javaUtilPrefix}}HashMap<String, String>();{{#headerParams}}
     if ({{paramName}} != null)
       {{localVariablePrefix}}headerParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));{{/headerParams}}
 
-    Map<String, Object> {{localVariablePrefix}}formParams = new HashMap<String, Object>();{{#formParams}}
+    {{javaUtilPrefix}}Map<String, Object> {{localVariablePrefix}}formParams = new {{javaUtilPrefix}}HashMap<String, Object>();{{#formParams}}
     if ({{paramName}} != null)
       {{localVariablePrefix}}formParams.put("{{baseName}}", {{paramName}});{{/formParams}}
 
