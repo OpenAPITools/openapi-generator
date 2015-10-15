@@ -14,6 +14,7 @@ import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.apache.oltu.oauth2.common.token.BasicOAuthToken;
 
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -23,11 +24,17 @@ import com.squareup.okhttp.Response;
 
 public class OAuth implements Interceptor {
 
+    public interface AccessTokenListener {
+        public void notify(BasicOAuthToken token);
+    }
+
     private volatile String accessToken;
     private OAuthClient oauthClient;
 
     private TokenRequestBuilder tokenRequestBuilder;
     private AuthenticationRequestBuilder authenticationRequestBuilder;
+
+    private AccessTokenListener accessTokenListener;
 
     public OAuth( OkHttpClient client, TokenRequestBuilder requestBuilder ) {
         this.oauthClient = new OAuthClient(new OAuthOkHttpClient(client));
@@ -110,15 +117,21 @@ public class OAuth implements Interceptor {
     public synchronized void updateAccessToken(String requestAccessToken) throws IOException {
         if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {    
             try {
-                OAuthJSONAccessTokenResponse accessTokenResponse;
-                accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage());
+                OAuthJSONAccessTokenResponse accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage());
                 setAccessToken(accessTokenResponse.getAccessToken());
+                if (accessTokenListener != null) {
+                    accessTokenListener.notify((BasicOAuthToken) accessTokenResponse.getOAuthToken());
+                }
             } catch (OAuthSystemException e) {
                 throw new IOException(e);
             } catch (OAuthProblemException e) {
                 throw new IOException(e);
             }
         }
+    }
+
+    public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+        this.accessTokenListener = accessTokenListener;
     }
 
     public synchronized String getAccessToken() {
