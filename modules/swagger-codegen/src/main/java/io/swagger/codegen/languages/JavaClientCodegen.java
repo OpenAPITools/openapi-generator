@@ -185,6 +185,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
@@ -206,8 +209,6 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("okhttp-gson".equals(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
-            // "build.gradle" is for development with Gradle
-            supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
             // "build.sbt" is for development with SBT
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         } else if ("retrofit".equals(getLibrary())) {

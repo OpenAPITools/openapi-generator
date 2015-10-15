@@ -276,6 +276,9 @@ CONFIG OPTIONS
 	apiPackage
 	    package for generated api classes
 
+	sortParamsByRequiredFlag
+	    Sort method arguments to place required parameters before optional parameters. Default: true
+
 	invokerPackage
 	    root package for generated code
 
@@ -290,6 +293,12 @@ CONFIG OPTIONS
 
 	sourceFolder
 	    source folder for generated code
+
+	localVariablePrefix
+	    prefix for generated code members and local variables
+
+	serializableModel
+	    boolean - toggle "implements Serializable" for generated models
 
 	library
 	    library template (sub-template) to use:
