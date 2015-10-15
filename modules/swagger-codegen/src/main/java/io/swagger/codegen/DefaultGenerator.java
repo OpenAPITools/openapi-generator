@@ -483,16 +483,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             securities.add(sr.getRequirements());
                         }
                     }
-                    if (securities == null) {
+                    if (securities == null || securities.isEmpty()) {
                         continue;
                     }
                     Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-                    for (Map<String, List<String>> security : securities) {
-                        if (security.size() != 1) {
-                            //Not sure what to do
-                            continue;
-                        }
-                        String securityName = security.keySet().iterator().next();
+                    // NOTE: Use only the first security requirement for now.
+                    // See the "security" field of "Swagger Object":
+                    //  https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#swagger-object
+                    //  "there is a logical OR between the security requirements"
+                    Map<String, List<String>> security = securities.get(0);
+                    for (String securityName : security.keySet()) {
                         SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
                         if (securityDefinition != null) {
                             if(securityDefinition instanceof OAuth2Definition) {
@@ -503,7 +503,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                 oauth2Operation.setFlow(oauth2Definition.getFlow());
                                 oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
                                 oauth2Operation.setScopes(new HashMap<String, String>());
-                                for (String scope : security.values().iterator().next()) {
+                                for (String scope : security.get(securityName)) {
                                     if (oauth2Definition.getScopes().containsKey(scope)) {
                                         oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
                                     }
