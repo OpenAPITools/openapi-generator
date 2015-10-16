@@ -30,7 +30,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         outputFolder = "generated-code/android";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        templateDir = "android-java";
+        embeddedTemplateDir = templateDir = "android-java";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 

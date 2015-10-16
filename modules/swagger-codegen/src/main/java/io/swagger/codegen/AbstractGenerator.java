@@ -70,14 +70,29 @@ public abstract class AbstractGenerator {
             String libTemplateFile = config.templateDir() + File.separator +
                 "libraries" + File.separator + library + File.separator +
                 templateFile;
-            if (templateExists(libTemplateFile)) {
+
+            if (new File(libTemplateFile).exists()) {
+                return libTemplateFile;
+            }
+
+            libTemplateFile = config.embeddedTemplateDir() + File.separator +
+                "libraries" + File.separator + library + File.separator +
+                templateFile;
+            if (embeddedTemplateExists(libTemplateFile)) {
+                // Fall back to the template file embedded/packaged in the JAR file...
                 return libTemplateFile;
             }
         }
-        return config.templateDir() + File.separator + templateFile;
+        String template = config.templateDir() + File.separator + templateFile;
+        if (new File(template).exists()) {
+            return template;
+        } else {
+            // Fall back to the template file embedded/packaged in the JAR file...
+            return config.embeddedTemplateDir() + File.separator + templateFile;
+        }
     }
 
-    public boolean templateExists(String name) {
+    public boolean embeddedTemplateExists(String name) {
         return this.getClass().getClassLoader().getResource(getCPResourcePath(name)) != null;
     }
 

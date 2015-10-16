@@ -25,7 +25,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         outputFolder = "generated-code" + File.separator + "CsharpDotNet2";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-        templateDir = "CsharpDotNet2";
+        embeddedTemplateDir = templateDir = "CsharpDotNet2";
         apiPackage = "IO.Swagger.Api";
         modelPackage = "IO.Swagger.Model";
 

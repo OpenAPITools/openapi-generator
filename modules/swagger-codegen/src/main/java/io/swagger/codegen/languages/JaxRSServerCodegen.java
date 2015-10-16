@@ -31,7 +31,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-        templateDir = "JavaJaxRS";
+        embeddedTemplateDir = templateDir = "JavaJaxRS";
         apiPackage = System.getProperty("swagger.codegen.jaxrs.apipackage", "io.swagger.api");
         modelPackage = System.getProperty("swagger.codegen.jaxrs.modelpackage", "io.swagger.model");
 

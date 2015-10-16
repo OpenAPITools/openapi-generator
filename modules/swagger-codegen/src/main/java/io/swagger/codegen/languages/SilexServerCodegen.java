@@ -35,7 +35,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         modelTemplateFiles.clear();
         apiTemplateFiles.clear();
 
-        templateDir = "silex";
+        embeddedTemplateDir = templateDir = "silex";
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(

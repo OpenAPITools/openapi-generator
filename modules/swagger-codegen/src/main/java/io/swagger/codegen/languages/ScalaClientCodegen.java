@@ -42,7 +42,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         outputFolder = "generated-code/scala";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        templateDir = "scala";
+        embeddedTemplateDir = templateDir = "scala";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
