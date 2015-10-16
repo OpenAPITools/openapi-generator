@@ -738,7 +738,13 @@
           "400": {
             "description": "Invalid username supplied"
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": [],
+            "api_key2": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -815,6 +821,11 @@
       "name": "api_key",
       "in": "header"
     },
+    "api_key2": {
+      "type": "apiKey",
+      "name": "api_key2",
+      "in": "query"
+    },
     "petstore_auth": {
       "type": "oauth2",
       "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
@@ -827,7 +838,11 @@
   },
   "security": [
     {
-      "api_key": []
+      "api_key": [],
+      "petstore_auth": [
+        "write:pets",
+        "read:pets"
+      ]
     }
   ],
   "definitions": {

@@ -90,7 +90,7 @@ public class DefaultGeneratorTest {
         gen.opts(clientOptInput);
         Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
 
-        CodegenSecurity apiKey, petstoreAuth;
+        CodegenSecurity cs, apiKey, apiKey2, petstoreAuth;
 
         // security of "getPetById": api_key
         CodegenOperation getPetById = findCodegenOperationByOperationId(paths, "getPetById");
@@ -106,16 +106,41 @@ public class DefaultGeneratorTest {
         assertEquals(petstoreAuth.name, "petstore_auth");
         assertEquals(petstoreAuth.type, "oauth2");
 
-        // security of "loginUser": api_key (from global security)
+        // security of "loginUser": api_key, petstore_auth (from global security)
         CodegenOperation loginUser = findCodegenOperationByOperationId(paths, "loginUser");
-        assertEquals(loginUser.authMethods.size(), 1);
-        apiKey = loginUser.authMethods.iterator().next();
+        assertEquals(loginUser.authMethods.size(), 2);
+        cs = loginUser.authMethods.get(0);
+        if ("api_key".equals(cs.name)) {
+            apiKey = cs;
+            petstoreAuth = loginUser.authMethods.get(1);
+        } else {
+            petstoreAuth = cs;
+            apiKey = loginUser.authMethods.get(1);
+        }
         assertEquals(apiKey.name, "api_key");
         assertEquals(apiKey.type, "apiKey");
+        assertEquals(petstoreAuth.name, "petstore_auth");
+        assertEquals(petstoreAuth.type, "oauth2");
 
         // security of "logoutUser": null (override global security)
         CodegenOperation logoutUser = findCodegenOperationByOperationId(paths, "logoutUser");
         assertNull(logoutUser.authMethods);
+
+        // security of "getUserByName": api_key, api_key2 (override global security)
+        CodegenOperation getUserByName = findCodegenOperationByOperationId(paths, "getUserByName");
+        assertEquals(getUserByName.authMethods.size(), 2);
+        cs = getUserByName.authMethods.get(0);
+        if ("api_key".equals(cs.name)) {
+            apiKey = cs;
+            apiKey2 = getUserByName.authMethods.get(1);
+        } else {
+            apiKey2 = cs;
+            apiKey = getUserByName.authMethods.get(1);
+        }
+        assertEquals(apiKey.name, "api_key");
+        assertEquals(apiKey.type, "apiKey");
+        assertEquals(apiKey2.name, "api_key2");
+        assertEquals(apiKey2.type, "apiKey");
     }
 
     @Test
