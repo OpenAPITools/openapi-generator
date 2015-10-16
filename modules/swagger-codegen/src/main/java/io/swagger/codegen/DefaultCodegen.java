@@ -1205,6 +1205,9 @@ public class DefaultCodegen {
             p._enum = model._enum;
             p.allowableValues = model.allowableValues;
             p.collectionFormat = collectionFormat;
+            if(collectionFormat != null && collectionFormat.equals("multi")) {
+                p.isCollectionFormatMulti = true;
+            }
             p.paramName = toParamName(qp.getName());
 
             if (model.complexType != null) {
