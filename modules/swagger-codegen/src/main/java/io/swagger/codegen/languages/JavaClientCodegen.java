@@ -12,6 +12,7 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Model;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
@@ -344,6 +345,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 pattern = "new HashMap<String, %s>()";
             }
             return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()));
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString()+"l";
+            }
+           return "null";
         }
         return super.toDefaultValue(p);
     }
