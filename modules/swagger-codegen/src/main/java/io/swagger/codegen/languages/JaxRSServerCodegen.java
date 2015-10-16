@@ -16,16 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.api";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-jaxrs-server";
-    protected String artifactVersion = "1.0.0";
     protected String title = "Swagger Server";
 
     public JaxRSServerCodegen() {
         super.processOpts();
 
         sourceFolder = "src/gen/java";
+        invokerPackage = "io.swagger.api";
+        artifactId = "swagger-jaxrs-server";
 
         outputFolder = System.getProperty("swagger.codegen.jaxrs.genfolder", "generated-code/javaJaxRS");
         modelTemplateFiles.put("model.mustache", ".java");
