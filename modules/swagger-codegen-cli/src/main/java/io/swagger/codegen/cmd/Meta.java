@@ -1,6 +1,7 @@
 package io.swagger.codegen.cmd;
 
 import ch.lambdaj.function.convert.Converter;
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -9,7 +10,6 @@ import io.airlift.airline.Option;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.SupportingFile;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +55,7 @@ public class Meta implements Runnable {
         final File targetDir = new File(outputFolder);
         LOG.info("writing to folder [{}]", targetDir.getAbsolutePath());
 
-        String mainClass = StringUtils.capitalize(name) + "Generator";
+        String mainClass = CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, name) + "Generator";
 
         List<SupportingFile> supportingFiles = ImmutableList.of(
                 new SupportingFile("pom.mustache", "", "pom.xml"),
@@ -68,11 +68,18 @@ public class Meta implements Runnable {
                         "src/main/resources/META-INF/services", "io.swagger.codegen.CodegenConfig")
         );
 
+        String swaggerVersion = this.getClass().getPackage().getImplementationVersion();
+        // if the code is running outside of the jar (i.e. from the IDE), it will not have the version available.
+        // let's default it with something.
+        if (swaggerVersion==null) {
+            swaggerVersion = "2.1.3";
+        }
         Map<String, Object> data = new ImmutableMap.Builder<String, Object>()
                 .put("generatorPackage", targetPackage)
                 .put("generatorClass", mainClass)
                 .put("name", name)
-                .put("fullyQualifiedGeneratorClass", targetPackage + "." + mainClass).build();
+                .put("fullyQualifiedGeneratorClass", targetPackage + "." + mainClass)
+                .put("swaggerCodegenVersion", swaggerVersion).build();
 
 
         with(supportingFiles).convert(processFiles(targetDir, data));
