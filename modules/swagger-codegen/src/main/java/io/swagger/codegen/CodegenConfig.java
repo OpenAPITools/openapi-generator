@@ -29,6 +29,8 @@ public interface CodegenConfig {
 
     String templateDir();
 
+    String embeddedTemplateDir();
+
     String modelFileFolder();
 
     String modelPackage();

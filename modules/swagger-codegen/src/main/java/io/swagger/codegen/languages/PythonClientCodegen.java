@@ -27,7 +27,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         outputFolder = "generated-code" + File.separatorChar + "python";
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
-        templateDir = "python";
+        embeddedTemplateDir = templateDir = "python";
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");

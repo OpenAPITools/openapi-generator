@@ -36,7 +36,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model-body.mustache", ".m");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".m");
-        templateDir = "objc";
+        embeddedTemplateDir = templateDir = "objc";
 
         defaultIncludes.clear();
         defaultIncludes.add("bool");

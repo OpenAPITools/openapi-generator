@@ -78,6 +78,7 @@ public class DefaultCodegen {
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected String templateDir;
+    protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
@@ -181,6 +182,14 @@ public class DefaultCodegen {
 
     public String templateDir() {
         return templateDir;
+    }
+
+    public String embeddedTemplateDir() {
+        if (embeddedTemplateDir != null) {
+            return embeddedTemplateDir;
+        } else {
+            return templateDir;
+        }
     }
 
     public Map<String, String> apiTemplateFiles() {

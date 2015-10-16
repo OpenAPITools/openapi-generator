@@ -27,7 +27,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         outputFolder = "generated-code" + File.separator + "csharp";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-        templateDir = "csharp";
+        embeddedTemplateDir = templateDir = "csharp";
         apiPackage = "IO.Swagger.Api";
         modelPackage = "IO.Swagger.Model";
 
