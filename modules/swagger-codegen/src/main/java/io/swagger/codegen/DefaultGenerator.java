@@ -126,6 +126,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         String basePath = hostBuilder.toString();
 
 
+        // resolve inline models
+        InlineModelResolver inlineModelResolver = new InlineModelResolver();
+        inlineModelResolver.flatten(swagger);
+
         List<Object> allOperations = new ArrayList<Object>();
         List<Object> allModels = new ArrayList<Object>();
 
