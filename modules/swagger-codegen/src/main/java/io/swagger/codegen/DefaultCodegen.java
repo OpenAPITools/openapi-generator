@@ -913,16 +913,16 @@ public class DefaultCodegen {
 
         List<String> consumes = new ArrayList<String>();
         if (operation.getConsumes() != null) {
-        	if (operation.getConsumes().size() > 0) {
-        	    // use consumes defined in the operation
-        	    consumes = operation.getConsumes();
-        	} else {
-        		// empty list, do nothing to override global setting
-        	}
+            if (operation.getConsumes().size() > 0) {
+                // use consumes defined in the operation
+                consumes = operation.getConsumes();
+            } else {
+                // empty list, do nothing to override global setting
+            }
         } else if (swagger != null && swagger.getConsumes() != null && swagger.getConsumes().size() > 0) {
-        	// use consumes defined globally 
-        	consumes = swagger.getConsumes();
-        	LOGGER.debug("No consumes defined in operation. Using global consumes (" + swagger.getConsumes() + ") for " + op.operationId);
+            // use consumes defined globally 
+            consumes = swagger.getConsumes();
+            LOGGER.debug("No consumes defined in operation. Using global consumes (" + swagger.getConsumes() + ") for " + op.operationId);
         }
         
         // if "consumes" is defined (per operation or using global definition)
@@ -946,16 +946,16 @@ public class DefaultCodegen {
 
         List<String> produces = new ArrayList<String>();
         if (operation.getProduces() != null) {
-        	if (operation.getProduces().size() > 0) {
-        	    // use produces defined in the operation
-        	    produces = operation.getProduces();
-        	} else {
-        		// empty list, do nothing to override global setting
-        	}
+            if (operation.getProduces().size() > 0) {
+                // use produces defined in the operation
+                produces = operation.getProduces();
+            } else {
+                // empty list, do nothing to override global setting
+            }
         } else if (swagger != null && swagger.getProduces() != null && swagger.getProduces().size() > 0) {
-        	// use produces defined globally 
-        	produces = swagger.getProduces();
-        	LOGGER.debug("No produces defined in operation. Using global produces (" + swagger.getProduces() + ") for " + op.operationId);
+            // use produces defined globally 
+            produces = swagger.getProduces();
+            LOGGER.debug("No produces defined in operation. Using global produces (" + swagger.getProduces() + ") for " + op.operationId);
         }
         
         // if "produces" is defined (per operation or using global definition)
