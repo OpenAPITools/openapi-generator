@@ -86,10 +86,18 @@ if(hasProperty('target') && target == 'android') {
 	}
 }
 
+ext {
+    okhttp_version = "2.3.0"
+    oltu_version = "1.0.0"
+    retrofit_version = "1.9.0"
+    swagger_annotations_version = "1.5.0"
+    junit_version = "4.12"
+}
+
 dependencies {
-    compile 'io.swagger:swagger-annotations:1.5.0'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.brsanthu:migbase64:2.2'
-    testCompile 'junit:junit:4.8.1'
+    compile "com.squareup.okhttp:okhttp:$okhttp_version"
+    compile "com.squareup.retrofit:retrofit:$retrofit_version"
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+    testCompile "junit:junit:$junit_version"
 }

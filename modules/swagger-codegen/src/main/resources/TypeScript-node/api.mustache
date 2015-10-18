@@ -27,7 +27,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 }
 
 {{#hasEnums}}
-export module {{classname}} {
+export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
     export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
@@ -157,15 +157,15 @@ export class {{classname}} {
 {{#operation}}
 
     public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }> {
-        var path = this.url + this.basePath + '{{path}}';
+        let path = this.url + this.basePath + '{{path}}';
 
 {{#pathParams}}
         path = path.replace('{' + '{{baseName}}' + '}', String({{paramName}}));
 
 {{/pathParams}}
-        var queryParameters: any = {};
-        var headerParams: any = {};
-        var formParams: any = {};
+        let queryParameters: any = {};
+        let headerParams: any = {};
+        let formParams: any = {};
 
 {{#allParams}}{{#required}}
         // verify required parameter '{{paramName}}' is set
@@ -183,7 +183,7 @@ export class {{classname}} {
         headerParams['{{baseName}}'] = {{paramName}};
 
 {{/headerParams}}
-        var useFormData = false;
+        let useFormData = false;
 
 {{#formParams}}
         if ({{paramName}} !== undefined) {
@@ -194,9 +194,9 @@ export class {{classname}} {
 {{/isFile}}
 
 {{/formParams}}
-        var deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }>();
+        let deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }>();
 
-        var requestOptions: request.Options = {
+        let requestOptions: request.Options = {
             method: '{{httpMethod}}',
             qs: queryParameters,
             headers: headerParams,
