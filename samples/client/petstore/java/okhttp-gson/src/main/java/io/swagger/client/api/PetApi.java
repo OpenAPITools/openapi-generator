@@ -6,22 +6,15 @@ import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
-import io.swagger.client.model.*;
-
 import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
 
-import java.lang.reflect.Type;
-
-import java.util.*;
-
 import io.swagger.client.model.Pet;
 import java.io.File;
 
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class PetApi {
   private ApiClient apiClient;
@@ -297,7 +290,7 @@ public class PetApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
-    String[] authNames = new String[] { "petstore_auth", "api_key" };
+    String[] authNames = new String[] { "api_key" };
     return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames);
   }
 
