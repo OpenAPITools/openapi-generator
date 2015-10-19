@@ -75,29 +75,26 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             request.authenticate(usingCredential: credential)
         }
 
-        request.responseJSON(options: .AllowFragments) { (req, res, result) in
+        request.responseJSON(options: .AllowFragments) { response in
             managerStore.removeValueForKey(managerId)
 
-            if result.isFailure {
-                completion(response: nil, erorr: result.error)
+            if response.result.isFailure {
+                completion(response: nil, erorr: response.result.error)
                 return
             }
 
             if () is T {
-                let response = Response(response: res!, body: () as! T)
-                completion(response: response, erorr: nil)
+                completion(response: Response(response: response.response!, body: () as! T), erorr: nil)
                 return
             }
-            if let json: AnyObject = result.value {
+            if let json: AnyObject = response.result.value {
                 let body = Decoders.decode(clazz: T.self, source: json)
-                let response = Response(response: res!, body: body)
-                completion(response: response, erorr: nil)
+                completion(response: Response(response: response.response!, body: body), erorr: nil)
                 return
             } else if "" is T {
                 // swagger-parser currently doesn't support void, which will be fixed in future swagger-parser release
                 // https://github.com/swagger-api/swagger-parser/pull/34
-                let response = Response(response: res!, body: "" as! T)
-                completion(response: response, erorr: nil)
+                completion(response: Response(response: response.response!, body: "" as! T), erorr: nil)
                 return
             }
 
@@ -113,4 +110,3 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return httpHeaders
     }
 }
-
