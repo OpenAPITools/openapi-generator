@@ -519,6 +519,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                     if (!authMethods.isEmpty()) {
                         co.authMethods = config.fromSecurity(authMethods);
+                        co.hasAuthMethods = true;
                     }
                 }
                 catch (Exception ex) {

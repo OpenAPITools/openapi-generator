@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +32,20 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-09-30T16:27:59.075+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-16T21:16:24.594-04:00")
 public class PetApi {
   
 
-  @ApiOperation(value = "Update an existing pet", notes = "", response = Void.class)
+  @ApiOperation(value = "Update an existing pet", notes = "", response = Void.class, authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
-    @ApiResponse(code = 405, message = "Validation exception"),
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
     @ApiResponse(code = 404, message = "Pet not found"),
-    @ApiResponse(code = 400, message = "Invalid ID supplied") })
+    @ApiResponse(code = 405, message = "Validation exception") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
     consumes = { "application/json", "application/xml" },
@@ -54,7 +61,12 @@ public class PetApi {
 
   
 
-  @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class)
+  @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "", 
@@ -72,7 +84,12 @@ public class PetApi {
 
   
 
-  @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma seperated strings", response = Pet.class, responseContainer = "List")
+  @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma seperated strings", response = Pet.class, responseContainer = "List", authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation"),
     @ApiResponse(code = 400, message = "Invalid status value") })
@@ -91,7 +108,12 @@ public class PetApi {
 
   
 
-  @ApiOperation(value = "Finds Pets by tags", notes = "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List")
+  @ApiOperation(value = "Finds Pets by tags", notes = "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation"),
     @ApiResponse(code = 400, message = "Invalid tag value") })
@@ -110,11 +132,17 @@ public class PetApi {
 
   
 
-  @ApiOperation(value = "Find pet by ID", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = Pet.class)
+  @ApiOperation(value = "Find pet by ID", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = Pet.class, authorizations = {
+    @Authorization(value = "api_key"),
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
-    @ApiResponse(code = 404, message = "Pet not found"),
     @ApiResponse(code = 200, message = "successful operation"),
-    @ApiResponse(code = 400, message = "Invalid ID supplied") })
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Pet not found") })
   @RequestMapping(value = "/{petId}", 
     produces = { "application/json", "application/xml" }, 
     
@@ -130,7 +158,12 @@ public class PetApi {
 
   
 
-  @ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class)
+  @ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class, authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "/{petId}", 
@@ -158,7 +191,12 @@ public class PetApi {
 
   
 
-  @ApiOperation(value = "Deletes a pet", notes = "", response = Void.class)
+  @ApiOperation(value = "Deletes a pet", notes = "", response = Void.class, authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
     @ApiResponse(code = 400, message = "Invalid pet value") })
   @RequestMapping(value = "/{petId}", 
@@ -180,7 +218,12 @@ public class PetApi {
 
   
 
-  @ApiOperation(value = "uploads an image", notes = "", response = Void.class)
+  @ApiOperation(value = "uploads an image", notes = "", response = Void.class, authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      })
+  })
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/{petId}/uploadImage", 
