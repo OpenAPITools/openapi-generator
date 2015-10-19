@@ -1,20 +1,15 @@
 package io.swagger.codegen;
 
 
-import com.sun.xml.internal.ws.wsdl.writer.document.soap.Body;
 import io.swagger.models.*;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.*;
-import io.swagger.util.Json;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import java.lang.reflect.Array;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.testng.AssertJUnit.*;
 
 public class InlineModelResolverTest {
     @Test
