@@ -1,6 +1,7 @@
 package io.swagger.codegen;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 public class CodegenSecurity {
     public String name;
@@ -11,5 +12,5 @@ public class CodegenSecurity {
     public Boolean isKeyInQuery, isKeyInHeader;
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
-    public Set<String> scopes;
+    public List<Map<String, Object>> scopes;
 }

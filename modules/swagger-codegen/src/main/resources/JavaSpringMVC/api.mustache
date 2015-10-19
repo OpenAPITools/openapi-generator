@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,13 @@ import static org.springframework.http.MediaType.*;
 public class {{classname}} {
   {{#operation}}
 
-  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}})
+  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+    {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+      {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+      {{/hasMore}}{{/scopes}}
+      }{{/isOAuth}}){{#hasMore}},
+    {{/hasMore}}{{/authMethods}}
+  }{{/hasAuthMethods}})
   @ApiResponses(value = { {{#responses}}
     @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},{{/hasMore}}{{/responses}} })
   @RequestMapping(value = "{{path}}", 

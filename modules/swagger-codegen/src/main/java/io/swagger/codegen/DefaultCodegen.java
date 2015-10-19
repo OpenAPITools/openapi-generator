@@ -1346,7 +1346,23 @@ public class DefaultCodegen {
                 sec.authorizationUrl = oauth2Definition.getAuthorizationUrl();
                 sec.tokenUrl = oauth2Definition.getTokenUrl();
                 if (oauth2Definition.getScopes() != null) {
-                    sec.scopes = oauth2Definition.getScopes().keySet();
+                    List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
+                    int count = 0, numScopes = oauth2Definition.getScopes().size();
+                    for(Map.Entry<String, String> scopeEntry : oauth2Definition.getScopes().entrySet()) {
+                        Map<String, Object> scope = new HashMap<String, Object>();
+                        scope.put("scope", scopeEntry.getKey());
+                        scope.put("description", scopeEntry.getValue());
+                        
+                        count += 1;
+                        if (count < numScopes) {
+                            scope.put("hasMore", "true");
+                        } else {
+                            scope.put("hasMore", null);
+                        }
+                        
+                        scopes.add(scope);
+                    }
+                    sec.scopes = scopes;
                 }
             }
 

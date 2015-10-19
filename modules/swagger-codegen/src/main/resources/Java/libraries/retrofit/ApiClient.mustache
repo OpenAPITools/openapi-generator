@@ -54,7 +54,7 @@ public class ApiClient {
             if (authName == "{{name}}") { {{#isBasic}}
                 auth = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
                 auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
-                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{^-first}}, {{/-first}}{{this}}{{/scopes}}");{{/isOAuth}}
+                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");{{/isOAuth}}
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
