@@ -4,10 +4,16 @@ package io.swagger.codegen;
 import io.swagger.models.*;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.ObjectProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.*;
 import io.swagger.util.Json;
 import org.junit.Test;
+
+import java.lang.reflect.Array;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class InlineModelResolverTest {
     @Test
@@ -31,7 +37,15 @@ public class InlineModelResolverTest {
 
         new InlineModelResolver().flatten(swagger);
 
-        Json.prettyPrint(swagger);
+        ModelImpl user = (ModelImpl)swagger.getDefinitions().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof RefProperty);
+
+        ModelImpl address = (ModelImpl)swagger.getDefinitions().get("User_address");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
     }
 
     @Test
@@ -50,12 +64,18 @@ public class InlineModelResolverTest {
                                 .vendorExtension("x-foo", "bar")
                                 .description("it works!")
                                 .schema(new ObjectProperty()
-                                        .vendorExtension("x-baz", "boo")
-                                        .property("name", new StringProperty()
-                                            .vendorExtension("x-bars", "bleh"))))));
+                                        .property("name", new StringProperty())))));
         new InlineModelResolver().flatten(swagger);
 
-        Json.prettyPrint(swagger);
+        Map<String, Response> responses = swagger.getPaths().get("/foo/bar").getGet().getResponses();
+
+        Response response = responses.get("200");
+        assertNotNull(response);
+        assertTrue(response.getSchema() instanceof RefProperty);
+
+        ModelImpl model = (ModelImpl)swagger.getDefinitions().get("inline_response_200");
+        assertTrue(model.getProperties().size() == 1);
+        assertNotNull(model.getProperties().get("name"));
     }
 
     @Test
@@ -76,7 +96,12 @@ public class InlineModelResolverTest {
 
         new InlineModelResolver().flatten(swagger);
 
-        Json.prettyPrint(swagger);
+        Model model = swagger.getDefinitions().get("User");
+        assertTrue(model instanceof ArrayModel);
+
+        Model user = swagger.getDefinitions().get("User_inner");
+        assertNotNull(user);
+        assertEquals("description", user.getDescription());
     }
 
     @Test
@@ -92,6 +117,80 @@ public class InlineModelResolverTest {
 
         new InlineModelResolver().flatten(swagger);
 
-        Json.prettyPrint(swagger);
+        Operation operation = swagger.getPaths().get("/hello").getGet();
+        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
+        assertTrue(bp.getSchema() instanceof RefModel);
+
+        Model body = swagger.getDefinitions().get("body");
+        assertTrue(body instanceof ModelImpl);
+
+        ModelImpl impl = (ModelImpl) body;
+        assertNotNull(impl.getProperties().get("name"));
+    }
+
+    @Test
+    public void resolveInlineArrayResponse() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.path("/foo/baz", new Path()
+                .get(new Operation()
+                        .response(200, new Response()
+                                .vendorExtension("x-foo", "bar")
+                                .description("it works!")
+                                .schema(new ArrayProperty()
+                                        .items(
+                                                new ObjectProperty()
+                                                        .property("name", new StringProperty()))))));
+
+        new InlineModelResolver().flatten(swagger);
+
+        Response response = swagger.getPaths().get("/foo/baz").getGet().getResponses().get("200");
+        assertNotNull(response);
+
+        assertNotNull(response.getSchema());
+        Property responseProperty = response.getSchema();
+        assertTrue(responseProperty instanceof RefProperty);
+
+        Model inline = swagger.getDefinitions().get("inline_response_200");
+        assertNotNull(inline);
+        assertTrue(inline instanceof ArrayModel);
+
+        ArrayModel am = (ArrayModel) inline;
+        assertTrue(am.getItems() instanceof RefProperty);
+
+        Model inlineInner = swagger.getDefinitions().get("inline_response_200_inner");
+        assertNotNull(inlineInner);
+        assertTrue(inlineInner instanceof ModelImpl);
+
+        ModelImpl innerModel = (ModelImpl) inlineInner;
+        assertTrue(innerModel.getProperties().size() == 1);
+        assertNotNull(innerModel.getProperties().get("name"));
+    }
+
+    @Test
+    public void testInlineMapResponse() throws Exception {
+        Swagger swagger = new Swagger();
+
+        MapProperty schema = new MapProperty();
+        schema.setAdditionalProperties(new StringProperty());
+
+        swagger.path("/foo/baz", new Path()
+                .get(new Operation()
+                        .response(200, new Response()
+                                .vendorExtension("x-foo", "bar")
+                                .description("it works!")
+                                .schema(schema))));
+        new InlineModelResolver().flatten(swagger);
+
+        Response response = swagger.getPaths().get("/foo/baz").getGet().getResponses().get("200");
+
+        Property property = response.getSchema();
+        assertTrue(property instanceof RefProperty);
+
+        Model inline = swagger.getDefinitions().get("inline_response_200");
+        assertTrue(inline instanceof ArrayModel);
+        ArrayModel am = (ArrayModel) inline;
+        Property innerProperty = am.getItems();
+        assertTrue(innerProperty instanceof StringProperty);
     }
 }
