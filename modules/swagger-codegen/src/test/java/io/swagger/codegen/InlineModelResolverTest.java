@@ -1,6 +1,7 @@
 package io.swagger.codegen;
 
 
+import com.sun.xml.internal.ws.wsdl.writer.document.soap.Body;
 import io.swagger.models.*;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
@@ -126,6 +127,31 @@ public class InlineModelResolverTest {
 
         ModelImpl impl = (ModelImpl) body;
         assertNotNull(impl.getProperties().get("name"));
+    }
+
+    @Test
+    public void resolveInlineArrayBodyParameter() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.path("/hello", new Path()
+                .get(new Operation()
+                        .parameter(new BodyParameter()
+                                .name("body")
+                                .schema(new ArrayModel()
+                                        .items(new StringProperty())))));
+
+        new InlineModelResolver().flatten(swagger);
+
+        Parameter param = swagger.getPaths().get("/hello").getGet().getParameters().get(0);
+        assertTrue(param instanceof BodyParameter);
+
+        BodyParameter bp = (BodyParameter) param;
+        Model schema = bp.getSchema();
+
+        assertTrue(schema instanceof RefModel);
+
+        Model model = swagger.getDefinitions().get("body");
+        assertTrue(model instanceof ArrayModel);
     }
 
     @Test

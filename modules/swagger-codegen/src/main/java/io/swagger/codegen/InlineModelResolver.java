@@ -22,7 +22,7 @@ public class InlineModelResolver {
     public void flatten(Swagger swagger) {
         this.swagger = swagger;
 
-        if(swagger.getDefinitions() == null) {
+        if (swagger.getDefinitions() == null) {
             swagger.setDefinitions(new HashMap<String, Model>());
         }
 
@@ -30,61 +30,55 @@ public class InlineModelResolver {
         Map<String, Path> paths = swagger.getPaths();
         Map<String, Model> models = swagger.getDefinitions();
 
-        if(paths != null) {
-            for(String pathname : paths.keySet()) {
+        if (paths != null) {
+            for (String pathname : paths.keySet()) {
                 Path path = paths.get(pathname);
 
-                for(Operation operation: path.getOperations()) {
+                for (Operation operation : path.getOperations()) {
                     List<Parameter> parameters = operation.getParameters();
 
-                    if(parameters != null) {
-                        for(Parameter parameter : parameters) {
-                            if(parameter instanceof BodyParameter) {
+                    if (parameters != null) {
+                        for (Parameter parameter : parameters) {
+                            if (parameter instanceof BodyParameter) {
                                 BodyParameter bp = (BodyParameter) parameter;
-                                if(bp.getSchema() != null) {
+                                if (bp.getSchema() != null) {
                                     Model model = bp.getSchema();
-
-                                    if(model instanceof ModelImpl) {
-                                        String existing = matchGenerated(model);
-                                        if(existing != null) {
-                                            bp.setSchema(new RefModel(existing));
-                                        }
-                                        else {
-                                            String name = uniqueName(bp.getName());
-                                            bp.setSchema(new RefModel(name));
-                                            addGenerated(name, model);
-                                            swagger.addDefinition(name, model);
-                                        }
+                                    String existing = matchGenerated(model);
+                                    if (existing != null) {
+                                        bp.setSchema(new RefModel(existing));
+                                    } else {
+                                        String name = uniqueName(bp.getName());
+                                        bp.setSchema(new RefModel(name));
+                                        addGenerated(name, model);
+                                        swagger.addDefinition(name, model);
                                     }
                                 }
                             }
                         }
                     }
                     Map<String, Response> responses = operation.getResponses();
-                    if(responses != null) {
-                        for(String key : responses.keySet()) {
+                    if (responses != null) {
+                        for (String key : responses.keySet()) {
                             Response response = responses.get(key);
-                            if(response.getSchema() != null) {
+                            if (response.getSchema() != null) {
                                 Property property = response.getSchema();
-                                if(property instanceof ObjectProperty) {
+                                if (property instanceof ObjectProperty) {
                                     String modelName = uniqueName("inline_response_" + key);
                                     ObjectProperty op = (ObjectProperty) property;
                                     Model model = modelFromProperty(op, modelName);
                                     String existing = matchGenerated(model);
-                                    if(existing != null) {
+                                    if (existing != null) {
                                         response.setSchema(new RefProperty(existing));
-                                    }
-                                    else {
+                                    } else {
                                         response.setSchema(new RefProperty(modelName));
                                         addGenerated(modelName, model);
                                         swagger.addDefinition(modelName, model);
                                     }
-                                }
-                                else if(property instanceof ArrayProperty) {
+                                } else if (property instanceof ArrayProperty) {
                                     String modelName = uniqueName("inline_response_" + key);
                                     ArrayProperty ap = (ArrayProperty) property;
                                     Model model = modelFromProperty(ap, modelName);
-                                    if(model != null) {
+                                    if (model != null) {
                                         String existing = matchGenerated(model);
                                         if (existing != null) {
                                             response.setSchema(new RefProperty(existing));
@@ -94,16 +88,14 @@ public class InlineModelResolver {
                                             swagger.addDefinition(modelName, model);
                                         }
                                     }
-                                }
-                                else if(property instanceof MapProperty) {
+                                } else if (property instanceof MapProperty) {
                                     MapProperty op = (MapProperty) property;
                                     String modelName = uniqueName("inline_response_" + key);
                                     Model model = modelFromProperty(op, modelName);
                                     String existing = matchGenerated(model);
-                                    if(existing != null) {
+                                    if (existing != null) {
                                         response.setSchema(new RefProperty(existing));
-                                    }
-                                    else {
+                                    } else {
                                         response.setSchema(new RefProperty(modelName));
                                         addGenerated(modelName, model);
                                         swagger.addDefinition(modelName, model);
@@ -117,36 +109,33 @@ public class InlineModelResolver {
         }
 
         // definitions
-        if(models != null) {
+        if (models != null) {
             List<String> modelNames = new ArrayList<String>(models.keySet());
-            for(String modelName : modelNames) {
+            for (String modelName : modelNames) {
                 Model model = models.get(modelName);
-                if(model instanceof ModelImpl) {
+                if (model instanceof ModelImpl) {
                     ModelImpl m = (ModelImpl) model;
 
                     Map<String, Property> properties = m.getProperties();
                     flattenProperties(properties, modelName);
 
-                }
-                else if (model instanceof ArrayModel) {
+                } else if (model instanceof ArrayModel) {
                     ArrayModel m = (ArrayModel) model;
                     Property inner = m.getItems();
-                    if(inner instanceof ObjectProperty) {
+                    if (inner instanceof ObjectProperty) {
                         String innerModelName = uniqueName(modelName + "_inner");
                         Model innerModel = modelFromProperty((ObjectProperty) inner, modelName);
 
                         String existing = matchGenerated(innerModel);
-                        if(existing == null) {
+                        if (existing == null) {
                             swagger.addDefinition(innerModelName, innerModel);
                             addGenerated(innerModelName, innerModel);
                             m.setItems(new RefProperty(innerModelName));
-                        }
-                        else {
+                        } else {
                             m.setItems(new RefProperty(existing));
                         }
                     }
-                }
-                else if (model instanceof ComposedModel) {
+                } else if (model instanceof ComposedModel) {
                     ComposedModel m = (ComposedModel) model;
                 }
             }
@@ -154,11 +143,11 @@ public class InlineModelResolver {
     }
 
     public String matchGenerated(Model model) {
-        if(this.skipMatches) {
+        if (this.skipMatches) {
             return null;
         }
         String json = Json.pretty(model);
-        if(generatedSignature.containsKey(json)) {
+        if (generatedSignature.containsKey(json)) {
             return generatedSignature.get(json);
         }
         return null;
@@ -171,15 +160,14 @@ public class InlineModelResolver {
     public String uniqueName(String key) {
         int count = 0;
         boolean done = false;
-        while(!done) {
+        while (!done) {
             String name = key;
-            if(count > 0) {
+            if (count > 0) {
                 name = key + "_" + count;
             }
-            if(swagger.getDefinitions() == null) {
+            if (swagger.getDefinitions() == null) {
                 return name;
-            }
-            else if (!swagger.getDefinitions().containsKey(name)) {
+            } else if (!swagger.getDefinitions().containsKey(name)) {
                 return name;
             }
             count += 1;
@@ -188,14 +176,14 @@ public class InlineModelResolver {
     }
 
     public void flattenProperties(Map<String, Property> properties, String path) {
-        if(properties == null) {
+        if (properties == null) {
             return;
         }
         Map<String, Property> propsToUpdate = new HashMap<String, Property>();
         Map<String, Model> modelsToAdd = new HashMap<String, Model>();
-        for(String key : properties.keySet()) {
+        for (String key : properties.keySet()) {
             Property property = properties.get(key);
-            if(property instanceof ObjectProperty) {
+            if (property instanceof ObjectProperty) {
                 String modelName = uniqueName(path + "_" + key);
 
 
@@ -204,10 +192,9 @@ public class InlineModelResolver {
 
                 String existing = matchGenerated(model);
 
-                if(existing != null) {
+                if (existing != null) {
                     propsToUpdate.put(key, new RefProperty(existing));
-                }
-                else {
+                } else {
                     propsToUpdate.put(key, new RefProperty(modelName));
                     modelsToAdd.put(modelName, model);
                     addGenerated(modelName, model);
@@ -215,14 +202,14 @@ public class InlineModelResolver {
                 }
             }
         }
-        if(propsToUpdate.size() > 0) {
-            for(String key : propsToUpdate.keySet()) {
+        if (propsToUpdate.size() > 0) {
+            for (String key : propsToUpdate.keySet()) {
                 properties.put(key, propsToUpdate.get(key));
             }
         }
-        for(String key : modelsToAdd.keySet()) {
+        for (String key : modelsToAdd.keySet()) {
             swagger.addDefinition(key, modelsToAdd.get(key));
-            this.addedModels.put(key,  modelsToAdd.get(key));
+            this.addedModels.put(key, modelsToAdd.get(key));
         }
     }
 
@@ -242,7 +229,7 @@ public class InlineModelResolver {
 //        Map<String, Property> properties = object.getProperties();
 
         Property inner = object.getItems();
-        if(inner instanceof ObjectProperty) {
+        if (inner instanceof ObjectProperty) {
             ArrayModel model = new ArrayModel();
             model.setDescription(description);
             model.setExample(example);
@@ -281,7 +268,7 @@ public class InlineModelResolver {
         model.setName(name);
         model.setXml(xml);
 
-        if(properties != null) {
+        if (properties != null) {
             flattenProperties(properties, path);
             model.setProperties(properties);
         }
