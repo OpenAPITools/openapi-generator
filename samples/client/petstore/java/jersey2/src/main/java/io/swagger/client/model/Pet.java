@@ -2,8 +2,8 @@ package io.swagger.client.model;
 
 import io.swagger.client.StringUtil;
 import io.swagger.client.model.Category;
-import java.util.*;
 import io.swagger.client.model.Tag;
+import java.util.*;
 
 
 
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-11T11:35:51.678+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-19T23:12:20.646-07:00")
 public class Pet   {
   
   private Long id = null;
@@ -22,7 +22,9 @@ public class Pet   {
   private List<Tag> tags = new ArrayList<Tag>();
 
 public enum StatusEnum {
-  AVAILABLE("available"), PENDING("pending"), SOLD("sold");
+  AVAILABLE("available"),
+  PENDING("pending"),
+  SOLD("sold");
 
   private String value;
 
