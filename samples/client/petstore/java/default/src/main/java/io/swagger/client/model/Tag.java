@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-30T16:27:52.437+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-19T23:05:30.049-07:00")
 public class Tag   {
   
   private Long id = null;
