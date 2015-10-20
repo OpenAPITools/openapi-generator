@@ -5,6 +5,7 @@ import io.swagger.models.*;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.*;
+import io.swagger.util.Json;
 import org.testng.annotations.Test;
 
 import java.util.Map;
@@ -202,6 +203,30 @@ public class InlineModelResolverTest {
                                 .description("it works!")
                                 .schema(schema))));
         new InlineModelResolver().flatten(swagger);
+        Json.prettyPrint(swagger);
+
+        Response response = swagger.getPaths().get("/foo/baz").getGet().getResponses().get("200");
+
+        Property property = response.getSchema();
+        assertTrue(property instanceof MapProperty);
+        assertTrue(swagger.getDefinitions().size() == 0);
+    }
+
+    @Test
+    public void testInlineMapResponseWithObjectProperty() throws Exception {
+        Swagger swagger = new Swagger();
+
+        MapProperty schema = new MapProperty();
+        schema.setAdditionalProperties(new ObjectProperty()
+                .property("name", new StringProperty()));
+
+        swagger.path("/foo/baz", new Path()
+                .get(new Operation()
+                        .response(200, new Response()
+                                .vendorExtension("x-foo", "bar")
+                                .description("it works!")
+                                .schema(schema))));
+        new InlineModelResolver().flatten(swagger);
 
         Response response = swagger.getPaths().get("/foo/baz").getGet().getResponses().get("200");
 
@@ -209,9 +234,41 @@ public class InlineModelResolverTest {
         assertTrue(property instanceof RefProperty);
 
         Model inline = swagger.getDefinitions().get("inline_response_200");
-        assertTrue(inline instanceof ArrayModel);
-        ArrayModel am = (ArrayModel) inline;
-        Property innerProperty = am.getItems();
-        assertTrue(innerProperty instanceof StringProperty);
+        assertTrue(inline instanceof ModelImpl);
+        ModelImpl impl = (ModelImpl) inline;
+
+        Property innerProperty = impl.getAdditionalProperties();
+        assertTrue(innerProperty instanceof ObjectProperty);
+
+        ObjectProperty obj = (ObjectProperty) innerProperty;
+        Property name = obj.getProperties().get("name");
+        assertTrue(name instanceof StringProperty);
+    }
+
+    @Test
+    public void testArrayResponse() {
+        Swagger swagger = new Swagger();
+
+        ArrayProperty schema = new ArrayProperty();
+        schema.setItems(new ObjectProperty()
+                .property("name", new StringProperty()));
+
+        swagger.path("/foo/baz", new Path()
+                .get(new Operation()
+                        .response(200, new Response()
+                                .vendorExtension("x-foo", "bar")
+                                .description("it works!")
+                                .schema(schema))));
+        new InlineModelResolver().flatten(swagger);
+
+        Response response = swagger.getPaths().get("/foo/baz").getGet().getResponses().get("200");
+        assertTrue(response.getSchema() instanceof ArrayProperty);
+
+        ArrayProperty am = (ArrayProperty) response.getSchema();
+        Property items = am.getItems();
+        assertTrue(items instanceof ObjectProperty);
+        ObjectProperty op = (ObjectProperty) items;
+        Property name = op.getProperties().get("name");
+        assertTrue(name instanceof StringProperty);
     }
 }

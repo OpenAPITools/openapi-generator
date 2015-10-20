@@ -75,30 +75,40 @@ public class InlineModelResolver {
                                         swagger.addDefinition(modelName, model);
                                     }
                                 } else if (property instanceof ArrayProperty) {
-                                    String modelName = uniqueName("inline_response_" + key);
                                     ArrayProperty ap = (ArrayProperty) property;
-                                    Model model = modelFromProperty(ap, modelName);
-                                    if (model != null) {
-                                        String existing = matchGenerated(model);
+                                    if(ap.getItems() instanceof ObjectProperty) {
+                                        ObjectProperty op = (ObjectProperty) ap.getItems();
+                                        Map<String, Property> props = op.getProperties();
+                                        flattenProperties(props, "path");
+                                    }
+                                } else if (property instanceof MapProperty) {
+                                    MapProperty op = (MapProperty) property;
+
+                                    Property innerProperty = op.getAdditionalProperties();
+                                    if(innerProperty instanceof ObjectProperty) {
+                                        ModelImpl innerModel = new ModelImpl();
+                                        // TODO: model props
+                                        innerModel.setTitle(property.getTitle());
+                                        property.getVendorExtensions();
+                                        property.getRequired();
+                                        property.getReadOnly();
+                                        property.getAccess();
+                                        innerModel.setDescription(property.getDescription());
+                                        innerModel.setExample(property.getExample());
+                                        innerModel.setName(property.getName());
+                                        innerModel.setXml(property.getXml());
+
+                                        innerModel.setAdditionalProperties(innerProperty);
+
+                                        String modelName = uniqueName("inline_response_" + key);
+                                        String existing = matchGenerated(innerModel);
                                         if (existing != null) {
                                             response.setSchema(new RefProperty(existing));
                                         } else {
                                             response.setSchema(new RefProperty(modelName));
-                                            addGenerated(modelName, model);
-                                            swagger.addDefinition(modelName, model);
+                                            addGenerated(modelName, innerModel);
+                                            swagger.addDefinition(modelName, innerModel);
                                         }
-                                    }
-                                } else if (property instanceof MapProperty) {
-                                    MapProperty op = (MapProperty) property;
-                                    String modelName = uniqueName("inline_response_" + key);
-                                    Model model = modelFromProperty(op, modelName);
-                                    String existing = matchGenerated(model);
-                                    if (existing != null) {
-                                        response.setSchema(new RefProperty(existing));
-                                    } else {
-                                        response.setSchema(new RefProperty(modelName));
-                                        addGenerated(modelName, model);
-                                        swagger.addDefinition(modelName, model);
                                     }
                                 }
                             }
@@ -185,7 +195,6 @@ public class InlineModelResolver {
             Property property = properties.get(key);
             if (property instanceof ObjectProperty) {
                 String modelName = uniqueName(path + "_" + key);
-
 
                 ObjectProperty op = (ObjectProperty) property;
                 Model model = modelFromProperty(op, modelName);
