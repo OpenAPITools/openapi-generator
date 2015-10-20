@@ -45,8 +45,13 @@ public class InlineModelResolver {
                                 if (bp.getSchema() != null) {
                                     Model model = bp.getSchema();
                                     if(model instanceof ModelImpl) {
+                                        String modelName = uniqueName(bp.getName());
                                         ModelImpl obj = (ModelImpl) model;
                                         flattenProperties(obj.getProperties(), pathname);
+
+                                        bp.setSchema(new RefModel(modelName));
+                                        addGenerated(modelName, model);
+                                        swagger.addDefinition(modelName, model);
                                     }
                                     else if (model instanceof ArrayModel) {
                                         ArrayModel am = (ArrayModel) model;
