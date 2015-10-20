@@ -118,13 +118,13 @@ public class InlineModelResolverTest {
 
         Operation operation = swagger.getPaths().get("/hello").getGet();
         BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof ModelImpl);
+        assertTrue(bp.getSchema() instanceof RefModel);
 
-        Model body = swagger.getDefinitions().get("hello_address");
+        Model body = swagger.getDefinitions().get("body");
         assertTrue(body instanceof ModelImpl);
 
         ModelImpl impl = (ModelImpl) body;
-        assertNotNull(impl.getProperties().get("street"));
+        assertNotNull(impl.getProperties().get("address"));
     }
 
     @Test
