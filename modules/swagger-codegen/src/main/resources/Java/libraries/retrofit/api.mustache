@@ -1,14 +1,17 @@
 package {{package}};
 
-import {{modelPackage}}.*;
+import {{invokerPackage}}.CollectionFormats.*;
 
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
-import java.util.*;
 
 {{#imports}}import {{import}};
 {{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.*;
+{{/fullJavaUtil}}
 
 {{#operations}}
 public interface {{classname}} {
@@ -22,7 +25,7 @@ public interface {{classname}} {
    */
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
-  @{{httpMethod}}("{{path}}")  
+  @{{httpMethod}}("{{path}}")
   {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
@@ -31,15 +34,15 @@ public interface {{classname}} {
    * {{summary}}
    * Async method
 {{#allParams}}   * @param {{paramName}} {{description}}
-{{/allParams}}   * @param cb callback method   
+{{/allParams}}   * @param cb callback method
    * @return void
    */
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
-  @{{httpMethod}}("{{path}}")  
+  @{{httpMethod}}("{{path}}")
   void {{nickname}}(
     {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}, {{/allParams}}Callback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> cb
-  ); 
+  );
   {{/operation}}
 }
 {{/operations}}

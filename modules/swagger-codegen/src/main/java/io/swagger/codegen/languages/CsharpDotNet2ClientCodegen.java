@@ -108,11 +108,11 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         }
         
         supportingFiles.add(new SupportingFile("Configuration.mustache",
-                (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "Configuration.cs"));
+                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
-                (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "ApiClient.cs"));
+                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiClient.cs"));
         supportingFiles.add(new SupportingFile("ApiException.mustache",
-                (sourceFolder + File.separator + clientPackage).replace(".", java.io.File.separator), "ApiException.cs"));
+                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiException.cs"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor", "packages.config"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
@@ -142,11 +142,11 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separator + sourceFolder + File.separator + apiPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     public String modelFileFolder() {
-        return (outputFolder + File.separator + sourceFolder + File.separator + modelPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override

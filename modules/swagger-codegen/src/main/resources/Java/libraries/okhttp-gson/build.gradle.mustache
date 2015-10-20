@@ -1,11 +1,89 @@
-apply plugin: 'java'
-apply plugin: 'maven'
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+    }
+}
 
 repositories {
-    mavenCentral()
+    jcenter()
+}
+
+
+if(hasProperty('target') && target == 'android') {
+
+	apply plugin: 'com.android.library'
+	apply plugin: 'com.github.dcendents.android-maven'
+	
+	android {
+	    compileSdkVersion 22
+	    buildToolsVersion '22.0.0'
+	    defaultConfig {
+	        minSdkVersion 14
+	        targetSdkVersion 22
+	    }
+	    compileOptions {
+	        sourceCompatibility JavaVersion.VERSION_1_7
+	        targetCompatibility JavaVersion.VERSION_1_7
+	    }
+	
+	    // Rename the aar correctly
+	    libraryVariants.all { variant ->
+	        variant.outputs.each { output ->
+	            def outputFile = output.outputFile
+	            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+	                def fileName = "${project.name}-${variant.baseName}-${version}.aar"
+	                output.outputFile = new File(outputFile.parent, fileName)
+	            }
+	        }
+	    }
+	}
+	
+	afterEvaluate {
+	    android.libraryVariants.all { variant ->
+	        def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
+	        task.description = "Create jar artifact for ${variant.name}"
+	        task.dependsOn variant.javaCompile
+	        task.from variant.javaCompile.destinationDir
+	        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
+	        task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+	        artifacts.add('archives', task);
+	    }
+	}
+	
+	task sourcesJar(type: Jar) {
+	    from android.sourceSets.main.java.srcDirs
+	    classifier = 'sources'
+	}
+	
+	artifacts {
+	    archives sourcesJar
+	}
+
+} else {
+
+	apply plugin: 'java'
+	apply plugin: 'maven'
+	
+	sourceCompatibility = JavaVersion.VERSION_1_7
+	targetCompatibility = JavaVersion.VERSION_1_7
+	
+	install {
+	    repositories.mavenInstaller {
+	        pom.artifactId = '{{artifactId}}'
+	    }
+	}
+	
+	task execute(type:JavaExec) {
+	   main = System.getProperty('mainClass')
+	   classpath = sourceSets.main.runtimeClasspath
+	}
 }
 
 dependencies {
@@ -14,18 +92,4 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.brsanthu:migbase64:2.2'
     testCompile 'junit:junit:4.8.1'
-}
-
-group = '{{groupId}}'
-version = '{{artifactVersion}}'
-
-install {
-    repositories.mavenInstaller {
-        pom.artifactId = '{{artifactId}}'
-    }
-}
-
-task execute(type:JavaExec) {
-   main = System.getProperty('mainClass')
-   classpath = sourceSets.main.runtimeClasspath
 }
