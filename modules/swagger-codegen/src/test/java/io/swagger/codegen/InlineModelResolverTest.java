@@ -171,20 +171,16 @@ public class InlineModelResolverTest {
 
         assertNotNull(response.getSchema());
         Property responseProperty = response.getSchema();
-        assertTrue(responseProperty instanceof RefProperty);
 
-        Model inline = swagger.getDefinitions().get("inline_response_200");
-        assertNotNull(inline);
-        assertTrue(inline instanceof ArrayModel);
+        // no need to flatten more
+        assertTrue(responseProperty instanceof ArrayProperty);
 
-        ArrayModel am = (ArrayModel) inline;
-        assertTrue(am.getItems() instanceof RefProperty);
+        ArrayProperty ap = (ArrayProperty) responseProperty;
+        Property p = ap.getItems();
 
-        Model inlineInner = swagger.getDefinitions().get("inline_response_200_inner");
-        assertNotNull(inlineInner);
-        assertTrue(inlineInner instanceof ModelImpl);
+        assertNotNull(p);
 
-        ModelImpl innerModel = (ModelImpl) inlineInner;
+        ObjectProperty innerModel = (ObjectProperty) p;
         assertTrue(innerModel.getProperties().size() == 1);
         assertNotNull(innerModel.getProperties().get("name"));
     }
