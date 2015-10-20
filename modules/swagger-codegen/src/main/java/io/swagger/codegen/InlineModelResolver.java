@@ -1,5 +1,6 @@
 package io.swagger.codegen;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.swagger.models.*;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
@@ -43,14 +44,18 @@ public class InlineModelResolver {
                                 BodyParameter bp = (BodyParameter) parameter;
                                 if (bp.getSchema() != null) {
                                     Model model = bp.getSchema();
-                                    String existing = matchGenerated(model);
-                                    if (existing != null) {
-                                        bp.setSchema(new RefModel(existing));
-                                    } else {
-                                        String name = uniqueName(bp.getName());
-                                        bp.setSchema(new RefModel(name));
-                                        addGenerated(name, model);
-                                        swagger.addDefinition(name, model);
+                                    if(model instanceof ModelImpl) {
+                                        ModelImpl obj = (ModelImpl) model;
+                                        flattenProperties(obj.getProperties(), pathname);
+                                    }
+                                    else if (model instanceof ArrayModel) {
+                                        ArrayModel am = (ArrayModel) model;
+                                        Property inner = am.getItems();
+
+                                        if(inner instanceof ObjectProperty) {
+                                            ObjectProperty op = (ObjectProperty) inner;
+                                            flattenProperties(op.getProperties(), pathname);
+                                        }
                                     }
                                 }
                             }
@@ -170,6 +175,7 @@ public class InlineModelResolver {
     public String uniqueName(String key) {
         int count = 0;
         boolean done = false;
+        key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", "");
         while (!done) {
             String name = key;
             if (count > 0) {
