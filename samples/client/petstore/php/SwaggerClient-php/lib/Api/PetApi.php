@@ -424,15 +424,15 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        //TODO support oauth
-        
         $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
         if (isset($apiKey)) {
             $headerParams['api_key'] = $apiKey;
         }
         
         
+        
+        
+        //TODO support oauth
         
         // make the API Call
         try
