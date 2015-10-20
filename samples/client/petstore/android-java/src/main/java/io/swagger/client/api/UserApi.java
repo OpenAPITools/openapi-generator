@@ -316,7 +316,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @param username The name that needs to be fetched. Use user1 for testing.
    * @return User
    */
   public User  getUserByName (String username) throws ApiException {

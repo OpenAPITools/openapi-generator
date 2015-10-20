@@ -28,7 +28,7 @@ public:
     void findPetsByTags(QList<QString*>* tags);
     void getPetById(qint64 petId);
     void updatePetWithForm(QString* petId, QString* name, QString* status);
-    void deletePet(QString* apiKey, qint64 petId);
+    void deletePet(qint64 petId, QString* apiKey);
     void uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestInputFileElement* file);
     
 private:

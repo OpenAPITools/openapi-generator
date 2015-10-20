@@ -30,7 +30,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-09-30T16:27:59.075+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-19T23:12:31.377-07:00")
 public class StoreApi {
   
 
@@ -70,9 +70,9 @@ public class StoreApi {
 
   @ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 404, message = "Order not found"),
     @ApiResponse(code = 200, message = "successful operation"),
-    @ApiResponse(code = 400, message = "Invalid ID supplied") })
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Order not found") })
   @RequestMapping(value = "/order/{orderId}", 
     produces = { "application/json", "application/xml" }, 
     
@@ -90,8 +90,8 @@ public class StoreApi {
 
   @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 404, message = "Order not found"),
-    @ApiResponse(code = 400, message = "Invalid ID supplied") })
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Order not found") })
   @RequestMapping(value = "/order/{orderId}", 
     produces = { "application/json", "application/xml" }, 
     

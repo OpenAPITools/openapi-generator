@@ -6,12 +6,18 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.TypeRef;
 
-import java.util.Map;
-import io.swagger.client.model.Order;
+import io.swagger.client.model.*;
 
 import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-09T21:30:27.235+08:00")
+import java.util.Map;
+import io.swagger.client.model.Order;
+
+import java.io.File;
+import java.util.Map;
+import java.util.HashMap;
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-20T10:56:59.550-07:00")
 public class StoreApi {
   private ApiClient apiClient;
 

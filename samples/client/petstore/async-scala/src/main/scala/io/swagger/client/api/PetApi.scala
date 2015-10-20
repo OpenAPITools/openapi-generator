@@ -145,8 +145,9 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
   }
 
   
-  def deletePet(apiKey: Option[String] = None,
-      petId: Long)(implicit reader: ClientResponseReader[Unit]): Future[Unit] = {
+  def deletePet(petId: Long,
+      apiKey: Option[String] = None
+      )(implicit reader: ClientResponseReader[Unit]): Future[Unit] = {
     // create path and map variables
     val path = (addFmt("/pet/{petId}")
         replaceAll ("\\{" + "petId" + "\\}",petId.toString))

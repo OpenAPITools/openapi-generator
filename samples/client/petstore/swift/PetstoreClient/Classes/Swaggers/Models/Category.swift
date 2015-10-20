@@ -8,10 +8,10 @@
 import Foundation
 
 
-class Category: JSONEncodable {
+public class Category: JSONEncodable {
 
-    var id: Int?
-    var name: String?
+    public var id: Int?
+    public var name: String?
     
 
     // MARK: JSONEncodable

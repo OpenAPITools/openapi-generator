@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-08-23T23:29:16.812-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-10-20T08:49:54.299-07:00")
 public class PetApi  {
 
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
@@ -37,15 +37,15 @@ public class PetApi  {
     @Produces({ "application/json", "application/xml" })
     @io.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = Void.class)
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class),
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
 
     public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
     throws NotFoundException {
-    return delegate.updatePet(body);
+        return delegate.updatePet(body);
     }
     @POST
     
@@ -57,7 +57,7 @@ public class PetApi  {
 
     public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
     throws NotFoundException {
-    return delegate.addPet(body);
+        return delegate.addPet(body);
     }
     @GET
     @Path("/findByStatus")
@@ -71,7 +71,7 @@ public class PetApi  {
 
     public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue="available") @QueryParam("status") List<String> status)
     throws NotFoundException {
-    return delegate.findPetsByStatus(status);
+        return delegate.findPetsByStatus(status);
     }
     @GET
     @Path("/findByTags")
@@ -85,7 +85,7 @@ public class PetApi  {
 
     public Response findPetsByTags(@ApiParam(value = "Tags to filter by") @QueryParam("tags") List<String> tags)
     throws NotFoundException {
-    return delegate.findPetsByTags(tags);
+        return delegate.findPetsByTags(tags);
     }
     @GET
     @Path("/{petId}")
@@ -93,15 +93,15 @@ public class PetApi  {
     @Produces({ "application/json", "application/xml" })
     @io.swagger.annotations.ApiOperation(value = "Find pet by ID", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = Pet.class)
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Pet.class),
-        
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Pet.class) })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Pet.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Pet.class) })
 
     public Response getPetById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathParam("petId") Long petId)
     throws NotFoundException {
-    return delegate.getPetById(petId);
+        return delegate.getPetById(petId);
     }
     @POST
     @Path("/{petId}")
@@ -115,7 +115,7 @@ public class PetApi  {
     @ApiParam(value = "Updated name of the pet" )@FormParam("name")  String name,
     @ApiParam(value = "Updated status of the pet" )@FormParam("status")  String status)
     throws NotFoundException {
-    return delegate.updatePetWithForm(petId,name,status);
+        return delegate.updatePetWithForm(petId,name,status);
     }
     @DELETE
     @Path("/{petId}")
@@ -128,7 +128,7 @@ public class PetApi  {
     public Response deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathParam("petId") Long petId,
     @ApiParam(value = ""  )@HeaderParam("api_key") String apiKey)
     throws NotFoundException {
-    return delegate.deletePet(petId,apiKey);
+        return delegate.deletePet(petId,apiKey);
     }
     @POST
     @Path("/{petId}/uploadImage")
@@ -143,7 +143,7 @@ public class PetApi  {
       @FormDataParam("file") InputStream inputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail)
     throws NotFoundException {
-    return delegate.uploadFile(petId,additionalMetadata,fileDetail);
+        return delegate.uploadFile(petId,additionalMetadata,fileDetail);
     }
 }
 
