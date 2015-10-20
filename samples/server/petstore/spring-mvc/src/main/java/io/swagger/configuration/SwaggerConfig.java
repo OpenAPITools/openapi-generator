@@ -18,7 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2 //Loads the spring beans required by the framework
 @PropertySource("classpath:swagger.properties")
 @Import(SwaggerUiConfiguration.class)
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-19T23:12:31.377-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-20T10:58:42.063-07:00")
 public class SwaggerConfig {
     @Bean
     ApiInfo apiInfo() {
