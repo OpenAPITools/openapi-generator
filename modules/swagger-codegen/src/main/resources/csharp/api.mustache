@@ -144,7 +144,7 @@ namespace {{packageName}}.Api
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.ErrorMessage, response.ErrorMessage);
     
-            {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}return;{{/returnType}}
+            {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}return;{{/returnType}}
         }
     
         /// <summary>
@@ -197,7 +197,7 @@ namespace {{packageName}}.Api
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
 
-            {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response.Content, typeof({{{returnType}}}), response.Headers);{{/returnType}}{{^returnType}}
+            {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
             return;{{/returnType}}
         }
         {{/operation}}
