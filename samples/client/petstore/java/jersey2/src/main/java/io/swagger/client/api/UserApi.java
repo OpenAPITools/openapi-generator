@@ -6,16 +6,18 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.TypeRef;
 
+import io.swagger.client.model.*;
+
+import java.util.*;
+
 import io.swagger.client.model.User;
 import java.util.*;
 
-import java.util.*;
+import java.io.File;
+import java.util.Map;
+import java.util.HashMap;
 
-<<<<<<< HEAD
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-19T23:12:20.646-07:00")
-=======
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-09T21:30:19.416+08:00")
->>>>>>> master
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-20T11:29:47.599-07:00")
 public class UserApi {
   private ApiClient apiClient;
 
