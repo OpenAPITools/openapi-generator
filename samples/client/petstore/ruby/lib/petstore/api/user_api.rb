@@ -248,7 +248,7 @@ module Petstore
 
     # Get user by user name
     # 
-    # @param username The name that needs to be fetched. Use user1 for testing. 
+    # @param username The name that needs to be fetched. Use user1 for testing.
     # @param [Hash] opts the optional parameters
     # @return [User]
     def get_user_by_name(username, opts = {})

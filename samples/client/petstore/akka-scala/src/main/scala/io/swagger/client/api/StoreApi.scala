@@ -39,33 +39,33 @@ object StoreApi {
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
    * 
    * Expected answers:
-   *   code 404 :  (Order not found)
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid ID supplied)
+   *   code 404 :  (Order not found)
    * 
    * @param orderId ID of pet that needs to be fetched
    */
   def getOrderById(orderId: String): ApiRequest[Order] =
     ApiRequest[Order](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
       .withPathParam("orderId", orderId)
-      .withErrorResponse[Unit](404)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
+      .withErrorResponse[Unit](404)
       
   /**
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * 
    * Expected answers:
-   *   code 404 :  (Order not found)
    *   code 400 :  (Invalid ID supplied)
+   *   code 404 :  (Order not found)
    * 
    * @param orderId ID of the order that needs to be deleted
    */
   def deleteOrder(orderId: String): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.DELETE, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
       .withPathParam("orderId", orderId)
-      .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
+      .withErrorResponse[Unit](404)
       
 
 
