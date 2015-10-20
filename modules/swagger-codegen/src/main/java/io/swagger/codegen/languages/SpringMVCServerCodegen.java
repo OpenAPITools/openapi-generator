@@ -15,13 +15,7 @@ import java.util.Map;
 import java.util.Iterator;
 
 public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.api";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-spring-mvc-server";
-    protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/java";
     protected String title = "Petstore Server";
-
     protected String configPackage = "";
 
     public SpringMVCServerCodegen() {
@@ -33,7 +27,8 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         configPackage = "io.swagger.configuration";
-
+        invokerPackage = "io.swagger.api";
+        artifactId = "swagger-spring-mvc-server";
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
@@ -201,4 +196,3 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         return objs;
     }
 }
-

@@ -1,6 +1,6 @@
 /// <reference path="api.d.ts" />
 
-module {{package}} {
+namespace {{package}} {
     'use strict';
 
 {{#models}}
@@ -10,7 +10,7 @@ module {{package}} {
      * {{{description}}}
      */
 {{/description}}
-    export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+    export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#vars}}
 
 {{#description}}
@@ -23,7 +23,7 @@ module {{package}} {
     }
 
 {{#hasEnums}}
-    export module {{classname}} {
+    export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
 

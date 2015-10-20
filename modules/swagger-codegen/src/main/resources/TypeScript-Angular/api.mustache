@@ -3,7 +3,7 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 {{#operations}}
-module {{package}} {
+namespace {{package}} {
     'use strict';
 
 {{#description}}
@@ -16,7 +16,7 @@ module {{package}} {
 
         static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (any) => any) {
+        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (d: any) => any) {
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -24,16 +24,16 @@ module {{package}} {
 {{#operation}}
 
         public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-            var path = this.basePath + '{{path}}';
+            let path = this.basePath + '{{path}}';
 
 {{#pathParams}}
             path = path.replace('{' + '{{baseName}}' + '}', String({{paramName}}));
 
 {{/pathParams}}
-            var queryParameters: any = {};
-            var headerParams: any = {};
+            let queryParameters: any = {};
+            let headerParams: any = {};
 {{#hasFormParams}}
-            var formParams: any = {};
+            let formParams: any = {};
 
 {{/hasFormParams}}
 {{#allParams}}
@@ -63,7 +63,7 @@ module {{package}} {
             formParams['{{baseName}}'] = {{paramName}};
             
 {{/formParams}}
-            var httpRequestParams: any = {
+            let httpRequestParams: any = {
                 method: '{{httpMethod}}',
                 url: path,
                 json: {{#hasFormParams}}false{{/hasFormParams}}{{^hasFormParams}}true{{/hasFormParams}},
@@ -76,7 +76,7 @@ module {{package}} {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
+                for (let k in extraHttpRequestParams) {
                     if (extraHttpRequestParams.hasOwnProperty(k)) {
                         httpRequestParams[k] = extraHttpRequestParams[k];
                     }
