@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public Boolean hasConsumes, hasProduces, hasParams, returnTypeIsPrimitive,
+    public Boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, returnTypeIsPrimitive,
             returnSimpleType, subresourceOperation, isMapContainer, isListContainer,
             hasMore = Boolean.TRUE, isMultipart, isResponseBinary = Boolean.FALSE;
     public String path, operationId, returnType, httpMethod, returnBaseType,

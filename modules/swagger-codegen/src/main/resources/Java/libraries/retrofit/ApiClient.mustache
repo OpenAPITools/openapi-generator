@@ -49,16 +49,16 @@ public class ApiClient {
         for(String authName : authNames) {
             if (apiAuthorizations.containsKey(authName)) {
                 throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
-            }
-            Interceptor auth;{{#authMethods}}
+            }{{#authMethods}}
+            Interceptor auth;
             if (authName == "{{name}}") { {{#isBasic}}
                 auth = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
                 auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
-                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{^-first}}, {{/-first}}{{this}}{{/scopes}}");{{/isOAuth}}
-            } else {{/authMethods}}{
+                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");{{/isOAuth}}
+            } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
-            apiAuthorizations.put(authName, auth);
+            apiAuthorizations.put(authName, auth);{{/authMethods}}
         }
         addAuthsToOkClient(okClient);
     }

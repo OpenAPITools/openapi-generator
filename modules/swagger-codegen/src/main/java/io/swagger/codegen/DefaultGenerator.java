@@ -475,7 +475,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             for (String tag : tags) {
                 CodegenOperation co = null;
                 try {
-                    co = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions());
+                    co = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions(), swagger);
                     co.tags = new ArrayList<String>();
                     co.tags.add(sanitizeTag(tag));
                     config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
@@ -523,6 +523,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                     if (!authMethods.isEmpty()) {
                         co.authMethods = config.fromSecurity(authMethods);
+                        co.hasAuthMethods = true;
                     }
                 }
                 catch (Exception ex) {
