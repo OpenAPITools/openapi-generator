@@ -8,17 +8,17 @@
 import Foundation
 
 
-class User: JSONEncodable {
+public class User: JSONEncodable {
 
-    var id: Int?
-    var username: String?
-    var firstName: String?
-    var lastName: String?
-    var email: String?
-    var password: String?
-    var phone: String?
+    public var id: Int?
+    public var username: String?
+    public var firstName: String?
+    public var lastName: String?
+    public var email: String?
+    public var password: String?
+    public var phone: String?
     /** User Status */
-    var userStatus: Int?
+    public var userStatus: Int?
     
 
     // MARK: JSONEncodable
