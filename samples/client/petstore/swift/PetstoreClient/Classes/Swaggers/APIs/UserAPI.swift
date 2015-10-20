@@ -10,7 +10,7 @@ import PromiseKit
 
 extension PetstoreClientAPI {
     
-    class UserAPI: APIBase {
+    public class UserAPI: APIBase {
     
         /**
          
@@ -19,19 +19,19 @@ extension PetstoreClientAPI {
          - POST /user
          - This can only be done by the logged in user.
          
-         :param: body (body) Created user object
+         - parameter body: (body) Created user object
 
-         :returns: Promise<Response<Void>> 
+         - returns: RequestBuilder<Void> 
          */
-        func createUser(#body: User?) -> RequestBuilder<Void> {
+        public class func createUser(body body: User?) -> RequestBuilder<Void> {
             let path = "/user"
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -41,19 +41,19 @@ extension PetstoreClientAPI {
          - POST /user/createWithArray
          - 
          
-         :param: body (body) List of user object
+         - parameter body: (body) List of user object
 
-         :returns: Promise<Response<Void>> 
+         - returns: RequestBuilder<Void> 
          */
-        func createUsersWithArrayInput(#body: [User]?) -> RequestBuilder<Void> {
+        public class func createUsersWithArrayInput(body body: [User]?) -> RequestBuilder<Void> {
             let path = "/user/createWithArray"
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -63,19 +63,19 @@ extension PetstoreClientAPI {
          - POST /user/createWithList
          - 
          
-         :param: body (body) List of user object
+         - parameter body: (body) List of user object
 
-         :returns: Promise<Response<Void>> 
+         - returns: RequestBuilder<Void> 
          */
-        func createUsersWithListInput(#body: [User]?) -> RequestBuilder<Void> {
+        public class func createUsersWithListInput(body body: [User]?) -> RequestBuilder<Void> {
             let path = "/user/createWithList"
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -87,14 +87,14 @@ extension PetstoreClientAPI {
          - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
          - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
          
-         :param: username (query) The user name for login
-         :param: password (query) The password for login in clear text
+         - parameter username: (query) The user name for login
+         - parameter password: (query) The password for login in clear text
 
-         :returns: Promise<Response<String>> 
+         - returns: RequestBuilder<String> 
          */
-        func loginUser(#username: String?, password: String?) -> RequestBuilder<String> {
+        public class func loginUser(username username: String?, password: String?) -> RequestBuilder<String> {
             let path = "/user/login"
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [
                 "username": username,
@@ -104,7 +104,7 @@ extension PetstoreClientAPI {
 
             let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: false)
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
     
         /**
@@ -114,18 +114,18 @@ extension PetstoreClientAPI {
          - GET /user/logout
          - 
 
-         :returns: Promise<Response<Void>> 
+         - returns: RequestBuilder<Void> 
          */
-        func logoutUser() -> RequestBuilder<Void> {
+        public class func logoutUser() -> RequestBuilder<Void> {
             let path = "/user/logout"
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -145,21 +145,21 @@ extension PetstoreClientAPI {
   "userStatus" : 0
 }, contentType=application/json}]
          
-         :param: username (path) The name that needs to be fetched. Use user1 for testing. 
+         - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
 
-         :returns: Promise<Response<User>> 
+         - returns: RequestBuilder<User> 
          */
-        func getUserByName(#username: String) -> RequestBuilder<User> {
+        public class func getUserByName(username username: String) -> RequestBuilder<User> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -169,21 +169,21 @@ extension PetstoreClientAPI {
          - PUT /user/{username}
          - This can only be done by the logged in user.
          
-         :param: username (path) name that need to be deleted
-         :param: body (body) Updated user object
+         - parameter username: (path) name that need to be deleted
+         - parameter body: (body) Updated user object
 
-         :returns: Promise<Response<Void>> 
+         - returns: RequestBuilder<Void> 
          */
-        func updateUser(#username: String, body: User?) -> RequestBuilder<Void> {
+        public class func updateUser(username username: String, body: User?) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "PUT", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "PUT", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -193,21 +193,21 @@ extension PetstoreClientAPI {
          - DELETE /user/{username}
          - This can only be done by the logged in user.
          
-         :param: username (path) The name that needs to be deleted
+         - parameter username: (path) The name that needs to be deleted
 
-         :returns: Promise<Response<Void>> 
+         - returns: RequestBuilder<Void> 
          */
-        func deleteUser(#username: String) -> RequestBuilder<Void> {
+        public class func deleteUser(username username: String) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "DELETE", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: parameters, isBody: true)
         }
     
     }
