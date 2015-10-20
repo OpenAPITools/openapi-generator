@@ -30,15 +30,15 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-09-30T16:27:59.075+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-19T23:12:31.377-07:00")
 public class PetApi {
   
 
   @ApiOperation(value = "Update an existing pet", notes = "", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 405, message = "Validation exception"),
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
     @ApiResponse(code = 404, message = "Pet not found"),
-    @ApiResponse(code = 400, message = "Invalid ID supplied") })
+    @ApiResponse(code = 405, message = "Validation exception") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
     consumes = { "application/json", "application/xml" },
@@ -112,9 +112,9 @@ public class PetApi {
 
   @ApiOperation(value = "Find pet by ID", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = Pet.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 404, message = "Pet not found"),
     @ApiResponse(code = 200, message = "successful operation"),
-    @ApiResponse(code = 400, message = "Invalid ID supplied") })
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Pet not found") })
   @RequestMapping(value = "/{petId}", 
     produces = { "application/json", "application/xml" }, 
     
