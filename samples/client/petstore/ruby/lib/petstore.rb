@@ -14,8 +14,8 @@ require 'petstore/models/order'
 
 # APIs
 require 'petstore/api/user_api'
-require 'petstore/api/store_api'
 require 'petstore/api/pet_api'
+require 'petstore/api/store_api'
 
 module Petstore
   class << self

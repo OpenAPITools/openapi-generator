@@ -325,11 +325,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Deletes a pet
    * 
-   * @param apiKey 
    * @param petId Pet id to delete
+   * @param apiKey 
    * @return void
    */
-  def deletePet (apiKey: String, petId: Long)  = {
+  def deletePet (petId: Long, apiKey: String)  = {
     // create path and map variables
     val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
 

@@ -10,7 +10,7 @@ import PromiseKit
 
 extension PetstoreClientAPI {
     
-    class StoreAPI: APIBase {
+    public class StoreAPI: APIBase {
     
         /**
          
@@ -23,23 +23,23 @@ extension PetstoreClientAPI {
            - name: api_key
          - examples: [{example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@3e, contentType=application/xml}]
+}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
          - examples: [{example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@3e, contentType=application/xml}]
+}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
 
-         :returns: Promise<Response<[String:Int]>> 
+         - returns: RequestBuilder<[String:Int]> 
          */
-        func getInventory() -> RequestBuilder<[String:Int]> {
+        public class func getInventory() -> RequestBuilder<[String:Int]> {
             let path = "/store/inventory"
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -54,12 +54,12 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-06-27T13:41:28.102+0000"
+  "shipDate" : "2015-10-20T06:12:32.347+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-06-27T22:41:28.105Z</shipDate>
+  <shipDate>2015-10-19T23:12:32.350Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
@@ -69,29 +69,29 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-06-27T13:41:28.102+0000"
+  "shipDate" : "2015-10-20T06:12:32.347+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-06-27T22:41:28.105Z</shipDate>
+  <shipDate>2015-10-19T23:12:32.350Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
          
-         :param: body (body) order placed for purchasing the pet
+         - parameter body: (body) order placed for purchasing the pet
 
-         :returns: Promise<Response<Order>> 
+         - returns: RequestBuilder<Order> 
          */
-        func placeOrder(#body: Order?) -> RequestBuilder<Order> {
+        public class func placeOrder(body body: Order?) -> RequestBuilder<Order> {
             let path = "/store/order"
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
             let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "POST", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -106,12 +106,12 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-06-27T13:41:28.106+0000"
+  "shipDate" : "2015-10-20T06:12:32.351+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-06-27T22:41:28.106Z</shipDate>
+  <shipDate>2015-10-19T23:12:32.351Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
@@ -121,31 +121,31 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-06-27T13:41:28.106+0000"
+  "shipDate" : "2015-10-20T06:12:32.351+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-06-27T22:41:28.106Z</shipDate>
+  <shipDate>2015-10-19T23:12:32.351Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
          
-         :param: orderId (path) ID of pet that needs to be fetched
+         - parameter orderId: (path) ID of pet that needs to be fetched
 
-         :returns: Promise<Response<Order>> 
+         - returns: RequestBuilder<Order> 
          */
-        func getOrderById(#orderId: String) -> RequestBuilder<Order> {
+        public class func getOrderById(orderId orderId: String) -> RequestBuilder<Order> {
             var path = "/store/order/{orderId}"
             path = path.stringByReplacingOccurrencesOfString("{orderId}", withString: "\(orderId)", options: .LiteralSearch, range: nil)
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "GET", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
         /**
@@ -155,21 +155,21 @@ extension PetstoreClientAPI {
          - DELETE /store/order/{orderId}
          - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
          
-         :param: orderId (path) ID of the order that needs to be deleted
+         - parameter orderId: (path) ID of the order that needs to be deleted
 
-         :returns: Promise<Response<Void>> 
+         - returns: RequestBuilder<Void> 
          */
-        func deleteOrder(#orderId: String) -> RequestBuilder<Void> {
+        public class func deleteOrder(orderId orderId: String) -> RequestBuilder<Void> {
             var path = "/store/order/{orderId}"
             path = path.stringByReplacingOccurrencesOfString("{orderId}", withString: "\(orderId)", options: .LiteralSearch, range: nil)
-            let url = PetstoreClientAPI.basePath + path
+            let URLString = PetstoreClientAPI.basePath + path
             
             let nillableParameters: [String:AnyObject?] = [:]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-            return requestBuilder(method: "DELETE", URLString: url, parameters: parameters, isBody: true)
+            return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: parameters, isBody: true)
         }
     
     }

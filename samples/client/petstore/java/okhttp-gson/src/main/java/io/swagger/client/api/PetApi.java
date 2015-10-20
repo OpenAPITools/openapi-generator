@@ -290,7 +290,11 @@ public class PetApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+<<<<<<< HEAD
+    String[] authNames = new String[] { "api_key", "petstore_auth" };
+=======
     String[] authNames = new String[] { "api_key" };
+>>>>>>> master
     return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames);
   }
 

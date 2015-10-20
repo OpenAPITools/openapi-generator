@@ -39,7 +39,7 @@ public:
   updatePetWithFormWithCompletion(String* petId, String* name, String* status, void(* handler)(SamiError*));
   
   void 
-  deletePetWithCompletion(String* apiKey, Long* petId, void(* handler)(SamiError*));
+  deletePetWithCompletion(Long* petId, String* apiKey, void(* handler)(SamiError*));
   
   void 
   uploadFileWithCompletion(Long* petId, String* additionalMetadata, SamiFile* file, void(* handler)(SamiError*));

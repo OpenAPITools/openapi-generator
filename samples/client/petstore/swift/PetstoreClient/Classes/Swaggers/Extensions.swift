@@ -65,7 +65,7 @@ extension NSDate: JSONEncodable {
 }
 
 extension RequestBuilder {
-    func execute() -> Promise<Response<T>>  {
+    public func execute() -> Promise<Response<T>>  {
         let deferred = Promise<Response<T>>.defer()
         self.execute { (response: Response<T>?, error: NSError?) in
             if let response = response {

@@ -11,7 +11,11 @@ import java.io.File;
 
 import java.util.*;
 
+<<<<<<< HEAD
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-19T23:12:20.646-07:00")
+=======
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-16T10:40:45.419+08:00")
+>>>>>>> master
 public class PetApi {
   private ApiClient apiClient;
 
@@ -237,7 +241,11 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
+<<<<<<< HEAD
+    String[] authNames = new String[] { "api_key", "petstore_auth" };
+=======
     String[] authNames = new String[] { "api_key" };
+>>>>>>> master
 
     
     TypeRef returnType = new TypeRef<Pet>() {};

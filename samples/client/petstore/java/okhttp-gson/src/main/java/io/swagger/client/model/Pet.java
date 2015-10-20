@@ -2,8 +2,8 @@ package io.swagger.client.model;
 
 import io.swagger.client.StringUtil;
 import io.swagger.client.model.Category;
-import java.util.*;
 import io.swagger.client.model.Tag;
+import java.util.*;
 
 import com.google.gson.annotations.SerializedName;
 
