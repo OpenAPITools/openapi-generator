@@ -84,12 +84,15 @@ public class XmlExampleGenerator {
                 name = xml.getName();
             }
         }
-        for (String pName : model.getProperties().keySet()) {
-            Property p = model.getProperties().get(pName);
-            if (p != null && p.getXml() != null && p.getXml().getAttribute() != null && p.getXml().getAttribute()) {
-                attributes.put(pName, p);
-            } else {
-                elements.put(pName, p);
+        // TODO: map objects will not enter this block
+        if(model.getProperties() != null) {
+            for (String pName : model.getProperties().keySet()) {
+                Property p = model.getProperties().get(pName);
+                if (p != null && p.getXml() != null && p.getXml().getAttribute() != null && p.getXml().getAttribute()) {
+                    attributes.put(pName, p);
+                } else {
+                    elements.put(pName, p);
+                }
             }
         }
         sb.append(indent(indent)).append(TAG_START);
