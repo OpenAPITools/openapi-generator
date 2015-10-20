@@ -6,15 +6,22 @@ import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
+import io.swagger.client.model.*;
+
 import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
 
+import java.lang.reflect.Type;
+
+import java.util.*;
+
 import java.util.Map;
 import io.swagger.client.model.Order;
 
-import java.lang.reflect.Type;
-import java.util.*;
+import java.io.File;
+import java.util.Map;
+import java.util.HashMap;
 
 public class StoreApi {
   private ApiClient apiClient;
