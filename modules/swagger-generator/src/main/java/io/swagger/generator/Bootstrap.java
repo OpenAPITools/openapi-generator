@@ -49,6 +49,8 @@ public class Bootstrap extends HttpServlet {
                 bc.setVersion("0.0.0");
             }
         }
+
+        bc.setSchemes(new String[]{"https"});
         bc.setHost("generator.swagger.io");
         bc.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
         bc.setResourcePackage("io.swagger.generator.resource");
