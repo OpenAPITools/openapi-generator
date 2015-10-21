@@ -28,7 +28,7 @@ sub to_hash {
 sub TO_JSON { 
     my $self = shift;
     my $_data = {};
-    foreach my $_key (keys $self->get_attribute_map) {
+    foreach my $_key (keys %{$self->get_attribute_map}) {
         if (defined $self->{$_key}) {
             $_data->{$self->get_attribute_map->{$_key}} = $self->{$_key};
         }
@@ -40,7 +40,7 @@ sub TO_JSON {
 sub from_hash {
     my ($self, $hash) = @_;
     # loop through attributes and use swagger_types to deserialize the data
-    while ( my ($_key, $_type) = each $self->get_swagger_types ) {
+    while ( my ($_key, $_type) = each %{$self->get_swagger_types} ) {
         if ($_type =~ /^array\[/i) { # array
             my $_subclass = substr($_type, 6, -1);
             my @_array = ();
