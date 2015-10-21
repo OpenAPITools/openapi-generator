@@ -6,18 +6,12 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.TypeRef;
 
-import io.swagger.client.model.*;
-
-import java.util.*;
-
 import io.swagger.client.model.Pet;
 import java.io.File;
 
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-20T11:29:47.599-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-21T11:55:20.020+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -243,7 +237,7 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "api_key", "petstore_auth" };
+    String[] authNames = new String[] { "api_key" };
 
     
     TypeRef returnType = new TypeRef<Pet>() {};
