@@ -62,27 +62,27 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         if(System.getProperty("models") != null) {
             String modelNames = System.getProperty("models");
+            generateModels = true;
             if(!modelNames.isEmpty()) {
-                generateModels = true;
                 modelsToGenerate = new HashSet<String>(Arrays.asList(modelNames.split(",")));
             }
         }
         if(System.getProperty("apis") != null) {
             String apiNames = System.getProperty("apis");
+            generateApis = true;
             if(!apiNames.isEmpty()) {
-                generateApis = true;
                 apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
             }
         }
         if(System.getProperty("supportingFiles") != null) {
             String supportingFiles = System.getProperty("supportingFiles");
+            generateSupportingFiles = true;
             if(!supportingFiles.isEmpty()) {
-                generateSupportingFiles = true;
                 supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
             }
         }
 
-        if(generateApis == null && apisToGenerate == null && supportingFilesToGenerate == null) {
+        if(generateApis == null && generateModels == null && generateSupportingFiles == null) {
             // no specifics are set, generate everything
             generateApis = true; generateModels = true; generateSupportingFiles = true;
         }
@@ -178,7 +178,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         	List<String> sortedModelKeys = sortModelsByInheritance(definitions);
 
             if(generateModels) {
-                if(modelsToGenerate != null) {
+                if(modelsToGenerate != null && modelsToGenerate.size() > 0) {
                     List<String> updatedKeys = new ArrayList<String>();
                     for(String m : sortedModelKeys) {
                         if(modelsToGenerate.contains(m)) {
@@ -237,7 +237,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         // apis
         Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
         if(generateApis) {
-            if(apisToGenerate != null) {
+            if(apisToGenerate != null && apisToGenerate.size() > 0) {
                 Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<String, List<CodegenOperation>>();
                 for(String m : paths.keySet()) {
                     if(apisToGenerate.contains(m)) {
@@ -359,7 +359,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     String templateFile = getFullTemplateFile(config, support.templateFile);
 
                     boolean shouldGenerate = true;
-                    if(supportingFilesToGenerate != null) {
+                    if(supportingFilesToGenerate != null && supportingFilesToGenerate.size() > 0) {
                         if(supportingFilesToGenerate.contains(support.destinationFilename)) {
                             shouldGenerate = true;
                         }
