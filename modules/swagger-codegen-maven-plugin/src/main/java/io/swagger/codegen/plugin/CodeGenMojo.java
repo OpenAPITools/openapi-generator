@@ -131,7 +131,12 @@ public class CodeGenMojo extends AbstractMojo {
 
         if (environmentVariables != null) {
             for(String key : environmentVariables.keySet()) {
-                System.setProperty(key, environmentVariables.get(key));
+                String value = environmentVariables.get(key);
+                if(value == null) {
+                    // don't put null values
+                    value = "";
+                }
+                System.setProperty(key, value);
             }
         }
 
