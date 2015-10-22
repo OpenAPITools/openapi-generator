@@ -87,6 +87,13 @@
     </div>  <!-- field-items -->
     {{/hasQueryParams}}
 
+    {{#hasFormParams}}
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      {{#formParams}}{{>formParam}}{{/formParams}}
+    </div>  <!-- field-items -->
+    {{/hasFormParams}}
+
     <!-- Remove Return type... unclear where this comes from;
          for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
          do we end up with a heading but not content
