@@ -74,13 +74,13 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiException.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
         supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
         supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
         supportingFiles.add(new SupportingFile("web.mustache",
                 ("src/main/webapp/WEB-INF"), "web.xml"));
 
@@ -195,7 +195,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     private String implFileFolder(String output) {
-        return outputFolder + "/" + output + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
     public boolean shouldOverwrite(String filename) {
