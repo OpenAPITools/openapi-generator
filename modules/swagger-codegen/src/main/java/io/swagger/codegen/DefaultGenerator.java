@@ -51,19 +51,50 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     @Override
     public List<File> generate() {
-        boolean generateApis = true;
-        boolean generateModels = true;
-        boolean generateSupportingFiles = true;
+        Boolean generateApis = null;
+        Boolean generateModels = null;
+        Boolean generateSupportingFiles = null;
 
         Set<String> modelsToGenerate = null;
+        Set<String> apisToGenerate = null;
+        Set<String> supportingFilesToGenerate = null;
 
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         if(System.getProperty("models") != null) {
-            generateApis = false;
-            generateSupportingFiles = false;
             String modelNames = System.getProperty("models");
             if(!modelNames.isEmpty()) {
+                generateModels = true;
                 modelsToGenerate = new HashSet<String>(Arrays.asList(modelNames.split(",")));
+            }
+        }
+        if(System.getProperty("apis") != null) {
+            String apiNames = System.getProperty("apis");
+            if(!apiNames.isEmpty()) {
+                generateApis = true;
+                apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
+            }
+        }
+        if(System.getProperty("supportingFiles") != null) {
+            String supportingFiles = System.getProperty("supportingFiles");
+            if(!supportingFiles.isEmpty()) {
+                generateSupportingFiles = true;
+                supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
+            }
+        }
+
+        if(generateApis == null && apisToGenerate == null && supportingFilesToGenerate == null) {
+            // no specifics are set, generate everything
+            generateApis = true; generateModels = true; generateSupportingFiles = true;
+        }
+        else {
+            if(generateApis == null) {
+                generateApis = false;
+            }
+            if(generateModels == null) {
+                generateModels = false;
+            }
+            if(generateSupportingFiles == null) {
+                generateSupportingFiles = false;
             }
         }
 
@@ -206,6 +237,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         // apis
         Map<String, List<CodegenOperation>> paths = processPaths(swagger.getPaths());
         if(generateApis) {
+            if(apisToGenerate != null) {
+                Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<String, List<CodegenOperation>>();
+                for(String m : paths.keySet()) {
+                    if(apisToGenerate.contains(m)) {
+                        updatedPaths.put(m, paths.get(m));
+                    }
+                }
+                paths = updatedPaths;
+            }
             for (String tag : paths.keySet()) {
                 try {
                     List<CodegenOperation> ops = paths.get(tag);
@@ -318,46 +358,57 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                     String templateFile = getFullTemplateFile(config, support.templateFile);
 
-                    if (templateFile.endsWith("mustache")) {
-                        String template = readTemplate(templateFile);
-                        Template tmpl = Mustache.compiler()
-                                .withLoader(new Mustache.TemplateLoader() {
-                                    @Override
-                                    public Reader getTemplate(String name) {
-                                        return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
-                                    }
-                                })
-                                .defaultValue("")
-                                .compile(template);
-
-                        writeToFile(outputFilename, tmpl.execute(bundle));
-                        files.add(new File(outputFilename));
-                    } else {
-                        InputStream in = null;
-
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
+                    boolean shouldGenerate = true;
+                    if(supportingFilesToGenerate != null) {
+                        if(supportingFilesToGenerate.contains(support.destinationFilename)) {
+                            shouldGenerate = true;
                         }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                        else {
+                            shouldGenerate = false;
                         }
-                        File outputFile = new File(outputFilename);
-                        OutputStream out = new FileOutputStream(outputFile, false);
-                        if (in != null && out != null) {
-                            System.out.println("writing file " + outputFile);
-                            IOUtils.copy(in, out);
+                    }
+                    if(shouldGenerate) {
+                        if (templateFile.endsWith("mustache")) {
+                            String template = readTemplate(templateFile);
+                            Template tmpl = Mustache.compiler()
+                                    .withLoader(new Mustache.TemplateLoader() {
+                                        @Override
+                                        public Reader getTemplate(String name) {
+                                            return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                                        }
+                                    })
+                                    .defaultValue("")
+                                    .compile(template);
+
+                            writeToFile(outputFilename, tmpl.execute(bundle));
+                            files.add(new File(outputFilename));
                         } else {
-                            if (in == null) {
-                                System.out.println("can't open " + templateFile + " for input");
-                            }
-                            if (out == null) {
-                                System.out.println("can't open " + outputFile + " for output");
-                            }
-                        }
+                            InputStream in = null;
 
-                        files.add(outputFile);
+                            try {
+                                in = new FileInputStream(templateFile);
+                            } catch (Exception e) {
+                                // continue
+                            }
+                            if (in == null) {
+                                in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                            }
+                            File outputFile = new File(outputFilename);
+                            OutputStream out = new FileOutputStream(outputFile, false);
+                            if (in != null && out != null) {
+                                System.out.println("writing file " + outputFile);
+                                IOUtils.copy(in, out);
+                            } else {
+                                if (in == null) {
+                                    System.out.println("can't open " + templateFile + " for input");
+                                }
+                                if (out == null) {
+                                    System.out.println("can't open " + outputFile + " for output");
+                                }
+                            }
+
+                            files.add(outputFile);
+                        }
                     }
                 } catch (Exception e) {
                     throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
