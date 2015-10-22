@@ -163,7 +163,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                 .withLoader(new Mustache.TemplateLoader() {
                                     @Override
                                     public Reader getTemplate(String name) {
-                                        return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
                                     }
                                 })
                                 .defaultValue("")
@@ -220,7 +220,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             .withLoader(new Mustache.TemplateLoader() {
                                 @Override
                                 public Reader getTemplate(String name) {
-                                    return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                                    return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
                                 }
                             })
                             .defaultValue("")
@@ -299,7 +299,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             .withLoader(new Mustache.TemplateLoader() {
                                 @Override
                                 public Reader getTemplate(String name) {
-                                    return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                                    return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
                                 }
                             })
                             .defaultValue("")
