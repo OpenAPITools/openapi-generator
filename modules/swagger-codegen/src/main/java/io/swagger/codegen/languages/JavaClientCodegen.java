@@ -507,6 +507,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             List<CodegenProperty> codegenProperties = codegenModel.vars;
 
             // Iterate over all of the parent model properties
+            boolean removedChildEnum = false;
             for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
                 // Look for enums
                 if (parentModelCodegenPropery.isEnum) {
@@ -519,12 +520,21 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
+                            removedChildEnum = true;
                         }
                     }
                 }
             }
-
-            codegenModel.vars = codegenProperties;
+            
+            if(removedChildEnum) {
+                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
+                int count = 0, numVars = codegenProperties.size();
+                for(CodegenProperty codegenProperty : codegenProperties) {
+                    count += 1;
+                    codegenProperty.hasMore = (count < numVars) ? true : null;
+                }
+                codegenModel.vars = codegenProperties;
+            }
         }
 
         return codegenModel;
