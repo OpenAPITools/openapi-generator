@@ -204,7 +204,7 @@ public class InlineModelResolver {
         Map<String, Model> modelsToAdd = new HashMap<String, Model>();
         for (String key : properties.keySet()) {
             Property property = properties.get(key);
-            if (property instanceof ObjectProperty) {
+            if (property instanceof ObjectProperty && ((ObjectProperty)property).getProperties().size() > 0) {
                 String modelName = uniqueName(path + "_" + key);
 
                 ObjectProperty op = (ObjectProperty) property;
