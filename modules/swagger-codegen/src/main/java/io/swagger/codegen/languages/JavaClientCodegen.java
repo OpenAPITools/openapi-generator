@@ -378,7 +378,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
+            throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
