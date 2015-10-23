@@ -531,7 +531,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         + "  Tag: " + tag + "\n"//
                         + "  Operation: " + operation.getOperationId() + "\n" //
                         + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
-                        + "  Definitions: " + swagger.getDefinitions();
+                        + "  Definitions: " + swagger.getDefinitions() + "\n"  //
+                        + "  Exception: " + ex.getMessage();
                     throw new RuntimeException(msg, ex);
                 }
             }
