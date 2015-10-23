@@ -66,7 +66,7 @@ module Petstore
         if value.is_a?(Array)
           hash[param] = value.compact.map{ |v| _to_hash(v) }
         else
-          hash[param] = value
+          hash[param] = _to_hash(value)
         end
       end
       hash
