@@ -15,6 +15,7 @@ import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -236,7 +237,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
       for (String value : values) {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("enum", StringUtils.capitalize(value));
+        map.put("enum", toSwiftyEnumName(value));
         map.put("raw", value);
         swiftEnums.add(map);
       }
@@ -249,6 +250,16 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     }
     return codegenProperty;
   }
+
+    public String toSwiftyEnumName(String value) {
+        // Prevent from breaking properly cased identifier
+        if (value.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+            return value;
+        }
+        char[] separators = {'-', '_', ' '};
+        return WordUtils.capitalizeFully(StringUtils.lowerCase(value), separators).replaceAll("[-_ ]", "");
+    }
+
 
   @Override
   public String toApiName(String name) {
