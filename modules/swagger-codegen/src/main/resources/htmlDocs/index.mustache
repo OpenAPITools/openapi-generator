@@ -161,6 +161,10 @@
     <h3 class="field-label"><a name="{{classname}}">{{classname}}</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       {{#vars}}<div class="param">{{name}} {{#isNotRequired}}(optional){{/isNotRequired}}</div><div class="param-desc"><span class="param-type">{{datatype}}</span> {{description}}</div>
+      {{#isEnum}}
+        <div class="param-enum-header">Enum:</div>
+        {{#_enum}}<div class="param-enum">{{this}}</div>{{/_enum}}
+      {{/isEnum}}
       {{/vars}}
     </div>  <!-- field-items -->
   </div>
