@@ -5,7 +5,16 @@
   {{#vars}}
 <ul class="parameter">
   <li class="param-required-{{required}}">{{name}} : {{datatype}}
-	  <br/>{{description}}
+    <br/>{{description}}
+    {{#isEnum}}
+      <dl class="param-enum">
+        <dt>Enum:
+          {{#_enum}}
+            <dd>{{this}}</dd>
+          {{/_enum}}
+        </dt>
+      </dl>
+    {{/isEnum}}
   </li>
 </ul>
   {{/vars}}
