@@ -163,6 +163,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         String contextPath = swagger.getBasePath() == null ? "" : swagger.getBasePath();
         String basePath = hostBuilder.toString();
+        String basePathWithoutHost = swagger.getBasePath();
 
 
         // resolve inline models
@@ -252,6 +253,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     Map<String, Object> operation = processOperations(config, tag, ops);
 
                     operation.put("basePath", basePath);
+                    operation.put("basePathWithoutHost", basePathWithoutHost);
                     operation.put("contextPath", contextPath);
                     operation.put("baseName", tag);
                     operation.put("modelPackage", config.modelPackage());

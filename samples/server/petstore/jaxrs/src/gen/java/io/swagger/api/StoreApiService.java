@@ -18,7 +18,7 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-10-20T10:58:35.558-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-10-26T17:58:55.634+08:00")
 public abstract class StoreApiService {
   
       public abstract Response getInventory()
