@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    public static final String FULL_JAVA_UTIL = "fullJavaUtil";
 
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -84,7 +85,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
-        cliOptions.add(new CliOption("fullJavaUtil", "whether to use fully qualified name for classes under java.util (default to false)"));
+        cliOptions.add(new CliOption(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util (default to false)"));
 
         supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
@@ -160,13 +161,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
-        if (additionalProperties.containsKey("fullJavaUtil")) {
-            fullJavaUtil = Boolean.valueOf(additionalProperties.get("fullJavaUtil").toString());
+        if (additionalProperties.containsKey(FULL_JAVA_UTIL)) {
+            this.setFullJavaUtil(Boolean.valueOf(additionalProperties.get(FULL_JAVA_UTIL).toString()));
         }
         if (fullJavaUtil) {
             javaUtilPrefix = "java.util.";
         }
-        additionalProperties.put("fullJavaUtil", fullJavaUtil);
+        additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
 
         if (fullJavaUtil) {
@@ -582,4 +583,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return packageName;
     }
 
+    public void setFullJavaUtil(boolean fullJavaUtil) {
+        this.fullJavaUtil = fullJavaUtil;
+    }
 }
