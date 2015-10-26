@@ -6,11 +6,6 @@
     <packaging>jar</packaging>
     <name>swagger-client</name>
     <version>1.0.0</version>
-    <scm>
-        <connection>scm:git:git@github.com:wordnik/swagger-mustache.git</connection>
-        <developerConnection>scm:git:git@github.com:wordnik/swagger-codegen.git</developerConnection>
-        <url>https://github.com/wordnik/swagger-codegen</url>
-    </scm>
     <prerequisites>
         <maven>2.2.0</maven>
     </prerequisites>
@@ -159,7 +154,7 @@
     <properties>
         <swagger-annotations-version>1.5.0-M1</swagger-annotations-version>
         <jersey-version>1.7</jersey-version>
-        <jackson-version>2.1.4</jackson-version>
+        <jackson-version>2.1.5-SNAPSHOT</jackson-version>
         <jodatime-version>2.3</jodatime-version>
         <junit-version>4.8.1</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
