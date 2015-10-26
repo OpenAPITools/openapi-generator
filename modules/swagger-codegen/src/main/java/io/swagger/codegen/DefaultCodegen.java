@@ -235,18 +235,42 @@ public class DefaultCodegen {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
     }
 
+    /**
+     * Return the file name of the Api
+     * 
+     * @param name the file name of the Api
+     * @return the file name of the Api
+     */
     public String toApiFilename(String name) {
         return toApiName(name);
     }
 
+    /**
+     * Return the variable name in the Api
+     * 
+     * @param name the varible name of the Api
+     * @return the snake-cased variable name
+     */
     public String toApiVarName(String name) {
         return snakeCase(name);
     }
 
+    /**
+     * Return the capitalized file name of the model
+     * 
+     * @param name the model name
+     * @return the file name of the model
+     */
     public String toModelFilename(String name) {
         return initialCaps(name);
     }
 
+    /**
+     * Return the operation ID (method name)
+     * 
+     * @param operationId operation ID
+     * @return the sanitized method name
+     */
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
@@ -256,6 +280,13 @@ public class DefaultCodegen {
         return operationId;
     }
 
+    /**
+     * Return the variable name by removing invalid characters and proper escaping if
+     * it's a reserved word.
+     * 
+     * @param name the variable name
+     * @return the sanitized variable name
+     */
     public String toVarName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
@@ -264,6 +295,13 @@ public class DefaultCodegen {
         }
     }
 
+    /**
+     * Return the parameter name by removing invalid characters and proper escaping if
+     * it's a reserved word.
+     * 
+     * @param property Codegen property object
+     * @return the sanitized parameter name
+     */
     public String toParamName(String name) {
         name = removeNonNameElementToCamelCase(name);
         if (reservedWords.contains(name)) {
@@ -272,14 +310,33 @@ public class DefaultCodegen {
         return name;
     }
 
+    /**
+     * Return the Enum name (e.g. StatusEnum given 'status')
+     * 
+     * @param property Codegen property object
+     * @return the Enum name
+     */
     public String toEnumName(CodegenProperty property) {
         return StringUtils.capitalize(property.name) + "Enum";
     }
-
+    
+    /**
+     * Return the escaped name of the reserved word
+     * 
+     * @param name the name to be escaped
+     * @throws Runtime exception as reserved word is not allowed (default behavior)
+     * @return the escaped reserved word
+     */
     public String escapeReservedWord(String name) {
         throw new RuntimeException("reserved word " + name + " not allowed");
     }
 
+    /**
+     * Return the fully-qualified "Model" name for import
+     * 
+     * @param name the name of the "Model"
+     * @return the fully-qualified "Model" name for import
+     */
     public String toModelImport(String name) {
         if ("".equals(modelPackage())) {
             return name;
@@ -288,10 +345,26 @@ public class DefaultCodegen {
         }
     }
 
+    /**
+     * Return the fully-qualified "Api" name for import
+     * 
+     * @param name the name of the "Api"
+     * @return the fully-qualified "Api" name for import
+     */
     public String toApiImport(String name) {
         return apiPackage() + "." + name;
     }
 
+    /**
+     * Default constructor.
+     * This method will map between Swagger type and language-specified type, as well as mapping
+     * between Swagger type and the corresponding import statement for the language. This will 
+     * also add some language specified CLI options, if any.
+     *
+     * @param path the path of the operation
+     * @param operation Swagger operation object
+     * @return string presentation of the example path
+     */
     public DefaultCodegen() {
         defaultIncludes = new HashSet<String>(
                 Arrays.asList("double",
@@ -355,7 +428,13 @@ public class DefaultCodegen {
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
     }
 
-
+    /**
+     * Return the example path
+     *
+     * @param path the path of the operation
+     * @param operation Swagger operation object
+     * @return string presentation of the example path
+     */
     public String generateExamplePath(String path, Operation operation) {
         StringBuilder sb = new StringBuilder();
         sb.append(path);
@@ -406,6 +485,12 @@ public class DefaultCodegen {
         return sb.toString();
     }
 
+    /**
+     * Return the instantiation type of the property, especially for map and array
+     *
+     * @param p Swagger property object
+     * @return string presentation of the instantiation type of the property
+     */
     public String toInstantiationType(Property p) {
         if (p instanceof MapProperty) {
             MapProperty ap = (MapProperty) p;
@@ -426,6 +511,12 @@ public class DefaultCodegen {
         }
     }
 
+    /**
+     * Return the default value of the property
+     *
+     * @param p Swagger property object
+     * @return string presentation of the default value of the property
+     */
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
             return "null";
@@ -466,6 +557,8 @@ public class DefaultCodegen {
 
     /**
      * returns the swagger type for the property
+     * @param p Swagger property object
+     * @return string presentation of the type
      **/
     public String getSwaggerType(Property p) {
         String datatype = null;
@@ -511,18 +604,42 @@ public class DefaultCodegen {
         return datatype;
     }
 
+    /**
+     * Return the snake-case of the string
+     *
+     * @param name string to be snake-cased
+     * @return snake-cased string
+     */
     public String snakeCase(String name) {
         return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
     }
 
+    /**
+     * Capitalize the string
+     *
+     * @param name string to be capitalized
+     * @return capitalized string
+     */
     public String initialCaps(String name) {
         return StringUtils.capitalize(name);
     }
 
+    /**
+     * Output the type declaration of a given name
+     *
+     * @param name name
+     * @return a string presentation of the type
+     */
     public String getTypeDeclaration(String name) {
         return name;
     }
 
+    /**
+     * Output the type declaration of the property
+     *
+     * @param p Swagger Property object
+     * @return a string presentation of the property type
+     */
     public String getTypeDeclaration(Property p) {
         String swaggerType = getSwaggerType(p);
         if (typeMapping.containsKey(swaggerType)) {
@@ -531,6 +648,13 @@ public class DefaultCodegen {
         return swaggerType;
     }
 
+    /**
+     * Output the API (class) name (capitalized) ending with "Api"
+     * Return DefaultApi if name is empty
+     *
+     * @param name the name of the Api
+     * @return capitalized Api name ending with "Api"
+     */
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultApi";
@@ -538,14 +662,35 @@ public class DefaultCodegen {
         return initialCaps(name) + "Api";
     }
 
+    /**
+     * Output the proper model name (capitalized)
+     *
+     * @param name the name of the model
+     * @return capitalized model name
+     */
     public String toModelName(String name) {
         return initialCaps(name);
     }
 
+    /**
+     * Convert Swagger Model object to Codegen Model object without providing all model definitions
+     *
+     * @param name the name of the model
+     * @param model Swagger Model object
+     * @return Codegen Model object
+     */
     public CodegenModel fromModel(String name, Model model) {
         return fromModel(name, model, null);
     }
 
+    /**
+     * Convert Swagger Model object to Codegen Model object
+     *
+     * @param name the name of the model
+     * @param model Swagger Model object
+     * @param allDefinitions a map of all Swagger models from the spec
+     * @return Codegen Model object
+     */
     public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (reservedWords.contains(name)) {
@@ -632,6 +777,12 @@ public class DefaultCodegen {
         return m;
     }
 
+    /**
+     * Camelize the method name of the getter and setter
+     *
+     * @param name string to be camelized
+     * @return Camelized string
+     */
     public String getterAndSetterCapitalize(String name) {
         if (name == null || name.length() == 0) {
             return name;
@@ -640,7 +791,14 @@ public class DefaultCodegen {
         return camelize(toVarName(name));
 
     }
-
+    
+    /**
+     * Convert Swagger Property object to Codegen Property object
+     *
+     * @param name name of the property
+     * @param p Swagger property object
+     * @return Codegen Property object
+     */
     public CodegenProperty fromProperty(String name, Property p) {
         if (p == null) {
             LOGGER.error("unexpected missing property for name " + name);
@@ -696,9 +854,10 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
-        if(p instanceof IntegerProperty) {
+        
+        if (p instanceof IntegerProperty) {
             IntegerProperty sp = (IntegerProperty) p;
-            if(sp.getEnum() != null) {
+            if (sp.getEnum() != null) {
                 List<Integer> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(Integer i : _enum) {
@@ -712,9 +871,10 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
-        if(p instanceof LongProperty) {
+        
+        if (p instanceof LongProperty) {
             LongProperty sp = (LongProperty) p;
-            if(sp.getEnum() != null) {
+            if (sp.getEnum() != null) {
                 List<Long> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(Long i : _enum) {
@@ -728,9 +888,10 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
-        if(p instanceof DoubleProperty) {
+        
+        if (p instanceof DoubleProperty) {
             DoubleProperty sp = (DoubleProperty) p;
-            if(sp.getEnum() != null) {
+            if (sp.getEnum() != null) {
                 List<Double> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(Double i : _enum) {
@@ -744,9 +905,10 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
-        if(p instanceof FloatProperty) {
+        
+        if (p instanceof FloatProperty) {
             FloatProperty sp = (FloatProperty) p;
-            if(sp.getEnum() != null) {
+            if (sp.getEnum() != null) {
                 List<Float> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(Float i : _enum) {
@@ -760,9 +922,10 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
-        if(p instanceof DateProperty) {
+        
+        if (p instanceof DateProperty) {
             DateProperty sp = (DateProperty) p;
-            if(sp.getEnum() != null) {
+            if (sp.getEnum() != null) {
                 List<String> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(String i : _enum) {
@@ -776,9 +939,10 @@ public class DefaultCodegen {
                 property.allowableValues = allowableValues;
             }
         }
-        if(p instanceof DateTimeProperty) {
+        
+        if (p instanceof DateTimeProperty) {
             DateTimeProperty sp = (DateTimeProperty) p;
-            if(sp.getEnum() != null) {
+            if (sp.getEnum() != null) {
                 List<String> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(String i : _enum) {
@@ -868,10 +1032,29 @@ public class DefaultCodegen {
         return responses.get(code);
     }
     
+    /**
+     * Convert Swagger Operation object to Codegen Operation object (without providing a Swagger object)
+     *
+     * @param path the path of the operation
+     * @param httpMethod HTTP method
+     * @param operation Swagger operation object
+     * @param definitions a map of Swagger models
+     * @return Codegen Operation object
+     */
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
     	return fromOperation(path, httpMethod, operation, definitions, null);
     }
     
+    /**
+     * Convert Swagger Operation object to Codegen Operation object
+     *
+     * @param path the path of the operation
+     * @param httpMethod HTTP method
+     * @param operation Swagger operation object
+     * @param definitions a map of Swagger models
+     * @param swagger a Swagger object representing the spec
+     * @return Codegen Operation object
+     */
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
@@ -1119,6 +1302,13 @@ public class DefaultCodegen {
         return op;
     }
 
+    /**
+     * Convert Swagger Response object to Codegen Response object
+     *
+     * @param responseCode HTTP response code
+     * @param response Swagger Response object
+     * @return Codegen Response object
+     */
     public CodegenResponse fromResponse(String responseCode, Response response) {
         CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
         if ("default".equals(responseCode)) {
@@ -1168,7 +1358,14 @@ public class DefaultCodegen {
         }
         return r;
     }
-
+    
+    /**
+     * Convert Swagger Parameter object to Codegen Parameter object
+     *
+     * @param param Swagger parameter object
+     * @param a set of imports for library/package/module
+     * @return Codegen Parameter object
+     */
     public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
         CodegenParameter p = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         p.baseName = param.getName();
@@ -1314,6 +1511,12 @@ public class DefaultCodegen {
         return p;
     }
 
+    /**
+     * Convert map of Swagger SecuritySchemeDefinition objects to a list of Codegen Security objects
+     *
+     * @param schemes a map of Swagger SecuritySchemeDefinition object
+     * @return a list of Codegen Security objects
+     */
     public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
         if (schemes == null) {
             return null;
@@ -1372,6 +1575,12 @@ public class DefaultCodegen {
         return secs;
     }
 
+    /**
+     * Check the type to see if it needs import the library/module/package
+     *
+     * @param type name of the type
+     * @return true if the library/module/package of the corresponding type needs to be imported
+     */
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
             && !languageSpecificPrimitives.contains(type)
@@ -1429,6 +1638,15 @@ public class DefaultCodegen {
         return objs;
     }
 
+    /**
+     * Add operation to group
+     *
+     * @param tag name of the tag
+     * @param resourcePath path of the resource
+     * @param operation Swagger Operation object
+     * @param co Codegen Operation object
+     * @param operations map of Codegen operations
+     */
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(tag);
         if (opList == null) {
@@ -1439,9 +1657,7 @@ public class DefaultCodegen {
         co.baseName = tag;
     }
 
-  /* underscore and camelize are copied from Twitter elephant bird
-   * https://github.com/twitter/elephant-bird/blob/master/core/src/main/java/com/twitter/elephantbird/util/Strings.java
-   */
+
 
     private void addParentContainer(CodegenModel m, String name, Property property) {
         final CodegenProperty tmp = fromProperty(name, property);
@@ -1460,6 +1676,8 @@ public class DefaultCodegen {
 
     /**
      * Underscore the given word.
+     * Copied from Twitter elephant bird
+     * https://github.com/twitter/elephant-bird/blob/master/core/src/main/java/com/twitter/elephantbird/util/Strings.java
      *
      * @param word The word
      * @return The underscored version of the word
@@ -1524,12 +1742,11 @@ public class DefaultCodegen {
         }
     }
 
-
     /**
      * Remove characters not suitable for variable or method name from the input and camelize it
      *
-     * @param name
-     * @return
+     * @param name string to be camelize
+     * @return camelized string
      */
     public String removeNonNameElementToCamelCase(String name) {
         String nonNameElementPattern = "[-_:;#]";
@@ -1545,11 +1762,26 @@ public class DefaultCodegen {
         }
         return name;
     }
-
+    
+    /**
+     * Camelize name (parameter, property, method, etc) with upper case for first letter
+     * copied from Twitter elephant bird
+     * https://github.com/twitter/elephant-bird/blob/master/core/src/main/java/com/twitter/elephantbird/util/Strings.java
+     *
+     * @param word string to be camelize
+     * @return camelized string
+     */
     public static String camelize(String word) {
         return camelize(word, false);
     }
 
+    /**
+     * Camelize name (parameter, property, method, etc)
+     *
+     * @param word string to be camelize
+     * @param lowercaseFirstLetter lower case for first letter if set to true
+     * @return camelized string
+     */
     public static String camelize(String word, boolean lowercaseFirstLetter) {
         // Replace all slashes with dots (package separator)
         Pattern p = Pattern.compile("\\/(.?)");
@@ -1654,7 +1886,7 @@ public class DefaultCodegen {
     }
 
     /**
-     * sanitize name (parameter, property, method, etc)
+     * Sanitize name (parameter, property, method, etc)
      *
      * @param name string to be sanitize
      * @return sanitized string
