@@ -86,9 +86,7 @@ public class Generator {
         }
 
         if (opts.getOptions() != null) {
-            for (Map.Entry<String, String> entry : opts.getOptions().entrySet()) {
-                codegenConfig.additionalProperties().put(entry.getKey(), entry.getValue());
-            }
+            codegenConfig.additionalProperties().putAll(opts.getOptions());
         }
 
         codegenConfig.setOutputDir(outputFolder);
