@@ -10,7 +10,7 @@
     <artifactId>swagger-codegen-project</artifactId>
     <packaging>pom</packaging>
     <name>swagger-codegen-project</name>
-    <version>2.1.4</version>
+    <version>2.1.5-SNAPSHOT</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <scm>
         <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
@@ -521,7 +521,7 @@
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
         <swagger-core-version>1.5.4</swagger-core-version>
-        <scala-test-version>2.1.4</scala-test-version>
+        <scala-test-version>2.1.5-SNAPSHOT</scala-test-version>
         <commons-io-version>2.3</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
