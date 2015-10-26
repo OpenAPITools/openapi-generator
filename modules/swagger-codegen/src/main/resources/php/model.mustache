@@ -46,7 +46,7 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class {{classname}} implements ArrayAccess
+class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayAccess
 {
     /**
       * Array of property to type mappings. Used for (de)serialization 
@@ -57,6 +57,10 @@ class {{classname}} implements ArrayAccess
         {{/hasMore}}{{/vars}}
     );
   
+    static function swaggerTypes() {
+        return self::$swaggerTypes{{#parent}} + parent::swaggerTypes(){{/parent}};
+    }
+
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
       * @var string[] 
@@ -66,6 +70,10 @@ class {{classname}} implements ArrayAccess
         {{/hasMore}}{{/vars}}
     );
   
+    static function attributeMap() {
+        return {{#parent}}parent::attributeMap() + {{/parent}}self::$attributeMap;
+    }
+
     /**
       * Array of attributes to setter functions (for deserialization of responses)
       * @var string[]
@@ -75,6 +83,10 @@ class {{classname}} implements ArrayAccess
         {{/hasMore}}{{/vars}}
     );
   
+    static function setters() {
+        return {{#parent}}parent::setters() + {{/parent}}self::$setters;
+    }
+
     /**
       * Array of attributes to getter functions (for serialization of requests)
       * @var string[]
@@ -84,6 +96,10 @@ class {{classname}} implements ArrayAccess
         {{/hasMore}}{{/vars}}
     );
   
+    static function getters() {
+        return {{#parent}}parent::getters() + {{/parent}}self::$getters;
+    }
+
     {{#vars}}
     /**
       * ${{name}} {{#description}}{{{description}}}{{/description}}
