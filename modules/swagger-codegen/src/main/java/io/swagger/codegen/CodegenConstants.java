@@ -40,4 +40,6 @@ public class CodegenConstants {
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG = "sortParamsByRequiredFlag";
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG_DESC = "Sort method arguments to place required parameters before optional parameters. Default: true";
 
+    public static final String PACKAGE_NAME = "packageName";
+    public static final String PACKAGE_VERSION = "packageVersion";
 }
