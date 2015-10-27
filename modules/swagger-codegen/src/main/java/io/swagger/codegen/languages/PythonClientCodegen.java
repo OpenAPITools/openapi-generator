@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -62,30 +63,31 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "return", "def", "for", "lambda", "try"));
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("packageName", "python package name (convention: snake_case), default: swagger_client"));
-        cliOptions.add(new CliOption("packageVersion", "python package version, default: 1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case)," +
+                " default: swagger_client"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version, default: 1.0.0"));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("packageName")) {
-            setPackageName((String) additionalProperties.get("packageName"));
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         }
         else {
             setPackageName("swagger_client");
         }
 
-        if (additionalProperties.containsKey("packageVersion")) {
-            setPackageVersion((String) additionalProperties.get("packageVersion"));
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         }
         else {
             setPackageVersion("1.0.0");
         }
 
-        additionalProperties.put("packageName", packageName);
-        additionalProperties.put("packageVersion", packageVersion);
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
         String swaggerFolder = packageName;
 
