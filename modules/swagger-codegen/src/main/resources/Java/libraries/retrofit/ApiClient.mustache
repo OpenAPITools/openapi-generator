@@ -41,7 +41,7 @@ public class ApiClient {
         apiAuthorizations = new LinkedHashMap<String, Interceptor>();
         createDefaultAdapter();
     }
-    
+
     public ApiClient(String[] authNames) {
         this();
         okClient = new OkHttpClient();
@@ -49,16 +49,17 @@ public class ApiClient {
         for(String authName : authNames) {
             if (apiAuthorizations.containsKey(authName)) {
                 throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
-            }{{#authMethods}}
+            }{{#hasAuthMethods}}
             Interceptor auth;
-            if (authName == "{{name}}") { {{#isBasic}}
+            {{#authMethods}}if (authName == "{{name}}") { {{#isBasic}}
                 auth = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
                 auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
                 auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");{{/isOAuth}}
-            } else {
+            } else {{/authMethods}}{
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
-            apiAuthorizations.put(authName, auth);{{/authMethods}}
+            apiAuthorizations.put(authName, auth);{{/hasAuthMethods}}{{^hasAuthMethods}}
+            throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");{{/hasAuthMethods}}
         }
         addAuthsToOkClient(okClient);
     }
