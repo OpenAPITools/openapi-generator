@@ -333,6 +333,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
         name = name.replaceAll("[^\\w\\\\]+", "_");
 
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
         // model name cannot use reserved keyword
         if (reservedWords.contains(name)) {
             escapeReservedWord(name); // e.g. return => _return

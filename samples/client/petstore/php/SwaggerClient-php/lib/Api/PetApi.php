@@ -136,7 +136,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAuthToken();
         
         // make the API Call
         try
@@ -201,7 +201,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAuthToken();
         
         // make the API Call
         try
@@ -265,7 +265,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAuthToken();
         
         // make the API Call
         try
@@ -341,7 +341,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAuthToken();
         
         // make the API Call
         try
@@ -527,7 +527,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAuthToken();
         
         // make the API Call
         try
@@ -603,7 +603,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAuthToken();
         
         // make the API Call
         try
@@ -695,7 +695,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAuthToken();
         
         // make the API Call
         try
