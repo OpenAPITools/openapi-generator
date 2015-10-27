@@ -72,6 +72,11 @@ class Configuration(object):
         # Password for HTTP basic authentication
         self.password = ""
 
+{{#authMethods}}{{#isOAuth}}
+        # token for OAuth
+        self.auth_token = ""
+{{/isOAuth}}{{/authMethods}}
+
         # Logging Settings
         self.logger = {}
         self.logger["package_logger"] = logging.getLogger("{{packageName}}")
@@ -231,8 +236,15 @@ class Configuration(object):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-{{/isBasic}}
-{{/authMethods}}
+{{/isBasic}}{{#isOauth}}
+            '{{name}}': 
+                {
+                    'type': 'oauth2',
+                    'in': 'header',
+                    'key': 'Authorization',
+                    'value': 'Bearer ' + self.auth_token
+                },
+{{/isOauth}}{{/authMethods}}
         }
 
     def to_debug_report(self):
