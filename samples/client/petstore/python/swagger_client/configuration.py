@@ -220,6 +220,7 @@ class Configuration(object):
                     'key': 'api_key',
                     'value': self.get_api_key_with_prefix('api_key')
                 },
+
         }
 
     def to_debug_report(self):
