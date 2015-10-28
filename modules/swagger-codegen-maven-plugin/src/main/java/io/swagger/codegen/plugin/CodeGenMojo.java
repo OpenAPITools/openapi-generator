@@ -36,6 +36,7 @@ import config.Config;
 import config.ConfigParser;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
 
@@ -112,6 +113,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "true")
     private boolean addCompileSourceRoot = true;
 
+    @Parameter
+    protected Map<String, String> environmentVariables = new HashMap<String, String>();
+
     /**
      * The project being built.
      */
@@ -124,6 +128,17 @@ public class CodeGenMojo extends AbstractMojo {
 
         CodegenConfig config = CodegenConfigLoader.forName(language);
         config.setOutputDir(output.getAbsolutePath());
+
+        if (environmentVariables != null) {
+            for(String key : environmentVariables.keySet()) {
+                String value = environmentVariables.get(key);
+                if(value == null) {
+                    // don't put null values
+                    value = "";
+                }
+                System.setProperty(key, value);
+            }
+        }
 
         if (null != templateDirectory) {
             config.additionalProperties().put(TEMPLATE_DIR_PARAM, templateDirectory.getAbsolutePath());

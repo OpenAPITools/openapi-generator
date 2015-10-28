@@ -263,7 +263,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @param username The name that needs to be fetched. Use user1 for testing.
    * @return User
    */
   def getUserByName (username: String) : Option[User] = {

@@ -5,5 +5,5 @@
 /// <reference path="Order.ts" />
 
 /// <reference path="UserApi.ts" />
-/// <reference path="StoreApi.ts" />
 /// <reference path="PetApi.ts" />
+/// <reference path="StoreApi.ts" />

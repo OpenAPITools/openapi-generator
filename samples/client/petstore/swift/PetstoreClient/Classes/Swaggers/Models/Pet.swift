@@ -8,21 +8,21 @@
 import Foundation
 
 
-class Pet: JSONEncodable {
+public class Pet: JSONEncodable {
 
-    enum Status: String { 
+    public enum Status: String { 
         case Available = "available"
         case Pending = "pending"
         case Sold = "sold"
     }
     
-    var id: Int?
-    var category: Category?
-    var name: String?
-    var photoUrls: [String]?
-    var tags: [Tag]?
+    public var id: Int?
+    public var category: Category?
+    public var name: String?
+    public var photoUrls: [String]?
+    public var tags: [Tag]?
     /** pet status in the store */
-    var status: Status?
+    public var status: Status?
     
 
     // MARK: JSONEncodable

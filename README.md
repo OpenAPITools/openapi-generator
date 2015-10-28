@@ -64,8 +64,8 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version    | Release Date | Swagger Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
-2.1.4-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
-2.1.3 (**current stable**) | 2015-08-24   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.3](https://github.com/swagger-api/swagger-codegen/tree/v2.1.3)
+2.1.5-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
+2.1.4 (**current stable**) | 2015-10-25   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.4](https://github.com/swagger-api/swagger-codegen/tree/v2.1.4)
 2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
@@ -211,6 +211,36 @@ to the code generator like this:
 ```
 
 Great for creating libraries on your ci server, from the [Swagger Editor](http://editor.swagger.io)... or while coding on an airplane.
+
+### Selective generation
+You may not want to generate *all* models in your project.  Likewise you may want just one or two apis to be written.  If that's the case, you can use system properties to control the output:
+
+The default is generate *everything* supported by the specific library.  Once you enable a feature, it will restrict the contents generated:
+
+```
+# generate only models
+java -Dmodels {opts}
+
+# generate only apis
+java -Dapis {opts}
+
+# generate only supporting files
+java -DsupportingFiles
+
+# generate models and supporting files
+java -Dmodels -DsupportingFiles
+```
+
+To control the specific files being generated, you can pass a CSV list of what you want:
+```
+# generate the User and Pet models only
+-Dmodels=User,Pet
+
+# generate the User model and the supportingFile `StringUtil.java`:
+-Dmodels=User -DsupportingFiles=StringUtil.java
+```
+
+When using selective generation, _only_ the templates needed for the specific generation will be used.
 
 ### Customizing the generator
 

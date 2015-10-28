@@ -97,10 +97,6 @@
         
       ],
       "responses": {
-        "404": {
-  "description" : "User not found"
-}
-        ,
         "200": {
   "description" : "successful operation",
   "schema" : {
@@ -122,6 +118,10 @@
         ,
         "400": {
   "description" : "Invalid username supplied"
+}
+        ,
+        "404": {
+  "description" : "User not found"
 }
         
         
@@ -154,12 +154,12 @@
         
       ],
       "responses": {
-        "404": {
-  "description" : "User not found"
-}
-        ,
         "400": {
   "description" : "Invalid user supplied"
+}
+        ,
+        "404": {
+  "description" : "User not found"
 }
         
         
@@ -183,12 +183,12 @@
         
       ],
       "responses": {
-        "404": {
-  "description" : "User not found"
-}
-        ,
         "400": {
   "description" : "Invalid username supplied"
+}
+        ,
+        "404": {
+  "description" : "User not found"
 }
         
         
@@ -312,16 +312,16 @@
         
       ],
       "responses": {
-        "405": {
-  "description" : "Validation exception"
+        "400": {
+  "description" : "Invalid ID supplied"
 }
         ,
         "404": {
   "description" : "Pet not found"
 }
         ,
-        "400": {
-  "description" : "Invalid ID supplied"
+        "405": {
+  "description" : "Validation exception"
 }
         
         
@@ -416,9 +416,6 @@
   "description" : "Status values that need to be considered for filter",
   "required" : false,
   "type" : "array",
-  "items" : {
-    "type" : "string"
-  },
   "collectionFormat" : "multi",
   "default" : "available"
 }
@@ -460,9 +457,6 @@
   "description" : "Tags to filter by",
   "required" : false,
   "type" : "array",
-  "items" : {
-    "type" : "string"
-  },
   "collectionFormat" : "multi"
 }
         
@@ -508,10 +502,6 @@
         
       ],
       "responses": {
-        "404": {
-  "description" : "Pet not found"
-}
-        ,
         "200": {
   "description" : "successful operation",
   "schema" : {
@@ -521,6 +511,10 @@
         ,
         "400": {
   "description" : "Invalid ID supplied"
+}
+        ,
+        "404": {
+  "description" : "Pet not found"
 }
         
         
@@ -621,10 +615,6 @@
         
       ],
       "responses": {
-        "404": {
-  "description" : "Order not found"
-}
-        ,
         "200": {
   "description" : "successful operation",
   "schema" : {
@@ -634,6 +624,10 @@
         ,
         "400": {
   "description" : "Invalid ID supplied"
+}
+        ,
+        "404": {
+  "description" : "Order not found"
 }
         
         
@@ -657,12 +651,12 @@
         
       ],
       "responses": {
-        "404": {
-  "description" : "Order not found"
-}
-        ,
         "400": {
   "description" : "Invalid ID supplied"
+}
+        ,
+        "404": {
+  "description" : "Order not found"
 }
         
         

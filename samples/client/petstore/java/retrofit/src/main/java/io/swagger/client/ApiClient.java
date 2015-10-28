@@ -41,7 +41,7 @@ public class ApiClient {
         apiAuthorizations = new LinkedHashMap<String, Interceptor>();
         createDefaultAdapter();
     }
-    
+
     public ApiClient(String[] authNames) {
         this();
         okClient = new OkHttpClient();
@@ -51,11 +51,10 @@ public class ApiClient {
                 throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
             }
             Interceptor auth;
-            if (authName == "api_key") { 
-                auth = new ApiKeyAuth("header", "api_key");
-            } else 
             if (authName == "petstore_auth") { 
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else if (authName == "api_key") { 
+                auth = new ApiKeyAuth("header", "api_key");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }

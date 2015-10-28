@@ -18,9 +18,9 @@ public class Pet  {
   @SerializedName("name")
   private String name = null;
   @SerializedName("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>() ;
+  private List<String> photoUrls = null;
   @SerializedName("tags")
-  private List<Tag> tags = new ArrayList<Tag>() ;
+  private List<Tag> tags = null;
   public enum StatusEnum {
      available,  pending,  sold, 
   };
