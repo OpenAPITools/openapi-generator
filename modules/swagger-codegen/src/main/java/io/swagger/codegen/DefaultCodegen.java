@@ -1446,6 +1446,21 @@ public class DefaultCodegen {
             if (model.complexType != null) {
                 imports.add(model.complexType);
             }
+            p.maxLength = qp.getMaxLength();
+            p.minLength = qp.getMinLength();
+            p.pattern = qp.getPattern();
+            
+            p.maximum = qp.getMaximum();
+            p.exclusiveMaximum = qp.getExclusiveMaximum();
+            p.minimum = qp.getMinimum();
+            p.exclusiveMinimum = qp.getExclusiveMinimum();
+            p.maxLength = qp.getMaxLength();
+            p.minLength = qp.getMinLength();
+            p.pattern = qp.getPattern();
+            p.maxItems = qp.getMaxItems();
+            p.minItems = qp.getMinItems();
+            p.uniqueItems = qp.getUniqueItems();
+            p.multipleOf = qp.getMultipleOf();
         } else {
             if (!(param instanceof BodyParameter)) {
                 LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
