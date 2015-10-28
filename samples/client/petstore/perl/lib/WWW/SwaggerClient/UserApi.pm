@@ -305,7 +305,7 @@ sub logout_user {
 #
 # Get user by user name
 # 
-# @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
+# @param string $username The name that needs to be fetched. Use user1 for testing. (required)
 # @return User
 #
 sub get_user_by_name {

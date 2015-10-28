@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    public static final String FULL_JAVA_UTIL = "fullJavaUtil";
 
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -84,7 +85,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
-        cliOptions.add(new CliOption("fullJavaUtil", "whether to use fully qualified name for classes under java.util (default to false)"));
+        cliOptions.add(new CliOption(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util (default to false)"));
 
         supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
@@ -150,7 +151,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
+            this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
@@ -160,13 +161,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
-        if (additionalProperties.containsKey("fullJavaUtil")) {
-            fullJavaUtil = Boolean.valueOf(additionalProperties.get("fullJavaUtil").toString());
+        if (additionalProperties.containsKey(FULL_JAVA_UTIL)) {
+            this.setFullJavaUtil(Boolean.valueOf(additionalProperties.get(FULL_JAVA_UTIL).toString()));
         }
         if (fullJavaUtil) {
             javaUtilPrefix = "java.util.";
         }
-        additionalProperties.put("fullJavaUtil", fullJavaUtil);
+        additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
 
         if (fullJavaUtil) {
@@ -378,7 +379,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
+            throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
@@ -507,6 +508,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             List<CodegenProperty> codegenProperties = codegenModel.vars;
 
             // Iterate over all of the parent model properties
+            boolean removedChildEnum = false;
             for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
                 // Look for enums
                 if (parentModelCodegenPropery.isEnum) {
@@ -519,12 +521,21 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
+                            removedChildEnum = true;
                         }
                     }
                 }
             }
-
-            codegenModel.vars = codegenProperties;
+            
+            if(removedChildEnum) {
+                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
+                int count = 0, numVars = codegenProperties.size();
+                for(CodegenProperty codegenProperty : codegenProperties) {
+                    count += 1;
+                    codegenProperty.hasMore = (count < numVars) ? true : null;
+                }
+                codegenModel.vars = codegenProperties;
+            }
         }
 
         return codegenModel;
@@ -572,4 +583,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return packageName;
     }
 
+    public void setFullJavaUtil(boolean fullJavaUtil) {
+        this.fullJavaUtil = fullJavaUtil;
+    }
 }

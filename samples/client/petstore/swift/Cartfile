@@ -1,2 +1,2 @@
-github "Alamofire/Alamofire" >= 1.2
+github "Alamofire/Alamofire" >= 2.0.0
 github "mxcl/PromiseKit" >=1.5.3

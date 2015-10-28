@@ -1,5 +1,7 @@
 package io.swagger.codegen;
 
+import config.Config;
+import config.ConfigParser;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.apache.commons.cli.BasicParser;
@@ -9,6 +11,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +44,7 @@ public class Codegen extends DefaultGenerator {
         options.addOption("t", "template-dir", true, "folder containing the template files");
         options.addOption("d", "debug-info", false, "prints additional info for debugging");
         options.addOption("a", "auth", true, "adds authorization headers when fetching the swagger definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values");
+        options.addOption("c", "config", true, "location of the configuration file");
 
         ClientOptInput clientOptInput = new ClientOptInput();
         ClientOpts clientOpts = new ClientOpts();
@@ -83,6 +87,18 @@ public class Codegen extends DefaultGenerator {
             }
             if (cmd.hasOption("i")) {
                 swagger = new SwaggerParser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), true);
+            }
+            if (cmd.hasOption("c")) {
+                String configFile = cmd.getOptionValue("c");
+                Config genConfig = ConfigParser.read(configFile);
+                config = clientOptInput.getConfig();
+                if (null != genConfig && null != config) {
+                    for (CliOption langCliOption : config.cliOptions()) {
+                        if (genConfig.hasOption(langCliOption.getOpt())) {
+                            config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
+                        }
+                    }
+                }
             }
             if (cmd.hasOption("t")) {
                 clientOpts.getProperties().put(CodegenConstants.TEMPLATE_DIR, String.valueOf(cmd.getOptionValue("t")));

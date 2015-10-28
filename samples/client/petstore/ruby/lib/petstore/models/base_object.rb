@@ -60,14 +60,13 @@ module Petstore
     # return the object in the form of hash
     def to_hash
       hash = {}
-      self.class.attribute_map.each_pair do |key, value|
-        if self.send(key).is_a?(Array)
-          next if self.send(key).empty?
-          hash[value] = self.send(key).select{|v| !v.nil?}.map{ |v| _to_hash v} unless self.send(key).nil?
+      self.class.attribute_map.each_pair do |attr, param|
+        value = self.send(attr)
+        next if value.nil?
+        if value.is_a?(Array)
+          hash[param] = value.compact.map{ |v| _to_hash(v) }
         else
-          unless (_tmp_value = _to_hash self.send(key)).nil?
-            hash[value] = _tmp_value
-          end
+          hash[param] = _to_hash(value)
         end
       end
       hash

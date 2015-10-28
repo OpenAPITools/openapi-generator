@@ -72,25 +72,25 @@ object UserApi {
   /**
    * 
    * Expected answers:
-   *   code 404 :  (User not found)
    *   code 200 : User (successful operation)
    *   code 400 :  (Invalid username supplied)
+   *   code 404 :  (User not found)
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. 
+   * @param username The name that needs to be fetched. Use user1 for testing.
    */
   def getUserByName(username: String): ApiRequest[User] =
     ApiRequest[User](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
       .withPathParam("username", username)
-      .withErrorResponse[Unit](404)
       .withSuccessResponse[User](200)
       .withErrorResponse[Unit](400)
+      .withErrorResponse[Unit](404)
       
   /**
    * This can only be done by the logged in user.
    * 
    * Expected answers:
-   *   code 404 :  (User not found)
    *   code 400 :  (Invalid user supplied)
+   *   code 404 :  (User not found)
    * 
    * @param username name that need to be deleted
    * @param body Updated user object
@@ -99,23 +99,23 @@ object UserApi {
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
       .withBody(body)
       .withPathParam("username", username)
-      .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
+      .withErrorResponse[Unit](404)
       
   /**
    * This can only be done by the logged in user.
    * 
    * Expected answers:
-   *   code 404 :  (User not found)
    *   code 400 :  (Invalid username supplied)
+   *   code 404 :  (User not found)
    * 
    * @param username The name that needs to be deleted
    */
   def deleteUser(username: String): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.DELETE, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
       .withPathParam("username", username)
-      .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
+      .withErrorResponse[Unit](404)
       
 
 

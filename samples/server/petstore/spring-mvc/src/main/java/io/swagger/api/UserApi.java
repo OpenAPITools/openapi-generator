@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-09-30T16:27:59.075+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-20T10:58:42.063-07:00")
 public class UserApi {
   
 
@@ -128,9 +130,9 @@ public class UserApi {
 
   @ApiOperation(value = "Get user by user name", notes = "", response = User.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 404, message = "User not found"),
     @ApiResponse(code = 200, message = "successful operation"),
-    @ApiResponse(code = 400, message = "Invalid username supplied") })
+    @ApiResponse(code = 400, message = "Invalid username supplied"),
+    @ApiResponse(code = 404, message = "User not found") })
   @RequestMapping(value = "/{username}", 
     produces = { "application/json", "application/xml" }, 
     
@@ -148,8 +150,8 @@ public class UserApi {
 
   @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 404, message = "User not found"),
-    @ApiResponse(code = 400, message = "Invalid user supplied") })
+    @ApiResponse(code = 400, message = "Invalid user supplied"),
+    @ApiResponse(code = 404, message = "User not found") })
   @RequestMapping(value = "/{username}", 
     produces = { "application/json", "application/xml" }, 
     
@@ -171,8 +173,8 @@ public class UserApi {
 
   @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class)
   @ApiResponses(value = { 
-    @ApiResponse(code = 404, message = "User not found"),
-    @ApiResponse(code = 400, message = "Invalid username supplied") })
+    @ApiResponse(code = 400, message = "Invalid username supplied"),
+    @ApiResponse(code = 404, message = "User not found") })
   @RequestMapping(value = "/{username}", 
     produces = { "application/json", "application/xml" }, 
     

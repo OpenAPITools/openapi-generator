@@ -17,22 +17,44 @@ import io.swagger.util.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Generator {
     static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
+    public enum Type {
+        CLIENT("client"),
+        SERVER("server");
+
+        private String name;
+
+        Type(String name) {
+            this.name = name;
+        }
+
+        String getTypeName() {
+            return name;
+        }
+    }
+
     public static String generateClient(String language, GeneratorInput opts) throws ApiException {
-        Swagger swagger;
-        LOGGER.debug("generate client for " + language);
+        return generate(language, opts, Type.CLIENT);
+    }
+
+    public static String generateServer(String language, GeneratorInput opts) throws ApiException {
+        return generate(language, opts, Type.SERVER);
+    }
+
+    private static String generate(String language, GeneratorInput opts, Type type) throws ApiException {
+        LOGGER.debug(String.format("generate %s for %s", type.getTypeName(), language));
         if (opts == null) {
             throw new BadRequestException(400, "No options were supplied");
         }
         JsonNode node = opts.getSpec();
+        Swagger swagger;
         if (node == null) {
             if (opts.getSwaggerUrl() != null) {
                 swagger = new SwaggerParser().read(opts.getSwaggerUrl());
@@ -48,7 +70,8 @@ public class Generator {
 
         ClientOptInput clientOptInput = new ClientOptInput();
         ClientOpts clientOpts = new ClientOpts();
-        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + language + "-client";
+        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + language + "-"
+                + type.getTypeName();
         String outputFilename = outputFolder + "-bundle.zip";
 
         clientOptInput
@@ -61,17 +84,9 @@ public class Generator {
         } catch(RuntimeException e) {
             throw new BadRequestException(400, "Unsupported target " + language + " supplied");
         }
-        
+
         if (opts.getOptions() != null) {
-            for(String key : new String[]{"apiPackage", "modelPackage", "invokerPackage", "groupId", "artifactId", "artifactVersion"}) {
-                if(isNotEmpty(opts.getOptions().get(key))) {
-                    codegenConfig.additionalProperties().put(key , opts.getOptions().get(key));
-                }
-            }
-            
-            if (isNotEmpty(opts.getOptions().get("library"))) {
-                codegenConfig.setLibrary(opts.getOptions().get("library"));
-            }
+            codegenConfig.additionalProperties().putAll(opts.getOptions());
         }
 
         codegenConfig.setOutputDir(outputFolder);
@@ -85,65 +100,6 @@ public class Generator {
             if (files.size() > 0) {
                 List<File> filesToAdd = new ArrayList<File>();
                 System.out.println("adding to " + outputFolder);
-                filesToAdd.add(new File(outputFolder));
-                ZipUtil zip = new ZipUtil();
-                zip.compressFiles(filesToAdd, outputFilename);
-            } else {
-                throw new BadRequestException(400, "A target generation was attempted, but no files were created!");
-            }
-        } catch (Exception e) {
-            throw new BadRequestException(500, "Unable to build target: " + e.getMessage());
-        }
-        return outputFilename;
-    }
-
-    public static String generateServer(String language, GeneratorInput opts) throws ApiException {
-        LOGGER.debug("generate server for " + language);
-        Swagger swagger;
-        if (opts == null) {
-            throw new BadRequestException(400, "No options were supplied");
-        }
-        if (opts == null) {
-            throw new BadRequestException(400, "No options were supplied");
-        }
-        JsonNode node = opts.getSpec();
-        if (node == null) {
-            if (opts.getSwaggerUrl() != null) {
-                swagger = new SwaggerParser().read(opts.getSwaggerUrl());
-            } else {
-                throw new BadRequestException(400, "No swagger specification was supplied");
-            }
-        } else {
-            swagger = new SwaggerParser().read(node, true);
-        }
-        if (swagger == null) {
-            throw new BadRequestException(400, "The swagger specification supplied was not valid");
-        }
-
-        ClientOptInput clientOptInput = new ClientOptInput();
-        ClientOpts clientOpts = new ClientOpts();
-        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + language + "-server";
-        String outputFilename = outputFolder + "-bundle.zip";
-
-        clientOptInput
-                .opts(clientOpts)
-                .swagger(swagger);
-
-        CodegenConfig codegenConfig = Codegen.getConfig(language);
-        if (codegenConfig == null) {
-            throw new BadRequestException(400, "Unsupported target " + language + " supplied");
-        }
-
-        codegenConfig.setOutputDir(outputFolder);
-
-        Json.prettyPrint(clientOpts);
-
-        clientOptInput.setConfig(codegenConfig);
-
-        try {
-            List<File> files = new Codegen().opts(clientOptInput).generate();
-            if (files.size() > 0) {
-                List<File> filesToAdd = new ArrayList<File>();
                 filesToAdd.add(new File(outputFolder));
                 ZipUtil zip = new ZipUtil();
                 zip.compressFiles(filesToAdd, outputFilename);

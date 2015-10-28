@@ -1,9 +1,11 @@
 package io.swagger.codegen.languages;
 
 import com.google.common.base.Predicate;
+
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import io.swagger.codegen.*;
+import io.swagger.models.Swagger;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.parameters.HeaderParameter;
@@ -13,6 +15,7 @@ import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -234,7 +237,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
       for (String value : values) {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("enum", StringUtils.capitalize(value));
+        map.put("enum", toSwiftyEnumName(value));
         map.put("raw", value);
         swiftEnums.add(map);
       }
@@ -248,6 +251,16 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     return codegenProperty;
   }
 
+    public String toSwiftyEnumName(String value) {
+        // Prevent from breaking properly cased identifier
+        if (value.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+            return value;
+        }
+        char[] separators = {'-', '_', ' '};
+        return WordUtils.capitalizeFully(StringUtils.lowerCase(value), separators).replaceAll("[-_ ]", "");
+    }
+
+
   @Override
   public String toApiName(String name) {
     if(name.length() == 0)
@@ -256,7 +269,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
-  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
+  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
     path = normalizePath(path);
     List<Parameter> parameters = operation.getParameters();
     parameters = Lists.newArrayList(Iterators.filter(parameters.iterator(), new Predicate<Parameter>() {
@@ -266,7 +279,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       }
     }));
     operation.setParameters(parameters);
-    return super.fromOperation(path, httpMethod, operation, definitions);
+    return super.fromOperation(path, httpMethod, operation, definitions, swagger);
   }
 
   private static String normalizePath(String path) {

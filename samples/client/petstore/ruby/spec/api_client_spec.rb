@@ -102,4 +102,18 @@ describe Petstore::ApiClient do
     end
   end
 
+  describe "#object_to_hash" do
+    it "ignores nils and includes empty arrays" do
+      api_client = Petstore::ApiClient.new
+      pet = Petstore::Pet.new
+      pet.id = 1
+      pet.name = ''
+      pet.status = nil
+      pet.photo_urls = nil
+      pet.tags = []
+      expected = {id: 1, name: '', tags: []}
+      api_client.object_to_hash(pet).should == expected
+    end
+  end
+
 end

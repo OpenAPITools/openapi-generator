@@ -21,10 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Path("/gen")
 @Api(value = "/gen", description = "Resource for generating swagger components")
@@ -68,8 +65,17 @@ public class SwaggerResource {
             @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
 
         String filename = Generator.generateClient(language, opts);
+        String scheme = request.getHeader("X-SSL");
+        String port = "";
+        if("1".equals(scheme)) {
+            scheme = "https";
+        }
+        else {
+            scheme = request.getScheme();
+            port = ":" + request.getServerPort();
+        }
 
-        String host = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String host = scheme + "://" + request.getServerName() + port;
         if (filename != null) {
             String code = String.valueOf(System.currentTimeMillis());
             Generated g = new Generated();

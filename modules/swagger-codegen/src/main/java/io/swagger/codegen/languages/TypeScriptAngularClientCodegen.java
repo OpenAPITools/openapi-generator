@@ -1,7 +1,6 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.SupportingFile;
-
 import java.io.File;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -12,7 +11,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 	}
 
 	public String getHelp() {
-		return "Generates a TypeScript AngurlarJS client library.";
+		return "Generates a TypeScript AngularJS client library.";
 	}
 
 	public TypeScriptAngularClientCodegen() {

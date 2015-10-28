@@ -11,18 +11,18 @@ object PetApi {
   /**
    * 
    * Expected answers:
-   *   code 405 :  (Validation exception)
-   *   code 404 :  (Pet not found)
    *   code 400 :  (Invalid ID supplied)
+   *   code 404 :  (Pet not found)
+   *   code 405 :  (Validation exception)
    * 
    * @param body Pet object that needs to be added to the store
    */
   def updatePet(body: Option[Pet] = None): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/pet", "application/json")
       .withBody(body)
-      .withErrorResponse[Unit](405)
-      .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](400)
+      .withErrorResponse[Unit](404)
+      .withErrorResponse[Unit](405)
       
   /**
    * 
@@ -70,9 +70,9 @@ object PetApi {
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * 
    * Expected answers:
-   *   code 404 :  (Pet not found)
    *   code 200 : Pet (successful operation)
    *   code 400 :  (Invalid ID supplied)
+   *   code 404 :  (Pet not found)
    * 
    * Available security schemes:
    *   api_key (apiKey)
@@ -83,9 +83,9 @@ object PetApi {
     ApiRequest[Pet](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
       .withPathParam("petId", petId)
-      .withErrorResponse[Unit](404)
       .withSuccessResponse[Pet](200)
       .withErrorResponse[Unit](400)
+      .withErrorResponse[Unit](404)
       
   /**
    * 
