@@ -13,6 +13,9 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Model;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.FloatProperty;
+import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
@@ -349,17 +352,36 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 pattern = "new HashMap<String, %s>()";
             }
             return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()));
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return "null";
         } else if (p instanceof LongProperty) {
             LongProperty dp = (LongProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString()+"l";
             }
            return "null";
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString() + "d";
+            }
+            return "null";
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString() + "f";
+            }
+            return "null";
         } else if (p instanceof BooleanProperty) {
             BooleanProperty bp = (BooleanProperty) p;
             if (bp.getDefault() != null) {
                 return bp.getDefault().toString();
             }
+            return "null";
         } else if (p instanceof StringProperty) {
             StringProperty sp = (StringProperty) p;
             if (sp.getDefault() != null) {
@@ -371,6 +393,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     return _default;
                 }
             }
+            return "null";
         }
         return super.toDefaultValue(p);
     }
