@@ -248,7 +248,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet";
+            var path_ = "/pet";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -279,7 +279,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
@@ -298,7 +298,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet";
+            var path_ = "/pet";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -329,7 +329,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
 
@@ -346,7 +346,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet";
+            var path_ = "/pet";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -377,7 +377,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content, response.Content);
@@ -396,7 +396,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet";
+            var path_ = "/pet";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -427,7 +427,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content, response.Content);
 
@@ -444,7 +444,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet/findByStatus";
+            var path_ = "/pet/findByStatus";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -475,14 +475,14 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
+            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
         }
     
         /// <summary>
@@ -494,7 +494,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet/findByStatus";
+            var path_ = "/pet/findByStatus";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -525,11 +525,11 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
 
-            return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
+            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
         }
         
         /// <summary>
@@ -541,7 +541,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet/findByTags";
+            var path_ = "/pet/findByTags";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -572,14 +572,14 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
+            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
         }
     
         /// <summary>
@@ -591,7 +591,7 @@ namespace IO.Swagger.Api
         {
             
     
-            var path = "/pet/findByTags";
+            var path_ = "/pet/findByTags";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -622,11 +622,11 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
 
-            return (List<Pet>) ApiClient.Deserialize(response.Content, typeof(List<Pet>), response.Headers);
+            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
         }
         
         /// <summary>
@@ -641,7 +641,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
             
     
-            var path = "/pet/{petId}";
+            var path_ = "/pet/{petId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -669,17 +669,17 @@ namespace IO.Swagger.Api
             
     
             // authentication setting, if any
-            String[] authSettings = new String[] { "api_key", "petstore_auth" };
+            String[] authSettings = new String[] { "api_key" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
+            return (Pet) ApiClient.Deserialize(response, typeof(Pet));
         }
     
         /// <summary>
@@ -693,7 +693,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
             
     
-            var path = "/pet/{petId}";
+            var path_ = "/pet/{petId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -721,14 +721,14 @@ namespace IO.Swagger.Api
             
     
             // authentication setting, if any
-            String[] authSettings = new String[] { "api_key", "petstore_auth" };
+            String[] authSettings = new String[] { "api_key" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
 
-            return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
+            return (Pet) ApiClient.Deserialize(response, typeof(Pet));
         }
         
         /// <summary>
@@ -745,7 +745,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
             
     
-            var path = "/pet/{petId}";
+            var path_ = "/pet/{petId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -778,7 +778,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
@@ -801,7 +801,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
             
     
-            var path = "/pet/{petId}";
+            var path_ = "/pet/{petId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -834,7 +834,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
 
@@ -855,7 +855,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
             
     
-            var path = "/pet/{petId}";
+            var path_ = "/pet/{petId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -887,7 +887,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
@@ -909,7 +909,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
             
     
-            var path = "/pet/{petId}";
+            var path_ = "/pet/{petId}";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -941,7 +941,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
 
@@ -963,7 +963,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");
             
     
-            var path = "/pet/{petId}/uploadImage";
+            var path_ = "/pet/{petId}/uploadImage";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -996,7 +996,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
@@ -1019,7 +1019,7 @@ namespace IO.Swagger.Api
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");
             
     
-            var path = "/pet/{petId}/uploadImage";
+            var path_ = "/pet/{petId}/uploadImage";
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
@@ -1052,7 +1052,7 @@ namespace IO.Swagger.Api
             String[] authSettings = new String[] { "petstore_auth" };
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
 
