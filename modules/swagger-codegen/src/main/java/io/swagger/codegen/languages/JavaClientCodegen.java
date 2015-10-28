@@ -151,7 +151,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
+            this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
