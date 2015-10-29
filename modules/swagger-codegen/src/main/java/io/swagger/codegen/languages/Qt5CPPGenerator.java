@@ -97,7 +97,9 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         "bool",
                         "qint32",
-                        "qint64")
+                        "qint64",
+                        "float",
+                        "double")
         );
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
