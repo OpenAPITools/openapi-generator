@@ -1,24 +1,21 @@
 package io.swagger.codegen.springmvc;
 
-import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.java.JavaClientOptionsTest;
-import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.codegen.languages.SpringMVCServerCodegen;
+import io.swagger.codegen.options.SpringMVCServerOptionsProvider;
 
-import com.google.common.collect.ImmutableMap;
 import mockit.Expectations;
 import mockit.Tested;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class SpringMVCServerOptionsTest extends JavaClientOptionsTest {
-    protected static final String CONFIG_PACKAGE_VALUE = "configPackage";
 
     @Tested
     private SpringMVCServerCodegen clientCodegen;
+
+    public SpringMVCServerOptionsTest() {
+        super(new SpringMVCServerOptionsProvider());
+    }
 
     @Override
     protected CodegenConfig getCodegenConfig() {
@@ -28,39 +25,32 @@ public class SpringMVCServerOptionsTest extends JavaClientOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(MODEL_PACKAGE_VALUE);
+            clientCodegen.setModelPackage(SpringMVCServerOptionsProvider.MODEL_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setApiPackage(API_PACKAGE_VALUE);
+            clientCodegen.setApiPackage(SpringMVCServerOptionsProvider.API_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(SORT_PARAMS_VALUE));
+            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(SpringMVCServerOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
-            clientCodegen.setInvokerPackage(INVOKER_PACKAGE_VALUE);
+            clientCodegen.setInvokerPackage(SpringMVCServerOptionsProvider.INVOKER_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setGroupId(GROUP_ID_VALUE);
+            clientCodegen.setGroupId(SpringMVCServerOptionsProvider.GROUP_ID_VALUE);
             times = 1;
-            clientCodegen.setArtifactId(ARTIFACT_ID_VALUE);
+            clientCodegen.setArtifactId(SpringMVCServerOptionsProvider.ARTIFACT_ID_VALUE);
             times = 1;
-            clientCodegen.setArtifactVersion(ARTIFACT_VERSION_VALUE);
+            clientCodegen.setArtifactVersion(SpringMVCServerOptionsProvider.ARTIFACT_VERSION_VALUE);
             times = 1;
-            clientCodegen.setSourceFolder(SOURCE_FOLDER_VALUE);
+            clientCodegen.setSourceFolder(SpringMVCServerOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
-            clientCodegen.setLocalVariablePrefix(LOCAL_PREFIX_VALUE);
+            clientCodegen.setLocalVariablePrefix(SpringMVCServerOptionsProvider.LOCAL_PREFIX_VALUE);
             times = 1;
-            clientCodegen.setSerializableModel(Boolean.valueOf(SERIALIZABLE_MODEL_VALUE));
+            clientCodegen.setSerializableModel(Boolean.valueOf(SpringMVCServerOptionsProvider.SERIALIZABLE_MODEL_VALUE));
             times = 1;
-            clientCodegen.setLibrary(LIBRARY_VALUE);
+            clientCodegen.setLibrary(SpringMVCServerOptionsProvider.LIBRARY_VALUE);
             times = 1;
-            clientCodegen.setFullJavaUtil(Boolean.valueOf(FULL_JAVA_UTIL_VALUE));
+            clientCodegen.setFullJavaUtil(Boolean.valueOf(SpringMVCServerOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;
-            clientCodegen.setConfigPackage(CONFIG_PACKAGE_VALUE);
+            clientCodegen.setConfigPackage(SpringMVCServerOptionsProvider.CONFIG_PACKAGE_VALUE);
             times = 1;
         }};
-    }
-
-    @Override
-    protected Map<String, String> getAvaliableOptions() {
-        Map<String, String> options = new HashMap<String, String>(super.getAvaliableOptions());
-        options.put(SpringMVCServerCodegen.CONFIG_PACKAGE, CONFIG_PACKAGE_VALUE);
-        return options;
     }
 }
