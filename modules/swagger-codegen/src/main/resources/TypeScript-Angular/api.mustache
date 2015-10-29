@@ -13,6 +13,7 @@ namespace {{package}} {
 {{/description}}
     export class {{classname}} {
         private basePath = '{{basePath}}';
+        public defaultHeaders : any = {};
 
         static $inject: string[] = ['$http', '$httpParamSerializer'];
 
@@ -31,7 +32,7 @@ namespace {{package}} {
 
 {{/pathParams}}
             let queryParameters: any = {};
-            let headerParams: any = {};
+            let headerParams: any = this.defaultHeaders;
 {{#hasFormParams}}
             let formParams: any = {};
 
