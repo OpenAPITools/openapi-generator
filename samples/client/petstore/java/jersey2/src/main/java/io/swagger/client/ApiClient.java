@@ -43,8 +43,9 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-20T11:29:47.599-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-29T09:31:27.804+08:00")
 public class ApiClient {
+  private Client client;
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean debugging = false;
@@ -69,10 +70,12 @@ public class ApiClient {
     // Set default User-Agent.
     setUserAgent("Java-Swagger");
 
+    buildClient();
+
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -202,6 +205,7 @@ public class ApiClient {
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
+    buildClient();
     return this;
   }
 
@@ -418,13 +422,6 @@ public class ApiClient {
   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    final ClientConfig clientConfig = new ClientConfig();
-    clientConfig.register(MultiPartFeature.class);
-    if (debugging) {
-      clientConfig.register(LoggingFilter.class);
-    }
-    Client client = ClientBuilder.newClient(clientConfig);
-
     WebTarget target = client.target(this.basePath).path(path);
 
     if (queryParams != null) {
@@ -534,6 +531,15 @@ public class ApiClient {
         buildResponseHeaders(response),
         respBody);
     }
+  }
+
+  private void buildClient() {
+    final ClientConfig clientConfig = new ClientConfig();
+    clientConfig.register(MultiPartFeature.class);
+    if (debugging) {
+      clientConfig.register(LoggingFilter.class);
+    }
+    this.client = ClientBuilder.newClient(clientConfig);
   }
 
   private Map<String, List<String>> buildResponseHeaders(Response response) {
