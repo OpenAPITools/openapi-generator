@@ -1,22 +1,30 @@
 package io.swagger.codegen;
 
+import io.swagger.codegen.options.OptionsProvider;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+
 import mockit.FullVerifications;
+
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractOptionsTest {
+    private final OptionsProvider optionsProvider;
+
+    protected AbstractOptionsTest(OptionsProvider optionsProvider) {
+        this.optionsProvider = optionsProvider;
+    }
 
     @Test
     public void checkOptionsProcessing() {
-        getCodegenConfig().additionalProperties().putAll(getAvaliableOptions());
+        getCodegenConfig().additionalProperties().putAll(optionsProvider.createOptions());
         setExpectations();
 
         getCodegenConfig().processOpts();
@@ -28,7 +36,7 @@ public abstract class AbstractOptionsTest {
     @Test(description = "check if all options described in documentation are presented in test case")
     public void checkOptionsHelp() {
         final List<String> cliOptions = Lists.transform(getCodegenConfig().cliOptions(), getCliOptionTransformer());
-        final Set<String> testOptions = getAvaliableOptions().keySet();
+        final Set<String> testOptions = optionsProvider.createOptions().keySet();
         final Set<String> skipped = new HashSet<String>(cliOptions);
         skipped.removeAll(testOptions);
         if (!skipped.isEmpty()) {
@@ -52,6 +60,4 @@ public abstract class AbstractOptionsTest {
     protected abstract CodegenConfig getCodegenConfig();
 
     protected abstract void setExpectations();
-
-    protected abstract Map<String, String> getAvaliableOptions();
 }

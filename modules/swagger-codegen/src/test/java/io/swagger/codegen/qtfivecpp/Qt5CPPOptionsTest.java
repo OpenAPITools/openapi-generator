@@ -2,22 +2,20 @@ package io.swagger.codegen.qtfivecpp;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.languages.Qt5CPPGenerator;
+import io.swagger.codegen.options.Qt5CPPOptionsProvider;
 
-import com.google.common.collect.ImmutableMap;
 import mockit.Expectations;
 import mockit.Tested;
 
-import java.util.Map;
-
 public class Qt5CPPOptionsTest extends AbstractOptionsTest {
-    protected static final String MODEL_PACKAGE_VALUE = "package";
-    protected static final String API_PACKAGE_VALUE = "apiPackage";
-    protected static final String SORT_PARAMS_VALUE = "false";
 
     @Tested
     private Qt5CPPGenerator clientCodegen;
+
+    public Qt5CPPOptionsTest() {
+        super(new Qt5CPPOptionsProvider());
+    }
 
     @Override
     protected CodegenConfig getCodegenConfig() {
@@ -27,21 +25,12 @@ public class Qt5CPPOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(MODEL_PACKAGE_VALUE);
+            clientCodegen.setModelPackage(Qt5CPPOptionsProvider.MODEL_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setApiPackage(API_PACKAGE_VALUE);
+            clientCodegen.setApiPackage(Qt5CPPOptionsProvider.API_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(SORT_PARAMS_VALUE));
+            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(Qt5CPPOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};
-    }
-
-    @Override
-    protected Map<String, String> getAvaliableOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
-                .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
-                .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .build();
     }
 }
