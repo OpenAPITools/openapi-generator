@@ -16,6 +16,8 @@ import java.util.HashSet;
 import org.apache.commons.lang.StringUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
+    public static final String MODULE_NAME = "moduleName";
+    public static final String MODULE_VERSION = "moduleVersion";
     protected String moduleName = "SwaggerClient";
     protected String moduleVersion = "1.0.0";
 
@@ -68,8 +70,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("moduleName", "perl module name (convention: CamelCase), default: SwaggerClient"));
-        cliOptions.add(new CliOption("moduleVersion", "perl module version, default: 1.0.0"));
+        cliOptions.add(new CliOption(MODULE_NAME, "perl module name (convention: CamelCase), default: SwaggerClient"));
+        cliOptions.add(new CliOption(MODULE_VERSION, "perl module version, default: 1.0.0"));
     }
 
 
@@ -77,16 +79,16 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("moduleVersion")) {
-            moduleVersion = (String) additionalProperties.get("moduleVersion");
+        if (additionalProperties.containsKey(MODULE_VERSION)) {
+            setModuleVersion((String) additionalProperties.get(MODULE_VERSION));
         } else {
-            additionalProperties.put("moduleVersion", moduleVersion);
+            additionalProperties.put(MODULE_VERSION, moduleVersion);
         }
 
-        if (additionalProperties.containsKey("moduleName")) {
-            moduleName = (String) additionalProperties.get("moduleName");
+        if (additionalProperties.containsKey(MODULE_NAME)) {
+            setModuleName((String) additionalProperties.get(MODULE_NAME));
         } else {
-            additionalProperties.put("moduleName", moduleName);
+            additionalProperties.put(MODULE_NAME, moduleName);
         }
 
         supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiClient.pm"));
@@ -229,5 +231,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return underscore(operationId);
     }
 
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
 
+    public void setModuleVersion(String moduleVersion) {
+        this.moduleVersion = moduleVersion;
+    }
 }
