@@ -12,9 +12,14 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Model;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.FloatProperty;
+import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -347,12 +352,48 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 pattern = "new HashMap<String, %s>()";
             }
             return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()));
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return "null";
         } else if (p instanceof LongProperty) {
             LongProperty dp = (LongProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString()+"l";
             }
            return "null";
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString() + "d";
+            }
+            return "null";
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString() + "f";
+            }
+            return "null";
+        } else if (p instanceof BooleanProperty) {
+            BooleanProperty bp = (BooleanProperty) p;
+            if (bp.getDefault() != null) {
+                return bp.getDefault().toString();
+            }
+            return "null";
+        } else if (p instanceof StringProperty) {
+            StringProperty sp = (StringProperty) p;
+            if (sp.getDefault() != null) {
+                String _default = sp.getDefault();
+                if (sp.getEnum() == null) {
+                    return "\"" + escapeText(_default) + "\"";
+                } else {
+                    // convert to enum var name later in postProcessModels
+                    return _default;
+                }
+            }
+            return "null";
         }
         return super.toDefaultValue(p);
     }
@@ -445,6 +486,20 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     enumVars.add(enumVar);
                 }
                 allowableValues.put("enumVars", enumVars);
+                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
+                if (var.defaultValue != null && !"null".equals(var.defaultValue)) {
+                    String enumName = null;
+                    for (Map<String, String> enumVar : enumVars) {
+                        if (var.defaultValue.equals(enumVar.get("value"))) {
+                            enumName = enumVar.get("name");
+                            break;
+                        }
+                    }
+                    if (enumName == null) {
+                        throw new RuntimeException("default value of property \"" + var.baseName + "\" is not in allowed values: " + var.defaultValue);
+                    }
+                    var.defaultValue = var.datatypeWithEnum + "." + enumName;
+                }
             }
         }
         return objs;
