@@ -94,17 +94,15 @@
     </div>  <!-- field-items -->
     {{/hasFormParams}}
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
     {{#returnType}}
     <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#{{returnContainer}}">{{{returnType}}}</a></div>
+    <div class="return-type">
+      {{#hasReference}}{{^returnSimpleType}}{{returnContainer}}[{{/returnSimpleType}}<a href="#{{returnBaseType}}">{{returnBaseType}}</a>{{^returnSimpleType}}]{{/returnSimpleType}}{{/hasReference}}
+      {{^hasReference}}{{returnType}}{{/hasReference}}
+    </div>
     {{/returnType}}
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
     {{#hasExamples}}
     {{#examples}}
