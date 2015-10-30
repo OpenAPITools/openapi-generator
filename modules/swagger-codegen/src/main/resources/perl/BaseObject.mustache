@@ -49,7 +49,7 @@ sub from_hash {
             }
             $self->{$_key} = \@_array;
         } elsif (defined $hash->{$_key}) { #hash(model), primitive, datetime
-            $self->{$_key} = $self->_deserialize($_type, $hash->{$_key});
+            $self->{$_key} = $self->_deserialize($_type, $hash->{$self->get_attribute_map->{$_key}});
         } else {
             $log->debugf("warning: %s not defined\n", $_key);
         }
