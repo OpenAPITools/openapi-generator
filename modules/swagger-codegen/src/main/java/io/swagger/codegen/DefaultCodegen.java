@@ -814,6 +814,7 @@ public class DefaultCodegen {
             LOGGER.error("unexpected missing property for name " + name);
             return null;
         }
+
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
 
         property.name = toVarName(name);
@@ -1907,6 +1908,12 @@ public class DefaultCodegen {
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
         // cases in the future.
+    	
+    	// better error handling when map/array type is invalid
+    	if (name == null) {
+    		LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
+    		return "ERROR_UNKNOWN";
+    	}
 
         // input[] => input
         name = name.replaceAll("\\[\\]", "");
