@@ -25,6 +25,14 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
         qint64 *val = static_cast<qint64*>(value);
         *val = obj.toVariant().toLongLong();
     }
+    else if(QStringLiteral("float").compare(type) == 0) {
+        float *val = static_cast<float*>(value);
+        *val = obj.toDouble();
+    }
+    else if(QStringLiteral("double").compare(type) == 0) {
+        double *val = static_cast<double*>(value);
+        *val = obj.toDouble();
+    }
     else if (QStringLiteral("QString").compare(type) == 0) {
         QString **val = static_cast<QString**>(value);
 
