@@ -36,28 +36,30 @@ sub TO_JSON {
     return $_data;
 }
 
-# from json string
+# from Perl hashref
 sub from_hash {
     my ($self, $hash) = @_;
+
     # loop through attributes and use swagger_types to deserialize the data
     while ( my ($_key, $_type) = each %{$self->get_swagger_types} ) {
+    	my $_json_attribute = $self->get_attribute_map->{$_key}; 
         if ($_type =~ /^array\[/i) { # array
             my $_subclass = substr($_type, 6, -1);
             my @_array = ();
-            foreach my $_element (@{$hash->{$self->get_attribute_map->{$_key}}}) {
+            foreach my $_element (@{$hash->{$_json_attribute}}) {
                 push @_array, $self->_deserialize($_subclass, $_element);
             }
             $self->{$_key} = \@_array;
-        } elsif (defined $hash->{$_key}) { #hash(model), primitive, datetime
-            $self->{$_key} = $self->_deserialize($_type, $hash->{$self->get_attribute_map->{$_key}});
+        } elsif (exists $hash->{$_json_attribute}) { #hash(model), primitive, datetime
+            $self->{$_key} = $self->_deserialize($_type, $hash->{$_json_attribute});
         } else {
-            $log->debugf("warning: %s not defined\n", $_key);
+        	$log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
         }
     }
   
     return $self;
 }
-  
+
 # deserialize non-array data
 sub _deserialize {
     my ($self, $type, $data) = @_;
