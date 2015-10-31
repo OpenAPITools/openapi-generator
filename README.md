@@ -191,7 +191,7 @@ You can look at `modules/swagger-codegen/src/main/resources/${your-language}` fo
 If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-cli.jar meta \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar meta \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
 
