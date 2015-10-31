@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Generator {
     static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
