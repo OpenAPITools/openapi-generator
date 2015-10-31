@@ -39,6 +39,7 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
       - [Java JAX-RS](#java-jax-rs)
       - [Java Spring MVC](#java-spring-mvc)
     - [To build the codegen library](#to-build-the-codegen-library)
+  - [Online Generators](#online-generators)
   - [License](#license)
 
 ## Build and run using docker
@@ -469,6 +470,16 @@ mvn package
 ```
 
 Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to either repackage the library OR specify a path to your scripts
+
+## Online generators
+
+One can also generate API client or sever using the online generators (https://generator.swagger.io)
+
+For example, to generate Ruby API client, simply send the following HTTP request using curl:
+```
+curl -X POST -H "content-type:application/json" -d '{"swaggerUrl":"http://petstore.swagger.io/v2/swagger.json"}' https://generator.swagger.io/api/gen/clients/ruby
+```
+Then you will receieve a JSON response with the URL to download the zipped code.
 
 License
 -------
