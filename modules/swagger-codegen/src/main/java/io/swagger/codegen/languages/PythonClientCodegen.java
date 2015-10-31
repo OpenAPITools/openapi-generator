@@ -66,6 +66,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case)," +
                 " default: swagger_client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version, default: 1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
     }
 
     @Override
