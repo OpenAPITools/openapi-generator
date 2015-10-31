@@ -2,23 +2,20 @@ package io.swagger.codegen.nodejs;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.codegen.languages.NodeJSServerCodegen;
+import io.swagger.codegen.options.NodeJSServerOptionsProvider;
 
-import com.google.common.collect.ImmutableMap;
 import mockit.Expectations;
 import mockit.Tested;
 
-import java.util.Map;
-
 public class NodeJSServerOptionsTest extends AbstractOptionsTest {
-    private static final String MODEL_PACKAGE_VALUE = "package";
-    private static final String API_PACKAGE_VALUE = "apiPackage";
-    private static final String SORT_PARAMS_VALUE = "false";
 
     @Tested
     private NodeJSServerCodegen clientCodegen;
+
+    public NodeJSServerOptionsTest() {
+        super(new NodeJSServerOptionsProvider());
+    }
 
     @Override
     protected CodegenConfig getCodegenConfig() {
@@ -28,21 +25,12 @@ public class NodeJSServerOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(MODEL_PACKAGE_VALUE);
+            clientCodegen.setModelPackage(NodeJSServerOptionsProvider.MODEL_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setApiPackage(API_PACKAGE_VALUE);
+            clientCodegen.setApiPackage(NodeJSServerOptionsProvider.API_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(SORT_PARAMS_VALUE));
+            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(NodeJSServerOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};
-    }
-
-    @Override
-    protected Map<String, String> getAvaliableOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
-                .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
-                .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .build();
     }
 }
