@@ -1,4 +1,4 @@
-use Test::More tests => 33;
+use Test::More tests => 35;
 use Test::Exception;
 
 use lib 'lib';
@@ -59,6 +59,9 @@ is $get_pet_hash->{category}->{id}, '22', 'get the proper category id from get_p
 is $get_pet_hash->{category}->{name}, 'perl', 'get the proper category from get_pet_by_id';
 is $get_pet_hash->{tags}[0]->{name}, 'just kidding', 'get the proper tag from get_pet_by_id';
 is $get_pet_hash->{tags}[0]->{id}, '11', 'get the proper tag id from get_pet_by_id';
+is $get_pet_hash->{photoUrls}->[0], '123', 'get the proper photoUrl from get_pet_by_id';
+is $get_pet_hash->{photoUrls}->[1], 'oop', 'get the proper photoUrl from get_pet_by_id';
+
 
 my $update_pet_with_form = $api->update_pet_with_form(pet_id => $pet_id, name => 'test_name', status => 'sold');
 is $update_pet_with_form, undef, 'get the null response from update_pet_wth_form';
