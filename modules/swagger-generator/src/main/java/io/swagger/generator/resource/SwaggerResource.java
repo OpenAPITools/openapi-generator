@@ -89,6 +89,26 @@ public class SwaggerResource {
             return Response.status(500).build();
         }
     }
+    
+    @GET
+    @Path("/clients/{language}")
+    @ApiOperation(
+            value = "Returns options for a client library",
+            response = String.class,
+            responseContainer = "map",
+            tags = "clients")
+    public Response getClientOptions(
+            @Context HttpServletRequest request,
+            @ApiParam(value = "The target language for the client library", required = true) @PathParam("language") String language) throws Exception {
+
+        Map<String, String> opts = Generator.getOptions(language);
+
+        if (opts != null) {
+            return Response.ok().entity(opts).build();
+        } else {
+            return Response.status(404).build();
+        }
+    }
 
     @GET
     @Path("/clients")
