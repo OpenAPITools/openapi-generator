@@ -146,13 +146,12 @@ sub to_path_value {
 # @return string the serialized object
 sub to_query_value {
       my ($self, $object) = @_;
-      if (is_array($object)) {
-          return implode(',', $object);
+      if (ref($object) eq 'ARRAY') {
+          return join(',', @$object);
       } else {
           return $self->to_string($object);
       }
 }
-
 
 # Take value and turn it into a string suitable for inclusion in
 # the header. If it's a string, pass through unchanged
