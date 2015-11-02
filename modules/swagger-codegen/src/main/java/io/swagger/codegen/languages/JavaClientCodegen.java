@@ -42,7 +42,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
     protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/java";
+    protected String projectFolder = "src/main";
+    protected String sourceFolder = projectFolder + "/java";
     protected String localVariablePrefix = "";
     protected boolean fullJavaUtil = false;
     protected String javaUtilPrefix = "";
@@ -199,6 +200,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
