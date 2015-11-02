@@ -32,12 +32,14 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
     - [Generating dynamic html api documentation](#generating-dynamic-html-api-documentation)
     - [Generating static html api documentation](#generating-static-html-api-documentation)
     - [To build a server stub](#to-build-a-server-stub)
-      - [node.js](#nodejs)
-      - [rails-grape](#rails-grape)
-      - [scala scalatra](#scala-scalatra)
-      - [java jax-rs](#java-jax-rs)
-      - [java spring-mvc](#java-spring-mvc)
+      - [Node.js](#nodejs)
+      - [PHP Silex](#php-silex)
+      - [Ruby Sinatra](#ruby-sinatra)
+      - [Scala Scalatra](#scala-scalatra)
+      - [Java JAX-RS](#java-jax-rs)
+      - [Java Spring MVC](#java-spring-mvc)
     - [To build the codegen library](#to-build-the-codegen-library)
+  - [Online Generators](#online-generators)
   - [License](#license)
 
 ## Build and run using docker
@@ -190,7 +192,7 @@ You can look at `modules/swagger-codegen/src/main/resources/${your-language}` fo
 If you're starting a project with a new language and don't see what you need, swagger-codegen can help you create a project to generate your own libraries:
 
 ```
-java -jar modules/swagger-codegen-distribution/target/swagger-codegen-cli.jar meta \
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar meta \
   -o output/myLibrary -n myClientCodegen -p com.my.company.codegen
 ```
 
@@ -406,7 +408,7 @@ open index.html
 
 You can also use the codegen to generate a server for a couple different frameworks.  Take a look here:
 
-### node.js
+### Node.js
 
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
@@ -415,11 +417,25 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/nodejs
 ```
 
-### rails-grape
+### PHP Silex
 
-*Not yet migrated to this branch*
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l silex \
+  -o samples/server/petstore/silex
+```
 
-### scala scalatra
+### Ruby Sinatra
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l sinatra \
+  -o samples/server/petstore/sinatra
+```
+
+### Scala Scalatra
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
@@ -427,7 +443,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/scalatra
 ```
 
-### java jax-rs
+### Java JAX-RS
 
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
@@ -436,7 +452,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/jaxrs
 ```
 
-### java spring-mvc
+### Java Spring MVC
 
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
@@ -444,6 +460,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -l spring-mvc \
   -o samples/server/petstore/spring-mvc
 ```
+
 ### To build the codegen library
 
 This will create the swagger-codegen library from source.  
@@ -453,6 +470,16 @@ mvn package
 ```
 
 Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to either repackage the library OR specify a path to your scripts
+
+## Online generators
+
+One can also generate API client or sever using the online generators (https://generator.swagger.io)
+
+For example, to generate Ruby API client, simply send the following HTTP request using curl:
+```
+curl -X POST -H "content-type:application/json" -d '{"swaggerUrl":"http://petstore.swagger.io/v2/swagger.json"}' https://generator.swagger.io/api/gen/clients/ruby
+```
+Then you will receieve a JSON response with the URL to download the zipped code.
 
 License
 -------
