@@ -19,7 +19,7 @@ use DateTime;
 #
 
 
-# return json string
+# return perl hash
 sub to_hash {
     return decode_json(JSON->new->convert_blessed->encode( shift ));
 }

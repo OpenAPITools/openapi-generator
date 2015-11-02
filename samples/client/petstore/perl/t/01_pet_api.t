@@ -77,3 +77,7 @@ is $delete_pet, undef, 'get the null response from delete_pet';
 throws_ok{$api->get_pet_by_id(pet_id => $pet_id)} qr/API Exception\(404\): Not Found/, "throw 404 error about pet not found after delete";
 #is $get_pet_after_delete->{status}, undef, 'get the updated status after update_pet_with_form';
 
+my $pets;
+lives_ok {$pets = $api->find_pets_by_status(status => [qw(sold available)])} 'array query param processed correctly';
+isa_ok($pets->[0], 'WWW::SwaggerClient::Object::Pet');
+
