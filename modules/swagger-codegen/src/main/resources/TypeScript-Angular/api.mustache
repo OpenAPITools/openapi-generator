@@ -22,17 +22,24 @@ namespace {{package}} {
                 this.basePath = basePath;
             }
         }
+
+        private extendObj<T1,T2>(objA: T1, objB: T2) {
+            for(let key in objB){
+                if(objB.hasOwnProperty(key)){
+                    objA[key] = objB[key];
+                }
+            }
+            return <T1&T2>objA;
+        }
+
 {{#operation}}
 
         public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-            let path = this.basePath + '{{path}}';
+            const path = this.basePath + '{{path}}'{{#pathParams}}
+                .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
 
-{{#pathParams}}
-            path = path.replace('{' + '{{baseName}}' + '}', String({{paramName}}));
-
-{{/pathParams}}
             let queryParameters: any = {};
-            let headerParams: any = this.defaultHeaders;
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
 {{#hasFormParams}}
             let formParams: any = {};
 
@@ -43,7 +50,6 @@ namespace {{package}} {
             if (!{{paramName}}) {
                 throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
             }
-
 {{/required}}
 {{/allParams}}
 {{#queryParams}}
@@ -77,11 +83,7 @@ namespace {{package}} {
             };
 
             if (extraHttpRequestParams) {
-                for (let k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
