@@ -13,7 +13,7 @@ import java.io.File;
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
     public SwaggerGenerator() {
         super();
-        templateDir = "swagger";
+        embeddedTemplateDir = templateDir = "swagger";
         outputFolder = "generated-code/swagger";
 
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));

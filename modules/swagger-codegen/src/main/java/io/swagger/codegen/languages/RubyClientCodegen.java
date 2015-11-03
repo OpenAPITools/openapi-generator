@@ -31,7 +31,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "ruby";
         modelTemplateFiles.put("model.mustache", ".rb");
         apiTemplateFiles.put("api.mustache", ".rb");
-        templateDir = "ruby";
+        embeddedTemplateDir = templateDir = "ruby";
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();

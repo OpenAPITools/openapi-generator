@@ -31,7 +31,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
-        templateDir = "dart";
+        embeddedTemplateDir = templateDir = "dart";
         apiPackage = "lib.api";
         modelPackage = "lib.model";
 

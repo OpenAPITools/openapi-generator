@@ -27,7 +27,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separatorChar + "perl";
         modelTemplateFiles.put("object.mustache", ".pm");
         apiTemplateFiles.put("api.mustache", ".pm");
-        templateDir = "perl";
+        embeddedTemplateDir = templateDir = "perl";
 
 
         reservedWords = new HashSet<String>(

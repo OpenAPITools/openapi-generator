@@ -40,7 +40,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         modelTemplateFiles.put("model.mustache", ".as");
         modelTemplateFiles.put("modelList.mustache", "List.as");
         apiTemplateFiles.put("api.mustache", ".as");
-        templateDir = "flash";
+        embeddedTemplateDir = templateDir = "flash";
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("Number");
