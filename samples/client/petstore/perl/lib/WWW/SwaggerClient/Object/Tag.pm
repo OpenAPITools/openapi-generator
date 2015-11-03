@@ -29,6 +29,8 @@ my $attribute_map = {
     'name' => 'name'
 };
 
+__PACKAGE__->mk_accessors(keys %$attribute_map);
+
 # new object
 sub new { 
     my ($class, %args) = @_; 
