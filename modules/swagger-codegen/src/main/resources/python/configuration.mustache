@@ -71,10 +71,9 @@ class Configuration(object):
         self.username = ""
         # Password for HTTP basic authentication
         self.password = ""
-
 {{#authMethods}}{{#isOAuth}}
-        # token for OAuth
-        self.auth_token = ""
+        # access token for OAuth
+        self.access_token = ""
 {{/isOAuth}}{{/authMethods}}
 
         # Logging Settings
@@ -242,7 +241,7 @@ class Configuration(object):
                     'type': 'oauth2',
                     'in': 'header',
                     'key': 'Authorization',
-                    'value': 'Bearer ' + self.auth_token
+                    'value': 'Bearer ' + self.access_token
                 },
 {{/isOauth}}{{/authMethods}}
         }
