@@ -37,6 +37,8 @@ my $attribute_map = {
     'status' => 'status'
 };
 
+__PACKAGE__->mk_accessors(keys %$attribute_map);
+
 # new object
 sub new { 
     my ($class, %args) = @_; 
