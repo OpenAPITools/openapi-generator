@@ -100,6 +100,10 @@
   float: left;
 }
 
+.param-enum {
+  margin-left: 20px;
+}
+
 .section-header {
   border-bottom: 2px;
   font-weight: bold;
