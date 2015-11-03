@@ -28,6 +28,7 @@ import com.squareup.okhttp.OkHttpClient;
 import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
+import io.swagger.client.auth.OAuth.AccessTokenListener;
 import io.swagger.client.auth.OAuthFlow;
 
 
@@ -44,12 +45,7 @@ public class ApiClient {
 
     public ApiClient(String[] authNames) {
         this();
-        okClient = new OkHttpClient();
-        adapterBuilder.setClient(new OkClient(okClient));
-        for(String authName : authNames) {
-            if (apiAuthorizations.containsKey(authName)) {
-                throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
-            }
+        for(String authName : authNames) { 
             Interceptor auth;
             if (authName == "petstore_auth") { 
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
@@ -58,9 +54,8 @@ public class ApiClient {
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
-            apiAuthorizations.put(authName, auth);
+            addAuthorization(authName, auth);
         }
-        addAuthsToOkClient(okClient);
     }
 
     /**
@@ -114,9 +109,12 @@ public class ApiClient {
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                 .create();
 
+        okClient = new OkHttpClient();
+
         adapterBuilder = new RestAdapter
                 .Builder()
                 .setEndpoint("http://petstore.swagger.io/v2")
+                .setClient(new OkClient(okClient))
                 .setConverter(new GsonConverterWrapper(gson));
     }
 
@@ -223,6 +221,33 @@ public class ApiClient {
         }
     }
     
+    /**
+     * Configures a listener which is notified when a new access token is received.
+     * @param accessTokenListener
+     */
+    public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+        for(Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof OAuth) {
+                OAuth oauth = (OAuth) apiAuthorization;
+                oauth.registerAccessTokenListener(accessTokenListener);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Adds an authorization to be used by the client
+     * @param authName
+     * @param authorization
+     */
+    public void addAuthorization(String authName, Interceptor authorization) {
+        if (apiAuthorizations.containsKey(authName)) {
+            throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
+        }
+        apiAuthorizations.put(authName, authorization);
+        okClient.interceptors().add(authorization);
+    }
+
     public Map<String, Interceptor> getApiAuthorizations() {
         return apiAuthorizations;
     }
