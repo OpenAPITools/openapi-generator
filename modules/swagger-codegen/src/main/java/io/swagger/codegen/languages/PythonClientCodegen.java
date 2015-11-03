@@ -173,6 +173,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // sanitize name
         name = sanitizeName(name);
 
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase();
@@ -202,6 +205,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelName(String name) {
         name = sanitizeName(name);
+
+        // remove dollar sign
+        name = name.replaceAll("$", "");
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
