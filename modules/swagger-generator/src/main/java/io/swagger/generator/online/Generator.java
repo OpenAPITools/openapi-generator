@@ -1,6 +1,8 @@
 package io.swagger.generator.online;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.Codegen;
@@ -14,19 +16,31 @@ import io.swagger.generator.util.ZipUtil;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.util.Json;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Generator {
     static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
 
-    public static Map<String, String> getOptions(String language) {
-        return null;
+    public static Map<String, CliOption> getOptions(String language) throws ApiException {
+        CodegenConfig config = null;
+        try {
+            config = CodegenConfigLoader.forName(language);
+        } catch (Exception e) {
+            throw new BadRequestException(400, String.format("Unsupported target %s supplied. %s", language, e));
+        }
+        Map<String, CliOption> map = new LinkedHashMap<String, CliOption>();
+        for (CliOption option : config.cliOptions()) {
+            map.put(option.getOpt(), option);
+        }
+        return map;
     }
 
     public enum Type {

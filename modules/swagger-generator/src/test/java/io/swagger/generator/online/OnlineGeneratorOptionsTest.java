@@ -1,7 +1,11 @@
 package io.swagger.generator.online;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotNull;
 
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.options.AkkaScalaClientOptionsProvider;
 import io.swagger.codegen.options.AndroidClientOptionsProvider;
 import io.swagger.codegen.options.AsyncScalaClientOptionsProvider;
@@ -37,6 +41,9 @@ import io.swagger.generator.exception.ApiException;
 import io.swagger.generator.model.GeneratorInput;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -47,8 +54,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import javax.annotation.Nullable;
 
 public class OnlineGeneratorOptionsTest {
     private static final String OPTIONS_PROVIDER = "optionsProvider";
@@ -74,7 +86,7 @@ public class OnlineGeneratorOptionsTest {
     }
 
     @Test(dataProvider = OPTIONS_PROVIDER)
-    public void optionsTest(OptionsProvider provider) throws ApiException, IOException {
+    public void generateOptionsTest(OptionsProvider provider) throws ApiException, IOException {
         final GeneratorInput input = new GeneratorInput();
         final HashMap<String, InvocationCounter> options = convertOptions(provider);
 
@@ -135,6 +147,55 @@ public class OnlineGeneratorOptionsTest {
         public String getValue() {
             ++counter;
             return value;
+        }
+    }
+
+    @Test(dataProvider = OPTIONS_PROVIDER)
+    public void getOptionsTest(OptionsProvider provider) throws ApiException {
+        final Map<String, CliOption> opts = Generator.getOptions(provider.getLanguage());
+
+        final Function cliOptionWrapper = new Function<CliOption, CliOptionProxy>() {
+            @Nullable
+            @Override
+            public CliOptionProxy apply(@Nullable CliOption option) {
+                return new CliOptionProxy(option);
+            }
+        };
+
+        final List<CliOptionProxy> actual = Lists.transform(new ArrayList(opts.values()), cliOptionWrapper);
+        final List<CliOptionProxy> expected = Lists.transform(
+                CodegenConfigLoader.forName(provider.getLanguage()).cliOptions(), cliOptionWrapper);
+        assertEquals(actual, expected);
+    }
+
+    private static class CliOptionProxy {
+        private final CliOption wrapped;
+
+        public CliOptionProxy(CliOption wrapped){
+            this.wrapped = wrapped;
+        }
+
+        public CliOption getWrapped() {
+            return wrapped;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(wrapped.getOpt(), wrapped.getDescription(), wrapped.getType(),
+                    wrapped.getDefault(), wrapped.getEnum());
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof CliOptionProxy) {
+                final CliOption that = ((CliOptionProxy) obj).getWrapped();
+                return Objects.equals(wrapped.getOpt(), that.getOpt())
+                        && Objects.equals(wrapped.getDescription(), that.getDescription())
+                        && Objects.equals(wrapped.getType(), that.getType())
+                        && Objects.equals(wrapped.getDefault(), that.getDefault())
+                        && Objects.equals(wrapped.getEnum(), that.getEnum());
+            }
+            return false;
         }
     }
 }
