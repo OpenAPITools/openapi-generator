@@ -1,4 +1,4 @@
-use Test::More tests => 35;
+use Test::More tests => 37;
 use Test::Exception;
 
 use lib 'lib';
@@ -69,8 +69,8 @@ is $update_pet_with_form, undef, 'get the null response from update_pet_wth_form
 my $get_pet_after_update = $api->get_pet_by_id(pet_id => $pet_id);
 is $get_pet_after_update->{status}, 'sold', 'get the updated status after update_pet_with_form';
 
-my $upload_pet = $api->upload_file(pet_id => $pet_id, additional_metadata => 'testabc', file => 'test.pl');
-is $upload_pet, undef, 'get the null response from upload_pet';
+my $upload_file = $api->upload_file(pet_id => $pet_id, additional_metadata => 'testabc', file => 'test.pl');
+isa_ok($upload_file, 'WWW::SwaggerClient::Object::ApiResponse'); # WWW::SwaggerClient::Object::Pet
 
 my $delete_pet = $api->delete_pet(pet_id => $pet_id);
 is $delete_pet, undef, 'get the null response from delete_pet';
