@@ -4,7 +4,7 @@ import io.swagger.codegen.SupportingFile;
 import java.io.File;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
-	
+
 	@Override
 	public String getName() {
 		return "typescript-angular";
