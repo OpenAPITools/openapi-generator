@@ -370,6 +370,19 @@ public class ApiClient {
   }
 
   /**
+   * Helper method to set access token for the first OAuth2 authentication.
+   */
+  public void setAccessToken(String accessToken) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setAccessToken(accessToken);
+        return;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
    * Set the User-Agent header's value (by adding to the default header map).
    */
   public ApiClient setUserAgent(String userAgent) {
