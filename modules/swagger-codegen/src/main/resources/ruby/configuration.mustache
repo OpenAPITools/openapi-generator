@@ -44,6 +44,9 @@ module {{moduleName}}
     # @return [String]
     attr_accessor :password
 
+    # Defines the access token (Bearer) used with OAuth2.
+    attr_accessor :access_token
+
     # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
     # details will be logged with `logger.debug` (see the `logger` attribute).
     # Default to false.
@@ -179,6 +182,15 @@ module {{moduleName}}
             value: basic_auth_token
           },
 {{/isBasic}}
+{{#isOAuth}}
+        '{{name}}' =>
+          {
+            type: 'oauth2',
+            in: 'header',
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
+          },
+{{/isOAuth}}
 {{/authMethods}}
       }
     end
