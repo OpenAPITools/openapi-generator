@@ -68,7 +68,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         outputFolder = "generated-code/scala";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        templateDir = "akka-scala";
+        embeddedTemplateDir = templateDir = "akka-scala";
         apiPackage = mainPackage + ".api";
         modelPackage = mainPackage + ".model";
 

@@ -28,7 +28,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     public StaticHtmlGenerator() {
         super();
         outputFolder = "docs";
-        templateDir = "htmlDocs";
+        embeddedTemplateDir = templateDir = "htmlDocs";
 
         defaultIncludes = new HashSet<String>();
 

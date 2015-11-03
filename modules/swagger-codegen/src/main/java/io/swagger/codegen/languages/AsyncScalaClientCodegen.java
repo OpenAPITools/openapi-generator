@@ -40,7 +40,7 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         outputFolder = "generated-code/async-scala";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        templateDir = "asyncscala";
+        embeddedTemplateDir = templateDir = "asyncscala";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 

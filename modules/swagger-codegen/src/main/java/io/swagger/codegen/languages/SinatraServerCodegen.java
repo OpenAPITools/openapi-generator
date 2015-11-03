@@ -29,7 +29,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
         // no model
         modelTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".rb");
-        templateDir = "sinatra";
+        embeddedTemplateDir = templateDir = "sinatra";
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();

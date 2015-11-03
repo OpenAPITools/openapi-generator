@@ -29,7 +29,7 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "generated-code/scalatra";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        templateDir = "scalatra";
+        embeddedTemplateDir = templateDir = "scalatra";
         apiPackage = "com.wordnik.client.api";
         modelPackage = "com.wordnik.client.model";
 
