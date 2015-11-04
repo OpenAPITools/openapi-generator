@@ -20,6 +20,7 @@ public class JavaOptionsProvider implements OptionsProvider {
     public static final String LIBRARY_VALUE = "jersey2";
     public static final String SERIALIZABLE_MODEL_VALUE = "false";
     public static final String FULL_JAVA_UTIL_VALUE = "true";
+    public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
 
     @Override
     public Map<String, String> createOptions() {
@@ -27,6 +28,7 @@ public class JavaOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
                 .put(CodegenConstants.GROUP_ID, GROUP_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_ID, ARTIFACT_ID_VALUE)
