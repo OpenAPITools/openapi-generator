@@ -515,7 +515,7 @@ sub upload_file {
     }# form params
     if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
-        push $form_params->{'file'}, $args{'file'};
+        push @{$form_params->{'file'}}, $args{'file'};
         
         
     }
