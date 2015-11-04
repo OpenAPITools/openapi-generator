@@ -69,7 +69,7 @@ sub get_inventory {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -101,17 +101,12 @@ sub get_inventory {
 #
 # Place an order for a pet
 # 
-# @param Order $body order placed for purchasing the pet (required)
+# @param Order $body order placed for purchasing the pet (optional)
 # @return Order
 #
 sub place_order {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling place_order");
-    }
     
 
     # parse inputs
@@ -124,7 +119,7 @@ sub place_order {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -159,7 +154,7 @@ sub place_order {
 #
 # Find purchase order by ID
 # 
-# @param int $order_id ID of pet that needs to be fetched (required)
+# @param string $order_id ID of pet that needs to be fetched (required)
 # @return Order
 #
 sub get_order_by_id {
@@ -182,7 +177,7 @@ sub get_order_by_id {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -242,7 +237,7 @@ sub delete_order {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }

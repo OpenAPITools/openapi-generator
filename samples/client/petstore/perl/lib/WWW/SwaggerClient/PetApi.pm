@@ -52,17 +52,12 @@ sub new {
 #
 # Update an existing pet
 # 
-# @param Pet $body Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (optional)
 # @return void
 #
 sub update_pet {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling update_pet");
-    }
     
 
     # parse inputs
@@ -75,7 +70,7 @@ sub update_pet {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -107,17 +102,12 @@ sub update_pet {
 #
 # Add a new pet to the store
 # 
-# @param Pet $body Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (optional)
 # @return void
 #
 sub add_pet {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling add_pet");
-    }
     
 
     # parse inputs
@@ -130,7 +120,7 @@ sub add_pet {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -162,17 +152,12 @@ sub add_pet {
 #
 # Finds Pets by status
 # 
-# @param ARRAY[string] $status Status values that need to be considered for filter (required)
+# @param ARRAY[string] $status Status values that need to be considered for filter (optional)
 # @return ARRAY[Pet]
 #
 sub find_pets_by_status {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'status' is set
-    unless (exists $args{'status'}) {
-      croak("Missing the required parameter 'status' when calling find_pets_by_status");
-    }
     
 
     # parse inputs
@@ -185,7 +170,7 @@ sub find_pets_by_status {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -220,17 +205,12 @@ sub find_pets_by_status {
 #
 # Finds Pets by tags
 # 
-# @param ARRAY[string] $tags Tags to filter by (required)
+# @param ARRAY[string] $tags Tags to filter by (optional)
 # @return ARRAY[Pet]
 #
 sub find_pets_by_tags {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'tags' is set
-    unless (exists $args{'tags'}) {
-      croak("Missing the required parameter 'tags' when calling find_pets_by_tags");
-    }
     
 
     # parse inputs
@@ -243,7 +223,7 @@ sub find_pets_by_tags {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -278,7 +258,7 @@ sub find_pets_by_tags {
 #
 # Find pet by ID
 # 
-# @param int $pet_id ID of pet to return (required)
+# @param int $pet_id ID of pet that needs to be fetched (required)
 # @return Pet
 #
 sub get_pet_by_id {
@@ -301,7 +281,7 @@ sub get_pet_by_id {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -338,7 +318,7 @@ sub get_pet_by_id {
 #
 # Updates a pet in the store with form data
 # 
-# @param int $pet_id ID of pet that needs to be updated (required)
+# @param string $pet_id ID of pet that needs to be updated (required)
 # @param string $name Updated name of the pet (optional)
 # @param string $status Updated status of the pet (optional)
 # @return void
@@ -363,7 +343,7 @@ sub update_pet_with_form {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -431,7 +411,7 @@ sub delete_pet {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -471,7 +451,7 @@ sub delete_pet {
 # @param int $pet_id ID of pet to update (required)
 # @param string $additional_metadata Additional data to pass to server (optional)
 # @param file $file file to upload (optional)
-# @return ApiResponse
+# @return void
 #
 sub upload_file {
     my ($self, %args) = @_;
@@ -493,7 +473,7 @@ sub upload_file {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -526,14 +506,11 @@ sub upload_file {
     my $auth_settings = ['petstore_auth'];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+    
+    $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
-    if (!$response) {
-        return;
-    }
-    my $_response_object = $self->{api_client}->deserialize('ApiResponse', $response);
-    return $_response_object;
+    return;
     
 }
 
