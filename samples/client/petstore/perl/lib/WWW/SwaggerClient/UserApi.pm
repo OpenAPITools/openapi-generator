@@ -52,17 +52,12 @@ sub new {
 #
 # Create user
 # 
-# @param User $body Created user object (required)
+# @param User $body Created user object (optional)
 # @return void
 #
 sub create_user {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_user");
-    }
     
 
     # parse inputs
@@ -75,7 +70,7 @@ sub create_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -107,17 +102,12 @@ sub create_user {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $body List of user object (required)
+# @param ARRAY[User] $body List of user object (optional)
 # @return void
 #
 sub create_users_with_array_input {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_users_with_array_input");
-    }
     
 
     # parse inputs
@@ -130,7 +120,7 @@ sub create_users_with_array_input {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -162,17 +152,12 @@ sub create_users_with_array_input {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $body List of user object (required)
+# @param ARRAY[User] $body List of user object (optional)
 # @return void
 #
 sub create_users_with_list_input {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling create_users_with_list_input");
-    }
     
 
     # parse inputs
@@ -185,7 +170,7 @@ sub create_users_with_list_input {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -217,23 +202,13 @@ sub create_users_with_list_input {
 #
 # Logs user into the system
 # 
-# @param string $username The user name for login (required)
-# @param string $password The password for login in clear text (required)
+# @param string $username The user name for login (optional)
+# @param string $password The password for login in clear text (optional)
 # @return string
 #
 sub login_user {
     my ($self, %args) = @_;
 
-    
-    # verify the required parameter 'username' is set
-    unless (exists $args{'username'}) {
-      croak("Missing the required parameter 'username' when calling login_user");
-    }
-    
-    # verify the required parameter 'password' is set
-    unless (exists $args{'password'}) {
-      croak("Missing the required parameter 'password' when calling login_user");
-    }
     
 
     # parse inputs
@@ -246,7 +221,7 @@ sub login_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -301,7 +276,7 @@ sub logout_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -353,7 +328,7 @@ sub get_user_by_name {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -391,7 +366,7 @@ sub get_user_by_name {
 # Updated user
 # 
 # @param string $username name that need to be deleted (required)
-# @param User $body Updated user object (required)
+# @param User $body Updated user object (optional)
 # @return void
 #
 sub update_user {
@@ -401,11 +376,6 @@ sub update_user {
     # verify the required parameter 'username' is set
     unless (exists $args{'username'}) {
       croak("Missing the required parameter 'username' when calling update_user");
-    }
-    
-    # verify the required parameter 'body' is set
-    unless (exists $args{'body'}) {
-      croak("Missing the required parameter 'body' when calling update_user");
     }
     
 
@@ -419,7 +389,7 @@ sub update_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -479,7 +449,7 @@ sub delete_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
