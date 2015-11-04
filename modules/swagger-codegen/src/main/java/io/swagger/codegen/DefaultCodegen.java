@@ -87,7 +87,7 @@ public class DefaultCodegen {
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library = null;
     protected Boolean sortParamsByRequiredFlag = true;
-    protected Boolean ensureUniqueParams = false;
+    protected Boolean ensureUniqueParams = true;
 
     public List<CliOption> cliOptions() {
         return cliOptions;

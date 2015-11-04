@@ -56,7 +56,6 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         embeddedTemplateDir = templateDir = "Java";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
-        ensureUniqueParams = true;
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
