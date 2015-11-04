@@ -194,7 +194,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         this.sanitizeConfig();
 
-        final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
+        final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
@@ -202,7 +202,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
-        final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
+        final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
         supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
@@ -257,12 +257,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', '/');
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/');
     }
 
     @Override
