@@ -45,19 +45,54 @@ my %_apis = map { $_ =~ /^WWW::SwaggerClient::(.*)$/; $1 => $_ }
 			grep {$_ =~ /Api$/} 
 			usesub 'WWW::SwaggerClient';
 
+=head1 new()
+	
+	All parameters are optional, and are passed to and stored on the api_client object. 
+	
+	base_url: supply this to change the default base URL taken from the Swagger definition.
+	
+	auth_setup_handler: a coderef you can supply to set up authentication.
+	
+		The coderef receives a hashref with keys: api_client, query_params, header_params, auth_settings.
+		
+		my $api_factory = WWW::SwaggerClient::ApiFactory->new( auth_setup_handler => \&setup_auth );					  								);
+	
+		sub setup_auth {
+			my %p = @_;
+			$p{header_params}->{'X-SomeApp-FunkyKeyName'} = 'aaaaabbbbbcccccddddd';
+		}
+		
+=cut	
+
 sub new {
     my ($class, %p) = (shift, @_);
 	$p{api_client} = WWW::SwaggerClient::ApiClient->new(%p);			
 	return bless \%p, $class;
 }
 
+=head1 get_api($which)
+
+	Returns an API object of the requested type. 
+	
+	$which is a nickname for the class: 
+	
+		WWW::FooBarClient::BazApi has nickname 'Baz'
+		
+=cut
+
 sub get_api {
 	my ($self, $which) = @_;
 	croak "API not specified" unless $which;
 	my $api_class = $_apis{"${which}Api"} || croak "No known API for '$which'";
-	return $api_class->new(api_client => $self->_api_client); 
+	return $api_class->new(api_client => $self->api_client); 
 }
 
-sub _api_client { $_[0]->{api_client} }
+=head1 api_client()
+
+	Returns the api_client object, should you ever need it.
+	
+=cut
+
+sub api_client { $_[0]->{api_client} }
 
 1;
