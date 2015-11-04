@@ -1,32 +1,67 @@
 /// <reference path="api.d.ts" />
 
-module API.Client {
+namespace API.Client {
     'use strict';
 
-    export class Order {
+
+
+
+    export interface Order {
+
+
 
         id: number;
 
+
+
         petId: number;
+
+
 
         quantity: number;
 
+
+
         shipDate: Date;
+
+
 
         /**
          * Order Status
          */
+
         status: Order.StatusEnum;
 
+
+
         complete: boolean;
+
     }
 
-    export module Order {
 
-        export enum StatusEnum {  
-            placed = <any> 'placed', 
-            approved = <any> 'approved', 
+    export namespace Order {
+
+
+
+
+
+
+
+
+
+
+
+        export enum StatusEnum { 
+            placed = <any> 'placed',
+            approved = <any> 'approved',
             delivered = <any> 'delivered',
         }
+
+
+
+
     }
+
+
+
 }

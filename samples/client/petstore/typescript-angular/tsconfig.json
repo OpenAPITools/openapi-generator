@@ -1,18 +1,19 @@
 {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "out": "client.js"
-    },
-    "files": [
-        "API/Client/Category.ts",
-        "API/Client/Pet.ts",
-        "API/Client/StoreApi.ts",
-        "API/Client/User.ts",
-        "API/Client/api.d.ts",
-        "API/Client/Order.ts",
-        "API/Client/PetApi.ts",
-        "API/Client/Tag.ts",
-        "API/Client/UserApi.ts",
-        "typings/tsd.d.ts"
-    ]
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "out": "client.js"
+  },
+  "files": [
+    "API/Client/Category.ts",
+    "API/Client/Pet.ts",
+    "API/Client/StoreApi.ts",
+    "API/Client/User.ts",
+    "API/Client/api.d.ts",
+    "API/Client/Order.ts",
+    "API/Client/PetApi.ts",
+    "API/Client/Tag.ts",
+    "API/Client/UserApi.ts",
+    "typings/tsd.d.ts"
+  ]
 }

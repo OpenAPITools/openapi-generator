@@ -202,11 +202,11 @@ public class DefaultCodegen {
     }
 
     public String apiFileFolder() {
-        return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + apiPackage().replace('.', '/');
     }
 
     public String modelFileFolder() {
-        return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + modelPackage().replace('.', '/');
     }
 
     public Map<String, Object> additionalProperties() {
@@ -1853,7 +1853,7 @@ public class DefaultCodegen {
 
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+        return apiFileFolder() + '/' + toApiFilename(tag) + suffix;
     }
 
     public boolean shouldOverwrite(String filename) {

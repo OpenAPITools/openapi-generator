@@ -12,12 +12,12 @@ namespace {{package}} {
     */
 {{/description}}
     export class {{classname}} {
-        private basePath = '{{basePath}}';
+        protected basePath = '{{basePath}}';
         public defaultHeaders : any = {};
 
         static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (d: any) => any) {
+        constructor(protected $http: ng.IHttpService, protected $httpParamSerializer?: (d: any) => any, basePath?: string) {
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -68,7 +68,7 @@ namespace {{package}} {
 {{/hasFormParams}}
 {{#formParams}}
             formParams['{{baseName}}'] = {{paramName}};
-            
+
 {{/formParams}}
             let httpRequestParams: any = {
                 method: '{{httpMethod}}',
