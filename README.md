@@ -14,12 +14,13 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
   - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
   - Installation
-    - [Build and run using docker](#build-and-run-using-docker)
-    - [Build a nodejs server stub](#build-a-nodejs-server-stub)
     - [Compatibility](#compatibility)
     - [Prerequisites](#prerequisites)
-    - [OS X Users](#os-x-users)
-      - [Building](#building)
+      - [OS X Users](#os-x-users)
+    - [Building](#building)
+    - [Docker](#docker)
+      - [Build and run](#build-and-run-using-docker)
+      - [Build a Node.js server stub](#build-a-nodejs-server-stub)
   - Generators
     - [To generate a sample client library](#to-generate-a-sample-client-library)
     - [Generating libraries from your server](#generating-libraries-from-your-server)
@@ -40,26 +41,9 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
       - [Java Spring MVC](#java-spring-mvc)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Online Generators](#online-generators)
+  - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [License](#license)
 
-## Build and run using docker
-
-```
-git clone https://github.com/swagger-api/swagger-codegen
-
-cd swagger-codegen
-
-./run-in-docker.sh mvn package
- ```
-
-## Build a nodejs server stub
-
- ```
-./run-in-docker.sh generate \
-  -i http://petstore.swagger.io/v2/swagger.json \
-  -l nodejs \
-  -o samples/server/petstore/nodejs
- ```
 
 ## Compatibility
 The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
@@ -88,13 +72,32 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
 
-#### Building
+### Building
 
 After cloning the project, you can build it from source with this command:
-
 ```
 mvn package
 ```
+
+### Docker
+#### Build and run using docker
+
+```
+git clone https://github.com/swagger-api/swagger-codegen
+
+cd swagger-codegen
+
+./run-in-docker.sh mvn package
+ ```
+
+#### Build a Node.js server stub
+
+ ```
+./run-in-docker.sh generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l nodejs \
+  -o samples/server/petstore/nodejs
+ ```
 
 ### To generate a sample client library
 You can build a client against the swagger sample [petstore](http://petstore.swagger.io) API as follows:
@@ -480,6 +483,11 @@ For example, to generate Ruby API client, simply send the following HTTP request
 curl -X POST -H "content-type:application/json" -d '{"swaggerUrl":"http://petstore.swagger.io/v2/swagger.json"}' https://generator.swagger.io/api/gen/clients/ruby
 ```
 Then you will receieve a JSON response with the URL to download the zipped code.
+
+Guidelines for Contribution
+---------------------------
+
+Please refer to this [page](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
 
 License
 -------
