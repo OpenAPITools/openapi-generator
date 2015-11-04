@@ -64,7 +64,7 @@ public class {{classname}} {
     {{/queryParams}}
 
     {{#headerParams}}if ({{paramName}} != null)
-    {{localVariablePrefix}}headerParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
+      {{localVariablePrefix}}headerParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
 
     {{#formParams}}if ({{paramName}} != null)

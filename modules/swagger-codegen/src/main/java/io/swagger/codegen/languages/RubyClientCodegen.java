@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -12,6 +13,7 @@ import io.swagger.models.properties.Property;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -32,6 +34,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".rb");
         apiTemplateFiles.put("api.mustache", ".rb");
         embeddedTemplateDir = templateDir = "ruby";
+        ensureUniqueParams = true;
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();
@@ -70,7 +73,14 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "File");
 
         // remove modelPackage and apiPackage added by default
-        cliOptions.clear();
+        Iterator<CliOption> itr = cliOptions.iterator();
+        while (itr.hasNext()) {
+            CliOption opt = itr.next();
+            if (CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
+                    CodegenConstants.API_PACKAGE.equals(opt.getOpt())) {
+                itr.remove();
+            }
+        }
         cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case), default: swagger_client"));
         cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding to gem name), default: SwaggerClient"));
         cliOptions.add(new CliOption(GEM_VERSION, "gem version, default: 1.0.0"));
