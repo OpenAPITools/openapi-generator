@@ -13,3 +13,10 @@ Collecting pluggy<0.4.0,>=0.3.0 (from tox->-r dev-requirements.txt (line 2))
   Using cached pluggy-0.3.0-py2.py3-none-any.whl
 Installing collected packages: nose, virtualenv, py, pluggy, tox, coverage, randomize
 Successfully installed coverage-3.7.1 nose-1.3.7 pluggy-0.3.0 py-1.4.30 randomize-0.13 tox-2.1.1 virtualenv-13.1.2
+Requirement already satisfied (use --upgrade to upgrade): nose in ./.venv/lib/python2.7/site-packages (from -r dev-requirements.txt (line 1))
+Requirement already satisfied (use --upgrade to upgrade): tox in ./.venv/lib/python2.7/site-packages (from -r dev-requirements.txt (line 2))
+Requirement already satisfied (use --upgrade to upgrade): coverage in ./.venv/lib/python2.7/site-packages (from -r dev-requirements.txt (line 3))
+Requirement already satisfied (use --upgrade to upgrade): randomize in ./.venv/lib/python2.7/site-packages (from -r dev-requirements.txt (line 4))
+Requirement already satisfied (use --upgrade to upgrade): virtualenv>=1.11.2 in ./.venv/lib/python2.7/site-packages (from tox->-r dev-requirements.txt (line 2))
+Requirement already satisfied (use --upgrade to upgrade): py>=1.4.17 in ./.venv/lib/python2.7/site-packages (from tox->-r dev-requirements.txt (line 2))
+Requirement already satisfied (use --upgrade to upgrade): pluggy<0.4.0,>=0.3.0 in ./.venv/lib/python2.7/site-packages (from tox->-r dev-requirements.txt (line 2))
