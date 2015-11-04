@@ -21,7 +21,7 @@ class ArrayMapObject < Petstore::BaseObject
       :int_map => :'Hash<String, Integer>',
       :pet_map => :'Hash<String, Pet>',
       :int_arr_map => :'Hash<String, Array<Integer>>',
-      :pet_arr_map => 'Hash<String, Array<Pet>>'
+      :pet_arr_map => :'Hash<String, Array<Pet>>'
     }
   end
 end
