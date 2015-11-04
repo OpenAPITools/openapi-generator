@@ -27,7 +27,7 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
     - [Modifying the client library format](#modifying-the-client-library-format)
     - [Making your own codegen modules](#making-your-own-codegen-modules)
     - [Where is Javascript???](#where-is-javascript)
-      - [Generating a client from local files](#generating-a-client-from-local-files)
+    - [Generating a client from local files](#generating-a-client-from-local-files)
     - [Customizing the generator](#customizing-the-generator)
     - [Validating your swagger spec](#validating-your-swagger-spec)
     - [Generating dynamic html api documentation](#generating-dynamic-html-api-documentation)
@@ -207,7 +207,7 @@ static code generation.
 There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a swagger specification.
 
 
-#### Generating a client from local files
+### Generating a client from local files
 If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
 to the code generator like this:
 
