@@ -34,7 +34,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".rb");
         apiTemplateFiles.put("api.mustache", ".rb");
         embeddedTemplateDir = templateDir = "ruby";
-        ensureUniqueParams = true;
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();
