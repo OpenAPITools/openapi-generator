@@ -81,7 +81,7 @@ public class OnlineGeneratorOptionsTest {
                 {new StaticDocOptionsProvider()}, {new StaticHtmlOptionsProvider()},
                 {new SwaggerOptionsProvider()}, {new SwaggerYamlOptionsProvider()},
                 {new SwiftOptionsProvider()}, {new TizenClientOptionsProvider()},
-                {new TypeScriptAngularClientOptionsProvider()}, {new TypeScriptNodeClientOptionsProvider()},
+                {new TypeScriptAngularClientOptionsProvider()}, {new TypeScriptNodeClientOptionsProvider()}
         };
     }
 

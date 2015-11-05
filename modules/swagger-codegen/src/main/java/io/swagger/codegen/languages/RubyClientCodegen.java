@@ -80,9 +80,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
                 itr.remove();
             }
         }
-        cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case), default: swagger_client"));
-        cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding to gem name), default: SwaggerClient"));
-        cliOptions.add(new CliOption(GEM_VERSION, "gem version, default: 1.0.0"));
+        cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
+                defaultValue("swagger_client"));
+        cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding" +
+                " to gem name).").defaultValue("SwaggerClient"));
+        cliOptions.add(new CliOption(GEM_VERSION, "gem version.").defaultValue("1.0.0"));
     }
 
     @Override

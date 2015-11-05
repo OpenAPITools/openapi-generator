@@ -120,13 +120,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("map", "NSMutableDictionary");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CLASS_PREFIX, "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`), default: `SWG`"));
-        cliOptions.add(new CliOption(POD_NAME, "cocoapods package name (convention: CameCase), default: `SwaggerClient`"));
-        cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "cocoapods package version, default: `1.0.0`"));
-        cliOptions.add(new CliOption(AUTHOR_NAME, "Name to use in the podspec file, default: `Swagger`"));
-        cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file, default: `apiteam@swagger.io`"));
-        cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to, default: `https://github.com/swagger-api/swagger-codegen`"));
-        cliOptions.add(new CliOption(LICENSE, "License to use in the podspec file, default: `MIT`"));
+        cliOptions.add(new CliOption(CLASS_PREFIX, "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`).`")
+                .defaultValue("SWG"));
+        cliOptions.add(new CliOption(POD_NAME, "cocoapods package name (convention: CameCase).")
+                .defaultValue("SwaggerClient"));
+        cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "cocoapods package version.")
+                .defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(AUTHOR_NAME, "Name to use in the podspec file.").defaultValue("Swagger"));
+        cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("apiteam@swagger.io"));
+        cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to.")
+                .defaultValue("https://github.com/swagger-api/swagger-codegen"));
+        cliOptions.add(new CliOption(LICENSE, "License to use in the podspec file.").defaultValue("MIT"));
     }
 
     public CodegenType getTag() {
