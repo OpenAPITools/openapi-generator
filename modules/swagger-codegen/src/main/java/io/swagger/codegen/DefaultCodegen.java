@@ -1738,10 +1738,16 @@ public class DefaultCodegen {
         return word;
     }
 
-    // Generate the next name for the given name, e.g.
-    //   status    => status2
-    //   status2   => status3
-    //   myName100 => myName101
+    /**
+     * Generate the next name for the given name, i.e. append "2" to the base name if not ending with a number,
+     * otherwise increase the number by 1. For example:
+     *   status    => status2
+     *   status2   => status3
+     *   myName100 => myName101
+     *
+     * @param name The base name
+     * @return The next name for the base name
+     */
     private String generateNextName(String name) {
         Pattern pattern = Pattern.compile("\\d+\\z");
         Matcher matcher = pattern.matcher(name);
