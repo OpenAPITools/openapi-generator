@@ -67,7 +67,7 @@ You need the following installed and available in your $PATH:
 #### OS X Users
 Don't forget to install Java 7. You probably have 1.6 or 1.8.
 
-Export JAVA_HOME in order to user proper Java version:
+Export JAVA_HOME in order to use the supported Java version:
 ```
 export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 export PATH=${JAVA_HOME}/bin:$PATH
@@ -125,7 +125,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/client/petstore/java
 ```
 
-With a number of options.  You can get the options with the `help generate` command:
+with a number of options.  You can get the options with the `help generate` command:
 
 ```
 NAME
@@ -365,7 +365,7 @@ Your config file for java can look like
 
 For all the unspecified options default values will be used.
 
-Another way to override default options is to extend config class for specific language.
+Another way to override default options is to extend the config class for the specific language.
 To change, for example, the prefix for the Objective-C generated files, simply subclass the ObjcClientCodegen.java:
 
 ```
@@ -486,7 +486,7 @@ Note!  The templates are included in the library generated.  If you want to modi
 
 ## Online generators
 
-One can also generate API client or sever using the online generators (https://generator.swagger.io)
+One can also generate API client or server using the online generators (https://generator.swagger.io)
 
 For example, to generate Ruby API client, simply send the following HTTP request using curl:
 ```
