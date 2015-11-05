@@ -1,0 +1,19 @@
+package {{invokerPackage}};
+
+import java.util.List;
+import {{modelPackage}}.*;
+
+public class Responses {
+  {{#models}}
+  {{#model}}
+    public static interface {{classname}}Response {
+        public void onResponse({{classname}} {{classVarName}});
+        }
+    }
+    public static interface {{classname}}ListResponse {
+        public void onResponse(List<{{classname}}> {{classVarName}}List);
+        }
+    }
+    {{/model}}
+  {{/models}}
+}
