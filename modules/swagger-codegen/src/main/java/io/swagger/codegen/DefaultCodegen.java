@@ -87,6 +87,7 @@ public class DefaultCodegen {
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library = null;
     protected Boolean sortParamsByRequiredFlag = true;
+    protected Boolean ensureUniqueParams = true;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -108,6 +109,11 @@ public class DefaultCodegen {
         if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
             this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENSURE_UNIQUE_PARAMS)) {
+            this.setEnsureUniqueParams(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.ENSURE_UNIQUE_PARAMS).toString()));
         }
     }
 
@@ -243,6 +249,10 @@ public class DefaultCodegen {
 
     public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
+    }
+
+    public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
+        this.ensureUniqueParams = ensureUniqueParams;
     }
 
     /**
@@ -436,6 +446,7 @@ public class DefaultCodegen {
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC));
     }
 
     /**
@@ -1245,6 +1256,23 @@ public class DefaultCodegen {
         if (parameters != null) {
             for (Parameter param : parameters) {
                 CodegenParameter p = fromParameter(param, imports);
+                // rename parameters to make sure all of them have unique names
+                if (ensureUniqueParams) {
+                    while (true) {
+                        boolean exists = false;
+                        for (CodegenParameter cp : allParams) {
+                            if (p.paramName.equals(cp.paramName)) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (exists) {
+                            p.paramName = generateNextName(p.paramName);
+                        } else {
+                            break;
+                        }
+                    }
+                }
                 allParams.add(p);
                 if (param instanceof QueryParameter) {
                     p.isQueryParam = new Boolean(true);
@@ -1283,7 +1311,7 @@ public class DefaultCodegen {
         op.httpMethod = httpMethod.toUpperCase();
 
         // move "required" parameters in front of "optional" parameters
-        if(sortParamsByRequiredFlag) {
+        if (sortParamsByRequiredFlag) {
           Collections.sort(allParams, new Comparator<CodegenParameter>() {
               @Override
               public int compare(CodegenParameter one, CodegenParameter another) {
@@ -1708,6 +1736,28 @@ public class DefaultCodegen {
         word = word.replace('-', '_');
         word = word.toLowerCase();
         return word;
+    }
+
+    /**
+     * Generate the next name for the given name, i.e. append "2" to the base name if not ending with a number,
+     * otherwise increase the number by 1. For example:
+     *   status    => status2
+     *   status2   => status3
+     *   myName100 => myName101
+     *
+     * @param name The base name
+     * @return The next name for the base name
+     */
+    private String generateNextName(String name) {
+        Pattern pattern = Pattern.compile("\\d+\\z");
+        Matcher matcher = pattern.matcher(name);
+        if (matcher.find()) {
+            String numStr = matcher.group();
+            int num = Integer.parseInt(numStr) + 1;
+            return name.substring(0, name.length() - numStr.length()) + num;
+        } else {
+            return name + "2";
+        }
     }
 
     private void addImport(CodegenModel m, String type) {
