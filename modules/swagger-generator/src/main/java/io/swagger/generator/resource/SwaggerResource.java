@@ -120,7 +120,7 @@ public class SwaggerResource {
             value = "Returns options for a server framework",
             response = CliOption.class,
             responseContainer = "map",
-            tags = "clients")
+            tags = "servers")
     public Response getServerOptions(
             @Context HttpServletRequest request,
             @ApiParam(value = "The target language for the server framework", required = true)

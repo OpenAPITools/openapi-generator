@@ -1,6 +1,9 @@
 package io.swagger.codegen;
 
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.models.properties.StringProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,6 +25,7 @@ public class CliOption {
         this.type = type;
     }
 
+    @ApiModelProperty(name = "optionName")
     public String getOpt() {
         return opt;
     }
@@ -34,6 +38,7 @@ public class CliOption {
         this.description = description;
     }
 
+    @ApiModelProperty(value = "Data type is based on the types supported by the JSON-Schema")
     public String getType() {
         return type;
     }
@@ -48,6 +53,11 @@ public class CliOption {
 
     public void setDefault(String defaultValue) {
         this.defaultValue = defaultValue;
+    }
+
+    public CliOption defaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+        return this;
     }
 
     public CliOption addEnum(String value, String description) {
@@ -66,14 +76,17 @@ public class CliOption {
 
     public void setEnum(Map<String, String> enumValues) {
         this.enumValues = enumValues;
-        this.type = "enum";
     }
 
+    @JsonIgnore
     public String getOptionHelp() {
         StringBuilder sb = new StringBuilder(description);
+        if(defaultValue != null) {
+            sb.append(" (Default: ").append(defaultValue).append(")");
+        }
         if (enumValues != null) {
             for (Map.Entry<String, String> entry : enumValues.entrySet()) {
-                sb.append("\n").append(entry.getKey()).append(" - ").append(entry.getValue());
+                sb.append("\n    ").append(entry.getKey()).append(" - ").append(entry.getValue());
             }
         }
         return sb.toString();

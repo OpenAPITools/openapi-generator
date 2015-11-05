@@ -75,9 +75,9 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "flash package name (convention:" +
-                " package.name), default: io.swagger"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "flash package version, " +
-                "default: 1.0.0"));
+                " package.name)").defaultValue("io.swagger"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "flash package version")
+                .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated " +
                 "code. e.g. src/main/flex"));
