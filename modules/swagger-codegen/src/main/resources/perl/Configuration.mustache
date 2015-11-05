@@ -17,8 +17,12 @@ our $http_user_agent = 'Perl-Swagger';
 # authenticaiton setting
 our $api_key = {};
 our $api_key_prefix = {};
-our $username;
-our $password;
 
+# username and password for HTTP basic authentication
+our $username = '';
+our $password = '';
+
+# access token for OAuth
+our $access_token = '';
 
 1;
