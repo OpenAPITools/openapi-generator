@@ -118,10 +118,12 @@ sub call_api {
     $self->{ua}->timeout($self->{http_timeout} || $WWW::SwaggerClient::Configuration::http_timeout); 
     $self->{ua}->agent($self->{http_user_agent} || $WWW::SwaggerClient::Configuration::http_user_agent);
     
+    $log->debugf("REQUEST: %s", $_request->as_string);
     my $_response = $self->{ua}->request($_request);
+    $log->debugf("RESPONSE: %s", $_response->as_string);
   
     unless ($_response->is_success) {
-        croak("API Exception(".$_response->code."): ".$_response->message);
+        croak(sprintf "API Exception(%s): %s\n%s", $_response->code, $_response->message, $_response->content);
     }
        
     return $_response->content;
@@ -152,6 +154,7 @@ sub to_query_value {
           return $self->to_string($object);
       }
 }
+
 
 # Take value and turn it into a string suitable for inclusion in
 # the header. If it's a string, pass through unchanged
@@ -293,13 +296,23 @@ sub get_api_key_with_prefix
     }
 }
 
-# update hearder and query param based on authentication setting
+# update header and query param based on authentication setting
 #  
 # @param array $headerParams header parameters (by ref)
 # @param array $queryParams query parameters (by ref)
 # @param array $authSettings array of authentication scheme (e.g ['api_key'])
 sub update_params_for_auth {
     my ($self, $header_params, $query_params, $auth_settings) = @_;
+    
+    # we can defer to the application
+    if ($self->{auth_setup_handler} && ref($self->{auth_setup_handler}) eq 'CODE') {
+    	$self->{auth_setup_handler}->(	api_client => $self,
+    									header_params => $header_params,
+    									query_params => $query_params,
+    									auth_settings => $auth_settings, # presumably this won't be defined if we're doing it this way
+    									);
+    	return;
+    }
   
     return if (!defined($auth_settings) || scalar(@$auth_settings) == 0);
   

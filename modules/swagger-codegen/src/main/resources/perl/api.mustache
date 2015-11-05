@@ -100,7 +100,7 @@ sub {{nickname}} {
     {{#formParams}}# form params
     if ( exists $args{'{{paramName}}'} ) {
         {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
-        push $form_params->{'{{baseName}}'}, $args{'{{paramName}}'};
+        push @{$form_params->{'{{baseName}}'}}, $args{'{{paramName}}'};
         {{/isFile}}
         {{^isFile}}$form_params->{'{{baseName}}'} = $self->{api_client}->to_form_value($args{'{{paramName}}'});
         {{/isFile}}
