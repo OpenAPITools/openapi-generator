@@ -21,6 +21,7 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
     - [Docker](#docker)
       - [Build and run](#build-and-run-using-docker)
       - [Build a Node.js server stub](#build-a-nodejs-server-stub)
+    - [Homebrew](#homebrew)
   - Generators
     - [To generate a sample client library](#to-generate-a-sample-client-library)
     - [Generating libraries from your server](#generating-libraries-from-your-server)
@@ -98,6 +99,15 @@ cd swagger-codegen
   -l nodejs \
   -o samples/server/petstore/nodejs
  ```
+
+### Homebrew
+To install, run `brew install swagger-codegen`
+
+Here is an example usage:
+```
+swagger-codegen generate -i http://petstore.swagger.io/v2/swagger.json -l ruby -o /tmp/test/
+```
+
 
 ### To generate a sample client library
 You can build a client against the swagger sample [petstore](http://petstore.swagger.io) API as follows:
