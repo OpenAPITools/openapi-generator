@@ -1446,6 +1446,9 @@ public class DefaultCodegen {
                 }
                 property = new ArrayProperty(inner);
                 collectionFormat = qp.getCollectionFormat();
+                if (collectionFormat == null) {
+                    collectionFormat = "csv";
+                }
                 CodegenProperty pr = fromProperty("inner", inner);
                 p.baseType = pr.datatype;
                 p.isContainer = true;
