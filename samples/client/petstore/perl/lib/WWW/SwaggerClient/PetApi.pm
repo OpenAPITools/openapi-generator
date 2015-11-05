@@ -300,7 +300,7 @@ sub get_pet_by_id {
     
 
     # authentication setting, if any
-    my $auth_settings = ['api_key', 'petstore_auth'];
+    my $auth_settings = ['api_key'];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -495,7 +495,7 @@ sub upload_file {
     }# form params
     if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
-        push $form_params->{'file'}, $args{'file'};
+        push @{$form_params->{'file'}}, $args{'file'};
         
         
     }
