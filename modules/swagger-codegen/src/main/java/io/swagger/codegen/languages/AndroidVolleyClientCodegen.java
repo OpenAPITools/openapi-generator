@@ -233,8 +233,8 @@ public class AndroidVolleyClientCodegen extends DefaultCodegen implements Codege
         additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
 
 //        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-//        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
-//        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
         supportingFiles.add(new SupportingFile("responses.mustache",
