@@ -47,7 +47,7 @@ class {{classname}}(object):
             self.api_client = config.api_client
 {{#operation}}
 
-    def {{nickname}}(self, {{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}**kwargs):
+    def {{nickname}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):
         """
         {{{summary}}}
         {{{notes}}}
@@ -58,7 +58,12 @@ class {{classname}}(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
+{{#sortParamsByRequiredFlag}}
         >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
+{{/sortParamsByRequiredFlag}}
+{{^sortParamsByRequiredFlag}}
+        >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}={{paramName}}_value, {{/required}}{{/allParams}}callback=callback_function)
+{{/sortParamsByRequiredFlag}}
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -69,13 +74,6 @@ class {{classname}}(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-{{#allParams}}
-{{#required}}
-        # verify the required parameter '{{paramName}}' is set
-        if {{paramName}} is None:
-            raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{nickname}}`")
-{{/required}}
-{{/allParams}}
 
         all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]
         all_params.append('callback')
@@ -89,6 +87,14 @@ class {{classname}}(object):
                 )
             params[key] = val
         del params['kwargs']
+
+{{#allParams}}
+{{#required}}
+        # verify the required parameter '{{paramName}}' is set
+        if ('{{paramName}}' not in params) or (params['{{paramName}}'] is None):
+            raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{nickname}}`")
+{{/required}}
+{{/allParams}}
 
         resource_path = '{{path}}'.replace('{format}', 'json')
         method = '{{httpMethod}}'
