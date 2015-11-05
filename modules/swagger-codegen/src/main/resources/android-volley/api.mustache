@@ -105,7 +105,12 @@ public class {{classname}} {
           @Override
           public void onResponse(String response) {
             try {
-              responseListener.onResponse({{returnType}}) ApiInvoker.deserialize(response, "array", Phone.class));
+              {{#returnType}}
+              responseListener.onResponse(({{{returnType}}}) ApiInvoker.deserialize(response, "array", {{returnBaseType}}.class));
+              {{/returnType}}
+              {{^returnType}}
+              responseListener.onResponse(response);
+              {{/returnType}}
             } catch (ApiException exception) {
             //TODO onError
             Log.d("ERROR", "error");
