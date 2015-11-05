@@ -243,8 +243,8 @@ public class AndroidVolleyClientCodegen extends DefaultCodegen implements Codege
 //                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "HttpPatch.java"));
         supportingFiles.add(new SupportingFile("jsonUtil.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
-//        supportingFiles.add(new SupportingFile("apiException.mustache",
-//                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
+        supportingFiles.add(new SupportingFile("apiException.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
         supportingFiles.add(new SupportingFile("Pair.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Pair.java"));
         supportingFiles.add(new SupportingFile("getrequest.mustache",
