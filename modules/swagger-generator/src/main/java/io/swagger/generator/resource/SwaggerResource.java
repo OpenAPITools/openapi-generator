@@ -3,6 +3,7 @@ package io.swagger.generator.resource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.Codegen;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
@@ -87,6 +88,50 @@ public class SwaggerResource {
             return Response.ok().entity(new ResponseCode(code, link)).build();
         } else {
             return Response.status(500).build();
+        }
+    }
+
+    @GET
+    @Path("/clients/{language}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(
+            value = "Returns options for a client library",
+            response = CliOption.class,
+            responseContainer = "map",
+            tags = "clients")
+    public Response getClientOptions(
+            @Context HttpServletRequest request,
+            @ApiParam(value = "The target language for the client library", required = true)
+            @PathParam("language") String language) throws Exception {
+
+        Map<String, CliOption> opts = Generator.getOptions(language);
+
+        if (opts != null) {
+            return Response.ok().entity(opts).build();
+        } else {
+            return Response.status(404).build();
+        }
+    }
+
+    @GET
+    @Path("/server/{framework}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(
+            value = "Returns options for a server framework",
+            response = CliOption.class,
+            responseContainer = "map",
+            tags = "servers")
+    public Response getServerOptions(
+            @Context HttpServletRequest request,
+            @ApiParam(value = "The target language for the server framework", required = true)
+            @PathParam("framework") String framework) throws Exception {
+
+        Map<String, CliOption> opts = Generator.getOptions(framework);
+
+        if (opts != null) {
+            return Response.ok().entity(opts).build();
+        } else {
+            return Response.status(404).build();
         }
     }
 

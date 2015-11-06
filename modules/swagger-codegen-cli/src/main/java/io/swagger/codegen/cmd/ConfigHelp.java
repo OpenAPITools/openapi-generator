@@ -20,7 +20,7 @@ public class ConfigHelp implements Runnable {
         System.out.println("CONFIG OPTIONS");
         for (CliOption langCliOption : config.cliOptions()) {
             System.out.println("\t" + langCliOption.getOpt());
-            System.out.println("\t    " + langCliOption.getDescription().replaceAll("\n", "\n\t    "));
+            System.out.println("\t    " + langCliOption.getOptionHelp().replaceAll("\n", "\n\t    "));
             System.out.println();
         }
     }
