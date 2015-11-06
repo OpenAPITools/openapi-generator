@@ -320,12 +320,10 @@ namespace IO.Swagger.Client
                     
                     case "api_key":
                         headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
-                        
                         break;
                     
                     case "petstore_auth":
-                        
-                        //TODO support oauth
+                        headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
                         break;
                     
                     default:
