@@ -8,8 +8,6 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 public class DartClientOptionsProvider implements OptionsProvider {
-    public static final String MODEL_PACKAGE_VALUE = "packagedart";
-    public static final String API_PACKAGE_VALUE = "apiPackageDart";
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String BROWSER_CLIENT_VALUE = "true";
@@ -26,9 +24,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
     @Override
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
-                .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
-                .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+        return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(DartClientCodegen.BROWSER_CLIENT, BROWSER_CLIENT_VALUE)
                 .put(DartClientCodegen.PUB_NAME, PUB_NAME_VALUE)
