@@ -4,10 +4,11 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CliOption;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
-import io.swagger.codegen.CliOption;
 
 import java.io.File;
 import java.util.Arrays;
