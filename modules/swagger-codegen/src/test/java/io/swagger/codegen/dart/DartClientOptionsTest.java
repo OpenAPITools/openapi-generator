@@ -25,10 +25,6 @@ public class DartClientOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(DartClientOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(DartClientOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(DartClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
             clientCodegen.setBrowserClient(Boolean.valueOf(DartClientOptionsProvider.BROWSER_CLIENT_VALUE));

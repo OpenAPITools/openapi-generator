@@ -25,10 +25,6 @@ public class StaticDocOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(StaticDocOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(StaticDocOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(StaticDocOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};
