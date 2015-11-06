@@ -26,6 +26,14 @@
             <param-name>jersey.config.server.wadl.disableWadl</param-name>
             <param-value>true</param-value>
         </init-param>
+        <init-param>
+            <param-name>generator.host</param-name>
+            <param-value>localhost:8001</param-value>
+        </init-param>
+        <init-param>
+            <param-name>generator.protocol</param-name>
+            <param-value>http</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
