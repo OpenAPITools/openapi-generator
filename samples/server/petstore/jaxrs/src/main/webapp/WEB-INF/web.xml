@@ -34,14 +34,14 @@
     </init-param>
     <init-param>
       <param-name>swagger.api.basepath</param-name>
-      <param-value>http://localhost:8080</param-value>
+      <param-value>http://petstore.swagger.io/v2</param-value>
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>jersey</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/v2/*</url-pattern>
   </servlet-mapping>
   <filter>
     <filter-name>ApiOriginFilter</filter-name>
