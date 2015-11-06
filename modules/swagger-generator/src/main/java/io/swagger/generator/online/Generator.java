@@ -72,6 +72,10 @@ public class Generator {
             throw new BadRequestException(400, "No options were supplied");
         }
         JsonNode node = opts.getSpec();
+        if(node != null && "{}".equals(node.toString())) {
+            LOGGER.debug("ignoring empty spec");
+            node = null;
+        }
         Swagger swagger;
         if (node == null) {
             if (opts.getSwaggerUrl() != null) {
