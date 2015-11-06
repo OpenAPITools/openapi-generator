@@ -70,8 +70,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(MODULE_NAME, "perl module name (convention: CamelCase), default: SwaggerClient"));
-        cliOptions.add(new CliOption(MODULE_VERSION, "perl module version, default: 1.0.0"));
+        cliOptions.add(new CliOption(MODULE_NAME, "perl module name (convention: CamelCase).").defaultValue("SwaggerClient"));
+        cliOptions.add(new CliOption(MODULE_VERSION, "perl module version.").defaultValue("1.0.0"));
     }
 
 
