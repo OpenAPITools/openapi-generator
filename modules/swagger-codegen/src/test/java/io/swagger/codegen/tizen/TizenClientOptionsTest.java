@@ -25,10 +25,6 @@ public class TizenClientOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(TizenClientOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(TizenClientOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(TizenClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};

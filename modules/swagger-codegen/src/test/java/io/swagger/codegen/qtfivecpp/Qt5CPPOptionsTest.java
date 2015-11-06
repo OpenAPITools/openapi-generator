@@ -25,10 +25,6 @@ public class Qt5CPPOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(Qt5CPPOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(Qt5CPPOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(Qt5CPPOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};
