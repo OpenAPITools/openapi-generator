@@ -323,7 +323,7 @@ sub update_params_for_auth {
         }
         {{#authMethods}}elsif ($auth eq '{{name}}') {
             {{#isApiKey}}{{#isKeyInHeader}}$header_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$query_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$header_params->{'Authorization'} = 'Basic '.encode_base64($WWW::{{moduleName}}::Configuration::username.":".$WWW::{{moduleName}}::Configuration::password);{{/isBasic}}
-            {{#isOAuth}}# TODO support oauth{{/isOAuth}}
+            {{#isOAuth}}$header_params->{'Authorization'} = 'Bearer ' . $WWW::{{moduleName}}::Configuration::access_token;{{/isOAuth}}
         }
         {{/authMethods}}
         else {
