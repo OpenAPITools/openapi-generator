@@ -36,8 +36,8 @@ module {{moduleName}}
 
       # query parameters
       query_params = {}{{#queryParams}}{{#required}}
-      query_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/queryParams}}{{#queryParams}}{{^required}}
-      query_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/queryParams}}
+      query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}{{/required}}{{/queryParams}}{{#queryParams}}{{^required}}
+      query_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if opts[:'{{{paramName}}}']{{/required}}{{/queryParams}}
 
       # header parameters
       header_params = {}
@@ -49,13 +49,13 @@ module {{moduleName}}
       # HTTP header 'Content-Type'
       _header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
       header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type){{#headerParams}}{{#required}}
-      header_params[:'{{{baseName}}}'] = {{{paramName}}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
-      header_params[:'{{{baseName}}}'] = opts[:'{{{paramName}}}'] if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
+      header_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
+      header_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}
 
       # form parameters
       form_params = {}{{#formParams}}{{#required}}
-      form_params["{{baseName}}"] = {{paramName}}{{/required}}{{/formParams}}{{#formParams}}{{^required}}
-      form_params["{{baseName}}"] = opts[:'{{paramName}}'] if opts[:'{{paramName}}']{{/required}}{{/formParams}}
+      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}{{/required}}{{/formParams}}{{#formParams}}{{^required}}
+      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if opts[:'{{paramName}}']{{/required}}{{/formParams}}
 
       # http body (model)
       {{^bodyParam}}post_body = nil

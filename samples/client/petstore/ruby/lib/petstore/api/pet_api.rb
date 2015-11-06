@@ -117,7 +117,7 @@ module Petstore
 
       # query parameters
       query_params = {}
-      query_params[:'status'] = opts[:'status'] if opts[:'status']
+      query_params[:'status'] = @api_client.build_collection_param(opts[:'status'], :multi) if opts[:'status']
 
       # header parameters
       header_params = {}
@@ -166,7 +166,7 @@ module Petstore
 
       # query parameters
       query_params = {}
-      query_params[:'tags'] = opts[:'tags'] if opts[:'tags']
+      query_params[:'tags'] = @api_client.build_collection_param(opts[:'tags'], :multi) if opts[:'tags']
 
       # header parameters
       header_params = {}
@@ -237,7 +237,7 @@ module Petstore
       post_body = nil
       
 
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['api_key']
       result = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
