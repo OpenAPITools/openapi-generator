@@ -25,10 +25,6 @@ public class StaticHtmlOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(StaticHtmlOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(StaticHtmlOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(StaticHtmlOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};
