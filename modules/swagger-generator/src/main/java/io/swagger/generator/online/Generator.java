@@ -109,7 +109,7 @@ public class Generator {
 
         codegenConfig.setOutputDir(outputFolder);
 
-        Json.prettyPrint(clientOpts);
+        LOGGER.debug(Json.pretty(clientOpts));
 
         clientOptInput.setConfig(codegenConfig);
 
@@ -123,6 +123,20 @@ public class Generator {
                 zip.compressFiles(filesToAdd, outputFilename);
             } else {
                 throw new BadRequestException(400, "A target generation was attempted, but no files were created!");
+            }
+            for(File file: files) {
+                try {
+                    file.delete();
+                }
+                catch(Exception e) {
+                    LOGGER.error("unable to delete file " + file.getAbsolutePath());
+                }
+            }
+            try {
+                new File(outputFolder).delete();
+            }
+            catch (Exception e) {
+                LOGGER.error("unable to delete output folder " + outputFolder);
             }
         } catch (Exception e) {
             throw new BadRequestException(500, "Unable to build target: " + e.getMessage());
