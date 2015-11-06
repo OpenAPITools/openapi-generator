@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-10-26T17:58:55.634+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-11-05T18:51:39.623-08:00")
 public class PetApi  {
 
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
@@ -48,7 +48,7 @@ public class PetApi  {
         
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
 
-    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
+    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ) Pet body)
     throws NotFoundException {
         return delegate.updatePet(body);
     }
@@ -65,7 +65,7 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
 
-    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store"  ) Pet body)
+    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ) Pet body)
     throws NotFoundException {
         return delegate.addPet(body);
     }
@@ -121,7 +121,7 @@ public class PetApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Pet.class) })
 
-    public Response getPetById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathParam("petId") Long petId)
+    public Response getPetById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("petId") Long petId)
     throws NotFoundException {
         return delegate.getPetById(petId);
     }
@@ -138,9 +138,9 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
 
-    public Response updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathParam("petId") String petId,
-    @ApiParam(value = "Updated name of the pet" )@FormParam("name")  String name,
-    @ApiParam(value = "Updated status of the pet" )@FormParam("status")  String status)
+    public Response updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathParam("petId") String petId,
+    @ApiParam(value = "Updated name of the pet")@FormParam("name")  String name,
+    @ApiParam(value = "Updated status of the pet")@FormParam("status")  String status)
     throws NotFoundException {
         return delegate.updatePetWithForm(petId,name,status);
     }
@@ -157,8 +157,8 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
 
-    public Response deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathParam("petId") Long petId,
-    @ApiParam(value = ""  )@HeaderParam("api_key") String apiKey)
+    public Response deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId,
+    @ApiParam(value = "" )@HeaderParam("api_key") String apiKey)
     throws NotFoundException {
         return delegate.deletePet(petId,apiKey);
     }
@@ -175,8 +175,8 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
 
-    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathParam("petId") Long petId,
-    @ApiParam(value = "Additional data to pass to server" )@FormParam("additionalMetadata")  String additionalMetadata,
+    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId,
+    @ApiParam(value = "Additional data to pass to server")@FormParam("additionalMetadata")  String additionalMetadata,
       @FormDataParam("file") InputStream inputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail)
     throws NotFoundException {

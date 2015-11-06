@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-10-26T17:58:55.634+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-11-05T18:51:39.623-08:00")
 public class StoreApi  {
 
    private final StoreApiService delegate = StoreApiServiceFactory.getStoreApi();
@@ -55,7 +55,7 @@ public class StoreApi  {
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
 
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet"  ) Order body)
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ) Order body)
     throws NotFoundException {
         return delegate.placeOrder(body);
     }
@@ -71,7 +71,7 @@ public class StoreApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Order.class) })
 
-    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathParam("orderId") String orderId)
+    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") String orderId)
     throws NotFoundException {
         return delegate.getOrderById(orderId);
     }
@@ -85,7 +85,7 @@ public class StoreApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
 
-    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathParam("orderId") String orderId)
+    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("orderId") String orderId)
     throws NotFoundException {
         return delegate.deleteOrder(orderId);
     }
