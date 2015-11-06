@@ -1,23 +1,12 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.CodegenResponse;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.*;
 import io.swagger.models.Operation;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.Path;
+import io.swagger.models.Swagger;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
     protected String title = "Swagger Server";
@@ -119,6 +108,36 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     @Override
+    public void preprocessSwagger(Swagger swagger) {
+        if(swagger != null && swagger.getPaths() != null) {
+            for(String pathname : swagger.getPaths().keySet()) {
+                Path path = swagger.getPath(pathname);
+                if(path.getOperations() != null) {
+                    for(Operation operation : path.getOperations()) {
+                        if(operation.getTags() != null) {
+                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
+                            for(String tag : operation.getTags()) {
+                                Map<String, String> value = new HashMap<String, String>();
+                                value.put("tag", tag);
+                                value.put("hasMore", "true");
+                                tags.add(value);
+                            }
+                            if(tags.size() > 0) {
+                                tags.get(tags.size() - 1).remove("hasMore");
+                            }
+                            if(operation.getTags().size() > 0) {
+                                String tag = operation.getTags().get(0);
+                                operation.setTags(Arrays.asList(tag));
+                            }
+                            operation.setVendorExtension("x-tags", tags);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
@@ -195,9 +214,10 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
 
             String output = System.getProperty("swagger.codegen.jaxrs.impl.source");
-            if (output != null) {
-                result = result.replace(apiFileFolder(), implFileFolder(output));
+            if(output == null) {
+                output = "src" + File.separator + "main" + File.separator + "java";
             }
+            result = result.replace(apiFileFolder(), implFileFolder(output));
         } else if (templateName.endsWith("Factory.mustache")) {
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
