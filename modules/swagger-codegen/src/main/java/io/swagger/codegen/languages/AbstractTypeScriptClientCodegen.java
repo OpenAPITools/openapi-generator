@@ -6,6 +6,8 @@ import io.swagger.models.properties.*;
 import java.util.*;
 import java.io.File;
 
+import org.apache.commons.lang.StringUtils;
+
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 	@Override
 	public CodegenType getTag() {
@@ -15,14 +17,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	public AbstractTypeScriptClientCodegen() {
 	    super();
 		supportsInheritance = true;
-		reservedWords = new HashSet<String>(Arrays.asList("abstract",
-				"continue", "for", "new", "switch", "assert", "default", "if",
-				"package", "synchronized", "do", "goto", "private",
-				"this", "break", "double", "implements", "protected", "throw",
-				"byte", "else", "import", "public", "throws", "case", "enum",
-				"instanceof", "return", "transient", "catch", "extends", "int",
-				"short", "try", "char", "final", "interface", "static", "void",
-				"class", "finally", "const", "super", "while"));
+		reservedWords = new HashSet<String>(Arrays.asList("abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
 		languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
 				"String",
@@ -79,7 +74,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 			return name;
 
 		// camelize the variable name
-	    // pet_id => PetId
+	        // pet_id => petId
 		name = camelize(name, true);
 
 		// for reserved word or word starting with number, append _
@@ -141,4 +136,20 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 			type = swaggerType;
 		return type;
 	}
+
+        @Override
+        public String toOperationId(String operationId) {
+            // throw exception if method name is empty
+            if (StringUtils.isEmpty(operationId)) {
+                throw new RuntimeException("Empty method name (operationId) not allowed");
+            }
+    
+            // method name cannot use reserved keyword, e.g. return
+            // append _ at the beginning, e.g. _return
+            if (reservedWords.contains(operationId)) {
+                return escapeReservedWord(camelize(sanitizeName(operationId), true));
+            }
+    
+            return camelize(sanitizeName(operationId), true);
+        }
 }
