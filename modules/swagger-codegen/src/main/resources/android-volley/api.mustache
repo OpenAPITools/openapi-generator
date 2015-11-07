@@ -55,7 +55,8 @@ public class {{classname}} {
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {
-       throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+       VolleyError error = new VolleyError("Missing the required parameter '{{paramName}}' when calling {{nickname}}",
+         new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}"));
     }
     {{/required}}{{/allParams}}
 
