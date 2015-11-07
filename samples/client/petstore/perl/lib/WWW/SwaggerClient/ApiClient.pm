@@ -305,8 +305,9 @@ sub update_params_for_auth {
     my ($self, $header_params, $query_params, $auth_settings) = @_;
     
     # we can defer to the application
-    if ($self->{auth_setup_handler} && ref($self->{auth_setup_handler}) eq 'CODE') {
-    	$self->{auth_setup_handler}->(	api_client => $self,
+    if ($self->{auth_setup_handler_object}) {
+    	$self->{auth_setup_handler_object}->auth_setup_handler(
+    									api_client => $self,
     									header_params => $header_params,
     									query_params => $query_params,
     									auth_settings => $auth_settings, # presumably this won't be defined if we're doing it this way
