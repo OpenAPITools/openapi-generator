@@ -111,7 +111,7 @@ public class {{classname}} {
           public void onResponse(String response) {
             try {
               {{#returnType}}
-              responseListener.onResponse(({{{returnType}}}) ApiInvoker.deserialize(response, "array", {{returnBaseType}}.class));
+              responseListener.onResponse(({{{returnType}}}) ApiInvoker.deserialize(response,  "{{returnContainer}}", {{returnBaseType}}.class));
               {{/returnType}}
               {{^returnType}}
               responseListener.onResponse(response);
