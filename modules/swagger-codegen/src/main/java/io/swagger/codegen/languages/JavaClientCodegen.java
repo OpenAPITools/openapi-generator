@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
+    public static final String DEFAULT_LIBRARY = "<default>";
 
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -83,6 +84,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
@@ -90,13 +93,18 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
-        cliOptions.add(new CliOption(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util (default to false)"));
+        cliOptions.add(new CliOption(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util")
+                .defaultValue("false"));
 
-        supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
+        supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
         supportedLibraries.put("retrofit", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
-        cliOptions.add(buildLibraryCliOption(supportedLibraries));
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        library.setDefault(DEFAULT_LIBRARY);
+        library.setEnum(supportedLibraries);
+        library.setDefault(DEFAULT_LIBRARY);
+        cliOptions.add(library);
     }
 
     @Override
@@ -196,6 +204,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));

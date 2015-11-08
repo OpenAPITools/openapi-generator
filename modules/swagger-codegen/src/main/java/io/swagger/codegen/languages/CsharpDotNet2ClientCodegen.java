@@ -79,9 +79,11 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         typeMapping.put("object", "Object");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "C# package name (convention: Camel.Case), default: IO.Swagger"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "C# package version, default: 1.0.0"));
-        cliOptions.add(new CliOption(CLIENT_PACKAGE, "C# client package name (convention: Camel.Case), default: IO.Swagger.Client"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "C# package name (convention: Camel.Case).")
+                .defaultValue("IO.Swagger"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "C# package version.").defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(CLIENT_PACKAGE, "C# client package name (convention: Camel.Case).")
+                .defaultValue("IO.Swagger.Client"));
     }
 
     @Override

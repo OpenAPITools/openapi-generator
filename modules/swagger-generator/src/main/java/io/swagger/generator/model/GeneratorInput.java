@@ -29,6 +29,7 @@ public class GeneratorInput {
         this.options = options;
     }
 
+    @ApiModelProperty(example = "http://petstore.swagger.io/v2/swagger.json")
     public String getSwaggerUrl() {
         return swaggerUrl;
     }

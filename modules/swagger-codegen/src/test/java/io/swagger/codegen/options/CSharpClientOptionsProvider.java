@@ -20,6 +20,7 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
+                .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
                 .build();
     }
 
