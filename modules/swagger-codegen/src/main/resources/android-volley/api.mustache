@@ -117,9 +117,9 @@ public class {{classname}} {
               responseListener.onResponse(response);
               {{/returnType}}
             } catch (ApiException exception) {
-            //TODO onError
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
           }
-        }
       }, new Response.ErrorListener() {
           @Override
           public void onErrorResponse(VolleyError error) {
@@ -127,7 +127,7 @@ public class {{classname}} {
           }
       });
     } catch (ApiException ex) {
-      //TODO onError
+      errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
   {{/operation}}
