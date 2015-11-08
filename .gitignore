@@ -59,3 +59,5 @@ samples/client/petstore/python/.venv/
 *.mustache~
 *.java~
 *.pm~
+*.xml~
+*.t~
