@@ -25,10 +25,6 @@ public class SwaggerYamlOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(SwaggerYamlOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(SwaggerYamlOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(SwaggerYamlOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
         }};

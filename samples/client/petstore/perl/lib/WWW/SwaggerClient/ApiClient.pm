@@ -328,7 +328,7 @@ sub update_params_for_auth {
         }
         elsif ($auth eq 'petstore_auth') {
             
-            # TODO support oauth
+            $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
         }
         
         else {

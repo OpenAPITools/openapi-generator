@@ -2,26 +2,37 @@
 
 /* tslint:disable:no-unused-variable member-ordering */
 
-module API.Client {
+namespace API.Client {
     'use strict';
 
     export class StoreApi {
-        private basePath = 'http://petstore.swagger.io/v2';
+        protected basePath = 'http://petstore.swagger.io/v2';
+        public defaultHeaders : any = {};
 
         static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (any) => any) {
+        constructor(protected $http: ng.IHttpService, protected $httpParamSerializer?: (d: any) => any, basePath?: string) {
             if (basePath) {
                 this.basePath = basePath;
             }
         }
 
-        public getInventory (extraHttpRequestParams?: any ) : ng.IHttpPromise<{ [key: string]: number; }> {
-            var path = this.basePath + '/store/inventory';
+        private extendObj<T1,T2>(objA: T1, objB: T2) {
+            for(let key in objB){
+                if(objB.hasOwnProperty(key)){
+                    objA[key] = objB[key];
+                }
+            }
+            return <T1&T2>objA;
+        }
 
-            var queryParameters: any = {};
-            var headerParams: any = {};
-            var httpRequestParams: any = {
+
+        public getInventory (extraHttpRequestParams?: any ) : ng.IHttpPromise<{ [key: string]: number; }> {
+            const path = this.basePath + '/store/inventory';
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let httpRequestParams: any = {
                 method: 'GET',
                 url: path,
                 json: true,
@@ -32,22 +43,18 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
 
         public placeOrder (body?: Order, extraHttpRequestParams?: any ) : ng.IHttpPromise<Order> {
-            var path = this.basePath + '/store/order';
+            const path = this.basePath + '/store/order';
 
-            var queryParameters: any = {};
-            var headerParams: any = {};
-            var httpRequestParams: any = {
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
@@ -59,29 +66,23 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
 
         public getOrderById (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<Order> {
-            var path = this.basePath + '/store/order/{orderId}';
+            const path = this.basePath + '/store/order/{orderId}'
+                .replace('{' + 'orderId' + '}', String(orderId));
 
-            path = path.replace('{' + 'orderId' + '}', String(orderId));
-
-            var queryParameters: any = {};
-            var headerParams: any = {};
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
             // verify required parameter 'orderId' is set
             if (!orderId) {
                 throw new Error('Missing required parameter orderId when calling getOrderById');
             }
-
-            var httpRequestParams: any = {
+            let httpRequestParams: any = {
                 method: 'GET',
                 url: path,
                 json: true,
@@ -92,29 +93,23 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
 
         public deleteOrder (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            var path = this.basePath + '/store/order/{orderId}';
+            const path = this.basePath + '/store/order/{orderId}'
+                .replace('{' + 'orderId' + '}', String(orderId));
 
-            path = path.replace('{' + 'orderId' + '}', String(orderId));
-
-            var queryParameters: any = {};
-            var headerParams: any = {};
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
             // verify required parameter 'orderId' is set
             if (!orderId) {
                 throw new Error('Missing required parameter orderId when calling deleteOrder');
             }
-
-            var httpRequestParams: any = {
+            let httpRequestParams: any = {
                 method: 'DELETE',
                 url: path,
                 json: true,
@@ -125,11 +120,7 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
