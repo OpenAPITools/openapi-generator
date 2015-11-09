@@ -30,6 +30,12 @@ use Log::Any qw($log);
 use WWW::{{moduleName}}::ApiClient;
 use WWW::{{moduleName}}::Configuration;
 
+use base "Class::Data::Inheritable";
+
+__PACKAGE__->mk_classdata('method_documentation' => {});
+__PACKAGE__->mk_classdata('class_documentation' => {}); # TODO
+
+
 sub new {
     my $class   = shift;
     my $default_api_client = $WWW::{{moduleName}}::Configuration::api_client ? $WWW::{{moduleName}}::Configuration::api_client  : WWW::{{moduleName}}::ApiClient->new;
@@ -49,13 +55,30 @@ sub new {
 {{#operations}}
 
 {{#operation}}
+
 #
 # {{{nickname}}}
 #
 # {{{summary}}}
 # 
 {{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
-{{/allParams}}# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{/allParams}}
+{
+	my $params = {
+{{#allParams}}
+	'{{paramName}}' => {
+		data_type => '{{dataType}}',
+		description => '{{description}}',
+		required => {{#required}}'1'{{/required}}{{^required}}'0'{{/required}},
+	},
+{{/allParams}}
+	};
+	__PACKAGE__->method_documentation->{ {{{nickname}}} } = { summary => '{{{summary}}}',
+										 				 	  params => $params,
+										 					  returns => {{#returnType}}'{{{returnType}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
+										 					  };
+}
+# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 #
 sub {{nickname}} {
     my ($self, %args) = @_;

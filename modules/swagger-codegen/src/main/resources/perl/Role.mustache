@@ -24,7 +24,7 @@ sub BUILD {
 	my $self = shift;
 	
 	# ignore these symbols imported into API namespaces
-	my %outsiders = map {$_ => 1} qw( new croak );
+	my %outsiders = map {$_ => 1} qw( croak );
 	
 	my %delegates;
 	
@@ -32,7 +32,7 @@ sub BUILD {
 	foreach my $api_name ($self->api_factory->apis_available) {
 		my $api_class = $self->api_factory->classname_for($api_name);
 		my $methods = Class::Inspector->methods($api_class, 'expanded');
-		my @local_methods = grep {! $outsiders{$_}} map {$_->[2]} grep {$_->[1] eq $api_class} @$methods;
+		my @local_methods = grep {! /^_/} grep {! $outsiders{$_}} map {$_->[2]} grep {$_->[1] eq $api_class} @$methods;
 		push( @{$delegates{$_}}, {api_name => $api_name, api_class => $api_class} ) for @local_methods;			
 	}
 	

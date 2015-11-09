@@ -30,6 +30,12 @@ use Log::Any qw($log);
 use WWW::SwaggerClient::ApiClient;
 use WWW::SwaggerClient::Configuration;
 
+use base "Class::Data::Inheritable";
+
+__PACKAGE__->mk_classdata('method_documentation' => {});
+__PACKAGE__->mk_classdata('class_documentation' => {}); # TODO
+
+
 sub new {
     my $class   = shift;
     my $default_api_client = $WWW::SwaggerClient::Configuration::api_client ? $WWW::SwaggerClient::Configuration::api_client  : WWW::SwaggerClient::ApiClient->new;
@@ -47,12 +53,26 @@ sub new {
 
 }
 
+
 #
 # create_user
 #
 # Create user
 # 
 # @param User $body Created user object (optional)
+{
+	my $params = {
+	'body' => {
+		data_type => 'User',
+		description => 'Created user object',
+		required => '0',
+	},
+	};
+	__PACKAGE__->method_documentation->{ create_user } = { summary => 'Create user',
+										 				 	  params => $params,
+										 					  returns => undef,
+										 					  };
+}
 # @return void
 #
 sub create_user {
@@ -97,12 +117,26 @@ sub create_user {
     return;
     
 }
+
 #
 # create_users_with_array_input
 #
 # Creates list of users with given input array
 # 
 # @param ARRAY[User] $body List of user object (optional)
+{
+	my $params = {
+	'body' => {
+		data_type => 'ARRAY[User]',
+		description => 'List of user object',
+		required => '0',
+	},
+	};
+	__PACKAGE__->method_documentation->{ create_users_with_array_input } = { summary => 'Creates list of users with given input array',
+										 				 	  params => $params,
+										 					  returns => undef,
+										 					  };
+}
 # @return void
 #
 sub create_users_with_array_input {
@@ -147,12 +181,26 @@ sub create_users_with_array_input {
     return;
     
 }
+
 #
 # create_users_with_list_input
 #
 # Creates list of users with given input array
 # 
 # @param ARRAY[User] $body List of user object (optional)
+{
+	my $params = {
+	'body' => {
+		data_type => 'ARRAY[User]',
+		description => 'List of user object',
+		required => '0',
+	},
+	};
+	__PACKAGE__->method_documentation->{ create_users_with_list_input } = { summary => 'Creates list of users with given input array',
+										 				 	  params => $params,
+										 					  returns => undef,
+										 					  };
+}
 # @return void
 #
 sub create_users_with_list_input {
@@ -197,6 +245,7 @@ sub create_users_with_list_input {
     return;
     
 }
+
 #
 # login_user
 #
@@ -204,6 +253,24 @@ sub create_users_with_list_input {
 # 
 # @param string $username The user name for login (optional)
 # @param string $password The password for login in clear text (optional)
+{
+	my $params = {
+	'username' => {
+		data_type => 'string',
+		description => 'The user name for login',
+		required => '0',
+	},
+	'password' => {
+		data_type => 'string',
+		description => 'The password for login in clear text',
+		required => '0',
+	},
+	};
+	__PACKAGE__->method_documentation->{ login_user } = { summary => 'Logs user into the system',
+										 				 	  params => $params,
+										 					  returns => 'string',
+										 					  };
+}
 # @return string
 #
 sub login_user {
@@ -254,11 +321,20 @@ sub login_user {
     return $_response_object;
     
 }
+
 #
 # logout_user
 #
 # Logs out current logged in user session
 # 
+{
+	my $params = {
+	};
+	__PACKAGE__->method_documentation->{ logout_user } = { summary => 'Logs out current logged in user session',
+										 				 	  params => $params,
+										 					  returns => undef,
+										 					  };
+}
 # @return void
 #
 sub logout_user {
@@ -300,12 +376,26 @@ sub logout_user {
     return;
     
 }
+
 #
 # get_user_by_name
 #
 # Get user by user name
 # 
 # @param string $username The name that needs to be fetched. Use user1 for testing. (required)
+{
+	my $params = {
+	'username' => {
+		data_type => 'string',
+		description => 'The name that needs to be fetched. Use user1 for testing.',
+		required => '1',
+	},
+	};
+	__PACKAGE__->method_documentation->{ get_user_by_name } = { summary => 'Get user by user name',
+										 				 	  params => $params,
+										 					  returns => 'User',
+										 					  };
+}
 # @return User
 #
 sub get_user_by_name {
@@ -360,6 +450,7 @@ sub get_user_by_name {
     return $_response_object;
     
 }
+
 #
 # update_user
 #
@@ -367,6 +458,24 @@ sub get_user_by_name {
 # 
 # @param string $username name that need to be deleted (required)
 # @param User $body Updated user object (optional)
+{
+	my $params = {
+	'username' => {
+		data_type => 'string',
+		description => 'name that need to be deleted',
+		required => '1',
+	},
+	'body' => {
+		data_type => 'User',
+		description => 'Updated user object',
+		required => '0',
+	},
+	};
+	__PACKAGE__->method_documentation->{ update_user } = { summary => 'Updated user',
+										 				 	  params => $params,
+										 					  returns => undef,
+										 					  };
+}
 # @return void
 #
 sub update_user {
@@ -421,12 +530,26 @@ sub update_user {
     return;
     
 }
+
 #
 # delete_user
 #
 # Delete user
 # 
 # @param string $username The name that needs to be deleted (required)
+{
+	my $params = {
+	'username' => {
+		data_type => 'string',
+		description => 'The name that needs to be deleted',
+		required => '1',
+	},
+	};
+	__PACKAGE__->method_documentation->{ delete_user } = { summary => 'Delete user',
+										 				 	  params => $params,
+										 					  returns => undef,
+										 					  };
+}
 # @return void
 #
 sub delete_user {
