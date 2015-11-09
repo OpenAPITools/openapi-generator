@@ -7,10 +7,6 @@ use lib 'lib';
 use strict;
 use warnings;
 
-use MooseX::amine;
-use Class::Inspector;
-use Data::Dumper;
-
 SKIP: {
 	eval "
 		package MyApp;

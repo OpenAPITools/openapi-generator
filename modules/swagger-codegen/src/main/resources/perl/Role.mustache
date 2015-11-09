@@ -69,6 +69,173 @@ sub _build_af {
 	return WWW::{{moduleName}}::ApiFactory->new(%args);
 }
 
+=head1 NAME
 
+WWW::{{moduleName}}::Role - a Moose role for the Perl Swagger Codegen project
+
+=head2 A note on Moose
+
+This role is the only component of the library that uses Moose. See 
+WWW::{{moduleName}}::ApiFactory for non-Moosey usage. 
+
+=head1 SYNOPSIS
+
+The Perl Swagger Codegen project builds a library of Perl modules to interact with 
+a web service defined by a Swagger specification. See below for how to build the 
+library.
+
+This module provides an interface to the generated library. All the classes, 
+objects, and methods (well, not quite *all*, see below) are flattened into this 
+role. 
+
+	package MyApp;
+	use Moose;
+	has [qw(username password)] => ( is => 'ro', required => 1, isa => 'Str' );
+	with 'WWW::{{moduleName}}::Role';
+	sub auth_setup_handler {...}
+	
+	package main;
+	
+	my $api = MyApp->new({username => $username, password => $password});
+	
+	my $pet = $api->get_pet_by_id(pet_id => $pet_id);
+	
+Notice that you need to provide the code to accept the parameters passed in to C<new()>
+(by setting up attributes via the C<has> keyword). They should be used by 
+C<auth_setup_handler()> to configure authentication (see below). 
+
+=head2 Structure of the library
+
+The library consists of a set of API classes, one for each endpoint. These APIs
+implement the method calls available on each endpoint. 
+
+Additionally, there is a set of "object" classes, which represent the objects 
+returned by and sent to the methods on the endpoints. 
+
+An API factory class is provided, which builds instances of each endpoint API. 
+
+This Moose role flattens all the methods from the endpoint APIs onto the consuming 
+class. It also provides methods to retrieve the endpoint API objects, and the API 
+factory object, should you need it. 
+
+For documentation of all these methods, see AUTOMATIC DOCUMENTATION below.
+
+=head1 METHODS
+
+=head2 C<auth_setup_handler()>
+
+This method is NOT provided - you must write it yourself. Its task is to configure 
+authentication for each request. 
+
+The method is called on your C<$api> object and passed the following parameters:
+
+=over 4
+
+=item C<header_params>
+
+A hashref that will become the request headers. You can insert auth 
+parameters.
+
+=item C<query_params>
+
+A hashref that will be encoded into the request URL. You can insert auth 
+parameters.
+
+=item C<auth_settings>
+
+TODO.
+
+=item C<api_client>
+
+A reference to the C<WWW::{{moduleName}}::ApiClient> object that is responsible 
+for communicating with the server. 
+
+=back
+
+For example: 
+
+	sub auth_setup_handler {
+		my ($self, %p) = @_;
+		$p{header_params}->{'X-TargetApp-apiKey'} = $api_key;
+		$p{header_params}->{'X-TargetApp-secretKey'} = $secret_key;
+	}
+
+=head2 base_url
+
+The generated code has the C<base_url> already set as a default value. This method 
+returns (and optionally sets) the current value of C<base_url>.
+
+=head2 api_factory
+
+Returns an API factory object. You probably won't need to call this directly. 
+
+	$self->api_factory('Pet'); # returns a WWW::{{moduleName}}::PetApi instance
+	
+	$self->pet_api;            # the same
+
+=head1 MISSING METHODS
+
+Most of the methods on the API are delegated to individual sub-API objects (e.g. 
+Pet API, Store API, User API etc). Where different sub-APIs use the same method 
+name (e.g. C<new()>), these methods can't be delegated. So you need to call 
+C<$api-E<gt>pet_api-E<gt>new()>. 
+
+In principle, every API is susceptible to the presence of a few, random, undelegatable 
+method names. In practice, because of the way method names are constructed, it's 
+unlikely in general that any methods will be undelegatable, except for: 
+
+	new()
+	class_documentation()
+	method_documentation()
+
+To call these methods, you need to get a handle on the relevant object, either 
+by calling C<$api-E<gt>foo_api> or by retrieving an object, e.g. 
+C<$api-E<gt>get_pet_by_id(pet_id =E<gt> $pet_id)>.
+
+=head1 BUILDING YOUR LIBRARY
+
+See the homepage C<https://github.com/swagger-api/swagger-codegen> for full details. 
+But briefly, clone the git repository, build the codegen codebase, set up your build 
+config file, then run the API build script. You will need git, Java 7 and Apache 
+maven 3.0.3 or better already installed.
+
+The config file should specify the project name for the generated library: 
+
+	{"moduleName":"MyProjectName"}
+
+Your library files will be built under C<WWW::MyProjectName>.
+
+	$ git clone https://github.com/swagger-api/swagger-codegen.git
+	$ cd swagger-codegen
+	$ mvn package
+	$ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i [URL or file path to JSON swagger API spec] \
+  -l perl \
+  -c /path/to/config/file.json \
+  -o /path/to/output/folder
+
+Bang, all done. Run the C<autodoc> script in the C<bin> directory to see the API 
+you just built. 
+
+=head1 AUTOMATIC DOCUMENTATION
+
+You can print out a summary of the generated API by running the included 
+C<autodoc> script in the C<bin> directory of your generated library.
+	
+=head1 DOCUMENTATION FROM THE SWAGGER SPEC
+
+Additional documentation for each class and method may be provided by the Swagger 
+spec. If so, this is available via the C<class_documentation()> and 
+C<method_documentation()> methods on each generated API and class: 
+
+	my $cdoc = $api->pet_api->class_documentation;                   
+	my $cmdoc = $api->pet_api->method_documentation->{$method_name}; 
+	
+	my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;                  
+	my $omdoc = $api->get_pet_by_id->(pet_id => $pet_id)->method_documentation->{method_name}; 
+	
+Each of these calls returns a hashref with various useful pieces of information. 	
+
+=cut
 
 1;
