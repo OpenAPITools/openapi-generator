@@ -40,7 +40,7 @@ public class JSONTest {
     public void testCustomDate() throws Exception {
         final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT-2"));
-        final String dateStr = "2015-11-07T14:11:05-0200";
+        final String dateStr = "2015-11-07T14:11:05-02:00";
         order.setShipDate(dateFormat.parse(dateStr));
 
         json.setDateFormat(dateFormat);
