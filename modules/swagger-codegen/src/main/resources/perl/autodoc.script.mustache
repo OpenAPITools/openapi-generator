@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+package MyAutodoc;
+use FindBin;
+use File::Spec;
+use lib File::Spec->catdir($FindBin::Bin, '..', 'lib');
+
+use Moose;
+
+with ('WWW::{{moduleName}}::Role', 'WWW::{{moduleName}}::Role::AutoDoc');
+
+sub auth_setup_handler {}
+
+package main;
+
+my $api = MyAutodoc->new;
+
+print $api->autodoc;
+
+exit(0);
