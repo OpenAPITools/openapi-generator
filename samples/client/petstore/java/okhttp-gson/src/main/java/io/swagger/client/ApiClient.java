@@ -264,7 +264,7 @@ public class ApiClient {
 
     if (lenientDatetimeFormat) {
       /*
-       * When the default datetime format is used, process the given string
+       * When lenientDatetimeFormat is enabled, process the given string
        * to support various formats defined by ISO 8601.
        */
       // normalize time zone
