@@ -42,8 +42,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
     protected String artifactVersion = "1.0.0";
-    protected String projectFolder = "src/main";
-    protected String sourceFolder = projectFolder + "/java";
+    protected String projectFolder = "src" + File.separator + "main";
+    protected String sourceFolder = projectFolder + File.separator + "java";
     protected String localVariablePrefix = "";
     protected boolean fullJavaUtil = false;
     protected String javaUtilPrefix = "";
@@ -51,7 +51,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public JavaClientCodegen() {
         super();
-        outputFolder = "generated-code/java";
+        outputFolder = "generated-code" + File.separator + "java";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         templateDir = "Java";
