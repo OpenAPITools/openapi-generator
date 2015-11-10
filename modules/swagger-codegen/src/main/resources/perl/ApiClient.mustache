@@ -290,13 +290,15 @@ sub select_header_content_type
 # @return string API key with the prefix
 sub get_api_key_with_prefix
 {
-    my ($self, $api_key) = @_;
-    if ($WWW::{{moduleName}}::Configuration::api_key_prefix->{$api_key}) {
-        return $WWW::{{moduleName}}::Configuration::api_key_prefix->{$api_key}." ".$WWW::{{moduleName}}::Configuration::api_key->{$api_key};
-    } else {
-        return $WWW::{{moduleName}}::Configuration::api_key->{$api_key};
-    }
-}
+	my ($self, $key_name) = @_;
+
+	my $api_key = $WWW::{{moduleName}}::Configuration::api_key->{$key_name};
+	
+	return unless $api_key;
+	
+	my $prefix = $WWW::{{moduleName}}::Configuration::api_key_prefix->{$key_name};
+	return $prefix ? "$prefix $api_key" : $api_key;
+}	
 
 # update header and query param based on authentication setting
 #  
@@ -306,7 +308,7 @@ sub get_api_key_with_prefix
 sub update_params_for_auth {
     my ($self, $header_params, $query_params, $auth_settings) = @_;
     
-    # we can defer to the application
+    # we can defer to the application if the spec doesn't describe authentication
     if ($self->{auth_setup_handler_object}) {
     	$self->{auth_setup_handler_object}->auth_setup_handler(
     									api_client => $self,

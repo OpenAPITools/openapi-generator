@@ -7,8 +7,6 @@ use Class::Inspector;
 use Log::Any qw($log);
 use WWW::SwaggerClient::ApiFactory;
 
-requires 'auth_setup_handler';
-
 has base_url => ( is => 'ro',
 			 	  required => 0,
 			 	  isa => 'Str',
@@ -64,7 +62,8 @@ sub BUILD {
 
 sub _build_af {
 	my $self = shift;
-	my %args = ( auth_setup_handler_object => $self );
+	my %args;
+	$args{auth_setup_handler_object} = $self if $self->can('auth_setup_handler');
 	$args{base_url} = $self->base_url if $self->base_url;
 	return WWW::SwaggerClient::ApiFactory->new(%args);
 }
@@ -90,20 +89,14 @@ role.
 
 	package MyApp;
 	use Moose;
-	has [qw(username password)] => ( is => 'ro', required => 1, isa => 'Str' );
 	with 'WWW::SwaggerClient::Role';
-	sub auth_setup_handler {...}
 	
 	package main;
 	
-	my $api = MyApp->new({username => $username, password => $password});
+	my $api = MyApp->new;
 	
 	my $pet = $api->get_pet_by_id(pet_id => $pet_id);
 	
-Notice that you need to provide the code to accept the parameters passed in to C<new()>
-(by setting up attributes via the C<has> keyword). They should be used by 
-C<auth_setup_handler()> to configure authentication (see below). 
-
 =head2 Structure of the library
 
 The library consists of a set of API classes, one for each endpoint. These APIs
@@ -120,14 +113,79 @@ factory object, should you need it.
 
 For documentation of all these methods, see AUTOMATIC DOCUMENTATION below.
 
+=head2 Configuring authentication
+
+If your Swagger spec does not describe authentication, you can write an 
+C<auth_setup_handler()> method in your base class to handle it (see below).
+
+In the normal case, the Swagger spec will describe what parameters are required 
+and where to put them. You just need to supply the authorization tokens. 
+
+These should go in the C<WWW::SwaggerClient::Configuration> namespace as follows. 
+Note these are all optional, and depend on the API you are accessing.
+
+=over 4
+
+=item C<$WWW::SwaggerClient::Configuration::username>
+
+String. The username for basic auth.
+
+=item C<$WWW::SwaggerClient::Configuration::password>
+
+String. The password for basic auth.
+
+=item C<$WWW::SwaggerClient::Configuration::api_key>
+
+Hashref. Keyed on the name of each key (there can be multiple tokens).
+
+	$WWW::SwaggerClient::Configuration::api_key = {
+		secretKey => 'aaaabbbbccccdddd',
+		anotherKey => '1111222233334444',
+		};
+
+=item C<$WWW::SwaggerClient::Configuration::api_key_prefix>
+
+Hashref. Keyed on the name of each key (there can be multiple tokens). Note not
+all api keys require a prefix.
+
+	$WWW::SwaggerClient::Configuration::api_key_prefix = {
+		secretKey => 'string',
+		anotherKey => 'same or some other string',
+		};
+
+=item C<$WWW::SwaggerClient::Configuration::access_token>
+
+String. The OAuth access token. 
+
+=back
+
 =head1 METHODS
 
 =head2 C<auth_setup_handler()>
 
-This method is NOT provided - you must write it yourself. Its task is to configure 
-authentication for each request. 
+This method does not exist! But if you add it to the class that consumes this 
+role, it will be called to set up authentication. 
 
-The method is called on your C<$api> object and passed the following parameters:
+	package MyApp;
+	use Moose;
+	
+	with 'WWW::SwaggerClient::Role';
+	
+	sub auth_setup_handler {
+		my ($self, %p) = @_;
+		$p{header_params}->{'X-TargetApp-apiKey'} = $api_key;
+		$p{header_params}->{'X-TargetApp-secretKey'} = $secret_key;
+	}
+	
+	# somewhere else...
+	
+	my $api = MyApp->new;
+	
+	my $pet = $api->get_pet_by_id(pet_id => $pet_id);
+
+
+So, C<auth_setup_handler()> will be called on your C<$api> object and passed the 
+following parameters:
 
 =over 4
 
@@ -143,27 +201,20 @@ parameters.
 
 =item C<auth_settings>
 
-TODO.
+TODO. Probably not necessary?
 
 =item C<api_client>
 
 A reference to the C<WWW::SwaggerClient::ApiClient> object that is responsible 
-for communicating with the server. 
+for communicating with the server. Just in case that's useful. 
 
 =back
-
-For example: 
-
-	sub auth_setup_handler {
-		my ($self, %p) = @_;
-		$p{header_params}->{'X-TargetApp-apiKey'} = $api_key;
-		$p{header_params}->{'X-TargetApp-secretKey'} = $secret_key;
-	}
 
 =head2 base_url
 
 The generated code has the C<base_url> already set as a default value. This method 
-returns (and optionally sets) the current value of C<base_url>.
+returns (and optionally sets, but only if the API client has not been 
+created yet) the current value of C<base_url>.
 
 =head2 api_factory
 
