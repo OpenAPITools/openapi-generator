@@ -148,10 +148,10 @@ Returns an API factory object. You probably won't need to call this directly.
 
 # MISSING METHODS
 
-Most of the methods on the API are delegated to individual sub-API objects (e.g. 
-Pet API, Store API, User API etc). Where different sub-APIs use the same method 
-name (e.g. `new()`), these methods can't be delegated. So you need to call 
-`$api->pet_api->new()`. 
+Most of the methods on the API are delegated to individual endpoint API objects
+(e.g. Pet API, Store API, User API etc). Where different endpoint APIs use the
+same method name (e.g. `new()`), these methods can't be delegated. So you need
+to call `$api->pet_api->new()`.
 
 In principle, every API is susceptible to the presence of a few, random, undelegatable 
 method names. In practice, because of the way method names are constructed, it's 
@@ -161,9 +161,10 @@ unlikely in general that any methods will be undelegatable, except for:
         class_documentation()
         method_documentation()
 
-To call these methods, you need to get a handle on the relevant object, either 
-by calling `$api->foo_api` or by retrieving an object, e.g. 
-`$api->get_pet_by_id(pet_id => $pet_id)`.
+To call these methods, you need to get a handle on the relevant object, either
+by calling `$api->foo_api` or by retrieving an object, e.g.
+`$api->get_pet_by_id(pet_id => $pet_id)`. They are class methods, so
+you could also call them on class names.
 
 # BUILDING YOUR LIBRARY
 
