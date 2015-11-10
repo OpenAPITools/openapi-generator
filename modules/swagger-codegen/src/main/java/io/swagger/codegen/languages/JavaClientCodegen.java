@@ -497,7 +497,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 allowableValues.put("enumVars", enumVars);
                 // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
-                if (var.defaultValue != null && !"null".equals(var.defaultValue)) {
+                if (var.defaultValue != null) {
                     String enumName = null;
                     for (Map<String, String> enumVar : enumVars) {
                         if (var.defaultValue.equals(enumVar.get("value"))) {
@@ -505,10 +505,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                             break;
                         }
                     }
-                    if (enumName == null) {
-                        throw new RuntimeException("default value of property \"" + var.baseName + "\" is not in allowed values: " + var.defaultValue);
+                    if (enumName != null) {
+                        var.defaultValue = var.datatypeWithEnum + "." + enumName;
                     }
-                    var.defaultValue = var.datatypeWithEnum + "." + enumName;
                 }
             }
         }
