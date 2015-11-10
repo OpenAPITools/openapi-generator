@@ -71,7 +71,7 @@ public class UserApiTest {
     private User createUser() {
         User user = new User();
         user.setId(System.currentTimeMillis());
-        user.setUsername("fred");
+        user.setUsername("fred" + user.getId());
         user.setFirstName("Fred");
         user.setLastName("Meyer");
         user.setEmail("fred@fredmeyer.com");
