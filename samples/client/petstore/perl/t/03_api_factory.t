@@ -15,6 +15,9 @@ is $pet_api->{api_client}->{base_url}, 'http://testing', 'get the proper base UR
 $api_factory = WWW::SwaggerClient::ApiFactory->new;
 $pet_api = $api_factory->get_api('Pet');
 
+# reset the base_url - no direct access because an application shouldn't be changing 
+# its base URL halfway through
+$pet_api->{api_client}->{base_url} = 'http://petstore.swagger.io/v2';
 is $pet_api->{api_client}->{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
 
 # test accessor methods

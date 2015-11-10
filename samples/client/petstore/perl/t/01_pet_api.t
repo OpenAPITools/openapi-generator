@@ -1,4 +1,4 @@
-use Test::More tests => 37;
+use Test::More tests => 38;
 use Test::Exception;
 
 use lib 'lib';
@@ -11,11 +11,17 @@ use_ok('WWW::SwaggerClient::Object::Pet');
 use_ok('WWW::SwaggerClient::Object::Tag');
 use_ok('WWW::SwaggerClient::Object::Category');
 
-my $api_client = WWW::SwaggerClient::ApiClient->new('base_url' => 'http://testing');
+my $api_client = WWW::SwaggerClient::ApiClient->instance('base_url' => 'http://testing');
 my $pet_api = WWW::SwaggerClient::PetApi->new('api_client' => $api_client);
 is $pet_api->{api_client}->{base_url}, 'http://testing', 'get the proper base URL from api client';
 
 my $api = WWW::SwaggerClient::PetApi->new();
+
+is $api->{api_client}->{base_url}, 'http://testing', 'we still get the original base URL from api client, because it\'s a singleton';
+
+# reset the base_url - no direct access because an application shouldn't be changing 
+# its base URL halfway through
+$api->{api_client}->{base_url} = 'http://petstore.swagger.io/v2';
 
 is $api->{api_client}->{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
 
