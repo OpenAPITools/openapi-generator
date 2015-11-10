@@ -5,20 +5,20 @@ namespace API.Client {
 
     export interface Order {
 
-        id: number;
+        id?: number;
 
-        petId: number;
+        petId?: number;
 
-        quantity: number;
+        quantity?: number;
 
-        shipDate: Date;
+        shipDate?: Date;
 
         /**
          * Order Status
          */
-        status: Order.StatusEnum;
+        status?: Order.StatusEnum;
 
-        complete: boolean;
+        complete?: boolean;
     }
 
     export namespace Order {
