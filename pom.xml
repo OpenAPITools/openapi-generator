@@ -354,6 +354,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-retrofit2</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/retrofit2</module>
+            </modules>
+        </profile>
+        <profile>
             <id>scala-client</id>
             <activation>
                 <property>
