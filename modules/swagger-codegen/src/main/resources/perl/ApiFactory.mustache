@@ -61,6 +61,9 @@ my %_apis = map { $_ =~ /^WWW::{{moduleName}}::(.*)$/; $1 => $_ }
 		The method should implement the required auth policy, for example, by setting 
 		secret keys in the header, or username and password in the URL, etc.
 		
+		This is only necessary when the API specification itself does not describe 
+		authentication.
+		
 =cut	
 
 sub new {

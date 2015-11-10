@@ -19,20 +19,14 @@ role.
 
         package MyApp;
         use Moose;
-        has [qw(username password)] => ( is => 'ro', required => 1, isa => 'Str' );
         with 'WWW::SwaggerClient::Role';
-        sub auth_setup_handler {...}
         
         package main;
         
-        my $api = MyApp->new({username => $username, password => $password});
+        my $api = MyApp->new;
         
         my $pet = $api->get_pet_by_id(pet_id => $pet_id);
         
-
-Notice that you need to provide the code to accept the parameters passed in to `new()`
-(by setting up attributes via the `has` keyword). They should be used by 
-`auth_setup_handler()` to configure authentication (see below). 
 
 ## Structure of the library
 
@@ -50,14 +44,74 @@ factory object, should you need it.
 
 For documentation of all these methods, see AUTOMATIC DOCUMENTATION below.
 
+## Configuring authentication
+
+If your Swagger spec does not describe authentication, you can write an 
+`auth_setup_handler()` method in your base class to handle it (see below).
+
+In the normal case, the Swagger spec will describe what parameters are required 
+and where to put them. You just need to supply the authorization tokens. 
+
+These should go in the `WWW::SwaggerClient::Configuration` namespace as follows. 
+Note these are all optional, and depend on the API you are accessing.
+
+- `$WWW::SwaggerClient::Configuration::username`
+
+    String. The username for basic auth.
+
+- `$WWW::SwaggerClient::Configuration::password`
+
+    String. The password for basic auth.
+
+- `$WWW::SwaggerClient::Configuration::api_key`
+
+    Hashref. Keyed on the name of each key (there can be multiple tokens).
+
+            $WWW::SwaggerClient::Configuration::api_key = {
+                    secretKey => 'aaaabbbbccccdddd',
+                    anotherKey => '1111222233334444',
+                    };
+
+- `$WWW::SwaggerClient::Configuration::api_key_prefix`
+
+    Hashref. Keyed on the name of each key (there can be multiple tokens). Note not
+    all api keys require a prefix.
+
+            $WWW::SwaggerClient::Configuration::api_key_prefix = {
+                    secretKey => 'string',
+                    anotherKey => 'same or some other string',
+                    };
+
+- `$WWW::SwaggerClient::Configuration::access_token`
+
+    String. The OAuth access token. 
+
 # METHODS
 
 ## `auth_setup_handler()`
 
-This method is NOT provided - you must write it yourself. Its task is to configure 
-authentication for each request. 
+This method does not exist! But if you add it to the class that consumes this 
+role, it will be called to set up authentication. 
 
-The method is called on your `$api` object and passed the following parameters:
+        package MyApp;
+        use Moose;
+        
+        with 'WWW::SwaggerClient::Role';
+        
+        sub auth_setup_handler {
+                my ($self, %p) = @_;
+                $p{header_params}->{'X-TargetApp-apiKey'} = $api_key;
+                $p{header_params}->{'X-TargetApp-secretKey'} = $secret_key;
+        }
+        
+        # somewhere else...
+        
+        my $api = MyApp->new;
+        
+        my $pet = $api->get_pet_by_id(pet_id => $pet_id);
+
+So, `auth_setup_handler()` will be called on your `$api` object and passed the 
+following parameters:
 
 - `header_params`
 
@@ -71,25 +125,18 @@ The method is called on your `$api` object and passed the following parameters:
 
 - `auth_settings`
 
-    TODO.
+    TODO. Probably not necessary?
 
 - `api_client`
 
     A reference to the `WWW::SwaggerClient::ApiClient` object that is responsible 
-    for communicating with the server. 
-
-For example: 
-
-        sub auth_setup_handler {
-                my ($self, %p) = @_;
-                $p{header_params}->{'X-TargetApp-apiKey'} = $api_key;
-                $p{header_params}->{'X-TargetApp-secretKey'} = $secret_key;
-        }
+    for communicating with the server. Just in case that's useful. 
 
 ## base\_url
 
 The generated code has the `base_url` already set as a default value. This method 
-returns (and optionally sets) the current value of `base_url`.
+returns (and optionally sets, but only if the API client has not been 
+created yet) the current value of `base_url`.
 
 ## api\_factory
 
