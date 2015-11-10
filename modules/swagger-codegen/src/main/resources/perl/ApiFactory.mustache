@@ -65,7 +65,7 @@ my %_apis = map { $_ =~ /^WWW::{{moduleName}}::(.*)$/; $1 => $_ }
 
 sub new {
     my ($class, %p) = (shift, @_);
-	$p{api_client} = WWW::{{moduleName}}::ApiClient->new(%p);			
+	$p{api_client} = WWW::{{moduleName}}::ApiClient->instance(%p);			
 	return bless \%p, $class;
 }
 

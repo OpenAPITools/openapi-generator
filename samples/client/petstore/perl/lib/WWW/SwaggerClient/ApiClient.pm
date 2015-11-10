@@ -20,7 +20,9 @@ use Module::Runtime qw(use_module);
 
 use WWW::SwaggerClient::Configuration;
 
-sub new
+use base 'Class::Singleton';
+
+sub _new_instance
 {
     my $class = shift;
     my (%args) = (

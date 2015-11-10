@@ -65,7 +65,7 @@ my %_apis = map { $_ =~ /^WWW::SwaggerClient::(.*)$/; $1 => $_ }
 
 sub new {
     my ($class, %p) = (shift, @_);
-	$p{api_client} = WWW::SwaggerClient::ApiClient->new(%p);			
+	$p{api_client} = WWW::SwaggerClient::ApiClient->instance(%p);			
 	return bless \%p, $class;
 }
 

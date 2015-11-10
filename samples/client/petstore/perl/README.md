@@ -10,7 +10,7 @@ WWW::SwaggerClient::ApiFactory for non-Moosey usage.
 # SYNOPSIS
 
 The Perl Swagger Codegen project builds a library of Perl modules to interact with 
-a web service defined by a Swagger specification. See below for how to built the 
+a web service defined by a Swagger specification. See below for how to build the 
 library.
 
 This module provides an interface to the generated library. All the classes, 
