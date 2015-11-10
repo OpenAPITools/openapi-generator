@@ -6,7 +6,7 @@
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
 
-Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
+Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more.
 
 # Table of contents
 
@@ -63,7 +63,7 @@ You need the following installed and available in your $PATH:
 * [Java 7](http://java.oracle.com)
 
 * [Apache maven 3.0.3 or greater](http://maven.apache.org/)
- 
+
 #### OS X Users
 Don't forget to install Java 7. You probably have 1.6 or 1.8.
 
@@ -173,10 +173,10 @@ OPTIONS
 
         -v, --verbose
             verbose mode
-            
+
         -s , --skip-overwrite
-            specifies if the existing files should be overwritten during 
-            the generation 
+            specifies if the existing files should be overwritten during
+            the generation
 ```
 
 You can then compile and run the client, as well as unit tests against it:
@@ -351,6 +351,7 @@ CONFIG OPTIONS
 	    jersey2 - HTTP client: Jersey client 2.6
 	    okhttp-gson - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
 	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
+      retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
 ```
 
 Your config file for java can look like
