@@ -23,7 +23,7 @@ role.
         
         package main;
         
-        my $api = MyApp->new;
+        my $api = MyApp->new({ tokens => $tokens });
         
         my $pet = $api->get_pet_by_id(pet_id => $pet_id);
         
@@ -46,14 +46,40 @@ For documentation of all these methods, see AUTOMATIC DOCUMENTATION below.
 
 ## Configuring authentication
 
-If your Swagger spec does not describe authentication, you can write an 
-`auth_setup_handler()` method in your base class to handle it (see below).
+In the normal case, the Swagger spec will describe what parameters are
+required and where to put them. You just need to supply the tokens.
 
-In the normal case, the Swagger spec will describe what parameters are required 
-and where to put them. You just need to supply the authorization tokens. 
+    my $tokens = {
+        # basic
+        username => $username,
+        password => $password,
+        
+        # oauth
+        access_token => $oauth_token,
+        
+        # keys
+        $some_key => { token => $token,
+                       prefix => $prefix, 
+                       in => $in,             # 'head||query',     
+                       },
+                       
+        $another => { token => $token,
+                      prefix => $prefix, 
+                      in => $in,              # 'head||query',      
+                      },                   
+        ...,
+        
+        };
+        
+        my $api = MyApp->new({ tokens => $tokens });
 
-These should go in the `WWW::{{moduleName}}::Configuration` namespace as follows. 
-Note these are all optional, and depend on the API you are accessing.
+Note these are all optional, as are `prefix` and `in`, and depend on the API
+you are accessing. Usually `prefix` and `in` will be determined by the code generator from
+the spec and you will not need to set them at run time. If not, `in` will
+default to 'head' and `prefix` to the empty string. 
+
+The tokens will be placed in the `WWW::{{moduleName}}::Configuration` namespace
+as follows, but you don't need to know about this. 
 
 - `$WWW::{{moduleName}}::Configuration::username`
 
@@ -88,63 +114,19 @@ Note these are all optional, and depend on the API you are accessing.
 
 # METHODS
 
-## `auth_setup_handler()`
-
-This method does not exist! But if you add it to the class that consumes this 
-role, it will be called to set up authentication. 
-
-        package MyApp;
-        use Moose;
-        
-        with 'WWW::{{moduleName}}::Role';
-        
-        sub auth_setup_handler {
-                my ($self, %p) = @_;
-                $p{header_params}->{'X-TargetApp-apiKey'} = $api_key;
-                $p{header_params}->{'X-TargetApp-secretKey'} = $secret_key;
-        }
-        
-        # somewhere else...
-        
-        my $api = MyApp->new;
-        
-        my $pet = $api->get_pet_by_id(pet_id => $pet_id);
-
-So, `auth_setup_handler()` will be called on your `$api` object and passed the 
-following parameters:
-
-- `header_params`
-
-    A hashref that will become the request headers. You can insert auth 
-    parameters.
-
-- `query_params`
-
-    A hashref that will be encoded into the request URL. You can insert auth 
-    parameters.
-
-- `auth_settings`
-
-    TODO. Probably not necessary?
-
-- `api_client`
-
-    A reference to the `WWW::{{moduleName}}::ApiClient` object that is responsible 
-    for communicating with the server. Just in case that's useful. 
-
-## base\_url
+## `base_url`
 
 The generated code has the `base_url` already set as a default value. This method 
 returns (and optionally sets, but only if the API client has not been 
 created yet) the current value of `base_url`.
 
-## api\_factory
+## `api_factory`
 
 Returns an API factory object. You probably won't need to call this directly. 
 
         $self->api_factory('Pet'); # returns a WWW::{{moduleName}}::PetApi instance
         
-        $self->pet_api;            # the same
+        $self->pet_api;                    # the same
 
 # MISSING METHODS
 
@@ -202,11 +184,11 @@ Additional documentation for each class and method may be provided by the Swagge
 spec. If so, this is available via the `class_documentation()` and 
 `method_documentation()` methods on each generated API and class: 
 
-        my $cdoc = $api->pet_api->class_documentation;                   
+        my $cdoc = $api->pet_api->class_documentation;                                   
         my $cmdoc = $api->pet_api->method_documentation->{$method_name}; 
         
-        my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;                  
+        my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;                                  
         my $omdoc = $api->get_pet_by_id->(pet_id => $pet_id)->method_documentation->{method_name}; 
         
 
-Each of these calls returns a hashref with various useful pieces of information. 	
+Each of these calls returns a hashref with various useful pieces of information.	

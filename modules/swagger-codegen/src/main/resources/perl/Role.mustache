@@ -8,18 +8,31 @@ use Log::Any qw($log);
 use WWW::{{moduleName}}::ApiFactory;
 
 has base_url => ( is => 'ro',
-			 	  required => 0,
-			 	  isa => 'Str',
-			 	  );
+				  required => 0,
+				  isa => 'Str',
+				  );
 
 has api_factory => ( is => 'ro',
 					 isa => 'WWW::{{moduleName}}::ApiFactory',
 					 builder => '_build_af', 
 					 lazy => 1,
 					 );
+
+has tokens => ( is => 'ro',
+				isa => 'HashRef',
+				required => 0,
+				default => sub {{=<% %>=}}{{}}<%={{ }}=%>, # ! 
+				);
+
+has _cfg => ( is => 'ro',
+			  isa => 'Str',
+			  default => 'WWW::{{moduleName}}::Configuration',
+			  );
 					 
 sub BUILD {
 	my $self = shift;
+	
+	$self->_cfg->accept_tokens( $self->tokens ) if keys %{$self->tokens};
 	
 	# ignore these symbols imported into API namespaces
 	my %outsiders = map {$_ => 1} qw( croak );
@@ -93,7 +106,7 @@ role.
 	
 	package main;
 	
-	my $api = MyApp->new;
+	my $api = MyApp->new({ tokens => $tokens });
 	
 	my $pet = $api->get_pet_by_id(pet_id => $pet_id);
 	
@@ -115,14 +128,40 @@ For documentation of all these methods, see AUTOMATIC DOCUMENTATION below.
 
 =head2 Configuring authentication
 
-If your Swagger spec does not describe authentication, you can write an 
-C<auth_setup_handler()> method in your base class to handle it (see below).
+In the normal case, the Swagger spec will describe what parameters are
+required and where to put them. You just need to supply the tokens.
 
-In the normal case, the Swagger spec will describe what parameters are required 
-and where to put them. You just need to supply the authorization tokens. 
+    my $tokens = {
+        # basic
+        username => $username,
+        password => $password,
+        
+        # oauth
+        access_token => $oauth_token,
+        
+        # keys
+        $some_key => { token => $token,
+                       prefix => $prefix, 
+                       in => $in,             # 'head||query',     
+                       },
+                       
+        $another => { token => $token,
+                      prefix => $prefix, 
+                      in => $in,              # 'head||query',      
+                      },                   
+        ...,
+        
+        };
+        
+        my $api = MyApp->new({ tokens => $tokens });
 
-These should go in the C<WWW::{{moduleName}}::Configuration> namespace as follows. 
-Note these are all optional, and depend on the API you are accessing.
+Note these are all optional, as are C<prefix> and C<in>, and depend on the API
+you are accessing. Usually C<prefix> and C<in> will be determined by the code generator from
+the spec and you will not need to set them at run time. If not, C<in> will
+default to 'head' and C<prefix> to the empty string. 
+
+The tokens will be placed in the C<WWW::{{moduleName}}::Configuration> namespace
+as follows, but you don't need to know about this. 
 
 =over 4
 
@@ -161,68 +200,19 @@ String. The OAuth access token.
 
 =head1 METHODS
 
-=head2 C<auth_setup_handler()>
-
-This method does not exist! But if you add it to the class that consumes this 
-role, it will be called to set up authentication. 
-
-	package MyApp;
-	use Moose;
-	
-	with 'WWW::{{moduleName}}::Role';
-	
-	sub auth_setup_handler {
-		my ($self, %p) = @_;
-		$p{header_params}->{'X-TargetApp-apiKey'} = $api_key;
-		$p{header_params}->{'X-TargetApp-secretKey'} = $secret_key;
-	}
-	
-	# somewhere else...
-	
-	my $api = MyApp->new;
-	
-	my $pet = $api->get_pet_by_id(pet_id => $pet_id);
-
-
-So, C<auth_setup_handler()> will be called on your C<$api> object and passed the 
-following parameters:
-
-=over 4
-
-=item C<header_params>
-
-A hashref that will become the request headers. You can insert auth 
-parameters.
-
-=item C<query_params>
-
-A hashref that will be encoded into the request URL. You can insert auth 
-parameters.
-
-=item C<auth_settings>
-
-TODO. Probably not necessary?
-
-=item C<api_client>
-
-A reference to the C<WWW::{{moduleName}}::ApiClient> object that is responsible 
-for communicating with the server. Just in case that's useful. 
-
-=back
-
-=head2 base_url
+=head2 C<base_url>
 
 The generated code has the C<base_url> already set as a default value. This method 
 returns (and optionally sets, but only if the API client has not been 
 created yet) the current value of C<base_url>.
 
-=head2 api_factory
+=head2 C<api_factory>
 
 Returns an API factory object. You probably won't need to call this directly. 
 
 	$self->api_factory('Pet'); # returns a WWW::{{moduleName}}::PetApi instance
 	
-	$self->pet_api;            # the same
+	$self->pet_api;			   # the same
 
 =head1 MISSING METHODS
 
@@ -280,13 +270,13 @@ Additional documentation for each class and method may be provided by the Swagge
 spec. If so, this is available via the C<class_documentation()> and 
 C<method_documentation()> methods on each generated API and class: 
 
-	my $cdoc = $api->pet_api->class_documentation;                   
+	my $cdoc = $api->pet_api->class_documentation;					 
 	my $cmdoc = $api->pet_api->method_documentation->{$method_name}; 
 	
-	my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;                  
+	my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;				   
 	my $omdoc = $api->get_pet_by_id->(pet_id => $pet_id)->method_documentation->{method_name}; 
 	
-Each of these calls returns a hashref with various useful pieces of information. 	
+Each of these calls returns a hashref with various useful pieces of information.	
 
 =cut
 

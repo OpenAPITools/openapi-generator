@@ -97,7 +97,7 @@ sub get_inventory {
     
 
     # authentication setting, if any
-    my $auth_settings = ['api_key'];
+    my $auth_settings = [qw(api_key )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -164,7 +164,7 @@ sub place_order {
     }
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -238,7 +238,7 @@ sub get_order_by_id {
     
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -312,7 +312,7 @@ sub delete_order {
     
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     
