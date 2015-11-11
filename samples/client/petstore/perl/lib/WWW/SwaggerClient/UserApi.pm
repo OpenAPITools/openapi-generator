@@ -33,8 +33,11 @@ use WWW::SwaggerClient::Configuration;
 use base "Class::Data::Inheritable";
 
 __PACKAGE__->mk_classdata('method_documentation' => {});
-__PACKAGE__->mk_classdata('class_documentation' => {}); # TODO
+__PACKAGE__->mk_classdata('class_documentation' => {}); 
 
+__PACKAGE__->class_documentation({description => '',    # TODO
+                                  class => 'UserApi',
+}                                 );
 
 sub new {
     my $class   = shift;

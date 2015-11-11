@@ -1,4 +1,4 @@
-use Test::More tests => 29;
+use Test::More tests => 39;
 use Test::Exception;
 use Test::Warnings 'warnings';
 use Test::Deep;
@@ -15,7 +15,7 @@ SKIP: {
 		sub auth_setup_handler {}
 	";
 	
-	skip 'Moose not installed', 29 if $@;
+	skip 'Moose not installed', 39 if $@;
 
 
 my $api;
@@ -62,18 +62,39 @@ is $get_pet->tags->[0]->name, 'just kidding', 'stored and retrieved: got the pro
 is $get_pet->tags->[0]->id, '11', 'stored and retrieved: got the proper tag id';
 
 # documentation tests
-TODO: {
-	local $TODO = "Swagger spec doesn't populate all the description fields";
-	is $api->pet_api->class_documentation->{description}, 'Pet API description', 'got corrrect Pet API description';
-	is $get_pet->method_documentation->{name}, 'Description of the Pet object name() method', 'Pet object method_documentation is available';
-}
 
+# API class docs 
+is $api->pet_api->class_documentation->{description}, '', 'got correct Pet API description'; # right now it's blank
+
+# API method docs 
 is_deeply(	[sort keys %{$api->pet_api->method_documentation}], 
 			[ 'add_pet', 'delete_pet', 'find_pets_by_status', 'find_pets_by_tags', 'get_pet_by_id', 'update_pet', 'update_pet_with_form', 'upload_file'], 
 			"Pet API method_documentation has the correct keys");
+is $api->pet_api->method_documentation->{get_pet_by_id}->{params}->{pet_id}->{description}, 
+	'ID of pet that needs to be fetched', 'get_pet_by_id parameter pet_id description is correct';
+is $api->pet_api->method_documentation->{get_pet_by_id}->{params}->{pet_id}->{required},
+	1, 'get_pet_by_id parameter pet_id is required';
+is $api->pet_api->method_documentation->{get_pet_by_id}->{params}->{pet_id}->{data_type},
+	'int', 'get_pet_by_id parameter pet_id is an int';
+is $api->pet_api->method_documentation->{get_pet_by_id}->{returns},
+	'Pet', 'get_pet_by_id returns a Pet';
+is $api->pet_api->method_documentation->{get_pet_by_id}->{summary},
+	'Find pet by ID', 'get_pet_by_id summary is correct';
 
-my $pet_class_doco = { 'description' => '' };
+# object class docs 
+my $pet_class_doco = { 'description' => '', required => [], class => 'Pet' };
 is_deeply($get_pet->class_documentation, $pet_class_doco, 'Pet object class_documentation is available');
+is $get_pet->class_documentation->{description}, '', 'Pet object class_documentation is correct'; # right now it's blank
+is $get_pet->class_documentation->{class}, 'Pet', 'Pet object class_documentation returns correct class name';
+
+# object method docs 
+is $get_pet->method_documentation->{status}->{description}, 'pet status in the store', 'Pet object method_documentation for status() - description is correct';
+is $get_pet->method_documentation->{status}->{format}, '', 'Pet object method_documentation for status() - format is correct';
+is $get_pet->method_documentation->{status}->{base_name}, 'status', 'Pet object method_documentation for status() - base_name is correct';
+is $get_pet->method_documentation->{status}->{datatype}, 'string', 'Pet object method_documentation for status() - datatype is correct';
+
+
+
 # / documentation tests
 
 my $tokens = {
