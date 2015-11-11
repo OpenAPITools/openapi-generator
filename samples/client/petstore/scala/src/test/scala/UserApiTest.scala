@@ -11,21 +11,41 @@ import scala.collection.JavaConverters._
 import scala.beans.BeanProperty
 
 @RunWith(classOf[JUnitRunner])
-class UserApiTest extends FlatSpec with Matchers {
+class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
   behavior of "UserApi"
   val api = new UserApi
   api.apiInvoker.defaultHeaders += "api_key" -> "special-key"
 
+  // preparation before running a test
+  override def beforeAll() {
+    val user = User(
+      11222,
+      "scala-test-username",
+      "scala-test-first",
+      "scala-test-last",
+      "scala_test@fail.com",
+      "SCALATEST",
+      "408-867-5309",
+      1)
+
+    api.createUser(user)
+  }
+
+  // cleanup after running a test
+  override def afterAll() {
+    api.deleteUser("scala-test-username")
+  }
+
   it should "fetch a user" in {
-    api.getUserByName("user1") match {
+    api.getUserByName("scala-test-username") match {
       case Some(user) => {
-        user.id should be(1)
-        user.username should be("user1")
-        user.password should be("XXXXXXXXXXX")
-        user.email should be("email1@test.com")
-        user.firstName should be("first name 1")
-        user.lastName should be("last name 1")
-        user.phone should be("123-456-7890")
+        user.id should be(11222)
+        user.username should be("scala-test-username")
+        user.password should be("SCALATEST")
+        user.email should be("scala_test@fail.com")
+        user.firstName should be("scala-test-first")
+        user.lastName should be("scala-test-last")
+        user.phone should be("408-867-5309")
         user.userStatus should be(1)
       }
       case None =>
@@ -33,7 +53,7 @@ class UserApiTest extends FlatSpec with Matchers {
   }
 
   it should "authenticate a user" in {
-    api.loginUser("user1", "XXXXXXXXXXX") match {
+    api.loginUser("scala-test-username", "SCALATEST") match {
       case Some(status) => status.startsWith("logged in user session") match {
         case true => // success!
         case _ => fail("didn't get expected message " + status)
@@ -44,28 +64,6 @@ class UserApiTest extends FlatSpec with Matchers {
 
   it should "log out a user" in {
     api.logoutUser
-  }
-
-  it should "create a user" in {
-    val user = User(
-      1002,
-      "johnny",
-      "Johnny",
-      "Rocket",
-      "johnny@fail.com",
-      "XXXXXXXXXXX",
-      "408-867-5309",
-      1)
-
-    api.createUser(user)
-
-    api.getUserByName("johnny") match {
-      case Some(user) => {
-        user.id should be(1002)
-        user.username should be("johnny")
-      }
-      case None =>
-    }
   }
 
   it should "create 2 users" in {
