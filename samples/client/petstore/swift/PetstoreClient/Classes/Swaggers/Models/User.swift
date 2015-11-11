@@ -21,6 +21,8 @@ public class User: JSONEncodable {
     public var userStatus: Int?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
