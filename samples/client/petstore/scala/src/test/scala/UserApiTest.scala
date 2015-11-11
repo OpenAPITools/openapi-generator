@@ -37,7 +37,7 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
   }
 
   it should "fetch a user" in {
-    api.getUserByName("scala-test") match {
+    api.getUserByName("scala-test-username") match {
       case Some(user) => {
         user.id should be(11222)
         user.username should be("scala-test-username")
