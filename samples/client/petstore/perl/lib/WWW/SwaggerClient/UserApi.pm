@@ -106,7 +106,7 @@ sub create_user {
     }
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     
@@ -170,7 +170,7 @@ sub create_users_with_array_input {
     }
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     
@@ -234,7 +234,7 @@ sub create_users_with_list_input {
     }
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     
@@ -307,7 +307,7 @@ sub login_user {
     
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -365,7 +365,7 @@ sub logout_user {
     
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     
@@ -436,7 +436,7 @@ sub get_user_by_name {
     
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -519,7 +519,7 @@ sub update_user {
     }
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     
@@ -590,7 +590,7 @@ sub delete_user {
     
 
     # authentication setting, if any
-    my $auth_settings = [];
+    my $auth_settings = [qw()];
 
     # make the API Call
     

@@ -106,7 +106,7 @@ sub update_pet {
     }
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -170,7 +170,7 @@ sub add_pet {
     }
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -234,7 +234,7 @@ sub find_pets_by_status {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -301,7 +301,7 @@ sub find_pets_by_tags {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -375,7 +375,7 @@ sub get_pet_by_id {
     
 
     # authentication setting, if any
-    my $auth_settings = ['api_key'];
+    my $auth_settings = [qw(api_key )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -471,7 +471,7 @@ sub update_pet_with_form {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -551,7 +551,7 @@ sub delete_pet {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -645,7 +645,7 @@ sub upload_file {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     

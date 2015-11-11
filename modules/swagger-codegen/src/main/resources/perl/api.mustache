@@ -134,7 +134,7 @@ sub {{nickname}} {
     }{{/bodyParams}}
 
     # authentication setting, if any
-    my $auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+    my $auth_settings = [qw({{#authMethods}}{{name}} {{/authMethods}})];
 
     # make the API Call
     {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,

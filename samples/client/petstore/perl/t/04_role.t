@@ -1,4 +1,4 @@
-use Test::More tests => 21;
+use Test::More tests => 29;
 use Test::Exception;
 use Test::Warnings 'warnings';
 use Test::Deep;
@@ -15,7 +15,7 @@ SKIP: {
 		sub auth_setup_handler {}
 	";
 	
-	skip 'Moose not installed', 21 if $@;
+	skip 'Moose not installed', 29 if $@;
 
 
 my $api;
@@ -75,6 +75,66 @@ is_deeply(	[sort keys %{$api->pet_api->method_documentation}],
 my $pet_class_doco = { 'description' => '' };
 is_deeply($get_pet->class_documentation, $pet_class_doco, 'Pet object class_documentation is available');
 # / documentation tests
+
+my $tokens = {
+	username => 'UserName',
+	password => 'PassWord',
+	access_token => 'OAuth_token',
+	
+	someKey => { token => 'some_key_token',
+				   prefix => 'some_key_prefix', 
+				   in => 'query',    
+				   },
+				   
+	anotherKey => { token => 'another_key_token',
+				  },                   
+	};
+
+$api->_cfg->accept_tokens({%$tokens}); # pass a copy
+no warnings 'once';
+is $WWW::SwaggerClient::Configuration::username, 'UserName', 'accept_tokens() correctly set the username';
+is $WWW::SwaggerClient::Configuration::password, 'PassWord', 'accept_tokens() correctly set the password';
+is $WWW::SwaggerClient::Configuration::access_token, 'OAuth_token', 'accept_tokens() correctly set the oauth';
+
+my $api_key_href = {
+          'anotherKey' => 'another_key_token',
+          'someKey' => 'some_key_token'
+        };
+cmp_deeply( $WWW::SwaggerClient::Configuration::api_key, $api_key_href, 'accept_tokens() correctly set api_key' );
+
+my $api_key_prefix_href = {
+          'someKey' => 'some_key_prefix'
+        };
+cmp_deeply( $WWW::SwaggerClient::Configuration::api_key_prefix, $api_key_prefix_href, 'accept_tokens() correctly set api_key_prefix' );
+
+my $api_key_in = {
+          'someKey' => 'query',
+          'anotherKey' => 'head'
+        };
+cmp_deeply( $WWW::SwaggerClient::Configuration::api_key_in, $api_key_in, 'accept_tokens() correctly set api_key_in' );
+
+use warnings 'once';
+
+my $cleared_tokens_cmp = {
+          'anotherKey' => {
+                            'in' => 'head',
+                            'token' => 'another_key_token',
+                            'prefix' => undef
+                          },
+          'access_token' => 'OAuth_token',
+          'someKey' => {
+                         'token' => 'some_key_token',
+                         'in' => 'query',
+                         'prefix' => 'some_key_prefix'
+                       },
+          'username' => 'UserName',
+          'password' => 'PassWord'
+        };
+cmp_deeply( $api->_cfg->clear_tokens, $cleared_tokens_cmp, 'clear_tokens() returns the correct data structure' );
+
+my $bad_token = { bad_token_name => 'bad token value' }; # value should should be hashref
+dies_ok { $api->_cfg->accept_tokens($bad_token) } "bad token causes exception";
+
 
 } # / SKIP
 	
