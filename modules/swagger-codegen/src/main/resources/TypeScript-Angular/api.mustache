@@ -37,8 +37,7 @@ namespace {{package}} {
          * {{summary}}
          * {{notes}}
          {{#allParams}}* @param {{paramName}} {{description}}
-         {{/allParams}}
-         */
+         {{/allParams}}*/
         public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
             const path = this.basePath + '{{path}}'{{#pathParams}}
                 .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
