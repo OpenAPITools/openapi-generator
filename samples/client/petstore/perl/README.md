@@ -175,8 +175,19 @@ you just built.
 
 # AUTOMATIC DOCUMENTATION
 
-You can print out a summary of the generated API by running the included 
-`autodoc` script in the `bin` directory of your generated library.
+You can print out a summary of the generated API by running the included
+`autodoc` script in the `bin` directory of your generated library. A few
+output formats are supported:
+
+          Usage: autodoc [OPTION]
+
+    -w           wide format (default)
+    -n           narrow format
+    -p           POD format 
+    -H           HTML format 
+    -h           print this help message
+
+          
 
 # DOCUMENTATION FROM THE SWAGGER SPEC
 

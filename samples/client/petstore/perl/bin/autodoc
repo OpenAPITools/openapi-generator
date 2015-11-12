@@ -1,19 +1,54 @@
 #!/usr/bin/perl
-package MyAutodoc;
 use FindBin;
 use File::Spec;
 use lib File::Spec->catdir($FindBin::Bin, '..', 'lib');
 
+use Getopt::Std;
+ 
+my %options=();
+getopts("wnphH", \%options);
+
+die "Too many options: there can be only one" if keys %options > 1;
+
+$options{w}++ unless keys %options;
+
+if ($options{h}) {
+	print <<HELP;
+Usage: autodoc [OPTION]
+
+  -w           wide format (default)
+  -n           narrow format
+  -p           POD format 
+  -H           HTML format 
+  -h           print this help message
+
+HELP
+
+	exit(0);
+}
+
+package My::App;
 use Moose;
-
-with ('WWW::SwaggerClient::Role', 'WWW::SwaggerClient::Role::AutoDoc');
-
-sub auth_setup_handler {}
+with ('WWW::BookeoClient::Role', 'WWW::BookeoClient::Role::AutoDoc');
 
 package main;
 
-my $api = MyAutodoc->new;
+my $opt;
+$opt = 'pod' if $options{p};
+$opt = 'wide' if $options{w};
+$opt = 'narrow' if $options{n};
+$opt = 'pod' if $options{H};
 
-print $api->autodoc;
+my $api = My::App->new;
+
+if ($options{H}) {
+	my $pod2html = "pod2html --backlink --css http://st.pimg.net/tucs/style.css?3";
+	open STDOUT, "| $pod2html" or die "Can't fork: $!";
+	$api->autodoc($opt);
+	close STDOUT or die "Can't close: $!";
+}
+else {
+	$api->autodoc($opt);
+}
 
 exit(0);
