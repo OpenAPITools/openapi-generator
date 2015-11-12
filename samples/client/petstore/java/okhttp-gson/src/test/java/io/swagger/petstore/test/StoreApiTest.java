@@ -24,8 +24,10 @@ public class StoreApiTest {
         apiKeyAuth.setApiKey("special-key");
         // set custom date format that is used by the petstore server
         // Note: it would still work without this setting as okhttp-gson Java client supports
-        // various date formats by default, including the one used by petstore server
-        api.getApiClient().setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
+        // various date formats by default (with lenientDatetimeFormat enabled), including
+        // the one used by petstore server
+        api.getApiClient().setDatetimeFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
+        api.getApiClient().setLenientDatetimeFormat(false);
     }
 
     @Test
