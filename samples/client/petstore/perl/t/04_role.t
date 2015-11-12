@@ -1,4 +1,4 @@
-use Test::More tests => 39;
+use Test::More tests => 38;
 use Test::Exception;
 use Test::Warnings 'warnings';
 use Test::Deep;
@@ -15,25 +15,10 @@ SKIP: {
 		sub auth_setup_handler {}
 	";
 	
-	skip 'Moose not installed', 39 if $@;
+	skip 'Moose not installed', 38 if $@;
 
 
-my $api;
-cmp_deeply(
-	[ warnings { $api = MyApp->new } ],
-	bag( 
-	  "Cannot delegate new (use \$self->pet_api->new instead)\n",
-	  "Cannot delegate new (use \$self->store_api->new instead)\n",
-	  "Cannot delegate new (use \$self->user_api->new instead)\n",
-	  "Cannot delegate class_documentation (use \$self->pet_api->class_documentation instead)\n",
-	  "Cannot delegate class_documentation (use \$self->store_api->class_documentation instead)\n",
-	  "Cannot delegate class_documentation (use \$self->user_api->class_documentation instead)\n",
-	  "Cannot delegate method_documentation (use \$self->pet_api->method_documentation instead)\n",
-	  "Cannot delegate method_documentation (use \$self->store_api->method_documentation instead)\n",
-	  "Cannot delegate method_documentation (use \$self->user_api->method_documentation instead)\n",
-	  ),
-	  'got expected warnings about non-delegatable methods',
-	  );
+my $api = MyApp->new;
 
 my $pet_id = 10008;
 # note - we don't need to 'use' these modules because they've already been loaded by ApiFactory

@@ -51,9 +51,6 @@ sub BUILD {
 	foreach my $method (keys %delegates) {
 		if ( @{$delegates{$method}} > 1 ) {
 			my ($apis) = delete $delegates{$method};
-			foreach my $api (@$apis) {
-				warn sprintf "Cannot delegate %s (use \$self->%s_api->%s instead)\n", $method, lc($api->{api_name}), $method;
-			}
 		}
 	}
 	
@@ -261,8 +258,18 @@ you just built.
 
 =head1 AUTOMATIC DOCUMENTATION
 
-You can print out a summary of the generated API by running the included 
-C<autodoc> script in the C<bin> directory of your generated library.
+You can print out a summary of the generated API by running the included
+C<autodoc> script in the C<bin> directory of your generated library. A few
+output formats are supported:
+
+	Usage: autodoc [OPTION]
+
+  -w           wide format (default)
+  -n           narrow format
+  -p           POD format 
+  -H           HTML format 
+  -h           print this help message
+
 	
 =head1 DOCUMENTATION FROM THE SWAGGER SPEC
 
