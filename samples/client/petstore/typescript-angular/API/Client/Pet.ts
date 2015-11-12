@@ -5,20 +5,20 @@ namespace API.Client {
 
     export interface Pet {
 
-        id: number;
+        id?: number;
 
-        category: Category;
+        category?: Category;
 
         name: string;
 
         photoUrls: Array<string>;
 
-        tags: Array<Tag>;
+        tags?: Array<Tag>;
 
         /**
          * pet status in the store
          */
-        status: Pet.StatusEnum;
+        status?: Pet.StatusEnum;
     }
 
     export namespace Pet {

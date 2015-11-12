@@ -26,7 +26,11 @@ namespace API.Client {
             return <T1&T2>objA;
         }
 
-
+        /**
+         * Create user
+         * This can only be done by the logged in user.
+         * @param body Created user object
+         */
         public createUser (body?: User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             const path = this.basePath + '/user';
 
@@ -49,7 +53,11 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Creates list of users with given input array
+         * 
+         * @param body List of user object
+         */
         public createUsersWithArrayInput (body?: Array<User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             const path = this.basePath + '/user/createWithArray';
 
@@ -72,7 +80,11 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Creates list of users with given input array
+         * 
+         * @param body List of user object
+         */
         public createUsersWithListInput (body?: Array<User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             const path = this.basePath + '/user/createWithList';
 
@@ -95,7 +107,12 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Logs user into the system
+         * 
+         * @param username The user name for login
+         * @param password The password for login in clear text
+         */
         public loginUser (username?: string, password?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<string> {
             const path = this.basePath + '/user/login';
 
@@ -125,7 +142,10 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Logs out current logged in user session
+         * 
+         */
         public logoutUser (extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             const path = this.basePath + '/user/logout';
 
@@ -147,7 +167,11 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Get user by user name
+         * 
+         * @param username The name that needs to be fetched. Use user1 for testing.
+         */
         public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<User> {
             const path = this.basePath + '/user/{username}'
                 .replace('{' + 'username' + '}', String(username));
@@ -174,7 +198,12 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Updated user
+         * This can only be done by the logged in user.
+         * @param username name that need to be deleted
+         * @param body Updated user object
+         */
         public updateUser (username: string, body?: User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             const path = this.basePath + '/user/{username}'
                 .replace('{' + 'username' + '}', String(username));
@@ -202,7 +231,11 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Delete user
+         * This can only be done by the logged in user.
+         * @param username The name that needs to be deleted
+         */
         public deleteUser (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             const path = this.basePath + '/user/{username}'
                 .replace('{' + 'username' + '}', String(username));

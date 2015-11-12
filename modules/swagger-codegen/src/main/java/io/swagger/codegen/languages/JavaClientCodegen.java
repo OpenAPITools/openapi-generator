@@ -100,6 +100,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
         supportedLibraries.put("retrofit", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
+        supportedLibraries.put("retrofit2", "HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)");
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
         library.setEnum(supportedLibraries);
@@ -217,7 +218,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
         supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
 
-        if (!"retrofit".equals(getLibrary())) {
+        if (!("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -231,7 +232,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
             // "build.sbt" is for development with SBT
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        } else if ("retrofit".equals(getLibrary())) {
+        } else if ("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
         } else {
@@ -496,7 +497,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 allowableValues.put("enumVars", enumVars);
                 // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
-                if (var.defaultValue != null && !"null".equals(var.defaultValue)) {
+                if (var.defaultValue != null) {
                     String enumName = null;
                     for (Map<String, String> enumVar : enumVars) {
                         if (var.defaultValue.equals(enumVar.get("value"))) {
@@ -504,10 +505,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                             break;
                         }
                     }
-                    if (enumName == null) {
-                        throw new RuntimeException("default value of property \"" + var.baseName + "\" is not in allowed values: " + var.defaultValue);
+                    if (enumName != null) {
+                        var.defaultValue = var.datatypeWithEnum + "." + enumName;
                     }
-                    var.defaultValue = var.datatypeWithEnum + "." + enumName;
                 }
             }
         }
@@ -515,7 +515,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        if("retrofit".equals(getLibrary())) {
+        if("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -531,6 +531,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     if (operation.returnType == null) {
                         operation.returnType = "Void";
                     }
+                    if ("retrofit2".equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/"))
+                    	operation.path = operation.path.substring(1);
                 }
             }
         }
