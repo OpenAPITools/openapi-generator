@@ -25,6 +25,8 @@ public class Pet: JSONEncodable {
     public var status: Status?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
