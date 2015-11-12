@@ -269,7 +269,10 @@ output formats are supported:
   -p           POD format 
   -H           HTML format 
   -h           print this help message
-
+  -c           your application class
+  
+The C<-c> option allows you to load and inspect your own application. A dummy
+namespace is used if you don't supply your own class.
 	
 =head1 DOCUMENTATION FROM THE SWAGGER SPEC
 

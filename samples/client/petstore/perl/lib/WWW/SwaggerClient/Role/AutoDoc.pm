@@ -1,4 +1,4 @@
-package WWW::BookeoClient::Role::AutoDoc;
+package WWW::SwaggerClient::Role::AutoDoc;
 use List::MoreUtils qw(uniq);
 
 use Moose::Role;
@@ -22,7 +22,7 @@ sub _printisa {
 	
 	my $super = join ', ', $meta->superclasses;
 	my @roles = $meta->calculate_all_roles;
-	shift(@roles); # the first is a composite, the rest are the roles
+	#shift(@roles) if @roles > 1; # if > 1, the first is a composite, the rest are the roles
 
 	my $isa =   join ', ', grep {$_ ne $myclass} $meta->linearized_isa;
 	my $sub =   join ', ', $meta->subclasses;
@@ -34,8 +34,8 @@ sub _printisa {
 	write;
 
 	foreach my $role (@roles) {
-		$rolepkg = $role->{package};
-		next if $rolepkg eq 'WWW::BookeoClient::Role::AutoDoc';
+		$rolepkg = $role->{package} || next; # some are anonymous, or something
+		next if $rolepkg eq 'WWW::SwaggerClient::Role::AutoDoc';
 		$role_reqs = join ', ', keys %{$role->{required_methods}};
 		$role_reqs ||= '';
 		$~ = $how eq 'pod' ? 'ROLES_POD' : 'ROLES';
@@ -60,7 +60,7 @@ $myclass
                        $sub
 .
 	format ROLES =   
-             Composes: ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ~~
+             Composes: ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ~
                        $rolepkg
                        requires: ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ~
                                  $role_reqs
