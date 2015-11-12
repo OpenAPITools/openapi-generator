@@ -42,7 +42,7 @@ sub BUILD {
 	# collect the methods callable on each API
 	foreach my $api_name ($self->api_factory->apis_available) {
 		my $api_class = $self->api_factory->classname_for($api_name);
-		my $methods = Class::Inspector->methods($api_class, 'expanded');
+		my $methods = Class::Inspector->methods($api_class, 'expanded'); # not Moose, so use CI instead
 		my @local_methods = grep {! /^_/} grep {! $outsiders{$_}} map {$_->[2]} grep {$_->[1] eq $api_class} @$methods;
 		push( @{$delegates{$_}}, {api_name => $api_name, api_class => $api_class} ) for @local_methods;			
 	}
@@ -66,6 +66,7 @@ sub BUILD {
 									default => sub {$self->api_factory->get_api($api_name)},
 									lazy => 1,
 									handles => \@delegated,
+									documentation => $api_class->class_documentation->{description}, # not populated yet
 									) );
 	}
 }
@@ -73,7 +74,6 @@ sub BUILD {
 sub _build_af {
 	my $self = shift;
 	my %args;
-	$args{auth_setup_handler_object} = $self if $self->can('auth_setup_handler');
 	$args{base_url} = $self->base_url if $self->base_url;
 	return WWW::SwaggerClient::ApiFactory->new(%args);
 }
