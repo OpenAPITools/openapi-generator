@@ -161,15 +161,15 @@ sub _printmethod {
 	my $delegate_to = '';
 	my $via = '';
 	my $on = '';
+	my $doc = '';
 	my $original_pkg = $method->original_package_name;
 	if ($method->can('associated_attribute')) {
 		$delegate_to = $method->delegate_to_method;
 		my $aa = $method->associated_attribute;
 		$on = $aa->{isa};
 		$via = $aa->{name};
-		$original_pkg = "(flattened into $original_pkg from ???)"; # TODO - need to get hold of the role pkg, not the pkg it's flattened onto
-		use Data::Dumper;
-		#print Dumper($aa);
+		$original_pkg = $on; 
+		$doc = $original_pkg->method_documentation->{$delegate_to}->{summary};
 	}
 	
 	if ($how eq 'narrow') {
@@ -245,6 +245,8 @@ $methodname
                    $on
               Via: @*()
                    $via
+              Doc: @*
+                   $doc
           Same as: $self->@*->@*()
                      $via, $delegate_to
 
@@ -300,7 +302,8 @@ sub _printattr {
 	my $from = $attr->associated_class->name || '';
 	my $reqd = $attr->is_required ? 'yes' : 'no';
 	my $lazy = $attr->is_lazy ? 'yes' : 'no';
-	my $doc = $attr->has_documentation ? 'yes' : 'no';
+	my $has_doc = $attr->has_documentation ? 'yes' : 'no';
+	my $doc = $attr->documentation || '';
 	my $handles = join ', ', sort @{$attr->handles || []};
 	$handles ||= '';
 	
@@ -326,7 +329,7 @@ Name                is isa                       reqd lazy doc handles
 .	
 	format ATTR = 
 @<<<<<<<<<<<<<<<<<  @< @<<<<<<<<<<<<<<<<<<<<<<<< @<<< @<<< @<< ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-$attrname,          $is, $tc,                    $reqd, $lazy, $doc, $handles
+$attrname,          $is, $tc,                    $reqd, $lazy, $has_doc, $handles
                                                                ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ~~
                                                                $handles
 .
