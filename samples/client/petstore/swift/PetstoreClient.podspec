@@ -7,5 +7,5 @@ Pod::Spec.new do |s|
   s.license = 'Apache License, Version 2.0'
   s.source_files = 'PetstoreClient/Classes/Swaggers/**/*.swift'
   s.dependency 'PromiseKit', '~> 2.1'
-  s.dependency 'Alamofire', '~> 2.0.0'
+  s.dependency 'Alamofire', '~> 3.0.0'
 end

@@ -118,6 +118,10 @@ class Decoders {
                 fatalError("formatter failed to parse \(sourceString)")
             } {{#models}}{{#model}}
 
+			// Decoder for [{{{classname}}}]
+            Decoders.addDecoder(clazz: [{{{classname}}}].self) { (source: AnyObject) -> [{{{classname}}}] in
+                return Decoders.decode(clazz: [{{{classname}}}].self, source: source)
+            }
 			// Decoder for {{{classname}}}
             Decoders.addDecoder(clazz: {{{classname}}}.self) { (source: AnyObject) -> {{{classname}}} in
                 let sourceDictionary = source as! [NSObject:AnyObject]

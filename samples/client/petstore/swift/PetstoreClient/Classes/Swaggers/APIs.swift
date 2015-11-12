@@ -7,8 +7,9 @@
 import Foundation
 
 public class PetstoreClientAPI {
-    static let basePath = "http://petstore.swagger.io/v2"
-    static var credential: NSURLCredential?
+    public static var basePath = "http://petstore.swagger.io/v2"
+    public static var credential: NSURLCredential?
+    public static var customHeaders: [String:String] = [:]  
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 }
 
@@ -41,6 +42,14 @@ public class RequestBuilder<T> {
         self.URLString = URLString
         self.parameters = parameters
         self.isBody = isBody
+        
+        addHeaders(PetstoreClientAPI.customHeaders)
+    }
+    
+    public func addHeaders(aHeaders:[String:String]) {
+        for (header, value) in aHeaders {
+            headers[header] = value
+        }
     }
     
     public func execute(completion: (response: Response<T>?, erorr: ErrorType?) -> Void) { }
