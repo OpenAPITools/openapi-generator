@@ -3,33 +3,27 @@ use FindBin;
 use File::Spec;
 use lib File::Spec->catdir($FindBin::Bin, '..', 'lib');
 
+use Moose::Util qw(apply_all_roles);
 use Getopt::Std;
  
 my %options=();
-getopts("wnphH", \%options);
+getopts("wnphHc:", \%options);
+help if $options{h};
 
-die "Too many options: there can be only one" if keys %options > 1;
+my $my_app = $options{c} || 'My::App';
 
-$options{w}++ unless keys %options;
-
-if ($options{h}) {
-	print <<HELP;
-Usage: autodoc [OPTION]
-
-  -w           wide format (default)
-  -n           narrow format
-  -p           POD format 
-  -H           HTML format 
-  -h           print this help message
-
-HELP
-
-	exit(0);
+if ($options{c}) {
+	eval <<LOAD;
+use $my_app;
+apply_all_roles($my_app, "WWW::{{moduleName}}::Role::AutoDoc");
+LOAD
+	die $@ if $@;
 }
-
-package My::App;
-use Moose;
-with ('WWW::BookeoClient::Role', 'WWW::BookeoClient::Role::AutoDoc');
+else {
+	package My::App;
+	use Moose;
+	with ('WWW::{{moduleName}}::Role', 'WWW::{{moduleName}}::Role::AutoDoc');
+}
 
 package main;
 
@@ -38,8 +32,9 @@ $opt = 'pod' if $options{p};
 $opt = 'wide' if $options{w};
 $opt = 'narrow' if $options{n};
 $opt = 'pod' if $options{H};
+$opt ||= 'wide';
 
-my $api = My::App->new;
+my $api = $my_app->new;
 
 if ($options{H}) {
 	my $pod2html = "pod2html --backlink --css http://st.pimg.net/tucs/style.css?3";
@@ -52,3 +47,21 @@ else {
 }
 
 exit(0);
+
+# --------------------
+sub help {
+	print <<HELP;
+Usage: autodoc [OPTION] [-c My::App::Class]
+
+  -w           wide format (default)
+  -n           narrow format
+  -p           POD format 
+  -H           HTML format 
+  -h           print this help message
+  -c           your application class
+
+HELP
+
+	exit(0);
+}
+
