@@ -52,7 +52,7 @@ public class RequestBuilder<T> {
         }
     }
     
-    public func execute(completion: (response: Response<T>?, erorr: ErrorType?) -> Void) { }
+    public func execute(completion: (response: Response<T>?, error: ErrorType?) -> Void) { }
 
     public func addHeader(name name: String, value: String) -> Self {
         if !value.isEmpty {
