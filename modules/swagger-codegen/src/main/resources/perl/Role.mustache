@@ -8,40 +8,40 @@ use Log::Any qw($log);
 use WWW::{{moduleName}}::ApiFactory;
 
 has base_url => ( is => 'ro',
-				  required => 0,
-				  isa => 'Str',
-				  documentation => 'Root of the server that requests are sent to',
-				  );
+                  required => 0,
+                  isa => 'Str',
+                  documentation => 'Root of the server that requests are sent to',
+                  );
 
 has api_factory => ( is => 'ro',
-					 isa => 'WWW::{{moduleName}}::ApiFactory',
-					 builder => '_build_af', 
-					 lazy => 1,
-					 documentation => 'Builds an instance of the endpoint API class',
-					 );
+                     isa => 'WWW::{{moduleName}}::ApiFactory',
+                     builder => '_build_af', 
+                     lazy => 1,
+                     documentation => 'Builds an instance of the endpoint API class',
+                     );
 
 has tokens => ( is => 'ro',
-				isa => 'HashRef',
-				required => 0,
-				default => sub { {} },
-				documentation => 'The auth tokens required by the application - basic, OAuth and/or API key(s)',
-				);
+                isa => 'HashRef',
+                required => 0,
+                default => sub { {} },
+                documentation => 'The auth tokens required by the application - basic, OAuth and/or API key(s)',
+                );
 
 has _cfg => ( is => 'ro',
-			  isa => 'Str',
-			  default => 'WWW::{{moduleName}}::Configuration',
-			  );
+              isa => 'Str',
+              default => 'WWW::{{moduleName}}::Configuration',
+              );
 
 has version_info => ( is => 'ro', 
-	                  isa => 'HashRef', 
-	                  default => sub { {
-	                  	  app_name => '{{appName}}',
-	                  	  app_version => '{{appVersion}}',
-	                  	  generated_date => '{{generatedDate}}',
-	                  	  generator_class => '{{generatorClass}}',
-	                  } },
-	                  documentation => 'Information about the application version and the codegen codebase version'
-	                  );
+                      isa => 'HashRef', 
+                      default => sub { {
+                          app_name => '{{appName}}',
+                          app_version => '{{appVersion}}',
+                          generated_date => '{{generatedDate}}',
+                          generator_class => '{{generatorClass}}',
+                      } },
+                      documentation => 'Information about the application version and the codegen codebase version'
+                      );
 
 sub BUILD {
 	my $self = shift;
@@ -68,20 +68,20 @@ sub BUILD {
 		}
 	}
 	
-	# build the flattened API
-	foreach my $api_name ($self->api_factory->apis_available) {
-		my $att_name = sprintf "%s_api", lc($api_name);
-		my $api_class = $self->api_factory->classname_for($api_name);
-		my @delegated = grep { $delegates{$_}->[0]->{api_name} eq $api_name } keys %delegates;
-		$log->debugf("Adding API: '%s' handles %s", $att_name, join ', ', @delegated);
-		$self->meta->add_attribute( $att_name => ( 
-									is => 'ro',
-									isa => $api_class,
-									default => sub {$self->api_factory->get_api($api_name)},
-									lazy => 1,
-									handles => \@delegated,
-									) );
-	}
+    # build the flattened API
+    foreach my $api_name ($self->api_factory->apis_available) {
+        my $att_name = sprintf "%s_api", lc($api_name);
+        my $api_class = $self->api_factory->classname_for($api_name);
+        my @delegated = grep { $delegates{$_}->[0]->{api_name} eq $api_name } keys %delegates;
+        $log->debugf("Adding API: '%s' handles %s", $att_name, join ', ', @delegated);
+        $self->meta->add_attribute( $att_name => ( 
+                                    is => 'ro',
+                                    isa => $api_class,
+                                    default => sub {$self->api_factory->get_api($api_name)},
+                                    lazy => 1,
+                                    handles => \@delegated,
+                                    ) );
+    }
 }
 
 sub _build_af {
@@ -235,10 +235,10 @@ created yet) the current value of C<base_url>.
 =head2 C<api_factory>
 
 Returns an API factory object. You probably won't need to call this directly. 
-
-	$self->api_factory('Pet'); # returns a WWW::{{moduleName}}::PetApi instance
 	
-	$self->pet_api;			   # the same
+        $self->api_factory('Pet'); # returns a WWW::{{moduleName}}::PetApi instance
+        
+        $self->pet_api;            # the same
 
 =head1 MISSING METHODS
 
@@ -308,9 +308,9 @@ namespace is used if you don't supply your own class.
 
 Additional documentation for each class and method may be provided by the Swagger 
 spec. If so, this is available via the C<class_documentation()> and 
-C<method_documentation()> methods on each generated API and class: 
+C<method_documentation()> methods on each generated object class, and the 
+C<method_documentation()> method on the endpoint API classes: 
 
-	my $cdoc = $api->pet_api->class_documentation;					 
 	my $cmdoc = $api->pet_api->method_documentation->{$method_name}; 
 	
 	my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;				   

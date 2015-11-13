@@ -136,7 +136,7 @@ Returns an API factory object. You probably won't need to call this directly.
 
         $self->api_factory('Pet'); # returns a WWW::{{moduleName}}::PetApi instance
         
-        $self->pet_api;                    # the same
+        $self->pet_api;            # the same
 
 # MISSING METHODS
 
@@ -207,9 +207,9 @@ namespace is used if you don't supply your own class.
 
 Additional documentation for each class and method may be provided by the Swagger 
 spec. If so, this is available via the `class_documentation()` and 
-`method_documentation()` methods on each generated API and class: 
+`method_documentation()` methods on each generated object class, and the 
+`method_documentation()` method on the endpoint API classes: 
 
-        my $cdoc = $api->pet_api->class_documentation;                                   
         my $cmdoc = $api->pet_api->method_documentation->{$method_name}; 
         
         my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;                                  

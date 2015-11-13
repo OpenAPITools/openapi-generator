@@ -21,9 +21,7 @@ use WWW::SwaggerClient::ApiClient;
 	
 	use WWW::SwaggerClient::ApiFactory;
 	
-	my $api_factory = WWW::SwaggerClient::ApiFactory->new( base_url => 'http://petstore.swagger.io/v2',
-							  								..., # other args for ApiClient constructor
-							  								);
+	my $api_factory = WWW::SwaggerClient::ApiFactory->new( ... ); # any args for ApiClient constructor
 							  
 	# later...
 	my $pet_api = $api_factory->get_api('Pet');  
@@ -47,23 +45,11 @@ my %_apis = map { $_ =~ /^WWW::SwaggerClient::(.*)$/; $1 => $_ }
 
 =head1 new()
 	
-	All parameters are optional, and are passed to and stored on the api_client object. 
+	Any parameters are optional, and are passed to and stored on the api_client object. 
 	
 	base_url: (optional)
 		supply this to change the default base URL taken from the Swagger definition.
 	
-	auth_setup_handler_object: (optional)
-		An object (or class name) that implements an auth_setup_handler() method. 
-		
-		If set, the auth_setup_handler() method will be called on the object, and 
-		passed a hashref with keys: api_client, query_params, header_params, auth_settings.
-		
-		The method should implement the required auth policy, for example, by setting 
-		secret keys in the header, or username and password in the URL, etc.
-		
-		This is only necessary when the API specification itself does not describe 
-		authentication.
-		
 =cut	
 
 sub new {
