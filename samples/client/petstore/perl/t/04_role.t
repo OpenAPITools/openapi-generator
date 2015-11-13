@@ -1,4 +1,4 @@
-use Test::More tests => 38;
+use Test::More tests => 37;
 use Test::Exception;
 use Test::Warnings 'warnings';
 use Test::Deep;
@@ -15,8 +15,8 @@ SKIP: {
 		sub auth_setup_handler {}
 	";
 	
-	skip 'Moose not installed', 38 if $@;
-
+#	die $@ if $@;
+	skip 'Moose not installed', 37 if $@;
 
 my $api = MyApp->new;
 
@@ -47,9 +47,6 @@ is $get_pet->tags->[0]->name, 'just kidding', 'stored and retrieved: got the pro
 is $get_pet->tags->[0]->id, '11', 'stored and retrieved: got the proper tag id';
 
 # documentation tests
-
-# API class docs 
-is $api->pet_api->class_documentation->{description}, '', 'got correct Pet API description'; # right now it's blank
 
 # API method docs 
 is_deeply(	[sort keys %{$api->pet_api->method_documentation}], 

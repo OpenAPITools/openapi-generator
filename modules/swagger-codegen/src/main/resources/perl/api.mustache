@@ -33,11 +33,6 @@ use WWW::{{moduleName}}::Configuration;
 use base "Class::Data::Inheritable";
 
 __PACKAGE__->mk_classdata('method_documentation' => {});
-__PACKAGE__->mk_classdata('class_documentation' => {}); 
-
-__PACKAGE__->class_documentation({description => '',    # TODO
-                                  class => '{{classname}}',
-}                                 );
 
 sub new {
     my $class   = shift;
