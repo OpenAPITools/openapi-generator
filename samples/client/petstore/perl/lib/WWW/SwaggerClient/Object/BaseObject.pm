@@ -22,7 +22,7 @@ use base ("Class::Accessor", "Class::Data::Inheritable");
 
 __PACKAGE__->mk_classdata('attribute_map' => {});
 __PACKAGE__->mk_classdata('swagger_types' => {});
-__PACKAGE__->mk_classdata('method_documentation' => {}); # TODO
+__PACKAGE__->mk_classdata('method_documentation' => {}); 
 __PACKAGE__->mk_classdata('class_documentation' => {});
 
 # new object

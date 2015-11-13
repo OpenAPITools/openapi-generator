@@ -57,12 +57,13 @@ sub new {
 # Returns pet inventories by status
 # 
 {
-	my $params = {
-	};
-	__PACKAGE__->method_documentation->{ get_inventory } = { summary => 'Returns pet inventories by status',
-										 				 	  params => $params,
-										 					  returns => 'HASH[string,int]',
-										 					  };
+    my $params = {
+    };
+    __PACKAGE__->method_documentation->{ get_inventory } = { 
+    	summary => 'Returns pet inventories by status',
+        params => $params,
+        returns => 'HASH[string,int]',
+        };
 }
 # @return HASH[string,int]
 #
@@ -116,17 +117,18 @@ sub get_inventory {
 # 
 # @param Order $body order placed for purchasing the pet (optional)
 {
-	my $params = {
-	'body' => {
-		data_type => 'Order',
-		description => 'order placed for purchasing the pet',
-		required => '0',
-	},
-	};
-	__PACKAGE__->method_documentation->{ place_order } = { summary => 'Place an order for a pet',
-										 				 	  params => $params,
-										 					  returns => 'Order',
-										 					  };
+    my $params = {
+    'body' => {
+        data_type => 'Order',
+        description => 'order placed for purchasing the pet',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ place_order } = { 
+    	summary => 'Place an order for a pet',
+        params => $params,
+        returns => 'Order',
+        };
 }
 # @return Order
 #
@@ -183,17 +185,18 @@ sub place_order {
 # 
 # @param string $order_id ID of pet that needs to be fetched (required)
 {
-	my $params = {
-	'order_id' => {
-		data_type => 'string',
-		description => 'ID of pet that needs to be fetched',
-		required => '1',
-	},
-	};
-	__PACKAGE__->method_documentation->{ get_order_by_id } = { summary => 'Find purchase order by ID',
-										 				 	  params => $params,
-										 					  returns => 'Order',
-										 					  };
+    my $params = {
+    'order_id' => {
+        data_type => 'string',
+        description => 'ID of pet that needs to be fetched',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ get_order_by_id } = { 
+    	summary => 'Find purchase order by ID',
+        params => $params,
+        returns => 'Order',
+        };
 }
 # @return Order
 #
@@ -257,17 +260,18 @@ sub get_order_by_id {
 # 
 # @param string $order_id ID of the order that needs to be deleted (required)
 {
-	my $params = {
-	'order_id' => {
-		data_type => 'string',
-		description => 'ID of the order that needs to be deleted',
-		required => '1',
-	},
-	};
-	__PACKAGE__->method_documentation->{ delete_order } = { summary => 'Delete purchase order by ID',
-										 				 	  params => $params,
-										 					  returns => undef,
-										 					  };
+    my $params = {
+    'order_id' => {
+        data_type => 'string',
+        description => 'ID of the order that needs to be deleted',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ delete_order } = { 
+    	summary => 'Delete purchase order by ID',
+        params => $params,
+        returns => undef,
+        };
 }
 # @return void
 #

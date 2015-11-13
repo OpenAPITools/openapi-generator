@@ -58,17 +58,18 @@ sub new {
 # 
 # @param User $body Created user object (optional)
 {
-	my $params = {
-	'body' => {
-		data_type => 'User',
-		description => 'Created user object',
-		required => '0',
-	},
-	};
-	__PACKAGE__->method_documentation->{ create_user } = { summary => 'Create user',
-										 				 	  params => $params,
-										 					  returns => undef,
-										 					  };
+    my $params = {
+    'body' => {
+        data_type => 'User',
+        description => 'Created user object',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ create_user } = { 
+    	summary => 'Create user',
+        params => $params,
+        returns => undef,
+        };
 }
 # @return void
 #
@@ -122,17 +123,18 @@ sub create_user {
 # 
 # @param ARRAY[User] $body List of user object (optional)
 {
-	my $params = {
-	'body' => {
-		data_type => 'ARRAY[User]',
-		description => 'List of user object',
-		required => '0',
-	},
-	};
-	__PACKAGE__->method_documentation->{ create_users_with_array_input } = { summary => 'Creates list of users with given input array',
-										 				 	  params => $params,
-										 					  returns => undef,
-										 					  };
+    my $params = {
+    'body' => {
+        data_type => 'ARRAY[User]',
+        description => 'List of user object',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ create_users_with_array_input } = { 
+    	summary => 'Creates list of users with given input array',
+        params => $params,
+        returns => undef,
+        };
 }
 # @return void
 #
@@ -186,17 +188,18 @@ sub create_users_with_array_input {
 # 
 # @param ARRAY[User] $body List of user object (optional)
 {
-	my $params = {
-	'body' => {
-		data_type => 'ARRAY[User]',
-		description => 'List of user object',
-		required => '0',
-	},
-	};
-	__PACKAGE__->method_documentation->{ create_users_with_list_input } = { summary => 'Creates list of users with given input array',
-										 				 	  params => $params,
-										 					  returns => undef,
-										 					  };
+    my $params = {
+    'body' => {
+        data_type => 'ARRAY[User]',
+        description => 'List of user object',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ create_users_with_list_input } = { 
+    	summary => 'Creates list of users with given input array',
+        params => $params,
+        returns => undef,
+        };
 }
 # @return void
 #
@@ -251,22 +254,23 @@ sub create_users_with_list_input {
 # @param string $username The user name for login (optional)
 # @param string $password The password for login in clear text (optional)
 {
-	my $params = {
-	'username' => {
-		data_type => 'string',
-		description => 'The user name for login',
-		required => '0',
-	},
-	'password' => {
-		data_type => 'string',
-		description => 'The password for login in clear text',
-		required => '0',
-	},
-	};
-	__PACKAGE__->method_documentation->{ login_user } = { summary => 'Logs user into the system',
-										 				 	  params => $params,
-										 					  returns => 'string',
-										 					  };
+    my $params = {
+    'username' => {
+        data_type => 'string',
+        description => 'The user name for login',
+        required => '0',
+    },
+    'password' => {
+        data_type => 'string',
+        description => 'The password for login in clear text',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ login_user } = { 
+    	summary => 'Logs user into the system',
+        params => $params,
+        returns => 'string',
+        };
 }
 # @return string
 #
@@ -325,12 +329,13 @@ sub login_user {
 # Logs out current logged in user session
 # 
 {
-	my $params = {
-	};
-	__PACKAGE__->method_documentation->{ logout_user } = { summary => 'Logs out current logged in user session',
-										 				 	  params => $params,
-										 					  returns => undef,
-										 					  };
+    my $params = {
+    };
+    __PACKAGE__->method_documentation->{ logout_user } = { 
+    	summary => 'Logs out current logged in user session',
+        params => $params,
+        returns => undef,
+        };
 }
 # @return void
 #
@@ -381,17 +386,18 @@ sub logout_user {
 # 
 # @param string $username The name that needs to be fetched. Use user1 for testing. (required)
 {
-	my $params = {
-	'username' => {
-		data_type => 'string',
-		description => 'The name that needs to be fetched. Use user1 for testing.',
-		required => '1',
-	},
-	};
-	__PACKAGE__->method_documentation->{ get_user_by_name } = { summary => 'Get user by user name',
-										 				 	  params => $params,
-										 					  returns => 'User',
-										 					  };
+    my $params = {
+    'username' => {
+        data_type => 'string',
+        description => 'The name that needs to be fetched. Use user1 for testing.',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ get_user_by_name } = { 
+    	summary => 'Get user by user name',
+        params => $params,
+        returns => 'User',
+        };
 }
 # @return User
 #
@@ -456,22 +462,23 @@ sub get_user_by_name {
 # @param string $username name that need to be deleted (required)
 # @param User $body Updated user object (optional)
 {
-	my $params = {
-	'username' => {
-		data_type => 'string',
-		description => 'name that need to be deleted',
-		required => '1',
-	},
-	'body' => {
-		data_type => 'User',
-		description => 'Updated user object',
-		required => '0',
-	},
-	};
-	__PACKAGE__->method_documentation->{ update_user } = { summary => 'Updated user',
-										 				 	  params => $params,
-										 					  returns => undef,
-										 					  };
+    my $params = {
+    'username' => {
+        data_type => 'string',
+        description => 'name that need to be deleted',
+        required => '1',
+    },
+    'body' => {
+        data_type => 'User',
+        description => 'Updated user object',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ update_user } = { 
+    	summary => 'Updated user',
+        params => $params,
+        returns => undef,
+        };
 }
 # @return void
 #
@@ -535,17 +542,18 @@ sub update_user {
 # 
 # @param string $username The name that needs to be deleted (required)
 {
-	my $params = {
-	'username' => {
-		data_type => 'string',
-		description => 'The name that needs to be deleted',
-		required => '1',
-	},
-	};
-	__PACKAGE__->method_documentation->{ delete_user } = { summary => 'Delete user',
-										 				 	  params => $params,
-										 					  returns => undef,
-										 					  };
+    my $params = {
+    'username' => {
+        data_type => 'string',
+        description => 'The name that needs to be deleted',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ delete_user } = { 
+    	summary => 'Delete user',
+        params => $params,
+        returns => undef,
+        };
 }
 # @return void
 #
