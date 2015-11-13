@@ -22,12 +22,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import {{invokerPackage}}.auth.Authentication;
+import {{invokerPackage}}.auth.ApiKeyAuth;
+
 public class ApiInvoker {
   private static ApiInvoker INSTANCE;
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
 
-  Context context;
-  RequestQueue mRequestQueue;
+  private Context context;
+  private RequestQueue mRequestQueue;
+
+  private Map<String, Authentication> authentications;
 
   /** Content type "text/plain" with UTF-8 encoding. */
   public static final ContentType TEXT_PLAIN_UTF8 = ContentType.create("text/plain", Consts.UTF_8);
@@ -156,6 +161,16 @@ public class ApiInvoker {
   public static void initializeInstance(Context context) {
      INSTANCE = new ApiInvoker(context);
      setUserAgent("Android-Volley-Swagger");
+
+     // Setup authentications (key: authentication name, value: authentication).
+     INSTANCE.authentications = new HashMap<String, Authentication>();
+     {{#authMethods}}
+     {{#isApiKey}}
+     INSTANCE.authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
+     {{/isApiKey}}
+     {{/authMethods}}
+     // Prevent the authentications from being modified.
+     INSTANCE.authentications = Collections.unmodifiableMap(INSTANCE.authentications);
   }
   private ApiInvoker(Context context) {
      this.context = context;
@@ -210,9 +225,69 @@ public class ApiInvoker {
     }
   }
 
-  public void invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
+  /**
+    * Get authentications (key: authentication name, value: authentication).
+  */
+  public Map<String, Authentication> getAuthentications() {
+    return authentications;
+  }
+
+  /**
+  * Get authentication for the given name.
+  *
+  * @param authName The authentication name
+  * @return The authentication, null if not found
+  */
+  public Authentication getAuthentication(String authName) {
+    return authentications.get(authName);
+  }
+
+
+  /**
+  * Helper method to set API key value for the first API key authentication.
+  */
+  public void setApiKey(String apiKey) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof ApiKeyAuth) {
+        ((ApiKeyAuth) auth).setApiKey(apiKey);
+        return;
+      }
+    }
+    throw new RuntimeException("No API key authentication configured!");
+  }
+
+  /**
+  * Helper method to set API key prefix for the first API key authentication.
+  */
+  public void setApiKeyPrefix(String apiKeyPrefix) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof ApiKeyAuth) {
+        ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
+        return;
+      }
+    }
+    throw new RuntimeException("No API key authentication configured!");
+  }
+
+  /**
+  * Update query and header parameters based on authentication settings.
+  *
+  * @param authNames The authentications to apply
+  */
+  private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
+    for (String authName : authNames) {
+      Authentication auth = authentications.get(authName);
+      if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
+        auth.applyToParams(queryParams, headerParams);
+    }
+  }
+
+  public void invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
     StringBuilder b = new StringBuilder();
     b.append("?");
+
+    updateParamsForAuth(authNames, queryParams, headerParams);
+
     if (queryParams != null){
       for (Pair queryParam : queryParams){
         if (!queryParam.getName().isEmpty()) {
