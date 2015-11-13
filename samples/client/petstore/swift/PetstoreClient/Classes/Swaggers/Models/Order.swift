@@ -25,6 +25,8 @@ public class Order: JSONEncodable {
     public var complete: Bool?
     
 
+    public init() {}
+
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
