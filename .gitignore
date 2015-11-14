@@ -55,3 +55,9 @@ samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
 
 */.settings
+
+*.mustache~
+*.java~
+*.pm~
+*.xml~
+*.t~

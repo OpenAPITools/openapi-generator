@@ -20,7 +20,9 @@ use Module::Runtime qw(use_module);
 
 use WWW::SwaggerClient::Configuration;
 
-sub new
+use base 'Class::Singleton';
+
+sub _new_instance
 {
     my $class = shift;
     my (%args) = (
@@ -31,6 +33,8 @@ sub new
   
     return bless \%args, $class;
 }
+
+sub _cfg {'WWW::SwaggerClient::Configuration'}
 
 # Set the user agent of the API client
 #
@@ -288,13 +292,15 @@ sub select_header_content_type
 # @return string API key with the prefix
 sub get_api_key_with_prefix
 {
-    my ($self, $api_key) = @_;
-    if ($WWW::SwaggerClient::Configuration::api_key_prefix->{$api_key}) {
-        return $WWW::SwaggerClient::Configuration::api_key_prefix->{$api_key}." ".$WWW::SwaggerClient::Configuration::api_key->{$api_key};
-    } else {
-        return $WWW::SwaggerClient::Configuration::api_key->{$api_key};
-    }
-}
+	my ($self, $key_name) = @_;
+
+	my $api_key = $WWW::SwaggerClient::Configuration::api_key->{$key_name};
+	
+	return unless $api_key;
+	
+	my $prefix = $WWW::SwaggerClient::Configuration::api_key_prefix->{$key_name};
+	return $prefix ? "$prefix $api_key" : $api_key;
+}	
 
 # update header and query param based on authentication setting
 #  
@@ -304,17 +310,8 @@ sub get_api_key_with_prefix
 sub update_params_for_auth {
     my ($self, $header_params, $query_params, $auth_settings) = @_;
     
-    # we can defer to the application
-    if ($self->{auth_setup_handler} && ref($self->{auth_setup_handler}) eq 'CODE') {
-    	$self->{auth_setup_handler}->(	api_client => $self,
-    									header_params => $header_params,
-    									query_params => $query_params,
-    									auth_settings => $auth_settings, # presumably this won't be defined if we're doing it this way
-    									);
-    	return;
-    }
-  
-    return if (!defined($auth_settings) || scalar(@$auth_settings) == 0);
+    return $self->_global_auth_setup($header_params, $query_params) 
+    	unless $auth_settings && @$auth_settings;
   
     # one endpoint can have more than 1 auth settings
     foreach my $auth (@$auth_settings) {
@@ -331,9 +328,46 @@ sub update_params_for_auth {
         }
         
         else {
-            # TODO show warning about security definition not found
+        	# TODO show warning about security definition not found
         }
     }
+}
+
+# The endpoint API class has not found any settings for auth. This may be deliberate, 
+# in which case update_params_for_auth() will be a no-op. But it may also be that the 
+# swagger spec does not describe the intended authorization. So we check in the config for any 
+# auth tokens and if we find any, we use them for all endpoints; 
+sub _global_auth_setup {
+	my ($self, $header_params, $query_params) = @_; 
+	
+	my $tokens = $self->_cfg->get_tokens;
+	return unless keys %$tokens;
+	
+	# basic
+	if (my $uname = delete $tokens->{username}) {
+		my $pword = delete $tokens->{password};
+		$header_params->{'Authorization'} = 'Basic '.encode_base64($uname.":".$pword);
+	}
+	
+	# oauth
+	if (my $access_token = delete $tokens->{access_token}) {
+		$header_params->{'Authorization'} = 'Bearer ' . $access_token;
+	}
+	
+	# other keys
+	foreach my $token_name (keys %$tokens) {
+		my $in = $tokens->{$token_name}->{in};
+		my $token = $self->get_api_key_with_prefix($token_name);
+		if ($in eq 'head') {
+			$header_params->{$token_name} = $token;
+		}
+		elsif ($in eq 'query') {
+			$query_params->{$token_name} = $token;
+		}
+		else {
+			die "Don't know where to put token '$token_name' ('$in' is not 'head' or 'query')";
+		}
+	}
 }
 
 

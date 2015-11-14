@@ -21,9 +21,7 @@ use WWW::SwaggerClient::ApiClient;
 	
 	use WWW::SwaggerClient::ApiFactory;
 	
-	my $api_factory = WWW::SwaggerClient::ApiFactory->new( base_url => 'http://petstore.swagger.io/v2',
-							  								..., # other args for ApiClient constructor
-							  								);
+	my $api_factory = WWW::SwaggerClient::ApiFactory->new( ... ); # any args for ApiClient constructor
 							  
 	# later...
 	my $pet_api = $api_factory->get_api('Pet');  
@@ -47,26 +45,16 @@ my %_apis = map { $_ =~ /^WWW::SwaggerClient::(.*)$/; $1 => $_ }
 
 =head1 new()
 	
-	All parameters are optional, and are passed to and stored on the api_client object. 
+	Any parameters are optional, and are passed to and stored on the api_client object. 
 	
-	base_url: supply this to change the default base URL taken from the Swagger definition.
+	base_url: (optional)
+		supply this to change the default base URL taken from the Swagger definition.
 	
-	auth_setup_handler: a coderef you can supply to set up authentication.
-	
-		The coderef receives a hashref with keys: api_client, query_params, header_params, auth_settings.
-		
-		my $api_factory = WWW::SwaggerClient::ApiFactory->new( auth_setup_handler => \&setup_auth );					  								);
-	
-		sub setup_auth {
-			my %p = @_;
-			$p{header_params}->{'X-SomeApp-FunkyKeyName'} = 'aaaaabbbbbcccccddddd';
-		}
-		
 =cut	
 
 sub new {
     my ($class, %p) = (shift, @_);
-	$p{api_client} = WWW::SwaggerClient::ApiClient->new(%p);			
+	$p{api_client} = WWW::SwaggerClient::ApiClient->instance(%p);			
 	return bless \%p, $class;
 }
 
@@ -94,5 +82,19 @@ sub get_api {
 =cut
 
 sub api_client { $_[0]->{api_client} }
+
+=head1 apis_available()
+=cut 
+
+sub apis_available { return map { $_ =~ s/Api$//; $_ } sort keys %_apis }
+
+=head1 classname_for()
+=cut
+
+sub classname_for {
+	my ($self, $api_name) = @_;
+	return $_apis{"${api_name}Api"};
+}
+
 
 1;
