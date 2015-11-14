@@ -1,4 +1,4 @@
-use Test::More tests => 13;
+use Test::More tests => 19;
 use Test::Exception;
 
 use lib 'lib';
@@ -15,6 +15,9 @@ is $pet_api->{api_client}->{base_url}, 'http://testing', 'get the proper base UR
 $api_factory = WWW::SwaggerClient::ApiFactory->new;
 $pet_api = $api_factory->get_api('Pet');
 
+# reset the base_url - no direct access because an application shouldn't be changing 
+# its base URL halfway through
+$pet_api->{api_client}->{base_url} = 'http://petstore.swagger.io/v2';
 is $pet_api->{api_client}->{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
 
 # test accessor methods
@@ -32,3 +35,15 @@ is $pet->category->id, '22', 'got the proper category id';
 is $pet->category->name, 'perl', 'got the proper category name';
 is $pet->tags->[0]->name, 'just kidding', 'got the proper tag name';
 is $pet->tags->[0]->id, '11', 'got the proper tag id';
+
+
+my $add_pet = $pet_api->add_pet(body => $pet);
+my $get_pet = $pet_api->get_pet_by_id(pet_id => $pet_id);
+
+is $get_pet->id, '10008', 'stored and retrieved: got the proper pet id';
+is $get_pet->name, 'perl test', 'stored and retrieved: got the proper pet name';
+is $get_pet->category->id, '22', 'stored and retrieved: got the proper category id';
+is $get_pet->category->name, 'perl', 'stored and retrieved: got the proper category name';
+is $get_pet->tags->[0]->name, 'just kidding', 'stored and retrieved: got the proper tag name';
+is $get_pet->tags->[0]->id, '11', 'stored and retrieved: got the proper tag id';
+
