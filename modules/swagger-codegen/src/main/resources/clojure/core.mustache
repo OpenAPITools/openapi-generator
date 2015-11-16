@@ -1,5 +1,5 @@
 (ns {{{baseNamespace}}}.core
-  (:require [cheshire.core :refer [parse-string]]
+  (:require [cheshire.core :refer [generate-string parse-string]]
             [clojure.string :as str]
             [clj-http.client :as client])
   (:import (com.fasterxml.jackson.core JsonParseException)
@@ -115,6 +115,14 @@
       first
       (or (first mimes))))
 
+(defn serialize
+  "Serialize the given data according to content-type.
+  Only JSON is supported for now."
+  [data content-type]
+  (if (json-mime? content-type)
+    (generate-string data {:date-format (:datetime-format *api-context*)})
+    (throw (IllegalArgumentException. (str "Content type \"" content-type "\" is not support for serialization")))))
+
 (defn deserialize
   "Deserialize the given HTTP response according to the Content-Type header."
   [{:keys [body] {:keys [content-type]} :headers}]
@@ -131,18 +139,18 @@
 (defn call-api
   "Call an API by making HTTP request and return its response."
   [path method {:keys [path-params query-params header-params form-params body-param content-types accepts]}]
-  (let [{:keys [debug datetime-format]} *api-context*
+  (let [{:keys [debug]} *api-context*
         url (make-url path path-params)
-        content-type (json-preferred-mime content-types)
+        content-type (or (json-preferred-mime content-types)
+                         (and body-param :json))
         accept (or (json-preferred-mime accepts) :json)
         opts (cond-> {:url url :method method}
                      content-type (assoc :content-type content-type)
-                     (json-mime? content-type) (assoc :json-opts {:date-format datetime-format})
                      accept (assoc :accept accept)
                      (seq query-params) (assoc :query-params (normalize-params query-params))
                      (seq header-params) (assoc :header-params (normalize-params header-params))
                      (seq form-params) (assoc :form-params (normalize-params form-params))
-                     (and (empty? form-params) body-param) (assoc :form-params body-param)
+                     body-param (assoc :body (serialize body-param content-type))
                      debug (assoc :debug true :debug-body true))
         resp (client/request opts)]
     (when debug
