@@ -6,7 +6,9 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.Contact;
 import io.swagger.models.Info;
+import io.swagger.models.License;
 import io.swagger.models.Swagger;
 import org.apache.commons.lang.StringUtils;
 
@@ -20,6 +22,9 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     private static final String PROJECT_NAME = "projectName";
     private static final String PROJECT_DESCRIPTION = "projectDescription";
     private static final String PROJECT_VERSION = "projectVersion";
+    private static final String PROJECT_URL = "projectUrl";
+    private static final String LICENSE_NAME = "licenseName";
+    private static final String LICENSE_URL = "licenseUrl";
     private static final String BASE_NAMESPACE = "baseNamespace";
 
     protected String projectName = null;
@@ -69,13 +74,29 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
                 // when projectName is not specified, generate it from info.title
                 projectName = dashize(info.getTitle());
             }
-            if (projectVersion == null && info.getVersion() != null) {
+            if (projectVersion == null) {
                 // when projectVersion is not specified, use info.version
                 projectVersion = info.getVersion();
             }
-            if (projectDescription == null && info.getDescription() != null) {
+            if (projectDescription == null) {
                 // when projectDescription is not specified, use info.description
                 projectDescription = info.getDescription();
+            }
+
+            if (info.getContact() != null) {
+                Contact contact = info.getContact();
+                if (additionalProperties.get(PROJECT_URL) == null) {
+                    additionalProperties.put(PROJECT_URL, contact.getUrl());
+                }
+            }
+            if (info.getLicense() != null) {
+                License license = info.getLicense();
+                if (additionalProperties.get(LICENSE_NAME) == null) {
+                    additionalProperties.put(LICENSE_NAME, license.getName());
+                }
+                if (additionalProperties.get(LICENSE_URL) == null) {
+                    additionalProperties.put(LICENSE_URL, license.getUrl());
+                }
             }
         }
 
