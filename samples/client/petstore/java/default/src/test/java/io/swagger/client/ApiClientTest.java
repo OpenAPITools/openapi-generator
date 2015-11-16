@@ -2,6 +2,8 @@ package io.swagger.client;
 
 import io.swagger.client.auth.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.junit.*;
@@ -14,6 +16,26 @@ public class ApiClientTest {
     @Before
     public void setup() {
         apiClient = new ApiClient();
+    }
+
+    @Test
+    public void testParseAndFormatDate() {
+        // default date format
+        String dateStr = "2015-11-07T03:49:09.356Z";
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09.356+00:00")));
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09.356Z")));
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T05:49:09.356+02:00")));
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T02:49:09.356-01:00")));
+
+        // custom date format: without milli-seconds, custom time zone
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+        format.setTimeZone(TimeZone.getTimeZone("GMT+10"));
+        apiClient.setDateFormat(format);
+        dateStr = "2015-11-07T13:49:09+10:00";
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09+00:00")));
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09Z")));
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T00:49:09-03:00")));
+        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T13:49:09+10:00")));
     }
 
     @Test

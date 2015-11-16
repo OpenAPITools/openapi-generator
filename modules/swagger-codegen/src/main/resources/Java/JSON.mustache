@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.joda.*;
 
+import java.text.DateFormat;
+
 import java.io.IOException;
 
 {{>generatedAnnotation}}
@@ -18,6 +20,13 @@ public class JSON {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.registerModule(new JodaModule());
+  }
+
+  /**
+   * Set the date format for JSON (de)serialization with Date properties.
+   */
+  public void setDateFormat(DateFormat dateFormat) {
+    mapper.setDateFormat(dateFormat);
   }
 
   /**
