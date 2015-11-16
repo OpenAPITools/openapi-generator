@@ -1,0 +1,18 @@
+(ns {{{package}}}.{{{classname}}}
+  (:require [{{{projectName}}}.core :refer [call-api check-required-params]]))
+{{#operations}}{{#operation}}
+(defn {{{nickname}}}
+  "{{{summary}}}{{#notes}}
+  {{{notes}}}{{/notes}}"{{#hasOptionalParams}}
+  ([{{#allParams}}{{#required}}{{{paramName}}} {{/required}}{{/allParams}}] ({{{nickname}}}{{#allParams}} {{#required}}{{{paramName}}}{{/required}}{{/allParams}} nil)){{/hasOptionalParams}}
+  {{#hasOptionalParams}}({{/hasOptionalParams}}[{{#allParams}}{{#required}}{{{paramName}}} {{/required}}{{/allParams}}{{#hasOptionalParams}} {:keys [{{#allParams}}{{^required}}{{{paramName}}} {{/required}}{{/allParams}}]}{{/hasOptionalParams}}]{{#hasRequiredParams}}
+  {{#hasOptionalParams}} {{/hasOptionalParams}}(check-required-params{{#allParams}}{{#required}} {{{paramName}}}{{/required}}{{/allParams}}){{/hasRequiredParams}}
+  {{#hasOptionalParams}} {{/hasOptionalParams}}(call-api "{{{path}}}" :{{{httpMethod}}}
+  {{#hasOptionalParams}} {{/hasOptionalParams}}          {:path-params   { {{#pathParams}}"{{{baseName}}}" {{{paramName}}} {{/pathParams}} }
+  {{#hasOptionalParams}} {{/hasOptionalParams}}           :header-params { {{#headerParams}}"{{{baseName}}}" {{{paramName}}} {{/headerParams}} }
+  {{#hasOptionalParams}} {{/hasOptionalParams}}           :query-params  { {{#queryParams}}"{{{baseName}}}" {{{paramName}}} {{/queryParams}} }
+  {{#hasOptionalParams}} {{/hasOptionalParams}}           :form-params   { {{#formParams}}"{{{baseName}}}" {{{paramName}}} {{/formParams}} }{{#bodyParam}}
+  {{#hasOptionalParams}} {{/hasOptionalParams}}           :body-param    {{{paramName}}}{{/bodyParam}}
+  {{#hasOptionalParams}} {{/hasOptionalParams}}           :content-types [{{#consumes}}"{{mediaType}}"{{#hasMore}} {{/hasMore}}{{/consumes}}]
+  {{#hasOptionalParams}} {{/hasOptionalParams}}           :accepts       [{{#produces}}"{{mediaType}}"{{#hasMore}} {{/hasMore}}{{/produces}}]})){{#hasOptionalParams}}){{/hasOptionalParams}}
+{{/operation}}{{/operations}}
