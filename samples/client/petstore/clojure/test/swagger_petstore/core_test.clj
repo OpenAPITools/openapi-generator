@@ -1,5 +1,6 @@
 (ns swagger-petstore.core-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.java.io :as io]
+            [clojure.test :refer :all]
             [swagger-petstore.core :refer :all])
   (:import (java.text ParseException)))
 
@@ -87,8 +88,17 @@
     "/pet" {"id" 1} "http://petstore.swagger.io/v2/pet"
     "/pet/{id}" nil "http://petstore.swagger.io/v2/pet/{id}"))
 
+(deftest test-normalize-param
+  (let [file (-> "hello.txt" io/resource io/file)]
+    (are [param expected]
+      (is (= expected (normalize-param param)))
+      [12 "34"] ["12" "34"]
+      file file
+      "abc" "abc"
+      [[12 "34"] file "abc"] [["12" "34"] file "abc"])))
+
 (deftest test-normalize-params
-  (is (= {:a "123" :b ["4" "5,6"]}
+  (is (= {:a "123" :b ["4" ["5" "6"]]}
          (normalize-params {:a 123 :b [4 [5 "6"]] :c nil}))))
 
 (deftest test-json-mime?

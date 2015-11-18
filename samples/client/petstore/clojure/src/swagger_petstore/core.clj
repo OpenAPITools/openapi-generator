@@ -3,6 +3,7 @@
             [clojure.string :as str]
             [clj-http.client :as client])
   (:import (com.fasterxml.jackson.core JsonParseException)
+           (java.io File)
            (java.util Date TimeZone)
            (java.text SimpleDateFormat)))
 
@@ -90,17 +91,24 @@
                      path-params)]
     (str (:base-url *api-context*) path)))
 
+(defn normalize-param
+  "Normalize parameter value, handling three cases:
+  for sequential value, normalize each elements of it;
+  for File value, do nothing with it;
+  otherwise, call `param-to-string`."
+  [param]
+  (cond
+    (sequential? param) (map normalize-param param)
+    (instance? File param) param
+    :else (param-to-str param)))
+
 (defn normalize-params
   "Normalize parameters values: remove nils, format to string with `param-to-str`."
   [params]
-  (reduce (fn [result [k v]]
-            (if (nil? v)
-              result
-              (assoc result k (if (sequential? v)
-                                (map param-to-str v)
-                                (param-to-str v)))))
-          {}
-          params))
+  (->> params
+       (remove (comp nil? second))
+       (map (fn [[k v]] [k (normalize-param v)]))
+       (into {})))
 
 (defn json-mime? [mime]
   "Check if the given MIME is a standard JSON MIME or :json."
@@ -136,6 +144,13 @@
     ;; for non-JSON response, return the body string directly
     :else body))
 
+(defn form-params-to-multipart
+  "Convert the given form parameters map into a vector as clj-http's :multipart option."
+  [form-params]
+  (->> form-params
+       (map (fn [[k v]] (array-map :name k :content v)))
+       vec))
+
 (defn call-api
   "Call an API by making HTTP request and return its response."
   [path method {:keys [path-params query-params header-params form-params body-param content-types accepts]}]
@@ -144,12 +159,16 @@
         content-type (or (json-preferred-mime content-types)
                          (and body-param :json))
         accept (or (json-preferred-mime accepts) :json)
+        multipart? (= "multipart/form-data" content-type)
         opts (cond-> {:url url :method method}
-                     content-type (assoc :content-type content-type)
                      accept (assoc :accept accept)
                      (seq query-params) (assoc :query-params (normalize-params query-params))
                      (seq header-params) (assoc :header-params (normalize-params header-params))
-                     (seq form-params) (assoc :form-params (normalize-params form-params))
+                     (and content-type (not multipart?)) (assoc :content-type content-type)
+                     multipart? (assoc :multipart (-> form-params
+                                                      normalize-params
+                                                      form-params-to-multipart))
+                     (and (not multipart?) (seq form-params)) (assoc :form-params (normalize-params form-params))
                      body-param (assoc :body (serialize body-param content-type))
                      debug (assoc :debug true :debug-body true))
         resp (client/request opts)]

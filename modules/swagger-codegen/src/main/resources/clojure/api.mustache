@@ -1,11 +1,12 @@
 {{=< >=}}(ns <package>.<classname>
-  (:require [<projectName>.core :refer [call-api check-required-params]]))
+  (:require [<projectName>.core :refer [call-api check-required-params]])
+  (:import (java.io File)))
 <#operations><#operation>
 (defn <nickname>
   "<&summary><#notes>
   <&notes></notes>"<#hasOptionalParams>
-  ([<#allParams><#required><paramName> </required></allParams>] (<nickname><#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
-  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><paramName> </required></allParams><#hasOptionalParams>{:keys [<#allParams><^required><paramName> </required></allParams>]}</hasOptionalParams>]<#hasRequiredParams>
+  ([<#allParams><#required><#isFile>^File </isFile><paramName> </required></allParams>] (<nickname><#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
+  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> </required></allParams><#hasOptionalParams>{:keys [<#allParams><^required><#isFile>^File </isFile><paramName> </required></allParams>]}</hasOptionalParams>]<#hasRequiredParams>
   <#hasOptionalParams> </hasOptionalParams>(check-required-params<#allParams><#required> <paramName></required></allParams>)</hasRequiredParams>
   <#hasOptionalParams> </hasOptionalParams>(call-api "<path>" :<httpMethod>
   <#hasOptionalParams> </hasOptionalParams>          {:path-params   {<#pathParams>"<baseName>" <paramName> </pathParams>}
