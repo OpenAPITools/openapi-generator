@@ -14,9 +14,14 @@ import java.io.File;
 import java.util.*;
 
 public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConfig {
+    public static final String CONTROLLER_PACKAGE = "controllerPackage";
+    public static final String DEFAULT_CONTROLLER = "defaultController";
+
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
+    protected String controllerPackage;
+    protected String defaultController;
 
     public FlaskConnexionCodegen() {
         super();
@@ -92,16 +97,42 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                         "README.md")
         );
 
-        if(!new java.io.File("controllers/default_controller.py").exists()) {
+        cliOptions.add(new CliOption(CONTROLLER_PACKAGE, "controller package").
+                defaultValue("controllers"));
+        cliOptions.add(new CliOption(DEFAULT_CONTROLLER, "default controller").
+                defaultValue("default_controller"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        apiTemplateFiles.clear();
+
+        if (additionalProperties.containsKey(CONTROLLER_PACKAGE)) {
+            this.controllerPackage = additionalProperties.get(CONTROLLER_PACKAGE).toString();
+        }
+        else {
+            this.controllerPackage = "controllers";
+            additionalProperties.put(CONTROLLER_PACKAGE, this.controllerPackage);
+        }
+        if (additionalProperties.containsKey(DEFAULT_CONTROLLER)) {
+            this.defaultController = additionalProperties.get(DEFAULT_CONTROLLER).toString();
+        }
+        else {
+            this.defaultController = "default_controller";
+            additionalProperties.put(DEFAULT_CONTROLLER, this.defaultController);
+        }
+
+        if(!new java.io.File(controllerPackage + File.separator + defaultController + ".py").exists()) {
             supportingFiles.add(new SupportingFile("controller.mustache",
-                            "controllers",
-                            "default_controller.py")
+                            controllerPackage,
+                            defaultController + ".py")
             );
         }
     }
 
     public String apiPackage() {
-        return "controllers";
+        return controllerPackage;
     }
 
     /**
@@ -178,7 +209,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                         String operationId = operation.getOperationId();
                         if(operationId != null && operationId.indexOf(".") == -1) {
                             operation.setVendorExtension("x-operationId", underscore(sanitizeName(operationId)));
-                            operationId = "controllers.default_controller." + underscore(sanitizeName(operationId));
+                            operationId = controllerPackage + "." + defaultController + "." + underscore(sanitizeName(operationId));
                             operation.setOperationId(operationId);
                         }
                         if(operation.getTags() != null) {
