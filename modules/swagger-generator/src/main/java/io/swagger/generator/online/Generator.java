@@ -109,6 +109,7 @@ public class Generator {
 
         if (opts.getOptions() != null) {
             codegenConfig.additionalProperties().putAll(opts.getOptions());
+            codegenConfig.additionalProperties().put("swagger", swagger);
         }
 
         codegenConfig.setOutputDir(outputFolder);
