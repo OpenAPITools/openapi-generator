@@ -84,7 +84,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
 
         supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
         supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("app.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
+        supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
     }
 

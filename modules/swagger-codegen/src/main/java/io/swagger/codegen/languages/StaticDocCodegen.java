@@ -43,7 +43,7 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
                 outputFolder + "/assets/js", "jquery-1.8.3.min.js"));
         supportingFiles.add(new SupportingFile("assets/js/main.js",
                 outputFolder + "/assets/js", "main.js"));
-        supportingFiles.add(new SupportingFile("app.mustache",
+        supportingFiles.add(new SupportingFile("index.mustache",
                 outputFolder, "index.html"));
 
         instantiationTypes.put("array", "ArrayList");
