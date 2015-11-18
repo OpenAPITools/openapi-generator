@@ -152,7 +152,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
      * @return the friendly name for the generator
      */
     public String getName() {
-        return "flaskConnexion";
+        return "python-flask";
     }
 
     /**
