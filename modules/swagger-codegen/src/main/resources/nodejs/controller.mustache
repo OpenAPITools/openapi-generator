@@ -9,17 +9,7 @@ var {{classname}} = require('./{{classname}}Service');
 {{#operation}}
 
 module.exports.{{nickname}} = function {{nickname}} (req, res, next) {
-  {{#allParams}}var {{paramName}} = req.swagger.params['{{baseName}}'].value;
-  {{/allParams}}
-
-  var result = {{classname}}.{{nickname}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-
-  if(typeof result !== 'undefined') {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(result || {}, null, 2));
-  }
-  else
-    res.end();
+  {{classname}}.{{nickname}}(req.swagger.params, res, next);
 };
 {{/operation}}
 {{/operations}}
