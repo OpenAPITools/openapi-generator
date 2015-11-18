@@ -5,23 +5,48 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import io.swagger.codegen.*;
+import io.swagger.models.Operation;
+import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.util.Yaml;
 
 import java.io.File;
 import java.util.*;
-import java.util.Map.Entry;
 
-public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
 
-    public NodeJSServerCodegen() {
+    public FlaskConnexionCodegen() {
         super();
 
+        languageSpecificPrimitives.clear();
+        languageSpecificPrimitives.add("int");
+        languageSpecificPrimitives.add("float");
+        languageSpecificPrimitives.add("list");
+        languageSpecificPrimitives.add("bool");
+        languageSpecificPrimitives.add("str");
+        languageSpecificPrimitives.add("datetime");
+        languageSpecificPrimitives.add("date");
+
+        typeMapping.clear();
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("number", "float");
+        typeMapping.put("long", "int");
+        typeMapping.put("double", "float");
+        typeMapping.put("array", "list");
+        typeMapping.put("map", "dict");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("string", "str");
+        typeMapping.put("date", "date");
+        typeMapping.put("DateTime", "datetime");
+        typeMapping.put("object", "object");
+        typeMapping.put("file", "file");
+
         // set the output folder here
-        outputFolder = "generated-code/nodejs";
+        outputFolder = "generated-code/connexion";
 
         /**
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -38,25 +63,21 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
          */
         apiTemplateFiles.put(
                 "controller.mustache",   // the template to use
-                ".js");       // the extension for each file to write
+                ".py");       // the extension for each file to write
 
         /**
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "nodejs";
+        embeddedTemplateDir = templateDir = "flaskConnexion";
 
-        /**
-         * Reserved words.  Override this with reserved words specific to your language
-         */
+        // from https://docs.python.org/release/2.5.4/ref/keywords.html
         reservedWords = new HashSet<String>(
                 Arrays.asList(
-                        "break", "case", "class", "catch", "const", "continue", "debugger",
-                        "default", "delete", "do", "else", "export", "extends", "finally",
-                        "for", "function", "if", "import", "in", "instanceof", "let", "new",
-                        "return", "super", "switch", "this", "throw", "try", "typeof", "var",
-                        "void", "while", "with", "yield")
-        );
+                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
+                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
+                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
+                        "return", "def", "for", "lambda", "try"));
 
         /**
          * Additional Properties.  These values can be passed to the templates and
@@ -70,31 +91,23 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
-        // supportingFiles.add(new SupportingFile("controller.mustache",
-        //   "controllers",
-        //   "controller.js")
-        // );
+
         supportingFiles.add(new SupportingFile("swagger.mustache",
-                        "api",
+                        "swagger",
                         "swagger.yaml")
         );
         supportingFiles.add(new SupportingFile("app.mustache",
                         "",
-                        "index.js")
-        );
-        supportingFiles.add(new SupportingFile("package.mustache",
-                        "",
-                        "package.json")
+                        "app.py")
         );
         supportingFiles.add(new SupportingFile("README.mustache",
                         "",
                         "README.md")
         );
-        if (System.getProperty("noservice") == null) {
-            apiTemplateFiles.put(
-                    "service.mustache",   // the template to use
-                    "Service.js");       // the extension for each file to write
-        }
+        supportingFiles.add(new SupportingFile("controller.mustache",
+                        "controllers",
+                        "default_controller.py")
+        );
     }
 
     public String apiPackage() {
@@ -118,7 +131,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      * @return the friendly name for the generator
      */
     public String getName() {
-        return "nodejs";
+        return "flaskConnexion";
     }
 
     /**
@@ -128,7 +141,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      * @return A string value for the help message
      */
     public String getHelp() {
-        return "Generates a nodejs server library using the swagger-tools project.  By default, " +
+        return "Generates a python server library using the connexion project.  By default, " +
                 "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
     }
 
@@ -166,37 +179,43 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-        for (CodegenOperation operation : operations) {
-            operation.httpMethod = operation.httpMethod.toLowerCase();
-            List<CodegenParameter> params = operation.allParams;
-            if (params != null && params.size() == 0) {
-                operation.allParams = null;
-            }
-            List<CodegenResponse> responses = operation.responses;
-            if (responses != null) {
-                for (CodegenResponse resp : responses) {
-                    if ("0".equals(resp.code)) {
-                        resp.code = "default";
-                    }
-                }
-            }
-            if (operation.examples != null && !operation.examples.isEmpty()) {
-                // Leave application/json* items only
-                for (Iterator<Map<String, String>> it = operation.examples.iterator(); it.hasNext(); ) {
-                    final Map<String, String> example = it.next();
-                    final String contentType = example.get("contentType");
-                    if (contentType == null || !contentType.startsWith("application/json")) {
-                        it.remove();
+    public void preprocessSwagger(Swagger swagger) {
+        if(swagger != null && swagger.getPaths() != null) {
+            for(String pathname : swagger.getPaths().keySet()) {
+                Path path = swagger.getPath(pathname);
+                if(path.getOperations() != null) {
+                    for(Operation operation : path.getOperations()) {
+                        String operationId = operation.getOperationId();
+                        if(operationId != null && operationId.indexOf(".") == -1) {
+                            operation.setVendorExtension("x-operationId", underscore(sanitizeName(operationId)));
+                            operationId = "controllers.default_controller." + underscore(sanitizeName(operationId));
+                            operation.setOperationId(operationId);
+                        }
+                        if(operation.getTags() != null) {
+                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
+                            for(String tag : operation.getTags()) {
+                                Map<String, String> value = new HashMap<String, String>();
+                                value.put("tag", tag);
+                                value.put("hasMore", "true");
+                                tags.add(value);
+                            }
+                            if(tags.size() > 0) {
+                                tags.get(tags.size() - 1).remove("hasMore");
+                            }
+                            if(operation.getTags().size() > 0) {
+                                String tag = operation.getTags().get(0);
+                                operation.setTags(Arrays.asList(tag));
+                            }
+                            operation.setVendorExtension("x-tags", tags);
+                        }
+                        else {
+                            String tag = "default_controller";
+                            operation.setTags(Arrays.asList(tag));
+                        }
                     }
                 }
             }
         }
-        return objs;
     }
 
     @SuppressWarnings("unchecked")
@@ -218,7 +237,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
-        for (Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
+        for (Map.Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
             Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());

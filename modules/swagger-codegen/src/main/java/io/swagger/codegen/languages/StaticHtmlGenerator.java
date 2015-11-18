@@ -43,7 +43,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.html"));
+        supportingFiles.add(new SupportingFile("app.mustache", "", "index.html"));
         reservedWords = new HashSet<String>();
 
         languageSpecificPrimitives = new HashSet<String>();
