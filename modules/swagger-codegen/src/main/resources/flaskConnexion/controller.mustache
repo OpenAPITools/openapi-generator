@@ -3,8 +3,8 @@
 {{#operations}}
 {{#operation}}
 
-def {{vendorExtensions.x-operationId}}({{#allParams}}{{paramName}}: ({{dataType}}){{/allParams}}) -> str:
-    return 'Hello {name}'.format(name=name)
+def {{vendorExtensions.x-operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> str:
+    return 'do some magic!'
 {{/operation}}
 {{/operations}}
 {{/apis}}

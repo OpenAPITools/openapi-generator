@@ -48,22 +48,9 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         // set the output folder here
         outputFolder = "generated-code/connexion";
 
-        /**
-         * Models.  You can write model files using the modelTemplateFiles map.
-         * if you want to create one template for file, you can do so here.
-         * for multiple files for model, just put another entry in the `modelTemplateFiles` with
-         * a different extension
-         */
         modelTemplateFiles.clear();
 
-        /**
-         * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
-         * as with models, add multiple entries with different extensions for multiple files per
-         * class
-         */
-        apiTemplateFiles.put(
-                "controller.mustache",   // the template to use
-                ".py");       // the extension for each file to write
+        apiTemplateFiles.clear();
 
         /**
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -104,10 +91,13 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                         "",
                         "README.md")
         );
-        supportingFiles.add(new SupportingFile("controller.mustache",
-                        "controllers",
-                        "default_controller.py")
-        );
+
+        if(!new java.io.File("controllers/default_controller.py").exists()) {
+            supportingFiles.add(new SupportingFile("controller.mustache",
+                            "controllers",
+                            "default_controller.py")
+            );
+        }
     }
 
     public String apiPackage() {

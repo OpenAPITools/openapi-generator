@@ -16,12 +16,12 @@ python3 app.py
 and open your browser to here:
 
 ```
-http://localhost:{{serverPort}}/ui
+http://localhost:8080/ui
 ```
 
 Your swagger definition lives here:
 
 ```
-http://localhost:{{serverPort}}{{basePathWithoutHost}}/swagger.json
+http://localhost:8080/swagger.json
 ```
 

@@ -78,7 +78,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                         "api",
                         "swagger.yaml")
         );
-        supportingFiles.add(new SupportingFile("app.mustache",
+        supportingFiles.add(new SupportingFile("index.mustache",
                         "",
                         "index.js")
         );
