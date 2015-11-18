@@ -1,5 +1,6 @@
 (ns swagger-petstore.api.pet
-  (:require [swagger-petstore.core :refer [call-api check-required-params]]))
+  (:require [swagger-petstore.core :refer [call-api check-required-params]])
+  (:import (java.io File)))
 
 (defn update-pet
   "Update an existing pet
@@ -97,7 +98,7 @@
   "uploads an image
   "
   ([pet-id ] (upload-file pet-id nil))
-  ([pet-id {:keys [additional-metadata file ]}]
+  ([pet-id {:keys [additional-metadata ^File file ]}]
    (call-api "/pet/{petId}/uploadImage" :post
              {:path-params   {"petId" pet-id }
               :header-params {}

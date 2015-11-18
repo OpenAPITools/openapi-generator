@@ -1,5 +1,6 @@
 (ns swagger-petstore.api.user
-  (:require [swagger-petstore.core :refer [call-api check-required-params]]))
+  (:require [swagger-petstore.core :refer [call-api check-required-params]])
+  (:import (java.io File)))
 
 (defn create-user
   "Create user

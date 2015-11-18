@@ -77,11 +77,9 @@
     (delete-pet id)
     (is (thrown? RuntimeException (get-pet-by-id id)))))
 
-(comment
-  ;; TODO support file uploading
-  (deftest test-upload-file
-    (let [{:keys [id] :as pet} (make-random-pet)
-          _ (add-pet {:body pet})
-          file (io/file (io/resource "hello.txt"))]
-      ;; no errors
-      (upload-file id {:file file :additionalMetadata "uploading file with clojure client"}))))
+(deftest test-upload-file
+  (let [{:keys [id] :as pet} (make-random-pet)
+        _ (add-pet {:body pet})
+        file (io/file (io/resource "hello.txt"))]
+    ;; no errors with upload-file
+    (upload-file id {:file file :additional-metadata "uploading file with clojure client"})))
