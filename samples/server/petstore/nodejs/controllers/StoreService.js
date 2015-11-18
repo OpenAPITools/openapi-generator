@@ -1,8 +1,11 @@
 'use strict';
 
-exports.getInventory = function() {
+exports.getInventory = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   **/
 
-  var examples = {};
+var examples = {};
   
   examples['application/json'] = {
   "key" : 123
@@ -10,13 +13,23 @@ exports.getInventory = function() {
   
 
   
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
   
 }
-exports.placeOrder = function(body) {
+exports.placeOrder = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * body (Order)
+   **/
 
-  var examples = {};
+var examples = {};
   
   examples['application/json'] = {
   "id" : 123456789,
@@ -24,18 +37,28 @@ exports.placeOrder = function(body) {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-10-20T06:12:23.907+0000"
+  "shipDate" : "2015-11-18T02:43:54.540+0000"
 };
   
 
   
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
   
 }
-exports.getOrderById = function(orderId) {
+exports.getOrderById = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * orderId (String)
+   **/
 
-  var examples = {};
+var examples = {};
   
   examples['application/json'] = {
   "id" : 123456789,
@@ -43,19 +66,30 @@ exports.getOrderById = function(orderId) {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-10-20T06:12:23.911+0000"
+  "shipDate" : "2015-11-18T02:43:54.544+0000"
 };
   
 
   
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
   
 }
-exports.deleteOrder = function(orderId) {
+exports.deleteOrder = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * orderId (String)
+   **/
 
-  var examples = {};
+var examples = {};
   
 
   
+  res.end();
 }
