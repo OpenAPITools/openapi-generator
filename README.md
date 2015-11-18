@@ -305,7 +305,8 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/client/petstore/java \
   -c path/to/config.json
 ```
-Supported config options can be different per language. Running `config-help -l {lang}` will show available options.
+Supported config options can be different per language. Running `config-help -l {lang}` will show available options.  **These options are applied 
+by passing them with `-D{optionName}={optionValue}**.
 
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l java
