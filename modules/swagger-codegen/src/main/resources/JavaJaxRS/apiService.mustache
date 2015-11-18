@@ -17,12 +17,13 @@ import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 {{>generatedAnnotation}}
 {{#operations}}
 public abstract class {{classname}}Service {
   {{#operation}}
-      public abstract Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{#hasMore}},{{/hasMore}}{{/allParams}})
+      public abstract Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}},{{/allParams}}SecurityContext securityContext)
       throws NotFoundException;
   {{/operation}}
 }

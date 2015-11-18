@@ -17,13 +17,14 @@ import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}ServiceImpl extends {{classname}}Service {
   {{#operation}}
       @Override
-      public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{#hasMore}},{{/hasMore}}{{/allParams}})
+      public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}},{{/allParams}}SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
