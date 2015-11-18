@@ -1,0 +1,11 @@
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+def {{vendorExtensions.x-operationId}}({{#allParams}}{{paramName}}: ({{dataType}}){{/allParams}}) -> str:
+    return 'Hello {name}'.format(name=name)
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
