@@ -28,6 +28,7 @@ import io.swagger.codegen.options.ScalaClientOptionsProvider;
 import io.swagger.codegen.options.ScalatraServerOptionsProvider;
 import io.swagger.codegen.options.SilexServerOptionsProvider;
 import io.swagger.codegen.options.SinatraServerOptionsProvider;
+import io.swagger.codegen.options.SlimFrameworkServerOptionsProvider;
 import io.swagger.codegen.options.SpringMVCServerOptionsProvider;
 import io.swagger.codegen.options.StaticDocOptionsProvider;
 import io.swagger.codegen.options.StaticHtmlOptionsProvider;
@@ -77,11 +78,12 @@ public class OnlineGeneratorOptionsTest {
                 {new PythonClientOptionsProvider()}, {new Qt5CPPOptionsProvider()},
                 {new RubyClientOptionsProvider()}, {new ScalaClientOptionsProvider()},
                 {new ScalatraServerOptionsProvider()}, {new SilexServerOptionsProvider()},
-                {new SinatraServerOptionsProvider()}, {new SpringMVCServerOptionsProvider()},
-                {new StaticDocOptionsProvider()}, {new StaticHtmlOptionsProvider()},
-                {new SwaggerOptionsProvider()}, {new SwaggerYamlOptionsProvider()},
-                {new SwiftOptionsProvider()}, {new TizenClientOptionsProvider()},
-                {new TypeScriptAngularClientOptionsProvider()}, {new TypeScriptNodeClientOptionsProvider()}
+                {new SinatraServerOptionsProvider()}, {new SlimFrameworkServerOptionsProvider()},
+                {new SpringMVCServerOptionsProvider()}, {new StaticDocOptionsProvider()},
+                {new StaticHtmlOptionsProvider()}, {new SwaggerOptionsProvider()},
+                {new SwaggerYamlOptionsProvider()}, {new SwiftOptionsProvider()},
+                {new TizenClientOptionsProvider()}, {new TypeScriptAngularClientOptionsProvider()},
+                {new TypeScriptNodeClientOptionsProvider()}
         };
     }
 
