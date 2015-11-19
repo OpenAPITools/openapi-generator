@@ -38,6 +38,12 @@ public class CodegenConstants {
     public static final String LIBRARY_DESC = "library template (sub-template)";
 
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG = "sortParamsByRequiredFlag";
-    public static final String SORT_PARAMS_BY_REQUIRED_FLAG_DESC = "Sort method arguments to place required parameters before optional parameters. Default: true";
+    public static final String SORT_PARAMS_BY_REQUIRED_FLAG_DESC = "Sort method arguments to place required parameters before optional parameters.";
 
+    public static final String ENSURE_UNIQUE_PARAMS = "ensureUniqueParams";
+    public static final String ENSURE_UNIQUE_PARAMS_DESC = "Whether to ensure parameter names are unique in an operation (rename parameters that are not). Default: true";
+
+    public static final String PACKAGE_NAME = "packageName";
+    public static final String PACKAGE_VERSION = "packageVersion";
+    public static final String POD_VERSION = "podVersion";
 }

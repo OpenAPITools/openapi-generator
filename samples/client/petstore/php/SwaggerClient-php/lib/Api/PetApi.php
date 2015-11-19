@@ -136,7 +136,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         
         // make the API Call
         try
@@ -201,7 +201,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         
         // make the API Call
         try
@@ -265,7 +265,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         
         // make the API Call
         try
@@ -341,7 +341,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         
         // make the API Call
         try
@@ -431,9 +431,6 @@ class PetApi
         
         
         
-        
-        //TODO support oauth
-        
         // make the API Call
         try
         {
@@ -509,10 +506,16 @@ class PetApi
         }
         // form params
         if ($name !== null) {
+            
+            
             $formParams['name'] = $this->apiClient->getSerializer()->toFormValue($name);
+            
         }// form params
         if ($status !== null) {
+            
+            
             $formParams['status'] = $this->apiClient->getSerializer()->toFormValue($status);
+            
         }
         
   
@@ -524,7 +527,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         
         // make the API Call
         try
@@ -600,7 +603,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         
         // make the API Call
         try
@@ -665,10 +668,22 @@ class PetApi
         }
         // form params
         if ($additional_metadata !== null) {
+            
+            
             $formParams['additionalMetadata'] = $this->apiClient->getSerializer()->toFormValue($additional_metadata);
+            
         }// form params
         if ($file !== null) {
-            $formParams['file'] = '@' . $this->apiClient->getSerializer()->toFormValue($file);
+            
+            // PHP 5.5 introduced a CurlFile object that deprecates the old @filename syntax
+            // See: https://wiki.php.net/rfc/curl-file-upload
+            if (function_exists('curl_file_create')) {
+                $formParams['file'] = curl_file_create($this->apiClient->getSerializer()->toFormValue($file));
+            } else {
+               $formParams['file'] = '@' . $this->apiClient->getSerializer()->toFormValue($file);
+            }
+            
+            
         }
         
   
@@ -680,7 +695,7 @@ class PetApi
         }
         
         
-        //TODO support oauth
+        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         
         // make the API Call
         try

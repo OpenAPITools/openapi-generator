@@ -1,19 +1,8 @@
 package io.swagger.codegen;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.models.ComposedModel;
-import io.swagger.models.Contact;
-import io.swagger.models.Info;
-import io.swagger.models.License;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.SecurityRequirement;
-import io.swagger.models.Swagger;
+import io.swagger.models.*;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.models.parameters.Parameter;
@@ -23,13 +12,11 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
+import java.io.*;
 import java.util.*;
+
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
@@ -216,7 +203,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                     .withLoader(new Mustache.TemplateLoader() {
                                         @Override
                                         public Reader getTemplate(String name) {
-                                            return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
                                         }
                                     })
                                     .defaultValue("")
@@ -262,6 +249,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("classVarName", config.toApiVarName(tag));
                     operation.put("importPath", config.toApiImport(tag));
 
+                    // Pass sortParamsByRequiredFlag through to the Mustache template...
+                    boolean sortParamsByRequiredFlag = true;
+                    if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
+                        sortParamsByRequiredFlag = Boolean.valueOf((String)this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
+                    }
+                    operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
+
                     processMimeTypes(swagger.getConsumes(), operation, "consumes");
                     processMimeTypes(swagger.getProduces(), operation, "produces");
 
@@ -285,7 +279,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                 .withLoader(new Mustache.TemplateLoader() {
                                     @Override
                                     public Reader getTemplate(String name) {
-                                        return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
                                     }
                                 })
                                 .defaultValue("")
@@ -314,6 +308,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (swagger.getHost() != null) {
             bundle.put("host", swagger.getHost());
         }
+        bundle.put("swagger", this.swagger);
         bundle.put("basePath", basePath);
         bundle.put("scheme", scheme);
         bundle.put("contextPath", contextPath);
@@ -376,7 +371,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                     .withLoader(new Mustache.TemplateLoader() {
                                         @Override
                                         public Reader getTemplate(String name) {
-                                            return getTemplateReader(config.templateDir() + File.separator + name + ".mustache");
+                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
                                         }
                                     })
                                     .defaultValue("")

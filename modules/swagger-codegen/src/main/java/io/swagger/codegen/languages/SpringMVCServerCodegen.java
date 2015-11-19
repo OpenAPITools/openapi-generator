@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Iterator;
 
 public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
+    public static final String CONFIG_PACKAGE = "configPackage";
     protected String title = "Petstore Server";
     protected String configPackage = "";
 
@@ -23,7 +24,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         outputFolder = "generated-code/javaSpringMVC";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        templateDir = "JavaSpringMVC";
+        embeddedTemplateDir = templateDir = "JavaSpringMVC";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         configPackage = "io.swagger.configuration";
@@ -36,7 +37,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-        additionalProperties.put("configPackage", configPackage);
+        additionalProperties.put(CONFIG_PACKAGE, configPackage);
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -49,8 +50,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                         "Float")
         );
 
-        cliOptions.add(new CliOption("configPackage", "configuration package for generated code"));
-
+        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
     }
 
     public CodegenType getTag() {
@@ -69,8 +69,8 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("configPackage")) {
-            this.setConfigPackage((String) additionalProperties.get("configPackage"));
+        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
+            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
         }
 
         supportingFiles.clear();
@@ -192,6 +192,17 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         while (iterator.hasNext()) {
             String _import = iterator.next().get("import");
             if (_import.endsWith(".Object")) iterator.remove();
+        }
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            for (CodegenProperty var : cm.vars) {
+                // handle default value for enum, e.g. available => StatusEnum.available
+                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
+                    var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
+                }
+            }
         }
         return objs;
     }

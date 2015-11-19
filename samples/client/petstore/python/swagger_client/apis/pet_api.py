@@ -409,7 +409,7 @@ class PetApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = ['api_key', 'petstore_auth']
+        auth_settings = ['api_key']
 
         response = self.api_client.call_api(resource_path, method,
                                             path_params,

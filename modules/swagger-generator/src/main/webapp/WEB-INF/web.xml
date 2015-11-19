@@ -42,6 +42,14 @@
         <servlet-name>Bootstrap</servlet-name>
         <servlet-class>io.swagger.generator.Bootstrap</servlet-class>
         <load-on-startup>2</load-on-startup>
+        <init-param>
+            <param-name>generator.host</param-name>
+            <param-value>localhost:8001</param-value>
+        </init-param>
+        <init-param>
+            <param-name>generator.protocol</param-name>
+            <param-value>http</param-value>
+        </init-param>
     </servlet>
     <filter-mapping>
         <filter-name>ApiOriginFilter</filter-name>

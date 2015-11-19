@@ -4,7 +4,7 @@ import io.swagger.codegen.SupportingFile;
 import java.io.File;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
-	
+
 	@Override
 	public String getName() {
 		return "typescript-angular";
@@ -19,7 +19,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 	    outputFolder = "generated-code/typescript-angular";
 	    modelTemplateFiles.put("model.mustache", ".ts");
 	    apiTemplateFiles.put("api.mustache", ".ts");
-	    templateDir = "TypeScript-Angular";
+	    embeddedTemplateDir = templateDir = "TypeScript-Angular";
 	    apiPackage = "API.Client";
 	    modelPackage = "API.Client";
 	    supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage().replace('.', File.separatorChar), "api.d.ts"));

@@ -2,26 +2,41 @@
 
 /* tslint:disable:no-unused-variable member-ordering */
 
-module API.Client {
+namespace API.Client {
     'use strict';
 
     export class UserApi {
-        private basePath = 'http://petstore.swagger.io/v2';
+        protected basePath = 'http://petstore.swagger.io/v2';
+        public defaultHeaders : any = {};
 
         static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (any) => any) {
+        constructor(protected $http: ng.IHttpService, protected $httpParamSerializer?: (d: any) => any, basePath?: string) {
             if (basePath) {
                 this.basePath = basePath;
             }
         }
 
+        private extendObj<T1,T2>(objA: T1, objB: T2) {
+            for(let key in objB){
+                if(objB.hasOwnProperty(key)){
+                    objA[key] = objB[key];
+                }
+            }
+            return <T1&T2>objA;
+        }
+
+        /**
+         * Create user
+         * This can only be done by the logged in user.
+         * @param body Created user object
+         */
         public createUser (body?: User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            var path = this.basePath + '/user';
+            const path = this.basePath + '/user';
 
-            var queryParameters: any = {};
-            var headerParams: any = {};
-            var httpRequestParams: any = {
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
@@ -33,22 +48,22 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Creates list of users with given input array
+         * 
+         * @param body List of user object
+         */
         public createUsersWithArrayInput (body?: Array<User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            var path = this.basePath + '/user/createWithArray';
+            const path = this.basePath + '/user/createWithArray';
 
-            var queryParameters: any = {};
-            var headerParams: any = {};
-            var httpRequestParams: any = {
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
@@ -60,22 +75,22 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Creates list of users with given input array
+         * 
+         * @param body List of user object
+         */
         public createUsersWithListInput (body?: Array<User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            var path = this.basePath + '/user/createWithList';
+            const path = this.basePath + '/user/createWithList';
 
-            var queryParameters: any = {};
-            var headerParams: any = {};
-            var httpRequestParams: any = {
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let httpRequestParams: any = {
                 method: 'POST',
                 url: path,
                 json: true,
@@ -87,21 +102,22 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Logs user into the system
+         * 
+         * @param username The user name for login
+         * @param password The password for login in clear text
+         */
         public loginUser (username?: string, password?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<string> {
-            var path = this.basePath + '/user/login';
+            const path = this.basePath + '/user/login';
 
-            var queryParameters: any = {};
-            var headerParams: any = {};
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
             if (username !== undefined) {
                 queryParameters['username'] = username;
             }
@@ -110,7 +126,7 @@ module API.Client {
                 queryParameters['password'] = password;
             }
 
-            var httpRequestParams: any = {
+            let httpRequestParams: any = {
                 method: 'GET',
                 url: path,
                 json: true,
@@ -121,22 +137,21 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Logs out current logged in user session
+         * 
+         */
         public logoutUser (extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            var path = this.basePath + '/user/logout';
+            const path = this.basePath + '/user/logout';
 
-            var queryParameters: any = {};
-            var headerParams: any = {};
-            var httpRequestParams: any = {
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let httpRequestParams: any = {
                 method: 'GET',
                 url: path,
                 json: true,
@@ -147,29 +162,27 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Get user by user name
+         * 
+         * @param username The name that needs to be fetched. Use user1 for testing.
+         */
         public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<User> {
-            var path = this.basePath + '/user/{username}';
+            const path = this.basePath + '/user/{username}'
+                .replace('{' + 'username' + '}', String(username));
 
-            path = path.replace('{' + 'username' + '}', String(username));
-
-            var queryParameters: any = {};
-            var headerParams: any = {};
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
             // verify required parameter 'username' is set
             if (!username) {
                 throw new Error('Missing required parameter username when calling getUserByName');
             }
-
-            var httpRequestParams: any = {
+            let httpRequestParams: any = {
                 method: 'GET',
                 url: path,
                 json: true,
@@ -180,29 +193,28 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Updated user
+         * This can only be done by the logged in user.
+         * @param username name that need to be deleted
+         * @param body Updated user object
+         */
         public updateUser (username: string, body?: User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            var path = this.basePath + '/user/{username}';
+            const path = this.basePath + '/user/{username}'
+                .replace('{' + 'username' + '}', String(username));
 
-            path = path.replace('{' + 'username' + '}', String(username));
-
-            var queryParameters: any = {};
-            var headerParams: any = {};
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
             // verify required parameter 'username' is set
             if (!username) {
                 throw new Error('Missing required parameter username when calling updateUser');
             }
-
-            var httpRequestParams: any = {
+            let httpRequestParams: any = {
                 method: 'PUT',
                 url: path,
                 json: true,
@@ -214,29 +226,27 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
         }
-
+        /**
+         * Delete user
+         * This can only be done by the logged in user.
+         * @param username The name that needs to be deleted
+         */
         public deleteUser (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            var path = this.basePath + '/user/{username}';
+            const path = this.basePath + '/user/{username}'
+                .replace('{' + 'username' + '}', String(username));
 
-            path = path.replace('{' + 'username' + '}', String(username));
-
-            var queryParameters: any = {};
-            var headerParams: any = {};
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
             // verify required parameter 'username' is set
             if (!username) {
                 throw new Error('Missing required parameter username when calling deleteUser');
             }
-
-            var httpRequestParams: any = {
+            let httpRequestParams: any = {
                 method: 'DELETE',
                 url: path,
                 json: true,
@@ -247,11 +257,7 @@ module API.Client {
             };
 
             if (extraHttpRequestParams) {
-                for (var k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);

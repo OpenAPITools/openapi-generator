@@ -71,6 +71,10 @@ class Configuration(object):
         self.username = ""
         # Password for HTTP basic authentication
         self.password = ""
+{{#authMethods}}{{#isOAuth}}
+        # access token for OAuth
+        self.access_token = ""
+{{/isOAuth}}{{/authMethods}}
 
         # Logging Settings
         self.logger = {}
@@ -231,8 +235,15 @@ class Configuration(object):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-{{/isBasic}}
-{{/authMethods}}
+{{/isBasic}}{{#isOauth}}
+            '{{name}}': 
+                {
+                    'type': 'oauth2',
+                    'in': 'header',
+                    'key': 'Authorization',
+                    'value': 'Bearer ' + self.access_token
+                },
+{{/isOauth}}{{/authMethods}}
         }
 
     def to_debug_report(self):

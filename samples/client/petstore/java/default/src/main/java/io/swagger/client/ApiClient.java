@@ -39,7 +39,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-20T10:56:59.550-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-07T15:05:10.376+08:00")
 public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
@@ -55,22 +55,31 @@ public class ApiClient {
   private DateFormat dateFormat;
 
   public ApiClient() {
-    // Use ISO 8601 format for date and datetime.
-    // See https://en.wikipedia.org/wiki/ISO_8601
-    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    // Use RFC3339 format for date and datetime.
+    // See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
+    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
     // Use UTC as the default time zone.
     this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    this.json.setDateFormat((DateFormat) dateFormat.clone());
 
     // Set default User-Agent.
     setUserAgent("Java-Swagger");
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
+  }
+
+  /**
+   * Gets the JSON instance to do JSON serialization and deserialization.
+   */
+  public JSON getJSON() {
+    return json;
   }
 
   public String getBasePath() {
@@ -166,6 +175,19 @@ public class ApiClient {
   }
 
   /**
+   * Helper method to set access token for the first OAuth2 authentication.
+   */
+  public void setAccessToken(String accessToken) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setAccessToken(accessToken);
+        return;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
    * Set the User-Agent header's value (by adding to the default header map).
    */
   public ApiClient setUserAgent(String userAgent) {
@@ -213,6 +235,8 @@ public class ApiClient {
    */
   public ApiClient setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
+    // also set the date format for model (de)serialization with Date properties
+    this.json.setDateFormat((DateFormat) dateFormat.clone());
     return this;
   }
 

@@ -21,12 +21,12 @@ extension PetstoreClientAPI {
          - API Key:
            - type: apiKey api_key 
            - name: api_key
-         - examples: [{example={
+         - examples: [{contentType=application/json, example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
-         - examples: [{example={
+}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@d1e580af}]
+         - examples: [{contentType=application/json, example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
+}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@d1e580af}]
 
          - returns: RequestBuilder<[String:Int]> 
          */
@@ -48,36 +48,36 @@ extension PetstoreClientAPI {
          
          - POST /store/order
          - 
-         - examples: [{example={
-  "id" : 123456789,
+         - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-10-20T06:12:32.347+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2015-11-11T12:31:12.079+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-10-19T23:12:32.350Z</shipDate>
+  <shipDate>2015-11-11T14:31:12.082Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
-         - examples: [{example={
-  "id" : 123456789,
+</Order>}]
+         - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-10-20T06:12:32.347+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2015-11-11T12:31:12.079+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-10-19T23:12:32.350Z</shipDate>
+  <shipDate>2015-11-11T14:31:12.082Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
+</Order>}]
          
          - parameter body: (body) order placed for purchasing the pet
 
@@ -100,36 +100,36 @@ extension PetstoreClientAPI {
          
          - GET /store/order/{orderId}
          - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-         - examples: [{example={
-  "id" : 123456789,
+         - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-10-20T06:12:32.351+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2015-11-11T12:31:12.083+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-10-19T23:12:32.351Z</shipDate>
+  <shipDate>2015-11-11T14:31:12.083Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
-         - examples: [{example={
-  "id" : 123456789,
+</Order>}]
+         - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-10-20T06:12:32.351+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2015-11-11T12:31:12.083+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2015-10-19T23:12:32.351Z</shipDate>
+  <shipDate>2015-11-11T14:31:12.083Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
+</Order>}]
          
          - parameter orderId: (path) ID of pet that needs to be fetched
 

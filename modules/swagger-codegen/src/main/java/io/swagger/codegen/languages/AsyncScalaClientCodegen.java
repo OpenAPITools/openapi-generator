@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
@@ -40,7 +41,7 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         outputFolder = "generated-code/async-scala";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        templateDir = "asyncscala";
+        embeddedTemplateDir = templateDir = "asyncscala";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
@@ -105,6 +106,9 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         );
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
+
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
     public CodegenType getTag() {

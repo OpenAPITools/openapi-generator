@@ -42,6 +42,17 @@ module Petstore
         else
           false
         end
+      when /\AArray<(?<inner_type>.+)>\z/
+        inner_type = Regexp.last_match[:inner_type]
+        value.map { |v| _deserialize(inner_type, v) }
+      when /\AHash<(?<k_type>.+), (?<v_type>.+)>\z/
+        k_type = Regexp.last_match[:k_type]
+        v_type = Regexp.last_match[:v_type]
+        {}.tap do |hash|
+          value.each do |k, v|
+            hash[_deserialize(k_type, k)] = _deserialize(v_type, v)
+          end
+        end
       else # model
         _model = Petstore.const_get(type).new
         _model.build_from_hash(value)
@@ -63,11 +74,7 @@ module Petstore
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         next if value.nil?
-        if value.is_a?(Array)
-          hash[param] = value.compact.map{ |v| _to_hash(v) }
-        else
-          hash[param] = _to_hash(value)
-        end
+        hash[param] = _to_hash(value)
       end
       hash
     end
@@ -75,7 +82,13 @@ module Petstore
     # Method to output non-array value in the form of hash
     # For object, use to_hash. Otherwise, just return the value
     def _to_hash(value)
-      if value.respond_to? :to_hash
+      if value.is_a?(Array)
+        value.compact.map{ |v| _to_hash(v) }
+      elsif value.is_a?(Hash)
+        {}.tap do |hash|
+          value.each { |k, v| hash[k] = _to_hash(v) }
+        end
+      elsif value.respond_to? :to_hash
         value.to_hash
       else
         value

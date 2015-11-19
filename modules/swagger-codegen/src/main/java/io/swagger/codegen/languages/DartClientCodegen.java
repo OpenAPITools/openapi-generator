@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -15,6 +16,10 @@ import java.util.HashSet;
 import java.util.HashMap;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
+    public static final String BROWSER_CLIENT = "browserClient";
+    public static final String PUB_NAME = "pubName";
+    public static final String PUB_VERSION = "pubVersion";
+    public static final String PUB_DESCRIPTION = "pubDescription";
     protected boolean browserClient = true;
     protected String pubName = "swagger";
     protected String pubVersion = "1.0.0";
@@ -26,7 +31,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
-        templateDir = "dart";
+        embeddedTemplateDir = templateDir = "dart";
         apiPackage = "lib.api";
         modelPackage = "lib.model";
 
@@ -72,10 +77,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "DateTime");
         typeMapping.put("File", "MultipartFile");
 
-        cliOptions.add(new CliOption("browserClient", "Is the client browser based"));
-        cliOptions.add(new CliOption("pubName", "Name in generated pubspec"));
-        cliOptions.add(new CliOption("pubVersion", "Version in generated pubspec"));
-        cliOptions.add(new CliOption("sourceFolder", "source folder for generated code"));
+        cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based"));
+        cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
+        cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
+        cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code"));
     }
 
     public CodegenType getTag() {
@@ -94,37 +100,37 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("browserClient")) {
-            this.setBrowserClient(Boolean.parseBoolean((String) additionalProperties.get("browserClient")));
-            additionalProperties.put("browserClient", browserClient);
+        if (additionalProperties.containsKey(BROWSER_CLIENT)) {
+            this.setBrowserClient(Boolean.parseBoolean((String) additionalProperties.get(BROWSER_CLIENT)));
+            additionalProperties.put(BROWSER_CLIENT, browserClient);
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("browserClient", browserClient);
+            additionalProperties.put(BROWSER_CLIENT, browserClient);
         }
 
-        if (additionalProperties.containsKey("pubName")) {
-            this.setPubName((String) additionalProperties.get("pubName"));
+        if (additionalProperties.containsKey(PUB_NAME)) {
+            this.setPubName((String) additionalProperties.get(PUB_NAME));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("pubName", pubName);
+            additionalProperties.put(PUB_NAME, pubName);
         }
 
-        if (additionalProperties.containsKey("pubVersion")) {
-            this.setPubVersion((String) additionalProperties.get("pubVersion"));
+        if (additionalProperties.containsKey(PUB_VERSION)) {
+            this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("pubVersion", pubVersion);
+            additionalProperties.put(PUB_VERSION, pubVersion);
         }
 
-        if (additionalProperties.containsKey("pubDescription")) {
-            this.setPubDescription((String) additionalProperties.get("pubDescription"));
+        if (additionalProperties.containsKey(PUB_DESCRIPTION)) {
+            this.setPubDescription((String) additionalProperties.get(PUB_DESCRIPTION));
         } else {
             //not set, use to be passed to template
-            additionalProperties.put("pubDescription", pubDescription);
+            additionalProperties.put(PUB_DESCRIPTION, pubDescription);
         }
 
-        if (additionalProperties.containsKey("sourceFolder")) {
-            this.setSourceFolder((String) additionalProperties.get("sourceFolder"));
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
         final String libFolder = sourceFolder + File.separator + "lib";

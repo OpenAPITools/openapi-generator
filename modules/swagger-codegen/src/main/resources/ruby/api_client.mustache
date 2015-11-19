@@ -189,9 +189,15 @@ module {{moduleName}}
       # http form
       if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
           header_params['Content-Type'] == 'multipart/form-data'
-        data = form_params.dup
-        data.each do |key, value|
-          data[key] = value.to_s if value && !value.is_a?(File)
+        data = {}
+        form_params.each do |key, value|
+          case value
+          when File, Array, nil
+            # let typhoeus handle File, Array and nil parameters
+            data[key] = value
+          else
+            data[key] = value.to_s
+          end
         end
       elsif body
         data = body.is_a?(String) ? body : body.to_json
@@ -267,6 +273,26 @@ module {{moduleName}}
         obj.to_hash
       else
         obj
+      end
+    end
+
+    # Build parameter value according to the given collection format.
+    # @param [String] collection_format one of :csv, :ssv, :tsv, :pipes and :multi
+    def build_collection_param(param, collection_format)
+      case collection_format
+      when :csv
+        param.join(',')
+      when :ssv
+        param.join(' ')
+      when :tsv
+        param.join("\t")
+      when :pipes
+        param.join('|')
+      when :multi
+        # return the array directly as typhoeus will handle it as expected
+        param
+      else
+        fail "unknown collection format: #{collection_format.inspect}"
       end
     end
   end

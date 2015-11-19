@@ -1,0 +1,1 @@
+{{#isFormParam}}{{#notFile}}{{#isMultipart}}@Part{{/isMultipart}}{{^isMultipart}}@Field{{/isMultipart}}("{{baseName}}") {{{dataType}}} {{paramName}}{{/notFile}}{{#isFile}}{{#isMultipart}}@Part{{/isMultipart}}{{^isMultipart}}@Field{{/isMultipart}}("{{baseName}}\"; filename=\"{{baseName}}\"") RequestBody {{paramName}}{{/isFile}}{{/isFormParam}}

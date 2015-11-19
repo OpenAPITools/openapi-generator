@@ -3,6 +3,7 @@ io.swagger.codegen.languages.AsyncScalaClientCodegen
 io.swagger.codegen.languages.CSharpClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
 io.swagger.codegen.languages.FlashClientCodegen
+io.swagger.codegen.languages.FlaskConnexionCodegen
 io.swagger.codegen.languages.JavaClientCodegen
 io.swagger.codegen.languages.JaxRSServerCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
@@ -28,3 +29,4 @@ io.swagger.codegen.languages.TypeScriptAngularClientCodegen
 io.swagger.codegen.languages.TypeScriptNodeClientCodegen
 io.swagger.codegen.languages.AkkaScalaClientCodegen
 io.swagger.codegen.languages.CsharpDotNet2ClientCodegen
+io.swagger.codegen.languages.ClojureClientCodegen

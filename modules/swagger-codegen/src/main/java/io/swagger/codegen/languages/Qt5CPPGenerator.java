@@ -71,7 +71,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        templateDir = "qt5cpp";
+        embeddedTemplateDir = templateDir = "qt5cpp";
 
         /**
          * Reserved words.  Override this with reserved words specific to your language
@@ -97,7 +97,9 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         "bool",
                         "qint32",
-                        "qint64")
+                        "qint64",
+                        "float",
+                        "double")
         );
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));

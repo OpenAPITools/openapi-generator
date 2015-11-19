@@ -7,8 +7,20 @@ import java.util.List;
 
 {{>generatedAnnotation}}
 public class OAuth implements Authentication {
+  private String accessToken;
+
+  public String getAccessToken() {
+    return accessToken;
+  }
+
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
-    // TODO: support oauth
+    if (accessToken != null) {
+      headerParams.put("Authorization", "Bearer " + accessToken);
+    }
   }
 }

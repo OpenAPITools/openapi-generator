@@ -20,7 +20,9 @@ use Module::Runtime qw(use_module);
 
 use WWW::SwaggerClient::Configuration;
 
-sub new
+use base 'Class::Singleton';
+
+sub _new_instance
 {
     my $class = shift;
     my (%args) = (
@@ -31,6 +33,8 @@ sub new
   
     return bless \%args, $class;
 }
+
+sub _cfg {'WWW::SwaggerClient::Configuration'}
 
 # Set the user agent of the API client
 #
@@ -118,10 +122,12 @@ sub call_api {
     $self->{ua}->timeout($self->{http_timeout} || $WWW::SwaggerClient::Configuration::http_timeout); 
     $self->{ua}->agent($self->{http_user_agent} || $WWW::SwaggerClient::Configuration::http_user_agent);
     
+    $log->debugf("REQUEST: %s", $_request->as_string);
     my $_response = $self->{ua}->request($_request);
+    $log->debugf("RESPONSE: %s", $_response->as_string);
   
     unless ($_response->is_success) {
-        croak("API Exception(".$_response->code."): ".$_response->message);
+        croak(sprintf "API Exception(%s): %s\n%s", $_response->code, $_response->message, $_response->content);
     }
        
     return $_response->content;
@@ -146,8 +152,8 @@ sub to_path_value {
 # @return string the serialized object
 sub to_query_value {
       my ($self, $object) = @_;
-      if (is_array($object)) {
-          return implode(',', $object);
+      if (ref($object) eq 'ARRAY') {
+          return join(',', @$object);
       } else {
           return $self->to_string($object);
       }
@@ -286,23 +292,26 @@ sub select_header_content_type
 # @return string API key with the prefix
 sub get_api_key_with_prefix
 {
-    my ($self, $api_key) = @_;
-    if ($WWW::SwaggerClient::Configuration::api_key_prefix->{$api_key}) {
-        return $WWW::SwaggerClient::Configuration::api_key_prefix->{$api_key}." ".$WWW::SwaggerClient::Configuration::api_key->{$api_key};
-    } else {
-        return $WWW::SwaggerClient::Configuration::api_key->{$api_key};
-    }
-}
+	my ($self, $key_name) = @_;
 
-# update hearder and query param based on authentication setting
+	my $api_key = $WWW::SwaggerClient::Configuration::api_key->{$key_name};
+	
+	return unless $api_key;
+	
+	my $prefix = $WWW::SwaggerClient::Configuration::api_key_prefix->{$key_name};
+	return $prefix ? "$prefix $api_key" : $api_key;
+}	
+
+# update header and query param based on authentication setting
 #  
 # @param array $headerParams header parameters (by ref)
 # @param array $queryParams query parameters (by ref)
 # @param array $authSettings array of authentication scheme (e.g ['api_key'])
 sub update_params_for_auth {
     my ($self, $header_params, $query_params, $auth_settings) = @_;
-  
-    return if (!defined($auth_settings) || scalar(@$auth_settings) == 0);
+    
+    return $self->_global_auth_setup($header_params, $query_params) 
+    	unless $auth_settings && @$auth_settings;
   
     # one endpoint can have more than 1 auth settings
     foreach my $auth (@$auth_settings) {
@@ -315,13 +324,50 @@ sub update_params_for_auth {
         }
         elsif ($auth eq 'petstore_auth') {
             
-            # TODO support oauth
+            $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
         }
         
         else {
-            # TODO show warning about security definition not found
+        	# TODO show warning about security definition not found
         }
     }
+}
+
+# The endpoint API class has not found any settings for auth. This may be deliberate, 
+# in which case update_params_for_auth() will be a no-op. But it may also be that the 
+# swagger spec does not describe the intended authorization. So we check in the config for any 
+# auth tokens and if we find any, we use them for all endpoints; 
+sub _global_auth_setup {
+	my ($self, $header_params, $query_params) = @_; 
+	
+	my $tokens = $self->_cfg->get_tokens;
+	return unless keys %$tokens;
+	
+	# basic
+	if (my $uname = delete $tokens->{username}) {
+		my $pword = delete $tokens->{password};
+		$header_params->{'Authorization'} = 'Basic '.encode_base64($uname.":".$pword);
+	}
+	
+	# oauth
+	if (my $access_token = delete $tokens->{access_token}) {
+		$header_params->{'Authorization'} = 'Bearer ' . $access_token;
+	}
+	
+	# other keys
+	foreach my $token_name (keys %$tokens) {
+		my $in = $tokens->{$token_name}->{in};
+		my $token = $self->get_api_key_with_prefix($token_name);
+		if ($in eq 'head') {
+			$header_params->{$token_name} = $token;
+		}
+		elsif ($in eq 'query') {
+			$query_params->{$token_name} = $token;
+		}
+		else {
+			die "Don't know where to put token '$token_name' ('$in' is not 'head' or 'query')";
+		}
+	}
 }
 
 

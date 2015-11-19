@@ -8,6 +8,7 @@ import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
 
 import java.util.Map;
+import java.text.SimpleDateFormat;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -21,6 +22,8 @@ public class StoreApiTest {
         // setup authentication
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
         apiKeyAuth.setApiKey("special-key");
+        // set custom date format that is used by the petstore server
+        api.getApiClient().setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
     }
 
     @Test

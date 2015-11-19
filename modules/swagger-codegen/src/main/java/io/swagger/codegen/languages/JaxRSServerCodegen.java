@@ -1,19 +1,12 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenResponse;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.*;
 import io.swagger.models.Operation;
+import io.swagger.models.Path;
+import io.swagger.models.Swagger;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
     protected String title = "Swagger Server";
@@ -31,7 +24,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-        templateDir = "JavaJaxRS";
+        embeddedTemplateDir = templateDir = "JavaJaxRS";
         apiPackage = System.getProperty("swagger.codegen.jaxrs.apipackage", "io.swagger.api");
         modelPackage = System.getProperty("swagger.codegen.jaxrs.modelpackage", "io.swagger.model");
 
@@ -74,13 +67,13 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiException.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
         supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
         supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
         supportingFiles.add(new SupportingFile("web.mustache",
                 ("src/main/webapp/WEB-INF"), "web.xml"));
 
@@ -112,6 +105,52 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         }
         opList.add(co);
         co.baseName = basePath;
+    }
+
+    @Override
+    public void preprocessSwagger(Swagger swagger) {
+        if(swagger != null && swagger.getPaths() != null) {
+            for(String pathname : swagger.getPaths().keySet()) {
+                Path path = swagger.getPath(pathname);
+                if(path.getOperations() != null) {
+                    for(Operation operation : path.getOperations()) {
+                        if(operation.getTags() != null) {
+                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
+                            for(String tag : operation.getTags()) {
+                                Map<String, String> value = new HashMap<String, String>();
+                                value.put("tag", tag);
+                                value.put("hasMore", "true");
+                                tags.add(value);
+                            }
+                            if(tags.size() > 0) {
+                                tags.get(tags.size() - 1).remove("hasMore");
+                            }
+                            if(operation.getTags().size() > 0) {
+                                String tag = operation.getTags().get(0);
+                                operation.setTags(Arrays.asList(tag));
+                            }
+                            operation.setVendorExtension("x-tags", tags);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            for (CodegenProperty var : cm.vars) {
+                // handle default value for enum, e.g. available => StatusEnum.available
+                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
+                    var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
+                }
+            }
+        }
+        return objs;
     }
 
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
@@ -175,9 +214,10 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
 
             String output = System.getProperty("swagger.codegen.jaxrs.impl.source");
-            if (output != null) {
-                result = result.replace(apiFileFolder(), implFileFolder(output));
+            if(output == null) {
+                output = "src" + File.separator + "main" + File.separator + "java";
             }
+            result = result.replace(apiFileFolder(), implFileFolder(output));
         } else if (templateName.endsWith("Factory.mustache")) {
             int ix = result.lastIndexOf('/');
             result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
@@ -195,7 +235,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     private String implFileFolder(String output) {
-        return outputFolder + "/" + output + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
     public boolean shouldOverwrite(String filename) {

@@ -1,22 +1,36 @@
 'use strict';
 
-exports.updatePet = function(body) {
+exports.updatePet = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * body (Pet)
+   **/
 
-  var examples = {};
+var examples = {};
   
 
   
+  res.end();
 }
-exports.addPet = function(body) {
+exports.addPet = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * body (Pet)
+   **/
 
-  var examples = {};
+var examples = {};
   
 
   
+  res.end();
 }
-exports.findPetsByStatus = function(status) {
+exports.findPetsByStatus = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * status (List)
+   **/
 
-  var examples = {};
+var examples = {};
   
   examples['application/json'] = [ {
   "tags" : [ {
@@ -35,13 +49,23 @@ exports.findPetsByStatus = function(status) {
   
 
   
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
   
 }
-exports.findPetsByTags = function(tags) {
+exports.findPetsByTags = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * tags (List)
+   **/
 
-  var examples = {};
+var examples = {};
   
   examples['application/json'] = [ {
   "tags" : [ {
@@ -60,13 +84,23 @@ exports.findPetsByTags = function(tags) {
   
 
   
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
   
 }
-exports.getPetById = function(petId) {
+exports.getPetById = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * petId (Long)
+   **/
 
-  var examples = {};
+var examples = {};
   
   examples['application/json'] = {
   "tags" : [ {
@@ -85,28 +119,54 @@ exports.getPetById = function(petId) {
   
 
   
-  if(Object.keys(examples).length > 0)
-    return examples[Object.keys(examples)[0]];
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
   
 }
-exports.updatePetWithForm = function(petId, name, status) {
+exports.updatePetWithForm = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * petId (String)
+   * name (String)
+   * status (String)
+   **/
 
-  var examples = {};
+var examples = {};
   
 
   
+  res.end();
 }
-exports.deletePet = function(petId, apiKey) {
+exports.deletePet = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * petId (Long)
+   * apiKey (String)
+   **/
 
-  var examples = {};
+var examples = {};
   
 
   
+  res.end();
 }
-exports.uploadFile = function(petId, additionalMetadata, file) {
+exports.uploadFile = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+   * petId (Long)
+   * additionalMetadata (String)
+   * file (file)
+   **/
 
-  var examples = {};
+var examples = {};
   
 
   
+  res.end();
 }
