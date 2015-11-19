@@ -1496,15 +1496,15 @@ public class DefaultCodegen {
             p.pattern = qp.getPattern();
             
             p.maximum = qp.getMaximum();
-            p.exclusiveMaximum = qp.getExclusiveMaximum();
+            p.exclusiveMaximum = qp.isExclusiveMaximum();
             p.minimum = qp.getMinimum();
-            p.exclusiveMinimum = qp.getExclusiveMinimum();
+            p.exclusiveMinimum = qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
             p.minLength = qp.getMinLength();
             p.pattern = qp.getPattern();
             p.maxItems = qp.getMaxItems();
             p.minItems = qp.getMinItems();
-            p.uniqueItems = qp.getUniqueItems();
+            p.uniqueItems = qp.isUniqueItems();
             p.multipleOf = qp.getMultipleOf();
         } else {
             if (!(param instanceof BodyParameter)) {
