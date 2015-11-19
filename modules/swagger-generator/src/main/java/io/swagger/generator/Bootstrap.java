@@ -16,15 +16,14 @@
 
 package io.swagger.generator;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-
-import org.apache.commons.io.IOUtils;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Bootstrap extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
@@ -50,8 +49,17 @@ public class Bootstrap extends HttpServlet {
             }
         }
 
-        bc.setSchemes(new String[]{"https"});
-        bc.setHost("generator.swagger.io");
+        String host = config.getInitParameter("generator.host");
+        if(host == null) {
+            host = "generator.swagger.io";
+        }
+        bc.setHost(host);
+
+        String scheme = config.getInitParameter("generator.protocol");
+        if(host == null) {
+            scheme = "https";
+        }
+        bc.setSchemes(new String[]{scheme});
         bc.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
         bc.setResourcePackage("io.swagger.generator.resource");
         bc.setScan(true);

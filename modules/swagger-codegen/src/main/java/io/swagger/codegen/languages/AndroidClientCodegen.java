@@ -17,6 +17,7 @@ import java.util.HashSet;
 import org.apache.commons.lang.StringUtils;
 
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
+    public static final String USE_ANDROID_MAVEN_GRADLE_PLUGIN = "useAndroidMavenGradlePlugin";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-android-client";
@@ -30,7 +31,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         outputFolder = "generated-code/android";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        templateDir = "android-java";
+        embeddedTemplateDir = templateDir = "android-java";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
@@ -59,12 +60,15 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, "groupId for use in the generated build.gradle and pom.xml"));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, "artifactId for use in the generated build.gradle and pom.xml"));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "artifact version for use in the generated build.gradle and pom.xml"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
-        cliOptions.add(new CliOption("useAndroidMavenGradlePlugin", "A flag to toggle android-maven gradle plugin. Default is true."));
+        cliOptions.add(new CliOption(USE_ANDROID_MAVEN_GRADLE_PLUGIN, "A flag to toggle android-maven gradle plugin.")
+                .defaultValue("true"));
     }
 
     public CodegenType getTag() {
@@ -220,14 +224,15 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
-        if (additionalProperties.containsKey("useAndroidMavenGradlePlugin")) {
-            this.setUseAndroidMavenGradlePlugin((Boolean) additionalProperties.get("useAndroidMavenGradlePlugin"));
+        if (additionalProperties.containsKey(USE_ANDROID_MAVEN_GRADLE_PLUGIN)) {
+            this.setUseAndroidMavenGradlePlugin(Boolean.valueOf((String) additionalProperties
+                    .get(USE_ANDROID_MAVEN_GRADLE_PLUGIN)));
         } else {
-            additionalProperties.put("useAndroidMavenGradlePlugin", useAndroidMavenGradlePlugin);
+            additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
         }
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        additionalProperties.put("useAndroidMavenGradlePlugin", useAndroidMavenGradlePlugin);
+        additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
 
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));

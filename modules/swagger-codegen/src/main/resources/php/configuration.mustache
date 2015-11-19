@@ -64,6 +64,13 @@ class Configuration
     protected $apiKeyPrefixes = array();
 
     /**
+     * Access token for OAuth
+     *
+     * @var string
+     */
+    protected $accessToken = '';
+
+    /**
      * Username for HTTP basic authentication
      *
      * @var string
@@ -193,6 +200,29 @@ class Configuration
     public function getApiKeyPrefix($apiKeyIdentifier)
     {
         return isset($this->apiKeyPrefixes[$apiKeyIdentifier]) ? $this->apiKeyPrefixes[$apiKeyIdentifier] : null;
+    }
+
+    /**
+     * Sets the access token for OAuth
+     *
+     * @param string $accessToken Token for OAuth
+     *
+     * @return Configuration
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->$accessToken = $accessToken;
+        return $this;
+    }
+
+    /**
+     * Gets the access token for OAuth
+     *
+     * @return string Access token for OAuth
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
     }
 
     /**

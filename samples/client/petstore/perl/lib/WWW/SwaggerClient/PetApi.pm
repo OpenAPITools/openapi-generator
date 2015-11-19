@@ -30,11 +30,14 @@ use Log::Any qw($log);
 use WWW::SwaggerClient::ApiClient;
 use WWW::SwaggerClient::Configuration;
 
+use base "Class::Data::Inheritable";
+
+__PACKAGE__->mk_classdata('method_documentation' => {});
+
 sub new {
     my $class   = shift;
-    my $default_api_client = $WWW::SwaggerClient::Configuration::api_client ? $WWW::SwaggerClient::Configuration::api_client  : WWW::SwaggerClient::ApiClient->new;
     my (%self) = (
-        'api_client' => $default_api_client,
+        'api_client' => WWW::SwaggerClient::ApiClient->instance,
         @_
     );
 
@@ -47,12 +50,27 @@ sub new {
 
 }
 
+
 #
 # update_pet
 #
 # Update an existing pet
 # 
 # @param Pet $body Pet object that needs to be added to the store (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'Pet',
+        description => 'Pet object that needs to be added to the store',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ update_pet } = { 
+    	summary => 'Update an existing pet',
+        params => $params,
+        returns => undef,
+        };
+}
 # @return void
 #
 sub update_pet {
@@ -87,7 +105,7 @@ sub update_pet {
     }
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -97,12 +115,27 @@ sub update_pet {
     return;
     
 }
+
 #
 # add_pet
 #
 # Add a new pet to the store
 # 
 # @param Pet $body Pet object that needs to be added to the store (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'Pet',
+        description => 'Pet object that needs to be added to the store',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ add_pet } = { 
+    	summary => 'Add a new pet to the store',
+        params => $params,
+        returns => undef,
+        };
+}
 # @return void
 #
 sub add_pet {
@@ -137,7 +170,7 @@ sub add_pet {
     }
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -147,12 +180,27 @@ sub add_pet {
     return;
     
 }
+
 #
 # find_pets_by_status
 #
 # Finds Pets by status
 # 
 # @param ARRAY[string] $status Status values that need to be considered for filter (optional)
+{
+    my $params = {
+    'status' => {
+        data_type => 'ARRAY[string]',
+        description => 'Status values that need to be considered for filter',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ find_pets_by_status } = { 
+    	summary => 'Finds Pets by status',
+        params => $params,
+        returns => 'ARRAY[Pet]',
+        };
+}
 # @return ARRAY[Pet]
 #
 sub find_pets_by_status {
@@ -187,7 +235,7 @@ sub find_pets_by_status {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -200,12 +248,27 @@ sub find_pets_by_status {
     return $_response_object;
     
 }
+
 #
 # find_pets_by_tags
 #
 # Finds Pets by tags
 # 
 # @param ARRAY[string] $tags Tags to filter by (optional)
+{
+    my $params = {
+    'tags' => {
+        data_type => 'ARRAY[string]',
+        description => 'Tags to filter by',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ find_pets_by_tags } = { 
+    	summary => 'Finds Pets by tags',
+        params => $params,
+        returns => 'ARRAY[Pet]',
+        };
+}
 # @return ARRAY[Pet]
 #
 sub find_pets_by_tags {
@@ -240,7 +303,7 @@ sub find_pets_by_tags {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -253,12 +316,27 @@ sub find_pets_by_tags {
     return $_response_object;
     
 }
+
 #
 # get_pet_by_id
 #
 # Find pet by ID
 # 
 # @param int $pet_id ID of pet that needs to be fetched (required)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'ID of pet that needs to be fetched',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ get_pet_by_id } = { 
+    	summary => 'Find pet by ID',
+        params => $params,
+        returns => 'Pet',
+        };
+}
 # @return Pet
 #
 sub get_pet_by_id {
@@ -300,7 +378,7 @@ sub get_pet_by_id {
     
 
     # authentication setting, if any
-    my $auth_settings = ['api_key', 'petstore_auth'];
+    my $auth_settings = [qw(api_key )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -313,6 +391,7 @@ sub get_pet_by_id {
     return $_response_object;
     
 }
+
 #
 # update_pet_with_form
 #
@@ -321,6 +400,30 @@ sub get_pet_by_id {
 # @param string $pet_id ID of pet that needs to be updated (required)
 # @param string $name Updated name of the pet (optional)
 # @param string $status Updated status of the pet (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'string',
+        description => 'ID of pet that needs to be updated',
+        required => '1',
+    },
+    'name' => {
+        data_type => 'string',
+        description => 'Updated name of the pet',
+        required => '0',
+    },
+    'status' => {
+        data_type => 'string',
+        description => 'Updated status of the pet',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ update_pet_with_form } = { 
+    	summary => 'Updates a pet in the store with form data',
+        params => $params,
+        returns => undef,
+        };
+}
 # @return void
 #
 sub update_pet_with_form {
@@ -372,7 +475,7 @@ sub update_pet_with_form {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -382,6 +485,7 @@ sub update_pet_with_form {
     return;
     
 }
+
 #
 # delete_pet
 #
@@ -389,6 +493,25 @@ sub update_pet_with_form {
 # 
 # @param int $pet_id Pet id to delete (required)
 # @param string $api_key  (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'Pet id to delete',
+        required => '1',
+    },
+    'api_key' => {
+        data_type => 'string',
+        description => '',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ delete_pet } = { 
+    	summary => 'Deletes a pet',
+        params => $params,
+        returns => undef,
+        };
+}
 # @return void
 #
 sub delete_pet {
@@ -433,7 +556,7 @@ sub delete_pet {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     
@@ -443,6 +566,7 @@ sub delete_pet {
     return;
     
 }
+
 #
 # upload_file
 #
@@ -451,6 +575,30 @@ sub delete_pet {
 # @param int $pet_id ID of pet to update (required)
 # @param string $additional_metadata Additional data to pass to server (optional)
 # @param file $file file to upload (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'ID of pet to update',
+        required => '1',
+    },
+    'additional_metadata' => {
+        data_type => 'string',
+        description => 'Additional data to pass to server',
+        required => '0',
+    },
+    'file' => {
+        data_type => 'file',
+        description => 'file to upload',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ upload_file } = { 
+    	summary => 'uploads an image',
+        params => $params,
+        returns => undef,
+        };
+}
 # @return void
 #
 sub upload_file {
@@ -495,7 +643,7 @@ sub upload_file {
     }# form params
     if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
-        push $form_params->{'file'}, $args{'file'};
+        push @{$form_params->{'file'}}, $args{'file'};
         
         
     }
@@ -503,7 +651,7 @@ sub upload_file {
     
 
     # authentication setting, if any
-    my $auth_settings = ['petstore_auth'];
+    my $auth_settings = [qw(petstore_auth )];
 
     # make the API Call
     

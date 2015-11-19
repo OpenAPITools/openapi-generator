@@ -140,7 +140,18 @@ use \{{invokerPackage}}\ObjectSerializer;
         }{{/pathParams}}
         {{#formParams}}// form params
         if (${{paramName}} !== null) {
-            $formParams['{{baseName}}'] = {{#isFile}}'@' . {{/isFile}}$this->apiClient->getSerializer()->toFormValue(${{paramName}});
+            {{#isFile}}
+            // PHP 5.5 introduced a CurlFile object that deprecates the old @filename syntax
+            // See: https://wiki.php.net/rfc/curl-file-upload
+            if (function_exists('curl_file_create')) {
+                $formParams['{{baseName}}'] = curl_file_create($this->apiClient->getSerializer()->toFormValue(${{paramName}}));
+            } else {
+               $formParams['{{baseName}}'] = '@' . $this->apiClient->getSerializer()->toFormValue(${{paramName}});
+            }
+            {{/isFile}}
+            {{^isFile}}
+            $formParams['{{baseName}}'] = $this->apiClient->getSerializer()->toFormValue(${{paramName}});
+            {{/isFile}}
         }{{/formParams}}
         {{#bodyParams}}// body params
         $_tempBody = null;
@@ -159,8 +170,8 @@ use \{{invokerPackage}}\ObjectSerializer;
         if (isset($apiKey)) {
             {{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $apiKey;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $apiKey;{{/isKeyInQuery}}
         }{{/isApiKey}}
-        {{#isBasic}}$headerParams['Authorization'] = 'Basic '.base64_encode($this->apiClient->getConfig()->getUsername().":".$this->apiClient->getConfig()->getPassword());{{/isBasic}}
-        {{#isOAuth}}//TODO support oauth{{/isOAuth}}
+        {{#isBasic}}$headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());{{/isBasic}}
+        {{#isOAuth}}$headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();{{/isOAuth}}
         {{/authMethods}}
         // make the API Call
         try

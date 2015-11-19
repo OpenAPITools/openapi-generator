@@ -75,12 +75,10 @@ public class ApiClient {
   private int statusCode;
   private Map<String, List<String>> responseHeaders;
 
-  private String dateFormat;
-  private DateFormat dateFormatter;
+  private DateFormat dateFormat;
+  private DateFormat datetimeFormat;
+  private boolean lenientDatetimeFormat;
   private int dateLength;
-
-  private String datetimeFormat;
-  private DateFormat datetimeFormatter;
 
   private InputStream sslCaCert;
   private boolean verifyingSsl;
@@ -95,18 +93,27 @@ public class ApiClient {
 
     json = new JSON(this);
 
-    // Use ISO 8601 format for date and datetime.
-    // See https://en.wikipedia.org/wiki/ISO_8601
-    setDateFormat("yyyy-MM-dd");
-    setDatetimeFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    /*
+     * Use RFC3339 format for date and datetime.
+     * See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
+     */
+    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    // Always use UTC as the default time zone when dealing with date (without time).
+    this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    // Use the system's default time zone when dealing with datetime (mainly formatting).
+    this.datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+    // Be lenient on datetime formats when parsing datetime from string.
+    // See <code>parseDatetime</code>.
+    this.lenientDatetimeFormat = true;
 
     // Set default User-Agent.
     setUserAgent("Java-Swagger");
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -185,32 +192,35 @@ public class ApiClient {
     return this;
   }
 
-  public String getDateFormat() {
+  public DateFormat getDateFormat() {
     return dateFormat;
   }
 
-  public ApiClient setDateFormat(String dateFormat) {
+  public ApiClient setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
-
-    this.dateFormatter = new SimpleDateFormat(dateFormat);
-    // Use UTC as the default time zone.
-    this.dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-    this.dateLength = this.dateFormatter.format(new Date()).length();
-
+    this.dateLength = this.dateFormat.format(new Date()).length();
     return this;
   }
 
-  public String getDatetimeFormat() {
+  public DateFormat getDatetimeFormat() {
     return datetimeFormat;
   }
 
-  public ApiClient setDatetimeFormat(String datetimeFormat) {
+  public ApiClient setDatetimeFormat(DateFormat datetimeFormat) {
     this.datetimeFormat = datetimeFormat;
+    return this;
+  }
 
-    this.datetimeFormatter = new SimpleDateFormat(datetimeFormat);
-    // Note: The datetime formatter uses the system's default time zone.
+  /**
+   * Whether to allow various ISO 8601 datetime formats when parsing a datetime string.
+   * @see #parseDatetime(String)
+   */
+  public boolean isLenientDatetimeFormat() {
+    return lenientDatetimeFormat;
+  }
 
+  public ApiClient setLenientDatetimeFormat(boolean lenientDatetimeFormat) {
+    this.lenientDatetimeFormat = lenientDatetimeFormat;
     return this;
   }
 
@@ -224,15 +234,15 @@ public class ApiClient {
     if (str == null)
       return null;
     try {
-      return dateFormatter.parse(str);
+      return dateFormat.parse(str);
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }
   }
 
   /**
-   * Parse the given date-time string into Date object.
-   * The default <code>datetimeFormat</code> supports these ISO 8601 datetime formats:
+   * Parse the given datetime string into Date object.
+   * When <code>lenientDatetimeFormat</code> is enabled, the following ISO 8601 datetime formats are supported:
    *   2015-08-16T08:20:05Z
    *   2015-8-16T8:20:05Z
    *   2015-08-16T08:20:05+00:00
@@ -252,25 +262,25 @@ public class ApiClient {
     if (str == null)
       return null;
 
-    if ("yyyy-MM-dd'T'HH:mm:ss.SSSZ".equals(datetimeFormat)) {
+    if (lenientDatetimeFormat) {
       /*
-       * When the default datetime format is used, process the given string
+       * When lenientDatetimeFormat is enabled, process the given string
        * to support various formats defined by ISO 8601.
        */
       // normalize time zone
-      //   trailing "Z": 2015-08-16T08:20:05Z => 2015-08-16T08:20:05+0000
-      str = str.replaceAll("[zZ]\\z", "+0000");
-      //   remove colon: 2015-08-16T08:20:05+00:00 => 2015-08-16T08:20:05+0000
-      str = str.replaceAll("([+-]\\d{2}):(\\d{2})\\z", "$1$2");
-      //   expand time zone: 2015-08-16T08:20:05+00 => 2015-08-16T08:20:05+0000
-      str = str.replaceAll("([+-]\\d{2})\\z", "$100");
+      //   trailing "Z": 2015-08-16T08:20:05Z => 2015-08-16T08:20:05+00:00
+      str = str.replaceAll("[zZ]\\z", "+00:00");
+      //   add colon: 2015-08-16T08:20:05+0000 => 2015-08-16T08:20:05+00:00
+      str = str.replaceAll("([+-]\\d{2})(\\d{2})\\z", "$1:$2");
+      //   expand time zone: 2015-08-16T08:20:05+00 => 2015-08-16T08:20:05+00:00
+      str = str.replaceAll("([+-]\\d{2})\\z", "$1:00");
       // add milliseconds when missing
-      //   2015-08-16T08:20:05+0000 => 2015-08-16T08:20:05.000+0000
-      str = str.replaceAll("(:\\d{1,2})([+-]\\d{4})\\z", "$1.000$2");
+      //   2015-08-16T08:20:05+00:00 => 2015-08-16T08:20:05.000+00:00
+      str = str.replaceAll("(:\\d{1,2})([+-]\\d{2}:\\d{2})\\z", "$1.000$2");
     }
 
     try {
-      return datetimeFormatter.parse(str);
+      return datetimeFormat.parse(str);
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }
@@ -289,14 +299,14 @@ public class ApiClient {
    * Format the given Date object into string.
    */
   public String formatDate(Date date) {
-    return dateFormatter.format(date);
+    return dateFormat.format(date);
   }
 
   /**
    * Format the given Date object into string.
    */
   public String formatDatetime(Date date) {
-    return datetimeFormatter.format(date);
+    return datetimeFormat.format(date);
   }
 
   /**
@@ -366,6 +376,19 @@ public class ApiClient {
       }
     }
     throw new RuntimeException("No API key authentication configured!");
+  }
+
+  /**
+   * Helper method to set access token for the first OAuth2 authentication.
+   */
+  public void setAccessToken(String accessToken) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setAccessToken(accessToken);
+        return;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
   /**

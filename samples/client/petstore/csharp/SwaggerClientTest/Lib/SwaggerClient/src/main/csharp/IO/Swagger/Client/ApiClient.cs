@@ -10,7 +10,6 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using RestSharp;
-using RestSharp.Extensions;
 
 namespace IO.Swagger.Client
 {
@@ -171,7 +170,7 @@ namespace IO.Swagger.Client
         /// <returns>Escaped string.</returns>
         public string EscapeString(string str)
         {
-            return RestSharp.Extensions.StringExtensions.UrlEncode(str);
+            return UrlEncode(str);
         }
     
         /// <summary>
@@ -183,9 +182,9 @@ namespace IO.Swagger.Client
         public FileParameter ParameterToFile(string name, Stream stream)
         {
             if (stream is FileStream)
-                return FileParameter.Create(name, stream.ReadAsBytes(), Path.GetFileName(((FileStream)stream).Name));
+                return FileParameter.Create(name, ReadAsBytes(stream), Path.GetFileName(((FileStream)stream).Name));
             else
-                return FileParameter.Create(name, stream.ReadAsBytes(), "no_file_name_provided");
+                return FileParameter.Create(name, ReadAsBytes(stream), "no_file_name_provided");
         }
     
         /// <summary>
@@ -214,12 +213,14 @@ namespace IO.Swagger.Client
         /// <summary>
         /// Deserialize the JSON string into a proper object.
         /// </summary>
-        /// <param name="content">HTTP body (e.g. string, JSON).</param>
+        /// <param name="response">The HTTP response.</param>
         /// <param name="type">Object type.</param>
-        /// <param name="headers"></param>
         /// <returns>Object representation of the JSON string.</returns>
-        public object Deserialize(string content, Type type, IList<Parameter> headers=null)
+        public object Deserialize(IRestResponse response, Type type)
         {
+            byte[] data = response.RawBytes;
+            string content = response.Content;
+            IList<Parameter> headers = response.Headers;
             if (type == typeof(Object)) // return an object
             {
                 return content;
@@ -227,21 +228,22 @@ namespace IO.Swagger.Client
 
             if (type == typeof(Stream))
             {
-                var filePath = String.IsNullOrEmpty(Configuration.TempFolderPath)
-                    ? Path.GetTempPath()
-                    : Configuration.TempFolderPath;
-
-                var fileName = filePath + Guid.NewGuid();
                 if (headers != null)
                 {
+                    var filePath = String.IsNullOrEmpty(Configuration.TempFolderPath)
+                        ? Path.GetTempPath()
+                        : Configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition:.*filename=['""]?([^'""\s]+)['""]?$");
                     var match = regex.Match(headers.ToString());
                     if (match.Success)
-                        fileName = filePath + match.Value.Replace("\"", "").Replace("'", "");
+                    {
+                        string fileName = filePath + match.Value.Replace("\"", "").Replace("'", "");
+                        File.WriteAllBytes(fileName, data);
+                        return new FileStream(fileName, FileMode.Open);
+                    }
                 }
-                File.WriteAllText(fileName, content);
-                return new FileStream(fileName, FileMode.Open);
-
+                var stream = new MemoryStream(data);
+                return stream;
             }
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
@@ -317,12 +319,10 @@ namespace IO.Swagger.Client
                     
                     case "api_key":
                         headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
-                        
                         break;
                     
                     case "petstore_auth":
-                        
-                        //TODO support oauth
+                        headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
                         break;
                     
                     default:
@@ -368,6 +368,62 @@ namespace IO.Swagger.Client
         public static dynamic ConvertType(dynamic source, Type dest) {
             return Convert.ChangeType(source, dest);
         }
+
+        /// <summary>
+        /// Convert stream to byte array
+        /// Credit/Ref: http://stackoverflow.com/a/221941/677735
+        /// </summary>
+        /// <param name="input">Input stream to be converted</param>
+        /// <returns>Byte array</returns>
+        public static byte[] ReadAsBytes(Stream input)
+        {
+            byte[] buffer = new byte[16*1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// URL encode a string
+        /// Credit/Ref: https://github.com/restsharp/RestSharp/blob/master/RestSharp/Extensions/StringExtensions.cs#L50
+        /// </summary>
+        /// <param name="input">String to be URL encoded</param>
+        /// <returns>Byte array</returns>
+        public static string UrlEncode(string input)
+        {
+            const int maxLength = 32766;
+
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            if (input.Length <= maxLength)
+            {
+                return Uri.EscapeDataString(input);
+            }
+
+            StringBuilder sb = new StringBuilder(input.Length * 2);
+            int index = 0;
+
+            while (index < input.Length)
+            {
+                int length = Math.Min(input.Length - index, maxLength);
+                string subString = input.Substring(index, length);
+
+                sb.Append(Uri.EscapeDataString(subString));
+                index += subString.Length;
+            }
+
+            return sb.ToString();
+        }
+
   
     }
 }

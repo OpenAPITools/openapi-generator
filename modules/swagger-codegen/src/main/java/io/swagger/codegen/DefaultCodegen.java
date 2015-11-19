@@ -78,6 +78,7 @@ public class DefaultCodegen {
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected String templateDir;
+    protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
@@ -86,6 +87,7 @@ public class DefaultCodegen {
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library = null;
     protected Boolean sortParamsByRequiredFlag = true;
+    protected Boolean ensureUniqueParams = true;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -105,7 +107,13 @@ public class DefaultCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
-            this.setSortParamsByRequiredFlag(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
+            this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENSURE_UNIQUE_PARAMS)) {
+            this.setEnsureUniqueParams(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.ENSURE_UNIQUE_PARAMS).toString()));
         }
     }
 
@@ -183,6 +191,14 @@ public class DefaultCodegen {
         return templateDir;
     }
 
+    public String embeddedTemplateDir() {
+        if (embeddedTemplateDir != null) {
+            return embeddedTemplateDir;
+        } else {
+            return templateDir;
+        }
+    }
+
     public Map<String, String> apiTemplateFiles() {
         return apiTemplateFiles;
     }
@@ -192,11 +208,11 @@ public class DefaultCodegen {
     }
 
     public String apiFileFolder() {
-        return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + apiPackage().replace('.', '/');
     }
 
     public String modelFileFolder() {
-        return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + modelPackage().replace('.', '/');
     }
 
     public Map<String, Object> additionalProperties() {
@@ -233,6 +249,10 @@ public class DefaultCodegen {
 
     public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
+    }
+
+    public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
+        this.ensureUniqueParams = ensureUniqueParams;
     }
 
     /**
@@ -423,9 +443,9 @@ public class DefaultCodegen {
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
 
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue("true"));
+        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC));
     }
 
     /**
@@ -804,6 +824,7 @@ public class DefaultCodegen {
             LOGGER.error("unexpected missing property for name " + name);
             return null;
         }
+
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
 
         property.name = toVarName(name);
@@ -1200,6 +1221,7 @@ public class DefaultCodegen {
                     op.examples = new ExampleGenerator(definitions).generate(methodResponse.getExamples(), operation.getProduces(), responseProperty);
                     op.defaultResponse = toDefaultValue(responseProperty);
                     op.returnType = cm.datatype;
+                    op.hasReference = definitions != null && definitions.containsKey(op.returnBaseType);
                     if (cm.isContainer != null) {
                         op.returnContainer = cm.containerType;
                         if ("map".equals(cm.containerType)) {
@@ -1233,6 +1255,23 @@ public class DefaultCodegen {
         if (parameters != null) {
             for (Parameter param : parameters) {
                 CodegenParameter p = fromParameter(param, imports);
+                // rename parameters to make sure all of them have unique names
+                if (ensureUniqueParams) {
+                    while (true) {
+                        boolean exists = false;
+                        for (CodegenParameter cp : allParams) {
+                            if (p.paramName.equals(cp.paramName)) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (exists) {
+                            p.paramName = generateNextName(p.paramName);
+                        } else {
+                            break;
+                        }
+                    }
+                }
                 allParams.add(p);
                 if (param instanceof QueryParameter) {
                     p.isQueryParam = new Boolean(true);
@@ -1260,6 +1299,9 @@ public class DefaultCodegen {
                     p.isFormParam = new Boolean(true);
                     formParams.add(p.copy());
                 }
+                if (p.required == null || !p.required) {
+                    op.hasOptionalParams = true;
+                }
             }
         }
         for (String i : imports) {
@@ -1271,7 +1313,7 @@ public class DefaultCodegen {
         op.httpMethod = httpMethod.toUpperCase();
 
         // move "required" parameters in front of "optional" parameters
-        if(sortParamsByRequiredFlag) {
+        if (sortParamsByRequiredFlag) {
           Collections.sort(allParams, new Comparator<CodegenParameter>() {
               @Override
               public int compare(CodegenParameter one, CodegenParameter another) {
@@ -1406,6 +1448,9 @@ public class DefaultCodegen {
                 }
                 property = new ArrayProperty(inner);
                 collectionFormat = qp.getCollectionFormat();
+                if (collectionFormat == null) {
+                    collectionFormat = "csv";
+                }
                 CodegenProperty pr = fromProperty("inner", inner);
                 p.baseType = pr.datatype;
                 p.isContainer = true;
@@ -1713,6 +1758,28 @@ public class DefaultCodegen {
         return word;
     }
 
+    /**
+     * Generate the next name for the given name, i.e. append "2" to the base name if not ending with a number,
+     * otherwise increase the number by 1. For example:
+     *   status    => status2
+     *   status2   => status3
+     *   myName100 => myName101
+     *
+     * @param name The base name
+     * @return The next name for the base name
+     */
+    private String generateNextName(String name) {
+        Pattern pattern = Pattern.compile("\\d+\\z");
+        Matcher matcher = pattern.matcher(name);
+        if (matcher.find()) {
+            String numStr = matcher.group();
+            int num = Integer.parseInt(numStr) + 1;
+            return name.substring(0, name.length() - numStr.length()) + num;
+        } else {
+            return name + "2";
+        }
+    }
+
     private void addImport(CodegenModel m, String type) {
         if (type != null && needToImport(type)) {
             m.imports.add(type);
@@ -1856,7 +1923,7 @@ public class DefaultCodegen {
 
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+        return apiFileFolder() + '/' + toApiFilename(tag) + suffix;
     }
 
     public boolean shouldOverwrite(String filename) {
@@ -1911,6 +1978,12 @@ public class DefaultCodegen {
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
         // cases in the future.
+    	
+    	// better error handling when map/array type is invalid
+    	if (name == null) {
+    	    LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
+    	    return "ERROR_UNKNOWN";
+    	}
 
         // input[] => input
         name = name.replaceAll("\\[\\]", "");

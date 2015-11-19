@@ -1,6 +1,8 @@
 package io.swagger.generator.online;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.Codegen;
@@ -14,16 +16,32 @@ import io.swagger.generator.util.ZipUtil;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.util.Json;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Generator {
     static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
+
+    public static Map<String, CliOption> getOptions(String language) throws ApiException {
+        CodegenConfig config = null;
+        try {
+            config = CodegenConfigLoader.forName(language);
+        } catch (Exception e) {
+            throw new BadRequestException(400, String.format("Unsupported target %s supplied. %s", language, e));
+        }
+        Map<String, CliOption> map = new LinkedHashMap<String, CliOption>();
+        for (CliOption option : config.cliOptions()) {
+            map.put(option.getOpt(), option);
+        }
+        return map;
+    }
 
     public enum Type {
         CLIENT("client"),
@@ -54,6 +72,10 @@ public class Generator {
             throw new BadRequestException(400, "No options were supplied");
         }
         JsonNode node = opts.getSpec();
+        if(node != null && "{}".equals(node.toString())) {
+            LOGGER.debug("ignoring empty spec");
+            node = null;
+        }
         Swagger swagger;
         if (node == null) {
             if (opts.getSwaggerUrl() != null) {
@@ -86,14 +108,13 @@ public class Generator {
         }
 
         if (opts.getOptions() != null) {
-            for (Map.Entry<String, String> entry : opts.getOptions().entrySet()) {
-                codegenConfig.additionalProperties().put(entry.getKey(), entry.getValue());
-            }
+            codegenConfig.additionalProperties().putAll(opts.getOptions());
+            codegenConfig.additionalProperties().put("swagger", swagger);
         }
 
         codegenConfig.setOutputDir(outputFolder);
 
-        Json.prettyPrint(clientOpts);
+        LOGGER.debug(Json.pretty(clientOpts));
 
         clientOptInput.setConfig(codegenConfig);
 
@@ -107,6 +128,20 @@ public class Generator {
                 zip.compressFiles(filesToAdd, outputFilename);
             } else {
                 throw new BadRequestException(400, "A target generation was attempted, but no files were created!");
+            }
+            for(File file: files) {
+                try {
+                    file.delete();
+                }
+                catch(Exception e) {
+                    LOGGER.error("unable to delete file " + file.getAbsolutePath());
+                }
+            }
+            try {
+                new File(outputFolder).delete();
+            }
+            catch (Exception e) {
+                LOGGER.error("unable to delete output folder " + outputFolder);
             }
         } catch (Exception e) {
             throw new BadRequestException(500, "Unable to build target: " + e.getMessage());

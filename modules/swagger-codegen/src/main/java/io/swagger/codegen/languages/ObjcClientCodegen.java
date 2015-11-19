@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -19,6 +20,12 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
+    public static final String CLASS_PREFIX = "classPrefix";
+    public static final String POD_NAME = "podName";
+    public static final String AUTHOR_NAME = "authorName";
+    public static final String AUTHOR_EMAIL = "authorEmail";
+    public static final String GIT_REPO_URL = "gitRepoURL";
+    public static final String LICENSE = "license";
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String podName = "SwaggerClient";
     protected String podVersion = "1.0.0";
@@ -36,7 +43,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model-body.mustache", ".m");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".m");
-        templateDir = "objc";
+        embeddedTemplateDir = templateDir = "objc";
 
         defaultIncludes.clear();
         defaultIncludes.add("bool");
@@ -113,13 +120,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("map", "NSMutableDictionary");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("classPrefix", "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`), default: `SWG`"));
-        cliOptions.add(new CliOption("podName", "cocoapods package name (convention: CameCase), default: `SwaggerClient`"));
-        cliOptions.add(new CliOption("podVersion", "cocoapods package version, default: `1.0.0`"));
-        cliOptions.add(new CliOption("authorName", "Name to use in the podspec file, default: `Swagger`"));
-        cliOptions.add(new CliOption("authorEmail", "Email to use in the podspec file, default: `apiteam@swagger.io`"));
-        cliOptions.add(new CliOption("gitRepoURL", "URL for the git repo where this podspec should point to, default: `https://github.com/swagger-api/swagger-codegen`"));
-        cliOptions.add(new CliOption("license", "License to use in the podspec file, default: `MIT`"));
+        cliOptions.add(new CliOption(CLASS_PREFIX, "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`).`")
+                .defaultValue("SWG"));
+        cliOptions.add(new CliOption(POD_NAME, "cocoapods package name (convention: CameCase).")
+                .defaultValue("SwaggerClient"));
+        cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "cocoapods package version.")
+                .defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(AUTHOR_NAME, "Name to use in the podspec file.").defaultValue("Swagger"));
+        cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("apiteam@swagger.io"));
+        cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to.")
+                .defaultValue("https://github.com/swagger-api/swagger-codegen"));
+        cliOptions.add(new CliOption(LICENSE, "License to use in the podspec file.").defaultValue("MIT"));
     }
 
     public CodegenType getTag() {
@@ -138,41 +149,41 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("podName")) {
-            setPodName((String) additionalProperties.get("podName"));
+        if (additionalProperties.containsKey(POD_NAME)) {
+            setPodName((String) additionalProperties.get(POD_NAME));
         }
 
-        if (additionalProperties.containsKey("podVersion")) {
-            setPodVersion((String) additionalProperties.get("podVersion"));
+        if (additionalProperties.containsKey(CodegenConstants.POD_VERSION)) {
+            setPodVersion((String) additionalProperties.get(CodegenConstants.POD_VERSION));
         }
 
-        if (additionalProperties.containsKey("classPrefix")) {
-            setClassPrefix((String) additionalProperties.get("classPrefix"));
+        if (additionalProperties.containsKey(CLASS_PREFIX)) {
+            setClassPrefix((String) additionalProperties.get(CLASS_PREFIX));
         }
         
-        if (additionalProperties.containsKey("authorName")) {
-            setAuthorName((String) additionalProperties.get("authorName"));
+        if (additionalProperties.containsKey(AUTHOR_NAME)) {
+            setAuthorName((String) additionalProperties.get(AUTHOR_NAME));
         }
         
-        if (additionalProperties.containsKey("authorEmail")) {
-            setAuthorEmail((String) additionalProperties.get("authorEmail"));
+        if (additionalProperties.containsKey(AUTHOR_EMAIL)) {
+            setAuthorEmail((String) additionalProperties.get(AUTHOR_EMAIL));
         }
         
-        if (additionalProperties.containsKey("gitRepoURL")) {
-            setGitRepoURL((String) additionalProperties.get("gitRepoURL"));
+        if (additionalProperties.containsKey(GIT_REPO_URL)) {
+            setGitRepoURL((String) additionalProperties.get(GIT_REPO_URL));
         }
         
-        if (additionalProperties.containsKey("license")) {
-            setLicense((String) additionalProperties.get("license"));
+        if (additionalProperties.containsKey(LICENSE)) {
+            setLicense((String) additionalProperties.get(LICENSE));
         }
 
-        additionalProperties.put("podName", podName);
-        additionalProperties.put("podVersion", podVersion);
-        additionalProperties.put("classPrefix", classPrefix);
-        additionalProperties.put("authorName", authorName);
-        additionalProperties.put("authorEmail", authorEmail);
-        additionalProperties.put("gitRepoURL", gitRepoURL);
-        additionalProperties.put("license", license);
+        additionalProperties.put(POD_NAME, podName);
+        additionalProperties.put(CodegenConstants.POD_VERSION, podVersion);
+        additionalProperties.put(CLASS_PREFIX, classPrefix);
+        additionalProperties.put(AUTHOR_NAME, authorName);
+        additionalProperties.put(AUTHOR_EMAIL, authorEmail);
+        additionalProperties.put(GIT_REPO_URL, gitRepoURL);
+        additionalProperties.put(LICENSE, license);
 
         String swaggerFolder = podName;
 

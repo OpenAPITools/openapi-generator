@@ -20,7 +20,7 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "docs";
         modelTemplateFiles.put("model.mustache", ".html");
         apiTemplateFiles.put("operation.mustache", ".html");
-        templateDir = "swagger-static";
+        embeddedTemplateDir = templateDir = "swagger-static";
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);

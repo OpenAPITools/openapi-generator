@@ -1,9 +1,12 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenModel;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
@@ -13,10 +16,15 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     protected String packageName = "IO.Swagger";
     protected String packageVersion = "1.0.0";
     protected String clientPackage = "IO.Swagger.Client";
@@ -27,7 +35,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         outputFolder = "generated-code" + File.separator + "csharp";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-        templateDir = "csharp";
+        embeddedTemplateDir = templateDir = "csharp";
         apiPackage = "IO.Swagger.Api";
         modelPackage = "IO.Swagger.Model";
 
@@ -79,28 +87,29 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("object", "Object");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("packageName", "C# package name (convention: Camel.Case), default: IO.Swagger"));
-        cliOptions.add(new CliOption("packageVersion", "C# package version, default: 1.0.0"));
-
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "C# package name (convention: Camel.Case).")
+                .defaultValue("IO.Swagger"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "C# package version.").defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("packageVersion")) {
-            packageVersion = (String) additionalProperties.get("packageVersion");
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         } else {
-            additionalProperties.put("packageVersion", packageVersion);
+            additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         }
 
-        if (additionalProperties.containsKey("packageName")) {
-            packageName = (String) additionalProperties.get("packageName");
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
             apiPackage = packageName + ".Api";
             modelPackage = packageName + ".Model";
             clientPackage = packageName + ".Client";
         } else {
-            additionalProperties.put("packageName", packageName);
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
 
         additionalProperties.put("clientPackage", clientPackage);
@@ -252,4 +261,29 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         return camelize(sanitizeName(operationId));
     }
 
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            for (CodegenProperty var : cm.vars) {
+               // check to see if model name is same as the property name
+               // which will result in compilation error
+               // if found, prepend with _ to workaround the limitation
+               if (var.name.equals(cm.name)) {
+                   var.name = "_" + var.name; 
+               }
+            }
+        }
+        return objs;
+    }
 }

@@ -1,27 +1,16 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenParameter;
-import io.swagger.codegen.CodegenResponse;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.SupportingFile;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import io.swagger.codegen.*;
+import io.swagger.models.Swagger;
+import io.swagger.util.Yaml;
+
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiVersion = "1.0.0";
@@ -55,7 +44,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        templateDir = "nodejs";
+        embeddedTemplateDir = templateDir = "nodejs";
 
         /**
          * Reserved words.  Override this with reserved words specific to your language
@@ -87,7 +76,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         // );
         supportingFiles.add(new SupportingFile("swagger.mustache",
                         "api",
-                        "swagger.json")
+                        "swagger.yaml")
         );
         supportingFiles.add(new SupportingFile("index.mustache",
                         "",
@@ -96,6 +85,10 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("package.mustache",
                         "",
                         "package.json")
+        );
+        supportingFiles.add(new SupportingFile("README.mustache",
+                        "",
+                        "README.md")
         );
         if (System.getProperty("noservice") == null) {
             apiTemplateFiles.put(
@@ -242,6 +235,14 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Swagger swagger = (Swagger)objs.get("swagger");
+        if(swagger != null) {
+            try {
+                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
         for (Map<String, Object> operations : getOperations(objs)) {
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");

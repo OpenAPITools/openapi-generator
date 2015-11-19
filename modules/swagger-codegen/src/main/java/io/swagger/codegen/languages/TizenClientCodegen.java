@@ -40,7 +40,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         modelTemplateFiles.put("model-body.mustache", ".cpp");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".cpp");
-        templateDir = "tizen";
+        embeddedTemplateDir = templateDir = "tizen";
         modelPackage = "";
 
         defaultIncludes = new HashSet<String>(

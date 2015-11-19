@@ -1,13 +1,13 @@
 /// <reference path="api.d.ts" />
 
-module API.Client {
+namespace API.Client {
     'use strict';
 
-    export class Category {
+    export interface Category {
 
-        id: number;
+        id?: number;
 
-        name: string;
+        name?: string;
     }
 
 }

@@ -1,31 +1,31 @@
 /// <reference path="api.d.ts" />
 
-module API.Client {
+namespace API.Client {
     'use strict';
 
-    export class Pet {
+    export interface Pet {
 
-        id: number;
+        id?: number;
 
-        category: Category;
+        category?: Category;
 
         name: string;
 
         photoUrls: Array<string>;
 
-        tags: Array<Tag>;
+        tags?: Array<Tag>;
 
         /**
          * pet status in the store
          */
-        status: Pet.StatusEnum;
+        status?: Pet.StatusEnum;
     }
 
-    export module Pet {
+    export namespace Pet {
 
-        export enum StatusEnum {  
-            available = <any> 'available', 
-            pending = <any> 'pending', 
+        export enum StatusEnum { 
+            available = <any> 'available',
+            pending = <any> 'pending',
             sold = <any> 'sold',
         }
     }

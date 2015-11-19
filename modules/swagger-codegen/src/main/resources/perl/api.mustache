@@ -30,11 +30,14 @@ use Log::Any qw($log);
 use WWW::{{moduleName}}::ApiClient;
 use WWW::{{moduleName}}::Configuration;
 
+use base "Class::Data::Inheritable";
+
+__PACKAGE__->mk_classdata('method_documentation' => {});
+
 sub new {
     my $class   = shift;
-    my $default_api_client = $WWW::{{moduleName}}::Configuration::api_client ? $WWW::{{moduleName}}::Configuration::api_client  : WWW::{{moduleName}}::ApiClient->new;
     my (%self) = (
-        'api_client' => $default_api_client,
+        'api_client' => WWW::{{moduleName}}::ApiClient->instance,
         @_
     );
 
@@ -49,13 +52,31 @@ sub new {
 {{#operations}}
 
 {{#operation}}
+
 #
 # {{{nickname}}}
 #
 # {{{summary}}}
 # 
 {{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
-{{/allParams}}# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{/allParams}}
+{
+    my $params = {
+{{#allParams}}
+    '{{paramName}}' => {
+        data_type => '{{dataType}}',
+        description => '{{description}}',
+        required => {{#required}}'1'{{/required}}{{^required}}'0'{{/required}},
+    },
+{{/allParams}}
+    };
+    __PACKAGE__->method_documentation->{ {{nickname}} } = { 
+    	summary => '{{summary}}',
+        params => $params,
+        returns => {{#returnType}}'{{{returnType}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
+        };
+}
+# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 #
 sub {{nickname}} {
     my ($self, %args) = @_;
@@ -100,7 +121,7 @@ sub {{nickname}} {
     {{#formParams}}# form params
     if ( exists $args{'{{paramName}}'} ) {
         {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
-        push $form_params->{'{{baseName}}'}, $args{'{{paramName}}'};
+        push @{$form_params->{'{{baseName}}'}}, $args{'{{paramName}}'};
         {{/isFile}}
         {{^isFile}}$form_params->{'{{baseName}}'} = $self->{api_client}->to_form_value($args{'{{paramName}}'});
         {{/isFile}}
@@ -112,7 +133,7 @@ sub {{nickname}} {
     }{{/bodyParams}}
 
     # authentication setting, if any
-    my $auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+    my $auth_settings = [qw({{#authMethods}}{{name}} {{/authMethods}})];
 
     # make the API Call
     {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,

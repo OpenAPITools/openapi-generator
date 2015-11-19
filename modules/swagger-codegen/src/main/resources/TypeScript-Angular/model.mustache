@@ -18,7 +18,7 @@ namespace {{package}} {
          * {{{description}}}
          */
 {{/description}}
-        {{name}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+        {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
     }
 
@@ -27,7 +27,7 @@ namespace {{package}} {
 {{#vars}}
 {{#isEnum}}
 
-        export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}} 
+        export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
             {{.}} = <any> '{{.}}',{{/values}}{{/allowableValues}}
         }
 {{/isEnum}}

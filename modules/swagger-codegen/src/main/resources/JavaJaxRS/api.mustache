@@ -22,14 +22,13 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 
-@Path("{{basePathWithoutHost}}/{{baseName}}")
+@Path("/{{baseName}}")
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
 {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
-@io.swagger.annotations.Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+@io.swagger.annotations.Api(description = "the {{baseName}} API")
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
-
    private final {{classname}}Service delegate = {{classname}}ServiceFactory.get{{classname}}();
 
 {{#operation}}
@@ -43,7 +42,7 @@ public class {{classname}}  {
             {{/hasMore}}{{/scopes}}
         }{{/isOAuth}}){{#hasMore}},
         {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}})
+    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
     @io.swagger.annotations.ApiResponses(value = { {{#responses}}
         @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},
         {{/hasMore}}{{/responses}} })

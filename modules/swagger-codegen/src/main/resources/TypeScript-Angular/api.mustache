@@ -12,26 +12,38 @@ namespace {{package}} {
     */
 {{/description}}
     export class {{classname}} {
-        private basePath = '{{basePath}}';
+        protected basePath = '{{basePath}}';
+        public defaultHeaders : any = {};
 
         static $inject: string[] = ['$http', '$httpParamSerializer'];
 
-        constructor(private $http: ng.IHttpService, basePath?: string, private $httpParamSerializer?: (d: any) => any) {
+        constructor(protected $http: ng.IHttpService, protected $httpParamSerializer?: (d: any) => any, basePath?: string) {
             if (basePath) {
                 this.basePath = basePath;
             }
         }
+
+        private extendObj<T1,T2>(objA: T1, objB: T2) {
+            for(let key in objB){
+                if(objB.hasOwnProperty(key)){
+                    objA[key] = objB[key];
+                }
+            }
+            return <T1&T2>objA;
+        }
+
 {{#operation}}
-
+        /**
+         * {{summary}}
+         * {{notes}}
+         {{#allParams}}* @param {{paramName}} {{description}}
+         {{/allParams}}*/
         public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-            let path = this.basePath + '{{path}}';
+            const path = this.basePath + '{{path}}'{{#pathParams}}
+                .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
 
-{{#pathParams}}
-            path = path.replace('{' + '{{baseName}}' + '}', String({{paramName}}));
-
-{{/pathParams}}
             let queryParameters: any = {};
-            let headerParams: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
 {{#hasFormParams}}
             let formParams: any = {};
 
@@ -42,7 +54,6 @@ namespace {{package}} {
             if (!{{paramName}}) {
                 throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
             }
-
 {{/required}}
 {{/allParams}}
 {{#queryParams}}
@@ -61,7 +72,7 @@ namespace {{package}} {
 {{/hasFormParams}}
 {{#formParams}}
             formParams['{{baseName}}'] = {{paramName}};
-            
+
 {{/formParams}}
             let httpRequestParams: any = {
                 method: '{{httpMethod}}',
@@ -76,11 +87,7 @@ namespace {{package}} {
             };
 
             if (extraHttpRequestParams) {
-                for (let k in extraHttpRequestParams) {
-                    if (extraHttpRequestParams.hasOwnProperty(k)) {
-                        httpRequestParams[k] = extraHttpRequestParams[k];
-                    }
-                }
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);

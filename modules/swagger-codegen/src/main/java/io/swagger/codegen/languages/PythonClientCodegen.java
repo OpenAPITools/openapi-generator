@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -27,7 +28,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         outputFolder = "generated-code" + File.separatorChar + "python";
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
-        templateDir = "python";
+        embeddedTemplateDir = templateDir = "python";
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -62,30 +63,33 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "return", "def", "for", "lambda", "try"));
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("packageName", "python package name (convention: snake_case), default: swagger_client"));
-        cliOptions.add(new CliOption("packageVersion", "python package version, default: 1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
+                .defaultValue("swagger_client"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
+                .defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("packageName")) {
-            setPackageName((String) additionalProperties.get("packageName"));
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         }
         else {
             setPackageName("swagger_client");
         }
 
-        if (additionalProperties.containsKey("packageVersion")) {
-            setPackageVersion((String) additionalProperties.get("packageVersion"));
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         }
         else {
             setPackageVersion("1.0.0");
         }
 
-        additionalProperties.put("packageName", packageName);
-        additionalProperties.put("packageVersion", packageVersion);
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
         String swaggerFolder = packageName;
 
@@ -171,6 +175,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // sanitize name
         name = sanitizeName(name);
 
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase();
@@ -200,6 +207,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelName(String name) {
         name = sanitizeName(name);
+
+        // remove dollar sign
+        name = name.replaceAll("$", "");
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {

@@ -354,6 +354,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-retrofit2</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/retrofit2</module>
+            </modules>
+        </profile>
+        <profile>
             <id>scala-client</id>
             <activation>
                 <property>
@@ -427,6 +439,7 @@
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
+                <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <!--module>samples/client/petstore/objc</module-->
@@ -517,7 +530,7 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>1.0.11</swagger-parser-version>
+        <swagger-parser-version>1.0.12</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
         <swagger-core-version>1.5.5-SNAPSHOT</swagger-core-version>

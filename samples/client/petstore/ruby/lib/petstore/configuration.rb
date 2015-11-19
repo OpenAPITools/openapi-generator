@@ -44,6 +44,9 @@ module Petstore
     # @return [String]
     attr_accessor :password
 
+    # Defines the access token (Bearer) used with OAuth2.
+    attr_accessor :access_token
+
     # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
     # details will be logged with `logger.debug` (see the `logger` attribute).
     # Default to false.
@@ -160,6 +163,13 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
+        'petstore_auth' =>
+          {
+            type: 'oauth2',
+            in: 'header',
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
+          },
         'api_key' =>
           {
             type: 'api_key',

@@ -95,7 +95,11 @@ class VoidAuth implements Authentication {
 */
 {{/description}}
 export class {{classname}} {
-    private basePath = '{{basePath}}';
+    protected basePath = '{{basePath}}';
+    protected defaultHeaders : any = {};
+
+
+
     public authentications = {
         'default': <Authentication>new VoidAuth(),
 {{#authMethods}}
@@ -154,17 +158,25 @@ export class {{classname}} {
 {{#isOAuth}}
 {{/isOAuth}}
 {{/authMethods}}
+    private extendObj<T1,T2>(objA: T1, objB: T2) {
+        for(let key in objB){
+            if(objB.hasOwnProperty(key)){
+                objA[key] = objB[key];
+            }
+        }
+        return <T1&T2>objA;
+    }
 {{#operation}}
-
-    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }> {
-        let path = this.url + this.basePath + '{{path}}';
-
-{{#pathParams}}
-        path = path.replace('{' + '{{baseName}}' + '}', String({{paramName}}));
-
-{{/pathParams}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
+        const path = this.url + this.basePath + '{{path}}'{{#pathParams}}
+            .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
         let queryParameters: any = {};
-        let headerParams: any = {};
+        let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
 
 {{#allParams}}{{#required}}
@@ -194,7 +206,7 @@ export class {{classname}} {
 {{/isFile}}
 
 {{/formParams}}
-        let deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}} }>();
+        let deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>();
 
         let requestOptions: request.Options = {
             method: '{{httpMethod}}',

@@ -4,10 +4,11 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CliOption;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
-import io.swagger.codegen.CliOption;
 
 import java.io.File;
 import java.util.Arrays;
@@ -16,6 +17,8 @@ import java.util.HashSet;
 import org.apache.commons.lang.StringUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
+    public static final String MODULE_NAME = "moduleName";
+    public static final String MODULE_VERSION = "moduleVersion";
     protected String moduleName = "SwaggerClient";
     protected String moduleVersion = "1.0.0";
 
@@ -25,7 +28,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separatorChar + "perl";
         modelTemplateFiles.put("object.mustache", ".pm");
         apiTemplateFiles.put("api.mustache", ".pm");
-        templateDir = "perl";
+        embeddedTemplateDir = templateDir = "perl";
 
 
         reservedWords = new HashSet<String>(
@@ -68,8 +71,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("moduleName", "perl module name (convention: CamelCase), default: SwaggerClient"));
-        cliOptions.add(new CliOption("moduleVersion", "perl module version, default: 1.0.0"));
+        cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase).").defaultValue("SwaggerClient"));
+        cliOptions.add(new CliOption(MODULE_VERSION, "Perl module version.").defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC));
+
     }
 
 
@@ -77,21 +83,25 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey("moduleVersion")) {
-            moduleVersion = (String) additionalProperties.get("moduleVersion");
+        if (additionalProperties.containsKey(MODULE_VERSION)) {
+            setModuleVersion((String) additionalProperties.get(MODULE_VERSION));
         } else {
-            additionalProperties.put("moduleVersion", moduleVersion);
+            additionalProperties.put(MODULE_VERSION, moduleVersion);
         }
 
-        if (additionalProperties.containsKey("moduleName")) {
-            moduleName = (String) additionalProperties.get("moduleName");
+        if (additionalProperties.containsKey(MODULE_NAME)) {
+            setModuleName((String) additionalProperties.get(MODULE_NAME));
         } else {
-            additionalProperties.put("moduleName", moduleName);
+            additionalProperties.put(MODULE_NAME, moduleName);
         }
 
         supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiClient.pm"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Configuration.pm"));
         supportingFiles.add(new SupportingFile("BaseObject.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Object/BaseObject.pm"));
+        supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiFactory.pm"));
+        supportingFiles.add(new SupportingFile("Role.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Role.pm"));
+        supportingFiles.add(new SupportingFile("AutoDoc.mustache", ("lib/WWW/" + moduleName + "/Role").replace('/', File.separatorChar), "AutoDoc.pm"));
+        supportingFiles.add(new SupportingFile("autodoc.script.mustache", ("bin/").replace('/', File.separatorChar), "autodoc"));
     }
 
     public CodegenType getTag() {
@@ -229,5 +239,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return underscore(operationId);
     }
 
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
 
+    public void setModuleVersion(String moduleVersion) {
+        this.moduleVersion = moduleVersion;
+    }
 }
