@@ -331,7 +331,7 @@ namespace {{packageName}}.Client
                         {
                             queryParams["{{keyParamName}}"] = apiKeyValue;
                         }{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}
-                        if (!String.IsNullOrEmpty(Configuration.Username) && !String.IsNullOrEmpty(Configuration.Password))
+                        if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
                         {
                             headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);
                         }{{/isBasic}}{{#isOAuth}}
