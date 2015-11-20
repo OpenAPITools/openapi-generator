@@ -64,6 +64,38 @@ import {{invokerPackage}}.auth.ApiKeyAuth;
 import {{invokerPackage}}.auth.OAuth;
 
 public class ApiClient {
+  public static final double JAVA_VERSION;
+  public static final boolean IS_ANDROID;
+  public static final int ANDROID_SDK_VERSION;
+
+  static {
+    JAVA_VERSION = Double.parseDouble(System.getProperty("java.specification.version"));
+    boolean isAndroid;
+    try {
+      Class.forName("android.app.Activity");
+      isAndroid = true;
+    } catch (ClassNotFoundException e) {
+      isAndroid = false;
+    }
+    IS_ANDROID = isAndroid;
+    int sdkVersion = 0;
+    if (IS_ANDROID) {
+      try {
+        sdkVersion = Class.forName("android.os.Build$VERSION").getField("SDK_INT").getInt(null);
+      } catch (Exception e) {
+        try {
+          sdkVersion = Integer.parseInt((String) Class.forName("android.os.Build$VERSION").getField("SDK").get(null));
+        } catch (Exception e2) { }
+      }
+    }
+    ANDROID_SDK_VERSION = sdkVersion;
+  }
+
+  /**
+   * The datetime format to be used when <code>lenientDatetimeFormat</code> is enabled.
+   */
+  public static final String LENIENT_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+
   private String basePath = "{{basePath}}";
   private boolean lenientOnJson = false;
   private boolean debugging = false;
@@ -100,8 +132,7 @@ public class ApiClient {
     this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     // Always use UTC as the default time zone when dealing with date (without time).
     this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    // Use the system's default time zone when dealing with datetime (mainly formatting).
-    this.datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    initDatetimeFormat();
 
     // Be lenient on datetime formats when parsing datetime from string.
     // See <code>parseDatetime</code>.
@@ -263,25 +294,30 @@ public class ApiClient {
     if (str == null)
       return null;
 
+    DateFormat format;
     if (lenientDatetimeFormat) {
       /*
-       * When lenientDatetimeFormat is enabled, process the given string
-       * to support various formats defined by ISO 8601.
+       * When lenientDatetimeFormat is enabled, normalize the date string
+       * into <code>LENIENT_DATETIME_FORMAT</code> to support various formats
+       * defined by ISO 8601.
        */
       // normalize time zone
-      //   trailing "Z": 2015-08-16T08:20:05Z => 2015-08-16T08:20:05+00:00
-      str = str.replaceAll("[zZ]\\z", "+00:00");
-      //   add colon: 2015-08-16T08:20:05+0000 => 2015-08-16T08:20:05+00:00
-      str = str.replaceAll("([+-]\\d{2})(\\d{2})\\z", "$1:$2");
-      //   expand time zone: 2015-08-16T08:20:05+00 => 2015-08-16T08:20:05+00:00
-      str = str.replaceAll("([+-]\\d{2})\\z", "$1:00");
+      //   trailing "Z": 2015-08-16T08:20:05Z => 2015-08-16T08:20:05+0000
+      str = str.replaceAll("[zZ]\\z", "+0000");
+      //   remove colon in time zone: 2015-08-16T08:20:05+00:00 => 2015-08-16T08:20:05+0000
+      str = str.replaceAll("([+-]\\d{2}):(\\d{2})\\z", "$1$2");
+      //   expand time zone: 2015-08-16T08:20:05+00 => 2015-08-16T08:20:05+0000
+      str = str.replaceAll("([+-]\\d{2})\\z", "$100");
       // add milliseconds when missing
-      //   2015-08-16T08:20:05+00:00 => 2015-08-16T08:20:05.000+00:00
-      str = str.replaceAll("(:\\d{1,2})([+-]\\d{2}:\\d{2})\\z", "$1.000$2");
+      //   2015-08-16T08:20:05+0000 => 2015-08-16T08:20:05.000+0000
+      str = str.replaceAll("(:\\d{1,2})([+-]\\d{4})\\z", "$1.000$2");
+      format = new SimpleDateFormat(LENIENT_DATETIME_FORMAT);
+    } else {
+      format = this.datetimeFormat;
     }
 
     try {
-      return datetimeFormat.parse(str);
+      return format.parse(str);
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }
@@ -913,6 +949,31 @@ public class ApiClient {
       return "application/octet-stream";
     } else {
       return contentType;
+    }
+  }
+
+  /**
+   * Initialize datetime format according to the current environment, e.g. Java 1.7 and Android.
+   */
+  private void initDatetimeFormat() {
+    String formatWithTimeZone = null;
+    if (IS_ANDROID) {
+      if (ANDROID_SDK_VERSION >= 18) {
+        // The time zone format "ZZZZZ" is available since Android 4.3 (SDK version 18)
+        formatWithTimeZone = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ";
+      }
+    } else if (JAVA_VERSION >= 1.7) {
+      // The time zone format "XXX" is available since Java 1.7
+      formatWithTimeZone = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    }
+    if (formatWithTimeZone != null) {
+      this.datetimeFormat = new SimpleDateFormat(formatWithTimeZone);
+      // NOTE: Use the system's default time zone (mainly for datetime formatting).
+    } else {
+      // Use a common format that works across all systems.
+      this.datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      // Always use the UTC time zone as we are using a constant trailing "Z" here.
+      this.datetimeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
   }
 
