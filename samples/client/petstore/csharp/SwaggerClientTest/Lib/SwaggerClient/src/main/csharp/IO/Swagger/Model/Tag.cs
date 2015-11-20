@@ -14,6 +14,26 @@ namespace IO.Swagger.Model {
   [DataContract]
   public class Tag {
     
+  
+    private Id Id;
+
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
+    [DataMember(Name="id", EmitDefaultValue=false)]
+    public Id Id { get; set; }
+    
+  
+    private Name Name;
+
+    /// <summary>
+    /// Gets or Sets Name
+    /// </summary>
+    [DataMember(Name="name", EmitDefaultValue=false)]
+    public Name Name { get; set; }
+    
+
+    
     /// <summary>
     /// Gets or Sets Id
     /// </summary>

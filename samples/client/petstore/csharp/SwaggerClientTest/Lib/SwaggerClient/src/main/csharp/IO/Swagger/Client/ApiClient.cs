@@ -317,12 +317,12 @@ namespace IO.Swagger.Client
                 switch(auth)
                 {
                     
-                    case "api_key":
-                        headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
-                        break;
-                    
                     case "petstore_auth":
                         headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+                        break;
+                    
+                    case "api_key":
+                        headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
                         break;
                     
                     default:

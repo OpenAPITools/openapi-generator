@@ -14,6 +14,81 @@ namespace IO.Swagger.Model {
   [DataContract]
   public class User {
     
+  
+    private Id Id;
+
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
+    [DataMember(Name="id", EmitDefaultValue=false)]
+    public Id Id { get; set; }
+    
+  
+    private Username Username;
+
+    /// <summary>
+    /// Gets or Sets Username
+    /// </summary>
+    [DataMember(Name="username", EmitDefaultValue=false)]
+    public Username Username { get; set; }
+    
+  
+    private FirstName FirstName;
+
+    /// <summary>
+    /// Gets or Sets FirstName
+    /// </summary>
+    [DataMember(Name="firstName", EmitDefaultValue=false)]
+    public FirstName FirstName { get; set; }
+    
+  
+    private LastName LastName;
+
+    /// <summary>
+    /// Gets or Sets LastName
+    /// </summary>
+    [DataMember(Name="lastName", EmitDefaultValue=false)]
+    public LastName LastName { get; set; }
+    
+  
+    private Email Email;
+
+    /// <summary>
+    /// Gets or Sets Email
+    /// </summary>
+    [DataMember(Name="email", EmitDefaultValue=false)]
+    public Email Email { get; set; }
+    
+  
+    private Password Password;
+
+    /// <summary>
+    /// Gets or Sets Password
+    /// </summary>
+    [DataMember(Name="password", EmitDefaultValue=false)]
+    public Password Password { get; set; }
+    
+  
+    private Phone Phone;
+
+    /// <summary>
+    /// Gets or Sets Phone
+    /// </summary>
+    [DataMember(Name="phone", EmitDefaultValue=false)]
+    public Phone Phone { get; set; }
+    
+  
+    private UserStatus UserStatus;
+
+    /// <summary>
+    /// User Status
+    /// </summary>
+    /// <value>User Status</value>
+    [DataMember(Name="userStatus", EmitDefaultValue=false)]
+    public UserStatus UserStatus { get; set; }
+    
+
+    
     /// <summary>
     /// Gets or Sets Id
     /// </summary>

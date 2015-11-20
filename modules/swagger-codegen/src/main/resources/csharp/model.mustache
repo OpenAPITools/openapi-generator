@@ -15,6 +15,22 @@ namespace {{packageName}}.Model {
   /// </summary>
   [DataContract]
   public class {{classname}}{{#parent}} : {{{parent}}}{{/parent}} {
+    {{#vars}}{{#isEnum}}
+    [JsonConverter(typeof(StringEnumConverter))]
+    {{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+    
+    {{>enumClass}}{{/items}}{{/items.isEnum}}
+  
+    private {{{name}}} {{name}};
+
+    /// <summary>
+    /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
+    /// </summary>{{#description}}
+    /// <value>{{{description}}}</value>{{/description}}
+    [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
+    public {{{name}}} {{name}} { get; set; }
+    {{/vars}}
+
     {{#vars}}
     /// <summary>
     /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}

@@ -11,7 +11,7 @@ import java.io.File;
 
 import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-04T19:58:40.953+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-19T13:52:16.052+01:00")
 public class PetApi {
   private ApiClient apiClient;
 
