@@ -306,6 +306,18 @@
             </modules>
         </profile>
         <profile>
+            <id>clojure-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>clojure</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/clojure</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-client</id>
             <activation>
                 <property>
@@ -435,6 +447,7 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/android-java</module>
+                <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/default</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
