@@ -31,6 +31,9 @@ public class HttpBasicAuth implements Authentication {
 
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+    if (username == null && password == null) {
+      return;
+    }
     String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
     try {
       headerParams.put("Authorization", "Basic " + DatatypeConverter.printBase64Binary(str.getBytes("UTF-8")));
