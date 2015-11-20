@@ -48,5 +48,15 @@ public class HttpBasicAuthTest {
         // the string below is base64-encoded result of "my-username:" with the "Basic " prefix
         expected = "Basic bXktdXNlcm5hbWU6";
         assertEquals(expected, headerParams.get("Authorization"));
+
+        // null username and password should be ignored
+        queryParams = new ArrayList<Pair>();
+        headerParams = new HashMap<String, String>();
+        auth.setUsername(null);
+        auth.setPassword(null);
+        auth.applyToParams(queryParams, headerParams);
+        // no changes to parameters
+        assertEquals(0, queryParams.size());
+        assertEquals(0, headerParams.size());
     }
 }
