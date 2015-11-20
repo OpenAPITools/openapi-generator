@@ -79,6 +79,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
+
         resource_path = '/pet'.replace('{format}', 'json')
         method = 'PUT'
 
@@ -153,6 +154,7 @@ class PetApi(object):
                 )
             params[key] = val
         del params['kwargs']
+
 
         resource_path = '/pet'.replace('{format}', 'json')
         method = 'POST'
@@ -229,6 +231,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
+
         resource_path = '/pet/findByStatus'.replace('{format}', 'json')
         method = 'GET'
 
@@ -304,6 +307,7 @@ class PetApi(object):
             params[key] = val
         del params['kwargs']
 
+
         resource_path = '/pet/findByTags'.replace('{format}', 'json')
         method = 'GET'
 
@@ -365,9 +369,6 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        # verify the required parameter 'pet_id' is set
-        if pet_id is None:
-            raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
 
         all_params = ['pet_id']
         all_params.append('callback')
@@ -381,6 +382,10 @@ class PetApi(object):
                 )
             params[key] = val
         del params['kwargs']
+
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in params) or (params['pet_id'] is None):
+            raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         method = 'GET'
@@ -445,9 +450,6 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        # verify the required parameter 'pet_id' is set
-        if pet_id is None:
-            raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
 
         all_params = ['pet_id', 'name', 'status']
         all_params.append('callback')
@@ -461,6 +463,10 @@ class PetApi(object):
                 )
             params[key] = val
         del params['kwargs']
+
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in params) or (params['pet_id'] is None):
+            raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         method = 'POST'
@@ -528,9 +534,6 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        # verify the required parameter 'pet_id' is set
-        if pet_id is None:
-            raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
 
         all_params = ['pet_id', 'api_key']
         all_params.append('callback')
@@ -544,6 +547,10 @@ class PetApi(object):
                 )
             params[key] = val
         del params['kwargs']
+
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in params) or (params['pet_id'] is None):
+            raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         method = 'DELETE'
@@ -610,9 +617,6 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        # verify the required parameter 'pet_id' is set
-        if pet_id is None:
-            raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
 
         all_params = ['pet_id', 'additional_metadata', 'file']
         all_params.append('callback')
@@ -626,6 +630,10 @@ class PetApi(object):
                 )
             params[key] = val
         del params['kwargs']
+
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in params) or (params['pet_id'] is None):
+            raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
 
         resource_path = '/pet/{petId}/uploadImage'.replace('{format}', 'json')
         method = 'POST'
