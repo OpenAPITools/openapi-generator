@@ -14,6 +14,75 @@ namespace IO.Swagger.Model {
   [DataContract]
   public class Order {
     
+  
+    private Id Id;
+
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
+    [DataMember(Name="id", EmitDefaultValue=false)]
+    public Id Id { get; set; }
+    
+  
+    private PetId PetId;
+
+    /// <summary>
+    /// Gets or Sets PetId
+    /// </summary>
+    [DataMember(Name="petId", EmitDefaultValue=false)]
+    public PetId PetId { get; set; }
+    
+  
+    private Quantity Quantity;
+
+    /// <summary>
+    /// Gets or Sets Quantity
+    /// </summary>
+    [DataMember(Name="quantity", EmitDefaultValue=false)]
+    public Quantity Quantity { get; set; }
+    
+  
+    private ShipDate ShipDate;
+
+    /// <summary>
+    /// Gets or Sets ShipDate
+    /// </summary>
+    [DataMember(Name="shipDate", EmitDefaultValue=false)]
+    public ShipDate ShipDate { get; set; }
+    
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum Status {
+  
+       [EnumMember("placed")]
+       Placed,
+  
+       [EnumMember("approved")]
+       Approved,
+  
+       [EnumMember("delivered")]
+       Delivered
+    }
+  
+    private Status Status;
+
+    /// <summary>
+    /// Order Status
+    /// </summary>
+    /// <value>Order Status</value>
+    [DataMember(Name="status", EmitDefaultValue=false)]
+    public Status Status { get; set; }
+    
+  
+    private Complete Complete;
+
+    /// <summary>
+    /// Gets or Sets Complete
+    /// </summary>
+    [DataMember(Name="complete", EmitDefaultValue=false)]
+    public Complete Complete { get; set; }
+    
+
+    
     /// <summary>
     /// Gets or Sets Id
     /// </summary>

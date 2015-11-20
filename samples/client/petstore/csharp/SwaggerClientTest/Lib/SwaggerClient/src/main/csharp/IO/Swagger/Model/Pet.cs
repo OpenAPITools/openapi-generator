@@ -14,6 +14,75 @@ namespace IO.Swagger.Model {
   [DataContract]
   public class Pet {
     
+  
+    private Id Id;
+
+    /// <summary>
+    /// Gets or Sets Id
+    /// </summary>
+    [DataMember(Name="id", EmitDefaultValue=false)]
+    public Id Id { get; set; }
+    
+  
+    private Category Category;
+
+    /// <summary>
+    /// Gets or Sets Category
+    /// </summary>
+    [DataMember(Name="category", EmitDefaultValue=false)]
+    public Category Category { get; set; }
+    
+  
+    private Name Name;
+
+    /// <summary>
+    /// Gets or Sets Name
+    /// </summary>
+    [DataMember(Name="name", EmitDefaultValue=false)]
+    public Name Name { get; set; }
+    
+  
+    private PhotoUrls PhotoUrls;
+
+    /// <summary>
+    /// Gets or Sets PhotoUrls
+    /// </summary>
+    [DataMember(Name="photoUrls", EmitDefaultValue=false)]
+    public PhotoUrls PhotoUrls { get; set; }
+    
+  
+    private Tags Tags;
+
+    /// <summary>
+    /// Gets or Sets Tags
+    /// </summary>
+    [DataMember(Name="tags", EmitDefaultValue=false)]
+    public Tags Tags { get; set; }
+    
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum Status {
+  
+       [EnumMember("available")]
+       Available,
+  
+       [EnumMember("pending")]
+       Pending,
+  
+       [EnumMember("sold")]
+       Sold
+    }
+  
+    private Status Status;
+
+    /// <summary>
+    /// pet status in the store
+    /// </summary>
+    /// <value>pet status in the store</value>
+    [DataMember(Name="status", EmitDefaultValue=false)]
+    public Status Status { get; set; }
+    
+
+    
     /// <summary>
     /// Gets or Sets Id
     /// </summary>

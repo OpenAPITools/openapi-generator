@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenProperty;
@@ -11,6 +12,7 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.codegen.CliOption;
+import io.swagger.models.Model;
 
 import java.io.File;
 import java.util.Arrays;
@@ -18,8 +20,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +34,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     protected String packageVersion = "1.0.0";
     protected String clientPackage = "IO.Swagger.Client";
     protected String sourceFolder = "src" + File.separator + "main" + File.separator + "csharp";
+    protected String localVariablePrefix = "";
 
     public CSharpClientCodegen() {
         super();
@@ -261,12 +267,17 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         return camelize(sanitizeName(operationId));
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
+    @Override
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
 
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
+        if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
+            final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
+        }
+
+        return codegenModel;
     }
 
     @Override
@@ -276,14 +287,133 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (CodegenProperty var : cm.vars) {
-               // check to see if model name is same as the property name
-               // which will result in compilation error
-               // if found, prepend with _ to workaround the limitation
-               if (var.name.equals(cm.name)) {
-                   var.name = "_" + var.name; 
-               }
+                Map<String, Object> allowableValues = var.allowableValues;
+
+                // handle ArrayProperty
+                if (var.items != null) {
+                    allowableValues = var.items.allowableValues;
+                }
+
+                if (allowableValues == null) {
+                    continue;
+                }
+                List<String> values = (List<String>) allowableValues.get("values");
+                if (values == null) {
+                    continue;
+                }
+
+                // put "enumVars" map into `allowableValues", including `name` and `value`
+                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                String commonPrefix = findCommonPrefixOfVars(values);
+                int truncateIdx = commonPrefix.length();
+                for (String value : values) {
+                    Map<String, String> enumVar = new HashMap<String, String>();
+                    String enumName;
+                    if (truncateIdx == 0) {
+                        enumName = value;
+                    } else {
+                        enumName = value.substring(truncateIdx);
+                        if ("".equals(enumName)) {
+                            enumName = value;
+                        }
+                    }
+                    enumVar.put("name", toEnumVarName(enumName));
+                    enumVar.put("jsonname", value);
+                    enumVar.put("value", value);
+                    enumVars.add(enumVar);
+                }
+                allowableValues.put("enumVars", enumVars);
+                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
+                if (var.defaultValue != null) {
+                    String enumName = null;
+                    for (Map<String, String> enumVar : enumVars) {
+                        if (var.defaultValue.equals(enumVar.get("value"))) {
+                            enumName = enumVar.get("name");
+                            break;
+                        }
+                    }
+                    if (enumName != null) {
+                        var.defaultValue = var.datatypeWithEnum + "." + enumName;
+                    }
+                }
             }
         }
         return objs;
+    }
+
+    private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        // This generator uses inline classes to define enums, which breaks when
+        // dealing with models that have subTypes. To clean this up, we will analyze
+        // the parent and child models, look for enums that match, and remove
+        // them from the child models and leave them in the parent.
+        // Because the child models extend the parents, the enums will be available via the parent.
+
+        // Only bother with reconciliation if the parent model has enums.
+        if (parentCodegenModel.hasEnums) {
+
+            // Get the properties for the parent and child models
+            final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
+            List<CodegenProperty> codegenProperties = codegenModel.vars;
+
+            // Iterate over all of the parent model properties
+            boolean removedChildEnum = false;
+            for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+                // Look for enums
+                if (parentModelCodegenPropery.isEnum) {
+                    // Now that we have found an enum in the parent class,
+                    // and search the child class for the same enum.
+                    Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+                    while (iterator.hasNext()) {
+                        CodegenProperty codegenProperty = iterator.next();
+                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                            // We found an enum in the child class that is
+                            // a duplicate of the one in the parent, so remove it.
+                            iterator.remove();
+                            removedChildEnum = true;
+                        }
+                    }
+                }
+            }
+            
+            if(removedChildEnum) {
+                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
+                int count = 0, numVars = codegenProperties.size();
+                for(CodegenProperty codegenProperty : codegenProperties) {
+                    count += 1;
+                    codegenProperty.hasMore = (count < numVars) ? true : null;
+                }
+                codegenModel.vars = codegenProperties;
+            }
+        }
+
+        return codegenModel;
+    }
+
+    private String findCommonPrefixOfVars(List<String> vars) {
+        String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
+        // exclude trailing characters that should be part of a valid variable
+        // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
+        return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+    }
+
+    private String toEnumVarName(String value) {
+        String var = value.replaceAll("_", " ");
+        var = WordUtils.capitalizeFully(var);
+        var = var.replaceAll("\\W+", "");
+
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
+        }
+    }
+
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
     }
 }
