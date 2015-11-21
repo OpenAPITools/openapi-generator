@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Text;
 using System.Collections;
@@ -126,15 +127,15 @@ namespace IO.Swagger.Model
                     this.Name != null &&
                     this.Name.Equals(other.Name)
                 ) && 
-//                (
-//                    this.PhotoUrls == other.PhotoUrls ||
-//                    this.PhotoUrls != null &&
-//                    this.PhotoUrls.Equals(other.PhotoUrls)
-//                ) && 
+                (
+                    this.PhotoUrls == other.PhotoUrls ||
+                    this.PhotoUrls != null &&
+                    this.PhotoUrls.SequenceEqual(other.PhotoUrls)
+                ) && 
                 (
                     this.Tags == other.Tags ||
                     this.Tags != null &&
-                    this.Tags.Equals(other.Tags)
+                    this.Tags.SequenceEqual(other.Tags)
                 ) && 
                 (
                     this.Status == other.Status ||

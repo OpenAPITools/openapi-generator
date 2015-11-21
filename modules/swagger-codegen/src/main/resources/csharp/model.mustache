@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Text;
 using System.Collections;
@@ -72,12 +73,17 @@ namespace {{packageName}}.Model
             if (other == null)
                 return false;
 
-            return {{#vars}}
+            return {{#vars}}{{#isNotContainer}}
                 (
                     this.{{name}} == other.{{name}} ||
                     this.{{name}} != null &&
                     this.{{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/vars}};
+                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
+                (
+                    this.{{name}} == other.{{name}} ||
+                    this.{{name}} != null &&
+                    this.{{name}}.SequenceEqual(other.{{name}})
+                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}};
         }
 
         /// <summary>
