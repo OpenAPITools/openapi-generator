@@ -852,7 +852,7 @@ public class ApiClient {
 
     Request request = null;
 
-    if(progressRequestListener != null) {
+    if(progressRequestListener != null && reqBody != null) {
       ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, progressRequestListener);
       request = reqBuilder.method(method, progressRequestBody).build();
     } else {

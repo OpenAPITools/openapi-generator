@@ -487,7 +487,7 @@ public class PetApi {
   }
   
   /* Build call for updatePetWithForm */
-  private Call updatePetWithFormCall(String petId, String name, String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call updatePetWithFormCall(String petId,String name,String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -546,7 +546,7 @@ public class PetApi {
    * @param status Updated status of the pet
    */
   public void updatePetWithForm(String petId, String name, String status) throws ApiException {
-    Call call = updatePetWithFormCall(petId, name, status, null, null);
+    Call call = updatePetWithFormCall(petId,name,status, null, null);
     apiClient.execute(call);
   }
 
@@ -580,13 +580,13 @@ public class PetApi {
       };
     }
 
-    Call call = updatePetWithFormCall(petId, name, status, progressListener, progressRequestListener);
+    Call call = updatePetWithFormCall(petId,name,status, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for deletePet */
-  private Call deletePetCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call deletePetCall(Long petId,String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -642,7 +642,7 @@ public class PetApi {
    * @param apiKey 
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
-    Call call = deletePetCall(petId, apiKey, null, null);
+    Call call = deletePetCall(petId,apiKey, null, null);
     apiClient.execute(call);
   }
 
@@ -675,13 +675,13 @@ public class PetApi {
       };
     }
 
-    Call call = deletePetCall(petId, apiKey, progressListener, progressRequestListener);
+    Call call = deletePetCall(petId,apiKey, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for uploadFile */
-  private Call uploadFileCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call uploadFileCall(Long petId,String additionalMetadata,File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -740,7 +740,7 @@ public class PetApi {
    * @param file file to upload
    */
   public void uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-    Call call = uploadFileCall(petId, additionalMetadata, file, null, null);
+    Call call = uploadFileCall(petId,additionalMetadata,file, null, null);
     apiClient.execute(call);
   }
 
@@ -774,7 +774,7 @@ public class PetApi {
       };
     }
 
-    Call call = uploadFileCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
+    Call call = uploadFileCall(petId,additionalMetadata,file, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
