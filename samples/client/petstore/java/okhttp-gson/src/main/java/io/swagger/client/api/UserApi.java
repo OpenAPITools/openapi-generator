@@ -298,7 +298,7 @@ public class UserApi {
   }
   
   /* Build call for loginUser */
-  private Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call loginUserCall(String username,String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
 
@@ -351,7 +351,7 @@ public class UserApi {
    * @return String
    */
   public String loginUser(String username, String password) throws ApiException {
-    Call call = loginUserCall(username, password, null, null);
+    Call call = loginUserCall(username,password, null, null);
     Type returnType = new TypeToken<String>(){}.getType();
     return apiClient.execute(call, returnType);
   }
@@ -385,14 +385,14 @@ public class UserApi {
       };
     }
 
-    Call call = loginUserCall(username, password, progressListener, progressRequestListener);
+    Call call = loginUserCall(username,password, progressListener, progressRequestListener);
     Type returnType = new TypeToken<String>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
   }
   
   /* Build call for logoutUser */
-  private Call logoutUserCall(, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call logoutUserCall( final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
 
@@ -438,7 +438,7 @@ public class UserApi {
    * 
    */
   public void logoutUser() throws ApiException {
-    Call call = logoutUserCall(, null, null);
+    Call call = logoutUserCall( null, null);
     apiClient.execute(call);
   }
 
@@ -469,7 +469,7 @@ public class UserApi {
       };
     }
 
-    Call call = logoutUserCall(, progressListener, progressRequestListener);
+    Call call = logoutUserCall( progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
@@ -569,7 +569,7 @@ public class UserApi {
   }
   
   /* Build call for updateUser */
-  private Call updateUserCall(String username, User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call updateUserCall(String username,User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = body;
     
     // verify the required parameter 'username' is set
@@ -623,7 +623,7 @@ public class UserApi {
    * @param body Updated user object
    */
   public void updateUser(String username, User body) throws ApiException {
-    Call call = updateUserCall(username, body, null, null);
+    Call call = updateUserCall(username,body, null, null);
     apiClient.execute(call);
   }
 
@@ -656,7 +656,7 @@ public class UserApi {
       };
     }
 
-    Call call = updateUserCall(username, body, progressListener, progressRequestListener);
+    Call call = updateUserCall(username,body, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }

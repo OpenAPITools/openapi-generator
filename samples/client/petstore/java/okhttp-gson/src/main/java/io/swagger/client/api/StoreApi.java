@@ -43,7 +43,7 @@ public class StoreApi {
 
   
   /* Build call for getInventory */
-  private Call getInventoryCall(, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call getInventoryCall( final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
 
@@ -90,7 +90,7 @@ public class StoreApi {
    * @return Map<String, Integer>
    */
   public Map<String, Integer> getInventory() throws ApiException {
-    Call call = getInventoryCall(, null, null);
+    Call call = getInventoryCall( null, null);
     Type returnType = new TypeToken<Map<String, Integer>>(){}.getType();
     return apiClient.execute(call, returnType);
   }
@@ -122,7 +122,7 @@ public class StoreApi {
       };
     }
 
-    Call call = getInventoryCall(, progressListener, progressRequestListener);
+    Call call = getInventoryCall( progressListener, progressRequestListener);
     Type returnType = new TypeToken<Map<String, Integer>>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
