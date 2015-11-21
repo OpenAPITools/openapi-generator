@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using IO.Swagger.Api;
@@ -166,7 +167,7 @@ namespace SwaggerClient.TestPet
 			p1.Category = category1;
 			p1.PhotoUrls = photoUrls1;
 
-			// create pet
+			// create pet 2
 			Pet p2 = new Pet();
 			p2.Id = petId;
 			p2.Name = "Csharp test";
@@ -185,9 +186,25 @@ namespace SwaggerClient.TestPet
 			p2.Category = category2;
 			p2.PhotoUrls = photoUrls2;
 
+			// p1 and p2 should be equal (both object and attribute level)
 			Assert.IsTrue (category1.Equals (category2));
-			Assert.IsTrue (tag1.Equals (tag2));
-			Assert.IsTrue (p1.Equals(p2));
+			Assert.IsTrue (tags1.SequenceEqual (tags2));
+			Assert.IsTrue (p1.PhotoUrls.SequenceEqual(p2.PhotoUrls));
+
+			Assert.IsTrue (p1.Equals (p2));
+
+			// update attribute to that p1 and p2 are not equal
+			category2.Name = "new category name";
+			Assert.IsFalse(category1.Equals (category2));
+
+			tags2 = new List<Tag> ();
+			Assert.IsFalse (tags1.SequenceEqual (tags2));
+
+			// photoUrls has not changed so it should be equal
+			Assert.IsTrue (p1.PhotoUrls.SequenceEqual(p2.PhotoUrls));
+
+			Assert.IsFalse (p1.Equals (p2));
+
 		}
 
 	}
