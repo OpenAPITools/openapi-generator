@@ -144,6 +144,52 @@ namespace SwaggerClient.TestPet
 
 		}
 
+		[Test ()]
+		public void TestEqual()
+		{
+			// create pet
+			Pet p1 = new Pet();
+			p1.Id = petId;
+			p1.Name = "Csharp test";
+			p1.Status = "available";
+			// create Category object
+			Category category1 = new Category();
+			category1.Id = 56;
+			category1.Name = "sample category name2";
+			List<String> photoUrls1 = new List<String>(new String[] {"sample photoUrls"});
+			// create Tag object
+			Tag tag1 = new Tag();
+			tag1.Id = petId;
+			tag1.Name = "sample tag name1";
+			List<Tag> tags1 = new List<Tag>(new Tag[] {tag1});
+			p1.Tags = tags1;
+			p1.Category = category1;
+			p1.PhotoUrls = photoUrls1;
+
+			// create pet
+			Pet p2 = new Pet();
+			p2.Id = petId;
+			p2.Name = "Csharp test";
+			p2.Status = "available";
+			// create Category object
+			Category category2 = new Category();
+			category2.Id = 56;
+			category2.Name = "sample category name2";
+			List<String> photoUrls2 = new List<String>(new String[] {"sample photoUrls"});
+			// create Tag object
+			Tag tag2 = new Tag();
+			tag2.Id = petId;
+			tag2.Name = "sample tag name1";
+			List<Tag> tags2 = new List<Tag>(new Tag[] {tag2});
+			p2.Tags = tags2;
+			p2.Category = category2;
+			p2.PhotoUrls = photoUrls2;
+
+			Assert.IsTrue (category1.Equals (category2));
+			Assert.IsTrue (tag1.Equals (tag2));
+			Assert.IsTrue (p1.Equals(p2));
+		}
+
 	}
 }
 
