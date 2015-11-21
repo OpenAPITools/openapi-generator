@@ -143,8 +143,8 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -820,7 +820,7 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @return The HTTP call
    */
-  public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames) throws ApiException {
+  public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     final String url = buildUrl(path, queryParams);
@@ -850,7 +850,15 @@ public class ApiClient {
       reqBody = RequestBody.create(MediaType.parse(contentType), serialize(body, contentType));
     }
 
-    Request request = reqBuilder.method(method, reqBody).build();
+    Request request = null;
+
+    if(progressRequestListener != null) {
+      ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, progressRequestListener);
+      request = reqBuilder.method(method, progressRequestBody).build();
+    } else {
+      request = reqBuilder.method(method, reqBody).build();
+    }
+
     return httpClient.newCall(request);
   }
 
