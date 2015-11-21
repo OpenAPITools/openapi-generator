@@ -5,10 +5,16 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
+import io.swagger.client.ProgressRequestBody;
+import io.swagger.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 import io.swagger.client.model.User;
 import java.util.*;
@@ -37,7 +43,7 @@ public class UserApi {
 
   
   /* Build call for createUser */
-  private Call createUserCall(User body) throws ApiException {
+  private Call createUserCall(User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = body;
     
 
@@ -62,8 +68,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -72,7 +90,7 @@ public class UserApi {
    * @param body Created user object
    */
   public void createUser(User body) throws ApiException {
-    Call call = createUserCall(body);
+    Call call = createUserCall(body, null, null);
     apiClient.execute(call);
   }
 
@@ -83,14 +101,34 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call createUserAsync(User body, ApiCallback<Void> callback) throws ApiException {
-    Call call = createUserCall(body);
+  public Call createUserAsync(User body, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = createUserCall(body, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for createUsersWithArrayInput */
-  private Call createUsersWithArrayInputCall(List<User> body) throws ApiException {
+  private Call createUsersWithArrayInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = body;
     
 
@@ -115,8 +153,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -125,7 +175,7 @@ public class UserApi {
    * @param body List of user object
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
-    Call call = createUsersWithArrayInputCall(body);
+    Call call = createUsersWithArrayInputCall(body, null, null);
     apiClient.execute(call);
   }
 
@@ -136,14 +186,34 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call createUsersWithArrayInputAsync(List<User> body, ApiCallback<Void> callback) throws ApiException {
-    Call call = createUsersWithArrayInputCall(body);
+  public Call createUsersWithArrayInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = createUsersWithArrayInputCall(body, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for createUsersWithListInput */
-  private Call createUsersWithListInputCall(List<User> body) throws ApiException {
+  private Call createUsersWithListInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = body;
     
 
@@ -168,8 +238,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -178,7 +260,7 @@ public class UserApi {
    * @param body List of user object
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
-    Call call = createUsersWithListInputCall(body);
+    Call call = createUsersWithListInputCall(body, null, null);
     apiClient.execute(call);
   }
 
@@ -189,14 +271,34 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call createUsersWithListInputAsync(List<User> body, ApiCallback<Void> callback) throws ApiException {
-    Call call = createUsersWithListInputCall(body);
+  public Call createUsersWithListInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = createUsersWithListInputCall(body, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for loginUser */
-  private Call loginUserCall(String username, String password) throws ApiException {
+  private Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
 
@@ -225,8 +327,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -237,7 +351,7 @@ public class UserApi {
    * @return String
    */
   public String loginUser(String username, String password) throws ApiException {
-    Call call = loginUserCall(username, password);
+    Call call = loginUserCall(username, password, null, null);
     Type returnType = new TypeToken<String>(){}.getType();
     return apiClient.execute(call, returnType);
   }
@@ -250,15 +364,35 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call loginUserAsync(String username, String password, ApiCallback<String> callback) throws ApiException {
-    Call call = loginUserCall(username, password);
+  public Call loginUserAsync(String username, String password, final ApiCallback<String> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = loginUserCall(username, password, progressListener, progressRequestListener);
     Type returnType = new TypeToken<String>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
   }
   
   /* Build call for logoutUser */
-  private Call logoutUserCall() throws ApiException {
+  private Call logoutUserCall(, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
 
@@ -283,8 +417,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -292,7 +438,7 @@ public class UserApi {
    * 
    */
   public void logoutUser() throws ApiException {
-    Call call = logoutUserCall();
+    Call call = logoutUserCall(, null, null);
     apiClient.execute(call);
   }
 
@@ -302,14 +448,34 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call logoutUserAsync(ApiCallback<Void> callback) throws ApiException {
-    Call call = logoutUserCall();
+  public Call logoutUserAsync(final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = logoutUserCall(, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for getUserByName */
-  private Call getUserByNameCall(String username) throws ApiException {
+  private Call getUserByNameCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'username' is set
@@ -340,8 +506,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -351,7 +529,7 @@ public class UserApi {
    * @return User
    */
   public User getUserByName(String username) throws ApiException {
-    Call call = getUserByNameCall(username);
+    Call call = getUserByNameCall(username, null, null);
     Type returnType = new TypeToken<User>(){}.getType();
     return apiClient.execute(call, returnType);
   }
@@ -363,15 +541,35 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call getUserByNameAsync(String username, ApiCallback<User> callback) throws ApiException {
-    Call call = getUserByNameCall(username);
+  public Call getUserByNameAsync(String username, final ApiCallback<User> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = getUserByNameCall(username, progressListener, progressRequestListener);
     Type returnType = new TypeToken<User>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
   }
   
   /* Build call for updateUser */
-  private Call updateUserCall(String username, User body) throws ApiException {
+  private Call updateUserCall(String username, User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = body;
     
     // verify the required parameter 'username' is set
@@ -402,8 +600,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "PUT", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "PUT", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -413,7 +623,7 @@ public class UserApi {
    * @param body Updated user object
    */
   public void updateUser(String username, User body) throws ApiException {
-    Call call = updateUserCall(username, body);
+    Call call = updateUserCall(username, body, null, null);
     apiClient.execute(call);
   }
 
@@ -425,14 +635,34 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call updateUserAsync(String username, User body, ApiCallback<Void> callback) throws ApiException {
-    Call call = updateUserCall(username, body);
+  public Call updateUserAsync(String username, User body, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = updateUserCall(username, body, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for deleteUser */
-  private Call deleteUserCall(String username) throws ApiException {
+  private Call deleteUserCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'username' is set
@@ -463,8 +693,20 @@ public class UserApi {
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
     headerParams.put("Content-Type", contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "DELETE", queryParams, postBody, headerParams, formParams, authNames);
+    return apiClient.buildCall(path, "DELETE", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
   /**
@@ -473,7 +715,7 @@ public class UserApi {
    * @param username The name that needs to be deleted
    */
   public void deleteUser(String username) throws ApiException {
-    Call call = deleteUserCall(username);
+    Call call = deleteUserCall(username, null, null);
     apiClient.execute(call);
   }
 
@@ -484,8 +726,28 @@ public class UserApi {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call deleteUserAsync(String username, ApiCallback<Void> callback) throws ApiException {
-    Call call = deleteUserCall(username);
+  public Call deleteUserAsync(String username, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = deleteUserCall(username, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
