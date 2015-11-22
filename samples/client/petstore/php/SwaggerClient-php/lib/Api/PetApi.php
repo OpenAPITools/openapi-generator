@@ -135,8 +135,10 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        // this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
         
         // make the API Call
         try
@@ -200,8 +202,10 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        // this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
         
         // make the API Call
         try
@@ -264,8 +268,10 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        // this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
         
         // make the API Call
         try
@@ -340,8 +346,10 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        // this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
         
         // make the API Call
         try
@@ -424,11 +432,11 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
+        // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-        if (isset($apiKey)) {
+        if ($apiKey !== null) {
             $headerParams['api_key'] = $apiKey;
         }
-        
         
         
         // make the API Call
@@ -526,8 +534,10 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        // this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
         
         // make the API Call
         try
@@ -602,8 +612,10 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        // this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
         
         // make the API Call
         try
@@ -694,8 +706,10 @@ class PetApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
-        
-        $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        // this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
         
         // make the API Call
         try

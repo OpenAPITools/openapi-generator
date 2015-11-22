@@ -130,11 +130,11 @@ class StoreApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
+        // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-        if (isset($apiKey)) {
+        if ($apiKey !== null) {
             $headerParams['api_key'] = $apiKey;
         }
-        
         
         
         // make the API Call
