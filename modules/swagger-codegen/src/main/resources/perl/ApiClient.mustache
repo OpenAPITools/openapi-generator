@@ -317,14 +317,28 @@ sub update_params_for_auth {
     foreach my $auth (@$auth_settings) {
         # determine which one to use
         if (!defined($auth)) {
+            # TODO show warning about auth setting not defined
         }
         {{#authMethods}}elsif ($auth eq '{{name}}') {
-            {{#isApiKey}}{{#isKeyInHeader}}$header_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInHeader}}{{#isKeyInQuery}}$query_params->{'{{keyParamName}}'} = $self->get_api_key_with_prefix('{{keyParamName}}');{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}$header_params->{'Authorization'} = 'Basic '.encode_base64($WWW::{{moduleName}}::Configuration::username.":".$WWW::{{moduleName}}::Configuration::password);{{/isBasic}}
-            {{#isOAuth}}$header_params->{'Authorization'} = 'Bearer ' . $WWW::{{moduleName}}::Configuration::access_token;{{/isOAuth}}
+            {{#isApiKey}}{{#isKeyInHeader}}
+            my $api_key = $self->get_api_key_with_prefix('{{keyParamName}}');
+            if ($api_key) {
+                $header_params->{'{{keyParamName}}'} = $api_key;
+            }{{/isKeyInHeader}}{{#isKeyInQuery}}
+            my $api_key = $self->get_api_key_with_prefix('{{keyParamName}}');
+            if ($api_key) {
+                $query_params->{'{{keyParamName}}'} = $api_key;
+            }{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}
+            if ($WWW::{{moduleName}}::Configuration::username || $WWW::{{moduleName}}::Configuration::password) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64($WWW::{{moduleName}}::Configuration::username . ":" . $WWW::{{moduleName}}::Configuration::password);
+            }{{/isBasic}}{{#isOAuth}}
+            if ($WWW::{{moduleName}}::Configuration::access_token) {
+                $header_params->{'Authorization'} = 'Bearer ' . $WWW::{{moduleName}}::Configuration::access_token;
+            }{{/isOAuth}}
         }
         {{/authMethods}}
         else {
-        	# TODO show warning about security definition not found
+       	    # TODO show warning about security definition not found
         }
     }
 }
