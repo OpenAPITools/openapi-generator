@@ -49,7 +49,9 @@ namespace SwaggerClient.TestPet
 			petApi.DeletePet(petId, "test key");
 		}
 
-
+		/// <summary>
+		/// Test GetPetByIdAsync
+		/// </summary>
 		[Test ()]
 		public void TestGetPetByIdAsync ()
 		{
@@ -74,6 +76,9 @@ namespace SwaggerClient.TestPet
 
 		}
 
+		/// <summary>
+		/// Test GetPetById
+		/// </summary>
 		[Test ()]
 		public void TestGetPetById ()
 		{
@@ -97,6 +102,9 @@ namespace SwaggerClient.TestPet
 
 		}
 
+		/// <summary>
+		/// Test UpdatePetWithForm
+		/// </summary>
 		[Test ()]
 		public void TestUpdatePetWithForm ()
 		{
@@ -115,6 +123,9 @@ namespace SwaggerClient.TestPet
 			Assert.AreEqual (56, response.Category.Id);
 		}
 
+		/// <summary>
+		/// Test UploadFile
+		/// </summary>
 		[Test ()]
 		public void TestUploadFile ()
 		{
@@ -129,7 +140,9 @@ namespace SwaggerClient.TestPet
 
 		}
 
-
+		/// <summary>
+		/// Test FindPetByStatus
+		/// </summary>
 		[Test ()]
 		public void TestFindPetByStatus ()
 		{
@@ -145,6 +158,9 @@ namespace SwaggerClient.TestPet
 
 		}
 
+		/// <summary>
+		/// Test Equal
+		/// </summary>
 		[Test ()]
 		public void TestEqual()
 		{
