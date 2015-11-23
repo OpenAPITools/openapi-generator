@@ -27,12 +27,12 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
         String packagePath = "SwaggerServer";
 
-        modelPackage = packagePath + "/lib/models";
-        apiPackage = packagePath + "/lib";
-        outputFolder = "generated-code/slim";
+        modelPackage = packagePath + "\\lib\\Models";
+        apiPackage = packagePath + "\\lib";
+        outputFolder = "generated-code" + File.separator + "slim";
+        modelTemplateFiles.put("model.mustache", ".php");
 
-        // no model, api files
-        modelTemplateFiles.clear();
+        // no api files
         apiTemplateFiles.clear();
 
         embeddedTemplateDir = templateDir = "slim";
