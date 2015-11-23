@@ -166,12 +166,18 @@ use \{{invokerPackage}}\ObjectSerializer;
             $httpBody = $formParams; // for HTTP post (form)
         }
         {{#authMethods}}{{#isApiKey}}
+        // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('{{keyParamName}}');
-        if (isset($apiKey)) {
+        if ($apiKey !== null) {
             {{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $apiKey;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $apiKey;{{/isKeyInQuery}}
         }{{/isApiKey}}
-        {{#isBasic}}$headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());{{/isBasic}}
-        {{#isOAuth}}$headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();{{/isOAuth}}
+        {{#isBasic}}// this endpoint requires HTTP basic authentication
+        if ($this->apiClient->getConfig()->getUsername() !== null or $this->apiClient->getConfig()->getPassword() !== null) {
+            $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
+        }{{/isBasic}}{{#isOAuth}}// this endpoint requires OAuth (access token)
+        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }{{/isOAuth}}
         {{/authMethods}}
         // make the API Call
         try
