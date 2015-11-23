@@ -1,182 +1,256 @@
 <?php
+/**
+ * Swagger Petstore
+ * @version 1.0.0
+ */
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $app = new Slim\App();
 
 
-    
-        
+/**
+ * POST User
+ * Create user
+ */
+$app->POST('/user', function($request, $response, $args) {
             
-
-$app->POST('/user', function(Application $app, Request $request) {
             
-            
-            return new Response('How about implementing createUser as a POST method ?');
+            $response->write('How about implementing createUser as a POST method ?');
+            return $response;
             });
 
-            
 
-$app->POST('/user/createWithArray', function(Application $app, Request $request) {
+/**
+ * POST User
+ * Creates list of users with given input array
+ */
+$app->POST('/user/createWithArray', function($request, $response, $args) {
             
             
-            return new Response('How about implementing createUsersWithArrayInput as a POST method ?');
+            $response->write('How about implementing createUsersWithArrayInput as a POST method ?');
+            return $response;
             });
 
-            
 
-$app->POST('/user/createWithList', function(Application $app, Request $request) {
+/**
+ * POST User
+ * Creates list of users with given input array
+ */
+$app->POST('/user/createWithList', function($request, $response, $args) {
             
             
-            return new Response('How about implementing createUsersWithListInput as a POST method ?');
+            $response->write('How about implementing createUsersWithListInput as a POST method ?');
+            return $response;
             });
 
-            
 
-$app->GET('/user/login', function(Application $app, Request $request) {
-            $username = $request->get('username');    $password = $request->get('password');    
+/**
+ * GET User
+ * Logs user into the system
+ */
+$app->GET('/user/login', function($request, $response, $args) {
+            $queryParams = $request->getQueryParams();
+            $username = $queryParams['username'];    $password = $queryParams['password'];    
             
-            return new Response('How about implementing loginUser as a GET method ?');
+            $response->write('How about implementing loginUser as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->GET('/user/logout', function(Application $app, Request $request) {
+/**
+ * GET User
+ * Logs out current logged in user session
+ */
+$app->GET('/user/logout', function($request, $response, $args) {
             
             
-            return new Response('How about implementing logoutUser as a GET method ?');
+            $response->write('How about implementing logoutUser as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->GET('/user/{username}', function(Application $app, Request $request, $username) {
+/**
+ * GET User
+ * Get user by user name
+ */
+$app->GET('/user/{username}', function($request, $response, $args) {
             
             
-            return new Response('How about implementing getUserByName as a GET method ?');
+            $response->write('How about implementing getUserByName as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->PUT('/user/{username}', function(Application $app, Request $request, $username) {
+/**
+ * PUT User
+ * Updated user
+ */
+$app->PUT('/user/{username}', function($request, $response, $args) {
             
             
-            return new Response('How about implementing updateUser as a PUT method ?');
+            $response->write('How about implementing updateUser as a PUT method ?');
+            return $response;
             });
 
-            
 
-$app->DELETE('/user/{username}', function(Application $app, Request $request, $username) {
+/**
+ * DELETE User
+ * Delete user
+ */
+$app->DELETE('/user/{username}', function($request, $response, $args) {
             
             
-            return new Response('How about implementing deleteUser as a DELETE method ?');
+            $response->write('How about implementing deleteUser as a DELETE method ?');
+            return $response;
             });
 
-            
-        
-    
-        
-            
 
-$app->GET('/store/inventory', function(Application $app, Request $request) {
+/**
+ * GET Store
+ * Returns pet inventories by status
+ */
+$app->GET('/store/inventory', function($request, $response, $args) {
             
             
-            return new Response('How about implementing getInventory as a GET method ?');
+            $response->write('How about implementing getInventory as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->POST('/store/order', function(Application $app, Request $request) {
+/**
+ * POST Store
+ * Place an order for a pet
+ */
+$app->POST('/store/order', function($request, $response, $args) {
             
             
-            return new Response('How about implementing placeOrder as a POST method ?');
+            $response->write('How about implementing placeOrder as a POST method ?');
+            return $response;
             });
 
-            
 
-$app->GET('/store/order/{orderId}', function(Application $app, Request $request, $order_id) {
+/**
+ * GET Store
+ * Find purchase order by ID
+ */
+$app->GET('/store/order/{orderId}', function($request, $response, $args) {
             
             
-            return new Response('How about implementing getOrderById as a GET method ?');
+            $response->write('How about implementing getOrderById as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->DELETE('/store/order/{orderId}', function(Application $app, Request $request, $order_id) {
+/**
+ * DELETE Store
+ * Delete purchase order by ID
+ */
+$app->DELETE('/store/order/{orderId}', function($request, $response, $args) {
             
             
-            return new Response('How about implementing deleteOrder as a DELETE method ?');
+            $response->write('How about implementing deleteOrder as a DELETE method ?');
+            return $response;
             });
 
-            
-        
-    
-        
-            
 
-$app->PUT('/pet', function(Application $app, Request $request) {
+/**
+ * PUT Pet
+ * Update an existing pet
+ */
+$app->PUT('/pet', function($request, $response, $args) {
             
             
-            return new Response('How about implementing updatePet as a PUT method ?');
+            $response->write('How about implementing updatePet as a PUT method ?');
+            return $response;
             });
 
-            
 
-$app->POST('/pet', function(Application $app, Request $request) {
+/**
+ * POST Pet
+ * Add a new pet to the store
+ */
+$app->POST('/pet', function($request, $response, $args) {
             
             
-            return new Response('How about implementing addPet as a POST method ?');
+            $response->write('How about implementing addPet as a POST method ?');
+            return $response;
             });
 
-            
 
-$app->GET('/pet/findByStatus', function(Application $app, Request $request) {
-            $status = $request->get('status');    
+/**
+ * GET Pet
+ * Finds Pets by status
+ */
+$app->GET('/pet/findByStatus', function($request, $response, $args) {
+            $queryParams = $request->getQueryParams();
+            $status = $queryParams['status'];    
             
-            return new Response('How about implementing findPetsByStatus as a GET method ?');
+            $response->write('How about implementing findPetsByStatus as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->GET('/pet/findByTags', function(Application $app, Request $request) {
-            $tags = $request->get('tags');    
+/**
+ * GET Pet
+ * Finds Pets by tags
+ */
+$app->GET('/pet/findByTags', function($request, $response, $args) {
+            $queryParams = $request->getQueryParams();
+            $tags = $queryParams['tags'];    
             
-            return new Response('How about implementing findPetsByTags as a GET method ?');
+            $response->write('How about implementing findPetsByTags as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->GET('/pet/{petId}', function(Application $app, Request $request, $pet_id) {
+/**
+ * GET Pet
+ * Find pet by ID
+ */
+$app->GET('/pet/{petId}', function($request, $response, $args) {
             
             
-            return new Response('How about implementing getPetById as a GET method ?');
+            $response->write('How about implementing getPetById as a GET method ?');
+            return $response;
             });
 
-            
 
-$app->POST('/pet/{petId}', function(Application $app, Request $request, $pet_id) {
+/**
+ * POST Pet
+ * Updates a pet in the store with form data
+ */
+$app->POST('/pet/{petId}', function($request, $response, $args) {
             
-            $name = $request->get('name');    $status = $request->get('status');    
-            return new Response('How about implementing updatePetWithForm as a POST method ?');
+            $name = $args['name'];    $status = $args['status'];    
+            $response->write('How about implementing updatePetWithForm as a POST method ?');
+            return $response;
             });
 
-            
 
-$app->DELETE('/pet/{petId}', function(Application $app, Request $request, $pet_id) {
+/**
+ * DELETE Pet
+ * Deletes a pet
+ */
+$app->DELETE('/pet/{petId}', function($request, $response, $args) {
             
             
-            return new Response('How about implementing deletePet as a DELETE method ?');
+            $response->write('How about implementing deletePet as a DELETE method ?');
+            return $response;
             });
 
-            
 
-$app->POST('/pet/{petId}/uploadImage', function(Application $app, Request $request, $pet_id) {
+/**
+ * POST Pet
+ * uploads an image
+ */
+$app->POST('/pet/{petId}/uploadImage', function($request, $response, $args) {
             
-            $additional_metadata = $request->get('additional_metadata');    $file = $request->get('file');    
-            return new Response('How about implementing uploadFile as a POST method ?');
+            $additional_metadata = $args['additional_metadata'];    $file = $args['file'];    
+            $response->write('How about implementing uploadFile as a POST method ?');
+            return $response;
             });
 
-            
-        
-    
 
 
 $app->run();

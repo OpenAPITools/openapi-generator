@@ -1,22 +1,26 @@
 <?php
+{{#apiInfo}}/**
+ * {{appName}}
+ * @version {{appVersion}}
+ */
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $app = new Slim\App();
 
-{{#apiInfo}}
-    {{#apis}}
-        {{#operations}}
-            {{#operation}}
-
-$app->{{httpMethod}}('{{path}}', function(Application $app, Request $request{{#pathParams}}, ${{paramName}}{{/pathParams}}) {
-            {{#queryParams}}${{paramName}} = $request->get('{{paramName}}');{{newline}}    {{/queryParams}}
-            {{#formParams}}${{paramName}} = $request->get('{{paramName}}');{{newline}}    {{/formParams}}
-            return new Response('How about implementing {{nickname}} as a {{httpMethod}} method ?');
+{{#apis}}{{#operations}}{{#operation}}
+/**
+ * {{httpMethod}} {{baseName}}
+ * {{summary}}
+ */
+$app->{{httpMethod}}('{{path}}', function($request, $response, $args) {
+            {{#hasQueryParams}}$queryParams = $request->getQueryParams();
+            {{#queryParams}}${{paramName}} = $queryParams['{{paramName}}'];{{newline}}    {{/queryParams}}{{/hasQueryParams}}
+            {{#hasFormParams}}{{#formParams}}${{paramName}} = $args['{{paramName}}'];{{newline}}    {{/formParams}}{{/hasFormParams}}
+            $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
+            return $response;
             });
 
-            {{/operation}}
-        {{/operations}}
-    {{/apis}}
-{{/apiInfo}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 $app->run();
