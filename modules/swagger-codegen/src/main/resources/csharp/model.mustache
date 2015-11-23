@@ -31,7 +31,7 @@ namespace {{packageName}}.Model {
     public {{{name}}} {{name}} { get; set; }
     {{/vars}}
 
-    {{#vars}}
+    {{#vars}}{{^isEnum}}
     /// <summary>
     /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
     /// </summary>{{#description}}
@@ -39,7 +39,7 @@ namespace {{packageName}}.Model {
     [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
     public {{{datatype}}} {{name}} { get; set; }
 
-    {{/vars}}
+    {{/isEnum}}{{/vars}}
 
     /// <summary>
     /// Get the string presentation of the object
