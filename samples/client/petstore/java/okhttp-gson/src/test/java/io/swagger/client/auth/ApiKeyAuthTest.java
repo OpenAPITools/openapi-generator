@@ -30,8 +30,22 @@ public class ApiKeyAuthTest {
     }
 
     @Test
+    public void testApplyToParamsInQueryWithNullValue() {
+        List<Pair> queryParams = new ArrayList<Pair>();
+        Map<String, String> headerParams = new HashMap<String, String>();
+
+        ApiKeyAuth auth = new ApiKeyAuth("query", "api_key");
+        auth.setApiKey(null);
+        auth.applyToParams(queryParams, headerParams);
+
+        // no changes to parameters
+        assertEquals(0, queryParams.size());
+        assertEquals(0, headerParams.size());
+    }
+
+    @Test
     public void testApplyToParamsInHeaderWithPrefix() {
-            List<Pair> queryParams = new ArrayList<Pair>();
+        List<Pair> queryParams = new ArrayList<Pair>();
         Map<String, String> headerParams = new HashMap<String, String>();
 
         ApiKeyAuth auth = new ApiKeyAuth("header", "X-API-TOKEN");
@@ -43,5 +57,20 @@ public class ApiKeyAuthTest {
         assertEquals(0, queryParams.size());
         assertEquals(1, headerParams.size());
         assertEquals("Token my-api-token", headerParams.get("X-API-TOKEN"));
+    }
+
+    @Test
+    public void testApplyToParamsInHeaderWithNullValue() {
+        List<Pair> queryParams = new ArrayList<Pair>();
+        Map<String, String> headerParams = new HashMap<String, String>();
+
+        ApiKeyAuth auth = new ApiKeyAuth("header", "X-API-TOKEN");
+        auth.setApiKey(null);
+        auth.setApiKeyPrefix("Token");
+        auth.applyToParams(queryParams, headerParams);
+
+        // no changes to parameters
+        assertEquals(0, queryParams.size());
+        assertEquals(0, headerParams.size());
     }
 }
