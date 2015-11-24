@@ -4,23 +4,6 @@
     <Files>
       <File FileName="TestPet.cs" Line="8" Column="25" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="SwaggerClientTest" expanded="True">
-            <Node name="SwaggerClientTest" expanded="True">
-              <Node name="SwaggerClient" expanded="True">
-                <Node name="TestPet" expanded="True">
-                  <Node name="TestPet" expanded="True">
-                    <Node name="TestEqual" selected="True" />
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

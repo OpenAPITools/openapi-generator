@@ -198,10 +198,12 @@ namespace IO.Swagger.Client
         {
             if (obj is DateTime)
                 return ((DateTime)obj).ToString ("u");
-            else if (obj is IList) {
+            else if (obj is IList)
+            {
                 string flattenString = "";
                 string separator = ",";
-                foreach (var param in (IList)obj) {
+                foreach (var param in (IList)obj)
+                {
                     flattenString += param.ToString() + separator;
                 }
                 return flattenString.Remove(flattenString.Length - 1);;
@@ -318,15 +320,24 @@ namespace IO.Swagger.Client
                 {
                     
                     case "api_key":
-                        headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
+                        
+                        var apiKeyValue = GetApiKeyWithPrefix("api_key");
+                        if (!String.IsNullOrEmpty(apiKeyValue))
+                        {
+                            headerParams["api_key"] = apiKeyValue;
+                        }
                         break;
                     
                     case "petstore_auth":
-                        headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+                        
+                        if (!String.IsNullOrEmpty(Configuration.AccessToken))
+                        {
+                            headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+                        }
                         break;
                     
                     default:
-                        //TODO show warning about security definition not found
+                        //show warning about security definition not found
                         break;
                 }
             }
@@ -339,11 +350,14 @@ namespace IO.Swagger.Client
         /// </summary>
         /// <param name="accepts">The accepts array to select from.</param>
         /// <returns>The Accept header to use.</returns>
-        public String SelectHeaderAccept(String[] accepts) {
+        public String SelectHeaderAccept(String[] accepts)
+        {
             if (accepts.Length == 0)
                 return null;
+
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                 return "application/json";
+
             return String.Join(",", accepts);
         }
  
@@ -354,8 +368,7 @@ namespace IO.Swagger.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            var textByte = System.Text.Encoding.UTF8.GetBytes(text);
-            return System.Convert.ToBase64String(textByte);
+            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
         }
     
         /// <summary>
@@ -365,7 +378,8 @@ namespace IO.Swagger.Client
         /// <param name="source">Object to be casted</param>
         /// <param name="dest">Target type</param>
         /// <returns>Casted object</returns>
-        public static dynamic ConvertType(dynamic source, Type dest) {
+        public static dynamic ConvertType(dynamic source, Type dest)
+        {
             return Convert.ChangeType(source, dest);
         }
 
