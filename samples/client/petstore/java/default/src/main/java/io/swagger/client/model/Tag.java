@@ -3,13 +3,14 @@ package io.swagger.client.model;
 import io.swagger.client.StringUtil;
 
 
+import java.util.Objects;
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-30T16:36:47.681+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-23T19:53:03.542+08:00")
 public class Tag   {
   
   private Long id = null;
@@ -40,6 +41,24 @@ public class Tag   {
   }
 
   
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tag tag = (Tag) o;
+    return Objects.equals(id, tag.id) &&
+        Objects.equals(name, tag.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
+  }
 
   @Override
   public String toString()  {
