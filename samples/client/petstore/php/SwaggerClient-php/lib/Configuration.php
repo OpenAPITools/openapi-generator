@@ -211,7 +211,7 @@ class Configuration
      */
     public function setAccessToken($accessToken)
     {
-        $this->$accessToken = $accessToken;
+        $this->accessToken = $accessToken;
         return $this;
     }
 
