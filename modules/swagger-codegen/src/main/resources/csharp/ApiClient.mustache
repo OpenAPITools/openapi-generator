@@ -198,10 +198,12 @@ namespace {{packageName}}.Client
         {
             if (obj is DateTime)
                 return ((DateTime)obj).ToString ("u");
-            else if (obj is IList) {
+            else if (obj is IList)
+            {
                 string flattenString = "";
                 string separator = ",";
-                foreach (var param in (IList)obj) {
+                foreach (var param in (IList)obj)
+                {
                     flattenString += param.ToString() + separator;
                 }
                 return flattenString.Remove(flattenString.Length - 1);;
@@ -318,11 +320,29 @@ namespace {{packageName}}.Client
                 {
                     {{#authMethods}}
                     case "{{name}}":
-                        {{#isApiKey}}{{#isKeyInHeader}}headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}queryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}{{#isOAuth}}headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;{{/isOAuth}}
+                        {{#isApiKey}}{{#isKeyInHeader}}
+                        var apiKeyValue = GetApiKeyWithPrefix("{{keyParamName}}");
+                        if (!String.IsNullOrEmpty(apiKeyValue))
+                        {
+                            headerParams["{{keyParamName}}"] = apiKeyValue;
+                        }{{/isKeyInHeader}}{{#isKeyInQuery}}
+                        var apiKeyValue = GetApiKeyWithPrefix("{{keyParamName}}");
+                        if (!String.IsNullOrEmpty(apiKeyValue))
+                        {
+                            queryParams["{{keyParamName}}"] = apiKeyValue;
+                        }{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}
+                        if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
+                        {
+                            headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);
+                        }{{/isBasic}}{{#isOAuth}}
+                        if (!String.IsNullOrEmpty(Configuration.AccessToken))
+                        {
+                            headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+                        }{{/isOAuth}}
                         break;
                     {{/authMethods}}
                     default:
-                        //TODO show warning about security definition not found
+                        //show warning about security definition not found
                         break;
                 }
             }
@@ -335,11 +355,14 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <param name="accepts">The accepts array to select from.</param>
         /// <returns>The Accept header to use.</returns>
-        public String SelectHeaderAccept(String[] accepts) {
+        public String SelectHeaderAccept(String[] accepts)
+        {
             if (accepts.Length == 0)
                 return null;
+
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                 return "application/json";
+
             return String.Join(",", accepts);
         }
  
@@ -350,8 +373,7 @@ namespace {{packageName}}.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            var textByte = System.Text.Encoding.UTF8.GetBytes(text);
-            return System.Convert.ToBase64String(textByte);
+            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
         }
     
         /// <summary>
@@ -361,7 +383,8 @@ namespace {{packageName}}.Client
         /// <param name="source">Object to be casted</param>
         /// <param name="dest">Target type</param>
         /// <returns>Casted object</returns>
-        public static dynamic ConvertType(dynamic source, Type dest) {
+        public static dynamic ConvertType(dynamic source, Type dest)
+        {
             return Convert.ChangeType(source, dest);
         }
 
