@@ -82,6 +82,10 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertNotEquals($apiClient3, $apiClient4);
     // customied pet api not using the old pet api's api client
     $this->assertNotEquals($pet_api2->getApiClient(), $pet_api3->getApiClient());
+
+    // test access token
+    $api_client->getConfig()->setAccessToken("testing_only");
+    $this->assertSame('testing_only', $api_client->getConfig()->getAccessToken());
   }
 
   // test getPetById with a Pet object (id 10005)
