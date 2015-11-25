@@ -125,5 +125,40 @@ describe "Pet" do
       result = @pet_api.upload_file(10002, file: File.new('hello.txt'), additional_metadata: 'metadata')
       result.should be_nil
     end
+
+    it "should implement eql? and hash" do
+      pet1 = Petstore::Pet.new
+      pet2 = Petstore::Pet.new
+      pet1.should == pet2
+      pet2.should == pet1
+      pet1.eql?(pet2).should == true
+      pet2.eql?(pet1).should == true
+      pet1.hash.should == pet2.hash
+      pet1.should == pet1
+      pet1.eql?(pet1).should == true
+      pet1.hash.should == pet1.hash
+
+      pet1.name = 'really-happy'
+      pet1.photo_urls = ['http://foo.bar.com/1', 'http://foo.bar.com/2']
+      pet1.should_not == pet2
+      pet2.should_not == pet1
+      pet1.eql?(pet2).should == false
+      pet2.eql?(pet1).should == false
+      pet1.hash.should_not == pet2.hash
+      pet1.should == pet1
+      pet1.eql?(pet1).should == true
+      pet1.hash.should == pet1.hash
+
+      pet2.name = 'really-happy'
+      pet2.photo_urls = ['http://foo.bar.com/1', 'http://foo.bar.com/2']
+      pet1.should == pet2
+      pet2.should == pet1
+      pet1.eql?(pet2).should == true
+      pet2.eql?(pet1).should == true
+      pet1.hash.should == pet2.hash
+      pet2.should == pet2
+      pet2.eql?(pet2).should == true
+      pet2.hash.should == pet2.hash
+    end
   end
 end
