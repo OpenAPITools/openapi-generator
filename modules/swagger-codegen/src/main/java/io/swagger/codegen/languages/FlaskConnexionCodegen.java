@@ -5,6 +5,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import io.swagger.codegen.*;
+import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
@@ -205,13 +206,15 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
                 if(path.getOperations() != null) {
-                    for(Operation operation : path.getOperations()) {
-                        String operationId = operation.getOperationId();
-                        if(operationId != null && operationId.indexOf(".") == -1) {
-                            operation.setVendorExtension("x-operationId", underscore(sanitizeName(operationId)));
-                            operationId = controllerPackage + "." + defaultController + "." + underscore(sanitizeName(operationId));
-                            operation.setOperationId(operationId);
+                    for(Map.Entry<HttpMethod, Operation> entry : path.getOperationMap().entrySet()) {
+                        String httpMethod = entry.getKey().name().toLowerCase();
+                        Operation operation = entry.getValue();
+                        String operationId = getOrGenerateOperationId(operation, pathname, httpMethod);
+                        String xOperationId = underscore(sanitizeName(operationId));
+                        if(!operationId.contains(".")) {
+                            operation.setOperationId(controllerPackage + "." + defaultController + "." + xOperationId);
                         }
+                        operation.setVendorExtension("x-operationId", xOperationId);
                         if(operation.getTags() != null) {
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                             for(String tag : operation.getTags()) {

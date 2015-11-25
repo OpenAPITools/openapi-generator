@@ -45,9 +45,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "add_pet"
       x-tags:
       - tag: "pet"
+      x-operationId: "add_pet"
     put:
       tags:
       - "pet"
@@ -78,9 +78,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "update_pet"
       x-tags:
       - tag: "pet"
+      x-operationId: "update_pet"
   /pet/findByStatus:
     get:
       tags:
@@ -114,9 +114,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "find_pets_by_status"
       x-tags:
       - tag: "pet"
+      x-operationId: "find_pets_by_status"
   /pet/findByTags:
     get:
       tags:
@@ -150,9 +150,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "find_pets_by_tags"
       x-tags:
       - tag: "pet"
+      x-operationId: "find_pets_by_tags"
   /pet/{petId}:
     get:
       tags:
@@ -185,9 +185,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "get_pet_by_id"
       x-tags:
       - tag: "pet"
+      x-operationId: "get_pet_by_id"
     post:
       tags:
       - "pet"
@@ -222,9 +222,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "update_pet_with_form"
       x-tags:
       - tag: "pet"
+      x-operationId: "update_pet_with_form"
     delete:
       tags:
       - "pet"
@@ -253,9 +253,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "delete_pet"
       x-tags:
       - tag: "pet"
+      x-operationId: "delete_pet"
   /pet/{petId}/uploadImage:
     post:
       tags:
@@ -292,9 +292,9 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "upload_file"
       x-tags:
       - tag: "pet"
+      x-operationId: "upload_file"
   /store/inventory:
     get:
       tags:
@@ -316,9 +316,9 @@ paths:
               format: "int32"
       security:
       - api_key: []
-      x-operationId: "get_inventory"
       x-tags:
       - tag: "store"
+      x-operationId: "get_inventory"
   /store/order:
     post:
       tags:
@@ -343,9 +343,9 @@ paths:
             $ref: "#/definitions/Order"
         400:
           description: "Invalid Order"
-      x-operationId: "place_order"
       x-tags:
       - tag: "store"
+      x-operationId: "place_order"
   /store/order/{orderId}:
     get:
       tags:
@@ -372,9 +372,9 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-operationId: "get_order_by_id"
       x-tags:
       - tag: "store"
+      x-operationId: "get_order_by_id"
     delete:
       tags:
       - "store"
@@ -396,9 +396,9 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-operationId: "delete_order"
       x-tags:
       - tag: "store"
+      x-operationId: "delete_order"
   /user:
     post:
       tags:
@@ -419,9 +419,9 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "create_user"
       x-tags:
       - tag: "user"
+      x-operationId: "create_user"
   /user/createWithArray:
     post:
       tags:
@@ -444,9 +444,9 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "create_users_with_array_input"
       x-tags:
       - tag: "user"
+      x-operationId: "create_users_with_array_input"
   /user/createWithList:
     post:
       tags:
@@ -469,9 +469,9 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "create_users_with_list_input"
       x-tags:
       - tag: "user"
+      x-operationId: "create_users_with_list_input"
   /user/login:
     get:
       tags:
@@ -500,9 +500,9 @@ paths:
             type: "string"
         400:
           description: "Invalid username/password supplied"
-      x-operationId: "login_user"
       x-tags:
       - tag: "user"
+      x-operationId: "login_user"
   /user/logout:
     get:
       tags:
@@ -517,9 +517,9 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "logout_user"
       x-tags:
       - tag: "user"
+      x-operationId: "logout_user"
   /user/{username}:
     get:
       tags:
@@ -555,9 +555,9 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-operationId: "get_user_by_name"
       x-tags:
       - tag: "user"
+      x-operationId: "get_user_by_name"
     put:
       tags:
       - "user"
@@ -584,9 +584,9 @@ paths:
           description: "Invalid user supplied"
         404:
           description: "User not found"
-      x-operationId: "update_user"
       x-tags:
       - tag: "user"
+      x-operationId: "update_user"
     delete:
       tags:
       - "user"
@@ -607,14 +607,10 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-operationId: "delete_user"
       x-tags:
       - tag: "user"
+      x-operationId: "delete_user"
 securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
   petstore_auth:
     type: "oauth2"
     authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
@@ -622,6 +618,10 @@ securityDefinitions:
     scopes:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
 definitions:
   User:
     properties:
