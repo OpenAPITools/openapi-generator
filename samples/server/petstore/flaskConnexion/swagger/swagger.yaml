@@ -47,7 +47,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "add_pet"
     put:
       tags:
       - "pet"
@@ -80,7 +79,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "update_pet"
   /pet/findByStatus:
     get:
       tags:
@@ -116,7 +114,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "find_pets_by_status"
   /pet/findByTags:
     get:
       tags:
@@ -152,7 +149,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "find_pets_by_tags"
   /pet/{petId}:
     get:
       tags:
@@ -187,7 +183,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "get_pet_by_id"
     post:
       tags:
       - "pet"
@@ -224,7 +219,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "update_pet_with_form"
     delete:
       tags:
       - "pet"
@@ -255,7 +249,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "delete_pet"
   /pet/{petId}/uploadImage:
     post:
       tags:
@@ -294,7 +287,6 @@ paths:
         - "read:pets"
       x-tags:
       - tag: "pet"
-      x-operationId: "upload_file"
   /store/inventory:
     get:
       tags:
@@ -318,7 +310,6 @@ paths:
       - api_key: []
       x-tags:
       - tag: "store"
-      x-operationId: "get_inventory"
   /store/order:
     post:
       tags:
@@ -345,7 +336,6 @@ paths:
           description: "Invalid Order"
       x-tags:
       - tag: "store"
-      x-operationId: "place_order"
   /store/order/{orderId}:
     get:
       tags:
@@ -374,7 +364,6 @@ paths:
           description: "Order not found"
       x-tags:
       - tag: "store"
-      x-operationId: "get_order_by_id"
     delete:
       tags:
       - "store"
@@ -398,7 +387,6 @@ paths:
           description: "Order not found"
       x-tags:
       - tag: "store"
-      x-operationId: "delete_order"
   /user:
     post:
       tags:
@@ -421,7 +409,6 @@ paths:
           description: "successful operation"
       x-tags:
       - tag: "user"
-      x-operationId: "create_user"
   /user/createWithArray:
     post:
       tags:
@@ -446,7 +433,6 @@ paths:
           description: "successful operation"
       x-tags:
       - tag: "user"
-      x-operationId: "create_users_with_array_input"
   /user/createWithList:
     post:
       tags:
@@ -471,7 +457,6 @@ paths:
           description: "successful operation"
       x-tags:
       - tag: "user"
-      x-operationId: "create_users_with_list_input"
   /user/login:
     get:
       tags:
@@ -502,7 +487,6 @@ paths:
           description: "Invalid username/password supplied"
       x-tags:
       - tag: "user"
-      x-operationId: "login_user"
   /user/logout:
     get:
       tags:
@@ -519,7 +503,6 @@ paths:
           description: "successful operation"
       x-tags:
       - tag: "user"
-      x-operationId: "logout_user"
   /user/{username}:
     get:
       tags:
@@ -557,7 +540,6 @@ paths:
           description: "User not found"
       x-tags:
       - tag: "user"
-      x-operationId: "get_user_by_name"
     put:
       tags:
       - "user"
@@ -586,7 +568,6 @@ paths:
           description: "User not found"
       x-tags:
       - tag: "user"
-      x-operationId: "update_user"
     delete:
       tags:
       - "user"
@@ -609,7 +590,6 @@ paths:
           description: "User not found"
       x-tags:
       - tag: "user"
-      x-operationId: "delete_user"
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
