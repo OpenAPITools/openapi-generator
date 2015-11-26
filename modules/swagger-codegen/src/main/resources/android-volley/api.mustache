@@ -112,16 +112,18 @@ public class {{classname}} {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String response) {
+            {{#returnType}}
             try {
-              {{#returnType}}
               responseListener.onResponse(({{{returnType}}}) ApiInvoker.deserialize(response,  "{{returnContainer}}", {{returnBaseType}}.class));
               {{/returnType}}
               {{^returnType}}
               responseListener.onResponse(response);
               {{/returnType}}
+            {{#returnType}}
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
+            {{/returnType}}
           }
       }, new Response.ErrorListener() {
           @Override
