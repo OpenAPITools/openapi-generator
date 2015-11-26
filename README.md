@@ -367,7 +367,7 @@ Your config file for java can look like
 {
   "groupId":"com.my.company",
   "artifactId":"MyClent",
-  "artifactVersion":"1.2.0"
+  "artifactVersion":"1.2.0",
   "library":"feign"
 }
 ```
