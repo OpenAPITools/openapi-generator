@@ -5,10 +5,16 @@ import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
+import {{invokerPackage}}.ProgressRequestBody;
+import {{invokerPackage}}.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -40,7 +46,7 @@ public class {{classname}} {
 
   {{#operation}}
   /* Build call for {{nickname}} */
-  private Call {{nickname}}Call({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  private Call {{nickname}}Call({{#allParams}}{{{dataType}}} {{paramName}},{{/allParams}} final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -77,8 +83,20 @@ public class {{classname}} {
     final String {{localVariablePrefix}}contentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}contentTypes);
     {{localVariablePrefix}}headerParams.put("Content-Type", {{localVariablePrefix}}contentType);
 
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
     String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
-    return {{localVariablePrefix}}apiClient.buildCall({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}authNames);
+    return {{localVariablePrefix}}apiClient.buildCall({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}authNames, progressRequestListener);
   }
 
   /**
@@ -88,7 +106,7 @@ public class {{classname}} {
    * @return {{{returnType}}}{{/returnType}}
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    Call {{localVariablePrefix}}call = {{nickname}}Call({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    Call {{localVariablePrefix}}call = {{nickname}}Call({{#allParams}}{{paramName}},{{/allParams}} null, null);
     {{#returnType}}Type {{localVariablePrefix}}returnType = new TypeToken<{{{returnType}}}>(){}.getType();
     return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call, {{localVariablePrefix}}returnType);{{/returnType}}{{^returnType}}{{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call);{{/returnType}}
   }
@@ -100,8 +118,28 @@ public class {{classname}} {
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    */
-  public Call {{nickname}}Async({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiCallback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{localVariablePrefix}}callback) throws ApiException {
-    Call {{localVariablePrefix}}call = {{nickname}}Call({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  public Call {{nickname}}Async({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ApiCallback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{localVariablePrefix}}callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if(callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call {{localVariablePrefix}}call = {{nickname}}Call({{#allParams}}{{paramName}},{{/allParams}} progressListener, progressRequestListener);
     {{#returnType}}Type {{localVariablePrefix}}returnType = new TypeToken<{{{returnType}}}>(){}.getType();
     {{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}returnType, {{localVariablePrefix}}callback);{{/returnType}}{{^returnType}}{{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}callback);{{/returnType}}
     return {{localVariablePrefix}}call;

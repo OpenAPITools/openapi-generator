@@ -820,7 +820,7 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @return The HTTP call
    */
-  public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames) throws ApiException {
+  public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     final String url = buildUrl(path, queryParams);
@@ -850,7 +850,15 @@ public class ApiClient {
       reqBody = RequestBody.create(MediaType.parse(contentType), serialize(body, contentType));
     }
 
-    Request request = reqBuilder.method(method, reqBody).build();
+    Request request = null;
+
+    if(progressRequestListener != null && reqBody != null) {
+      ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, progressRequestListener);
+      request = reqBuilder.method(method, progressRequestBody).build();
+    } else {
+      request = reqBuilder.method(method, reqBody).build();
+    }
+
     return httpClient.newCall(request);
   }
 
