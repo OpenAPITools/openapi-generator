@@ -85,5 +85,23 @@ module Petstore
       @status = status
     end
 
+    def ==(o)
+      return true if self.equal?(o)
+      self.class == o.class &&
+          id == o.id &&
+          category == o.category &&
+          name == o.name &&
+          photo_urls == o.photo_urls &&
+          tags == o.tags &&
+          status == o.status
+    end
+
+    def eql?(o)
+      self == o
+    end
+
+    def hash
+      [id, category, name, photo_urls, tags, status].hash
+    end
   end
 end
