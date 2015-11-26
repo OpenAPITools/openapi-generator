@@ -43,6 +43,19 @@ module {{moduleName}}
       @{{{name}}} = {{{name}}}
     end
 {{/isEnum}}{{/vars}}
+    def ==(o)
+      return true if self.equal?(o)
+      self.class == o.class{{#vars}} &&
+          {{name}} == o.{{name}}{{/vars}}
+    end
+
+    def eql?(o)
+      self == o
+    end
+
+    def hash
+      [{{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}].hash
+    end
   end
 {{/model}}
 {{/models}}
