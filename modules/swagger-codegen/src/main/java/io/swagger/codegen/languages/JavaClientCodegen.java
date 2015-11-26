@@ -98,6 +98,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("false"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
+        supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.1.1");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
         supportedLibraries.put("retrofit", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
@@ -215,12 +216,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+        if (!"feign".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+        }
 
-        if (!("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary()))) {
+        if (!("feign".equals(getLibrary()) || "retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -237,7 +240,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if ("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
-        } else {
+        } else if (!"feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
         }
     }
