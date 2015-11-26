@@ -88,6 +88,16 @@ public class PetApiTest {
             public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
                 result.put("pet", pet);
             }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
+            }
         });
         // the API call should be executed asynchronously, so result should be empty at the moment
         assertTrue(result.isEmpty());
@@ -122,6 +132,16 @@ public class PetApiTest {
             @Override
             public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
                 result.put("pet", pet);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
             }
         });
         // the API call should be executed asynchronously, so result should be empty at the moment

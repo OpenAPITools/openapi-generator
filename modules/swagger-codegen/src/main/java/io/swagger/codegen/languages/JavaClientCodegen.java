@@ -232,6 +232,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("okhttp-gson".equals(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
+            supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
+            supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
             // "build.sbt" is for development with SBT
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         } else if ("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
