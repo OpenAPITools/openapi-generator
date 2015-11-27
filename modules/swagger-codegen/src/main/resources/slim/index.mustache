@@ -18,8 +18,8 @@ $app = new Slim\App();
 $app->{{httpMethod}}('{{path}}', function($request, $response, $args) {
             {{#hasHeaderParams}}$headers = $request->getHeaders();{{/hasHeaderParams}}
             {{#hasQueryParams}}$queryParams = $request->getQueryParams();
-            {{#queryParams}}$qp_{{paramName}} = $queryParams['{{paramName}}'];{{newline}}    {{/queryParams}}{{/hasQueryParams}}
-            {{#hasFormParams}}{{#formParams}}$fp_{{paramName}} = $args['{{paramName}}'];{{newline}}    {{/formParams}}{{/hasFormParams}}
+            {{#queryParams}}${{paramName}} = $queryParams['{{paramName}}'];{{newline}}    {{/queryParams}}{{/hasQueryParams}}
+            {{#hasFormParams}}{{#formParams}}${{paramName}} = $args['{{paramName}}'];{{newline}}    {{/formParams}}{{/hasFormParams}}
             {{#hasBodyParam}}$body = $request->getParsedBody();{{/hasBodyParam}}
             $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
             return $response;
