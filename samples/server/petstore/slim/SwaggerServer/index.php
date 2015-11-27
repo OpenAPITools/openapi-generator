@@ -66,7 +66,7 @@ $app->POST('/user/createWithList', function($request, $response, $args) {
 $app->GET('/user/login', function($request, $response, $args) {
             
             $queryParams = $request->getQueryParams();
-            $qp_username = $queryParams['username'];    $qp_password = $queryParams['password'];    
+            $username = $queryParams['username'];    $password = $queryParams['password'];    
             
             
             $response->write('How about implementing loginUser as a GET method ?');
@@ -243,7 +243,7 @@ $app->POST('/pet', function($request, $response, $args) {
 $app->GET('/pet/findByStatus', function($request, $response, $args) {
             
             $queryParams = $request->getQueryParams();
-            $qp_status = $queryParams['status'];    
+            $status = $queryParams['status'];    
             
             
             $response->write('How about implementing findPetsByStatus as a GET method ?');
@@ -260,7 +260,7 @@ $app->GET('/pet/findByStatus', function($request, $response, $args) {
 $app->GET('/pet/findByTags', function($request, $response, $args) {
             
             $queryParams = $request->getQueryParams();
-            $qp_tags = $queryParams['tags'];    
+            $tags = $queryParams['tags'];    
             
             
             $response->write('How about implementing findPetsByTags as a GET method ?');
@@ -293,7 +293,7 @@ $app->GET('/pet/{petId}', function($request, $response, $args) {
 $app->POST('/pet/{petId}', function($request, $response, $args) {
             
             
-            $fp_name = $args['name'];    $fp_status = $args['status'];    
+            $name = $args['name'];    $status = $args['status'];    
             
             $response->write('How about implementing updatePetWithForm as a POST method ?');
             return $response;
@@ -325,7 +325,7 @@ $app->DELETE('/pet/{petId}', function($request, $response, $args) {
 $app->POST('/pet/{petId}/uploadImage', function($request, $response, $args) {
             
             
-            $fp_additional_metadata = $args['additional_metadata'];    $fp_file = $args['file'];    
+            $additionalMetadata = $args['additionalMetadata'];    $file = $args['file'];    
             
             $response->write('How about implementing uploadFile as a POST method ?');
             return $response;
