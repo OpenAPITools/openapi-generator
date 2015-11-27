@@ -8,6 +8,7 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.RefProperty;
 
 import java.io.File;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-server";
     protected String artifactVersion = "1.0.0";
+    private String variableNamingConvention = "camelCase";
 
     public SlimFrameworkServerCodegen() {
         super();
@@ -73,10 +75,10 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         typeMapping.put("double", "double");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
-        typeMapping.put("boolean", "boolean");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("datetime", "DateTime");
-        typeMapping.put("file", "string");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("date", "\\DateTime");
+        typeMapping.put("datetime", "\\DateTime");
+        typeMapping.put("file", "\\SplFileObject");
         typeMapping.put("map", "map");
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
@@ -119,11 +121,15 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+            return getTypeDeclaration(inner) + "[]";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
             return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
+        } else if (p instanceof RefProperty) {
+            String type = super.getTypeDeclaration(p);
+            return (!languageSpecificPrimitives.contains(type))
+                    ? "\\" + modelPackage + "\\" + type : type;
         }
         return super.getTypeDeclaration(p);
     }
@@ -148,16 +154,36 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         return toModelName(type);
     }
 
+    @Override
+    public String getTypeDeclaration(String name) {
+        if (!languageSpecificPrimitives.contains(name)) {
+            return "\\" + modelPackage + "\\" + name;
+        }
+        return super.getTypeDeclaration(name);
+    }
+
     public String toDefaultValue(Property p) {
         return "null";
     }
 
+    public void setParameterNamingConvention(String variableNamingConvention) {
+        this.variableNamingConvention = variableNamingConvention;
+    }
 
     @Override
     public String toVarName(String name) {
-        // return the name in underscore style
-        // PhoneNumber => phone_number
-        name = underscore(name);
+        // sanitize name
+        name = sanitizeName(name);
+
+        if ("camelCase".equals(variableNamingConvention)) {
+            // return the name in camelCase style
+            // phone_number => phoneNumber
+            name =  camelize(name, true);
+        } else { // default to snake case
+            // return the name in underscore style
+            // PhoneNumber => phone_number
+            name =  underscore(name);
+        }
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
