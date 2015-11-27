@@ -1,12 +1,12 @@
-public enum {{datatypeWithEnum}} {
-  {{#allowableValues}}{{#enumVars}}@SerializedName("{{value}}")
-  {{name}}("{{value}}"){{^-last}},
+public enum {{{datatypeWithEnum}}} {
+  {{#allowableValues}}{{#enumVars}}@SerializedName("{{{value}}}")
+  {{{name}}}("{{{value}}}"){{^-last}},
 
   {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
 
   private String value;
 
-  {{datatypeWithEnum}}(String value) {
+  {{{datatypeWithEnum}}}(String value) {
     this.value = value;
   }
 
