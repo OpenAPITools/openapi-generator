@@ -43,7 +43,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-17T11:17:50.535-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-29T00:18:01.946+08:00")
 public class ApiClient {
   private Client client;
   private Map<String, Client> hostMap = new HashMap<String, Client>();
@@ -76,8 +76,8 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }

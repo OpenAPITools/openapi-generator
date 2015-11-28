@@ -2,18 +2,18 @@ package io.swagger.client.model;
 
 import io.swagger.client.StringUtil;
 import io.swagger.client.model.Category;
-import java.util.*;
 import io.swagger.client.model.Tag;
+import java.util.*;
 
 
 import java.util.Objects;
 
 import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-23T19:53:03.542+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-29T00:18:25.953+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -21,6 +21,7 @@ public class Pet   {
   private String name = null;
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
+
 
 public enum StatusEnum {
   AVAILABLE("available"),
@@ -34,6 +35,7 @@ public enum StatusEnum {
   }
 
   @Override
+  @JsonValue
   public String toString() {
     return value;
   }
