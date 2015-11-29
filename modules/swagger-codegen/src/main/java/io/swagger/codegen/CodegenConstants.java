@@ -46,4 +46,6 @@ public class CodegenConstants {
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
     public static final String POD_VERSION = "podVersion";
+
+    public static final String OPTIONAL_METHOD_ARGUMENT = "optionalMethodArgument";
 }

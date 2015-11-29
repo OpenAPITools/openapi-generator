@@ -40,7 +40,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder (Order body);
+        Order PlaceOrder (Order body = null);
   
         /// <summary>
         /// Place an order for a pet
@@ -50,7 +50,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body);
+        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
         
         /// <summary>
         /// Find purchase order by ID
@@ -245,7 +245,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param> 
         /// <returns>Order</returns>            
-        public Order PlaceOrder (Order body)
+        public Order PlaceOrder (Order body = null)
         {
             
     
@@ -295,7 +295,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body)
+        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null)
         {
             
     

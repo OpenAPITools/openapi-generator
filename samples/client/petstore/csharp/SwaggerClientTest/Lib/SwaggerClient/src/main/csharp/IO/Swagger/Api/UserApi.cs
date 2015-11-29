@@ -22,7 +22,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
-        void CreateUser (User body);
+        void CreateUser (User body = null);
   
         /// <summary>
         /// Create user
@@ -32,7 +32,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
-        System.Threading.Tasks.Task CreateUserAsync (User body);
+        System.Threading.Tasks.Task CreateUserAsync (User body = null);
         
         /// <summary>
         /// Creates list of users with given input array
@@ -42,7 +42,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithArrayInput (List<User> body);
+        void CreateUsersWithArrayInput (List<User> body = null);
   
         /// <summary>
         /// Creates list of users with given input array
@@ -52,7 +52,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body);
+        System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body = null);
         
         /// <summary>
         /// Creates list of users with given input array
@@ -62,7 +62,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithListInput (List<User> body);
+        void CreateUsersWithListInput (List<User> body = null);
   
         /// <summary>
         /// Creates list of users with given input array
@@ -72,7 +72,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body);
+        System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body = null);
         
         /// <summary>
         /// Logs user into the system
@@ -83,7 +83,7 @@ namespace IO.Swagger.Api
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
-        string LoginUser (string username, string password);
+        string LoginUser (string username = null, string password = null);
   
         /// <summary>
         /// Logs user into the system
@@ -94,7 +94,7 @@ namespace IO.Swagger.Api
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
-        System.Threading.Tasks.Task<string> LoginUserAsync (string username, string password);
+        System.Threading.Tasks.Task<string> LoginUserAsync (string username = null, string password = null);
         
         /// <summary>
         /// Logs out current logged in user session
@@ -143,7 +143,7 @@ namespace IO.Swagger.Api
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
-        void UpdateUser (string username, User body);
+        void UpdateUser (string username, User body = null);
   
         /// <summary>
         /// Updated user
@@ -154,7 +154,7 @@ namespace IO.Swagger.Api
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
-        System.Threading.Tasks.Task UpdateUserAsync (string username, User body);
+        System.Threading.Tasks.Task UpdateUserAsync (string username, User body = null);
         
         /// <summary>
         /// Delete user
@@ -236,7 +236,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">Created user object</param> 
         /// <returns></returns>            
-        public void CreateUser (User body)
+        public void CreateUser (User body = null)
         {
             
     
@@ -286,7 +286,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">Created user object</param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task CreateUserAsync (User body)
+        public async System.Threading.Tasks.Task CreateUserAsync (User body = null)
         {
             
     
@@ -334,7 +334,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">List of user object</param> 
         /// <returns></returns>            
-        public void CreateUsersWithArrayInput (List<User> body)
+        public void CreateUsersWithArrayInput (List<User> body = null)
         {
             
     
@@ -384,7 +384,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body)
+        public async System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body = null)
         {
             
     
@@ -432,7 +432,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">List of user object</param> 
         /// <returns></returns>            
-        public void CreateUsersWithListInput (List<User> body)
+        public void CreateUsersWithListInput (List<User> body = null)
         {
             
     
@@ -482,7 +482,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="body">List of user object</param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body)
+        public async System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body = null)
         {
             
     
@@ -531,7 +531,7 @@ namespace IO.Swagger.Api
         /// <param name="username">The user name for login</param> 
         /// <param name="password">The password for login in clear text</param> 
         /// <returns>string</returns>            
-        public string LoginUser (string username, string password)
+        public string LoginUser (string username = null, string password = null)
         {
             
     
@@ -583,7 +583,7 @@ namespace IO.Swagger.Api
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
-        public async System.Threading.Tasks.Task<string> LoginUserAsync (string username, string password)
+        public async System.Threading.Tasks.Task<string> LoginUserAsync (string username = null, string password = null)
         {
             
     
@@ -828,7 +828,7 @@ namespace IO.Swagger.Api
         /// <param name="username">name that need to be deleted</param> 
         /// <param name="body">Updated user object</param> 
         /// <returns></returns>            
-        public void UpdateUser (string username, User body)
+        public void UpdateUser (string username, User body = null)
         {
             
             // verify the required parameter 'username' is set
@@ -883,7 +883,7 @@ namespace IO.Swagger.Api
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task UpdateUserAsync (string username, User body)
+        public async System.Threading.Tasks.Task UpdateUserAsync (string username, User body = null)
         {
             // verify the required parameter 'username' is set
             if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling UpdateUser");
