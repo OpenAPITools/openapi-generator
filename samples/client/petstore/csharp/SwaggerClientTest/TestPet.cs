@@ -121,6 +121,11 @@ namespace SwaggerClient.TestPet
 
 			Assert.AreEqual (petId, response.Tags [0].Id);
 			Assert.AreEqual (56, response.Category.Id);
+
+			// test optional parameter
+			petApi.UpdatePetWithForm (petId.ToString(), "new form name2");
+			Pet response2 = petApi.GetPetById (petId);
+			Assert.AreEqual ("new form name2", response2.Name);
 		}
 
 		/// <summary>
@@ -136,7 +141,8 @@ namespace SwaggerClient.TestPet
 			petApi.UploadFile(petId, "new form name", fileStream);
 
 			// test file upload without any form parameters
-			petApi.UploadFile(petId, null, fileStream);
+			// using optional parameter syntax introduced at .net 4.0
+			petApi.UploadFile(petId: petId, file: fileStream);
 
 		}
 
