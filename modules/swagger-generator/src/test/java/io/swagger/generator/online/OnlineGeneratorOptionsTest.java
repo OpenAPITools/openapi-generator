@@ -109,7 +109,12 @@ public class OnlineGeneratorOptionsTest {
             outputFilename = Generator.generateClient(provider.getLanguage(), input);
         }
         final File dir = new File(new File(outputFilename).getParent());
-        FileUtils.deleteDirectory(dir);
+        
+        try {
+            FileUtils.deleteDirectory(dir);
+        } catch (Exception e) { // directory can't be deleted for some reasons
+            e.printStackTrace();
+        }
         for (InvocationCounter option : options.values()) {
             assertNotEquals(option.getCounter(), 0, String.format("Option \"%s\" wasn't processed.",
                     option.getValue()));
