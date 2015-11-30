@@ -27,6 +27,8 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
         new Expectations(clientCodegen) {{
             clientCodegen.setPackageName(CSharpClientOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
+            clientCodegen.setOptionalMethodArgumentFlag(true);
+            times = 1;
             clientCodegen.setPackageVersion(CSharpClientOptionsProvider.PACKAGE_VERSION_VALUE);
             times = 1;
         }};
