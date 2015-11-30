@@ -112,7 +112,7 @@ public class OnlineGeneratorOptionsTest {
         
         try {
             FileUtils.deleteDirectory(dir);
-        } catch (Exception e) { // directory can't be delete for some reasons
+        } catch (Exception e) { // directory can't be deleted for some reasons
             e.printStackTrace();
         }
         for (InvocationCounter option : options.values()) {
