@@ -154,6 +154,7 @@
     <reporting>
         <outputDirectory>target/site</outputDirectory>
         <plugins>
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -188,6 +189,7 @@
                     </reportSet>
                 </reportSets>
             </plugin>
+-->
         </plugins>
     </reporting>
     <dependencies>
@@ -274,7 +276,7 @@
     <repositories>
         <repository>
             <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
