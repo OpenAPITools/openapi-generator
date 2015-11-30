@@ -41,5 +41,19 @@ module Petstore
       
     end
 
+    def ==(o)
+      return true if self.equal?(o)
+      self.class == o.class &&
+          id == o.id &&
+          name == o.name
+    end
+
+    def eql?(o)
+      self == o
+    end
+
+    def hash
+      [id, name].hash
+    end
   end
 end

@@ -89,5 +89,25 @@ module Petstore
       
     end
 
+    def ==(o)
+      return true if self.equal?(o)
+      self.class == o.class &&
+          id == o.id &&
+          username == o.username &&
+          first_name == o.first_name &&
+          last_name == o.last_name &&
+          email == o.email &&
+          password == o.password &&
+          phone == o.phone &&
+          user_status == o.user_status
+    end
+
+    def eql?(o)
+      self == o
+    end
+
+    def hash
+      [id, username, first_name, last_name, email, password, phone, user_status].hash
+    end
   end
 end
