@@ -102,25 +102,27 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
-        /// <param name="apiClient"> an instance of ApiClient (optional)</param>
-        /// <returns></returns>
-        public StoreApi(ApiClient apiClient = null)
-        {
-            if (apiClient == null) // use the default one in Configuration
-                this.ApiClient = Configuration.DefaultApiClient; 
-            else
-                this.ApiClient = apiClient;
-        }
-    
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StoreApi"/> class.
-        /// </summary>
         /// <returns></returns>
         public StoreApi(String basePath)
         {
-            this.ApiClient = new ApiClient(basePath);
+            this.Configuration = Configuration.DefaultConfiguration;
+            this.SetBasePath(basePath);
         }
     
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoreApi"/> class
+        /// using Configuration object
+        /// </summary>
+        /// <param name="configuration">An instance of Configuration</param>
+        /// <returns></returns>
+        public StoreApi(Configuration configuration = null)
+        {
+            if (configuration == null) // use the default one in Configuration
+                this.Configuration = Configuration.DefaultConfiguration; 
+            else
+                this.Configuration = configuration;
+        }
+
         /// <summary>
         /// Sets the base path of the API client.
         /// </summary>
@@ -128,7 +130,7 @@ namespace IO.Swagger.Api
         /// <value>The base path</value>
         public void SetBasePath(String basePath)
         {
-            this.ApiClient.BasePath = basePath;
+            this.Configuration.ApiClient.BasePath = basePath;
         }
     
         /// <summary>
@@ -137,15 +139,15 @@ namespace IO.Swagger.Api
         /// <value>The base path</value>
         public String GetBasePath()
         {
-            return this.ApiClient.BasePath;
+            return this.Configuration.ApiClient.BasePath;
         }
     
         /// <summary>
-        /// Gets or sets the API client.
+        /// Gets or sets the configuration object
         /// </summary>
-        /// <value>An instance of the ApiClient</value>
-        public ApiClient ApiClient {get; set;}
-    
+        /// <value>An instance of the Configuration</value>
+        public Configuration Configuration {get; set;}
+   
         
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -168,9 +170,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -180,19 +182,26 @@ namespace IO.Swagger.Api
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "api_key" };
+
+            
+            // authentication (api_key) required
+            
+            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
+            if (!String.IsNullOrEmpty(apiKeyValue))
+            {
+                headerParams["api_key"] = apiKeyValue;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Dictionary<string, int?>) ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
+            return (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
         }
     
         /// <summary>
@@ -216,9 +225,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -228,16 +237,23 @@ namespace IO.Swagger.Api
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "api_key" };
-    
+
+            
+            // authentication (api_key) required
+            
+            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
+            if (!String.IsNullOrEmpty(apiKeyValue))
+            {
+                headerParams["api_key"] = apiKeyValue;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
 
-            return (Dictionary<string, int?>) ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
+            return (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
         }
         
         /// <summary>
@@ -262,9 +278,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -273,21 +289,20 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            
+
             
     
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
     
         /// <summary>
@@ -312,9 +327,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -323,18 +338,17 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
+
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
 
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
         
         /// <summary>
@@ -362,32 +376,31 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
+
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
     
         /// <summary>
@@ -414,29 +427,28 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
+
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
 
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
         
         /// <summary>
@@ -464,25 +476,24 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
+
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
@@ -516,25 +527,24 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
+
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
 

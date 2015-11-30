@@ -64,12 +64,10 @@ namespace IO.Swagger.Client
         private RestRequest PrepareRequest(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
         {
             var request = new RestRequest(path, method);
    
-            UpdateParamsForAuth(queryParams, headerParams, authSettings);
-
             // add default header, if any
             foreach(var defaultHeader in _defaultHeaderMap)
                 request.AddHeader(defaultHeader.Key, defaultHeader.Value);
@@ -111,15 +109,14 @@ namespace IO.Swagger.Client
         /// <param name="formParams">Form parameters.</param>
         /// <param name="fileParams">File parameters.</param>
         /// <param name="pathParams">Path parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
         /// <returns>Object</returns>
         public Object CallApi(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
         {
             var request = PrepareRequest(
-                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             var response = RestClient.Execute(request);
             StatusCode = (int) response.StatusCode;
             ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
@@ -137,15 +134,14 @@ namespace IO.Swagger.Client
         /// <param name="formParams">Form parameters.</param>
         /// <param name="fileParams">File parameters.</param>
         /// <param name="pathParams">Path parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
         /// <returns>The Task instance.</returns>
         public async System.Threading.Tasks.Task<Object> CallApiAsync(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
         {
             var request = PrepareRequest(
-                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             var response = await RestClient.ExecuteTaskAsync(request);
             StatusCode = (int)response.StatusCode;
             ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
@@ -286,63 +282,6 @@ namespace IO.Swagger.Client
             }
         }
     
-        /// <summary>
-        /// Get the API key with prefix.
-        /// </summary>
-        /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
-        /// <returns>API key with prefix.</returns>
-        public string GetApiKeyWithPrefix (string apiKeyIdentifier)
-        {
-            var apiKeyValue = "";
-            Configuration.ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
-            var apiKeyPrefix = "";
-            if (Configuration.ApiKeyPrefix.TryGetValue (apiKeyIdentifier, out apiKeyPrefix))
-                return apiKeyPrefix + " " + apiKeyValue;
-            else
-                return apiKeyValue;
-        }
-    
-        /// <summary>
-        /// Update parameters based on authentication.
-        /// </summary>
-        /// <param name="queryParams">Query parameters.</param>
-        /// <param name="headerParams">Header parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
-        public void UpdateParamsForAuth(Dictionary<String, String> queryParams, Dictionary<String, String> headerParams, string[] authSettings)
-        {
-            if (authSettings == null || authSettings.Length == 0)
-                return;
-
-            foreach (string auth in authSettings)
-            {
-                // determine which one to use
-                switch(auth)
-                {
-                    
-                    case "api_key":
-                        
-                        var apiKeyValue = GetApiKeyWithPrefix("api_key");
-                        if (!String.IsNullOrEmpty(apiKeyValue))
-                        {
-                            headerParams["api_key"] = apiKeyValue;
-                        }
-                        break;
-                    
-                    case "petstore_auth":
-                        
-                        if (!String.IsNullOrEmpty(Configuration.AccessToken))
-                        {
-                            headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
-                        }
-                        break;
-                    
-                    default:
-                        //show warning about security definition not found
-                        break;
-                }
-            }
-        }
-
         /// <summary>
         /// Select the Accept header's value from the given accepts array:
         /// if JSON exists in the given array, use it;

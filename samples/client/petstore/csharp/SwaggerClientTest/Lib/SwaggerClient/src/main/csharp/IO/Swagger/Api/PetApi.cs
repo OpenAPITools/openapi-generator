@@ -194,25 +194,27 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
-        /// <param name="apiClient"> an instance of ApiClient (optional)</param>
-        /// <returns></returns>
-        public PetApi(ApiClient apiClient = null)
-        {
-            if (apiClient == null) // use the default one in Configuration
-                this.ApiClient = Configuration.DefaultApiClient; 
-            else
-                this.ApiClient = apiClient;
-        }
-    
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class.
-        /// </summary>
         /// <returns></returns>
         public PetApi(String basePath)
         {
-            this.ApiClient = new ApiClient(basePath);
+            this.Configuration = Configuration.DefaultConfiguration;
+            this.SetBasePath(basePath);
         }
     
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PetApi"/> class
+        /// using Configuration object
+        /// </summary>
+        /// <param name="configuration">An instance of Configuration</param>
+        /// <returns></returns>
+        public PetApi(Configuration configuration = null)
+        {
+            if (configuration == null) // use the default one in Configuration
+                this.Configuration = Configuration.DefaultConfiguration; 
+            else
+                this.Configuration = configuration;
+        }
+
         /// <summary>
         /// Sets the base path of the API client.
         /// </summary>
@@ -220,7 +222,7 @@ namespace IO.Swagger.Api
         /// <value>The base path</value>
         public void SetBasePath(String basePath)
         {
-            this.ApiClient.BasePath = basePath;
+            this.Configuration.ApiClient.BasePath = basePath;
         }
     
         /// <summary>
@@ -229,15 +231,15 @@ namespace IO.Swagger.Api
         /// <value>The base path</value>
         public String GetBasePath()
         {
-            return this.ApiClient.BasePath;
+            return this.Configuration.ApiClient.BasePath;
         }
     
         /// <summary>
-        /// Gets or sets the API client.
+        /// Gets or sets the configuration object
         /// </summary>
-        /// <value>An instance of the ApiClient</value>
-        public ApiClient ApiClient {get; set;}
-    
+        /// <value>An instance of the Configuration</value>
+        public Configuration Configuration {get; set;}
+   
         
         /// <summary>
         /// Update an existing pet 
@@ -261,9 +263,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -272,14 +274,21 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
             
     
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
@@ -311,9 +320,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -322,14 +331,21 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
 
@@ -359,9 +375,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -370,14 +386,21 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
             
     
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content, response.Content);
@@ -409,9 +432,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -420,14 +443,21 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.Content, response.Content);
 
@@ -457,32 +487,39 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
-            if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
+            if (status != null) queryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
+            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
         }
     
         /// <summary>
@@ -507,29 +544,36 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
-            if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
+            if (status != null) queryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
 
-            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
+            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
         }
         
         /// <summary>
@@ -554,32 +598,39 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
-            if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
+            if (tags != null) queryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
+            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
         }
     
         /// <summary>
@@ -604,29 +655,36 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
             
-            if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
+            if (tags != null) queryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
 
-            return (List<Pet>) ApiClient.Deserialize(response, typeof(List<Pet>));
+            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
         }
         
         /// <summary>
@@ -654,32 +712,39 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "api_key" };
+
+            
+            // authentication (api_key) required
+            
+            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
+            if (!String.IsNullOrEmpty(apiKeyValue))
+            {
+                headerParams["api_key"] = apiKeyValue;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Pet) ApiClient.Deserialize(response, typeof(Pet));
+            return (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet));
         }
     
         /// <summary>
@@ -706,29 +771,36 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "api_key" };
-    
+
+            
+            // authentication (api_key) required
+            
+            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
+            if (!String.IsNullOrEmpty(apiKeyValue))
+            {
+                headerParams["api_key"] = apiKeyValue;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
 
-            return (Pet) ApiClient.Deserialize(response, typeof(Pet));
+            return (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet));
         }
         
         /// <summary>
@@ -758,27 +830,34 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
             
-            if (name != null) formParams.Add("name", ApiClient.ParameterToString(name)); // form parameter
-            if (status != null) formParams.Add("status", ApiClient.ParameterToString(status)); // form parameter
+            if (name != null) formParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
+            if (status != null) formParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
@@ -814,27 +893,34 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
             
-            if (name != null) formParams.Add("name", ApiClient.ParameterToString(name)); // form parameter
-            if (status != null) formParams.Add("status", ApiClient.ParameterToString(status)); // form parameter
+            if (name != null) formParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
+            if (status != null) formParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
 
@@ -868,26 +954,33 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
-            if (apiKey != null) headerParams.Add("api_key", ApiClient.ParameterToString(apiKey)); // header parameter
+            if (apiKey != null) headerParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
@@ -922,26 +1015,33 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
-            if (apiKey != null) headerParams.Add("api_key", ApiClient.ParameterToString(apiKey)); // header parameter
+            if (apiKey != null) headerParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
 
@@ -976,27 +1076,34 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
             
-            if (additionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(additionalMetadata)); // form parameter
-            if (file != null) fileParams.Add("file", ApiClient.ParameterToFile("file", file));
+            if (additionalMetadata != null) formParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+            if (file != null) fileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
     
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
@@ -1032,27 +1139,34 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (petId != null) pathParams.Add("petId", ApiClient.ParameterToString(petId)); // path parameter
+            if (petId != null) pathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
             
             
             
-            if (additionalMetadata != null) formParams.Add("additionalMetadata", ApiClient.ParameterToString(additionalMetadata)); // form parameter
-            if (file != null) fileParams.Add("file", ApiClient.ParameterToFile("file", file));
+            if (additionalMetadata != null) formParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+            if (file != null) fileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "petstore_auth" };
-    
+
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
 
