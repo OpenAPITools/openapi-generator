@@ -88,6 +88,16 @@ public class PetApiTest {
             public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
                 result.put("pet", pet);
             }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
+            }
         });
         // the API call should be executed asynchronously, so result should be empty at the moment
         assertTrue(result.isEmpty());
@@ -122,6 +132,16 @@ public class PetApiTest {
             @Override
             public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
                 result.put("pet", pet);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
             }
         });
         // the API call should be executed asynchronously, so result should be empty at the moment
@@ -257,19 +277,25 @@ public class PetApiTest {
         Pet pet1 = new Pet();
         Pet pet2 = new Pet();
         assertTrue(pet1.equals(pet2));
-        assertTrue(pet1.equals(pet2));
+        assertTrue(pet2.equals(pet1));
+        assertTrue(pet1.hashCode() == pet2.hashCode());
+        assertTrue(pet1.equals(pet1));
         assertTrue(pet1.hashCode() == pet1.hashCode());
 
         pet2.setName("really-happy");
         pet2.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
         assertFalse(pet1.equals(pet2));
-        assertFalse(pet1.equals(pet2));
+        assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
+        assertTrue(pet2.equals(pet2));
+        assertTrue(pet2.hashCode() == pet2.hashCode());
 
         pet1.setName("really-happy");
         pet1.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
         assertTrue(pet1.equals(pet2));
-        assertTrue(pet1.equals(pet2));
+        assertTrue(pet2.equals(pet1));
+        assertTrue(pet1.hashCode() == pet2.hashCode());
+        assertTrue(pet1.equals(pet1));
         assertTrue(pet1.hashCode() == pet1.hashCode());
     }
 

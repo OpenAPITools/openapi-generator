@@ -128,6 +128,28 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void notResolveNonModelBodyParameter() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.path("/hello", new Path()
+                .get(new Operation()
+                        .parameter(new BodyParameter()
+                                .name("body")
+                                .schema(new ModelImpl()
+                                        .type("string")
+                                        .format("binary")))));
+
+        new InlineModelResolver().flatten(swagger);
+
+        Operation operation = swagger.getPaths().get("/hello").getGet();
+        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
+        assertTrue(bp.getSchema() instanceof ModelImpl);
+        ModelImpl m = (ModelImpl) bp.getSchema();
+        assertEquals("string", m.getType());
+        assertEquals("binary", m.getFormat());
+    }
+
+    @Test
     public void resolveInlineArrayBodyParameter() throws Exception {
         Swagger swagger = new Swagger();
 

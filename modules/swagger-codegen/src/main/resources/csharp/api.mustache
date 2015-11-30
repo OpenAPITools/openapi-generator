@@ -23,7 +23,7 @@ namespace {{packageName}}.Api
         /// </remarks>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
-        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   
         /// <summary>
         /// {{summary}}
@@ -33,7 +33,7 @@ namespace {{packageName}}.Api
         /// </remarks>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
-        {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
     }
   
@@ -95,11 +95,11 @@ namespace {{packageName}}.Api
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
         {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>            
-        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}{{#required}}
             // verify the required parameter '{{paramName}}' is set
-            if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
+            if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{operationId}}");
             {{/required}}{{/allParams}}
     
             var path_ = "{{path}}";
@@ -140,9 +140,9 @@ namespace {{packageName}}.Api
             IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
     
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling {{operationId}}: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException ((int)response.StatusCode, "Error calling {{operationId}}: " + response.ErrorMessage, response.ErrorMessage);
     
             {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}return;{{/returnType}}
         }
@@ -152,10 +152,10 @@ namespace {{packageName}}.Api
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
-        {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{nickname}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
-            if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
+            if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{operationId}}");
             {{/required}}{{/allParams}}
     
             var path_ = "{{path}}";
@@ -195,7 +195,7 @@ namespace {{packageName}}.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
             if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling {{nickname}}: " + response.Content, response.Content);
+                throw new ApiException ((int)response.StatusCode, "Error calling {{operationId}}: " + response.Content, response.Content);
 
             {{#returnType}}return ({{{returnType}}}) ApiClient.Deserialize(response, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
             return;{{/returnType}}

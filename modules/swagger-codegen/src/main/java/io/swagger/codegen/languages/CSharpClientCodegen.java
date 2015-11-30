@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    protected boolean optionalMethodArgumentFlag = true;
     protected String packageName = "IO.Swagger";
     protected String packageVersion = "1.0.0";
     protected String clientPackage = "IO.Swagger.Client";
@@ -91,6 +92,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue("IO.Swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "C# package version.").defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_METHOD_ARGUMENT, "C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only). Default: false").defaultValue("false"));
     }
 
     @Override
@@ -113,6 +115,12 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         additionalProperties.put("clientPackage", clientPackage);
+
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_METHOD_ARGUMENT)) {
+            setOptionalMethodArgumentFlag(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.OPTIONAL_METHOD_ARGUMENT).toString()));
+        }
+        additionalProperties.put("optionalMethodArgument", optionalMethodArgumentFlag);
         
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "Configuration.cs"));
@@ -259,6 +267,10 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         return camelize(sanitizeName(operationId));
+    }
+
+    public void setOptionalMethodArgumentFlag(boolean flag) {
+        this.optionalMethodArgumentFlag = flag;
     }
 
     public void setPackageName(String packageName) {

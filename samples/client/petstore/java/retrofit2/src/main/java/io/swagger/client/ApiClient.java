@@ -44,10 +44,10 @@ public class ApiClient {
         this();
         for(String authName : authNames) { 
             Interceptor auth;
-            if (authName == "petstore_auth") { 
-                auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
-            } else if (authName == "api_key") { 
+            if (authName == "api_key") { 
                 auth = new ApiKeyAuth("header", "api_key");
+            } else if (authName == "petstore_auth") { 
+                auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
