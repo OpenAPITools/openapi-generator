@@ -118,7 +118,6 @@
                     </execution>
                 </executions>
             </plugin>
-<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -143,7 +142,6 @@
                     </execution>
                 </executions>
             </plugin>
--->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.0</version>
@@ -202,9 +200,7 @@
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
-<!--
                             <phase>verify</phase>
--->
                             <goals>
                                 <goal>jar</goal>
                             </goals>
@@ -540,7 +536,7 @@
     <repositories>
         <repository>
             <id>sonatype-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
