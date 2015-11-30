@@ -1,9 +1,6 @@
 # Swagger Code Generator
-
-This is a fork with added support for generating
-
- - Java client using [Netflix Feign](https://github.com/Netflix/feign).
- - [Apache JMeter](http://jmeter.apache.org/) project for testing REST endpoints.
+-[![Build Status](https://travis-ci.org/swagger-api/swagger-codegen.png)](https://travis-ci.org/swagger-api/swagger-codegen)
+-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project)
 
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
