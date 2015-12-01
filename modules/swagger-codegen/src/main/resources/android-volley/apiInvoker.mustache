@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.TimeZone;
 
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+import {{invokerPackage}}.request.GetRequest;
+import {{invokerPackage}}.request.PostRequest;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE;
