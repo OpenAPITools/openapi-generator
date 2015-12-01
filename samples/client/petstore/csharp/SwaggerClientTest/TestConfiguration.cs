@@ -27,7 +27,7 @@ namespace SwaggerClient.TestConfiguration
 		{	
 			PetApi p = new PetApi ("http://new-basepath.com");
 			Assert.AreEqual (p.Configuration.ApiClient.BasePath, "http://new-basepath.com");
-			Assert.AreSame (p.Configuration, Configuration.DefaultConfiguration);
+			Assert.AreSame (p.Configuration, Configuration.Default);
 
 		}
 
@@ -38,7 +38,7 @@ namespace SwaggerClient.TestConfiguration
 			PetApi p2 = new PetApi ();
 			Assert.AreSame (p1.Configuration, p2.Configuration);
 			// same as the default
-			Assert.AreSame (p1.Configuration, Configuration.DefaultConfiguration);
+			Assert.AreSame (p1.Configuration, Configuration.Default);
 
 			Configuration c = new Configuration ();
 			Assert.AreNotSame (c, p1.Configuration);

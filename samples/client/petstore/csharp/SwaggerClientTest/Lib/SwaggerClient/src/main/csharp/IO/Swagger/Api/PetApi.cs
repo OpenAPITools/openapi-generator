@@ -198,20 +198,20 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public PetApi(String basePath)
         {
-            this.Configuration = Configuration.DefaultConfiguration;
+            this.Configuration = Configuration.Default;
             this.SetBasePath(basePath);
         }
     
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class
-        /// using Configuration object.
+        /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
         public PetApi(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
-                this.Configuration = Configuration.DefaultConfiguration; 
+                this.Configuration = Configuration.Default; 
             else
                 this.Configuration = configuration;
         }
@@ -236,20 +236,21 @@ namespace IO.Swagger.Api
         }
     
         /// <summary>
-        /// Gets or sets the configuration object.
+        /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
 
         /// <summary>
-        /// Gets the status code of the previous request.
+        /// Gets the status code of the previous request
         /// </summary>
         public int StatusCode { get; private set; }
 
         /// <summary>
-        /// Gets the response headers of the previous request.
+        /// Gets the response headers of the previous request
         /// </summary>
-        public Dictionary<String, String> ResponseHeaders { get; private set; }
+        public Dictionary<String, String> ResponseHeaders { get; private set; } 
+   
         
         /// <summary>
         /// Update an existing pet 

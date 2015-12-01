@@ -29,6 +29,12 @@ namespace IO.Swagger.Client
             BasePath = basePath;
             RestClient = new RestClient(BasePath);
         }
+
+        /// <summary>
+        /// Gets or sets the default API client for making HTTP calls.
+        /// </summary>
+        /// <value>The default API client.</value>
+        public static ApiClient Default = new ApiClient();
     
         /// <summary>
         /// Gets or sets the base path.

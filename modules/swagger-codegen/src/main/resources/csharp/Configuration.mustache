@@ -12,6 +12,17 @@ namespace {{packageName}}.Client
     /// </summary>
     public class Configuration
     {
+        /// <summary>
+        /// Initializes a new instance of the Configuration class.
+        /// </summary>
+        /// <param name="apiClient">Api client.</param>
+        public Configuration(ApiClient apiClient=null)
+        {
+            if (apiClient == null)
+                ApiClient = ApiClient.Default;
+            else 
+                ApiClient = apiClient;
+        }
   
         /// <summary>
         /// Version of the package.
@@ -20,16 +31,16 @@ namespace {{packageName}}.Client
         public const string Version = "{{packageVersion}}";
   
         /// <summary>
-        /// Gets or sets the default API client for making HTTP calls.
+        /// Gets or sets the default Configuration.
         /// </summary>
-        /// <value>The API client.</value>
-        public static Configuration DefaultConfiguration = new Configuration();
+        /// <value>Configuration.</value>
+        public static Configuration Default = new Configuration();
 
         /// <summary>
         /// Gets or sets the default API client for making HTTP calls.
         /// </summary>
         /// <value>The API client.</value>
-        public ApiClient ApiClient = new ApiClient();
+        public ApiClient ApiClient;
  
         /// <summary>
         /// Gets or sets the username (HTTP basic authentication).

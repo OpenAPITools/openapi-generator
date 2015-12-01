@@ -106,7 +106,7 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public StoreApi(String basePath)
         {
-            this.Configuration = Configuration.DefaultConfiguration;
+            this.Configuration = Configuration.Default;
             this.SetBasePath(basePath);
         }
     
@@ -119,7 +119,7 @@ namespace IO.Swagger.Api
         public StoreApi(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
-                this.Configuration = Configuration.DefaultConfiguration; 
+                this.Configuration = Configuration.Default; 
             else
                 this.Configuration = configuration;
         }
