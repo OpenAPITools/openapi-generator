@@ -17,10 +17,6 @@
 
 @property(nonatomic) NSNumber* _id;
 
-@property(nonatomic) NSNumber* varCopyPassword;
-
-@property(nonatomic) NSNumber* varNewPassword;
-
 @property(nonatomic) NSNumber* petId;
 
 @property(nonatomic) NSNumber* quantity;
