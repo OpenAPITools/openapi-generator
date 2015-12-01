@@ -944,6 +944,14 @@
           "type": "integer",
           "format": "int64"
         },
+        "CopyPassword": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "newPassword": {
+          "type": "integer",
+          "format": "int64"
+        },
         "petId": {
           "type": "integer",
           "format": "int64"
