@@ -34,6 +34,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String authorEmail = "apiteam@swagger.io";
     protected String license = "MIT";
     protected String gitRepoURL = "https://github.com/swagger-api/swagger-codegen";
+    protected String[] specialWords = {"new", "copy"};
 
     public ObjcClientCodegen() {
         super();
@@ -85,6 +86,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
         typeMapping.put("file", "NSURL");
+
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         reservedWords = new HashSet<String>(
@@ -375,6 +377,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
 
+        // if name starting with special word, escape with '_'
+        for(int i =0; i < specialWords.length; i++) {
+            if (name.matches("(?i:^" + specialWords[i] + ".*)"))
+                name = escapeSpecialWord(name);
+        }
+
         // camelize (lower first character) the variable name
         // e.g. `pet_id` to `petId`
         name = camelize(name, true);
@@ -383,6 +391,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
+
 
         return name;
     }
@@ -395,6 +404,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String escapeReservedWord(String name) {
         return "_" + name;
+    }
+
+    public String escapeSpecialWord(String name) {
+        return "var_" + name;
     }
 
     @Override
