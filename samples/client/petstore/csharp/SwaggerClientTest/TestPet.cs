@@ -229,6 +229,19 @@ namespace SwaggerClient.TestPet
 
 		}
 
+		/// <summary>
+		/// Test status code
+		/// </summary>
+		[Test ()]
+		public void TestStatusCodeAndHeader ()
+		{
+			PetApi petApi = new PetApi ();
+			petApi.GetPetById (petId);
+			Assert.AreEqual (petApi.StatusCode, 200);
+			Assert.IsTrue (petApi.ResponseHeaders.ContainsKey("Content-Type"));
+			Assert.AreEqual (petApi.ResponseHeaders["Content-Type"], "application/json");
+		}
+
 	}
 }
 

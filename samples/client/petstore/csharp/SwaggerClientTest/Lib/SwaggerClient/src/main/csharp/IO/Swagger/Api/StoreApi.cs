@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using RestSharp;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
@@ -147,6 +148,16 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
+
+        /// <summary>
+        /// Gets the status code of the previous request
+        /// </summary>
+        public int StatusCode { get; private set; }
+
+        /// <summary>
+        /// Gets the response headers of the previous request
+        /// </summary>
+        public Dictionary<String, String> ResponseHeaders { get; private set; } 
    
         
         /// <summary>
@@ -195,11 +206,14 @@ namespace IO.Swagger.Api
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException (StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
     
             return (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
         }
@@ -250,8 +264,12 @@ namespace IO.Swagger.Api
 
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+ 
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
 
             return (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
         }
@@ -296,11 +314,14 @@ namespace IO.Swagger.Api
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException (StatusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
     
             return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
@@ -345,8 +366,12 @@ namespace IO.Swagger.Api
 
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+ 
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
 
             return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
@@ -394,11 +419,14 @@ namespace IO.Swagger.Api
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException (StatusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
     
             return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
@@ -445,8 +473,12 @@ namespace IO.Swagger.Api
 
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+ 
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
 
             return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
@@ -494,11 +526,14 @@ namespace IO.Swagger.Api
     
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException (StatusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
     
             return;
         }
@@ -545,8 +580,12 @@ namespace IO.Swagger.Api
 
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+
+            StatusCode = (int) response.StatusCode;
+            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+ 
+            if (StatusCode >= 400)
+                throw new ApiException (StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
 
             
             return;
