@@ -288,6 +288,7 @@ $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
 AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
+AndroidVolleyClientCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
 ClojureClientCodegen.java
