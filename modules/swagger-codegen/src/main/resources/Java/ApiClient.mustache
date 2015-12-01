@@ -405,11 +405,26 @@ public class ApiClient {
    * Serialize the given Java object into string according the given
    * Content-Type (only JSON is supported for now).
    */
-  public String serialize(Object obj, String contentType) throws ApiException {
+  public Object serialize(Object obj, String contentType, Map<String, Object> formParams) throws ApiException {
     if (isJsonMime(contentType)) {
       return json.serialize(obj);
+    } else if (contentType.startsWith("multipart/form-data")) {
+      FormDataMultiPart mp = new FormDataMultiPart();
+      for (Entry<String, Object> param: formParams.entrySet()) {
+        if (param.getValue() instanceof File) {
+          File file = (File) param.getValue();
+          mp.bodyPart(new FileDataBodyPart(param.getKey(), file, MediaType.MULTIPART_FORM_DATA_TYPE));
+        } else {
+          mp.field(param.getKey(), parameterToString(param.getValue()), MediaType.MULTIPART_FORM_DATA_TYPE);
+        }
+      }
+      return mp;
+    } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+      return this.getXWWWFormUrlencodedParams(formParams);
     } else {
-      throw new ApiException(400, "can not serialize object into Content-Type: " + contentType);
+      // We let Jersey attempt to serialize the body
+      return obj;
+      //throw new ApiException(400, "can not serialize object into Content-Type: " + contentType);
     }
   }
 
@@ -444,10 +459,10 @@ public class ApiClient {
     }
   }
 
-  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, Object body, byte[] binaryBody, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
 
-    if (body != null && binaryBody != null){
-      throw new ApiException(500, "either body or binaryBody must be null");
+    if (body != null && !formParams.isEmpty()){
+      throw new ApiException(500, "Cannot have body and form params");
     }
 
     updateParamsForAuth(authNames, queryParams, headerParams);
@@ -484,61 +499,16 @@ public class ApiClient {
       }
     }
 
-    String encodedFormParams = null;
-    if (contentType.startsWith("multipart/form-data")) {
-      FormDataMultiPart mp = new FormDataMultiPart();
-      for (Entry<String, Object> param: formParams.entrySet()) {
-        if (param.getValue() instanceof File) {
-          File file = (File) param.getValue();
-          mp.bodyPart(new FileDataBodyPart(param.getKey(), file, MediaType.MULTIPART_FORM_DATA_TYPE));
-        } else {
-          mp.field(param.getKey(), parameterToString(param.getValue()), MediaType.MULTIPART_FORM_DATA_TYPE);
-        }
-      }
-      body = mp;
-    } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
-      encodedFormParams = this.getXWWWFormUrlencodedParams(formParams);
-    }
-
     ClientResponse response = null;
 
     if ("GET".equals(method)) {
       response = (ClientResponse) builder.get(ClientResponse.class);
     } else if ("POST".equals(method)) {
-      if (encodedFormParams != null) {
-        response = builder.type(contentType).post(ClientResponse.class, encodedFormParams);
-      } else if (body == null) {
-        if(binaryBody == null)
-            response = builder.post(ClientResponse.class, null);
-        else
-            response = builder.type(contentType).post(ClientResponse.class, binaryBody);
-      } else if (body instanceof FormDataMultiPart) {
-        response = builder.type(contentType).post(ClientResponse.class, body);
-      } else {
-        response = builder.type(contentType).post(ClientResponse.class, serialize(body, contentType));
-      }
+      response = builder.type(contentType).post(ClientResponse.class, serialize(body, contentType, formParams));
     } else if ("PUT".equals(method)) {
-      if (encodedFormParams != null) {
-        response = builder.type(contentType).put(ClientResponse.class, encodedFormParams);
-      } else if(body == null) {
-        if(binaryBody == null)
-            response = builder.put(ClientResponse.class, null);
-        else
-            response = builder.type(contentType).put(ClientResponse.class, binaryBody);
-      } else {
-        response = builder.type(contentType).put(ClientResponse.class, serialize(body, contentType));
-      }
+      response = builder.type(contentType).put(ClientResponse.class, serialize(body, contentType, formParams));
     } else if ("DELETE".equals(method)) {
-      if (encodedFormParams != null) {
-        response = builder.type(contentType).delete(ClientResponse.class, encodedFormParams);
-      } else if(body == null) {
-        if(binaryBody == null)
-            response = builder.delete(ClientResponse.class);
-        else
-            response = builder.type(contentType).delete(ClientResponse.class, binaryBody);
-      } else {
-        response = builder.type(contentType).delete(ClientResponse.class, serialize(body, contentType));
-      }
+      response = builder.type(contentType).delete(ClientResponse.class, serialize(body, contentType, formParams));
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }
@@ -560,9 +530,9 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @return The response body in type of string
    */
-   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, byte[] binaryBody, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
+   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
 
-    ClientResponse response = getAPIResponse(path, method, queryParams, body, binaryBody, headerParams, formParams, accept, contentType, authNames);
+    ClientResponse response = getAPIResponse(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
 
     statusCode = response.getStatusInfo().getStatusCode();
     responseHeaders = response.getHeaders();
@@ -607,9 +577,9 @@ public class ApiClient {
    * @param authNames The authentications to apply
    * @return The response body in type of string
    */
- public byte[] invokeBinaryAPI(String path, String method, List<Pair> queryParams, Object body, byte[] binaryBody, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[]authNames) throws ApiException {
+ public byte[] invokeBinaryAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[]authNames) throws ApiException {
 
-    ClientResponse response = getAPIResponse(path, method, queryParams, body, binaryBody, headerParams, formParams, accept, contentType, authNames);
+    ClientResponse response = getAPIResponse(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
 
     if(response.getStatusInfo() == ClientResponse.Status.NO_CONTENT) {
       return null;
