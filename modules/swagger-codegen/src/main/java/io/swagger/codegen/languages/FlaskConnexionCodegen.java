@@ -5,6 +5,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import io.swagger.codegen.*;
+import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
@@ -205,13 +206,17 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
                 if(path.getOperations() != null) {
-                    for(Operation operation : path.getOperations()) {
-                        String operationId = operation.getOperationId();
-                        if(operationId != null && operationId.indexOf(".") == -1) {
-                            operation.setVendorExtension("x-operationId", underscore(sanitizeName(operationId)));
-                            operationId = controllerPackage + "." + defaultController + "." + underscore(sanitizeName(operationId));
-                            operation.setOperationId(operationId);
+                    for(Map.Entry<HttpMethod, Operation> entry : path.getOperationMap().entrySet()) {
+                        // Normalize `operationId` and add package/class path in front, e.g.
+                        //     controllers.default_controller.add_pet
+                        String httpMethod = entry.getKey().name().toLowerCase();
+                        Operation operation = entry.getValue();
+                        String operationId = getOrGenerateOperationId(operation, pathname, httpMethod);
+                        if(!operationId.contains(".")) {
+                            operationId = underscore(sanitizeName(operationId));
+                            operationId = controllerPackage + "." + defaultController + "." + operationId;
                         }
+                        operation.setOperationId(operationId);
                         if(operation.getTags() != null) {
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                             for(String tag : operation.getTags()) {
@@ -291,5 +296,16 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             operations.put("operationsByPath", opsByPathList);
         }
         return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
+    public String toOperationId(String operationId) {
+        operationId = super.toOperationId(operationId);
+        // Use the part after the last dot, e.g.
+        //     controllers.defaultController.addPet => addPet
+        operationId = operationId.replaceAll(".*\\.", "");
+        // Need to underscore it since it has been processed via removeNonNameElementToCamelCase, e.g.
+        //     addPet => add_pet
+        return underscore(operationId);
     }
 }

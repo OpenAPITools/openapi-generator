@@ -14,8 +14,8 @@ classname: {{classname}}
 # loop over each operation in the API:
 {{#operation}}
 
-# each operation has a `nickname`:
-nickname: {{nickname}}
+# each operation has an `operationId`:
+operationId: {{operationId}}
 
 # and parameters:
 {{#allParams}}
