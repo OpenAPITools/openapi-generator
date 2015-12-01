@@ -30,7 +30,7 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
 {{#allParams}}   * @param {{paramName}} {{description}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  def {{nickname}} ({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} /* = {{{defaultValue}}} */{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
+  def {{operationId}} ({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} /* = {{{defaultValue}}} */{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
     // create path and map variables
     val path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escape({{paramName}}))
 

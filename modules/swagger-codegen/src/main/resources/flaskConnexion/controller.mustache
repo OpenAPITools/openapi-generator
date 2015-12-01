@@ -3,7 +3,7 @@
 {{#operations}}
 {{#operation}}
 
-def {{vendorExtensions.x-operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> str:
+def {{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> str:
     return 'do some magic!'
 {{/operation}}
 {{/operations}}

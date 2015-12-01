@@ -45,7 +45,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "add_pet"
       x-tags:
       - tag: "pet"
     put:
@@ -78,7 +77,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "update_pet"
       x-tags:
       - tag: "pet"
   /pet/findByStatus:
@@ -114,7 +112,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "find_pets_by_status"
       x-tags:
       - tag: "pet"
   /pet/findByTags:
@@ -150,7 +147,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "find_pets_by_tags"
       x-tags:
       - tag: "pet"
   /pet/{petId}:
@@ -185,7 +181,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "get_pet_by_id"
       x-tags:
       - tag: "pet"
     post:
@@ -222,7 +217,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "update_pet_with_form"
       x-tags:
       - tag: "pet"
     delete:
@@ -253,7 +247,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "delete_pet"
       x-tags:
       - tag: "pet"
   /pet/{petId}/uploadImage:
@@ -292,7 +285,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-operationId: "upload_file"
       x-tags:
       - tag: "pet"
   /store/inventory:
@@ -316,7 +308,6 @@ paths:
               format: "int32"
       security:
       - api_key: []
-      x-operationId: "get_inventory"
       x-tags:
       - tag: "store"
   /store/order:
@@ -343,7 +334,6 @@ paths:
             $ref: "#/definitions/Order"
         400:
           description: "Invalid Order"
-      x-operationId: "place_order"
       x-tags:
       - tag: "store"
   /store/order/{orderId}:
@@ -372,7 +362,6 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-operationId: "get_order_by_id"
       x-tags:
       - tag: "store"
     delete:
@@ -396,7 +385,6 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-operationId: "delete_order"
       x-tags:
       - tag: "store"
   /user:
@@ -419,7 +407,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "create_user"
       x-tags:
       - tag: "user"
   /user/createWithArray:
@@ -444,7 +431,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "create_users_with_array_input"
       x-tags:
       - tag: "user"
   /user/createWithList:
@@ -469,7 +455,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "create_users_with_list_input"
       x-tags:
       - tag: "user"
   /user/login:
@@ -500,7 +485,6 @@ paths:
             type: "string"
         400:
           description: "Invalid username/password supplied"
-      x-operationId: "login_user"
       x-tags:
       - tag: "user"
   /user/logout:
@@ -517,7 +501,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-operationId: "logout_user"
       x-tags:
       - tag: "user"
   /user/{username}:
@@ -555,7 +538,6 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-operationId: "get_user_by_name"
       x-tags:
       - tag: "user"
     put:
@@ -584,7 +566,6 @@ paths:
           description: "Invalid user supplied"
         404:
           description: "User not found"
-      x-operationId: "update_user"
       x-tags:
       - tag: "user"
     delete:
@@ -607,14 +588,9 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-operationId: "delete_user"
       x-tags:
       - tag: "user"
 securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
   petstore_auth:
     type: "oauth2"
     authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
@@ -622,6 +598,10 @@ securityDefinitions:
     scopes:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
 definitions:
   User:
     properties:

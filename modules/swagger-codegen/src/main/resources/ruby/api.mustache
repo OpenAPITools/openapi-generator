@@ -16,13 +16,13 @@ module {{moduleName}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
-    def {{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+    def {{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       if Configuration.debugging
-        Configuration.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
+        Configuration.logger.debug "Calling API: {{classname}}#{{operationId}} ..."
       end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
-      fail "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?{{#isEnum}}
+      fail "Missing the required parameter '{{paramName}}' when calling {{operationId}}" if {{{paramName}}}.nil?{{#isEnum}}
       unless [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?({{{paramName}}})
         fail "invalid value for '{{{paramName}}}', must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}"
       end{{/isEnum}}
@@ -71,7 +71,7 @@ module {{moduleName}}
         :auth_names => auth_names,
         :return_type => '{{{returnType}}}')
       if Configuration.debugging
-        Configuration.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
+        Configuration.logger.debug "API called: {{classname}}#{{operationId}}. Result: #{result.inspect}"
       end
       return result{{/returnType}}{{^returnType}}@api_client.call_api(:{{httpMethod}}, path,
         :header_params => header_params,
@@ -80,7 +80,7 @@ module {{moduleName}}
         :body => post_body,
         :auth_names => auth_names)
       if Configuration.debugging
-        Configuration.logger.debug "API called: {{classname}}#{{nickname}}"
+        Configuration.logger.debug "API called: {{classname}}#{{operationId}}"
       end
       return nil{{/returnType}}
     end
