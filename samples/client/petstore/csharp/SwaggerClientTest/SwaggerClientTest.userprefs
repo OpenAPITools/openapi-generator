@@ -1,9 +1,28 @@
 ﻿<Properties StartupItem="SwaggerClientTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestConfiguration.cs">
     <Files>
-      <File FileName="TestPet.cs" Line="15" Column="3" />
+      <File FileName="TestPet.cs" Line="238" Column="34" />
+      <File FileName="TestConfiguration.cs" Line="26" Column="30" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="SwaggerClientTest" expanded="True">
+            <Node name="SwaggerClientTest" expanded="True">
+              <Node name="SwaggerClient" expanded="True">
+                <Node name="TestApiClient" expanded="True" />
+                <Node name="TestPet" expanded="True">
+                  <Node name="TestPet" expanded="True">
+                    <Node name="TestStatusCodeAndHeader" selected="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

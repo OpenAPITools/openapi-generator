@@ -49,7 +49,7 @@ namespace {{packageName}}.Api
         /// <returns></returns>
         public {{classname}}(String basePath)
         {
-            this.Configuration = Configuration.DefaultConfiguration;
+            this.Configuration = Configuration.Default;
             this.SetBasePath(basePath);
         }
     
@@ -62,7 +62,7 @@ namespace {{packageName}}.Api
         public {{classname}}(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
-                this.Configuration = Configuration.DefaultConfiguration; 
+                this.Configuration = Configuration.Default; 
             else
                 this.Configuration = configuration;
         }
