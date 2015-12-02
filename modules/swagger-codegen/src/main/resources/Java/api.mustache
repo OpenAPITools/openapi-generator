@@ -1,10 +1,11 @@
 package {{package}};
 
+import com.sun.jersey.api.client.GenericType;
+
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
-import {{invokerPackage}}.TypeRef;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -82,22 +83,12 @@ public class {{classname}} {
 
     String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
-    {{#isResponseBinary}}
-    byte[] {{localVariablePrefix}}response = null;
-    {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeBinaryAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams,{{localVariablePrefix}} postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
-    return {{localVariablePrefix}}response;
-    {{/isResponseBinary}}
-
-    {{^isResponseBinary}}
     {{#returnType}}
-    TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
+    GenericType<{{{returnType}}}> {{localVariablePrefix}}returnType = new GenericType<{{{returnType}}}>() {};
     return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
     {{/returnType}}{{^returnType}}
     {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);
     {{/returnType}}
-    {{/isResponseBinary}}
-
-
   }
   {{/operation}}
 }
