@@ -178,6 +178,14 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
+    public String escapeText(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.trim().replace("\\", "\\\\").replace("\"", "\\\"");
+    }
+
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
