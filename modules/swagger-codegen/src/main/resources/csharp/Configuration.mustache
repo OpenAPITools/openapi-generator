@@ -41,7 +41,28 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <value>The API client.</value>
         public ApiClient ApiClient;
- 
+
+        private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
+        
+        /// <summary>
+        /// Gets the default header.
+        /// </summary>
+        public Dictionary<String, String> DefaultHeader
+        {
+            get { return _defaultHeaderMap; }
+        }
+
+        /// <summary>
+        /// Add default header.
+        /// </summary>
+        /// <param name="key">Header field name.</param>
+        /// <param name="value">Header field value.</param>
+        /// <returns></returns>
+        public void AddDefaultHeader(string key, string value)
+        {
+            _defaultHeaderMap.Add(key, value);
+        }
+
         /// <summary>
         /// Gets or sets the username (HTTP basic authentication).
         /// </summary>

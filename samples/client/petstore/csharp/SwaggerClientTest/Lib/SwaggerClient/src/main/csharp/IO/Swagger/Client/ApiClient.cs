@@ -18,16 +18,16 @@ namespace IO.Swagger.Client
     /// </summary>
     public class ApiClient
     {
-        private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
-  
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" /> class.
         /// </summary>
         /// <param name="basePath">The base path.</param>
         public ApiClient(String basePath="http://petstore.swagger.io/v2")
         {
-            BasePath = basePath;
-            RestClient = new RestClient(BasePath);
+           if (String.IsNullOrEmpty(basePath))
+                throw new ArgumentException("basePath cannot be empty");
+
+            RestClient = new RestClient(basePath);
         }
 
         /// <summary>
@@ -37,34 +37,10 @@ namespace IO.Swagger.Client
         public static ApiClient Default = new ApiClient();
     
         /// <summary>
-        /// Gets or sets the base path.
-        /// </summary>
-        /// <value>The base path</value>
-        public string BasePath { get; set; }
-    
-        /// <summary>
         /// Gets or sets the RestClient.
         /// </summary>
         /// <value>An instance of the RestClient</value>
         public RestClient RestClient { get; set; }
-    
-        /// <summary>
-        /// Gets the default header.
-        /// </summary>
-        public Dictionary<String, String> DefaultHeader
-        {
-            get { return _defaultHeaderMap; }
-        }
-
-        /// <summary>
-        /// Gets the status code of the previous request
-        /// </summary>
-        public int StatusCode { get; private set; }
-
-        /// <summary>
-        /// Gets the response headers of the previous request
-        /// </summary>
-        public Dictionary<String, String> ResponseHeaders { get; private set; } 
     
         // Creates and sets up a RestRequest prior to a call.
         private RestRequest PrepareRequest(
@@ -74,10 +50,6 @@ namespace IO.Swagger.Client
         {
             var request = new RestRequest(path, method);
    
-            // add default header, if any
-            foreach(var defaultHeader in _defaultHeaderMap)
-                request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-
             // add path parameter, if any
             foreach(var param in pathParams)
                 request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment); 
@@ -124,8 +96,6 @@ namespace IO.Swagger.Client
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             var response = RestClient.Execute(request);
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
             return (Object) response;
         }
 
@@ -149,20 +119,7 @@ namespace IO.Swagger.Client
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             var response = await RestClient.ExecuteTaskAsync(request);
-            StatusCode = (int)response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
             return (Object)response;
-        }
-    
-        /// <summary>
-        /// Add default header.
-        /// </summary>
-        /// <param name="key">Header field name.</param>
-        /// <param name="value">Header field value.</param>
-        /// <returns></returns>
-        public void AddDefaultHeader(string key, string value)
-        {
-            _defaultHeaderMap.Add(key, value);
         }
     
         /// <summary>

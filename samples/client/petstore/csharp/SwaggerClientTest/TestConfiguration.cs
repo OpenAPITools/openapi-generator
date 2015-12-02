@@ -26,9 +26,10 @@ namespace SwaggerClient.TestConfiguration
 		public void TestBasePath ()
 		{	
 			PetApi p = new PetApi ("http://new-basepath.com");
-			Assert.AreEqual (p.Configuration.ApiClient.BasePath, "http://new-basepath.com");
-			Assert.AreSame (p.Configuration, Configuration.Default);
-
+			Assert.AreEqual (p.Configuration.ApiClient.RestClient.BaseUrl, "http://new-basepath.com");
+			// Given that PetApi is initailized with a base path, a new configuration (with a new ApiClient)
+			// is created by default
+			Assert.AreNotSame (p.Configuration, Configuration.Default);
 		}
 
 		[Test ()]
@@ -50,5 +51,29 @@ namespace SwaggerClient.TestConfiguration
 			Assert.AreNotSame (p3.Configuration, p1.Configuration);
 
 		}
+
+		[Test ()]
+		public void TestUsage ()
+		{
+			// basic use case using default base URL
+			PetApi p1 = new PetApi (); 
+			Assert.AreSame (p1.Configuration, Configuration.Default, "PetApi should use default configuration");
+
+			// using a different base URL
+			PetApi p2 = new PetApi ("http://new-base-url.com/");
+			Assert.AreEqual (p2.Configuration.ApiClient.RestClient.BaseUrl.ToString(), "http://new-base-url.com/");
+
+			// using a different configuration
+			Configuration c1 = new Configuration ();
+			PetApi p3 = new PetApi (c1);
+			Assert.AreSame (p3.Configuration, c1);
+
+			// using a different base URL via a new ApiClient
+			ApiClient a1 = new ApiClient ("http://new-api-client.com");
+			Configuration c2 = new Configuration (a1);
+			PetApi p4 = new PetApi (c2);
+			Assert.AreSame (p4.Configuration.ApiClient, a1);
+		}
+
 	}
 }

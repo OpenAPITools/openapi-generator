@@ -2,8 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="TestConfiguration.cs">
     <Files>
-      <File FileName="TestPet.cs" Line="238" Column="34" />
-      <File FileName="TestConfiguration.cs" Line="26" Column="30" />
+      <File FileName="TestConfiguration.cs" Line="60" Column="22" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
@@ -11,10 +10,9 @@
           <Node name="SwaggerClientTest" expanded="True">
             <Node name="SwaggerClientTest" expanded="True">
               <Node name="SwaggerClient" expanded="True">
-                <Node name="TestApiClient" expanded="True" />
-                <Node name="TestPet" expanded="True">
-                  <Node name="TestPet" expanded="True">
-                    <Node name="TestStatusCodeAndHeader" selected="True" />
+                <Node name="TestConfiguration" expanded="True">
+                  <Node name="TestConfiguration" expanded="True">
+                    <Node name="TestUsage" selected="True" />
                   </Node>
                 </Node>
               </Node>
