@@ -1,8 +1,8 @@
 package io.swagger.model;
 
 import io.swagger.model.Category;
-import java.util.*;
 import io.swagger.model.Tag;
+import java.util.*;
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-11-24T12:32:47.191+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-12-01T23:25:59.622+08:00")
 public class Pet  {
   
   private Long id = null;

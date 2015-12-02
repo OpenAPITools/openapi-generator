@@ -17,32 +17,33 @@ import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-11-05T22:31:25.130-08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-12-01T23:25:59.622+08:00")
 public abstract class UserApiService {
   
-      public abstract Response createUser(User body)
+      public abstract Response createUser(User body,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response createUsersWithArrayInput(List<User> body)
+      public abstract Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response createUsersWithListInput(List<User> body)
+      public abstract Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response loginUser(String username,String password)
+      public abstract Response loginUser(String username,String password,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response logoutUser()
+      public abstract Response logoutUser(SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response getUserByName(String username)
+      public abstract Response getUserByName(String username,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response updateUser(String username,User body)
+      public abstract Response updateUser(String username,User body,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response deleteUser(String username)
+      public abstract Response deleteUser(String username,SecurityContext securityContext)
       throws NotFoundException;
   
 }
