@@ -33,6 +33,16 @@ namespace {{packageName}}.Api
         /// {{notes}}
         /// </remarks>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
+        {{/allParams}}/// <returns>ApiResponse{{#returnType}}< {{{returnType}}} >{{/returnType}}{{^returnType}}<Object>{{/returnType}}</returns>
+        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+        /// <summary>
+        /// {{summary}}
+        /// </summary>
+        /// <remarks>
+        /// {{notes}}
+        /// </remarks>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
         {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
@@ -81,16 +91,6 @@ namespace {{packageName}}.Api
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
 
-        /// <summary>
-        /// Gets the status code of the previous request
-        /// </summary>
-        public int StatusCode { get; private set; }
-
-        /// <summary>
-        /// Gets the response headers of the previous request
-        /// </summary>
-        public Dictionary<String, String> ResponseHeaders { get; private set; } 
-
         private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
 
         /// <summary>
@@ -117,8 +117,19 @@ namespace {{packageName}}.Api
         /// {{summary}} {{notes}}
         /// </summary>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
-        {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>            
+        {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
         public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
+             {{#returnType}}ApiResponse<{{{returnType}}}> response = {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+             return response.Data;{{/returnType}}{{^returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/returnType}}
+        }
+
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
+        {{/allParams}}/// <returns>{{#returnType}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}</returns>
+        public ApiResponse<{{#returnType}} {{{returnType}}} {{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}{{#required}}
             // verify the required parameter '{{paramName}}' is set
@@ -184,15 +195,19 @@ namespace {{packageName}}.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling {{operationId}}: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling {{operationId}}: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling {{operationId}}: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling {{operationId}}: " + response.ErrorMessage, response.ErrorMessage);
     
-            {{#returnType}}return ({{{returnType}}}) Configuration.ApiClient.Deserialize(response, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}return;{{/returnType}}
+            {{#returnType}}return new ApiResponse<{{{returnType}}}>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                ({{{returnType}}}) Configuration.ApiClient.Deserialize(response, typeof({{{returnType}}})));{{/returnType}}
+            {{^returnType}}return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);{{/returnType}}
         }
     
         /// <summary>
@@ -265,11 +280,12 @@ namespace {{packageName}}.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.{{httpMethod}}, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling {{operationId}}: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling {{operationId}}: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling {{operationId}}: " + response.ErrorMessage, response.ErrorMessage);
 
             {{#returnType}}return ({{{returnType}}}) Configuration.ApiClient.Deserialize(response, typeof({{{returnType}}}));{{/returnType}}{{^returnType}}
             return;{{/returnType}}
