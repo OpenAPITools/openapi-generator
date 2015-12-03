@@ -213,7 +213,7 @@ namespace IO.Swagger.Api
         /// <value>The base path</value>
         public String GetBasePath()
         {
-            return this.Configuration.BasePath;
+            return this.Configuration.ApiClient.RestClient.BaseUrl.ToString();
         }
     
         /// <summary>

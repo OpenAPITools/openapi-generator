@@ -42,12 +42,6 @@ namespace IO.Swagger.Client
         /// <value>The API client.</value>
         public ApiClient ApiClient;
 
-        /// <summary>
-        /// Gets or sets the base path.
-        /// </summary>
-        /// <value>The base path</value>
-        public string BasePath { get; set; }
-
         private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
         
         /// <summary>
