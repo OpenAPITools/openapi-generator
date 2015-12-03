@@ -29,8 +29,8 @@
   [api-context & body]
   `(let [api-context# ~api-context
          api-context# (-> *api-context*
-                         (merge api-context#)
-                         (assoc :auths (merge (:auths *api-context*) (:auths api-context#))))]
+                          (merge api-context#)
+                          (assoc :auths (merge (:auths *api-context*) (:auths api-context#))))]
      (binding [*api-context* api-context#]
        ~@body)))
 
@@ -42,6 +42,11 @@
               `(if (nil? ~p)
                  (throw (IllegalArgumentException. ~(str "The parameter \"" p "\" is required"))))))
        (list* 'do)))
+
+(defn with-collection-format
+  "Attach collection-format to meta data of the given parameter."
+  [param collection-format]
+  (and param (with-meta param {:collection-format collection-format})))
 
 (defn- ^SimpleDateFormat make-date-format
   ([^String format-str] (make-date-format format-str nil))
@@ -119,23 +124,40 @@
   [auth-names]
   (reduce process-auth {} auth-names))
 
+(declare normalize-param)
+
 (defn make-url
   "Make full URL by adding base URL and filling path parameters."
   [path path-params]
   (let [path (reduce (fn [p [k v]]
-                       (str/replace p (re-pattern (str "\\{" k "\\}")) (param->str v)))
+                       (str/replace p (re-pattern (str "\\{" k "\\}")) (normalize-param v)))
                      path
                      path-params)]
     (str (:base-url *api-context*) path)))
 
+(defn normalize-array-param
+  "Normalize array paramater according to :collection-format specified in the parameter's meta data.
+  When the parameter contains File, a seq is returned so as to keep File parameters.
+  For :multi collection format, a seq is returned which will be handled properly by clj-http.
+  For other cases, a string is returned."
+  [xs]
+  (if (some (partial instance? File) xs)
+    (map normalize-param xs)
+    (case (-> (meta xs) :collection-format (or :csv))
+      :csv (str/join "," (map normalize-param xs))
+      :ssv (str/join " " (map normalize-param xs))
+      :tsv (str/join "\t" (map normalize-param xs))
+      :pipes (str/join "|" (map normalize-param xs))
+      :multi (map normalize-param xs))))
+
 (defn normalize-param
   "Normalize parameter value, handling three cases:
-  for sequential value, normalize each elements of it;
-  for File value, do nothing with it;
-  otherwise, call `param->str`."
+  for sequential value, apply `normalize-array-param` which handles collection format;
+  for File value, use current value;
+  otherwise, apply `param->str`."
   [param]
   (cond
-    (sequential? param) (map normalize-param param)
+    (sequential? param) (normalize-array-param param)
     (instance? File param) param
     :else (param->str param)))
 

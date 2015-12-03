@@ -1,5 +1,5 @@
 (ns swagger-petstore.api.pet
-  (:require [swagger-petstore.core :refer [call-api check-required-params]])
+  (:require [swagger-petstore.core :refer [call-api check-required-params with-collection-format]])
   (:import (java.io File)))
 
 (defn update-pet
@@ -40,7 +40,7 @@
    (call-api "/pet/findByStatus" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"status" status }
+              :query-params  {"status" (with-collection-format status :multi) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]
@@ -54,7 +54,7 @@
    (call-api "/pet/findByTags" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"tags" tags }
+              :query-params  {"tags" (with-collection-format tags :multi) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]
