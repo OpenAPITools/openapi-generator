@@ -170,6 +170,16 @@ namespace IO.Swagger.Api
         {
             return this.Configuration.ApiClient.RestClient.BaseUrl.ToString();
         }
+
+        /// <summary>
+        /// Sets the base path of the API client.
+        /// </summary>
+        /// <value>The base path</value>
+        [Obsolete("SetBasePath is deprecated, please do 'Configuraiton.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+        public void SetBasePath(String basePath)
+        {
+            // do nothing
+        }
     
         /// <summary>
         /// Gets or sets the configuration object
@@ -177,14 +187,14 @@ namespace IO.Swagger.Api
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
 
-        private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
-
         /// <summary>
         /// Gets the default header.
         /// </summary>
-        public Dictionary<String, String> DefaultHeader
+        /// <returns>Dictionary of HTTP header</returns>
+        [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
+        public Dictionary<String, String> DefaultHeader()
         {
-            get { return _defaultHeaderMap; }
+            return this.Configuration.DefaultHeader;
         }
 
         /// <summary>
@@ -193,9 +203,10 @@ namespace IO.Swagger.Api
         /// <param name="key">Header field name.</param>
         /// <param name="value">Header field value.</param>
         /// <returns></returns>
+        [Obsolete("AddDefaultHeader is deprecated, please use Configuration.AddDefaultHeader instead.")]
         public void AddDefaultHeader(string key, string value)
         {
-            _defaultHeaderMap.Add(key, value);
+            this.Configuration.AddDefaultHeader(key, value);
         }
    
         

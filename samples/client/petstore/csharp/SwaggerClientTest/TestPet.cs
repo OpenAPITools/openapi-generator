@@ -242,6 +242,19 @@ namespace SwaggerClient.TestPet
 			Assert.AreEqual (response.Headers["Content-Type"], "application/json");
 		}
 
+		/// <summary>
+		/// Test default header (should be deprecated
+		/// </summary>
+		[Test ()]
+		public void TestDefaultHeader ()
+		{
+			PetApi petApi = new PetApi ();
+			// there should be a warning for using AddDefaultHeader (deprecated) below
+			petApi.AddDefaultHeader ("header_key", "header_value");
+			// the following should be used instead as suggested in the doc
+			petApi.Configuration.AddDefaultHeader ("header_key", "header_value");
+
+		}
 	}
 }
 
