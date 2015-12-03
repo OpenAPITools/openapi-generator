@@ -20,7 +20,6 @@ namespace SwaggerClient.TestApiClient
 			List<int> numList = new List<int>(new int[] {1, 37});
 			Assert.AreEqual("1,37", api.ParameterToString (numList));
 		}
-
 	}
 }
 
