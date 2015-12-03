@@ -1,6 +1,13 @@
 (ns swagger-petstore.api.user-test
   (:require [clojure.test :refer :all]
+            [swagger-petstore.core :refer [with-api-context]]
             [swagger-petstore.api.user :refer :all]))
+
+(defn credentials-fixture [f]
+  (with-api-context {:auths {"api_key" "special-key"}}
+    (f)))
+
+(use-fixtures :once credentials-fixture)
 
 (defn- make-random-user
   ([] (make-random-user nil))

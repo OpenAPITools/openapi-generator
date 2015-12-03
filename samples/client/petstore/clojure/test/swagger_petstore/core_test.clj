@@ -9,30 +9,43 @@
     (is (= {:base-url        "http://petstore.swagger.io/v2"
             :date-format     "yyyy-MM-dd"
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
-            :debug           false}
+            :debug           false
+            :auths           {"api_key"       nil
+                              "petstore_auth" nil}}
            default-api-context
            *api-context*
            (with-api-context {}
              *api-context*))))
   (testing "customize via with-api-context"
-    (with-api-context {:base-url "http://localhost" :debug true}
+    (with-api-context {:base-url "http://localhost"
+                       :debug    true
+                       :auths    {"api_key"       "key1"
+                                  "petstore_auth" "token1"}}
       (is (= {:base-url        "http://localhost"
               :date-format     "yyyy-MM-dd"
               :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
-              :debug           true}
+              :debug           true
+              :auths           {"api_key"       "key1"
+                                "petstore_auth" "token1"}}
              *api-context*))
       ;; nested with-api-context inherits values from the outer api context
-      (with-api-context {:datetime-format "yyyy-MM-dd HH:mm:ss"}
+      (with-api-context {:datetime-format "yyyy-MM-dd HH:mm:ss"
+                         :auths           {"api_key" "key2"}}
         (is (= {:base-url        "http://localhost"
                 :date-format     "yyyy-MM-dd"
                 :datetime-format "yyyy-MM-dd HH:mm:ss"
-                :debug           true}
+                :debug           true
+                :auths           {"api_key"       "key2"
+                                  "petstore_auth" "token1"}}
                *api-context*))))
     ;; back to default api context
     (is (= {:base-url        "http://petstore.swagger.io/v2"
             :date-format     "yyyy-MM-dd"
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
-            :debug           false}
+            :debug           false
+            :auths           {"api_key"       nil
+                              "petstore_auth" nil}}
+           default-api-context
            *api-context*))))
 
 (deftest test-check-required-params
@@ -69,16 +82,35 @@
         "2015-11-07T00:49:09-03:00")
       (is (thrown? ParseException (parse-datetime "2015-11-07T03:49:09.123Z"))))))
 
-(deftest test-param-to-str
+(deftest test-param->str
   (let [date (parse-datetime "2015-11-07T03:49:09.123Z")]
     (are [param expected]
-      (is (= expected (param-to-str param)))
+      (is (= expected (param->str param)))
       nil ""
       "abc" "abc"
       123 "123"
       1.0 "1.0"
       [12 "34"] "12,34"
       date (format-datetime date))))
+
+(deftest test-auths->opts
+  (testing "auth values not set by default"
+    (is (= {} (auths->opts ["api_key" "petstore_auth"])))
+    (is (= {} (auths->opts []))))
+  (testing "set api_key"
+    (with-api-context {:auths {"api_key" "my key"}}
+      (is (= {:header-params {"api_key" "my key"}} (auths->opts ["api_key" "petstore_auth"])))
+      (is (= {:header-params {"api_key" "my key"}} (auths->opts ["api_key"])))
+      (is (= {} (auths->opts ["petstore_auth"])))
+      (is (= {} (auths->opts [])))))
+  (testing "set both api_key and petstore_auth"
+    (with-api-context {:auths {"api_key" "my key" "petstore_auth" "my token"}}
+      (is (= {:req-opts      {:oauth-token "my token"}
+              :header-params {"api_key" "my key"}}
+             (auths->opts ["api_key" "petstore_auth"])))
+      (is (= {:req-opts {:oauth-token "my token"}} (auths->opts ["petstore_auth"])))
+      (is (= {:header-params {"api_key" "my key"}} (auths->opts ["api_key"])))
+      (is (= {} (auths->opts []))))))
 
 (deftest test-make-url
   (are [path path-params url]

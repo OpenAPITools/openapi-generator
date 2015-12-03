@@ -1,7 +1,14 @@
 (ns swagger-petstore.api.pet-test
   (:require [clojure.test :refer :all]
             [clojure.java.io :as io]
+            [swagger-petstore.core :refer [with-api-context]]
             [swagger-petstore.api.pet :refer :all]))
+
+(defn credentials-fixture [f]
+  (with-api-context {:auths {"api_key" "special-key"}}
+    (f)))
+
+(use-fixtures :once credentials-fixture)
 
 (defn- make-random-pet
   ([] (make-random-pet nil))
